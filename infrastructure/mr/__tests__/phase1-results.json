@@ -1,0 +1,1036 @@
+{
+  "phase": "Phase 1 - 离线测试",
+  "timestamp": "2026-02-25T18:37:52.448Z",
+  "summary": {
+    "total": 20,
+    "mvpPassed": 0,
+    "fullPassed": 20,
+    "intentAccuracy": {
+      "mvp": 55,
+      "full": 75
+    }
+  },
+  "testResults": [
+    {
+      "id": "TC001",
+      "name": "代码生成 - 推理任务",
+      "category": "reasoning",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "general",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "reasoning",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "reasoning",
+            "confidence": 0.00756501182033097,
+            "features": {
+              "keywords": [
+                "用python实现一个支持并发的web爬虫",
+                "需要处理反爬虫机制"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.03275,
+              "semanticScores": {
+                "reasoning": 0.009456264775413711,
+                "multimodal": 0,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": false,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC002",
+      "name": "架构设计 - 推理任务",
+      "category": "reasoning",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "reasoning",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.04205256570713392,
+            "features": {
+              "keywords": [
+                "设计一个支持百万并发的电商系统架构",
+                "包括数据库分片方案"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.03175,
+              "semanticScores": {
+                "reasoning": 0.052565707133917394,
+                "multimodal": 0,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC003",
+      "name": "学术研究 - 推理任务",
+      "category": "reasoning",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "reasoning",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.023028785982478095,
+            "features": {
+              "keywords": [
+                "分析transformer架构的注意力机制原理",
+                "并与rnn对比"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.03275,
+              "semanticScores": {
+                "reasoning": 0.02878598247809762,
+                "multimodal": 0.01487179487179487,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC004",
+      "name": "数学推理 - 推理任务",
+      "category": "reasoning",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "general",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "reasoning",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "reasoning",
+            "confidence": 0.021500559910414333,
+            "features": {
+              "keywords": [
+                "证明快排的平均时间复杂度是o",
+                "nlogn",
+                "给出详细推导过程"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.0325,
+              "semanticScores": {
+                "reasoning": 0.026875699888017916,
+                "multimodal": 0,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": false,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC005",
+      "name": "复杂分析 - 推理任务",
+      "category": "reasoning",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "reasoning",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.028035043804755945,
+            "features": {
+              "keywords": [
+                "深度分析ai芯片市场的竞争格局",
+                "评估各厂商的技术路线图"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.03175,
+              "semanticScores": {
+                "reasoning": 0.03504380475594493,
+                "multimodal": 0.01487179487179487,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC006",
+      "name": "图像分析 - 多模态任务",
+      "category": "multimodal",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "reasoning",
+            "complexity": "medium",
+            "inputModality": "image",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.022027534418022524,
+            "features": {
+              "keywords": [
+                "分析这张产品图片的设计特点"
+              ],
+              "modalities": [
+                "image",
+                "text"
+              ],
+              "complexityScore": 0.00325,
+              "semanticScores": {
+                "reasoning": 0.027534418022528154,
+                "multimodal": 0.022564102564102566,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_VISION}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC007",
+      "name": "OCR文字识别 - 多模态任务",
+      "category": "multimodal",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "multimodal",
+            "complexity": "medium",
+            "inputModality": "image",
+            "outputModality": "text",
+            "domain": "software_engineering",
+            "confidence": 0.007912087912087912,
+            "features": {
+              "keywords": [
+                "提取这张截图中的代码"
+              ],
+              "modalities": [
+                "image",
+                "text"
+              ],
+              "complexityScore": 0.0025,
+              "semanticScores": {
+                "reasoning": 0,
+                "multimodal": 0.00989010989010989,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_VISION}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": false,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC008",
+      "name": "视觉问答 - 多模态任务",
+      "category": "multimodal",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "multimodal",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "multimodal",
+            "complexity": "medium",
+            "inputModality": "image",
+            "outputModality": "text",
+            "domain": "multimodal",
+            "confidence": 0.007912087912087912,
+            "features": {
+              "keywords": [
+                "图中的人在做什么"
+              ],
+              "modalities": [
+                "image",
+                "text"
+              ],
+              "complexityScore": 0.00225,
+              "semanticScores": {
+                "reasoning": 0,
+                "multimodal": 0.00989010989010989,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_VISION}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC009",
+      "name": "图表解读 - 多模态任务",
+      "category": "multimodal",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "reasoning",
+            "complexity": "medium",
+            "inputModality": "image",
+            "outputModality": "text",
+            "domain": "reasoning",
+            "confidence": 0.01802252816020025,
+            "features": {
+              "keywords": [
+                "解释这个系统架构图"
+              ],
+              "modalities": [
+                "image",
+                "text"
+              ],
+              "complexityScore": 0.00225,
+              "semanticScores": {
+                "reasoning": 0.02252816020025031,
+                "multimodal": 0.007239819004524887,
+                "general": 0.013157894736842105
+              }
+            }
+          },
+          "usedModel": "{{MODEL_VISION}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC010",
+      "name": "多模态融合 - 多模态任务",
+      "category": "multimodal",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "multimodal",
+            "complexity": "medium",
+            "inputModality": "image",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.02947985347985348,
+            "features": {
+              "keywords": [
+                "结合图像和文字描述产品特点",
+                "生成详细的产品分析报告"
+              ],
+              "modalities": [
+                "image",
+                "text"
+              ],
+              "complexityScore": 0.03125,
+              "semanticScores": {
+                "reasoning": 0.008760951188986232,
+                "multimodal": 0.03684981684981685,
+                "general": 0.005482456140350877
+              }
+            }
+          },
+          "usedModel": "{{MODEL_VISION}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": false,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC011",
+      "name": "日常闲聊 - 通用任务",
+      "category": "general",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "general",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "general",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "general",
+            "confidence": 0.02080495356037152,
+            "features": {
+              "keywords": [
+                "你好",
+                "今天怎么样"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.02725,
+              "semanticScores": {
+                "reasoning": 0,
+                "multimodal": 0,
+                "general": 0.0260061919504644
+              }
+            }
+          },
+          "usedModel": "{{MODEL_GENERAL}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": true
+      }
+    },
+    {
+      "id": "TC012",
+      "name": "信息查询 - 通用任务",
+      "category": "general",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "general",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "general",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.008421052631578947,
+            "features": {
+              "keywords": [
+                "什么是机器学习"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.002,
+              "semanticScores": {
+                "reasoning": 0,
+                "multimodal": 0,
+                "general": 0.010526315789473684
+              }
+            }
+          },
+          "usedModel": "{{MODEL_GENERAL}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": true
+      }
+    },
+    {
+      "id": "TC013",
+      "name": "文本摘要 - 通用任务",
+      "category": "general",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "general",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "general",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "general",
+            "confidence": 0.010526315789473684,
+            "features": {
+              "keywords": [
+                "总结这篇文章的主要观点"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.00275,
+              "semanticScores": {
+                "reasoning": 0,
+                "multimodal": 0,
+                "general": 0.013157894736842105
+              }
+            }
+          },
+          "usedModel": "{{MODEL_GENERAL}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": true
+      }
+    },
+    {
+      "id": "TC014",
+      "name": "翻译 - 通用任务",
+      "category": "general",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "general",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "general",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "general",
+            "confidence": 0.028070175438596492,
+            "features": {
+              "keywords": [
+                "把这段话翻译成英文"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.00225,
+              "semanticScores": {
+                "reasoning": 0,
+                "multimodal": 0,
+                "general": 0.03508771929824561
+              }
+            }
+          },
+          "usedModel": "{{MODEL_GENERAL}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": true
+      }
+    },
+    {
+      "id": "TC015",
+      "name": "格式转换 - 通用任务",
+      "category": "general",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "general",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "general",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "json",
+            "domain": "data_science",
+            "confidence": 0.01804511278195489,
+            "features": {
+              "keywords": [
+                "把这个数据转换成json格式"
+              ],
+              "modalities": [
+                "text",
+                "json"
+              ],
+              "complexityScore": 0.0035,
+              "semanticScores": {
+                "reasoning": 0,
+                "multimodal": 0,
+                "general": 0.022556390977443608
+              }
+            }
+          },
+          "usedModel": "{{MODEL_GENERAL}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": true
+      }
+    },
+    {
+      "id": "TC016",
+      "name": "模型选择验证 - 推理偏好",
+      "category": "model_selection",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "reasoning",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.02403003754693367,
+            "features": {
+              "keywords": [
+                "帮我设计一个复杂的数据库架构"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.0035,
+              "semanticScores": {
+                "reasoning": 0.030037546933667083,
+                "multimodal": 0,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC017",
+      "name": "降级链验证 - 严格模式关闭",
+      "category": "fallback_chain",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "multimodal",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.011897435897435896,
+            "features": {
+              "keywords": [
+                "分析这个算法的复杂度"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.0025,
+              "semanticScores": {
+                "reasoning": 0.008760951188986232,
+                "multimodal": 0.01487179487179487,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": false,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC018",
+      "name": "降级链验证 - 严格模式开启",
+      "category": "fallback_chain",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "multimodal",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "data_science",
+            "confidence": 0.011897435897435896,
+            "features": {
+              "keywords": [
+                "分析这个算法的复杂度"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.0025,
+              "semanticScores": {
+                "reasoning": 0.008760951188986232,
+                "multimodal": 0.01487179487179487,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": false,
+        "modelMatch": false
+      }
+    },
+    {
+      "id": "TC019",
+      "name": "边界情况 - 空输入",
+      "category": "boundary",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "general",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "general",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "general",
+            "confidence": 0,
+            "features": {
+              "keywords": [],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0,
+              "semanticScores": {
+                "reasoning": 0,
+                "multimodal": 0,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_GENERAL}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": true,
+        "modelMatch": true
+      }
+    },
+    {
+      "id": "TC020",
+      "name": "边界情况 - 超长输入",
+      "category": "boundary",
+      "mvp": {
+        "passed": false,
+        "output": {
+          "intent": "reasoning",
+          "usedModel": "{{MODEL_GENERAL}}",
+          "modelChain": [
+            "{{MODEL_GENERAL}}"
+          ],
+          "status": "success"
+        }
+      },
+      "full": {
+        "passed": true,
+        "output": {
+          "intent": {
+            "taskCategory": "multimodal",
+            "complexity": "medium",
+            "inputModality": "text",
+            "outputModality": "text",
+            "domain": "software_engineering",
+            "confidence": 0.011897435897435896,
+            "features": {
+              "keywords": [
+                "分析以下代码"
+              ],
+              "modalities": [
+                "text",
+                "text"
+              ],
+              "complexityScore": 0.0015,
+              "semanticScores": {
+                "reasoning": 0.008760951188986232,
+                "multimodal": 0.01487179487179487,
+                "general": 0
+              }
+            }
+          },
+          "usedModel": "{{MODEL_DEEP_THINKING}}",
+          "status": "success"
+        }
+      },
+      "comparison": {
+        "intentMatch": false,
+        "modelMatch": false
+      }
+    }
+  ],
+  "comparison": {
+    "intentMatches": 13,
+    "modelMatches": 6,
+    "chainMatches": 0
+  },
+  "report": {
+    "path": "phase1-report.md",
+    "conclusion": "PASS",
+    "nextPhase": "Phase 2 - 集成测试"
+  },
+  "successCriteria": {
+    "compileNoErrors": true,
+    "testPassRate": "100% (20/20)",
+    "intentAccuracyHigherThanMVP": true
+  }
+}

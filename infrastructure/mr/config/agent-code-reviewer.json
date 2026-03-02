@@ -1,0 +1,68 @@
+{
+  "agent_id": "agent-code-reviewer",
+  "version": "1.0.0",
+  "enabled": true,
+  "routing_strategy": "hybrid",
+  "mr_preferences": {
+    "default_model": "{{MODEL_CODE_REVIEW}}",
+    "fallback_model": "{{MODEL_GENERAL}}",
+    "models": {
+      "code_review": {
+        "placeholder": "{{MODEL_CODE_REVIEW}}",
+        "priority": 1,
+        "temperature": 0.3,
+        "max_tokens": 4096,
+        "timeout_ms": 120000
+      },
+      "deep_thinking": {
+        "placeholder": "{{MODEL_DEEP_THINKING}}",
+        "priority": 2,
+        "temperature": 0.5,
+        "max_tokens": 8192
+      },
+      "general": {
+        "placeholder": "{{MODEL_GENERAL}}",
+        "priority": 3,
+        "temperature": 0.7,
+        "max_tokens": 2048
+      }
+    }
+  },
+  "intent_overrides": {
+    "code_review": {
+      "intent_id": "code_review",
+      "model": "{{MODEL_CODE_REVIEW}}",
+      "temperature": 0.3,
+      "complexity_threshold": "L3"
+    },
+    "bug_detection": {
+      "intent_id": "bug_detection",
+      "model": "{{MODEL_CODE_REVIEW}}",
+      "temperature": 0.2
+    }
+  },
+  "complexity_rules": {
+    "enabled": true,
+    "model_mapping": {
+      "L1": "{{MODEL_GENERAL}}",
+      "L2": "{{MODEL_GENERAL}}",
+      "L3": "{{MODEL_CODE_REVIEW}}",
+      "L4": "{{MODEL_DEEP_THINKING}}",
+      "L5": "{{MODEL_DEEP_THINKING}}"
+    }
+  },
+  "latency_settings": {
+    "mode": "quality_first",
+    "max_latency_ms": 120000
+  },
+  "mr_config": {
+    "intent_classifier": {
+      "enabled": true,
+      "confidence_threshold": 0.8
+    },
+    "router": {
+      "enabled": true,
+      "cache_enabled": true
+    }
+  }
+}

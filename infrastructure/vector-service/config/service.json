@@ -1,0 +1,102 @@
+{
+  "service_name": "unified-vector-service",
+  "version": "2.0.0",
+  "description": "统一向量化服务 - 智谱Embedding API版（1024维）",
+  
+  "engine": {
+    "type": "zhipu",
+    "model": "embedding-3",
+    "dimension": 1024,
+    "api_url": "open.bigmodel.cn",
+    "batch_size": 5,
+    "api_delay_ms": 200
+  },
+  
+  "sources": [
+    {
+      "type": "skill",
+      "path": "/root/.openclaw/workspace/skills",
+      "pattern": "**/SKILL.md",
+      "description": "技能文档向量化",
+      "priority": 1
+    },
+    {
+      "type": "memory",
+      "path": "/root/.openclaw/workspace/memory",
+      "pattern": "*.md",
+      "description": "记忆文件向量化",
+      "priority": 2
+    },
+    {
+      "type": "knowledge",
+      "path": "/root/.openclaw/workspace/knowledge",
+      "pattern": "*.json",
+      "description": "知识库文件向量化",
+      "priority": 3
+    },
+    {
+      "type": "aeo",
+      "path": "/root/.openclaw/workspace/aeo/evaluation-sets",
+      "pattern": "**/*.json",
+      "description": "AEO评测用例向量化",
+      "priority": 4
+    }
+  ],
+  
+  "output": {
+    "vector_dir": "/root/.openclaw/workspace/infrastructure/vector-service/vectors",
+    "format": "json",
+    "index_enabled": true,
+    "metadata_enabled": true
+  },
+  
+  "schedule": {
+    "cron": "0 */6 * * *",
+    "description": "每6小时执行一次向量化任务",
+    "timezone": "Asia/Shanghai",
+    "enabled": true
+  },
+  
+  "features": {
+    "incremental": true,
+    "deduplication": true,
+    "compression": false,
+    "auto_cleanup": true
+  },
+  
+  "migration": {
+    "from_version": "1.0.0",
+    "changes": [
+      "TF-IDF替换为智谱Embedding API",
+      "向量维度从可变改为固定1024维",
+      "新增知识库向量化",
+      "新增AEO评测用例向量化"
+    ],
+    "deprecated": {
+      "tfidf_enabled": false,
+      "aeo_standalone": false
+    }
+  },
+  
+  "integration": {
+    "cras": {
+      "enabled": false,
+      "notes": "CRAS已停止使用，统一使用智谱API"
+    },
+    "aeo": {
+      "enabled": true,
+      "integration_mode": "unified",
+      "notes": "AEO向量系统已整合到统一服务"
+    },
+    "dto": {
+      "enabled": true,
+      "trigger_on_file_change": true,
+      "subscriptions": [
+        "skill.created",
+        "skill.updated",
+        "memory.created",
+        "knowledge.created"
+      ]
+    }
+  }
+}

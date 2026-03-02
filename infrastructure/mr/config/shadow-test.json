@@ -1,0 +1,34 @@
+{
+  "enabled": true,
+  "sampleRate": 0.01,
+  "sampleRatePercent": 1,
+  "comparisonDimensions": ["intent", "modelChain", "duration"],
+  "timeouts": {
+    "fullVersion": 5000,
+    "collection": 30000
+  },
+  "safety": {
+    "isolatedErrors": true,
+    "skipOnTimeout": true,
+    "maxConcurrentShadow": 10,
+    "circuitBreaker": {
+      "failureThreshold": 10,
+      "resetTimeoutMs": 60000
+    }
+  },
+  "reporting": {
+    "outputPath": "./shadow-test-report.json",
+    "maxReportsInMemory": 1000,
+    "flushIntervalMs": 60000,
+    "includeInput": true,
+    "includeStackTrace": false
+  },
+  "thresholds": {
+    "bypassSuccessRate": 0.95,
+    "intentConsistency": 0.90,
+    "modelSelectionConsistency": 0.95
+  },
+  "mvpPath": "./mr-router.mvp.js",
+  "fullVersionPath": "./dist/mr-router.js",
+  "logLevel": "info"
+}

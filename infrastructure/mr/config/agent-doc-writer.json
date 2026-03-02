@@ -1,0 +1,61 @@
+{
+  "agent_id": "agent-doc-writer",
+  "version": "1.0.0",
+  "enabled": true,
+  "routing_strategy": "hybrid",
+  "mr_preferences": {
+    "default_model": "{{MODEL_GENERAL}}",
+    "fallback_model": "{{MODEL_DEEP_THINKING}}",
+    "models": {
+      "general": {
+        "placeholder": "{{MODEL_GENERAL}}",
+        "priority": 1,
+        "temperature": 0.7,
+        "max_tokens": 4096,
+        "timeout_ms": 60000
+      },
+      "deep_thinking": {
+        "placeholder": "{{MODEL_DEEP_THINKING}}",
+        "priority": 2,
+        "temperature": 0.6,
+        "max_tokens": 8192
+      }
+    }
+  },
+  "intent_overrides": {
+    "text_summarization": {
+      "intent_id": "text_summarization",
+      "model": "{{MODEL_GENERAL}}",
+      "temperature": 0.5
+    },
+    "creative_writing": {
+      "intent_id": "creative_writing_simple",
+      "model": "{{MODEL_DEEP_THINKING}}",
+      "temperature": 0.8
+    }
+  },
+  "complexity_rules": {
+    "enabled": true,
+    "model_mapping": {
+      "L1": "{{MODEL_GENERAL}}",
+      "L2": "{{MODEL_GENERAL}}",
+      "L3": "{{MODEL_DEEP_THINKING}}",
+      "L4": "{{MODEL_DEEP_THINKING}}",
+      "L5": "{{MODEL_DEEP_THINKING}}"
+    }
+  },
+  "latency_settings": {
+    "mode": "balanced",
+    "max_latency_ms": 60000
+  },
+  "mr_config": {
+    "intent_classifier": {
+      "enabled": true,
+      "confidence_threshold": 0.7
+    },
+    "router": {
+      "enabled": true,
+      "cache_enabled": true
+    }
+  }
+}

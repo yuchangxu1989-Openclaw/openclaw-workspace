@@ -1,0 +1,511 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://isc.org/mr/v2/config-schema.json",
+  "title": "MR v2 Configuration Schema",
+  "description": "Model Router (MR) v2 配置Schema - 支持N019/N020配置化设计模式",
+  "version": "2.0.0",
+  "type": "object",
+  "required": ["agent_id", "version"],
+  "properties": {
+    "_meta": {
+      "type": "object",
+      "description": "配置元数据",
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "default": "2.0.0",
+          "description": "配置Schema版本"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "配置创建时间"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "配置更新时间"
+        },
+        "author": {
+          "type": "string",
+          "description": "配置作者"
+        },
+        "description": {
+          "type": "string",
+          "description": "配置描述"
+        }
+      }
+    },
+    
+    "agent_id": {
+      "type": "string",
+      "description": "Agent唯一标识符",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    
+    "version": {
+      "type": "string",
+      "description": "配置版本",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "default": "1.0.0"
+    },
+    
+    "enabled": {
+      "type": "boolean",
+      "description": "是否启用MR路由",
+      "default": true
+    },
+    
+    "routing_strategy": {
+      "type": "string",
+      "description": "MRRouter路由策略类型",
+      "enum": ["intent_based", "complexity_based", "hybrid", "fallback_only"],
+      "default": "hybrid"
+    },
+    
+    "mr_preferences": {
+      "type": "object",
+      "description": "模型偏好配置 - 使用{{MODEL_XXX}}占位符",
+      "properties": {
+        "default_model": {
+          "type": "string",
+          "description": "默认模型占位符",
+          "default": "{{MODEL_GENERAL}}",
+          "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$"
+        },
+        "fallback_model": {
+          "type": "string",
+          "description": "降级模型占位符",
+          "default": "{{MODEL_GENERAL}}",
+          "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$"
+        },
+        "models": {
+          "type": "object",
+          "description": "模型别名映射",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["placeholder"],
+            "properties": {
+              "placeholder": {
+                "type": "string",
+                "description": "模型占位符",
+                "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$"
+              },
+              "priority": {
+                "type": "integer",
+                "description": "模型优先级（数字越小优先级越高）",
+                "minimum": 1,
+                "maximum": 10,
+                "default": 5
+              },
+              "temperature": {
+                "type": "number",
+                "description": "温度参数",
+                "minimum": 0,
+                "maximum": 2,
+                "default": 0.7
+              },
+              "max_tokens": {
+                "type": "integer",
+                "description": "最大token数",
+                "minimum": 1,
+                "maximum": 128000,
+                "default": 4096
+              },
+              "timeout_ms": {
+                "type": "integer",
+                "description": "超时时间（毫秒）",
+                "minimum": 1000,
+                "maximum": 300000,
+                "default": 30000
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "intent_overrides": {
+      "type": "object",
+      "description": "MRIntentClassifier意图级别模型覆盖配置",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["intent_id"],
+        "properties": {
+          "intent_id": {
+            "type": "string",
+            "description": "意图ID"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "是否启用该意图覆盖",
+            "default": true
+          },
+          "model": {
+            "type": "string",
+            "description": "覆盖使用的模型占位符",
+            "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$"
+          },
+          "temperature": {
+            "type": "number",
+            "description": "该意图的温度参数",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "max_tokens": {
+            "type": "integer",
+            "description": "该意图的最大token数",
+            "minimum": 1,
+            "maximum": 128000
+          },
+          "complexity_threshold": {
+            "type": "string",
+            "description": "复杂度阈值",
+            "enum": ["L1", "L2", "L3", "L4", "L5"],
+            "default": "L3"
+          },
+          "routing_rules": {
+            "type": "array",
+            "description": "MRRouter路由规则列表",
+            "items": {
+              "type": "object",
+              "properties": {
+                "condition": {
+                  "type": "string",
+                  "description": "路由条件表达式"
+                },
+                "target_model": {
+                  "type": "string",
+                  "description": "目标模型占位符",
+                  "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$"
+                },
+                "priority": {
+                  "type": "integer",
+                  "description": "规则优先级",
+                  "minimum": 1,
+                  "maximum": 100
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "complexity_rules": {
+      "type": "object",
+      "description": "复杂度评估规则",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "是否启用复杂度评估",
+          "default": true
+        },
+        "model_mapping": {
+          "type": "object",
+          "description": "复杂度到模型的映射",
+          "properties": {
+            "L1": {
+              "type": "string",
+              "description": "L1复杂度模型",
+              "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+              "default": "{{MODEL_GENERAL}}"
+            },
+            "L2": {
+              "type": "string",
+              "description": "L2复杂度模型",
+              "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+              "default": "{{MODEL_GENERAL}}"
+            },
+            "L3": {
+              "type": "string",
+              "description": "L3复杂度模型",
+              "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+              "default": "{{MODEL_DEEP_THINKING}}"
+            },
+            "L4": {
+              "type": "string",
+              "description": "L4复杂度模型",
+              "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+              "default": "{{MODEL_DEEP_THINKING}}"
+            },
+            "L5": {
+              "type": "string",
+              "description": "L5复杂度模型",
+              "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+              "default": "{{MODEL_DEEP_THINKING}}"
+            }
+          }
+        },
+        "thresholds": {
+          "type": "object",
+          "description": "复杂度评估阈值",
+          "properties": {
+            "context_length": {
+              "type": "object",
+              "properties": {
+                "L1": { "type": "integer", "default": 100 },
+                "L2": { "type": "integer", "default": 500 },
+                "L3": { "type": "integer", "default": 2000 },
+                "L4": { "type": "integer", "default": 8000 },
+                "L5": { "type": "integer", "default": 32000 }
+              }
+            },
+            "reasoning_depth": {
+              "type": "object",
+              "properties": {
+                "L1": { "type": "integer", "default": 1 },
+                "L2": { "type": "integer", "default": 2 },
+                "L3": { "type": "integer", "default": 3 },
+                "L4": { "type": "integer", "default": 5 },
+                "L5": { "type": "integer", "default": 10 }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "latency_settings": {
+      "type": "object",
+      "description": "延迟设置",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "延迟优化模式",
+          "enum": ["strict", "balanced", "quality_first"],
+          "default": "balanced"
+        },
+        "max_latency_ms": {
+          "type": "integer",
+          "description": "最大容忍延迟（毫秒）",
+          "minimum": 1000,
+          "maximum": 300000,
+          "default": 30000
+        },
+        "streaming_enabled": {
+          "type": "boolean",
+          "description": "是否启用流式响应",
+          "default": true
+        },
+        "adaptive_timeout": {
+          "type": "boolean",
+          "description": "是否启用自适应超时",
+          "default": true
+        }
+      }
+    },
+    
+    "modality_settings": {
+      "type": "object",
+      "description": "模态处理设置",
+      "properties": {
+        "text": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "default_model": {
+              "type": "string",
+              "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+              "default": "{{MODEL_GENERAL}}"
+            }
+          }
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "default_model": {
+              "type": "string",
+              "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+              "default": "{{MODEL_VISION}}"
+            },
+            "max_file_size_mb": { "type": "integer", "default": 20 },
+            "supported_formats": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["image/jpeg", "image/png", "image/webp"]
+            }
+          }
+        },
+        "audio": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "default_model": {
+              "type": "string",
+              "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+              "default": "{{MODEL_AUDIO}}"
+            },
+            "max_duration_minutes": { "type": "integer", "default": 240 },
+            "supported_formats": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["audio/wav", "audio/mp3", "audio/m4a"]
+            }
+          }
+        }
+      }
+    },
+    
+    "fallback_settings": {
+      "type": "object",
+      "description": "降级策略设置",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "是否启用降级策略",
+          "default": true
+        },
+        "fallback_chain": {
+          "type": "array",
+          "description": "降级模型链（按优先级）",
+          "items": {
+            "type": "string",
+            "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$"
+          },
+          "default": ["{{MODEL_GENERAL}}"]
+        },
+        "retry_attempts": {
+          "type": "integer",
+          "description": "重试次数",
+          "minimum": 0,
+          "maximum": 5,
+          "default": 2
+        },
+        "retry_delay_ms": {
+          "type": "integer",
+          "description": "重试延迟（毫秒）",
+          "minimum": 100,
+          "maximum": 10000,
+          "default": 1000
+        }
+      }
+    },
+    
+    "mr_config": {
+      "type": "object",
+      "description": "MR系统核心配置",
+      "properties": {
+        "intent_classifier": {
+          "type": "object",
+          "description": "MRIntentClassifier配置",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "confidence_threshold": { "type": "number", "default": 0.7 },
+            "fallback_intent": { "type": "string", "default": "general" }
+          }
+        },
+        "router": {
+          "type": "object",
+          "description": "MRRouter配置",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "cache_enabled": { "type": "boolean", "default": true },
+            "cache_ttl_seconds": { "type": "integer", "default": 300 }
+          }
+        }
+      }
+    },
+    
+    "logging": {
+      "type": "object",
+      "description": "日志配置",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["debug", "info", "warn", "error"],
+          "default": "info"
+        },
+        "log_routing_decisions": {
+          "type": "boolean",
+          "description": "记录MRRouter路由决策",
+          "default": true
+        },
+        "log_latency": {
+          "type": "boolean",
+          "description": "记录延迟指标",
+          "default": true
+        }
+      }
+    },
+    
+    "extensions": {
+      "type": "object",
+      "description": "扩展配置（用于自定义扩展）",
+      "additionalProperties": true
+    }
+  },
+  
+  "definitions": {
+    "modelPlaceholder": {
+      "type": "string",
+      "pattern": "^\\{\\{MODEL_[A-Z_]+\\}\\}$",
+      "description": "模型占位符格式: {{MODEL_XXX}}"
+    }
+  },
+  
+  "examples": [
+    {
+      "agent_id": "example-agent-001",
+      "version": "1.0.0",
+      "enabled": true,
+      "routing_strategy": "hybrid",
+      "mr_preferences": {
+        "default_model": "{{MODEL_GENERAL}}",
+        "fallback_model": "{{MODEL_GENERAL}}",
+        "models": {
+          "general": {
+            "placeholder": "{{MODEL_GENERAL}}",
+            "priority": 1,
+            "temperature": 0.7,
+            "max_tokens": 4096
+          },
+          "deep_thinking": {
+            "placeholder": "{{MODEL_DEEP_THINKING}}",
+            "priority": 2,
+            "temperature": 0.5,
+            "max_tokens": 8192
+          }
+        }
+      },
+      "intent_overrides": {
+        "code_generation": {
+          "intent_id": "code_generation",
+          "model": "{{MODEL_DEEP_THINKING}}",
+          "temperature": 0.3
+        },
+        "image_analysis": {
+          "intent_id": "image_analysis",
+          "model": "{{MODEL_VISION}}"
+        }
+      },
+      "complexity_rules": {
+        "enabled": true,
+        "model_mapping": {
+          "L1": "{{MODEL_GENERAL}}",
+          "L2": "{{MODEL_GENERAL}}",
+          "L3": "{{MODEL_DEEP_THINKING}}",
+          "L4": "{{MODEL_DEEP_THINKING}}",
+          "L5": "{{MODEL_DEEP_THINKING}}"
+        }
+      },
+      "mr_config": {
+        "intent_classifier": {
+          "enabled": true,
+          "confidence_threshold": 0.7
+        },
+        "router": {
+          "enabled": true,
+          "cache_enabled": true
+        }
+      },
+      "latency_settings": {
+        "mode": "balanced",
+        "max_latency_ms": 30000
+      }
+    }
+  ]
+}

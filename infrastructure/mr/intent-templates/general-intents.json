@@ -1,0 +1,334 @@
+{
+  "_meta": {
+    "name": "general-intents",
+    "description": "通用对话类意图模板 - 适用于日常对话、信息查询等轻量级任务",
+    "version": "1.0.0",
+    "category": "general",
+    "created_at": "2026-02-26",
+    "recommended_model": "{{MODEL_GENERAL}}"
+  },
+  "intents": [
+    {
+      "intent_id": "casual_chat",
+      "name": "日常闲聊",
+      "description": "轻松随意的日常对话",
+      "semantic_features": {
+        "keywords": ["你好", "嗨", "在吗", "聊聊", "chat", "hi", "hello", "talk"],
+        "patterns": [
+          "你好.*",
+          "嗨.*",
+          "在.*吗",
+          "聊.*天",
+          ".*怎么样"
+        ],
+        "vector_hints": ["greeting", "casual", "chat", "social", "friendly"],
+        "complexity_indicators": [
+          "简短问候",
+          "无明确任务"
+        ]
+      },
+      "task_examples": [
+        "你好",
+        "今天怎么样",
+        "聊会天吧",
+        "嗨",
+        "在忙吗"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": null,
+      "complexity_range": "L1",
+      "estimated_latency": "<1s",
+      "routing_priority": 5
+    },
+    {
+      "intent_id": "information_query",
+      "name": "信息查询",
+      "description": "查询一般性知识、事实信息",
+      "semantic_features": {
+        "keywords": ["是什么", "什么是", "怎么", "为什么", "如何", "what is", "how to", "why"],
+        "patterns": [
+          "什么是.*",
+          ".*是什么",
+          "怎么.*",
+          "为什么.*",
+          "如何.*",
+          "查询.*",
+          "告诉我.*"
+        ],
+        "vector_hints": ["query", "information", "fact", "knowledge", "definition"],
+        "complexity_indicators": [
+          "事实性问题",
+          "单点信息需求"
+        ]
+      },
+      "task_examples": [
+        "什么是机器学习",
+        "Python是什么",
+        "如何学习编程",
+        "为什么天空是蓝色的",
+        "查询今天的天气"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": null,
+      "complexity_range": "L1-L2",
+      "estimated_latency": "1-3s",
+      "routing_priority": 6
+    },
+    {
+      "intent_id": "text_summarization",
+      "name": "文本摘要",
+      "description": "对文本进行简短总结",
+      "semantic_features": {
+        "keywords": ["总结", "摘要", "概括", "简述", "summarize", "summary", "brief"],
+        "patterns": [
+          "总结.*",
+          "概括.*",
+          ".*摘要",
+          "简述.*",
+          "提炼.*要点"
+        ],
+        "vector_hints": ["summarization", "concise", "brief", "highlight", "key points"],
+        "complexity_indicators": [
+          "文本输入",
+          "输出要求简洁"
+        ]
+      },
+      "task_examples": [
+        "总结这篇文章",
+        "概括这段内容",
+        "给出这段文字的摘要",
+        "提炼要点",
+        "简要说明这段话"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": "{{MODEL_DEEP_THINKING}}",
+      "complexity_range": "L1-L2",
+      "estimated_latency": "2-5s",
+      "routing_priority": 6
+    },
+    {
+      "intent_id": "translation",
+      "name": "翻译",
+      "description": "语言翻译和本地化",
+      "semantic_features": {
+        "keywords": ["翻译", "译成", "translate", "translation", "convert language"],
+        "patterns": [
+          "翻译成.*",
+          ".*译成.*",
+          "translate.*to.*",
+          "把.*翻译",
+          ".*用.*怎么说"
+        ],
+        "vector_hints": ["translation", "language", "convert", "localize", "bilingual"],
+        "complexity_indicators": [
+          "语言转换需求",
+          "简单文本处理"
+        ]
+      },
+      "task_examples": [
+        "翻译成英文",
+        "这句话用日语怎么说",
+        "把这段中文译成法语",
+        "翻译这个术语",
+        "本地化这段内容"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": null,
+      "complexity_range": "L1-L2",
+      "estimated_latency": "1-3s",
+      "routing_priority": 7
+    },
+    {
+      "intent_id": "grammar_correction",
+      "name": "语法修正",
+      "description": "检查并修正文本语法和拼写",
+      "semantic_features": {
+        "keywords": ["检查", "修正", "语法", "错别字", "correct", "grammar", "check"],
+        "patterns": [
+          "检查.*语法",
+          "修正.*错误",
+          "改.*错别字",
+          "polish.*",
+          "proofread.*"
+        ],
+        "vector_hints": ["grammar", "correction", "editing", "proofreading", "polish"],
+        "complexity_indicators": [
+          "文本润色",
+          "局部修正"
+        ]
+      },
+      "task_examples": [
+        "检查这段文字的语法",
+        "帮我修正错误",
+        "润色这句话",
+        "检查拼写",
+        "优化这段表达"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": null,
+      "complexity_range": "L1",
+      "estimated_latency": "1-3s",
+      "routing_priority": 6
+    },
+    {
+      "intent_id": "creative_writing_simple",
+      "name": "简单创作",
+      "description": "短文本创意写作",
+      "semantic_features": {
+        "keywords": ["写", "创作", "生成", "compose", "write", "create"],
+        "patterns": [
+          "写.*",
+          "创作.*",
+          "生成.*文案",
+          "写一段.*",
+          "来.*诗"
+        ],
+        "vector_hints": ["creative", "writing", "composition", "draft", "content"],
+        "complexity_indicators": [
+          "简短创作",
+          "创意性输出"
+        ]
+      },
+      "task_examples": [
+        "写一首短诗",
+        "创作一句标语",
+        "生成一段文案",
+        "写个简短的介绍",
+        "来一段创意文字"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": "{{MODEL_DEEP_THINKING}}",
+      "complexity_range": "L1-L2",
+      "estimated_latency": "2-5s",
+      "routing_priority": 5
+    },
+    {
+      "intent_id": "format_conversion",
+      "name": "格式转换",
+      "description": "文本格式转换（如JSON、Markdown等）",
+      "semantic_features": {
+        "keywords": ["转换", "格式化", "转", "convert", "format", "json", "markdown"],
+        "patterns": [
+          "转成.*格式",
+          "格式化为.*",
+          "转换为.*",
+          "变成.*格式",
+          "整理成.*"
+        ],
+        "vector_hints": ["format", "convert", "structure", "json", "markdown", "yaml"],
+        "complexity_indicators": [
+          "结构化转换",
+          "格式处理"
+        ]
+      },
+      "task_examples": [
+        "转成JSON格式",
+        "格式化为Markdown",
+        "转换为表格",
+        "整理成列表",
+        "变成YAML格式"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": "{{MODEL_CODE_REVIEW}}",
+      "complexity_range": "L1-L2",
+      "estimated_latency": "1-3s",
+      "routing_priority": 6
+    },
+    {
+      "intent_id": "clarification",
+      "name": "澄清解释",
+      "description": "对已有内容进行简单解释或澄清",
+      "semantic_features": {
+        "keywords": ["解释", "说明", "什么意思", "explain", "clarify", "what does"],
+        "patterns": [
+          "解释.*",
+          "说明.*",
+          ".*什么意思",
+          ".*怎么理解",
+          "详细说明.*"
+        ],
+        "vector_hints": ["explanation", "clarification", "understand", "meaning", "interpret"],
+        "complexity_indicators": [
+          "概念解释",
+          "简化说明"
+        ]
+      },
+      "task_examples": [
+        "解释这个概念",
+        "这句话什么意思",
+        "详细说明一下",
+        "怎么理解这段话",
+        "请解释术语"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": "{{MODEL_DEEP_THINKING}}",
+      "complexity_range": "L1-L2",
+      "estimated_latency": "2-5s",
+      "routing_priority": 6
+    },
+    {
+      "intent_id": "list_generation",
+      "name": "列表生成",
+      "description": "生成清单、步骤、要点列表",
+      "semantic_features": {
+        "keywords": ["列出", "清单", "步骤", "要点", "list", "steps", "points"],
+        "patterns": [
+          "列出.*",
+          ".*清单",
+          ".*步骤",
+          ".*要点",
+          "给我.*列表"
+        ],
+        "vector_hints": ["list", "enumeration", "steps", "bullet points", "checklist"],
+        "complexity_indicators": [
+          "结构化输出",
+          "列表形式"
+        ]
+      },
+      "task_examples": [
+        "列出注意事项",
+        "给出步骤清单",
+        "整理要点列表",
+        "列出优缺点",
+        "生成检查清单"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": null,
+      "complexity_range": "L1-L2",
+      "estimated_latency": "1-3s",
+      "routing_priority": 5
+    },
+    {
+      "intent_id": "simple_recommendation",
+      "name": "简单推荐",
+      "description": "基于简单条件的推荐",
+      "semantic_features": {
+        "keywords": ["推荐", "建议", "有什么好", "recommend", "suggest", "what's good"],
+        "patterns": [
+          "推荐.*",
+          "有什么.*建议",
+          ".*推荐",
+          "建议.*",
+          "有什么好.*"
+        ],
+        "vector_hints": ["recommendation", "suggestion", "advice", "pick", "choice"],
+        "complexity_indicators": [
+          "简单选择",
+          "条件明确"
+        ]
+      },
+      "task_examples": [
+        "推荐一本书",
+        "有什么建议",
+        "推荐几个工具",
+        "给点建议",
+        "有什么好方法"
+      ],
+      "recommended_models": ["{{MODEL_GENERAL}}"],
+      "fallback_model": "{{MODEL_DEEP_THINKING}}",
+      "complexity_range": "L1-L2",
+      "estimated_latency": "1-3s",
+      "routing_priority": 5
+    }
+  ]
+}

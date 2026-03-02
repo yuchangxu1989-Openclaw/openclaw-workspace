@@ -1,0 +1,275 @@
+{
+  "_meta": {
+    "name": "multimodal-intents",
+    "description": "多模态处理类意图模板 - 适用于图像分析、视频理解、语音识别等多模态任务",
+    "version": "1.0.0",
+    "category": "multimodal",
+    "created_at": "2026-02-26"
+  },
+  "intents": [
+    {
+      "intent_id": "image_analysis",
+      "name": "图像分析",
+      "description": "分析图像内容、识别对象、描述场景",
+      "semantic_features": {
+        "keywords": ["图片", "图像", "分析", "识别", "描述", "image", "picture", "analyze", "describe"],
+        "patterns": [
+          "分析.*图片",
+          "这张图.*是什么",
+          "描述.*图像",
+          "识别.*图中的",
+          "图片里.*有什么"
+        ],
+        "vector_hints": ["vision", "image", "visual", "scene", "object detection"],
+        "complexity_indicators": [
+          "包含图像输入",
+          "需要视觉理解"
+        ]
+      },
+      "task_examples": [
+        "分析这张产品图片的设计特点",
+        "识别图像中的物体和场景",
+        "描述这张风景照片的内容",
+        "分析这张UI设计图的布局",
+        "识别图中的人物和动作"
+      ],
+      "recommended_models": ["{{MODEL_VISION}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L1-L3",
+      "estimated_latency": "2-5s",
+      "routing_priority": 9,
+      "required_modality": ["image"]
+    },
+    {
+      "intent_id": "ocr",
+      "name": "文字识别",
+      "description": "从图像中提取文字内容（OCR）",
+      "semantic_features": {
+        "keywords": ["OCR", "文字识别", "提取文字", "转文字", "ocr", "text extraction", "read text"],
+        "patterns": [
+          "提取.*文字",
+          "识别.*图中的文字",
+          "OCR.*",
+          "把.*转成文字",
+          "读取.*内容"
+        ],
+        "vector_hints": ["ocr", "text recognition", "document", "scanning", "extraction"],
+        "complexity_indicators": [
+          "包含图像输入",
+          "需要文字提取"
+        ]
+      },
+      "task_examples": [
+        "提取这张截图中的代码",
+        "识别这张名片上的信息",
+        "把这张手写笔记转成文字",
+        "提取文档中的表格数据",
+        "识别这张海报上的文字内容"
+      ],
+      "recommended_models": ["{{MODEL_VISION}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L1-L2",
+      "estimated_latency": "1-3s",
+      "routing_priority": 9,
+      "required_modality": ["image"]
+    },
+    {
+      "intent_id": "visual_qa",
+      "name": "视觉问答",
+      "description": "基于图像内容回答问题",
+      "semantic_features": {
+        "keywords": ["图中", "图片里", "照片", " visual", "image question", "看图回答"],
+        "patterns": [
+          "图中.*是什么",
+          "图片.*在哪里",
+          "这张图.*为什么",
+          "照片里.*有谁",
+          "图像.*如何"
+        ],
+        "vector_hints": ["visual qa", "image question", "visual reasoning", "scene understanding"],
+        "complexity_indicators": [
+          "包含图像输入",
+          "需要结合视觉和语言理解"
+        ]
+      },
+      "task_examples": [
+        "图中的人在做什么？",
+        "这张图表显示了什么趋势？",
+        "图片里的产品是什么型号？",
+        "这个流程图的下一步是什么？",
+        "图中哪个选项是正确的？"
+      ],
+      "recommended_models": ["{{MODEL_VISION}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L2-L4",
+      "estimated_latency": "2-8s",
+      "routing_priority": 9,
+      "required_modality": ["image", "text"]
+    },
+    {
+      "intent_id": "diagram_interpretation",
+      "name": "图表解读",
+      "description": "理解和解释各种图表、流程图、架构图",
+      "semantic_features": {
+        "keywords": ["图表", "流程图", "架构图", "UML", "diagram", "chart", "flowchart", "graph"],
+        "patterns": [
+          "解释.*图",
+          "分析.*架构",
+          "理解.*流程",
+          "这张图.*意思",
+          "绘制.*图"
+        ],
+        "vector_hints": ["diagram", "chart", "flow", "architecture", "structure", "visualization"],
+        "complexity_indicators": [
+          "包含图表图像",
+          "需要结构化理解"
+        ]
+      },
+      "task_examples": [
+        "解释这个系统架构图",
+        "分析这张数据流程图",
+        "理解这个UML类图的关系",
+        "解释这张网络拓扑图",
+        "分析这张业务泳道图"
+      ],
+      "recommended_models": ["{{MODEL_VISION}}"],
+      "fallback_model": "{{MODEL_DEEP_THINKING}}",
+      "complexity_range": "L2-L4",
+      "estimated_latency": "3-8s",
+      "routing_priority": 8,
+      "required_modality": ["image"]
+    },
+    {
+      "intent_id": "audio_transcription",
+      "name": "语音转录",
+      "description": "将音频内容转录为文字",
+      "semantic_features": {
+        "keywords": ["转录", "转写", "语音转文字", "音频", "transcription", "speech to text", "audio"],
+        "patterns": [
+          "转录.*音频",
+          "把.*转成文字",
+          "语音转文字.*",
+          "提取.*音频内容",
+          "听写.*"
+        ],
+        "vector_hints": ["transcription", "audio", "speech", "asr", "listening"],
+        "complexity_indicators": [
+          "包含音频输入",
+          "需要语音识别"
+        ]
+      },
+      "task_examples": [
+        "转录这段会议录音",
+        "把这段采访转成文字",
+        "提取播客的语音内容",
+        "转写这段讲座录音",
+        "将语音留言转为文字"
+      ],
+      "recommended_models": ["{{MODEL_AUDIO}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L1-L3",
+      "estimated_latency": "3-10s",
+      "routing_priority": 9,
+      "required_modality": ["audio"]
+    },
+    {
+      "intent_id": "audio_analysis",
+      "name": "音频分析",
+      "description": "分析音频内容、识别说话人、提取关键信息",
+      "semantic_features": {
+        "keywords": ["音频分析", "语音分析", "声纹", "说话人识别", "audio analysis", "speaker", "voice"],
+        "patterns": [
+          "分析.*音频",
+          "识别.*说话人",
+          "音频.*特征",
+          "语音.*分析",
+          "提取.*信息.*音频"
+        ],
+        "vector_hints": ["audio analysis", "speaker identification", "voice", "acoustic", "sound"],
+        "complexity_indicators": [
+          "包含音频输入",
+          "需要深度音频理解"
+        ]
+      },
+      "task_examples": [
+        "分析这段对话的情绪",
+        "识别会议中的不同发言人",
+        "提取电话录音中的关键信息",
+        "分析音频的质量特征",
+        "检测语音中的异常模式"
+      ],
+      "recommended_models": ["{{MODEL_AUDIO}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L2-L4",
+      "estimated_latency": "5-15s",
+      "routing_priority": 8,
+      "required_modality": ["audio"]
+    },
+    {
+      "intent_id": "video_understanding",
+      "name": "视频理解",
+      "description": "理解视频内容、场景分析、动作识别",
+      "semantic_features": {
+        "keywords": ["视频", "分析", "理解", "场景", "video", "analyze video", "scene"],
+        "patterns": [
+          "分析.*视频",
+          "视频.*内容",
+          "理解.*视频",
+          "视频里.*什么",
+          "描述.*视频"
+        ],
+        "vector_hints": ["video", "scene", "motion", "temporal", "multimodal"],
+        "complexity_indicators": [
+          "包含视频输入",
+          "需要时序理解"
+        ]
+      },
+      "task_examples": [
+        "分析这个视频的主要内容",
+        "识别视频中的关键场景",
+        "总结这个教程视频",
+        "检测视频中的异常行为",
+        "提取视频中的重要时刻"
+      ],
+      "recommended_models": ["{{MODEL_VISION}}", "{{MODEL_AUDIO}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L3-L4",
+      "estimated_latency": "10-30s",
+      "routing_priority": 7,
+      "required_modality": ["video"]
+    },
+    {
+      "intent_id": "multimodal_fusion",
+      "name": "多模态融合",
+      "description": "结合图像、文本、音频等多种模态进行综合理解",
+      "semantic_features": {
+        "keywords": ["多模态", "图文", "音视频", "结合", "multimodal", "combined", "fusion"],
+        "patterns": [
+          "结合.*图.*文",
+          "分析.*和.*",
+          "综合.*内容",
+          "图文.*分析",
+          "音视频.*处理"
+        ],
+        "vector_hints": ["multimodal", "fusion", "cross-modal", "combined understanding"],
+        "complexity_indicators": [
+          "包含多种模态输入",
+          "需要跨模态理解"
+        ]
+      },
+      "task_examples": [
+        "分析这段带字幕的视频",
+        "结合图像和文字描述产品",
+        "根据图表和说明生成报告",
+        "分析带语音解说的演示",
+        "综合图文音信息进行决策"
+      ],
+      "recommended_models": ["{{MODEL_VISION}}", "{{MODEL_AUDIO}}", "{{MODEL_DEEP_THINKING}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L3-L5",
+      "estimated_latency": "10-30s",
+      "routing_priority": 6,
+      "required_modality": ["image", "audio", "text"]
+    }
+  ]
+}

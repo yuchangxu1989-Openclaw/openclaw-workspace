@@ -1,0 +1,50 @@
+{
+  "name": "@infrastructure/mr",
+  "version": "2.0.0",
+  "description": "Model Router Auto-Switch - Phase 2 Core Modules",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.19.33",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@infrastructure/lep-core": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@infrastructure/lep-core": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "model-router",
+    "auto-switch",
+    "intent-classification",
+    "sandbox",
+    "LEP"
+  ],
+  "author": "ISC MRAS Team",
+  "license": "ISC",
+  "ISC": {
+    "compliance": [
+      "N019",
+      "N020",
+      "N022"
+    ],
+    "rules": {
+      "zero_hardcoded_models": true,
+      "lep_reuse": true,
+      "sandbox_enabled": true
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "percentage": 0,
+  "whitelist": [
+    "agent-code-reviewer",
+    "agent-doc-writer"
+  ],
+  "blacklist": [],
+  "fallback": "mvp",
+  "autoRollback": true,
+  "circuitBreaker": {
+    "enabled": true,
+    "errorThreshold": 5,
+    "minRequests": 10,
+    "cooldownMs": 30000,
+    "consecutiveErrors": 3
+  },
+  "lastUpdated": 1772045189260,
+  "rolloutPlan": {
+    "currentPhase": "preparation",
+    "phases": [
+      {
+        "phase": 1,
+        "name": "内部Agent测试",
+        "percentage": 10,
+        "duration": "1 week",
+        "targetAgents": [
+          "agent-code-reviewer",
+          "agent-doc-writer"
+        ]
+      },
+      {
+        "phase": 2,
+        "name": "全量Agent测试",
+        "percentage": 50,
+        "duration": "1 week",
+        "targetAgents": [
+          "*"
+        ]
+      },
+      {
+        "phase": 3,
+        "name": "全面上线",
+        "percentage": 100,
+        "duration": "permanent",
+        "targetAgents": [
+          "*"
+        ]
+      }
+    ]
+  },
+  "monitoring": {
+    "enabled": true,
+    "metricsRetention": "7d",
+    "alertChannels": [
+      "console",
+      "file"
+    ]
+  },
+  "updatedBy": "gradual-rollout-system"
+}

@@ -1,0 +1,210 @@
+{
+  "_meta": {
+    "name": "reasoning-intents",
+    "description": "深度推理类意图模板 - 适用于代码生成、架构设计、学术研究等复杂任务",
+    "version": "1.0.0",
+    "category": "reasoning",
+    "created_at": "2026-02-26",
+    "recommended_model": "{{MODEL_DEEP_THINKING}}"
+  },
+  "intents": [
+    {
+      "intent_id": "code_generation",
+      "name": "代码生成",
+      "description": "根据需求生成高质量、可维护的代码实现",
+      "semantic_features": {
+        "keywords": ["生成代码", "写代码", "实现", "编写函数", "开发", "coding", "implement", "create function"],
+        "patterns": [
+          "请帮我写.*代码",
+          "如何实现.*",
+          "用.*语言写.*",
+          "生成.*函数",
+          "写一个.*程序"
+        ],
+        "vector_hints": ["programming", "development", "implementation", "algorithm", "function"],
+        "complexity_indicators": [
+          "复杂度：L3-L5",
+          "需要多文件协调",
+          "涉及设计模式"
+        ]
+      },
+      "task_examples": [
+        "用Python实现一个支持并发的Web爬虫",
+        "帮我写一个React组件，包含状态管理和表单验证",
+        "设计一个RESTful API的完整实现",
+        "实现一个LRU缓存机制",
+        "用Go语言编写一个微服务框架"
+      ],
+      "recommended_models": ["{{MODEL_DEEP_THINKING}}", "{{MODEL_CODE_REVIEW}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L3-L5",
+      "estimated_latency": "5-15s",
+      "routing_priority": 8
+    },
+    {
+      "intent_id": "architectural_design",
+      "name": "架构设计",
+      "description": "进行系统架构设计、技术选型和方案规划",
+      "semantic_features": {
+        "keywords": ["架构", "设计", "系统", "技术选型", "方案", "architecture", "design pattern", "microservice"],
+        "patterns": [
+          "如何设计.*系统",
+          ".*架构方案",
+          "技术选型.*",
+          "帮我设计.*架构",
+          "系统架构.*建议"
+        ],
+        "vector_hints": ["architecture", "system design", "scalability", "distributed systems", "pattern"],
+        "complexity_indicators": [
+          "复杂度：L4-L5",
+          "需要权衡多个因素",
+          "涉及系统边界划分"
+        ]
+      },
+      "task_examples": [
+        "设计一个支持百万并发的电商系统架构",
+        "微服务架构的拆分策略和通信方案",
+        "如何设计一个高可用的消息队列系统",
+        "云原生架构下的容器编排方案设计",
+        "数据库分库分表的架构设计"
+      ],
+      "recommended_models": ["{{MODEL_DEEP_THINKING}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L4-L5",
+      "estimated_latency": "10-30s",
+      "routing_priority": 9
+    },
+    {
+      "intent_id": "academic_research",
+      "name": "学术研究",
+      "description": "学术论文分析、研究方法探讨、理论推导",
+      "semantic_features": {
+        "keywords": ["论文", "研究", "学术", "理论", "文献", "paper", "research", "theorem", "hypothesis"],
+        "patterns": [
+          "分析.*论文",
+          ".*理论解释",
+          "研究方法.*",
+          "文献综述.*",
+          "学术.*问题"
+        ],
+        "vector_hints": ["academic", "research", "scientific", "theory", "analysis", "methodology"],
+        "complexity_indicators": [
+          "复杂度：L4-L5",
+          "需要文献引用",
+          "涉及理论推导"
+        ]
+      },
+      "task_examples": [
+        "分析Transformer架构的注意力机制原理",
+        "解释深度强化学习中的PPO算法",
+        "对比CNN和Vision Transformer在图像分类中的表现",
+        "研究图神经网络在推荐系统中的应用",
+        "探讨大语言模型的涌现能力理论"
+      ],
+      "recommended_models": ["{{MODEL_DEEP_THINKING}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L4-L5",
+      "estimated_latency": "10-30s",
+      "routing_priority": 9
+    },
+    {
+      "intent_id": "mathematical_reasoning",
+      "name": "数学推理",
+      "description": "数学问题求解、证明推导、算法分析",
+      "semantic_features": {
+        "keywords": ["数学", "证明", "定理", "推导", "计算", "math", "proof", "theorem", "algorithm analysis"],
+        "patterns": [
+          "证明.*",
+          "求解.*",
+          "计算.*复杂度",
+          "数学.*问题",
+          "推导.*公式"
+        ],
+        "vector_hints": ["mathematics", "proof", "calculation", "logic", "algorithm", "complexity"],
+        "complexity_indicators": [
+          "复杂度：L3-L5",
+          "需要形式化推理",
+          "涉及抽象概念"
+        ]
+      },
+      "task_examples": [
+        "证明快排的平均时间复杂度是O(nlogn)",
+        "推导Transformer中的位置编码公式",
+        "求解这个线性规划问题",
+        "分析Dijkstra算法的正确性",
+        "证明贝叶斯网络的收敛性"
+      ],
+      "recommended_models": ["{{MODEL_DEEP_THINKING}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L3-L5",
+      "estimated_latency": "5-20s",
+      "routing_priority": 8
+    },
+    {
+      "intent_id": "complex_analysis",
+      "name": "复杂分析",
+      "description": "多维度数据分析、商业分析、竞品分析",
+      "semantic_features": {
+        "keywords": ["分析", "评估", "对比", "研究", "深度", "analysis", "evaluation", "comparison", "assessment"],
+        "patterns": [
+          "深度分析.*",
+          ".*对比研究",
+          "综合评估.*",
+          "多维度.*分析",
+          "战略.*分析"
+        ],
+        "vector_hints": ["analysis", "strategy", "business", "evaluation", "comparison", "decision"],
+        "complexity_indicators": [
+          "复杂度：L3-L4",
+          "需要多角度思考",
+          "涉及长期规划"
+        ]
+      },
+      "task_examples": [
+        "分析AI芯片市场的竞争格局",
+        "对比各大云厂商的机器学习平台",
+        "评估微服务迁移的风险和收益",
+        "分析开源许可证的商业影响",
+        "研究DevOps实践在大型组织的落地"
+      ],
+      "recommended_models": ["{{MODEL_DEEP_THINKING}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L3-L4",
+      "estimated_latency": "5-15s",
+      "routing_priority": 7
+    },
+    {
+      "intent_id": "creative_design",
+      "name": "创意设计",
+      "description": "创意设计概念、艺术方向、品牌策略",
+      "semantic_features": {
+        "keywords": ["设计", "创意", "概念", "艺术", "品牌", "creative", "design concept", "artistic"],
+        "patterns": [
+          "设计.*概念",
+          "创意.*方案",
+          "品牌.*策略",
+          "艺术.*方向",
+          ".*设计风格"
+        ],
+        "vector_hints": ["creative", "design", "artistic", "concept", "aesthetic", "innovation"],
+        "complexity_indicators": [
+          "复杂度：L3-L4",
+          "需要创意发散",
+          "涉及审美判断"
+        ]
+      },
+      "task_examples": [
+        "设计一个科技公司的品牌视觉系统",
+        "为一个新产品设计交互流程",
+        "创作一个AI产品的品牌故事",
+        "设计一款APP的用户体验架构",
+        "规划一个创新产品的市场进入策略"
+      ],
+      "recommended_models": ["{{MODEL_DEEP_THINKING}}"],
+      "fallback_model": "{{MODEL_GENERAL}}",
+      "complexity_range": "L3-L4",
+      "estimated_latency": "5-15s",
+      "routing_priority": 6
+    }
+  ]
+}

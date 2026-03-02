@@ -1,0 +1,334 @@
+# ============================================================================
+# MR v2 - CapabilityAnchor Model Definitions
+# Model Router 模型路由系统 - 能力定义配置
+# 零硬编码模型名称，使用{{MODEL_XXX}}占位符模式
+# 符合N019/N020配置化设计规范
+# ============================================================================
+
+# -----------------------------------------------------------------------------
+# 通用对话模型 - 快速响应型
+# 适用于：日常对话、简单问答、快速响应场景
+# -----------------------------------------------------------------------------
+{{MODEL_GENERAL}}:
+  id: "{{MODEL_GENERAL}}"
+  name: "General Purpose Model"
+  description: "通用对话模型，优化快速响应和日常交互"
+  
+  capabilities:
+    - conversational_response
+    - text_generation
+    - simple_qa
+    - casual_chat
+    - basic_summarization
+    - lightweight_task
+  
+  input_modality:
+    - text
+  
+  output_modality:
+    - text
+  
+  complexity:
+    supported_levels:
+      - "L1": "简单任务，单步完成"
+      - "L2": "中等复杂度，少量上下文"
+    max_complexity: "L2"
+    context_window: "standard"
+  
+  latency_target:
+    optimal: "< 1s"
+    acceptable: "< 3s"
+    priority: "low_latency"
+  
+  resource_profile:
+    compute_tier: "lightweight"
+    memory_requirement: "low"
+
+# -----------------------------------------------------------------------------
+# 深度思考模型 - 复杂推理型
+# 适用于：架构设计、学术研究、复杂问题解决
+# -----------------------------------------------------------------------------
+{{MODEL_DEEP_THINKING}}:
+  id: "{{MODEL_DEEP_THINKING}}"
+  name: "Deep Thinking Model"
+  description: "深度思考模型，擅长复杂推理、架构设计和学术研究"
+  
+  capabilities:
+    - deep_reasoning
+    - architectural_design
+    - academic_research
+    - complex_problem_solving
+    - long_form_content
+    - multi_step_analysis
+    - critical_thinking
+    - abstract_conceptualization
+  
+  input_modality:
+    - text
+    - structured_data
+  
+  output_modality:
+    - text
+    - structured_output
+    - markdown
+    - json
+  
+  complexity:
+    supported_levels:
+      - "L1": "简单任务"
+      - "L2": "中等复杂度"
+      - "L3": "复杂任务，多步骤推理"
+      - "L4": "高度复杂，需要深度分析"
+      - "L5": "研究级复杂度，系统级设计"
+    max_complexity: "L5"
+    context_window: "extended"
+    reasoning_depth: "deep"
+  
+  latency_target:
+    optimal: "< 5s"
+    acceptable: "< 30s"
+    priority: "quality_over_speed"
+  
+  resource_profile:
+    compute_tier: "high_performance"
+    memory_requirement: "high"
+
+# -----------------------------------------------------------------------------
+# 视觉理解模型 - 多模态视觉型
+# 适用于：图像理解、OCR、视觉问答
+# -----------------------------------------------------------------------------
+{{MODEL_VISION}}:
+  id: "{{MODEL_VISION}}"
+  name: "Vision Understanding Model"
+  description: "视觉理解模型，支持图像分析、OCR和视觉问答"
+  
+  capabilities:
+    - image_understanding
+    - ocr
+    - visual_qa
+    - image_captioning
+    - object_recognition
+    - scene_analysis
+    - diagram_interpretation
+    - chart_analysis
+  
+  input_modality:
+    - text
+    - image
+    - image_url
+    - base64_image
+  
+  output_modality:
+    - text
+    - structured_output
+    - bounding_boxes
+  
+  complexity:
+    supported_levels:
+      - "L1": "简单图像识别"
+      - "L2": "中等复杂度图像分析"
+      - "L3": "复杂场景理解"
+      - "L4": "多图像对比分析"
+    max_complexity: "L4"
+    context_window: "standard"
+  
+  latency_target:
+    optimal: "< 2s"
+    acceptable: "< 8s"
+    priority: "balanced"
+  
+  resource_profile:
+    compute_tier: "gpu_accelerated"
+    memory_requirement: "medium"
+  
+  supported_formats:
+    - "image/jpeg"
+    - "image/png"
+    - "image/webp"
+    - "image/gif"
+  
+  max_image_size: "20MB"
+
+# -----------------------------------------------------------------------------
+# 音频处理模型 - 语音处理型
+# 适用于：语音识别、语音合成、音频分析
+# -----------------------------------------------------------------------------
+{{MODEL_AUDIO}}:
+  id: "{{MODEL_AUDIO}}"
+  name: "Audio Processing Model"
+  description: "音频处理模型，支持语音识别、语音转文字和音频分析"
+  
+  capabilities:
+    - speech_recognition
+    - speech_to_text
+    - audio_transcription
+    - voice_analysis
+    - audio_qa
+    - audio_summarization
+    - speaker_identification
+    - language_detection
+  
+  input_modality:
+    - text
+    - audio
+    - audio_url
+    - base64_audio
+  
+  output_modality:
+    - text
+    - structured_output
+    - timestamps
+  
+  complexity:
+    supported_levels:
+      - "L1": "短音频转录"
+      - "L2": "中等长度音频"
+      - "L3": "长音频处理"
+      - "L4": "多语言音频/复杂场景"
+    max_complexity: "L4"
+    context_window: "extended"
+  
+  latency_target:
+    optimal: "< 3s"
+    acceptable: "< 15s"
+    priority: "balanced"
+  
+  resource_profile:
+    compute_tier: "specialized"
+    memory_requirement: "medium"
+  
+  supported_formats:
+    - "audio/wav"
+    - "audio/mp3"
+    - "audio/m4a"
+    - "audio/ogg"
+    - "audio/webm"
+  
+  max_audio_duration: "4h"
+  supported_languages:
+    - "zh-CN"
+    - "en-US"
+    - "ja-JP"
+    - "ko-KR"
+    - "fr-FR"
+    - "de-DE"
+    - "es-ES"
+
+# -----------------------------------------------------------------------------
+# 代码审查模型 - 代码分析型
+# 适用于：代码审查、Bug检测、代码优化建议
+# -----------------------------------------------------------------------------
+{{MODEL_CODE_REVIEW}}:
+  id: "{{MODEL_CODE_REVIEW}}"
+  name: "Code Review Model"
+  description: "代码审查模型，专注于Bug检测、代码质量分析和安全审查"
+  
+  capabilities:
+    - code_review
+    - bug_detection
+    - security_analysis
+    - code_optimization
+    - vulnerability_scanning
+    - best_practices_check
+    - style_review
+    - performance_analysis
+    - test_coverage_analysis
+    - documentation_generation
+  
+  input_modality:
+    - text
+    - code
+    - file_tree
+    - git_diff
+  
+  output_modality:
+    - text
+    - structured_output
+    - json
+    - markdown
+    - review_comments
+  
+  complexity:
+    supported_levels:
+      - "L1": "单行/简单代码审查"
+      - "L2": "函数级别审查"
+      - "L3": "模块级别审查"
+      - "L4": "项目级别架构审查"
+      - "L5": "系统级安全审计"
+    max_complexity: "L5"
+    context_window: "extended"
+  
+  latency_target:
+    optimal: "< 3s"
+    acceptable: "< 15s"
+    priority: "balanced"
+  
+  resource_profile:
+    compute_tier: "high_performance"
+    memory_requirement: "medium"
+  
+  supported_languages:
+    - "python"
+    - "javascript"
+    - "typescript"
+    - "java"
+    - "cpp"
+    - "csharp"
+    - "go"
+    - "rust"
+    - "ruby"
+    - "php"
+    - "swift"
+    - "kotlin"
+  
+  review_categories:
+    - "security"
+    - "performance"
+    - "maintainability"
+    - "reliability"
+    - "style"
+    - "documentation"
+
+# -----------------------------------------------------------------------------
+# 模型选择优先级映射表
+# 用于MRRouter快速决策路由
+# -----------------------------------------------------------------------------
+routing_hints:
+  intent_to_model:
+    conversational: "{{MODEL_GENERAL}}"
+    general_qa: "{{MODEL_GENERAL}}"
+    creative_writing: "{{MODEL_GENERAL}}"
+    
+    deep_reasoning: "{{MODEL_DEEP_THINKING}}"
+    architectural_design: "{{MODEL_DEEP_THINKING}}"
+    academic_research: "{{MODEL_DEEP_THINKING}}"
+    system_design: "{{MODEL_DEEP_THINKING}}"
+    mathematical_proof: "{{MODEL_DEEP_THINKING}}"
+    
+    image_analysis: "{{MODEL_VISION}}"
+    ocr: "{{MODEL_VISION}}"
+    visual_qa: "{{MODEL_VISION}}"
+    diagram_understanding: "{{MODEL_VISION}}"
+    
+    audio_transcription: "{{MODEL_AUDIO}}"
+    speech_recognition: "{{MODEL_AUDIO}}"
+    voice_processing: "{{MODEL_AUDIO}}"
+    
+    code_review: "{{MODEL_CODE_REVIEW}}"
+    bug_detection: "{{MODEL_CODE_REVIEW}}"
+    security_audit: "{{MODEL_CODE_REVIEW}}"
+    code_generation: "{{MODEL_CODE_REVIEW}}"
+
+# -----------------------------------------------------------------------------
+# 版本信息
+# -----------------------------------------------------------------------------
+metadata:
+  version: "2.0.0"
+  schema_version: "v1"
+  created_at: "2026-02-26"
+  updated_at: "2026-02-26"
+  author: "ISC MR Team"
+  description: "MR v2 CapabilityAnchor - Model Router 模型能力定义占位符配置"
+  compatibility:
+    - "N019"
+    - "N020"

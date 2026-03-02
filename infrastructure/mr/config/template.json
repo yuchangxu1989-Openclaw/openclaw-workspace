@@ -1,0 +1,9 @@
+{
+  "agent_id": "agent-example",
+  "version": "1.0.0",
+  "model_preferences": {
+    "primary": "{{MODEL_GENERAL}}",
+    "fallbacks": ["{{MODEL_DEEP_THINKING}}", "{{MODEL_GENERAL}}"],
+    "strict_mode": false
+  }
+}
