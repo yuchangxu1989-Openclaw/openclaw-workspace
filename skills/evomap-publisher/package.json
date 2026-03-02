@@ -1,0 +1,26 @@
+{
+  "name": "evomap-publisher",
+  "version": "1.0.2",
+  "description": "EvoMap极简发布器 - 只负责一件事：将SEEF+DTO生成的技能发布到EvoMap网络",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "publish": "node index.js publish",
+    "status": "node index.js status"
+  },
+  "keywords": [
+    "evomap",
+    "publisher",
+    "seef",
+    "dto",
+    "a2a"
+  ],
+  "author": "OpenClaw",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.19.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

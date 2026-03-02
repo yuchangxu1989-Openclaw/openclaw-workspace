@@ -1,0 +1,32 @@
+{
+  "id": "rule.isc-dto-handshake-001",
+  "name": "isc_dto_periodic_handshake",
+  "domain": "process",
+  "type": "rule",
+  "scope": "system",
+  "description": "ISC-DTO定期握手机制 - 每30分钟互相扫描对齐",
+  "rationale": "确保ISC规则变更后DTO能及时订阅，保持双向对齐",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "handshake": {
+    "frequency": "30分钟",
+    "cron": "*/30 * * * *",
+    "initiator": "ISC",
+    "responder": "DTO",
+    "steps": [
+      "ISC扫描所有规则",
+      "DTO扫描所有订阅",
+      "双向对齐检查",
+      "自动修复不对齐",
+      "生成对齐报告"
+    ]
+  },
+  "alert_conditions": {
+    "alignment_rate_below": "90%",
+    "action": "立即通知并自动修复"
+  },
+  "created_at": "2026-02-25T06:30:00+08:00",
+  "version": "1.0.0"
+}

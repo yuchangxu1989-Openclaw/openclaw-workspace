@@ -1,0 +1,5226 @@
+{
+  "generatedAt": "2026-02-28T15:44:45.494Z",
+  "summary": {
+    "total": 47,
+    "excellent": 0,
+    "good": 13,
+    "fair": 4,
+    "poor": 9,
+    "critical": 21,
+    "averageScore": 48
+  },
+  "metrics": {
+    "weights": {
+      "completeness": {
+        "skillMd": 25,
+        "packageJson": 20,
+        "entryFile": 15,
+        "readme": 10,
+        "configFiles": 10,
+        "codeQuality": 20
+      },
+      "activity": {
+        "recentCommits": 40,
+        "lastModified": 30,
+        "totalCommits": 20,
+        "fileChanges": 10
+      },
+      "dependency": {
+        "declared": 30,
+        "valid": 40,
+        "noCircular": 20,
+        "security": 10
+      }
+    }
+  },
+  "skills": [
+    {
+      "name": "isc-core",
+      "path": "/root/.openclaw/workspace/skills/isc-core",
+      "timestamp": "2026-02-28T15:44:44.984Z",
+      "overall": {
+        "score": 88,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 85,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 10,
+              "max": 10,
+              "exists": true
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 15,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "入口文件过大(1227行)，建议拆分"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 85,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 40,
+              "raw": 28
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 15,
+              "raw": 28
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772285144,
+            "recentCommits": 28,
+            "commits90Days": 28,
+            "totalCommits": 28,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "cras",
+      "path": "/root/.openclaw/workspace/skills/cras",
+      "timestamp": "2026-02-28T15:44:43.205Z",
+      "overall": {
+        "score": 87,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 75,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 15,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 README.md（建议添加）",
+            "入口文件过大(1234行)，建议拆分"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 95,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 40,
+              "raw": 25
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 15,
+              "raw": 25
+            },
+            "fileChanges": {
+              "score": 10,
+              "raw": 17
+            }
+          },
+          "raw": {
+            "lastModified": 1772285144,
+            "recentCommits": 25,
+            "commits90Days": 25,
+            "totalCommits": 25,
+            "changedFiles": 17
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "feishu-chat-backup",
+      "path": "/root/.openclaw/workspace/skills/feishu-chat-backup",
+      "timestamp": "2026-02-28T15:44:43.785Z",
+      "overall": {
+        "score": 82,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 70,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 5,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 5,
+              "max": 10,
+              "found": 1
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "package.json 缺少 name",
+            "package.json 缺少 description",
+            "package.json 缺少 main",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "C"
+        },
+        "activity": {
+          "score": 85,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 40,
+              "raw": 31
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 15,
+              "raw": 31
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772122814,
+            "recentCommits": 31,
+            "commits90Days": 31,
+            "totalCommits": 31,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 4,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "evolver",
+      "path": "/root/.openclaw/workspace/skills/evolver",
+      "timestamp": "2026-02-28T15:44:43.590Z",
+      "overall": {
+        "score": 80,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 80,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 15,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 10,
+              "max": 10,
+              "exists": true
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "SKILL.md 缺少 version 字段",
+            "SKILL.md 缺少 status 字段"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 70,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 30,
+              "raw": 5
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 10,
+              "raw": 5
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772285144,
+            "recentCommits": 5,
+            "commits90Days": 5,
+            "totalCommits": 5,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "lep-executor",
+      "path": "/root/.openclaw/workspace/skills/lep-executor",
+      "timestamp": "2026-02-28T15:44:45.109Z",
+      "overall": {
+        "score": 80,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 90,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 10,
+              "max": 10,
+              "exists": true
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "grade": "A"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 4
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 4
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772155203,
+            "recentCommits": 4,
+            "commits90Days": 4,
+            "totalCommits": 4,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 100,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 30,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [
+              {
+                "name": "glob",
+                "version": "^10.3.0"
+              }
+            ],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 0,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "dto-core",
+      "path": "/root/.openclaw/workspace/skills/dto-core",
+      "timestamp": "2026-02-28T15:44:43.517Z",
+      "overall": {
+        "score": 79,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 65,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 5,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "package.json 缺少 name",
+            "package.json 缺少 description",
+            "package.json 缺少 main",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "C"
+        },
+        "activity": {
+          "score": 80,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 40,
+              "raw": 16
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 10,
+              "raw": 16
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772285144,
+            "recentCommits": 16,
+            "commits90Days": 16,
+            "totalCommits": 16,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 100,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 30,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [
+              {
+                "name": "js-yaml",
+                "version": "^4.1.1"
+              }
+            ],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 4,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "isc-document-quality",
+      "path": "/root/.openclaw/workspace/skills/isc-document-quality",
+      "timestamp": "2026-02-28T15:44:45.047Z",
+      "overall": {
+        "score": 77,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 85,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 10,
+              "max": 10,
+              "exists": true
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 15,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "建议添加错误处理"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772125816,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "convert-helper",
+      "path": "/root/.openclaw/workspace/skills/convert-helper",
+      "timestamp": "2026-02-28T15:44:43.079Z",
+      "overall": {
+        "score": 75,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 80,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 2
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 2
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772293245,
+            "recentCommits": 2,
+            "commits90Days": 2,
+            "totalCommits": 2,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "cras-generated-1771827136412",
+      "path": "/root/.openclaw/workspace/skills/cras-generated-1771827136412",
+      "timestamp": "2026-02-28T15:44:43.268Z",
+      "overall": {
+        "score": 75,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 80,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772121818,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "cras-generated-1771827197478",
+      "path": "/root/.openclaw/workspace/skills/cras-generated-1771827197478",
+      "timestamp": "2026-02-28T15:44:43.331Z",
+      "overall": {
+        "score": 75,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 80,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772121828,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "cras-generated-1772042431830",
+      "path": "/root/.openclaw/workspace/skills/cras-generated-1772042431830",
+      "timestamp": "2026-02-28T15:44:43.395Z",
+      "overall": {
+        "score": 75,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 80,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 2
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 2
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772121841,
+            "recentCommits": 2,
+            "commits90Days": 2,
+            "totalCommits": 2,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "feishu-report-sender",
+      "path": "/root/.openclaw/workspace/skills/feishu-report-sender",
+      "timestamp": "2026-02-28T15:44:43.903Z",
+      "overall": {
+        "score": 75,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 80,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 4
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 4
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772285144,
+            "recentCommits": 4,
+            "commits90Days": 4,
+            "totalCommits": 4,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "file-sender",
+      "path": "/root/.openclaw/workspace/skills/file-sender",
+      "timestamp": "2026-02-28T15:44:44.037Z",
+      "overall": {
+        "score": 75,
+        "health": "good",
+        "grade": "B"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 80,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 2
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 2
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772123406,
+            "recentCommits": 2,
+            "commits90Days": 2,
+            "totalCommits": 2,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "feishu-evolver-wrapper",
+      "path": "/root/.openclaw/workspace/skills/feishu-evolver-wrapper",
+      "timestamp": "2026-02-28T15:44:43.844Z",
+      "overall": {
+        "score": 74,
+        "health": "fair",
+        "grade": "C"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 75,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 15,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 10,
+              "max": 10,
+              "exists": true
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 15,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "SKILL.md 缺少 version 字段",
+            "SKILL.md 缺少 status 字段",
+            "入口文件过大(1707行)，建议拆分"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772285144,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 100,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 30,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [
+              {
+                "name": "evolver",
+                "path": "file:../evolver"
+              }
+            ],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 3,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "cras-generated-1772128853925",
+      "path": "/root/.openclaw/workspace/skills/cras-generated-1772128853925",
+      "timestamp": "2026-02-28T15:44:43.456Z",
+      "overall": {
+        "score": 72,
+        "health": "fair",
+        "grade": "C"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 80,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 20,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "B"
+        },
+        "activity": {
+          "score": 45,
+          "maxScore": 100,
+          "grade": "C",
+          "details": {
+            "recentCommits": {
+              "score": 10,
+              "raw": 1
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 1
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772129155,
+            "recentCommits": 1,
+            "commits90Days": 1,
+            "totalCommits": 1,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 1,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "evomap-a2a",
+      "path": "/root/.openclaw/workspace/skills/evomap-a2a",
+      "timestamp": "2026-02-28T15:44:43.653Z",
+      "overall": {
+        "score": 70,
+        "health": "fair",
+        "grade": "C"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 65,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 5,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "package.json 缺少 name",
+            "package.json 缺少 description",
+            "package.json 缺少 main",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "C"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 4
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 4
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772122804,
+            "recentCommits": 4,
+            "commits90Days": 4,
+            "totalCommits": 4,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 100,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 30,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [
+              {
+                "name": "ws",
+                "version": "^8.19.0"
+              }
+            ],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 0,
+        "warnings": 4,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "elite-longterm-memory",
+      "path": "/root/.openclaw/workspace/skills/elite-longterm-memory",
+      "timestamp": "2026-02-28T15:44:43.530Z",
+      "overall": {
+        "score": 67,
+        "health": "fair",
+        "grade": "C"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 66,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 20,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 16,
+              "max": 20,
+              "exists": true
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 10,
+              "max": 10,
+              "exists": true
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "SKILL.md 缺少 status 字段",
+            "package.json 缺少 main"
+          ],
+          "grade": "C"
+        },
+        "activity": {
+          "score": 49,
+          "maxScore": 100,
+          "grade": "C",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 20,
+              "days": 29
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 4,
+              "raw": 2
+            }
+          },
+          "raw": {
+            "lastModified": 1769763717,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 2
+          }
+        },
+        "dependency": {
+          "score": 95,
+          "maxScore": 100,
+          "checks": {
+            "declared": {
+              "score": 25,
+              "max": 30
+            },
+            "valid": {
+              "score": 40,
+              "max": 40
+            },
+            "noCircular": {
+              "score": 20,
+              "max": 20
+            },
+            "security": {
+              "score": 10,
+              "max": 10
+            }
+          },
+          "issues": [],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          },
+          "grade": "A"
+        }
+      },
+      "summary": {
+        "issues": 1,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "aeo",
+      "path": "/root/.openclaw/workspace/skills/aeo",
+      "timestamp": "2026-02-28T15:44:42.528Z",
+      "overall": {
+        "score": 46,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 45,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "D"
+        },
+        "activity": {
+          "score": 80,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 40,
+              "raw": 18
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 10,
+              "raw": 18
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772291464,
+            "recentCommits": 18,
+            "commits90Days": 18,
+            "totalCommits": 18,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "capability-anchor",
+      "path": "/root/.openclaw/workspace/skills/capability-anchor",
+      "timestamp": "2026-02-28T15:44:42.735Z",
+      "overall": {
+        "score": 46,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 45,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "D"
+        },
+        "activity": {
+          "score": 80,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 40,
+              "raw": 12
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 10,
+              "raw": 12
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772292012,
+            "recentCommits": 12,
+            "commits90Days": 12,
+            "totalCommits": 12,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "council-of-seven",
+      "path": "/root/.openclaw/workspace/skills/council-of-seven",
+      "timestamp": "2026-02-28T15:44:43.143Z",
+      "overall": {
+        "score": 46,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 45,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "D"
+        },
+        "activity": {
+          "score": 80,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 40,
+              "raw": 10
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 10,
+              "raw": 10
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772121004,
+            "recentCommits": 10,
+            "commits90Days": 10,
+            "totalCommits": 10,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "system-monitor",
+      "path": "/root/.openclaw/workspace/skills/system-monitor",
+      "timestamp": "2026-02-28T15:44:45.422Z",
+      "overall": {
+        "score": 44,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 60,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "C"
+        },
+        "activity": {
+          "score": 57,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 2,
+              "raw": 1
+            }
+          },
+          "raw": {
+            "lastModified": 1772127016,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 1
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 1,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-asr",
+      "path": "/root/.openclaw/workspace/skills/glm-asr",
+      "timestamp": "2026-02-28T15:44:44.293Z",
+      "overall": {
+        "score": 43,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 60,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "C"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772285144,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 1,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "parallel-subagent",
+      "path": "/root/.openclaw/workspace/skills/parallel-subagent",
+      "timestamp": "2026-02-28T15:44:45.173Z",
+      "overall": {
+        "score": 43,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 60,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "C"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772126405,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 1,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "pdca-engine",
+      "path": "/root/.openclaw/workspace/skills/pdca-engine",
+      "timestamp": "2026-02-28T15:44:45.299Z",
+      "overall": {
+        "score": 43,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 60,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "C"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 4
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 4
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772126425,
+            "recentCommits": 4,
+            "commits90Days": 4,
+            "totalCommits": 4,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 1,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "seef",
+      "path": "/root/.openclaw/workspace/skills/seef",
+      "timestamp": "2026-02-28T15:44:45.360Z",
+      "overall": {
+        "score": 43,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 45,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "D"
+        },
+        "activity": {
+          "score": 70,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 30,
+              "raw": 9
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 10,
+              "raw": 9
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772292002,
+            "recentCommits": 9,
+            "commits90Days": 9,
+            "totalCommits": 9,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "isc-capability-anchor-sync",
+      "path": "/root/.openclaw/workspace/skills/isc-capability-anchor-sync",
+      "timestamp": "2026-02-28T15:44:44.920Z",
+      "overall": {
+        "score": 41,
+        "health": "poor",
+        "grade": "D"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 55,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 15,
+              "max": 20
+            }
+          },
+          "issues": [],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）",
+            "建议添加错误处理"
+          ],
+          "grade": "D"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772125326,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 1,
+        "warnings": 3,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-5-coder",
+      "path": "/root/.openclaw/workspace/skills/glm-5-coder",
+      "timestamp": "2026-02-28T15:44:44.234Z",
+      "overall": {
+        "score": 37,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 45,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "D"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 4
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 4
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772285144,
+            "recentCommits": 4,
+            "commits90Days": 4,
+            "totalCommits": 4,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "paths-center",
+      "path": "/root/.openclaw/workspace/skills/paths-center",
+      "timestamp": "2026-02-28T15:44:45.236Z",
+      "overall": {
+        "score": 37,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 45,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 25,
+              "max": 25,
+              "exists": true
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "D"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 2
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 2
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772126415,
+            "recentCommits": 2,
+            "commits90Days": 2,
+            "totalCommits": 2,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "api-aggregator",
+      "path": "/root/.openclaw/workspace/skills/api-aggregator",
+      "timestamp": "2026-02-28T15:44:42.676Z",
+      "overall": {
+        "score": 33,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 2
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 2
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1771995028,
+            "recentCommits": 2,
+            "commits90Days": 2,
+            "totalCommits": 2,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "evomap-uploader",
+      "path": "/root/.openclaw/workspace/skills/evomap-uploader",
+      "timestamp": "2026-02-28T15:44:43.715Z",
+      "overall": {
+        "score": 33,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 20,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md",
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 70,
+          "maxScore": 100,
+          "grade": "A",
+          "details": {
+            "recentCommits": {
+              "score": 30,
+              "raw": 5
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 0
+            },
+            "totalCommits": {
+              "score": 10,
+              "raw": 5
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772292002,
+            "recentCommits": 5,
+            "commits90Days": 5,
+            "totalCommits": 5,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 3,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-4v",
+      "path": "/root/.openclaw/workspace/skills/glm-4v",
+      "timestamp": "2026-02-28T15:44:44.175Z",
+      "overall": {
+        "score": 33,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772019930,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-image",
+      "path": "/root/.openclaw/workspace/skills/glm-image",
+      "timestamp": "2026-02-28T15:44:44.364Z",
+      "overall": {
+        "score": 33,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 2
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 2
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772000429,
+            "recentCommits": 2,
+            "commits90Days": 2,
+            "totalCommits": 2,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-ocr",
+      "path": "/root/.openclaw/workspace/skills/glm-ocr",
+      "timestamp": "2026-02-28T15:44:44.431Z",
+      "overall": {
+        "score": 33,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772019940,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-video",
+      "path": "/root/.openclaw/workspace/skills/glm-video",
+      "timestamp": "2026-02-28T15:44:44.786Z",
+      "overall": {
+        "score": 33,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 3
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 3
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772020229,
+            "recentCommits": 3,
+            "commits90Days": 3,
+            "totalCommits": 3,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "zhipu-keys",
+      "path": "/root/.openclaw/workspace/skills/zhipu-keys",
+      "timestamp": "2026-02-28T15:44:45.493Z",
+      "overall": {
+        "score": 33,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 2
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 2
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1771996828,
+            "recentCommits": 2,
+            "commits90Days": 2,
+            "totalCommits": 2,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "cogvideo",
+      "path": "/root/.openclaw/workspace/skills/cogvideo",
+      "timestamp": "2026-02-28T15:44:42.951Z",
+      "overall": {
+        "score": 30,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 45,
+          "maxScore": 100,
+          "grade": "C",
+          "details": {
+            "recentCommits": {
+              "score": 10,
+              "raw": 1
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 1
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1771995628,
+            "recentCommits": 1,
+            "commits90Days": 1,
+            "totalCommits": 1,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "cogview",
+      "path": "/root/.openclaw/workspace/skills/cogview",
+      "timestamp": "2026-02-28T15:44:43.020Z",
+      "overall": {
+        "score": 30,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 45,
+          "maxScore": 100,
+          "grade": "C",
+          "details": {
+            "recentCommits": {
+              "score": 10,
+              "raw": 1
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 1
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1771995639,
+            "recentCommits": 1,
+            "commits90Days": 1,
+            "totalCommits": 1,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "file-downloader",
+      "path": "/root/.openclaw/workspace/skills/file-downloader",
+      "timestamp": "2026-02-28T15:44:43.974Z",
+      "overall": {
+        "score": 30,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 45,
+          "maxScore": 100,
+          "grade": "C",
+          "details": {
+            "recentCommits": {
+              "score": 10,
+              "raw": 1
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 1
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1771994675,
+            "recentCommits": 1,
+            "commits90Days": 1,
+            "totalCommits": 1,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "github-api",
+      "path": "/root/.openclaw/workspace/skills/github-api",
+      "timestamp": "2026-02-28T15:44:44.108Z",
+      "overall": {
+        "score": 30,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 45,
+          "maxScore": 100,
+          "grade": "C",
+          "details": {
+            "recentCommits": {
+              "score": 10,
+              "raw": 1
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 1
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1771994675,
+            "recentCommits": 1,
+            "commits90Days": 1,
+            "totalCommits": 1,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-tts",
+      "path": "/root/.openclaw/workspace/skills/glm-tts",
+      "timestamp": "2026-02-28T15:44:44.646Z",
+      "overall": {
+        "score": 30,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 45,
+          "maxScore": 100,
+          "grade": "C",
+          "details": {
+            "recentCommits": {
+              "score": 10,
+              "raw": 1
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 1
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1771999828,
+            "recentCommits": 1,
+            "commits90Days": 1,
+            "totalCommits": 1,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-vision",
+      "path": "/root/.openclaw/workspace/skills/glm-vision",
+      "timestamp": "2026-02-28T15:44:44.856Z",
+      "overall": {
+        "score": 30,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 35,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 15,
+              "max": 15,
+              "path": "index.js",
+              "exists": true
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 45,
+          "maxScore": 100,
+          "grade": "C",
+          "details": {
+            "recentCommits": {
+              "score": 10,
+              "raw": 1
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 3
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 1
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1771995330,
+            "recentCommits": 1,
+            "commits90Days": 1,
+            "totalCommits": 1,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 2,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "agent-mode-enforcer",
+      "path": "/root/.openclaw/workspace/skills/agent-mode-enforcer",
+      "timestamp": "2026-02-28T15:44:42.607Z",
+      "overall": {
+        "score": 27,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 20,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md",
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 55,
+          "maxScore": 100,
+          "grade": "B",
+          "details": {
+            "recentCommits": {
+              "score": 20,
+              "raw": 2
+            },
+            "lastModified": {
+              "score": 30,
+              "days": 1
+            },
+            "totalCommits": {
+              "score": 5,
+              "raw": 2
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 1772203253,
+            "recentCommits": 2,
+            "commits90Days": 2,
+            "totalCommits": 2,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 3,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "charglm-video",
+      "path": "/root/.openclaw/workspace/skills/charglm-video",
+      "timestamp": "2026-02-28T15:44:42.809Z",
+      "overall": {
+        "score": 8,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 20,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md",
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 0,
+          "maxScore": 100,
+          "grade": "F",
+          "details": {
+            "recentCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "lastModified": {
+              "score": 0,
+              "days": 999
+            },
+            "totalCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 0,
+            "recentCommits": 0,
+            "commits90Days": 0,
+            "totalCommits": 0,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 3,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "charglm-voice",
+      "path": "/root/.openclaw/workspace/skills/charglm-voice",
+      "timestamp": "2026-02-28T15:44:42.881Z",
+      "overall": {
+        "score": 8,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 20,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md",
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 0,
+          "maxScore": 100,
+          "grade": "F",
+          "details": {
+            "recentCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "lastModified": {
+              "score": 0,
+              "days": 999
+            },
+            "totalCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 0,
+            "recentCommits": 0,
+            "commits90Days": 0,
+            "totalCommits": 0,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 3,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-ppt",
+      "path": "/root/.openclaw/workspace/skills/glm-ppt",
+      "timestamp": "2026-02-28T15:44:44.503Z",
+      "overall": {
+        "score": 8,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 20,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md",
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 0,
+          "maxScore": 100,
+          "grade": "F",
+          "details": {
+            "recentCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "lastModified": {
+              "score": 0,
+              "days": 999
+            },
+            "totalCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 0,
+            "recentCommits": 0,
+            "commits90Days": 0,
+            "totalCommits": 0,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 3,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-thinking",
+      "path": "/root/.openclaw/workspace/skills/glm-thinking",
+      "timestamp": "2026-02-28T15:44:44.575Z",
+      "overall": {
+        "score": 8,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 20,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md",
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 0,
+          "maxScore": 100,
+          "grade": "F",
+          "details": {
+            "recentCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "lastModified": {
+              "score": 0,
+              "days": 999
+            },
+            "totalCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 0,
+            "recentCommits": 0,
+            "commits90Days": 0,
+            "totalCommits": 0,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 3,
+        "warnings": 2,
+        "suggestions": []
+      }
+    },
+    {
+      "name": "glm-tts-clone",
+      "path": "/root/.openclaw/workspace/skills/glm-tts-clone",
+      "timestamp": "2026-02-28T15:44:44.719Z",
+      "overall": {
+        "score": 8,
+        "health": "critical",
+        "grade": "F"
+      },
+      "dimensions": {
+        "completeness": {
+          "score": 20,
+          "maxScore": 100,
+          "checks": {
+            "skillMd": {
+              "score": 0,
+              "max": 25,
+              "exists": false
+            },
+            "packageJson": {
+              "score": 0,
+              "max": 20,
+              "exists": false
+            },
+            "entryFile": {
+              "score": 0,
+              "max": 15,
+              "path": "index.js",
+              "exists": false
+            },
+            "readme": {
+              "score": 0,
+              "max": 10,
+              "exists": false
+            },
+            "configFiles": {
+              "score": 0,
+              "max": 10,
+              "found": 0
+            },
+            "codeQuality": {
+              "score": 20,
+              "max": 20
+            }
+          },
+          "issues": [
+            "缺少 SKILL.md",
+            "入口文件不存在: index.js"
+          ],
+          "warnings": [
+            "缺少 package.json（建议添加）",
+            "缺少 README.md（建议添加）"
+          ],
+          "grade": "F"
+        },
+        "activity": {
+          "score": 0,
+          "maxScore": 100,
+          "grade": "F",
+          "details": {
+            "recentCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "lastModified": {
+              "score": 0,
+              "days": 999
+            },
+            "totalCommits": {
+              "score": 0,
+              "raw": 0
+            },
+            "fileChanges": {
+              "score": 0,
+              "raw": 0
+            }
+          },
+          "raw": {
+            "lastModified": 0,
+            "recentCommits": 0,
+            "commits90Days": 0,
+            "totalCommits": 0,
+            "changedFiles": 0
+          }
+        },
+        "dependency": {
+          "score": 0,
+          "maxScore": 100,
+          "checks": {},
+          "issues": [
+            "无法评估依赖：package.json不存在"
+          ],
+          "warnings": [],
+          "dependencies": {
+            "internal": [],
+            "external": [],
+            "missing": []
+          }
+        }
+      },
+      "summary": {
+        "issues": 3,
+        "warnings": 2,
+        "suggestions": []
+      }
+    }
+  ]
+}

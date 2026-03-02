@@ -1,0 +1,134 @@
+{
+  "version": "1.0.0",
+  "system": "AEO",
+  "subscriptions": [
+    {
+      "id": "N023",
+      "name": "自动生成评测标准",
+      "description": "当新技能注册时，自动生成对应的评测标准",
+      "source": "ISC-DTO",
+      "topic": "skill.registered",
+      "handler": {
+        "module": "aeo/src/core/dual-track-orchestrator",
+        "method": "generateStandardsForSkill",
+        "async": true
+      },
+      "filter": {
+        "skillType": ["llm", "chat", "generation", "tool", "workflow", "hybrid"]
+      },
+      "priority": "normal",
+      "enabled": true
+    },
+    {
+      "id": "N024",
+      "name": "双轨运营编排",
+      "description": "根据技能类型和评测需求，自动选择AI效果轨道或功能质量轨道",
+      "source": "ISC-DTO",
+      "topic": "aeo.evaluation.requested",
+      "handler": {
+        "module": "aeo/src/core/dual-track-orchestrator",
+        "method": "selectTrack",
+        "async": true
+      },
+      "priority": "high",
+      "enabled": true
+    },
+    {
+      "id": "N025",
+      "name": "反馈自动收录",
+      "description": "检测用户反馈中的质疑/澄清/重复修改信号，自动收录到问题库",
+      "source": "ISC-DTO",
+      "topic": "user.feedback.received",
+      "handler": {
+        "module": "aeo/src/feedback/auto-collector",
+        "method": "processMessage",
+        "async": true
+      },
+      "filter": {
+        "confidenceThreshold": 0.5
+      },
+      "priority": "normal",
+      "enabled": true
+    },
+    {
+      "id": "N026",
+      "name": "洞察到整改闭环",
+      "description": "基于洞察分析结果，自动生成可执行的整改方案",
+      "source": "ISC-DTO",
+      "topic": "aeo.insights.generated",
+      "handler": {
+        "module": "aeo/src/insight/action-generator",
+        "method": "generateFromInsights",
+        "async": true
+      },
+      "priority": "high",
+      "enabled": true
+    },
+    {
+      "id": "N027",
+      "name": "跨系统同步",
+      "description": "AEO数据跨系统同步",
+      "source": "ISC-DTO",
+      "topic": "aeo.sync.requested",
+      "handler": {
+        "module": "aeo/src/core/aeo-core",
+        "method": "syncWithSystems",
+        "async": true
+      },
+      "targets": ["evolver", "isc-core", "cras"],
+      "priority": "low",
+      "enabled": true
+    }
+  ],
+  "eventMappings": {
+    "skill.evaluation.completed": {
+      "handlers": [
+        {
+          "module": "aeo/src/core/evaluation-engine",
+          "method": "onEvaluationCompleted"
+        },
+        {
+          "module": "aeo/src/insight/analyzer",
+          "method": "analyzeEvaluation"
+        }
+      ]
+    },
+    "issue.created": {
+      "handlers": [
+        {
+          "module": "aeo/src/insight/analyzer",
+          "method": "onIssueCreated"
+        }
+      ]
+    },
+    "feedback.high-confidence": {
+      "handlers": [
+        {
+          "module": "aeo/src/feedback/issue-repository",
+          "method": "createFromFeedback"
+        }
+      ]
+    }
+  },
+  "syncConfig": {
+    "intervals": {
+      "evaluationResults": 300,
+      "issueUpdates": 60,
+      "feedbackBatch": 600
+    },
+    "targets": {
+      "evolver": {
+        "endpoint": "/api/evolver/feedback",
+        "events": ["feedback.collected", "insights.generated"]
+      },
+      "isc-core": {
+        "endpoint": "/api/isc/standards",
+        "events": ["standards.generated", "evaluation.completed"]
+      },
+      "cras": {
+        "endpoint": "/api/cras/insights",
+        "events": ["insights.generated", "issues.updated"]
+      }
+    }
+  }
+}

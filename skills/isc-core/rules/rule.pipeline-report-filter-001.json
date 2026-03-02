@@ -1,0 +1,56 @@
+{
+  "id": "rule.pipeline-report-filter-001",
+  "name": "pipeline_report_filter",
+  "domain": "orchestration",
+  "type": "governance_rule",
+  "description": "流水线汇报过滤规则 - 静默常规技能版本更新，仅汇报同步失败或重大发布",
+  "rationale": "减少噪音汇报，只关注真正重要的发布状态",
+  "rules": [
+    {
+      "id": "R-P1",
+      "name": "suppress_skill_version_updates",
+      "description": "静默技能版本号自动更新汇报",
+      "condition": "变更类型 == '版本号自动递增' AND 无实质代码变更",
+      "action": {
+        "type": "silent_log",
+        "report": false,
+        "log_level": "debug"
+      }
+    },
+    {
+      "id": "R-P2",
+      "name": "report_github_evomap_failures",
+      "description": "GitHub/EvoMap同步失败时立即告警",
+      "condition": "GitHub同步失败 OR EvoMap同步失败",
+      "priority": "CRITICAL",
+      "action": {
+        "type": "immediate_alert",
+        "channel": "feishu",
+        "format": "【发布失败】技能: {skill_name}\nGitHub: {github_status}\nEvoMap: {evomap_status}\n时间: {timestamp}",
+        "escalation": true
+      }
+    },
+    {
+      "id": "R-P3",
+      "name": "report_major_releases",
+      "description": "主版本号变更时汇报（如1.x.x → 2.0.0）",
+      "condition": "版本号主版本变更 OR 次版本重大更新",
+      "action": {
+        "type": "announce",
+        "format": "【重大发布】{skill_name} v{version} 已发布",
+        "include_changelog": true
+      }
+    }
+  ],
+  "enforcement": {
+    "mode": "strict",
+    "on_violation": "log_only"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "priority": 90
+  },
+  "created_at": "2026-02-26T17:44:00+08:00",
+  "version": "1.0.0"
+}

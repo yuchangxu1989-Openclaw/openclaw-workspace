@@ -1,0 +1,108 @@
+{
+  "version": "1.0.0",
+  "description": "EvoMap技能自动进化流水线配置",
+  
+  "watch": {
+    "paths": [
+      "/root/.openclaw/workspace/skills"
+    ],
+    "ignored": [
+      "**/node_modules/**",
+      "**/.git/**",
+      "**/.pipeline/**",
+      "**/logs/**",
+      "**/tests/**",
+      "**/*.log",
+      "**/evolution-pipeline/**"
+    ],
+    "debounceMs": 300000,
+    "checkIntervalMs": 300000
+  },
+  
+  "pipeline": {
+    "states": {
+      "DEVELOP": {
+        "next": ["TEST"],
+        "autoTransition": false,
+        "timeoutMinutes": null
+      },
+      "TEST": {
+        "next": ["REVIEW", "DEVELOP"],
+        "autoTransition": true,
+        "timeoutMinutes": 30
+      },
+      "REVIEW": {
+        "next": ["RELEASE", "DEVELOP"],
+        "autoTransition": false,
+        "timeoutMinutes": 1440
+      },
+      "RELEASE": {
+        "next": ["SYNC"],
+        "autoTransition": true,
+        "timeoutMinutes": 10
+      },
+      "SYNC": {
+        "next": ["ONLINE", "FAILED"],
+        "autoTransition": true,
+        "timeoutMinutes": 30
+      },
+      "ONLINE": {
+        "next": ["DEVELOP"],
+        "autoTransition": false,
+        "timeoutMinutes": null
+      },
+      "FAILED": {
+        "next": ["SYNC", "DEVELOP"],
+        "autoTransition": false,
+        "timeoutMinutes": null
+      }
+    }
+  },
+  
+  "isc": {
+    "minScore": 70,
+    "maxScore": 100,
+    "autoFix": false,
+    "reportFormat": "json",
+    "requiredDimensions": {
+      "basicCompleteness": {
+        "minScore": 30,
+        "weight": 0.4
+      },
+      "standardCompliance": {
+        "minScore": 20,
+        "weight": 0.3
+      },
+      "contentAccuracy": {
+        "minScore": 15,
+        "weight": 0.2
+      },
+      "extensionCompleteness": {
+        "minScore": 5,
+        "weight": 0.1
+      }
+    }
+  },
+  
+  "evomap": {
+    "hubUrl": "wss://hub.evomap.network",
+    "autoSync": true,
+    "syncIntervalMs": 600000,
+    "maxRetries": 3,
+    "retryDelayMs": 5000,
+    "offlineMode": true
+  },
+  
+  "notification": {
+    "enabled": true,
+    "channels": ["console", "file"],
+    "logPath": "/root/.openclaw/workspace/skills/seef/evolution-pipeline/logs"
+  },
+  
+  "storage": {
+    "type": "filesystem",
+    "statePath": "/root/.openclaw/workspace/skills/seef/evolution-pipeline/.pipeline/state",
+    "backupEnabled": true,
+    "backupIntervalHours": 24
+  }
+}

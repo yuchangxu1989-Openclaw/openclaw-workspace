@@ -1,0 +1,30 @@
+{
+  "id": "rule.glm-vision-priority-001",
+  "name": "glm_vision_priority",
+  "domain": "capability",
+  "type": "routing_rule",
+  "description": "图像视频需求优先调用GLM-4V-Plus规则 - 根治遗忘",
+  "trigger": {
+    "type": "intent",
+    "patterns": [
+      "图片.*理解",
+      "图像.*分析",
+      "视频.*描述",
+      "看图",
+      "识别图片",
+      "图片内容"
+    ]
+  },
+  "action": {
+    "type": "model_switch",
+    "target": "zhipu/glm-4v-plus",
+    "fallback": "kimi-coding/k2p5"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "priority": 10
+  },
+  "created_at": "2026-02-25T12:52:00+08:00",
+  "version": "1.0.0"
+}

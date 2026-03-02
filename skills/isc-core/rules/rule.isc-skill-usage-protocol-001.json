@@ -1,0 +1,20 @@
+{
+  "id": "rule.isc-skill-usage-protocol-001",
+  "name": "isc_skill_usage_protocol",
+  "domain": "standards",
+  "type": "rule",
+  "scope": "skill",
+  "description": "技能使用协议 - 使用任何技能前必须先读取SKILL.md确认用法，禁止凭猜测调用",
+  "rationale": "防止因技能语言、入口文件不一致导致调用失败",
+  "enforcement": {
+    "before_use": "必须读取SKILL.md",
+    "check_items": ["语言", "入口文件", "使用方法"],
+    "violation_action": "拒绝执行并提示查看SKILL.md"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "created_at": "2026-02-25T15:13:00+08:00",
+  "version": "1.0.0"
+}

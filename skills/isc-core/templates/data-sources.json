@@ -1,0 +1,33 @@
+{
+  "cars-session-data": {
+    "type": "data-source",
+    "id": "cars-session-data",
+    "source_type": "file",
+    "config": {
+      "path": "/root/.openclaw/workspace/cars/dashboard_data.json",
+      "format": "json"
+    },
+    "transformer": {
+      "type": "select",
+      "fields": [
+        "period",
+        "topIntents",
+        "phaseQualification"
+      ]
+    },
+    "created_at": "2026-02-23T07:27:39.250Z",
+    "status": "active"
+  },
+  "isc-assessment-data": {
+    "type": "data-source",
+    "id": "isc-assessment-data",
+    "source_type": "file",
+    "config": {
+      "path": "/root/.openclaw/workspace/skills/isc-document-quality/quality-assessment-report.txt",
+      "format": "text"
+    },
+    "transformer": null,
+    "created_at": "2026-02-23T07:27:39.251Z",
+    "status": "active"
+  }
+}

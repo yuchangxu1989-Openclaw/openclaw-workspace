@@ -1,0 +1,45 @@
+{
+  "id": "cras-daily-learning",
+  "intent": "Agent论文学习 + 优化建议生成",
+  "version": "1.0.0",
+  "triggers": [
+    {
+      "type": "cron",
+      "spec": "0 9 * * *"
+    }
+  ],
+  "constraints": [
+    {
+      "standard": "cras.paper_learning.enabled",
+      "operator": "required",
+      "severity": "error"
+    },
+    {
+      "standard": "zhipu.embedding.available",
+      "operator": "required",
+      "severity": "warning"
+    }
+  ],
+  "actions": [
+    {
+      "type": "module",
+      "module": "cras",
+      "skill": "active-learning-engine",
+      "action": "learn",
+      "params": {
+        "sources": ["arxiv", "acl", "neurips"],
+        "output": "optimization-recommendations"
+      }
+    },
+    {
+      "type": "notify",
+      "channel": "feishu",
+      "message": "CRAS-A 论文学习完成，生成 {{recommendations.length}} 条优化建议"
+    }
+  ],
+  "metadata": {
+    "author": "system",
+    "priority": "high",
+    "category": "learning"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "type": "infrastructure",
+  "id": "N029",
+  "name": "model_api_key_pool_management",
+  "description": "模型API Key池管理 - 多Key并行调度、失效自动切换、负载均衡",
+  "domain": "infrastructure",
+  "scope": "system-wide",
+  "trigger": {
+    "events": [
+      "api_key_rate_limit",
+      "api_key_invalid",
+      "api_key_expired",
+      "model_request_initiated"
+    ],
+    "condition": "key_pool_enabled AND model_request_received"
+  },
+  "key_pool": {
+    "providers": {
+      "zhipu": {
+        "keys": [
+          { "id": "zhipu_primary", "priority": 1, "status": "active" },
+          { "id": "zhipu_backup_1", "priority": 2, "status": "active" },
+          { "id": "zhipu_backup_2", "priority": 3, "status": "active" }
+        ],
+        "rotation_policy": "round_robin",
+        "health_check": {
+          "enabled": true,
+          "interval": "5m",
+          "timeout": "10s"
+        }
+      },
+      "kimi": {
+        "keys": [
+          { "id": "kimi_primary", "priority": 1, "status": "active" },
+          { "id": "kimi_backup_1", "priority": 2, "status": "active" },
+          { "id": "kimi_backup_2", "priority": 3, "status": "active" }
+        ],
+        "rotation_policy": "least_used",
+        "health_check": {
+          "enabled": true,
+          "interval": "5m",
+          "timeout": "10s"
+        }
+      }
+    }
+  },
+  "routing_strategies": {
+    "parallel_speed": {
+      "description": "多Key并行提高吞吐量",
+      "strategy": "distribute_by_concurrency",
+      "max_parallel_per_key": 5,
+      "load_balance": "round_robin"
+    },
+    "failover": {
+      "description": "Key失效自动切换",
+      "strategy": "auto_failover",
+      "retry_count": 3,
+      "failover_timeout": "30s",
+      "circuit_breaker": {
+        "error_threshold": 5,
+        "cooldown": "60s"
+      }
+    },
+    "cost_optimization": {
+      "description": "成本优化，优先使用低价Key",
+      "strategy": "priority_based",
+      "fallback_on_exhaustion": true
+    }
+  },
+  "execution": {
+    "type": "key_pool_management",
+    "steps": [
+      "health_check_all_keys",
+      "select_optimal_key",
+      "execute_model_request",
+      "handle_failure_if_needed",
+      "update_usage_metrics"
+    ]
+  },
+  "integration": {
+    "mr": {
+      "description": "模型路由集成",
+      "api": "getOptimalKey(provider, strategy)"
+    },
+    "lep": {
+      "description": "LEP执行器集成",
+      "feature": "auto_key_rotation_on_failure"
+    }
+  },
+  "security": {
+    "key_storage": "encrypted_vault",
+    "access_log": "full_audit_trail",
+    "rotation_schedule": "90_days"
+  },
+  "governance": {
+    "auto_execute": true,
+    "priority": "HIGH"
+  }
+}

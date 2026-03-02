@@ -1,0 +1,94 @@
+{
+  "trace_id": "seef_20260223_184358",
+  "start_time": "2026-02-23T18:43:58.532789",
+  "version": "3.0.3",
+  "end_time": "2026-02-23T18:43:58.675332",
+  "results": [
+    {
+      "subskill": "evaluator",
+      "status": "success",
+      "exit_status": "ready_for_next",
+      "stdout": "  📋 评估技能: /root/.openclaw/workspace/skills/isc-core\n{\n  \"subskill\": \"evaluator\",\n  \"version\": \"1.0.0\",\n  \"timestamp\": \"2026-02-23T18:43:58.560057\",\n  \"findings\": [\n    {\n      \"level\": \"warning\",\n      \"message\": \"缺乏用户侧依据（CRAS报告缺失）\",\n      \"recommendation\": \"建议启用 CRAS 用户洞察模块\"\n    }\n  ],\n  \"metrics\": {\n    \"integrity\": {\n      \"status\": \"passed\",\n      \"findings\": [],\n      \"hashes\": {\n        \"SKILL.md\": \"bfed25bba8a518c1\",\n        \"README.md\": \"bb2ec5ee104bdef7\",\n        \"index.js\": \"f5721d65c1",
+      "timestamp": "2026-02-23T18:43:58.564331"
+    },
+    {
+      "subskill": "discoverer",
+      "status": "success",
+      "exit_status": "ready_for_next",
+      "output": {
+        "subskill": "discoverer",
+        "version": "1.0.0",
+        "timestamp": "2026-02-23T18:43:58.580136",
+        "exit_status": "ready_for_next",
+        "findings": [],
+        "message": "占位实现 - 待完善"
+      },
+      "timestamp": "2026-02-23T18:43:58.582987"
+    },
+    {
+      "subskill": "optimizer",
+      "status": "success",
+      "exit_status": "ready_for_next",
+      "output": {
+        "subskill": "optimizer",
+        "version": "1.0.0",
+        "timestamp": "2026-02-23T18:43:58.598578",
+        "exit_status": "ready_for_next",
+        "message": "占位实现 - 待完善"
+      },
+      "timestamp": "2026-02-23T18:43:58.601409"
+    },
+    {
+      "subskill": "creator",
+      "status": "success",
+      "exit_status": "ready_for_next",
+      "output": {
+        "subskill": "creator",
+        "version": "1.0.0",
+        "timestamp": "2026-02-23T18:43:58.617052",
+        "exit_status": "ready_for_next",
+        "message": "占位实现 - 待完善"
+      },
+      "timestamp": "2026-02-23T18:43:58.619848"
+    },
+    {
+      "subskill": "aligner",
+      "status": "success",
+      "exit_status": "aligned",
+      "output": {
+        "subskill": "aligner",
+        "version": "1.0.0",
+        "timestamp": "2026-02-23T18:43:58.635489",
+        "exit_status": "aligned",
+        "message": "占位实现 - 待完善"
+      },
+      "timestamp": "2026-02-23T18:43:58.638283"
+    },
+    {
+      "subskill": "validator",
+      "status": "success",
+      "exit_status": "approved",
+      "output": {
+        "subskill": "validator",
+        "version": "1.0.0",
+        "timestamp": "2026-02-23T18:43:58.654076",
+        "exit_status": "approved",
+        "message": "占位实现 - 待完善"
+      },
+      "timestamp": "2026-02-23T18:43:58.656917"
+    },
+    {
+      "subskill": "recorder",
+      "status": "success",
+      "exit_status": "logged",
+      "output": {
+        "subskill": "recorder",
+        "version": "1.0.0",
+        "timestamp": "2026-02-23T18:43:58.672510",
+        "exit_status": "logged",
+        "message": "占位实现 - 待完善"
+      },
+      "timestamp": "2026-02-23T18:43:58.675291"
+    }
+  ]
+}

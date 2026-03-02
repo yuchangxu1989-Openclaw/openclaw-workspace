@@ -1,0 +1,171 @@
+{
+  "id": "isc-skill-permission-classification-031",
+  "name": "技能权限分级体系",
+  "type": "standard",
+  "version": "1.0.0",
+  "description": "Filesystem/Network/Shell/Credential四维度权限标注，实现最小权限原则",
+  "createdAt": "2026-02-27T09:40:00+08:00",
+  "priority": "P0",
+  "enabled": true,
+  "dimensions": {
+    "filesystem": {
+      "name": "文件系统权限",
+      "levels": [
+        {
+          "level": 0,
+          "name": "无访问",
+          "description": "不访问任何文件系统资源",
+          "icon": "🔒"
+        },
+        {
+          "level": 1,
+          "name": "只读工作区",
+          "description": "仅读取工作区内文件（skills/, memory/, reports/）",
+          "icon": "📖"
+        },
+        {
+          "level": 2,
+          "name": "读写工作区",
+          "description": "读写工作区内文件，禁止访问工作区外",
+          "icon": "✏️"
+        },
+        {
+          "level": 3,
+          "name": "受限系统访问",
+          "description": "读取/etc/, /var/log/等系统目录（只读）",
+          "icon": "🔍"
+        },
+        {
+          "level": 4,
+          "name": "完全文件系统访问",
+          "description": "读写任何文件系统路径（包括/tmp, /home等）",
+          "icon": "🔓",
+          "warning": "需要额外审批"
+        }
+      ]
+    },
+    "network": {
+      "name": "网络权限",
+      "levels": [
+        {
+          "level": 0,
+          "name": "无网络",
+          "description": "不进行任何网络请求",
+          "icon": "📵"
+        },
+        {
+          "level": 1,
+          "name": "本地网络",
+          "description": "仅访问localhost/127.0.0.1",
+          "icon": "🏠"
+        },
+        {
+          "level": 2,
+          "name": "白名单域名",
+          "description": "仅访问预定义白名单域名（github.com, npmjs.org等）",
+          "icon": "📋"
+        },
+        {
+          "level": 3,
+          "name": "HTTP(S)出站",
+          "description": "可访问任意HTTP/HTTPS端点",
+          "icon": "🌐"
+        },
+        {
+          "level": 4,
+          "name": "完整网络",
+          "description": "可建立任意TCP/UDP连接（包括非标准端口）",
+          "icon": "🌏",
+          "warning": "需要额外审批"
+        }
+      ]
+    },
+    "shell": {
+      "name": "Shell执行权限",
+      "levels": [
+        {
+          "level": 0,
+          "name": "无Shell",
+          "description": "不执行任何shell命令",
+          "icon": "🚫"
+        },
+        {
+          "level": 1,
+          "name": "白名单命令",
+          "description": "仅执行预定义安全命令（ls, cat, echo等）",
+          "icon": "📝"
+        },
+        {
+          "level": 2,
+          "name": "只读命令",
+          "description": "可执行不修改系统的命令（ps, top, df等）",
+          "icon": "👁️"
+        },
+        {
+          "level": 3,
+          "name": "标准命令",
+          "description": "可执行常见管理命令（git, npm, pip等）",
+          "icon": "⚙️"
+        },
+        {
+          "level": 4,
+          "name": "任意Shell",
+          "description": "可执行任意shell命令（包括rm, chmod等危险操作）",
+          "icon": "⚠️",
+          "warning": "需要额外审批和审计日志"
+        }
+      ]
+    },
+    "credential": {
+      "name": "凭证访问权限",
+      "levels": [
+        {
+          "level": 0,
+          "name": "无凭证",
+          "description": "不访问任何API Key或凭证",
+          "icon": "🗝️"
+        },
+        {
+          "level": 1,
+          "name": "自身凭证",
+          "description": "仅访问技能自身配置中的凭证",
+          "icon": "🔑"
+        },
+        {
+          "level": 2,
+          "name": "只读全局凭证",
+          "description": "只读访问系统全局凭证（不修改）",
+          "icon": "🗝️"
+        },
+        {
+          "level": 3,
+          "name": "全局凭证读写",
+          "description": "读写系统全局凭证",
+          "icon": "🔐",
+          "warning": "需要额外审批"
+        }
+      ]
+    }
+  },
+  "defaultPermissions": {
+    "description": "默认安全权限配置",
+    "filesystem": 1,
+    "network": 2,
+    "shell": 0,
+    "credential": 0
+  },
+  "manifestRequirement": {
+    "description": "SKILL.md必须包含permissions字段",
+    "example": {
+      "permissions": {
+        "filesystem": 2,
+        "network": 2,
+        "shell": 1,
+        "credential": 0,
+        "justification": "需要读取配置文件和访问白名单API"
+      }
+    }
+  },
+  "managedBy": "isc-core",
+  "updatePolicy": "auto_sync"
+}

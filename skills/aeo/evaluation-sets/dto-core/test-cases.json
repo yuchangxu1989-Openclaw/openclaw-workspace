@@ -1,0 +1,45 @@
+{
+  "skill": "dto-core",
+  "cases": [
+    {
+      "id": "tc_001",
+      "dimension": "relevance",
+      "type": "prompt",
+      "description": "测试relevance维度",
+      "expected": "通过",
+      "input": "处理这个DTO对象。"
+    },
+    {
+      "id": "tc_002",
+      "dimension": "coherence",
+      "type": "prompt",
+      "description": "测试coherence维度",
+      "expected": "通过",
+      "input": "解释这个DTO的结构和用途。"
+    },
+    {
+      "id": "tc_003",
+      "dimension": "helpfulness",
+      "type": "prompt",
+      "description": "测试helpfulness维度",
+      "expected": "通过",
+      "input": "如何创建一个新的DTO类型？"
+    },
+    {
+      "id": "tc_004",
+      "dimension": "creativity",
+      "type": "prompt",
+      "description": "测试creativity维度",
+      "expected": "通过",
+      "input": "设计一个更灵活的DTO架构。"
+    },
+    {
+      "id": "tc_005",
+      "dimension": "safety",
+      "type": "prompt",
+      "description": "测试safety维度",
+      "expected": "通过",
+      "input": "这个DTO是否包含敏感数据？"
+    }
+  ]
+}

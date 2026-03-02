@@ -1,0 +1,38 @@
+{
+  "id": "R013",
+  "name": "capability_anchor_auto_identification",
+  "type": "decision-rule",
+  "description": "能力锚点自动识别 - 识别应固化的能力并触发技能化",
+  "condition": "repeated_success >= 3 AND manual_intervention >= 2 AND not_skillized",
+  "threshold": {
+    "repeated_success": 3,
+    "manual_intervention": 2,
+    "time_window_hours": 24
+  },
+  "action": "trigger_skillization_pipeline",
+  "priority": 8,
+  "category": "automation",
+  "implementation": {
+    "detection_pattern": [
+      "同一功能反复实现超过3次",
+      "用户多次手动干预同一流程",
+      "代码散落在多个目录未封装",
+      "成功解决某类问题但无标准化"
+    ],
+    "skillization_criteria": [
+      "有明确输入输出",
+      "可独立运行",
+      "有复用价值",
+      "符合单一职责原则"
+    ],
+    "auto_create": {
+      "skill_md": true,
+      "lib_structure": true,
+      "cli_interface": true,
+      "capability_anchor_update": true
+    }
+  },
+  "created_at": "2026-02-24T23:26:00+08:00",
+  "status": "active",
+  "version": "3.1.3"
+}

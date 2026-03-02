@@ -1,0 +1,24 @@
+{
+  "subscription_id": "sub_isc_R014",
+  "subscriber": "DTO-Declarative-Orchestrator",
+  "rule_id": "R014",
+  "rule_name": "proactive_skillization_execution",
+  "trigger_conditions": {
+    "on_trigger": true,
+    "condition": "R013_triggered AND user_not_explicitly_rejected"
+  },
+  "workflow": {
+    "workflow_id": "Proactive-Skillization-Execution",
+    "engine": "linear",
+    "timeout_minutes": 30,
+    "auto_execute": false
+  },
+  "notification": {
+    "on_start": true,
+    "on_complete": true,
+    "on_failure": true,
+    "channel": "feishu"
+  },
+  "created_at": "2026-02-24T21:02:01.751Z",
+  "isc_version": "3.1.3"
+}

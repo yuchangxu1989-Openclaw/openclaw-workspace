@@ -1,0 +1,85 @@
+{
+  "skillId": "e2e-state-test",
+  "currentState": "completed",
+  "stateStartTime": 1772302046051,
+  "history": [
+    {
+      "from": "idle",
+      "to": "analyzing",
+      "timestamp": "2026-02-28T18:07:26.047Z",
+      "reason": "",
+      "context": {
+        "trigger": "test"
+      }
+    },
+    {
+      "from": "analyzing",
+      "to": "coding",
+      "timestamp": "2026-02-28T18:07:26.048Z",
+      "reason": "",
+      "context": {
+        "trigger": "test",
+        "files": 3
+      }
+    },
+    {
+      "from": "coding",
+      "to": "testing",
+      "timestamp": "2026-02-28T18:07:26.049Z",
+      "reason": "",
+      "context": {
+        "trigger": "test",
+        "files": 3,
+        "tests": 10
+      }
+    },
+    {
+      "from": "testing",
+      "to": "packaging",
+      "timestamp": "2026-02-28T18:07:26.050Z",
+      "reason": "",
+      "context": {
+        "trigger": "test",
+        "files": 3,
+        "tests": 10,
+        "version": "1.0.0"
+      }
+    },
+    {
+      "from": "packaging",
+      "to": "publishing",
+      "timestamp": "2026-02-28T18:07:26.050Z",
+      "reason": "",
+      "context": {
+        "trigger": "test",
+        "files": 3,
+        "tests": 10,
+        "version": "1.0.0",
+        "target": "evomap"
+      }
+    },
+    {
+      "from": "publishing",
+      "to": "completed",
+      "timestamp": "2026-02-28T18:07:26.051Z",
+      "reason": "",
+      "context": {
+        "trigger": "test",
+        "files": 3,
+        "tests": 10,
+        "version": "1.0.0",
+        "target": "evomap",
+        "published": true
+      }
+    }
+  ],
+  "context": {
+    "trigger": "test",
+    "files": 3,
+    "tests": 10,
+    "version": "1.0.0",
+    "target": "evomap",
+    "published": true
+  },
+  "savedAt": "2026-02-28T18:07:26.051Z"
+}

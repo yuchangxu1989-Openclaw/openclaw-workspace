@@ -1,0 +1,102 @@
+{
+  "id": "isc-skill-security-gate-030",
+  "name": "技能安全准出标准",
+  "type": "decision",
+  "version": "1.0.0",
+  "description": "基于Snyk 8类威胁检测的技能发布前置门禁，阻断潜在供应链风险",
+  "createdAt": "2026-02-27T09:40:00+08:00",
+  "priority": "P0",
+  "enabled": true,
+  "trigger": {
+    "events": ["skill.publish", "skill.sync", "skill.evoMap.upload"],
+    "precondition": "技能发布或同步前必须完成安全扫描"
+  },
+  "conditions": {
+    "all": [
+      {
+        "fact": "skill.security.scan",
+        "operator": "equal",
+        "value": "completed"
+      },
+      {
+        "fact": "skill.security.threats",
+        "operator": "lessThanInclusive",
+        "value": 1
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "block",
+      "description": "安全扫描未通过，阻断发布",
+      "if": "skill.security.threats > 0"
+    },
+    {
+      "type": "log",
+      "description": "记录安全扫描结果到ISC日志"
+    }
+  ],
+  "threatCategories": {
+    "description": "Snyk 8类威胁检测",
+    "categories": [
+      {
+        "id": "T001",
+        "name": "远程代码执行 (RCE)",
+        "severity": "critical",
+        "patterns": ["eval\\(", "exec\\(", "system\\(", "subprocess\\.call", "child_process"]
+      },
+      {
+        "id": "T002",
+        "name": "命令注入 (Command Injection)",
+        "severity": "critical",
+        "patterns": ["shell=True", "os\\.system", "os\\.popen", "\\`.*\\`"]
+      },
+      {
+        "id": "T003",
+        "name": "恶意依赖 (Malicious Dependencies)",
+        "severity": "critical",
+        "check": "依赖包名与已知恶意包列表比对"
+      },
+      {
+        "id": "T004",
+        "name": "数据外泄 (Data Exfiltration)",
+        "severity": "high",
+        "patterns": ["fetch\\(.*http", "axios\\.post", "request\\.post", "curl.*-d"]
+      },
+      {
+        "id": "T005",
+        "name": "权限提升 (Privilege Escalation)",
+        "severity": "high",
+        "patterns": ["chmod.*777", "sudo", "setuid", "setgid"]
+      },
+      {
+        "id": "T006",
+        "name": "硬编码凭证 (Hardcoded Credentials)",
+        "severity": "high",
+        "patterns": ["api[_-]?key.*=.*['\"][^'\"]{10,}", "password.*=.*['\"][^'\"]{8,}", "secret.*=.*['\"][^'\"]{10,}"]
+      },
+      {
+        "id": "T007",
+        "name": "Base64混淆 (Obfuscation)",
+        "severity": "medium",
+        "patterns": ["atob\\(", "btoa\\(", "Buffer\\.from.*base64", "base64.*decode"]
+      },
+      {
+        "id": "T008",
+        "name": "动态代码执行 (Dynamic Code Execution)",
+        "severity": "medium",
+        "patterns": ["Function\\(", "new Function", "setTimeout.*string", "setInterval.*string"]
+      }
+    ]
+  },
+  "compliance": {
+    "description": "合规要求",
+    "required": [
+      "所有技能必须通过8类威胁检测",
+      "高危漏洞必须在24小时内修复",
+      "新技能首次发布必须通过人工审核"
+    ]
+  },
+  "managedBy": "isc-core",
+  "updatePolicy": "auto_sync"
+}

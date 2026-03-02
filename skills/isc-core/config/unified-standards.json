@@ -1,0 +1,20 @@
+{
+  "schema": "isc.unified-standards.v3",
+  "version": "3.0.1",
+  "last_updated": "2026-02-23T17:06:00Z",
+  "vectorization": {
+    "provider": "zhipu",
+    "model": "embedding-3",
+    "dimension": 1024,
+    "api_endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/embeddings",
+    "local_model": false,
+    "service_path": "/root/.openclaw/workspace/skills/isc-core/services/zhipu_embedding.py"
+  },
+  "output_format": {
+    "feishu": {
+      "type": "card",
+      "required_fields": ["header", "content"],
+      "optional_fields": ["actions", "images", "buttons"]
+    }
+  }
+}

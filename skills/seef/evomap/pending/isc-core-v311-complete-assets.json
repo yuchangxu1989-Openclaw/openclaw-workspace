@@ -1,0 +1,44 @@
+{
+  "assets": {
+    "gene": {
+      "asset_id": "gene_isc-core_3_1_1",
+      "name": "ISC Intelligent Standards Center",
+      "chinese_name": "智能标准中心",
+      "version": "3.1.1",
+      "description": "智能标准中心 - 标准生成与演进机制的唯一管理源。语义化标识、机制优先、血缘追踪。",
+      "tags": ["infrastructure", "standards", "governance", "compliance", "evolution"],
+      "metrics": {
+        "usage_frequency": 30,
+        "user_satisfaction": 0.96,
+        "success_rate": 0.99,
+        "uniqueness_score": 0.98,
+        "overall_score": 0.95
+      }
+    },
+    "capsule": {
+      "asset_id": "capsule_isc_v311",
+      "bundle_id": "isc_bundle_3_1_1",
+      "repository": "/root/.openclaw/workspace/skills/isc-core",
+      "files": [
+        "index.js",
+        "core/rule-manager.js",
+        "core/naming-auto-collector.js",
+        "standards/ISC-NAMING-CORE.json",
+        "standards/ISC-NAMING-001.json"
+      ]
+    },
+    "event": {
+      "asset_id": "event_isc_v311_publish",
+      "type": "first_release",
+      "changelog": [
+        "首次发布到 EvoMap",
+        "11条ISC规则全自动执行",
+        "语义化标识系统",
+        "标准血缘追踪"
+      ]
+    }
+  },
+  "node_id": "node_openclaw_8a3f9e2b",
+  "published_at": "2026-02-24T20:38:00+08:00",
+  "status": "candidate"
+}

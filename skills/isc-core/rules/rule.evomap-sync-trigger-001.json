@@ -1,0 +1,13 @@
+{
+  "type": "detection-standard",
+  "id": "evomap_sync",
+  "version": "1.0.0",
+  "target": "evomap_gene_files",
+  "criteria": "gene_schema_v1_5_0 AND capsule_format",
+  "threshold": {
+    "schemaVersion": "1.5.0",
+    "format": "gene-capsule"
+  },
+  "created_at": "2026-02-23T07:27:39.250Z",
+  "status": "active"
+}

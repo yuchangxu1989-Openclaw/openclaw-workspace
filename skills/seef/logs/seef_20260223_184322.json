@@ -1,0 +1,21 @@
+{
+  "trace_id": "seef_20260223_184322",
+  "start_time": "2026-02-23T18:43:22.528155",
+  "version": "3.0.3",
+  "end_time": "2026-02-23T18:43:22.657185",
+  "results": [
+    {
+      "subskill": "evaluator",
+      "status": "success",
+      "exit_status": "ready_for_next",
+      "stdout": "  📋 评估技能: /root/.openclaw/workspace/skills/isc-core\n{\n  \"subskill\": \"evaluator\",\n  \"version\": \"1.0.0\",\n  \"timestamp\": \"2026-02-23T18:43:22.555370\",\n  \"findings\": [\n    {\n      \"level\": \"warning\",\n      \"message\": \"缺乏用户侧依据（CRAS报告缺失）\",\n      \"recommendation\": \"建议启用 CRAS 用户洞察模块\"\n    }\n  ],\n  \"metrics\": {\n    \"integrity\": {\n      \"status\": \"passed\",\n      \"findings\": [],\n      \"hashes\": {\n        \"SKILL.md\": \"bfed25bba8a518c1\",\n        \"README.md\": \"bb2ec5ee104bdef7\",\n        \"index.js\": \"f5721d65c1",
+      "timestamp": "2026-02-23T18:43:22.559615"
+    },
+    {
+      "subskill": "discoverer",
+      "status": "failed",
+      "error": "  File \"/root/.openclaw/workspace/skills/seef/subskills/discoverer.py\", line 9\n    class Skill${skill^}:\n               ^\nSyntaxError: invalid syntax\n",
+      "timestamp": "2026-02-23T18:43:22.657157"
+    }
+  ]
+}

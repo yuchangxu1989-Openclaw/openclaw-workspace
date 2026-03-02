@@ -1,0 +1,24 @@
+{
+  "subscription_id": "sub-vectorization-skill-created",
+  "subscriber": "vectorization-service",
+  "event_type": "skill.created",
+  "description": "技能创建时自动触发向量化",
+  "condition": {
+    "file_pattern": "**/SKILL.md",
+    "action": "created"
+  },
+  "handler": {
+    "type": "exec",
+    "command": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "async": true,
+    "timeout_seconds": 300
+  },
+  "priority": 8,
+  "auto_execute": true,
+  "created_at": "2026-02-28T23:30:00+08:00",
+  "metadata": {
+    "trigger_source": "dto-event",
+    "target_types": ["skill"],
+    "vector_engine": "zhipu-embedding-3"
+  }
+}

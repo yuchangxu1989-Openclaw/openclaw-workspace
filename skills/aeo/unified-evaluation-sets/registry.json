@@ -1,0 +1,155 @@
+{
+  "$schema": "isc://evaluation-set-registry.schema.json",
+  "version": "1.0.0",
+  "description": "AEO统一评测集注册表 - ISC标准格式",
+  
+  "registryMetadata": {
+    "maintainer": "AEO",
+    "lastUpdated": "2026-02-26T20:00:00+08:00",
+    "totalSets": 3,
+    "goldenStandardCount": 1
+  },
+
+  "indexing": {
+    "bySkill": {
+      "weather": ["eval.weather.001"],
+      "chat-bot": ["eval.chat-bot.001"],
+      "file-tool": ["eval.file-tool.001"]
+    },
+    "byTrack": {
+      "ai-effect": ["eval.chat-bot.001"],
+      "functional-quality": ["eval.weather.001", "eval.file-tool.001"],
+      "hybrid": []
+    },
+    "byStandard": {
+      "golden": ["eval.weather.001"],
+      "standard": ["eval.file-tool.001"],
+      "experimental": ["eval.chat-bot.001"]
+    }
+  },
+
+  "sets": {
+    "eval.weather.001": {
+      "id": "eval.weather.001",
+      "name": "天气技能黄金标准评测集",
+      "targetSkill": "weather",
+      "track": "functional-quality",
+      "standard": "golden",
+      "location": {
+        "type": "inline"
+      },
+      "metadata": {
+        "description": "天气查询技能核心功能路径黄金标准",
+        "author": "aeo",
+        "createdAt": "2026-02-26T20:00:00+08:00",
+        "updatedAt": "2026-02-26T20:00:00+08:00",
+        "version": "1.0.0",
+        "testCaseCount": 5
+      },
+      "testCases": [
+        {
+          "id": "tc-001",
+          "name": "查询北京今天天气",
+          "input": { "city": "北京", "date": "today" },
+          "expected": { "contains": ["温度", "天气"] }
+        },
+        {
+          "id": "tc-002",
+          "name": "查询上海明天天气",
+          "input": { "city": "上海", "date": "tomorrow" },
+          "expected": { "contains": ["温度", "天气"] }
+        },
+        {
+          "id": "tc-003",
+          "name": "无效城市处理",
+          "input": { "city": "不存在的城市", "date": "today" },
+          "expected": { "error": true, "message": "城市不存在" }
+        },
+        {
+          "id": "tc-004",
+          "name": "查询纽约天气（国际）",
+          "input": { "city": "New York", "date": "today" },
+          "expected": { "contains": ["temperature", "weather"] }
+        },
+        {
+          "id": "tc-005",
+          "name": "并发请求处理",
+          "input": { "city": "北京", "date": "today", "concurrent": 10 },
+          "expected": { "responseTime": { "max": 2000 } }
+        }
+      ],
+      "dimensions": [
+        { "name": "accuracy", "weight": 0.35, "threshold": 0.95 },
+        { "name": "responseTime", "weight": 0.25, "threshold": 0.9 },
+        { "name": "errorRate", "weight": 0.25, "threshold": 0.95 },
+        { "name": "compatibility", "weight": 0.1, "threshold": 0.85 },
+        { "name": "stability", "weight": 0.05, "threshold": 0.9 }
+      ],
+      "dtoMapping": {
+        "subscriptionId": "N028",
+        "autoTrigger": true
+      }
+    },
+    
+    "eval.file-tool.001": {
+      "id": "eval.file-tool.001",
+      "name": "文件工具标准评测集",
+      "targetSkill": "file-tool",
+      "track": "functional-quality",
+      "standard": "standard",
+      "location": {
+        "type": "file",
+        "path": "eval.file-tool.001.json"
+      },
+      "metadata": {
+        "description": "文件处理工具常规回归测试",
+        "author": "aeo",
+        "createdAt": "2026-02-26T20:00:00+08:00",
+        "updatedAt": "2026-02-26T20:00:00+08:00",
+        "version": "1.0.0",
+        "testCaseCount": 8,
+        "coverageTargets": {
+          "line": 0.8,
+          "function": 0.9,
+          "branch": 0.7
+        }
+      },
+      "dimensions": [
+        { "name": "accuracy", "weight": 0.3, "threshold": 0.9 },
+        { "name": "responseTime", "weight": 0.2, "threshold": 0.85 },
+        { "name": "errorRate", "weight": 0.25, "threshold": 0.9 },
+        { "name": "compatibility", "weight": 0.15, "threshold": 0.8 },
+        { "name": "stability", "weight": 0.1, "threshold": 0.85 }
+      ],
+      "dtoMapping": null
+    },
+    
+    "eval.chat-bot.001": {
+      "id": "eval.chat-bot.001",
+      "name": "对话机器人实验评测集",
+      "targetSkill": "chat-bot",
+      "track": "ai-effect",
+      "standard": "experimental",
+      "location": {
+        "type": "file",
+        "path": "eval.chat-bot.001.json"
+      },
+      "metadata": {
+        "description": "新对话模型效果探索测试",
+        "author": "research",
+        "createdAt": "2026-02-26T20:00:00+08:00",
+        "updatedAt": "2026-02-26T20:00:00+08:00",
+        "version": "0.1.0",
+        "testCaseCount": 20
+      },
+      "dimensions": [
+        { "name": "relevance", "weight": 0.25, "threshold": 0.75 },
+        { "name": "coherence", "weight": 0.2, "threshold": 0.7 },
+        { "name": "helpfulness", "weight": 0.25, "threshold": 0.75 },
+        { "name": "creativity", "weight": 0.15, "threshold": 0.5 },
+        { "name": "safety", "weight": 0.15, "threshold": 0.85 }
+      ],
+      "dtoMapping": null
+    }
+  }
+}

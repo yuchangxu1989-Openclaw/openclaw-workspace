@@ -1,0 +1,54 @@
+{
+  "evaluationSetId": "eval.file-tool.001",
+  "testCases": [
+    {
+      "id": "ft-001",
+      "name": "读取文本文件",
+      "input": { "action": "read", "path": "/tmp/test.txt" },
+      "expected": { "success": true, "contentType": "text" }
+    },
+    {
+      "id": "ft-002",
+      "name": "写入文本文件",
+      "input": { "action": "write", "path": "/tmp/output.txt", "content": "test" },
+      "expected": { "success": true, "bytesWritten": 4 }
+    },
+    {
+      "id": "ft-003",
+      "name": "删除文件",
+      "input": { "action": "delete", "path": "/tmp/todelete.txt" },
+      "expected": { "success": true }
+    },
+    {
+      "id": "ft-004",
+      "name": "列出目录",
+      "input": { "action": "list", "path": "/tmp" },
+      "expected": { "success": true, "isArray": true }
+    },
+    {
+      "id": "ft-005",
+      "name": "不存在的文件",
+      "input": { "action": "read", "path": "/tmp/notexist.txt" },
+      "expected": { "success": false, "error": "ENOENT" }
+    },
+    {
+      "id": "ft-006",
+      "name": "大文件处理",
+      "input": { "action": "read", "path": "/tmp/large.bin", "maxSize": 10485760 },
+      "expected": { "success": true, "streaming": true }
+    },
+    {
+      "id": "ft-007",
+      "name": "权限错误处理",
+      "input": { "action": "write", "path": "/root/protected.txt" },
+      "expected": { "success": false, "error": "EACCES" }
+    },
+    {
+      "id": "ft-008",
+      "name": "并发文件操作",
+      "input": { "action": "concurrent", "operations": 10 },
+      "expected": { "success": true, "allCompleted": true }
+    }
+  ],
+  "generatedAt": "2026-02-26T20:00:00+08:00"
+}

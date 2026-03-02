@@ -1,0 +1,335 @@
+# SEEF-DTO 订阅配置 v1.0
+# DTO事件驱动工作流配置
+
+apiVersion: dto.openclaw.io/v1
+kind: EventSubscription
+metadata:
+  name: seef-dto-subscriptions
+  namespace: seef
+  version: "1.0.0"
+  description: SEEF子技能DTO事件订阅配置
+
+# === 事件订阅定义 ===
+subscriptions:
+  # 1. 评估请求订阅
+  - name: seef-evaluation-requested
+    eventType: seef.evaluation.requested
+    handler:
+      type: subskill
+      target: evaluator
+      action: evaluate
+      priority: high
+      timeout: 300s
+    filters:
+      - field: payload.target_skill
+        operator: exists
+    outputEvents:
+      - seef.evaluation.completed
+      - seef.evaluation.failed
+
+  # 2. 发现请求订阅
+  - name: seef-discovery-requested
+    eventType: seef.discovery.requested
+    handler:
+      type: subskill
+      target: discoverer
+      action: run
+      priority: high
+      timeout: 300s
+    filters:
+      - field: payload.scope
+        operator: in
+        values: [full, partial, targeted]
+    dependencies:
+      - event: seef.evaluation.completed
+        condition: optional
+    outputEvents:
+      - seef.discovery.completed
+      - seef.discovery.failed
+
+  # 3. 优化请求订阅
+  - name: seef-optimization-requested
+    eventType: seef.optimization.requested
+    handler:
+      type: subskill
+      target: optimizer
+      action: run
+      priority: medium
+      timeout: 300s
+    dataPipeline:
+      inputs:
+        - source: seef.evaluation.completed
+          mapping:
+            evaluator_results: payload
+        - source: seef.discovery.completed
+          mapping:
+            discoverer_results: payload
+    outputEvents:
+      - seef.optimization.completed
+      - seef.optimization.failed
+
+  # 4. 创建请求订阅
+  - name: seef-creation-requested
+    eventType: seef.creation.requested
+    handler:
+      type: subskill
+      target: creator
+      action: run
+      priority: medium
+      timeout: 600s
+    dataPipeline:
+      inputs:
+        - source: seef.optimization.completed
+          mapping:
+            optimizer_results: payload
+    filters:
+      - field: payload.creation_requests
+        operator: not_empty
+    outputEvents:
+      - seef.creation.completed
+      - seef.creation.failed
+
+  # 5. 对齐请求订阅
+  - name: seef-alignment-requested
+    eventType: seef.alignment.requested
+    handler:
+      type: subskill
+      target: aligner
+      action: run
+      priority: high
+      timeout: 300s
+      parameters:
+        auto_fix: true
+    outputEvents:
+      - seef.alignment.completed
+      - seef.alignment.failed
+
+  # 6. 验证请求订阅
+  - name: seef-validation-requested
+    eventType: seef.validation.requested
+    handler:
+      type: subskill
+      target: validator
+      action: run
+      priority: high
+      timeout: 600s
+    dataPipeline:
+      inputs:
+        - source: seef.creation.completed
+          mapping:
+            creator_results: payload
+        - source: seef.alignment.completed
+          mapping:
+            aligner_results: payload
+    outputEvents:
+      - seef.validation.completed
+      - seef.validation.failed
+      - seef.validation.rejected
+
+  # 7. 记录请求订阅
+  - name: seef-recording-requested
+    eventType: seef.recording.requested
+    handler:
+      type: subskill
+      target: recorder
+      action: run
+      priority: low
+      timeout: 120s
+    dataPipeline:
+      inputs:
+        - source: seef.evaluation.completed
+        - source: seef.discovery.completed
+        - source: seef.optimization.completed
+        - source: seef.creation.completed
+        - source: seef.alignment.completed
+        - source: seef.validation.completed
+      aggregation:
+        type: all
+        timeout: 600s
+    outputEvents:
+      - seef.recording.completed
+      - seef.recording.failed
+
+# === 定时触发器 ===
+triggers:
+  # 每日凌晨2点自动触发完整PDCA循环
+  - name: daily-pdca-trigger
+    type: cron
+    schedule: "0 2 * * *"
+    timezone: "Asia/Shanghai"
+    description: "每日自动执行SEEF PDCA闭环"
+    event:
+      type: seef.pdca.scheduled
+      payload:
+        mode: full_cycle
+        auto_approve: false
+        notify_on_complete: true
+    
+  # 每周日凌晨3点执行深度扫描
+  - name: weekly-deep-scan
+    type: cron
+    schedule: "0 3 * * 0"
+    timezone: "Asia/Shanghai"
+    description: "每周深度技能扫描"
+    event:
+      type: seef.discovery.scheduled
+      payload:
+        scope: full
+        deep_analysis: true
+
+  # 实时监控触发器（基于事件）
+  - name: standard-change-trigger
+    type: event
+    condition:
+      eventType: seef.standard.changed
+    description: "ISC标准变更时触发对齐"
+    event:
+      type: seef.alignment.requested
+      payload:
+        auto_fix: true
+        priority: high
+
+# === 工作流定义 ===
+workflows:
+  - name: full-pdca-cycle
+    description: 完整PDCA闭环工作流
+    steps:
+      - name: plan
+        parallel: false
+        subskills:
+          - evaluator
+          - discoverer
+      - name: do
+        parallel: false
+        depends_on: [plan]
+        subskills:
+          - optimizer
+          - creator
+      - name: check
+        parallel: false
+        depends_on: [do]
+        subskills:
+          - aligner
+          - validator
+      - name: act
+        parallel: false
+        depends_on: [check]
+        subskills:
+          - recorder
+    
+  - name: quick-fix-cycle
+    description: 快速修复工作流（仅执行evaluator和optimizer）
+    steps:
+      - name: evaluate
+        subskills:
+          - evaluator
+      - name: optimize
+        depends_on: [evaluate]
+        subskills:
+          - optimizer
+
+# === 数据管道配置 ===
+dataPipeline:
+  # 全局数据传递规则
+  global:
+    persistence:
+      enabled: true
+      ttl: 86400  # 24小时
+      storage: file
+    
+  # 阶段间数据传递
+  stages:
+    - from: evaluator
+      to: optimizer
+      mappings:
+        - from: findings
+          to: input_findings
+        - from: metrics
+          to: input_metrics
+    
+    - from: discoverer
+      to: optimizer
+      mappings:
+        - from: gaps
+          to: input_gaps
+        - from: redundancies
+          to: input_redundancies
+    
+    - from: optimizer
+      to: creator
+      mappings:
+        - from: optimization_plans
+          to: input_plans
+    
+    - from: creator
+      to: validator
+      mappings:
+        - from: created_skills
+          to: skills_to_validate
+    
+    - from: aligner
+      to: validator
+      mappings:
+        - from: deviations
+          to: alignment_deviations
+
+# === 错误处理策略 ===
+errorHandling:
+  # 全局重试策略
+  retryPolicy:
+    maxRetries: 3
+    backoffStrategy: exponential
+    initialDelay: 5s
+    maxDelay: 60s
+  
+  # 失败处理
+  onFailure:
+    action: publish_event
+    eventType: seef.execution.failed
+    payload:
+      include_traceback: true
+      include_context: true
+  
+  # 降级策略
+  fallback:
+    enabled: true
+    mode: partial_results
+
+# === 通知配置 ===
+notifications:
+  - event: seef.pdca.completed
+    channels:
+      - type: webhook
+        url: "${SEEF_WEBHOOK_URL}"
+      - type: file
+        path: "/root/.openclaw/workspace/skills/seef/logs/notifications.jsonl"
+  
+  - event: seef.validation.rejected
+    channels:
+      - type: webhook
+        url: "${SEEF_ALERT_WEBHOOK_URL}"
+        priority: high
+
+# === 监控配置 ===
+monitoring:
+  metrics:
+    - name: execution_duration
+      type: histogram
+      labels: [subskill, status]
+    
+    - name: events_processed
+      type: counter
+      labels: [event_type, status]
+    
+    - name: pipeline_queue_size
+      type: gauge
+      labels: [stage]
+  
+  healthChecks:
+    - name: event-bus
+      interval: 30s
+      timeout: 5s
+    
+    - name: subskills-responsive
+      interval: 60s
+      timeout: 10s

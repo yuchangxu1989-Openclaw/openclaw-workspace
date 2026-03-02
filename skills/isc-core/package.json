@@ -1,0 +1,22 @@
+{
+  "name": "isc-core",
+  "version": "3.1.20",
+  "description": "ISC智能标准中心核心系统 - 实现标准定义、生成、分发、反思改进四大能力",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "full-cycle": "node index.js --full-cycle",
+    "generate": "node index.js --generate",
+    "distribute": "node index.js --distribute",
+    "reflect": "node index.js --reflect"
+  },
+  "keywords": [
+    "isc",
+    "standard",
+    "core",
+    "governance",
+    "intelligence"
+  ],
+  "author": "OpenClaw ISC",
+  "license": "MIT"
+}

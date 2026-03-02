@@ -1,0 +1,62 @@
+{
+  "type": "decision",
+  "id": "N016",
+  "name": "auto_repair_loop_post_pipeline",
+  "description": "流水线后自动修复循环 - 全局自主决策流水线发现问题后，自动循环修复直至稳定",
+  "domain": "quality_assurance",
+  "scope": "skill-quality",
+  "trigger": {
+    "event": "global_auto_decision_pipeline_complete",
+    "condition": "pipeline.findings.fixable_issues.length > 0"
+  },
+  "governance": {
+    "auto_execute": true,
+    "priority": "HIGH",
+    "risk_level": "low"
+  },
+  "execution": {
+    "type": "iterative_repair",
+    "max_iterations": 3,
+    "exit_conditions": [
+      "issues.length == 0",
+      "iteration >= max_iterations"
+    ],
+    "steps": [
+      {
+        "order": 1,
+        "action": "execute_fixes",
+        "executor": "dto-core/global-auto-decision-pipeline.js",
+        "target": "fixable_issues",
+        "parallel": false
+      },
+      {
+        "order": 2,
+        "action": "re_scan",
+        "executor": "dto-core/global-auto-decision-pipeline.js",
+        "method": "run_single_check",
+        "timeout": 60
+      },
+      {
+        "order": 3,
+        "action": "evaluate",
+        "condition": "new_issues.length < previous_issues.length",
+        "on_false": "exit_loop"
+      }
+    ]
+  },
+  "notification": {
+    "on_complete": {
+      "channel": "feishu",
+      "format": "compact",
+      "content": "修复循环完成，修复{fixed_count}个问题，剩余{remaining_count}个"
+    },
+    "on_max_iterations": {
+      "level": "warning",
+      "content": "修复循环达最大迭代次数，仍有{remaining_count}个问题需人工处理"
+    }
+  },
+  "created_at": "2026-02-25T23:45:00Z",
+  "updated_at": "2026-02-25T23:46:46+08:00",
+  "version": "1.0.0",
+  "status": "active"
+}

@@ -1,0 +1,9 @@
+{
+  "event_type": "seef.optimizer.error",
+  "data": {
+    "error": "优化过程出错: 'dict' object has no attribute 'risk_level'",
+    "traceback": "Traceback (most recent call last):\n  File \"/root/.openclaw/workspace/skills/seef/subskills/optimizer.py\", line 227, in run\n    safety_report = self._assess_safety(plan)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/.openclaw/workspace/skills/seef/subskills/optimizer.py\", line 593, in _assess_safety\n    base_risk = risk_weights.get(plan.risk_level, 30)\n                                 ^^^^^^^^^^^^^^^\nAttributeError: 'dict' object has no attribute 'risk_level'\n"
+  },
+  "timestamp": "2026-03-01T01:38:13.486477",
+  "source": "seef.optimizer"
+}

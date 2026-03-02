@@ -1,0 +1,85 @@
+{
+  "id": "rule.vectorization.skill-lifecycle-002",
+  "name": "skill_lifecycle_vectorization",
+  "domain": "vectorization",
+  "type": "rule",
+  "scope": "skill",
+  "description": "技能生命周期向量化规则 - 覆盖created, updated, merged, fixed事件，全量连续执行，不分批",
+  "version": "1.0.0",
+  "priority": 10,
+  
+  "condition": {
+    "type": "event_trigger",
+    "events": ["skill.created", "skill.updated", "skill.merged", "skill.fixed"],
+    "file_pattern": "**/SKILL.md"
+  },
+  
+  "requirement": {
+    "vector_must_exist": true,
+    "vector_dimension": 1024,
+    "vector_engine": "zhipu-embedding-3",
+    "vector_path": "infrastructure/vector-service/vectors/skill-{skill-name}.json",
+    "execution_mode": "continuous",
+    "batch_processing": false
+  },
+  
+  "lifecycle_events": {
+    "created": {
+      "description": "技能创建时立即全量向量化",
+      "action": "full_vectorize",
+      "priority": 10,
+      "async": false,
+      "timeout_seconds": 300
+    },
+    "updated": {
+      "description": "技能更新时立即重新向量化（全量）",
+      "action": "full_vectorize",
+      "priority": 10,
+      "async": false,
+      "timeout_seconds": 300
+    },
+    "merged": {
+      "description": "技能合并后立即重新向量化（全量）",
+      "action": "full_vectorize",
+      "priority": 10,
+      "async": false,
+      "timeout_seconds": 300
+    },
+    "fixed": {
+      "description": "技能修复后立即重新向量化（全量）",
+      "action": "full_vectorize",
+      "priority": 10,
+      "async": false,
+      "timeout_seconds": 300
+    }
+  },
+  
+  "execution_policy": {
+    "mode": "continuous",
+    "batch_size": 0,
+    "sequential": true,
+    "parallel_workers": 1,
+    "retry_on_failure": true,
+    "max_retries": 3,
+    "retry_delay_seconds": 5
+  },
+  
+  "auto_trigger": {
+    "enabled": true,
+    "on_events": ["skill.created", "skill.updated", "skill.merged", "skill.fixed"],
+    "action": "auto_vectorize_continuous",
+    "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args": ["--continuous", "--type=skill"],
+    "immediate": true
+  },
+  
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "severity": "error",
+    "blocking": true
+  },
+  
+  "created_at": "2026-03-01T00:50:00+08:00",
+  "updated_at": "2026-03-01T00:50:00+08:00"
+}

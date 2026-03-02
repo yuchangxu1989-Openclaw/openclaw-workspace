@@ -1,0 +1,66 @@
+{
+  "type": "dynamic-template",
+  "id": "ref-cars-intent-dashboard",
+  "name": "CARS意图洞察仪表盘定时任务",
+  "source": "cron-task-extraction",
+  "reference_only": true,
+  "extracted_from": {
+    "job_name": "CARS-四维意图洞察仪表盘",
+    "source_type": "cron"
+  },
+  "structure": {
+    "trigger": {
+      "type": "cron",
+      "schedule": {
+        "expr": "0 7 * * *",
+        "tz": "Asia/Shanghai"
+      },
+      "description": "每日早上07:00自动触发"
+    },
+    "data_scope": {
+      "lookback_hours": 24,
+      "source": "session-logs"
+    },
+    "output_modules": [
+      {
+        "name": "Top10意图宏观分布图",
+        "weight": 1
+      },
+      {
+        "name": "四维意图趋势微观洞察",
+        "weight": 1
+      },
+      {
+        "name": "用户意图与心智闭环",
+        "weight": 1
+      },
+      {
+        "name": "技能生态优化行动建议",
+        "weight": 1
+      }
+    ],
+    "delivery": {
+      "mode": "none",
+      "to": "user:ou_8eafdc7241d381d714746e486b641883"
+    }
+  },
+  "parameters": {
+    "model": {
+      "default": "kimi-coding/k2p5",
+      "configurable": true
+    },
+    "timeout": {
+      "default": 300,
+      "unit": "seconds",
+      "configurable": true
+    },
+    "lookback_hours": {
+      "default": 24,
+      "min": 1,
+      "max": 168,
+      "configurable": true
+    }
+  },
+  "extracted_at": "2026-02-23T01:28:47.933Z",
+  "status": "reference"
+}

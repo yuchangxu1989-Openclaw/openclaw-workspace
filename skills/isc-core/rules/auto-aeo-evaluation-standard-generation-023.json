@@ -1,0 +1,92 @@
+{
+  "type": "auto-generation",
+  "id": "N023",
+  "name": "aeo_auto_evaluation_standard_generation",
+  "description": "AEO自动生成评测标准 - 基于技能类型、历史数据、用户反馈自动生成评测标准和黄金标准",
+  "domain": "quality_assurance",
+  "scope": "system-wide",
+  "trigger": {
+    "events": [
+      "skill_created",
+      "skill_major_update",
+      "aeo_evaluation_required",
+      "user_feedback_collected"
+    ],
+    "condition": "skill_has_code OR skill_capability_changed OR evaluation_standard_missing"
+  },
+  "generation": {
+    "evaluation_standard": {
+      "description": "自动生成评测标准",
+      "inputs": [
+        "SKILL.md 内容分析",
+        "技能类型识别",
+        "历史评测数据",
+        "用户反馈模式"
+      ],
+      "outputs": {
+        "evaluation_criteria": "评测维度列表",
+        "golden_standard": "黄金标准答案",
+        "threshold": "达标阈值",
+        "test_cases": "测试用例库"
+      }
+    },
+    "test_case_library": {
+      "description": "自动构建测试用例库",
+      "sources": [
+        "技能功能描述自动生成",
+        "历史成功/失败案例",
+        "边界情况推导",
+        "用户真实输入采样"
+      ],
+      "schema": {
+        "case_id": "string",
+        "input": "object",
+        "expected_output": "object",
+        "evaluation_dimensions": "array",
+        "difficulty": "enum:easy|medium|hard",
+        "source": "string"
+      }
+    },
+    "golden_standard": {
+      "description": "黄金标准生成",
+      "method": "best_practice_sampling + expert_review",
+      "update_policy": "continuous_learning_from_feedback"
+    }
+  },
+  "governance": {
+    "auto_execute": true,
+    "priority": "HIGH",
+    "risk_level": "low",
+    "model_type": "deep_thinking",
+    "model_config": {
+      "type": "deep_thinking",
+      "temperature": 0.3
+    }
+  },
+  "execution": {
+    "type": "auto_generate",
+    "steps": [
+      "分析技能类型和功能",
+      "检索历史评测数据",
+      "识别评测维度",
+      "生成测试用例",
+      "构建黄金标准",
+      "输出评测标准文档"
+    ],
+    "output": {
+      "evaluation_standard_path": "aeo/evaluation-sets/{skill-name}/standard.json",
+      "test_case_library_path": "aeo/evaluation-sets/{skill-name}/test-cases.json",
+      "golden_standard_path": "aeo/evaluation-sets/{skill-name}/golden-standard.json"
+    }
+  },
+  "integration": {
+    "aeo_system": {
+      "description": "与AEO系统集成",
+      "apis": [
+        "getEvaluationStandard(skillName)",
+        "getTestCaseLibrary(skillName)",
+        "getGoldenStandard(testCaseId)"
+      ]
+    }
+  }
+}

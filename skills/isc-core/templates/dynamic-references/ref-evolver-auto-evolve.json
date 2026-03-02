@@ -1,0 +1,53 @@
+{
+  "type": "dynamic-template",
+  "id": "ref-evolver-auto-evolve",
+  "name": "Evolver自动进化循环",
+  "source": "evolver-config-extraction",
+  "reference_only": true,
+  "extracted_from": {
+    "job_name": "EvoMap-Evolver-自动进化",
+    "source_type": "evolver"
+  },
+  "structure": {
+    "trigger": {
+      "type": "cron",
+      "schedule": {
+        "expr": "0 */4 * * *",
+        "tz": "Asia/Shanghai"
+      },
+      "description": "每4小时自动触发"
+    },
+    "data_scope": {
+      "lookback_hours": 4,
+      "source": "session-history"
+    },
+    "process": {
+      "steps": [
+        "analyze-runtime-history",
+        "extract-signals",
+        "select-gene-capsule",
+        "generate-gep-prompt",
+        "publish-to-evomap"
+      ]
+    },
+    "strategy": "balanced"
+  },
+  "parameters": {
+    "strategy": {
+      "default": "balanced",
+      "options": [
+        "balanced",
+        "innovate",
+        "harden",
+        "repair-only"
+      ],
+      "configurable": true
+    },
+    "lookback_hours": {
+      "default": 4,
+      "configurable": true
+    }
+  },
+  "extracted_at": "2026-02-23T01:28:47.934Z",
+  "status": "reference"
+}

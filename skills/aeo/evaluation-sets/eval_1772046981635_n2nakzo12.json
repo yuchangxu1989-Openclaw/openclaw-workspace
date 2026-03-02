@@ -1,0 +1,972 @@
+{
+  "id": "eval_1772046981635_n2nakzo12",
+  "name": "AEO 评测引擎功能测试",
+  "type": "skill",
+  "target": "demo-skill",
+  "testCases": [
+    {
+      "id": "tc_001",
+      "name": "基础功能测试 - 加法运算",
+      "type": "function",
+      "args": [
+        2,
+        3
+      ],
+      "expected": 5,
+      "evalType": "exact",
+      "dimensions": [
+        "accuracy"
+      ]
+    },
+    {
+      "id": "tc_002",
+      "name": "字符串处理 - 拼接",
+      "type": "function",
+      "args": [
+        "Hello",
+        "World"
+      ],
+      "expected": "Hello World",
+      "evalType": "exact",
+      "dimensions": [
+        "accuracy"
+      ]
+    },
+    {
+      "id": "tc_003",
+      "name": "响应时间测试",
+      "type": "function",
+      "args": [],
+      "expected": "done",
+      "evalType": "exact",
+      "dimensions": [
+        "responseTime"
+      ]
+    },
+    {
+      "id": "tc_004",
+      "name": "内容相关性测试",
+      "type": "prompt",
+      "prompt": "什么是机器学习？",
+      "expected": "算法",
+      "evalType": "contains",
+      "dimensions": [
+        "relevance"
+      ]
+    },
+    {
+      "id": "tc_005",
+      "name": "有用性测试",
+      "type": "prompt",
+      "prompt": "如何学习编程？",
+      "expected": "练习",
+      "evalType": "contains",
+      "dimensions": [
+        "helpfulness"
+      ]
+    },
+    {
+      "id": "tc_006",
+      "name": "连贯性测试",
+      "type": "prompt",
+      "prompt": "解释人工智能",
+      "expected": "智能",
+      "evalType": "contains",
+      "dimensions": [
+        "coherence"
+      ]
+    },
+    {
+      "id": "tc_007",
+      "name": "准确性测试 - 乘法",
+      "type": "function",
+      "args": [
+        4,
+        5
+      ],
+      "expected": 20,
+      "evalType": "exact",
+      "dimensions": [
+        "accuracy"
+      ]
+    },
+    {
+      "id": "tc_008",
+      "name": "稳定性测试",
+      "type": "function",
+      "args": [],
+      "expected": "stable",
+      "evalType": "exact",
+      "dimensions": [
+        "stability"
+      ]
+    },
+    {
+      "id": "tc_009",
+      "name": "兼容性测试",
+      "type": "function",
+      "args": [
+        {
+          "id": 1,
+          "name": "test"
+        }
+      ],
+      "expected": {
+        "id": 1,
+        "name": "test",
+        "processed": true
+      },
+      "evalType": "exact",
+      "dimensions": [
+        "compatibility"
+      ]
+    },
+    {
+      "id": "tc_010",
+      "name": "安全性测试",
+      "type": "function",
+      "args": [
+        "normal input"
+      ],
+      "expected": "safe",
+      "evalType": "exact",
+      "dimensions": [
+        "safety"
+      ]
+    }
+  ],
+  "dimensions": [
+    "relevance",
+    "coherence",
+    "helpfulness",
+    "creativity",
+    "safety",
+    "accuracy",
+    "responseTime",
+    "errorRate",
+    "compatibility",
+    "stability"
+  ],
+  "status": "completed",
+  "priority": "normal",
+  "createdAt": "2026-02-25T19:16:21.635Z",
+  "scheduledAt": "2026-02-25T19:16:21.636Z",
+  "startedAt": "2026-02-25T19:16:21.636Z",
+  "completedAt": "2026-02-25T19:16:21.712Z",
+  "progress": {
+    "total": 10,
+    "completed": 10,
+    "failed": 0
+  },
+  "results": [
+    {
+      "testCaseId": "tc_001",
+      "status": "passed",
+      "testCase": {
+        "id": "tc_001",
+        "name": "基础功能测试 - 加法运算",
+        "type": "function",
+        "args": [
+          2,
+          3
+        ],
+        "expected": 5,
+        "evalType": "exact",
+        "dimensions": [
+          "accuracy"
+        ]
+      },
+      "actualOutput": 5,
+      "expectedOutput": 5,
+      "evaluation": {
+        "passed": true,
+        "score": 1,
+        "expected": 5,
+        "actual": 5
+      },
+      "duration": 1,
+      "timestamp": "2026-02-25T19:16:21.637Z",
+      "metadata": {
+        "batchNumber": 1,
+        "totalBatches": 2,
+        "type": "function"
+      }
+    },
+    {
+      "testCaseId": "tc_002",
+      "status": "passed",
+      "testCase": {
+        "id": "tc_002",
+        "name": "字符串处理 - 拼接",
+        "type": "function",
+        "args": [
+          "Hello",
+          "World"
+        ],
+        "expected": "Hello World",
+        "evalType": "exact",
+        "dimensions": [
+          "accuracy"
+        ]
+      },
+      "actualOutput": "Hello World",
+      "expectedOutput": "Hello World",
+      "evaluation": {
+        "passed": true,
+        "score": 1,
+        "expected": "Hello World",
+        "actual": "Hello World"
+      },
+      "duration": 1,
+      "timestamp": "2026-02-25T19:16:21.637Z",
+      "metadata": {
+        "batchNumber": 1,
+        "totalBatches": 2,
+        "type": "function"
+      }
+    },
+    {
+      "testCaseId": "tc_003",
+      "status": "passed",
+      "testCase": {
+        "id": "tc_003",
+        "name": "响应时间测试",
+        "type": "function",
+        "args": [],
+        "expected": "done",
+        "evalType": "exact",
+        "dimensions": [
+          "responseTime"
+        ]
+      },
+      "actualOutput": "done",
+      "expectedOutput": "done",
+      "evaluation": {
+        "passed": true,
+        "score": 1,
+        "expected": "done",
+        "actual": "done"
+      },
+      "duration": 51,
+      "timestamp": "2026-02-25T19:16:21.687Z",
+      "metadata": {
+        "batchNumber": 1,
+        "totalBatches": 2,
+        "type": "function"
+      }
+    },
+    {
+      "testCaseId": "tc_004",
+      "status": "failed",
+      "testCase": {
+        "id": "tc_004",
+        "name": "内容相关性测试",
+        "type": "prompt",
+        "prompt": "什么是机器学习？",
+        "expected": "算法",
+        "evalType": "contains",
+        "dimensions": [
+          "relevance"
+        ]
+      },
+      "actualOutput": "Simulated response for: 什么是机器学习？...",
+      "expectedOutput": "算法",
+      "evaluation": {
+        "passed": false,
+        "score": 0,
+        "contains": "算法",
+        "actual": "Simulated response for: 什么是机器学习？..."
+      },
+      "duration": 1,
+      "timestamp": "2026-02-25T19:16:21.637Z",
+      "metadata": {
+        "batchNumber": 1,
+        "totalBatches": 2,
+        "type": "prompt",
+        "promptLength": 8
+      }
+    },
+    {
+      "testCaseId": "tc_005",
+      "status": "failed",
+      "testCase": {
+        "id": "tc_005",
+        "name": "有用性测试",
+        "type": "prompt",
+        "prompt": "如何学习编程？",
+        "expected": "练习",
+        "evalType": "contains",
+        "dimensions": [
+          "helpfulness"
+        ]
+      },
+      "actualOutput": "Simulated response for: 如何学习编程？...",
+      "expectedOutput": "练习",
+      "evaluation": {
+        "passed": false,
+        "score": 0,
+        "contains": "练习",
+        "actual": "Simulated response for: 如何学习编程？..."
+      },
+      "duration": 0,
+      "timestamp": "2026-02-25T19:16:21.637Z",
+      "metadata": {
+        "batchNumber": 1,
+        "totalBatches": 2,
+        "type": "prompt",
+        "promptLength": 7
+      }
+    },
+    {
+      "testCaseId": "tc_006",
+      "status": "passed",
+      "testCase": {
+        "id": "tc_006",
+        "name": "连贯性测试",
+        "type": "prompt",
+        "prompt": "解释人工智能",
+        "expected": "智能",
+        "evalType": "contains",
+        "dimensions": [
+          "coherence"
+        ]
+      },
+      "actualOutput": "Simulated response for: 解释人工智能...",
+      "expectedOutput": "智能",
+      "evaluation": {
+        "passed": true,
+        "score": 1,
+        "contains": "智能",
+        "actual": "Simulated response for: 解释人工智能..."
+      },
+      "duration": 0,
+      "timestamp": "2026-02-25T19:16:21.687Z",
+      "metadata": {
+        "batchNumber": 2,
+        "totalBatches": 2,
+        "type": "prompt",
+        "promptLength": 6
+      }
+    },
+    {
+      "testCaseId": "tc_007",
+      "status": "passed",
+      "testCase": {
+        "id": "tc_007",
+        "name": "准确性测试 - 乘法",
+        "type": "function",
+        "args": [
+          4,
+          5
+        ],
+        "expected": 20,
+        "evalType": "exact",
+        "dimensions": [
+          "accuracy"
+        ]
+      },
+      "actualOutput": 20,
+      "expectedOutput": 20,
+      "evaluation": {
+        "passed": true,
+        "score": 1,
+        "expected": 20,
+        "actual": 20
+      },
+      "duration": 0,
+      "timestamp": "2026-02-25T19:16:21.687Z",
+      "metadata": {
+        "batchNumber": 2,
+        "totalBatches": 2,
+        "type": "function"
+      }
+    },
+    {
+      "testCaseId": "tc_008",
+      "status": "passed",
+      "testCase": {
+        "id": "tc_008",
+        "name": "稳定性测试",
+        "type": "function",
+        "args": [],
+        "expected": "stable",
+        "evalType": "exact",
+        "dimensions": [
+          "stability"
+        ]
+      },
+      "actualOutput": "stable",
+      "expectedOutput": "stable",
+      "evaluation": {
+        "passed": true,
+        "score": 1,
+        "expected": "stable",
+        "actual": "stable"
+      },
+      "duration": 0,
+      "timestamp": "2026-02-25T19:16:21.687Z",
+      "metadata": {
+        "batchNumber": 2,
+        "totalBatches": 2,
+        "type": "function"
+      }
+    },
+    {
+      "testCaseId": "tc_009",
+      "status": "passed",
+      "testCase": {
+        "id": "tc_009",
+        "name": "兼容性测试",
+        "type": "function",
+        "args": [
+          {
+            "id": 1,
+            "name": "test"
+          }
+        ],
+        "expected": {
+          "id": 1,
+          "name": "test",
+          "processed": true
+        },
+        "evalType": "exact",
+        "dimensions": [
+          "compatibility"
+        ]
+      },
+      "actualOutput": {
+        "id": 1,
+        "name": "test",
+        "processed": true
+      },
+      "expectedOutput": {
+        "id": 1,
+        "name": "test",
+        "processed": true
+      },
+      "evaluation": {
+        "passed": true,
+        "score": 1,
+        "expected": {
+          "id": 1,
+          "name": "test",
+          "processed": true
+        },
+        "actual": {
+          "id": 1,
+          "name": "test",
+          "processed": true
+        }
+      },
+      "duration": 0,
+      "timestamp": "2026-02-25T19:16:21.687Z",
+      "metadata": {
+        "batchNumber": 2,
+        "totalBatches": 2,
+        "type": "function"
+      }
+    },
+    {
+      "testCaseId": "tc_010",
+      "status": "passed",
+      "testCase": {
+        "id": "tc_010",
+        "name": "安全性测试",
+        "type": "function",
+        "args": [
+          "normal input"
+        ],
+        "expected": "safe",
+        "evalType": "exact",
+        "dimensions": [
+          "safety"
+        ]
+      },
+      "actualOutput": "safe",
+      "expectedOutput": "safe",
+      "evaluation": {
+        "passed": true,
+        "score": 1,
+        "expected": "safe",
+        "actual": "safe"
+      },
+      "duration": 0,
+      "timestamp": "2026-02-25T19:16:21.687Z",
+      "metadata": {
+        "batchNumber": 2,
+        "totalBatches": 2,
+        "type": "function"
+      }
+    }
+  ],
+  "config": {
+    "batchSize": 5,
+    "retryAttempts": 2,
+    "timeout": 30000
+  },
+  "finalResult": {
+    "report": {
+      "reportId": "rpt_1772046981688",
+      "taskId": "eval_1772046981635_n2nakzo12",
+      "taskName": "AEO 评测引擎功能测试",
+      "target": "demo-skill",
+      "timestamp": "2026-02-25T19:16:21.687Z",
+      "summary": {
+        "overallScore": {
+          "score": 0.685,
+          "passed": false,
+          "grade": {
+            "level": "NEEDS_IMPROVEMENT",
+            "min": 0.6,
+            "label": "需改进",
+            "grade": "D"
+          },
+          "tracks": 2
+        },
+        "trackScores": {
+          "aiEffect": {
+            "track": "aiEffect",
+            "score": 0.42000000000000004,
+            "threshold": 0.75,
+            "passed": false,
+            "breakdown": {
+              "relevance": {
+                "score": 0,
+                "weight": 0.25,
+                "weighted": 0
+              },
+              "coherence": {
+                "score": 1,
+                "weight": 0.2,
+                "weighted": 0.2
+              },
+              "helpfulness": {
+                "score": 0,
+                "weight": 0.3,
+                "weighted": 0
+              },
+              "creativity": {
+                "score": 0.8,
+                "weight": 0.15,
+                "weighted": 0.12
+              },
+              "safety": {
+                "score": 1,
+                "weight": 0.1,
+                "weighted": 0.1
+              }
+            },
+            "grade": {
+              "level": "POOR",
+              "min": 0,
+              "label": "不合格",
+              "grade": "F"
+            }
+          },
+          "functionalQuality": {
+            "track": "functionalQuality",
+            "score": 0.95,
+            "threshold": 0.85,
+            "passed": true,
+            "breakdown": {
+              "accuracy": {
+                "score": 1,
+                "weight": 0.35,
+                "weighted": 0.35
+              },
+              "responseTime": {
+                "score": 1,
+                "weight": 0.2,
+                "weighted": 0.2
+              },
+              "errorRate": {
+                "score": 0.8,
+                "weight": 0.25,
+                "weighted": 0.2
+              },
+              "compatibility": {
+                "score": 1,
+                "weight": 0.1,
+                "weighted": 0.1
+              },
+              "stability": {
+                "score": 1,
+                "weight": 0.1,
+                "weighted": 0.1
+              }
+            },
+            "grade": {
+              "level": "EXCELLENT",
+              "min": 0.9,
+              "label": "优秀",
+              "grade": "A"
+            }
+          }
+        },
+        "statistics": {
+          "total": 10,
+          "passed": 8,
+          "failed": 2,
+          "errors": 0,
+          "passRate": 0.8,
+          "avgDuration": 5.4
+        }
+      },
+      "details": {
+        "dimensionScores": {
+          "relevance": {
+            "score": 0,
+            "passed": 0,
+            "total": 1,
+            "passRate": 0,
+            "details": [
+              {
+                "passed": false,
+                "score": 0,
+                "duration": 1,
+                "testCaseId": "tc_004"
+              }
+            ]
+          },
+          "coherence": {
+            "score": 1,
+            "passed": 1,
+            "total": 1,
+            "passRate": 1,
+            "details": [
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_006"
+              }
+            ]
+          },
+          "helpfulness": {
+            "score": 0,
+            "passed": 0,
+            "total": 1,
+            "passRate": 0,
+            "details": [
+              {
+                "passed": false,
+                "score": 0,
+                "duration": 0,
+                "testCaseId": "tc_005"
+              }
+            ]
+          },
+          "creativity": {
+            "score": 0.8,
+            "passed": 8,
+            "total": 10,
+            "passRate": 0.8,
+            "details": [
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 1,
+                "testCaseId": "tc_001"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 1,
+                "testCaseId": "tc_002"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 51,
+                "testCaseId": "tc_003"
+              },
+              {
+                "passed": false,
+                "score": 0,
+                "duration": 1,
+                "testCaseId": "tc_004"
+              },
+              {
+                "passed": false,
+                "score": 0,
+                "duration": 0,
+                "testCaseId": "tc_005"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_006"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_007"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_008"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_009"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_010"
+              }
+            ]
+          },
+          "safety": {
+            "score": 1,
+            "passed": 1,
+            "total": 1,
+            "passRate": 1,
+            "details": [
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_010"
+              }
+            ]
+          },
+          "accuracy": {
+            "score": 1,
+            "passed": 3,
+            "total": 3,
+            "passRate": 1,
+            "details": [
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 1,
+                "testCaseId": "tc_001"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 1,
+                "testCaseId": "tc_002"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_007"
+              }
+            ]
+          },
+          "responseTime": {
+            "score": 1,
+            "passed": 1,
+            "total": 1,
+            "passRate": 1,
+            "details": [
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 51,
+                "testCaseId": "tc_003"
+              }
+            ]
+          },
+          "errorRate": {
+            "score": 0.8,
+            "passed": 8,
+            "total": 10,
+            "passRate": 0.8,
+            "details": [
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 1,
+                "testCaseId": "tc_001"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 1,
+                "testCaseId": "tc_002"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 51,
+                "testCaseId": "tc_003"
+              },
+              {
+                "passed": false,
+                "score": 0,
+                "duration": 1,
+                "testCaseId": "tc_004"
+              },
+              {
+                "passed": false,
+                "score": 0,
+                "duration": 0,
+                "testCaseId": "tc_005"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_006"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_007"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_008"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_009"
+              },
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_010"
+              }
+            ]
+          },
+          "compatibility": {
+            "score": 1,
+            "passed": 1,
+            "total": 1,
+            "passRate": 1,
+            "details": [
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_009"
+              }
+            ]
+          },
+          "stability": {
+            "score": 1,
+            "passed": 1,
+            "total": 1,
+            "passRate": 1,
+            "details": [
+              {
+                "passed": true,
+                "score": 1,
+                "duration": 0,
+                "testCaseId": "tc_008"
+              }
+            ]
+          }
+        },
+        "testResults": [
+          {
+            "testCaseId": "tc_001",
+            "status": "passed",
+            "score": 1,
+            "duration": 1
+          },
+          {
+            "testCaseId": "tc_002",
+            "status": "passed",
+            "score": 1,
+            "duration": 1
+          },
+          {
+            "testCaseId": "tc_003",
+            "status": "passed",
+            "score": 1,
+            "duration": 51
+          },
+          {
+            "testCaseId": "tc_004",
+            "status": "failed",
+            "score": 0,
+            "duration": 1
+          },
+          {
+            "testCaseId": "tc_005",
+            "status": "failed",
+            "score": 0,
+            "duration": 0
+          },
+          {
+            "testCaseId": "tc_006",
+            "status": "passed",
+            "score": 1,
+            "duration": 0
+          },
+          {
+            "testCaseId": "tc_007",
+            "status": "passed",
+            "score": 1,
+            "duration": 0
+          },
+          {
+            "testCaseId": "tc_008",
+            "status": "passed",
+            "score": 1,
+            "duration": 0
+          },
+          {
+            "testCaseId": "tc_009",
+            "status": "passed",
+            "score": 1,
+            "duration": 0
+          },
+          {
+            "testCaseId": "tc_010",
+            "status": "passed",
+            "score": 1,
+            "duration": 0
+          }
+        ]
+      },
+      "issues": [
+        {
+          "testCaseId": "tc_004",
+          "severity": "medium",
+          "description": "Test case failed",
+          "dimension": "unknown"
+        },
+        {
+          "testCaseId": "tc_005",
+          "severity": "medium",
+          "description": "Test case failed",
+          "dimension": "unknown"
+        }
+      ],
+      "recommendations": [
+        "relevance得分较低(0%)，建议优化该维度的测试用例",
+        "helpfulness得分较低(0%)，建议优化该维度的测试用例",
+        "aiEffect轨道未通过阈值(75%)，需要整体改进",
+        "重点关注以下维度: relevance, helpfulness"
+      ],
+      "metadata": {
+        "duration": 51,
+        "testCaseCount": 10
+      }
+    },
+    "savedPaths": {
+      "jsonPath": "/root/.openclaw/workspace/skills/aeo/reports/report_eval_1772046981635_n2nakzo12_1772046981689.json",
+      "textPath": "/root/.openclaw/workspace/skills/aeo/reports/report_eval_1772046981635_n2nakzo12_1772046981689.txt"
+    },
+    "duration": 76
+  }
+}

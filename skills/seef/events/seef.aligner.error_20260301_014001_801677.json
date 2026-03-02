@@ -1,0 +1,9 @@
+{
+  "event_type": "seef.aligner.error",
+  "data": {
+    "error": "对齐过程出错: name 'copy' is not defined",
+    "traceback": "Traceback (most recent call last):\n  File \"/root/.openclaw/workspace/skills/seef/subskills/aligner.py\", line 229, in run\n    self._load_standards(standards_version)\n  File \"/root/.openclaw/workspace/skills/seef/subskills/aligner.py\", line 376, in _load_standards\n    self._standards_cache = copy.deepcopy(self.ISC_STANDARDS)\n                            ^^^^\nNameError: name 'copy' is not defined. Did you forget to import 'copy'\n"
+  },
+  "timestamp": "2026-03-01T01:40:01.801603",
+  "source": "seef.aligner"
+}

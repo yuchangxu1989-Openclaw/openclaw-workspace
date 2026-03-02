@@ -1,0 +1,27 @@
+{
+  "subscription_id": "sub-vectorization-skill-deleted",
+  "subscriber": "vectorization-service",
+  "event_type": "skill.deleted",
+  "description": "技能删除时自动删除对应向量文件",
+  "condition": {
+    "file_pattern": "**/SKILL.md",
+    "action": "deleted"
+  },
+  "handler": {
+    "type": "exec",
+    "command": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args": ["--cleanup", "--event=deleted"],
+    "async": false,
+    "timeout_seconds": 60
+  },
+  "priority": 10,
+  "auto_execute": true,
+  "created_at": "2026-03-01T00:50:00+08:00",
+  "metadata": {
+    "trigger_source": "dto-event",
+    "target_types": ["skill"],
+    "action": "delete_vector",
+    "backup_before_delete": true,
+    "backup_path": "infrastructure/vector-service/backup/deleted-skills/"
+  }
+}

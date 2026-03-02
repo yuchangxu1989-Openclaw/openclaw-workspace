@@ -1,0 +1,135 @@
+{
+  "id": "N033",
+  "name": "gateway_config_protection",
+  "ruleName": "禁止自动修改Gateway配置",
+  "domain": "security",
+  "type": "rule",
+  "scope": "system",
+  "priority": "critical",
+  "description": "禁止任何自动化的Gateway配置修改操作，强制要求人工确认",
+  "rationale": "Gateway配置涉及系统核心连接，自动修改可能导致服务中断或安全风险",
+  "version": "1.0.0",
+  "created_at": "2026-02-28T16:45:00+08:00",
+  "updated_at": "2026-02-28T16:45:00+08:00",
+  
+  "trigger": {
+    "conditions": [
+      {
+        "type": "file_change",
+        "patterns": [
+          ".gateway*",
+          "gateway.yaml",
+          "gateway.yml",
+          "gateway.json",
+          ".openclaw/gateway/*",
+          "**/gateway-config*"
+        ],
+        "exclude": [
+          ".gateway.log",
+          "gateway-status.json"
+        ]
+      },
+      {
+        "type": "command_detection",
+        "patterns": [
+          "openclaw gateway",
+          "gateway.*start",
+          "gateway.*stop",
+          "gateway.*restart",
+          "gateway.*config"
+        ]
+      },
+      {
+        "type": "api_call",
+        "endpoints": [
+          "/gateway/config",
+          "/gateway/settings",
+          "/admin/gateway/*"
+        ]
+      }
+    ],
+    "logic": "OR"
+  },
+  
+  "execution": {
+    "mode": "block_and_alert",
+    "auto_execute": false,
+    "require_human_confirmation": true,
+    "timeout_seconds": 0,
+    "council_required": true,
+    "council_min_members": 2
+  },
+  
+  "actions": {
+    "on_detected": [
+      {
+        "order": 1,
+        "action": "immediate_block",
+        "description": "立即停止相关操作"
+      },
+      {
+        "order": 2,
+        "action": "create_pending_review",
+        "description": "创建待人工审核任务"
+      },
+      {
+        "order": 3,
+        "action": "notify_admin",
+        "channels": ["feishu", "log"],
+        "urgency": "high",
+        "message_template": "🚨 Gateway配置修改被拦截\n操作类型: {operation_type}\n目标文件: {target_file}\n操作用户: {user}\n时间: {timestamp}\n\n此操作需要人工审核确认。"
+      },
+      {
+        "order": 4,
+        "action": "backup_current_config",
+        "backup_path": "/root/.openclaw/backups/gateway/"
+      }
+    ],
+    "on_approved": [
+      {
+        "order": 1,
+        "action": "log_approval",
+        "log_level": "audit"
+      },
+      {
+        "order": 2,
+        "action": "proceed_with_operation",
+        "require_double_confirm": true
+      }
+    ],
+    "on_rejected": [
+      {
+        "order": 1,
+        "action": "log_rejection",
+        "log_level": "warning"
+      },
+      {
+        "order": 2,
+        "action": "notify_rejection",
+        "channels": ["feishu"],
+        "message_template": "❌ Gateway配置修改被拒绝\n拒绝原因: 未通过安全审核"
+      }
+    ]
+  },
+  
+  "exemptions": {
+    "allowed": false,
+    "description": "Gateway配置修改不允许任何自动豁免，必须通过人工审核"
+  },
+  
+  "audit": {
+    "log_all_attempts": true,
+    "log_retention_days": 365,
+    "include_diff": true,
+    "include_user_context": true
+  },
+  
+  "integration": {
+    "dto_handshake": {
+      "report_blocked_operations": true
+    },
+    "isc_dashboard": {
+      "show_pending_count": true
+    }
+  }
+}

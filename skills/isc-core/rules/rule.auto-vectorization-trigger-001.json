@@ -1,0 +1,18 @@
+{
+  "id": "rule.auto-vectorization-trigger-001",
+  "legacyId": "R002",
+  "name": "auto_vectorization",
+  "domain": "automation",
+  "type": "rule",
+  "scope": "skill",
+  "description": "自动向量化触发规则 - SKILL.md存在且未向量化时触发",
+  "condition": "skill_md_exists AND not_vectorized",
+  "priority": 8,
+  "action": "trigger_bge_m3_vectorization",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "created_at": "2026-02-25T06:32:00+08:00",
+  "version": "1.0.0"
+}

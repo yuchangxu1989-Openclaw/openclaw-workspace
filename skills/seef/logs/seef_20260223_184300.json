@@ -1,0 +1,20 @@
+{
+  "trace_id": "seef_20260223_184300",
+  "start_time": "2026-02-23T18:43:00.232865",
+  "version": "3.0.3",
+  "end_time": "2026-02-23T18:43:00.264709",
+  "results": [
+    {
+      "subskill": "evaluator",
+      "status": "success",
+      "exit_status": "ready_for_next",
+      "stdout": "  📋 评估技能: /root/.openclaw/workspace/skills/isc-core\n{\n  \"subskill\": \"evaluator\",\n  \"version\": \"1.0.0\",\n  \"timestamp\": \"2026-02-23T18:43:00.260297\",\n  \"findings\": [\n    {\n      \"level\": \"warning\",\n      \"message\": \"缺乏用户侧依据（CRAS报告缺失）\",\n      \"recommendation\": \"建议启用 CRAS 用户洞察模块\"\n    }\n  ],\n  \"metrics\": {\n    \"integrity\": {\n      \"status\": \"passed\",\n      \"findings\": [],\n      \"hashes\": {\n        \"SKILL.md\": \"bfed25bba8a518c1\",\n        \"README.md\": \"bb2ec5ee104bdef7\",\n        \"index.js\": \"f5721d65c1",
+      "timestamp": "2026-02-23T18:43:00.264628"
+    },
+    {
+      "subskill": "discoverer",
+      "status": "failed",
+      "error": "子技能文件不存在: /root/.openclaw/workspace/skills/seef/subskills/discoverer.py"
+    }
+  ]
+}

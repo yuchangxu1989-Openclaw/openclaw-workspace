@@ -1,0 +1,19 @@
+{
+  "type": "detection-standard",
+  "id": "S005",
+  "name": "report_feishu_card_format",
+  "description": "报告输出格式标准 - 飞书卡片",
+  "target": "report_output",
+  "criteria": "feishu_card_format AND interactive_elements",
+  "threshold": {
+    "format": "card",
+    "platform": "feishu",
+    "requiredFields": ["header", "content", "actions"],
+    "optionalFields": ["images", "buttons", "markdown"]
+  },
+  "tool": "format-validator",
+  "category": "output_format",
+  "version": "1.0.0",
+  "created_at": "2026-02-23T16:45:00Z",
+  "status": "active"
+}

@@ -1,0 +1,1396 @@
+FAIL src/__tests__/task-scheduler.test.js
+  ● Console
+
+    console.log
+      [TaskScheduler] Task added: test_task (task_1772302029965_qpg7kwr7l)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task added: low_priority (task_1772302029968_8c3spt741)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task added: high_priority (task_1772302029968_sprlcdy6l)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task added: critical_priority (task_1772302029968_2ofm4zf6j)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task started: success_task (task_1772302029969_ufg5953ee)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task completed: success_task (0ms)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task added: fail_task (task_1772302029970_qmlni9ifw)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task started: fail_task (task_1772302029970_qmlni9ifw)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.error
+      [TaskScheduler] Task failed: fail_task - Task failed
+
+      615 |     const logFn = level === 'error' ? console.error :
+      616 |                   level === 'warn' ? console.warn : console.log;
+    > 617 |     logFn(`[TaskScheduler] ${message}`);
+          |     ^
+      618 |
+      619 |     this.emit('log', logEntry);
+      620 |   }
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+      at TaskScheduler.executeTask (src/scheduler/task-scheduler.js:445:12)
+      at Object.<anonymous> (src/__tests__/task-scheduler.test.js:89:5)
+
+    console.log
+      [TaskScheduler] Task added: retry_task (task_1772302029972_6lbpriwjl)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task started: retry_task (task_1772302029972_6lbpriwjl)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.warn
+      [TaskScheduler] Task retrying: retry_task (1/2)
+
+      615 |     const logFn = level === 'error' ? console.error :
+      616 |                   level === 'warn' ? console.warn : console.log;
+    > 617 |     logFn(`[TaskScheduler] ${message}`);
+          |     ^
+      618 |
+      619 |     this.emit('log', logEntry);
+      620 |   }
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+      at TaskScheduler.executeTask (src/scheduler/task-scheduler.js:436:14)
+      at Object.<anonymous> (src/__tests__/task-scheduler.test.js:108:20)
+
+    console.log
+      [TaskScheduler] Task added: cancel_task (task_1772302031975_0tkw5m5it)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task added: task1 (task_1772302031976_5a29tyjio)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+    console.log
+      [TaskScheduler] Task added: task2 (task_1772302031976_mr1k4bmws)
+
+      at TaskScheduler._log (src/scheduler/task-scheduler.js:617:5)
+
+  ● TaskScheduler › should retry failed tasks
+
+    Task task_1772302029972_6lbpriwjl cannot be executed (status: retrying)
+
+      401 |   async executeTask(task) {
+      402 |     if (!task.canExecute()) {
+    > 403 |       throw new Error(`Task ${task.id} cannot be executed (status: ${task.status})`);
+          |             ^
+      404 |     }
+      405 |
+      406 |     task.markRunning();
+
+      at TaskScheduler.executeTask (src/scheduler/task-scheduler.js:403:13)
+      at TaskScheduler.executeTask (src/scheduler/task-scheduler.js:440:21)
+      at Object.<anonymous> (src/__tests__/task-scheduler.test.js:108:20)
+
+FAIL src/__tests__/integration.test.js
+  ● Test suite failed to run
+
+    Configuration error:
+
+    Could not locate module ../src/state-manager.js mapped as:
+    $1.
+
+    Please check your configuration for these entries:
+    {
+      "moduleNameMapper": {
+        "/^(\.{1,2}\/.*)\.js$/": "$1"
+      },
+      "resolver": undefined
+    }
+
+      at createNoMappedModuleFoundError (node_modules/jest-resolve/build/resolver.js:759:17)
+
+FAIL src/__tests__/unit.test.js
+  ● Console
+
+    console.log
+      [StateManager] 状态流转: existing-skill DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: history-skill DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: history-skill TEST -> REVIEW
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: bidirectional-skill DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: bidirectional-skill TEST -> DEVELOP
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: skill-b DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: skill-c DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: skill-b DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: skill-c DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: skill-b DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [StateManager] 状态流转: skill-c DEVELOP -> TEST
+
+      at StateManager.transitionState (src/state-manager.js:244:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 初始化引擎...
+
+      at PipelineEngine.initialize (src/engine.js:74:13)
+
+    console.error
+      [EvoMapUploader] 初始化失败: require is not defined
+
+      59 |       
+      60 |     } catch (e) {
+    > 61 |       console.error(`[EvoMapUploader] 初始化失败: ${e.message}`);
+         |               ^
+      62 |       this.isConnected = false;
+      63 |       return false;
+      64 |     }
+
+      at EvoMapUploader.initialize (src/uploaders/evomap-uploader.js:61:15)
+      at PipelineEngine.initialize (src/engine.js:77:31)
+      at Object.<anonymous> (src/__tests__/unit.test.js:394:20)
+
+    console.log
+      [PipelineEngine] 引擎初始化完成
+
+      at PipelineEngine.initialize (src/engine.js:79:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 初始化引擎...
+
+      at PipelineEngine.initialize (src/engine.js:74:13)
+
+    console.error
+      [EvoMapUploader] 初始化失败: require is not defined
+
+      59 |       
+      60 |     } catch (e) {
+    > 61 |       console.error(`[EvoMapUploader] 初始化失败: ${e.message}`);
+         |               ^
+      62 |       this.isConnected = false;
+      63 |       return false;
+      64 |     }
+
+      at EvoMapUploader.initialize (src/uploaders/evomap-uploader.js:61:15)
+      at PipelineEngine.initialize (src/engine.js:77:31)
+      at Object.<anonymous> (src/__tests__/unit.test.js:437:20)
+
+    console.log
+      [PipelineEngine] 引擎初始化完成
+
+      at PipelineEngine.initialize (src/engine.js:79:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+    console.log
+      [PipelineEngine] 关闭引擎...
+
+      at PipelineEngine.shutdown (src/engine.js:427:13)
+
+    console.log
+      [PipelineEngine] 引擎已关闭
+
+      at PipelineEngine.shutdown (src/engine.js:429:13)
+
+  ● StateManager 单元测试 › 构造函数 › 应该使用默认配置初始化
+
+    ReferenceError: __dirname is not defined
+
+      34 |   constructor(config = {}) {
+      35 |     this.config = config;
+    > 36 |     this.statePath = config.statePath || path.join(__dirname, '../.pipeline/state');
+         |                                                    ^
+      37 |     this.ensureStateDirectory();
+      38 |   }
+      39 |
+
+      at new StateManager (src/state-manager.js:36:52)
+      at Object.<anonymous> (src/__tests__/unit.test.js:37:18)
+
+  ● StateManager 单元测试 › 状态查询方法 › 应该获取所有状态
+
+    非法状态流转: DEVELOP -> ONLINE. 允许的流转: TEST
+
+      221 |     const allowedTransitions = STATE_TRANSITIONS[currentState] || [];
+      222 |     if (!allowedTransitions.includes(targetState)) {
+    > 223 |       throw new Error(
+          |             ^
+      224 |         `非法状态流转: ${currentState} -> ${targetState}. ` +
+      225 |         `允许的流转: ${allowedTransitions.join(', ')}`
+      226 |       );
+
+      at StateManager.transitionState (src/state-manager.js:223:13)
+      at Object.<anonymous> (src/__tests__/unit.test.js:284:24)
+
+  ● StateManager 单元测试 › 状态查询方法 › 应该按状态筛选
+
+    非法状态流转: DEVELOP -> ONLINE. 允许的流转: TEST
+
+      221 |     const allowedTransitions = STATE_TRANSITIONS[currentState] || [];
+      222 |     if (!allowedTransitions.includes(targetState)) {
+    > 223 |       throw new Error(
+          |             ^
+      224 |         `非法状态流转: ${currentState} -> ${targetState}. ` +
+      225 |         `允许的流转: ${allowedTransitions.join(', ')}`
+      226 |       );
+
+      at StateManager.transitionState (src/state-manager.js:223:13)
+      at Object.<anonymous> (src/__tests__/unit.test.js:284:24)
+
+  ● StateManager 单元测试 › 状态查询方法 › 应该返回状态统计
+
+    非法状态流转: DEVELOP -> ONLINE. 允许的流转: TEST
+
+      221 |     const allowedTransitions = STATE_TRANSITIONS[currentState] || [];
+      222 |     if (!allowedTransitions.includes(targetState)) {
+    > 223 |       throw new Error(
+          |             ^
+      224 |         `非法状态流转: ${currentState} -> ${targetState}. ` +
+      225 |         `允许的流转: ${allowedTransitions.join(', ')}`
+      226 |       );
+
+      at StateManager.transitionState (src/state-manager.js:223:13)
+      at Object.<anonymous> (src/__tests__/unit.test.js:284:24)
+
+FAIL src/__tests__/notification-system.test.js
+  ● Console
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ℹ️ [INFO] Test Title
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Test message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.418Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Test Title to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ✅ [SUCCESS] Success
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Operation completed
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Data: {
+        "id": 123
+      }
+
+      at ConsoleHandler.send (src/notification/notification-system.js:147:15)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.425Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Success to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ⚠️ [WARNING] Warning
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Something might be wrong
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.439Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Warning to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ❌ [ERROR] Error
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Something went wrong
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.442Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Error to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      🚨 [CRITICAL] Critical
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         System failure
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.443Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Critical to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      📊 [PROGRESS] Progress
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Processing...
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Data: {
+        "progress": 50
+      }
+
+      at ConsoleHandler.send (src/notification/notification-system.js:147:15)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.445Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Progress to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ℹ️ [INFO] Info 1
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message 1
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.447Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Info 1 to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ✅ [SUCCESS] Success 1
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message 2
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.448Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Success 1 to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ❌ [ERROR] Error 1
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message 3
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.448Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Error 1 to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ℹ️ [INFO] Info
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.453Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Info to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ❌ [ERROR] Error
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.453Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Error to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ✅ [SUCCESS] Success
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.454Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Success to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ℹ️ [INFO] Info
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.461Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Info to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ❌ [ERROR] Error
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.463Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Error to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ℹ️ [INFO] Info
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.477Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Info to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ℹ️ [INFO] Info
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.495Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Info to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ✅ [SUCCESS] Success
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.496Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Success to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ❌ [ERROR] Error
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.496Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Error to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ℹ️ [INFO] Info
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.498Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Info to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      
+      ✅ [SUCCESS] Success
+
+      at ConsoleHandler.send (src/notification/notification-system.js:144:13)
+
+    console.log
+         Message
+
+      at ConsoleHandler.send (src/notification/notification-system.js:145:13)
+
+    console.log
+         Source: system | 2026-02-28T18:07:12.499Z
+
+      at ConsoleHandler.send (src/notification/notification-system.js:149:13)
+
+    console.log
+      [NotificationManager] Notification sent: Success to [console, event]
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: console
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: file
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: event
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: webhook
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] Handler registered for channel: feishu
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+    console.log
+      [NotificationManager] NotificationManager initialized
+
+      at NotificationManager._log (src/notification/notification-system.js:716:5)
+
+  ● NotificationManager › should track notification history
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "error"
+    Received: "success"
+
+      80 |
+      81 |     expect(history.length).toBe(3);
+    > 82 |     expect(history[0].type).toBe(NotificationType.ERROR); // 最新的在前
+         |                             ^
+      83 |   });
+      84 |
+      85 |   test('should filter history by type', async () => {
+
+      at Object.<anonymous> (src/__tests__/notification-system.test.js:82:29)
+
+  ● NotificationManager › should emit events
+
+    ReferenceError: jest is not defined
+
+      143 |
+      144 |   test('should emit events', async () => {
+    > 145 |     const createdSpy = jest.fn();
+          |                        ^
+      146 |     const sentSpy = jest.fn();
+      147 |
+      148 |     manager.on('notification:created', createdSpy);
+
+      at Object.<anonymous> (src/__tests__/notification-system.test.js:145:24)
+
+  ● Notification › should generate summary
+
+    expect(received).toBeLessThan(expected)
+
+    Expected: < 73
+    Received:   73
+
+      178 |     });
+      179 |
+    > 180 |     expect(notification.summary.length).toBeLessThan(notification.message.length);
+          |                                         ^
+      181 |     expect(notification.summary.endsWith('...')).toBe(true);
+      182 |   });
+      183 |
+
+      at Object.<anonymous> (src/__tests__/notification-system.test.js:180:41)
+
+  ● Notification › should check expiration
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      190 |     });
+      191 |
+    > 192 |     expect(notification.isExpired).toBe(true);
+          |                                    ^
+      193 |   });
+      194 |
+      195 |   test('should mark as read', () => {
+
+      at Object.<anonymous> (src/__tests__/notification-system.test.js:192:36)
+
+
+ReferenceError: You are trying to `import` a file after the Jest environment has been torn down. From src/__tests__/state-machine.test.js.
+
+      54 | async function runTests() {
+      55 |   const fs = await import('fs/promises');
+    > 56 |   const { StateMachine, PipelineState, STATE_TRANSITIONS, STATE_METADATA } = await import('../state-machine.js');
+         |                                                                              ^
+      57 |
+      58 |   const stateDir = '/tmp/test-state-machine';
+      59 |
+
+      at runTests (src/__tests__/state-machine.test.js:56:78)
+
+  ●  Cannot log after tests are done. Did you forget to wait for something async in your test?
+    Attempted to log "测试运行失败: Error: Provided module is not an instance of Module
+        at importModuleDynamicallyWrapper (node:internal/vm/module:488:13)
+        at runTests (/root/.openclaw/workspace/skills/seef/evolution-pipeline/src/__tests__/state-machine.test.js:56:78) {
+      code: 'ERR_VM_MODULE_NOT_MODULE'
+    }".
+
+      196 |   process.exit(failCount > 0 ? 1 : 0);
+      197 | }).catch(err => {
+    > 198 |   console.error('测试运行失败:', err);
+          |           ^
+      199 |   process.exit(1);
+      200 | });
+      201 |
+
+      at runTests (src/__tests__/state-machine.test.js:56:78) {
+        code: 'ERR_VM_MODULE_NOT_MODULE'
+      }".
+      at console.error (node_modules/@jest/console/build/BufferedConsole.js:127:10)
+      at src/__tests__/state-machine.test.js:198:11
+
+  ●  process.exit called with "1"
+
+      197 | }).catch(err => {
+      198 |   console.error('测试运行失败:', err);
+    > 199 |   process.exit(1);
+          |           ^
+      200 | });
+      201 |
+
+      at src/__tests__/state-machine.test.js:199:11

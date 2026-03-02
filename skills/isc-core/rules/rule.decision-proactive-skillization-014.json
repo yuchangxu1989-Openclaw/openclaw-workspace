@@ -1,0 +1,30 @@
+{
+  "id": "R014",
+  "name": "proactive_skillization_execution",
+  "type": "decision-rule",
+  "description": "主动技能化执行 - 检测到候选技能后自动执行完整技能化流程",
+  "condition": "R013_triggered AND user_not_explicitly_rejected",
+  "threshold": {
+    "approval_threshold": "implicit",
+    "timeout_hours": 1
+  },
+  "action": "execute_full_skillization",
+  "priority": 7,
+  "category": "automation",
+  "implementation": {
+    "skillization_pipeline": [
+      "1. 创建技能目录结构",
+      "2. 生成 SKILL.md",
+      "3. 封装核心逻辑到 lib/",
+      "4. 创建 CLI 入口 bin/",
+      "5. 添加 package.json",
+      "6. 更新 CAPABILITY-ANCHOR.md",
+      "7. 通知用户并请求确认"
+    ],
+    "rollback_on_rejection": true,
+    "notification_required": true
+  },
+  "created_at": "2026-02-24T23:26:00+08:00",
+  "status": "active",
+  "version": "3.1.3"
+}

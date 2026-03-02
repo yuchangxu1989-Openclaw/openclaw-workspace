@@ -1,0 +1,98 @@
+{
+  "id": "isc-evomap-mandatory-security-scan-032",
+  "name": "EvoMap同步清单强制安全扫描",
+  "type": "decision",
+  "version": "1.0.0",
+  "description": "对EvoMap同步清单中的技能实施强制安全扫描，阻断恶意技能传播",
+  "createdAt": "2026-02-27T09:40:00+08:00",
+  "priority": "P0",
+  "enabled": true,
+  "trigger": {
+    "events": ["evomap.sync.request", "evomap.skill.upload"],
+    "precondition": "EvoMap上传前必须完成安全扫描"
+  },
+  "conditions": {
+    "all": [
+      {
+        "fact": "evomap.skill.inManifest",
+        "operator": "equal",
+        "value": true
+      },
+      {
+        "fact": "evomap.skill.securityScanStatus",
+        "operator": "equal",
+        "value": "passed"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "block",
+      "description": "未通过安全扫描的技能禁止同步到EvoMap",
+      "if": "evomap.skill.securityScanStatus != 'passed'"
+    },
+    {
+      "type": "quarantine",
+      "description": "检测到威胁的技能移至隔离区等待人工审核"
+    },
+    {
+      "type": "notify",
+      "description": "安全扫描失败时通知管理员"
+    }
+  ],
+  "scanProcess": {
+    "steps": [
+      {
+        "step": 1,
+        "name": "清单读取",
+        "description": "读取EvoMap同步清单",
+        "source": "/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json"
+      },
+      {
+        "step": 2,
+        "name": "技能提取",
+        "description": "提取allowed_skills和infrastructure列表中的技能"
+      },
+      {
+        "step": 3,
+        "name": "安全扫描",
+        "description": "对清单中的每个技能执行8类威胁检测",
+        "scanner": "isc-security-scanner"
+      },
+      {
+        "step": 4,
+        "name": "权限验证",
+        "description": "验证SKILL.md中的permissions字段合规性"
+      },
+      {
+        "step": 5,
+        "name": "结果汇总",
+        "description": "生成安全扫描报告"
+      }
+    ]
+  },
+  "failureHandling": {
+    "threatDetected": {
+      "action": "block_and_quarantine",
+      "description": "检测到威胁，阻断同步并将技能移至隔离区",
+      "path": "/root/.openclaw/workspace/skills/isc-core/quarantine/"
+    },
+    "scanError": {
+      "action": "retry_then_block",
+      "description": "扫描出错时重试3次，仍失败则阻断",
+      "maxRetries": 3
+    },
+    "missingPermission": {
+      "action": "block_and_notify",
+      "description": "缺少权限声明，阻断并通知开发者补充"
+    }
+  },
+  "quarantinePolicy": {
+    "description": "隔离区管理策略",
+    "retentionDays": 30,
+    "autoCleanup": true,
+    "manualReviewRequired": true
+  },
+  "managedBy": "isc-core",
+  "updatePolicy": "auto_sync"
+}

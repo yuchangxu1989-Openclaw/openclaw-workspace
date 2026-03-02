@@ -1,0 +1,757 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvoMap Evolution Pipeline Interfaces",
+  "description": "EvoMap技能自动进化流水线核心组件接口定义",
+  "version": "1.0.0",
+  "lastUpdated": "2026-03-01",
+  
+  "definitions": {
+    "SkillPackage": {
+      "type": "object",
+      "description": "技能包，包含技能和元数据",
+      "properties": {
+        "skillId": {
+          "type": "string",
+          "description": "技能唯一标识，格式: {namespace}/{skill-name}"
+        },
+        "skillPath": {
+          "type": "string",
+          "description": "技能在文件系统中的绝对路径"
+        },
+        "version": {
+          "type": "string",
+          "description": "当前版本，遵循 SemVer"
+        },
+        "manifest": {
+          "type": "object",
+          "description": "SKILL.md 解析后的结构化数据",
+          "properties": {
+            "name": { "type": "string" },
+            "description": { "type": "string" },
+            "author": { "type": "string" },
+            "dependencies": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "entryPoint": { "type": "string" }
+          }
+        },
+        "files": {
+          "type": "array",
+          "description": "技能文件列表",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": { "type": "string" },
+              "content": { "type": "string" },
+              "hash": { "type": "string" }
+            }
+          }
+        },
+        "metadata": {
+          "$ref": "#/definitions/SkillMetadata"
+        }
+      },
+      "required": ["skillId", "skillPath", "version"]
+    },
+    
+    "SkillMetadata": {
+      "type": "object",
+      "description": "技能元数据",
+      "properties": {
+        "createdAt": {
+          "type": "integer",
+          "description": "创建时间戳"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "description": "最后更新时间戳"
+        },
+        "lastEvaluatedAt": {
+          "type": ["integer", "null"],
+          "description": "最后评估时间戳"
+        },
+        "evalCount": {
+          "type": "integer",
+          "description": "评估次数",
+          "default": 0
+        },
+        "evolutionCount": {
+          "type": "integer",
+          "description": "成功进化次数",
+          "default": 0
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "category": {
+          "type": "string",
+          "description": "技能分类"
+        }
+      }
+    },
+    
+    "ChangeSet": {
+      "type": "object",
+      "description": "变更集合",
+      "properties": {
+        "commitHash": { "type": "string" },
+        "message": { "type": "string" },
+        "author": { "type": "string" },
+        "timestamp": { "type": "integer" },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": { "type": "string" },
+              "changeType": {
+                "type": "string",
+                "enum": ["added", "modified", "deleted", "renamed"]
+              },
+              "diff": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  },
+  
+  "interfaces": {
+    "SkillEvaluator": {
+      "description": "技能评估器接口 - 对技能进行全面评估并生成评分报告",
+      
+      "input": {
+        "type": "object",
+        "properties": {
+          "skillPackage": {
+            "$ref": "#/definitions/SkillPackage"
+          },
+          "options": {
+            "type": "object",
+            "description": "评估选项",
+            "properties": {
+              "depth": {
+                "type": "string",
+                "enum": ["fast", "standard", "deep"],
+                "default": "standard",
+                "description": "评估深度"
+              },
+              "focusAreas": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["syntax", "style", "complexity", "security", "performance", "dependencies"]
+                },
+                "description": "重点评估维度，空数组表示全部"
+              },
+              "timeout": {
+                "type": "integer",
+                "default": 1800,
+                "description": "超时时间(秒)"
+              }
+            }
+          }
+        },
+        "required": ["skillPackage"]
+      },
+      
+      "output": {
+        "type": "object",
+        "properties": {
+          "evaluationId": {
+            "type": "string",
+            "description": "评估报告唯一ID"
+          },
+          "skillId": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "integer"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "评估耗时(ms)"
+          },
+          
+          "score": {
+            "type": "object",
+            "properties": {
+              "overall": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "综合得分"
+              },
+              "grade": {
+                "type": "string",
+                "enum": ["A", "B", "C", "D", "F"],
+                "description": "等级评定"
+              },
+              "dimensions": {
+                "type": "object",
+                "properties": {
+                  "codeStyle": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "complexity": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "maintainability": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "security": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "performance": { "type": "number", "minimum": 0, "maximum": 100 },
+                  "compatibility": { "type": "number", "minimum": 0, "maximum": 100 }
+                }
+              }
+            }
+          },
+          
+          "issues": {
+            "type": "array",
+            "description": "发现的问题列表",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "severity": {
+                  "type": "string",
+                  "enum": ["critical", "high", "medium", "low", "info"]
+                },
+                "category": {
+                  "type": "string",
+                  "enum": ["syntax", "style", "complexity", "security", "performance", "compatibility", "documentation"]
+                },
+                "message": { "type": "string" },
+                "filePath": { "type": "string" },
+                "line": { "type": "integer" },
+                "column": { "type": "integer" },
+                "fixable": {
+                  "type": "boolean",
+                  "description": "是否可自动修复"
+                },
+                "suggestion": {
+                  "type": "string",
+                  "description": "修复建议"
+                }
+              }
+            }
+          },
+          
+          "suggestions": {
+            "type": "array",
+            "description": "优化建议",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "priority": {
+                  "type": "string",
+                  "enum": ["critical", "high", "medium", "low"]
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["refactor", "upgrade", "format", "fix", "doc"]
+                },
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "estimatedImpact": {
+                  "type": "number",
+                  "description": "预计对分数的提升"
+                },
+                "relatedIssues": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          },
+          
+          "metrics": {
+            "type": "object",
+            "properties": {
+              "filesAnalyzed": { "type": "integer" },
+              "linesAnalyzed": { "type": "integer" },
+              "dependenciesChecked": { "type": "integer" },
+              "testsFound": { "type": "integer" }
+            }
+          },
+          
+          "pass": {
+            "type": "boolean",
+            "description": "是否通过评估阈值"
+          }
+        },
+        "required": ["evaluationId", "skillId", "score", "pass"]
+      }
+    },
+    
+    "DecisionEngine": {
+      "description": "决策引擎接口 - 基于评估结果生成执行计划",
+      
+      "input": {
+        "type": "object",
+        "properties": {
+          "evaluationReport": {
+            "type": "object",
+            "description": "评估报告引用"
+          },
+          "skillState": {
+            "type": "string",
+            "description": "当前技能状态"
+          },
+          "context": {
+            "type": "object",
+            "properties": {
+              "triggerSource": { "type": "string" },
+              "triggeredBy": { "type": "string" },
+              "manualApproval": { "type": "boolean" },
+              "previousEvolutions": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "required": ["evaluationReport"]
+      },
+      
+      "output": {
+        "type": "object",
+        "properties": {
+          "decisionId": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string",
+            "enum": ["APPROVE", "REJECT", "OPTIMIZE", "MANUAL_REVIEW", "SKIP"],
+            "description": "决策结果"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "决策置信度"
+          },
+          "reasoning": {
+            "type": "string",
+            "description": "决策理由"
+          },
+          
+          "executionPlan": {
+            "type": "object",
+            "description": "执行计划(当决策为OPTIMIZE时)",
+            "properties": {
+              "planId": { "type": "string" },
+              "version": { "type": "string" },
+              
+              "stages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "stageId": { "type": "string" },
+                    "name": { "type": "string" },
+                    "type": {
+                      "type": "string",
+                      "enum": ["optimize", "test", "validate", "deploy"]
+                    },
+                    "order": { "type": "integer" },
+                    "operations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "operationId": { "type": "string" },
+                          "type": {
+                            "type": "string",
+                            "enum": ["refactor", "upgrade", "format", "fix", "doc"]
+                          },
+                          "target": { "type": "string" },
+                          "config": { "type": "object" },
+                          "rollbackable": {
+                            "type": "boolean",
+                            "default": true
+                          },
+                          "timeout": { "type": "integer" }
+                        }
+                      }
+                    },
+                    "dependsOn": {
+                      "type": "array",
+                      "items": { "type": "string" },
+                      "description": "依赖的其他stage"
+                    }
+                  }
+                }
+              },
+              
+              "estimatedDuration": {
+                "type": "integer",
+                "description": "预计执行时间(ms)"
+              },
+              
+              "riskLevel": {
+                "type": "string",
+                "enum": ["safe", "caution", "risky", "dangerous"]
+              },
+              
+              "requiresApproval": {
+                "type": "boolean",
+                "description": "是否需要人工审批"
+              }
+            }
+          }
+        },
+        "required": ["decisionId", "decision"]
+      }
+    },
+    
+    "Executor": {
+      "description": "执行器接口 - 执行优化操作并返回结果",
+      
+      "input": {
+        "type": "object",
+        "properties": {
+          "executionPlan": {
+            "type": "object",
+            "description": "决策引擎生成的执行计划"
+          },
+          "skillPackage": {
+            "$ref": "#/definitions/SkillPackage"
+          },
+          "options": {
+            "type": "object",
+            "properties": {
+              "dryRun": {
+                "type": "boolean",
+                "default": false,
+                "description": "仅预览不执行"
+              },
+              "checkpointInterval": {
+                "type": "integer",
+                "default": 1,
+                "description": "每隔N个操作创建检查点"
+              },
+              "parallel": {
+                "type": "boolean",
+                "default": false,
+                "description": "是否并行执行无依赖操作"
+              },
+              "maxRetries": {
+                "type": "integer",
+                "default": 3
+              }
+            }
+          }
+        },
+        "required": ["executionPlan", "skillPackage"]
+      },
+      
+      "output": {
+        "type": "object",
+        "properties": {
+          "executionId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["success", "partial", "failed", "cancelled", "timeout"]
+          },
+          "startedAt": { "type": "integer" },
+          "completedAt": { "type": "integer" },
+          "duration": { "type": "integer" },
+          
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "operationId": { "type": "string" },
+                "stageId": { "type": "string" },
+                "status": {
+                  "type": "string",
+                  "enum": ["success", "failed", "skipped", "timeout"]
+                },
+                "startedAt": { "type": "integer" },
+                "completedAt": { "type": "integer" },
+                "duration": { "type": "integer" },
+                
+                "changes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "filePath": { "type": "string" },
+                      "changeType": { "type": "string" },
+                      "before": { "type": "string" },
+                      "after": { "type": "string" }
+                    }
+                  }
+                },
+                
+                "metrics": {
+                  "type": "object",
+                  "properties": {
+                    "filesModified": { "type": "integer" },
+                    "linesChanged": { "type": "integer" },
+                    "issuesFixed": { "type": "integer" }
+                  }
+                },
+                
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "message": { "type": "string" },
+                    "stack": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          
+          "summary": {
+            "type": "object",
+            "properties": {
+              "totalOperations": { "type": "integer" },
+              "successfulOperations": { "type": "integer" },
+              "failedOperations": { "type": "integer" },
+              "skippedOperations": { "type": "integer" },
+              "filesModified": { "type": "integer" },
+              "issuesFixed": { "type": "integer" }
+            }
+          },
+          
+          "rollbackInfo": {
+            "type": "object",
+            "properties": {
+              "wasRolledBack": { "type": "boolean" },
+              "rollbackReason": { "type": "string" },
+              "checkpointId": { "type": "string" }
+            }
+          }
+        },
+        "required": ["executionId", "status"]
+      }
+    },
+    
+    "StateManager": {
+      "description": "状态管理器接口 - 管理技能生命周期状态",
+      
+      "methods": {
+        "getState": {
+          "description": "获取技能当前状态",
+          "input": {
+            "skillId": { "type": "string" }
+          },
+          "output": {
+            "$ref": "#/definitions/SkillState"
+          }
+        },
+        
+        "transition": {
+          "description": "执行状态转换",
+          "input": {
+            "skillId": { "type": "string" },
+            "fromState": { "type": "string" },
+            "toState": { "type": "string" },
+            "trigger": { "type": "string" },
+            "context": { "type": "object" }
+          },
+          "output": {
+            "success": { "type": "boolean" },
+            "newState": { "type": "object" },
+            "error": { "type": "string" }
+          }
+        },
+        
+        "getHistory": {
+          "description": "获取状态历史",
+          "input": {
+            "skillId": { "type": "string" },
+            "limit": { "type": "integer", "default": 100 }
+          },
+          "output": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "timestamp": { "type": "integer" },
+                "fromState": { "type": "string" },
+                "toState": { "type": "string" },
+                "trigger": { "type": "string" },
+                "actor": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "EventBus": {
+      "description": "事件总线接口 - 事件发布与订阅",
+      
+      "methods": {
+        "publish": {
+          "input": {
+            "eventType": { "type": "string" },
+            "payload": { "type": "object" },
+            "metadata": { "type": "object" }
+          },
+          "output": {
+            "eventId": { "type": "string" },
+            "publishedAt": { "type": "integer" }
+          }
+        },
+        
+        "subscribe": {
+          "input": {
+            "eventTypes": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "handler": { "type": "string" },
+            "options": {
+              "type": "object",
+              "properties": {
+                "filter": { "type": "object" },
+                "retry": { "type": "integer" }
+              }
+            }
+          },
+          "output": {
+            "subscriptionId": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  
+  "types": {
+    "SkillState": {
+      "type": "object",
+      "properties": {
+        "skillId": { "type": "string" },
+        "currentState": {
+          "type": "string",
+          "enum": ["idle", "draft", "evaluate", "rejected", "optimize_pending", "optimizing", "test", "release_pending", "deployed", "archived", "error"]
+        },
+        "previousState": { "type": "string" },
+        "stateChangedAt": { "type": "integer" },
+        "currentEvolutionId": { "type": ["string", "null"] },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "currentVersion": { "type": "string" },
+            "lastEvaluationId": { "type": ["string", "null"] },
+            "evaluationCount": { "type": "integer" },
+            "evolutionCount": { "type": "integer" },
+            "successRate": { "type": "number" }
+          }
+        }
+      }
+    },
+    
+    "EvolutionTask": {
+      "type": "object",
+      "properties": {
+        "evolutionId": { "type": "string" },
+        "skillId": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "running", "completed", "failed", "cancelled"]
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "status": { "type": "string" },
+              "startedAt": { "type": ["integer", "null"] },
+              "completedAt": { "type": ["integer", "null"] },
+              "result": { "type": "object" }
+            }
+          }
+        },
+        "createdAt": { "type": "integer" },
+        "updatedAt": { "type": "integer" }
+      }
+    }
+  },
+  
+  "events": {
+    "skill.draft.created": {
+      "description": "技能草稿创建",
+      "payload": {
+        "skillId": { "type": "string" },
+        "skillPath": { "type": "string" },
+        "commitHash": { "type": "string" }
+      }
+    },
+    
+    "skill.evaluate.started": {
+      "description": "评估开始",
+      "payload": {
+        "skillId": { "type": "string" },
+        "evaluationId": { "type": "string" }
+      }
+    },
+    
+    "skill.evaluate.completed": {
+      "description": "评估完成",
+      "payload": {
+        "skillId": { "type": "string" },
+        "evaluationId": { "type": "string" },
+        "passed": { "type": "boolean" },
+        "score": { "type": "number" }
+      }
+    },
+    
+    "skill.optimize.started": {
+      "description": "优化开始",
+      "payload": {
+        "skillId": { "type": "string" },
+        "evolutionId": { "type": "string" },
+        "planId": { "type": "string" }
+      }
+    },
+    
+    "skill.optimize.completed": {
+      "description": "优化完成",
+      "payload": {
+        "skillId": { "type": "string" },
+        "evolutionId": { "type": "string" },
+        "success": { "type": "boolean" },
+        "changes": { "type": "array" }
+      }
+    },
+    
+    "skill.test.completed": {
+      "description": "测试完成",
+      "payload": {
+        "skillId": { "type": "string" },
+        "evolutionId": { "type": "string" },
+        "passed": { "type": "boolean" },
+        "testResults": { "type": "object" }
+      }
+    },
+    
+    "skill.deployed": {
+      "description": "技能发布",
+      "payload": {
+        "skillId": { "type": "string" },
+        "evolutionId": { "type": "string" },
+        "version": { "type": "string" },
+        "releaseUrl": { "type": "string" }
+      }
+    },
+    
+    "skill.error.occurred": {
+      "description": "发生错误",
+      "payload": {
+        "skillId": { "type": "string" },
+        "errorCode": { "type": "string" },
+        "errorMessage": { "type": "string" },
+        "severity": { "type": "string" }
+      }
+    }
+  }
+}

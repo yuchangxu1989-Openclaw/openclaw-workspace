@@ -1,0 +1,40 @@
+{
+  "name": "lep-executor",
+  "version": "1.0.8",
+  "description": "LEP (Local Execution Protocol) 韧性执行中心 - 全局统一韧性任务执行引擎",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test test/*.test.js",
+    "test:n016": "node index.js test-n016",
+    "test:n017": "node index.js test-n017",
+    "test:n018": "node index.js test-n018",
+    "health": "node index.js health"
+  },
+  "keywords": [
+    "resilience",
+    "execution",
+    "isc",
+    "lep",
+    "circuit-breaker",
+    "retry"
+  ],
+  "author": "OpenClaw",
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^10.3.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openclaw/workspace.git",
+    "directory": "skills/lep-executor"
+  },
+  "bugs": {
+    "url": "https://github.com/openclaw/workspace/issues"
+  },
+  "homepage": "https://github.com/openclaw/workspace/tree/main/skills/lep-executor"
+}

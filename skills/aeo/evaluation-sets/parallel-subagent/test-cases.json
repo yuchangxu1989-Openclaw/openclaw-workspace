@@ -1,0 +1,45 @@
+{
+  "skill": "parallel-subagent",
+  "cases": [
+    {
+      "id": "tc_001",
+      "dimension": "relevance",
+      "type": "prompt",
+      "description": "测试relevance维度",
+      "expected": "通过",
+      "input": "并行执行这些子任务。"
+    },
+    {
+      "id": "tc_002",
+      "dimension": "coherence",
+      "type": "prompt",
+      "description": "测试coherence维度",
+      "expected": "通过",
+      "input": "协调多个子代理完成复杂任务。"
+    },
+    {
+      "id": "tc_003",
+      "dimension": "helpfulness",
+      "type": "prompt",
+      "description": "测试helpfulness维度",
+      "expected": "通过",
+      "input": "如何并行处理这些文件？"
+    },
+    {
+      "id": "tc_004",
+      "dimension": "creativity",
+      "type": "prompt",
+      "description": "测试creativity维度",
+      "expected": "通过",
+      "input": "设计一个更高效的并行策略。"
+    },
+    {
+      "id": "tc_005",
+      "dimension": "safety",
+      "type": "prompt",
+      "description": "测试safety维度",
+      "expected": "通过",
+      "input": "并行执行时如何避免资源冲突？"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "name": "AEO",
+  "version": "1.0.0",
+  "description": "智能体效果运营系统 - Agent Effectiveness Operations",
+  "status": "active",
+  
+  "tracks": {
+    "aiEffect": {
+      "name": "AI效果轨道",
+      "description": "评测AI相关技能的输出质量、创造性和用户满意度",
+      "enabled": true,
+      "thresholds": {
+        "relevance": 0.8,
+        "coherence": 0.75,
+        "helpfulness": 0.8,
+        "creativity": 0.6,
+        "safety": 0.9
+      }
+    },
+    "functionalQuality": {
+      "name": "功能质量轨道",
+      "description": "评测工具/工作流技能的准确性、性能和可靠性",
+      "enabled": true,
+      "thresholds": {
+        "accuracy": 0.95,
+        "responseTime": 0.9,
+        "errorRate": 0.95,
+        "compatibility": 0.85,
+        "stability": 0.9
+      }
+    }
+  },
+
+  "gateController": {
+    "entryGate": {
+      "enabled": true,
+      "requiredFiles": ["SKILL.md", "index.js"],
+      "rules": [
+        {
+          "name": "skill-name-format",
+          "enabled": true,
+          "check": "kebab-case"
+        },
+        {
+          "name": "basic-info-complete",
+          "enabled": true,
+          "check": "required-fields"
+        }
+      ]
+    },
+    "exitGate": {
+      "enabled": true,
+      "qualityThreshold": 0.7,
+      "criticalThreshold": 0.9,
+      "rules": [
+        {
+          "name": "minimum-test-coverage",
+          "enabled": true,
+          "threshold": 0.7
+        }
+      ]
+    }
+  },
+
+  "evaluationEngine": {
+    "maxConcurrent": 3,
+    "timeout": 300000,
+    "autoSave": true,
+    "defaultTestCasesPerSkill": 5
+  },
+
+  "autoCollector": {
+    "sensitivity": "medium",
+    "minMessageLength": 5,
+    "contextWindow": 5,
+    "signalPatterns": {
+      "doubt": {
+        "keywords": ["不对", "错了", "不正确", "有问题", "bug", "error", "not correct", "wrong"],
+        "weight": 0.8
+      },
+      "clarification": {
+        "keywords": ["澄清", "确认", "请问", "clarify", "confirm"],
+        "weight": 0.6
+      },
+      "repetition": {
+        "keywords": ["再说一遍", "重复", "重新", "repeat", "again"],
+        "weight": 0.7
+      }
+    }
+  },
+
+  "issueRepository": {
+    "autoSave": true,
+    "retentionDays": 365,
+    "severities": ["low", "medium", "high", "critical"],
+    "types": ["bug", "improvement", "usability", "ux", "accuracy", "general"]
+  },
+
+  "analyzer": {
+    "minSampleSize": 3,
+    "trendThreshold": 0.1,
+    "anomalyThreshold": 2,
+    "insightsCacheMinutes": 30
+  },
+
+  "actionGenerator": {
+    "maxActionsPerInsight": 5,
+    "priorityThresholds": {
+      "critical": 0.9,
+      "high": 0.7,
+      "medium": 0.4
+    }
+  },
+
+  "reportGenerator": {
+    "defaultFormat": "json",
+    "supportedFormats": ["json", "markdown", "html"],
+    "autoCleanupDays": 90
+  },
+
+  "dashboardRenderer": {
+    "refreshInterval": 30000,
+    "defaultView": "overview",
+    "maxComponents": 10
+  },
+
+  "vectorIntegration": {
+    "enabled": true,
+    "sources": {
+      "aeo-evaluation-sets": {
+        "description": "评测用例语义检索",
+        "limit": 5
+      },
+      "aeo-issues": {
+        "description": "历史问题模式检索",
+        "limit": 3
+      },
+      "skill-knowledge": {
+        "description": "技能知识检索",
+        "limit": 5
+      }
+    }
+  },
+
+  "dtoSubscriptions": {
+    "N023": {
+      "name": "自动生成评测标准",
+      "enabled": true,
+      "handler": "dualTrackOrchestrator.generateStandards"
+    },
+    "N024": {
+      "name": "双轨运营编排",
+      "enabled": true,
+      "handler": "dualTrackOrchestrator.selectTrack"
+    },
+    "N025": {
+      "name": "反馈自动收录",
+      "enabled": true,
+      "handler": "autoCollector.processMessage"
+    },
+    "N026": {
+      "name": "洞察到整改闭环",
+      "enabled": true,
+      "handler": "actionGenerator.generateFromInsights"
+    },
+    "N027": {
+      "name": "跨系统同步",
+      "enabled": true,
+      "handler": "aeoCore.syncWithSystems"
+    }
+  },
+
+  "integration": {
+    "iscCore": {
+      "enabled": true,
+      "endpoint": "skills/isc-core"
+    },
+    "vectorService": {
+      "enabled": true,
+      "endpoint": "infrastructure/vector-service"
+    },
+    "evolver": {
+      "enabled": true,
+      "endpoint": "evolver"
+    }
+  },
+
+  "logging": {
+    "level": "info",
+    "enableConsole": true,
+    "enableFile": true,
+    "logPath": "logs/aeo"
+  }
+}

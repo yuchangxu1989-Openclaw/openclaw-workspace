@@ -1,0 +1,144 @@
+{
+  "$id": "isc://evaluation-set-registry.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ISC Evaluation Set Registry Schema",
+  "description": "统一评测集注册表标准格式",
+  
+  "definitions": {
+    "EvaluationSet": {
+      "type": "object",
+      "required": ["id", "name", "targetSkill", "track", "standard", "location"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^eval\\.[a-z0-9-]+\\.\\d{3}$",
+          "description": "唯一标识符，格式: eval.{skill-name}.{sequence}"
+        },
+        "name": {
+          "type": "string",
+          "description": "评测集名称"
+        },
+        "targetSkill": {
+          "type": "string",
+          "description": "目标技能名称（kebab-case）"
+        },
+        "track": {
+          "type": "string",
+          "enum": ["ai-effect", "functional-quality", "hybrid"],
+          "description": "评测轨道"
+        },
+        "standard": {
+          "type": "string",
+          "enum": ["golden", "standard", "experimental"],
+          "description": "标准级别: golden=黄金标准, standard=标准, experimental=实验性"
+        },
+        "location": {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["inline", "file", "url"],
+              "description": "存储类型"
+            },
+            "path": {
+              "type": "string",
+              "description": "文件路径（相对registry.json）"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "远程URL"
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "description": { "type": "string" },
+            "author": { "type": "string" },
+            "createdAt": { "type": "string", "format": "date-time" },
+            "updatedAt": { "type": "string", "format": "date-time" },
+            "version": { "type": "string" },
+            "testCaseCount": { "type": "integer", "minimum": 0 },
+            "coverageTargets": {
+              "type": "object",
+              "properties": {
+                "line": { "type": "number", "minimum": 0, "maximum": 1 },
+                "function": { "type": "number", "minimum": 0, "maximum": 1 },
+                "branch": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            }
+          }
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "weight"],
+            "properties": {
+              "name": { "type": "string" },
+              "weight": { "type": "number", "minimum": 0, "maximum": 1 },
+              "threshold": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        },
+        "dtoMapping": {
+          "type": "object",
+          "description": "DTO订阅映射",
+          "properties": {
+            "subscriptionId": { "type": "string" },
+            "autoTrigger": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  },
+
+  "type": "object",
+  "required": ["version", "indexing", "sets"],
+  "properties": {
+    "version": { "type": "string" },
+    "registryMetadata": {
+      "type": "object",
+      "properties": {
+        "maintainer": { "type": "string" },
+        "lastUpdated": { "type": "string", "format": "date-time" },
+        "totalSets": { "type": "integer" },
+        "goldenStandardCount": { "type": "integer" }
+      }
+    },
+    "indexing": {
+      "type": "object",
+      "properties": {
+        "bySkill": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "byTrack": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "byStandard": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "sets": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/EvaluationSet"
+      }
+    }
+  }
+}

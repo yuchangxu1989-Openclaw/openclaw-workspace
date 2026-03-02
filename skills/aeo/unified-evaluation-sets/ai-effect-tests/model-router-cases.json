@@ -1,0 +1,298 @@
+{
+  "source": "model-router",
+  "type": "ai-effect",
+  "migratedAt": "2026-02-26T10:32:17.815Z",
+  "totalCases": 10,
+  "cases": [
+    {
+      "id": "TC001",
+      "name": "代码生成 - 推理任务",
+      "category": "reasoning",
+      "input": {
+        "description": "用Python实现一个支持并发的Web爬虫，需要处理反爬虫机制",
+        "agentConfig": {
+          "agentId": "agent-code-reviewer",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_DEEP_THINKING}}",
+            "fallbacks": [
+              "{{MODEL_CODE_REVIEW}}",
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "reasoning",
+        "complexity": "high",
+        "outputModality": "code",
+        "primaryModel": "{{MODEL_DEEP_THINKING}}"
+      }
+    },
+    {
+      "id": "TC002",
+      "name": "架构设计 - 推理任务",
+      "category": "reasoning",
+      "input": {
+        "description": "设计一个支持百万并发的电商系统架构，包括数据库分片方案",
+        "agentConfig": {
+          "agentId": "agent-architect",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_DEEP_THINKING}}",
+            "fallbacks": [
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "reasoning",
+        "complexity": "extreme",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_DEEP_THINKING}}"
+      }
+    },
+    {
+      "id": "TC003",
+      "name": "学术研究 - 推理任务",
+      "category": "reasoning",
+      "input": {
+        "description": "分析Transformer架构的注意力机制原理，并与RNN对比",
+        "agentConfig": {
+          "agentId": "agent-researcher",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_DEEP_THINKING}}",
+            "fallbacks": [
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "reasoning",
+        "complexity": "high",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_DEEP_THINKING}}"
+      }
+    },
+    {
+      "id": "TC004",
+      "name": "数学推理 - 推理任务",
+      "category": "reasoning",
+      "input": {
+        "description": "证明快排的平均时间复杂度是O(nlogn)，给出详细推导过程",
+        "agentConfig": {
+          "agentId": "agent-algorithm",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_DEEP_THINKING}}",
+            "fallbacks": [
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "reasoning",
+        "complexity": "high",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_DEEP_THINKING}}"
+      }
+    },
+    {
+      "id": "TC005",
+      "name": "复杂分析 - 推理任务",
+      "category": "reasoning",
+      "input": {
+        "description": "深度分析AI芯片市场的竞争格局，评估各厂商的技术路线图",
+        "agentConfig": {
+          "agentId": "agent-analyst",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_DEEP_THINKING}}",
+            "fallbacks": [
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "reasoning",
+        "complexity": "high",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_DEEP_THINKING}}"
+      }
+    },
+    {
+      "id": "TC006",
+      "name": "图像分析 - 多模态任务",
+      "category": "multimodal",
+      "input": {
+        "description": "分析这张产品图片的设计特点",
+        "attachments": [
+          {
+            "type": "image",
+            "mimeType": "image/jpeg",
+            "url": "https://example.com/product.jpg"
+          }
+        ],
+        "agentConfig": {
+          "agentId": "agent-vision",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_VISION}}",
+            "fallbacks": [
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "multimodal",
+        "inputModality": "image",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_VISION}}"
+      }
+    },
+    {
+      "id": "TC007",
+      "name": "OCR文字识别 - 多模态任务",
+      "category": "multimodal",
+      "input": {
+        "description": "提取这张截图中的代码",
+        "attachments": [
+          {
+            "type": "image",
+            "mimeType": "image/png",
+            "content": "data:image/png;base64,iVBORw0KGgo..."
+          }
+        ],
+        "agentConfig": {
+          "agentId": "agent-ocr",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_VISION}}",
+            "fallbacks": [
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "multimodal",
+        "inputModality": "image",
+        "outputModality": "code",
+        "primaryModel": "{{MODEL_VISION}}"
+      }
+    },
+    {
+      "id": "TC008",
+      "name": "视觉问答 - 多模态任务",
+      "category": "multimodal",
+      "input": {
+        "description": "图中的人在做什么？",
+        "attachments": [
+          {
+            "type": "image",
+            "mimeType": "image/jpeg",
+            "url": "https://example.com/scene.jpg"
+          }
+        ],
+        "agentConfig": {
+          "agentId": "agent-vqa",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_VISION}}",
+            "fallbacks": [
+              "{{MODEL_DEEP_THINKING}}",
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "multimodal",
+        "inputModality": "image",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_VISION}}"
+      }
+    },
+    {
+      "id": "TC009",
+      "name": "图表解读 - 多模态任务",
+      "category": "multimodal",
+      "input": {
+        "description": "解释这个系统架构图",
+        "attachments": [
+          {
+            "type": "image",
+            "mimeType": "image/png",
+            "url": "https://example.com/architecture.png"
+          }
+        ],
+        "agentConfig": {
+          "agentId": "agent-diagram",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_VISION}}",
+            "fallbacks": [
+              "{{MODEL_DEEP_THINKING}}",
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "multimodal",
+        "inputModality": "image",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_VISION}}"
+      }
+    },
+    {
+      "id": "TC010",
+      "name": "多模态融合 - 多模态任务",
+      "category": "multimodal",
+      "input": {
+        "description": "结合图像和文字描述产品特点，生成详细的产品分析报告",
+        "attachments": [
+          {
+            "type": "image",
+            "mimeType": "image/jpeg",
+            "url": "https://example.com/product.jpg"
+          }
+        ],
+        "agentConfig": {
+          "agentId": "agent-multimodal",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_VISION}}",
+            "fallbacks": [
+              "{{MODEL_AUDIO}}",
+              "{{MODEL_DEEP_THINKING}}",
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "multimodal",
+        "inputModality": "image",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_VISION}}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "type": "detection",
+  "id": "N025",
+  "name": "aeo_feedback_auto_collection",
+  "description": "AEO用户反馈自动收录 - 主动检测用户质疑、澄清、重复修改等信号，自动收录为问题",
+  "domain": "quality_assurance",
+  "scope": "system-wide",
+  "trigger": {
+    "events": ["user_message_received", "conversation_turn_completed"],
+    "condition": "feedback_signals_detected"
+  },
+  "feedback_signals": {
+    "explicit_doubt": {
+      "patterns": [
+        "你理解错了",
+        "不对，我说的是",
+        "你误会了",
+        "不是这个意思",
+        "澄清一下"
+      ],
+      "severity": "high",
+      "auto_escalate": true
+    },
+    "implicit_confusion": {
+      "patterns": [
+        "?", "？？",
+        "什么意思",
+        "没明白",
+        "再说一遍"
+      ],
+      "severity": "medium",
+      "frequency_threshold": 2
+    },
+    "repetitive_correction": {
+      "description": "用户反复修改同一问题",
+      "detection": "same_topic_repeated_within_3_turns",
+      "severity": "high"
+    },
+    "workaround_usage": {
+      "description": "用户绕过推荐方案",
+      "detection": "user_ignored_suggestion_and_did_alternative",
+      "severity": "medium"
+    }
+  },
+  "collection_process": {
+    "step_1": "检测信号",
+    "step_2": "记录上下文（前后3轮对话）",
+    "step_3": "关联当前技能",
+    "step_4": "统计频率（7天滑动窗口）",
+    "step_5": "生成Issue",
+    "step_6": "触发N026（如频率达标）"
+  },
+  "output": {
+    "issue_repository": "aeo/issues/",
+    "issue_format": {
+      "issue_id": "string",
+      "source": "user_feedback",
+      "type": "ai-effect|function-quality",
+      "severity": "low|medium|high",
+      "frequency": "number",
+      "status": "detected|analyzing|resolved",
+      "context": "conversation_snapshot"
+    }
+  },
+  "governance": {
+    "auto_execute": true,
+    "priority": "MEDIUM"
+  }
+}

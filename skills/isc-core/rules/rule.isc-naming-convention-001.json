@@ -1,0 +1,47 @@
+{
+  "id": "rule.isc-naming-convention-001",
+  "name": "isc_rule_naming_convention",
+  "domain": "naming",
+  "type": "rule",
+  "scope": "isc",
+  "description": "ISC规则命名公约 - 严格执行R001-R005标准格式",
+  "rationale": "之前有R001-R005标准但硬编码，现在强制执行到文件命名",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "naming_convention": {
+    "format": "rule.{category}-{name}-{version}.json",
+    "categories": {
+      "R001": "auto-skillization",
+      "R002": "auto-vectorization", 
+      "R003": "auto-evomap-sync",
+      "R004": "auto-fix",
+      "R005": "auto-readme",
+      "R006": "council-required",
+      "R007-R099": "reserved",
+      "N001-N099": "naming-standards",
+      "S001-S099": "security-rules",
+      "Q001-Q099": "quality-rules"
+    },
+    "examples": {
+      "正确": [
+        "rule.auto-skillization-trigger-001.json",
+        "rule.naming-bilingual-display-006.json",
+        "rule.quality-placeholder-ban-001.json"
+      ],
+      "错误": [
+        "auto_skillization.json (缺少rule.前缀)",
+        "isc-rule-missing-resource.json (使用isc-前缀)",
+        "R001.json (只有ID，没有描述性名称)"
+      ]
+    }
+  },
+  "enforcement": {
+    "on_create": "必须验证命名格式",
+    "on_violation": "拒绝创建并提示正确格式",
+    "migration": "逐步将旧格式规则迁移到新格式"
+  },
+  "created_at": "2026-02-25T06:25:00+08:00",
+  "version": "1.0.0"
+}

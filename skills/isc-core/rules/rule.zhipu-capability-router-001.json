@@ -1,0 +1,102 @@
+{
+  "id": "rule.zhipu-capability-router-001",
+  "name": "zhipu_capability_auto_router",
+  "domain": "capability",
+  "type": "auto_router",
+  "description": "智谱能力自动路由 - 根据输入模态自动选择模型",
+  "routes": [
+    {
+      "trigger": ["视频.*理解", "分析视频", "视频描述"],
+      "input_modal": ["video"],
+      "model": "glm-4v",
+      "skill": "glm-4v",
+      "priority": 10
+    },
+    {
+      "trigger": ["OCR", "识别文字", "提取文本", "PDF.*识别"],
+      "input_modal": ["pdf", "image"],
+      "constraints": { "image_max_mb": 10, "pdf_max_mb": 50, "max_pages": 100 },
+      "model": "glm-ocr",
+      "skill": "glm-ocr",
+      "priority": 10
+    },
+    {
+      "trigger": ["生成图片", "画图", "绘制", "创建图像"],
+      "input_modal": ["text"],
+      "constraints": { "max_chars": 1000 },
+      "model": "glm-image",
+      "skill": "glm-image",
+      "priority": 10
+    },
+    {
+      "trigger": ["生成视频", "制作视频", "视频生成"],
+      "input_modal": ["image", "text"],
+      "model": "glm-video",
+      "skill": "glm-video",
+      "priority": 10
+    },
+    {
+      "trigger": ["语音合成", "TTS", "文字转语音", "朗读"],
+      "input_modal": ["text"],
+      "model": "glm-tts",
+      "skill": "glm-tts",
+      "priority": 10
+    },
+    {
+      "trigger": ["克隆声音", "声音克隆", "模仿音色"],
+      "input_modal": ["audio"],
+      "model": "glm-tts-clone",
+      "skill": "glm-tts-clone",
+      "priority": 10
+    },
+    {
+      "trigger": ["语音识别", "ASR", "语音转文字", "转录"],
+      "input_modal": ["audio"],
+      "model": "glm-asr",
+      "skill": "glm-asr",
+      "priority": 10
+    },
+    {
+      "trigger": ["实时视频通话", "视频通话", "视频对话"],
+      "input_modal": ["video", "audio", "text"],
+      "output_modal": ["audio"],
+      "model": "charglm-video",
+      "skill": "charglm-video",
+      "priority": 10
+    },
+    {
+      "trigger": ["实时语音通话", "语音通话", "语音对话"],
+      "input_modal": ["audio", "text"],
+      "output_modal": ["audio"],
+      "model": "charglm-voice",
+      "skill": "charglm-voice",
+      "priority": 10
+    },
+    {
+      "trigger": ["深度思考", "学术研究", "复杂推理", "详细分析"],
+      "model": "glm-thinking",
+      "skill": "glm-thinking",
+      "priority": 5
+    },
+    {
+      "trigger": ["制作PPT", "生成PPT", "创建演示文稿"],
+      "model": "glm-ppt",
+      "skill": "glm-ppt",
+      "priority": 10
+    },
+    {
+      "trigger": ["复杂代码", "代码架构", "算法设计", "深度编码", "重构代码"],
+      "input_modal": ["text"],
+      "model": "glm-5",
+      "skill": "glm-5-coder",
+      "priority": 10,
+      "description": "GLM-5深度思考编码模型 - 用于复杂代码场景"
+    }
+  ],
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "created_at": "2026-02-25T13:15:00+08:00",
+  "version": "1.1.0"
+}

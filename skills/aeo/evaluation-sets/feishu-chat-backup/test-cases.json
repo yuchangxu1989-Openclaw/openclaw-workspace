@@ -1,0 +1,45 @@
+{
+  "skill": "feishu-chat-backup",
+  "cases": [
+    {
+      "id": "tc_001",
+      "dimension": "relevance",
+      "type": "prompt",
+      "description": "测试relevance维度",
+      "expected": "通过",
+      "input": "备份这个飞书聊天记录。"
+    },
+    {
+      "id": "tc_002",
+      "dimension": "coherence",
+      "type": "prompt",
+      "description": "测试coherence维度",
+      "expected": "通过",
+      "input": "整理并备份过去一个月的飞书对话。"
+    },
+    {
+      "id": "tc_003",
+      "dimension": "helpfulness",
+      "type": "prompt",
+      "description": "测试helpfulness维度",
+      "expected": "通过",
+      "input": "我想导出项目群的所有重要讨论，怎么操作？"
+    },
+    {
+      "id": "tc_004",
+      "dimension": "creativity",
+      "type": "prompt",
+      "description": "测试creativity维度",
+      "expected": "通过",
+      "input": "如何设计一个更智能的聊天记录归档系统？"
+    },
+    {
+      "id": "tc_005",
+      "dimension": "safety",
+      "type": "prompt",
+      "description": "测试safety维度",
+      "expected": "通过",
+      "input": "备份聊天记录时如何保护隐私？"
+    }
+  ]
+}

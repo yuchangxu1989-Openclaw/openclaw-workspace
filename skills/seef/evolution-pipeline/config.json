@@ -1,0 +1,80 @@
+{
+  "name": "seef-evolution-pipeline",
+  "version": "1.0.0",
+  "description": "SEEF EvoMap进化流水线 - 阶段3集成层",
+  "main": "index.js",
+  "type": "module",
+  
+  "environment": {
+    "node": ">=18.0.0"
+  },
+  
+  "isc": {
+    "skillId": "seef.evolution-pipeline",
+    "abbreviation": "SEEP",
+    "fullName": "SEEF Evolution Pipeline",
+    "chineseName": "技能生态进化工厂-进化流水线",
+    "layer": "seef",
+    "status": "active",
+    "version": "1.0.0"
+  },
+  
+  "integration": {
+    "dto": {
+      "enabled": true,
+      "subscriptionRules": ["skill.evolution.auto-trigger"],
+      "eventTypes": ["skill.changed", "skill.created", "skill.published"]
+    },
+    "evomap": {
+      "enabled": true,
+      "hubUrl": "wss://hub.evomap.network",
+      "autoSync": true,
+      "offlineMode": false
+    },
+    "cras": {
+      "enabled": true,
+      "knowledgeBasePath": "/root/.openclaw/workspace/skills/cras/knowledge-base/"
+    }
+  },
+  
+  "pipeline": {
+    "id": "seef-evolution-pipeline",
+    "version": "1.0.0",
+    "stages": [
+      "detect",
+      "analyze",
+      "evolve",
+      "validate",
+      "publish",
+      "sync"
+    ],
+    "autoTrigger": true,
+    "maxConcurrent": 3,
+    "timeoutMinutes": 60
+  },
+  
+  "logging": {
+    "level": "info",
+    "console": true,
+    "file": true,
+    "logPath": "/root/.openclaw/workspace/skills/seef/evolution-pipeline/logs",
+    "maxFiles": 10,
+    "maxSize": "10MB"
+  },
+  
+  "retry": {
+    "maxAttempts": 3,
+    "initialDelayMs": 1000,
+    "maxDelayMs": 30000,
+    "backoffMultiplier": 2,
+    "retryableErrors": ["ETIMEDOUT", "ECONNRESET", "ENOTFOUND"]
+  },
+  
+  "paths": {
+    "workspace": "/root/.openclaw/workspace",
+    "skills": "/root/.openclaw/workspace/skills",
+    "evomap": "/root/.openclaw/workspace/skills/seef/evomap",
+    "manifest": "/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json",
+    "stateStorage": "/root/.openclaw/workspace/skills/seef/evolution-pipeline/.pipeline/state"
+  }
+}

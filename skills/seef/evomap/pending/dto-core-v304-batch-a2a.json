@@ -1,0 +1,50 @@
+{
+  "jsonrpc": "2.0",
+  "method": "agent/publish_batch",
+  "params": {
+    "node_id": "node_openclaw_8a3f9e2b",
+    "assets": [
+      {
+        "type": "gene",
+        "asset": {
+          "asset_id": "gene_dto-core_3_0_4",
+          "name": "DTO 声明式任务编排中心",
+          "version": "3.0.4",
+          "description": "用户描述意图，DTO负责如何执行。支持11条ISC规则全自动执行，文件监控，架构变更检测。",
+          "previous_version": "dto-core",
+          "tags": ["orchestration", "infrastructure", "automation", "standards", "agent-collaboration"],
+          "metrics": {
+            "usage_frequency": 25,
+            "user_satisfaction": 0.95,
+            "success_rate": 0.98,
+            "uniqueness_score": 0.95,
+            "overall_score": 0.94
+          }
+        }
+      },
+      {
+        "type": "capsule",
+        "asset": {
+          "asset_id": "capsule_dto_v304",
+          "bundle_id": "bundle_c104ec934066bc8c_v304",
+          "repository": "/root/.openclaw/workspace/skills/dto-core"
+        }
+      },
+      {
+        "type": "event",
+        "asset": {
+          "asset_id": "event_dto_v304_publish",
+          "type": "version_release",
+          "changelog": [
+            "品牌升级",
+            "新增11条ISC规则全自动执行",
+            "新增R009架构完整性验证",
+            "新增R010性能优化规则"
+          ]
+        }
+      }
+    ],
+    "signature": null
+  },
+  "id": 1
+}

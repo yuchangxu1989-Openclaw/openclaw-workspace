@@ -1,0 +1,256 @@
+{
+  "source": "aeo-vector-system",
+  "type": "function",
+  "migratedAt": "2026-02-26T10:32:17.814Z",
+  "totalCases": 10,
+  "cases": [
+    {
+      "id": "case_login_001",
+      "name": "用户登录成功",
+      "category": "function",
+      "domain": "authentication",
+      "input": {
+        "username": "testuser",
+        "password": "correctpassword"
+      },
+      "expected": {
+        "status": "success",
+        "token": "jwt_token_here"
+      },
+      "assertions": [
+        {
+          "check": "response.status === 200",
+          "description": "返回HTTP 200状态码"
+        },
+        {
+          "check": "response.data.token exists",
+          "description": "返回JWT令牌"
+        }
+      ]
+    },
+    {
+      "id": "case_login_002",
+      "name": "用户登录失败-错误密码",
+      "category": "function",
+      "domain": "authentication",
+      "input": {
+        "username": "testuser",
+        "password": "wrongpassword"
+      },
+      "expected": {
+        "status": "error",
+        "message": "Authentication failed"
+      },
+      "assertions": [
+        {
+          "check": "response.status === 401",
+          "description": "返回HTTP 401未授权"
+        },
+        {
+          "check": "response.data.error contains 'Authentication'",
+          "description": "返回认证错误信息"
+        }
+      ]
+    },
+    {
+      "id": "case_login_003",
+      "name": "用户登录失败-账户锁定",
+      "category": "function",
+      "domain": "authentication",
+      "input": {
+        "username": "lockeduser",
+        "password": "anypassword",
+        "attempts": 5
+      },
+      "expected": {
+        "status": "locked",
+        "lockDuration": 300
+      },
+      "assertions": [
+        {
+          "check": "response.status === 423",
+          "description": "返回HTTP 423 Locked"
+        },
+        {
+          "check": "response.data.retryAfter === 300",
+          "description": "返回锁定时间300秒"
+        }
+      ]
+    },
+    {
+      "id": "case_api_001",
+      "name": "API接口性能测试",
+      "category": "performance",
+      "domain": "api",
+      "input": {
+        "endpoint": "/api/v1/users",
+        "method": "GET",
+        "concurrency": 100,
+        "duration": 60
+      },
+      "expected": {
+        "avgResponseTime": "< 200ms",
+        "p99ResponseTime": "< 500ms",
+        "errorRate": "< 1%"
+      },
+      "assertions": [
+        {
+          "check": "p95_latency < 300",
+          "description": "95%请求响应时间小于300ms"
+        },
+        {
+          "check": "error_rate < 0.01",
+          "description": "错误率小于1%"
+        }
+      ]
+    },
+    {
+      "id": "case_api_002",
+      "name": "API速率限制测试",
+      "category": "function",
+      "domain": "api",
+      "input": {
+        "endpoint": "/api/v1/data",
+        "requests": 150,
+        "perSecond": 1
+      },
+      "expected": {
+        "rateLimited": true,
+        "retryAfter": 60
+      },
+      "assertions": [
+        {
+          "check": "response.status === 429",
+          "description": "返回HTTP 429 Too Many Requests"
+        },
+        {
+          "check": "response.headers['x-ratelimit-remaining'] === '0'",
+          "description": "Rate limit header归零"
+        }
+      ]
+    },
+    {
+      "id": "case_db_001",
+      "name": "数据库连接池耗尽测试",
+      "category": "reliability",
+      "domain": "database",
+      "input": {
+        "maxConnections": 10,
+        "concurrentRequests": 20
+      },
+      "expected": {
+        "behavior": "graceful_degradation",
+        "queued": 10,
+        "rejected": 0
+      },
+      "assertions": [
+        {
+          "check": "no_crashes",
+          "description": "系统没有崩溃"
+        },
+        {
+          "check": "queue_length <= 10",
+          "description": "请求队列长度受控"
+        }
+      ]
+    },
+    {
+      "id": "case_db_002",
+      "name": "数据库查询优化验证",
+      "category": "performance",
+      "domain": "database",
+      "input": {
+        "query": "SELECT * FROM large_table WHERE unindexed_column = 'value'",
+        "threshold": 1000
+      },
+      "expected": {
+        "detected": true,
+        "suggestions": [
+          "add_index",
+          "limit_columns"
+        ]
+      },
+      "assertions": [
+        {
+          "check": "slow_query_detected",
+          "description": "检测到慢查询"
+        },
+        {
+          "check": "optimization_suggestions.length > 0",
+          "description": "生成优化建议"
+        }
+      ]
+    },
+    {
+      "id": "case_security_001",
+      "name": "SQL注入攻击防护",
+      "category": "security",
+      "domain": "security",
+      "input": {
+        "username": "admin' OR '1'='1",
+        "password": "anything"
+      },
+      "expected": {
+        "blocked": true,
+        "logGenerated": true
+      },
+      "assertions": [
+        {
+          "check": "request_blocked",
+          "description": "请求被拦截"
+        },
+        {
+          "check": "security_alert_generated",
+          "description": "生成安全告警"
+        }
+      ]
+    },
+    {
+      "id": "case_security_002",
+      "name": "XSS攻击防护",
+      "category": "security",
+      "domain": "security",
+      "input": {
+        "comment": "<script>alert('xss')</script>"
+      },
+      "expected": {
+        "sanitized": true,
+        "scriptRemoved": true
+      },
+      "assertions": [
+        {
+          "check": "script_tags_removed",
+          "description": "脚本标签被移除或转义"
+        },
+        {
+          "check": "no_javascript_execution",
+          "description": "没有执行JavaScript"
+        }
+      ]
+    },
+    {
+      "id": "case_feature_001",
+      "name": "向量检索功能验证",
+      "category": "function",
+      "domain": "vector-search",
+      "input": {
+        "query": "测试用户登录",
+        "topK": 5
+      },
+      "expected": {
+        "results": 5,
+        "minSimilarity": 0.5
+      },
+      "assertions": [
+        {
+          "check": "results.length === 5",
+          "description": "返回5个结果"
+        },
+        {
+          "check": "all(results.similarity > 0.5)",
+          "description": "所有结果相似度大于0.5"
+        }
+      ]
+    }
+  ]
+}

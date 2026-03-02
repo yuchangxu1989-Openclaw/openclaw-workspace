@@ -1,0 +1,61 @@
+{
+  "package_id": "seef_rec_20260224_dto_update",
+  "generated_by": "seef",
+  "generated_at": "2026-02-24T19:50:00+08:00",
+  "update_type": "major_version_update",
+  "previous_skill": {
+    "id": "dto-core",
+    "name": "DTO",
+    "version": "2.x",
+    "status": "deprecated"
+  },
+  "skill": {
+    "id": "dto-core",
+    "name": "DTO 声明式任务编排中心",
+    "version": "3.0.4",
+    "chinese_name": "声明式任务编排中心",
+    "abbreviation": "DTO",
+    "capsule_id": "bundle_c104ec934066bc8c_v304",
+    "repository": "/root/.openclaw/workspace/skills/dto-core",
+    "documentation": "SKILL.md",
+    "description": "用户描述意图，DTO负责如何执行。支持11条ISC规则全自动执行，文件监控，架构变更检测。"
+  },
+  "metrics": {
+    "usage_frequency": 25,
+    "user_satisfaction": 0.95,
+    "success_rate": 0.98,
+    "uniqueness_score": 0.95,
+    "overall_score": 0.94
+  },
+  "evidence": {
+    "isc_rules": ["R001", "R002", "R003", "R004", "R005", "R006", "R007", "R009", "R010", "auto_response", "cron_failure"],
+    "capabilities": [
+      "ISC规则全自动订阅执行",
+      "文件监控与R005自动触发",
+      "架构变更检测R009",
+      "性能优化R010",
+      "Agent间协作协议"
+    ],
+    "performance_benchmarks": {
+      "rule_scan_time": "<100ms",
+      "file_check_interval": "30s",
+      "signal_processing": "<1s"
+    }
+  },
+  "update_highlights": [
+    "完整品牌升级",
+    "新增 11 条 ISC 规则全自动执行",
+    "新增 R009 架构完整性验证",
+    "新增 R010 性能优化规则",
+    "新增 Agent 间协作协议",
+    "文件监控覆盖 35+ 关键文件"
+  ],
+  "recommendation_reason": "核心基础设施重大升级，从'可控'到'声明式'架构演进，新增全自动规则执行能力",
+  "suggested_gene_tags": ["orchestration", "infrastructure", "automation", "standards", "agent-collaboration"],
+  "status": "pending_confirmation",
+  "deprecation_notice": {
+    "deprecated_skill": "dto-core",
+    "migration_path": "自动迁移，配置兼容",
+    "sunset_date": "2026-03-31"
+  }
+}

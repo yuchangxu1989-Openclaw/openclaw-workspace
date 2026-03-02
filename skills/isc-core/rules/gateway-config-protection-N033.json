@@ -1,0 +1,47 @@
+{
+  "schema": "isc.rule.v1",
+  "rule_id": "N033",
+  "rule_name": "gateway_config_protection",
+  "version": "1.0.0",
+  "created_at": "2026-02-28T16:45:00+08:00",
+  "author": "ISC-DTO",
+  "priority": 10,
+  "category": "security",
+  "description": "禁止自动修改Gateway配置，涉及Gateway的任何修改必须用户人工确认",
+  "trigger": {
+    "type": "file_operation",
+    "patterns": [
+      "/root/.openclaw/openclaw.json",
+      "/root/.openclaw/gateway*",
+      "**/gateway*.json",
+      "**/config.json"
+    ],
+    "operations": ["modify", "delete", "create"]
+  },
+  "condition": {
+    "check_type": "gateway_related",
+    "auto_confirm": false,
+    "require_explicit_approval": true
+  },
+  "action": {
+    "type": "block_and_notify",
+    "message": "🚨 检测到Gateway配置修改操作",
+    "require_user_confirmation": true,
+    "default_action": "reject",
+    "notification_channels": ["feishu"],
+    "escalation": {
+      "if_no_response_30min": "block_operation",
+      "if_rejected": "block_and_log"
+    }
+  },
+  "exemptions": [],
+  "violation_handling": {
+    "log_level": "CRITICAL",
+    "alert_immediately": true,
+    "block_auto_execution": true
+  },
+  "metadata": {
+    "rationale": "用户明确禁止自动修改Gateway配置，历史上自动修改导致系统崩溃和断联",
+    "user_quote": "你不要动Gateway相关配置，因为你编码能力很垃圾，每次一动系统就崩，咱俩就断联"
+  }
+}

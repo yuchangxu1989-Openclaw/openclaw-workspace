@@ -1,0 +1,102 @@
+{
+  "id": "rule.vectorization.skill-cleanup-003",
+  "name": "skill_vector_cleanup",
+  "domain": "vectorization",
+  "type": "rule",
+  "scope": "skill",
+  "description": "技能向量清理规则 - 删除时立即删除对应向量文件，定期清理孤儿向量（源文件不存在但向量存在）",
+  "version": "1.0.0",
+  "priority": 9,
+  
+  "condition": {
+    "type": "event_trigger",
+    "events": ["skill.deleted"],
+    "file_pattern": "**/SKILL.md"
+  },
+  
+  "cleanup_policies": {
+    "on_delete": {
+      "description": "技能删除时立即删除对应向量文件",
+      "action": "immediate_delete",
+      "targets": [
+        "infrastructure/vector-service/vectors/skill-{skill-name}.json",
+        "infrastructure/vector-service/vectors/skill-{skill-name}-*.json"
+      ],
+      "async": false,
+      "priority": 10,
+      "timeout_seconds": 60
+    },
+    "orphan_cleanup": {
+      "description": "定期清理孤儿向量（源文件不存在但向量存在）",
+      "schedule": "0 2 * * *",
+      "action": "cleanup_orphans",
+      "check_patterns": [
+        {
+          "vector_pattern": "infrastructure/vector-service/vectors/skill-*.json",
+          "source_pattern": "skills/{skill-name}/SKILL.md",
+          "extract_name_regex": "skill-([^/]+)\\.json$"
+        }
+      ],
+      "dry_run_first": true,
+      "backup_before_delete": true,
+      "backup_path": "infrastructure/vector-service/backup/orphan-vectors/"
+    }
+  },
+  
+  "deletion_event": {
+    "description": "技能删除事件处理",
+    "trigger": "skill.deleted",
+    "steps": [
+      "identify_skill_vectors",
+      "backup_vectors_to_archive",
+      "delete_vector_files",
+      "update_vector_index",
+      "log_deletion_action"
+    ]
+  },
+  
+  "orphan_detection": {
+    "description": "孤儿向量检测逻辑",
+    "method": "reverse_scan",
+    "scan_path": "infrastructure/vector-service/vectors/",
+    "validation_rules": [
+      {
+        "vector_file": "skill-{name}.json",
+        "required_source": "skills/{name}/SKILL.md",
+        "exists_check": true
+      }
+    ],
+    "cleanup_criteria": {
+      "source_missing": true,
+      "vector_age_days": 7,
+      "grace_period_days": 3
+    }
+  },
+  
+  "auto_trigger": {
+    "enabled": true,
+    "on_events": ["skill.deleted"],
+    "action": "cleanup_vectors",
+    "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args": ["--cleanup", "--skill={skill-name}"],
+    "immediate": true
+  },
+  
+  "cron_cleanup": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args": ["--cleanup-orphans", "--dry-run=false"],
+    "timeout_minutes": 30
+  },
+  
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "severity": "warning",
+    "logging": "verbose"
+  },
+  
+  "created_at": "2026-03-01T00:50:00+08:00",
+  "updated_at": "2026-03-01T00:50:00+08:00"
+}

@@ -1,0 +1,10 @@
+{
+  "type": "detection-standard",
+  "id": "isc-detect-repeated-error",
+  "version": "1.0.0",
+  "target": "session-logs",
+  "criteria": "same-error-within-1h",
+  "threshold": 3,
+  "created_at": "2026-02-23T01:27:55.821Z",
+  "status": "active"
+}

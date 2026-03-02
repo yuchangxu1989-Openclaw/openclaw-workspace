@@ -1,0 +1,34 @@
+{
+  "type": "decision-rule",
+  "id": "R006",
+  "name": "council_of_seven_required",
+  "description": "关键决策必经七人议会审议 - 所有新规则、订阅变更、流水线模块更新",
+  "condition": "impact > 3 OR priority >= 9 OR type IN (security, architecture, new_skill, merge_skill, critical_rule, new_rule, subscription_change, pipeline_update)",
+  "threshold": {
+    "impact": 3,
+    "priority": 9,
+    "types": [
+      "security",
+      "architecture",
+      "new_skill",
+      "merge_skill",
+      "critical_rule",
+      "new_rule",
+      "subscription_change",
+      "pipeline_update"
+    ],
+    "approval_ratio": 0.6
+  },
+  "priority": 10,
+  "action": "trigger_council_of_seven_deliberation",
+  "integration": {
+    "script": "/root/.openclaw/workspace/skills/isc-core/integrations/council_integration.py",
+    "council_script": "/root/.openclaw/workspace/skills/council-of-seven/council.py",
+    "decisions_dir": "/root/.openclaw/workspace/skills/isc-core/council-decisions"
+  },
+  "category": "governance",
+  "version": "1.1.0",
+  "created_at": "2026-02-23T18:20:00Z",
+  "updated_at": "2026-02-23T18:25:00Z",
+  "status": "active"
+}

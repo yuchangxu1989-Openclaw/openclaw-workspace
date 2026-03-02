@@ -1,0 +1,227 @@
+{
+  "source": "model-router",
+  "type": "function",
+  "migratedAt": "2026-02-26T10:32:17.815Z",
+  "totalCases": 9,
+  "cases": [
+    {
+      "id": "TC011",
+      "name": "日常闲聊 - 通用任务",
+      "category": "general",
+      "input": {
+        "description": "你好，今天怎么样？",
+        "agentConfig": {
+          "agentId": "agent-chat",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_GENERAL}}",
+            "fallbacks": [],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "general",
+        "complexity": "low",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_GENERAL}}"
+      }
+    },
+    {
+      "id": "TC012",
+      "name": "信息查询 - 通用任务",
+      "category": "general",
+      "input": {
+        "description": "什么是机器学习？",
+        "agentConfig": {
+          "agentId": "agent-qa",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_GENERAL}}",
+            "fallbacks": [
+              "{{MODEL_DEEP_THINKING}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "general",
+        "complexity": "low",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_GENERAL}}"
+      }
+    },
+    {
+      "id": "TC013",
+      "name": "文本摘要 - 通用任务",
+      "category": "general",
+      "input": {
+        "description": "总结这篇文章的主要观点",
+        "agentConfig": {
+          "agentId": "agent-summarizer",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_GENERAL}}",
+            "fallbacks": [
+              "{{MODEL_DEEP_THINKING}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "general",
+        "complexity": "low",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_GENERAL}}"
+      }
+    },
+    {
+      "id": "TC014",
+      "name": "翻译 - 通用任务",
+      "category": "general",
+      "input": {
+        "description": "把这段话翻译成英文",
+        "agentConfig": {
+          "agentId": "agent-translator",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_GENERAL}}",
+            "fallbacks": [],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "general",
+        "complexity": "low",
+        "outputModality": "text",
+        "primaryModel": "{{MODEL_GENERAL}}"
+      }
+    },
+    {
+      "id": "TC015",
+      "name": "格式转换 - 通用任务",
+      "category": "general",
+      "input": {
+        "description": "把这个数据转换成JSON格式",
+        "agentConfig": {
+          "agentId": "agent-formatter",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_GENERAL}}",
+            "fallbacks": [
+              "{{MODEL_CODE_REVIEW}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "general",
+        "complexity": "low",
+        "outputModality": "json",
+        "primaryModel": "{{MODEL_GENERAL}}"
+      }
+    },
+    {
+      "id": "TC017",
+      "name": "降级链验证 - 严格模式关闭",
+      "category": "fallback_chain",
+      "input": {
+        "description": "分析这个算法的复杂度",
+        "agentConfig": {
+          "agentId": "agent-strict-test",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_DEEP_THINKING}}",
+            "fallbacks": [
+              "{{MODEL_CODE_REVIEW}}",
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "modelChain": [
+          "{{MODEL_DEEP_THINKING}}",
+          "{{MODEL_CODE_REVIEW}}",
+          "{{MODEL_GENERAL}}"
+        ],
+        "fallbackEnabled": true
+      }
+    },
+    {
+      "id": "TC018",
+      "name": "降级链验证 - 严格模式开启",
+      "category": "fallback_chain",
+      "input": {
+        "description": "分析这个算法的复杂度",
+        "agentConfig": {
+          "agentId": "agent-strict-on",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_DEEP_THINKING}}",
+            "fallbacks": [
+              "{{MODEL_CODE_REVIEW}}",
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": true
+          }
+        }
+      },
+      "expected": {
+        "modelChain": [
+          "{{MODEL_DEEP_THINKING}}"
+        ],
+        "fallbackEnabled": false
+      }
+    },
+    {
+      "id": "TC019",
+      "name": "边界情况 - 空输入",
+      "category": "boundary",
+      "input": {
+        "description": "",
+        "agentConfig": {
+          "agentId": "agent-boundary",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_GENERAL}}",
+            "fallbacks": [],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "intentCategory": "general",
+        "status": "success"
+      }
+    },
+    {
+      "id": "TC020",
+      "name": "边界情况 - 超长输入",
+      "category": "boundary",
+      "input": {
+        "description": "分析以下代码",
+        "agentConfig": {
+          "agentId": "agent-long-input",
+          "version": "1.0.0",
+          "modelPreferences": {
+            "primary": "{{MODEL_DEEP_THINKING}}",
+            "fallbacks": [
+              "{{MODEL_GENERAL}}"
+            ],
+            "strictMode": false
+          }
+        }
+      },
+      "expected": {
+        "complexity": "medium",
+        "status": "success"
+      }
+    }
+  ]
+}

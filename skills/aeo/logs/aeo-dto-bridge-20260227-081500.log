@@ -1,0 +1,21 @@
+=== AEO-DTO Bridge 执行日志 ===
+启动时间: 2026-02-27 08:15:00 CST
+
+[STDOUT/STDERR]
+[AEO-DTO Bridge] 开始监听信号...
+[AEO] 新技能注册: evomap-a2a
+[AEO] evomap-a2a → mixed轨道评测
+[AEO] 新技能注册: feishu-chat-backup
+[AEO] feishu-chat-backup → ai-effect轨道评测
+[AEO] CRAS标记高频失败: evomap-uploader
+[AEO] 跳过: evomap-uploader 无SKILL.md
+[AEO] 结果已发送SEEF: /root/.openclaw/workspace/skills/seef/.signals/aeo-evomap-a2a-1772151344844.json
+[AEO] 结果已发送SEEF: /root/.openclaw/workspace/skills/seef/.signals/aeo-feishu-chat-backup-1772151344845.json
+
+=== 执行摘要 ===
+- 执行状态: 成功
+- 处理信号数: 3个
+  * skill.registered: 2个 (evomap-a2a, feishu-chat-backup)
+  * cras.insight.high-failure: 1个 (evomap-uploader - 跳过)
+- 输出SEEF: 2个评测结果文件
+- 轨道分布: ai-effect=1, mixed=1

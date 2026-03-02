@@ -1,0 +1,57 @@
+{
+  "name": "AEO基础准入检查清单",
+  "version": "1.0.0",
+  "items": [
+    {
+      "id": "file-skill-md",
+      "name": "SKILL.md存在",
+      "type": "file",
+      "target": "SKILL.md",
+      "required": true,
+      "description": "技能描述文件必须存在"
+    },
+    {
+      "id": "file-index",
+      "name": "入口文件存在",
+      "type": "file",
+      "target": "index.js",
+      "required": true,
+      "description": "入口文件必须存在"
+    },
+    {
+      "id": "content-name",
+      "name": "技能名称定义",
+      "type": "content",
+      "target": "SKILL.md",
+      "pattern": "^name:",
+      "required": true,
+      "description": "SKILL.md中必须定义name字段"
+    },
+    {
+      "id": "content-desc",
+      "name": "技能描述完整",
+      "type": "content",
+      "target": "SKILL.md",
+      "minLength": 50,
+      "required": true,
+      "description": "SKILL.md描述不少于50字符"
+    },
+    {
+      "id": "file-readme",
+      "name": "README存在",
+      "type": "file",
+      "target": "README.md",
+      "required": false,
+      "description": "建议提供README文档"
+    },
+    {
+      "id": "content-version",
+      "name": "版本号定义",
+      "type": "content",
+      "target": "SKILL.md",
+      "pattern": "version:",
+      "required": false,
+      "description": "建议定义版本号"
+    }
+  ]
+}

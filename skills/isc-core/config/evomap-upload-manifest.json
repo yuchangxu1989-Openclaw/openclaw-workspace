@@ -1,0 +1,63 @@
+{
+  "version": "1.0.2",
+  "description": "EvoMap Gene上传清单 - 清单内技能同步到EvoMap，同时开启自动发现。包含LEP基础设施和SEEF子技能库",
+  "managed_by": "isc-dto",
+  "update_policy": "auto_sync",
+  "allowed_skills": [
+    "dto-core",
+    "isc-core",
+    "evomap-a2a",
+    "evomap-publisher",
+    "lep-executor",
+    "lep-subagent",
+    "cras",
+    "parallel-subagent",
+    "seef",
+    "aeo",
+    "isc-document-quality"
+  ],
+  "infrastructure_skills": [
+    {
+      "name": "lep-core",
+      "path": "infrastructure/lep-core",
+      "type": "infrastructure",
+      "description": "LEP韧性执行核心"
+    },
+    {
+      "name": "lep-subagent",
+      "path": "infrastructure/lep-subagent",
+      "type": "infrastructure",
+      "description": "LEP子Agent管理"
+    }
+  ],
+  "seef_subskills": [
+    {
+      "name": "seef-standards",
+      "path": "skills/seef/standards",
+      "parent": "seef",
+      "description": "SEEF标准定义"
+    },
+    {
+      "name": "seef-subskills",
+      "path": "skills/seef/subskills",
+      "parent": "seef",
+      "description": "SEEF子技能库"
+    },
+    {
+      "name": "seef-evomap",
+      "path": "skills/seef/evomap",
+      "parent": "seef",
+      "description": "SEEF EvoMap集成"
+    },
+    {
+      "name": "seef-integrations",
+      "path": "skills/seef/integrations",
+      "parent": "seef",
+      "description": "SEEF集成模块"
+    }
+  ],
+  "blocked_skills": [],
+  "auto_discover": true,
+  "last_updated": "2026-02-26T02:14:00+08:00",
+  "updated_by": "user_request"
+}

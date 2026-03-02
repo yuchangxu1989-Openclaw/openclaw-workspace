@@ -1,0 +1,21 @@
+{
+  "name": "@seef/validator",
+  "version": "1.0.0",
+  "description": "SEEF技能验证器 - 准入准出门禁与质量裁决",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js '{\"skillId\":\"test\",\"skillPath\":\"skills/seef\",\"skillName\":\"Test\",\"phase\":\"checkout\"}'"
+  },
+  "keywords": [
+    "seef",
+    "validator",
+    "quality-gate",
+    "isc-compliance"
+  ],
+  "author": "SEEF Team",
+  "license": "MIT",
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

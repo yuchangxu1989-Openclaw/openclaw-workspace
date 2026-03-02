@@ -1,0 +1,64 @@
+id: skill-evolution-pipeline
+intent: "技能全生命周期管理 - 从创建到发布"
+version: "1.0.0"
+
+triggers:
+  - type: cron
+    spec: "0 2 * * *"
+  - type: event
+    source: isc.standard.verified
+    condition: "skill.status == 'candidate'"
+
+workflow:
+  nodes:
+    - id: create
+      action: seef.creator.generate
+      params:
+        template: standard
+      
+    - id: test-functional
+      action: seef.validator.functional
+      dependsOn: [create]
+      timeout: 600000
+      
+    - id: test-performance
+      action: seef.validator.performance
+      dependsOn: [create]
+      timeout: 300000
+      
+    - id: test-security
+      action: seef.validator.security
+      dependsOn: [create]
+      timeout: 300000
+      
+    - id: fix-issues
+      action: seef.optimizer.autoFix
+      dependsOn: [test-functional, test-performance, test-security]
+      condition: "any(tests.status == 'failed')"
+      retry:
+        max: 3
+        
+    - id: final-verify
+      action: seef.validator.full
+      dependsOn: [fix-issues]
+      
+    - id: deploy
+      action: isc.registry.publish
+      dependsOn: [final-verify]
+      requiresConfirmation: true
+
+constraints:
+  - standard: quality.md.coverage
+    threshold: 80
+    severity: error
+  - standard: security.vulnerability
+    severity: critical
+
+resources:
+  cpu: 2
+  memory: 4G
+  timeout: 3600
+
+telemetry:
+  level: detailed
+  metrics: [duration, success_rate, resource_usage]

@@ -1,0 +1,49 @@
+{
+  "name": "CRAS-C 知识治理 - 向量化任务优化配置",
+  "version": "1.1.0",
+  "updated_at": "2026-02-28",
+  
+  "timeouts": {
+    "description": "所有超时配置已优化以支持长时间运行的向量化任务",
+    "executor_default_ms": 600000,
+    "executor_default_sec": 600,
+    "agent_heartbeat_ms": 600000,
+    "parallel_subagent_default_sec": 600
+  },
+  
+  "vectorization": {
+    "description": "向量化任务性能优化参数",
+    "batch_size": 10,
+    "max_concurrency": 3,
+    "progress_interval_ms": 5000,
+    "features": [
+      "分批处理：将大量文档分成小批次处理，避免阻塞",
+      "并发控制：限制同时处理的批次数，平衡性能和资源",
+      "进度报告：定期输出处理进度，便于监控",
+      "错误隔离：单个文档失败不影响整体任务"
+    ]
+  },
+  
+  "performance_tips": {
+    "for_large_datasets": [
+      "增加 batch_size 以提高吞吐量（建议10-50）",
+      "根据CPU核心数调整 max_concurrency",
+      "监控内存使用，避免OOM",
+      "考虑使用真实的Embedding API替代哈希模拟"
+    ],
+    "monitoring": [
+      "定期查看进度报告",
+      "关注失败文档数量",
+      "监控总耗时和平均处理速度"
+    ]
+  },
+  
+  "changelog": {
+    "2026-02-28": [
+      "超时时间从300秒增加到600秒（10分钟）",
+      "向量化任务改为分批并发处理",
+      "添加实时进度报告功能",
+      "添加错误隔离机制"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "subscription_id": "sub-vectorization-skill-fixed",
+  "subscriber": "vectorization-service",
+  "event_type": "skill.fixed",
+  "description": "技能修复时自动触发全量连续向量化",
+  "condition": {
+    "file_pattern": "**/SKILL.md",
+    "action": "fixed"
+  },
+  "handler": {
+    "type": "exec",
+    "command": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args": ["--continuous", "--type=skill", "--event=fixed"],
+    "async": false,
+    "timeout_seconds": 300
+  },
+  "priority": 10,
+  "auto_execute": true,
+  "created_at": "2026-03-01T00:50:00+08:00",
+  "metadata": {
+    "trigger_source": "dto-event",
+    "target_types": ["skill"],
+    "vector_engine": "zhipu-embedding-3",
+    "execution_mode": "continuous",
+    "full_vectorize": true
+  }
+}

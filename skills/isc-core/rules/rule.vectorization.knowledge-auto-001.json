@@ -1,0 +1,38 @@
+{
+  "id": "rule.vectorization.knowledge-auto-001",
+  "name": "knowledge_mandatory_vectorization",
+  "domain": "vectorization",
+  "type": "rule",
+  "scope": "knowledge",
+  "description": "知识文件必须向量化 - 所有knowledge/*.json文件必须生成1024维智谱向量",
+  "version": "1.0.0",
+  "priority": 7,
+  
+  "condition": {
+    "type": "file_exists",
+    "path": "knowledge/{name}.json"
+  },
+  
+  "requirement": {
+    "vector_must_exist": true,
+    "vector_dimension": 1024,
+    "vector_engine": "zhipu-embedding-3",
+    "vector_path": "infrastructure/vector-service/vectors/knowledge-{name}.json"
+  },
+  
+  "auto_trigger": {
+    "enabled": true,
+    "on_events": ["knowledge.created"],
+    "action": "auto_vectorize",
+    "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh"
+  },
+  
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "severity": "warning"
+  },
+  
+  "created_at": "2026-02-28T23:30:00+08:00",
+  "updated_at": "2026-02-28T23:30:00+08:00"
+}

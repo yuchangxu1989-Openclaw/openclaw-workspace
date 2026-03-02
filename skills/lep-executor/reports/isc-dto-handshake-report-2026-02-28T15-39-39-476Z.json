@@ -1,0 +1,4857 @@
+{
+  "metadata": {
+    "reportType": "ISC-DTO-Handshake",
+    "version": "1.0.0",
+    "generatedAt": "2026-02-28T15:39:39.476Z",
+    "executionId": "isc-dto-mm6hllc3-lzwvj"
+  },
+  "summary": {
+    "duration": 4,
+    "iscRulesCount": 74,
+    "iscActionableCount": 74,
+    "dtoSubscriptionsCount": 71,
+    "alignmentRate": 0.8783783783783784,
+    "alignedCount": 65,
+    "misalignedCount": 9,
+    "orphanedCount": 0,
+    "repairedCount": 9
+  },
+  "details": {
+    "iscScan": {
+      "rules": [
+        {
+          "id": "N033",
+          "name": "gateway_config_protection",
+          "domain": "security",
+          "type": "rule"
+        },
+        {
+          "id": "N034",
+          "name": "rule_identity_accuracy_validation",
+          "domain": "governance",
+          "type": "rule"
+        },
+        {
+          "id": "N035",
+          "name": "rule_trigger_completeness_monitor",
+          "domain": "monitoring",
+          "type": "rule"
+        },
+        {
+          "id": "N036",
+          "name": "memory_loss_self_recovery",
+          "domain": "resilience",
+          "type": "rule"
+        },
+        {
+          "id": "N024",
+          "name": "aeo_dual_track_orchestration",
+          "domain": "quality_assurance",
+          "type": "orchestration"
+        },
+        {
+          "id": "N025",
+          "name": "aeo_feedback_auto_collection",
+          "domain": "quality_assurance",
+          "type": "detection"
+        },
+        {
+          "id": "N026",
+          "name": "aeo_insight_to_action",
+          "domain": "quality_assurance",
+          "type": "decision"
+        },
+        {
+          "id": "N023",
+          "name": "aeo_auto_evaluation_standard_generation",
+          "domain": "quality_assurance",
+          "type": "auto-generation"
+        },
+        {
+          "id": "N028",
+          "name": "skill_change_auto_vectorization",
+          "domain": "automation",
+          "type": "auto-vectorization"
+        },
+        {
+          "id": "N019",
+          "name": "auto_skill_md_generation",
+          "domain": "automation",
+          "type": "auto-generation"
+        },
+        {
+          "id": "N020",
+          "name": "universal_root_cause_and_gap_analysis",
+          "domain": "quality_assurance",
+          "type": "auto-analysis"
+        },
+        {
+          "id": "N016",
+          "name": "auto_repair_loop_post_pipeline",
+          "domain": "quality_assurance",
+          "type": "decision"
+        },
+        {
+          "id": "N022",
+          "name": "architecture_design_isc_compliance_audit",
+          "domain": "quality_assurance",
+          "type": "detection"
+        },
+        {
+          "id": "N017",
+          "name": "cras_recurring_pattern_auto_resolve",
+          "domain": "cognitive_reflection",
+          "type": "detection"
+        },
+        {
+          "id": "N018",
+          "name": "skill_rename_global_reference_alignment",
+          "domain": "architecture",
+          "type": "detection"
+        },
+        {
+          "id": "isc-evomap-mandatory-security-scan-032",
+          "name": "EvoMap同步清单强制安全扫描",
+          "domain": null,
+          "type": "decision"
+        },
+        {
+          "id": "gateway-config-protection-N033",
+          "name": null,
+          "domain": null,
+          "type": "rule"
+        },
+        {
+          "id": "memory-loss-self-recovery-N036",
+          "name": null,
+          "domain": null,
+          "type": "rule"
+        },
+        {
+          "id": "N029",
+          "name": "model_api_key_pool_management",
+          "domain": "infrastructure",
+          "type": "infrastructure"
+        },
+        {
+          "id": "planning.time-granularity-037",
+          "name": "AI计划时间粒度标准",
+          "domain": null,
+          "type": "rule"
+        },
+        {
+          "id": "rule-trigger-integrity-N035",
+          "name": null,
+          "domain": null,
+          "type": "rule"
+        },
+        {
+          "id": "rule.aeo-evaluation-set-registry-001",
+          "name": "aeo_evaluation_set_registry_standard",
+          "domain": "aeo",
+          "type": "standard"
+        },
+        {
+          "id": "rule.auto-evomap-sync-trigger-001",
+          "name": "auto_evomap_sync",
+          "domain": "sync",
+          "type": "rule"
+        },
+        {
+          "id": "rule.auto-fix-high-severity-001",
+          "name": "auto_fix_high_severity",
+          "domain": "remediation",
+          "type": "rule"
+        },
+        {
+          "id": "rule.auto-github-sync-trigger-001",
+          "name": "auto_github_sync",
+          "domain": "sync",
+          "type": "rule"
+        },
+        {
+          "id": "rule.auto-readme-generation-trigger-001",
+          "name": "auto_readme_generation",
+          "domain": "automation",
+          "type": "rule"
+        },
+        {
+          "id": "rule.auto-skillization-trigger-001",
+          "name": "auto_skillization",
+          "domain": "automation",
+          "type": "rule"
+        },
+        {
+          "id": "rule.auto-vectorization-trigger-001",
+          "name": "auto_vectorization",
+          "domain": "automation",
+          "type": "rule"
+        },
+        {
+          "id": "rule.cron-task-model-requirement-001",
+          "name": "cron_task_model_requirement",
+          "domain": "cron",
+          "type": "validation_rule"
+        },
+        {
+          "id": "rule.cron-task-model-selection-002",
+          "name": "cron_task_model_selection_standard",
+          "domain": "cron",
+          "type": "standard"
+        },
+        {
+          "id": "R013",
+          "name": "capability_anchor_auto_identification",
+          "domain": null,
+          "type": "decision-rule"
+        },
+        {
+          "id": "R006",
+          "name": "council_of_seven_required",
+          "domain": null,
+          "type": "decision-rule"
+        },
+        {
+          "id": "rule_2f7dd6e4",
+          "name": null,
+          "domain": null,
+          "type": "decision-rule"
+        },
+        {
+          "id": "R014",
+          "name": "proactive_skillization_execution",
+          "domain": null,
+          "type": "decision-rule"
+        },
+        {
+          "id": "S005",
+          "name": "report_feishu_card_format",
+          "domain": null,
+          "type": "detection-standard"
+        },
+        {
+          "id": "rule.dual-channel-message-guarantee-001",
+          "name": "dual_channel_message_guarantee",
+          "domain": "communication",
+          "type": "governance_rule"
+        },
+        {
+          "id": "evomap_sync",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard"
+        },
+        {
+          "id": "rule.github-api-skill-001",
+          "name": "github_api_skill",
+          "domain": "integration",
+          "type": "skill"
+        },
+        {
+          "id": "rule.glm-vision-priority-001",
+          "name": "glm_vision_priority",
+          "domain": "capability",
+          "type": "routing_rule"
+        },
+        {
+          "id": "rule.http-skills-suite-001",
+          "name": "http_skills_suite",
+          "domain": "integration",
+          "type": "skill_suite"
+        },
+        {
+          "id": "N007-v2",
+          "name": "source_file_delivery_method",
+          "domain": null,
+          "type": "interaction-standard"
+        },
+        {
+          "id": "rule.isc-change-auto-trigger-alignment-001",
+          "name": "isc_change_auto_trigger_alignment",
+          "domain": "orchestration",
+          "type": "governance_rule"
+        },
+        {
+          "id": "rule.isc-creation-gate-001",
+          "name": "isc_creation_validation_gate",
+          "domain": "process",
+          "type": "rule"
+        },
+        {
+          "id": "isc-detect-repeated-error",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard"
+        },
+        {
+          "id": "rule.isc-dto-handshake-001",
+          "name": "isc_dto_periodic_handshake",
+          "domain": "process",
+          "type": "rule"
+        },
+        {
+          "id": "isc-naming-constants",
+          "name": null,
+          "domain": null,
+          "type": "naming-standard"
+        },
+        {
+          "id": "rule.isc-naming-convention-001",
+          "name": "isc_rule_naming_convention",
+          "domain": "naming",
+          "type": "rule"
+        },
+        {
+          "id": "isc-naming-gene-files",
+          "name": null,
+          "domain": null,
+          "type": "naming-standard"
+        },
+        {
+          "id": "isc-naming-skill-dir",
+          "name": null,
+          "domain": null,
+          "type": "naming-standard"
+        },
+        {
+          "id": "isc-rule-missing-resource",
+          "name": null,
+          "domain": null,
+          "type": "decision-rule"
+        },
+        {
+          "id": "isc-rule-timeout-retry",
+          "name": null,
+          "domain": null,
+          "type": "decision-rule"
+        },
+        {
+          "id": "rule.isc-skill-index-auto-update-001",
+          "name": "isc_skill_index_auto_update",
+          "domain": "automation",
+          "type": "rule"
+        },
+        {
+          "id": "rule.isc-skill-usage-protocol-001",
+          "name": "isc_skill_usage_protocol",
+          "domain": "standards",
+          "type": "rule"
+        },
+        {
+          "id": "rule.isc-standard-format-001",
+          "name": "isc_standard_file_format",
+          "domain": "standardization",
+          "type": "rule"
+        },
+        {
+          "id": "rule.multi-agent-communication-priority-001",
+          "name": "multi_agent_communication_priority",
+          "domain": "orchestration",
+          "type": "governance_rule"
+        },
+        {
+          "id": "N006",
+          "name": "skill_name_bilingual_display",
+          "domain": null,
+          "type": "naming-standard"
+        },
+        {
+          "id": "rule.parallel-analysis-workflow-001",
+          "name": "parallel_analysis_workflow",
+          "domain": "analysis",
+          "type": "workflow"
+        },
+        {
+          "id": "rule.parallel-subagent-orchestration-001",
+          "name": "parallel_subagent_orchestration",
+          "domain": "orchestration",
+          "type": "workflow"
+        },
+        {
+          "id": "rule.pipeline-report-filter-001",
+          "name": "pipeline_report_filter",
+          "domain": "orchestration",
+          "type": "governance_rule"
+        },
+        {
+          "id": "ISC-SKILL-QUALITY-001",
+          "name": "skill_no_placeholder",
+          "domain": "quality",
+          "type": "rule"
+        },
+        {
+          "id": "readme_quality",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard"
+        },
+        {
+          "id": "rule.seef-subskill-orchestration-001",
+          "name": "seef_subskill_dto_orchestration",
+          "domain": "orchestration",
+          "type": "workflow"
+        },
+        {
+          "id": "rule.skill-mandatory-skill-md-001",
+          "name": "skill_mandatory_skill_md",
+          "domain": "quality",
+          "type": "governance_rule"
+        },
+        {
+          "id": "skill_md_quality",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard"
+        },
+        {
+          "id": "rule.skill-quality-001",
+          "name": "skill_no_placeholder",
+          "domain": "quality",
+          "type": "rule"
+        },
+        {
+          "id": "vectorization",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard"
+        },
+        {
+          "id": "rule.vectorization.aeo-auto-001",
+          "name": "aeo_evaluation_set_vectorization",
+          "domain": "vectorization",
+          "type": "rule"
+        },
+        {
+          "id": "rule.vectorization.knowledge-auto-001",
+          "name": "knowledge_mandatory_vectorization",
+          "domain": "vectorization",
+          "type": "rule"
+        },
+        {
+          "id": "rule.vectorization.memory-auto-001",
+          "name": "memory_mandatory_vectorization",
+          "domain": "vectorization",
+          "type": "rule"
+        },
+        {
+          "id": "rule.vectorization.skill-auto-001",
+          "name": "skill_mandatory_vectorization",
+          "domain": "vectorization",
+          "type": "rule"
+        },
+        {
+          "id": "rule.vectorization.unified-standard-001",
+          "name": "unified_zhipu_vectorization_standard",
+          "domain": "vectorization",
+          "type": "standard"
+        },
+        {
+          "id": "rule.zhipu-capability-router-001",
+          "name": "zhipu_capability_auto_router",
+          "domain": "capability",
+          "type": "auto_router"
+        },
+        {
+          "id": "isc-skill-permission-classification-031",
+          "name": "技能权限分级体系",
+          "domain": null,
+          "type": "standard"
+        },
+        {
+          "id": "isc-skill-security-gate-030",
+          "name": "技能安全准出标准",
+          "domain": null,
+          "type": "decision"
+        }
+      ],
+      "errors": [
+        {
+          "file": "rule-recognition-accuracy-N034.json",
+          "error": "Bad escaped character in JSON at position 680 (line 24 column 44)"
+        }
+      ]
+    },
+    "dtoScan": {
+      "subscriptions": [
+        {
+          "id": "isc-$rule",
+          "ruleId": "N036",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_ISC-SKILL-QUALITY-001",
+          "ruleId": "ISC-SKILL-QUALITY-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N006",
+          "ruleId": "N006",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N007-v2",
+          "ruleId": "N007-v2",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N016",
+          "ruleId": "N016",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N017",
+          "ruleId": "N017",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N018",
+          "ruleId": "N018",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N019",
+          "ruleId": "N019",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N020",
+          "ruleId": "N020",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N022",
+          "ruleId": "N022",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N023",
+          "ruleId": "N023",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N024",
+          "ruleId": "N024",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N025",
+          "ruleId": "N025",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N026",
+          "ruleId": "N026",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N028",
+          "ruleId": "N028",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N029",
+          "ruleId": "N029",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N033",
+          "ruleId": "N033",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N034",
+          "ruleId": "N034",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N035",
+          "ruleId": "N035",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_N036",
+          "ruleId": "N036",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_R006",
+          "ruleId": "R006",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_R013",
+          "ruleId": "R013",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_R014",
+          "ruleId": "R014",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_S005",
+          "ruleId": "S005",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_evomap_sync",
+          "ruleId": "evomap_sync",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-detect-repeated-error",
+          "ruleId": "isc-detect-repeated-error",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-evomap-mandatory-security-scan-032",
+          "ruleId": "isc-evomap-mandatory-security-scan-032",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-naming-constants",
+          "ruleId": "isc-naming-constants",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-naming-gene-files",
+          "ruleId": "isc-naming-gene-files",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-naming-skill-dir",
+          "ruleId": "isc-naming-skill-dir",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-rule-missing-resource",
+          "ruleId": "isc-rule-missing-resource",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-rule-timeout-retry",
+          "ruleId": "isc-rule-timeout-retry",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-skill-permission-classification-031",
+          "ruleId": "isc-skill-permission-classification-031",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_isc-skill-security-gate-030",
+          "ruleId": "isc-skill-security-gate-030",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_readme_quality",
+          "ruleId": "readme_quality",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_aeo-evaluation-set-registry-001",
+          "ruleId": "rule.aeo-evaluation-set-registry-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_auto-evomap-sync-trigger-001",
+          "ruleId": "rule.auto-evomap-sync-trigger-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_auto-fix-high-severity-001",
+          "ruleId": "rule.auto-fix-high-severity-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_auto-github-sync-trigger-001",
+          "ruleId": "rule.auto-github-sync-trigger-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_auto-readme-generation-trigger-001",
+          "ruleId": "rule.auto-readme-generation-trigger-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_auto-skillization-trigger-001",
+          "ruleId": "rule.auto-skillization-trigger-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_auto-vectorization-trigger-001",
+          "ruleId": "rule.auto-vectorization-trigger-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_cron-task-model-requirement-001",
+          "ruleId": "rule.cron-task-model-requirement-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_cron-task-model-selection-002",
+          "ruleId": "rule.cron-task-model-selection-002",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_dual-channel-message-guarantee-001",
+          "ruleId": "rule.dual-channel-message-guarantee-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_github-api-skill-001",
+          "ruleId": "rule.github-api-skill-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_glm-vision-priority-001",
+          "ruleId": "rule.glm-vision-priority-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_http-skills-suite-001",
+          "ruleId": "rule.http-skills-suite-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_isc-change-auto-trigger-alignment-001",
+          "ruleId": "rule.isc-change-auto-trigger-alignment-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_isc-creation-gate-001",
+          "ruleId": "rule.isc-creation-gate-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_isc-dto-handshake-001",
+          "ruleId": "rule.isc-dto-handshake-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_isc-naming-convention-001",
+          "ruleId": "rule.isc-naming-convention-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_isc-skill-index-auto-update-001",
+          "ruleId": "rule.isc-skill-index-auto-update-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_isc-skill-usage-protocol-001",
+          "ruleId": "rule.isc-skill-usage-protocol-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_isc-standard-format-001",
+          "ruleId": "rule.isc-standard-format-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_multi-agent-communication-priority-001",
+          "ruleId": "rule.multi-agent-communication-priority-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_parallel-analysis-workflow-001",
+          "ruleId": "rule.parallel-analysis-workflow-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_parallel-subagent-orchestration-001",
+          "ruleId": "rule.parallel-subagent-orchestration-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_pipeline-report-filter-001",
+          "ruleId": "rule.pipeline-report-filter-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_seef-subskill-orchestration-001",
+          "ruleId": "rule.seef-subskill-orchestration-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_skill-mandatory-skill-md-001",
+          "ruleId": "rule.skill-mandatory-skill-md-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_skill-quality-001",
+          "ruleId": "rule.skill-quality-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_zhipu-capability-router-001",
+          "ruleId": "rule.zhipu-capability-router-001",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_rule_2f7dd6e4",
+          "ruleId": "rule_2f7dd6e4",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_skill_md_quality",
+          "ruleId": "skill_md_quality",
+          "status": "active"
+        },
+        {
+          "id": "sub_isc_vectorization",
+          "ruleId": "vectorization",
+          "status": "active"
+        },
+        {
+          "id": "sub-vectorization-aeo-created",
+          "ruleId": null,
+          "status": "active"
+        },
+        {
+          "id": "sub-vectorization-knowledge-created",
+          "ruleId": null,
+          "status": "active"
+        },
+        {
+          "id": "sub-vectorization-memory-created",
+          "ruleId": null,
+          "status": "active"
+        },
+        {
+          "id": "sub-vectorization-skill-created",
+          "ruleId": null,
+          "status": "active"
+        },
+        {
+          "id": "sub-vectorization-skill-updated",
+          "ruleId": null,
+          "status": "active"
+        }
+      ],
+      "errors": []
+    },
+    "alignment": {
+      "aligned": [
+        {
+          "ruleId": "N033",
+          "subscriptionId": "sub_isc_N033"
+        },
+        {
+          "ruleId": "N034",
+          "subscriptionId": "sub_isc_N034"
+        },
+        {
+          "ruleId": "N035",
+          "subscriptionId": "sub_isc_N035"
+        },
+        {
+          "ruleId": "N036",
+          "subscriptionId": "sub_isc_N036"
+        },
+        {
+          "ruleId": "N024",
+          "subscriptionId": "sub_isc_N024"
+        },
+        {
+          "ruleId": "N025",
+          "subscriptionId": "sub_isc_N025"
+        },
+        {
+          "ruleId": "N026",
+          "subscriptionId": "sub_isc_N026"
+        },
+        {
+          "ruleId": "N023",
+          "subscriptionId": "sub_isc_N023"
+        },
+        {
+          "ruleId": "N028",
+          "subscriptionId": "sub_isc_N028"
+        },
+        {
+          "ruleId": "N019",
+          "subscriptionId": "sub_isc_N019"
+        },
+        {
+          "ruleId": "N020",
+          "subscriptionId": "sub_isc_N020"
+        },
+        {
+          "ruleId": "N016",
+          "subscriptionId": "sub_isc_N016"
+        },
+        {
+          "ruleId": "N022",
+          "subscriptionId": "sub_isc_N022"
+        },
+        {
+          "ruleId": "N017",
+          "subscriptionId": "sub_isc_N017"
+        },
+        {
+          "ruleId": "N018",
+          "subscriptionId": "sub_isc_N018"
+        },
+        {
+          "ruleId": "isc-evomap-mandatory-security-scan-032",
+          "subscriptionId": "sub_isc_isc-evomap-mandatory-security-scan-032"
+        },
+        {
+          "ruleId": "N029",
+          "subscriptionId": "sub_isc_N029"
+        },
+        {
+          "ruleId": "rule.aeo-evaluation-set-registry-001",
+          "subscriptionId": "sub_isc_rule_aeo-evaluation-set-registry-001"
+        },
+        {
+          "ruleId": "rule.auto-evomap-sync-trigger-001",
+          "subscriptionId": "sub_isc_rule_auto-evomap-sync-trigger-001"
+        },
+        {
+          "ruleId": "rule.auto-fix-high-severity-001",
+          "subscriptionId": "sub_isc_rule_auto-fix-high-severity-001"
+        },
+        {
+          "ruleId": "rule.auto-github-sync-trigger-001",
+          "subscriptionId": "sub_isc_rule_auto-github-sync-trigger-001"
+        },
+        {
+          "ruleId": "rule.auto-readme-generation-trigger-001",
+          "subscriptionId": "sub_isc_rule_auto-readme-generation-trigger-001"
+        },
+        {
+          "ruleId": "rule.auto-skillization-trigger-001",
+          "subscriptionId": "sub_isc_rule_auto-skillization-trigger-001"
+        },
+        {
+          "ruleId": "rule.auto-vectorization-trigger-001",
+          "subscriptionId": "sub_isc_rule_auto-vectorization-trigger-001"
+        },
+        {
+          "ruleId": "rule.cron-task-model-requirement-001",
+          "subscriptionId": "sub_isc_rule_cron-task-model-requirement-001"
+        },
+        {
+          "ruleId": "rule.cron-task-model-selection-002",
+          "subscriptionId": "sub_isc_rule_cron-task-model-selection-002"
+        },
+        {
+          "ruleId": "R013",
+          "subscriptionId": "sub_isc_R013"
+        },
+        {
+          "ruleId": "R006",
+          "subscriptionId": "sub_isc_R006"
+        },
+        {
+          "ruleId": "rule_2f7dd6e4",
+          "subscriptionId": "sub_isc_rule_2f7dd6e4"
+        },
+        {
+          "ruleId": "R014",
+          "subscriptionId": "sub_isc_R014"
+        },
+        {
+          "ruleId": "S005",
+          "subscriptionId": "sub_isc_S005"
+        },
+        {
+          "ruleId": "rule.dual-channel-message-guarantee-001",
+          "subscriptionId": "sub_isc_rule_dual-channel-message-guarantee-001"
+        },
+        {
+          "ruleId": "evomap_sync",
+          "subscriptionId": "sub_isc_evomap_sync"
+        },
+        {
+          "ruleId": "rule.github-api-skill-001",
+          "subscriptionId": "sub_isc_rule_github-api-skill-001"
+        },
+        {
+          "ruleId": "rule.glm-vision-priority-001",
+          "subscriptionId": "sub_isc_rule_glm-vision-priority-001"
+        },
+        {
+          "ruleId": "rule.http-skills-suite-001",
+          "subscriptionId": "sub_isc_rule_http-skills-suite-001"
+        },
+        {
+          "ruleId": "N007-v2",
+          "subscriptionId": "sub_isc_N007-v2"
+        },
+        {
+          "ruleId": "rule.isc-change-auto-trigger-alignment-001",
+          "subscriptionId": "sub_isc_rule_isc-change-auto-trigger-alignment-001"
+        },
+        {
+          "ruleId": "rule.isc-creation-gate-001",
+          "subscriptionId": "sub_isc_rule_isc-creation-gate-001"
+        },
+        {
+          "ruleId": "isc-detect-repeated-error",
+          "subscriptionId": "sub_isc_isc-detect-repeated-error"
+        },
+        {
+          "ruleId": "rule.isc-dto-handshake-001",
+          "subscriptionId": "sub_isc_rule_isc-dto-handshake-001"
+        },
+        {
+          "ruleId": "isc-naming-constants",
+          "subscriptionId": "sub_isc_isc-naming-constants"
+        },
+        {
+          "ruleId": "rule.isc-naming-convention-001",
+          "subscriptionId": "sub_isc_rule_isc-naming-convention-001"
+        },
+        {
+          "ruleId": "isc-naming-gene-files",
+          "subscriptionId": "sub_isc_isc-naming-gene-files"
+        },
+        {
+          "ruleId": "isc-naming-skill-dir",
+          "subscriptionId": "sub_isc_isc-naming-skill-dir"
+        },
+        {
+          "ruleId": "isc-rule-missing-resource",
+          "subscriptionId": "sub_isc_isc-rule-missing-resource"
+        },
+        {
+          "ruleId": "isc-rule-timeout-retry",
+          "subscriptionId": "sub_isc_isc-rule-timeout-retry"
+        },
+        {
+          "ruleId": "rule.isc-skill-index-auto-update-001",
+          "subscriptionId": "sub_isc_rule_isc-skill-index-auto-update-001"
+        },
+        {
+          "ruleId": "rule.isc-skill-usage-protocol-001",
+          "subscriptionId": "sub_isc_rule_isc-skill-usage-protocol-001"
+        },
+        {
+          "ruleId": "rule.isc-standard-format-001",
+          "subscriptionId": "sub_isc_rule_isc-standard-format-001"
+        },
+        {
+          "ruleId": "rule.multi-agent-communication-priority-001",
+          "subscriptionId": "sub_isc_rule_multi-agent-communication-priority-001"
+        },
+        {
+          "ruleId": "N006",
+          "subscriptionId": "sub_isc_N006"
+        },
+        {
+          "ruleId": "rule.parallel-analysis-workflow-001",
+          "subscriptionId": "sub_isc_rule_parallel-analysis-workflow-001"
+        },
+        {
+          "ruleId": "rule.parallel-subagent-orchestration-001",
+          "subscriptionId": "sub_isc_rule_parallel-subagent-orchestration-001"
+        },
+        {
+          "ruleId": "rule.pipeline-report-filter-001",
+          "subscriptionId": "sub_isc_rule_pipeline-report-filter-001"
+        },
+        {
+          "ruleId": "ISC-SKILL-QUALITY-001",
+          "subscriptionId": "sub_isc_ISC-SKILL-QUALITY-001"
+        },
+        {
+          "ruleId": "readme_quality",
+          "subscriptionId": "sub_isc_readme_quality"
+        },
+        {
+          "ruleId": "rule.seef-subskill-orchestration-001",
+          "subscriptionId": "sub_isc_rule_seef-subskill-orchestration-001"
+        },
+        {
+          "ruleId": "rule.skill-mandatory-skill-md-001",
+          "subscriptionId": "sub_isc_rule_skill-mandatory-skill-md-001"
+        },
+        {
+          "ruleId": "skill_md_quality",
+          "subscriptionId": "sub_isc_skill_md_quality"
+        },
+        {
+          "ruleId": "rule.skill-quality-001",
+          "subscriptionId": "sub_isc_rule_skill-quality-001"
+        },
+        {
+          "ruleId": "vectorization",
+          "subscriptionId": "sub_isc_vectorization"
+        },
+        {
+          "ruleId": "rule.zhipu-capability-router-001",
+          "subscriptionId": "sub_isc_rule_zhipu-capability-router-001"
+        },
+        {
+          "ruleId": "isc-skill-permission-classification-031",
+          "subscriptionId": "sub_isc_isc-skill-permission-classification-031"
+        },
+        {
+          "ruleId": "isc-skill-security-gate-030",
+          "subscriptionId": "sub_isc_isc-skill-security-gate-030"
+        }
+      ],
+      "misaligned": [
+        {
+          "ruleId": "gateway-config-protection-N033",
+          "reason": "subscription"
+        },
+        {
+          "ruleId": "memory-loss-self-recovery-N036",
+          "reason": "subscription"
+        },
+        {
+          "ruleId": "planning.time-granularity-037",
+          "reason": "subscription"
+        },
+        {
+          "ruleId": "rule-trigger-integrity-N035",
+          "reason": "subscription"
+        },
+        {
+          "ruleId": "rule.vectorization.aeo-auto-001",
+          "reason": "subscription"
+        },
+        {
+          "ruleId": "rule.vectorization.knowledge-auto-001",
+          "reason": "subscription"
+        },
+        {
+          "ruleId": "rule.vectorization.memory-auto-001",
+          "reason": "subscription"
+        },
+        {
+          "ruleId": "rule.vectorization.skill-auto-001",
+          "reason": "subscription"
+        },
+        {
+          "ruleId": "rule.vectorization.unified-standard-001",
+          "reason": "subscription"
+        }
+      ],
+      "orphaned": []
+    },
+    "repair": {
+      "repaired": [
+        {
+          "ruleId": "gateway-config-protection-N033",
+          "subscriptionFile": "sub-gateway-config-protection-n033.json"
+        },
+        {
+          "ruleId": "memory-loss-self-recovery-N036",
+          "subscriptionFile": "sub-memory-loss-self-recovery-n036.json"
+        },
+        {
+          "ruleId": "planning.time-granularity-037",
+          "subscriptionFile": "sub-planning-time-granularity-037.json"
+        },
+        {
+          "ruleId": "rule-trigger-integrity-N035",
+          "subscriptionFile": "sub-rule-trigger-integrity-n035.json"
+        },
+        {
+          "ruleId": "rule.vectorization.aeo-auto-001",
+          "subscriptionFile": "sub-rule-vectorization-aeo-auto-001.json"
+        },
+        {
+          "ruleId": "rule.vectorization.knowledge-auto-001",
+          "subscriptionFile": "sub-rule-vectorization-knowledge-auto-001.json"
+        },
+        {
+          "ruleId": "rule.vectorization.memory-auto-001",
+          "subscriptionFile": "sub-rule-vectorization-memory-auto-001.json"
+        },
+        {
+          "ruleId": "rule.vectorization.skill-auto-001",
+          "subscriptionFile": "sub-rule-vectorization-skill-auto-001.json"
+        },
+        {
+          "ruleId": "rule.vectorization.unified-standard-001",
+          "subscriptionFile": "sub-rule-vectorization-unified-standard-001.json"
+        }
+      ],
+      "failed": []
+    }
+  },
+  "raw": {
+    "executionId": "isc-dto-mm6hllc3-lzwvj",
+    "startTime": 1772293179459,
+    "iscScanResult": {
+      "count": 74,
+      "actionableCount": 74,
+      "rules": [
+        {
+          "id": "N033",
+          "file": "N033-gateway-config-protection.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/N033-gateway-config-protection.json",
+          "name": "gateway_config_protection",
+          "domain": "security",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n033"
+        },
+        {
+          "id": "N034",
+          "file": "N034-rule-identity-accuracy.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/N034-rule-identity-accuracy.json",
+          "name": "rule_identity_accuracy_validation",
+          "domain": "governance",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n034"
+        },
+        {
+          "id": "N035",
+          "file": "N035-rule-trigger-completeness.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/N035-rule-trigger-completeness.json",
+          "name": "rule_trigger_completeness_monitor",
+          "domain": "monitoring",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n035"
+        },
+        {
+          "id": "N036",
+          "file": "N036-memory-loss-recovery.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/N036-memory-loss-recovery.json",
+          "name": "memory_loss_self_recovery",
+          "domain": "resilience",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n036"
+        },
+        {
+          "id": "N024",
+          "file": "aeo-dual-track-orchestration-024.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/aeo-dual-track-orchestration-024.json",
+          "name": "aeo_dual_track_orchestration",
+          "domain": "quality_assurance",
+          "type": "orchestration",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n024"
+        },
+        {
+          "id": "N025",
+          "file": "aeo-feedback-auto-collection-025.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/aeo-feedback-auto-collection-025.json",
+          "name": "aeo_feedback_auto_collection",
+          "domain": "quality_assurance",
+          "type": "detection",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n025"
+        },
+        {
+          "id": "N026",
+          "file": "aeo-insight-to-action-026.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/aeo-insight-to-action-026.json",
+          "name": "aeo_insight_to_action",
+          "domain": "quality_assurance",
+          "type": "decision",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n026"
+        },
+        {
+          "id": "N023",
+          "file": "auto-aeo-evaluation-standard-generation-023.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/auto-aeo-evaluation-standard-generation-023.json",
+          "name": "aeo_auto_evaluation_standard_generation",
+          "domain": "quality_assurance",
+          "type": "auto-generation",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n023"
+        },
+        {
+          "id": "N028",
+          "file": "auto-skill-change-vectorization-028.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/auto-skill-change-vectorization-028.json",
+          "name": "skill_change_auto_vectorization",
+          "domain": "automation",
+          "type": "auto-vectorization",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n028"
+        },
+        {
+          "id": "N019",
+          "file": "auto-skill-md-generation-019.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/auto-skill-md-generation-019.json",
+          "name": "auto_skill_md_generation",
+          "domain": "automation",
+          "type": "auto-generation",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n019"
+        },
+        {
+          "id": "N020",
+          "file": "auto-universal-root-cause-analysis-020.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/auto-universal-root-cause-analysis-020.json",
+          "name": "universal_root_cause_and_gap_analysis",
+          "domain": "quality_assurance",
+          "type": "auto-analysis",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n020"
+        },
+        {
+          "id": "N016",
+          "file": "decision-auto-repair-loop-post-pipeline-016.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/decision-auto-repair-loop-post-pipeline-016.json",
+          "name": "auto_repair_loop_post_pipeline",
+          "domain": "quality_assurance",
+          "type": "decision",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n016"
+        },
+        {
+          "id": "N022",
+          "file": "detection-architecture-design-isc-compliance-audit-022.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/detection-architecture-design-isc-compliance-audit-022.json",
+          "name": "architecture_design_isc_compliance_audit",
+          "domain": "quality_assurance",
+          "type": "detection",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n022"
+        },
+        {
+          "id": "N017",
+          "file": "detection-cras-recurring-pattern-auto-resolve-017.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/detection-cras-recurring-pattern-auto-resolve-017.json",
+          "name": "cras_recurring_pattern_auto_resolve",
+          "domain": "cognitive_reflection",
+          "type": "detection",
+          "version": "1.1.0",
+          "requiresSubscription": true,
+          "normalizedId": "n017"
+        },
+        {
+          "id": "N018",
+          "file": "detection-skill-rename-global-alignment-018.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/detection-skill-rename-global-alignment-018.json",
+          "name": "skill_rename_global_reference_alignment",
+          "domain": "architecture",
+          "type": "detection",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n018"
+        },
+        {
+          "id": "isc-evomap-mandatory-security-scan-032",
+          "file": "evomap-mandatory-security-scan-032.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/evomap-mandatory-security-scan-032.json",
+          "name": "EvoMap同步清单强制安全扫描",
+          "domain": null,
+          "type": "decision",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-evomap-mandatory-security-scan-032"
+        },
+        {
+          "id": "gateway-config-protection-N033",
+          "file": "gateway-config-protection-N033.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/gateway-config-protection-N033.json",
+          "name": null,
+          "domain": null,
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "gateway-config-protection-n033"
+        },
+        {
+          "id": "memory-loss-self-recovery-N036",
+          "file": "memory-loss-self-recovery-N036.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/memory-loss-self-recovery-N036.json",
+          "name": null,
+          "domain": null,
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "memory-loss-self-recovery-n036"
+        },
+        {
+          "id": "N029",
+          "file": "model-api-key-pool-management-029.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/model-api-key-pool-management-029.json",
+          "name": "model_api_key_pool_management",
+          "domain": "infrastructure",
+          "type": "infrastructure",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n029"
+        },
+        {
+          "id": "planning.time-granularity-037",
+          "file": "planning.time-granularity-037.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/planning.time-granularity-037.json",
+          "name": "AI计划时间粒度标准",
+          "domain": null,
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "planning-time-granularity-037"
+        },
+        {
+          "id": "rule-trigger-integrity-N035",
+          "file": "rule-trigger-integrity-N035.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule-trigger-integrity-N035.json",
+          "name": null,
+          "domain": null,
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-trigger-integrity-n035"
+        },
+        {
+          "id": "rule.aeo-evaluation-set-registry-001",
+          "file": "rule.aeo-evaluation-set-registry-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.aeo-evaluation-set-registry-001.json",
+          "name": "aeo_evaluation_set_registry_standard",
+          "domain": "aeo",
+          "type": "standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-aeo-evaluation-set-registry-001"
+        },
+        {
+          "id": "rule.auto-evomap-sync-trigger-001",
+          "file": "rule.auto-evomap-sync-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-evomap-sync-trigger-001.json",
+          "name": "auto_evomap_sync",
+          "domain": "sync",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-auto-evomap-sync-trigger-001"
+        },
+        {
+          "id": "rule.auto-fix-high-severity-001",
+          "file": "rule.auto-fix-high-severity-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-fix-high-severity-001.json",
+          "name": "auto_fix_high_severity",
+          "domain": "remediation",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-auto-fix-high-severity-001"
+        },
+        {
+          "id": "rule.auto-github-sync-trigger-001",
+          "file": "rule.auto-github-sync-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-github-sync-trigger-001.json",
+          "name": "auto_github_sync",
+          "domain": "sync",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-auto-github-sync-trigger-001"
+        },
+        {
+          "id": "rule.auto-readme-generation-trigger-001",
+          "file": "rule.auto-readme-generation-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-readme-generation-trigger-001.json",
+          "name": "auto_readme_generation",
+          "domain": "automation",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-auto-readme-generation-trigger-001"
+        },
+        {
+          "id": "rule.auto-skillization-trigger-001",
+          "file": "rule.auto-skillization-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-skillization-trigger-001.json",
+          "name": "auto_skillization",
+          "domain": "automation",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-auto-skillization-trigger-001"
+        },
+        {
+          "id": "rule.auto-vectorization-trigger-001",
+          "file": "rule.auto-vectorization-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-vectorization-trigger-001.json",
+          "name": "auto_vectorization",
+          "domain": "automation",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-auto-vectorization-trigger-001"
+        },
+        {
+          "id": "rule.cron-task-model-requirement-001",
+          "file": "rule.cron-task-model-requirement-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.cron-task-model-requirement-001.json",
+          "name": "cron_task_model_requirement",
+          "domain": "cron",
+          "type": "validation_rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-cron-task-model-requirement-001"
+        },
+        {
+          "id": "rule.cron-task-model-selection-002",
+          "file": "rule.cron-task-model-selection-002.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.cron-task-model-selection-002.json",
+          "name": "cron_task_model_selection_standard",
+          "domain": "cron",
+          "type": "standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-cron-task-model-selection-002"
+        },
+        {
+          "id": "R013",
+          "file": "rule.decision-capability-anchor-013.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.decision-capability-anchor-013.json",
+          "name": "capability_anchor_auto_identification",
+          "domain": null,
+          "type": "decision-rule",
+          "version": "3.1.3",
+          "requiresSubscription": true,
+          "normalizedId": "r013"
+        },
+        {
+          "id": "R006",
+          "file": "rule.decision-council-seven-required-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.decision-council-seven-required-001.json",
+          "name": "council_of_seven_required",
+          "domain": null,
+          "type": "decision-rule",
+          "version": "1.1.0",
+          "requiresSubscription": true,
+          "normalizedId": "r006"
+        },
+        {
+          "id": "rule_2f7dd6e4",
+          "file": "rule.decision-custom-2f7dd6e4.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.decision-custom-2f7dd6e4.json",
+          "name": null,
+          "domain": null,
+          "type": "decision-rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-2f7dd6e4"
+        },
+        {
+          "id": "R014",
+          "file": "rule.decision-proactive-skillization-014.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.decision-proactive-skillization-014.json",
+          "name": "proactive_skillization_execution",
+          "domain": null,
+          "type": "decision-rule",
+          "version": "3.1.3",
+          "requiresSubscription": true,
+          "normalizedId": "r014"
+        },
+        {
+          "id": "S005",
+          "file": "rule.detection-report-feishu-card-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.detection-report-feishu-card-001.json",
+          "name": "report_feishu_card_format",
+          "domain": null,
+          "type": "detection-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "s005"
+        },
+        {
+          "id": "rule.dual-channel-message-guarantee-001",
+          "file": "rule.dual-channel-message-guarantee-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.dual-channel-message-guarantee-001.json",
+          "name": "dual_channel_message_guarantee",
+          "domain": "communication",
+          "type": "governance_rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-dual-channel-message-guarantee-001"
+        },
+        {
+          "id": "evomap_sync",
+          "file": "rule.evomap-sync-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.evomap-sync-trigger-001.json",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "evomap-sync"
+        },
+        {
+          "id": "rule.github-api-skill-001",
+          "file": "rule.github-api-skill-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.github-api-skill-001.json",
+          "name": "github_api_skill",
+          "domain": "integration",
+          "type": "skill",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-github-api-skill-001"
+        },
+        {
+          "id": "rule.glm-vision-priority-001",
+          "file": "rule.glm-vision-priority-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.glm-vision-priority-001.json",
+          "name": "glm_vision_priority",
+          "domain": "capability",
+          "type": "routing_rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-glm-vision-priority-001"
+        },
+        {
+          "id": "rule.http-skills-suite-001",
+          "file": "rule.http-skills-suite-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.http-skills-suite-001.json",
+          "name": "http_skills_suite",
+          "domain": "integration",
+          "type": "skill_suite",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-http-skills-suite-001"
+        },
+        {
+          "id": "N007-v2",
+          "file": "rule.interaction-source-file-delivery-007.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.interaction-source-file-delivery-007.json",
+          "name": "source_file_delivery_method",
+          "domain": null,
+          "type": "interaction-standard",
+          "version": "2.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n007-v2"
+        },
+        {
+          "id": "rule.isc-change-auto-trigger-alignment-001",
+          "file": "rule.isc-change-auto-trigger-alignment-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-change-auto-trigger-alignment-001.json",
+          "name": "isc_change_auto_trigger_alignment",
+          "domain": "orchestration",
+          "type": "governance_rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-isc-change-auto-trigger-alignment-001"
+        },
+        {
+          "id": "rule.isc-creation-gate-001",
+          "file": "rule.isc-creation-gate-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-creation-gate-001.json",
+          "name": "isc_creation_validation_gate",
+          "domain": "process",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-isc-creation-gate-001"
+        },
+        {
+          "id": "isc-detect-repeated-error",
+          "file": "rule.isc-detect-repeated-error-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-detect-repeated-error-001.json",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-detect-repeated-error"
+        },
+        {
+          "id": "rule.isc-dto-handshake-001",
+          "file": "rule.isc-dto-handshake-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-dto-handshake-001.json",
+          "name": "isc_dto_periodic_handshake",
+          "domain": "process",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-isc-dto-handshake-001"
+        },
+        {
+          "id": "isc-naming-constants",
+          "file": "rule.isc-naming-constants-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-naming-constants-001.json",
+          "name": null,
+          "domain": null,
+          "type": "naming-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-naming-constants"
+        },
+        {
+          "id": "rule.isc-naming-convention-001",
+          "file": "rule.isc-naming-convention-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-naming-convention-001.json",
+          "name": "isc_rule_naming_convention",
+          "domain": "naming",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-isc-naming-convention-001"
+        },
+        {
+          "id": "isc-naming-gene-files",
+          "file": "rule.isc-naming-gene-files-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-naming-gene-files-001.json",
+          "name": null,
+          "domain": null,
+          "type": "naming-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-naming-gene-files"
+        },
+        {
+          "id": "isc-naming-skill-dir",
+          "file": "rule.isc-naming-skill-dir-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-naming-skill-dir-001.json",
+          "name": null,
+          "domain": null,
+          "type": "naming-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-naming-skill-dir"
+        },
+        {
+          "id": "isc-rule-missing-resource",
+          "file": "rule.isc-rule-missing-resource-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-rule-missing-resource-001.json",
+          "name": null,
+          "domain": null,
+          "type": "decision-rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-rule-missing-resource"
+        },
+        {
+          "id": "isc-rule-timeout-retry",
+          "file": "rule.isc-rule-timeout-retry-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-rule-timeout-retry-001.json",
+          "name": null,
+          "domain": null,
+          "type": "decision-rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-rule-timeout-retry"
+        },
+        {
+          "id": "rule.isc-skill-index-auto-update-001",
+          "file": "rule.isc-skill-index-auto-update-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-skill-index-auto-update-001.json",
+          "name": "isc_skill_index_auto_update",
+          "domain": "automation",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-isc-skill-index-auto-update-001"
+        },
+        {
+          "id": "rule.isc-skill-usage-protocol-001",
+          "file": "rule.isc-skill-usage-protocol-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-skill-usage-protocol-001.json",
+          "name": "isc_skill_usage_protocol",
+          "domain": "standards",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-isc-skill-usage-protocol-001"
+        },
+        {
+          "id": "rule.isc-standard-format-001",
+          "file": "rule.isc-standard-format-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-standard-format-001.json",
+          "name": "isc_standard_file_format",
+          "domain": "standardization",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-isc-standard-format-001"
+        },
+        {
+          "id": "rule.multi-agent-communication-priority-001",
+          "file": "rule.multi-agent-communication-priority-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.multi-agent-communication-priority-001.json",
+          "name": "multi_agent_communication_priority",
+          "domain": "orchestration",
+          "type": "governance_rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-multi-agent-communication-priority-001"
+        },
+        {
+          "id": "N006",
+          "file": "rule.naming-skill-bilingual-display-006.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json",
+          "name": "skill_name_bilingual_display",
+          "domain": null,
+          "type": "naming-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "n006"
+        },
+        {
+          "id": "rule.parallel-analysis-workflow-001",
+          "file": "rule.parallel-analysis-workflow-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.parallel-analysis-workflow-001.json",
+          "name": "parallel_analysis_workflow",
+          "domain": "analysis",
+          "type": "workflow",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-parallel-analysis-workflow-001"
+        },
+        {
+          "id": "rule.parallel-subagent-orchestration-001",
+          "file": "rule.parallel-subagent-orchestration-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json",
+          "name": "parallel_subagent_orchestration",
+          "domain": "orchestration",
+          "type": "workflow",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-parallel-subagent-orchestration-001"
+        },
+        {
+          "id": "rule.pipeline-report-filter-001",
+          "file": "rule.pipeline-report-filter-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.pipeline-report-filter-001.json",
+          "name": "pipeline_report_filter",
+          "domain": "orchestration",
+          "type": "governance_rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-pipeline-report-filter-001"
+        },
+        {
+          "id": "ISC-SKILL-QUALITY-001",
+          "file": "rule.quality-skill-no-placeholder-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.quality-skill-no-placeholder-001.json",
+          "name": "skill_no_placeholder",
+          "domain": "quality",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-skill-quality-001"
+        },
+        {
+          "id": "readme_quality",
+          "file": "rule.readme-quality-check-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.readme-quality-check-001.json",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "readme-quality"
+        },
+        {
+          "id": "rule.seef-subskill-orchestration-001",
+          "file": "rule.seef-subskill-orchestration-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.seef-subskill-orchestration-001.json",
+          "name": "seef_subskill_dto_orchestration",
+          "domain": "orchestration",
+          "type": "workflow",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-seef-subskill-orchestration-001"
+        },
+        {
+          "id": "rule.skill-mandatory-skill-md-001",
+          "file": "rule.skill-mandatory-skill-md-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.skill-mandatory-skill-md-001.json",
+          "name": "skill_mandatory_skill_md",
+          "domain": "quality",
+          "type": "governance_rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-skill-mandatory-skill-md-001"
+        },
+        {
+          "id": "skill_md_quality",
+          "file": "rule.skill-md-quality-check-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.skill-md-quality-check-001.json",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "skill-md-quality"
+        },
+        {
+          "id": "rule.skill-quality-001",
+          "file": "rule.skill-quality-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.skill-quality-001.json",
+          "name": "skill_no_placeholder",
+          "domain": "quality",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-skill-quality-001"
+        },
+        {
+          "id": "vectorization",
+          "file": "rule.vectorization-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization-trigger-001.json",
+          "name": null,
+          "domain": null,
+          "type": "detection-standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "vectorization"
+        },
+        {
+          "id": "rule.vectorization.aeo-auto-001",
+          "file": "rule.vectorization.aeo-auto-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.aeo-auto-001.json",
+          "name": "aeo_evaluation_set_vectorization",
+          "domain": "vectorization",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-vectorization-aeo-auto-001"
+        },
+        {
+          "id": "rule.vectorization.knowledge-auto-001",
+          "file": "rule.vectorization.knowledge-auto-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.knowledge-auto-001.json",
+          "name": "knowledge_mandatory_vectorization",
+          "domain": "vectorization",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-vectorization-knowledge-auto-001"
+        },
+        {
+          "id": "rule.vectorization.memory-auto-001",
+          "file": "rule.vectorization.memory-auto-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.memory-auto-001.json",
+          "name": "memory_mandatory_vectorization",
+          "domain": "vectorization",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-vectorization-memory-auto-001"
+        },
+        {
+          "id": "rule.vectorization.skill-auto-001",
+          "file": "rule.vectorization.skill-auto-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.skill-auto-001.json",
+          "name": "skill_mandatory_vectorization",
+          "domain": "vectorization",
+          "type": "rule",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-vectorization-skill-auto-001"
+        },
+        {
+          "id": "rule.vectorization.unified-standard-001",
+          "file": "rule.vectorization.unified-standard-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.unified-standard-001.json",
+          "name": "unified_zhipu_vectorization_standard",
+          "domain": "vectorization",
+          "type": "standard",
+          "version": "2.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-vectorization-unified-standard-001"
+        },
+        {
+          "id": "rule.zhipu-capability-router-001",
+          "file": "rule.zhipu-capability-router-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.zhipu-capability-router-001.json",
+          "name": "zhipu_capability_auto_router",
+          "domain": "capability",
+          "type": "auto_router",
+          "version": "1.1.0",
+          "requiresSubscription": true,
+          "normalizedId": "rule-zhipu-capability-router-001"
+        },
+        {
+          "id": "isc-skill-permission-classification-031",
+          "file": "skill-permission-classification-031.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/skill-permission-classification-031.json",
+          "name": "技能权限分级体系",
+          "domain": null,
+          "type": "standard",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-skill-permission-classification-031"
+        },
+        {
+          "id": "isc-skill-security-gate-030",
+          "file": "skill-security-gate-030.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/skill-security-gate-030.json",
+          "name": "技能安全准出标准",
+          "domain": null,
+          "type": "decision",
+          "version": "1.0.0",
+          "requiresSubscription": true,
+          "normalizedId": "isc-skill-security-gate-030"
+        }
+      ],
+      "errors": [
+        {
+          "file": "rule-recognition-accuracy-N034.json",
+          "error": "Bad escaped character in JSON at position 680 (line 24 column 44)"
+        }
+      ],
+      "scanTime": "2026-02-28T15:39:39.471Z"
+    },
+    "dtoScanResult": {
+      "count": 71,
+      "subscriptions": [
+        {
+          "id": "isc-$rule",
+          "file": "isc-$rule.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-$rule.json",
+          "ruleId": "N036",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "n036"
+        },
+        {
+          "id": "sub_isc_ISC-SKILL-QUALITY-001",
+          "file": "isc-ISC-SKILL-QUALITY-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-ISC-SKILL-QUALITY-001.json",
+          "ruleId": "ISC-SKILL-QUALITY-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-skill-quality-001"
+        },
+        {
+          "id": "sub_isc_N006",
+          "file": "isc-N006.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N006.json",
+          "ruleId": "N006",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.945Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n006"
+        },
+        {
+          "id": "sub_isc_N007-v2",
+          "file": "isc-N007-v2.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N007-v2.json",
+          "ruleId": "N007-v2",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T14:40:03.737Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n007-v2"
+        },
+        {
+          "id": "sub_isc_N016",
+          "file": "isc-N016.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N016.json",
+          "ruleId": "N016",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T15:46:49.787Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n016"
+        },
+        {
+          "id": "sub_isc_N017",
+          "file": "isc-N017.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N017.json",
+          "ruleId": "N017",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T15:46:49.789Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n017"
+        },
+        {
+          "id": "sub_isc_N018",
+          "file": "isc-N018.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N018.json",
+          "ruleId": "N018",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T15:46:49.790Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n018"
+        },
+        {
+          "id": "sub_isc_N019",
+          "file": "isc-N019.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N019.json",
+          "ruleId": "N019",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T17:10:03.235Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n019"
+        },
+        {
+          "id": "sub_isc_N020",
+          "file": "isc-N020.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N020.json",
+          "ruleId": "N020",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T17:10:03.235Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n020"
+        },
+        {
+          "id": "sub_isc_N022",
+          "file": "isc-N022.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N022.json",
+          "ruleId": "N022",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T18:04:22.996Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n022"
+        },
+        {
+          "id": "sub_isc_N023",
+          "file": "isc-N023.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N023.json",
+          "ruleId": "N023",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T18:50:00.648Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n023"
+        },
+        {
+          "id": "sub_isc_N024",
+          "file": "isc-N024.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N024.json",
+          "ruleId": "N024",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T19:02:01.883Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n024"
+        },
+        {
+          "id": "sub_isc_N025",
+          "file": "isc-N025.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N025.json",
+          "ruleId": "N025",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T19:02:01.883Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n025"
+        },
+        {
+          "id": "sub_isc_N026",
+          "file": "isc-N026.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N026.json",
+          "ruleId": "N026",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T19:02:01.883Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n026"
+        },
+        {
+          "id": "sub_isc_N028",
+          "file": "isc-N028.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N028.json",
+          "ruleId": "N028",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T19:02:01.883Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n028"
+        },
+        {
+          "id": "sub_isc_N029",
+          "file": "isc-N029.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N029.json",
+          "ruleId": "N029",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T19:30:06.801Z",
+          "updatedAt": null,
+          "normalizedRuleId": "n029"
+        },
+        {
+          "id": "sub_isc_N033",
+          "file": "isc-N033.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N033.json",
+          "ruleId": "N033",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "n033"
+        },
+        {
+          "id": "sub_isc_N034",
+          "file": "isc-N034.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N034.json",
+          "ruleId": "N034",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "n034"
+        },
+        {
+          "id": "sub_isc_N035",
+          "file": "isc-N035.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N035.json",
+          "ruleId": "N035",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "n035"
+        },
+        {
+          "id": "sub_isc_N036",
+          "file": "isc-N036.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N036.json",
+          "ruleId": "N036",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "n036"
+        },
+        {
+          "id": "sub_isc_R006",
+          "file": "isc-R006.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-R006.json",
+          "ruleId": "R006",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T21:02:01.751Z",
+          "updatedAt": null,
+          "normalizedRuleId": "r006"
+        },
+        {
+          "id": "sub_isc_R013",
+          "file": "isc-R013.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-R013.json",
+          "ruleId": "R013",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T21:02:01.750Z",
+          "updatedAt": null,
+          "normalizedRuleId": "r013"
+        },
+        {
+          "id": "sub_isc_R014",
+          "file": "isc-R014.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-R014.json",
+          "ruleId": "R014",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T21:02:01.751Z",
+          "updatedAt": null,
+          "normalizedRuleId": "r014"
+        },
+        {
+          "id": "sub_isc_S005",
+          "file": "isc-S005.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-S005.json",
+          "ruleId": "S005",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.945Z",
+          "updatedAt": null,
+          "normalizedRuleId": "s005"
+        },
+        {
+          "id": "sub_isc_evomap_sync",
+          "file": "isc-evomap_sync.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-evomap_sync.json",
+          "ruleId": "evomap_sync",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "evomap-sync"
+        },
+        {
+          "id": "sub_isc_isc-detect-repeated-error",
+          "file": "isc-isc-detect-repeated-error.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-detect-repeated-error.json",
+          "ruleId": "isc-detect-repeated-error",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-detect-repeated-error"
+        },
+        {
+          "id": "sub_isc_isc-evomap-mandatory-security-scan-032",
+          "file": "isc-isc-evomap-mandatory-security-scan-032.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-evomap-mandatory-security-scan-032.json",
+          "ruleId": "isc-evomap-mandatory-security-scan-032",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-27T07:03:47.739Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-evomap-mandatory-security-scan-032"
+        },
+        {
+          "id": "sub_isc_isc-naming-constants",
+          "file": "isc-isc-naming-constants.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-naming-constants.json",
+          "ruleId": "isc-naming-constants",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-naming-constants"
+        },
+        {
+          "id": "sub_isc_isc-naming-gene-files",
+          "file": "isc-isc-naming-gene-files.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-naming-gene-files.json",
+          "ruleId": "isc-naming-gene-files",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-naming-gene-files"
+        },
+        {
+          "id": "sub_isc_isc-naming-skill-dir",
+          "file": "isc-isc-naming-skill-dir.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-naming-skill-dir.json",
+          "ruleId": "isc-naming-skill-dir",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-naming-skill-dir"
+        },
+        {
+          "id": "sub_isc_isc-rule-missing-resource",
+          "file": "isc-isc-rule-missing-resource.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-rule-missing-resource.json",
+          "ruleId": "isc-rule-missing-resource",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-rule-missing-resource"
+        },
+        {
+          "id": "sub_isc_isc-rule-timeout-retry",
+          "file": "isc-isc-rule-timeout-retry.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-rule-timeout-retry.json",
+          "ruleId": "isc-rule-timeout-retry",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-rule-timeout-retry"
+        },
+        {
+          "id": "sub_isc_isc-skill-permission-classification-031",
+          "file": "isc-isc-skill-permission-classification-031.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-skill-permission-classification-031.json",
+          "ruleId": "isc-skill-permission-classification-031",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-27T07:03:47.740Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-skill-permission-classification-031"
+        },
+        {
+          "id": "sub_isc_isc-skill-security-gate-030",
+          "file": "isc-isc-skill-security-gate-030.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-skill-security-gate-030.json",
+          "ruleId": "isc-skill-security-gate-030",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-27T07:03:47.740Z",
+          "updatedAt": null,
+          "normalizedRuleId": "isc-skill-security-gate-030"
+        },
+        {
+          "id": "sub_isc_readme_quality",
+          "file": "isc-readme_quality.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-readme_quality.json",
+          "ruleId": "readme_quality",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "readme-quality"
+        },
+        {
+          "id": "sub_isc_rule_aeo-evaluation-set-registry-001",
+          "file": "isc-rule-aeo-evaluation-set-registry-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-aeo-evaluation-set-registry-001.json",
+          "ruleId": "rule.aeo-evaluation-set-registry-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-26T12:01:06.774Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-aeo-evaluation-set-registry-001"
+        },
+        {
+          "id": "sub_isc_rule_auto-evomap-sync-trigger-001",
+          "file": "isc-rule-auto-evomap-sync-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-evomap-sync-trigger-001.json",
+          "ruleId": "rule.auto-evomap-sync-trigger-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "rule-auto-evomap-sync-trigger-001"
+        },
+        {
+          "id": "sub_isc_rule_auto-fix-high-severity-001",
+          "file": "isc-rule-auto-fix-high-severity-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-fix-high-severity-001.json",
+          "ruleId": "rule.auto-fix-high-severity-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "rule-auto-fix-high-severity-001"
+        },
+        {
+          "id": "sub_isc_rule_auto-github-sync-trigger-001",
+          "file": "isc-rule-auto-github-sync-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-github-sync-trigger-001.json",
+          "ruleId": "rule.auto-github-sync-trigger-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T02:02:22.483Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-auto-github-sync-trigger-001"
+        },
+        {
+          "id": "sub_isc_rule_auto-readme-generation-trigger-001",
+          "file": "isc-rule-auto-readme-generation-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-readme-generation-trigger-001.json",
+          "ruleId": "rule.auto-readme-generation-trigger-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "rule-auto-readme-generation-trigger-001"
+        },
+        {
+          "id": "sub_isc_rule_auto-skillization-trigger-001",
+          "file": "isc-rule-auto-skillization-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-skillization-trigger-001.json",
+          "ruleId": "rule.auto-skillization-trigger-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "rule-auto-skillization-trigger-001"
+        },
+        {
+          "id": "sub_isc_rule_auto-vectorization-trigger-001",
+          "file": "isc-rule-auto-vectorization-trigger-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-vectorization-trigger-001.json",
+          "ruleId": "rule.auto-vectorization-trigger-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "rule-auto-vectorization-trigger-001"
+        },
+        {
+          "id": "sub_isc_rule_cron-task-model-requirement-001",
+          "file": "isc-rule-cron-task-model-requirement-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-cron-task-model-requirement-001.json",
+          "ruleId": "rule.cron-task-model-requirement-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-26T07:50:03.765Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-cron-task-model-requirement-001"
+        },
+        {
+          "id": "sub_isc_rule_cron-task-model-selection-002",
+          "file": "isc-rule-cron-task-model-selection-002.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-cron-task-model-selection-002.json",
+          "ruleId": "rule.cron-task-model-selection-002",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-26T12:01:06.774Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-cron-task-model-selection-002"
+        },
+        {
+          "id": "sub_isc_rule_dual-channel-message-guarantee-001",
+          "file": "isc-rule-dual-channel-message-guarantee-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-dual-channel-message-guarantee-001.json",
+          "ruleId": "rule.dual-channel-message-guarantee-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-26T10:20:03.991Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-dual-channel-message-guarantee-001"
+        },
+        {
+          "id": "sub_isc_rule_github-api-skill-001",
+          "file": "isc-rule-github-api-skill-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-github-api-skill-001.json",
+          "ruleId": "rule.github-api-skill-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T04:50:01.880Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-github-api-skill-001"
+        },
+        {
+          "id": "sub_isc_rule_glm-vision-priority-001",
+          "file": "isc-rule-glm-vision-priority-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-glm-vision-priority-001.json",
+          "ruleId": "rule.glm-vision-priority-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T06:45:03.243Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-glm-vision-priority-001"
+        },
+        {
+          "id": "sub_isc_rule_http-skills-suite-001",
+          "file": "isc-rule-http-skills-suite-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-http-skills-suite-001.json",
+          "ruleId": "rule.http-skills-suite-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T04:50:01.881Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-http-skills-suite-001"
+        },
+        {
+          "id": "sub_isc_rule_isc-change-auto-trigger-alignment-001",
+          "file": "isc-rule-isc-change-auto-trigger-alignment-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-change-auto-trigger-alignment-001.json",
+          "ruleId": "rule.isc-change-auto-trigger-alignment-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-26T09:38:23.764Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-isc-change-auto-trigger-alignment-001"
+        },
+        {
+          "id": "sub_isc_rule_isc-creation-gate-001",
+          "file": "isc-rule-isc-creation-gate-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-creation-gate-001.json",
+          "ruleId": "rule.isc-creation-gate-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-isc-creation-gate-001"
+        },
+        {
+          "id": "sub_isc_rule_isc-dto-handshake-001",
+          "file": "isc-rule-isc-dto-handshake-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-dto-handshake-001.json",
+          "ruleId": "rule.isc-dto-handshake-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": null,
+          "updatedAt": null,
+          "normalizedRuleId": "rule-isc-dto-handshake-001"
+        },
+        {
+          "id": "sub_isc_rule_isc-naming-convention-001",
+          "file": "isc-rule-isc-naming-convention-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-naming-convention-001.json",
+          "ruleId": "rule.isc-naming-convention-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.945Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-isc-naming-convention-001"
+        },
+        {
+          "id": "sub_isc_rule_isc-skill-index-auto-update-001",
+          "file": "isc-rule-isc-skill-index-auto-update-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-skill-index-auto-update-001.json",
+          "ruleId": "rule.isc-skill-index-auto-update-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T07:20:02.767Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-isc-skill-index-auto-update-001"
+        },
+        {
+          "id": "sub_isc_rule_isc-skill-usage-protocol-001",
+          "file": "isc-rule-isc-skill-usage-protocol-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-skill-usage-protocol-001.json",
+          "ruleId": "rule.isc-skill-usage-protocol-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T07:20:02.768Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-isc-skill-usage-protocol-001"
+        },
+        {
+          "id": "sub_isc_rule_isc-standard-format-001",
+          "file": "isc-rule-isc-standard-format-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-standard-format-001.json",
+          "ruleId": "rule.isc-standard-format-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.945Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-isc-standard-format-001"
+        },
+        {
+          "id": "sub_isc_rule_multi-agent-communication-priority-001",
+          "file": "isc-rule-multi-agent-communication-priority-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-multi-agent-communication-priority-001.json",
+          "ruleId": "rule.multi-agent-communication-priority-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-26T08:50:04.593Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-multi-agent-communication-priority-001"
+        },
+        {
+          "id": "sub_isc_rule_parallel-analysis-workflow-001",
+          "file": "isc-rule-parallel-analysis-workflow-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-parallel-analysis-workflow-001.json",
+          "ruleId": "rule.parallel-analysis-workflow-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T03:40:02.304Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-parallel-analysis-workflow-001"
+        },
+        {
+          "id": "sub_isc_rule_parallel-subagent-orchestration-001",
+          "file": "isc-rule-parallel-subagent-orchestration-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-parallel-subagent-orchestration-001.json",
+          "ruleId": "rule.parallel-subagent-orchestration-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T03:40:02.306Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-parallel-subagent-orchestration-001"
+        },
+        {
+          "id": "sub_isc_rule_pipeline-report-filter-001",
+          "file": "isc-rule-pipeline-report-filter-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-pipeline-report-filter-001.json",
+          "ruleId": "rule.pipeline-report-filter-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-26T09:44:31.735Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-pipeline-report-filter-001"
+        },
+        {
+          "id": "sub_isc_rule_seef-subskill-orchestration-001",
+          "file": "isc-rule-seef-subskill-orchestration-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-seef-subskill-orchestration-001.json",
+          "ruleId": "rule.seef-subskill-orchestration-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T02:50:02.154Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-seef-subskill-orchestration-001"
+        },
+        {
+          "id": "sub_isc_rule_skill-mandatory-skill-md-001",
+          "file": "isc-rule-skill-mandatory-skill-md-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-skill-mandatory-skill-md-001.json",
+          "ruleId": "rule.skill-mandatory-skill-md-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-26T10:05:11.106Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-skill-mandatory-skill-md-001"
+        },
+        {
+          "id": "sub_isc_rule_skill-quality-001",
+          "file": "isc-rule-skill-quality-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-skill-quality-001.json",
+          "ruleId": "rule.skill-quality-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.945Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-skill-quality-001"
+        },
+        {
+          "id": "sub_isc_rule_zhipu-capability-router-001",
+          "file": "isc-rule-zhipu-capability-router-001.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-zhipu-capability-router-001.json",
+          "ruleId": "rule.zhipu-capability-router-001",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-25T06:45:03.244Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-zhipu-capability-router-001"
+        },
+        {
+          "id": "sub_isc_rule_2f7dd6e4",
+          "file": "isc-rule_2f7dd6e4.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule_2f7dd6e4.json",
+          "ruleId": "rule_2f7dd6e4",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "rule-2f7dd6e4"
+        },
+        {
+          "id": "sub_isc_skill_md_quality",
+          "file": "isc-skill_md_quality.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-skill_md_quality.json",
+          "ruleId": "skill_md_quality",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "skill-md-quality"
+        },
+        {
+          "id": "sub_isc_vectorization",
+          "file": "isc-vectorization.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-vectorization.json",
+          "ruleId": "vectorization",
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-24T22:29:24.944Z",
+          "updatedAt": null,
+          "normalizedRuleId": "vectorization"
+        },
+        {
+          "id": "sub-vectorization-aeo-created",
+          "file": "vectorization-aeo-created.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/vectorization-aeo-created.json",
+          "ruleId": null,
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-28T23:30:00+08:00",
+          "updatedAt": null,
+          "normalizedRuleId": ""
+        },
+        {
+          "id": "sub-vectorization-knowledge-created",
+          "file": "vectorization-knowledge-created.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/vectorization-knowledge-created.json",
+          "ruleId": null,
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-28T23:30:00+08:00",
+          "updatedAt": null,
+          "normalizedRuleId": ""
+        },
+        {
+          "id": "sub-vectorization-memory-created",
+          "file": "vectorization-memory-created.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/vectorization-memory-created.json",
+          "ruleId": null,
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-28T23:30:00+08:00",
+          "updatedAt": null,
+          "normalizedRuleId": ""
+        },
+        {
+          "id": "sub-vectorization-skill-created",
+          "file": "vectorization-skill-created.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/vectorization-skill-created.json",
+          "ruleId": null,
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-28T23:30:00+08:00",
+          "updatedAt": null,
+          "normalizedRuleId": ""
+        },
+        {
+          "id": "sub-vectorization-skill-updated",
+          "file": "vectorization-skill-updated.json",
+          "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/vectorization-skill-updated.json",
+          "ruleId": null,
+          "ruleIds": [],
+          "status": "active",
+          "trigger": null,
+          "createdAt": "2026-02-28T23:30:00+08:00",
+          "updatedAt": null,
+          "normalizedRuleId": ""
+        }
+      ],
+      "errors": [],
+      "scanTime": "2026-02-28T15:39:39.474Z"
+    },
+    "alignmentResult": {
+      "totalRules": 74,
+      "alignedCount": 65,
+      "misalignedCount": 9,
+      "alignmentRate": 0.8783783783783784,
+      "aligned": [
+        {
+          "rule": {
+            "id": "N033",
+            "file": "N033-gateway-config-protection.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/N033-gateway-config-protection.json",
+            "name": "gateway_config_protection",
+            "domain": "security",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n033"
+          },
+          "subscription": {
+            "id": "sub_isc_N033",
+            "file": "isc-N033.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N033.json",
+            "ruleId": "N033",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "n033"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N034",
+            "file": "N034-rule-identity-accuracy.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/N034-rule-identity-accuracy.json",
+            "name": "rule_identity_accuracy_validation",
+            "domain": "governance",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n034"
+          },
+          "subscription": {
+            "id": "sub_isc_N034",
+            "file": "isc-N034.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N034.json",
+            "ruleId": "N034",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "n034"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N035",
+            "file": "N035-rule-trigger-completeness.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/N035-rule-trigger-completeness.json",
+            "name": "rule_trigger_completeness_monitor",
+            "domain": "monitoring",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n035"
+          },
+          "subscription": {
+            "id": "sub_isc_N035",
+            "file": "isc-N035.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N035.json",
+            "ruleId": "N035",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "n035"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N036",
+            "file": "N036-memory-loss-recovery.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/N036-memory-loss-recovery.json",
+            "name": "memory_loss_self_recovery",
+            "domain": "resilience",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n036"
+          },
+          "subscription": {
+            "id": "sub_isc_N036",
+            "file": "isc-N036.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N036.json",
+            "ruleId": "N036",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "n036"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N024",
+            "file": "aeo-dual-track-orchestration-024.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/aeo-dual-track-orchestration-024.json",
+            "name": "aeo_dual_track_orchestration",
+            "domain": "quality_assurance",
+            "type": "orchestration",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n024"
+          },
+          "subscription": {
+            "id": "sub_isc_N024",
+            "file": "isc-N024.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N024.json",
+            "ruleId": "N024",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T19:02:01.883Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n024"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N025",
+            "file": "aeo-feedback-auto-collection-025.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/aeo-feedback-auto-collection-025.json",
+            "name": "aeo_feedback_auto_collection",
+            "domain": "quality_assurance",
+            "type": "detection",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n025"
+          },
+          "subscription": {
+            "id": "sub_isc_N025",
+            "file": "isc-N025.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N025.json",
+            "ruleId": "N025",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T19:02:01.883Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n025"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N026",
+            "file": "aeo-insight-to-action-026.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/aeo-insight-to-action-026.json",
+            "name": "aeo_insight_to_action",
+            "domain": "quality_assurance",
+            "type": "decision",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n026"
+          },
+          "subscription": {
+            "id": "sub_isc_N026",
+            "file": "isc-N026.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N026.json",
+            "ruleId": "N026",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T19:02:01.883Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n026"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N023",
+            "file": "auto-aeo-evaluation-standard-generation-023.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/auto-aeo-evaluation-standard-generation-023.json",
+            "name": "aeo_auto_evaluation_standard_generation",
+            "domain": "quality_assurance",
+            "type": "auto-generation",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n023"
+          },
+          "subscription": {
+            "id": "sub_isc_N023",
+            "file": "isc-N023.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N023.json",
+            "ruleId": "N023",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T18:50:00.648Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n023"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N028",
+            "file": "auto-skill-change-vectorization-028.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/auto-skill-change-vectorization-028.json",
+            "name": "skill_change_auto_vectorization",
+            "domain": "automation",
+            "type": "auto-vectorization",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n028"
+          },
+          "subscription": {
+            "id": "sub_isc_N028",
+            "file": "isc-N028.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N028.json",
+            "ruleId": "N028",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T19:02:01.883Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n028"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N019",
+            "file": "auto-skill-md-generation-019.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/auto-skill-md-generation-019.json",
+            "name": "auto_skill_md_generation",
+            "domain": "automation",
+            "type": "auto-generation",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n019"
+          },
+          "subscription": {
+            "id": "sub_isc_N019",
+            "file": "isc-N019.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N019.json",
+            "ruleId": "N019",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T17:10:03.235Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n019"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N020",
+            "file": "auto-universal-root-cause-analysis-020.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/auto-universal-root-cause-analysis-020.json",
+            "name": "universal_root_cause_and_gap_analysis",
+            "domain": "quality_assurance",
+            "type": "auto-analysis",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n020"
+          },
+          "subscription": {
+            "id": "sub_isc_N020",
+            "file": "isc-N020.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N020.json",
+            "ruleId": "N020",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T17:10:03.235Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n020"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N016",
+            "file": "decision-auto-repair-loop-post-pipeline-016.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/decision-auto-repair-loop-post-pipeline-016.json",
+            "name": "auto_repair_loop_post_pipeline",
+            "domain": "quality_assurance",
+            "type": "decision",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n016"
+          },
+          "subscription": {
+            "id": "sub_isc_N016",
+            "file": "isc-N016.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N016.json",
+            "ruleId": "N016",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T15:46:49.787Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n016"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N022",
+            "file": "detection-architecture-design-isc-compliance-audit-022.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/detection-architecture-design-isc-compliance-audit-022.json",
+            "name": "architecture_design_isc_compliance_audit",
+            "domain": "quality_assurance",
+            "type": "detection",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n022"
+          },
+          "subscription": {
+            "id": "sub_isc_N022",
+            "file": "isc-N022.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N022.json",
+            "ruleId": "N022",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T18:04:22.996Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n022"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N017",
+            "file": "detection-cras-recurring-pattern-auto-resolve-017.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/detection-cras-recurring-pattern-auto-resolve-017.json",
+            "name": "cras_recurring_pattern_auto_resolve",
+            "domain": "cognitive_reflection",
+            "type": "detection",
+            "version": "1.1.0",
+            "requiresSubscription": true,
+            "normalizedId": "n017"
+          },
+          "subscription": {
+            "id": "sub_isc_N017",
+            "file": "isc-N017.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N017.json",
+            "ruleId": "N017",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T15:46:49.789Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n017"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N018",
+            "file": "detection-skill-rename-global-alignment-018.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/detection-skill-rename-global-alignment-018.json",
+            "name": "skill_rename_global_reference_alignment",
+            "domain": "architecture",
+            "type": "detection",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n018"
+          },
+          "subscription": {
+            "id": "sub_isc_N018",
+            "file": "isc-N018.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N018.json",
+            "ruleId": "N018",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T15:46:49.790Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n018"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-evomap-mandatory-security-scan-032",
+            "file": "evomap-mandatory-security-scan-032.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/evomap-mandatory-security-scan-032.json",
+            "name": "EvoMap同步清单强制安全扫描",
+            "domain": null,
+            "type": "decision",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-evomap-mandatory-security-scan-032"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-evomap-mandatory-security-scan-032",
+            "file": "isc-isc-evomap-mandatory-security-scan-032.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-evomap-mandatory-security-scan-032.json",
+            "ruleId": "isc-evomap-mandatory-security-scan-032",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-27T07:03:47.739Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-evomap-mandatory-security-scan-032"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N029",
+            "file": "model-api-key-pool-management-029.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/model-api-key-pool-management-029.json",
+            "name": "model_api_key_pool_management",
+            "domain": "infrastructure",
+            "type": "infrastructure",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n029"
+          },
+          "subscription": {
+            "id": "sub_isc_N029",
+            "file": "isc-N029.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N029.json",
+            "ruleId": "N029",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T19:30:06.801Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n029"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.aeo-evaluation-set-registry-001",
+            "file": "rule.aeo-evaluation-set-registry-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.aeo-evaluation-set-registry-001.json",
+            "name": "aeo_evaluation_set_registry_standard",
+            "domain": "aeo",
+            "type": "standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-aeo-evaluation-set-registry-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_aeo-evaluation-set-registry-001",
+            "file": "isc-rule-aeo-evaluation-set-registry-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-aeo-evaluation-set-registry-001.json",
+            "ruleId": "rule.aeo-evaluation-set-registry-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-26T12:01:06.774Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-aeo-evaluation-set-registry-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.auto-evomap-sync-trigger-001",
+            "file": "rule.auto-evomap-sync-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-evomap-sync-trigger-001.json",
+            "name": "auto_evomap_sync",
+            "domain": "sync",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-auto-evomap-sync-trigger-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_auto-evomap-sync-trigger-001",
+            "file": "isc-rule-auto-evomap-sync-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-evomap-sync-trigger-001.json",
+            "ruleId": "rule.auto-evomap-sync-trigger-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "rule-auto-evomap-sync-trigger-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.auto-fix-high-severity-001",
+            "file": "rule.auto-fix-high-severity-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-fix-high-severity-001.json",
+            "name": "auto_fix_high_severity",
+            "domain": "remediation",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-auto-fix-high-severity-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_auto-fix-high-severity-001",
+            "file": "isc-rule-auto-fix-high-severity-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-fix-high-severity-001.json",
+            "ruleId": "rule.auto-fix-high-severity-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "rule-auto-fix-high-severity-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.auto-github-sync-trigger-001",
+            "file": "rule.auto-github-sync-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-github-sync-trigger-001.json",
+            "name": "auto_github_sync",
+            "domain": "sync",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-auto-github-sync-trigger-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_auto-github-sync-trigger-001",
+            "file": "isc-rule-auto-github-sync-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-github-sync-trigger-001.json",
+            "ruleId": "rule.auto-github-sync-trigger-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T02:02:22.483Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-auto-github-sync-trigger-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.auto-readme-generation-trigger-001",
+            "file": "rule.auto-readme-generation-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-readme-generation-trigger-001.json",
+            "name": "auto_readme_generation",
+            "domain": "automation",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-auto-readme-generation-trigger-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_auto-readme-generation-trigger-001",
+            "file": "isc-rule-auto-readme-generation-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-readme-generation-trigger-001.json",
+            "ruleId": "rule.auto-readme-generation-trigger-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "rule-auto-readme-generation-trigger-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.auto-skillization-trigger-001",
+            "file": "rule.auto-skillization-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-skillization-trigger-001.json",
+            "name": "auto_skillization",
+            "domain": "automation",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-auto-skillization-trigger-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_auto-skillization-trigger-001",
+            "file": "isc-rule-auto-skillization-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-skillization-trigger-001.json",
+            "ruleId": "rule.auto-skillization-trigger-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "rule-auto-skillization-trigger-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.auto-vectorization-trigger-001",
+            "file": "rule.auto-vectorization-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.auto-vectorization-trigger-001.json",
+            "name": "auto_vectorization",
+            "domain": "automation",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-auto-vectorization-trigger-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_auto-vectorization-trigger-001",
+            "file": "isc-rule-auto-vectorization-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-auto-vectorization-trigger-001.json",
+            "ruleId": "rule.auto-vectorization-trigger-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "rule-auto-vectorization-trigger-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.cron-task-model-requirement-001",
+            "file": "rule.cron-task-model-requirement-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.cron-task-model-requirement-001.json",
+            "name": "cron_task_model_requirement",
+            "domain": "cron",
+            "type": "validation_rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-cron-task-model-requirement-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_cron-task-model-requirement-001",
+            "file": "isc-rule-cron-task-model-requirement-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-cron-task-model-requirement-001.json",
+            "ruleId": "rule.cron-task-model-requirement-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-26T07:50:03.765Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-cron-task-model-requirement-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.cron-task-model-selection-002",
+            "file": "rule.cron-task-model-selection-002.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.cron-task-model-selection-002.json",
+            "name": "cron_task_model_selection_standard",
+            "domain": "cron",
+            "type": "standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-cron-task-model-selection-002"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_cron-task-model-selection-002",
+            "file": "isc-rule-cron-task-model-selection-002.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-cron-task-model-selection-002.json",
+            "ruleId": "rule.cron-task-model-selection-002",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-26T12:01:06.774Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-cron-task-model-selection-002"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "R013",
+            "file": "rule.decision-capability-anchor-013.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.decision-capability-anchor-013.json",
+            "name": "capability_anchor_auto_identification",
+            "domain": null,
+            "type": "decision-rule",
+            "version": "3.1.3",
+            "requiresSubscription": true,
+            "normalizedId": "r013"
+          },
+          "subscription": {
+            "id": "sub_isc_R013",
+            "file": "isc-R013.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-R013.json",
+            "ruleId": "R013",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T21:02:01.750Z",
+            "updatedAt": null,
+            "normalizedRuleId": "r013"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "R006",
+            "file": "rule.decision-council-seven-required-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.decision-council-seven-required-001.json",
+            "name": "council_of_seven_required",
+            "domain": null,
+            "type": "decision-rule",
+            "version": "1.1.0",
+            "requiresSubscription": true,
+            "normalizedId": "r006"
+          },
+          "subscription": {
+            "id": "sub_isc_R006",
+            "file": "isc-R006.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-R006.json",
+            "ruleId": "R006",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T21:02:01.751Z",
+            "updatedAt": null,
+            "normalizedRuleId": "r006"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule_2f7dd6e4",
+            "file": "rule.decision-custom-2f7dd6e4.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.decision-custom-2f7dd6e4.json",
+            "name": null,
+            "domain": null,
+            "type": "decision-rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-2f7dd6e4"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_2f7dd6e4",
+            "file": "isc-rule_2f7dd6e4.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule_2f7dd6e4.json",
+            "ruleId": "rule_2f7dd6e4",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-2f7dd6e4"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "R014",
+            "file": "rule.decision-proactive-skillization-014.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.decision-proactive-skillization-014.json",
+            "name": "proactive_skillization_execution",
+            "domain": null,
+            "type": "decision-rule",
+            "version": "3.1.3",
+            "requiresSubscription": true,
+            "normalizedId": "r014"
+          },
+          "subscription": {
+            "id": "sub_isc_R014",
+            "file": "isc-R014.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-R014.json",
+            "ruleId": "R014",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T21:02:01.751Z",
+            "updatedAt": null,
+            "normalizedRuleId": "r014"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "S005",
+            "file": "rule.detection-report-feishu-card-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.detection-report-feishu-card-001.json",
+            "name": "report_feishu_card_format",
+            "domain": null,
+            "type": "detection-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "s005"
+          },
+          "subscription": {
+            "id": "sub_isc_S005",
+            "file": "isc-S005.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-S005.json",
+            "ruleId": "S005",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.945Z",
+            "updatedAt": null,
+            "normalizedRuleId": "s005"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.dual-channel-message-guarantee-001",
+            "file": "rule.dual-channel-message-guarantee-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.dual-channel-message-guarantee-001.json",
+            "name": "dual_channel_message_guarantee",
+            "domain": "communication",
+            "type": "governance_rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-dual-channel-message-guarantee-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_dual-channel-message-guarantee-001",
+            "file": "isc-rule-dual-channel-message-guarantee-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-dual-channel-message-guarantee-001.json",
+            "ruleId": "rule.dual-channel-message-guarantee-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-26T10:20:03.991Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-dual-channel-message-guarantee-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "evomap_sync",
+            "file": "rule.evomap-sync-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.evomap-sync-trigger-001.json",
+            "name": null,
+            "domain": null,
+            "type": "detection-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "evomap-sync"
+          },
+          "subscription": {
+            "id": "sub_isc_evomap_sync",
+            "file": "isc-evomap_sync.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-evomap_sync.json",
+            "ruleId": "evomap_sync",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "evomap-sync"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.github-api-skill-001",
+            "file": "rule.github-api-skill-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.github-api-skill-001.json",
+            "name": "github_api_skill",
+            "domain": "integration",
+            "type": "skill",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-github-api-skill-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_github-api-skill-001",
+            "file": "isc-rule-github-api-skill-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-github-api-skill-001.json",
+            "ruleId": "rule.github-api-skill-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T04:50:01.880Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-github-api-skill-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.glm-vision-priority-001",
+            "file": "rule.glm-vision-priority-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.glm-vision-priority-001.json",
+            "name": "glm_vision_priority",
+            "domain": "capability",
+            "type": "routing_rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-glm-vision-priority-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_glm-vision-priority-001",
+            "file": "isc-rule-glm-vision-priority-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-glm-vision-priority-001.json",
+            "ruleId": "rule.glm-vision-priority-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T06:45:03.243Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-glm-vision-priority-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.http-skills-suite-001",
+            "file": "rule.http-skills-suite-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.http-skills-suite-001.json",
+            "name": "http_skills_suite",
+            "domain": "integration",
+            "type": "skill_suite",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-http-skills-suite-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_http-skills-suite-001",
+            "file": "isc-rule-http-skills-suite-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-http-skills-suite-001.json",
+            "ruleId": "rule.http-skills-suite-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T04:50:01.881Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-http-skills-suite-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N007-v2",
+            "file": "rule.interaction-source-file-delivery-007.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.interaction-source-file-delivery-007.json",
+            "name": "source_file_delivery_method",
+            "domain": null,
+            "type": "interaction-standard",
+            "version": "2.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n007-v2"
+          },
+          "subscription": {
+            "id": "sub_isc_N007-v2",
+            "file": "isc-N007-v2.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N007-v2.json",
+            "ruleId": "N007-v2",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T14:40:03.737Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n007-v2"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.isc-change-auto-trigger-alignment-001",
+            "file": "rule.isc-change-auto-trigger-alignment-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-change-auto-trigger-alignment-001.json",
+            "name": "isc_change_auto_trigger_alignment",
+            "domain": "orchestration",
+            "type": "governance_rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-isc-change-auto-trigger-alignment-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_isc-change-auto-trigger-alignment-001",
+            "file": "isc-rule-isc-change-auto-trigger-alignment-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-change-auto-trigger-alignment-001.json",
+            "ruleId": "rule.isc-change-auto-trigger-alignment-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-26T09:38:23.764Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-isc-change-auto-trigger-alignment-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.isc-creation-gate-001",
+            "file": "rule.isc-creation-gate-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-creation-gate-001.json",
+            "name": "isc_creation_validation_gate",
+            "domain": "process",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-isc-creation-gate-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_isc-creation-gate-001",
+            "file": "isc-rule-isc-creation-gate-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-creation-gate-001.json",
+            "ruleId": "rule.isc-creation-gate-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-isc-creation-gate-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-detect-repeated-error",
+            "file": "rule.isc-detect-repeated-error-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-detect-repeated-error-001.json",
+            "name": null,
+            "domain": null,
+            "type": "detection-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-detect-repeated-error"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-detect-repeated-error",
+            "file": "isc-isc-detect-repeated-error.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-detect-repeated-error.json",
+            "ruleId": "isc-detect-repeated-error",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-detect-repeated-error"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.isc-dto-handshake-001",
+            "file": "rule.isc-dto-handshake-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-dto-handshake-001.json",
+            "name": "isc_dto_periodic_handshake",
+            "domain": "process",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-isc-dto-handshake-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_isc-dto-handshake-001",
+            "file": "isc-rule-isc-dto-handshake-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-dto-handshake-001.json",
+            "ruleId": "rule.isc-dto-handshake-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": null,
+            "updatedAt": null,
+            "normalizedRuleId": "rule-isc-dto-handshake-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-naming-constants",
+            "file": "rule.isc-naming-constants-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-naming-constants-001.json",
+            "name": null,
+            "domain": null,
+            "type": "naming-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-naming-constants"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-naming-constants",
+            "file": "isc-isc-naming-constants.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-naming-constants.json",
+            "ruleId": "isc-naming-constants",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-naming-constants"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.isc-naming-convention-001",
+            "file": "rule.isc-naming-convention-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-naming-convention-001.json",
+            "name": "isc_rule_naming_convention",
+            "domain": "naming",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-isc-naming-convention-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_isc-naming-convention-001",
+            "file": "isc-rule-isc-naming-convention-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-naming-convention-001.json",
+            "ruleId": "rule.isc-naming-convention-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.945Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-isc-naming-convention-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-naming-gene-files",
+            "file": "rule.isc-naming-gene-files-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-naming-gene-files-001.json",
+            "name": null,
+            "domain": null,
+            "type": "naming-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-naming-gene-files"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-naming-gene-files",
+            "file": "isc-isc-naming-gene-files.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-naming-gene-files.json",
+            "ruleId": "isc-naming-gene-files",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-naming-gene-files"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-naming-skill-dir",
+            "file": "rule.isc-naming-skill-dir-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-naming-skill-dir-001.json",
+            "name": null,
+            "domain": null,
+            "type": "naming-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-naming-skill-dir"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-naming-skill-dir",
+            "file": "isc-isc-naming-skill-dir.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-naming-skill-dir.json",
+            "ruleId": "isc-naming-skill-dir",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-naming-skill-dir"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-rule-missing-resource",
+            "file": "rule.isc-rule-missing-resource-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-rule-missing-resource-001.json",
+            "name": null,
+            "domain": null,
+            "type": "decision-rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-rule-missing-resource"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-rule-missing-resource",
+            "file": "isc-isc-rule-missing-resource.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-rule-missing-resource.json",
+            "ruleId": "isc-rule-missing-resource",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-rule-missing-resource"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-rule-timeout-retry",
+            "file": "rule.isc-rule-timeout-retry-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-rule-timeout-retry-001.json",
+            "name": null,
+            "domain": null,
+            "type": "decision-rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-rule-timeout-retry"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-rule-timeout-retry",
+            "file": "isc-isc-rule-timeout-retry.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-rule-timeout-retry.json",
+            "ruleId": "isc-rule-timeout-retry",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-rule-timeout-retry"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.isc-skill-index-auto-update-001",
+            "file": "rule.isc-skill-index-auto-update-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-skill-index-auto-update-001.json",
+            "name": "isc_skill_index_auto_update",
+            "domain": "automation",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-isc-skill-index-auto-update-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_isc-skill-index-auto-update-001",
+            "file": "isc-rule-isc-skill-index-auto-update-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-skill-index-auto-update-001.json",
+            "ruleId": "rule.isc-skill-index-auto-update-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T07:20:02.767Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-isc-skill-index-auto-update-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.isc-skill-usage-protocol-001",
+            "file": "rule.isc-skill-usage-protocol-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-skill-usage-protocol-001.json",
+            "name": "isc_skill_usage_protocol",
+            "domain": "standards",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-isc-skill-usage-protocol-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_isc-skill-usage-protocol-001",
+            "file": "isc-rule-isc-skill-usage-protocol-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-skill-usage-protocol-001.json",
+            "ruleId": "rule.isc-skill-usage-protocol-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T07:20:02.768Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-isc-skill-usage-protocol-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.isc-standard-format-001",
+            "file": "rule.isc-standard-format-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-standard-format-001.json",
+            "name": "isc_standard_file_format",
+            "domain": "standardization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-isc-standard-format-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_isc-standard-format-001",
+            "file": "isc-rule-isc-standard-format-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-isc-standard-format-001.json",
+            "ruleId": "rule.isc-standard-format-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.945Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-isc-standard-format-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.multi-agent-communication-priority-001",
+            "file": "rule.multi-agent-communication-priority-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.multi-agent-communication-priority-001.json",
+            "name": "multi_agent_communication_priority",
+            "domain": "orchestration",
+            "type": "governance_rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-multi-agent-communication-priority-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_multi-agent-communication-priority-001",
+            "file": "isc-rule-multi-agent-communication-priority-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-multi-agent-communication-priority-001.json",
+            "ruleId": "rule.multi-agent-communication-priority-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-26T08:50:04.593Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-multi-agent-communication-priority-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "N006",
+            "file": "rule.naming-skill-bilingual-display-006.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json",
+            "name": "skill_name_bilingual_display",
+            "domain": null,
+            "type": "naming-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "n006"
+          },
+          "subscription": {
+            "id": "sub_isc_N006",
+            "file": "isc-N006.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-N006.json",
+            "ruleId": "N006",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.945Z",
+            "updatedAt": null,
+            "normalizedRuleId": "n006"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.parallel-analysis-workflow-001",
+            "file": "rule.parallel-analysis-workflow-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.parallel-analysis-workflow-001.json",
+            "name": "parallel_analysis_workflow",
+            "domain": "analysis",
+            "type": "workflow",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-parallel-analysis-workflow-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_parallel-analysis-workflow-001",
+            "file": "isc-rule-parallel-analysis-workflow-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-parallel-analysis-workflow-001.json",
+            "ruleId": "rule.parallel-analysis-workflow-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T03:40:02.304Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-parallel-analysis-workflow-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.parallel-subagent-orchestration-001",
+            "file": "rule.parallel-subagent-orchestration-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json",
+            "name": "parallel_subagent_orchestration",
+            "domain": "orchestration",
+            "type": "workflow",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-parallel-subagent-orchestration-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_parallel-subagent-orchestration-001",
+            "file": "isc-rule-parallel-subagent-orchestration-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-parallel-subagent-orchestration-001.json",
+            "ruleId": "rule.parallel-subagent-orchestration-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T03:40:02.306Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-parallel-subagent-orchestration-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.pipeline-report-filter-001",
+            "file": "rule.pipeline-report-filter-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.pipeline-report-filter-001.json",
+            "name": "pipeline_report_filter",
+            "domain": "orchestration",
+            "type": "governance_rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-pipeline-report-filter-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_pipeline-report-filter-001",
+            "file": "isc-rule-pipeline-report-filter-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-pipeline-report-filter-001.json",
+            "ruleId": "rule.pipeline-report-filter-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-26T09:44:31.735Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-pipeline-report-filter-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "ISC-SKILL-QUALITY-001",
+            "file": "rule.quality-skill-no-placeholder-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.quality-skill-no-placeholder-001.json",
+            "name": "skill_no_placeholder",
+            "domain": "quality",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-skill-quality-001"
+          },
+          "subscription": {
+            "id": "sub_isc_ISC-SKILL-QUALITY-001",
+            "file": "isc-ISC-SKILL-QUALITY-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-ISC-SKILL-QUALITY-001.json",
+            "ruleId": "ISC-SKILL-QUALITY-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-skill-quality-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "readme_quality",
+            "file": "rule.readme-quality-check-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.readme-quality-check-001.json",
+            "name": null,
+            "domain": null,
+            "type": "detection-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "readme-quality"
+          },
+          "subscription": {
+            "id": "sub_isc_readme_quality",
+            "file": "isc-readme_quality.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-readme_quality.json",
+            "ruleId": "readme_quality",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "readme-quality"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.seef-subskill-orchestration-001",
+            "file": "rule.seef-subskill-orchestration-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.seef-subskill-orchestration-001.json",
+            "name": "seef_subskill_dto_orchestration",
+            "domain": "orchestration",
+            "type": "workflow",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-seef-subskill-orchestration-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_seef-subskill-orchestration-001",
+            "file": "isc-rule-seef-subskill-orchestration-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-seef-subskill-orchestration-001.json",
+            "ruleId": "rule.seef-subskill-orchestration-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T02:50:02.154Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-seef-subskill-orchestration-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.skill-mandatory-skill-md-001",
+            "file": "rule.skill-mandatory-skill-md-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.skill-mandatory-skill-md-001.json",
+            "name": "skill_mandatory_skill_md",
+            "domain": "quality",
+            "type": "governance_rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-skill-mandatory-skill-md-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_skill-mandatory-skill-md-001",
+            "file": "isc-rule-skill-mandatory-skill-md-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-skill-mandatory-skill-md-001.json",
+            "ruleId": "rule.skill-mandatory-skill-md-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-26T10:05:11.106Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-skill-mandatory-skill-md-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "skill_md_quality",
+            "file": "rule.skill-md-quality-check-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.skill-md-quality-check-001.json",
+            "name": null,
+            "domain": null,
+            "type": "detection-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "skill-md-quality"
+          },
+          "subscription": {
+            "id": "sub_isc_skill_md_quality",
+            "file": "isc-skill_md_quality.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-skill_md_quality.json",
+            "ruleId": "skill_md_quality",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "skill-md-quality"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.skill-quality-001",
+            "file": "rule.skill-quality-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.skill-quality-001.json",
+            "name": "skill_no_placeholder",
+            "domain": "quality",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-skill-quality-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_skill-quality-001",
+            "file": "isc-rule-skill-quality-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-skill-quality-001.json",
+            "ruleId": "rule.skill-quality-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.945Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-skill-quality-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "vectorization",
+            "file": "rule.vectorization-trigger-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization-trigger-001.json",
+            "name": null,
+            "domain": null,
+            "type": "detection-standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "vectorization"
+          },
+          "subscription": {
+            "id": "sub_isc_vectorization",
+            "file": "isc-vectorization.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-vectorization.json",
+            "ruleId": "vectorization",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-24T22:29:24.944Z",
+            "updatedAt": null,
+            "normalizedRuleId": "vectorization"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "rule.zhipu-capability-router-001",
+            "file": "rule.zhipu-capability-router-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.zhipu-capability-router-001.json",
+            "name": "zhipu_capability_auto_router",
+            "domain": "capability",
+            "type": "auto_router",
+            "version": "1.1.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-zhipu-capability-router-001"
+          },
+          "subscription": {
+            "id": "sub_isc_rule_zhipu-capability-router-001",
+            "file": "isc-rule-zhipu-capability-router-001.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-rule-zhipu-capability-router-001.json",
+            "ruleId": "rule.zhipu-capability-router-001",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-25T06:45:03.244Z",
+            "updatedAt": null,
+            "normalizedRuleId": "rule-zhipu-capability-router-001"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-skill-permission-classification-031",
+            "file": "skill-permission-classification-031.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/skill-permission-classification-031.json",
+            "name": "技能权限分级体系",
+            "domain": null,
+            "type": "standard",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-skill-permission-classification-031"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-skill-permission-classification-031",
+            "file": "isc-isc-skill-permission-classification-031.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-skill-permission-classification-031.json",
+            "ruleId": "isc-skill-permission-classification-031",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-27T07:03:47.740Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-skill-permission-classification-031"
+          },
+          "status": "aligned"
+        },
+        {
+          "rule": {
+            "id": "isc-skill-security-gate-030",
+            "file": "skill-security-gate-030.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/skill-security-gate-030.json",
+            "name": "技能安全准出标准",
+            "domain": null,
+            "type": "decision",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "isc-skill-security-gate-030"
+          },
+          "subscription": {
+            "id": "sub_isc_isc-skill-security-gate-030",
+            "file": "isc-isc-skill-security-gate-030.json",
+            "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions/isc-isc-skill-security-gate-030.json",
+            "ruleId": "isc-skill-security-gate-030",
+            "ruleIds": [],
+            "status": "active",
+            "trigger": null,
+            "createdAt": "2026-02-27T07:03:47.740Z",
+            "updatedAt": null,
+            "normalizedRuleId": "isc-skill-security-gate-030"
+          },
+          "status": "aligned"
+        }
+      ],
+      "misaligned": [
+        {
+          "rule": {
+            "id": "gateway-config-protection-N033",
+            "file": "gateway-config-protection-N033.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/gateway-config-protection-N033.json",
+            "name": null,
+            "domain": null,
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "gateway-config-protection-n033"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        },
+        {
+          "rule": {
+            "id": "memory-loss-self-recovery-N036",
+            "file": "memory-loss-self-recovery-N036.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/memory-loss-self-recovery-N036.json",
+            "name": null,
+            "domain": null,
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "memory-loss-self-recovery-n036"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        },
+        {
+          "rule": {
+            "id": "planning.time-granularity-037",
+            "file": "planning.time-granularity-037.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/planning.time-granularity-037.json",
+            "name": "AI计划时间粒度标准",
+            "domain": null,
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "planning-time-granularity-037"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        },
+        {
+          "rule": {
+            "id": "rule-trigger-integrity-N035",
+            "file": "rule-trigger-integrity-N035.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule-trigger-integrity-N035.json",
+            "name": null,
+            "domain": null,
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-trigger-integrity-n035"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.aeo-auto-001",
+            "file": "rule.vectorization.aeo-auto-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.aeo-auto-001.json",
+            "name": "aeo_evaluation_set_vectorization",
+            "domain": "vectorization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-aeo-auto-001"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.knowledge-auto-001",
+            "file": "rule.vectorization.knowledge-auto-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.knowledge-auto-001.json",
+            "name": "knowledge_mandatory_vectorization",
+            "domain": "vectorization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-knowledge-auto-001"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.memory-auto-001",
+            "file": "rule.vectorization.memory-auto-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.memory-auto-001.json",
+            "name": "memory_mandatory_vectorization",
+            "domain": "vectorization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-memory-auto-001"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.skill-auto-001",
+            "file": "rule.vectorization.skill-auto-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.skill-auto-001.json",
+            "name": "skill_mandatory_vectorization",
+            "domain": "vectorization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-skill-auto-001"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.unified-standard-001",
+            "file": "rule.vectorization.unified-standard-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.unified-standard-001.json",
+            "name": "unified_zhipu_vectorization_standard",
+            "domain": "vectorization",
+            "type": "standard",
+            "version": "2.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-unified-standard-001"
+          },
+          "missing": "subscription",
+          "status": "misaligned"
+        }
+      ],
+      "orphanedSubscriptions": [],
+      "checkTime": "2026-02-28T15:39:39.475Z"
+    },
+    "repairResult": {
+      "total": 9,
+      "repaired": [
+        {
+          "rule": {
+            "id": "gateway-config-protection-N033",
+            "file": "gateway-config-protection-N033.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/gateway-config-protection-N033.json",
+            "name": null,
+            "domain": null,
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "gateway-config-protection-n033"
+          },
+          "subscriptionFile": "sub-gateway-config-protection-n033.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-gateway-config-protection-n033.json",
+          "status": "repaired"
+        },
+        {
+          "rule": {
+            "id": "memory-loss-self-recovery-N036",
+            "file": "memory-loss-self-recovery-N036.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/memory-loss-self-recovery-N036.json",
+            "name": null,
+            "domain": null,
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "memory-loss-self-recovery-n036"
+          },
+          "subscriptionFile": "sub-memory-loss-self-recovery-n036.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-memory-loss-self-recovery-n036.json",
+          "status": "repaired"
+        },
+        {
+          "rule": {
+            "id": "planning.time-granularity-037",
+            "file": "planning.time-granularity-037.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/planning.time-granularity-037.json",
+            "name": "AI计划时间粒度标准",
+            "domain": null,
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "planning-time-granularity-037"
+          },
+          "subscriptionFile": "sub-planning-time-granularity-037.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-planning-time-granularity-037.json",
+          "status": "repaired"
+        },
+        {
+          "rule": {
+            "id": "rule-trigger-integrity-N035",
+            "file": "rule-trigger-integrity-N035.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule-trigger-integrity-N035.json",
+            "name": null,
+            "domain": null,
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-trigger-integrity-n035"
+          },
+          "subscriptionFile": "sub-rule-trigger-integrity-n035.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-rule-trigger-integrity-n035.json",
+          "status": "repaired"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.aeo-auto-001",
+            "file": "rule.vectorization.aeo-auto-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.aeo-auto-001.json",
+            "name": "aeo_evaluation_set_vectorization",
+            "domain": "vectorization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-aeo-auto-001"
+          },
+          "subscriptionFile": "sub-rule-vectorization-aeo-auto-001.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-rule-vectorization-aeo-auto-001.json",
+          "status": "repaired"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.knowledge-auto-001",
+            "file": "rule.vectorization.knowledge-auto-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.knowledge-auto-001.json",
+            "name": "knowledge_mandatory_vectorization",
+            "domain": "vectorization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-knowledge-auto-001"
+          },
+          "subscriptionFile": "sub-rule-vectorization-knowledge-auto-001.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-rule-vectorization-knowledge-auto-001.json",
+          "status": "repaired"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.memory-auto-001",
+            "file": "rule.vectorization.memory-auto-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.memory-auto-001.json",
+            "name": "memory_mandatory_vectorization",
+            "domain": "vectorization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-memory-auto-001"
+          },
+          "subscriptionFile": "sub-rule-vectorization-memory-auto-001.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-rule-vectorization-memory-auto-001.json",
+          "status": "repaired"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.skill-auto-001",
+            "file": "rule.vectorization.skill-auto-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.skill-auto-001.json",
+            "name": "skill_mandatory_vectorization",
+            "domain": "vectorization",
+            "type": "rule",
+            "version": "1.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-skill-auto-001"
+          },
+          "subscriptionFile": "sub-rule-vectorization-skill-auto-001.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-rule-vectorization-skill-auto-001.json",
+          "status": "repaired"
+        },
+        {
+          "rule": {
+            "id": "rule.vectorization.unified-standard-001",
+            "file": "rule.vectorization.unified-standard-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.vectorization.unified-standard-001.json",
+            "name": "unified_zhipu_vectorization_standard",
+            "domain": "vectorization",
+            "type": "standard",
+            "version": "2.0.0",
+            "requiresSubscription": true,
+            "normalizedId": "rule-vectorization-unified-standard-001"
+          },
+          "subscriptionFile": "sub-rule-vectorization-unified-standard-001.json",
+          "subscriptionPath": "/root/.openclaw/workspace/skills/dto-core/subscriptions/sub-rule-vectorization-unified-standard-001.json",
+          "status": "repaired"
+        }
+      ],
+      "failed": [],
+      "repairTime": "2026-02-28T15:39:39.476Z"
+    }
+  }
+}

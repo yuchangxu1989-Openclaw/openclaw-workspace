@@ -1,0 +1,35 @@
+{
+  "id": "skill.evolution.auto-trigger",
+  "name": "技能进化自动触发",
+  "description": "技能变更时自动触发SEEF进化流水线",
+  "version": "1.0.0",
+  "status": "active",
+  "trigger": {
+    "type": "event",
+    "sources": [
+      "skill.changed",
+      "skill.created",
+      "skill.published"
+    ]
+  },
+  "condition": {
+    "autoTrigger": true,
+    "minISCScore": 50,
+    "excludePatterns": [
+      "**/node_modules/**",
+      "**/.git/**",
+      "**/*.log"
+    ]
+  },
+  "action": {
+    "type": "pipeline.trigger",
+    "target": "seef.evolution-pipeline",
+    "parameters": {
+      "immediate": false,
+      "queueIfRunning": true
+    }
+  },
+  "priority": 5,
+  "createdAt": "2026-03-01T00:00:00Z",
+  "updatedAt": "2026-03-01T00:00:00Z"
+}

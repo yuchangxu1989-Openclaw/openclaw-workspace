@@ -1,0 +1,16 @@
+{
+  "type": "naming-standard",
+  "id": "N006",
+  "name": "skill_name_bilingual_display",
+  "description": "技能名称双语展示标准 - 所有汇报涉及skill英文名时必须同时展示中文名",
+  "scope": "skill-reports-and-outputs",
+  "pattern": "英文名(中文名)",
+  "regex": "^[a-z0-9-]+\\([\\u4e00-\\u9fa5]+\\)$",
+  "example": "isc-core(智能标准中心), seef(技能生态进化工厂), cras(认知进化伙伴)",
+  "required": true,
+  "priority": "high",
+  "category": "user_experience",
+  "version": "1.0.0",
+  "created_at": "2026-02-23T19:28:00Z",
+  "status": "active"
+}

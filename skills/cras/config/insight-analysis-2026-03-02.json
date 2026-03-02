@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-03-02T10:00:20.297Z",
+  "period": "7天",
+  "summary": {
+    "totalFiles": 16,
+    "totalInteractions": 0,
+    "totalSize": 40,
+    "dateRange": {
+      "start": "2026-02-25.md",
+      "end": "2026-03-02.md"
+    }
+  },
+  "intents": {
+    "distribution": {
+      "command": 0,
+      "query": 0,
+      "architecture": 0,
+      "feedback": 0,
+      "exploration": 0,
+      "other": 0
+    },
+    "topIntents": [
+      {
+        "name": "command",
+        "count": 0
+      },
+      {
+        "name": "query",
+        "count": 0
+      },
+      {
+        "name": "architecture",
+        "count": 0
+      },
+      {
+        "name": "feedback",
+        "count": 0
+      },
+      {
+        "name": "exploration",
+        "count": 0
+      }
+    ]
+  },
+  "trends": {
+    "daily": [
+      {
+        "date": "2026-02-25",
+        "interactions": 0,
+        "size": 2422
+      },
+      {
+        "date": "2026-02-26",
+        "interactions": 0,
+        "size": 3010
+      },
+      {
+        "date": "2026-02-27",
+        "interactions": 0,
+        "size": 6230
+      },
+      {
+        "date": "2026-02-28",
+        "interactions": 0,
+        "size": 2826
+      },
+      {
+        "date": "2026-03-01",
+        "interactions": 0,
+        "size": 24714
+      },
+      {
+        "date": "2026-03-02",
+        "interactions": 0,
+        "size": 2186
+      }
+    ],
+    "direction": "stable",
+    "recent3Days": 0,
+    "previous4Days": 0
+  },
+  "patterns": [
+    {
+      "type": "consistency",
+      "description": "连续16天保持交互",
+      "confidence": 0.9
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "low",
+      "category": "organization",
+      "message": "会话文件较多，建议定期归档历史数据"
+    }
+  ]
+}
