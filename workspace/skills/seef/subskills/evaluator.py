@@ -2,12 +2,20 @@
 """
 SEEF Subskill: Skill Evaluator
 技能评估器 - 对现有技能进行多维质量诊断
+
+v1.1.0 - 接入真实 ISC 规则校验（isc_bridge）
 """
 
 import json
 import hashlib
+import sys
+import os
 from datetime import datetime
 from pathlib import Path
+
+# 确保能 import 同级目录的 isc_bridge
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from isc_bridge import check_skill as isc_check_skill, load_rules as isc_load_rules
 
 class SkillEvaluator:
     """技能评估器"""
@@ -15,9 +23,10 @@ class SkillEvaluator:
     def __init__(self, isc_client=None, cras_client=None):
         self.isc_client = isc_client
         self.cras_client = cras_client
+        self._isc_rules = None  # 延迟加载
         self.results = {
             'subskill': 'evaluator',
-            'version': '1.0.0',
+            'version': '1.1.0',
             'timestamp': datetime.now().isoformat(),
             'findings': [],
             'metrics': {}
@@ -126,22 +135,88 @@ class SkillEvaluator:
         }
     
     def _check_standard_compliance(self, skill_path):
-        """标准符合性检查"""
-        # 模拟 ISC 标准检查
-        return {
-            'status': 'passed',
-            'compliance_score': 0.85,
-            'findings': []
-        }
+        """标准符合性检查 - 接入真实 ISC 规则校验"""
+        try:
+            # 延迟加载规则（只加载一次）
+            if self._isc_rules is None:
+                self._isc_rules = isc_load_rules()
+
+            isc_result = isc_check_skill(skill_path, self._isc_rules)
+
+            # 将 ISC 校验的 failed 项转为 evaluator findings
+            for failure in isc_result.get('failed', []):
+                self.results['findings'].append({
+                    'level': 'error',
+                    'source': 'isc_bridge',
+                    'rule': failure.get('rule', 'UNKNOWN'),
+                    'message': failure.get('message', ''),
+                    'recommendation': f'修复 ISC 规则 {failure.get("rule", "")} 的不符合项'
+                })
+
+            # warnings 也记录
+            for warning in isc_result.get('warnings', []):
+                self.results['findings'].append({
+                    'level': 'warning',
+                    'source': 'isc_bridge',
+                    'rule': warning.get('rule', 'UNKNOWN'),
+                    'message': warning.get('message', '')
+                })
+
+            compliance_score = isc_result.get('score', 0)
+            return {
+                'status': 'passed' if compliance_score >= 0.7 else 'failed',
+                'compliance_score': round(compliance_score, 4),
+                'isc_rules_loaded': isc_result.get('total_rules_evaluated', 0),
+                'passed_count': len(isc_result.get('passed', [])),
+                'failed_count': len(isc_result.get('failed', [])),
+                'warning_count': len(isc_result.get('warnings', [])),
+                'skipped_count': len(isc_result.get('skipped', [])),
+                'findings': isc_result.get('failed', []) + isc_result.get('warnings', [])
+            }
+        except Exception as e:
+            # 降级：ISC 桥接不可用时返回 degraded 状态
+            self.results['findings'].append({
+                'level': 'warning',
+                'source': 'isc_bridge',
+                'message': f'ISC 规则桥接异常，已降级: {str(e)}',
+                'recommendation': '检查 isc_bridge.py 和 isc-core/rules/ 目录'
+            })
+            return {
+                'status': 'degraded',
+                'compliance_score': 0,
+                'error': str(e),
+                'findings': []
+            }
     
     def _analyze_user_behavior(self, cras_report):
-        """分析用户行为"""
-        # 模拟 CRAS 报告分析
+        """分析用户行为（基于真实 CRAS 报告数据）"""
+        pain_points = cras_report.get('pain_points', [])
+        workaround_count = cras_report.get('workaround_count', 0)
+        success_rate = cras_report.get('success_rate', None)
+
+        # 根据实际数据生成 findings
+        if workaround_count > 3:
+            self.results['findings'].append({
+                'level': 'warning',
+                'source': 'cras_analysis',
+                'message': f'用户存在 {workaround_count} 个变通方案，表明技能存在功能缺口',
+                'recommendation': '分析变通方案覆盖的场景，补充技能能力'
+            })
+
+        if success_rate is not None and success_rate < 0.8:
+            self.results['findings'].append({
+                'level': 'error',
+                'source': 'cras_analysis',
+                'message': f'用户成功率偏低: {success_rate:.0%}',
+                'recommendation': '优先修复高频失败路径'
+            })
+
         return {
             'status': 'analyzed',
-            'pain_points': cras_report.get('pain_points', []),
-            'workaround_count': cras_report.get('workaround_count', 0),
-            'success_rate': cras_report.get('success_rate', 0.95)
+            'pain_points': pain_points,
+            'workaround_count': workaround_count,
+            'success_rate': success_rate if success_rate is not None else 'unknown',
+            'pain_point_count': len(pain_points)
         }
     
     def _determine_exit_status(self):
