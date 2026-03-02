@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.2.13",
+    "lastTouchedAt": "2026-02-28T08:42:00.000Z"
+  },
+  "env": {
+    "KIMI_API_KEY": "${KIMI_API_KEY}",
+    "KIMI_PLUGIN_API_KEY": "${KIMI_PLUGIN_API_KEY}",
+    "ZHIPU_API_KEY": "${ZHIPU_API_KEY}"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "kimi-coding": {
+        "baseUrl": "https://api.kimi.com/coding",
+        "apiKey": "${KIMI_API_KEY}",
+        "api": "anthropic-messages",
+        "headers": {
+          "User-Agent": "Kimi Claw Plugin"
+        },
+        "models": [
+          {
+            "id": "k2p5",
+            "name": "k2p5",
+            "reasoning": true,
+            "input": ["text"],
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+            "contextWindow": 262144,
+            "maxTokens": 32768
+          }
+        ]
+      },
+      "zhipu": {
+        "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+        "apiKey": "${ZHIPU_API_KEY}",
+        "api": "openai-chat",
+        "headers": {
+          "User-Agent": "OpenClaw GLM-5 Client"
+        },
+        "models": [
+          {
+            "id": "glm-5",
+            "name": "glm-5",
+            "reasoning": true,
+            "input": ["text"],
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+            "contextWindow": 200000,
+            "maxTokens": 65536
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": { "primary": "kimi-coding/k2p5" },
+      "models": {
+        "kimi-coding/k2p5": { "alias": "Kimi K2.5" },
+        "zhipu/glm-5": { "alias": "GLM-5" }
+      }
+    }
+  },
+  "channels": {
+    "feishu": {
+      "appId": "cli_a911a148cbb89bde",
+      "appSecret": "Mybt98fTmuYvH5QBtevohdCbhEtturX1",
+      "enabled": true
+    }
+  }
+}
