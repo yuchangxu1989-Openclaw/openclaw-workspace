@@ -4,7 +4,7 @@
  */
 
 class DTOPlatform {
-  construdtor(options = {}) {
+  constructor(options = {}) {
     // 核心抽象：任务定义（与执行方式解耦）
     this.taskRegistry = new TaskRegistry();
     
@@ -142,7 +142,7 @@ class DAGEngine {
  * 支持：版本管理、依赖追踪、影响分析
  */
 class TaskRegistry {
-  construdtor() {
+  constructor() {
     this.tasks = new Map();
     this.versions = new Map();
     this.dependencyGraph = new DependencyGraph();
@@ -173,7 +173,7 @@ class TaskRegistry {
  * 支持：cron、event、webhook、manual
  */
 class TriggerRegistry {
-  construdtor() {
+  constructor() {
     this.triggers = new Map();
   }
   

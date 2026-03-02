@@ -22,7 +22,7 @@ const EventBus = require('./core/event-bus');
 const EventPublisher = require('./core/event-publisher');
 
 class DTOPlatform {
-  construdtor(options = {}) {
+  constructor(options = {}) {
     this.version = '3.0.0';
     this.name = 'DTO-Platform';
     
