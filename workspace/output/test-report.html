@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEO 效果趋势分析报告</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 12px; margin-bottom: 20px; }
+    .header h1 { font-size: 28px; margin-bottom: 10px; }
+    .header p { opacity: 0.9; }
+    .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .card h2 { font-size: 18px; color: #333; margin-bottom: 16px; border-left: 4px solid #667eea; padding-left: 12px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .stat-item { background: #f8f9fa; padding: 16px; border-radius: 8px; text-align: center; }
+    .stat-value { font-size: 32px; font-weight: bold; color: #667eea; }
+    .stat-label { font-size: 14px; color: #666; margin-top: 4px; }
+    .chart-container { position: relative; height: 300px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    th { font-weight: 600; color: #333; background: #f8f9fa; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+    .badge-success { background: #d4edda; color: #155724; }
+    .badge-danger { background: #f8d7da; color: #721c24; }
+    .trend-up { color: #28a745; }
+    .trend-down { color: #dc3545; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 AEO 效果趋势分析报告</h1>
+      <p>AI效果轨道评测历史数据分析</p>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">5</div>
+        <div class="stat-label">评测次数</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">83.5%</div>
+        <div class="stat-label">最新得分</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">90.0%</div>
+        <div class="stat-label">最高得分</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">80.0%</div>
+        <div class="stat-label">平均得分</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>📈 综合得分趋势</h2>
+      <div class="chart-container">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>📊 双轨道对比</h2>
+      <div class="chart-container">
+        <canvas id="compareChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>📋 评测历史</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>时间</th>
+            <th>综合得分</th>
+            <th>AI效果</th>
+            <th>功能质量</th>
+            <th>状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>2026/2/26 03:36:36</td>
+            <td>83.5% <span class="trend-up">↗</span></td>
+            <td>85.9%</td>
+            <td>82.7%</td>
+            <td><span class="badge badge-success">通过</span></td>
+          </tr>
+          <tr>
+            <td>2026/2/25 03:36:36</td>
+            <td>68.1% <span class="trend-down">↘</span></td>
+            <td>66.5%</td>
+            <td>68.4%</td>
+            <td><span class="badge badge-danger">失败</span></td>
+          </tr>
+          <tr>
+            <td>2026/2/24 03:36:36</td>
+            <td>83.9% <span class="trend-up">↗</span></td>
+            <td>83.7%</td>
+            <td>82.0%</td>
+            <td><span class="badge badge-success">通过</span></td>
+          </tr>
+          <tr>
+            <td>2026/2/23 03:36:36</td>
+            <td>74.7% <span class="trend-down">↘</span></td>
+            <td>73.3%</td>
+            <td>78.4%</td>
+            <td><span class="badge badge-danger">失败</span></td>
+          </tr>
+          <tr>
+            <td>2026/2/22 03:36:36</td>
+            <td>90.0% </td>
+            <td>90.3%</td>
+            <td>93.0%</td>
+            <td><span class="badge badge-success">通过</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <script>
+    // 趋势图
+    new Chart(document.getElementById('trendChart'), {
+      type: 'line',
+      data: {
+        labels: ["2/22","2/23","2/24","2/25","2/26"],
+        datasets: [{
+          label: '综合得分',
+          data: [89.95921144650698,74.663345217102,83.9472004025489,68.0701969840343,83.51764436510078],
+          borderColor: '#667eea',
+          backgroundColor: 'rgba(102, 126, 234, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true } },
+        scales: {
+          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+        }
+      }
+    });
+    
+    // 对比图
+    new Chart(document.getElementById('compareChart'), {
+      type: 'line',
+      data: {
+        labels: ["2/22","2/23","2/24","2/25","2/26"],
+        datasets: [{
+          label: 'AI效果',
+          data: [90.25916796341555,73.25666317694976,83.67434959969579,66.53010363023849,85.89503465974967],
+          borderColor: '#4CAF50',
+          backgroundColor: 'rgba(76, 175, 80, 0.1)',
+          tension: 0.4
+        }, {
+          label: '功能质量',
+          data: [93.00703666379174,78.42823421117163,82.0218073095903,68.38218697065274,82.74779772581286],
+          borderColor: '#2196F3',
+          backgroundColor: 'rgba(33, 150, 243, 0.1)',
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

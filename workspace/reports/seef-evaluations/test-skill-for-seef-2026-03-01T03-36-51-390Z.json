@@ -1,0 +1,47 @@
+{
+  "skillId": "test-skill-for-seef",
+  "skillName": "test-skill-for-seef",
+  "skillPath": "skills/test-skill-for-seef",
+  "timestamp": 1772336211389,
+  "trigger": "manual",
+  "score": 69,
+  "dimensions": {
+    "completeness": 100,
+    "documentation": 30,
+    "structure": 70,
+    "functionality": 75
+  },
+  "issues": {
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0,
+    "fixable": 1,
+    "total": 1
+  },
+  "issueDetails": [
+    {
+      "type": "poor_documentation",
+      "severity": "high",
+      "description": "文档质量不足",
+      "fixable": true,
+      "suggestedFix": "enhance_documentation"
+    }
+  ],
+  "suggestions": [
+    "trigger_full_pipeline",
+    "run_optimizer",
+    "improve_documentation"
+  ],
+  "nextSteps": [
+    "discoverer",
+    "optimizer",
+    "validator",
+    "recorder"
+  ],
+  "crasInjected": false,
+  "metadata": {
+    "evaluatorVersion": "1.0.0",
+    "evaluationTime": 1772336211390
+  }
+}

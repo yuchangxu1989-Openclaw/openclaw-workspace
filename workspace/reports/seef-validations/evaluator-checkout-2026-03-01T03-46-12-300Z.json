@@ -1,0 +1,108 @@
+{
+  "skillId": "evaluator",
+  "skillName": "SEEF Evaluator",
+  "skillPath": "skills/seef/sub-skills/evaluator",
+  "timestamp": 1772336772300,
+  "phase": "checkout",
+  "trigger": "test",
+  "passed": false,
+  "score": 72,
+  "gates": {
+    "functionality": {
+      "passed": true,
+      "score": 100,
+      "checks": [
+        {
+          "name": "entry_point_parseable",
+          "passed": true,
+          "message": "入口文件可解析"
+        },
+        {
+          "name": "has_exports",
+          "passed": true,
+          "message": "存在导出函数"
+        },
+        {
+          "name": "has_error_handling",
+          "passed": true,
+          "message": "包含错误处理"
+        }
+      ],
+      "summary": "功能验证: 3/3 通过"
+    },
+    "quality": {
+      "passed": false,
+      "score": 67,
+      "checks": [
+        {
+          "name": "skill_md_exists",
+          "passed": false,
+          "message": "SKILL.md 文件缺失"
+        },
+        {
+          "name": "code_sufficient",
+          "passed": true,
+          "message": "代码行数: 296 (最低要求: 10)"
+        },
+        {
+          "name": "file_size_reasonable",
+          "passed": true,
+          "message": "总大小: 10KB (上限: 1024KB)"
+        }
+      ],
+      "summary": "质量验证: 2/3 通过"
+    },
+    "compliance": {
+      "passed": false,
+      "score": 50,
+      "checks": [
+        {
+          "name": "file_naming_compliant",
+          "passed": true,
+          "message": "文件命名符合规范"
+        },
+        {
+          "name": "required_file_SKILL.md",
+          "passed": false,
+          "message": "SKILL.md 缺失"
+        }
+      ],
+      "summary": "规范验证: 1/2 通过"
+    }
+  },
+  "violations": [
+    {
+      "category": "质量验证",
+      "check": "skill_md_exists",
+      "message": "SKILL.md 文件缺失",
+      "severity": "warning"
+    },
+    {
+      "category": "规范验证",
+      "check": "required_file_SKILL.md",
+      "message": "SKILL.md 缺失",
+      "severity": "warning"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "medium",
+      "action": "improve_quality",
+      "description": "提升质量得分至 80 分以上（当前: 72）"
+    },
+    {
+      "priority": "medium",
+      "action": "enhance_documentation",
+      "description": "完善文档内容"
+    }
+  ],
+  "nextSteps": [
+    "optimizer",
+    "validator"
+  ],
+  "metadata": {
+    "validatorVersion": "1.0.0",
+    "iscRulesVersion": "1.0.0",
+    "validationTime": 1772336772300
+  }
+}

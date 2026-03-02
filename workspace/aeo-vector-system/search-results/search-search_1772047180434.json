@@ -1,0 +1,33 @@
+{
+  "searchId": "search_1772047180434",
+  "timestamp": "2026-02-25T19:19:40.434Z",
+  "results": [
+    {
+      "caseId": "case_login_002",
+      "name": "用户登录失败-错误密码",
+      "category": "function",
+      "tags": [
+        "login",
+        "auth",
+        "negative",
+        "security"
+      ],
+      "domain": "authentication",
+      "similarity": 0.38,
+      "text": "用户登录失败-错误密码 | 验证用户使用错误的密码登录时系统返回认证失败 | 输入: {\"username\":\"testuser\",\"password\":\"wrongpassword\"} | 期望: {\"status\":\"error\",\"message\":\"Authentication failed\"} | 标签: login auth negative security | 类别: functi..."
+    },
+    {
+      "caseId": "case_login_001",
+      "name": "用户登录成功",
+      "category": "function",
+      "tags": [
+        "login",
+        "auth",
+        "positive"
+      ],
+      "domain": "authentication",
+      "similarity": 0.309,
+      "text": "用户登录成功 | 验证用户使用正确的用户名和密码可以成功登录系统 | 输入: {\"username\":\"testuser\",\"password\":\"correctpassword\"} | 期望: {\"status\":\"success\",\"token\":\"jwt_token_here\"} | 标签: login auth positive | 类别: function | 领域: authentic..."
+    }
+  ]
+}

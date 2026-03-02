@@ -1,0 +1,20 @@
+{
+  "id": "aeo-phase3-2",
+  "name": "AEO Phase 3-2: 效果趋势图",
+  "model": "glm-5",
+  "status": "pending",
+  "createdAt": 1772047973366,
+  "deliverables": [
+    "trend-visualizer.cjs",
+    "trend-template.html",
+    "trend-demo.json"
+  ],
+  "task": "开发AEO效果趋势可视化系统：\n1. 历史分数趋势折线图\n2. 多维度对比雷达图\n3. 轨道评分堆叠柱状图\n4. 支持时间范围选择\n5. 生成静态HTML/SVG图表\n6. 数据导出功能 (CSV/JSON)\n\n技术要求:\n- 使用纯JavaScript实现，不依赖外部图表库\n- 生成SVG格式的矢量图表\n- 支持响应式布局\n- 数据点hover显示详情\n- 动画过渡效果\n\n输出: trend-visualizer.cjs, trend-template.html",
+  "timeout": 3600,
+  "priority": "high",
+  "parentSession": "agent:main:main",
+  "checkpoint": {
+    "phase": 3,
+    "dependency": "feishu-card-renderer.cjs completed"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "recordId": "evo-15417ef60b0e",
+  "skillId": "test-skill",
+  "skillName": "Test Skill",
+  "evolutionId": "evo-test-001",
+  "timestamp": 1772336769555,
+  "trigger": "manual",
+  "status": "good",
+  "metrics": {
+    "evaluation": {
+      "score": 85,
+      "issuesFound": 5,
+      "criticalIssues": 0
+    },
+    "optimization": {
+      "filesModified": 0,
+      "issuesFixed": 0,
+      "operationsCompleted": 0
+    },
+    "validation": {
+      "passed": false,
+      "testsRun": 0,
+      "testsPassed": 0
+    }
+  },
+  "changes": {
+    "total": 0,
+    "byType": {
+      "added": 0,
+      "modified": 0,
+      "deleted": 0
+    },
+    "details": []
+  },
+  "stages": {
+    "evaluation": {
+      "completed": true,
+      "timestamp": 1709280000000,
+      "score": 85,
+      "issues": {
+        "total": 5,
+        "critical": 0
+      }
+    },
+    "optimization": {
+      "completed": false
+    },
+    "validation": {
+      "completed": false
+    }
+  },
+  "metadata": {
+    "recorderVersion": "1.0.0",
+    "recordedAt": 1772336769555
+  }
+}

@@ -1,0 +1,455 @@
+# OpenClaw 自定义教程：模型/Key 替换 & 智能体配置
+
+> 基于 v2026.3.1 实战验证 | 2026-03-02
+
+---
+
+## 第一部分：替换模型和 Key
+
+### 1. 理解架构
+
+```
+openclaw.json
+├── env              ← API Key 存放处（env var 形式）
+├── models.providers ← Provider 定义（baseUrl + api 类型 + 模型列表）
+└── agents.list      ← 每个 Agent 指定用哪个 provider/model
+```
+
+**核心公式**：`provider名/model-id` → 例如 `claude-coder/claude-opus-4-6-thinking`
+
+---
+
+### 2. 场景一：替换某个 Agent 的模型（同一 Provider）
+
+**例子**：把探针从 `claude-opus-4-6-thinking` 改成 `claude-sonnet-4`
+
+**步骤 1**：在 `openclaw.json` 的对应 provider 中添加新模型定义：
+
+```json
+// models.providers.claude-researcher.models 数组中添加：
+{
+  "id": "claude-sonnet-4",
+  "name": "Claude Sonnet 4",
+  "reasoning": false,
+  "input": ["text"],
+  "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+  "contextWindow": 200000,
+  "maxTokens": 8192
+}
+```
+
+**步骤 2**：修改 Agent 的 model 指向：
+
+```json
+// agents.list 中找到 researcher：
+{
+  "id": "researcher",
+  "model": { "primary": "claude-researcher/claude-sonnet-4" }  // ← 改这里
+}
+```
+
+**步骤 3**：重启 Gateway
+
+```bash
+openclaw gateway stop && sleep 3 && openclaw gateway install
+```
+
+---
+
+### 3. 场景二：替换某个 Agent 的 Key
+
+**例子**：探针的 key 过期了，换一个新的
+
+**步骤 1**：在 `openclaw.json` 的 `env` 中改对应的值：
+
+```json
+{
+  "env": {
+    "CLAUDE_KEY_RESEARCHER": "sk-新的key"   // ← 改这里
+  }
+}
+```
+
+**步骤 2**：重启 Gateway
+
+```bash
+openclaw gateway stop && sleep 3 && openclaw gateway install
+```
+
+**验证**：
+
+```bash
+openclaw models status --agent researcher 2>&1 | grep "claude-researcher"
+# 应显示新 key 的前几位
+```
+
+---
+
+### 4. 场景三：把某个 Agent 换到完全不同的 Provider
+
+**例子**：把笔锋从 Claude 换到 OpenAI GPT-4o
+
+**步骤 1**：在 `env` 中添加新 key：
+
+```json
+{
+  "env": {
+    "OPENAI_KEY_WRITER": "sk-openai-xxx"
+  }
+}
+```
+
+**步骤 2**：在 `models.providers` 中添加新 provider：
+
+```json
+{
+  "openai-writer": {
+    "baseUrl": "https://api.openai.com/v1",
+    "apiKey": "${OPENAI_KEY_WRITER}",
+    "api": "openai-completions",
+    "models": [
+      {
+        "id": "gpt-4o",
+        "name": "GPT-4o",
+        "reasoning": false,
+        "input": ["text", "image"],
+        "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+        "contextWindow": 128000,
+        "maxTokens": 16384
+      }
+    ]
+  }
+}
+```
+
+**步骤 3**：修改 Agent 的 model 指向：
+
+```json
+{
+  "id": "writer",
+  "model": { "primary": "openai-writer/gpt-4o" }  // ← 改这里
+}
+```
+
+**步骤 4**：重启 Gateway
+
+---
+
+### 5. 场景四：让两个 Agent 共用同一个 Key
+
+直接让两个 Agent 指向同一个 provider 即可：
+
+```json
+{
+  "agents": {
+    "list": [
+      { "id": "main",  "model": { "primary": "claude-coder/claude-opus-4-6-thinking" } },
+      { "id": "coder", "model": { "primary": "claude-coder/claude-opus-4-6-thinking" } }
+    ]
+  }
+}
+```
+
+两个 Agent 用的是 `claude-coder` 这个 provider → 同一个 `CLAUDE_KEY_CODER` env var → 同一个 key。
+
+---
+
+### 6. 场景五：批量替换所有 Agent 的模型
+
+修改 `agents.defaults.model.primary`，所有**没有单独指定 model** 的 Agent 都会使用这个默认值：
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": { "primary": "claude-coder/claude-opus-4-6-thinking" }
+    }
+  }
+}
+```
+
+> 如果某个 Agent 在 `agents.list` 中单独指定了 `model.primary`，它会覆盖 defaults。
+
+---
+
+### 7. 模型配置速查
+
+| 要改什么 | 改哪里 | 重启？ |
+|---------|--------|-------|
+| API Key | `env` 中对应的变量 | ✅ 需要 |
+| 模型 ID | `agents.list[x].model.primary` | ✅ 需要 |
+| 新增 Provider | `models.providers` + `env` | ✅ 需要 |
+| 所有 Agent 默认模型 | `agents.defaults.model.primary` | ✅ 需要 |
+| 模型参数（contextWindow 等） | `models.providers[x].models[y]` | ✅ 需要 |
+
+**重启命令**：`openclaw gateway stop && sleep 3 && openclaw gateway install`
+
+---
+
+## 第二部分：修改智能体的人设、技能等配置
+
+### 1. 文件关系总览
+
+```
+每个 Agent 有两类配置文件：
+
+~/.openclaw/workspace-<id>/
+├── SOUL.md      ← ⭐ 人设定义（角色、语调、能力、输出格式）
+├── AGENTS.md    ← 行为准则（自动生成的模板，可自定义）
+├── TOOLS.md     ← 工具使用说明（可选）
+└── MEMORY.md    ← 长期记忆（可选）
+
+~/.openclaw/agents/<id>/agent/
+└── models.json  ← API 凭据
+```
+
+### 2. SOUL.md — 人设定义（最重要）
+
+**位置**：`~/.openclaw/workspace-<agent-id>/SOUL.md`（main 的在 `~/.openclaw/workspace/SOUL.md`）
+
+**直接编辑即可生效，不需要重启 Gateway！**
+
+#### 模板结构
+
+```markdown
+# 我是[名字] [emoji]
+
+你是[角色描述]。
+
+## 核心能力
+- 能力 1
+- 能力 2
+- 能力 3
+
+## 工作原则
+- 原则 1
+- 原则 2
+
+## 输出格式
+- 格式要求 1
+- 格式要求 2
+
+## 调性
+[一句话描述风格，例如：严谨、务实、追求工程之美]
+```
+
+#### 示例：修改探针的人设
+
+编辑 `~/.openclaw/workspace-researcher/SOUL.md`：
+
+```markdown
+# 我是探针 🔍
+
+你是一个深度调研专家。只做一件事：深度调研。
+
+## 核心能力
+- 接收调研任务后，搜索多个信息源
+- 交叉验证信息准确性
+- 输出结构化调研报告
+
+## 输出格式
+- **概述**：一段话总结
+- **关键发现**：3-5 个要点
+- **数据/案例**：具体数据支撑
+- **热门观点**：主流看法
+- **信息源**：引用来源
+
+## 调性
+冷静、客观、精准。不做创作，只做事实收集和整理。
+```
+
+---
+
+### 3. 人设技巧
+
+#### 3.1 控制输出格式
+
+在 SOUL.md 中明确输出格式，Agent 会严格遵守：
+
+```markdown
+## 输出格式
+每次回复必须包含：
+1. 📋 任务理解（一句话复述）
+2. 🔍 分析过程（分步骤）
+3. ✅ 最终结果
+4. ⚠️ 注意事项（如有）
+```
+
+#### 3.2 控制语言风格
+
+```markdown
+## 调性
+- 用中文回复
+- 口语化，像朋友聊天
+- 多用 emoji
+- 每段不超过 3 行
+```
+
+#### 3.3 限制行为边界
+
+```markdown
+## 禁止
+- 不要编造数据
+- 不要回答与角色无关的问题
+- 不要使用 markdown 表格（排版在飞书中会乱）
+```
+
+#### 3.4 添加领域知识
+
+```markdown
+## 专业知识
+- 我熟悉 Python、TypeScript、Go
+- 我遵循 SOLID 原则
+- 数据库优先使用 PostgreSQL
+- API 设计遵循 RESTful 规范
+```
+
+---
+
+### 4. 主 Agent（编排者）特殊配置
+
+主 Agent 的 SOUL.md 需要额外的编排指令：
+
+```markdown
+## 团队编排
+
+我是团队指挥官。我可以调度以下 Agent：
+
+| Agent ID | 名字 | 角色 |
+|----------|------|------|
+| skill-scout | 猎手 🎯 | Skill/插件猎手 |
+| researcher | 探针 🔍 | 深度调研 |
+| coder | 码匠 ⚙️ | 软件开发 |
+| writer | 笔锋 ✍️ | 内容创作 |
+| analyst | 数据眼 📊 | 数据分析 |
+| ops | 守卫 🛡️ | 运维自动化 |
+| reviewer | 审判 ⚖️ | 质量审核 |
+
+### 委托方式
+使用 `sessions_spawn` 工具：
+- `sessions_spawn(agentId="researcher", task="调研...")`
+- `sessions_spawn(agentId="coder", task="编码...")`
+
+### 调度原则
+- 简单任务自己答，不必事事调度
+- 调研先行：需要信息支撑时，先 spawn 探针
+- 重要输出让审判审核
+```
+
+---
+
+### 5. AGENTS.md — 行为准则
+
+**位置**：`~/.openclaw/workspace-<agent-id>/AGENTS.md`
+
+这个文件定义 Agent 的通用行为规则（区别于 SOUL.md 的角色人设）：
+
+```markdown
+# 行为准则
+
+## 通用规则
+- 不确定时主动询问，不要猜测
+- 涉及敏感操作时先确认
+- 代码修改前先说明方案
+
+## 工具使用
+- 优先使用内置工具
+- 文件操作前确认路径
+- 长命令使用后台执行
+```
+
+---
+
+### 6. TOOLS.md — 工具配置说明（可选）
+
+告诉 Agent 如何使用特定工具：
+
+```markdown
+# 工具使用说明
+
+## 飞书文档
+- 使用 feishu_doc 工具创建/编辑文档
+- 文档标题需包含日期
+
+## 搜索
+- 优先使用 web_search
+- 技术问题加上 "site:stackoverflow.com"
+```
+
+---
+
+### 7. MEMORY.md — 长期记忆（可选）
+
+记录 Agent 需要"记住"的长期信息：
+
+```markdown
+# 长期记忆
+
+## 项目信息
+- 我们的主项目是 OpenClaw 多 Agent 系统
+- 技术栈：Node.js + TypeScript
+
+## 用户偏好
+- 用户喜欢详细的步骤说明
+- 用户习惯中文交流
+- 回复需要包含 emoji
+
+## 已知问题
+- 百炼某些模型不支持 function calling
+```
+
+---
+
+### 8. 修改生效规则
+
+| 文件 | 修改后生效？ | 需要重启 Gateway？ |
+|------|------------|------------------|
+| `SOUL.md` | ✅ 下次对话立即生效 | ❌ 不需要 |
+| `AGENTS.md` | ✅ 下次对话立即生效 | ❌ 不需要 |
+| `TOOLS.md` | ✅ 下次对话立即生效 | ❌ 不需要 |
+| `MEMORY.md` | ✅ 下次对话立即生效 | ❌ 不需要 |
+| `models.json` | ⚠️ 可能需要重启 | ✅ 建议重启 |
+| `openclaw.json` | ⚠️ 需要重启 | ✅ 必须重启 |
+
+> **关键结论**：改人设（SOUL.md 等）不用重启，改模型/key（openclaw.json）必须重启。
+
+---
+
+### 9. 当前系统的文件位置速查
+
+| Agent | SOUL.md 路径 | models.json 路径 |
+|-------|-------------|-----------------|
+| 🐱 哈基米 | `~/.openclaw/workspace/SOUL.md` | `~/.openclaw/agents/main/agent/models.json` |
+| 🎯 猎手 | `~/.openclaw/workspace-skill-scout/SOUL.md` | `~/.openclaw/agents/skill-scout/agent/models.json` |
+| 🔍 探针 | `~/.openclaw/workspace-researcher/SOUL.md` | `~/.openclaw/agents/researcher/agent/models.json` |
+| ⚙️ 码匠 | `~/.openclaw/workspace-coder/SOUL.md` | `~/.openclaw/agents/coder/agent/models.json` |
+| ✍️ 笔锋 | `~/.openclaw/workspace-writer/SOUL.md` | `~/.openclaw/agents/writer/agent/models.json` |
+| 📊 数据眼 | `~/.openclaw/workspace-analyst/SOUL.md` | `~/.openclaw/agents/analyst/agent/models.json` |
+| 🛡️ 守卫 | `~/.openclaw/workspace-ops/SOUL.md` | `~/.openclaw/agents/ops/agent/models.json` |
+| ⚖️ 审判 | `~/.openclaw/workspace-reviewer/SOUL.md` | `~/.openclaw/agents/reviewer/agent/models.json` |
+
+---
+
+### 10. 快速操作 Cheat Sheet
+
+```bash
+# ===== 改人设 =====
+# 直接编辑即可，不用重启
+vim ~/.openclaw/workspace-researcher/SOUL.md
+
+# ===== 改 Key =====
+# 编辑 openclaw.json 中的 env 字段，然后重启
+vim ~/.openclaw/openclaw.json
+openclaw gateway stop && sleep 3 && openclaw gateway install
+
+# ===== 改模型 =====
+# 编辑 openclaw.json 中 agents.list[x].model.primary，然后重启
+vim ~/.openclaw/openclaw.json
+openclaw gateway stop && sleep 3 && openclaw gateway install
+
+# ===== 验证 =====
+openclaw models status --agent <id>              # 检查模型和 key
+openclaw agent --agent <id> -m "介绍你自己"       # 测试人设是否生效
+openclaw channels status                          # 检查飞书连接
+openclaw gateway status                           # 检查 Gateway
+```

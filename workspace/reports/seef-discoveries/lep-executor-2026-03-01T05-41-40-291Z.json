@@ -1,0 +1,326 @@
+{
+  "skillId": "lep-executor",
+  "skillPath": "skills/lep-executor",
+  "timestamp": 1772343700290,
+  "evaluationScore": 75,
+  "discovery": {
+    "capabilityGaps": {
+      "count": 0,
+      "items": []
+    },
+    "redundancies": {
+      "count": 9,
+      "items": [
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 aeo 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "aeo",
+          "suggestedAction": "consider_merge"
+        },
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 cras 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "cras",
+          "suggestedAction": "consider_merge"
+        },
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 dto-core 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "dto-core",
+          "suggestedAction": "consider_merge"
+        },
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 evolver 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "evolver",
+          "suggestedAction": "consider_merge"
+        },
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 evomap-publisher 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "evomap-publisher",
+          "suggestedAction": "consider_merge"
+        },
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 file-sender 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "file-sender",
+          "suggestedAction": "consider_merge"
+        },
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 isc-core 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "isc-core",
+          "suggestedAction": "consider_merge"
+        },
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 test-skill-for-seef 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "test-skill-for-seef",
+          "suggestedAction": "consider_merge"
+        },
+        {
+          "type": "capability_overlap",
+          "severity": "high",
+          "description": "与技能 verify-test-skill 存在 100% 能力重叠",
+          "overlappingCapabilities": [
+            "test"
+          ],
+          "targetSkill": "verify-test-skill",
+          "suggestedAction": "consider_merge"
+        }
+      ]
+    },
+    "synergies": {
+      "count": 13,
+      "items": [
+        {
+          "type": "complementary_capability",
+          "targetSkill": "convert-helper",
+          "description": "可与 convert-helper 协同，获得 generate 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "cras-generated-1771827136412",
+          "description": "可与 cras-generated-1771827136412 协同，获得 generate 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "cras-generated-1771827197478",
+          "description": "可与 cras-generated-1771827197478 协同，获得 generate 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "cras-generated-1772042431830",
+          "description": "可与 cras-generated-1772042431830 协同，获得 generate 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "cras-generated-1772128853925",
+          "description": "可与 cras-generated-1772128853925 协同，获得 generate 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "dto-core",
+          "description": "可与 dto-core 协同，获得 generate, optimize, deploy 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "evolver",
+          "description": "可与 evolver 协同，获得 analyze, refactor, debug 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "feishu-evolver-wrapper",
+          "description": "可与 feishu-evolver-wrapper 协同，获得 generate 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "glm-5-coder",
+          "description": "可与 glm-5-coder 协同，获得 debug 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "isc-core",
+          "description": "可与 isc-core 协同，获得 generate 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "seef",
+          "description": "可与 seef 协同，获得 optimize 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "system-monitor",
+          "description": "可与 system-monitor 协同，获得 monitor 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        },
+        {
+          "type": "complementary_capability",
+          "targetSkill": "test-skill-for-seef",
+          "description": "可与 test-skill-for-seef 协同，获得 optimize 能力",
+          "potentialBenefit": "capability_extension",
+          "suggestedAction": "explore_integration"
+        }
+      ]
+    }
+  },
+  "issues": {
+    "total": 9,
+    "critical": 0,
+    "high": 9,
+    "medium": 0,
+    "low": 0,
+    "items": [
+      {
+        "id": "redundancy-1",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 aeo 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "aeo",
+        "fixable": false
+      },
+      {
+        "id": "redundancy-2",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 cras 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "cras",
+        "fixable": false
+      },
+      {
+        "id": "redundancy-3",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 dto-core 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "dto-core",
+        "fixable": false
+      },
+      {
+        "id": "redundancy-4",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 evolver 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "evolver",
+        "fixable": false
+      },
+      {
+        "id": "redundancy-5",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 evomap-publisher 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "evomap-publisher",
+        "fixable": false
+      },
+      {
+        "id": "redundancy-6",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 file-sender 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "file-sender",
+        "fixable": false
+      },
+      {
+        "id": "redundancy-7",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 isc-core 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "isc-core",
+        "fixable": false
+      },
+      {
+        "id": "redundancy-8",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 test-skill-for-seef 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "test-skill-for-seef",
+        "fixable": false
+      },
+      {
+        "id": "redundancy-9",
+        "category": "redundancy",
+        "priority": "high",
+        "description": "与技能 verify-test-skill 存在 100% 能力重叠",
+        "suggestedAction": "consider_merge",
+        "targetSkill": "verify-test-skill",
+        "fixable": false
+      }
+    ]
+  },
+  "priorities": {
+    "immediate": [],
+    "high": [
+      "redundancy-1",
+      "redundancy-2",
+      "redundancy-3",
+      "redundancy-4",
+      "redundancy-5",
+      "redundancy-6",
+      "redundancy-7",
+      "redundancy-8",
+      "redundancy-9"
+    ],
+    "medium": [],
+    "low": []
+  },
+  "recommendations": [
+    {
+      "type": "high_priority",
+      "priority": "high",
+      "description": "优先处理 9 个高优先级问题",
+      "actions": [
+        "run_optimizer",
+        "enhance_documentation"
+      ]
+    }
+  ],
+  "crasInjected": false,
+  "metadata": {
+    "discovererVersion": "1.0.0",
+    "ecosystemSize": 53,
+    "discoveryTime": 1772343700291
+  }
+}

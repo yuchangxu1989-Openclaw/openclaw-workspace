@@ -1,0 +1,66 @@
+{
+  "recordId": "evo-adbc2fb83d9b",
+  "skillId": "dto-core",
+  "skillName": "DTO Core",
+  "evolutionId": "test-cras-integration-1772343029471",
+  "timestamp": 1772343029475,
+  "trigger": "p1-fix-test",
+  "status": "success",
+  "metrics": {
+    "evaluation": {
+      "score": 85,
+      "issuesFound": 3,
+      "criticalIssues": 0
+    },
+    "optimization": {
+      "filesModified": 2,
+      "issuesFixed": 3,
+      "operationsCompleted": 3
+    },
+    "validation": {
+      "passed": true,
+      "testsRun": 5,
+      "testsPassed": 5
+    }
+  },
+  "changes": {
+    "total": 0,
+    "byType": {
+      "added": 0,
+      "modified": 0,
+      "deleted": 0
+    },
+    "details": []
+  },
+  "stages": {
+    "evaluation": {
+      "completed": true,
+      "timestamp": 1772343029471,
+      "score": 85,
+      "issues": {
+        "total": 3,
+        "critical": 0
+      }
+    },
+    "optimization": {
+      "completed": true,
+      "timestamp": 1772343029471,
+      "filesModified": 2,
+      "issuesFixed": 3
+    },
+    "validation": {
+      "completed": true,
+      "timestamp": 1772343029471,
+      "passed": true,
+      "testResults": {
+        "total": 5,
+        "passed": 5
+      }
+    }
+  },
+  "metadata": {
+    "recorderVersion": "1.1.0",
+    "recordedAt": 1772343029475,
+    "crasIntegrationEnabled": true
+  }
+}

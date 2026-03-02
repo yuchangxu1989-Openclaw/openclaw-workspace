@@ -1,0 +1,189 @@
+{
+  "type": "architecture",
+  "id": "ARCH-MR-002",
+  "name": "model_routing_auto_switching_v2",
+  "display_name": "模型路由自动切换机制 v2",
+  "description": "非侵入式、子Agent独立、高韧性的模型路由系统。子Agent按需动态调度最优模型，100%复用LEP韧性能力，零硬编码设计。",
+  "version": "2.0.0",
+  "status": "design",
+  "domain": "infrastructure",
+  "scope": "system-wide",
+  
+  "compliance": {
+    "isc_rules": ["N019", "N020", "N022"],
+    "naming_convention": "naming.skill.display",
+    "dto_subscribed": true
+  },
+  
+  "constraints": {
+    "C001": {
+      "name": "主模型逻辑不动",
+      "status": "satisfied",
+      "implementation": "主Agent通信路径完全独立于MR层"
+    },
+    "C002": {
+      "name": "通信通畅无阻",
+      "status": "satisfied",
+      "implementation": "异步非阻塞架构，主Agent可随时中断子Agent"
+    },
+    "C003": {
+      "name": "沙盒测试验证",
+      "status": "satisfied",
+      "implementation": "三层沙盒：健康检查→影子测试→生产切换"
+    },
+    "C004": {
+      "name": "子Agent多模型调度",
+      "status": "satisfied",
+      "implementation": "每个子Agent独立配置模型偏好列表"
+    },
+    "C005": {
+      "name": "韧性降级由LEP实现",
+      "status": "satisfied",
+      "implementation": "零复刻，100%委托infrastructure/lep-core"
+    },
+    "C006": {
+      "name": "参考但不照搬",
+      "status": "satisfied",
+      "implementation": "改进关键词匹配为语义意图识别+CapabilityAnchor动态匹配"
+    },
+    "C007": {
+      "name": "只设计方案不开发",
+      "status": "satisfied",
+      "implementation": "本文档为完整设计，等待确认后开发"
+    }
+  },
+  
+  "components": [
+    {
+      "id": "MR-INTENT",
+      "name": "SemanticIntentClassifier",
+      "type": "classifier",
+      "description": "语义意图识别引擎，使用轻量级嵌入模型计算任务相似度",
+      "inputs": ["task_description", "context", "history"],
+      "outputs": ["task_intent", "confidence"],
+      "dependencies": ["bge-embedding-model", "intent-templates"]
+    },
+    {
+      "id": "MR-PREFERENCE",
+      "name": "AgentPreferenceMerger",
+      "type": "merger",
+      "description": "融合子Agent模型偏好与CapabilityAnchor能力矩阵",
+      "inputs": ["intent", "agent_config", "capability_anchor"],
+      "outputs": ["model_chain"],
+      "dependencies": ["capability-anchor-service"]
+    },
+    {
+      "id": "MR-SANDBOX",
+      "name": "SandboxValidator",
+      "type": "validator",
+      "description": "三层沙盒验证：健康检查、影子测试、超时熔断",
+      "inputs": ["model_chain", "task"],
+      "outputs": ["validated_chain", "sandbox_report"],
+      "dependencies": ["health-check-service", "shadow-test-service"]
+    },
+    {
+      "id": "MR-LEP",
+      "name": "LEPExecutionDelegate",
+      "type": "delegate",
+      "description": "委托LEP执行模型调用，零复刻韧性逻辑",
+      "inputs": ["validated_chain", "task", "timeout"],
+      "outputs": ["execution_result"],
+      "dependencies": ["infrastructure/lep-core"]
+    }
+  ],
+  
+  "data_flow": [
+    "Task → IntentClassifier → Intent + Confidence",
+    "Intent + AgentConfig → PreferenceMerger → ModelChain",
+    "ModelChain → SandboxValidator → ValidatedChain",
+    "ValidatedChain + Task → LEP.execute() → Result"
+  ],
+  
+  "configuration": {
+    "layers": [
+      {
+        "level": 4,
+        "name": "agent_preference",
+        "path": "skills/{agent}/mras-preference.json",
+        "priority": "highest"
+      },
+      {
+        "level": 3,
+        "name": "task_default",
+        "path": "skills/dto-core/subscriptions/isc-*-mras.json",
+        "priority": "high"
+      },
+      {
+        "level": 2,
+        "name": "global_default",
+        "path": "infrastructure/mras/global-config.json",
+        "priority": "medium"
+      },
+      {
+        "level": 1,
+        "name": "capability_anchor",
+        "path": "CAPABILITY-ANCHOR.md",
+        "priority": "lowest",
+        "readonly": true
+      }
+    ],
+    "model_placeholders": [
+      "{{MODEL_GENERAL}}",
+      "{{MODEL_DEEP_THINKING}}",
+      "{{MODEL_VISION}}",
+      "{{MODEL_AUDIO}}",
+      "{{MODEL_CODE_REVIEW}}"
+    ]
+  },
+  
+  "comparison": {
+    "vs_other_ai": {
+      "advantages": [
+        "子Agent独立配置 vs 全局硬编码",
+        "语义意图识别 vs 关键词匹配",
+        "100% LEP委托 vs 自建降级",
+        "三层沙盒 vs 无沙盒",
+        "N019/N020配置化 vs 简单JSON",
+        "零硬编码 vs 模型名写死"
+      ],
+      "trade_offs": [
+        "架构复杂度更高",
+        "开发周期更长(10天 vs 2天)",
+        "需要CapabilityAnchor预配置"
+      ]
+    }
+  },
+  
+  "risks": [
+    {
+      "id": "R001",
+      "description": "语义意图识别准确率不足",
+      "mitigation": "结合历史任务反馈优化，保留人工覆盖机制",
+      "severity": "medium"
+    },
+    {
+      "id": "R002",
+      "description": "CapabilityAnchor配置复杂",
+      "mitigation": "提供配置模板和验证工具",
+      "severity": "low"
+    },
+    {
+      "id": "R003",
+      "description": "LEP依赖风险",
+      "mitigation": "LEP已下沉为基础设施，稳定性有保障",
+      "severity": "low"
+    }
+  ],
+  
+  "deliverables": [
+    "ARCHITECTURE.json",
+    "DESIGN.md",
+    "IMPLEMENTATION.md",
+    "API.md",
+    "CONFIG-SCHEMA.json"
+  ],
+  
+  "approval_status": "pending",
+  "approved_by": null,
+  "approval_date": null
+}

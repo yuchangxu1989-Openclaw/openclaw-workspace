@@ -1,0 +1,20 @@
+{
+  "id": "aeo-phase3-4",
+  "name": "AEO Phase 3-4: 告警通知系统",
+  "model": "glm-5",
+  "status": "pending",
+  "createdAt": 1772047973367,
+  "deliverables": [
+    "alert-system.cjs",
+    "alert-rules.json",
+    "alert-config.yaml"
+  ],
+  "task": "开发AEO智能告警通知系统：\n1. 规则引擎 (阈值/趋势/异常检测)\n2. 多级别告警 (INFO/WARNING/CRITICAL)\n3. 多渠道通知 (飞书/控制台/日志)\n4. 告警聚合和降噪 (避免告警风暴)\n5. 告警历史记录和查询\n6. 自动恢复通知\n\n告警规则示例:\n- 连续3次评测失败 → CRITICAL\n- 分数下降超过20% → WARNING\n- 评测队列堆积 >10 → INFO\n- 响应时间 >5s → WARNING\n\n技术要求:\n- 基于事件驱动的架构\n- 支持动态规则配置 (JSON/YAML)\n- 内置规则模板库\n- 告警抑制策略 (去重、合并)\n\n输出: alert-system.cjs, alert-rules.json, alert-config.yaml",
+  "timeout": 3600,
+  "priority": "high",
+  "parentSession": "agent:main:main",
+  "checkpoint": {
+    "phase": 3,
+    "dependency": "feishu-card-renderer.cjs completed"
+  }
+}

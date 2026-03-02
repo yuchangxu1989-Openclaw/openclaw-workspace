@@ -1,0 +1,41 @@
+# ===== 运行时数据（绝对排除）=====
+cron/runs/
+sessions/
+node_modules/
+*.tar.gz
+*.log
+
+# ===== 编译产物 =====
+infrastructure/mr/dist/
+infrastructure/mr/node_modules/
+
+# ===== 向量缓存（可重建）=====
+infrastructure/vector-service/vectors/
+infrastructure/vector-service/backup/
+
+# ===== 信号/队列文件 =====
+**/.signals/
+**/feishu_queue/
+.dto-signals/
+.isc/
+
+# ===== 运行时状态 =====
+.pipeline-*
+.dto-pipeline.pid
+.elite-memory.json
+.evomap-registry.json
+*.pid
+
+# ===== 临时文件 =====
+.DS_Store
+*.swp
+*.swo
+*~
+
+# ===== 敏感但允许（私有仓库）=====
+# .env — 允许上传
+# .secrets/ — 允许上传
+# API-KEYS.md — 允许上传
+
+# ===== Git 备份 =====
+.git-backup-workspace/

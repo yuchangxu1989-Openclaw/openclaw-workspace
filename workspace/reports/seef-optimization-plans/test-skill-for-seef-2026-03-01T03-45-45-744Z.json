@@ -1,0 +1,62 @@
+{
+  "skillId": "test-skill-for-seef",
+  "skillPath": "skills/test-skill-for-seef",
+  "timestamp": 1772336745744,
+  "source": "evaluator",
+  "fixableIssues": 1,
+  "plans": [
+    {
+      "issueType": "poor_documentation",
+      "issueSeverity": "high",
+      "issueDescription": "文档质量不足",
+      "fixSteps": [
+        {
+          "action": "enhance_file",
+          "target": "SKILL.md",
+          "enhancements": [
+            "add_usage_section",
+            "add_examples_section",
+            "add_api_documentation"
+          ],
+          "description": "增强SKILL.md文档质量"
+        }
+      ],
+      "estimatedTime": 10,
+      "risk": "low",
+      "reversible": true,
+      "rollback": {
+        "steps": [
+          {
+            "action": "restore_from_backup",
+            "target": "SKILL.md",
+            "description": "从备份恢复: SKILL.md"
+          }
+        ],
+        "automated": true,
+        "backupRequired": true
+      },
+      "iscCompliant": {
+        "compliant": true,
+        "violations": [],
+        "warnings": []
+      }
+    }
+  ],
+  "riskAssessment": {
+    "level": "low",
+    "breakdown": {
+      "low": 1,
+      "medium": 0,
+      "high": 0
+    },
+    "totalPlans": 1,
+    "reversiblePlans": 1,
+    "warnings": []
+  },
+  "overallRisk": "low",
+  "safeToApply": true,
+  "metadata": {
+    "optimizerVersion": "1.0.0",
+    "generationTime": 1772336745744
+  }
+}

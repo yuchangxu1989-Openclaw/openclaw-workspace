@@ -1,0 +1,104 @@
+{
+  "timestamp": "2026-02-25T19:19:34.805Z",
+  "total": 24,
+  "passed": 24,
+  "failed": 0,
+  "results": [
+    {
+      "name": "VectorCore: tokenize English text",
+      "status": "pass"
+    },
+    {
+      "name": "VectorCore: tokenize Chinese text",
+      "status": "pass"
+    },
+    {
+      "name": "VectorCore: build vocabulary",
+      "status": "pass"
+    },
+    {
+      "name": "VectorCore: vectorize text",
+      "status": "pass"
+    },
+    {
+      "name": "VectorCore: cosine similarity",
+      "status": "pass"
+    },
+    {
+      "name": "CaseIndexer: load test cases from file",
+      "status": "pass"
+    },
+    {
+      "name": "CaseIndexer: extract case text",
+      "status": "pass"
+    },
+    {
+      "name": "CaseIndexer: build index",
+      "status": "pass"
+    },
+    {
+      "name": "CaseIndexer: save and load index",
+      "status": "pass"
+    },
+    {
+      "name": "SimilaritySearch: load index",
+      "status": "pass"
+    },
+    {
+      "name": "SimilaritySearch: search by text",
+      "status": "pass"
+    },
+    {
+      "name": "SimilaritySearch: search by case ID",
+      "status": "pass"
+    },
+    {
+      "name": "SimilaritySearch: search with filter",
+      "status": "pass"
+    },
+    {
+      "name": "SimilaritySearch: analyze clusters",
+      "status": "pass"
+    },
+    {
+      "name": "HistoryMatcher: load history issues",
+      "status": "pass"
+    },
+    {
+      "name": "HistoryMatcher: build index",
+      "status": "pass"
+    },
+    {
+      "name": "HistoryMatcher: match issue",
+      "status": "pass"
+    },
+    {
+      "name": "HistoryMatcher: detect duplicate",
+      "status": "pass"
+    },
+    {
+      "name": "HistoryMatcher: find known flaky",
+      "status": "pass"
+    },
+    {
+      "name": "HistoryMatcher: analyze trends",
+      "status": "pass"
+    },
+    {
+      "name": "Integration: end-to-end workflow",
+      "status": "pass"
+    },
+    {
+      "name": "Semantic: login-related queries find auth cases",
+      "status": "pass"
+    },
+    {
+      "name": "Semantic: performance queries find perf cases",
+      "status": "pass"
+    },
+    {
+      "name": "Semantic: security queries find security cases",
+      "status": "pass"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "id": "ISSUE-2024-001",
+    "title": "登录接口偶尔返回500错误",
+    "description": "用户在高并发情况下登录时，偶尔会收到500内部服务器错误",
+    "error": {
+      "message": "Connection pool exhausted",
+      "stack": "Error: Connection pool exhausted at Database.getConnection"
+    },
+    "component": "authentication",
+    "module": "login-service",
+    "status": "closed",
+    "resolution": "increased_connection_pool_size",
+    "labels": ["bug", "database", "connection-pool", "intermittent"],
+    "createdAt": "2024-01-15T08:30:00Z",
+    "resolvedAt": "2024-01-16T14:20:00Z",
+    "rootCause": "数据库连接池配置过小，无法处理高峰流量"
+  },
+  {
+    "id": "ISSUE-2024-002",
+    "title": "用户认证失败但错误信息不明确",
+    "description": "当用户输入错误的凭证时，系统只返回'Error'，没有具体说明是用户名还是密码错误",
+    "error": {
+      "message": "Error",
+      "code": "AUTH_FAILED"
+    },
+    "component": "authentication",
+    "module": "auth-service",
+    "status": "closed",
+    "resolution": "improved_error_messages",
+    "labels": ["bug", "ux", "auth", "error-handling"],
+    "createdAt": "2024-01-20T10:15:00Z",
+    "resolvedAt": "2024-01-21T09:00:00Z",
+    "rootCause": "错误处理代码过于简化，没有区分具体的失败原因"
+  },
+  {
+    "id": "ISSUE-2024-003",
+    "title": "API速率限制不生效",
+    "description": "配置了每分钟100次请求的速率限制，但客户端可以发送超过100次请求而不会收到429响应",
+    "error": {
+      "message": "Rate limit not enforced"
+    },
+    "component": "api-gateway",
+    "module": "rate-limiter",
+    "status": "open",
+    "labels": ["bug", "security", "rate-limit", "api-gateway"],
+    "createdAt": "2024-02-01T16:45:00Z",
+    "rootCause": "速率限制中间件配置错误，未正确应用到路由"
+  },
+  {
+    "id": "ISSUE-2024-004",
+    "title": "SQL注入漏洞",
+    "description": "安全审计发现用户输入直接拼接到SQL查询中，存在SQL注入风险",
+    "error": {
+      "message": "Potential SQL injection vulnerability",
+      "severity": "critical"
+    },
+    "component": "database",
+    "module": "user-repository",
+    "status": "closed",
+    "resolution": "implemented_prepared_statements",
+    "labels": ["security", "sql-injection", "critical", "vulnerability"],
+    "createdAt": "2024-02-10T11:20:00Z",
+    "resolvedAt": "2024-02-10T15:30:00Z",
+    "rootCause": "使用了字符串拼接SQL而不是参数化查询"
+  },
+  {
+    "id": "ISSUE-2024-005",
+    "title": "数据库查询性能下降",
+    "description": "最近部署后，用户列表页面加载时间从200ms增加到5秒",
+    "error": {
+      "message": "Query timeout",
+      "query": "SELECT * FROM users JOIN orders ON users.id = orders.user_id"
+    },
+    "component": "database",
+    "module": "query-optimizer",
+    "status": "closed",
+    "resolution": "added_missing_index",
+    "labels": ["performance", "database", "query", "regression"],
+    "createdAt": "2024-02-15T09:00:00Z",
+    "resolvedAt": "2024-02-15T16:00:00Z",
+    "rootCause": "orders表user_id字段缺少索引导致全表扫描"
+  },
+  {
+    "id": "ISSUE-2024-006",
+    "title": "间歇性测试失败-登录流程",
+    "description": "自动化测试中登录测试用例偶尔失败，手动重试后通过",
+    "error": {
+      "message": "Element not found: #login-button",
+      "type": "timeout"
+    },
+    "component": "authentication",
+    "module": "login-ui",
+    "status": "open",
+    "labels": ["flaky", "test", "intermittent", "ui", "timing"],
+    "createdAt": "2024-02-20T14:30:00Z",
+    "rootCause": "页面元素加载时间不稳定，测试脚本缺少显式等待"
+  },
+  {
+    "id": "ISSUE-2024-007",
+    "title": "XSS漏洞-评论功能",
+    "description": "用户可以在评论中注入JavaScript代码，其他用户查看时会执行",
+    "error": {
+      "message": "Cross-site scripting vulnerability",
+      "payload": "<script>alert('xss')</script>"
+    },
+    "component": "frontend",
+    "module": "comment-service",
+    "status": "closed",
+    "resolution": "added_output_encoding",
+    "labels": ["security", "xss", "critical", "input-validation"],
+    "createdAt": "2024-03-01T10:00:00Z",
+    "resolvedAt": "2024-03-01T12:00:00Z",
+    "rootCause": "用户输入未经过滤直接渲染到页面"
+  },
+  {
+    "id": "ISSUE-2024-008",
+    "title": "认证服务在高负载下响应缓慢",
+    "description": "当并发用户数超过1000时，登录API响应时间超过5秒",
+    "error": {
+      "message": "Request timeout",
+      "responseTime": 5200
+    },
+    "component": "authentication",
+    "module": "auth-service",
+    "status": "open",
+    "labels": ["performance", "load", "auth", "bottleneck"],
+    "createdAt": "2024-03-10T08:00:00Z",
+    "rootCause": "密码哈希计算过于耗时，缺少异步处理"
+  },
+  {
+    "id": "ISSUE-2024-009",
+    "title": "用户账户被错误锁定",
+    "description": "用户在密码正确的情况下账户被锁定，无法登录",
+    "error": {
+      "message": "Account locked due to too many failed attempts"
+    },
+    "component": "authentication",
+    "module": "account-locker",
+    "status": "closed",
+    "resolution": "fixed_attempt_counting_logic",
+    "labels": ["bug", "auth", "account-lock", "false-positive"],
+    "createdAt": "2024-03-15T11:00:00Z",
+    "resolvedAt": "2024-03-15T14:00:00Z",
+    "rootCause": "登录成功后的尝试计数没有重置，导致累积"
+  },
+  {
+    "id": "ISSUE-2024-010",
+    "title": "数据库连接泄漏",
+    "description": "长时间运行后数据库连接数持续增长，最终导致连接池耗尽",
+    "error": {
+      "message": "Too many connections",
+      "connectionCount": 450
+    },
+    "component": "database",
+    "module": "connection-manager",
+    "status": "open",
+    "labels": ["bug", "database", "connection-leak", "memory"],
+    "createdAt": "2024-03-20T09:30:00Z",
+    "rootCause": "某些代码路径没有正确关闭数据库连接"
+  }
+]
