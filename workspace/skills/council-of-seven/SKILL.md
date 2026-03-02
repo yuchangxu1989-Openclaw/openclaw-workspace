@@ -1,73 +1,59 @@
----
-name: council-of-seven
-description: Council of Seven v2.1 - 七人议会决策机制
-version: "2.1.12"
-status: implemented
-capsule_id: sha256:3affd21fc55ca97c7e469ee6f3e2a106ae9f41885d3f5d298c40ba5b28e6fb78
----
+# 凌烟阁 Lingyan Tribunal 🏛️
 
-# Council of Seven v2.1
-
-**Capsule ID**: `sha256:3affd21fc55ca97c7e469ee6f3e2a106ae9f41885d3f5d298c40ba5b28e6fb78`
+> 七位智者，三轮辩论，一个裁决。
 
 ## 概述
 
-七人议会决策机制 - 通过7个不同角色/视角来分析和决策复杂问题。
+凌烟阁是基于 OpenClaw 多 Agent 架构的深度决策机制。不同于传统的投票表决，凌烟阁让 7 个 Agent 以不同视角独立思考、互相质疑、二次修正，最终由战略家综合裁决。
 
-## 七个角色
+**命名典故**：唐太宗凌烟阁二十四功臣——最高决策殿堂。
 
-1. **Strategist** - 战略视角：长远规划，全局考量
-2. **Critic** - 批判视角：质疑假设，发现漏洞
-3. **Optimist** - 乐观视角：看到机会，积极面
-4. **Pessimist** - 悲观视角：风险预警，最坏情况
-5. **Analyst** - 分析视角：数据驱动，逻辑推理
-6. **Creative** - 创意视角：跳出框架，创新方案
-7. **Executive** - 执行视角：落地可行，资源评估
+## 七席
 
-## 使用方法
+| 席位 | Agent | 角色 | 审视维度 |
+|------|-------|------|---------|
+| 🎖️ 首席 | main（战略家） | 最终裁决者 | 全局战略、取舍决断 |
+| 🔍 谋席 | researcher（系统架构师） | 技术可行性 | 架构影响、技术风险、长期可维护性 |
+| 💻 工席 | coder（开发工程师） | 实现成本 | 工时预估、技术债务、实现难度 |
+| 🔎 审席 | reviewer（质量仲裁官） | 质量风险 | 边界条件、回归风险、稳定性 |
+| ✍️ 文席 | writer（创作大师） | 用户视角 | 用户体验、表达清晰度、可理解性 |
+| 📊 析席 | analyst（洞察分析师） | 数据论证 | 数据支撑、ROI分析、竞品对比 |
+| 🎯 探席 | scout（情报专家） | 外部情报 | 行业趋势、竞品动态、技术前沿 |
 
-```python
-from skills.council_of_seven import CouncilOfSeven
+## 三轮制
 
-council = CouncilOfSeven()
-decision = council.deliberate("你的问题")
-```
+### Round 1：独立审议（并行）
+7 个 Agent 同时收到议题，各自独立分析，输出：
+- 立场（支持/反对/有条件支持）
+- 核心论点（3 条以内）
+- 风险提示
+- 信心度（1-10）
 
-### 命令行使用
+### Round 2：对抗质疑
+每个 Agent 看到所有人的 Round 1 观点后：
+- 指出其他人论点的漏洞
+- 回应对自己观点的质疑
+- 修正或坚持自己的立场
+- 更新信心度
 
-```bash
-# 基本使用
-python3 /root/.openclaw/workspace/skills/council-of-seven/council.py "是否引入新技能"
+### Round 3：终审裁决
+战略家（首席）综合所有观点：
+- 各方核心分歧点
+- 关键事实判断
+- 最终决策 + 理由
+- 风险缓解措施
+- 执行建议
 
-# 带背景信息
-python3 /root/.openclaw/workspace/skills/council-of-seven/council.py "是否引入新技能" "当前已有15个技能"
-```
+## 使用方式
 
-## 决策流程
+主 Agent 在 SKILL.md 中读取本技能后，按三轮制编排 sessions_spawn 调用。
 
-1. **议题输入** - 提交待决策问题
-2. **七人审议** - 7个角色依次发表观点
-3. **综合评估** - 汇总各视角分析
-4. **决策输出** - 给出建议决策
+### 触发示例
+用户说"开凌烟阁讨论 XXX"时触发。
 
-## 输出格式
-
-```json
-{
-  "id": "dec_20260223_164500",
-  "timestamp": "2026-02-23T16:45:00",
-  "topic": "是否引入新技能",
-  "perspectives": [
-    {"role": "Strategist", "opinion": "...", "weight": 1.2},
-    {"role": "Critic", "opinion": "...", "weight": 1.0},
-    ...
-  ],
-  "decision": "approved",
-  "confidence": 0.75
-}
-```
-
----
-
-**来源**: 进化网络 (EvoMap)
-**下载时间**: 2026-02-21 00:42
+## 元数据
+- name: council-of-seven
+- version: 3.0.0
+- description: 凌烟阁 Lingyan Tribunal - 七席三轮对抗式深度决策机制
+- status: implemented
+- author: Strategic Commander
