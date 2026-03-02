@@ -1,0 +1,56 @@
+{
+  "isc.rule.*": {
+    "handler": "dto-sync",
+    "agent": "coder",
+    "priority": "high",
+    "description": "ISC rule changes trigger DTO alignment sync"
+  },
+  "dto.sync.*": {
+    "handler": "dto-orchestrate",
+    "agent": "coder",
+    "priority": "high",
+    "description": "DTO sync lifecycle events"
+  },
+  "seef.skill.evaluated": {
+    "handler": "seef-optimize",
+    "agent": "researcher",
+    "priority": "normal",
+    "description": "SEEF evaluation results trigger optimization analysis"
+  },
+  "seef.skill.optimized": {
+    "handler": "cras-ingest",
+    "agent": "analyst",
+    "priority": "normal",
+    "description": "SEEF optimization results fed to CRAS for learning"
+  },
+  "aeo.assessment.completed": {
+    "handler": "cras-ingest",
+    "agent": "analyst",
+    "priority": "normal",
+    "description": "AEO assessment results ingested by CRAS"
+  },
+  "aeo.assessment.failed": {
+    "handler": "aeo-retry",
+    "agent": "coder",
+    "priority": "high",
+    "description": "Failed assessments get retry handling"
+  },
+  "cras.insight.generated": {
+    "handler": "isc-feedback",
+    "agent": "researcher",
+    "priority": "normal",
+    "description": "CRAS insights feed back to ISC for rule refinement"
+  },
+  "system.error": {
+    "handler": "system-alert",
+    "agent": "coder",
+    "priority": "high",
+    "description": "System errors trigger alerting"
+  },
+  "system.health": {
+    "handler": "system-monitor",
+    "agent": "coder",
+    "priority": "low",
+    "description": "Health check events for monitoring"
+  }
+}
