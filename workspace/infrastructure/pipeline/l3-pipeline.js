@@ -27,6 +27,12 @@ const { IntentScanner } = require('../intent-engine/intent-scanner');
 const Dispatcher = require('../dispatcher/dispatcher');
 const { log: decisionLog } = require('../decision-log/decision-logger');
 
+// ─── Observability ───
+let _metrics = null;
+let _alerts = null;
+try { _metrics = require('../observability/metrics'); } catch (_) {}
+try { _alerts = require('../observability/alerts'); } catch (_) {}
+
 // ═══════════════════════════════════════════════════════════
 // 常量
 // ═══════════════════════════════════════════════════════════
@@ -215,6 +221,10 @@ class L3Pipeline {
       return summary;
     }
 
+    // ─── Metrics: track pipeline run ───
+    if (_metrics) _metrics.inc('pipeline_runs_total');
+    const pipelineTimer = _metrics ? _metrics.startTimer('pipeline') : null;
+
     // ─── Step 1: Consume 事件 ───
     let events = [];
     if (flags.eventbus) {
@@ -250,6 +260,10 @@ class L3Pipeline {
       // ─── 断路器检查 ───
       if (depth > this.maxChainDepth) {
         summary.circuit_breaks++;
+        // ─── Metrics: track breaker trip ───
+        if (_metrics) _metrics.inc('pipeline_breaker_trips');
+        if (_alerts) _alerts.recordBreakerTrip();
+
         safeDecisionLog({
           phase: 'execution',
           component: 'l3-pipeline.circuit-breaker',
@@ -363,6 +377,14 @@ class L3Pipeline {
 
     // ─── Step 3: 收尾 ───
     summary.duration_ms = Date.now() - runStart;
+
+    // ─── Metrics: record pipeline latency ───
+    if (pipelineTimer) pipelineTimer.stop();
+
+    // ─── Alerts: evaluate after each run ───
+    if (_alerts) {
+      try { _alerts.evaluate(); } catch (_) {}
+    }
 
     // 写入整体执行日志
     safeDecisionLog({

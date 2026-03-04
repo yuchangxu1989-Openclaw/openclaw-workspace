@@ -1,0 +1,65 @@
+{
+  "run_at": "2026-03-04T18:29:30.367Z",
+  "window_ms": 300000,
+  "stats": {
+    "total": 2,
+    "by_layer": {
+      "UNKNOWN": 2
+    },
+    "by_category": {
+      "unclassified": 2
+    },
+    "would_dispatch": 0,
+    "rule_matched": 2
+  },
+  "results_sample": [
+    {
+      "event_id": "evt_mmcdfban_uv5qlq",
+      "event_type": "user.message.text",
+      "event_source": "feishu",
+      "event_timestamp": 1772648965103,
+      "analyzed_at": "2026-03-04T18:29:30.365Z",
+      "shadow_decisions": [
+        {
+          "component": "RuleMatcher",
+          "matched": true,
+          "rules": []
+        },
+        {
+          "component": "Dispatcher",
+          "matched_routes": [],
+          "would_dispatch": false
+        }
+      ],
+      "l3_classification": {
+        "layer": "UNKNOWN",
+        "category": "unclassified",
+        "migrateable": false
+      }
+    },
+    {
+      "event_id": "evt_mmcdfevo_dseov8",
+      "event_type": "intent.detected",
+      "event_source": "IntentScanner",
+      "event_timestamp": 1772648969748,
+      "analyzed_at": "2026-03-04T18:29:30.367Z",
+      "shadow_decisions": [
+        {
+          "component": "RuleMatcher",
+          "matched": true,
+          "rules": []
+        },
+        {
+          "component": "Dispatcher",
+          "matched_routes": [],
+          "would_dispatch": false
+        }
+      ],
+      "l3_classification": {
+        "layer": "UNKNOWN",
+        "category": "unclassified",
+        "migrateable": false
+      }
+    }
+  ]
+}

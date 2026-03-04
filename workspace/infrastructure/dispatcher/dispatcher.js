@@ -335,6 +335,10 @@ async function dispatch(rule, event, options = {}) {
   const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS;
   const handlerMap = options.handlerMap || null;
 
+  // ─── Metrics: track dispatch attempt ───
+  if (_metrics) _metrics.inc('dispatch_total');
+  const dispatchTimer = _metrics ? _metrics.startTimer('dispatch') : null;
+
   // Handle ISC rule wrapper format: { rule: ISC_RULE, priority, match_type, pattern }
   // Normalize to ensure rule.action exists for routing
   if (!rule.action && rule.rule) {
@@ -464,6 +468,10 @@ async function dispatch(rule, event, options = {}) {
         duration,
       });
 
+      // ─── Metrics: dispatch success ───
+      if (_metrics) _metrics.inc('dispatch_success');
+      if (dispatchTimer) dispatchTimer.stop();
+
       return {
         success: true,
         result,
@@ -475,6 +483,9 @@ async function dispatch(rule, event, options = {}) {
       lastError = err;
       if (attempt === 0) {
         retried = true;
+        // ─── Metrics: dispatch retry ───
+        if (_metrics) _metrics.inc('dispatch_retry');
+
         logDecision({
           action: rule.action,
           eventType: event.type || event.eventType || 'unknown',
@@ -492,6 +503,15 @@ async function dispatch(rule, event, options = {}) {
   // Both attempts failed → manual queue
   const duration = Date.now() - startTime;
   enqueueManual(rule, event, lastError);
+
+  // ─── Metrics: dispatch failure ───
+  if (_metrics) {
+    _metrics.inc('dispatch_failed');
+    if (lastError && lastError.message && lastError.message.includes('timed out')) {
+      _metrics.inc('dispatch_timeout');
+    }
+  }
+  if (dispatchTimer) dispatchTimer.stop();
 
   logDecision({
     action: rule.action,
