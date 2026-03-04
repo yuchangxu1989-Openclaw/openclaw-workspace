@@ -8,7 +8,7 @@ verify-test-skill
 
 Test skill for verification
 
-## version: "1.0.2"
+## version: "1.0.3"
 
 ## Input
 

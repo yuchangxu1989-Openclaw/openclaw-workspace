@@ -16,7 +16,7 @@ class GLM4V {
   }
 
   async understandVideo(videoUrl, prompt = '描述这个视频') {
-    return this.request('/api/paas/v4/chat/completions', {
+    return this.request('/api/coding/paas/v4/chat/completions', {
       model: this.model,
       messages: [{
         role: 'user',
@@ -29,7 +29,7 @@ class GLM4V {
   }
 
   async understandImage(imageUrl, prompt = '描述这张图片') {
-    return this.request('/api/paas/v4/chat/completions', {
+    return this.request('/api/coding/paas/v4/chat/completions', {
       model: this.model,
       messages: [{
         role: 'user',

@@ -31,11 +31,11 @@ class ZhipuVectorizer {
     const secretPath = '/root/.openclaw/.secrets/zhipu-keys.env';
     if (fs.existsSync(secretPath)) {
       const content = fs.readFileSync(secretPath, 'utf-8');
-      // 读取 ZHIPU_API_KEY_5
-      const match = content.match(/ZHIPU_API_KEY_5=([a-f0-9\.]+)/);
+      // 读取 ZHIPU_API_KEY
+      const match = content.match(/ZHIPU_API_KEY=([a-f0-9\.]+)/);
       if (match) return match[1];
-      // 回退到 ZHIPU_API_KEY_1
-      const match1 = content.match(/ZHIPU_API_KEY_1=([a-f0-9\.]+)/);
+      // 回退到 ZHIPU_API_KEY
+      const match1 = content.match(/ZHIPU_API_KEY=([a-f0-9\.]+)/);
       if (match1) return match1[1];
     }
     return null;
@@ -79,7 +79,7 @@ class ZhipuVectorizer {
 
       const options = {
         hostname: this.apiUrl,
-        path: '/api/paas/v4/embeddings',
+        path: '/api/coding/paas/v4/embeddings',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

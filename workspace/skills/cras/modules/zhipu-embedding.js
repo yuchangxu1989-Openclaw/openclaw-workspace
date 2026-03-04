@@ -3,7 +3,7 @@
  * 替代 MD5 哈希伪向量，接入真实语义嵌入
  * 
  * 模型: embedding-3 (1024维)
- * API: https://open.bigmodel.cn/api/paas/v4/embeddings
+ * API: https://open.bigmodel.cn/api/coding/paas/v4/embeddings
  */
 
 const https = require('https');
@@ -11,7 +11,7 @@ const url = require('url');
 
 // 智谱 embedding-3 配置
 const ZHIPU_CONFIG = {
-  apiUrl: 'https://open.bigmodel.cn/api/paas/v4/embeddings',
+  apiUrl: 'https://open.bigmodel.cn/api/coding/paas/v4/embeddings',
   model: 'embedding-3',
   dimension: 2048,
   maxTokensPerRequest: 512,   // embedding-3 单条上限

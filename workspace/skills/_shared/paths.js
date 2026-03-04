@@ -1,9 +1,4 @@
-/**
- * 共用路径常量 - 所有技能统一引用
- * 用法: const { WORKSPACE, SKILLS_DIR } = require('../_shared/paths');
- */
 const path = require('path');
-
 const OPENCLAW_HOME = process.env.OPENCLAW_HOME || '/root/.openclaw';
 const WORKSPACE = process.env.OPENCLAW_WORKSPACE || path.join(OPENCLAW_HOME, 'workspace');
 const SKILLS_DIR = path.join(WORKSPACE, 'skills');
@@ -12,6 +7,4 @@ const MEMORY_DIR = path.join(WORKSPACE, 'memory');
 const SECRETS_DIR = path.join(OPENCLAW_HOME, '.secrets');
 const MEDIA_DIR = path.join(OPENCLAW_HOME, 'media');
 const AGENTS_DIR = path.join(OPENCLAW_HOME, 'agents');
-const CRON_DIR = path.join(OPENCLAW_HOME, 'cron');
-
-module.exports = { OPENCLAW_HOME, WORKSPACE, SKILLS_DIR, REPORTS_DIR, MEMORY_DIR, SECRETS_DIR, MEDIA_DIR, AGENTS_DIR, CRON_DIR };
+module.exports = { OPENCLAW_HOME, WORKSPACE, SKILLS_DIR, REPORTS_DIR, MEMORY_DIR, SECRETS_DIR, MEDIA_DIR, AGENTS_DIR };

@@ -1,3 +1,4 @@
+const { SKILLS_DIR, REPORTS_DIR, WORKSPACE } = require('../../../_shared/paths');
 /**
  * SEEF Recorder - 技能进化记录器
  * P1阶段实现：记录进化事件，构建可追溯的进化历史
@@ -274,7 +275,7 @@ function buildChangeSummary(data) {
  */
 async function saveToHistory(record) {
   const historyDir = path.join(
-    '/root/.openclaw/workspace/reports/seef-evolution-history',
+    path.join(REPORTS_DIR, 'seef-evolution-history'),
     record.skillId
   );
 
@@ -301,7 +302,7 @@ async function saveToHistory(record) {
  */
 async function updateHistoryIndex(skillId, record) {
   const indexPath = path.join(
-    '/root/.openclaw/workspace/reports/seef-evolution-history',
+    path.join(REPORTS_DIR, 'seef-evolution-history'),
     skillId,
     'index.json'
   );
@@ -335,7 +336,7 @@ async function updateHistoryIndex(skillId, record) {
  */
 async function updateSkillMetadata(skillId, record) {
   const metadataPath = path.join(
-    '/root/.openclaw/workspace/skills',
+    SKILLS_DIR,
     skillId,
     '.seef-metadata.json'
   );
@@ -395,7 +396,7 @@ async function updateSkillMetadata(skillId, record) {
  */
 async function linkToCRAS(skillId, record) {
   const crasLinkPath = path.join(
-    '/root/.openclaw/workspace/skills/cras/evolution-links',
+    path.join(SKILLS_DIR, 'cras/evolution-links'),
     `${skillId}.json`
   );
 
@@ -433,7 +434,7 @@ async function generateEvolutionReport(record) {
   const reportContent = buildReportMarkdown(record);
 
   const reportsDir = path.join(
-    '/root/.openclaw/workspace/reports/seef-evolution-history',
+    path.join(REPORTS_DIR, 'seef-evolution-history'),
     record.skillId
   );
 

@@ -14,6 +14,10 @@ SEEF Subskill: Skill Recorder v2.0
 """
 
 import os
+
+OPENCLAW_HOME = os.environ.get("OPENCLAW_HOME", "/root/.openclaw")
+WORKSPACE_PATH = os.path.join(OPENCLAW_HOME, "workspace")
+SKILLS_PATH = os.path.join(WORKSPACE_PATH, "skills")
 import sys
 import json
 import re
@@ -31,7 +35,7 @@ class DTOEventBus:
     """DTO事件总线客户端"""
     
     def __init__(self, config_path: Optional[str] = None):
-        self.config_path = config_path or '/root/.openclaw/workspace/skills/dto-core/config/event-bus.json'
+        self.config_path = config_path or str(Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills/dto-core/config/event-bus.json')
         self.events = []
         self._connected = False
         
@@ -62,7 +66,7 @@ class DTOEventBus:
         self.events.append(event)
         
         try:
-            events_dir = Path('/root/.openclaw/workspace/skills/seef/events')
+            events_dir = Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills/seef/events'
             events_dir.mkdir(parents=True, exist_ok=True)
             
             event_file = events_dir / f"{event_type}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.json"
@@ -102,7 +106,7 @@ class EvolutionKnowledgeBase:
     """进化知识库"""
     
     def __init__(self, db_path: Optional[str] = None):
-        self.db_path = db_path or '/root/.openclaw/workspace/skills/seef/evolution.db'
+        self.db_path = db_path or str(Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills/seef/evolution.db')
         self._init_db()
     
     def _init_db(self):
@@ -249,8 +253,8 @@ class SkillRecorder:
         
         self.kb = knowledge_base or EvolutionKnowledgeBase()
         
-        self.skills_base_path = Path('/root/.openclaw/workspace/skills')
-        self.records_path = Path('/root/.openclaw/workspace/skills/seef/evolution-pipeline')
+        self.skills_base_path = Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills'
+        self.records_path = Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills/seef/evolution-pipeline'
         self.records_path.mkdir(parents=True, exist_ok=True)
         
         self.recording_results = {

@@ -1,0 +1,24 @@
+{
+  "event": {
+    "id": "evt_mma2hpyh_yxx1qo",
+    "type": "aeo.assessment.completed",
+    "source": "dto-core",
+    "payload": {
+      "source_event": "evt_mma2hpxr_md4lc7",
+      "track": "quality",
+      "passed": true
+    },
+    "timestamp": 1772509669289,
+    "consumed_by": [
+      "dto-core",
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "cras-ingest",
+    "agent": "analyst",
+    "priority": "normal"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.361Z",
+  "status": "pending"
+}

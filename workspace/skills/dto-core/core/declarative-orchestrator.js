@@ -8,11 +8,13 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
+
 const PATHS = {
-  dto: '/root/.openclaw/workspace/skills/dto-core',
-  isc: '/root/.openclaw/workspace/skills/isc-core',
-  council: '/root/.openclaw/workspace/skills/council-of-seven',
-  cras: '/root/.openclaw/workspace/skills/cras'
+  dto: path.join(SKILLS_DIR, 'dto-core'),
+  isc: path.join(SKILLS_DIR, 'isc-core'),
+  council: path.join(SKILLS_DIR, 'council-of-seven'),
+  cras: path.join(SKILLS_DIR, 'cras')
 };
 
 /**
@@ -129,7 +131,7 @@ class DTODeclarativeOrchestrator {
     console.log('[DTO] 调用 ISC-DTO 对齐检查器...');
     let alignmentReport = null;
     try {
-      const Aligner = require('/root/.openclaw/workspace/skills/isc-core/bin/isc-dto-alignment-checker.js');
+      const Aligner = require(path.join(PATHS.isc, 'bin/isc-dto-alignment-checker.js'));
       const aligner = new Aligner();
       alignmentReport = await aligner.run();
     } catch (e) {
@@ -395,7 +397,7 @@ class DTODeclarativeOrchestrator {
     console.log(`[DTO-R005] 关键变更文件: ${changedFiles.join(', ')}`);
     
     // 自动更新 SKILL.md
-    const skillPath = path.join('/root/.openclaw/workspace/skills', skillId);
+    const skillPath = path.join(SKILLS_DIR, skillId);
     const skillMdPath = path.join(skillPath, 'SKILL.md');
     
     if (!fs.existsSync(skillMdPath)) {
@@ -462,7 +464,7 @@ ${description || '待补充'}
 ## 安装
 \`\`\`bash
 # 复制到 skills 目录
-cp -r ${skillId} /root/.openclaw/skills/
+cp -r ${skillId} ${SKILLS_DIR}/
 \`\`\`
 
 ## 功能
@@ -705,7 +707,7 @@ cp -r ${skillId} /root/.openclaw/skills/
    */
   async generateMonitorWrapper(analysis) {
     // 确保 system-monitor 技能存在
-    const monitorPath = '/root/.openclaw/skills/system-monitor';
+    const monitorPath = path.join(SKILLS_DIR, 'system-monitor');
     if (!fs.existsSync(monitorPath)) {
       throw new Error('system-monitor 技能不存在');
     }
@@ -765,8 +767,8 @@ module.exports = {
         
         if (newContent !== content) {
           // 添加 monitor 导入
-          if (!newContent.includes("require('/root/.openclaw/skills/system-monitor")) {
-            newContent = "const monitor = require('/root/.openclaw/skills/system-monitor/lib/monitor');\n" + newContent;
+          if (!newContent.includes('require(' + path.join(SKILLS_DIR, 'system-monitor'))) {
+            newContent = "const monitor = require(path.join(SKILLS_DIR, 'system-monitor/lib/monitor'));\n" + newContent;
           }
           
           fs.writeFileSync(file, newContent);
@@ -787,7 +789,7 @@ module.exports = {
     try {
       // 测试 system-monitor
       const { execSync } = require('child_process');
-      const result = execSync('node /root/.openclaw/skills/system-monitor/index.js health', {
+      const result = execSync('node ' + path.join(SKILLS_DIR, 'system-monitor/index.js') + ' health', {
         encoding: 'utf8',
         timeout: 10000
       });
@@ -815,8 +817,8 @@ module.exports = {
    */
   async deployMonitorSkill() {
     // 确保技能已注册
-    const skillsPath = '/root/.openclaw/skills';
-    const workspaceSkill = '/root/.openclaw/workspace/skills/system-monitor';
+    const skillsPath = SKILLS_DIR;
+    const workspaceSkill = path.join(SKILLS_DIR, 'system-monitor');
     const targetSkill = path.join(skillsPath, 'system-monitor');
     
     if (!fs.existsSync(targetSkill) && fs.existsSync(workspaceSkill)) {
@@ -921,7 +923,7 @@ module.exports = {
    * 全局架构扫描
    */
   async performGlobalArchitectureScan() {
-    const skillsPath = '/root/.openclaw/workspace/skills';
+    const skillsPath = SKILLS_DIR;
     const skills = fs.readdirSync(skillsPath).filter(f => {
       const stat = fs.statSync(path.join(skillsPath, f));
       return stat.isDirectory() && !f.startsWith('.');
@@ -1121,7 +1123,7 @@ module.exports = {
   async backupFeishuMessage(signal) {
     console.log('   💾 飞书消息实时备份...');
     
-    const FeishuChatBackup = require('/root/.openclaw/workspace/skills/feishu-chat-backup/index.js');
+    const FeishuChatBackup = require(path.join(SKILLS_DIR, 'feishu-chat-backup/index.js'));
     const backup = new FeishuChatBackup();
     
     // 提取消息内容
@@ -1134,7 +1136,7 @@ module.exports = {
     };
     
     // 追加写入日志
-    const logFile = path.join('/root/.openclaw/workspace/skills/feishu-chat-backup/logs', `feishu-realtime-${Date.now()}.jsonl`);
+    const logFile = path.join(SKILLS_DIR, 'feishu-chat-backup/logs', `feishu-realtime-${Date.now()}.jsonl`);
     fs.appendFileSync(logFile, JSON.stringify(message) + '\n');
     
     console.log('   ✅ 飞书消息已备份');
@@ -1415,7 +1417,7 @@ module.exports = {
   startFileWatcher() {
     console.log('[DTO] 🔄 启动文件监控（R005自动触发）...');
     
-    const skillsPath = '/root/.openclaw/workspace/skills';
+    const skillsPath = SKILLS_DIR;
     const criticalPatterns = [
       '**/index.js',
       '**/core/*.js',
@@ -1628,7 +1630,7 @@ module.exports = {
         if (!groups.has(skillId)) {
           groups.set(skillId, []);
         }
-        groups.get(skillId).push(file.replace('/root/.openclaw/workspace/skills/', ''));
+        groups.get(skillId).push(file.replace(SKILLS_DIR + '/', ''));
       }
     }
     
@@ -1664,7 +1666,7 @@ module.exports = {
     
     // 2. 重新扫描技能文件
     console.log('[DTO] 重新扫描技能目录...');
-    this.scanAndRecordFiles('/root/.openclaw/workspace/skills', []);
+    this.scanAndRecordFiles(SKILLS_DIR, []);
     
     const afterCount = this.iscSubscriptions.length;
     const afterFiles = this.lastFileMtimes.size;

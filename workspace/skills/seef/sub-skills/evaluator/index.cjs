@@ -1,3 +1,4 @@
+const { SKILLS_DIR, REPORTS_DIR, WORKSPACE } = require('../../../_shared/paths');
 /**
  * SEEF Evaluator - 技能质量评估器
  * P0阶段实现：基础评估 + CRAS洞察注入
@@ -95,7 +96,7 @@ async function evaluate(input) {
  * 加载技能包
  */
 async function loadSkillPackage(skillPath) {
-  const fullPath = path.resolve('/root/.openclaw/workspace', skillPath);
+  const fullPath = path.resolve(WORKSPACE, skillPath);
   
   // 检查SKILL.md
   const skillMdPath = path.join(fullPath, 'SKILL.md');
@@ -143,8 +144,8 @@ async function loadSkillPackage(skillPath) {
  * 同时加载 config/user-profile.json 作为补充数据
  */
 async function loadCRASInsight(skillId) {
-  const insightsDir = '/root/.openclaw/workspace/skills/cras/insights';
-  const profilePath = '/root/.openclaw/workspace/skills/cras/config/user-profile.json';
+  const insightsDir = path.join(SKILLS_DIR, 'cras/insights');
+  const profilePath = path.join(SKILLS_DIR, 'cras/config/user-profile.json');
 
   let insight = null;
 
@@ -499,7 +500,7 @@ function decideNextSteps(score, issues) {
  * 保存评估报告
  */
 async function saveReport(report) {
-  const reportsDir = path.join('/root/.openclaw/workspace/reports/seef-evaluations');
+  const reportsDir = path.join(REPORTS_DIR, 'seef-evaluations');
   
   if (!fs.existsSync(reportsDir)) {
     fs.mkdirSync(reportsDir, { recursive: true });

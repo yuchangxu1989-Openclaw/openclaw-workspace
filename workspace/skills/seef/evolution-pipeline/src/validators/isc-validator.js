@@ -13,7 +13,7 @@ class ISCValidator {
     this.config = config;
     this.minScore = config.minScore || 70;
     this.iscQualityPath = config.iscQualityPath || 
-      '/root/.openclaw/workspace/skills/isc-document-quality/index.js';
+      path.join(require('../../../../_shared/paths').SKILLS_DIR, 'isc-document-quality/index.js');
   }
 
   /**

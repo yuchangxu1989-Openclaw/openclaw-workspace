@@ -1,3 +1,4 @@
+const { SKILLS_DIR } = require('../../../../_shared/paths');
 /**
  * EvoMap上传器 (EvoMap Uploader)
  * 
@@ -19,11 +20,11 @@ class EvoMapUploader {
     
     // EvoMap A2A路径
     this.evomapA2APath = config.evomapA2APath || 
-      '/root/.openclaw/workspace/skills/evomap-a2a/index.js';
+      path.join(SKILLS_DIR, 'evomap-a2a/index.js');
     
     // EvoMap清单路径
     this.manifestPath = config.manifestPath || 
-      '/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json';
+      path.join(SKILLS_DIR, 'isc-core/config/evomap-upload-manifest.json');
     
     this.client = null;
     this.isConnected = false;
@@ -157,7 +158,7 @@ class EvoMapUploader {
    */
   buildGene(skillState) {
     const skillPath = skillState.skillPath || 
-      path.join('/root/.openclaw/workspace/skills', skillState.skillId);
+      path.join(SKILLS_DIR, skillState.skillId);
     
     // 读取SKILL.md内容
     let skillContent = '';

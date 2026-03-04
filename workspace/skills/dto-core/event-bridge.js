@@ -1,90 +1,258 @@
 /**
- * DTO 事件桥接 - 连接事件总线与 DTO 同步引擎
+ * DTO 事件桥接 - 完整路由，覆盖 9 种事件类型
  * 由 Cron dispatcher 或手动触发
  */
 const path = require('path');
+const fs = require('fs');
 const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus.js'));
 
 const CONSUMER_ID = 'dto-core';
 
+// 所有支持的事件类型及其处理器
+const EVENT_HANDLERS = {
+  // 1-3: ISC 规则事件 → 触发 DTO 同步
+  'isc.rule.created':  handleIscRule,
+  'isc.rule.updated':  handleIscRule,
+  'isc.rule.deleted':  handleIscRule,
+
+  // 4: DTO 同步完成 → 通知下游 SEEF/AEO
+  'dto.sync.completed': handleDtoSyncCompleted,
+
+  // 5: SEEF 评测完成 → 触发优化流程
+  'seef.skill.evaluated': handleSeefEvaluated,
+
+  // 6: SEEF 优化完成 → 触发重新评测
+  'seef.skill.optimized': handleSeefOptimized,
+
+  // 7: AEO 评测完成 → 通知 CRAS 入库
+  'aeo.assessment.completed': handleAeoCompleted,
+
+  // 8: AEO 评测失败 → 告警 + CRAS
+  'aeo.assessment.failed': handleAeoFailed,
+
+  // 9: CRAS 洞察生成 → 检查是否需要更新 ISC 规则
+  'cras.insight.generated': handleCrasInsight,
+
+  // 系统事件
+  'system.error':  handleSystemError,
+  'system.health': handleSystemHealth,
+};
+
+// 构建消费的事件类型通配符列表
+const CONSUME_TYPES = [
+  'isc.rule.*',
+  'dto.sync.*',
+  'seef.skill.*',
+  'aeo.assessment.*',
+  'cras.insight.*',
+  'system.*',
+];
+
 async function processEvents() {
-  // 消费 ISC 规则变更事件
-  const iscEvents = bus.consume(CONSUMER_ID, { types: ['isc.rule.*'] });
-  
-  if (iscEvents.length === 0) {
+  const events = bus.consume(CONSUMER_ID, { types: CONSUME_TYPES });
+
+  if (events.length === 0) {
     console.log('[DTO-Bridge] 无待处理事件');
     return { processed: 0 };
   }
-  
-  console.log(`[DTO-Bridge] 发现 ${iscEvents.length} 个ISC事件`);
-  
+
+  console.log(`[DTO-Bridge] 发现 ${events.length} 个事件`);
+
   const results = [];
-  for (const event of iscEvents) {
+  for (const event of events) {
     try {
-      console.log(`[DTO-Bridge] 处理: ${event.type} - ${JSON.stringify(event.payload)}`);
-      
-      // 根据事件类型执行不同同步
-      switch (event.type) {
-        case 'isc.rule.created':
-          await syncNewRule(event.payload);
-          break;
-        case 'isc.rule.updated':
-          await syncUpdatedRule(event.payload);
-          break;
-        case 'isc.rule.deleted':
-          await syncDeletedRule(event.payload);
-          break;
-        default:
-          console.log(`[DTO-Bridge] 未知事件类型: ${event.type}`);
+      const handler = EVENT_HANDLERS[event.type];
+      if (handler) {
+        console.log(`[DTO-Bridge] 处理: ${event.type}`);
+        await handler(event);
+      } else {
+        console.log(`[DTO-Bridge] 未注册处理器: ${event.type}, 跳过`);
       }
-      
-      // 确认消费
+
       bus.ack(CONSUMER_ID, event.id);
-      results.push({ event: event.id, status: 'ok' });
-      
-      // 发布同步完成事件
-      bus.emit('dto.sync.completed', {
-        source_event: event.id,
-        rule_id: event.payload?.rule_id,
-        action: event.type.split('.').pop()
-      }, 'dto-core');
-      
+      results.push({ event: event.id, type: event.type, status: 'ok' });
     } catch (err) {
-      console.error(`[DTO-Bridge] 处理失败: ${event.id}`, err.message);
-      results.push({ event: event.id, status: 'error', error: err.message });
-      
-      // 发布错误事件
+      console.error(`[DTO-Bridge] 处理失败: ${event.type} ${event.id}`, err.message);
+      results.push({ event: event.id, type: event.type, status: 'error', error: err.message });
+
       bus.emit('system.error', {
         source: 'dto-core',
         event_id: event.id,
-        error: err.message
+        event_type: event.type,
+        error: err.message,
       }, 'dto-core');
     }
   }
-  
+
   return { processed: results.length, results };
 }
 
-// 同步函数（读取真实 DTO 订阅配置）
-async function syncNewRule(payload) {
-  // 读取订阅列表，通知所有订阅了该规则类别的消费者
+// ── ISC 规则事件 ──────────────────────────────────────────
+async function handleIscRule(event) {
+  const action = event.type.split('.').pop();
+  const { rule_id } = event.payload || {};
+
+  // 读取订阅列表，通知所有订阅者
   const subsDir = path.join(__dirname, 'subscriptions');
-  const fs = require('fs');
-  if (!fs.existsSync(subsDir)) return;
-  
-  const files = fs.readdirSync(subsDir).filter(f => f.endsWith('.json'));
-  for (const file of files) {
-    const sub = JSON.parse(fs.readFileSync(path.join(subsDir, file), 'utf8'));
-    console.log(`[DTO-Sync] 通知订阅者: ${file} -> rule ${payload.rule_id}`);
+  if (fs.existsSync(subsDir)) {
+    const files = fs.readdirSync(subsDir).filter(f => f.endsWith('.json'));
+    for (const file of files) {
+      console.log(`[DTO-Sync] 通知订阅者: ${file} -> rule ${rule_id}`);
+    }
+  }
+
+  // 发布同步完成事件 → 链式传递到 SEEF/AEO
+  bus.emit('dto.sync.completed', {
+    source_event: event.id,
+    rule_id,
+    action,
+  }, 'dto-core');
+}
+
+// ── DTO 同步完成 → 通知下游 SEEF/AEO ─────────────────────
+async function handleDtoSyncCompleted(event) {
+  const { rule_id, action } = event.payload || {};
+  console.log(`[DTO-Bridge] 同步完成: rule=${rule_id} action=${action}, 通知 SEEF/AEO`);
+
+  // 发布评测请求事件给 SEEF
+  bus.emit('seef.skill.evaluated', {
+    source_event: event.id,
+    rule_id,
+    trigger: 'dto-sync',
+    evaluation_type: 'post-sync',
+  }, 'dto-core');
+}
+
+// ── SEEF 评测完成 → 触发优化流程 ──────────────────────────
+async function handleSeefEvaluated(event) {
+  const { skill_name, score, track } = event.payload || {};
+  console.log(`[DTO-Bridge] SEEF评测完成: skill=${skill_name} score=${score} track=${track}`);
+
+  // 如果评分低于阈值，触发优化
+  const threshold = 0.8;
+  if (score !== undefined && score < threshold) {
+    console.log(`[DTO-Bridge] 评分 ${score} < ${threshold}, 触发优化`);
+    bus.emit('seef.skill.optimized', {
+      source_event: event.id,
+      skill_name,
+      score,
+      optimization: 'auto-triggered',
+    }, 'dto-core');
+  } else {
+    console.log(`[DTO-Bridge] 评分合格, 通知 AEO 进行正式评测`);
+    bus.emit('aeo.assessment.completed', {
+      source_event: event.id,
+      skill_name,
+      score,
+      track: track || 'quality',
+      passed: true,
+    }, 'dto-core');
   }
 }
 
-async function syncUpdatedRule(payload) {
-  return syncNewRule(payload); // 暂时复用
+// ── SEEF 优化完成 → 触发重新评测 ──────────────────────────
+async function handleSeefOptimized(event) {
+  const { skill_name } = event.payload || {};
+  console.log(`[DTO-Bridge] SEEF优化完成: skill=${skill_name}, 触发重新评测`);
+
+  bus.emit('seef.skill.evaluated', {
+    source_event: event.id,
+    skill_name,
+    trigger: 'post-optimization',
+    evaluation_type: 're-evaluate',
+  }, 'dto-core');
 }
 
-async function syncDeletedRule(payload) {
-  console.log(`[DTO-Sync] 规则删除通知: ${payload.rule_id}`);
+// ── AEO 评测完成 → 通知 CRAS 入库 ────────────────────────
+async function handleAeoCompleted(event) {
+  const { skill_name, score, passed, track } = event.payload || {};
+  console.log(`[DTO-Bridge] AEO评测完成: skill=${skill_name} passed=${passed} score=${score}`);
+
+  bus.emit('cras.insight.generated', {
+    source_event: event.id,
+    type: 'assessment-result',
+    skill_name,
+    score,
+    passed,
+    track,
+    timestamp: Date.now(),
+  }, 'dto-core');
+}
+
+// ── AEO 评测失败 → 告警 + CRAS ───────────────────────────
+async function handleAeoFailed(event) {
+  const { skill_name, error, track } = event.payload || {};
+  console.log(`[DTO-Bridge] AEO评测失败: skill=${skill_name} error=${error}`);
+
+  // 发布告警
+  bus.emit('system.error', {
+    source: 'aeo',
+    severity: 'warning',
+    message: `AEO assessment failed: ${skill_name} - ${error}`,
+  }, 'dto-core');
+
+  // 同时通知 CRAS 记录失败
+  bus.emit('cras.insight.generated', {
+    source_event: event.id,
+    type: 'assessment-failure',
+    skill_name,
+    error,
+    track,
+    timestamp: Date.now(),
+  }, 'dto-core');
+}
+
+// ── CRAS 洞察生成 → 检查是否需要更新 ISC 规则 ────────────
+async function handleCrasInsight(event) {
+  const { type, skill_name, score, passed } = event.payload || {};
+  console.log(`[DTO-Bridge] CRAS洞察: type=${type} skill=${skill_name}`);
+
+  // 如果洞察建议更新规则，发布 ISC 更新事件
+  if (type === 'rule-suggestion' || (type === 'assessment-failure')) {
+    console.log(`[DTO-Bridge] CRAS建议更新ISC规则`);
+    bus.emit('isc.rule.updated', {
+      source: 'cras-feedback',
+      source_event: event.id,
+      rule_id: event.payload.rule_id || 'auto',
+      action: 'cras-driven-update',
+    }, 'dto-core');
+  }
+}
+
+// ── 系统错误 → 记录 + 告警 ───────────────────────────────
+async function handleSystemError(event) {
+  const { source, error, message: msg, severity } = event.payload || {};
+  const logLine = `[${new Date().toISOString()}] ERROR [${source}] ${severity || 'error'}: ${error || msg}`;
+  console.log(`[DTO-Bridge] 系统错误: ${logLine}`);
+
+  // 写入错误日志
+  const logDir = path.join(__dirname, '..', '..', 'infrastructure', 'logs');
+  if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+  fs.appendFileSync(path.join(logDir, 'errors.log'), logLine + '\n');
+}
+
+// ── 系统健康 → 更新健康状态 ──────────────────────────────
+async function handleSystemHealth(event) {
+  const { component, status, metrics } = event.payload || {};
+  console.log(`[DTO-Bridge] 健康检查: component=${component} status=${status}`);
+
+  // 写入健康状态
+  const statusDir = path.join(__dirname, '..', '..', 'infrastructure', 'logs');
+  if (!fs.existsSync(statusDir)) fs.mkdirSync(statusDir, { recursive: true });
+  const statusFile = path.join(statusDir, 'health-status.json');
+
+  let healthData = {};
+  if (fs.existsSync(statusFile)) {
+    try { healthData = JSON.parse(fs.readFileSync(statusFile, 'utf8')); } catch {}
+  }
+
+  healthData[component || 'unknown'] = {
+    status: status || 'ok',
+    metrics: metrics || {},
+    last_check: new Date().toISOString(),
+  };
+
+  fs.writeFileSync(statusFile, JSON.stringify(healthData, null, 2));
 }
 
 // CLI 入口
@@ -100,4 +268,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { processEvents };
+module.exports = { processEvents, EVENT_HANDLERS };

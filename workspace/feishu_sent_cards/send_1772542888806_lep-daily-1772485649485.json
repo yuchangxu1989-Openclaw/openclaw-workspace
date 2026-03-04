@@ -1,0 +1,53 @@
+{
+  "target": "ou_8eafdc7241d381d714746e486b641883",
+  "card": {
+    "config": {
+      "wide_screen_mode": true
+    },
+    "header": {
+      "template": "red",
+      "title": {
+        "tag": "plain_text",
+        "content": "📊 LEP韧性日报 - 15分"
+      }
+    },
+    "elements": [
+      {
+        "tag": "div",
+        "text": {
+          "tag": "lark_md",
+          "content": "**日期**: 2026年3月3日星期二\n**技能**: 33/47 | **磁盘**: 8%"
+        }
+      },
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "div",
+        "text": {
+          "tag": "lark_md",
+          "content": "⚠️ 发现 15 个问题，请查看详细报告"
+        }
+      },
+      {
+        "tag": "action",
+        "actions": [
+          {
+            "tag": "button",
+            "text": {
+              "tag": "plain_text",
+              "content": "查看完整报告"
+            },
+            "type": "primary",
+            "value": {
+              "action": "view_lep_report",
+              "date": "2026-03-02"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "original": "/root/.openclaw/workspace/skills/cras/feishu_queue/lep-daily-1772485649485.json",
+  "timestamp": 1772542888806
+}

@@ -1,0 +1,24 @@
+{
+  "event": {
+    "id": "evt_mma2kokx_x12j0g",
+    "type": "isc.rule.updated",
+    "source": "isc",
+    "payload": {
+      "rule_id": "ISC-SKILL-QUALITY-001",
+      "changes": [
+        "增加测试覆盖率要求"
+      ]
+    },
+    "timestamp": 1772509807473,
+    "consumed_by": [
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "dto-sync",
+    "agent": "coder",
+    "priority": "high"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.353Z",
+  "status": "pending"
+}

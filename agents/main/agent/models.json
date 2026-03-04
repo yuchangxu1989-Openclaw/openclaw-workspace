@@ -137,7 +137,58 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
+          "maxTokens": 16384,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4-6",
+          "contextWindow": 200000,
           "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-sonnet-4-6-thinking",
+          "name": "Claude Sonnet 4-6 Thinking",
+          "reasoning": true,
+          "contextWindow": 200000,
+          "maxTokens": 16384,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-sonnet-4-6",
+          "name": "Claude Sonnet 4-6",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
           "input": [
             "text"
           ],

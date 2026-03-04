@@ -8,7 +8,7 @@ etl
 
 填补能力空白: 缺少 data 类型能力
 
-## version: "1.0.3"
+## version: "1.0.4"
 
 ## Input
 

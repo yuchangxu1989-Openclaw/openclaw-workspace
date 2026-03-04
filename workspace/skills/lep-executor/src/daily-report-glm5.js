@@ -9,6 +9,8 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const https = require('https');
+const http = require('http');
+const { URL } = require('url');
 const { WORKSPACE, SECRETS_DIR, SKILLS_DIR } = require('../../_shared/paths');
 
 // 配置
@@ -21,11 +23,10 @@ const REPORT_DATE = new Date().toLocaleDateString('zh-CN', {
 });
 const TIMESTAMP = new Date().toISOString();
 
-// LLM配置 - 模型通过环境变量配置
-const GLM5_CONFIG = {
-  baseURL: process.env.LLM_API_HOST || 'open.bigmodel.cn',
-  apiPath: '/api/paas/v4/chat/completions',
-  model: process.env.LLM_DEFAULT_MODEL || 'glm-5'
+// LLM配置 - 全部通过环境变量配置，不再硬编码智谱地址
+const LLM_CONFIG = {
+  baseURL: process.env.LLM_BASE_URL || 'https://api.penguinsaichat.dpdns.org/v1/chat/completions',
+  model: process.env.LLM_MODEL || process.env.LLM_DEFAULT_MODEL || 'claude-sonnet-4-6'
 };
 
 // 飞书配置
@@ -34,15 +35,15 @@ const FEISHU_CONFIG = {
 };
 
 /**
- * 加载智谱API Key (使用API_KEY_3)
+ * 加载 LLM API Key
+ * 优先级: LLM_API_KEY > CLAUDE_API_KEY > API_KEY_3 > zhipu-keys.env > ZHIPU_API_KEY_3
  */
 function loadAPIKey() {
-  // 优先使用环境变量API_KEY_3
-  if (process.env.API_KEY_3) {
-    return process.env.API_KEY_3;
-  }
+  if (process.env.LLM_API_KEY) return process.env.LLM_API_KEY;
+  if (process.env.CLAUDE_API_KEY) return process.env.CLAUDE_API_KEY;
+  if (process.env.API_KEY_3) return process.env.API_KEY_3;
   
-  // 从secrets文件加载
+  // 从 secrets 文件加载（兼容旧配置）
   const secretsPath = path.join(SECRETS_DIR, 'zhipu-keys.env');
   if (fs.existsSync(secretsPath)) {
     const content = fs.readFileSync(secretsPath, 'utf8');
@@ -50,22 +51,20 @@ function loadAPIKey() {
     if (match) return match[1];
   }
   
-  // 尝试ZHIPU_API_KEY_3环境变量
-  if (process.env.ZHIPU_API_KEY_3) {
-    return process.env.ZHIPU_API_KEY_3;
-  }
+  if (process.env.ZHIPU_API_KEY_3) return process.env.ZHIPU_API_KEY_3;
   
-  throw new Error('API_KEY_3 not found');
+  throw new Error('LLM API key not found. Set LLM_API_KEY, CLAUDE_API_KEY, or API_KEY_3 env var.');
 }
 
 /**
- * 调用GLM-5 API
+ * 调用 LLM API（通过环境变量配置 provider）
  */
 async function callGLM5(prompt) {
   const apiKey = loadAPIKey();
+  const endpoint = new URL(LLM_CONFIG.baseURL);
   
   const body = JSON.stringify({
-    model: GLM5_CONFIG.model,
+    model: LLM_CONFIG.model,
     messages: [
       {
         role: 'system',
@@ -78,17 +77,16 @@ async function callGLM5(prompt) {
     ],
     stream: false,
     temperature: 0.3,
-    max_tokens: 4096,
-    reasoning: {
-      enable: true,
-      detail: 'medium'
-    }
+    max_tokens: 4096
   });
+
+  const transport = endpoint.protocol === 'https:' ? https : http;
 
   return new Promise((resolve, reject) => {
     const options = {
-      hostname: GLM5_CONFIG.baseURL,
-      path: GLM5_CONFIG.apiPath,
+      hostname: endpoint.hostname,
+      port: endpoint.port || (endpoint.protocol === 'https:' ? 443 : 80),
+      path: endpoint.pathname + (endpoint.search || ''),
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -98,7 +96,7 @@ async function callGLM5(prompt) {
       timeout: 180000
     };
 
-    const req = https.request(options, (res) => {
+    const req = transport.request(options, (res) => {
       let data = '';
       res.on('data', (chunk) => data += chunk);
       res.on('end', () => {
@@ -193,7 +191,7 @@ function collectHealthData() {
 }
 
 /**
- * 使用GLM-5生成报告
+ * 使用LLM生成报告
  */
 async function generateReportWithGLM5(healthData) {
   const prompt = `
@@ -241,7 +239,7 @@ ${healthData.systemFiles.issues.map(i => `  - ${i.file}: ${i.message}`).join('\n
     const content = await callGLM5(prompt);
     return content;
   } catch (error) {
-    console.error('GLM-5调用失败:', error.message);
+    console.error('LLM调用失败:', error.message);
     // 回退到本地生成
     return generateFallbackReport(healthData);
   }
@@ -422,7 +420,9 @@ function saveReport(content) {
 
 // 主程序
 async function main() {
-  console.log('🚀 LEP韧性日报生成器 v2.0 (GLM-5)');
+  console.log('🚀 LEP韧性日报生成器 v2.1 (可配置LLM)');
+  console.log(`   LLM endpoint: ${LLM_CONFIG.baseURL}`);
+  console.log(`   Model: ${LLM_CONFIG.model}`);
   console.log('=' .repeat(50));
   
   try {
@@ -433,8 +433,8 @@ async function main() {
     console.log(`   ✓ 系统文件: ${healthData.systemFiles.healthy}/${healthData.systemFiles.total}`);
     console.log(`   ✓ 磁盘使用率: ${healthData.disk.usagePercent}%`);
 
-    // 2. 使用GLM-5生成报告
-    console.log('\n🤖 正在调用GLM-5生成报告...');
+    // 2. 使用LLM生成报告
+    console.log('\n🤖 正在调用LLM生成报告...');
     const reportContent = await generateReportWithGLM5(healthData);
     console.log('   ✓ 报告生成完成');
 

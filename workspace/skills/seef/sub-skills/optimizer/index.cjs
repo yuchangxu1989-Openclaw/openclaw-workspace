@@ -1,3 +1,4 @@
+const { REPORTS_DIR } = require('../../../_shared/paths');
 /**
  * SEEF Optimizer - 技能优化方案生成器
  * P1阶段实现：生成安全可逆的修复方案
@@ -466,7 +467,7 @@ function generatePackageJsonTemplate(skillPath) {
  * 保存优化方案
  */
 async function saveOptimizationPlan(report) {
-  const plansDir = path.join('/root/.openclaw/workspace/reports/seef-optimization-plans');
+  const plansDir = path.join(REPORTS_DIR, 'seef-optimization-plans');
   
   if (!fs.existsSync(plansDir)) {
     fs.mkdirSync(plansDir, { recursive: true });

@@ -26,7 +26,7 @@ class CogView {
       quality: options.quality || 'standard'
     };
 
-    const result = await this.request('/api/paas/v4/images/generations', body);
+    const result = await this.request('/api/coding/paas/v4/images/generations', body);
     return result.data?.[0]?.url;
   }
 
@@ -41,7 +41,7 @@ class CogView {
       size: options.size || '1024x1024'
     };
 
-    const result = await this.request('/api/paas/v4/images/edits', body);
+    const result = await this.request('/api/coding/paas/v4/images/edits', body);
     return result.data?.[0]?.url;
   }
 

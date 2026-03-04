@@ -1,0 +1,49 @@
+{
+  "recordId": "evo-86f7082664e0",
+  "skillId": "healthcheck",
+  "skillName": "healthcheck",
+  "timestamp": 1772509846366,
+  "trigger": "event-bridge:aeo.assessment.started",
+  "status": "unknown",
+  "metrics": {
+    "evaluation": {
+      "score": 0,
+      "issuesFound": 0,
+      "criticalIssues": 0
+    },
+    "optimization": {
+      "filesModified": 0,
+      "issuesFixed": 0,
+      "operationsCompleted": 0
+    },
+    "validation": {
+      "passed": false,
+      "testsRun": 0,
+      "testsPassed": 0
+    }
+  },
+  "changes": {
+    "total": 0,
+    "byType": {
+      "added": 0,
+      "modified": 0,
+      "deleted": 0
+    },
+    "details": []
+  },
+  "stages": {
+    "evaluation": {
+      "completed": false
+    },
+    "optimization": {
+      "completed": false
+    },
+    "validation": {
+      "completed": false
+    }
+  },
+  "metadata": {
+    "recorderVersion": "1.0.0",
+    "recordedAt": 1772509846366
+  }
+}

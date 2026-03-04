@@ -31,7 +31,7 @@ class GLMTTS {
       response_format: options.format || 'mp3'
     };
 
-    return this.request('/api/paas/v4/audio/speech', body);
+    return this.request('/api/coding/paas/v4/audio/speech', body);
   }
 
   request(path, body) {

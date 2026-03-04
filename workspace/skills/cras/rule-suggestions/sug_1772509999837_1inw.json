@@ -1,0 +1,17 @@
+{
+  "id": "sug_1772509999837_1inw",
+  "title": "错误防护规则: 系统错误来自 seef: evaluator timeout",
+  "description": "系统错误来自 seef: evaluator timeout",
+  "action": "create",
+  "target_rule": null,
+  "suggested_rule": {
+    "type": "system_level",
+    "condition": "error_rate < 0.01",
+    "severity": "error",
+    "auto_generated": true,
+    "source_insight": "insight_1772486023755_m95y"
+  },
+  "priority": "high",
+  "status": "pending_review",
+  "created_at": "2026-03-03T03:53:19.837Z"
+}

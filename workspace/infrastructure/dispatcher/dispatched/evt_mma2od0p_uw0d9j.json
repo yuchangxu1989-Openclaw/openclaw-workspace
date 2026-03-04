@@ -1,0 +1,25 @@
+{
+  "event": {
+    "id": "evt_mma2od0p_uw0d9j",
+    "type": "seef.skill.evaluated",
+    "source": "seef",
+    "payload": {
+      "sub_skill": "evaluator",
+      "source_event": "evt_mma2hpx0_8hg17z",
+      "source_type": "dto.sync.completed",
+      "output": "JS async call triggered for evaluator",
+      "timestamp": "2026-03-03T03:52:59.113Z"
+    },
+    "timestamp": 1772509979113,
+    "consumed_by": [
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "seef-optimize",
+    "agent": "researcher",
+    "priority": "normal"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.392Z",
+  "status": "pending"
+}

@@ -256,7 +256,7 @@ class StateManager {
    * @returns {string} 技能路径
    */
   getSkillPath(skillId) {
-    return path.join('/root/.openclaw/workspace/skills', skillId);
+    return path.join(require('../../../_shared/paths').SKILLS_DIR, skillId);
   }
 
   /**

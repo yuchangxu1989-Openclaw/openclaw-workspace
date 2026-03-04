@@ -32,7 +32,7 @@ class GLMVision {
       ]
     };
 
-    return this.request('/api/paas/v4/chat/completions', body);
+    return this.request('/api/coding/paas/v4/chat/completions', body);
   }
 
   /**

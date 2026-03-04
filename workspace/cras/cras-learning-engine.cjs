@@ -31,8 +31,8 @@ const LOG_DIR = `${WORKSPACE}/logs`;
 class GLM5LearningEngine {
   constructor() {
     this.baseURL = 'open.bigmodel.cn';
-    this.apiPath = '/api/paas/v4/chat/completions';
-    this.model = 'glm-5';
+    this.apiPath = '/api/coding/paas/v4/chat/completions';
+    this.model = process.env.LLM_MODEL || 'claude-sonnet-4-6';
     this.apiKeys = this.loadKeys();
     this.currentKeyIndex = 0;
     this.failedKeys = new Set();

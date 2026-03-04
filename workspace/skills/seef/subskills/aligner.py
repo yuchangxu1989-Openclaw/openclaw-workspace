@@ -14,6 +14,10 @@ SEEF Subskill: Skill Aligner v2.0
 """
 
 import os
+
+OPENCLAW_HOME = os.environ.get("OPENCLAW_HOME", "/root/.openclaw")
+WORKSPACE_PATH = os.path.join(OPENCLAW_HOME, "workspace")
+SKILLS_PATH = os.path.join(WORKSPACE_PATH, "skills")
 import sys
 import json
 import re
@@ -40,7 +44,7 @@ class DTOEventBus:
     """DTO事件总线客户端"""
     
     def __init__(self, config_path: Optional[str] = None):
-        self.config_path = config_path or '/root/.openclaw/workspace/skills/dto-core/config/event-bus.json'
+        self.config_path = config_path or str(Path(OPENCLAW_HOME) / 'workspace/skills/dto-core/config/event-bus.json')
         self.events = []
         self._connected = False
         
@@ -71,7 +75,7 @@ class DTOEventBus:
         self.events.append(event)
         
         try:
-            events_dir = Path('/root/.openclaw/workspace/skills/seef/events')
+            events_dir = Path(OPENCLAW_HOME) / 'workspace/skills/seef/events'
             events_dir.mkdir(parents=True, exist_ok=True)
             
             event_file = events_dir / f"{event_type}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.json"
@@ -185,8 +189,8 @@ class SkillAligner:
         self.event_bus = event_bus or DTOEventBus()
         self.event_bus.connect()
         
-        self.skills_base_path = Path('/root/.openclaw/workspace/skills')
-        self.standards_path = Path('/root/.openclaw/workspace/skills/seef/standards')
+        self.skills_base_path = Path(SKILLS_PATH)
+        self.standards_path = Path(SKILLS_PATH) / 'seef/standards'
         self.alignment_results = {
             'subskill': 'aligner',
             'version': self.VERSION,
@@ -311,7 +315,7 @@ class SkillAligner:
             self._observer.schedule(handler, str(self.standards_path), recursive=True)
         
         # 监控seef配置目录
-        config_path = Path('/root/.openclaw/workspace/skills/seef/.isc-config')
+        config_path = Path(SKILLS_PATH) / 'seef/.isc-config'
         if config_path.exists():
             self._observer.schedule(handler, str(config_path), recursive=True)
         

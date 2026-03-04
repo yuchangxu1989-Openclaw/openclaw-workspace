@@ -26,7 +26,7 @@ class CogVideo {
       duration: options.duration || 6
     };
 
-    const result = await this.request('/api/paas/v4/videos/generations', body);
+    const result = await this.request('/api/coding/paas/v4/videos/generations', body);
     return {
       taskId: result.id,
       status: result.status,
@@ -46,7 +46,7 @@ class CogVideo {
       duration: options.duration || 6
     };
 
-    const result = await this.request('/api/paas/v4/videos/generations', body);
+    const result = await this.request('/api/coding/paas/v4/videos/generations', body);
     return {
       taskId: result.id,
       status: result.status,
@@ -58,7 +58,7 @@ class CogVideo {
    * 查询任务状态
    */
   async queryStatus(taskId) {
-    return this.request(`/api/paas/v4/videos/${taskId}`, null, 'GET');
+    return this.request(`/api/coding/paas/v4/videos/${taskId}`, null, 'GET');
   }
 
   request(path, body, method = 'POST') {

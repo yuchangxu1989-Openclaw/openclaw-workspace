@@ -1,0 +1,26 @@
+{
+  "event": {
+    "id": "evt_mma2hpz8_xuaqed",
+    "type": "cras.insight.generated",
+    "source": "dto-core",
+    "payload": {
+      "source_event": "evt_mma2hpyh_yxx1qo",
+      "type": "assessment-result",
+      "passed": true,
+      "track": "quality",
+      "timestamp": 1772509669316
+    },
+    "timestamp": 1772509669317,
+    "consumed_by": [
+      "dto-core",
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "isc-feedback",
+    "agent": "researcher",
+    "priority": "normal"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.363Z",
+  "status": "pending"
+}

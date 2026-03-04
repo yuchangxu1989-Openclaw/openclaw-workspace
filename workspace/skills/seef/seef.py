@@ -21,6 +21,10 @@ SEEF - Skill Ecosystem Evolution Foundry v4.0.0 (DTO集成版)
 """
 
 import os
+
+OPENCLAW_HOME = os.environ.get("OPENCLAW_HOME", "/root/.openclaw")
+WORKSPACE_PATH = os.path.join(OPENCLAW_HOME, "workspace")
+SKILLS_PATH = os.path.join(WORKSPACE_PATH, "skills")
 import sys
 import json
 import argparse
@@ -83,7 +87,7 @@ class DTOEventBus:
     """DTO事件总线客户端"""
     
     def __init__(self, config_path: Optional[str] = None):
-        self.config_path = config_path or '/root/.openclaw/workspace/skills/dto-core/config/event-bus.json'
+        self.config_path = config_path or str(Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills/dto-core/config/event-bus.json')
         self.events = []
         self.subscribers: Dict[str, List[Callable]] = {}
         self._connected = False
@@ -100,7 +104,7 @@ class DTOEventBus:
                 self._connected = True
             
             # 确保事件目录存在
-            events_dir = Path('/root/.openclaw/workspace/skills/seef/events')
+            events_dir = Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills/seef/events'
             events_dir.mkdir(parents=True, exist_ok=True)
             
             return True
@@ -121,7 +125,7 @@ class DTOEventBus:
         
         # 写入事件文件
         try:
-            events_dir = Path('/root/.openclaw/workspace/skills/seef/events')
+            events_dir = Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills/seef/events'
             event_file = events_dir / f"{event_type}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.json"
             with open(event_file, 'w') as f:
                 json.dump(event, f, ensure_ascii=False, indent=2)

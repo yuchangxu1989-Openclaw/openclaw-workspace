@@ -47,7 +47,7 @@ class Watcher extends EventEmitter {
     super();
     
     this.config = {
-      watchPaths: config.watchPaths || ['/root/.openclaw/workspace/skills'],
+      watchPaths: config.watchPaths || [require('../../../../_shared/paths').SKILLS_DIR],
       ignored: config.ignored || [
         '**/node_modules/**',
         '**/.git/**',

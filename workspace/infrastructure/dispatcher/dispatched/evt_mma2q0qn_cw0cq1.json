@@ -1,0 +1,23 @@
+{
+  "event": {
+    "id": "evt_mma2q0qn_cw0cq1",
+    "type": "seef.skill.optimized",
+    "source": "seef",
+    "payload": {
+      "sub_skill": "optimizer",
+      "source_event": "evt_mma2q0h9_nv0i02",
+      "source_type": "aeo.assessment.failed",
+      "output": "JS async call triggered for optimizer",
+      "timestamp": "2026-03-03T03:54:16.511Z"
+    },
+    "timestamp": 1772510056511,
+    "consumed_by": []
+  },
+  "route": {
+    "handler": "cras-ingest",
+    "agent": "analyst",
+    "priority": "normal"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.428Z",
+  "status": "pending"
+}

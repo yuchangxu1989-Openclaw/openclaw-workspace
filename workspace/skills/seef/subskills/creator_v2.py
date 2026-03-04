@@ -13,7 +13,7 @@ class SkillCreator:
     """技能创造器 - 集成独立 skill-creator"""
     
     def __init__(self):
-        self.skill_creator_path = '/root/.openclaw/workspace/skills/skill-creator'
+        self.skill_creator_path = str(Path(os.environ.get('OPENCLAW_HOME', '/root/.openclaw')) / 'workspace/skills/skill-creator')
         self.results = {
             'subskill': 'creator',
             'version': '1.1.0',

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * @fileoverview EvoMap阶段3集成测试主脚本
- * @description 使用GLM-5(智谱API_KEY_4)执行集成测试、代码分析和报告生成
+ * @description 使用可配置LLM provider执行集成测试、代码分析和报告生成
  * @module phase3-integration-test
- * @version 1.0.0
+ * @version 1.1.0 - 移除硬编码智谱调用，改为通过环境变量配置LLM provider
  */
 
 import { execSync } from 'child_process';
@@ -11,12 +11,16 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import https from 'https';
+import http from 'http';
+import { URL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// API key must be provided via environment variable
-const API_KEY_4 = process.env.ZHIPU_API_KEY_4 || process.env.ZHIPU_API_KEY || '';
+// LLM配置 - 通过环境变量配置，不再硬编码智谱地址
+const LLM_BASE_URL = process.env.LLM_BASE_URL || 'https://api.penguinsaichat.dpdns.org/v1/chat/completions';
+const LLM_API_KEY = process.env.LLM_API_KEY || process.env.CLAUDE_API_KEY || process.env.ZHIPU_API_KEY_4 || process.env.ZHIPU_API_KEY || '';
+const LLM_MODEL = process.env.LLM_MODEL || process.env.LLM_DEFAULT_MODEL || 'claude-sonnet-4-6';
 
 class Phase3IntegrationTest {
   constructor() {
@@ -31,13 +35,16 @@ class Phase3IntegrationTest {
   }
 
   /**
-   * 执行GLM-5调用
+   * 调用 LLM API（通过环境变量配置 provider）
    */
   async callGLM5(prompt, options = {}) {
-    const apiKey = options.apiKey || API_KEY_4;
+    const apiKey = options.apiKey || LLM_API_KEY;
+    const endpointUrl = options.baseURL || LLM_BASE_URL;
+    const model = options.model || LLM_MODEL;
+    const endpoint = new URL(endpointUrl);
     
     const requestData = JSON.stringify({
-      model: process.env.LLM_DEFAULT_MODEL || 'glm-5',
+      model,
       messages: [
         {
           role: 'system',
@@ -50,17 +57,16 @@ class Phase3IntegrationTest {
       ],
       stream: false,
       temperature: 0.3,
-      max_tokens: 8192,
-      reasoning: {
-        enable: true,
-        detail: 'high'
-      }
+      max_tokens: 8192
     });
 
+    const transport = endpoint.protocol === 'https:' ? https : http;
+
     return new Promise((resolve, reject) => {
-      const req = https.request({
-        hostname: 'open.bigmodel.cn',
-        path: '/api/paas/v4/chat/completions',
+      const req = transport.request({
+        hostname: endpoint.hostname,
+        port: endpoint.port || (endpoint.protocol === 'https:' ? 443 : 80),
+        path: endpoint.pathname + (endpoint.search || ''),
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -155,10 +161,10 @@ class Phase3IntegrationTest {
   }
 
   /**
-   * 步骤3: 使用GLM-5进行代码分析
+   * 步骤3: 使用LLM进行代码分析
    */
   async analyzeWithGLM5() {
-    console.log('\n[Phase3] 步骤3: GLM-5代码分析...');
+    console.log('\n[Phase3] 步骤3: LLM代码分析...');
     
     const filesToAnalyze = [
       'src/engine.js',
@@ -211,7 +217,7 @@ ${content.substring(0, 8000)}
     }
 
     this.results.analysis.glm5 = analyses;
-    console.log('✓ GLM-5分析完成');
+    console.log('✓ LLM分析完成');
     return analyses;
   }
 
@@ -263,7 +269,7 @@ ${content.substring(0, 8000)}
     const report = `# EvoMap阶段3集成测试报告
 
 **测试时间**: ${new Date(this.results.timestamp).toLocaleString('zh-CN')}  
-**执行模型**: GLM-5 (智谱API_KEY_4)  
+**执行模型**: ${LLM_MODEL} (${LLM_BASE_URL})  
 **测试阶段**: Phase 3 - 集成测试
 
 ---
@@ -348,8 +354,10 @@ ${unitPassed && integrationPassed
    */
   async run() {
     console.log('╔════════════════════════════════════════════════════════════════╗');
-    console.log('║              EvoMap阶段3 - 集成测试 (GLM-5)                    ║');
+    console.log('║              EvoMap阶段3 - 集成测试 (可配置LLM)                ║');
     console.log('╚════════════════════════════════════════════════════════════════╝');
+    console.log(`  LLM endpoint: ${LLM_BASE_URL}`);
+    console.log(`  Model: ${LLM_MODEL}`);
 
     // 步骤1: 单元测试
     await this.runUnitTests();
@@ -372,7 +380,7 @@ ${unitPassed && integrationPassed
     console.log('╠════════════════════════════════════════════════════════════════╣');
     console.log(`║ 单元测试: ${(this.results.tests.unit?.status === 'passed' ? '✅ 通过' : '❌ 失败').padEnd(50)} ║`);
     console.log(`║ 集成测试: ${(this.results.tests.integration?.status === 'passed' ? '✅ 通过' : '❌ 失败').padEnd(50)} ║`);
-    console.log(`║ GLM-5分析: ${'✅ 完成'.padEnd(49)} ║`);
+    console.log(`║ LLM分析: ${'✅ 完成'.padEnd(49)} ║`);
     console.log(`║ 修复建议: ${(this.results.fixes.length + '项').padEnd(51)} ║`);
     console.log(`║ 报告路径: ${reportPath.substring(reportPath.lastIndexOf('/') + 1).padEnd(51)} ║`);
     console.log('╚════════════════════════════════════════════════════════════════╝');

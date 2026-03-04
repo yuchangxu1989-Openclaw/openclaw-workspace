@@ -1,3 +1,4 @@
+const { SKILLS_DIR, REPORTS_DIR, WORKSPACE } = require('../../../_shared/paths');
 /**
  * SEEF Validator - 技能验证器
  * P1阶段实现：准入准出门禁 + ISC规则校验
@@ -124,7 +125,7 @@ async function validate(input) {
  * 加载技能包
  */
 async function loadSkillPackage(skillPath) {
-  const fullPath = path.resolve('/root/.openclaw/workspace', skillPath);
+  const fullPath = path.resolve(WORKSPACE, skillPath);
   
   if (!fs.existsSync(fullPath)) {
     throw new Error(`技能路径不存在: ${fullPath}`);
@@ -197,7 +198,7 @@ async function loadSkillPackage(skillPath) {
  * 加载ISC规则
  */
 async function loadISCRules() {
-  const iscConfigPath = '/root/.openclaw/workspace/skills/isc-core/config';
+  const iscConfigPath = path.join(SKILLS_DIR, 'isc-core/config');
   
   // 默认规则
   const defaultRules = {
@@ -581,7 +582,7 @@ function evaluateGate(phase, functionalityResult, qualityResult, complianceResul
  * 保存验证报告
  */
 async function saveReport(report) {
-  const reportsDir = path.join('/root/.openclaw/workspace/reports/seef-validations');
+  const reportsDir = path.join(REPORTS_DIR, 'seef-validations');
   
   if (!fs.existsSync(reportsDir)) {
     fs.mkdirSync(reportsDir, { recursive: true });
@@ -602,7 +603,7 @@ async function saveReport(report) {
  * 生成准出证明
  */
 async function generateCheckoutReceipt(report) {
-  const receiptsDir = path.join('/root/.openclaw/workspace/skills/seef/.signals/checkout-receipts');
+  const receiptsDir = path.join(SKILLS_DIR, 'seef/.signals/checkout-receipts');
   
   if (!fs.existsSync(receiptsDir)) {
     fs.mkdirSync(receiptsDir, { recursive: true });

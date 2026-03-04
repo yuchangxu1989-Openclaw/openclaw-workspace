@@ -10,7 +10,7 @@ const path = require('path');
 
 class GLMASR {
   constructor() {
-    this.apiKey = process.env.ZHIPU_API_KEY || 'ZHIPU_KEY_PLACEHOLDER';
+    this.apiKey = process.env.ZHIPU_API_KEY || 'REDACTED_ZHIPU_API_KEY';
     this.baseURL = 'open.bigmodel.cn';
     this.model = 'glm-asr-2512';
   }
@@ -108,7 +108,7 @@ class GLMASR {
     return new Promise((resolve, reject) => {
       const options = {
         hostname: this.baseURL,
-        path: '/api/paas/v4/audio/transcriptions',
+        path: '/api/coding/paas/v4/audio/transcriptions',
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,

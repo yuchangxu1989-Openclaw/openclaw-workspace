@@ -11,7 +11,8 @@ const fs = require('fs');
 const path = require('path');
 const { ISCRuleLoader } = require('./isc-rule-loader');
 
-const RULES_DIR = '/root/.openclaw/workspace/skills/isc-core/rules';
+const { SKILLS_DIR } = require('../../../_shared/paths');
+const RULES_DIR = path.join(SKILLS_DIR, 'isc-core/rules');
 const TEST_RULE_PATH = path.join(RULES_DIR, 'rule.test-dynamic-loader-999.json');
 
 let passed = 0;

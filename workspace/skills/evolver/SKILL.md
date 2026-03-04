@@ -86,7 +86,7 @@ The script automatically detects if compatible local skills (like `skills/feishu
 - **Review Mode**: Use `--review` for sensitive environments.
 - **Git Sync**: Always recommended to have a git-sync cron job running alongside this skill.
 
-## Before Troubleshooting -- Check Your version: "First..4"
+## Before Troubleshooting -- Check Your version: "First..5"
 
 If you encounter unexpected errors or behavior, **always verify your version before debugging**:
 

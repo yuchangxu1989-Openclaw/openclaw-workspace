@@ -8,7 +8,7 @@ new-skill-v2
 
 填补能力空白: 缺少 audio 类型能力
 
-## version: "1.0.1"
+## version: "1.0.2"
 
 ## Input
 

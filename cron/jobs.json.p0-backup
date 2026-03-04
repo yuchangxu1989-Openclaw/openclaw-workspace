@@ -1,0 +1,979 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "5f7cc02f-3313-474e-ba20-f72bfa1846d8",
+      "agentId": "cron-worker",
+      "name": "ClawHub-Skills-批量安装",
+      "enabled": true,
+      "createdAtMs": 1771819772436,
+      "updatedAtMs": 1772445836019,
+      "schedule": {
+        "expr": "0 13 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "检查 ClawHub Skills 后台安装进度。命令：cat /tmp/clawhub-install.log | tail -50 && ls -la /root/.openclaw/workspace/skills/ | wc -l",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 60
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772514000000,
+        "lastRunAtMs": 1772377014151,
+        "lastStatus": "ok",
+        "lastDurationMs": 13036,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered"
+      }
+    },
+    {
+      "id": "b76c9b20-d206-4d2d-9d26-815804cd22fd",
+      "agentId": "cron-worker",
+      "name": "CRAS-A-主动学习引擎",
+      "enabled": true,
+      "createdAtMs": 1771822636452,
+      "updatedAtMs": 1772445827887,
+      "schedule": {
+        "expr": "0 9 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行CRAS模块A：主动学习引擎 - 定时联网学习。学习目标：1) Agent最前沿学术论文(arXiv/cs.AI, ACL, NeurIPS) 2) 本地RAG技术进展 3) 技能生态演化趋势 4) 能力与工具拓展方向。结合当前系统状态(ISC/SEEF/CRAS/CARS)生成优化建议。命令：kimi_search \"latest AI agent papers 2026 RAG\" limit=5 && kimi_search \"agent skill ecosystem evolution\" limit=5 && cd /root/.openclaw/workspace/skills/cras && node index.js --learn",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 600,
+        "thinking": "medium"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772499600000,
+        "lastRunAtMs": 1772413200011,
+        "lastStatus": "error",
+        "lastDurationMs": 600010,
+        "consecutiveErrors": 3,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "unknown",
+        "lastError": "cron: job execution timed out"
+      }
+    },
+    {
+      "id": "e9ca2582-2d73-4023-8dc2-6ec5434ff976",
+      "agentId": "cron-worker",
+      "name": "CRAS-B-用户洞察分析-每日",
+      "enabled": true,
+      "createdAtMs": 1771822636468,
+      "updatedAtMs": 1772456493839,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 21 * * *",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行CRAS模块B：用户洞察分析中枢。分析最近2小时用户交互，更新意图画像，并使用飞书卡片格式推送报告。命令：cd /root/.openclaw/workspace/skills/cras && node index.js --insight --format=feishu_card",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 180,
+        "thinking": "medium"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772542860299,
+        "lastRunAtMs": 1772456460308,
+        "lastStatus": "ok",
+        "lastDurationMs": 33531,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-delivered",
+        "lastDelivered": false
+      }
+    },
+    {
+      "id": "955a83c6-9534-45f7-bf07-ba1ecb6d53e3",
+      "agentId": "cron-worker",
+      "name": "CRAS-C-知识治理",
+      "enabled": true,
+      "createdAtMs": 1771822636481,
+      "updatedAtMs": 1772467529475,
+      "schedule": {
+        "expr": "0 */6 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行CRAS模块C：知识治理系统。构建索引、向量化、分类、去重与质量评估。命令：cd /root/.openclaw/workspace/skills/cras && node index.js --govern",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 300
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772489055181,
+        "lastRunAtMs": 1772467513630,
+        "lastStatus": "ok",
+        "lastDurationMs": 15845,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered"
+      }
+    },
+    {
+      "id": "d9d8123d-e14e-408d-b72c-04b273530943",
+      "agentId": "cron-worker",
+      "name": "CRAS-E-自主进化",
+      "enabled": true,
+      "createdAtMs": 1771822636502,
+      "updatedAtMs": 1772474473838,
+      "schedule": {
+        "expr": "0 2 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行CRAS模块E：自主反思与技能进化。遍历知识库，寻找规律，生成技能优化建议并执行。命令：cd /root/.openclaw/workspace/skills/cras && node index.js --evolve",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 300
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772560800000,
+        "lastRunAtMs": 1772474400010,
+        "lastStatus": "error",
+        "lastDurationMs": 73828,
+        "consecutiveErrors": 1,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "unknown",
+        "lastError": "cron announce delivery failed"
+      }
+    },
+    {
+      "id": "e96b2913-bb9d-40a5-8a81-d044ad33a2aa",
+      "agentId": "cron-worker",
+      "name": "DTO-Declarative-Orche...",
+      "enabled": true,
+      "createdAtMs": 1771901678264,
+      "updatedAtMs": 1772481912428,
+      "schedule": {
+        "expr": "0 * * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "cd /root/.openclaw/workspace/skills/dto-core && node core/declarative-orchestrator.js",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1772485308704,
+        "lastRunAtMs": 1772481839863,
+        "lastStatus": "ok",
+        "lastDurationMs": 72565,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered"
+      }
+    },
+    {
+      "id": "fd0ffed0-6439-45f1-80cb-2a056abceade",
+      "agentId": "cron-worker",
+      "name": "OpenClaw-自动备份-每日0700",
+      "enabled": true,
+      "createdAtMs": 1771918910956,
+      "updatedAtMs": 1772445801722,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 7 * * *",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行备份脚本: bash /root/.openclaw/workspace/scripts/backup.sh，报告备份结果。",
+        "timeoutSeconds": 300,
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772492400000,
+        "lastRunAtMs": 1772406000014,
+        "lastStatus": "error",
+        "lastDurationMs": 56070,
+        "consecutiveErrors": 2,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "delivered",
+        "lastError": "⚠️ ✍️ Write: to /tmp/openclaw-backup/backup-script.sh (848 chars) failed",
+        "lastDelivered": true
+      }
+    },
+    {
+      "id": "76e11945-b79d-431e-b8e9-10d6814300be",
+      "agentId": "cron-worker",
+      "name": "OpenClaw-自动备份-每日1900",
+      "enabled": true,
+      "createdAtMs": 1771918916673,
+      "updatedAtMs": 1772449214140,
+      "schedule": {
+        "expr": "0 19 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行备份脚本: bash /root/.openclaw/workspace/scripts/backup.sh，报告备份结果。",
+        "timeoutSeconds": 300,
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772535600000,
+        "lastRunAtMs": 1772449200011,
+        "lastStatus": "ok",
+        "lastDurationMs": 14129,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-delivered",
+        "lastDelivered": false
+      }
+    },
+    {
+      "id": "581e9d68-6f52-44bf-bc9a-dc6bdbe2de74",
+      "agentId": "cron-worker",
+      "name": "System-Monitor-健康检查-每小时",
+      "enabled": true,
+      "createdAtMs": 1771921981337,
+      "updatedAtMs": 1772481932040,
+      "schedule": {
+        "expr": "0 * * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行系统健康检查任务。命令：node /root/.openclaw/skills/system-monitor/index.js health",
+        "timeoutSeconds": 120,
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772485390121,
+        "lastRunAtMs": 1772481912428,
+        "lastStatus": "error",
+        "lastDurationMs": 19612,
+        "consecutiveErrors": 2,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "unknown",
+        "lastError": "cron announce delivery failed"
+      }
+    },
+    {
+      "id": "23b6618c-6abe-42f4-abbb-6774dc935821",
+      "agentId": "cron-worker",
+      "name": "CRAS-洞察复盘-每周",
+      "enabled": true,
+      "createdAtMs": 1771928171203,
+      "updatedAtMs": 1772445838023,
+      "schedule": {
+        "expr": "0 18 * * 1,3,5",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行CRAS洞察复盘任务。命令：node /root/.openclaw/workspace/skills/cras/modules/insight-enhancer.js",
+        "timeoutSeconds": 300
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772618400000,
+        "lastRunAtMs": 1772445600007,
+        "lastStatus": "ok",
+        "lastDurationMs": 38656,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
+      }
+    },
+    {
+      "id": "bda87046-cb5b-4fb1-968a-f7751f11e1bd",
+      "agentId": "cron-worker",
+      "name": "Elite-Memory-记忆整理-每日",
+      "enabled": true,
+      "createdAtMs": 1771931202450,
+      "updatedAtMs": 1772460120018,
+      "schedule": {
+        "expr": "0 22 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行记忆整理任务。命令：bash /root/.openclaw/workspace/skills/elite-longterm-memory/init.sh",
+        "timeoutSeconds": 120,
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772546400000,
+        "lastRunAtMs": 1772460000008,
+        "lastStatus": "error",
+        "lastDurationMs": 120010,
+        "consecutiveErrors": 1,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "unknown",
+        "lastError": "cron: job execution timed out"
+      }
+    },
+    {
+      "id": "251fde06-e983-4e76-884f-5a3cf3e99c43",
+      "agentId": "cron-worker",
+      "name": "ISC-技能使用审计-每周",
+      "enabled": true,
+      "createdAtMs": 1771932137437,
+      "updatedAtMs": 1772452826676,
+      "schedule": {
+        "expr": "0 20 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行技能使用审计。命令：bash /root/.openclaw/workspace/skills/isc-core/bin/skill-usage-audit.sh",
+        "timeoutSeconds": 120,
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772539200000,
+        "lastRunAtMs": 1772452800010,
+        "lastStatus": "ok",
+        "lastDurationMs": 26666,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
+      }
+    },
+    {
+      "id": "00f760d7-7394-40b0-843d-d25636a9d319",
+      "agentId": "cron-worker",
+      "name": "全局自主决策流水线-每30分钟",
+      "enabled": true,
+      "createdAtMs": 1771992026679,
+      "updatedAtMs": 1772485214317,
+      "schedule": {
+        "kind": "cron",
+        "expr": "*/30 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行全局自主决策流水线：检查所有技能变更，更新版本号，同步GitHub和EvoMap。使用 node /root/.openclaw/workspace/skills/dto-core/core/global-auto-decision-pipeline.js",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "announce"
+      },
+      "state": {
+        "nextRunAtMs": 1772488814317,
+        "lastRunAtMs": 1772485200009,
+        "lastStatus": "error",
+        "lastDurationMs": 14308,
+        "consecutiveErrors": 5,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "unknown",
+        "lastError": "No delivery target resolved for channel \"feishu\". Set delivery.to."
+      }
+    },
+    {
+      "id": "dd8f4da9-b5dc-4a15-afbc-73399c4c001d",
+      "agentId": "cron-worker",
+      "name": "飞书会话实时备份-每30分钟",
+      "enabled": true,
+      "createdAtMs": 1771999304578,
+      "updatedAtMs": 1772485120419,
+      "schedule": {
+        "everyMs": 1800000,
+        "kind": "every",
+        "anchorMs": 1772090300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行飞书聊天记录实时备份：运行 node /root/.openclaw/workspace/skills/feishu-chat-backup/index.js",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1772486910899,
+        "lastRunAtMs": 1772485110899,
+        "lastStatus": "ok",
+        "lastDurationMs": 9520,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered"
+      }
+    },
+    {
+      "id": "a0886367-e9fb-4b9f-9ba5-7cebdefd036f",
+      "agentId": "cron-worker",
+      "name": "能力锚点自动同步-每4小时",
+      "enabled": true,
+      "createdAtMs": 1772025437625,
+      "updatedAtMs": 1772481942373,
+      "schedule": {
+        "kind": "cron",
+        "expr": "5 */4 * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行能力锚点自动同步：node /root/.openclaw/workspace/skills/isc-capability-anchor-sync/index.js",
+        "timeoutSeconds": 120,
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1772496300000,
+        "lastRunAtMs": 1772481934069,
+        "lastStatus": "ok",
+        "lastDurationMs": 8304,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-delivered",
+        "lastDelivered": false
+      }
+    },
+    {
+      "id": "504ace91-50f2-404c-985b-6723fafa5b44",
+      "agentId": "cron-worker",
+      "name": "LEP-韧性日报-每日0900",
+      "enabled": true,
+      "createdAtMs": 1772036859175,
+      "updatedAtMs": 1772445803696,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * *",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "node /root/.openclaw/workspace/skills/lep-executor/src/daily-report.js",
+        "timeoutSeconds": 300,
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "thinking": "medium"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772499600000,
+        "lastRunAtMs": 1772413800021,
+        "lastStatus": "error",
+        "lastDurationMs": 5883,
+        "consecutiveErrors": 2,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "delivered",
+        "lastError": "HTTP 403 new_api_error: This token has no access to model glm-5 (request id: 20260302011000422811610SVpfAZju)",
+        "lastDelivered": true
+      }
+    },
+    {
+      "id": "e04427bd-3d51-4b15-ae5d-b5a5ecc2b174",
+      "agentId": "cron-worker",
+      "name": "System-Monitor-峰值记录-每4小时",
+      "enabled": true,
+      "createdAtMs": 1772040214641,
+      "updatedAtMs": 1772482228889,
+      "schedule": {
+        "kind": "cron",
+        "expr": "10 */4 * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行系统资源峰值记录: /root/.openclaw/workspace/skills/system-monitor/log-peaks.sh",
+        "timeoutSeconds": 120,
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking"
+      },
+      "state": {
+        "nextRunAtMs": 1772496600000,
+        "lastRunAtMs": 1772482200013,
+        "lastStatus": "error",
+        "lastDurationMs": 28876,
+        "consecutiveErrors": 1,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "unknown",
+        "lastError": "No delivery target resolved for channel \"feishu\". Set delivery.to."
+      },
+      "delivery": {
+        "mode": "announce"
+      }
+    },
+    {
+      "id": "ad01bc7d-d76d-4ff8-9bac-865b472c67df",
+      "agentId": "cron-worker",
+      "name": "Elite-Memory-重新评估检查-每月",
+      "enabled": true,
+      "createdAtMs": 1772044519289,
+      "updatedAtMs": 1772445840090,
+      "schedule": {
+        "expr": "0 0 1 * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "检查记忆文件数量，如超过1000个提醒用户重新评估Elite Memory修复"
+      },
+      "state": {
+        "nextRunAtMs": 1774972800000,
+        "lastRunAtMs": 1772377642038,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 9619,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "c9f8f5fb-ce34-4b6f-8160-fd6d5fce5048",
+      "agentId": "cron-worker",
+      "name": "统一向量化服务-每6小时",
+      "enabled": true,
+      "createdAtMs": 1772044921241,
+      "updatedAtMs": 1772467468540,
+      "schedule": {
+        "expr": "0 */6 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "执行统一向量化任务: /root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh"
+      },
+      "state": {
+        "nextRunAtMs": 1772488926629,
+        "lastRunAtMs": 1772467461397,
+        "lastStatus": "ok",
+        "lastDurationMs": 7143,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-requested"
+      }
+    },
+    {
+      "id": "e4b2a1cb-41a3-4dbb-b6a7-4971ef2bb5d8",
+      "agentId": "cron-worker",
+      "name": "系统维护-每日清理",
+      "enabled": true,
+      "createdAtMs": 1772046461060,
+      "updatedAtMs": 1772474567090,
+      "schedule": {
+        "expr": "0 2 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "执行系统维护: /root/.openclaw/workspace/scripts/system-maintenance.sh"
+      },
+      "state": {
+        "nextRunAtMs": 1772560800000,
+        "lastRunAtMs": 1772474533580,
+        "lastStatus": "ok",
+        "lastDurationMs": 33510,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-requested"
+      }
+    },
+    {
+      "id": "06b17199-a2ed-4608-b8c3-18a7032a5831",
+      "agentId": "cron-worker",
+      "name": "Gateway内存监控增强-v2-每小时",
+      "enabled": true,
+      "createdAtMs": 1772046484852,
+      "updatedAtMs": 1772483432402,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 * * * *"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "执行Gateway内存监控(增强版): /root/.openclaw/workspace/scripts/gateway-monitor-v2.sh"
+      },
+      "state": {
+        "nextRunAtMs": 1772487000000,
+        "lastRunAtMs": 1772483432401,
+        "lastStatus": "skipped",
+        "lastDurationMs": 1,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "skipped",
+        "lastDeliveryStatus": "not-requested",
+        "lastError": "disabled"
+      }
+    },
+    {
+      "id": "c85b5fbf-b3c2-44ee-88d3-0cb4feda6c9c",
+      "agentId": "cron-worker",
+      "name": "会话文件自动清理-每小时",
+      "enabled": true,
+      "createdAtMs": 1772090213967,
+      "updatedAtMs": 1772483700009,
+      "schedule": {
+        "expr": "35 * * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "执行会话文件自动清理: /root/.openclaw/workspace/scripts/session-cleanup.sh"
+      },
+      "state": {
+        "nextRunAtMs": 1772487300000,
+        "lastRunAtMs": 1772483700009,
+        "lastStatus": "skipped",
+        "lastDurationMs": 0,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "skipped",
+        "lastDeliveryStatus": "not-requested",
+        "lastError": "disabled"
+      }
+    },
+    {
+      "id": "52ad9e62-59dc-4708-bb42-ba657cb1aeda",
+      "agentId": "cron-worker",
+      "name": "CRAS-四维意图洞察仪表盘",
+      "enabled": true,
+      "createdAtMs": 1772098935634,
+      "updatedAtMs": 1772467513608,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 */6 * * *",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行CRAS意图洞察仪表盘生成任务：读取过去24小时会话，生成Top10意图分布、四维趋势洞察、心智闭环更新。任务入口：python3 /root/.openclaw/workspace/cras/cron_entry.py",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772488853516,
+        "lastRunAtMs": 1772467468540,
+        "lastStatus": "ok",
+        "lastDurationMs": 45068,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "delivered",
+        "lastDelivered": true
+      }
+    },
+    {
+      "id": "1c3f0f9a-78c5-44fc-90c7-9be43aed20fa",
+      "agentId": "cron-worker",
+      "name": "EvoMap-Evolver-自动进化",
+      "enabled": true,
+      "createdAtMs": 1771805444329,
+      "updatedAtMs": 1772481837844,
+      "schedule": {
+        "expr": "0 */4 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行EvoMap-Evolver自动进化：分析过去4小时运行历史，提取信号，生成GEP进化提示词，发布Gene+Capsule到EvoMap网络。使用飞书卡片格式推送报告。任务入口：/root/.openclaw/workspace/evolver/run.sh --loop --format=feishu_card",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 600,
+        "thinking": "medium"
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772496016206,
+        "lastStatus": "error",
+        "lastRunAtMs": 1772481616214,
+        "lastDurationMs": 221630,
+        "consecutiveErrors": 1,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "unknown",
+        "lastError": "cron announce delivery failed"
+      }
+    },
+    {
+      "id": "f6f0ba02-eab9-4ab1-87cb-c1a9e648b5aa",
+      "agentId": "cron-worker",
+      "name": "CRAS-D-战略调研",
+      "enabled": true,
+      "createdAtMs": 1771822636491,
+      "updatedAtMs": 1772445831957,
+      "schedule": {
+        "expr": "0 10 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行CRAS模块D：战略行研与产品规划。先执行 kimi_search 搜索行业趋势，然后基于知识库生成洞察报告。命令：kimi_search \"AI Agent行业趋势 2026\" limit=5 && cd /root/.openclaw/workspace/skills/cras && node index.js --research",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 600
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_8eafdc7241d381d714746e486b641883"
+      },
+      "state": {
+        "nextRunAtMs": 1772503200000,
+        "lastStatus": "ok",
+        "lastRunAtMs": 1772416809880,
+        "lastDurationMs": 6566,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered"
+      }
+    },
+    {
+      "id": "c66da3a7-1b90-405a-8f4f-bbf1e14e9684",
+      "agentId": "cron-worker",
+      "name": "AEO-DTO闭环衔接-每小时",
+      "enabled": true,
+      "createdAtMs": 1772099470815,
+      "updatedAtMs": 1772484008969,
+      "schedule": {
+        "kind": "cron",
+        "expr": "40 * * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行AEO-DTO闭环衔接：监听DTO信号，触发评测，输出结果到SEEF/ISC。命令：node /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1772487600000,
+        "lastRunAtMs": 1772484000008,
+        "lastStatus": "ok",
+        "lastDurationMs": 8961,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-delivered",
+        "lastDelivered": false
+      }
+    },
+    {
+      "id": "b9abcc9c-0ffe-4366-91a2-094c36bc8490",
+      "agentId": "cron-worker",
+      "name": "N023-自动生成评测标准-每日",
+      "enabled": true,
+      "createdAtMs": 1772100924785,
+      "updatedAtMs": 1772445797737,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 6 * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行N023：自动为缺少评测集的技能生成评测标准。命令：node /root/.openclaw/workspace/skills/isc-core/bin/n023-executor.js",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1772488800000,
+        "lastRunAtMs": 1772442912537,
+        "lastStatus": "ok",
+        "lastDurationMs": 22886,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered"
+      }
+    },
+    {
+      "id": "59bef80d-b979-46b5-b517-f1c82ffba6a9",
+      "agentId": "cron-worker",
+      "name": "PDCA-C执行引擎-每4小时",
+      "enabled": true,
+      "createdAtMs": 1772102846433,
+      "updatedAtMs": 1772482810020,
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 */4 * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行PDCA-C引擎：每小时计划-执行-检查-行动循环。命令：node /root/.openclaw/workspace/skills/pdca-engine/index.js",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "timeoutSeconds": 300
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1772497200000,
+        "lastRunAtMs": 1772482800009,
+        "lastStatus": "ok",
+        "lastDurationMs": 10011,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered"
+      }
+    },
+    {
+      "id": "701e4700-dc5d-4195-ac86-28c2f6048225",
+      "agentId": "cron-worker",
+      "name": "流水线健康监控-每4小时",
+      "enabled": true,
+      "createdAtMs": 1772105423913,
+      "updatedAtMs": 1772483111058,
+      "schedule": {
+        "kind": "cron",
+        "expr": "25 */4 * * *"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行流水线健康监控：检查最后反馈时间，超过10分钟无反馈则自动重启流水线。运行 node /root/.openclaw/workspace/skills/dto-core/core/pipeline-auto-recovery.js",
+        "model": "custom-api-penguinsaichat-dpdns-org/claude-opus-4-6-thinking",
+        "thinking": "low",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1772497500000,
+        "lastRunAtMs": 1772483100007,
+        "lastStatus": "ok",
+        "lastDurationMs": 11051,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-delivered",
+        "lastDelivered": false
+      }
+    }
+  ]
+}

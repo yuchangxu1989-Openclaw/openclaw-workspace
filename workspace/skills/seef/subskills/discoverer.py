@@ -13,6 +13,10 @@ SEEF Subskill: Skill Discoverer v2.0
 """
 
 import os
+
+OPENCLAW_HOME = os.environ.get("OPENCLAW_HOME", "/root/.openclaw")
+WORKSPACE_PATH = os.path.join(OPENCLAW_HOME, "workspace")
+SKILLS_PATH = os.path.join(WORKSPACE_PATH, "skills")
 import sys
 import json
 import re
@@ -63,7 +67,7 @@ class DTOEventBus:
         
         # 尝试写入共享事件文件
         try:
-            events_dir = Path('/root/.openclaw/workspace/skills/seef/events')
+            events_dir = Path(OPENCLAW_HOME) / 'workspace/skills/seef/events'
             events_dir.mkdir(parents=True, exist_ok=True)
             
             event_file = events_dir / f"{event_type}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.json"
@@ -148,7 +152,7 @@ class SkillDiscoverer:
         self.event_bus = event_bus or DTOEventBus()
         self.event_bus.connect()
         
-        self.skills_base_path = Path('/root/.openclaw/workspace/skills')
+        self.skills_base_path = Path(SKILLS_PATH)
         self.discovery_results = {
             'subskill': 'discoverer',
             'version': self.VERSION,

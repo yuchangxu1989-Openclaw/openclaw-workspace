@@ -1,0 +1,23 @@
+{
+  "event": {
+    "id": "evt_mma2kokx_6c6x09",
+    "type": "isc.rule.created",
+    "source": "isc",
+    "payload": {
+      "rule_id": "ISC-TEST-001",
+      "rule_name": "技能必须有README",
+      "category": "documentation"
+    },
+    "timestamp": 1772509807473,
+    "consumed_by": [
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "dto-sync",
+    "agent": "coder",
+    "priority": "high"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.352Z",
+  "status": "pending"
+}

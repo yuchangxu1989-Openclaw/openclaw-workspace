@@ -1,20 +1,23 @@
 {
   "dto-core": {
-    "offset": 1,
+    "offset": 5,
     "acked": []
   },
-  "cras": {
+  "feedback-collector": {
     "offset": 0,
+    "acked": []
+  },
+  "seef": {
+    "offset": 56,
     "acked": [
-      "evt_mm9od0eb_vqfmmw",
-      "evt_mm9od0gp_oi3gkh",
-      "evt_mm9oetfm_x93voj",
-      "evt_mm9oetfn_tbx9fc",
-      "evt_mm9oetfn_y59p0o"
+      "evt_mma2q0h9_w8e1qb",
+      "evt_mma2q0h9_nv0i02",
+      "evt_mma2q0h9_0r790o",
+      "evt_mma2q0ha_630cu7"
     ]
   },
-  "test-verify": {
-    "offset": 0,
+  "dispatcher": {
+    "offset": 78,
     "acked": []
   }
 }

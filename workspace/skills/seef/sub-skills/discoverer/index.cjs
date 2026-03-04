@@ -1,3 +1,4 @@
+const { SKILLS_DIR, REPORTS_DIR } = require('../../../_shared/paths');
 /**
  * SEEF Discoverer - 技能发现器
  * P1阶段实现：识别能力空白和冗余
@@ -19,7 +20,7 @@ async function discover(input) {
   const { evaluationReport, skillId, skillPath } = input;
   
   console.log(`[SEEF Discoverer] 开始发现分析: ${skillId}`);
-  console.log(`[SEEF Discoverer] 评估得分: ${evaluationReport.score}`);
+  console.log(`[SEEF Discoverer] 评估得分: ${evaluationReport?.score ?? 'N/A'}`);
   
   try {
     // 1. 加载CRAS洞察（如果存在）
@@ -104,7 +105,7 @@ async function discover(input) {
  * 加载CRAS洞察
  */
 async function loadCRASInsight(skillId) {
-  const crasPath = path.join('/root/.openclaw/workspace/skills/cras/insights', `${skillId}.json`);
+  const crasPath = path.join(SKILLS_DIR, 'cras/insights', `${skillId}.json`);
   
   if (fs.existsSync(crasPath)) {
     try {
@@ -124,7 +125,7 @@ async function loadCRASInsight(skillId) {
  * 扫描技能生态
  */
 async function scanEcosystem() {
-  const skillsDir = '/root/.openclaw/workspace/skills';
+  const skillsDir = SKILLS_DIR;
   const skills = [];
   
   try {
@@ -532,7 +533,7 @@ function generateRecommendations(issues, priorities, crasInsight) {
  * 保存发现报告
  */
 async function saveReport(report) {
-  const reportsDir = path.join('/root/.openclaw/workspace/reports/seef-discoveries');
+  const reportsDir = path.join(REPORTS_DIR, 'seef-discoveries');
   
   if (!fs.existsSync(reportsDir)) {
     fs.mkdirSync(reportsDir, { recursive: true });

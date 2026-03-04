@@ -1,3 +1,4 @@
+const { SKILLS_DIR } = require('../../../_shared/paths');
 /**
  * 流水线引擎 (Pipeline Engine)
  * 
@@ -384,7 +385,7 @@ class PipelineEngine {
     
     if (targetSkill) {
       // 处理指定技能
-      const skillPath = path.join('/root/.openclaw/workspace/skills', targetSkill);
+      const skillPath = path.join(SKILLS_DIR, targetSkill);
       if (fs.existsSync(skillPath)) {
         await this.processSkill(skillPath);
       } else {

@@ -42,7 +42,7 @@ class GLMOCR {
     const data = fs.readFileSync(filePath);
     const base64 = `data:${ext === 'pdf' ? 'application/pdf' : 'image/jpeg'};base64,${data.toString('base64')}`;
 
-    return this.request('/api/paas/v4/chat/completions', {
+    return this.request('/api/coding/paas/v4/chat/completions', {
       model: this.model,
       messages: [{
         role: 'user',

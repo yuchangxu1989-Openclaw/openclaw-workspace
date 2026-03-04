@@ -1,3 +1,4 @@
+const { SKILLS_DIR } = require('../../../_shared/paths');
 /**
  * ISC规则动态加载器
  * 从 /skills/isc-core/rules/ 动态扫描、解析、缓存ISC规则
@@ -8,7 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const RULES_DIR = '/root/.openclaw/workspace/skills/isc-core/rules';
+const RULES_DIR = path.join(SKILLS_DIR, 'isc-core/rules');
 const SCAN_INTERVAL_MS = 30000; // 30秒轮询检测文件变更
 
 /**

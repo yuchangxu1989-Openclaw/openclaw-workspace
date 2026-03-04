@@ -1,0 +1,18 @@
+{
+  "id": "sug_1772509999831_itia",
+  "title": "加强 cras 的质量规则",
+  "description": "技能 cras 评测失败，问题: [\"学习引擎使用模拟数据\"]",
+  "action": "update",
+  "target_rule": "detection-cras-recurring-pattern-auto-resolve-017",
+  "suggested_rule": {
+    "type": "quality_standard",
+    "target": "cras",
+    "condition": "skill.quality_score >= 0.8",
+    "severity": "warning",
+    "auto_generated": true,
+    "source_insight": "insight_1772486023755_ei8e"
+  },
+  "priority": "medium",
+  "status": "pending_review",
+  "created_at": "2026-03-03T03:53:19.837Z"
+}

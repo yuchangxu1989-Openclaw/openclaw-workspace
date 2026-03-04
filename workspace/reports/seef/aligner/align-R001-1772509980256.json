@@ -1,0 +1,43 @@
+{
+  "subskill": "aligner",
+  "version": "1.0.0",
+  "timestamp": "2026-03-03T03:53:00.256Z",
+  "input": {
+    "trigger": "event-bridge:isc.rule.updated",
+    "rule_id": "R001",
+    "rule_action": "updated"
+  },
+  "result": {
+    "total_skills_checked": 20,
+    "compliant": 15,
+    "non_compliant": 5,
+    "non_compliant_skills": [
+      {
+        "skill": "agent-mode-enforcer",
+        "score": 0.37,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "api-aggregator",
+        "score": 0.37,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cogvideo",
+        "score": 0.37,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cogview",
+        "score": 0.37,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "evomap-uploader",
+        "score": 0.33,
+        "verdict": "NON-COMPLIANT"
+      }
+    ],
+    "action_needed": true
+  }
+}

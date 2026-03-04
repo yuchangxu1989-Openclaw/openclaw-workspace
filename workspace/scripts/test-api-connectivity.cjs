@@ -10,7 +10,7 @@ const https = require('https');
 const CONFIG = {
   baseUrl: 'api.penguinsaichat.dpdns.org',
   apiKey: 'sk-O3vd9mcS45b0dYbmFfHchsnWZewuyVPm2eufvcHQn6zFNTzZ',
-  model: 'claude-opus-4-5-20251101',
+  model: 'claude-sonnet-4-6',
   timeout: 30000 // 30秒超时
 };
 

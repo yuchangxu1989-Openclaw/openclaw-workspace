@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 /**
- * 全局自主决策流水线 v1.4 - 扩展Git跟踪范围版
+ * 全局自主决策流水线 v1.5 - 一次性处理所有变更版
  * 
  * 变更记录:
+ * v1.5 (2026-03-04):
+ * - 移除分批限流（每次只处理3个的限制）
+ * - 改为一次性处理所有检测到的变更
+ * 
  * v1.4 (2026-02-28):
  * - 扩展Git跟踪范围，覆盖所有代码和配置文件
  * - 新增支持的文件类型: .ts, .jsx, .tsx, .sh, .py, .rb, .html, .css 等
@@ -20,9 +24,11 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
+
 const CONFIG = {
-  skillsPath: '/root/.openclaw/workspace/skills',
-  workspacePath: '/root/.openclaw/workspace',
+  skillsPath: SKILLS_DIR,
+  workspacePath: WORKSPACE,
   
   // Git跟踪配置 - 定义要跟踪的文件类型和目录
   gitTracking: {
@@ -82,8 +88,8 @@ const CONFIG = {
     ]
   },
   
-  statePath: '/root/.openclaw/workspace/.pipeline-states.json',
-  feedbackPath: '/root/.openclaw/workspace/.pipeline-feedback.jsonl'
+  statePath: path.join(WORKSPACE, '.pipeline-states.json'),
+  feedbackPath: path.join(WORKSPACE, '.pipeline-feedback.jsonl')
 };
 
 class Pipeline {
@@ -427,7 +433,7 @@ class Pipeline {
       // 执行 git add
       for (const addPath of [...new Set(addPaths)]) {
         try {
-          execSync(`cd /root/.openclaw/workspace && git add "${addPath}" 2>/dev/null`, { 
+          execSync(`cd ${CONFIG.workspacePath} && git add "${addPath}" 2>/dev/null`, { 
             encoding: 'utf8', 
             timeout: 30000 
           });
@@ -439,14 +445,14 @@ class Pipeline {
       
       // 提交变更
       const commitResult = execSync(
-        `cd /root/.openclaw/workspace && git commit -m "[AUTO] ${displayName} v${itemInfo.version}" 2>&1 || echo "nothing to commit"`, 
+        `cd ${CONFIG.workspacePath} && git commit -m "[AUTO] ${displayName} v${itemInfo.version}" 2>&1 || echo "nothing to commit"`, 
         { encoding: 'utf8', timeout: 10000 }
       );
       
       if (!commitResult.includes('nothing to commit')) {
         // 推送变更
         execSync(
-          `cd /root/.openclaw/workspace && timeout 10 git push 2>&1 || echo "push skipped"`, 
+          `cd ${CONFIG.workspacePath} && timeout 10 git push 2>&1 || echo "push skipped"`, 
           { encoding: 'utf8', timeout: 15000 }
         );
         console.log(`  GitHub: 已推送 ${displayName} v${itemInfo.version}`);
@@ -462,7 +468,7 @@ class Pipeline {
     // EvoMap - 只同步skills目录和核心目录的变更
     try {
       // 读取EvoMap上传清单
-      const manifestPath = '/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json';
+      const manifestPath = path.join(SKILLS_DIR, 'isc-core/config/evomap-upload-manifest.json');
       let allowedSkills = ['dto-core', 'isc-core']; // 默认
       
       if (fs.existsSync(manifestPath)) {
@@ -483,7 +489,7 @@ class Pipeline {
         if (isISCRuleChange) {
           console.log(`  [ISC规则同步] ${displayName} 规则变更，强制同步到EvoMap`);
         }
-        const evomapPath = '/root/.openclaw/workspace/skills/evomap-uploader';
+        const evomapPath = path.join(SKILLS_DIR, 'evomap-uploader');
         if (!fs.existsSync(evomapPath)) {
           fs.mkdirSync(evomapPath, { recursive: true });
         }
@@ -530,8 +536,8 @@ class Pipeline {
   // 主执行
   run() {
     console.log('╔════════════════════════════════════════╗');
-    console.log('║     全局自主决策流水线 v1.4            ║');
-    console.log('║     (全仓库Git跟踪版)                  ║');
+    console.log('║     全局自主决策流水线 v1.5            ║');
+    console.log('║     (全量处理版)                       ║');
     console.log('╚════════════════════════════════════════╝');
     
     const start = Date.now();
@@ -542,8 +548,8 @@ class Pipeline {
       return;
     }
     
-    // 每次最多处理3个变更，避免超时
-    const toProcess = changes.slice(0, 3);
+    // 一次性处理所有变更
+    const toProcess = changes;
     console.log(`处理 ${toProcess.length}/${changes.length} 个`);
     
     for (const change of toProcess) {
@@ -556,9 +562,6 @@ class Pipeline {
     
     this.saveStates();
     console.log(`\n完成 ${toProcess.length} 个，耗时 ${(Date.now()-start)/1000}s`);
-    if (changes.length > 3) {
-      console.log(`剩余 ${changes.length - 3} 个下次处理`);
-    }
   }
 }
 
