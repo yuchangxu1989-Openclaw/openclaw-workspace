@@ -256,21 +256,21 @@ class EventBusError extends Error {
 
 ## 第二部分：IntentEngine 接口签名
 
-### 2.1 recognize() 签名
+### 2.1 scan() 签名
 
 ```typescript
 /**
  * 意图识别主入口。
  * 
- * 由CRAS快通道（5min cron）调用。
- * 主路径：LLM推理（Opus/GLM-5）。
- * 降级路径：正则fallback。
+ * 由CRAS快通道（5min cron）调用，或由l3-pipeline编排层调用。
+ * 主路径：LLM推理（GLM-5）。
+ * 降级路径：正则fallback（无API Key或LLM失败时自动切换）。
  * 
- * @param context - 识别上下文
- * @returns       - 识别结果数组（一条消息可能包含多个意图）
- * @throws        - IntentEngineError
+ * @param conversationSlice - 对话片段数组
+ * @returns                 - 识别结果（含intents数组、decision_logs、skipped标志）
+ * @throws                  - IntentEngineError
  */
-async function recognize(context: RecognizeContext): Promise<RecognizeResult[]>;
+async function scan(conversationSlice: MessageSlice[]): Promise<ScanResult>;
 ```
 
 ### 2.2 输入格式（RecognizeContext）
