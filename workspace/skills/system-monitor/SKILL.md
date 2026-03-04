@@ -1,7 +1,7 @@
 ---
 name: skill-health-dashboard
 description: 技能健康度评估仪表盘 - 自动化扫描所有技能，评估完整性、活跃度、依赖健康度，生成可视化报告
-version: "1.0.3"
+version: "1.0.4"
 status: active
 tags: [system, monitoring, health, dashboard, skill-assessment]
 author: OpenClaw
