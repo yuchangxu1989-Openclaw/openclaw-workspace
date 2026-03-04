@@ -21,7 +21,7 @@ const mockBus = {
 };
 
 // Inject mock bus into require cache
-const busPath = path.resolve(__dirname, '..', '..', 'event-bus', 'bus.js');
+const busPath = path.resolve(__dirname, '..', 'event-bus', 'bus.js');
 require.cache[busPath] = { id: busPath, filename: busPath, loaded: true, exports: mockBus };
 
 // Mock decision-logger (optional, non-fatal if missing)
@@ -29,12 +29,12 @@ const loggedDecisions = [];
 const mockLogger = {
   log(entry) { loggedDecisions.push(entry); },
 };
-const loggerPath = path.resolve(__dirname, '..', '..', 'decision-log', 'decision-logger.js');
+const loggerPath = path.resolve(__dirname, '..', 'decision-log', 'decision-logger.js');
 require.cache[loggerPath] = { id: loggerPath, filename: loggerPath, loaded: true, exports: mockLogger };
 
 // ─── Load handler ────────────────────────────────────────────────
 
-const handler = require('./intent-dispatch');
+const handler = require('./handlers/intent-dispatch');
 const {
   IC,
   handleEmotion,

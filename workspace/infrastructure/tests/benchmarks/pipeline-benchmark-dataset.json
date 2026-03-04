@@ -1,0 +1,411 @@
+[
+  {
+    "id": "PB-001",
+    "input_events": [{"type": "isc.rule.created", "source": "isc-core", "data": {"rule_id": "R001", "name": "test-rule"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync"],
+    "expected_circuit_break": false,
+    "scenario": "ISC rule created → routes to dto-sync handler via isc.rule.* prefix route",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-002",
+    "input_events": [{"type": "isc.rule.updated", "source": "isc-core", "data": {"rule_id": "R002"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync"],
+    "expected_circuit_break": false,
+    "scenario": "ISC rule updated → dto-sync via prefix route",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-003",
+    "input_events": [{"type": "system.error", "source": "pipeline", "data": {"message": "disk full", "severity": "critical"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["system-alert"],
+    "expected_circuit_break": false,
+    "scenario": "System error → system-alert handler via exact route",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-004",
+    "input_events": [{"type": "system.health", "source": "monitor", "data": {"cpu": 45, "mem": 60}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["system-monitor"],
+    "expected_circuit_break": false,
+    "scenario": "System health check → system-monitor handler",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-005",
+    "input_events": [{"type": "seef.skill.evaluated", "source": "seef", "data": {"skill": "weather", "score": 0.85}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["seef-optimize"],
+    "expected_circuit_break": false,
+    "scenario": "SEEF evaluation completed → seef-optimize handler",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-006",
+    "input_events": [{"type": "seef.skill.optimized", "source": "seef", "data": {"skill": "weather", "improvement": 0.1}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["cras-ingest"],
+    "expected_circuit_break": false,
+    "scenario": "SEEF optimization results → cras-ingest",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-007",
+    "input_events": [{"type": "aeo.assessment.completed", "source": "aeo", "data": {"assessment_id": "A001"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["cras-ingest"],
+    "expected_circuit_break": false,
+    "scenario": "AEO assessment completed → cras-ingest",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-008",
+    "input_events": [{"type": "aeo.assessment.failed", "source": "aeo", "data": {"reason": "timeout"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["aeo-retry"],
+    "expected_circuit_break": false,
+    "scenario": "AEO assessment failed → aeo-retry handler",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-009",
+    "input_events": [{"type": "cras.insight.generated", "source": "cras", "data": {"insight": "pattern detected"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["isc-feedback"],
+    "expected_circuit_break": false,
+    "scenario": "CRAS insight → isc-feedback handler",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-010",
+    "input_events": [{"type": "user.intent.search.inferred", "source": "l3-pipeline", "data": {"query": "find weather"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["intent-dispatch"],
+    "expected_circuit_break": false,
+    "scenario": "User intent event → intent-dispatch via prefix route",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-011",
+    "input_events": [{"type": "random.unknown.event", "source": "external", "data": {}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Unknown event type with no matching route → safe skip, no dispatch",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-012",
+    "input_events": [{"type": "custom.weird.type.xyz", "source": "test", "data": {"foo": "bar"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Completely unrecognized event → no rules, no dispatch, no error",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-013",
+    "input_events": [{"type": "some.noise.event", "source": "noise", "data": {}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Noise event → safely ignored",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-014",
+    "input_events": [{"type": "test.deep.event", "source": "test", "data": {}, "metadata": {"chain_depth": 10}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": true,
+    "scenario": "Event with chain_depth=10 (>5) → circuit breaker triggers, event skipped",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-015",
+    "input_events": [{"type": "isc.rule.created", "source": "loop", "data": {}, "metadata": {"chain_depth": 6}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": true,
+    "scenario": "ISC rule event at chain_depth=6 → circuit break even though route exists",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-016",
+    "input_events": [{"type": "system.error", "source": "cascade", "data": {}, "metadata": {"chain_depth": 100}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": true,
+    "scenario": "System error at extreme chain_depth=100 → definite circuit break",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-017",
+    "input_events": [{"type": "isc.rule.deleted", "source": "admin", "data": {}, "metadata": {"chain_depth": 5}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync"],
+    "expected_circuit_break": false,
+    "scenario": "Event at chain_depth=5 (exactly max) → should NOT break (>5 breaks, =5 ok)",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-018",
+    "input_events": [{"type": "isc.rule.created", "source": "test", "data": {}, "metadata": {"chain_depth": 0}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync"],
+    "expected_circuit_break": false,
+    "scenario": "Event at chain_depth=0 → normal processing, no break",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-019",
+    "input_events": [
+      {"type": "isc.rule.created", "source": "batch", "data": {"rule_id": "B1"}},
+      {"type": "system.error", "source": "batch", "data": {"msg": "err1"}},
+      {"type": "seef.skill.evaluated", "source": "batch", "data": {"skill": "s1"}}
+    ],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync", "system-alert", "seef-optimize"],
+    "expected_circuit_break": false,
+    "scenario": "Batch: 3 events of different types → each dispatched to correct handler",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-020",
+    "input_events": [
+      {"type": "isc.rule.created", "source": "batch", "data": {"r": "1"}},
+      {"type": "isc.rule.updated", "source": "batch", "data": {"r": "2"}},
+      {"type": "isc.rule.deleted", "source": "batch", "data": {"r": "3"}}
+    ],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync", "dto-sync", "dto-sync"],
+    "expected_circuit_break": false,
+    "scenario": "Batch: 3 ISC rule events → all route to dto-sync",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-021",
+    "input_events": [
+      {"type": "isc.rule.created", "source": "mix", "data": {}},
+      {"type": "random.noise", "source": "mix", "data": {}},
+      {"type": "system.error", "source": "mix", "data": {}}
+    ],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync", "system-alert"],
+    "expected_circuit_break": false,
+    "scenario": "Batch: mix of routable and non-routable events → only matching ones dispatch",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-022",
+    "input_events": [
+      {"type": "system.error", "source": "mix", "data": {}, "metadata": {"chain_depth": 10}},
+      {"type": "isc.rule.created", "source": "mix", "data": {}, "metadata": {"chain_depth": 0}}
+    ],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync"],
+    "expected_circuit_break": true,
+    "scenario": "Batch: one event breaks circuit, another processes normally",
+    "difficulty": "hard"
+  },
+  {
+    "id": "PB-023",
+    "input_events": [{"type": "user.message.text", "source": "feishu", "data": {"text": "帮我查天气"}}],
+    "expected_rules_matched": [],
+    "expected_intents": ["_any_"],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Conversation event → IntentScanner triggered for intent detection",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-024",
+    "input_events": [{"type": "conversation.new", "source": "discord", "data": {"text": "create a skill"}}],
+    "expected_rules_matched": [],
+    "expected_intents": ["_any_"],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "conversation.new event → triggers intent scanning",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-025",
+    "input_events": [{"type": "chat.incoming", "source": "slack", "data": {"message": "status report"}}],
+    "expected_rules_matched": [],
+    "expected_intents": ["_any_"],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "chat.incoming → conversation event prefix match → intent scan",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-026",
+    "input_events": [{"type": "dto.sync.completed", "source": "dto", "data": {"task_id": "T001"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-orchestrate"],
+    "expected_circuit_break": false,
+    "scenario": "DTO sync completed → dto-orchestrate handler",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-027",
+    "input_events": [{"type": "system.architecture.changed", "source": "admin", "data": {"change": "refactor"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["memory-archiver"],
+    "expected_circuit_break": false,
+    "scenario": "Architecture changed → memory-archiver",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-028",
+    "input_events": [{"type": "system.config.changed", "source": "admin", "data": {"key": "timeout"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["memory-archiver"],
+    "expected_circuit_break": false,
+    "scenario": "Config changed → memory-archiver",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-029",
+    "input_events": [{"type": "system.critical.fix", "source": "hotfix", "data": {"fix": "memory leak"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["memory-archiver"],
+    "expected_circuit_break": false,
+    "scenario": "Critical fix → memory-archiver",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-030",
+    "input_events": [],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Empty event list → pipeline runs but does nothing",
+    "difficulty": "easy"
+  },
+  {
+    "id": "PB-031",
+    "input_events": [
+      {"type": "isc.rule.created", "source": "stress", "data": {"r": "1"}},
+      {"type": "isc.rule.updated", "source": "stress", "data": {"r": "2"}},
+      {"type": "system.error", "source": "stress", "data": {"e": "1"}},
+      {"type": "aeo.assessment.completed", "source": "stress", "data": {}},
+      {"type": "random.nothing", "source": "stress", "data": {}}
+    ],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["dto-sync", "dto-sync", "system-alert", "cras-ingest"],
+    "expected_circuit_break": false,
+    "scenario": "5-event batch with mixed routes and one no-match → 4 dispatches",
+    "difficulty": "hard"
+  },
+  {
+    "id": "PB-032",
+    "input_events": [
+      {"type": "isc.rule.created", "source": "depth-mix", "data": {}, "metadata": {"chain_depth": 6}},
+      {"type": "isc.rule.updated", "source": "depth-mix", "data": {}, "metadata": {"chain_depth": 6}},
+      {"type": "isc.rule.deleted", "source": "depth-mix", "data": {}, "metadata": {"chain_depth": 6}}
+    ],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": true,
+    "scenario": "All events exceed chain_depth → all circuit-broken, zero dispatches",
+    "difficulty": "hard"
+  },
+  {
+    "id": "PB-033",
+    "input_events": [{"type": "user.intent.skill_create.inferred", "source": "l3-pipeline", "data": {"intent_data": {"intent": "skill_create"}}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": ["intent-dispatch"],
+    "expected_circuit_break": false,
+    "scenario": "Inferred intent event re-entering pipeline → dispatched to intent-dispatch",
+    "difficulty": "medium"
+  },
+  {
+    "id": "PB-034",
+    "input_events": [{"type": "user.intent.query.inferred", "source": "l3-pipeline", "data": {}, "metadata": {"chain_depth": 7}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": true,
+    "scenario": "Intent event at high chain_depth → circuit break prevents infinite intent loop",
+    "difficulty": "hard"
+  },
+  {
+    "id": "PB-035",
+    "input_events": [{"type": "isc.rule.created", "source": "flagtest", "data": {}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Feature flag: L3_PIPELINE_ENABLED=false → entire pipeline skipped",
+    "difficulty": "medium",
+    "feature_flags": {"L3_PIPELINE_ENABLED": "false"}
+  },
+  {
+    "id": "PB-036",
+    "input_events": [{"type": "isc.rule.created", "source": "flagtest", "data": {}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Feature flag: L3_DISPATCHER_ENABLED=false → rules match but no dispatch",
+    "difficulty": "medium",
+    "feature_flags": {"L3_DISPATCHER_ENABLED": "false"}
+  },
+  {
+    "id": "PB-037",
+    "input_events": [{"type": "user.message.text", "source": "feishu", "data": {"text": "hello"}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Feature flag: L3_INTENTSCANNER_ENABLED=false → conversation event skips intent scanning",
+    "difficulty": "medium",
+    "feature_flags": {"L3_INTENTSCANNER_ENABLED": "false"}
+  },
+  {
+    "id": "PB-038",
+    "input_events": [{"type": "isc.rule.created", "source": "flagtest", "data": {}}],
+    "expected_rules_matched": [],
+    "expected_intents": [],
+    "expected_actions_dispatched": [],
+    "expected_circuit_break": false,
+    "scenario": "Feature flag: L3_EVENTBUS_ENABLED=false → no events consumed, empty run",
+    "difficulty": "medium",
+    "feature_flags": {"L3_EVENTBUS_ENABLED": "false"}
+  }
+]

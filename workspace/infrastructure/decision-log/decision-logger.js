@@ -12,6 +12,10 @@ const RETAIN_DAYS = 7;
 const VALID_PHASES = ['sensing', 'cognition', 'execution'];
 const VALID_METHODS = ['llm', 'regex', 'rule_match', 'manual'];
 
+// ─── Rotate Lock ───
+let _rotating = false;
+const _rotateBuffer = [];
+
 // ─── Helpers ───
 
 function ensureDir() {
@@ -79,7 +83,12 @@ function log(entry) {
     }
   } catch (_) { /* best effort */ }
 
-  fs.appendFileSync(LOG_FILE, JSON.stringify(record) + '\n', 'utf8');
+  if (_rotating) {
+    // Buffer writes during rotation to avoid losing data
+    _rotateBuffer.push(JSON.stringify(record) + '\n');
+  } else {
+    fs.appendFileSync(LOG_FILE, JSON.stringify(record) + '\n', 'utf8');
+  }
   return record;
 }
 
@@ -232,15 +241,26 @@ function summarize(timeRange = {}) {
  */
 function rotate() {
   ensureDir();
+  _rotating = true;
 
-  // Rotate current file
-  if (fs.existsSync(LOG_FILE)) {
-    const stat = fs.statSync(LOG_FILE);
-    if (stat.size > 0) {
-      const ts = new Date().toISOString().replace(/[:.]/g, '-');
-      const rotatedName = `decisions.${ts}.jsonl`;
-      const rotatedPath = path.join(LOG_DIR, rotatedName);
-      fs.renameSync(LOG_FILE, rotatedPath);
+  try {
+    // Rotate current file
+    if (fs.existsSync(LOG_FILE)) {
+      const stat = fs.statSync(LOG_FILE);
+      if (stat.size > 0) {
+        const ts = new Date().toISOString().replace(/[:.]/g, '-');
+        const rotatedName = `decisions.${ts}.jsonl`;
+        const rotatedPath = path.join(LOG_DIR, rotatedName);
+        fs.renameSync(LOG_FILE, rotatedPath);
+      }
+    }
+  } finally {
+    _rotating = false;
+
+    // Flush buffered writes to the new (empty) log file
+    if (_rotateBuffer.length > 0) {
+      const buffered = _rotateBuffer.splice(0);
+      fs.appendFileSync(LOG_FILE, buffered.join(''), 'utf8');
     }
   }
 

@@ -118,12 +118,14 @@ class L3Pipeline {
    * @param {object} [options]
    * @param {number} [options.windowMs=300000] - 消费事件的时间窗口（ms）
    * @param {number} [options.maxChainDepth=5] - 断路器最大链深度
+   * @param {number} [options.timeoutMs=0] - run() 整体超时（ms），0=不限时
    * @param {object} [options.matcherOptions] - ISCRuleMatcher 构造参数
    * @param {object} [options.scannerOptions] - IntentScanner 构造参数
    */
   constructor(options = {}) {
     this.windowMs = options.windowMs || DEFAULT_WINDOW_MS;
     this.maxChainDepth = options.maxChainDepth || MAX_CHAIN_DEPTH;
+    this.timeoutMs = options.timeoutMs || 0;
     this.matcherOptions = options.matcherOptions || {};
     this.scannerOptions = options.scannerOptions || {};
 
@@ -166,6 +168,18 @@ class L3Pipeline {
    * @returns {Promise<object>} 执行摘要
    */
   async run() {
+    // If timeoutMs is set, wrap the entire execution with a timeout
+    if (this.timeoutMs > 0) {
+      return Promise.race([
+        this._runInternal(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error(`L3Pipeline.run() timed out after ${this.timeoutMs}ms`)), this.timeoutMs)),
+      ]);
+    }
+    return this._runInternal();
+  }
+
+  /** @private Internal run implementation */
+  async _runInternal() {
     const runStart = Date.now();
     const runId = `run_${runStart}_${Math.random().toString(36).slice(2, 8)}`;
     const flags = getFeatureFlags();
