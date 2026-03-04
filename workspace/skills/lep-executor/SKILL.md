@@ -1,7 +1,7 @@
 ---
 name: lep-executor
 description: LEP韧性执行中心 (Local Execution Protocol) - 全局统一韧性任务执行引擎，整合现有分散的韧性能力
-version: "1.0.10"
+version: "1.0.11"
 status: active
 priority: critical
 ---
