@@ -16,7 +16,7 @@ class ZhipuEmbedding:
     
     def __init__(self, api_key: str = None):
         self.api_key = api_key or os.getenv('ZHIPU_API_KEY', 'REDACTED_ZHIPU_API_KEY')
-        self.base_url = 'https://open.bigmodel.cn/api/paas/v4'
+        self.base_url = 'https://open.bigmodel.cn/api/coding/paas/v4'
         self.model = 'embedding-3'
         self.dimensions = 1024  # 固定使用1024维
     

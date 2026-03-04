@@ -1,8 +1,19 @@
 #!/usr/bin/env node
 /**
- * 全局自主决策流水线 v1.5 - 一次性处理所有变更版
+ * 全局自主决策流水线 v1.6 - 根治空转版本bump
  * 
  * 变更记录:
+ * v1.6 (2026-03-04):
+ * - 根治空转版本bump：全面排除运行时数据文件
+ * - 从includeDirs移除memory/和reports/（纯运行时数据目录）
+ * - 新增excludeDirs: knowledge, reports, seef-*系列目录
+ * - 新增excludeTopDirs机制，彻底排除memory和reports顶层目录
+ * - 新增excludePatterns: user-profile.json, insight_*.md, research-*.md,
+ *   report_*.json, lep-daily-report-*, cras-learning-*, cras-dashboard-*等
+ * - 新增shouldTrackPath()方法，支持完整路径级别的排除检查
+ * - 原则：只有技能代码(.js/.py/.sh)、配置文件(SKILL.md/package.json)、
+ *   基础设施代码的真实变更才触发版本bump
+ * 
  * v1.5 (2026-03-04):
  * - 移除分批限流（每次只处理3个的限制）
  * - 改为一次性处理所有检测到的变更
@@ -56,7 +67,7 @@ const CONFIG = {
     includeDirs: [
       'skills', 'config', 'scripts',
       'prompts', 'filters', 'infrastructure',
-      'cras', 'memory', 'reports',
+      'cras',
       'agent-tools', 'src', 'tools',
       'lep-subagent', 'skill-creator', 'skill-sandbox',
       'evolver', 'monitoring', 'cron',
@@ -69,7 +80,17 @@ const CONFIG = {
       'feishu_send_queue', 'feishu_sent_cards', 'feishu_sent_reports',
       '.dto-signals', '.isc',
       'root-cause-analysis', 'using-superpowers', 'wal',
-      'aeo-vector-system'  // 向量化系统生成的数据
+      'aeo-vector-system',  // 向量化系统生成的数据
+      'knowledge',          // cras/knowledge/ — cron自动采集的数据
+      'reports',            // cras/reports/ 和 reports/ — cron自动生成的报告
+      'seef-discoveries', 'seef-evaluations', 'seef-evolution-history',
+      'seef-optimization-plans', 'seef-validations', 'seef'  // SEEF运行时产物
+    ],
+    // 要整体排除的顶层目录（从includeDirs中移除，不再扫描）
+    // memory/ 和 reports/ 产生大量运行时数据，不应触发版本bump
+    excludeTopDirs: [
+      'memory',   // 记忆文件是运行时产物，不应触发版本bump
+      'reports'   // cron生成的报告，不应触发版本bump
     ],
     // 要排除的文件模式
     excludePatterns: [
@@ -92,7 +113,21 @@ const CONFIG = {
       /cursor\.json$/,  // event-bus游标（高频噪音）
       /\.bundle$/, // git bundle备份
       /\.mp4$/, /\.mp3$/, /\.avi$/, /\.mov$/, // 媒体文件
-      /\.zip$/, /\.tar\.gz$/, /\.tar\.bz2$/, /\.rar$/, /\.7z$/ // 压缩文件
+      /\.zip$/, /\.tar\.gz$/, /\.tar\.bz2$/, /\.rar$/, /\.7z$/, // 压缩文件
+      // === 新增：根治空转版本bump ===
+      /user-profile\.json$/,      // cras/config/user-profile.json — 运行时用户画像
+      /\.pipeline-states\.json$/,  // pipeline自身状态文件
+      /\.pipeline-feedback\.jsonl$/, // pipeline自身反馈日志
+      /insight_.*\.md$/,           // cras/reports/insight_*.md — cron自动生成
+      /research-.*\.md$/,          // cras/reports/research-*.md — cron自动生成
+      /report_.*\.json$/,          // cras/knowledge/report_*.json — cron自动采集
+      /lep-daily-report-.*\.(json|txt)$/, // LEP每日报告
+      /cras-learning-.*\.json$/,   // CRAS学习数据
+      /cras-dashboard-.*\.md$/,    // CRAS仪表盘报告
+      /cron-health-check-.*\.md$/, // cron健康检查报告
+      /\.elite-memory\.json$/,     // 精英记忆运行时数据
+      /\.evomap-registry\.json$/,  // EvoMap注册表运行时数据
+      /update-check\.json$/        // 更新检查状态
     ]
   },
   
@@ -186,7 +221,7 @@ class Pipeline {
     return changes;
   }
   
-  // 检查文件是否应该被跟踪
+  // 检查文件是否应该被跟踪（基于文件名）
   shouldTrackFile(fileName) {
     const gitConfig = CONFIG.gitTracking;
     
@@ -212,6 +247,36 @@ class Pipeline {
     }
     
     return false;
+  }
+  
+  // 检查完整路径是否应该被跟踪（基于路径中的目录层级）
+  shouldTrackPath(fullPath) {
+    const gitConfig = CONFIG.gitTracking;
+    const fileName = path.basename(fullPath);
+    
+    // 先检查文件名级别的排除
+    if (!this.shouldTrackFile(fileName)) {
+      return false;
+    }
+    
+    // 检查路径中是否包含需要排除的目录
+    const relativePath = path.relative(CONFIG.workspacePath, fullPath);
+    const pathParts = relativePath.split(path.sep);
+    
+    for (const part of pathParts) {
+      if (gitConfig.excludeDirs.includes(part)) {
+        return false;
+      }
+    }
+    
+    // 检查是否在被排除的顶层目录下
+    if (gitConfig.excludeTopDirs && pathParts.length > 0) {
+      if (gitConfig.excludeTopDirs.includes(pathParts[0])) {
+        return false;
+      }
+    }
+    
+    return true;
   }
   
   // 检查目录是否应该被扫描
@@ -294,8 +359,8 @@ class Pipeline {
             }
             getAllFiles(fullPath, files);
           } else {
-            // 使用统一的文件过滤逻辑
-            if (this.shouldTrackFile(item.name)) {
+            // 使用完整路径过滤逻辑（包含目录和文件名两级检查）
+            if (this.shouldTrackPath(fullPath)) {
               files.push(fullPath);
             }
           }
