@@ -1,7 +1,7 @@
 ---
 name: file-sender
 description: 通用文件发送器 - 自动适配通道能力，支持直接传输或内容输出
-version: "1.0.6"
+version: "1.0.7"
 status: active
 tags: [file, delivery, interaction, utility]
 ---
