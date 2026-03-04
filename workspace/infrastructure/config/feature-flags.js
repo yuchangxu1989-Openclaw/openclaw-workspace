@@ -3,6 +3,14 @@
 const fs = require('fs');
 const path = require('path');
 
+// Decision Logger — unified audit trail
+let _decisionLogger = null;
+try {
+  _decisionLogger = require('../decision-log/decision-logger');
+} catch (_) {
+  // DecisionLogger unavailable — continue without
+}
+
 /**
  * Feature Flag 统一配置模块 v2
  * 
