@@ -9,7 +9,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus.js'));
+const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus-adapter'));
 
 const INSIGHTS_DIR = path.join(__dirname, 'insights');
 const SUGGESTIONS_DIR = path.join(__dirname, 'rule-suggestions');

@@ -12,7 +12,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus.js'));
+const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus-adapter'));
 
 const CONSUMER_ID = 'cras';
 const INSIGHTS_DIR = path.join(__dirname, 'insights');
@@ -28,9 +28,16 @@ const REPORTS_DIR = path.join(__dirname, 'reports');
  * 分析后生成洞察和报告。
  */
 function processAssessments() {
-  const events = bus.consume(CONSUMER_ID, {
-    types: ['aeo.assessment.*', 'dto.sync.completed', 'system.error']
-  });
+  const events = bus.consume({
+    consumerId: CONSUMER_ID,
+    type_filter: 'aeo.assessment.*'
+  }).concat(bus.consume({
+    consumerId: CONSUMER_ID,
+    type_filter: 'dto.sync.completed'
+  })).concat(bus.consume({
+    consumerId: CONSUMER_ID,
+    type_filter: 'system.error'
+  }));
 
   if (events.length === 0) {
     console.log('[CRAS] 无待处理事件');
