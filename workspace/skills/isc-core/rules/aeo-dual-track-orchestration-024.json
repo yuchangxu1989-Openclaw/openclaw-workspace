@@ -6,14 +6,22 @@
   "domain": "quality_assurance",
   "scope": "system-wide",
   "trigger": {
-    "events": ["aeo_evaluation_required", "skill_test_triggered"],
+    "events": [
+      "aeo_evaluation_required",
+      "skill_test_triggered"
+    ],
     "condition": "evaluation_request_received"
   },
   "dual_track": {
     "ai_effect_track": {
       "name": "AI效果运营",
       "focus": "模型智能程度",
-      "dimensions": ["accuracy", "creativity", "relevance", "reasoning"],
+      "dimensions": [
+        "accuracy",
+        "creativity",
+        "relevance",
+        "reasoning"
+      ],
       "evaluation_method": "model_output_assessment",
       "applicable_when": [
         "skill_has_ai_component",
@@ -24,7 +32,12 @@
     "function_quality_track": {
       "name": "功能质量运营",
       "focus": "系统功能完整性",
-      "dimensions": ["availability", "reliability", "performance", "correctness"],
+      "dimensions": [
+        "availability",
+        "reliability",
+        "performance",
+        "correctness"
+      ],
       "evaluation_method": "functional_testing",
       "applicable_when": [
         "all_skills",
@@ -47,5 +60,6 @@
   "governance": {
     "auto_execute": true,
     "priority": "HIGH"
-  }
+  },
+  "enforcement_tier": "P1_process"
 }

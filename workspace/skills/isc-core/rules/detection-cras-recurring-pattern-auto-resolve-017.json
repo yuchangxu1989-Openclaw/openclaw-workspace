@@ -14,7 +14,11 @@
     "source": "UserInsightHub.analyzeRecurringPatterns",
     "method": "analyze_recurring_patterns",
     "pattern_matching": {
-      "fields": ["error_type", "failed_skill", "error_message_keyword"],
+      "fields": [
+        "error_type",
+        "failed_skill",
+        "error_message_keyword"
+      ],
       "time_window": "48h",
       "threshold": 2
     }
@@ -40,9 +44,18 @@
         "executor": "infrastructure/pipeline/l3-pipeline.js",
         "method": "execute_auto_fix_for_patterns",
         "strategies": [
-          {"pattern": "file_not_found", "fix": "auto_create_file"},
-          {"pattern": "path_mismatch", "fix": "auto_update_reference"},
-          {"pattern": "skill_not_loaded", "fix": "trigger_skill_reload"}
+          {
+            "pattern": "file_not_found",
+            "fix": "auto_create_file"
+          },
+          {
+            "pattern": "path_mismatch",
+            "fix": "auto_update_reference"
+          },
+          {
+            "pattern": "skill_not_loaded",
+            "fix": "trigger_skill_reload"
+          }
         ]
       },
       {
@@ -63,5 +76,6 @@
   "created_at": "2026-02-25T23:45:00Z",
   "updated_at": "2026-02-25T23:49:00Z",
   "version": "1.1.0",
-  "status": "active"
+  "status": "active",
+  "enforcement_tier": "P1_process"
 }

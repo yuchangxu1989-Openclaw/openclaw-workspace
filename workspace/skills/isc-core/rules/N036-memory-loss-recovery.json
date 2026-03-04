@@ -11,7 +11,6 @@
   "version": "1.0.0",
   "created_at": "2026-02-28T16:45:00+08:00",
   "updated_at": "2026-02-28T16:45:00+08:00",
-  
   "trigger": {
     "conditions": [
       {
@@ -39,7 +38,6 @@
     ],
     "logic": "OR"
   },
-  
   "recovery_phases": {
     "phase_1_discovery": {
       "name": "规则发现",
@@ -73,13 +71,24 @@
         {
           "order": 1,
           "action": "extract_rule_id",
-          "sources": ["id", "ruleId", "name"],
+          "sources": [
+            "id",
+            "ruleId",
+            "name"
+          ],
           "fallback": "filename"
         },
         {
           "order": 2,
           "action": "extract_metadata",
-          "fields": ["name", "domain", "category", "triggers", "auto_execute", "version"]
+          "fields": [
+            "name",
+            "domain",
+            "category",
+            "triggers",
+            "auto_execute",
+            "version"
+          ]
         },
         {
           "order": 3,
@@ -96,7 +105,11 @@
           "order": 1,
           "action": "create_rule_registry",
           "output": "/root/.openclaw/workspace/.rule-registry.json",
-          "include": ["rules", "categories", "stats"]
+          "include": [
+            "rules",
+            "categories",
+            "stats"
+          ]
         },
         {
           "order": 2,
@@ -118,7 +131,11 @@
         {
           "order": 1,
           "action": "validate_registry_integrity",
-          "checks": ["all_rules_have_id", "categories_populated", "no_duplicates"]
+          "checks": [
+            "all_rules_have_id",
+            "categories_populated",
+            "no_duplicates"
+          ]
         },
         {
           "order": 2,
@@ -133,7 +150,6 @@
       ]
     }
   },
-  
   "execution": {
     "mode": "auto_recovery",
     "auto_execute": true,
@@ -141,7 +157,6 @@
     "max_recovery_time_seconds": 300,
     "rollback_on_failure": true
   },
-  
   "actions": {
     "on_recovery_start": [
       {
@@ -153,7 +168,10 @@
       {
         "order": 2,
         "action": "notify",
-        "channels": ["feishu", "log"],
+        "channels": [
+          "feishu",
+          "log"
+        ],
         "message_template": "🔄 检测到记忆丢失，正在执行自主恢复..."
       }
     ],
@@ -166,7 +184,10 @@
       {
         "order": 2,
         "action": "notify",
-        "channels": ["feishu", "log"],
+        "channels": [
+          "feishu",
+          "log"
+        ],
         "urgency": "normal",
         "message_template": "✅ 记忆恢复完成\n恢复规则数: {recovered_rules}\n恢复类别数: {recovered_categories}\n耗时: {duration_seconds}s\n\n系统已恢复正常运行。"
       },
@@ -186,13 +207,16 @@
       {
         "order": 2,
         "action": "notify",
-        "channels": ["feishu", "log", "email"],
+        "channels": [
+          "feishu",
+          "log",
+          "email"
+        ],
         "urgency": "critical",
         "message_template": "🚨 记忆恢复失败\n失败原因: {failure_reason}\n\n需要人工干预！"
       }
     ]
   },
-  
   "fallback_strategies": {
     "partial_rules_recovery": {
       "condition": "some_rules_unparsable",
@@ -210,7 +234,6 @@
       "preserve_existing": true
     }
   },
-  
   "verification": {
     "post_recovery_checks": [
       {
@@ -236,7 +259,6 @@
       "check_registry_integrity": true
     }
   },
-  
   "integration": {
     "dto_pipeline": {
       "auto_invoke_on_bootstrap": true,
@@ -247,7 +269,6 @@
       "sync_with_standards": true
     }
   },
-  
   "metadata": {
     "recovery_capabilities": [
       "从文件系统重建规则清单",
@@ -261,5 +282,6 @@
       "规则目录可读",
       "写入注册表目录权限"
     ]
-  }
+  },
+  "enforcement_tier": "P1_process"
 }

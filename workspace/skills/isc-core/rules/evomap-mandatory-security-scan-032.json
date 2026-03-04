@@ -8,7 +8,10 @@
   "priority": "P0",
   "enabled": true,
   "trigger": {
-    "events": ["evomap.sync.request", "evomap.skill.upload"],
+    "events": [
+      "evomap.sync.request",
+      "evomap.skill.upload"
+    ],
     "precondition": "EvoMap上传前必须完成安全扫描"
   },
   "conditions": {
@@ -94,5 +97,6 @@
     "manualReviewRequired": true
   },
   "managedBy": "isc-core",
-  "updatePolicy": "auto_sync"
+  "updatePolicy": "auto_sync",
+  "enforcement_tier": "P0_gate"
 }

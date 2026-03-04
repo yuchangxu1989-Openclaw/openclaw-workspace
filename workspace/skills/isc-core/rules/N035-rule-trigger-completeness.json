@@ -11,7 +11,6 @@
   "version": "1.0.0",
   "created_at": "2026-02-28T16:45:00+08:00",
   "updated_at": "2026-02-28T16:45:00+08:00",
-  
   "trigger": {
     "conditions": [
       {
@@ -30,7 +29,6 @@
     ],
     "logic": "OR"
   },
-  
   "monitoring_config": {
     "data_sources": {
       "all_rules": {
@@ -52,7 +50,6 @@
       "time_window": "30d"
     }
   },
-  
   "thresholds": {
     "critical": {
       "trigger_rate": "< 50%",
@@ -69,7 +66,6 @@
       "action": "weekly_summary"
     }
   },
-  
   "root_cause_analysis": {
     "enabled": true,
     "factors": [
@@ -101,13 +97,11 @@
     ],
     "report_format": "structured_json"
   },
-  
   "execution": {
     "mode": "monitor_and_report",
     "auto_execute": true,
     "generate_remediation_plan": true
   },
-  
   "actions": {
     "on_analysis": [
       {
@@ -144,13 +138,16 @@
     "on_critical_threshold": [
       {
         "action": "immediate_alert",
-        "channels": ["feishu", "log", "email"],
+        "channels": [
+          "feishu",
+          "log",
+          "email"
+        ],
         "urgency": "critical",
         "message_template": "🚨 规则触发率严重偏低\n触发率: {trigger_rate}\n已触发: {triggered_count}/{total_count}\n未触发: {untriggered_count}\n\n请立即检查系统状态！"
       }
     ]
   },
-  
   "reporting": {
     "summary_report": {
       "path": "/root/.openclaw/workspace/reports/rule-trigger-summary.json",
@@ -172,10 +169,13 @@
     "remediation_plan": {
       "path": "/root/.openclaw/workspace/reports/rule-remediation-plan.json",
       "auto_generate": true,
-      "priority_order": ["missing_subscription", "invalid_format", "disabled"]
+      "priority_order": [
+        "missing_subscription",
+        "invalid_format",
+        "disabled"
+      ]
     }
   },
-  
   "integration": {
     "dto_pipeline": {
       "report_after_each_run": true,
@@ -185,5 +185,6 @@
       "show_trigger_rate": true,
       "show_untriggered_list": true
     }
-  }
+  },
+  "enforcement_tier": "P1_process"
 }

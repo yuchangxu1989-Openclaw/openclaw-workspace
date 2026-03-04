@@ -22,7 +22,11 @@
       "/root/.openclaw/identity/**",
       "/root/.openclaw/feishu/**"
     ],
-    "operations": ["modify", "delete", "create"]
+    "operations": [
+      "modify",
+      "delete",
+      "create"
+    ]
   },
   "condition": {
     "check_type": "sensitive_config",
@@ -42,7 +46,9 @@
       "3. 等待用户明确确认（OK/拍板/确认）",
       "4. 用户确认后执行，记录操作日志"
     ],
-    "notification_channels": ["feishu"],
+    "notification_channels": [
+      "feishu"
+    ],
     "escalation": {
       "if_no_response_30min": "block_operation",
       "if_rejected": "block_and_log"
@@ -69,5 +75,6 @@
       "identity/** - 身份认证配置",
       "feishu/** - 飞书集成配置"
     ]
-  }
+  },
+  "enforcement_tier": "P0_gate"
 }

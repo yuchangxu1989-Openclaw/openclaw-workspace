@@ -6,7 +6,10 @@
   "domain": "quality_assurance",
   "scope": "system-wide",
   "trigger": {
-    "events": ["user_message_received", "conversation_turn_completed"],
+    "events": [
+      "user_message_received",
+      "conversation_turn_completed"
+    ],
     "condition": "feedback_signals_detected"
   },
   "feedback_signals": {
@@ -23,7 +26,8 @@
     },
     "implicit_confusion": {
       "patterns": [
-        "?", "？？",
+        "?",
+        "？？",
         "什么意思",
         "没明白",
         "再说一遍"
@@ -65,5 +69,6 @@
   "governance": {
     "auto_execute": true,
     "priority": "MEDIUM"
-  }
+  },
+  "enforcement_tier": "P1_process"
 }

@@ -26,7 +26,10 @@
       },
       {
         "stage": "parallel_review",
-        "roles": ["开发工程师", "质量分析师"],
+        "roles": [
+          "开发工程师",
+          "质量分析师"
+        ],
         "thinking": "high",
         "parallel": true,
         "output": "reports/{topic}-{role}-review.md",
@@ -53,5 +56,6 @@
     ]
   },
   "enforcement": "runtime_binding",
-  "anti_entropy": "此规则本身是对评审流程的固化，防止未来退化为'架构师直出→用户看'的简化流程"
+  "anti_entropy": "此规则本身是对评审流程的固化，防止未来退化为'架构师直出→用户看'的简化流程",
+  "enforcement_tier": "P0_gate"
 }

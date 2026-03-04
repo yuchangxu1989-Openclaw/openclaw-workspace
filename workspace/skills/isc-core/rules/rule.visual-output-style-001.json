@@ -5,6 +5,11 @@
   "severity": "medium",
   "description": "所有工程图（架构图、集成映射图、数据流图等）必须：1.浅色背景（白色或浅灰）2.中文标注（不接受纯英文）3.颜色柔和不刺眼。用户原话：'颜色轻一些，不要纯英文，我不想看纯英文'",
   "source": "2026-03-05 用户反馈",
-  "trigger": {"events": ["visual.diagram.generating"]},
-  "action": "Mermaid渲染时：bgColor=ffffff, theme=default, 所有节点文本中文优先（可附英文）, subgraph用浅色fill"
+  "trigger": {
+    "events": [
+      "visual.diagram.generating"
+    ]
+  },
+  "action": "Mermaid渲染时：bgColor=ffffff, theme=default, 所有节点文本中文优先（可附英文）, subgraph用浅色fill",
+  "enforcement_tier": "P1_process"
 }

@@ -16,7 +16,12 @@
   },
   "detection": {
     "skill_md_check": {
-      "required_fields": ["name", "description", "version", "usage"],
+      "required_fields": [
+        "name",
+        "description",
+        "version",
+        "usage"
+      ],
       "min_length": 300,
       "check_command": "node /root/.openclaw/workspace/skills/isc-document-quality/check-skill-md.js"
     }
@@ -28,7 +33,11 @@
     "model_type": "deep_thinking",
     "model_config": {
       "type": "deep_thinking",
-      "examples": ["glm-5", "claude-3-opus", "gpt-4o"],
+      "examples": [
+        "glm-5",
+        "claude-3-opus",
+        "gpt-4o"
+      ],
       "timeout": 1200,
       "note": "模型名称不固定，只要是深度思考类模型即可"
     }
@@ -107,5 +116,6 @@
   },
   "created_at": "2026-02-26T01:05:00Z",
   "version": "1.0.0",
-  "status": "proposed"
+  "status": "proposed",
+  "enforcement_tier": "P1_process"
 }

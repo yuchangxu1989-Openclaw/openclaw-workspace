@@ -25,7 +25,7 @@
         "fail_action": "block_and_redesign"
       },
       {
-        "id": "generalizability", 
+        "id": "generalizability",
         "question": "这解决的是一个问题还是一类问题？",
         "fail_action": "require_generalization"
       },
@@ -46,5 +46,6 @@
     "trigger_dto_task": true,
     "task_type": "quality_gate",
     "description": "每次触发事件时，DTO自动调度反熵增检查任务"
-  }
+  },
+  "enforcement_tier": "P0_gate"
 }

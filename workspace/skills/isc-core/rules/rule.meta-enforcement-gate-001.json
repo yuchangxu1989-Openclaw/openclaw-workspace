@@ -13,7 +13,11 @@
   },
   "rule": {
     "lifecycle": {
-      "phases": ["define", "bind_enforcer", "verify_enforcement"],
+      "phases": [
+        "define",
+        "bind_enforcer",
+        "verify_enforcement"
+      ],
       "description": "每条ISC规则必须经历三步闭环：定义→绑定执行机制→验证执行。缺任何一步该规则状态为unenforced。"
     },
     "enforcement_requirements": {
@@ -45,7 +49,11 @@
     }
   },
   "trigger": {
-    "events": ["rule.created", "rule.updated", "delivery.review_requested"],
+    "events": [
+      "rule.created",
+      "rule.updated",
+      "delivery.review_requested"
+    ],
     "actions": [
       {
         "type": "audit",
@@ -60,5 +68,6 @@
   "version": "001",
   "created": "2026-03-05",
   "created_by": "战略家",
-  "source": "Day 1复盘 - ISC规则写了但没执行的系统性缺陷"
+  "source": "Day 1复盘 - ISC规则写了但没执行的系统性缺陷",
+  "enforcement_tier": "P0_gate"
 }

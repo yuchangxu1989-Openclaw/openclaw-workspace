@@ -8,7 +8,11 @@
   "priority": "P0",
   "enabled": true,
   "trigger": {
-    "events": ["skill.publish", "skill.sync", "skill.evoMap.upload"],
+    "events": [
+      "skill.publish",
+      "skill.sync",
+      "skill.evoMap.upload"
+    ],
     "precondition": "技能发布或同步前必须完成安全扫描"
   },
   "conditions": {
@@ -43,13 +47,24 @@
         "id": "T001",
         "name": "远程代码执行 (RCE)",
         "severity": "critical",
-        "patterns": ["eval\\(", "exec\\(", "system\\(", "subprocess\\.call", "child_process"]
+        "patterns": [
+          "eval\\(",
+          "exec\\(",
+          "system\\(",
+          "subprocess\\.call",
+          "child_process"
+        ]
       },
       {
         "id": "T002",
         "name": "命令注入 (Command Injection)",
         "severity": "critical",
-        "patterns": ["shell=True", "os\\.system", "os\\.popen", "\\`.*\\`"]
+        "patterns": [
+          "shell=True",
+          "os\\.system",
+          "os\\.popen",
+          "\\`.*\\`"
+        ]
       },
       {
         "id": "T003",
@@ -61,31 +76,55 @@
         "id": "T004",
         "name": "数据外泄 (Data Exfiltration)",
         "severity": "high",
-        "patterns": ["fetch\\(.*http", "axios\\.post", "request\\.post", "curl.*-d"]
+        "patterns": [
+          "fetch\\(.*http",
+          "axios\\.post",
+          "request\\.post",
+          "curl.*-d"
+        ]
       },
       {
         "id": "T005",
         "name": "权限提升 (Privilege Escalation)",
         "severity": "high",
-        "patterns": ["chmod.*777", "sudo", "setuid", "setgid"]
+        "patterns": [
+          "chmod.*777",
+          "sudo",
+          "setuid",
+          "setgid"
+        ]
       },
       {
         "id": "T006",
         "name": "硬编码凭证 (Hardcoded Credentials)",
         "severity": "high",
-        "patterns": ["api[_-]?key.*=.*['\"][^'\"]{10,}", "password.*=.*['\"][^'\"]{8,}", "secret.*=.*['\"][^'\"]{10,}"]
+        "patterns": [
+          "api[_-]?key.*=.*['\"][^'\"]{10,}",
+          "password.*=.*['\"][^'\"]{8,}",
+          "secret.*=.*['\"][^'\"]{10,}"
+        ]
       },
       {
         "id": "T007",
         "name": "Base64混淆 (Obfuscation)",
         "severity": "medium",
-        "patterns": ["atob\\(", "btoa\\(", "Buffer\\.from.*base64", "base64.*decode"]
+        "patterns": [
+          "atob\\(",
+          "btoa\\(",
+          "Buffer\\.from.*base64",
+          "base64.*decode"
+        ]
       },
       {
         "id": "T008",
         "name": "动态代码执行 (Dynamic Code Execution)",
         "severity": "medium",
-        "patterns": ["Function\\(", "new Function", "setTimeout.*string", "setInterval.*string"]
+        "patterns": [
+          "Function\\(",
+          "new Function",
+          "setTimeout.*string",
+          "setInterval.*string"
+        ]
       }
     ]
   },
@@ -98,5 +137,6 @@
     ]
   },
   "managedBy": "isc-core",
-  "updatePolicy": "auto_sync"
+  "updatePolicy": "auto_sync",
+  "enforcement_tier": "P0_gate"
 }

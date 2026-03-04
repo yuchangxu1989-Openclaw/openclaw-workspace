@@ -21,7 +21,11 @@
           "path": "designs/*/DESIGN.md",
           "description": "详细设计文档",
           "min_length": 5000,
-          "required_sections": ["架构设计", "核心模块", "接口契约"]
+          "required_sections": [
+            "架构设计",
+            "核心模块",
+            "接口契约"
+          ]
         },
         {
           "path": "designs/*/ARCHITECTURE.json",
@@ -31,7 +35,11 @@
         {
           "path": "designs/*/IMPLEMENTATION.md",
           "description": "实现计划",
-          "required_sections": ["实施步骤", "风险分析", "测试策略"]
+          "required_sections": [
+            "实施步骤",
+            "风险分析",
+            "测试策略"
+          ]
         }
       ],
       "forbidden_patterns": [
@@ -96,5 +104,6 @@
       "analysis_type": "design_compliance_failure",
       "target": "{design_id}"
     }
-  }
+  },
+  "enforcement_tier": "P1_process"
 }

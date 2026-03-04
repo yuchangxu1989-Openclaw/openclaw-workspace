@@ -6,7 +6,10 @@
   "domain": "quality_assurance",
   "scope": "system-wide",
   "trigger": {
-    "events": ["aeo_issue_frequency_threshold_exceeded", "n020_analysis_completed"],
+    "events": [
+      "aeo_issue_frequency_threshold_exceeded",
+      "n020_analysis_completed"
+    ],
     "condition": "issue_frequency >= 3 OR severity == 'high'"
   },
   "action_plan_generation": {
@@ -53,5 +56,6 @@
     "auto_execute": true,
     "priority": "HIGH",
     "council_required": "for_long_term_actions"
-  }
+  },
+  "enforcement_tier": "P1_process"
 }

@@ -11,7 +11,6 @@
   "version": "1.0.0",
   "created_at": "2026-02-28T16:45:00+08:00",
   "updated_at": "2026-02-28T16:45:00+08:00",
-  
   "trigger": {
     "conditions": [
       {
@@ -30,24 +29,38 @@
     ],
     "logic": "OR"
   },
-  
   "validation_rules": {
     "filesystem_scan": {
       "description": "必须从文件系统实际扫描规则文件",
       "scan_path": "/root/.openclaw/workspace/skills/isc-core/rules",
       "recursive": true,
       "file_pattern": "*.json",
-      "exclude": ["*.backup.json", "*.tmp.json"]
+      "exclude": [
+        "*.backup.json",
+        "*.tmp.json"
+      ]
     },
     "id_extraction": {
       "description": "从规则文件内容提取ID",
-      "required_fields": ["id", "name", "domain"],
-      "id_sources": ["id", "ruleId", "name"],
+      "required_fields": [
+        "id",
+        "name",
+        "domain"
+      ],
+      "id_sources": [
+        "id",
+        "ruleId",
+        "name"
+      ],
       "fallback": "filename_stem"
     },
     "categorization": {
       "description": "按domain/category分类统计",
-      "category_sources": ["domain", "category", "type"],
+      "category_sources": [
+        "domain",
+        "category",
+        "type"
+      ],
       "default_category": "uncategorized"
     },
     "cross_validation": {
@@ -60,14 +73,12 @@
       "alert_on_mismatch": true
     }
   },
-  
   "execution": {
     "mode": "validate_and_report",
     "auto_execute": true,
     "cache_allowed": false,
     "require_fresh_scan": true
   },
-  
   "actions": {
     "on_validation": [
       {
@@ -100,7 +111,10 @@
       {
         "order": 1,
         "action": "alert",
-        "channels": ["feishu", "log"],
+        "channels": [
+          "feishu",
+          "log"
+        ],
         "urgency": "high",
         "message_template": "⚠️ 规则统计不匹配\n文件系统: {fs_count} 条\n注册表: {registry_count} 条\n差异: {diff_count} 条\n\n建议执行: isc sync-rule-registry"
       },
@@ -112,7 +126,6 @@
       }
     ]
   },
-  
   "reporting": {
     "output_format": "json",
     "report_path": "/root/.openclaw/workspace/reports/rule-accuracy-report.json",
@@ -126,11 +139,11 @@
       "timestamp"
     ]
   },
-  
   "accuracy_requirements": {
     "rule_count_tolerance": 0,
     "category_count_tolerance": 0,
     "id_mismatch_tolerance": 0,
     "description": "规则统计必须100%准确，不允许误差"
-  }
+  },
+  "enforcement_tier": "P0_gate"
 }
