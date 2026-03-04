@@ -1,7 +1,7 @@
 ---
 name: paths-center
 description: 路径中心 - 【占位符】概念驱动，需求不清
-version: "0.0.7"
+version: "0.0.8"
 status: placeholder
 placeholder_reason: "路径管理概念重要，但具体功能没想清楚"
 root_cause: "概念驱动，不是需求驱动。先想概念，再找场景"
