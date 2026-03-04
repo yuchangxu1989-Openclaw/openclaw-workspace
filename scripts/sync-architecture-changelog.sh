@@ -44,7 +44,7 @@ while IFS= read -r COMMIT_HASH; do
     [ -z "${COMMIT_HASH}" ] && continue
 
     COMMIT_SHORT=$(git rev-parse --short "${COMMIT_HASH}")
-    COMMIT_MSG=$(git log -1 --pretty=format:'%s' "${COMMIT_HASH}")
+    COMMIT_MSG=$(git log -1 --format="%s" "${COMMIT_HASH}")
 
     # Check if this commit is tagged
     if ! echo "${COMMIT_MSG}" | grep -qE "${TAG_PATTERN}"; then
@@ -58,9 +58,9 @@ while IFS= read -r COMMIT_HASH; do
     fi
 
     # Extract info and append
-    COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an' "${COMMIT_HASH}")
-    COMMIT_DATE=$(git log -1 --pretty=format:'%Y-%m-%d %H:%M:%S %z' "${COMMIT_HASH}")
-    COMMIT_BODY=$(git log -1 --pretty=format:'%b' "${COMMIT_HASH}")
+    COMMIT_AUTHOR=$(git log -1 --format="%an" "${COMMIT_HASH}")
+    COMMIT_DATE=$(git log -1 --format="%ai" "${COMMIT_HASH}")
+    COMMIT_BODY=$(git log -1 --format="%b" "${COMMIT_HASH}")
     TAGS=$(echo "${COMMIT_MSG}" | grep -oE "${TAG_PATTERN}" | tr '\n' ' ' | sed 's/ $//')
 
     # Diff stats (handle first commit gracefully)
@@ -99,7 +99,7 @@ EOF
     ADDED=$((ADDED + 1))
     echo "[$(date)] Added: ${COMMIT_SHORT} ${TAGS} ${COMMIT_SUMMARY}" | tee -a "${LOG_FILE}"
 
-done < <(git log --since="${SINCE_DATE}" --pretty=format:'%H' --reverse)
+done < <(git log --since="${SINCE_DATE}" --format="%H" --reverse)
 
 echo "[$(date)] Sync complete: ${ADDED} added, ${SKIPPED} already recorded" | tee -a "${LOG_FILE}"
 
