@@ -49,12 +49,21 @@ async function main() {
   }
 
   // 2. 检测pipeline导出的run方法
-  const runFn = pipeline.run || pipeline.execute || pipeline.default?.run || pipeline.default;
+  //    支持: { run }, { execute }, { runOnce }, { L3Pipeline }, { default: { run } }, { default: fn }
+  let runFn = pipeline.run || pipeline.execute || pipeline.runOnce
+    || pipeline.default?.run || pipeline.default;
+
+  // L3Pipeline 类导出 → 实例化后调用 run()
+  if (!runFn && typeof pipeline.L3Pipeline === 'function') {
+    const inst = new pipeline.L3Pipeline();
+    runFn = () => inst.run();
+  }
+
   if (typeof runFn !== 'function') {
     console.error(JSON.stringify({
       status: 'ERROR',
       reason: 'no_run_method',
-      message: 'L3 pipeline module does not export a callable run/execute function',
+      message: 'L3 pipeline module does not export a callable run/execute/runOnce/L3Pipeline function',
       exports: Object.keys(pipeline),
       timestamp: new Date().toISOString(),
     }));
