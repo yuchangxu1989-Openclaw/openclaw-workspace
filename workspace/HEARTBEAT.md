@@ -2,6 +2,14 @@
 
 ## 每次Heartbeat检查项
 
+### 0. API Key余额探针（必须第一个执行）
+```bash
+bash /root/.openclaw/workspace/scripts/api-key-probe.sh
+```
+- 结果为 `OK` → 继续
+- 结果为 `ALERT` → 已自动推飞书通知用户，记录到memory
+- 结果为 `ERROR` → 记录异常，继续其他检查
+
 ### 1. EvoMap同步清单状态检查
 - [ ] 检查清单文件是否存在: `/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json`
 - [ ] 确认 allowed_skills 列表是否需要更新
