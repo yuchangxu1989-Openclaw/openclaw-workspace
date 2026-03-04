@@ -1,7 +1,7 @@
 ---
 name: parallel-subagent
 description: 并行子代理执行器 v3.0 - 企业级并发控制与容错
-version: "3.0.6"
+version: "3.0.7"
 status: active
 ---
 
