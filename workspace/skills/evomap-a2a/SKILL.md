@@ -9,6 +9,9 @@ tags: [evomap, a2a, websocket, network]
 
 # EvoMap A2A 连接器
 
+distribution: both
+
+
 ## 功能
 
 - WebSocket连接EvoMap Hub

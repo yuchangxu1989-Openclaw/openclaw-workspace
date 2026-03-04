@@ -9,6 +9,9 @@ tags: [aeo, quality, evaluation, dual-track]
 
 # AEO Phase 2 - 智能体效果运营系统（双轨运营版）
 
+distribution: both
+
+
 ## 简介
 
 AEO Phase 2 是双轨运营实战系统，实现AI效果轨道和功能质量轨道的自动选择与实际运行。

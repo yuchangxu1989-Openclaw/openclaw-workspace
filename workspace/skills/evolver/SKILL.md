@@ -6,6 +6,9 @@ tags: [meta, ai, self-improvement, core]
 
 # 🧬 Capability Evolver
 
+distribution: internal
+
+
 **"Evolution is not optional. Adapt or die."**
 
 The **Capability Evolver** is a meta-skill that allows OpenClaw agents to inspect their own runtime history, identify failures or inefficiencies, and autonomously write new code or update their own memory to improve performance.

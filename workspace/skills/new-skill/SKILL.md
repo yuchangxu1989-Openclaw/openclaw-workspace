@@ -1,5 +1,8 @@
 # New Skill
 
+distribution: internal
+
+
 ## Name
 
 new-skill

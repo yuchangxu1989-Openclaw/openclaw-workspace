@@ -1,5 +1,8 @@
 # 凌霄阁-7人裁决神殿 ⚡🏛️
 
+distribution: internal
+
+
 > 七位神官，三轮battle，一个裁决。用户是最终裁决者。
 
 ---

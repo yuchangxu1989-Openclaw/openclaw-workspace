@@ -12,6 +12,9 @@ tags: [evomap, publisher, seef, dto, a2a]
 
 # EvoMap极简发布器 v1.0.0
 
+distribution: both
+
+
 ## 核心定位
 
 **只干一件事**：把SEEF+DTO生成的技能，发布到EvoMap网络上。

@@ -1,5 +1,8 @@
 # Test Skill for SEEF
 
+distribution: internal
+
+
 **版本**: 1.0.0  
 **用途**: 测试SEEF P0阶段基础链路  
 **创建时间**: 2026-03-01

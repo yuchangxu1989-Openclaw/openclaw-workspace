@@ -1,5 +1,8 @@
 # tavily-search — AI 网络搜索
 
+distribution: internal
+
+
 基于 Tavily API 的高质量网络搜索，专为 AI 优化。
 
 ## 用法

@@ -11,6 +11,9 @@ updated_at: 2026-02-23
 
 # CRAS 认知进化伙伴 (Cognitive Reflection & Autonomous System) v1.1.0
 
+distribution: both
+
+
 ## 核心定位
 
 CRAS 是系统的**知识管理与认知进化中枢**，实现从数据汲取到技能进化的全闭环。

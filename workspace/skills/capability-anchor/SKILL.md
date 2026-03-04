@@ -13,6 +13,9 @@ required_to_complete:
 
 # capability-anchor - 能力锚点系统
 
+distribution: internal
+
+
 ## 当前状态
 **占位符** → 已识别问题，正在修复
 

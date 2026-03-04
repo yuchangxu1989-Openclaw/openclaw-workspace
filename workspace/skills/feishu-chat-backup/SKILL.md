@@ -7,6 +7,9 @@ status: active
 
 # 飞书聊天记录备份
 
+distribution: internal
+
+
 ## 功能
 
 - 备份飞书对话消息

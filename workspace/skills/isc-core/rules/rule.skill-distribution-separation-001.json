@@ -1,0 +1,135 @@
+{
+  "id": "isc-skill-distribution-separation-001",
+  "name": "技能内部/外销分发分离",
+  "type": "decision",
+  "version": "1.0.0",
+  "description": "技能发布到EvoMap前强制检查distribution标记、权限声明、密钥泄露和沙箱兼容性，阻断不合规发布",
+  "createdAt": "2026-03-05T02:30:00+08:00",
+  "priority": "P0",
+  "enabled": true,
+  "enforcement_tier": "P0_gate",
+  "trigger": {
+    "events": [
+      "skill.publish_requested",
+      "skill.evomap.upload",
+      "skill.evomap.sync"
+    ],
+    "precondition": "技能发布或同步到EvoMap前必须通过分发分离检查",
+    "actions": [
+      {
+        "type": "gate_check",
+        "description": "发布前执行distribution标记、权限声明、密钥泄露、沙箱兼容检查"
+      },
+      {
+        "type": "block_on_fail",
+        "description": "任一检查项失败则阻断发布"
+      }
+    ]
+  },
+  "conditions": {
+    "all": [
+      {
+        "id": "CHK-001",
+        "fact": "skill.distribution",
+        "operator": "in",
+        "value": ["internal", "external", "both"],
+        "failMessage": "技能缺少distribution字段声明，必须为internal/external/both之一"
+      },
+      {
+        "id": "CHK-002",
+        "fact": "skill.distribution",
+        "operator": "in",
+        "value": ["external", "both"],
+        "then": {
+          "all": [
+            {
+              "id": "CHK-002a",
+              "fact": "skill.permissions.filesystem",
+              "operator": "exists",
+              "failMessage": "外销技能必须声明permissions.filesystem权限等级"
+            },
+            {
+              "id": "CHK-002b",
+              "fact": "skill.permissions.network",
+              "operator": "exists",
+              "failMessage": "外销技能必须声明permissions.network权限等级"
+            },
+            {
+              "id": "CHK-002c",
+              "fact": "skill.permissions.shell",
+              "operator": "exists",
+              "failMessage": "外销技能必须声明permissions.shell权限等级"
+            },
+            {
+              "id": "CHK-002d",
+              "fact": "skill.permissions.credential",
+              "operator": "equal",
+              "value": 0,
+              "failMessage": "外销技能的credential权限必须为0（禁止使用宿主凭证）"
+            }
+          ]
+        }
+      },
+      {
+        "id": "CHK-003",
+        "fact": "skill.code.secrets_references",
+        "operator": "equal",
+        "value": 0,
+        "failMessage": "外销技能代码中检测到.secrets/引用，必须移除"
+      },
+      {
+        "id": "CHK-004",
+        "fact": "skill.code.internal_paths",
+        "operator": "equal",
+        "value": 0,
+        "failMessage": "外销技能代码中检测到内部绝对路径引用，必须移除或替换为相对路径"
+      },
+      {
+        "id": "CHK-005",
+        "fact": "skill.code.sensitive_env_vars",
+        "operator": "equal",
+        "value": 0,
+        "failMessage": "外销技能代码中检测到敏感环境变量引用，必须移除"
+      },
+      {
+        "id": "CHK-006",
+        "fact": "skill.sandbox_compatible",
+        "operator": "equal",
+        "value": true,
+        "failMessage": "外销技能必须兼容沙箱运行环境"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "block",
+      "description": "检查未通过，阻断发布到EvoMap",
+      "if": "any_check_failed"
+    },
+    {
+      "type": "log",
+      "description": "记录分发分离检查结果到ISC日志",
+      "target": "isc-audit-log"
+    },
+    {
+      "type": "report",
+      "description": "生成合规检查报告",
+      "format": "json"
+    }
+  ],
+  "references": {
+    "permission_classification": "skill-permission-classification-031",
+    "security_gate": "skill-security-gate-030",
+    "evomap_security_scan": "evomap-mandatory-security-scan-032"
+  },
+  "exemptions": {
+    "description": "豁免机制",
+    "rules": [
+      "distribution: internal 的技能不触发此规则",
+      "紧急修复可由P0审批者临时豁免，最长24小时"
+    ]
+  },
+  "managedBy": "isc-core",
+  "updatePolicy": "manual",
+  "tags": ["security", "distribution", "evomap", "P0"]
+}

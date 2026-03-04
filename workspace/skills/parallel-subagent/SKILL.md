@@ -7,6 +7,9 @@ status: active
 
 # parallel-subagent - 并行子代理系统
 
+distribution: both
+
+
 企业级并行子代理执行框架，提供信号量并发控制、连接池复用、熔断保护、重试机制和优先级队列。
 
 ## 核心特性

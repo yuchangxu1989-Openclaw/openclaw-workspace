@@ -8,6 +8,9 @@ tags: [file, delivery, interaction, utility]
 
 # file-sender - 文件发送技能
 
+distribution: internal
+
+
 ## 功能
 
 自动检测通道文件传输能力，选择最优方式发送文件给用户：

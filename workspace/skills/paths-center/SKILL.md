@@ -14,6 +14,9 @@ required_to_complete:
 
 # paths-center - 路径中心
 
+distribution: internal
+
+
 ## 当前状态
 **占位符** - 概念驱动，需求不清
 

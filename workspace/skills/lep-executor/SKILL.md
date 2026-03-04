@@ -8,6 +8,9 @@ priority: critical
 
 # LEP 韧性执行中心
 
+distribution: both
+
+
 ## 定位
 - **层级**: 基础设施 (infrastructure)
 - **用途**: 被CRAS、DTO、ISC、并行子代理等所有业务系统调用

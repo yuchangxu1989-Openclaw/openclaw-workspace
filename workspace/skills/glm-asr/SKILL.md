@@ -8,6 +8,9 @@ tags: [asr, speech, audio, zhipu]
 
 # GLM-ASR 语音转文本
 
+distribution: internal
+
+
 ## 功能
 
 - 语音转文本（支持 mp3, wav, m4a, ogg, webm）

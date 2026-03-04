@@ -5,6 +5,9 @@ description: Feishu-integrated wrapper for the capability-evolver. Manages the e
 
 # Feishu Evolver Wrapper
 
+distribution: internal
+
+
 A lightweight wrapper for the `capability-evolver` skill.
 It injects the Feishu reporting environment variables (`EVOLVE_REPORT_TOOL`) to enable rich card reporting in the Master's environment.
 

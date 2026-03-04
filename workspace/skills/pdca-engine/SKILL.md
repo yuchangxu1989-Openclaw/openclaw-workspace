@@ -7,6 +7,9 @@ status: active
 
 # PDCA-C执行引擎
 
+distribution: internal
+
+
 每5分钟执行一轮PDCA，有实际产出，不是空转。
 
 ## 执行内容

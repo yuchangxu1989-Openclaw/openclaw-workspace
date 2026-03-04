@@ -1,5 +1,8 @@
 # zhipu-image-gen — 智谱文生图
 
+distribution: internal
+
+
 基于 CogView-3-Plus 的文生图能力。
 
 ## 用法

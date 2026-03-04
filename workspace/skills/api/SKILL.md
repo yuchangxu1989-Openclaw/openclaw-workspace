@@ -1,5 +1,8 @@
 # Api
 
+distribution: internal
+
+
 ## Name
 
 api

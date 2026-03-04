@@ -1,5 +1,8 @@
 # Verify Test Skill
 
+distribution: internal
+
+
 ## Name
 
 verify-test-skill

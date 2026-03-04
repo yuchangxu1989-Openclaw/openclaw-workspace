@@ -1,5 +1,8 @@
 # zhipu-vision — 智谱图像理解
 
+distribution: internal
+
+
 基于 GLM-4V-Plus 的图像理解能力。
 
 ## 用法

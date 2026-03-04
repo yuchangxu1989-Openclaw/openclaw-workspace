@@ -8,6 +8,9 @@ tags: [isc, capability, anchor, sync, automation]
 
 # ISC能力锚点同步器
 
+distribution: internal
+
+
 ## 功能
 
 - 从ISC规则自动读取能力定义

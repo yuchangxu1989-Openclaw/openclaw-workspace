@@ -1,0 +1,39 @@
+{
+  "summary": {
+    "totalRequests": 0,
+    "shadowRequests": 0,
+    "bypassSuccess": 0,
+    "bypassFailed": 0,
+    "bypassSuccessRate": 0,
+    "intentConsistency": 0,
+    "modelSelectionConsistency": 0,
+    "timeouts": 0,
+    "circuitOpen": false,
+    "lastUpdated": "2026-03-04T18:37:03.906Z"
+  },
+  "reports": [
+    {
+      "requestId": "test_123",
+      "timestamp": "2026-03-04T18:30:03.711Z",
+      "input": "测试输入",
+      "mvpResult": {
+        "intent": "reasoning",
+        "modelChain": [
+          "a"
+        ],
+        "duration": 100
+      },
+      "fullResult": {
+        "intent": "reasoning",
+        "modelChain": [
+          "a"
+        ],
+        "duration": 110
+      },
+      "match": true,
+      "diff": [],
+      "severity": "low"
+    }
+  ],
+  "lastUpdated": "2026-03-04T18:37:03.906Z"
+}

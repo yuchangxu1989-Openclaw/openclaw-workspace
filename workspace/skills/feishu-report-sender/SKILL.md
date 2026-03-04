@@ -8,6 +8,9 @@ tags: [feishu, report, sender]
 
 # 飞书报告发送器
 
+distribution: internal
+
+
 ## 功能
 
 - 读取CRAS-B用户洞察报告队列

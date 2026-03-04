@@ -10,6 +10,9 @@ created_at: 2026-02-26
 
 # convert-helper
 
+distribution: internal
+
+
 基于知识库分析自动生成的技能。
 
 ## 功能

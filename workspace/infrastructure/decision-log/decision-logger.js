@@ -41,6 +41,9 @@ function validate(entry) {
   if (entry.alternatives && !Array.isArray(entry.alternatives)) {
     errors.push('alternatives must be an array');
   }
+  if (entry.alternatives_considered && !Array.isArray(entry.alternatives_considered)) {
+    errors.push('alternatives_considered must be an array');
+  }
   return errors;
 }
 
@@ -59,13 +62,16 @@ function log(entry) {
 
   const record = {
     id: entry.id || generateId(),
+    event_id: entry.event_id || null,
     timestamp: entry.timestamp || new Date().toISOString(),
     phase: entry.phase || 'execution',
     component: entry.component || 'unknown',
+    decision: entry.decision || entry.what || '',
     what: entry.what || '',
     why: entry.why || '',
     confidence: entry.confidence !== undefined ? entry.confidence : null,
     alternatives: entry.alternatives || [],
+    alternatives_considered: entry.alternatives_considered || [],
     input_summary: entry.input_summary || '',
     output_summary: entry.output_summary || '',
     decision_method: entry.decision_method || 'manual',
@@ -93,14 +99,15 @@ function log(entry) {
 }
 
 /**
- * query({since, phase, component, limit}) - Query decisions
- * All filters optional. `since` is ISO8601 string or Date. Returns newest-first.
+ * query({since, until, phase, component, event_id, limit}) - Query decisions
+ * All filters optional. `since`/`until` are ISO8601 string or Date. Returns newest-first.
  */
 function query(opts = {}) {
   if (!fs.existsSync(LOG_FILE)) return [];
 
-  const { since, phase, component, limit } = opts;
+  const { since, until, phase, component, event_id, limit } = opts;
   const sinceTime = since ? new Date(since).getTime() : 0;
+  const untilTime = until ? new Date(until).getTime() : Infinity;
 
   const content = fs.readFileSync(LOG_FILE, 'utf8').trim();
   if (!content) return [];
@@ -118,9 +125,12 @@ function query(opts = {}) {
     }
 
     // Apply filters
-    if (sinceTime && new Date(record.timestamp).getTime() < sinceTime) continue;
+    const recordTime = new Date(record.timestamp).getTime();
+    if (sinceTime && recordTime < sinceTime) continue;
+    if (untilTime !== Infinity && recordTime > untilTime) continue;
     if (phase && record.phase !== phase) continue;
     if (component && record.component !== component) continue;
+    if (event_id && record.event_id !== event_id) continue;
 
     results.push(record);
   }
@@ -130,6 +140,50 @@ function query(opts = {}) {
 
   if (limit && limit > 0) return results.slice(0, limit);
   return results;
+}
+
+/**
+ * queryChain(event_id) - Get the complete decision chain for an event
+ * Returns all decisions linked to an event_id, ordered chronologically (oldest first).
+ * Each entry shows the reasoning chain: sensing → cognition → execution.
+ */
+function queryChain(eventId) {
+  if (!eventId || !fs.existsSync(LOG_FILE)) return { event_id: eventId, chain: [], summary: '' };
+
+  const content = fs.readFileSync(LOG_FILE, 'utf8').trim();
+  if (!content) return { event_id: eventId, chain: [], summary: '' };
+
+  const lines = content.split('\n');
+  const chain = [];
+
+  for (const line of lines) {
+    if (!line.trim()) continue;
+    try {
+      const record = JSON.parse(line);
+      if (record.event_id === eventId) {
+        chain.push(record);
+      }
+    } catch (_) { continue; }
+  }
+
+  // Chronological order for chain reasoning
+  chain.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
+  // Build human-readable summary
+  const summaryParts = chain.map((r, i) => {
+    const step = `[${r.phase}/${r.component}] ${r.decision || r.what}`;
+    const reason = r.why ? ` — ${r.why}` : '';
+    const alts = (r.alternatives_considered && r.alternatives_considered.length > 0)
+      ? ` (排除: ${r.alternatives_considered.map(a => typeof a === 'object' ? `${a.id||a.name}(${a.score||'?'})` : a).join(', ')})`
+      : '';
+    return `${i + 1}. ${step}${reason}${alts}`;
+  });
+
+  return {
+    event_id: eventId,
+    chain,
+    summary: summaryParts.join('\n'),
+  };
 }
 
 /**
@@ -282,4 +336,4 @@ function rotate() {
   }
 }
 
-module.exports = { log, query, summarize, rotate, LOG_FILE, VALID_PHASES, VALID_METHODS };
+module.exports = { log, query, queryChain, summarize, rotate, LOG_FILE, VALID_PHASES, VALID_METHODS };

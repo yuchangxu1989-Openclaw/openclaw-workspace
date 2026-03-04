@@ -122,6 +122,20 @@ class IntentScanner extends EventEmitter {
 
     // No API key → skip LLM entirely, degrade to regex
     if (!this._zhipuKey) {
+      // Log degradation decision
+      try {
+        decisionLog({
+          phase: 'sensing',
+          component: 'IntentScanner',
+          decision: '降级到regex路径',
+          what: 'LLM→regex降级',
+          why: '无ZHIPU_API_KEY配置(检查了env和secrets文件),LLM不可用,降级到regex关键词匹配',
+          confidence: 0.3,
+          alternatives_considered: [{ id: 'LLM路径', reason: 'API key缺失,无法调用' }],
+          decision_method: 'regex',
+        });
+      } catch (_) {}
+
       this.emit('system.capability.degraded', {
         component: 'IntentScanner',
         method: 'llm',
@@ -145,6 +159,20 @@ class IntentScanner extends EventEmitter {
       return result;
     } catch (err) {
       // LLM failed → regex fallback
+      // Log degradation decision
+      try {
+        decisionLog({
+          phase: 'sensing',
+          component: 'IntentScanner',
+          decision: '降级到regex路径(LLM调用失败)',
+          what: 'LLM→regex降级',
+          why: `LLM调用失败: ${err.message},降级到regex关键词匹配`,
+          confidence: 0.3,
+          alternatives_considered: [{ id: 'LLM路径', reason: `调用异常: ${err.message}` }],
+          decision_method: 'regex',
+        });
+      } catch (_) {}
+
       this.emit('system.capability.degraded', {
         component: 'IntentScanner',
         method: 'llm',
@@ -189,14 +217,26 @@ class IntentScanner extends EventEmitter {
     const response = await this._callZhipu(systemPrompt, userContent);
     const parsed = this._parseLLMResponse(response);
 
-    const decision_logs = parsed.map(intent => ({
-      what: intent.intent_id,
-      why: intent.evidence,
-      confidence: intent.confidence,
-      alternatives: intent.alternatives || [],
-      method: 'llm',
-      timestamp: new Date().toISOString()
-    }));
+    const decision_logs = parsed.map(intent => {
+      // Build why with alternatives comparison
+      const altList = (intent.alternatives || []).map(a => typeof a === 'string' ? a : a).join(', ');
+      const whyParts = [`LLM confidence ${intent.confidence}`];
+      if (altList) whyParts.push(`排除: ${altList}`);
+      if (intent.evidence) whyParts.push(`证据: ${intent.evidence}`);
+
+      return {
+        what: intent.intent_id,
+        decision: `选择意图 ${intent.intent_id}`,
+        why: whyParts.join('; '),
+        confidence: intent.confidence,
+        alternatives: intent.alternatives || [],
+        alternatives_considered: (intent.alternatives || []).map(a => ({
+          id: a, reason: 'LLM排序较低'
+        })),
+        method: 'llm',
+        timestamp: new Date().toISOString()
+      };
+    });
 
     return {
       intents: parsed,
@@ -344,9 +384,13 @@ ${intentDefs}
           });
           decision_logs.push({
             what: catId,
-            why: `Regex fallback matched ${uniqueMatches.length} keyword(s): ${uniqueMatches.slice(0, 5).join(', ')}`,
+            decision: `选择意图 ${catId} (regex降级)`,
+            why: `LLM不可用,regex降级匹配 ${uniqueMatches.length} 个关键词: ${uniqueMatches.slice(0, 5).join(', ')}; confidence=${confidence} (基础0.3 + ${uniqueMatches.length}*0.1, 上限0.6)`,
             confidence,
             alternatives: [],
+            alternatives_considered: categoryIds.filter(c => c !== catId).map(c => ({
+              id: c, reason: FALLBACK_REGEX[c] ? '未匹配到关键词' : 'regex不适用此分类'
+            })),
             method: 'regex_fallback',
             timestamp: new Date().toISOString()
           });
@@ -355,9 +399,11 @@ ${intentDefs}
         // IC3-IC5: unresolved in regex mode — don't guess
         decision_logs.push({
           what: catId,
-          why: 'LLM unavailable, regex not applicable for this category',
+          decision: `跳过意图 ${catId} (无法评估)`,
+          why: `LLM不可用,regex不适用分类${catId},无法进行意图识别`,
           confidence: 0,
           alternatives: [],
+          alternatives_considered: [],
           method: 'regex_fallback',
           status: 'unresolved',
           timestamp: new Date().toISOString()
@@ -527,10 +573,12 @@ ${intentDefs}
         decisionLog({
           phase: 'sensing',
           component: 'IntentScanner',
+          decision: log.decision || `意图识别: ${log.what || 'unknown'}`,
           what: log.what || 'intent scan result',
           why: log.why || '',
           confidence: typeof log.confidence === 'number' ? log.confidence : null,
           alternatives: log.alternatives || [],
+          alternatives_considered: log.alternatives_considered || [],
           decision_method: log.method === 'llm' ? 'llm' : 'regex',
           input_summary: `method=${log.method}`,
         });

@@ -9,6 +9,9 @@ author: OpenClaw
 
 # Skill Health Dashboard
 
+distribution: internal
+
+
 技能健康度评估仪表盘，自动化扫描所有技能并生成健康报告。
 
 ## 功能

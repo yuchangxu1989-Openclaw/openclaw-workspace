@@ -7,6 +7,9 @@ status: active
 
 # cras-generated-1772042431830
 
+distribution: internal
+
+
 由 CRAS 自主进化模块自动生成。
 
 ## 功能

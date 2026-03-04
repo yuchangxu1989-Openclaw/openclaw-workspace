@@ -1,5 +1,8 @@
 # New Skill V2
 
+distribution: internal
+
+
 ## Name
 
 new-skill-v2
