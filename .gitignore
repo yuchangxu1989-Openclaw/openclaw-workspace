@@ -35,6 +35,24 @@ workspace/memory/pdca-execution-log.jsonl
 workspace/cras_insight_dashboard.json
 workspace/infrastructure/event-bus/cursor.json
 
+# ===== 运行时数据目录（根治空转bump）=====
+workspace/memory/
+workspace/reports/
+workspace/cras/reports/
+workspace/cras/knowledge/
+workspace/cras/config/user-profile.json
+workspace/reports/**/*.json
+workspace/reports/**/*.txt
+
+# ===== SEEF运行时产物 =====
+workspace/reports/seef*/
+workspace/reports/seef-discoveries/
+workspace/reports/seef-evaluations/
+workspace/reports/seef-evolution-history/
+workspace/reports/seef-optimization-plans/
+workspace/reports/seef-validations/
+workspace/reports/seef/
+
 # ===== 临时文件 =====
 .DS_Store
 *.swp
