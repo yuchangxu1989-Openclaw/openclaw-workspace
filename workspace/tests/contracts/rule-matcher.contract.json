@@ -1,0 +1,131 @@
+{
+  "module": "rule-matcher",
+  "source": "infrastructure/rule-engine/isc-rule-matcher.js",
+  "description": "ISCRuleMatcher - Four-level priority rule matching engine",
+  "interfaces": [
+    {
+      "method": "match",
+      "params": [
+        {
+          "name": "event",
+          "type": "object",
+          "required": true,
+          "properties": {
+            "type": { "type": "string", "required": true },
+            "payload": { "type": "object" },
+            "timestamp": { "type": "number" },
+            "source": { "type": "string" },
+            "layer": { "type": "string" }
+          }
+        }
+      ],
+      "returns": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["rule", "priority", "match_type", "pattern"],
+          "properties": {
+            "rule": { "type": "object", "description": "The full ISC rule object" },
+            "priority": { "type": "number" },
+            "match_type": { "type": "string", "enum": ["exact", "prefix", "suffix", "wildcard"] },
+            "pattern": { "type": "string" }
+          }
+        }
+      }
+    },
+    {
+      "method": "evaluate",
+      "params": [
+        { "name": "rule", "type": "object", "required": true },
+        { "name": "event", "type": "object", "required": true }
+      ],
+      "returns": {
+        "type": "object",
+        "required": ["shouldFire", "reason"],
+        "properties": {
+          "shouldFire": { "type": "boolean" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    {
+      "method": "process",
+      "params": [
+        { "name": "event", "type": "object", "required": true }
+      ],
+      "returns": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["rule", "priority", "match_type", "pattern", "evaluation"],
+          "properties": {
+            "rule": { "type": "object" },
+            "priority": { "type": "number" },
+            "match_type": { "type": "string" },
+            "pattern": { "type": "string" },
+            "evaluation": {
+              "type": "object",
+              "properties": {
+                "shouldFire": { "type": "boolean" },
+                "reason": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "loadRules",
+      "params": [],
+      "returns": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "number" },
+          "indexed": { "type": "number" },
+          "errors": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    {
+      "method": "reload",
+      "params": [],
+      "returns": { "type": "object", "sameAs": "loadRules" }
+    },
+    {
+      "method": "stats",
+      "params": [],
+      "returns": {
+        "type": "object",
+        "properties": {
+          "totalRules": { "type": "number" },
+          "exactPatterns": { "type": "number" },
+          "prefixPatterns": { "type": "number" },
+          "suffixPatterns": { "type": "number" },
+          "wildcardRules": { "type": "number" },
+          "decisionLogSize": { "type": "number" },
+          "hotReload": { "type": "boolean" },
+          "rulesDir": { "type": "string" }
+        }
+      }
+    },
+    {
+      "method": "getDecisionLog",
+      "params": [
+        { "name": "limit", "type": "number", "required": false, "default": 50 }
+      ],
+      "returns": { "type": "array" }
+    },
+    {
+      "method": "explain",
+      "params": [
+        { "name": "eventType", "type": "string", "required": true }
+      ],
+      "returns": { "type": "array" }
+    },
+    {
+      "method": "destroy",
+      "params": [],
+      "returns": { "type": "void" }
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "module": "event-bus",
+  "source": "infrastructure/event-bus/bus-adapter.js",
+  "description": "EventBus adapter - unified event bus API with storm suppression and file-lock protection",
+  "interfaces": [
+    {
+      "method": "emit",
+      "params": [
+        { "name": "type", "type": "string", "required": true, "description": "Event type, e.g. 'skill.created'" },
+        { "name": "payload", "type": "object", "required": false, "default": "{}" },
+        { "name": "source", "type": "string", "required": false, "default": "unknown" },
+        { "name": "metadata", "type": "object", "required": false, "default": "{}", "description": "chain_depth, trace_id, etc." }
+      ],
+      "returns": {
+        "type": "object|null",
+        "properties": {
+          "id": { "type": "string|null", "format": "evt_{timestamp36}_{random6}" },
+          "suppressed": { "type": "boolean" }
+        }
+      },
+      "throws": "Error when type is empty or non-string"
+    },
+    {
+      "method": "consume",
+      "params": [
+        {
+          "name": "options",
+          "type": "object",
+          "required": false,
+          "properties": {
+            "type_filter": { "type": "string", "description": "Wildcard pattern, e.g. 'skill.*'" },
+            "since": { "type": "number", "description": "Timestamp in ms" },
+            "layer": { "type": "string" },
+            "limit": { "type": "number" },
+            "consumerId": { "type": "string", "default": "l3-pipeline" }
+          }
+        }
+      ],
+      "returns": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["id", "type", "source", "timestamp", "payload"],
+          "properties": {
+            "id": { "type": "string" },
+            "type": { "type": "string" },
+            "source": { "type": "string" },
+            "timestamp": { "type": "number" },
+            "payload": { "type": "object" },
+            "metadata": { "type": "object" }
+          }
+        }
+      }
+    },
+    {
+      "method": "healthCheck",
+      "params": [],
+      "returns": {
+        "type": "object",
+        "properties": {
+          "ok": { "type": "boolean" },
+          "total": { "type": "number" },
+          "corrupted": { "type": "number" },
+          "file_exists": { "type": "boolean" },
+          "file_size": { "type": "number" }
+        }
+      }
+    },
+    {
+      "method": "stats",
+      "params": [],
+      "returns": {
+        "type": "object",
+        "properties": {
+          "total_events": { "type": "number" },
+          "file_size": { "type": "number" },
+          "dedupe_cache_size": { "type": "number" },
+          "consumers": { "type": "number" },
+          "adapter": { "type": "boolean" }
+        }
+      }
+    }
+  ]
+}

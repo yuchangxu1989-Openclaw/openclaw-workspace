@@ -1,0 +1,61 @@
+{
+  "module": "feature-flags",
+  "source": "infrastructure/config/feature-flags.js",
+  "description": "Feature Flag unified configuration: env > file > defaults, with runtime reload",
+  "interfaces": [
+    {
+      "method": "get",
+      "params": [
+        { "name": "flagName", "type": "string", "required": true }
+      ],
+      "returns": { "type": "any", "description": "Flag value (boolean, number, string), undefined if not defined" }
+    },
+    {
+      "method": "getAll",
+      "params": [],
+      "returns": { "type": "object", "description": "Shallow copy of all resolved flags" }
+    },
+    {
+      "method": "isEnabled",
+      "params": [
+        { "name": "flagName", "type": "string", "required": true }
+      ],
+      "returns": { "type": "boolean" }
+    },
+    {
+      "method": "reload",
+      "params": [],
+      "returns": {
+        "type": "object",
+        "properties": {
+          "loaded": { "type": "number", "description": "Timestamp of reload" },
+          "resolved": { "type": "object", "description": "All resolved flags after reload" }
+        }
+      }
+    },
+    {
+      "method": "getDefaults",
+      "params": [],
+      "returns": { "type": "object", "description": "Read-only copy of default values" }
+    },
+    {
+      "method": "getLastLoadTime",
+      "params": [],
+      "returns": { "type": "number" }
+    },
+    {
+      "method": "getConfigPath",
+      "params": [],
+      "returns": { "type": "string" }
+    }
+  ],
+  "known_flags": {
+    "L3_PIPELINE_ENABLED": { "type": "boolean", "default": false },
+    "L3_EVENTBUS_ENABLED": { "type": "boolean", "default": true },
+    "L3_RULEMATCHER_ENABLED": { "type": "boolean", "default": true },
+    "L3_INTENTSCANNER_ENABLED": { "type": "boolean", "default": true },
+    "L3_DISPATCHER_ENABLED": { "type": "boolean", "default": true },
+    "L3_DECISIONLOG_ENABLED": { "type": "boolean", "default": true },
+    "L3_CIRCUIT_BREAKER_DEPTH": { "type": "number", "default": 5 }
+  }
+}

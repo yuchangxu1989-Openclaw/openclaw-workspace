@@ -22,6 +22,10 @@ const { EventEmitter } = require('events');
 const EventBus = require('../event-bus/bus-adapter');
 const { log: decisionLog } = require('../decision-log/decision-logger');
 
+// ─── Observability: Metrics ───
+let _metrics = null;
+try { _metrics = require('../observability/metrics'); } catch (_) {}
+
 // ============================================================================
 // Constants
 // ============================================================================
@@ -110,6 +114,10 @@ class IntentScanner extends EventEmitter {
       return { intents: [], decision_logs: [], skipped: true, reason: 'empty_input' };
     }
 
+    // ─── Metrics: track intent request ───
+    if (_metrics) _metrics.inc('intent_requests_total');
+    const timer = _metrics ? _metrics.startTimer('intent') : null;
+
     const registry = this._loadRegistry();
 
     // No API key → skip LLM entirely, degrade to regex
@@ -124,6 +132,7 @@ class IntentScanner extends EventEmitter {
       const fallbackResult = this._scanWithRegex(conversationSlice, registry);
       this._persistLogs(fallbackResult.decision_logs);
       this._emitIntentEvents(fallbackResult.intents);
+      this._trackIntentMetrics(fallbackResult.intents, timer);
       return fallbackResult;
     }
 
@@ -132,6 +141,7 @@ class IntentScanner extends EventEmitter {
       const result = await this._scanWithLLM(conversationSlice, registry);
       this._persistLogs(result.decision_logs);
       this._emitIntentEvents(result.intents);
+      this._trackIntentMetrics(result.intents, timer);
       return result;
     } catch (err) {
       // LLM failed → regex fallback
@@ -146,7 +156,25 @@ class IntentScanner extends EventEmitter {
       const fallbackResult = this._scanWithRegex(conversationSlice, registry);
       this._persistLogs(fallbackResult.decision_logs);
       this._emitIntentEvents(fallbackResult.intents);
+      this._trackIntentMetrics(fallbackResult.intents, timer);
       return fallbackResult;
+    }
+  }
+
+  /**
+   * Track intent metrics after scan completion.
+   * @private
+   */
+  _trackIntentMetrics(intents, timer) {
+    if (!_metrics) return;
+    if (timer) timer.stop();
+    if (!intents || intents.length === 0) {
+      _metrics.inc('intent_no_match_total');
+    } else {
+      for (const intent of intents) {
+        const category = intent.category || intent.intent_id || 'unknown';
+        _metrics.incCategory('intent_hits_by_category', category);
+      }
     }
   }
 

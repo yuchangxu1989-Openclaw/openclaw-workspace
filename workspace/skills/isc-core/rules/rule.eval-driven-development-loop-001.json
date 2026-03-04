@@ -1,0 +1,93 @@
+{
+  "id": "rule.eval-driven-development-loop-001",
+  "name": "eval_driven_development_loop",
+  "domain": "process",
+  "type": "rule",
+  "scope": "isc",
+  "priority": "critical",
+  "enforcement_tier": "P0_gate",
+  "description": "评测驱动开发闭环：任何功能开发/系统建设必须遵循完整的场景化评测闭环流程，不允许跳步。",
+  "rationale": "Day 1/2暴露的系统性问题：先开发后补测、评测集手造不真实、测完不分析不优化。评测不是开发的附属品，是驱动开发的引擎。",
+  "rule": {
+    "loop_phases": [
+      {
+        "phase": 1,
+        "name": "场景化数据采集",
+        "description": "从真实会话、网络调研、竞品分析中采集场景数据，不允许纯手造",
+        "sources": ["real_conversations", "web_research", "competitor_analysis", "production_logs"],
+        "output": "raw_scenario_data"
+      },
+      {
+        "phase": 2,
+        "name": "评测标准设计",
+        "description": "定义评测维度、通过标准、复杂度分级",
+        "dimensions": ["accuracy", "latency", "coverage", "complexity_handling", "edge_cases"],
+        "output": "eval_criteria"
+      },
+      {
+        "phase": 3,
+        "name": "评测集构建",
+        "description": "基于采集数据构建结构化评测集，标注复杂度维度(轮次/意图/上下文/中断/领域交叉)",
+        "requirements": ["source_traceability", "complexity_tags", "difficulty_distribution", "minimum_coverage"],
+        "output": "eval_dataset"
+      },
+      {
+        "phase": 4,
+        "name": "评测执行与报告",
+        "description": "运行评测集，生成量化报告",
+        "output": "eval_report"
+      },
+      {
+        "phase": 5,
+        "name": "Badcase分析",
+        "description": "逐条分析失败case，分类失败原因",
+        "output": "badcase_analysis"
+      },
+      {
+        "phase": 6,
+        "name": "根因分析",
+        "description": "从badcase中提取系统性根因，不是逐个修bug",
+        "output": "root_cause_report"
+      },
+      {
+        "phase": 7,
+        "name": "差距分析",
+        "description": "当前能力与目标的gap，量化差距",
+        "output": "gap_analysis"
+      },
+      {
+        "phase": 8,
+        "name": "优化评测集与标准",
+        "description": "根据发现更新评测集（补充case、调整标准、新增维度）",
+        "output": "updated_eval_dataset"
+      },
+      {
+        "phase": 9,
+        "name": "优化知识/记忆与工程实现",
+        "description": "修改代码、更新知识库、补充记忆、调整配置",
+        "output": "code_and_knowledge_changes"
+      },
+      {
+        "phase": 10,
+        "name": "优化架构",
+        "description": "如果根因是架构层面的，推动架构变更",
+        "output": "architecture_changes"
+      }
+    ],
+    "loop_constraint": "Phase 10完成后回到Phase 1，持续迭代。每轮迭代必须有量化改进。",
+    "skip_prohibition": "不允许跳过任何phase。如果某phase无产出，必须显式标注'本轮无需变更'及原因。"
+  },
+  "trigger": {
+    "events": ["feature.developed", "module.created", "system.built", "benchmark.completed"],
+    "actions": [
+      {
+        "type": "gate",
+        "description": "检查是否完整执行了10个phase，缺失phase阻止交付"
+      }
+    ]
+  },
+  "version": "001",
+  "created": "2026-03-05",
+  "created_by": "战略家",
+  "source": "长煦指导 - 评测驱动开发闭环准则"
+}

@@ -23,3 +23,15 @@
 {"what":"rule.trigger.self_correction","why":"以后我会自动检查这个，不需要你提醒","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:22:20.618Z"}
 {"what":"rule.trigger.self_correction","why":"这是我的问题，不该跳过验证步骤","confidence":1,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:22:36.010Z"}
 {"what":"rule.trigger.architecture_review","why":"我们把消息队列从Redis换成Kafka","confidence":1,"alternatives":["user.intent.architecture_decision"],"method":"llm","timestamp":"2026-03-04T18:22:53.515Z"}
+{"what":"rule.trigger.architecture_review","why":"这个模块需要重构，拆成微服务","confidence":1,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:23:06.720Z"}
+{"what":"rule.trigger.skill_evolution","why":"这个技能更新完了，可以发布","confidence":1,"alternatives":["rule.trigger.security_gate"],"method":"llm","timestamp":"2026-03-04T18:23:31.769Z"}
+{"what":"rule.trigger.skill_evolution","why":"新建一个技能处理图片压缩","confidence":1,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:23:45.571Z"}
+{"what":"rule.trigger.security_gate","why":"这个技能准备上线了","confidence":1,"alternatives":["rule.trigger.skill_evolution"],"method":"llm","timestamp":"2026-03-04T18:24:11.651Z"}
+{"what":"rule.trigger.security_gate","why":"把技能同步到EvoMap","confidence":1,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:24:23.055Z"}
+{"what":"user.emotion.positive","why":"太棒了，这个方案完美！","confidence":1,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:25:13.461Z"}
+{"what":"user.emotion.positive","why":"不错不错，终于搞定了","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:25:33.772Z"}
+{"what":"user.emotion.positive","why":"厉害，比预期好多了","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:25:57.474Z"}
+{"what":"user.emotion.negative","why":"这做的什么垃圾，完全不能用","confidence":0.98,"alternatives":["user.emotion.frustration"],"method":"llm","timestamp":"2026-03-04T18:26:24.260Z"}
+{"what":"user.emotion.negative","why":"又错了，你到底在不在听","confidence":0.98,"alternatives":["user.emotion.frustration"],"method":"llm","timestamp":"2026-03-04T18:26:45.053Z"}
+{"what":"user.emotion.negative","why":"太差了，重做吧","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:27:00.997Z"}
+{"what":"user.emotion.frustration","why":"搞了三天了还是不行，我快放弃了","confidence":1,"alternatives":["user.emotion.negative"],"method":"llm","timestamp":"2026-03-04T18:27:15.458Z"}

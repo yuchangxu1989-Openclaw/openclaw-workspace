@@ -1,0 +1,196 @@
+{
+  "timestamp": "2026-03-04T18:27:00.246Z",
+  "passed": 47,
+  "failed": 0,
+  "total": 47,
+  "results": [
+    {
+      "label": "CRASBridge.emitKnowledgeLearned is a function",
+      "status": "PASS"
+    },
+    {
+      "label": "emitKnowledgeLearned emits to EventBus",
+      "status": "PASS"
+    },
+    {
+      "label": "CRASBridge.analyzeRequest is a function",
+      "status": "PASS"
+    },
+    {
+      "label": "analyzeRequest returns structured result",
+      "status": "PASS"
+    },
+    {
+      "label": "DTOBridge.emitTaskCompleted is a function",
+      "status": "PASS"
+    },
+    {
+      "label": "emitTaskCompleted emits to EventBus",
+      "status": "PASS"
+    },
+    {
+      "label": "DTOBridge.createTaskFromEvent is a function",
+      "status": "PASS"
+    },
+    {
+      "label": "createTaskFromEvent creates task file",
+      "status": "PASS"
+    },
+    {
+      "label": "ISCBridge.emitRuleChanged is a function",
+      "status": "PASS"
+    },
+    {
+      "label": "emitRuleChanged emits to EventBus",
+      "status": "PASS"
+    },
+    {
+      "label": "emitRuleChanged returns null for empty changes",
+      "status": "PASS"
+    },
+    {
+      "label": "ISCBridge.checkRulesFromEvent is a function",
+      "status": "PASS"
+    },
+    {
+      "label": "checkRulesFromEvent returns rules list",
+      "status": "PASS"
+    },
+    {
+      "label": "AEOBridge.onEvaluationComplete is a function",
+      "status": "PASS"
+    },
+    {
+      "label": "onEvaluationComplete emits to EventBus",
+      "status": "PASS"
+    },
+    {
+      "label": "AEOBridge.onAssessmentComplete still works",
+      "status": "PASS"
+    },
+    {
+      "label": "SEEFBridge.emitSkillPublished is a function",
+      "status": "PASS"
+    },
+    {
+      "label": "emitSkillPublished emits to EventBus",
+      "status": "PASS"
+    },
+    {
+      "label": "CRAS bridge has processAssessments",
+      "status": "PASS"
+    },
+    {
+      "label": "CRAS bridge has emitKnowledgeLearned",
+      "status": "PASS"
+    },
+    {
+      "label": "CRAS bridge has analyzeRequest",
+      "status": "PASS"
+    },
+    {
+      "label": "DTO bridge has processEvents",
+      "status": "PASS"
+    },
+    {
+      "label": "DTO bridge has emitTaskCompleted",
+      "status": "PASS"
+    },
+    {
+      "label": "DTO bridge has createTaskFromEvent",
+      "status": "PASS"
+    },
+    {
+      "label": "ISC bridge has detectChanges",
+      "status": "PASS"
+    },
+    {
+      "label": "ISC bridge has publishChanges",
+      "status": "PASS"
+    },
+    {
+      "label": "ISC bridge has emitRuleChanged",
+      "status": "PASS"
+    },
+    {
+      "label": "ISC bridge has checkRulesFromEvent",
+      "status": "PASS"
+    },
+    {
+      "label": "AEO bridge has onAssessmentComplete",
+      "status": "PASS"
+    },
+    {
+      "label": "AEO bridge has onEvaluationComplete",
+      "status": "PASS"
+    },
+    {
+      "label": "AEO bridge has publishBatchResults",
+      "status": "PASS"
+    },
+    {
+      "label": "SEEF bridge has processEvents",
+      "status": "PASS"
+    },
+    {
+      "label": "SEEF bridge has emitSkillPublished",
+      "status": "PASS"
+    },
+    {
+      "label": "SEEF bridge has routeToSubSkill",
+      "status": "PASS"
+    },
+    {
+      "label": "skill-cras-handler returns valid result",
+      "status": "PASS"
+    },
+    {
+      "label": "skill-cras-handler analyzeRequest path works",
+      "status": "PASS"
+    },
+    {
+      "label": "skill-dto-handler createTask works",
+      "status": "PASS"
+    },
+    {
+      "label": "skill-isc-handler checkRules works",
+      "status": "PASS"
+    },
+    {
+      "label": "skill-isc-handler lists all rules",
+      "status": "PASS"
+    },
+    {
+      "label": "Route exists for cras.knowledge.learned",
+      "status": "PASS"
+    },
+    {
+      "label": "Route exists for dto.task.completed",
+      "status": "PASS"
+    },
+    {
+      "label": "Route exists for isc.rule.changed",
+      "status": "PASS"
+    },
+    {
+      "label": "Route exists for aeo.evaluation.completed",
+      "status": "PASS"
+    },
+    {
+      "label": "Route exists for seef.skill.published",
+      "status": "PASS"
+    },
+    {
+      "label": "Dispatcher dispatches cras.knowledge.learned successfully",
+      "status": "PASS"
+    },
+    {
+      "label": "Dispatcher dispatches dto.task.completed successfully",
+      "status": "PASS"
+    },
+    {
+      "label": "Dispatcher dispatches isc.rule.changed successfully",
+      "status": "PASS"
+    }
+  ]
+}

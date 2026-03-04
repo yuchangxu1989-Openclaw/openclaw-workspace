@@ -4,47 +4,77 @@
     "priority": "high",
     "description": "Route user messages to appropriate handler based on intent classification"
   },
+  "isc.rule.changed": {
+    "handler": "skill-isc-handler",
+    "priority": "high",
+    "description": "ISC rule changed (summary) — trigger ISC rule check via skill handler"
+  },
   "isc.rule.*": {
-    "handler": "dto-sync",
+    "handler": "skill-isc-handler",
     "agent": "coder",
     "priority": "high",
-    "description": "ISC rule changes trigger DTO alignment sync"
+    "description": "ISC rule changes — check rules and trigger downstream sync"
+  },
+  "dto.task.completed": {
+    "handler": "skill-dto-handler",
+    "priority": "normal",
+    "description": "DTO task completed — process downstream via DTO skill handler"
+  },
+  "dto.task.created": {
+    "handler": "skill-dto-handler",
+    "priority": "normal",
+    "description": "DTO task created — acknowledged by DTO skill handler"
   },
   "dto.sync.*": {
-    "handler": "dto-orchestrate",
+    "handler": "skill-dto-handler",
     "agent": "coder",
     "priority": "high",
-    "description": "DTO sync lifecycle events"
+    "description": "DTO sync lifecycle events — handled by DTO skill handler"
   },
-  "seef.skill.evaluated": {
-    "handler": "seef-optimize",
+  "cras.knowledge.learned": {
+    "handler": "skill-cras-handler",
+    "priority": "normal",
+    "description": "CRAS knowledge learned — trigger CRAS analysis pipeline"
+  },
+  "cras.insight.generated": {
+    "handler": "skill-cras-handler",
     "agent": "researcher",
     "priority": "normal",
-    "description": "SEEF evaluation results trigger optimization analysis"
+    "description": "CRAS insights — feed to CRAS for processing and ISC feedback"
   },
-  "seef.skill.optimized": {
-    "handler": "cras-ingest",
-    "agent": "analyst",
+  "aeo.evaluation.completed": {
+    "handler": "skill-cras-handler",
     "priority": "normal",
-    "description": "SEEF optimization results fed to CRAS for learning"
+    "description": "AEO evaluation completed — feed results to CRAS for learning"
   },
   "aeo.assessment.completed": {
-    "handler": "cras-ingest",
+    "handler": "skill-cras-handler",
     "agent": "analyst",
     "priority": "normal",
     "description": "AEO assessment results ingested by CRAS"
   },
   "aeo.assessment.failed": {
-    "handler": "aeo-retry",
+    "handler": "skill-cras-handler",
     "agent": "coder",
     "priority": "high",
-    "description": "Failed assessments get retry handling"
+    "description": "Failed assessments get CRAS analysis for root cause"
   },
-  "cras.insight.generated": {
-    "handler": "isc-feedback",
+  "seef.skill.published": {
+    "handler": "skill-cras-handler",
+    "priority": "normal",
+    "description": "SEEF skill published — CRAS records the publish event for knowledge tracking"
+  },
+  "seef.skill.evaluated": {
+    "handler": "skill-cras-handler",
     "agent": "researcher",
     "priority": "normal",
-    "description": "CRAS insights feed back to ISC for rule refinement"
+    "description": "SEEF evaluation results — CRAS analysis"
+  },
+  "seef.skill.optimized": {
+    "handler": "skill-cras-handler",
+    "agent": "analyst",
+    "priority": "normal",
+    "description": "SEEF optimization results fed to CRAS for learning"
   },
   "system.error": {
     "handler": "system-alert",

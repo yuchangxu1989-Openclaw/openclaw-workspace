@@ -28,6 +28,10 @@ try {
   // DecisionLogger unavailable — continue with local log only
 }
 
+// ─── Observability: Metrics ───
+let _metrics = null;
+try { _metrics = require('../observability/metrics'); } catch (_) {}
+
 // ─── Paths ───────────────────────────────────────────────────────
 
 const ROUTES_FILE = path.join(__dirname, 'routes.json');

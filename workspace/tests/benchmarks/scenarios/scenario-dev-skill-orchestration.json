@@ -1,0 +1,13 @@
+{
+  "id": "scenario-dev-skill-orchestration",
+  "name": "多技能编排",
+  "domain": "development",
+  "description": "需要多个技能协作完成的复杂任务",
+  "steps": [
+    { "action": "emit", "event": "user.message", "payload": { "text": "我要做一个自动化流水线：先爬取竞品网站数据，然后用AI分析提取关键信息，最后生成对比报告发到飞书群里" } },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

@@ -342,4 +342,24 @@ if (require.main === module) {
   }
 }
 
-module.exports = { processEvents, routeToSubSkill, getStatus, SUB_SKILLS, ROUTES };
+/**
+ * 技能发布事件 — 技能通过验证后发布到生产环境时调用
+ * @param {object} result - 发布结果
+ * @param {string} result.skill_name - 技能名称
+ * @param {string} [result.version] - 版本号
+ * @param {string} [result.target] - 发布目标 (evomap, local, etc.)
+ * @returns {object} 发布的事件
+ */
+function emitSkillPublished(result) {
+  const event = bus.emit('seef.skill.published', {
+    skill_name: result.skill_name,
+    version: result.version || '1.0.0',
+    target: result.target || 'local',
+    published_at: new Date().toISOString(),
+    timestamp: Date.now()
+  }, 'seef');
+  console.log(`[SEEF-Bridge] 发布事件: seef.skill.published (skill=${result.skill_name})`);
+  return event;
+}
+
+module.exports = { processEvents, routeToSubSkill, getStatus, SUB_SKILLS, ROUTES, emitSkillPublished };

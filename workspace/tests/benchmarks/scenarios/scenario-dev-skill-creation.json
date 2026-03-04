@@ -1,0 +1,13 @@
+{
+  "id": "scenario-dev-skill-creation",
+  "name": "技能开发全流程",
+  "domain": "development",
+  "description": "从需求描述到技能创建的完整流程",
+  "steps": [
+    { "action": "emit", "event": "user.message", "payload": { "text": "我需要一个能自动监控GitHub仓库PR并生成代码审查摘要的技能，帮我从零开始做一个" } },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "module": "pipeline",
+  "source": "infrastructure/pipeline/l3-pipeline.js",
+  "description": "L3Pipeline - Closed-loop orchestrator: EventBus.consume → RuleMatcher.process → IntentScanner.scan → Dispatcher.dispatch",
+  "interfaces": [
+    {
+      "method": "run",
+      "params": [],
+      "returns": {
+        "type": "object",
+        "required": ["run_id", "timestamp", "consumed_events", "matched_rules", "intents_detected", "dispatched_actions", "circuit_breaks", "errors", "duration_ms"],
+        "properties": {
+          "run_id": { "type": "string" },
+          "timestamp": { "type": "string", "format": "ISO8601" },
+          "consumed_events": { "type": "number" },
+          "matched_rules": { "type": "number" },
+          "intents_detected": { "type": "number" },
+          "dispatched_actions": { "type": "number" },
+          "circuit_breaks": { "type": "number" },
+          "errors": { "type": "array" },
+          "duration_ms": { "type": "number" },
+          "feature_flags": { "type": "object" },
+          "skipped": { "type": "boolean" },
+          "reason": { "type": "string" }
+        }
+      },
+      "async": true
+    },
+    {
+      "method": "constructor",
+      "params": [
+        {
+          "name": "options",
+          "type": "object",
+          "required": false,
+          "properties": {
+            "windowMs": { "type": "number", "default": 300000 },
+            "maxChainDepth": { "type": "number", "default": 5 },
+            "timeoutMs": { "type": "number", "default": 0 },
+            "matcherOptions": { "type": "object" },
+            "scannerOptions": { "type": "object" }
+          }
+        }
+      ]
+    }
+  ],
+  "standalone_function": {
+    "method": "runOnce",
+    "params": [{ "name": "options", "type": "object", "required": false }],
+    "returns": { "sameAs": "run" },
+    "async": true
+  },
+  "depends_on": ["event-bus", "rule-matcher", "intent-scanner", "dispatcher", "decision-log"]
+}

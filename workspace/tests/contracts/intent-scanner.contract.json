@@ -1,0 +1,61 @@
+{
+  "module": "intent-scanner",
+  "source": "infrastructure/intent-engine/intent-scanner.js",
+  "description": "IntentScanner - LLM/regex intent classification from conversation slices",
+  "interfaces": [
+    {
+      "method": "scan",
+      "params": [
+        {
+          "name": "conversationSlice",
+          "type": "array",
+          "required": true,
+          "items": {
+            "type": "object",
+            "required": ["role", "content"],
+            "properties": {
+              "role": { "type": "string" },
+              "content": { "type": "string" },
+              "timestamp": { "type": "string", "required": false }
+            }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "properties": {
+          "intents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["intent_id", "confidence"],
+              "properties": {
+                "intent_id": { "type": "string" },
+                "confidence": { "type": "number", "min": 0, "max": 1 },
+                "evidence": { "type": "string" },
+                "alternatives": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          },
+          "decision_logs": { "type": "array" },
+          "skipped": { "type": "boolean" },
+          "method": { "type": "string", "enum": ["llm", "regex_fallback"] },
+          "reason": { "type": "string" }
+        }
+      },
+      "async": true
+    }
+  ],
+  "emits_events": [
+    {
+      "type": "intent.detected",
+      "payload": {
+        "intent_id": "string",
+        "confidence": "number",
+        "evidence": "string",
+        "timestamp": "string (ISO8601)"
+      },
+      "source": "IntentScanner"
+    }
+  ]
+}

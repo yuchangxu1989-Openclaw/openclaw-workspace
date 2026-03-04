@@ -147,6 +147,9 @@ function emit(type, payload, source, metadata) {
 
   const event = bus.emit(type, enrichedPayload, source);
 
+  // ─── Metrics: track emit ───
+  if (_metrics) _metrics.inc('events_emitted_total');
+
   // 更新去重缓存
   _recentEmits.set(fp, Date.now());
 
@@ -217,6 +220,9 @@ function consume(options) {
     }
     return normalized;
   });
+
+  // ─── Metrics: track consumed events ───
+  if (_metrics) _metrics.inc('events_processed_total', events.length);
 
   return events;
 }

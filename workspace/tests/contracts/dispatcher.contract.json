@@ -1,0 +1,88 @@
+{
+  "module": "dispatcher",
+  "source": "infrastructure/dispatcher/dispatcher.js",
+  "description": "Event Dispatcher v2.0 - Execution-layer entry point with four-level routing and retry",
+  "interfaces": [
+    {
+      "method": "dispatch",
+      "params": [
+        {
+          "name": "rule",
+          "type": "object",
+          "required": true,
+          "description": "Matched rule. Accepts ISC wrapper { rule, priority, match_type, pattern } or flat { action, handler }",
+          "properties": {
+            "action": { "type": "string", "description": "Action/event-type for routing" },
+            "rule": { "type": "object", "description": "ISC rule wrapper (optional)" },
+            "handler": { "type": "string", "description": "Direct handler name (optional)" }
+          }
+        },
+        {
+          "name": "event",
+          "type": "object",
+          "required": true,
+          "properties": {
+            "id": { "type": "string" },
+            "type": { "type": "string" },
+            "payload": { "type": "object" },
+            "timestamp": { "type": "number" },
+            "source": { "type": "string" }
+          }
+        },
+        {
+          "name": "options",
+          "type": "object",
+          "required": false,
+          "properties": {
+            "timeoutMs": { "type": "number", "default": 30000 },
+            "handlerMap": { "type": "Map" },
+            "routes": { "type": "object" }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "required": ["success", "handler", "duration", "retried"],
+        "properties": {
+          "success": { "type": "boolean" },
+          "result": { "type": "any" },
+          "error": { "type": "string" },
+          "handler": { "type": "string" },
+          "duration": { "type": "number" },
+          "retried": { "type": "boolean" },
+          "skipped": { "type": "boolean" }
+        }
+      },
+      "async": true
+    },
+    {
+      "method": "loadHandlers",
+      "params": [],
+      "returns": { "type": "Map", "description": "Map<string, { handler, config, source }>" }
+    },
+    {
+      "method": "findRoute",
+      "params": [
+        { "name": "action", "type": "string", "required": true },
+        { "name": "routes", "type": "object", "required": true }
+      ],
+      "returns": {
+        "type": "object|null",
+        "properties": {
+          "pattern": { "type": "string" },
+          "config": { "type": "object" }
+        }
+      }
+    },
+    {
+      "method": "isEnabled",
+      "params": [],
+      "returns": { "type": "boolean" }
+    },
+    {
+      "method": "reloadRoutes",
+      "params": [],
+      "returns": { "type": "object" }
+    }
+  ]
+}

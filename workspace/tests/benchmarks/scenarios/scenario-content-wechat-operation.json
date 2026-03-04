@@ -1,0 +1,13 @@
+{
+  "id": "scenario-content-wechat-operation",
+  "name": "公众号自媒体运营",
+  "domain": "content",
+  "description": "公众号内容策划与运营全故事线",
+  "steps": [
+    { "action": "emit", "event": "user.message", "payload": { "text": "我想做一个AI技术公众号，帮我规划这周的内容排期，写三篇不同风格的推文草稿，再配上封面图的设计思路" } },
+    { "expect": "intent_detected", "intent_category": "IC4", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

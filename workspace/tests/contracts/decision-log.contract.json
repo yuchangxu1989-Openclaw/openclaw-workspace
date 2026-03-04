@@ -1,0 +1,98 @@
+{
+  "module": "decision-log",
+  "source": "infrastructure/decision-log/decision-logger.js",
+  "description": "DecisionLogger - Unified audit trail for all L3 module decisions",
+  "interfaces": [
+    {
+      "method": "log",
+      "params": [
+        {
+          "name": "entry",
+          "type": "object",
+          "required": true,
+          "properties": {
+            "phase": { "type": "string", "enum": ["sensing", "cognition", "execution"], "required": false },
+            "component": { "type": "string", "required": false, "default": "unknown" },
+            "what": { "type": "string", "required": false },
+            "why": { "type": "string", "required": false },
+            "confidence": { "type": "number", "min": 0, "max": 1, "required": false },
+            "alternatives": { "type": "array", "required": false },
+            "input_summary": { "type": "string", "required": false },
+            "output_summary": { "type": "string", "required": false },
+            "decision_method": { "type": "string", "enum": ["llm", "regex", "rule_match", "manual"], "required": false }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "timestamp": { "type": "string", "format": "ISO8601" },
+          "phase": { "type": "string" },
+          "component": { "type": "string" },
+          "what": { "type": "string" },
+          "why": { "type": "string" },
+          "confidence": { "type": "number|null" },
+          "alternatives": { "type": "array" },
+          "input_summary": { "type": "string" },
+          "output_summary": { "type": "string" },
+          "decision_method": { "type": "string" }
+        }
+      },
+      "throws": "Error when validation fails (invalid phase, confidence out of range, etc.)"
+    },
+    {
+      "method": "query",
+      "params": [
+        {
+          "name": "opts",
+          "type": "object",
+          "required": false,
+          "properties": {
+            "since": { "type": "string", "format": "ISO8601" },
+            "phase": { "type": "string" },
+            "component": { "type": "string" },
+            "limit": { "type": "number" }
+          }
+        }
+      ],
+      "returns": { "type": "array", "description": "Records sorted newest-first" }
+    },
+    {
+      "method": "summarize",
+      "params": [
+        {
+          "name": "timeRange",
+          "type": "object",
+          "required": false,
+          "properties": {
+            "since": { "type": "string" },
+            "until": { "type": "string" }
+          }
+        }
+      ],
+      "returns": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "number" },
+          "by_phase": { "type": "object" },
+          "avg_confidence": { "type": "number|null" },
+          "degradation_count": { "type": "number" },
+          "by_method": { "type": "object" },
+          "by_component": { "type": "object" }
+        }
+      }
+    },
+    {
+      "method": "rotate",
+      "params": [],
+      "returns": { "type": "void" }
+    }
+  ],
+  "constants": {
+    "VALID_PHASES": ["sensing", "cognition", "execution"],
+    "VALID_METHODS": ["llm", "regex", "rule_match", "manual"],
+    "MAX_SIZE": 10485760,
+    "RETAIN_DAYS": 7
+  }
+}

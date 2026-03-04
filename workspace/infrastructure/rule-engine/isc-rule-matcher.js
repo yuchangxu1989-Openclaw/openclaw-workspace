@@ -25,6 +25,10 @@ try {
   // DecisionLogger unavailable — continue with in-memory only
 }
 
+// ─── Observability: Metrics ───
+let _metrics = null;
+try { _metrics = require('../observability/metrics'); } catch (_) {}
+
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const DEFAULT_RULES_DIR = path.resolve(__dirname, '../../skills/isc-core/rules');
@@ -369,6 +373,9 @@ class ISCRuleMatcher {
     const eventType = event && event.type;
     if (!eventType) return [];
 
+    // ─── Metrics: track rule evaluation ───
+    if (_metrics) _metrics.inc('rules_evaluated_total');
+
     const candidates = [];
     const seen = new Set(); // deduplicate by rule id
 
@@ -451,6 +458,15 @@ class ISCRuleMatcher {
         pattern: c.pattern,
       })),
     });
+
+    // ─── Metrics: track match results ───
+    if (_metrics) {
+      if (candidates.length > 0) {
+        _metrics.inc('rules_matched_total', candidates.length);
+      } else {
+        _metrics.inc('rules_no_match_total');
+      }
+    }
 
     return candidates;
   }
