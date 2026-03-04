@@ -145,7 +145,7 @@
       "id": "23b6618c-6abe-42f4-abbb-6774dc935821",
       "agentId": "cron-worker",
       "name": "CRAS-洞察复盘-每周",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1771928171203,
       "updatedAtMs": 1772445838023,
       "schedule": {
@@ -165,7 +165,6 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772618400000,
         "lastRunAtMs": 1772445600007,
         "lastStatus": "ok",
         "lastDurationMs": 38656,
@@ -181,7 +180,7 @@
       "name": "全局自主决策流水线-每30分钟",
       "enabled": true,
       "createdAtMs": 1771992026679,
-      "updatedAtMs": 1772602213592,
+      "updatedAtMs": 1772607622836,
       "schedule": {
         "kind": "cron",
         "expr": "*/30 * * * *"
@@ -198,10 +197,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772604000000,
-        "lastRunAtMs": 1772602200008,
+        "nextRunAtMs": 1772609400000,
+        "lastRunAtMs": 1772607600006,
         "lastStatus": "ok",
-        "lastDurationMs": 13584,
+        "lastDurationMs": 22830,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "delivered",
@@ -288,11 +287,13 @@
         "kind": "cron",
         "tz": "Asia/Shanghai"
       },
-      "sessionTarget": "main",
+      "sessionTarget": "isolated",
       "wakeMode": "now",
       "payload": {
-        "kind": "systemEvent",
-        "text": "执行系统维护: /root/.openclaw/workspace/scripts/system-maintenance.sh"
+        "kind": "agentTurn",
+        "message": "执行系统维护: /root/.openclaw/workspace/scripts/system-maintenance.sh",
+        "model": "claude/claude-sonnet-4-6",
+        "timeoutSeconds": 120
       },
       "state": {
         "nextRunAtMs": 1772647200000,
@@ -303,6 +304,9 @@
         "lastRunStatus": "skipped",
         "lastDeliveryStatus": "not-requested",
         "lastError": "disabled"
+      },
+      "delivery": {
+        "mode": "announce"
       }
     },
     {
@@ -382,7 +386,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772600441781,
+      "updatedAtMs": 1772607681438,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -402,11 +406,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772604007906,
-        "lastRunAtMs": 1772600433409,
+        "nextRunAtMs": 1772611207906,
+        "lastRunAtMs": 1772607655015,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8372,
+        "lastDurationMs": 26423,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -451,7 +455,7 @@
       "id": "merged-cras-knowledge-6h",
       "agentId": "cron-worker",
       "name": "CRAS-知识治理与洞察-每6小时",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1772509885336,
       "updatedAtMs": 1772596901455,
       "schedule": {
@@ -474,7 +478,6 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772618474546,
         "lastRunAtMs": 1772596874561,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
@@ -490,7 +493,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772600536744,
+      "updatedAtMs": 1772607694396,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -501,7 +504,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行DTO声明式编排与AEO闭环衔接：\n1. DTO声明式编排器：node /root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js\n2. AEO-DTO闭环：监听DTO信号，触发评测，输出结果到SEEF/ISC：node /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs\n如无信号则静默完成。",
+        "message": "先检查是否有待处理的DTO信号：ls /root/.openclaw/workspace/.dto-signals/ 2>/dev/null | head -5\n如果目录不存在或为空，直接回复无信号即可，不需要运行完整流水线。\n否则执行DTO声明式编排与AEO闭环衔接：\n1. DTO声明式编排器：node /root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js\n2. AEO-DTO闭环：node /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs\n如无信号则静默完成。",
         "model": "claude/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 120
       },
@@ -509,11 +512,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772604078795,
-        "lastRunAtMs": 1772600478801,
+        "nextRunAtMs": 1772611278795,
+        "lastRunAtMs": 1772607683469,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 57943,
+        "lastDurationMs": 10927,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -635,11 +638,13 @@
         "kind": "cron",
         "tz": "Asia/Shanghai"
       },
-      "sessionTarget": "main",
+      "sessionTarget": "isolated",
       "wakeMode": "now",
       "payload": {
-        "kind": "systemEvent",
-        "text": "执行运维辅助任务：\n1. 会话文件自动清理：/root/.openclaw/workspace/scripts/session-cleanup.sh\n2. 统一向量化服务：/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh"
+        "kind": "agentTurn",
+        "message": "执行运维辅助任务：\n1. 会话文件自动清理：/root/.openclaw/workspace/scripts/session-cleanup.sh\n2. 统一向量化服务：/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+        "model": "claude/claude-sonnet-4-6",
+        "timeoutSeconds": 120
       },
       "delivery": {
         "mode": "none"
@@ -661,7 +666,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772602507293,
+      "updatedAtMs": 1772607909598,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -671,7 +676,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "运行事件调度器，检查事件总线中的未消费事件并按路由分发处理。\n\n执行命令：node /root/.openclaw/workspace/infrastructure/dispatcher/dispatcher.js\n\n如果有事件被处理，报告处理结果。如果无事件，静默完成。",
+        "message": "先执行快速预检：node /root/.openclaw/workspace/infrastructure/dispatcher/fast-check.js\n如果输出跳过，直接回复无事件即可，不需要运行完整dispatcher。\n否则运行事件调度器：node /root/.openclaw/workspace/infrastructure/dispatcher/dispatcher.js\n如果有事件被处理，报告处理结果。如果无事件，静默完成。",
         "model": "claude/claude-sonnet-4-6",
         "timeoutSeconds": 60
       },
@@ -679,15 +684,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772602800000,
-        "lastRunAtMs": 1772602500008,
+        "nextRunAtMs": 1772608200000,
+        "lastRunAtMs": 1772607900005,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7285,
+        "lastDurationMs": 9593,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false,
-        "runningAtMs": 1772602800008
+        "runningAtMs": 1772608200006
       }
     },
     {
@@ -696,7 +701,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772602235100,
+      "updatedAtMs": 1772607653000,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -714,14 +719,42 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772603100000,
-        "lastRunAtMs": 1772602225643,
+        "nextRunAtMs": 1772608500000,
+        "lastRunAtMs": 1772607642233,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 9457,
+        "lastDurationMs": 10767,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
+      }
+    },
+    {
+      "id": "memory-summary-6h",
+      "agentId": "cron-worker",
+      "name": "记忆摘要-每6小时",
+      "enabled": true,
+      "createdAtMs": 1772607350016,
+      "updatedAtMs": 1772607350016,
+      "schedule": {
+        "expr": "0 */6 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai",
+        "staggerMs": 300000
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行定期记忆摘要生成：node /root/.openclaw/workspace/scripts/memory-summary-cron.js\n\n将输出摘要作为报告返回。如果有重要变更已自动写入记忆文件，无需额外操作。",
+        "model": "claude/claude-sonnet-4-6",
+        "timeoutSeconds": 60
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1772618410278
       }
     }
   ]
