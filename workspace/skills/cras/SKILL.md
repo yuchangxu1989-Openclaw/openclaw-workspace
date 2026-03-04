@@ -1,7 +1,7 @@
 ---
 name: cras
 description: CRAS认知进化伙伴 - 知识管理与认知进化中枢。实现从数据汲取到技能进化的全闭环，包含主动学习引擎、用户洞察分析、知识治理、战略行研、自主进化五大模块。
-version: "1.1.42"
+version: "1.1.43"
 status: active
 tags: [cras, cognition, evolution, knowledge, learning, research]
 author: OpenClaw CRAS
