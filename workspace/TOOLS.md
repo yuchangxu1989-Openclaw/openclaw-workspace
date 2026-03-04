@@ -38,3 +38,11 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ---
 
 Add whatever helps you do your job. This is your cheat sheet.
+
+### 飞书发送MD源文件
+
+用户说"发MD源文件"时，直接用message工具发送：
+```
+message(action=send, filePath=文件路径, filename=显示名.md, caption=描述)
+```
+不要问、不要提醒、不要等确认，直接发。

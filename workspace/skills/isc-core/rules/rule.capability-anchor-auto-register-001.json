@@ -1,0 +1,29 @@
+{
+  "id": "rule.capability-anchor-auto-register-001",
+  "rule_name": "能力锚点自动注册",
+  "version": "1.0.0",
+  "description": "新增通用能力（多模态、大模型、IM交互、工具等）时，必须自动写入CAPABILITY-ANCHOR.md。AI不应忘记自己的能力。",
+  "severity": "critical",
+  "trigger": {
+    "events": [
+      "skill.created",
+      "skill.updated",
+      "tool.discovered",
+      "provider.added",
+      "capability.changed"
+    ],
+    "condition": "new_capability_not_in_anchor"
+  },
+  "action": {
+    "type": "autofix",
+    "steps": [
+      "检测新增能力的类型（工具/模型/技能/交互方式）",
+      "生成能力锚点条目（工具名、触发词、说明）",
+      "APPEND到CAPABILITY-ANCHOR.md对应分类下",
+      "记录到memory/architecture-changelog.md"
+    ],
+    "target_file": "CAPABILITY-ANCHOR.md"
+  },
+  "enforcement": "runtime_binding",
+  "notes": "用户原话：一个全球顶级的AI怎么能忘记自己的能力呢？"
+}
