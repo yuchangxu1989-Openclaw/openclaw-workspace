@@ -1,5 +1,4 @@
 {
-  "_audit_note": "[FIX] 2026-03-04 — history数组已清空：53条记录全部为模板数据(emotion均为neutral, pattern均为recurring-theme)，无真实分析价值。参见 reports/report-chain-audit-2026-03-04.md",
   "profile": {
     "tags": [
       "command",
@@ -54,11 +53,19 @@
       "query",
       "query",
       "exploration",
-      "exploration"
+      "exploration",
+      "feedback"
     ],
-    "lastActive": "2026-03-03T13:01:07.055Z",
-    "interactionCount": 53
+    "lastActive": "2026-03-04T13:01:05.656Z",
+    "interactionCount": 1
   },
-  "history": [],
-  "updated_at": "2026-03-03T13:01:07.055Z"
+  "history": [
+    {
+      "timestamp": "2026-03-04T13:01:05.656Z",
+      "intent": "feedback",
+      "emotion": "neutral",
+      "pattern": "recurring-theme"
+    }
+  ],
+  "updated_at": "2026-03-04T13:01:05.656Z"
 }
