@@ -20,7 +20,7 @@ const path = require('path');
 const assert = require('assert');
 
 // ─── 模块导入 ─────────────────────────────────────────────────────────
-const EventBus = require('../event-bus/event-bus.js');
+const EventBus = require('../event-bus/bus-adapter.js');
 const { ISCRuleMatcher } = require('../rule-engine/isc-rule-matcher.js');
 const dispatcher = require('../dispatcher/dispatcher.js');
 const decisionLogger = require('../decision-log/decision-logger.js');

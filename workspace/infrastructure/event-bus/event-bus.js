@@ -1,7 +1,10 @@
 'use strict';
 
 /**
- * EventBus - 事件总线核心模块
+ * @deprecated Use bus-adapter.js instead. Direct usage causes data race with bus.js.
+ * This file will be removed after full migration to bus-adapter.js.
+ * 
+ * EventBus - 事件总线核心模块（已废弃）
  * 
  * 基于 events.jsonl 的文件级事件总线，支持：
  * - 原子写入（tmp → rename）

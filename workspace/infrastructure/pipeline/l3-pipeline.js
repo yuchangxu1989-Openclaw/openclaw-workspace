@@ -21,7 +21,7 @@ const path = require('path');
 // ═══════════════════════════════════════════════════════════
 // 依赖模块
 // ═══════════════════════════════════════════════════════════
-const EventBus = require('../event-bus/event-bus');
+const EventBus = require('../event-bus/bus-adapter');
 const { ISCRuleMatcher, getDefaultMatcher } = require('../rule-engine/isc-rule-matcher');
 const { IntentScanner } = require('../intent-engine/intent-scanner');
 const Dispatcher = require('../dispatcher/dispatcher');
