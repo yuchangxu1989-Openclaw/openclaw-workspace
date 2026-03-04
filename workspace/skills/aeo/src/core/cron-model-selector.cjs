@@ -40,7 +40,7 @@ class CronModelSelector {
     
     // 默认
     return {
-      model: 'kimi-coding/k2p5',
+      model: process.env.OPENCLAW_DEFAULT_MODEL || 'default',
       reason: '默认模型',
       priority: 99
     };

@@ -12,6 +12,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { EventEmitter } from 'events';
+import { createRequire } from 'module';
+const _require = createRequire(import.meta.url);
+const { SKILLS_DIR } = _require('../../../_shared/paths');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -168,7 +171,7 @@ export class SkillEvaluator extends EventEmitter {
 
     this.weights = { ...this.defaultWeights };
 
-    this.skillsBasePath = options.skillsBasePath || '/root/.openclaw/workspace/skills';
+    this.skillsBasePath = options.skillsBasePath || SKILLS_DIR;
 
     // CRAS 洞察缓存（每次 evaluate 会刷新）
     this._crasInsight = null;

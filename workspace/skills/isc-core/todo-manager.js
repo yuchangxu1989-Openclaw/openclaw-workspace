@@ -6,8 +6,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const { WORKSPACE } = require('../_shared/paths');
 
-const TODO_PATH = '/root/.openclaw/workspace/todo.md';
+const TODO_PATH = path.join(WORKSPACE, 'todo.md');
 
 class TodoManager {
   constructor() {

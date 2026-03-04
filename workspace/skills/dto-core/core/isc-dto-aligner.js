@@ -7,10 +7,11 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
 
 const ALIGNER_CONFIG = {
-  iscStandardsPath: '/root/.openclaw/workspace/skills/isc-core/standards',
-  dtoPath: '/root/.openclaw/workspace/skills/dto-core',
+  iscStandardsPath: path.join(SKILLS_DIR, 'isc-core/standards'),
+  dtoPath: path.join(SKILLS_DIR, 'dto-core'),
   expectedFormats: [
     'rule.*.json',      // DTO期望的格式
     'ISC-*.json',       // 实际创建的格式
@@ -250,8 +251,8 @@ class ISCDTOAligner {
     console.log('[ISC-DTO对齐] 提交修复...');
     
     try {
-      execSync('cd /root/.openclaw/workspace && git add skills/isc-core/standards/');
-      execSync('cd /root/.openclaw/workspace && git commit -m "ISC-DTO自对齐: 自动修复规则格式和配置"');
+      execSync(`cd ${WORKSPACE} && git add skills/isc-core/standards/`);
+      execSync(`cd ${WORKSPACE} && git commit -m "ISC-DTO自对齐: 自动修复规则格式和配置"`);
       console.log('  ✅ 已提交GitHub');
     } catch (e) {
       console.log('  ⚠️ 提交失败:', e.message);

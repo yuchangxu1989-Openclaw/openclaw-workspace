@@ -5,6 +5,7 @@
  */
 
 const https = require('https');
+const { WORKSPACE } = require('../../_shared/paths');
 
 class FirstPrincipleLearning {
   constructor() {
@@ -138,7 +139,7 @@ class FirstPrincipleLearning {
   async saveLocal(title, content) {
     const fs = require('fs');
     const path = require('path');
-    const dir = '/root/.openclaw/workspace/cras/insights';
+    const dir = path.join(WORKSPACE, 'cras/insights');
     
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });

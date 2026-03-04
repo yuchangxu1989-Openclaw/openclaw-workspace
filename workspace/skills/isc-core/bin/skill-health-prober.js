@@ -6,10 +6,11 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 const PROBER_CONFIG = {
   version: '1.0.0',
-  skillsPath: '/root/.openclaw/workspace/skills',
+  skillsPath: SKILLS_DIR,
   standards: {
     minSkillMdSize: 100, // SKILL.md至少100字
     minCodeFiles: 1,     // 至少1个代码文件
@@ -199,7 +200,7 @@ class SkillHealthProber {
       }
     };
     
-    const signalPath = '/root/.openclaw/workspace/skills/dto-core/events/cras-signals.jsonl';
+    const signalPath = path.join(SKILLS_DIR, 'dto-core/events/cras-signals.jsonl');
     fs.appendFileSync(signalPath, JSON.stringify(signal) + '\n');
     
     console.log('[技能探查] 信号已发射到DTO');

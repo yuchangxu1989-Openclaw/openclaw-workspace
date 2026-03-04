@@ -7,11 +7,12 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
 
 const EVOMAP_CONFIG = {
-  uploaderPath: '/root/.openclaw/workspace/skills/evomap-uploader',
-  skillsPath: '/root/.openclaw/workspace/skills',
-  registryPath: '/root/.openclaw/workspace/.evomap-registry.json'
+  uploaderPath: path.join(SKILLS_DIR, 'evomap-uploader'),
+  skillsPath: SKILLS_DIR,
+  registryPath: path.join(WORKSPACE, '.evomap-registry.json')
 };
 
 class EvoMapAutoSyncExecutor {

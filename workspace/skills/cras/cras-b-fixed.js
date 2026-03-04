@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { SKILLS_DIR, WORKSPACE, MEMORY_DIR } = require('../_shared/paths');
 
 // 配置
 const CONFIG = {
@@ -15,9 +16,9 @@ const CONFIG = {
   batchTimeout: 60000,
   maxBatches: 3,
   // 飞书投递配置
-  feishuQueuePath: '/root/.openclaw/workspace/skills/cras/feishu_queue',
+  feishuQueuePath: path.join(SKILLS_DIR, 'cras/feishu_queue'),
   // 报告输出路径
-  reportPath: '/root/.openclaw/workspace/cras/reports',
+  reportPath: path.join(WORKSPACE, 'cras/reports'),
   // 最大执行时间（毫秒）
   maxExecutionTime: 240000 // 4分钟
 };
@@ -55,7 +56,7 @@ function quickAnalyzeInteractions() {
   });
   
   // 读取最近的会话文件进行分析
-  const memoryPath = '/root/.openclaw/workspace/memory';
+  const memoryPath = MEMORY_DIR;
   let recentInteractions = [];
   
   try {
@@ -104,7 +105,7 @@ function quickAnalyzeInteractions() {
  * 读取待办事项（简化版）
  */
 function loadTodoItems() {
-  const todoPath = '/root/.openclaw/workspace/todo.md';
+  const todoPath = path.join(WORKSPACE, 'todo.md');
   if (!fs.existsSync(todoPath)) {
     return { pending: [], completed: [] };
   }

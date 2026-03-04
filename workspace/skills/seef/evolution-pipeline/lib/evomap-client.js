@@ -13,6 +13,9 @@
 
 import fs from 'fs';
 import path from 'path';
+import { createRequire } from 'module';
+const _require = createRequire(import.meta.url);
+const { SKILLS_DIR } = _require('../../../_shared/paths');
 import { EventEmitter } from 'events';
 
 /**
@@ -41,7 +44,7 @@ class EvoMapClient extends EventEmitter {
       maxRetries: config.maxRetries || 3,
       retryDelayMs: config.retryDelayMs || 5000,
       manifestPath: config.manifestPath || 
-        '/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json',
+        path.join(SKILLS_DIR, 'isc-core/config/evomap-upload-manifest.json'),
       ...config
     };
 

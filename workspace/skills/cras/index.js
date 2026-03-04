@@ -13,16 +13,17 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { SKILLS_DIR, WORKSPACE } = require('../_shared/paths');
 
 // CRAS 配置
 const CRAS_CONFIG = {
   version: '1.0.0',
   name: 'CRAS',
   paths: {
-    root: '/root/.openclaw/workspace/skills/cras',
-    knowledge: '/root/.openclaw/workspace/skills/cras/knowledge',
-    assets: '/root/.openclaw/workspace/skills/cras/assets',
-    config: '/root/.openclaw/workspace/skills/cras/config'
+    root: path.join(SKILLS_DIR, 'cras'),
+    knowledge: path.join(SKILLS_DIR, 'cras/knowledge'),
+    assets: path.join(SKILLS_DIR, 'cras/assets'),
+    config: path.join(SKILLS_DIR, 'cras/config')
   },
   schedule: {
     activeLearning: '0 9 * * *',      // 每日 09:00
@@ -219,7 +220,7 @@ class UserInsightHub {
       }
       
       // 同时保存到飞书推送队列，供外部工具发送
-      const feishuQueuePath = '/root/.openclaw/workspace/skills/cras/feishu_queue';
+      const feishuQueuePath = path.join(SKILLS_DIR, 'cras/feishu_queue');
       if (!fs.existsSync(feishuQueuePath)) {
         fs.mkdirSync(feishuQueuePath, { recursive: true });
       }
@@ -240,7 +241,7 @@ class UserInsightHub {
   }
 
   loadTodoItems() {
-    const todoPath = '/root/.openclaw/workspace/todo.md';
+    const todoPath = path.join(WORKSPACE, 'todo.md');
     if (!fs.existsSync(todoPath)) {
       return { pending: [], completed: [] };
     }
@@ -1035,7 +1036,7 @@ class AutonomousEvolution {
     }
     
     // 分析现有技能，找出缺失的能力
-    const skillsDir = '/root/.openclaw/workspace/skills';
+    const skillsDir = SKILLS_DIR;
     const existingSkills = fs.existsSync(skillsDir) ? fs.readdirSync(skillsDir) : [];
     const existingCapabilities = existingSkills.map(s => s.toLowerCase());
     
@@ -1161,7 +1162,7 @@ class AutonomousEvolution {
     console.log('    优化现有技能...');
     
     try {
-      const skillPath = path.join('/root/.openclaw/workspace/skills', rec.target || 'example-skill', 'index.js');
+      const skillPath = path.join(SKILLS_DIR, rec.target || 'example-skill', 'index.js');
       
       if (fs.existsSync(skillPath)) {
         // 读取现有技能
@@ -1191,7 +1192,7 @@ class AutonomousEvolution {
     
     try {
       const skillName = rec.target || `cras-generated-${Date.now()}`;
-      const skillPath = path.join('/root/.openclaw/workspace/skills', skillName);
+      const skillPath = path.join(SKILLS_DIR, skillName);
       
       if (!fs.existsSync(skillPath)) {
         fs.mkdirSync(skillPath, { recursive: true });

@@ -6,11 +6,12 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 const HANDSHAKE_CONFIG = {
-  eventPath: '/root/.openclaw/workspace/skills/dto-core/events/isc-rule-created.jsonl',
-  subscriptionsPath: '/root/.openclaw/workspace/skills/dto-core/subscriptions',
-  feedbackPath: '/root/.openclaw/workspace/skills/dto-core/events/dto-handshake-feedback.jsonl',
+  eventPath: path.join(SKILLS_DIR, 'dto-core/events/isc-rule-created.jsonl'),
+  subscriptionsPath: path.join(SKILLS_DIR, 'dto-core/subscriptions'),
+  feedbackPath: path.join(SKILLS_DIR, 'dto-core/events/dto-handshake-feedback.jsonl'),
   checkInterval: 10 * 1000 // 10秒检查一次
 };
 

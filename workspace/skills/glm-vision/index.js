@@ -10,7 +10,7 @@ class GLMVision {
   constructor(apiKey) {
     this.apiKey = apiKey || process.env.ZHIPU_API_KEY || process.env.KIMI_API_KEY;
     this.baseURL = 'open.bigmodel.cn';
-    this.model = 'glm-4v-plus';
+    this.model = process.env.GLM_VISION_MODEL || 'glm-4v-plus';
   }
 
   /**

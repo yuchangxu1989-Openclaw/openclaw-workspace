@@ -6,9 +6,10 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 const RCA_CONFIG = {
-  logPath: '/root/.openclaw/workspace/skills/isc-core/logs/isc-dto-rca-log.jsonl'
+  logPath: path.join(SKILLS_DIR, 'isc-core/logs/isc-dto-rca-log.jsonl')
 };
 
 class ISCDTORootCauseAnalyzer {
@@ -138,18 +139,20 @@ class ISCDTORootCauseAnalyzer {
     const script = `#!/usr/bin/env node
 // ISC-DTO版本对齐检查
 const fs = require('fs');
+const path = require('path');
+const { SKILLS_DIR } = require(path.join(__dirname, '../../_shared/paths'));
 
 function checkAlignment() {
-  const dtoVersion = require('/root/.openclaw/workspace/skills/dto-core/package.json').version;
-  const iscVersion = require('/root/.openclaw/workspace/skills/isc-core/package.json').version;
+  const dtoVersion = require(path.join(SKILLS_DIR, 'dto-core/package.json')).version;
+  const iscVersion = require(path.join(SKILLS_DIR, 'isc-core/package.json')).version;
   
   console.log('ISC-DTO版本对齐检查:');
   console.log('  DTO版本:', dtoVersion);
   console.log('  ISC版本:', iscVersion);
   
   // 检查是否需要同步
-  const dtoScannerLogic = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
-  const iscStandardFormat = fs.existsSync('/root/.openclaw/workspace/skills/isc-core/standards/rule.isc-standard-format-001.json');
+  const dtoScannerLogic = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
+  const iscStandardFormat = fs.existsSync(path.join(SKILLS_DIR, 'isc-core/standards/rule.isc-standard-format-001.json'));
   
   if (!iscStandardFormat) {
     console.log('  ⚠️ 警告: ISC缺少标准格式定义，DTO扫描可能失败');
@@ -162,7 +165,7 @@ function checkAlignment() {
 checkAlignment();
 `;
     
-    fs.writeFileSync('/root/.openclaw/workspace/skills/isc-core/bin/version-alignment-check.js', script);
+    fs.writeFileSync(path.join(SKILLS_DIR, 'isc-core/bin/version-alignment-check.js'), script);
     console.log('    ✅ 版本对齐检查脚本已创建');
   }
 

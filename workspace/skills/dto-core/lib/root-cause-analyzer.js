@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { OPENCLAW_HOME, WORKSPACE, SKILLS_DIR } = require('../../_shared/paths');
 
 class RootCauseAnalyzer {
   constructor(options = {}) {
@@ -243,7 +244,7 @@ class RootCauseAnalyzer {
   async checkDiskSpace() {
     try {
       // 使用 system-monitor 替代直接 exec
-      const monitor = require('/root/.openclaw/skills/system-monitor/lib/monitor');
+      const monitor = require(path.join(OPENCLAW_HOME, 'skills/system-monitor/lib/monitor'));
       const health = await monitor.systemHealthCheck({ checks: ['disk'], format: 'json' });
       return {
         total: health.disk?.total || 'unknown',
@@ -264,7 +265,7 @@ class RootCauseAnalyzer {
     
     try {
       // Git 最近提交
-      const gitLog = execSync('git -C /root/.openclaw/workspace log --oneline -5', { 
+      const gitLog = execSync(`git -C ${WORKSPACE} log --oneline -5`, { 
         encoding: 'utf8' 
       });
       changes.push({
@@ -278,7 +279,7 @@ class RootCauseAnalyzer {
     // 最近修改的文件
     try {
       const recentFiles = execSync(
-        'find /root/.openclaw/workspace/skills -mtime -1 -type f', 
+        `find ${SKILLS_DIR} -mtime -1 -type f`, 
         { encoding: 'utf8' }
       );
       changes.push({
@@ -413,8 +414,8 @@ class RootCauseAnalyzer {
   async fixSkillPath(context) {
     const skillName = context.skillName || this.extractSkillName(context.error);
     const possiblePaths = [
-      `/root/.openclaw/workspace/skills/${skillName}`,
-      `/root/.openclaw/workspace/skills/${skillName.replace(/-/g, '_')}`,
+      `${path.join(SKILLS_DIR, skillName)}`,
+      `${path.join(SKILLS_DIR, skillName.replace(/-/g, '_'))}`,
       `/tmp/extreme-sandbox/skills/${skillName}`
     ];
     
@@ -439,7 +440,7 @@ class RootCauseAnalyzer {
     
     try {
       execSync(`npm install ${moduleName}`, {
-        cwd: '/root/.openclaw/workspace',
+        cwd: WORKSPACE,
         stdio: 'pipe'
       });
       return { installed: moduleName };
@@ -452,7 +453,7 @@ class RootCauseAnalyzer {
    * 修复策略：修复权限
    */
   async fixPermission(context) {
-    const path = context.path || '/root/.openclaw/workspace';
+    const path = context.path || WORKSPACE;
     
     console.log(`[RCA] 修复权限: ${path}`);
     
@@ -494,7 +495,7 @@ class RootCauseAnalyzer {
     console.log('[RCA] 清理磁盘空间');
     
     const cleanupPaths = [
-      '/root/.openclaw/workspace/logs/*.log',
+      `${path.join(WORKSPACE, 'logs')}/*.log`,
       '/tmp/extreme-sandbox',
       '/tmp/golden-test',
       '/root/.npm/_cacache'

@@ -10,7 +10,7 @@ class DeclarativeParallelOrchestrator {
   constructor() {
     this.spawner = new ParallelSubagentSpawner({
       label: 'dto_parallel',
-      model: 'kimi-coding/k2p5',
+      model: process.env.OPENCLAW_DEFAULT_MODEL || 'default',
       timeout: 300
     });
   }

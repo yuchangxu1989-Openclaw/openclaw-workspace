@@ -6,11 +6,12 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 const CONFIG = {
-  skillsPath: '/root/.openclaw/workspace/skills',
-  aeoPath: '/root/.openclaw/workspace/skills/aeo',
-  outputPath: '/root/.openclaw/workspace/skills/aeo/evaluation-sets'
+  skillsPath: SKILLS_DIR,
+  aeoPath: path.join(SKILLS_DIR, 'aeo'),
+  outputPath: path.join(SKILLS_DIR, 'aeo/evaluation-sets')
 };
 
 class N023Executor {

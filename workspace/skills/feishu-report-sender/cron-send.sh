@@ -2,8 +2,11 @@
 # 飞书报告发送器 - 每2分钟执行一次
 # 读取队列并通过OpenClaw发送到飞书
 
-QUEUE_DIR="/root/.openclaw/workspace/feishu_send_queue"
-SENT_DIR="/root/.openclaw/workspace/feishu_sent_cards"
+OPENCLAW_HOME="${OPENCLAW_HOME:-/root/.openclaw}"
+WORKSPACE="${OPENCLAW_WORKSPACE:-$OPENCLAW_HOME/workspace}"
+
+QUEUE_DIR="$WORKSPACE/feishu_send_queue"
+SENT_DIR="$WORKSPACE/feishu_sent_cards"
 TARGET_USER="${FEISHU_TARGET_USER:-ou_8eafdc7241d381d714746e486b641883}"
 
 mkdir -p "$SENT_DIR"

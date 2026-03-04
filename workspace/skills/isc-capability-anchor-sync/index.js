@@ -7,14 +7,17 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const _require = createRequire(import.meta.url);
+const { WORKSPACE, SKILLS_DIR } = _require('../_shared/paths');
 
 const CONFIG = {
-  rulesDir: '/root/.openclaw/workspace/skills/isc-core/rules',
-  anchorFile: '/root/.openclaw/workspace/CAPABILITY-ANCHOR.md',
-  skillsDir: '/root/.openclaw/workspace/skills'
+  rulesDir: path.join(SKILLS_DIR, 'isc-core/rules'),
+  anchorFile: path.join(WORKSPACE, 'CAPABILITY-ANCHOR.md'),
+  skillsDir: SKILLS_DIR
 };
 
 class CapabilityAnchorSync {

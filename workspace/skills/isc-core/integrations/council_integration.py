@@ -7,15 +7,20 @@ ISC与Council of Seven集成模块
 import sys
 import json
 import subprocess
+import os
 from datetime import datetime
 from pathlib import Path
+
+OPENCLAW_HOME = os.environ.get('OPENCLAW_HOME', '/root/.openclaw')
+WORKSPACE = os.environ.get('OPENCLAW_WORKSPACE', os.path.join(OPENCLAW_HOME, 'workspace'))
+SKILLS_DIR = os.path.join(WORKSPACE, 'skills')
 
 class ISCCouncilIntegration:
     """ISC与七人议会集成"""
     
     def __init__(self):
-        self.council_script = '/root/.openclaw/workspace/skills/council-of-seven/council.py'
-        self.decisions_dir = '/root/.openclaw/workspace/skills/isc-core/council-decisions'
+        self.council_script = os.path.join(SKILLS_DIR, 'council-of-seven/council.py')
+        self.decisions_dir = os.path.join(SKILLS_DIR, 'isc-core/council-decisions')
         Path(self.decisions_dir).mkdir(parents=True, exist_ok=True)
     
     def requires_council_review(self, proposal):

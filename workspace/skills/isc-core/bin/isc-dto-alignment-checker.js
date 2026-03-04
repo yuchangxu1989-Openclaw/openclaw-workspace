@@ -6,17 +6,20 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
+
+const ISC_CORE_DIR = path.join(__dirname, '..');
 
 const ALIGNMENT_CONFIG = {
   iscPaths: [
-    '/root/.openclaw/workspace/skills/isc-core/rules',
-    '/root/.openclaw/workspace/skills/isc-core/standards',
-    '/root/.openclaw/workspace/skills/isc-core/rules/decision',
-    '/root/.openclaw/workspace/skills/isc-core/rules/detection',
-    '/root/.openclaw/workspace/skills/isc-core/rules/naming',
-    '/root/.openclaw/workspace/skills/isc-core/rules/interaction'
+    path.join(ISC_CORE_DIR, 'rules'),
+    path.join(ISC_CORE_DIR, 'standards'),
+    path.join(ISC_CORE_DIR, 'rules/decision'),
+    path.join(ISC_CORE_DIR, 'rules/detection'),
+    path.join(ISC_CORE_DIR, 'rules/naming'),
+    path.join(ISC_CORE_DIR, 'rules/interaction')
   ],
-  dtoSubsPath: '/root/.openclaw/workspace/skills/dto-core/subscriptions'
+  dtoSubsPath: path.join(SKILLS_DIR, 'dto-core/subscriptions')
 };
 
 class ISCDTOAlignmentChecker {
@@ -270,7 +273,7 @@ class ISCDTOAlignmentChecker {
     console.log(`  状态: ${alignment.status}`);
     
     // 保存报告到文件
-    const reportPath = '/root/.openclaw/workspace/.isc/alignment-report.json';
+    const reportPath = path.join(WORKSPACE, '.isc/alignment-report.json');
     fs.writeFileSync(reportPath, JSON.stringify(alignment, null, 2));
     console.log(`  报告已保存: ${reportPath}`);
     

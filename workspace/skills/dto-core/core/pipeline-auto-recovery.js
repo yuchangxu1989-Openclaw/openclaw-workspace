@@ -7,11 +7,12 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
 
 const MONITOR_CONFIG = {
-  pipelinePath: '/root/.openclaw/workspace/skills/dto-core/core/global-auto-decision-pipeline.js',
-  feedbackPath: '/root/.openclaw/workspace/.pipeline-feedback.jsonl',
-  statePath: '/root/.openclaw/workspace/.pipeline-monitor.json',
+  pipelinePath: path.join(SKILLS_DIR, 'dto-core/core/global-auto-decision-pipeline.js'),
+  feedbackPath: path.join(WORKSPACE, '.pipeline-feedback.jsonl'),
+  statePath: path.join(WORKSPACE, '.pipeline-monitor.json'),
   // 流水线是批处理模式，cron每小时运行一次监控
   // 超过70分钟（1小时+10分钟缓冲）无新同步视为需要运行
   maxSilentMinutes: 70,

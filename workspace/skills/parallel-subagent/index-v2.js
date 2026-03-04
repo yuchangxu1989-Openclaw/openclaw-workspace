@@ -8,7 +8,7 @@ const { sessions_spawn } = require('openclaw'); // 假设有SDK
 class ParallelSubagentSpawner {
   constructor(options = {}) {
     this.label = options.label || `subagent_${Date.now()}`;
-    this.model = options.model || 'kimi-coding/k2p5';
+    this.model = options.model || process.env.OPENCLAW_DEFAULT_MODEL || 'default';
     this.timeout = options.timeout || 300;
   }
 

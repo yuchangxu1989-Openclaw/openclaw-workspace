@@ -1,8 +1,10 @@
 #!/bin/bash
 # System Monitor Peak Logger - 每小时记录系统资源峰值
-# 保存位置: /root/.openclaw/workspace/logs/system-monitor-peaks/
 
-LOG_DIR="/root/.openclaw/workspace/logs/system-monitor-peaks"
+OPENCLAW_HOME="${OPENCLAW_HOME:-/root/.openclaw}"
+WORKSPACE="${OPENCLAW_WORKSPACE:-$OPENCLAW_HOME/workspace}"
+
+LOG_DIR="$WORKSPACE/logs/system-monitor-peaks"
 mkdir -p "$LOG_DIR"
 
 # 当前时间戳

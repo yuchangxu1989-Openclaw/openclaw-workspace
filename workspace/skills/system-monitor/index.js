@@ -7,16 +7,19 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const _require = createRequire(import.meta.url);
+const { CRON_DIR, AGENTS_DIR, WORKSPACE } = _require('../_shared/paths');
 
 const MONITOR_CONFIG = {
   version: '1.0.1',
   paths: {
-    cron: '/root/.openclaw/cron/jobs.json',
-    sessions: '/root/.openclaw/agents/main/sessions',
-    workspace: '/root/.openclaw/workspace'
+    cron: path.join(CRON_DIR, 'jobs.json'),
+    sessions: path.join(AGENTS_DIR, 'main/sessions'),
+    workspace: WORKSPACE
   },
   thresholds: {
     maxCronError: 3,      // 最大连续错误次数

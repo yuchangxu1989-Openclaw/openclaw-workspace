@@ -5,6 +5,7 @@
 
 const { spawn } = require('child_process');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 class Executor {
   constructor(options = {}) {
@@ -89,14 +90,14 @@ class Executor {
     let cmd;
     switch (module) {
       case 'cras':
-        cmd = `cd /root/.openclaw/workspace/skills/cras && node index.js --${skillAction}`;
+        cmd = `cd ${path.join(SKILLS_DIR, 'cras')} && node index.js --${skillAction}`;
         break;
       case 'isc':
-        cmd = `cd /root/.openclaw/workspace/skills/isc-core && node index.js --${skillAction}`;
+        cmd = `cd ${path.join(SKILLS_DIR, 'isc-core')} && node index.js --${skillAction}`;
         break;
       case 'seef':
         // DTO直接调度SEEF子技能，SEEF仅作为子技能库
-        cmd = `cd /root/.openclaw/workspace/skills/seef/subskills && python3 ${skill}.py`;
+        cmd = `cd ${path.join(SKILLS_DIR, 'seef/subskills')} && python3 ${skill}.py`;
         break;
       case 'parallel-subagent':
         // 并行子Agent执行器
@@ -218,10 +219,10 @@ class Executor {
 
     console.log(`  [并行子Agent] 执行工作流: ${workflow.name}`);
 
-    const ParallelSubagentSpawner = require('/root/.openclaw/workspace/skills/parallel-subagent/index.js');
+    const ParallelSubagentSpawner = require(path.join(SKILLS_DIR, 'parallel-subagent/index.js'));
     const spawner = new ParallelSubagentSpawner({
       label: workflow.name,
-      model: params.model || 'kimi-coding/k2p5',
+      model: params.model || process.env.OPENCLAW_DEFAULT_MODEL || 'default',
       timeout: params.timeout || 300
     });
 
@@ -257,7 +258,7 @@ class Executor {
    * 执行GitHub API
    */
   async executeGitHubAPI(action, context) {
-    const GitHubAPI = require('/root/.openclaw/workspace/skills/github-api/index.js');
+    const GitHubAPI = require(path.join(SKILLS_DIR, 'github-api/index.js'));
     const github = new GitHubAPI(action.token);
 
     switch (action.skillAction) {
@@ -276,7 +277,7 @@ class Executor {
    * 执行EvoMap A2A
    */
   async executeEvoMapA2A(action, context) {
-    const EvoMapA2A = require('/root/.openclaw/workspace/skills/evomap-a2a/index.js');
+    const EvoMapA2A = require(path.join(SKILLS_DIR, 'evomap-a2a/index.js'));
     const evomap = new EvoMapA2A(action.config);
 
     if (action.skillAction === 'connect') {
@@ -294,7 +295,7 @@ class Executor {
    * 执行文件下载
    */
   async executeFileDownloader(action, context) {
-    const FileDownloader = require('/root/.openclaw/workspace/skills/file-downloader/index.js');
+    const FileDownloader = require(path.join(SKILLS_DIR, 'file-downloader/index.js'));
     const downloader = new FileDownloader(action.options);
 
     if (action.skillAction === 'download') {
@@ -308,7 +309,7 @@ class Executor {
    * 执行API聚合
    */
   async executeAPIAggregator(action, context) {
-    const APIAggregator = require('/root/.openclaw/workspace/skills/api-aggregator/index.js');
+    const APIAggregator = require(path.join(SKILLS_DIR, 'api-aggregator/index.js'));
     const aggregator = new APIAggregator(action.options);
 
     if (action.skillAction === 'parallel') {

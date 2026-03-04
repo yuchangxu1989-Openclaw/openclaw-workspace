@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 const { embedSingle, embedBatch, cosineSimilarity, ZHIPU_CONFIG } = require('./zhipu-embedding');
 
 // 优化配置
@@ -140,7 +141,7 @@ class OptimizedVectorizationEngine {
     const valid = [];
     for (const [key, value] of entries) {
       try {
-        const filePath = path.join('/root/.openclaw/workspace/skills/cras/knowledge', key);
+        const filePath = path.join(SKILLS_DIR, 'cras/knowledge', key);
         const stats = fs.statSync(filePath);
         if (stats.size > 10 * 1024 * 1024) {
           console.log(`  跳过过大文件: ${key} (${(stats.size/1024/1024).toFixed(1)}MB)`);
@@ -180,7 +181,7 @@ class OptimizedVectorizationEngine {
       }
 
       try {
-        const filePath = path.join('/root/.openclaw/workspace/skills/cras/knowledge', key);
+        const filePath = path.join(SKILLS_DIR, 'cras/knowledge', key);
         let content = '';
         const stats = fs.statSync(filePath);
         

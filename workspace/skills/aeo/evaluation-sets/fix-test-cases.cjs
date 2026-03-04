@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 // 为不同技能定义合适的测试输入
 const inputTemplates = {
@@ -148,7 +149,7 @@ function fixTestCases(skillDir) {
 }
 
 // 主函数
-const baseDir = '/root/.openclaw/workspace/skills/aeo/evaluation-sets';
+const baseDir = path.join(SKILLS_DIR, 'aeo/evaluation-sets');
 const dirs = fs.readdirSync(baseDir).filter(f => {
   const fullPath = path.join(baseDir, f);
   return fs.statSync(fullPath).isDirectory();

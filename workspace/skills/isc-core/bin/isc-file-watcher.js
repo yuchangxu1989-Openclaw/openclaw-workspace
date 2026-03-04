@@ -6,14 +6,17 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
+
+const ISC_CORE_DIR = path.join(__dirname, '..');
 
 const WATCHER_CONFIG = {
   watchPaths: [
-    '/root/.openclaw/workspace/skills/isc-core/rules',
-    '/root/.openclaw/workspace/skills/isc-core/standards'
+    path.join(ISC_CORE_DIR, 'rules'),
+    path.join(ISC_CORE_DIR, 'standards')
   ],
-  dtoEventPath: '/root/.openclaw/workspace/skills/dto-core/events/isc-rule-created.jsonl',
-  statePath: '/root/.openclaw/workspace/skills/isc-core/.watch-state.json',
+  dtoEventPath: path.join(SKILLS_DIR, 'dto-core/events/isc-rule-created.jsonl'),
+  statePath: path.join(ISC_CORE_DIR, '.watch-state.json'),
   checkInterval: 30 * 1000 // 30秒检查一次
 };
 
@@ -119,7 +122,7 @@ class ISCFileWatcher {
    * 通知DTO
    */
   notifyDTO(fileInfo, rule) {
-    const relativePath = fileInfo.path.replace('/root/.openclaw/workspace/skills/isc-core/', '');
+    const relativePath = fileInfo.path.replace(ISC_CORE_DIR + '/', '');
     
     const notification = {
       source: 'isc-file-watcher',

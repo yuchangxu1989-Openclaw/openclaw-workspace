@@ -17,6 +17,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { WORKSPACE } = require('../_shared/paths');
 
 // ============================================================
 // ISC大成版配置
@@ -38,19 +39,19 @@ const ISC_CONFIG = {
   },
   
   paths: {
-    root: '/root/.openclaw/workspace/skills/isc-core',
-    rules: '/root/.openclaw/workspace/skills/isc-core/rules',
-    rulesDecision: '/root/.openclaw/workspace/skills/isc-core/rules/decision',
-    rulesDetection: '/root/.openclaw/workspace/skills/isc-core/rules/detection',
-    rulesNaming: '/root/.openclaw/workspace/skills/isc-core/rules/naming',
-    assets: '/root/.openclaw/workspace/skills/isc-core/assets',
-    mechanisms: '/root/.openclaw/workspace/skills/isc-core/assets/mechanisms',
-    genes: '/root/.openclaw/workspace/skills/isc-core/assets/genes',
-    config: '/root/.openclaw/workspace/skills/isc-core/config',
-    templates: '/root/.openclaw/workspace/skills/isc-core/templates',
-    templateDefs: '/root/.openclaw/workspace/skills/isc-core/templates/definitions',
-    versions: '/root/.openclaw/workspace/skills/isc-core/versions',
-    workspace: '/root/.openclaw/workspace'
+    root: __dirname,
+    rules: path.join(__dirname, 'rules'),
+    rulesDecision: path.join(__dirname, 'rules/decision'),
+    rulesDetection: path.join(__dirname, 'rules/detection'),
+    rulesNaming: path.join(__dirname, 'rules/naming'),
+    assets: path.join(__dirname, 'assets'),
+    mechanisms: path.join(__dirname, 'assets/mechanisms'),
+    genes: path.join(__dirname, 'assets/genes'),
+    config: path.join(__dirname, 'config'),
+    templates: path.join(__dirname, 'templates'),
+    templateDefs: path.join(__dirname, 'templates/definitions'),
+    versions: path.join(__dirname, 'versions'),
+    workspace: WORKSPACE
   },
   
   // 5项自主决策规则 (R001-R005)

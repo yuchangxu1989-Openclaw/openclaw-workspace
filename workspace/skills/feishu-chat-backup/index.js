@@ -6,14 +6,15 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR, AGENTS_DIR } = require('../_shared/paths');
 
 const BACKUP_CONFIG = {
   version: '2.0.0',
   paths: {
-    logs: '/root/.openclaw/workspace/skills/feishu-chat-backup/logs',
-    archives: '/root/.openclaw/workspace/skills/feishu-chat-backup/archives',
-    images: '/root/.openclaw/workspace/skills/feishu-chat-backup/images',
-    sessions: '/root/.openclaw/agents/main/sessions'
+    logs: path.join(SKILLS_DIR, 'feishu-chat-backup/logs'),
+    archives: path.join(SKILLS_DIR, 'feishu-chat-backup/archives'),
+    images: path.join(SKILLS_DIR, 'feishu-chat-backup/images'),
+    sessions: path.join(AGENTS_DIR, 'main/sessions')
   },
   retention: {
     logs: 30, // 保留30天

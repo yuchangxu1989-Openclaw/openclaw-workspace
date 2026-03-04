@@ -14,6 +14,7 @@ const { NotificationSender } = require('./core/notification-sender.cjs');
 
 const fs = require('fs');
 const path = require('path');
+const { WORKSPACE } = require('../../_shared/paths');
 
 // ============================================================================
 // AEO集成器
@@ -22,7 +23,7 @@ const path = require('path');
 class AEOIntegration {
   constructor(config = {}) {
     this.config = {
-      workspacePath: config.workspacePath || '/root/.openclaw/workspace',
+      workspacePath: config.workspacePath || WORKSPACE,
       enableSandbox: config.enableSandbox !== false,  // 默认启用
       enableRemediation: config.enableRemediation !== false,
       enableDashboard: config.enableDashboard !== false,

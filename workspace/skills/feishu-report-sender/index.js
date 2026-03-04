@@ -7,13 +7,14 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { WORKSPACE, SKILLS_DIR } = require('../_shared/paths');
 
 const QUEUE_PATHS = [
-  '/root/.openclaw/workspace/skills/cras/feishu_queue',
-  '/root/.openclaw/workspace/evolver/reports'
+  path.join(SKILLS_DIR, 'cras/feishu_queue'),
+  path.join(WORKSPACE, 'evolver/reports')
 ];
 
-const SENT_PATH = '/root/.openclaw/workspace/feishu_sent_reports';
+const SENT_PATH = path.join(WORKSPACE, 'feishu_sent_reports');
 
 class FeishuReportSender {
   constructor() {
@@ -73,7 +74,7 @@ class FeishuReportSender {
       };
       
       // 写入待发送文件，供外部工具处理
-      const sendQueuePath = '/root/.openclaw/workspace/feishu_send_queue';
+      const sendQueuePath = path.join(WORKSPACE, 'feishu_send_queue');
       if (!fs.existsSync(sendQueuePath)) {
         fs.mkdirSync(sendQueuePath, { recursive: true });
       }

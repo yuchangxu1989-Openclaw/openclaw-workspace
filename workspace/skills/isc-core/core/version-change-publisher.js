@@ -7,20 +7,21 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
 const { EvoMapUploader } = require('../../evomap-uploader/lib/uploader');
 
 class VersionChangePublisher {
     constructor() {
         this.watchList = [
-            { name: 'dto-core', path: '/root/.openclaw/workspace/skills/dto-core' },
-            { name: 'isc-core', path: '/root/.openclaw/workspace/skills/isc-core' }
+            { name: 'dto-core', path: path.join(SKILLS_DIR, 'dto-core') },
+            { name: 'isc-core', path: path.join(SKILLS_DIR, 'isc-core') }
         ];
         this.versionCache = this.loadVersionCache();
         this.uploader = new EvoMapUploader();
     }
 
     loadVersionCache() {
-        const cachePath = '/root/.openclaw/workspace/.version-publish-cache.json';
+        const cachePath = path.join(WORKSPACE, '.version-publish-cache.json');
         if (fs.existsSync(cachePath)) {
             return JSON.parse(fs.readFileSync(cachePath, 'utf8'));
         }
@@ -28,7 +29,7 @@ class VersionChangePublisher {
     }
 
     saveVersionCache() {
-        const cachePath = '/root/.openclaw/workspace/.version-publish-cache.json';
+        const cachePath = path.join(WORKSPACE, '.version-publish-cache.json');
         fs.writeFileSync(cachePath, JSON.stringify(this.versionCache, null, 2));
     }
 
@@ -91,10 +92,10 @@ class VersionChangePublisher {
             const tagName = `${skill.name}-v${skill.newVersion}`;
             const backupBranch = `release-${skill.name}-${skill.newVersion}`;
             
-            execSync(`cd /root/.openclaw/workspace && git checkout -b ${backupBranch}`, { stdio: 'pipe' });
-            execSync(`cd /root/.openclaw/workspace && git add ${skill.path}`, { stdio: 'pipe' });
-            execSync(`cd /root/.openclaw/workspace && git commit -m "Release ${skill.name} v${skill.newVersion}"`, { stdio: 'pipe' });
-            execSync(`cd /root/.openclaw/workspace && git push origin ${backupBranch} --force-with-lease`, { stdio: 'pipe' });
+            execSync(`cd ${WORKSPACE} && git checkout -b ${backupBranch}`, { stdio: 'pipe' });
+            execSync(`cd ${WORKSPACE} && git add ${skill.path}`, { stdio: 'pipe' });
+            execSync(`cd ${WORKSPACE} && git commit -m "Release ${skill.name} v${skill.newVersion}"`, { stdio: 'pipe' });
+            execSync(`cd ${WORKSPACE} && git push origin ${backupBranch} --force-with-lease`, { stdio: 'pipe' });
             
             console.log(`  ✅ GitHub: ${backupBranch}`);
             return { success: true, branch: backupBranch };

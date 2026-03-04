@@ -4,6 +4,11 @@
 
 set -e
 
+OPENCLAW_HOME="${OPENCLAW_HOME:-/root/.openclaw}"
+WORKSPACE="${OPENCLAW_WORKSPACE:-$OPENCLAW_HOME/workspace}"
+SKILLS_DIR="$WORKSPACE/skills"
+CRON_DIR="$OPENCLAW_HOME/cron"
+
 echo "=========================================="
 echo "技能使用审计报告 - $(date '+%Y-%m-%d %H:%M:%S')"
 echo "=========================================="
@@ -13,7 +18,7 @@ echo "   技能 = 能力资产 (代码/文档/配置)"
 echo "   任务 = 调度执行 (cron定时调用)"
 echo ""
 
-cd /root/.openclaw/workspace/skills
+cd "$SKILLS_DIR"
 
 echo "📊 扫描所有技能资产..."
 echo ""
@@ -34,7 +39,7 @@ for skill in */; do
     TOTAL=$((TOTAL + 1))
     
     # 检查关联任务数（cron中引用该技能）
-    task_count=$(grep -r "$skill" /root/.openclaw/cron/ 2>/dev/null | wc -l)
+    task_count=$(grep -r "$skill" "$CRON_DIR" 2>/dev/null | wc -l)
     task_count=${task_count:-0}
     
     # 检查技能最近更新时间

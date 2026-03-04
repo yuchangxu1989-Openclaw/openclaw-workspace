@@ -270,7 +270,7 @@ class AgentPool {
   constructor(options = {}) {
     this.minSize = options.minSize || 2;
     this.maxSize = options.maxSize || 10;
-    this.model = options.model || 'kimi-coding/k2p5';
+    this.model = options.model || process.env.OPENCLAW_DEFAULT_MODEL || 'default';
     this.timeout = options.timeout || 300;
     this.label = options.label || 'pool_agent';
     
@@ -391,7 +391,7 @@ class ParallelSubagentSpawner extends EventEmitter {
     
     // 配置 - CRAS-C知识治理任务需要更长时间
     this.label = options.label || `subagent_${Date.now()}`;
-    this.model = options.model || 'kimi-coding/k2p5';
+    this.model = options.model || process.env.OPENCLAW_DEFAULT_MODEL || 'default';
     this.timeout = options.timeout || 600; // 默认600秒（10分钟），原为300秒
     
     // 并发控制 - 信号量

@@ -7,9 +7,12 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
+
+const ISC_CORE_DIR = path.join(__dirname, '..');
 
 const CREATION_CONFIG = {
-  standardsPath: '/root/.openclaw/workspace/skills/isc-core/standards',
+  standardsPath: path.join(ISC_CORE_DIR, 'standards'),
   template: {
     id: 'rule.{domain}-{name}-{version}',
     name: '{snake_case_description}',
@@ -194,8 +197,8 @@ class ISCSmartCreator {
     // 自动提交
     try {
       const { execSync } = require('child_process');
-      execSync(`cd /root/.openclaw/workspace && git add ${filePath}`);
-      execSync(`cd /root/.openclaw/workspace && git commit -m "ISC: 创建规则 ${rule.id}"`);
+      execSync(`cd ${WORKSPACE} && git add ${filePath}`);
+      execSync(`cd ${WORKSPACE} && git commit -m "ISC: 创建规则 ${rule.id}"`);
       console.log('✅ 已提交GitHub');
     } catch (e) {
       console.log('⚠️ 提交失败:', e.message);
@@ -216,7 +219,7 @@ class ISCSmartCreator {
         ruleId: rule.id,
         ruleName: rule.name,
         filePath: filePath,
-        relativePath: filePath.replace('/root/.openclaw/workspace/skills/isc-core/', ''),
+        relativePath: filePath.replace(ISC_CORE_DIR + '/', ''),
         domain: rule.domain,
         autoExecute: rule.governance?.auto_execute,
         councilRequired: rule.governance?.councilRequired
@@ -224,7 +227,7 @@ class ISCSmartCreator {
     };
     
     // 写入DTO事件队列
-    const dtoEventPath = '/root/.openclaw/workspace/skills/dto-core/events/isc-rule-created.jsonl';
+    const dtoEventPath = path.join(SKILLS_DIR, 'dto-core/events/isc-rule-created.jsonl');
     fs.appendFileSync(dtoEventPath, JSON.stringify(notification) + '\n');
     
     console.log(`  ✅ DTO已通知: ${rule.id}`);

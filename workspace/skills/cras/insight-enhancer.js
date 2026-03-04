@@ -12,6 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const https = require('https');
+const { SKILLS_DIR, WORKSPACE, MEMORY_DIR } = require('../_shared/paths');
 
 // ============================================
 // 配置参数 - 可调整以优化性能
@@ -41,10 +42,10 @@ const CONFIG = {
   
   // 路径配置
   paths: {
-    memory: '/root/.openclaw/workspace/memory',
-    reports: '/root/.openclaw/workspace/cras/reports',
-    queue: '/root/.openclaw/workspace/skills/cras/feishu_queue',
-    config: '/root/.openclaw/workspace/skills/cras/config'
+    memory: MEMORY_DIR,
+    reports: path.join(WORKSPACE, 'cras/reports'),
+    queue: path.join(SKILLS_DIR, 'cras/feishu_queue'),
+    config: path.join(SKILLS_DIR, 'cras/config')
   },
   
   // 功能开关
@@ -304,7 +305,7 @@ class DataCollector {
     
     // 收集技能变更信息
     try {
-      const skillsPath = '/root/.openclaw/workspace/skills';
+      const skillsPath = SKILLS_DIR;
       const skills = fs.readdirSync(skillsPath)
         .filter(d => !d.startsWith('.') && fs.statSync(path.join(skillsPath, d)).isDirectory());
       metrics.skillCount = skills.length;

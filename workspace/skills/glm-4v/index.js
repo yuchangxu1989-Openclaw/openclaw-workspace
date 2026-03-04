@@ -12,7 +12,7 @@ class GLM4V {
   constructor() {
     this.apiKey = ZhipuKeys.getKey('vision');
     this.baseURL = 'open.bigmodel.cn';
-    this.model = 'glm-4.6v';
+    this.model = process.env.GLM_VISION_MODEL || 'glm-4.6v';
   }
 
   async understandVideo(videoUrl, prompt = '描述这个视频') {

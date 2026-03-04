@@ -8,6 +8,9 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+const _require = createRequire(import.meta.url);
+const { SKILLS_DIR } = _require('../../../../_shared/paths');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,7 +69,7 @@ class ISCValidator {
       minScore: config.minScore || 70,
       maxScore: config.maxScore || 100,
       iscQualityPath: config.iscQualityPath || 
-        '/root/.openclaw/workspace/skills/isc-document-quality/index.js',
+        path.join(SKILLS_DIR, 'isc-document-quality/index.js'),
       ...config
     };
     

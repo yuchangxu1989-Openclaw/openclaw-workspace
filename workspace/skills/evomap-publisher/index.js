@@ -9,6 +9,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const { EventEmitter } = require('events');
+const { SKILLS_DIR } = require('../_shared/paths');
 
 // 尝试加载evomap-a2a
 let EvoMapA2A;
@@ -48,7 +49,7 @@ class EvoMapPublisher extends EventEmitter {
       backoffBase: config.backoffBase || parseInt(process.env.EP_BACKOFF_BASE) || 1000,
       timeout: config.timeout || parseInt(process.env.EP_TIMEOUT) || 30000,
       queueSize: config.queueSize || parseInt(process.env.EP_QUEUE_SIZE) || 100,
-      skillsDir: config.skillsDir || '/root/.openclaw/workspace/skills'
+      skillsDir: config.skillsDir || SKILLS_DIR
     };
     
     // 状态

@@ -15,8 +15,8 @@ import https from 'https';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 使用API_KEY_4
-const API_KEY_4 = '7f286ba7b64447b7a789710d5dc336bb.n2f2UkpvDLAXQFVt';
+// API key must be provided via environment variable
+const API_KEY_4 = process.env.ZHIPU_API_KEY_4 || process.env.ZHIPU_API_KEY || '';
 
 class Phase3IntegrationTest {
   constructor() {
@@ -37,7 +37,7 @@ class Phase3IntegrationTest {
     const apiKey = options.apiKey || API_KEY_4;
     
     const requestData = JSON.stringify({
-      model: 'glm-5',
+      model: process.env.LLM_DEFAULT_MODEL || 'glm-5',
       messages: [
         {
           role: 'system',

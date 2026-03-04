@@ -7,8 +7,9 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { WORKSPACE, REPORTS_DIR } = require('../../_shared/paths');
 
-const WORKSPACE_ROOT = '/root/.openclaw/workspace';
+const WORKSPACE_ROOT = WORKSPACE;
 
 // 飞书配置
 const FEISHU_WEBHOOK = process.env.FEISHU_WEBHOOK || 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxx';
@@ -95,7 +96,7 @@ async function main() {
   // 尝试发送到飞书（如果配置了webhook）
   if (FEISHU_WEBHOOK.includes('hook/xxxxx')) {
     console.log('ℹ️  未配置飞书Webhook，仅生成本地报告');
-    console.log('💾 报告已保存到: /root/.openclaw/workspace/reports/');
+    console.log(`💾 报告已保存到: ${REPORTS_DIR}/`);
   } else {
     try {
       await sendToFeishu(report);

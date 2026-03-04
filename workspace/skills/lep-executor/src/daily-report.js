@@ -8,9 +8,10 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { WORKSPACE } = require('../../_shared/paths');
 
 // 配置
-const WORKSPACE_ROOT = '/root/.openclaw/workspace';
+const WORKSPACE_ROOT = WORKSPACE;
 const REPORT_DATE = new Date().toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: 'long',

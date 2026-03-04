@@ -8,6 +8,9 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+const _require = createRequire(import.meta.url);
+const { SKILLS_DIR } = _require('../../../../_shared/paths');
 import { StateManager, PIPELINE_STATES } from './state-manager.js';
 import { ISCValidator } from './isc-validator.js';
 
@@ -538,7 +541,7 @@ class PipelineEngine {
     await this.initialize();
     
     if (targetSkill) {
-      const skillPath = path.join('/root/.openclaw/workspace/skills', targetSkill);
+      const skillPath = path.join(SKILLS_DIR, targetSkill);
       if (fs.existsSync(skillPath)) {
         await this.processSkill(skillPath);
       } else {

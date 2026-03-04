@@ -12,9 +12,9 @@
 const fs = require('fs');
 const path = require('path');
 const { EventEmitter } = require('events');
+const { WORKSPACE } = require('../../_shared/paths');
 
 // ── 常量 ───────────────────────────────────────────────
-const WORKSPACE     = '/root/.openclaw/workspace';
 const SIGNALS_DIR   = path.join(WORKSPACE, '.dto-signals');
 const ARCHIVE_DIR   = path.join(SIGNALS_DIR, '.archive');
 const LOG_FILE      = path.join(WORKSPACE, 'skills/dto-core/logs/event-consumer.jsonl');

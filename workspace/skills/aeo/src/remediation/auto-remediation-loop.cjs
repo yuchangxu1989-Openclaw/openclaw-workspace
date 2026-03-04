@@ -10,6 +10,7 @@ const path = require('path');
 const { exec } = require('child_process');
 const util = require('util');
 const execAsync = util.promisify(exec);
+const { WORKSPACE } = require('../../../_shared/paths');
 
 // ============================================================================
 // 修复策略定义
@@ -91,7 +92,7 @@ const REMEDIATION_STRATEGIES = {
 class RemediationExecutor {
   constructor(config = {}) {
     this.config = {
-      workspacePath: config.workspacePath || '/root/.openclaw/workspace',
+      workspacePath: config.workspacePath || WORKSPACE,
       backupBeforeFix: true,
       maxRetries: 3,
       autoCommit: false,

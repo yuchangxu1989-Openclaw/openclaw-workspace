@@ -6,12 +6,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR, WORKSPACE } = require('../../../_shared/paths');
 
 const CONFIG = {
-  aeoPath: '/root/.openclaw/workspace/skills/aeo',
-  dtoSignalPath: '/root/.openclaw/workspace/.dto-signals',
-  seefPath: '/root/.openclaw/workspace/skills/seef',
-  iscPath: '/root/.openclaw/workspace/skills/isc-core'
+  aeoPath: path.join(SKILLS_DIR, 'aeo'),
+  dtoSignalPath: path.join(WORKSPACE, '.dto-signals'),
+  seefPath: path.join(SKILLS_DIR, 'seef'),
+  iscPath: path.join(SKILLS_DIR, 'isc-core')
 };
 
 class AEODTOBridge {
@@ -68,7 +69,7 @@ class AEODTOBridge {
   async triggerEvaluation(skillId, triggerType) {
     try {
       // 读取技能信息
-      const skillPath = path.join('/root/.openclaw/workspace/skills', skillId);
+      const skillPath = path.join(SKILLS_DIR, skillId);
       const skillMdPath = path.join(skillPath, 'SKILL.md');
       
       if (!fs.existsSync(skillMdPath)) {

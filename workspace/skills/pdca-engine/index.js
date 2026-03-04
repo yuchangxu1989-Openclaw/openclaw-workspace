@@ -9,9 +9,12 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const _require = createRequire(import.meta.url);
+const { WORKSPACE, MEMORY_DIR, SKILLS_DIR } = _require('../_shared/paths');
 
 const PDCA_CONFIG = {
   version: '1.0.2',
@@ -23,7 +26,7 @@ const PDCA_CONFIG = {
 class PDCAEngine {
   constructor() {
     this.startTime = Date.now();
-    this.logPath = '/root/.openclaw/workspace/memory/pdca-execution-log.jsonl';
+    this.logPath = path.join(MEMORY_DIR, 'pdca-execution-log.jsonl');
   }
 
   async runCycle() {
@@ -81,7 +84,7 @@ class PDCAEngine {
           break;
           
         case '分析用户模式':
-          const memoryPath = '/root/.openclaw/workspace/memory';
+          const memoryPath = MEMORY_DIR;
           let fileCount = 0;
           let latestFiles = [];
           
@@ -104,7 +107,7 @@ class PDCAEngine {
           break;
           
         case '检查技能状态':
-          const skillsPath = '/root/.openclaw/workspace/skills';
+          const skillsPath = SKILLS_DIR;
           const skills = fs.existsSync(skillsPath) 
             ? fs.readdirSync(skillsPath).filter(d => {
                 const skillMd = path.join(skillsPath, d, 'SKILL.md');
@@ -126,7 +129,7 @@ class PDCAEngine {
           break;
           
         case '验证ISC对齐':
-          const iscPath = '/root/.openclaw/workspace/CAPABILITY-ANCHOR.md';
+          const iscPath = path.join(WORKSPACE, 'CAPABILITY-ANCHOR.md');
           const iscExists = fs.existsSync(iscPath);
           
           if (iscExists) {

@@ -7,15 +7,16 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 const DISTRIBUTION_CONFIG = {
-  standardsPath: '/root/.openclaw/workspace/skills/isc-core/standards',
+  standardsPath: path.join(__dirname, '..', 'standards'),
   distributionTargets: [
-    { name: 'DTO', path: '/root/.openclaw/workspace/skills/dto-core', type: 'orchestrator' },
-    { name: 'CRAS', path: '/root/.openclaw/workspace/skills/cras', type: 'cognition' },
-    { name: 'SEEF', path: '/root/.openclaw/workspace/skills/seef', type: 'evolution' }
+    { name: 'DTO', path: path.join(SKILLS_DIR, 'dto-core'), type: 'orchestrator' },
+    { name: 'CRAS', path: path.join(SKILLS_DIR, 'cras'), type: 'cognition' },
+    { name: 'SEEF', path: path.join(SKILLS_DIR, 'seef'), type: 'evolution' }
   ],
-  logPath: '/root/.openclaw/workspace/skills/isc-core/logs/distribution-log.jsonl'
+  logPath: path.join(__dirname, '..', 'logs/distribution-log.jsonl')
 };
 
 class ISCStandardDistributionCenter {

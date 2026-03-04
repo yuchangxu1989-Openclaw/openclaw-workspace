@@ -6,6 +6,7 @@
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const { WORKSPACE } = require('../../_shared/paths');
 
 class ScriptSignatureValidator {
   constructor(options = {}) {
@@ -118,7 +119,7 @@ class ScriptSignatureValidator {
     }
     
     // 必须在工作区内
-    const workspace = process.env.OPENCLAW_WORKSPACE || '/root/.openclaw/workspace';
+    const workspace = process.env.OPENCLAW_WORKSPACE || WORKSPACE;
     if (!resolved.startsWith(workspace)) {
       return { valid: false, error: '脚本必须在 OpenClaw 工作区内' };
     }

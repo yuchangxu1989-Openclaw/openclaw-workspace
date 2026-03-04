@@ -2,8 +2,11 @@
 # 飞书报告发送脚本 - 实际发送版本
 # 读取队列并通过OpenClaw message工具发送到飞书
 
-SEND_QUEUE="/root/.openclaw/workspace/feishu_send_queue"
-SENT_PATH="/root/.openclaw/workspace/feishu_sent_cards"
+OPENCLAW_HOME="${OPENCLAW_HOME:-/root/.openclaw}"
+WORKSPACE="${OPENCLAW_WORKSPACE:-$OPENCLAW_HOME/workspace}"
+
+SEND_QUEUE="$WORKSPACE/feishu_send_queue"
+SENT_PATH="$WORKSPACE/feishu_sent_cards"
 TARGET_USER="${FEISHU_TARGET_USER:-ou_8eafdc7241d381d714746e486b641883}"
 
 # 确保目录存在

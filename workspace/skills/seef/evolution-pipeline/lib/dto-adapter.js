@@ -13,6 +13,9 @@
 
 import fs from 'fs';
 import path from 'path';
+import { createRequire } from 'module';
+const _require = createRequire(import.meta.url);
+const { SKILLS_DIR } = _require('../../../_shared/paths');
 import { EventEmitter } from 'events';
 
 /**
@@ -37,8 +40,8 @@ class DTOAdapter extends EventEmitter {
       subscriptionRules: config.subscriptionRules || ['skill.evolution.auto-trigger'],
       eventTypes: config.eventTypes || ['skill.changed', 'skill.created', 'skill.published'],
       autoTrigger: config.autoTrigger !== false,
-      dtoCorePath: config.dtoCorePath || '/root/.openclaw/workspace/skills/dto-core',
-      iscRulesPath: config.iscRulesPath || '/root/.openclaw/workspace/skills/isc-core/rules',
+      dtoCorePath: config.dtoCorePath || path.join(SKILLS_DIR, 'dto-core'),
+      iscRulesPath: config.iscRulesPath || path.join(SKILLS_DIR, 'isc-core/rules'),
       ...config
     };
 

@@ -8,12 +8,13 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 class ISC_DTO_AlignmentEngine {
     constructor() {
-        this.iscRulesDir = '/root/.openclaw/workspace/skills/isc-core/rules/decision';
-        this.dtoSubscriptionsDir = '/root/.openclaw/workspace/skills/dto-core/subscriptions';
-        this.alignmentLog = '/root/.openclaw/workspace/skills/.isc-dto-alignment.log';
+        this.iscRulesDir = path.join(__dirname, '..', 'rules/decision');
+        this.dtoSubscriptionsDir = path.join(SKILLS_DIR, 'dto-core/subscriptions');
+        this.alignmentLog = path.join(SKILLS_DIR, '.isc-dto-alignment.log');
         this.subscribedRules = this.loadSubscribedRules();
     }
 
@@ -166,7 +167,7 @@ class ISC_DTO_AlignmentEngine {
      */
     notifyDTO(subscription) {
         // 写入事件队列，DTO 定时读取
-        const eventQueue = '/root/.openclaw/workspace/skills/dto-core/events/isc-rule-subscriptions.jsonl';
+        const eventQueue = path.join(SKILLS_DIR, 'dto-core/events/isc-rule-subscriptions.jsonl');
         fs.mkdirSync(path.dirname(eventQueue), { recursive: true });
         
         const event = {

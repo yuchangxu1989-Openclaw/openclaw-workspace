@@ -7,14 +7,15 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
 
 const CONFIG = {
-  aeoEvalPath: '/root/.openclaw/workspace/skills/aeo/evaluation-sets',
-  unifiedPath: '/root/.openclaw/workspace/skills/aeo/unified-evaluation-sets',
+  aeoEvalPath: path.join(SKILLS_DIR, 'aeo/evaluation-sets'),
+  unifiedPath: path.join(SKILLS_DIR, 'aeo/unified-evaluation-sets'),
   sources: [
-    { path: '/root/.openclaw/workspace/aeo-vector-system/test-data/test-cases.json', type: 'function', name: 'vector-system' },
-    { path: '/root/.openclaw/workspace/infrastructure/mr/__tests__/test-cases.json', type: 'ai-effect', name: 'model-router' },
-    { path: '/root/.openclaw/workspace/evolver/test', type: 'function', name: 'evolver-unit', isDir: true }
+    { path: path.join(WORKSPACE, 'aeo-vector-system/test-data/test-cases.json'), type: 'function', name: 'vector-system' },
+    { path: path.join(WORKSPACE, 'infrastructure/mr/__tests__/test-cases.json'), type: 'ai-effect', name: 'model-router' },
+    { path: path.join(WORKSPACE, 'evolver/test'), type: 'function', name: 'evolver-unit', isDir: true }
   ]
 };
 
@@ -59,7 +60,7 @@ class EvaluationSetMigrator {
   }
 
   async migrateVectorSystem() {
-    const sourcePath = '/root/.openclaw/workspace/aeo-vector-system/test-data/test-cases.json';
+    const sourcePath = path.join(WORKSPACE, 'aeo-vector-system/test-data/test-cases.json');
     if (!fs.existsSync(sourcePath)) return;
     
     const cases = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
@@ -86,7 +87,7 @@ class EvaluationSetMigrator {
   }
 
   async migrateModelRouter() {
-    const sourcePath = '/root/.openclaw/workspace/infrastructure/mr/__tests__/test-cases.json';
+    const sourcePath = path.join(WORKSPACE, 'infrastructure/mr/__tests__/test-cases.json');
     if (!fs.existsSync(sourcePath)) return;
     
     const data = JSON.parse(fs.readFileSync(sourcePath, 'utf8'));
@@ -146,7 +147,7 @@ class EvaluationSetMigrator {
   }
 
   async migrateEvolverTests() {
-    const testDir = '/root/.openclaw/workspace/evolver/test';
+    const testDir = path.join(WORKSPACE, 'evolver/test');
     if (!fs.existsSync(testDir)) return;
     
     const files = fs.readdirSync(testDir).filter(f => f.endsWith('.test.js'));

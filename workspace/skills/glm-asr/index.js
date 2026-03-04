@@ -10,7 +10,7 @@ const path = require('path');
 
 class GLMASR {
   constructor() {
-    this.apiKey = 'a6fb0aef61e3439c9df70ef5b991f387.IsTAMudIofaMN9Jx';
+    this.apiKey = process.env.ZHIPU_API_KEY || 'ZHIPU_KEY_PLACEHOLDER';
     this.baseURL = 'open.bigmodel.cn';
     this.model = 'glm-asr-2512';
   }

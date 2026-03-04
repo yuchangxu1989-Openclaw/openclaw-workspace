@@ -6,10 +6,11 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 const LISTENER_CONFIG = {
-  eventPath: '/root/.openclaw/workspace/skills/dto-core/events/isc-rule-created.jsonl',
-  subscriptionsPath: '/root/.openclaw/workspace/skills/dto-core/subscriptions'
+  eventPath: path.join(SKILLS_DIR, 'dto-core/events/isc-rule-created.jsonl'),
+  subscriptionsPath: path.join(SKILLS_DIR, 'dto-core/subscriptions')
 };
 
 class ISCRuleCreatedListener {

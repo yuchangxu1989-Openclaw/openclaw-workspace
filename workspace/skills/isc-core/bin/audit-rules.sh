@@ -7,7 +7,11 @@ echo "ISC规则整理"
 echo "=========================================="
 echo ""
 
-cd /root/.openclaw/workspace/skills/isc-core
+OPENCLAW_HOME="${OPENCLAW_HOME:-/root/.openclaw}"
+WORKSPACE="${OPENCLAW_WORKSPACE:-$OPENCLAW_HOME/workspace}"
+ISC_CORE_DIR="$WORKSPACE/skills/isc-core"
+
+cd "$ISC_CORE_DIR"
 
 # 统计
 echo "当前规则分布:"

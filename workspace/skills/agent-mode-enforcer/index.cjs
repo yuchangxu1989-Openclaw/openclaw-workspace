@@ -9,6 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { WORKSPACE } = require('../_shared/paths');
 
 // 强制多Agent触发条件（来自SOUL.md规则M001）
 const MULTI_AGENT_TRIGGERS = {
@@ -172,7 +173,7 @@ function enforceCheck(taskDescription, context = {}) {
  * 记录违规日志
  */
 function logViolation(taskDescription, context) {
-  const logDir = '/root/.openclaw/workspace/logs/agent-enforcer';
+  const logDir = path.join(WORKSPACE, 'logs/agent-enforcer');
   fs.mkdirSync(logDir, { recursive: true });
   
   const logEntry = {

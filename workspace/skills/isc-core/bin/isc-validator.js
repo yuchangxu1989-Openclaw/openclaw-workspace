@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const VALIDATOR_CONFIG = {
-  standardsPath: '/root/.openclaw/workspace/skills/isc-core/standards'
+  standardsPath: path.join(__dirname, '..', 'standards')
 };
 
 class ISCValidator {

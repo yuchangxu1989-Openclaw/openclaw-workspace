@@ -15,7 +15,7 @@ class ZhipuEmbedding:
     """智谱 AI Embedding 服务"""
     
     def __init__(self, api_key: str = None):
-        self.api_key = api_key or os.getenv('ZHIPU_API_KEY', '5caf7ab2fa9f4f00b555b4c994a14f28.cGN39KDlNH38Bn0t')
+        self.api_key = api_key or os.getenv('ZHIPU_API_KEY', 'ZHIPU_KEY_PLACEHOLDER')
         self.base_url = 'https://open.bigmodel.cn/api/paas/v4'
         self.model = 'embedding-3'
         self.dimensions = 1024  # 固定使用1024维

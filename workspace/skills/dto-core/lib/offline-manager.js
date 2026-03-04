@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
 
 class OfflineTaskManager {
   constructor(options = {}) {
@@ -130,9 +131,9 @@ class OfflineTaskManager {
    */
   getLocalPath(module) {
     const paths = {
-      'cras': '/root/.openclaw/workspace/skills/cras',
-      'isc': '/root/.openclaw/workspace/skills/isc-core',
-      'seef': '/root/.openclaw/workspace/skills/seef'
+      'cras': path.join(SKILLS_DIR, 'cras'),
+      'isc': path.join(SKILLS_DIR, 'isc-core'),
+      'seef': path.join(SKILLS_DIR, 'seef')
     };
     return paths[module] || module;
   }

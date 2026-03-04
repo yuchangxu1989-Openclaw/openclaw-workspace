@@ -10,13 +10,14 @@ const zlib = require('zlib');
 const { promisify } = require('util');
 const gzip = promisify(zlib.gzip);
 const gunzip = promisify(zlib.gunzip);
+const { AGENTS_DIR } = require('../../../_shared/paths');
 
 // 配置
 const CONFIG = {
   // 主会话目录
-  mainSessionDir: '/root/.openclaw/agents/main/sessions',
+  mainSessionDir: path.join(AGENTS_DIR, 'main/sessions'),
   // 推理内容存储目录
-  thinkingDir: '/root/.openclaw/agents/main/thinking',
+  thinkingDir: path.join(AGENTS_DIR, 'main/thinking'),
   // 归档存储目录
   archiveDir: '/data/archive/thinking',
   // 保留最近N条推理内容

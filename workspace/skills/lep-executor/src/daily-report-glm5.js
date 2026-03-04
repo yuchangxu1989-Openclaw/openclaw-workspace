@@ -9,9 +9,10 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const https = require('https');
+const { WORKSPACE, SECRETS_DIR, SKILLS_DIR } = require('../../_shared/paths');
 
 // 配置
-const WORKSPACE_ROOT = '/root/.openclaw/workspace';
+const WORKSPACE_ROOT = WORKSPACE;
 const REPORT_DATE = new Date().toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: 'long',
@@ -20,11 +21,11 @@ const REPORT_DATE = new Date().toLocaleDateString('zh-CN', {
 });
 const TIMESTAMP = new Date().toISOString();
 
-// GLM-5配置
+// LLM配置 - 模型通过环境变量配置
 const GLM5_CONFIG = {
-  baseURL: 'open.bigmodel.cn',
+  baseURL: process.env.LLM_API_HOST || 'open.bigmodel.cn',
   apiPath: '/api/paas/v4/chat/completions',
-  model: 'glm-5'
+  model: process.env.LLM_DEFAULT_MODEL || 'glm-5'
 };
 
 // 飞书配置
@@ -42,7 +43,7 @@ function loadAPIKey() {
   }
   
   // 从secrets文件加载
-  const secretsPath = '/root/.openclaw/.secrets/zhipu-keys.env';
+  const secretsPath = path.join(SECRETS_DIR, 'zhipu-keys.env');
   if (fs.existsSync(secretsPath)) {
     const content = fs.readFileSync(secretsPath, 'utf8');
     const match = content.match(/ZHIPU_API_KEY_3=([a-zA-Z0-9._-]+)/);
@@ -375,7 +376,7 @@ async function sendToFeishu(reportContent, healthData) {
     };
 
     // 保存到发送队列
-    const queueDir = '/root/.openclaw/workspace/skills/cras/feishu_queue';
+    const queueDir = path.join(SKILLS_DIR, 'cras/feishu_queue');
     if (!fs.existsSync(queueDir)) {
       fs.mkdirSync(queueDir, { recursive: true });
     }

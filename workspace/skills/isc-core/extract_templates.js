@@ -6,7 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ISC_TEMPLATE_PATH = '/root/.openclaw/workspace/skills/isc-core/templates';
+const ISC_TEMPLATE_PATH = path.join(__dirname, 'templates');
 
 // 从 CRON 任务提取模板
 function extractFromCron() {
@@ -17,7 +17,7 @@ function extractFromCron() {
     payload: {
       kind: "agentTurn",
       message: "执行CARS意图洞察仪表盘生成任务：分析过去24小时会话，生成Top10意图分布、四维趋势洞察、心智闭环更新，并推送至用户。",
-      model: "kimi-coding/k2p5",
+      model: process.env.OPENCLAW_DEFAULT_MODEL || "default",
       timeoutSeconds: 300
     },
     sessionTarget: "isolated",
@@ -54,7 +54,7 @@ function extractFromCron() {
       delivery: carsCron.delivery
     },
     parameters: {
-      model: { default: 'kimi-coding/k2p5', configurable: true },
+      model: { default: process.env.OPENCLAW_DEFAULT_MODEL || 'default', configurable: true },
       timeout: { default: 300, unit: 'seconds', configurable: true },
       lookback_hours: { default: 24, min: 1, max: 168, configurable: true }
     },

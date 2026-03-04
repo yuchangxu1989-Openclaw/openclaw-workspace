@@ -3,6 +3,10 @@
  * 持续监控系统健康，发现问题立即自修复
  */
 
+const fs = require('fs');
+const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
+
 class ADPSelfCheckSystem {
   constructor() {
     this.checkInterval = 300000; // 5分钟自检一次
@@ -33,12 +37,11 @@ class ADPSelfCheckSystem {
     this.checks.push({
       name: 'ISC规则订阅',
       check: async () => {
-        const fs = require('fs');
-        const standardsPath = '/root/.openclaw/workspace/skills/isc-core/standards';
+        const standardsPath = path.join(SKILLS_DIR, 'isc-core/standards');
         const files = fs.readdirSync(standardsPath).filter(f => f.endsWith('.json') && f.startsWith('rule.'));
         
         // 检查DTO是否正确订阅了所有规则
-        const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+        const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
         const subscribedCount = (dtoCode.match(/autoSubscribe/g) || []).length;
         
         return {
@@ -53,8 +56,7 @@ class ADPSelfCheckSystem {
     this.checks.push({
       name: '文件监控',
       check: async () => {
-        const fs = require('fs');
-        const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+        const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
         
         const hasWatcher = dtoCode.includes('startFileWatcher');
         const hasChecker = dtoCode.includes('checkFileChanges');
@@ -79,8 +81,7 @@ class ADPSelfCheckSystem {
     this.checks.push({
       name: 'R005自动触发',
       check: async () => {
-        const fs = require('fs');
-        const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+        const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
         
         const hasHandler = dtoCode.includes('handleSkillMdSync');
         const hasTrigger = dtoCode.includes("type: 'code_change'");
@@ -105,8 +106,7 @@ class ADPSelfCheckSystem {
     this.checks.push({
       name: 'ISC定时重扫',
       check: async () => {
-        const fs = require('fs');
-        const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+        const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
         
         const hasRescan = dtoCode.includes('startISCRescanTimer');
         

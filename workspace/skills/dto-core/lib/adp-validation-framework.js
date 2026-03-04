@@ -3,6 +3,10 @@
  * 任何功能必须通过全部验证才能部署
  */
 
+const fs = require('fs');
+const path = require('path');
+const { SKILLS_DIR } = require('../../_shared/paths');
+
 class ADPValidationFramework {
   constructor() {
     this.validations = [];
@@ -64,42 +68,37 @@ const dtoValidations = new ADPValidationFramework();
 
 // 1. ISC规则自动加载验证
 dtoValidations.addValidation('ISC规则自动加载', async () => {
-  const fs = require('fs');
-  const path = require('path');
   
   // 检查是否能动态加载所有规则
-  const standardsPath = '/root/.openclaw/workspace/skills/isc-core/standards';
+  const standardsPath = path.join(SKILLS_DIR, 'isc-core/standards');
   const files = fs.readdirSync(standardsPath).filter(f => f.endsWith('.json'));
   
   // 模拟新规则文件
   const testRule = { id: 'TEST_VALIDATION', name: 'test', governance: { auto_execute: true } };
   
   // 验证动态加载逻辑存在
-  const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+  const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
   return dtoCode.includes('initializeISCSubscriptions') && 
          dtoCode.includes('startISCRescanTimer');
 }, true);
 
 // 2. 文件变更自动检测验证
 dtoValidations.addValidation('文件变更自动检测', async () => {
-  const fs = require('fs');
-  const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+  const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
   return dtoCode.includes('startFileWatcher') && 
          dtoCode.includes('checkFileChanges');
 }, true);
 
 // 3. R005自动触发验证
 dtoValidations.addValidation('R005自动触发', async () => {
-  const fs = require('fs');
-  const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+  const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
   return dtoCode.includes('handleSkillMdSync') && 
          dtoCode.includes("type: 'code_change'");
 }, true);
 
 // 4. 异常处理验证
 dtoValidations.addValidation('异常处理完整性', async () => {
-  const fs = require('fs');
-  const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+  const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
   // 检查关键方法是否有try-catch
   return dtoCode.includes('try {') && dtoCode.includes('catch (');
 }, true);
@@ -107,8 +106,7 @@ dtoValidations.addValidation('异常处理完整性', async () => {
 // 5. 自验证机制验证
 dtoValidations.addValidation('自验证机制', async () => {
   // 检查是否有自我验证代码
-  const fs = require('fs');
-  const dtoCode = fs.readFileSync('/root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js', 'utf8');
+  const dtoCode = fs.readFileSync(path.join(SKILLS_DIR, 'dto-core/core/declarative-orchestrator.js'), 'utf8');
   return dtoCode.includes('rescanISCAndSkills');
 }, true);
 
