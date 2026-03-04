@@ -83,6 +83,13 @@ const CONFIG = {
       /\.pid$/,        // PID文件
       /-state\.json$/, // 状态文件
       /-feedback\.jsonl$/, // 反馈日志
+      /heartbeats\.json$/, // 运行时心跳（高频噪音）
+      /pdca-execution-log\.jsonl$/, // PDCA执行日志（高频噪音）
+      /cras_insight_dashboard\.json$/, // CRAS仪表盘（高频噪音）
+      /\.workspace-versions\.json$/, // 版本文件自身（避免循环）
+      /runs\.json$/, // 子Agent运行记录（高频噪音）
+      /dedup.*\.json$/, // 去重缓存（高频噪音）
+      /\.bundle$/, // git bundle备份
       /\.mp4$/, /\.mp3$/, /\.avi$/, /\.mov$/, // 媒体文件
       /\.zip$/, /\.tar\.gz$/, /\.tar\.bz2$/, /\.rar$/, /\.7z$/ // 压缩文件
     ]

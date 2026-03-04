@@ -19,12 +19,20 @@ infrastructure/vector-service/backup/
 .dto-signals/
 .isc/
 
-# ===== 运行时状态 =====
+# ===== 运行时状态（高频变更噪音）=====
 .pipeline-*
 .dto-pipeline.pid
 .elite-memory.json
 .evomap-registry.json
 *.pid
+workspace/infrastructure/observability/heartbeats.json
+feishu/dedup/
+subagents/runs.json
+delivery-queue/
+update-check.json
+workspace/logs/
+workspace/memory/pdca-execution-log.jsonl
+workspace/cras_insight_dashboard.json
 
 # ===== 临时文件 =====
 .DS_Store
