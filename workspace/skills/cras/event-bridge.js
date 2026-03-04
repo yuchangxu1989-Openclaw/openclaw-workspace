@@ -181,4 +181,58 @@ if (require.main === module) {
   console.log(`[CRAS] 完成: ${JSON.stringify(result)}`);
 }
 
-module.exports = { processAssessments, analyzeEvent, generateReport };
+/**
+ * 知识学习完成后发布事件
+ * 供外部调用：CRAS完成知识学习后调用此函数emit事件
+ * @param {object} result - 学习结果
+ * @param {string} result.source - 学习来源 (active-learning, passive-learning, etc.)
+ * @param {number} result.insight_count - 学习到的洞察数量
+ * @param {string} [result.topic] - 学习主题
+ * @returns {object} 发布的事件
+ */
+function emitKnowledgeLearned(result) {
+  const event = bus.emit('cras.knowledge.learned', {
+    source: result.source || 'unknown',
+    insight_count: result.insight_count || 0,
+    topic: result.topic || null,
+    timestamp: Date.now()
+  }, 'cras');
+  console.log(`[CRAS-Bridge] 发布事件: cras.knowledge.learned (source=${result.source}, insights=${result.insight_count})`);
+  return event;
+}
+
+/**
+ * 分析请求接口 — 供 Dispatcher 反向调用
+ * 接收事件，触发CRAS分析流程，返回分析结果
+ * @param {object} event - 触发事件
+ * @returns {object} 分析结果
+ */
+function analyzeRequest(event) {
+  const payload = event.payload || event;
+  const result = analyzeEvent({
+    id: event.id || `req_${Date.now()}`,
+    type: payload.type || 'analysis_request',
+    payload: payload,
+    timestamp: Date.now()
+  });
+
+  if (result) {
+    saveInsight(result);
+    // 发布洞察事件
+    bus.emit('cras.insight.generated', {
+      insight_count: 1,
+      report_id: result.id,
+      summary: result.finding,
+      trigger: 'dispatcher_request'
+    }, 'cras');
+  }
+
+  return {
+    status: 'ok',
+    handler: 'cras-analysis',
+    insight: result,
+    timestamp: new Date().toISOString()
+  };
+}
+
+module.exports = { processAssessments, analyzeEvent, generateReport, emitKnowledgeLearned, analyzeRequest };

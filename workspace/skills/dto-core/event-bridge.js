@@ -268,4 +268,73 @@ if (require.main === module) {
     });
 }
 
-module.exports = { processEvents, EVENT_HANDLERS };
+/**
+ * 任务完成事件发布 — 供DTO Platform.execute()完成后调用
+ * @param {object} result - 任务执行结果
+ * @param {string} result.taskId - 任务ID
+ * @param {string} result.executionId - 执行ID
+ * @param {string} [result.status] - 执行状态
+ * @param {number} [result.duration] - 执行时长ms
+ * @returns {object} 发布的事件
+ */
+function emitTaskCompleted(result) {
+  const event = bus.emit('dto.task.completed', {
+    task_id: result.taskId || result.task_id || 'unknown',
+    execution_id: result.executionId || result.execution_id || null,
+    status: result.status || 'completed',
+    duration: result.duration || 0,
+    timestamp: Date.now()
+  }, 'dto-core');
+  console.log(`[DTO-Bridge] 发布事件: dto.task.completed (task=${result.taskId})`);
+  return event;
+}
+
+/**
+ * 任务创建接口 — 供 Dispatcher 反向调用
+ * 接收事件，在DTO中创建对应任务
+ * @param {object} event - 触发事件
+ * @returns {object} 创建结果
+ */
+function createTaskFromEvent(event) {
+  const payload = event.payload || event;
+  const taskId = `task_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+  
+  // 写入tasks目录作为任务声明
+  const tasksDir = path.join(__dirname, 'tasks');
+  if (!fs.existsSync(tasksDir)) fs.mkdirSync(tasksDir, { recursive: true });
+  
+  const taskDef = {
+    id: taskId,
+    name: payload.task_name || payload.name || 'auto-created-task',
+    description: payload.description || `Auto-created from event ${event.id || 'unknown'}`,
+    source_event: event.id || null,
+    source_type: event.type || 'unknown',
+    status: 'pending',
+    created_at: new Date().toISOString(),
+    payload: payload
+  };
+  
+  fs.writeFileSync(
+    path.join(tasksDir, `${taskId}.json`),
+    JSON.stringify(taskDef, null, 2)
+  );
+  
+  // Emit task created event
+  bus.emit('dto.task.created', {
+    task_id: taskId,
+    name: taskDef.name,
+    source_event: event.id || null
+  }, 'dto-core');
+  
+  console.log(`[DTO-Bridge] 创建任务: ${taskId} (${taskDef.name})`);
+  
+  return {
+    status: 'ok',
+    handler: 'dto-task-create',
+    task_id: taskId,
+    task: taskDef,
+    timestamp: new Date().toISOString()
+  };
+}
+
+module.exports = { processEvents, EVENT_HANDLERS, emitTaskCompleted, createTaskFromEvent };

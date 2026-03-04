@@ -65,4 +65,24 @@ function publishBatchResults(results) {
   return events;
 }
 
-module.exports = { onAssessmentComplete, publishBatchResults };
+/**
+ * 评测完成事件（统一接口）
+ * 对外发布 aeo.evaluation.completed，整合评测结果
+ * @param {Object} result - 评测结果
+ * @returns {Object} 发布的事件
+ */
+function onEvaluationComplete(result) {
+  const event = bus.emit('aeo.evaluation.completed', {
+    skill_name: result.skill_name,
+    track: result.track || 'unified',
+    score: result.score,
+    passed: result.passed,
+    issues: result.issues || [],
+    evaluation_type: result.evaluation_type || 'standard',
+    timestamp: Date.now()
+  }, 'aeo');
+  console.log(`[AEO-Bridge] 发布事件: aeo.evaluation.completed for ${result.skill_name}`);
+  return event;
+}
+
+module.exports = { onAssessmentComplete, publishBatchResults, onEvaluationComplete };

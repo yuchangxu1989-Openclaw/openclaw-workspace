@@ -331,6 +331,18 @@ async function dispatch(rule, event, options = {}) {
   const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS;
   const handlerMap = options.handlerMap || null;
 
+  // Handle ISC rule wrapper format: { rule: ISC_RULE, priority, match_type, pattern }
+  // Normalize to ensure rule.action exists for routing
+  if (!rule.action && rule.rule) {
+    const iscRule = rule.rule;
+    rule.action = (iscRule.trigger && iscRule.trigger.events && iscRule.trigger.events[0])
+      || event.type || event.eventType || 'unknown';
+    // Carry forward ISC rule info for handlers
+    rule._iscRule = iscRule;
+  } else if (!rule.action) {
+    rule.action = event.type || event.eventType || 'unknown';
+  }
+
   // Feature flag check
   if (!isEnabled()) {
     const decision = {
@@ -434,11 +446,14 @@ async function dispatch(rule, event, options = {}) {
       const result = await withTimeout(handlerFn, [event, context], timeoutMs);
       const duration = Date.now() - startTime;
 
+      // Allow handler to override the reported handler name (for sub-routing)
+      const reportedHandler = (result && result.handler) || handlerName;
+
       logDecision({
         action: rule.action,
         eventType: event.type || event.eventType || 'unknown',
         eventId: event.id || 'unknown',
-        handler: handlerName,
+        handler: reportedHandler,
         matchedPattern: route ? route.pattern : 'direct',
         result: 'success',
         attempt: attempt + 1,
@@ -448,7 +463,7 @@ async function dispatch(rule, event, options = {}) {
       return {
         success: true,
         result,
-        handler: handlerName,
+        handler: reportedHandler,
         duration,
         retried: attempt > 0,
       };

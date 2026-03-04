@@ -20,6 +20,10 @@ const path = require('path');
 const crypto = require('crypto');
 const bus = require('./bus');
 
+// ─── Observability: Metrics ───
+let _metrics = null;
+try { _metrics = require('../observability/metrics'); } catch (_) {}
+
 // ─── 常量 ───
 const DEFAULT_CONSUMER_ID = 'l3-pipeline';
 const DEDUPE_WINDOW_MS = 5000; // 5秒去重窗口
@@ -129,6 +133,7 @@ function emit(type, payload, source, metadata) {
   const fp = _fingerprint(type, payload);
   const lastEmit = _recentEmits.get(fp);
   if (lastEmit && (Date.now() - lastEmit) < DEDUPE_WINDOW_MS) {
+    if (_metrics) _metrics.inc('events_dropped_total');
     return { id: null, suppressed: true };
   }
 

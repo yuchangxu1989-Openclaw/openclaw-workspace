@@ -1,4 +1,9 @@
 {
+  "user.message": {
+    "handler": "user-message-router",
+    "priority": "high",
+    "description": "Route user messages to appropriate handler based on intent classification"
+  },
   "isc.rule.*": {
     "handler": "dto-sync",
     "agent": "coder",

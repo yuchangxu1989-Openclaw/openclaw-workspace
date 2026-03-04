@@ -1,3 +1,25 @@
 {"what":"user.emotion.positive","why":"太棒了，这个方案完美！","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:14:46.416Z"}
 {"what":"user.emotion.positive","why":"不错不错，终于搞定了","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:14:58.832Z"}
 {"what":"user.emotion.positive","why":"厉害，比预期好多了","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:15:22.345Z"}
+{"what":"user.emotion.negative","why":"这做的什么垃圾，完全不能用","confidence":0.99,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:15:41.537Z"}
+{"what":"user.emotion.negative","why":"又错了，你到底在不在听","confidence":0.98,"alternatives":["user.emotion.frustration"],"method":"llm","timestamp":"2026-03-04T18:15:58.124Z"}
+{"what":"user.emotion.negative","why":"太差了，重做吧","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:16:15.908Z"}
+{"what":"user.emotion.frustration","why":"搞了三天了还是不行，我快放弃了","confidence":0.98,"alternatives":["user.emotion.negative"],"method":"llm","timestamp":"2026-03-04T18:16:38.072Z"}
+{"what":"user.emotion.frustration","why":"每次都要说一遍，累了","confidence":1,"alternatives":["user.emotion.negative"],"method":"llm","timestamp":"2026-03-04T18:16:55.715Z"}
+{"what":"user.emotion.frustration","why":"算了算了不弄了","confidence":1,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:17:21.621Z"}
+{"what":"IC1","why":"Regex fallback matched 1 keyword(s): 不错","confidence":0.4,"alternatives":[],"method":"regex_fallback","timestamp":"2026-03-04T18:18:21.834Z"}
+{"what":"IC3","why":"LLM unavailable, regex not applicable for this category","confidence":0,"alternatives":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T18:18:21.834Z"}
+{"what":"IC4","why":"LLM unavailable, regex not applicable for this category","confidence":0,"alternatives":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T18:18:21.834Z"}
+{"what":"IC5","why":"LLM unavailable, regex not applicable for this category","confidence":0,"alternatives":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T18:18:21.834Z"}
+{"what":"user.intent.implicit_dissatisfaction","why":"好吧，就这样吧","confidence":0.9,"alternatives":["user.emotion.negative"],"method":"llm","timestamp":"2026-03-04T18:18:51.703Z"}
+{"what":"user.emotion.positive","why":"还行","confidence":0.85,"alternatives":["user.intent.implicit_approval"],"method":"llm","timestamp":"2026-03-04T18:19:31.261Z"}
+{"what":"user.intent.implicit_urgency","why":"我焦虑啊，这个deadline快到了","confidence":0.95,"alternatives":["user.emotion.negative"],"method":"llm","timestamp":"2026-03-04T18:20:10.547Z"}
+{"what":"IC1","why":"Regex fallback matched 1 keyword(s): 期待","confidence":0.4,"alternatives":[],"method":"regex_fallback","timestamp":"2026-03-04T18:21:10.769Z"}
+{"what":"IC3","why":"LLM unavailable, regex not applicable for this category","confidence":0,"alternatives":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T18:21:10.770Z"}
+{"what":"IC4","why":"LLM unavailable, regex not applicable for this category","confidence":0,"alternatives":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T18:21:10.770Z"}
+{"what":"IC5","why":"LLM unavailable, regex not applicable for this category","confidence":0,"alternatives":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T18:21:10.770Z"}
+{"what":"user.emotion.negative","why":"这结果让人无语","confidence":0.9,"alternatives":["user.emotion.frustration","user.intent.implicit_dissatisfaction"],"method":"llm","timestamp":"2026-03-04T18:21:41.762Z"}
+{"what":"user.emotion.frustration","why":"受不了了，这bug怎么杀不完","confidence":0.95,"alternatives":["user.emotion.negative"],"method":"llm","timestamp":"2026-03-04T18:22:03.430Z"}
+{"what":"rule.trigger.self_correction","why":"以后我会自动检查这个，不需要你提醒","confidence":0.98,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:22:20.618Z"}
+{"what":"rule.trigger.self_correction","why":"这是我的问题，不该跳过验证步骤","confidence":1,"alternatives":[],"method":"llm","timestamp":"2026-03-04T18:22:36.010Z"}
+{"what":"rule.trigger.architecture_review","why":"我们把消息队列从Redis换成Kafka","confidence":1,"alternatives":["user.intent.architecture_decision"],"method":"llm","timestamp":"2026-03-04T18:22:53.515Z"}

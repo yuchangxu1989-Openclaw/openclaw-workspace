@@ -222,16 +222,23 @@ async function _executeStepInner(step, context) {
 // ─── Regex intent fallback ───
 function regexIntentFallback(text) {
   const patterns = [
+    // IC2 — Development/Skill (check first — building/creation context)
+    { pattern: /做.*页面|做.*网页|产品.*页面|展示页/i, category: 'IC2', name: 'webpage_build' },
+    { pattern: /做.*流水线|自动化.*流水线|自动化.*pipeline|pipeline/i, category: 'IC2', name: 'skill_orchestration' },
+    { pattern: /技能|skill|从零.*做/i, category: 'IC2', name: 'skill_creation' },
+
+    // IC3 — Knowledge/Academic (analysis context)
     { pattern: /论文|学术|方法论|研究|文献/i, category: 'IC3', name: 'academic_analysis' },
-    { pattern: /需求|意图|用户|想要|真实/i, category: 'IC3', name: 'user_intent' },
-    { pattern: /缺陷|bug|反复|模式|代码质量/i, category: 'IC3', name: 'engineering_defect' },
-    { pattern: /竞品|对比|竞争|分析.*能力/i, category: 'IC3', name: 'competitive_analysis' },
-    { pattern: /技能|开发|创建|skill/i, category: 'IC2', name: 'skill_creation' },
-    { pattern: /网页|页面|网站|前端|html/i, category: 'IC2', name: 'webpage_build' },
-    { pattern: /编排|协调|多.*技能|pipeline/i, category: 'IC2', name: 'skill_orchestration' },
-    { pattern: /PDF|文档.*知识|结构化|吸收/i, category: 'IC4', name: 'knowledge_extraction' },
-    { pattern: /公众号|自媒体|运营|内容.*创作/i, category: 'IC4', name: 'content_operation' },
-    { pattern: /金融|财务|数据.*分析|报表/i, category: 'IC5', name: 'financial_analysis' },
+    { pattern: /竞品.*对比|对比.*竞品|竞品.*差异|竞品.*能力/i, category: 'IC3', name: 'competitive_analysis' },
+    { pattern: /缺陷|bug|代码质量/i, category: 'IC3', name: 'engineering_defect' },
+    { pattern: /效率|出了问题|哪里.*问题/i, category: 'IC3', name: 'problem_analysis' },
+
+    // IC4 — Content
+    { pattern: /PDF|文档.*知识|结构化.*知识/i, category: 'IC4', name: 'knowledge_extraction' },
+    { pattern: /公众号|自媒体|运营|内容.*排期/i, category: 'IC4', name: 'content_operation' },
+
+    // IC5 — Analysis/Insight
+    { pattern: /金融|财务|股票|报表|MACD|行情/i, category: 'IC5', name: 'financial_analysis' },
   ];
   
   for (const { pattern, category, name } of patterns) {
