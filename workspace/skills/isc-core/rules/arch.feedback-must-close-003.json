@@ -1,0 +1,21 @@
+{
+  "id": "arch.feedback-must-close-003",
+  "rule_name": "Feedback Must Close — 反馈必须闭环",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "任何事件发布后必须有明确的消费确认。任何错误检测后必须有诊断→修复→验证的完整闭环。开环=失控。",
+  "source": "Day 1/2设计债务复盘 — AP-003架构原则，根因γ修复",
+  "trigger": {
+    "events": {
+      "META": ["system.event.orphan_report", "system.event.dead_channel"]
+    },
+    "condition": "orphan_count > 0 OR dead_channel_detected"
+  },
+  "action": {
+    "type": "enforce",
+    "handler": "event-health-monitor",
+    "on_failure": "escalate"
+  },
+  "enforcement": "runtime_binding",
+  "enforcement_tier": "P1_monitor"
+}

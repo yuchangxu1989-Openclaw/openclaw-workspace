@@ -1,0 +1,21 @@
+{
+  "id": "arch.machine-over-human-004",
+  "rule_name": "Machine Over Human — 机器约束优于人的纪律",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "所有'应该做'的事项必须自动化为'必须做'。依赖人记忆和纪律的约束，在概率上等于没有约束。",
+  "source": "Day 1/2设计债务复盘 — AP-004架构原则，根因δ修复",
+  "trigger": {
+    "events": {
+      "L2": ["quality.automation.gap_found"]
+    },
+    "condition": "manual_check_found_without_automation"
+  },
+  "action": {
+    "type": "enforce",
+    "handler": "automation-gap-scanner",
+    "on_failure": "warn"
+  },
+  "enforcement": "runtime_binding",
+  "enforcement_tier": "P1_monitor"
+}

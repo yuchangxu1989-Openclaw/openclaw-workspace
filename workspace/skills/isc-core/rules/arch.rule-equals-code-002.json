@@ -1,0 +1,29 @@
+{
+  "id": "arch.rule-equals-code-002",
+  "rule_name": "Rule = Code — 规则即代码",
+  "version": "1.0.0",
+  "severity": "critical",
+  "description": "ISC规则定义(JSON)与规则执行(gate_check代码)必须1:1配对。只有JSON定义无代码实现的规则，在合规审计中视为'不存在'。",
+  "source": "Day 1/2设计债务复盘 — AP-002架构原则，根因β修复",
+  "trigger": {
+    "events": {
+      "L1": ["isc.rule.created", "isc.rule.updated"],
+      "L2": ["isc.enforcement.rate.threshold_crossed"]
+    },
+    "condition": "enforcement_rate < 100%"
+  },
+  "action": {
+    "type": "enforce",
+    "handler": "enforcement-audit",
+    "checks": [
+      {
+        "id": "rule_gate_pairing",
+        "description": "每条规则JSON在gates/目录有同名gate实现",
+        "fail_action": "warn_and_track"
+      }
+    ],
+    "on_failure": "warn"
+  },
+  "enforcement": "runtime_binding",
+  "enforcement_tier": "P0_gate"
+}
