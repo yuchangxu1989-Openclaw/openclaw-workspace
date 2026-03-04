@@ -1,0 +1,57 @@
+{
+  "id": "rule.architecture-review-pipeline-001",
+  "rule_name": "架构优化与模块重构评审流水线",
+  "version": "1.0.0",
+  "severity": "critical",
+  "description": "任何架构设计方案或模块重构方案，必须经过标准化评审流水线：架构师出方案→工程师验证可落地性→质量分析师验证合理性→循环修复直到双通过→凌霄阁-7人裁决神殿终审→用户最终裁决。",
+  "source": "2026-03-04 ISC-事件-DTO闭环设计过程中形成的实战流程",
+  "trigger": {
+    "events": [
+      "design.document.created",
+      "design.document.modified",
+      "architecture.refactor.proposed",
+      "module.restructure.proposed",
+      "system.failure.refactor_required"
+    ]
+  },
+  "action": {
+    "type": "pipeline",
+    "stages": [
+      {
+        "stage": "architect_design",
+        "role": "系统架构师",
+        "thinking": "high",
+        "output": "designs/{topic}-v{version}.md",
+        "pass_condition": "文档完整，无缺失章节"
+      },
+      {
+        "stage": "parallel_review",
+        "roles": ["开发工程师", "质量分析师"],
+        "thinking": "high",
+        "parallel": true,
+        "output": "reports/{topic}-{role}-review.md",
+        "pass_condition": "工程师：0致命+0严重风险；质量分析师：评分≥用户标准"
+      },
+      {
+        "stage": "fix_loop",
+        "description": "复审不通过→打回架构师→修复→再复审，循环直到通过",
+        "max_iterations": 5,
+        "escalation": "超过5次循环→凌霄阁介入诊断根因"
+      },
+      {
+        "stage": "lingxiaoge_tribunal",
+        "role": "凌霄阁-7人裁决神殿",
+        "description": "7位神官独立视角battle，终审裁决",
+        "pass_condition": "多数通过",
+        "thinking": "high"
+      },
+      {
+        "stage": "user_final_decision",
+        "role": "用户",
+        "description": "用户是最终裁决者，凌霄阁是帮用户把关的"
+      }
+    ]
+  },
+  "enforcement": "runtime_binding",
+  "anti_entropy": "此规则本身是对评审流程的固化，防止未来退化为'架构师直出→用户看'的简化流程"
+}
