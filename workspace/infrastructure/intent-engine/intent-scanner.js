@@ -459,6 +459,7 @@ ${categoryLines}
   }
 
   _persistLogs(logs) {
+    // 1. Write to local scan log (module-level detail)
     try {
       if (!fs.existsSync(this._logDir)) {
         fs.mkdirSync(this._logDir, { recursive: true });
@@ -469,6 +470,24 @@ ${categoryLines}
       fs.appendFileSync(logFile, lines, 'utf8');
     } catch (e) {
       // Logging failure is non-fatal
+    }
+
+    // 2. Write to unified DecisionLogger (cross-module audit trail)
+    for (const log of logs) {
+      try {
+        decisionLog({
+          phase: 'sensing',
+          component: 'IntentScanner',
+          what: log.what || 'intent scan result',
+          why: log.why || '',
+          confidence: typeof log.confidence === 'number' ? log.confidence : null,
+          alternatives: log.alternatives || [],
+          decision_method: log.method === 'llm' ? 'llm' : 'regex',
+          input_summary: `method=${log.method}`,
+        });
+      } catch (_) {
+        // DecisionLogger failure is non-fatal
+      }
     }
   }
 }

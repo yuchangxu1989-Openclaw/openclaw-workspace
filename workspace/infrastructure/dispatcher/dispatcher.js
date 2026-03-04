@@ -20,6 +20,14 @@
 const fs = require('fs');
 const path = require('path');
 
+// Decision Logger — unified audit trail
+let _decisionLogger = null;
+try {
+  _decisionLogger = require('../decision-log/decision-logger');
+} catch (_) {
+  // DecisionLogger unavailable — continue with local log only
+}
+
 // ─── Paths ───────────────────────────────────────────────────────
 
 const ROUTES_FILE = path.join(__dirname, 'routes.json');
@@ -49,9 +57,27 @@ function logDecision(entry) {
     ts: new Date().toISOString(),
     ...entry,
   });
+  // 1. Local decision.log (module-level detail)
   try {
     fs.appendFileSync(DECISION_LOG_FILE, line + '\n');
   } catch (_) { /* best-effort */ }
+
+  // 2. Unified DecisionLogger (cross-module audit trail)
+  if (_decisionLogger && typeof _decisionLogger.log === 'function') {
+    try {
+      _decisionLogger.log({
+        phase: 'execution',
+        component: 'Dispatcher',
+        what: `Dispatch ${entry.action || 'unknown'} → ${entry.result || 'unknown'}`,
+        why: entry.reason || `handler=${entry.handler || 'none'}, event=${entry.eventType || 'unknown'}`,
+        confidence: 1.0,
+        decision_method: 'rule_match',
+        input_summary: JSON.stringify(entry).slice(0, 500),
+      });
+    } catch (_) {
+      // DecisionLogger failure is non-fatal
+    }
+  }
 }
 
 // ─── Manual Queue ────────────────────────────────────────────────

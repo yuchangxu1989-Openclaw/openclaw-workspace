@@ -17,6 +17,14 @@
 const fs = require('fs');
 const path = require('path');
 
+// Decision Logger — unified audit trail
+let _decisionLogger = null;
+try {
+  _decisionLogger = require('../decision-log/decision-logger');
+} catch (_) {
+  // DecisionLogger unavailable — continue with in-memory only
+}
+
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const DEFAULT_RULES_DIR = path.resolve(__dirname, '../../skills/isc-core/rules');
@@ -516,9 +524,37 @@ class ISCRuleMatcher {
   // ── Decision Log ─────────────────────────────────────────────────────────
 
   _logDecision(entry) {
+    // In-memory log (for introspection via getDecisionLog)
     this.decisionLog.push(entry);
     if (this.decisionLog.length > this.maxDecisionLog) {
       this.decisionLog = this.decisionLog.slice(-Math.floor(this.maxDecisionLog * 0.8));
+    }
+
+    // Persist to unified DecisionLogger (cross-module audit trail)
+    if (_decisionLogger && typeof _decisionLogger.log === 'function') {
+      try {
+        _decisionLogger.log({
+          phase: 'cognition',
+          component: 'ISCRuleMatcher',
+          what: entry.type === 'evaluation'
+            ? `Rule evaluation: ${entry.rule_id} → ${entry.result && entry.result.shouldFire ? 'fire' : 'skip'}`
+            : entry.type === 'exclusion'
+            ? `Rule excluded: ${entry.rule_id} (${entry.reason})`
+            : entry.type === 'hot_reload'
+            ? `Hot reload: ${entry.total} rules loaded`
+            : `Matched ${entry.candidates_count || 0} rules for ${entry.event_type || 'unknown'}`,
+          why: entry.type === 'evaluation'
+            ? (entry.condition || 'no condition')
+            : entry.type === 'exclusion'
+            ? entry.reason
+            : `Event: ${entry.event_type || 'unknown'}, source: ${entry.event_source || 'unknown'}`,
+          confidence: 1.0,
+          decision_method: 'rule_match',
+          input_summary: JSON.stringify(entry).slice(0, 500),
+        });
+      } catch (_) {
+        // DecisionLogger failure is non-fatal
+      }
     }
   }
 
