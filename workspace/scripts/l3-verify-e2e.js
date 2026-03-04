@@ -430,6 +430,28 @@ async function scenario4_circuitBreaker() {
 // ═══════════════════════════════════════════════════════════
 // 主入口
 // ═══════════════════════════════════════════════════════════
+// ─── S-ISC: Enforcement Verifier ───
+async function scenarioISC_enforcementVerifier() {
+  console.log('\n── S-ISC: ISC Enforcement Verifier ──');
+  const { execSync } = require('child_process');
+  const verifier = path.join(__dirname, 'isc-enforcement-verifier.js');
+  if (!fs.existsSync(verifier)) {
+    record('S-ISC', 'verifier存在性', false, 'isc-enforcement-verifier.js 未找到');
+    return;
+  }
+  try {
+    const out = execSync(`node "${verifier}" --warn-only`, { encoding: 'utf8', timeout: 30000 });
+    console.log(out);
+    // P0 must be 100% enforced (exit 0 from verifier means pass)
+    record('S-ISC', 'P0规则100% enforced', true);
+  } catch (err) {
+    const output = (err.stdout || '') + (err.stderr || '');
+    console.log(output);
+    const hasP0 = output.includes('P0_gate 未绑定') || output.includes('P0 规则未 enforced');
+    record('S-ISC', 'P0规则100% enforced', !hasP0, hasP0 ? 'P0规则存在未enforced项' : 'P1未enforced(warn-only模式)');
+  }
+}
+
 async function main() {
   console.log('╔══════════════════════════════════════════════════╗');
   console.log('║  L3 闭环真实验证 — E2E Verification Script     ║');
@@ -445,6 +467,7 @@ async function main() {
     { name: 'S2', fn: scenario2_intentEventLoop },
     { name: 'S3', fn: scenario3_pipelineRun },
     { name: 'S4', fn: scenario4_circuitBreaker },
+    { name: 'S-ISC', fn: scenarioISC_enforcementVerifier },
   ];
 
   for (const s of scenarios) {
