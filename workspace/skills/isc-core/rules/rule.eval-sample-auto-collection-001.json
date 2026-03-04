@@ -1,0 +1,36 @@
+{
+  "id": "rule.eval-sample-auto-collection-001",
+  "domain": "quality",
+  "enforcement_tier": "P1_process",
+  "version": "1.0.0",
+  "created": "2026-03-05",
+  "description": "真实使用中产生的意图/事件/场景必须自动回收为评测样本。评测集不能只靠手造，必须持续从生产数据补充。",
+  "rule": [
+    "每次IntentScanner处理真实用户消息 → 记录input+output到样本池",
+    "每次Pipeline完整执行 → 记录事件链到场景样本池",
+    "每次测试失败 → 自动归档为regression test",
+    "样本池每周review，人工标注后入库到tests/registry.json"
+  ],
+  "trigger": {
+    "events": [
+      "intent.classified",
+      "pipeline.completed",
+      "test.failed"
+    ],
+    "actions": [
+      {
+        "type": "auto_collect",
+        "description": "自动收集为评测样本"
+      }
+    ]
+  },
+  "enforcement": {
+    "on_violation": "warn_and_log",
+    "audit_frequency": "weekly",
+    "collection_paths": {
+      "intent_samples": "tests/collection/pending/",
+      "pipeline_samples": "tests/collection/pending/",
+      "regression_samples": "tests/regression/"
+    }
+  }
+}
