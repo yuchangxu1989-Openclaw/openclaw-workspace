@@ -323,18 +323,19 @@ async function scenario3_pipelineRun() {
     record('S3', '4. run-log.jsonl 有摘要', true, 'timeout-skip: skipped validation');
   } else {
     try {
-    const runLogFile = _internals.RUN_LOG_FILE;
-    if (fs.existsSync(runLogFile)) {
-      const lines = fs.readFileSync(runLogFile, 'utf8').trim().split('\n');
-      const lastLine = lines[lines.length - 1];
-      const lastRun = JSON.parse(lastLine);
-      record('S3', '4. run-log.jsonl 有摘要', lastRun.run_id === summary.run_id,
-        `run_id=${lastRun.run_id}, duration=${lastRun.duration_ms}ms, total_entries=${lines.length}`);
-    } else {
-      record('S3', '4. run-log.jsonl 有摘要', false, `file not found: ${runLogFile}`);
+      const runLogFile = _internals.RUN_LOG_FILE;
+      if (fs.existsSync(runLogFile)) {
+        const lines = fs.readFileSync(runLogFile, 'utf8').trim().split('\n');
+        const lastLine = lines[lines.length - 1];
+        const lastRun = JSON.parse(lastLine);
+        record('S3', '4. run-log.jsonl 有摘要', lastRun.run_id === summary.run_id,
+          `run_id=${lastRun.run_id}, duration=${lastRun.duration_ms}ms, total_entries=${lines.length}`);
+      } else {
+        record('S3', '4. run-log.jsonl 有摘要', false, `file not found: ${runLogFile}`);
+      }
+    } catch (err) {
+      record('S3', '4. run-log.jsonl 有摘要', false, err.message);
     }
-  } catch (err) {
-    record('S3', '4. run-log.jsonl 有摘要', false, err.message);
   }
 }
 
