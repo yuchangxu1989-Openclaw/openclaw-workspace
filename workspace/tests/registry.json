@@ -38,9 +38,15 @@
       "file": "unit/event-bus.test.js",
       "original": "infrastructure/event-bus/test-bus.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["event-bus", "emit", "subscribe", "dedupe", "sandbox"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "passed",
+      "tags": [
+        "event-bus",
+        "emit",
+        "subscribe",
+        "dedupe",
+        "sandbox"
+      ]
     },
     {
       "id": "unit-feature-flags-001",
@@ -52,9 +58,14 @@
       "file": "unit/feature-flags.test.js",
       "original": "infrastructure/config/feature-flags.test.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["feature-flags", "config", "env", "toggle"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "passed",
+      "tags": [
+        "feature-flags",
+        "config",
+        "env",
+        "toggle"
+      ]
     },
     {
       "id": "unit-intent-scanner-001",
@@ -66,9 +77,16 @@
       "file": "unit/intent-scanner.test.js",
       "original": "infrastructure/intent-engine/intent-scanner.test.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["intent-scanner", "IC1", "IC2", "regex", "LLM", "feature-flag"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "failed",
+      "tags": [
+        "intent-scanner",
+        "IC1",
+        "IC2",
+        "regex",
+        "LLM",
+        "feature-flag"
+      ]
     },
     {
       "id": "unit-dispatcher-001",
@@ -80,9 +98,15 @@
       "file": "unit/dispatcher.test.js",
       "original": "infrastructure/dispatcher/dispatcher.test.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["dispatcher", "routing", "pattern-matching", "retry", "timeout"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "passed",
+      "tags": [
+        "dispatcher",
+        "routing",
+        "pattern-matching",
+        "retry",
+        "timeout"
+      ]
     },
     {
       "id": "unit-intent-dispatch-001",
@@ -94,9 +118,14 @@
       "file": "unit/intent-dispatch.test.js",
       "original": "infrastructure/dispatcher/test-intent-dispatch.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["dispatcher", "intent-dispatch", "handler", "mock"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "passed",
+      "tags": [
+        "dispatcher",
+        "intent-dispatch",
+        "handler",
+        "mock"
+      ]
     },
     {
       "id": "unit-isc-rule-matcher-001",
@@ -108,9 +137,15 @@
       "file": "unit/isc-rule-matcher.test.js",
       "original": "infrastructure/rule-engine/isc-rule-matcher.test.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["rule-engine", "ISC", "pattern-matching", "condition", "priority"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "passed",
+      "tags": [
+        "rule-engine",
+        "ISC",
+        "pattern-matching",
+        "condition",
+        "priority"
+      ]
     },
     {
       "id": "unit-decision-logger-001",
@@ -122,9 +157,15 @@
       "file": "unit/decision-logger.test.js",
       "original": "infrastructure/decision-log/test-decision-logger.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["decision-log", "logging", "query", "rotate", "JSONL"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "passed",
+      "tags": [
+        "decision-log",
+        "logging",
+        "query",
+        "rotate",
+        "JSONL"
+      ]
     },
     {
       "id": "unit-mr-shadow-tester-001",
@@ -136,9 +177,14 @@
       "file": "unit/mr-shadow-tester.test.js",
       "original": "infrastructure/mr/test-shadow-tester.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["mr", "shadow-test", "model-router", "comparison"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "passed",
+      "tags": [
+        "mr",
+        "shadow-test",
+        "model-router",
+        "comparison"
+      ]
     },
     {
       "id": "unit-mr-mvp-001",
@@ -150,9 +196,14 @@
       "file": "unit/mr-mvp.test.mjs",
       "original": "infrastructure/mr/test-mvp.js",
       "runner": "node-esm",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["mr", "model-router", "MVP", "LEP-mock"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "skipped",
+      "tags": [
+        "mr",
+        "model-router",
+        "MVP",
+        "LEP-mock"
+      ]
     },
     {
       "id": "unit-mr-safety-001",
@@ -164,9 +215,14 @@
       "file": "unit/mr-safety.test.mjs",
       "original": "infrastructure/mr/test-safety.js",
       "runner": "node-esm",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["mr", "model-router", "safety", "zero-hardcode"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "skipped",
+      "tags": [
+        "mr",
+        "model-router",
+        "safety",
+        "zero-hardcode"
+      ]
     },
     {
       "id": "integration-mr-shadow-report-001",
@@ -180,7 +236,12 @@
       "runner": "data-only",
       "last_run": null,
       "last_result": null,
-      "tags": ["mr", "shadow-test", "report", "data"]
+      "tags": [
+        "mr",
+        "shadow-test",
+        "report",
+        "data"
+      ]
     },
     {
       "id": "integration-mr-shadow-config-001",
@@ -194,7 +255,11 @@
       "runner": "data-only",
       "last_run": null,
       "last_result": null,
-      "tags": ["mr", "shadow-test", "config"]
+      "tags": [
+        "mr",
+        "shadow-test",
+        "config"
+      ]
     },
     {
       "id": "e2e-l3-verify-001",
@@ -206,9 +271,16 @@
       "file": "e2e/l3-verify-e2e.js",
       "original": "scripts/l3-verify-e2e.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["L3", "pipeline", "full-loop", "ISC", "intent", "circuit-breaker"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "failed",
+      "tags": [
+        "L3",
+        "pipeline",
+        "full-loop",
+        "ISC",
+        "intent",
+        "circuit-breaker"
+      ]
     },
     {
       "id": "benchmark-intent-dataset-001",
@@ -221,11 +293,31 @@
       "original": "infrastructure/tests/benchmarks/intent-benchmark-dataset.json",
       "runner": "data-only",
       "sample_count": 80,
-      "ic_distribution": {"IC1": 21, "IC2": 15, "IC3": 16, "IC4": 17, "IC5": 11},
-      "difficulty_distribution": {"easy": 45, "medium": 19, "hard": 16},
+      "ic_distribution": {
+        "IC1": 21,
+        "IC2": 15,
+        "IC3": 16,
+        "IC4": 17,
+        "IC5": 11
+      },
+      "difficulty_distribution": {
+        "easy": 45,
+        "medium": 19,
+        "hard": 16
+      },
       "last_run": null,
       "last_result": null,
-      "tags": ["intent", "IC1", "IC2", "IC3", "IC4", "IC5", "emotion", "regex", "LLM"]
+      "tags": [
+        "intent",
+        "IC1",
+        "IC2",
+        "IC3",
+        "IC4",
+        "IC5",
+        "emotion",
+        "regex",
+        "LLM"
+      ]
     },
     {
       "id": "benchmark-intent-runner-001",
@@ -237,9 +329,14 @@
       "file": "benchmarks/intent/run-intent-benchmark.js",
       "original": "infrastructure/tests/benchmarks/run-intent-benchmark.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["intent", "benchmark", "regex-only", "metrics"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "unknown",
+      "tags": [
+        "intent",
+        "benchmark",
+        "regex-only",
+        "metrics"
+      ]
     },
     {
       "id": "benchmark-intent-llm-runner-001",
@@ -251,10 +348,18 @@
       "file": "benchmarks/intent/run-intent-benchmark-llm.js",
       "original": "infrastructure/tests/benchmarks/run-intent-benchmark-llm.js",
       "runner": "node",
-      "requires": ["ZHIPU_API_KEY"],
-      "last_run": null,
-      "last_result": null,
-      "tags": ["intent", "benchmark", "LLM", "GLM-5", "metrics"]
+      "requires": [
+        "ZHIPU_API_KEY"
+      ],
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "failed",
+      "tags": [
+        "intent",
+        "benchmark",
+        "LLM",
+        "GLM-5",
+        "metrics"
+      ]
     },
     {
       "id": "benchmark-pipeline-dataset-001",
@@ -267,10 +372,20 @@
       "original": "infrastructure/tests/benchmarks/pipeline-benchmark-dataset.json",
       "runner": "data-only",
       "sample_count": 38,
-      "difficulty_distribution": {"easy": 19, "medium": 15, "hard": 4},
+      "difficulty_distribution": {
+        "easy": 19,
+        "medium": 15,
+        "hard": 4
+      },
       "last_run": null,
       "last_result": null,
-      "tags": ["pipeline", "rule-matching", "circuit-breaker", "feature-flags", "batch"]
+      "tags": [
+        "pipeline",
+        "rule-matching",
+        "circuit-breaker",
+        "feature-flags",
+        "batch"
+      ]
     },
     {
       "id": "benchmark-pipeline-runner-001",
@@ -282,9 +397,15 @@
       "file": "benchmarks/pipeline/run-pipeline-benchmark.js",
       "original": "infrastructure/tests/benchmarks/run-pipeline-benchmark.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["pipeline", "benchmark", "L3", "full-loop", "metrics"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "failed",
+      "tags": [
+        "pipeline",
+        "benchmark",
+        "L3",
+        "full-loop",
+        "metrics"
+      ]
     },
     {
       "id": "benchmark-scenario-financial-001",
@@ -298,7 +419,12 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "analysis", "financial", "IC5"]
+      "tags": [
+        "scenario",
+        "analysis",
+        "financial",
+        "IC5"
+      ]
     },
     {
       "id": "benchmark-scenario-pdf-knowledge-001",
@@ -312,7 +438,12 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "content", "PDF", "knowledge"]
+      "tags": [
+        "scenario",
+        "content",
+        "PDF",
+        "knowledge"
+      ]
     },
     {
       "id": "benchmark-scenario-wechat-001",
@@ -326,7 +457,12 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "content", "wechat", "operation"]
+      "tags": [
+        "scenario",
+        "content",
+        "wechat",
+        "operation"
+      ]
     },
     {
       "id": "benchmark-scenario-academic-001",
@@ -340,7 +476,12 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "CRAS", "academic", "insight"]
+      "tags": [
+        "scenario",
+        "CRAS",
+        "academic",
+        "insight"
+      ]
     },
     {
       "id": "benchmark-scenario-competitive-001",
@@ -354,7 +495,11 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "CRAS", "competitive-analysis"]
+      "tags": [
+        "scenario",
+        "CRAS",
+        "competitive-analysis"
+      ]
     },
     {
       "id": "benchmark-scenario-engineering-defect-001",
@@ -368,7 +513,12 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "CRAS", "engineering", "defect"]
+      "tags": [
+        "scenario",
+        "CRAS",
+        "engineering",
+        "defect"
+      ]
     },
     {
       "id": "benchmark-scenario-user-intent-insight-001",
@@ -382,7 +532,12 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "CRAS", "user-intent", "insight"]
+      "tags": [
+        "scenario",
+        "CRAS",
+        "user-intent",
+        "insight"
+      ]
     },
     {
       "id": "benchmark-scenario-skill-creation-001",
@@ -396,7 +551,11 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "dev", "skill-creation"]
+      "tags": [
+        "scenario",
+        "dev",
+        "skill-creation"
+      ]
     },
     {
       "id": "benchmark-scenario-skill-orchestration-001",
@@ -410,7 +569,11 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "dev", "skill-orchestration"]
+      "tags": [
+        "scenario",
+        "dev",
+        "skill-orchestration"
+      ]
     },
     {
       "id": "benchmark-scenario-webpage-build-001",
@@ -424,7 +587,12 @@
       "runner": "scenario-runner",
       "last_run": null,
       "last_result": null,
-      "tags": ["scenario", "dev", "webpage", "build"]
+      "tags": [
+        "scenario",
+        "dev",
+        "webpage",
+        "build"
+      ]
     },
     {
       "id": "benchmark-scenario-runner-001",
@@ -436,9 +604,14 @@
       "file": "benchmarks/scenarios/runner.js",
       "original": "scripts/scenario-benchmark/runner.js",
       "runner": "node",
-      "last_run": null,
-      "last_result": null,
-      "tags": ["scenario", "runner", "L3", "pipeline"]
+      "last_run": "2026-03-04T18:31:36.822Z",
+      "last_result": "passed",
+      "tags": [
+        "scenario",
+        "runner",
+        "L3",
+        "pipeline"
+      ]
     },
     {
       "id": "regression-auto-archive-001",
@@ -452,7 +625,11 @@
       "runner": "library",
       "last_run": null,
       "last_result": null,
-      "tags": ["regression", "auto-archive", "infrastructure"]
+      "tags": [
+        "regression",
+        "auto-archive",
+        "infrastructure"
+      ]
     }
   ]
 }

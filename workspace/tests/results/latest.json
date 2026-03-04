@@ -1,0 +1,231 @@
+{
+  "timestamp": "2026-03-04T18:31:36.822Z",
+  "duration_ms": 93875,
+  "filter": {
+    "category": null,
+    "module": null,
+    "tag": null
+  },
+  "summary": {
+    "files_executed": 15,
+    "files_passed": 8,
+    "files_failed": 4,
+    "files_error": 0,
+    "files_skipped": 2,
+    "assertions_passed": 389,
+    "assertions_failed": 87,
+    "assertions_total": 476
+  },
+  "by_category": {
+    "unit": {
+      "total": 10,
+      "executable": 10,
+      "ran": 10
+    },
+    "integration": {
+      "total": 2,
+      "executable": 0,
+      "ran": 0
+    },
+    "e2e": {
+      "total": 1,
+      "executable": 1,
+      "ran": 1
+    },
+    "benchmark/intent": {
+      "total": 3,
+      "executable": 2,
+      "ran": 2
+    },
+    "benchmark/pipeline": {
+      "total": 2,
+      "executable": 1,
+      "ran": 1
+    },
+    "benchmark/scenarios": {
+      "total": 11,
+      "executable": 1,
+      "ran": 1
+    },
+    "regression": {
+      "total": 1,
+      "executable": 0,
+      "ran": 0
+    }
+  },
+  "by_module": {
+    "event-bus": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "config": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "intent-engine": {
+      "total": 4,
+      "passed": 0,
+      "failed": 2
+    },
+    "dispatcher": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "rule-engine": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "decision-log": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "mr": {
+      "total": 5,
+      "passed": 1,
+      "failed": 0
+    },
+    "e2e-integration": {
+      "total": 1,
+      "passed": 0,
+      "failed": 1
+    },
+    "pipeline": {
+      "total": 2,
+      "passed": 0,
+      "failed": 1
+    },
+    "scenario-benchmark": {
+      "total": 11,
+      "passed": 1,
+      "failed": 0
+    },
+    "regression-infra": {
+      "total": 1,
+      "passed": 0,
+      "failed": 0
+    }
+  },
+  "results": [
+    {
+      "id": "unit-event-bus-001",
+      "status": "passed",
+      "passed": 25,
+      "failed": 0,
+      "total": 25,
+      "duration": 127
+    },
+    {
+      "id": "unit-feature-flags-001",
+      "status": "passed",
+      "passed": 23,
+      "failed": 0,
+      "total": 23,
+      "duration": 49
+    },
+    {
+      "id": "unit-intent-scanner-001",
+      "status": "failed",
+      "passed": 46,
+      "failed": 1,
+      "total": 47,
+      "duration": 78
+    },
+    {
+      "id": "unit-dispatcher-001",
+      "status": "passed",
+      "passed": 61,
+      "failed": 0,
+      "total": 61,
+      "duration": 234
+    },
+    {
+      "id": "unit-intent-dispatch-001",
+      "status": "passed",
+      "passed": 24,
+      "failed": 0,
+      "total": 24,
+      "duration": 31
+    },
+    {
+      "id": "unit-isc-rule-matcher-001",
+      "status": "passed",
+      "passed": 100,
+      "failed": 0,
+      "total": 100,
+      "duration": 51
+    },
+    {
+      "id": "unit-decision-logger-001",
+      "status": "passed",
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "duration": 33
+    },
+    {
+      "id": "unit-mr-shadow-tester-001",
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "total": 11,
+      "duration": 30012
+    },
+    {
+      "id": "unit-mr-mvp-001",
+      "status": "skipped",
+      "reason": "ESM module",
+      "duration": 0
+    },
+    {
+      "id": "unit-mr-safety-001",
+      "status": "skipped",
+      "reason": "ESM module",
+      "duration": 0
+    },
+    {
+      "id": "e2e-l3-verify-001",
+      "status": "failed",
+      "passed": 24,
+      "failed": 22,
+      "total": 46,
+      "duration": 6654
+    },
+    {
+      "id": "benchmark-intent-runner-001",
+      "status": "unknown",
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "duration": 28
+    },
+    {
+      "id": "benchmark-intent-llm-runner-001",
+      "status": "failed",
+      "passed": 19,
+      "failed": 62,
+      "total": 81,
+      "duration": 26030
+    },
+    {
+      "id": "benchmark-pipeline-runner-001",
+      "status": "failed",
+      "passed": 36,
+      "failed": 2,
+      "total": 38,
+      "duration": 511
+    },
+    {
+      "id": "benchmark-scenario-runner-001",
+      "status": "passed",
+      "passed": 10,
+      "failed": 0,
+      "total": 10,
+      "duration": 30030
+    }
+  ]
+}
