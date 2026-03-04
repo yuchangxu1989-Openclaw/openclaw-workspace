@@ -92,6 +92,12 @@ const CONFIG = {
       'memory',   // 记忆文件是运行时产物，不应触发版本bump
       'reports'   // cron生成的报告，不应触发版本bump
     ],
+    // 排除特定子目录（路径包含这些片段的文件不触发bump）
+    excludeSubPaths: [
+      'infrastructure/dispatcher/dispatched',  // 调度记录，运行时产物
+      'infrastructure/dispatcher/processed',
+      'infrastructure/event-bus',              // 事件队列，运行时产物
+    ],
     // 要排除的文件模式
     excludePatterns: [
       /^\./,           // 隐藏文件（以.开头）
@@ -273,6 +279,16 @@ class Pipeline {
     if (gitConfig.excludeTopDirs && pathParts.length > 0) {
       if (gitConfig.excludeTopDirs.includes(pathParts[0])) {
         return false;
+      }
+    }
+    
+    // 检查是否在被排除的子路径下（运行时产物目录）
+    if (gitConfig.excludeSubPaths) {
+      const normalizedRelative = relativePath.replace(/\\/g, '/');
+      for (const subPath of gitConfig.excludeSubPaths) {
+        if (normalizedRelative.startsWith(subPath)) {
+          return false;
+        }
       }
     }
     
