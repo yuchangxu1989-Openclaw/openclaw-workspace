@@ -30,7 +30,12 @@ function findRuleFiles() {
 }
 
 function detectPriority(rule) {
-  // Explicit priority field
+  // Primary: enforcement_tier field (canonical)
+  const tier = (rule.enforcement_tier || '').toString();
+  if (tier === 'P0_gate') return 'P0_gate';
+  if (tier === 'P1_process') return 'P1_process';
+  
+  // Fallback: priority/severity field
   const p = (rule.priority || rule.severity || '').toString().toUpperCase();
   if (p.startsWith('P0') || p === 'GATE' || p === 'P0_GATE') return 'P0_gate';
   if (p.startsWith('P1') || p === 'PROCESS' || p === 'P1_PROCESS') return 'P1_process';
@@ -59,18 +64,24 @@ function main() {
   for (const f of files) {
     const basename = path.basename(f);
     try {
-      const rule = JSON.parse(fs.readFileSync(f, 'utf8'));
-      const priority = detectPriority(rule);
-      const enforced = hasEnforcement(rule, f);
-      stats.total++;
+      const parsed = JSON.parse(fs.readFileSync(f, 'utf8'));
+      // Handle bundle files (arrays of rules)
+      const rules = Array.isArray(parsed) ? parsed : [parsed];
+      
+      for (const rule of rules) {
+        if (!rule || typeof rule !== 'object') continue;
+        const priority = detectPriority(rule);
+        const enforced = hasEnforcement(rule, f);
+        stats.total++;
 
-      if (enforced) {
-        stats.enforced++;
-      } else {
-        if (priority === 'P0_gate') {
-          stats.unenforced_p0.push({ file: basename, id: rule.id, name: rule.name });
+        if (enforced) {
+          stats.enforced++;
         } else {
-          stats.unenforced_p1.push({ file: basename, id: rule.id, name: rule.name });
+          if (priority === 'P0_gate') {
+            stats.unenforced_p0.push({ file: basename, id: rule.id, name: rule.name });
+          } else {
+            stats.unenforced_p1.push({ file: basename, id: rule.id, name: rule.name });
+          }
         }
       }
     } catch (e) {

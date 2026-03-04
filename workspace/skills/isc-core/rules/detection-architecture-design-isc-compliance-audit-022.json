@@ -1,109 +1,115 @@
 {
-  "type": "detection",
-  "id": "N022",
-  "name": "architecture_design_isc_compliance_audit",
-  "description": "架构设计ISC合规审计 - 自动检查架构设计方案是否符合ISC标准，强制要求完整输出物",
-  "domain": "quality_assurance",
-  "scope": "system-wide",
-  "trigger": {
-    "events": [
-      "design_document_created",
-      "architecture_design_completed",
-      "mr_design_generated"
-    ],
-    "condition": "design_document_exists AND is_architecture_design"
-  },
-  "detection": {
-    "required_files_check": {
-      "description": "架构设计必须包含的完整输出物",
-      "required_files": [
-        {
-          "path": "designs/*/DESIGN.md",
-          "description": "详细设计文档",
-          "min_length": 5000,
-          "required_sections": [
-            "架构设计",
-            "核心模块",
-            "接口契约"
-          ]
-        },
-        {
-          "path": "designs/*/ARCHITECTURE.json",
-          "description": "架构元数据（ISC格式）",
-          "schema": "isc-architecture-schema-v1"
-        },
-        {
-          "path": "designs/*/IMPLEMENTATION.md",
-          "description": "实现计划",
-          "required_sections": [
-            "实施步骤",
-            "风险分析",
-            "测试策略"
-          ]
-        }
-      ],
-      "forbidden_patterns": [
-        {
-          "pattern": "glm-5|kimi|claude|gpt-4",
-          "location": "config_examples",
-          "severity": "error",
-          "message": "配置示例中禁止硬编码模型名称，应使用占位符如{{MODEL_DEEP_THINKING}}"
-        }
-      ]
+    "type": "detection",
+    "id": "N022",
+    "name": "architecture_design_isc_compliance_audit",
+    "description": "架构设计ISC合规审计 - 自动检查架构设计方案是否符合ISC标准，强制要求完整输出物",
+    "domain": "quality_assurance",
+    "scope": "system-wide",
+    "trigger": {
+        "events": [
+            "design_document_created",
+            "architecture_design_completed",
+            "mr_design_generated"
+        ],
+        "condition": "design_document_exists AND is_architecture_design",
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "架构设计产出后自动执行ISC合规审计，检查是否符合所有适用规则"
+            }
+        ]
     },
-    "isc_compliance_check": {
-      "description": "检查是否符合ISC规则格式",
-      "checks": [
-        {
-          "type": "naming_convention",
-          "rule": "naming.skill.display",
-          "severity": "error"
+    "detection": {
+        "required_files_check": {
+            "description": "架构设计必须包含的完整输出物",
+            "required_files": [
+                {
+                    "path": "designs/*/DESIGN.md",
+                    "description": "详细设计文档",
+                    "min_length": 5000,
+                    "required_sections": [
+                        "架构设计",
+                        "核心模块",
+                        "接口契约"
+                    ]
+                },
+                {
+                    "path": "designs/*/ARCHITECTURE.json",
+                    "description": "架构元数据（ISC格式）",
+                    "schema": "isc-architecture-schema-v1"
+                },
+                {
+                    "path": "designs/*/IMPLEMENTATION.md",
+                    "description": "实现计划",
+                    "required_sections": [
+                        "实施步骤",
+                        "风险分析",
+                        "测试策略"
+                    ]
+                }
+            ],
+            "forbidden_patterns": [
+                {
+                    "pattern": "glm-5|kimi|claude|gpt-4",
+                    "location": "config_examples",
+                    "severity": "error",
+                    "message": "配置示例中禁止硬编码模型名称，应使用占位符如{{MODEL_DEEP_THINKING}}"
+                }
+            ]
         },
-        {
-          "type": "dto_subscription",
-          "required": true,
-          "severity": "error"
-        },
-        {
-          "type": "capability_anchor_reference",
-          "required": true,
-          "severity": "warning"
+        "isc_compliance_check": {
+            "description": "检查是否符合ISC规则格式",
+            "checks": [
+                {
+                    "type": "naming_convention",
+                    "rule": "naming.skill.display",
+                    "severity": "error"
+                },
+                {
+                    "type": "dto_subscription",
+                    "required": true,
+                    "severity": "error"
+                },
+                {
+                    "type": "capability_anchor_reference",
+                    "required": true,
+                    "severity": "warning"
+                }
+            ]
         }
-      ]
-    }
-  },
-  "governance": {
-    "auto_execute": true,
-    "priority": "HIGH",
-    "risk_level": "medium",
-    "model_type": "deep_thinking",
-    "model_config": {
-      "type": "deep_thinking",
-      "temperature": 0.3
-    }
-  },
-  "execution": {
-    "type": "compliance_audit",
-    "steps": [
-      "扫描designs/目录下的新设计文档",
-      "检查required_files是否全部存在",
-      "检查forbidden_patterns是否违规",
-      "验证ISC合规性",
-      "生成审计报告",
-      "如有不合规，自动触发N020根因分析"
-    ],
-    "output": {
-      "audit_report": ".isc/design-audit-{timestamp}.json",
-      "compliance_score": "0-100",
-      "auto_fix": false
-    }
-  },
-  "on_failure": {
-    "action": "trigger_N020",
-    "params": {
-      "analysis_type": "design_compliance_failure",
-      "target": "{design_id}"
-    }
-  },
-  "enforcement_tier": "P1_process"
+    },
+    "governance": {
+        "auto_execute": true,
+        "priority": "HIGH",
+        "risk_level": "medium",
+        "model_type": "deep_thinking",
+        "model_config": {
+            "type": "deep_thinking",
+            "temperature": 0.3
+        }
+    },
+    "execution": {
+        "type": "compliance_audit",
+        "steps": [
+            "扫描designs/目录下的新设计文档",
+            "检查required_files是否全部存在",
+            "检查forbidden_patterns是否违规",
+            "验证ISC合规性",
+            "生成审计报告",
+            "如有不合规，自动触发N020根因分析"
+        ],
+        "output": {
+            "audit_report": ".isc/design-audit-{timestamp}.json",
+            "compliance_score": "0-100",
+            "auto_fix": false
+        }
+    },
+    "on_failure": {
+        "action": "trigger_N020",
+        "params": {
+            "analysis_type": "design_compliance_failure",
+            "target": "{design_id}"
+        }
+    },
+    "enforcement_tier": "P1_process"
 }

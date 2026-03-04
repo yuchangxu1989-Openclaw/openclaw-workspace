@@ -28,7 +28,7 @@ const { log: decisionLog } = require('../decision-log/decision-logger');
 
 const SECRETS_FILE = '/root/.openclaw/.secrets/zhipu-keys.env';
 const ZHIPU_KEY = _loadZhipuKey();
-const ZHIPU_URL = 'https://open.bigmodel.cn/api/coding/paas/v4/chat/completions';
+const ZHIPU_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
 const ZHIPU_MODEL = 'glm-5';
 const REGISTRY_PATH = path.join(__dirname, 'intent-registry.json');
 const LOG_DIR = path.join(__dirname, 'logs');
@@ -180,12 +180,13 @@ class IntentScanner extends EventEmitter {
 
   /**
    * Build system prompt from registry.
+   * Includes full intent definitions with examples and anti-examples for maximum accuracy.
    * Supports both formats:
    *   - v4 schema: { categories: {IC1: {...}, ...}, intents: [...] }
    *   - legacy array: { categories: [{id, name, ...}, ...] }
    */
   _buildSystemPrompt(registry) {
-    let categoryLines = '';
+    let intentDefs = '';
 
     if (registry.intents && Array.isArray(registry.intents)) {
       // v4 schema: categories is a map, intents is array with category refs
@@ -196,33 +197,53 @@ class IntentScanner extends EventEmitter {
         if (!grouped[catId]) grouped[catId] = [];
         grouped[catId].push(intent);
       }
-      const lines = [];
+
+      const sections = [];
       for (const [catId, catInfo] of Object.entries(catMap)) {
         const intents = grouped[catId] || [];
-        const exampleStr = intents.slice(0, 2).map(i => (i.examples || [])[0] || i.name).join('; ');
-        lines.push(`- ${catId} (${catInfo.name}): ${catInfo.description}\n  意图: ${intents.map(i => i.id).join(', ')}\n  示例: ${exampleStr}`);
+        if (intents.length === 0) continue;
+
+        const intentLines = intents.map(i => {
+          let line = `- **${i.id}** (${i.name}): ${i.description}`;
+          if (i.examples && i.examples.length > 0) {
+            line += `\n  示例: ${i.examples.map(e => `"${e}"`).join(' | ')}`;
+          }
+          if (i.anti_examples && i.anti_examples.length > 0) {
+            line += `\n  反例(不要匹配): ${i.anti_examples.map(e => `"${e}"`).join(' | ')}`;
+          }
+          return line;
+        }).join('\n');
+
+        sections.push(`## ${catId} ${catInfo.name} — ${catInfo.description}\n${intentLines}`);
       }
-      categoryLines = lines.join('\n');
+      intentDefs = sections.join('\n\n');
     } else if (Array.isArray(registry.categories)) {
       // Legacy array format
-      categoryLines = registry.categories.map(c =>
-        `- ${c.id} (${c.name}): ${c.description}\n  示例: ${(c.examples || []).slice(0, 2).join('; ')}`
-      ).join('\n');
+      intentDefs = registry.categories.map(c =>
+        `## ${c.id} (${c.name}): ${c.description}\n  示例: ${(c.examples || []).slice(0, 3).join('; ')}`
+      ).join('\n\n');
     }
 
-    return `你是一个意图识别引擎。分析用户对话，识别其中包含的意图。
+    return `你是一个精确的意图分类引擎。分析用户对话文本，将其分类到下面定义的意图中。
 
-可识别的意图类别：
-${categoryLines}
+# 意图定义
 
-输出要求：严格JSON数组格式，每个元素包含：
-- intent_id: 意图ID（如 user.emotion.positive, rule.trigger.self_correction 等）
-- confidence: 置信度（0.0-1.0）
-- evidence: 识别依据（引用原文）
-- alternatives: 考虑过的其他意图ID数组
+${intentDefs}
 
-如果没有识别到任何意图，返回空数组 []。
-只返回JSON，不要添加任何额外说明。不要用markdown代码块包裹。`;
+# 分类规则
+
+1. **MECE原则**：每条文本归入最匹配的一个意图。IC5（复合意图）优先于单一意图——如果文本同时包含反馈和方向调整，归入IC5而非IC1。
+2. **隐含 vs 显式**：明确表达的情绪归IC1，只有通过语气/简短回复暗示的才归IC4。例如"太差了"是IC1，"好吧"是IC4。
+3. **反例很重要**：仔细检查反例，避免过度匹配。
+4. **空输入或无关闲聊**：返回空数组 []。
+5. **对抗样本**：查看配置≠修改配置（不触发配置保护），修bug≠架构重构（不触发架构评审）。
+
+# 输出格式
+
+严格JSON数组，每个元素：
+{"intent_id":"具体意图ID","category":"IC1-IC5","confidence":0.0-1.0,"evidence":"引用原文","alternatives":["其他考虑过的意图ID"]}
+
+没有匹配返回 []。只输出JSON，无需解释。`;
   }
 
   _buildUserContent(conversationSlice) {
@@ -351,7 +372,7 @@ ${categoryLines}
           { role: 'user', content: userContent }
         ],
         temperature: 0.1,
-        max_tokens: 2048
+        max_tokens: 4096
       });
 
       const urlObj = new URL(this._zhipuUrl);
