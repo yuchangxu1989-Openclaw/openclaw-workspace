@@ -1,0 +1,22 @@
+{
+  "id": "rule.interactive-card-context-inference-001",
+  "rule_name": "飞书卡片回复上下文推断",
+  "version": "1.0.0",
+  "severity": "medium",
+  "description": "当收到用户回复引用的消息体为[Interactive Card]时，不得询问用户卡片内容。必须根据最近发出的消息、当前对话上下文推断卡片内容并直接响应。",
+  "trigger": {
+    "events": [
+      "message.reply.received"
+    ],
+    "condition": "replied_message.body contains '[Interactive Card]'"
+  },
+  "action": {
+    "type": "inference",
+    "steps": [
+      "回溯最近5条自己发出的消息",
+      "匹配可能的卡片内容",
+      "基于推断内容直接响应",
+      "禁止向用户反问卡片内容"
+    ]
+  }
+}

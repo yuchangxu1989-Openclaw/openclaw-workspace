@@ -1,0 +1,36 @@
+{
+  "id": "rule.self-correction-to-rule-001",
+  "rule_name": "自我纠偏自动规则化",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "当Agent对用户说'以后要XXX'、'以后遇到XXX我会XXX'时，说明发现了一个行为缺陷。必须立即将这个纠偏固化为ISC规则或技能更新，而不是仅停留在对话承诺中。同时检查是否有新事件需要创建和识别。",
+  "source": "2026-03-04 用户指出：口头承诺'以后要XXX'无法保证执行，必须规则化",
+  "trigger": {
+    "events": [
+      "agent.self_correction.stated",
+      "agent.behavior_commitment.made"
+    ],
+    "detection": "对话中出现'以后我会'、'以后遇到'、'下次我会'、'不该再'等自我纠偏承诺时触发"
+  },
+  "action": {
+    "steps": [
+      {
+        "step": 1,
+        "action": "将纠偏内容转化为ISC规则或更新现有规则"
+      },
+      {
+        "step": 2,
+        "action": "检查是否有新的事件类型需要定义（事件源、探针、捕获机制）"
+      },
+      {
+        "step": 3,
+        "action": "检查是否需要更新CAPABILITY-ANCHOR.md"
+      },
+      {
+        "step": 4,
+        "action": "Git commit固化"
+      }
+    ]
+  },
+  "anti_entropy": "将对话中的认知升级自动固化为系统规则，防止认知退化"
+}
