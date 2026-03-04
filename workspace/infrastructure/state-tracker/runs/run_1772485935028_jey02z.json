@@ -1,0 +1,58 @@
+{
+  "id": "run_1772485935028_jey02z",
+  "trigger": "e2e-test",
+  "metadata": {
+    "trigger": "isc.rule.updated",
+    "rule_id": "N001"
+  },
+  "status": "completed",
+  "stages": {
+    "isc": {
+      "status": "done",
+      "started_at": null,
+      "completed_at": 1772485935032,
+      "result": {
+        "event": "isc.rule.updated",
+        "rule_id": "N001"
+      }
+    },
+    "dto": {
+      "status": "done",
+      "started_at": null,
+      "completed_at": 1772485935033,
+      "result": {
+        "synced": true,
+        "subscribers": 80
+      }
+    },
+    "seef": {
+      "status": "done",
+      "started_at": null,
+      "completed_at": 1772485935033,
+      "result": {
+        "skill": "aeo",
+        "score": 0.95
+      }
+    },
+    "aeo": {
+      "status": "done",
+      "started_at": null,
+      "completed_at": 1772485935034,
+      "result": {
+        "track": "quality",
+        "passed": true
+      }
+    },
+    "cras": {
+      "status": "skipped",
+      "started_at": null,
+      "completed_at": null,
+      "result": {
+        "reason": "P2 scope"
+      }
+    }
+  },
+  "created_at": 1772485935028,
+  "updated_at": 1772485935035,
+  "completed_at": 1772485935035
+}

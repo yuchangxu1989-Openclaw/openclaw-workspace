@@ -1,0 +1,7 @@
+{"id":"evt_mm9o94hl_orx6dw","type":"isc.rule.updated","source":"test","payload":{"rule_id":"N001","action":"update","field":"priority"},"timestamp":1772485753593,"consumed_by":["dto-core"]}
+{"id":"evt_mm9o98rq_vxyg60","type":"dto.sync.completed","source":"dto-core","payload":{"source_event":"evt_mm9o94hl_orx6dw","rule_id":"N001","action":"updated"},"timestamp":1772485759142,"consumed_by":[]}
+{"id":"evt_mm9oa40v_97pl1i","type":"aeo.assessment.completed","source":"aeo","payload":{"skill_name":"weather","track":"effect","score":85,"passed":true,"issues":[],"timestamp":1772485799647},"timestamp":1772485799647,"consumed_by":[]}
+{"id":"evt_mm9oa410_12477y","type":"aeo.assessment.failed","source":"aeo","payload":{"skill_name":"buggy-skill","track":"quality","score":30,"passed":false,"issues":["timeout","crash"],"timestamp":1772485799652},"timestamp":1772485799652,"consumed_by":[]}
+{"id":"evt_mm9oa410_kty8se","type":"aeo.assessment.completed","source":"aeo","payload":{"skill_name":"a","track":"effect","score":90,"passed":true,"issues":[],"timestamp":1772485799652},"timestamp":1772485799652,"consumed_by":[]}
+{"id":"evt_mm9oa410_q772xh","type":"aeo.assessment.failed","source":"aeo","payload":{"skill_name":"b","track":"quality","score":20,"passed":false,"issues":[],"timestamp":1772485799652},"timestamp":1772485799652,"consumed_by":[]}
+{"id":"evt_mm9oa411_kx6ti5","type":"aeo.assessment.batch","source":"aeo","payload":{"total":2,"passed":1,"failed":1,"skills":["a","b"],"timestamp":1772485799653},"timestamp":1772485799653,"consumed_by":[]}
