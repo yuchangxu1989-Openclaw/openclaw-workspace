@@ -112,7 +112,7 @@
       "name": "CRAS-E-自主进化",
       "enabled": true,
       "createdAtMs": 1771822636502,
-      "updatedAtMs": 1772595781937,
+      "updatedAtMs": 1772647229659,
       "schedule": {
         "expr": "0 2 * * *",
         "kind": "cron",
@@ -131,10 +131,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772647200000,
-        "lastRunAtMs": 1772595767349,
+        "nextRunAtMs": 1772733600000,
+        "lastRunAtMs": 1772647200006,
         "lastStatus": "ok",
-        "lastDurationMs": 14588,
+        "lastDurationMs": 29653,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "delivered",
@@ -180,7 +180,7 @@
       "name": "全局自主决策流水线-每30分钟",
       "enabled": true,
       "createdAtMs": 1771992026679,
-      "updatedAtMs": 1772645428715,
+      "updatedAtMs": 1772647251948,
       "schedule": {
         "kind": "cron",
         "expr": "*/30 * * * *"
@@ -197,10 +197,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772647200000,
-        "lastRunAtMs": 1772645400005,
+        "nextRunAtMs": 1772649000000,
+        "lastRunAtMs": 1772647229659,
         "lastStatus": "ok",
-        "lastDurationMs": 28710,
+        "lastDurationMs": 22289,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "delivered",
@@ -281,7 +281,7 @@
       "name": "系统维护-每日清理",
       "enabled": true,
       "createdAtMs": 1772046461060,
-      "updatedAtMs": 1772595823595,
+      "updatedAtMs": 1772647281328,
       "schedule": {
         "expr": "0 2 * * *",
         "kind": "cron",
@@ -296,14 +296,14 @@
         "timeoutSeconds": 120
       },
       "state": {
-        "nextRunAtMs": 1772647200000,
-        "lastRunAtMs": 1772595823595,
-        "lastStatus": "skipped",
-        "lastDurationMs": 0,
-        "consecutiveErrors": 0,
-        "lastRunStatus": "skipped",
-        "lastDeliveryStatus": "not-requested",
-        "lastError": "disabled"
+        "nextRunAtMs": 1772733600000,
+        "lastRunAtMs": 1772647251948,
+        "lastStatus": "error",
+        "lastDurationMs": 29380,
+        "consecutiveErrors": 1,
+        "lastRunStatus": "error",
+        "lastDeliveryStatus": "unknown",
+        "lastError": "Delivering to Feishu requires target <chatId|user:openId|chat:chatId>"
       },
       "delivery": {
         "mode": "announce"
@@ -386,7 +386,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772643710550,
+      "updatedAtMs": 1772647348395,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -406,11 +406,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772647207906,
-        "lastRunAtMs": 1772643699498,
+        "nextRunAtMs": 1772650807906,
+        "lastRunAtMs": 1772647339416,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 11052,
+        "lastDurationMs": 8979,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -493,7 +493,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772643718783,
+      "updatedAtMs": 1772647355355,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -513,13 +513,13 @@
         "target": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772647278795,
-        "lastRunAtMs": 1772643710550,
+        "nextRunAtMs": 1772650878795,
+        "lastRunAtMs": 1772647348395,
         "lastRunStatus": "error",
         "lastStatus": "error",
-        "lastDurationMs": 8233,
+        "lastDurationMs": 6960,
         "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 3,
+        "consecutiveErrors": 4,
         "lastError": "Delivering to Feishu requires target <chatId|user:openId|chat:chatId>"
       }
     },
@@ -667,7 +667,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772645442071,
+      "updatedAtMs": 1772647515659,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -685,11 +685,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772645700000,
-        "lastRunAtMs": 1772645428715,
+        "nextRunAtMs": 1772647800000,
+        "lastRunAtMs": 1772647500006,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 13356,
+        "lastDurationMs": 15653,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -701,7 +701,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772645461380,
+      "updatedAtMs": 1772647337210,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -719,11 +719,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772646300000,
-        "lastRunAtMs": 1772645442071,
+        "nextRunAtMs": 1772648100000,
+        "lastRunAtMs": 1772647317654,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 19309,
+        "lastDurationMs": 19556,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
