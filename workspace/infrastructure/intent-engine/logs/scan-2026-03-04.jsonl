@@ -188,3 +188,15 @@
 {"what":"IC4","why":"LLM unavailable, regex not applicable for this category","confidence":0,"alternatives":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T18:34:27.486Z"}
 {"what":"IC5","why":"LLM unavailable, regex not applicable for this category","confidence":0,"alternatives":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T18:34:27.486Z"}
 {"what":"user.intent.implicit_rejection","decision":"选择意图 user.intent.implicit_rejection","why":"LLM confidence 1; 证据: 嗯...先说别的吧","confidence":1,"alternatives":[],"alternatives_considered":[],"method":"llm","timestamp":"2026-03-04T18:41:52.070Z"}
+
+{"what":"user.emotion.frustration","decision":"选择意图 user.emotion.frustration","why":"LLM confidence 0.9; 排除: user.emotion.negative; 证据: 这个bug为什么反复出现","confidence":0.9,"alternatives":["user.emotion.negative"],"alternatives_considered":[{"id":"user.emotion.negative","reason":"LLM排序较低"}],"method":"llm","timestamp":"2026-03-04T19:08:25.526Z"}
+
+{"what":"user.emotion.negative","decision":"选择意图 user.emotion.negative","why":"LLM confidence 0.95; 证据: 最近心情不太好","confidence":0.95,"alternatives":[],"alternatives_considered":[],"method":"llm","timestamp":"2026-03-04T19:09:23.801Z"}
+
+{"what":"user.emotion.frustration","decision":"选择意图 user.emotion.frustration","why":"LLM confidence 0.85; 排除: user.emotion.negative; 证据: 这个bug为什么反复出现","confidence":0.85,"alternatives":["user.emotion.negative"],"alternatives_considered":[{"id":"user.emotion.negative","reason":"LLM排序较低"}],"method":"llm","timestamp":"2026-03-04T19:11:58.390Z"}
+
+{"what":"user.emotion.negative","decision":"选择意图 user.emotion.negative","why":"LLM confidence 0.95; 排除: user.emotion.frustration; 证据: 最近心情不太好","confidence":0.95,"alternatives":["user.emotion.frustration"],"alternatives_considered":[{"id":"user.emotion.frustration","reason":"LLM排序较低"}],"method":"llm","timestamp":"2026-03-04T19:12:36.958Z"}
+{"what":"rule.trigger.skill_evolution","decision":"选择意图 rule.trigger.skill_evolution","why":"LLM confidence 0.95; 证据: 帮我创建一个天气查询技能","confidence":0.95,"alternatives":[],"alternatives_considered":[],"method":"llm","timestamp":"2026-03-04T19:12:54.479Z"}
+
+
+

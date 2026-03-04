@@ -180,7 +180,7 @@
       "name": "全局自主决策流水线-每30分钟",
       "enabled": true,
       "createdAtMs": 1771992026679,
-      "updatedAtMs": 1772649028648,
+      "updatedAtMs": 1772650850599,
       "schedule": {
         "kind": "cron",
         "expr": "*/30 * * * *"
@@ -197,10 +197,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772650800000,
-        "lastRunAtMs": 1772649000008,
+        "nextRunAtMs": 1772652600000,
+        "lastRunAtMs": 1772650800005,
         "lastStatus": "ok",
-        "lastDurationMs": 28640,
+        "lastDurationMs": 50594,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "delivered",
@@ -386,7 +386,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772647348395,
+      "updatedAtMs": 1772650937127,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -406,14 +406,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772650807906,
-        "lastRunAtMs": 1772647339416,
+        "nextRunAtMs": 1772654407906,
+        "lastRunAtMs": 1772650894058,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8979,
-        "lastDeliveryStatus": "not-delivered",
+        "lastDurationMs": 43069,
+        "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": true
       }
     },
     {
@@ -493,7 +493,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772647355355,
+      "updatedAtMs": 1772650944509,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -513,13 +513,13 @@
         "target": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772650878795,
-        "lastRunAtMs": 1772647348395,
+        "nextRunAtMs": 1772654544509,
+        "lastRunAtMs": 1772650937127,
         "lastRunStatus": "error",
         "lastStatus": "error",
-        "lastDurationMs": 6960,
+        "lastDurationMs": 7382,
         "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 4,
+        "consecutiveErrors": 5,
         "lastError": "Delivering to Feishu requires target <chatId|user:openId|chat:chatId>"
       }
     },
@@ -667,7 +667,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772649612822,
+      "updatedAtMs": 1772651432754,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -685,14 +685,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772649900000,
-        "lastRunAtMs": 1772649600006,
+        "nextRunAtMs": 1772651700000,
+        "lastRunAtMs": 1772651400008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 12816,
+        "lastDurationMs": 32746,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": false,
+        "runningAtMs": 1772651700006
       }
     },
     {
@@ -701,7 +702,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772649060247,
+      "updatedAtMs": 1772650892044,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -719,14 +720,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772649900000,
-        "lastRunAtMs": 1772649043637,
+        "nextRunAtMs": 1772651700000,
+        "lastRunAtMs": 1772650884501,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 16610,
+        "lastDurationMs": 7543,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": false,
+        "runningAtMs": 1772651700006
       }
     },
     {

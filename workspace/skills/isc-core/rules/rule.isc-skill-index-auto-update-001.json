@@ -13,6 +13,7 @@
             "skill.deleted",
             "isc.skill.index.refresh_requested"
         ],
+        "condition": "skill_path OR skill_name OR skill_id",
         "actions": [
             {
                 "type": "auto_trigger",
