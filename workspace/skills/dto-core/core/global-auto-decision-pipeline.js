@@ -128,6 +128,8 @@ const CONFIG = {
       /research-.*\.md$/,          // cras/reports/research-*.md — cron自动生成
       /report_.*\.json$/,          // cras/knowledge/report_*.json — cron自动采集
       /lep-daily-report-.*\.(json|txt)$/, // LEP每日报告
+      /\.probe-state\.json$/,            // API探针运行时状态
+      /\.bak-pre-/,                      // 备份文件（带时间戳前缀）
       /cras-learning-.*\.json$/,   // CRAS学习数据
       /cras-dashboard-.*\.md$/,    // CRAS仪表盘报告
       /cron-health-check-.*\.md$/, // cron健康检查报告
