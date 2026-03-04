@@ -70,5 +70,11 @@
     "agent": "coder",
     "priority": "high",
     "description": "Critical fixes archived to memory/architecture-changelog.md"
+  },
+  "user.intent.*": {
+    "handler": "intent-dispatch",
+    "agent": "coder",
+    "priority": "normal",
+    "description": "L3 detected user intents dispatched for execution"
   }
 }
