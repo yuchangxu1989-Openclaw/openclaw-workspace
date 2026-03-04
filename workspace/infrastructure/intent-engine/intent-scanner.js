@@ -19,7 +19,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { EventEmitter } = require('events');
-const EventBus = require('../event-bus/event-bus');
+const EventBus = require('../event-bus/bus-adapter');
 const { log: decisionLog } = require('../decision-log/decision-logger');
 
 // ============================================================================
