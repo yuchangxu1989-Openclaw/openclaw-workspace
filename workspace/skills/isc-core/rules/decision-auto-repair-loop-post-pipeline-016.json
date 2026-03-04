@@ -25,14 +25,14 @@
       {
         "order": 1,
         "action": "execute_fixes",
-        "executor": "dto-core/global-auto-decision-pipeline.js",
+        "executor": "infrastructure/pipeline/l3-pipeline.js",
         "target": "fixable_issues",
         "parallel": false
       },
       {
         "order": 2,
         "action": "re_scan",
-        "executor": "dto-core/global-auto-decision-pipeline.js",
+        "executor": "infrastructure/pipeline/l3-pipeline.js",
         "method": "run_single_check",
         "timeout": 60
       },

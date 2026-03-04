@@ -37,7 +37,7 @@
       {
         "order": 2,
         "action": "auto_resolve_patterns",
-        "executor": "dto-core/global-auto-decision-pipeline.js",
+        "executor": "infrastructure/pipeline/l3-pipeline.js",
         "method": "execute_auto_fix_for_patterns",
         "strategies": [
           {"pattern": "file_not_found", "fix": "auto_create_file"},
