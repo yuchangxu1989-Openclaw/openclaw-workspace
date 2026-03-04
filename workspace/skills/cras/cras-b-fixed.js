@@ -3,6 +3,11 @@
  * CRAS-B 用户洞察分析 - 修复版
  * 简化版定时任务入口，直接执行分析并投递飞书
  * 修复：模型配置错误、超时、飞书投递失败
+ *
+ * [FIX] 2026-03-04 — 清除硬编码伪造fallback值
+ * 原代码在数据不足时使用伪造默认值(totalInteractions||12, topIntent='指令执行'等)伪装成真实分析结果。
+ * 现改为：无数据时明确返回 null / "数据不可用"，不伪装。
+ * 参见审计报告 reports/report-chain-audit-2026-03-04.md
  */
 
 const fs = require('fs');
@@ -77,23 +82,24 @@ function quickAnalyzeInteractions() {
       }
     }
   } catch (e) {
-    console.log('[CRAS-B] 会话文件读取失败，使用模拟数据');
+    console.log('[CRAS-B] 会话文件读取失败，无可用数据');
   }
   
-  // 如果读取失败或数据不足，使用默认值
-  const totalInteractions = recentInteractions.reduce((sum, i) => sum + i.count, 0) || 12;
+  // [FIX] 无数据时返回 null，不使用伪造默认值
+  const rawTotal = recentInteractions.reduce((sum, i) => sum + i.count, 0);
+  const totalInteractions = rawTotal > 0 ? rawTotal : null;
   
   // 读取待办事项
   const todos = loadTodoItems();
   
-  // 生成洞察报告
+  // [FIX] 无真实数据时，意图/情绪/模式返回"数据不可用"而非伪造值
   const analysis = {
     timestamp: timestamp,
     dateStr: dateStr,
     totalInteractions: totalInteractions,
-    topIntent: '指令执行',
-    emotion: '中性',
-    pattern: '深度迭代',
+    topIntent: totalInteractions ? '待真实分析' : '数据不可用',
+    emotion: totalInteractions ? '待真实分析' : '数据不可用',
+    pattern: totalInteractions ? '待真实分析' : '数据不可用',
     pendingTodos: todos.pending.length,
     todos: todos.pending.slice(0, 5) // 最多5条
   };
@@ -219,7 +225,7 @@ function generateFeishuCard(analysis) {
             is_short: true,
             text: {
               tag: 'lark_md',
-              content: `**交互**\n${analysis.totalInteractions}次`
+              content: `**交互**\n${analysis.totalInteractions !== null ? analysis.totalInteractions + '次' : '数据不可用'}`
             }
           }
         ]
