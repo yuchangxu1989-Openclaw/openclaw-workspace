@@ -1,0 +1,167 @@
+{
+  "passed": 32,
+  "failed": 0,
+  "total": 32,
+  "results": [
+    {
+      "group": "EventBus→IntentScanner",
+      "name": "EventBus event with text payload → valid conversationSlice",
+      "status": "pass"
+    },
+    {
+      "group": "EventBus→IntentScanner",
+      "name": "EventBus event with messages array → passthrough",
+      "status": "pass"
+    },
+    {
+      "group": "EventBus→IntentScanner",
+      "name": "Empty payload event → empty slice (IntentScanner handles gracefully)",
+      "status": "pass"
+    },
+    {
+      "group": "EventBus→IntentScanner",
+      "name": "EventBus event metadata preserved through conversion",
+      "status": "pass"
+    },
+    {
+      "group": "IntentScanner→EventBus",
+      "name": "Intent result → valid EventBus emit params",
+      "status": "pass"
+    },
+    {
+      "group": "IntentScanner→EventBus",
+      "name": "Intent event type format matches EventBus wildcard patterns",
+      "status": "pass"
+    },
+    {
+      "group": "IntentScanner→RuleMatcher",
+      "name": "Intent event has valid event shape for RuleMatcher.match()",
+      "status": "pass"
+    },
+    {
+      "group": "IntentScanner→RuleMatcher",
+      "name": "IntentScanner confidence range compatible with RuleMatcher",
+      "status": "pass"
+    },
+    {
+      "group": "RuleMatcher→Dispatcher",
+      "name": "RuleMatcher.match() output → Dispatcher.dispatch() input",
+      "status": "pass"
+    },
+    {
+      "group": "RuleMatcher→Dispatcher",
+      "name": "RuleMatcher.process() full output compatible with dispatch loop",
+      "status": "pass"
+    },
+    {
+      "group": "RuleMatcher→Dispatcher",
+      "name": "Dispatcher handles empty action with event.type fallback",
+      "status": "pass"
+    },
+    {
+      "group": "Pipeline→EventBus",
+      "name": "Pipeline consume call uses correct options shape",
+      "status": "pass"
+    },
+    {
+      "group": "Pipeline→RuleMatcher",
+      "name": "Pipeline passes EventBus event directly to RuleMatcher.process()",
+      "status": "pass"
+    },
+    {
+      "group": "Pipeline→IntentScanner",
+      "name": "Pipeline conversation event conversion handles all payload formats",
+      "status": "pass"
+    },
+    {
+      "group": "Pipeline→Dispatcher",
+      "name": "Pipeline dispatch call matches Dispatcher contract",
+      "status": "pass"
+    },
+    {
+      "group": "All→DecisionLog",
+      "name": "IntentScanner log entry format valid",
+      "status": "pass"
+    },
+    {
+      "group": "All→DecisionLog",
+      "name": "RuleMatcher log entry format valid",
+      "status": "pass"
+    },
+    {
+      "group": "All→DecisionLog",
+      "name": "Dispatcher log entry format valid",
+      "status": "pass"
+    },
+    {
+      "group": "All→DecisionLog",
+      "name": "Pipeline log entry format valid",
+      "status": "pass"
+    },
+    {
+      "group": "All→DecisionLog",
+      "name": "Invalid phase rejected by DecisionLog",
+      "status": "pass"
+    },
+    {
+      "group": "All→DecisionLog",
+      "name": "Invalid confidence rejected by DecisionLog",
+      "status": "pass"
+    },
+    {
+      "group": "All→DecisionLog",
+      "name": "Invalid decision_method rejected by DecisionLog",
+      "status": "pass"
+    },
+    {
+      "group": "All→DecisionLog",
+      "name": "DecisionLog.query returns records filterable by component",
+      "status": "pass"
+    },
+    {
+      "group": "FeatureFlags→Pipeline",
+      "name": "FeatureFlags.get() returns correct types for L3 flags",
+      "status": "pass"
+    },
+    {
+      "group": "FeatureFlags→Pipeline",
+      "name": "FeatureFlags.isEnabled() works for all L3 flags",
+      "status": "pass"
+    },
+    {
+      "group": "FeatureFlags→Pipeline",
+      "name": "FeatureFlags.reload() returns valid snapshot",
+      "status": "pass"
+    },
+    {
+      "group": "FeatureFlags→Pipeline",
+      "name": "FeatureFlags defaults match Pipeline expectations",
+      "status": "pass"
+    },
+    {
+      "group": "EventSchema",
+      "name": "EventBus emit → consume roundtrip preserves shape",
+      "status": "pass"
+    },
+    {
+      "group": "EventSchema",
+      "name": "RuleMatcher accepts EventBus event format directly",
+      "status": "pass"
+    },
+    {
+      "group": "EventSchema",
+      "name": "Dispatcher accepts EventBus event format",
+      "status": "pass"
+    },
+    {
+      "group": "RuleMatcher.evaluate→Dispatcher",
+      "name": "evaluate() return shape is consistent",
+      "status": "pass"
+    },
+    {
+      "group": "RuleMatcher.evaluate→Dispatcher",
+      "name": "Unconditional rule returns shouldFire=true",
+      "status": "pass"
+    }
+  ]
+}
