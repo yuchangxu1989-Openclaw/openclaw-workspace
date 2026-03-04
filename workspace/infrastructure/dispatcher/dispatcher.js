@@ -69,12 +69,37 @@ function logDecision(entry) {
   // 2. Unified DecisionLogger (cross-module audit trail)
   if (_decisionLogger && typeof _decisionLogger.log === 'function') {
     try {
+      // Build detailed why with routing reasoning
+      const whyParts = [];
+      if (entry.matchedPattern) whyParts.push(`路由模式: ${entry.matchedPattern}`);
+      if (entry.handler && entry.handler !== 'none') whyParts.push(`handler: ${entry.handler}`);
+      if (entry.eventType) whyParts.push(`事件: ${entry.eventType}`);
+      if (entry.reason) whyParts.push(`原因: ${entry.reason}`);
+      if (entry.attempt) whyParts.push(`尝试次数: ${entry.attempt}`);
+      if (entry.error) whyParts.push(`错误: ${entry.error}`);
+
+      // Build alternatives considered from routing context
+      const alternatives = [];
+      if (entry._routeCandidates && Array.isArray(entry._routeCandidates)) {
+        for (const c of entry._routeCandidates) {
+          if (c.pattern !== entry.matchedPattern) {
+            alternatives.push({
+              id: `${c.pattern}→${c.handler || 'unknown'}`,
+              priority: c.level,
+              reason: `路由级别${c.level}低于选中的${entry._selectedLevel || '?'}`,
+            });
+          }
+        }
+      }
+
       _decisionLogger.log({
         phase: 'execution',
         component: 'Dispatcher',
+        decision: `路由 ${entry.action || 'unknown'} → ${entry.handler || 'none'} (${entry.result || 'unknown'})`,
         what: `Dispatch ${entry.action || 'unknown'} → ${entry.result || 'unknown'}`,
-        why: entry.reason || `handler=${entry.handler || 'none'}, event=${entry.eventType || 'unknown'}`,
+        why: whyParts.join('; ') || `handler=${entry.handler || 'none'}, event=${entry.eventType || 'unknown'}`,
         confidence: 1.0,
+        alternatives_considered: alternatives,
         decision_method: 'rule_match',
         input_summary: JSON.stringify(entry).slice(0, 500),
       });
@@ -378,13 +403,26 @@ async function dispatch(rule, event, options = {}) {
   const route = findRoute(rule.action, routes);
   const handlerName = route ? route.config.handler : (rule.handler || null);
 
+  // Collect all candidate routes for decision logging
+  const _routeCandidates = [];
+  for (const [pattern, config] of Object.entries(routes)) {
+    if (matchPattern(rule.action, pattern)) {
+      const cls = classifyPattern(pattern);
+      _routeCandidates.push({ pattern, handler: config.handler, level: cls.level || cls.type });
+    }
+  }
+  const _selectedLevel = route ? classifyPattern(route.pattern).type : 'none';
+
   if (!handlerName) {
     const decision = {
       action: rule.action,
       eventType: event.type || event.eventType || 'unknown',
       handler: 'none',
       result: 'no_route',
+      reason: `无匹配路由: 检查了${Object.keys(routes).length}条路由规则,无一匹配 action="${rule.action}"`,
       duration: Date.now() - startTime,
+      _routeCandidates,
+      _selectedLevel,
     };
     logDecision(decision);
     enqueueManual(rule, event, 'No handler found for action: ' + rule.action);
@@ -466,6 +504,8 @@ async function dispatch(rule, event, options = {}) {
         result: 'success',
         attempt: attempt + 1,
         duration,
+        _routeCandidates,
+        _selectedLevel,
       });
 
       // ─── Metrics: dispatch success ───

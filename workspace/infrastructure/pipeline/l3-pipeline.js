@@ -212,9 +212,11 @@ class L3Pipeline {
       safeDecisionLog({
         phase: 'execution',
         component: 'l3-pipeline',
+        decision: '跳过Pipeline执行(总开关关闭)',
         what: 'Pipeline skipped — disabled by feature flag',
-        why: 'L3_PIPELINE_ENABLED=false',
+        why: `L3_PIPELINE_ENABLED=false (来源: ${flags._pipelineSource || 'unknown'})`,
         confidence: 1.0,
+        alternatives_considered: [{ id: '执行Pipeline', reason: '总开关L3_PIPELINE_ENABLED=false' }],
         input_summary: 'run() called',
       }, flags);
       appendRunLog(summary);
@@ -267,9 +269,12 @@ class L3Pipeline {
         safeDecisionLog({
           phase: 'execution',
           component: 'l3-pipeline.circuit-breaker',
+          event_id: event.id || null,
+          decision: `熔断: 事件 ${event.id || 'unknown'} 深度${depth}超限`,
           what: `Circuit break: event ${event.id || 'unknown'} (type=${event.type}) depth=${depth} exceeds max=${this.maxChainDepth}`,
-          why: 'Prevent infinite loop (cras→isc→dto→cras)',
+          why: `防止无限循环(cras→isc→dto→cras): chain_depth=${depth} > max_allowed=${this.maxChainDepth}`,
           confidence: 1.0,
+          alternatives_considered: [{ id: '继续处理', reason: `深度${depth}超过阈值${this.maxChainDepth},有循环风险` }],
           input_summary: JSON.stringify({ event_id: event.id, type: event.type, chain_depth: depth }),
         }, flags);
         continue; // 跳过此事件

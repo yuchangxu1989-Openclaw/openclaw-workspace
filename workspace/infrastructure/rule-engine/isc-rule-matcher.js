@@ -457,6 +457,14 @@ class ISCRuleMatcher {
         priority: c.priority,
         pattern: c.pattern,
       })),
+      // For deliberation: record why top rule was chosen over others
+      top_rule: candidates.length > 0 ? (candidates[0].rule.id || candidates[0].rule.name) : null,
+      alternatives_considered: candidates.slice(1).map(c => ({
+        id: c.rule.id || c.rule.name,
+        priority: c.priority,
+        match_type: c.match_type,
+        reason: `优先级${c.priority}低于首选${candidates[0] ? candidates[0].priority : '?'}, 匹配类型=${c.match_type}`,
+      })),
     });
 
     // ─── Metrics: track match results ───
@@ -549,25 +557,44 @@ class ISCRuleMatcher {
     // Persist to unified DecisionLogger (cross-module audit trail)
     if (_decisionLogger && typeof _decisionLogger.log === 'function') {
       try {
-        _decisionLogger.log({
+        const isMatch = !entry.type; // default type is match
+        const isEval = entry.type === 'evaluation';
+        const isExcl = entry.type === 'exclusion';
+        const isHotReload = entry.type === 'hot_reload';
+
+        const logEntry = {
           phase: 'cognition',
           component: 'ISCRuleMatcher',
-          what: entry.type === 'evaluation'
+          decision: isEval
+            ? `规则评估: ${entry.rule_id} → ${entry.result && entry.result.shouldFire ? '触发' : '跳过'}`
+            : isExcl
+            ? `规则排除: ${entry.rule_id}`
+            : isHotReload
+            ? `热重载: ${entry.total}条规则`
+            : `匹配 ${entry.candidates_count || 0} 条规则 (事件: ${entry.event_type || 'unknown'})`,
+          what: isEval
             ? `Rule evaluation: ${entry.rule_id} → ${entry.result && entry.result.shouldFire ? 'fire' : 'skip'}`
-            : entry.type === 'exclusion'
+            : isExcl
             ? `Rule excluded: ${entry.rule_id} (${entry.reason})`
-            : entry.type === 'hot_reload'
+            : isHotReload
             ? `Hot reload: ${entry.total} rules loaded`
             : `Matched ${entry.candidates_count || 0} rules for ${entry.event_type || 'unknown'}`,
-          why: entry.type === 'evaluation'
-            ? (entry.condition || 'no condition')
-            : entry.type === 'exclusion'
-            ? entry.reason
+          why: isEval
+            ? `条件: ${entry.condition || 'none'}, 结果: ${entry.result ? entry.result.reason : 'unknown'}`
+            : isExcl
+            ? `条件不满足: ${entry.reason}`
+            : isHotReload
+            ? `目录变更触发重载`
+            : isMatch && entry.top_rule
+            ? `首选规则: ${entry.top_rule} (匹配类型=${entry.matched_rules && entry.matched_rules[0] ? entry.matched_rules[0].match_type : '?'}, 优先级=${entry.matched_rules && entry.matched_rules[0] ? entry.matched_rules[0].priority : '?'}); 事件来源: ${entry.event_source || 'unknown'}`
             : `Event: ${entry.event_type || 'unknown'}, source: ${entry.event_source || 'unknown'}`,
           confidence: 1.0,
+          alternatives_considered: entry.alternatives_considered || [],
           decision_method: 'rule_match',
           input_summary: JSON.stringify(entry).slice(0, 500),
-        });
+        };
+
+        _decisionLogger.log(logEntry);
       } catch (_) {
         // DecisionLogger failure is non-fatal
       }

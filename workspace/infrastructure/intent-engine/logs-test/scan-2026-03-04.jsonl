@@ -1,1 +1,1 @@
-{"what":"IC1","why":"Regex fallback matched 1 keyword(s): 烦","confidence":0.4,"alternatives":[],"method":"regex_fallback","timestamp":"2026-03-04T18:30:03.193Z"}
+{"what":"IC1","decision":"选择意图 IC1 (regex降级)","why":"LLM不可用,regex降级匹配 1 个关键词: 烦; confidence=0.4 (基础0.3 + 1*0.1, 上限0.6)","confidence":0.4,"alternatives":[],"alternatives_considered":[{"id":"IC2","reason":"未匹配到关键词"}],"method":"regex_fallback","timestamp":"2026-03-04T18:42:23.009Z"}

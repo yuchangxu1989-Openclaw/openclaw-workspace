@@ -1,6 +1,6 @@
 # Day 2 降级演练报告
 
-> 生成时间: 2026-03-04T18:39:15.601Z
+> 生成时间: 2026-03-04T18:42:11.886Z
 > 凌霄阁裁决: "L3全量feature flag：任何单点故障可在30秒内降级为L2直通模式"
 
 ## 总览
@@ -54,7 +54,7 @@
 
 - **分类**: 子模块降级
 - **降级生效**: ✅ 是
-- **切换耗时**: 1ms ✅ (要求<30s)
+- **切换耗时**: 0ms ✅ (要求<30s)
 - **降级后可用**: ✅ 是
 - **详情**: IntentScanner available via regex fallback path
 
@@ -64,13 +64,13 @@
 - **降级生效**: ✅ 是
 - **切换耗时**: 0ms ✅ (要求<30s)
 - **降级后可用**: ✅ 是
-- **详情**: EventBus functional, storm suppression disabled. emit result: {"id":"evt_mmcdrywo_5z4zlk","suppressed":false}
+- **详情**: EventBus functional, storm suppression disabled. emit result: {"id":"evt_mmcdvqxk_ni2roo","suppressed":false}
 
 ### ✅ S3: Dispatcher 崩溃 → 独立降级
 
 - **分类**: 子模块降级
 - **降级生效**: ✅ 是
-- **切换耗时**: 1ms ✅ (要求<30s)
+- **切换耗时**: 0ms ✅ (要求<30s)
 - **降级后可用**: ✅ 是
 - **详情**: Dispatcher disabled, pipeline can still consume/match/scan without dispatching
 
@@ -86,7 +86,7 @@
 
 - **分类**: Handler 降级
 - **降级生效**: ✅ 是
-- **切换耗时**: 1ms ✅ (要求<30s)
+- **切换耗时**: 0ms ✅ (要求<30s)
 - **降级后可用**: ✅ 是
 - **详情**: CRAS handler disabled, other handlers unaffected: true
 
@@ -94,7 +94,7 @@
 
 - **分类**: 子模块降级
 - **降级生效**: ✅ 是
-- **切换耗时**: 0ms ✅ (要求<30s)
+- **切换耗时**: 1ms ✅ (要求<30s)
 - **降级后可用**: ✅ 是
 - **详情**: RuleMatcher disabled, pipeline skips rule matching step
 
@@ -110,7 +110,7 @@
 
 - **分类**: Handler 降级
 - **降级生效**: ✅ 是
-- **切换耗时**: 1ms ✅ (要求<30s)
+- **切换耗时**: 0ms ✅ (要求<30s)
 - **降级后可用**: ✅ 是
 - **详情**: 4 handlers disabled, core handlers active: true
 
@@ -120,7 +120,7 @@
 - **降级生效**: ✅ 是
 - **切换耗时**: 1ms ✅ (要求<30s)
 - **降级后可用**: ✅ 是
-- **详情**: 10 round trips: avg=0.7ms, min=0ms, max=1ms (all must be <30s)
+- **详情**: 10 round trips: avg=0.6ms, min=0ms, max=1ms (all must be <30s)
 
 ## L2 直通模式设计
 

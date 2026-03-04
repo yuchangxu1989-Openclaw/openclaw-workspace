@@ -214,7 +214,7 @@ class IntentScanner extends EventEmitter {
     const systemPrompt = this._buildSystemPrompt(registry);
     const userContent = this._buildUserContent(conversationSlice);
 
-    const response = await this._callZhipu(systemPrompt, userContent);
+    const response = await this._callZhipuWithRetry(systemPrompt, userContent);
     const parsed = this._parseLLMResponse(response);
 
     const decision_logs = parsed.map(intent => {
@@ -436,6 +436,22 @@ ${intentDefs}
   // --------------------------------------------------------------------------
   // Zhipu API
   // --------------------------------------------------------------------------
+
+  async _callZhipuWithRetry(systemPrompt, userContent, maxRetries = 2) {
+    let lastError;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        return await this._callZhipu(systemPrompt, userContent);
+      } catch (err) {
+        lastError = err;
+        if (attempt < maxRetries) {
+          const backoff = Math.min(1000 * Math.pow(2, attempt), 5000);
+          await new Promise(r => setTimeout(r, backoff));
+        }
+      }
+    }
+    throw lastError;
+  }
 
   _callZhipu(systemPrompt, userContent) {
     return new Promise((resolve, reject) => {
