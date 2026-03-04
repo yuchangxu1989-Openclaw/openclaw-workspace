@@ -34,7 +34,7 @@
         "type": "key_pool_rotation",
         "keys": [
           "${ZHIPU_KEY_1}",
-          "${ZHIPU_KEY_2}",
+          "${ZHIPU_KEY_2}"
         ],
         "strategy": "round_robin",
         "max_requests_per_key": 5
@@ -84,7 +84,7 @@
           "batch_size": 5,
           "max_concurrency": 5,
           "model_distribution": {
-            "glm-5": ["${ZHIPU_KEY_1}", "${ZHIPU_KEY_2}"],
+            "glm-5": ["${ZHIPU_KEY_1}", "${ZHIPU_KEY_2}"]
           },
           "key_rotation": "round_robin",
           "aggregation": "ordered_response"
