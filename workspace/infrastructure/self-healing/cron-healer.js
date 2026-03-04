@@ -1,0 +1,111 @@
+#!/usr/bin/env node
+/**
+ * cron-healer.js - 事件驱动自愈PoC
+ * 
+ * 读取cron jobs.json，检测连续错误>=3的任务，
+ * 对已知错误模式自动修复，未知模式escalate。
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const JOBS_PATH = '/root/.openclaw/cron/jobs.json';
+const LOG_DIR = '/root/.openclaw/workspace/infrastructure/self-healing/logs';
+const ERROR_THRESHOLD = 3;
+
+// 已知错误模式 → 自动修复函数
+const KNOWN_PATTERNS = [
+  {
+    id: 'delivery-target-to-to',
+    match: (job) => job.delivery?.target && !job.delivery?.to,
+    description: 'delivery.target should be delivery.to',
+    fix: (job) => {
+      const old = JSON.parse(JSON.stringify(job.delivery));
+      job.delivery.to = job.delivery.target;
+      delete job.delivery.target;
+      return { field: 'delivery', old, new: JSON.parse(JSON.stringify(job.delivery)) };
+    }
+  },
+  {
+    id: 'delivery-missing-to',
+    match: (job) => {
+      const err = job.state?.lastError || '';
+      return err.includes('Delivering to Feishu requires target') && 
+             job.delivery?.mode === 'announce' && !job.delivery?.to;
+    },
+    description: 'delivery.mode=announce but missing delivery.to',
+    fix: (job) => {
+      const defaultTo = 'user:ou_a113e465324cc55f9ab3348c9a1a7b9b';
+      job.delivery.to = defaultTo;
+      return { field: 'delivery.to', added: defaultTo };
+    }
+  }
+];
+
+function ensureLogDir() {
+  if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
+}
+
+function log(entry) {
+  ensureLogDir();
+  const date = new Date().toISOString().slice(0, 10);
+  const logFile = path.join(LOG_DIR, `heal-${date}.jsonl`);
+  fs.appendFileSync(logFile, JSON.stringify({ ...entry, ts: new Date().toISOString() }) + '\n');
+}
+
+function run() {
+  console.log(`[cron-healer] Reading ${JOBS_PATH}`);
+  const data = JSON.parse(fs.readFileSync(JOBS_PATH, 'utf8'));
+  const jobs = data.jobs;
+
+  const sick = jobs.filter(j => (j.state?.consecutiveErrors || 0) >= ERROR_THRESHOLD);
+  console.log(`[cron-healer] Found ${sick.length} job(s) with consecutiveErrors >= ${ERROR_THRESHOLD}`);
+
+  if (sick.length === 0) {
+    console.log('[cron-healer] All healthy. Nothing to do.');
+    return { healed: 0, escalated: 0 };
+  }
+
+  let healed = 0, escalated = 0;
+
+  for (const job of sick) {
+    console.log(`\n[cron-healer] Diagnosing: "${job.name}" (errors: ${job.state.consecutiveErrors})`);
+    console.log(`  lastError: ${job.state.lastError || '(empty)'}`);
+
+    let fixed = false;
+    for (const pattern of KNOWN_PATTERNS) {
+      if (pattern.match(job)) {
+        console.log(`  ✅ Matched pattern: ${pattern.id} - ${pattern.description}`);
+        const diff = pattern.fix(job);
+        job.state.consecutiveErrors = 0;
+        log({ action: 'auto-fix', jobId: job.id, jobName: job.name, pattern: pattern.id, diff });
+        console.log(`  🔧 Fixed! consecutiveErrors reset to 0`);
+        healed++;
+        fixed = true;
+        break;
+      }
+    }
+
+    if (!fixed) {
+      console.log(`  ⚠️ No known pattern matched. Escalating.`);
+      log({ action: 'escalate', jobId: job.id, jobName: job.name, lastError: job.state.lastError });
+      escalated++;
+    }
+  }
+
+  // Write back
+  fs.writeFileSync(JOBS_PATH, JSON.stringify(data, null, 2) + '\n');
+  console.log(`\n[cron-healer] Done. Healed: ${healed}, Escalated: ${escalated}`);
+  return { healed, escalated };
+}
+
+if (require.main === module) {
+  try {
+    run();
+  } catch (e) {
+    console.error('[cron-healer] Fatal:', e.message);
+    process.exit(1);
+  }
+}
+
+module.exports = { run };
