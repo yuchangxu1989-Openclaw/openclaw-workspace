@@ -53,7 +53,7 @@
 
 ## 元数据
 - name: council-of-seven
-- version: "3.0.2"
+- version: "3.0.3"
 - description: 凌霄阁-7人裁决神殿 Lingxiaoge Tribunal - 七席三轮对抗式深度决策机制
 - status: implemented
 - author: Strategic Commander
