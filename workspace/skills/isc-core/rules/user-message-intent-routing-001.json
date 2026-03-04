@@ -1,0 +1,64 @@
+{
+  "type": "routing",
+  "id": "UMR001",
+  "name": "user_message_intent_routing",
+  "description": "基于IntentScanner意图分类(IC1-IC5)将user.message路由到对应处理器",
+  "domain": "message_routing",
+  "scope": "system-wide",
+  "enforcement_tier": "P0_gate",
+  "trigger": {
+    "events": ["user.message"],
+    "condition": "intent_classification_available",
+    "actions": [
+      {
+        "type": "route",
+        "description": "基于意图分类路由到对应处理器"
+      }
+    ]
+  },
+  "routing_rules": {
+    "strategy": "intent_first",
+    "routes": [
+      {
+        "intent_category": "IC1",
+        "label": "情绪/反馈",
+        "handler": "cras-feedback-handler",
+        "description": "用户情绪表达、产品反馈、满意度相关"
+      },
+      {
+        "intent_category": "IC2",
+        "label": "规则/治理",
+        "handler": "isc-rule-handler",
+        "description": "规则查询、治理操作、ISC相关"
+      },
+      {
+        "intent_category": "IC3",
+        "label": "知识/学术",
+        "handler": "cras-knowledge-handler",
+        "description": "知识查询、学术研究、信息检索"
+      },
+      {
+        "intent_category": "IC4",
+        "label": "开发/技能",
+        "handler": "dev-task-handler",
+        "description": "开发任务、技能创建、代码相关"
+      },
+      {
+        "intent_category": "IC5",
+        "label": "分析/洞察",
+        "handler": "analysis-handler",
+        "description": "数据分析、洞察生成、趋势研判"
+      }
+    ],
+    "fallback": {
+      "handler": "default-message-handler",
+      "description": "意图无法识别时的兜底处理"
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2026-03-05",
+    "author": "system",
+    "priority": 100
+  }
+}

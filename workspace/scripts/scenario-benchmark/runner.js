@@ -127,13 +127,21 @@ async function _executeStepInner(step, context) {
     try {
       const eventType = context.lastEvent?.type || 'user.message';
       const payload = context.lastEvent?.payload || context.lastEmitPayload || {};
+      const eventObj = { type: eventType, payload, timestamp: Date.now(), source: 'scenario-benchmark' };
       
       let rules;
       if (typeof RuleMatcher.match === 'function') {
-        rules = RuleMatcher.match(eventType, payload);
+        rules = RuleMatcher.match(eventObj);
+      } else if (typeof RuleMatcher.getDefaultMatcher === 'function') {
+        const matcher = RuleMatcher.getDefaultMatcher();
+        rules = matcher.match(eventObj);
+      } else if (RuleMatcher.ISCRuleMatcher) {
+        const matcher = new RuleMatcher.ISCRuleMatcher();
+        matcher.loadRules();
+        rules = matcher.match(eventObj);
       } else if (typeof RuleMatcher.prototype?.match === 'function') {
         const matcher = new RuleMatcher();
-        rules = matcher.match(eventType, payload);
+        rules = matcher.match(eventObj);
       } else {
         rules = [];
       }
