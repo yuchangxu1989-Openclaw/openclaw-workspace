@@ -145,7 +145,7 @@
       "id": "23b6618c-6abe-42f4-abbb-6774dc935821",
       "agentId": "cron-worker",
       "name": "CRAS-洞察复盘-每周",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1771928171203,
       "updatedAtMs": 1772445838023,
       "schedule": {
@@ -165,7 +165,6 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772618400000,
         "lastRunAtMs": 1772445600007,
         "lastStatus": "ok",
         "lastDurationMs": 38656,
@@ -181,7 +180,7 @@
       "name": "全局自主决策流水线-每30分钟",
       "enabled": true,
       "createdAtMs": 1771992026679,
-      "updatedAtMs": 1772602213592,
+      "updatedAtMs": 1772604013979,
       "schedule": {
         "kind": "cron",
         "expr": "*/30 * * * *"
@@ -198,10 +197,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772604000000,
-        "lastRunAtMs": 1772602200008,
+        "nextRunAtMs": 1772605800000,
+        "lastRunAtMs": 1772604000006,
         "lastStatus": "ok",
-        "lastDurationMs": 13584,
+        "lastDurationMs": 13973,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "delivered",
@@ -382,7 +381,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772600441781,
+      "updatedAtMs": 1772604051565,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -402,11 +401,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772604007906,
-        "lastRunAtMs": 1772600433409,
+        "nextRunAtMs": 1772607607906,
+        "lastRunAtMs": 1772604037847,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8372,
+        "lastDurationMs": 13718,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -451,7 +450,7 @@
       "id": "merged-cras-knowledge-6h",
       "agentId": "cron-worker",
       "name": "CRAS-知识治理与洞察-每6小时",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1772509885336,
       "updatedAtMs": 1772596901455,
       "schedule": {
@@ -474,7 +473,6 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772618474546,
         "lastRunAtMs": 1772596874561,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
@@ -490,7 +488,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772600536744,
+      "updatedAtMs": 1772604123592,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -509,11 +507,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772604078795,
-        "lastRunAtMs": 1772600478801,
+        "nextRunAtMs": 1772607678795,
+        "lastRunAtMs": 1772604078800,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 57943,
+        "lastDurationMs": 44792,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -661,7 +659,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772602807641,
+      "updatedAtMs": 1772604911535,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -679,11 +677,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772603100000,
-        "lastRunAtMs": 1772602800010,
+        "nextRunAtMs": 1772605200000,
+        "lastRunAtMs": 1772604900010,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7631,
+        "lastDurationMs": 11525,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -695,7 +693,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772602235100,
+      "updatedAtMs": 1772604918650,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -713,11 +711,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772603100000,
-        "lastRunAtMs": 1772602225643,
+        "nextRunAtMs": 1772605800000,
+        "lastRunAtMs": 1772604911535,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 9457,
+        "lastDurationMs": 7115,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
