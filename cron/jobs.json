@@ -180,7 +180,7 @@
       "name": "全局自主决策流水线-每30分钟",
       "enabled": true,
       "createdAtMs": 1771992026679,
-      "updatedAtMs": 1772604013979,
+      "updatedAtMs": 1772605891172,
       "schedule": {
         "kind": "cron",
         "expr": "*/30 * * * *"
@@ -197,10 +197,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772605800000,
-        "lastRunAtMs": 1772604000006,
+        "nextRunAtMs": 1772607600000,
+        "lastRunAtMs": 1772605800006,
         "lastStatus": "ok",
-        "lastDurationMs": 13973,
+        "lastDurationMs": 91166,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "delivered",
@@ -659,7 +659,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772604911535,
+      "updatedAtMs": 1772607340107,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -677,11 +677,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772605200000,
-        "lastRunAtMs": 1772604900010,
+        "nextRunAtMs": 1772607600000,
+        "lastRunAtMs": 1772607300006,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 11525,
+        "lastDurationMs": 40101,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -693,7 +693,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772604918650,
+      "updatedAtMs": 1772606729562,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -711,15 +711,40 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772605800000,
-        "lastRunAtMs": 1772604911535,
+        "nextRunAtMs": 1772607600000,
+        "lastRunAtMs": 1772606706702,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7115,
+        "lastDurationMs": 22860,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
       }
+    },
+    {
+      "id": "memory-summary-6h",
+      "agentId": "cron-worker",
+      "name": "记忆摘要-每6小时",
+      "enabled": true,
+      "createdAtMs": 1772607350016,
+      "updatedAtMs": 1772607350016,
+      "schedule": {
+        "expr": "0 */6 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行定期记忆摘要生成：node /root/.openclaw/workspace/scripts/memory-summary-cron.js\n\n将输出摘要作为报告返回。如果有重要变更已自动写入记忆文件，无需额外操作。",
+        "model": "claude/claude-sonnet-4-6",
+        "timeoutSeconds": 60
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {}
     }
   ]
 }
