@@ -1,0 +1,13 @@
+{
+  "id": "scenario-content-pdf-knowledge",
+  "name": "PDF知识吸收与结构化",
+  "domain": "content",
+  "description": "吸收PDF文档知识并结构化输出",
+  "steps": [
+    { "action": "emit", "event": "user.message", "payload": { "text": "我有一份200页的行业白皮书PDF，帮我把里面的核心观点、数据和趋势预测提炼成结构化的知识卡片" } },
+    { "expect": "intent_detected", "intent_category": "IC4", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "scenario-cras-academic-insight",
+  "name": "CRAS学术洞察",
+  "domain": "knowledge",
+  "description": "用户请求分析一篇论文的方法论漏洞",
+  "steps": [
+    { "action": "emit", "event": "user.message", "payload": { "text": "帮我看看这篇论文的方法论有没有漏洞，主要是样本选择和对照组设计方面" } },
+    { "expect": "intent_detected", "intent_category": "IC3", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "cras*" },
+    { "expect": "result", "has_output": true }
+  ]
+}
