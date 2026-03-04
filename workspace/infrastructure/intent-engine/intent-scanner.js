@@ -19,17 +19,42 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { EventEmitter } = require('events');
+const EventBus = require('../event-bus/event-bus');
+const { log: decisionLog } = require('../decision-log/decision-logger');
 
 // ============================================================================
 // Constants
 // ============================================================================
 
-const ZHIPU_KEY = process.env.ZHIPU_API_KEY || 'REDACTED_ZHIPU_API_KEY';
+const SECRETS_FILE = '/root/.openclaw/.secrets/zhipu-keys.env';
+const ZHIPU_KEY = _loadZhipuKey();
 const ZHIPU_URL = 'https://open.bigmodel.cn/api/coding/paas/v4/chat/completions';
 const ZHIPU_MODEL = 'glm-5';
 const REGISTRY_PATH = path.join(__dirname, 'intent-registry.json');
 const LOG_DIR = path.join(__dirname, 'logs');
 const FEATURE_FLAG = (process.env.INTENT_SCANNER_ENABLED || 'true').toLowerCase();
+
+/**
+ * Load Zhipu API key: env var → secrets file → null (graceful degradation)
+ */
+function _loadZhipuKey() {
+  // 1. Environment variable (highest priority)
+  if (process.env.ZHIPU_API_KEY) {
+    return process.env.ZHIPU_API_KEY;
+  }
+  // 2. Secrets file fallback
+  try {
+    const content = fs.readFileSync(SECRETS_FILE, 'utf8');
+    const match = content.match(/^ZHIPU_API_KEY=(.+)$/m);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+  } catch (_) {
+    // File not found or unreadable — continue to degradation
+  }
+  // 3. No key available — will degrade to regex path
+  return null;
+}
 
 // ============================================================================
 // Regex patterns for IC1/IC2 fallback (hardcoded for resilience)
@@ -86,6 +111,21 @@ class IntentScanner extends EventEmitter {
     }
 
     const registry = this._loadRegistry();
+
+    // No API key → skip LLM entirely, degrade to regex
+    if (!this._zhipuKey) {
+      this.emit('system.capability.degraded', {
+        component: 'IntentScanner',
+        method: 'llm',
+        error: 'No ZHIPU_API_KEY configured (env or secrets file)',
+        timestamp: new Date().toISOString(),
+        fallback: 'regex'
+      });
+      const fallbackResult = this._scanWithRegex(conversationSlice, registry);
+      this._persistLogs(fallbackResult.decision_logs);
+      this._emitIntentEvents(fallbackResult.intents);
+      return fallbackResult;
+    }
 
     // Try LLM first
     try {
@@ -365,12 +405,32 @@ ${categoryLines}
 
   _emitIntentEvents(intents) {
     for (const intent of intents) {
-      this.emit('intent.detected', {
+      const eventPayload = {
         intent_id: intent.intent_id,
         confidence: intent.confidence,
         evidence: intent.evidence,
         timestamp: new Date().toISOString()
-      });
+      };
+
+      // Primary output: emit to EventBus (file-based, cross-module)
+      try {
+        EventBus.emit('intent.detected', eventPayload, 'IntentScanner');
+      } catch (err) {
+        // EventBus failure is non-fatal; log and continue
+        try {
+          decisionLog({
+            phase: 'sensing',
+            component: 'IntentScanner',
+            what: `EventBus emit failed for intent ${intent.intent_id}`,
+            why: err.message,
+            confidence: intent.confidence,
+            decision_method: 'llm',
+          });
+        } catch (_) { /* best effort */ }
+      }
+
+      // Local hook: EventEmitter for in-process listeners (backward compat)
+      this.emit('intent.detected', eventPayload);
     }
   }
 
