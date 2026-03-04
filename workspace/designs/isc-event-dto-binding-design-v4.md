@@ -88,7 +88,7 @@
 | 维度 | 定义 |
 |------|------|
 | **事件源** | 扫描器周期性计算指标值 |
-| **探针位置** | `scanners/*.js`（组合扫描器） |
+| **探针位置** | `infrastructure/scanners/*.js`（组合扫描器） |
 | **捕获机制** | 扫描器每N分钟运行 → 计算当前值 → 与阈值比对 → 越过则emit |
 | **时效性** | 近实时（10-30min延迟，取决于扫描周期） |
 | **覆盖范围** | 质量分、覆盖率、错误频率、资源使用率等所有可量化指标 |
@@ -134,7 +134,7 @@
 | 维度 | 定义 |
 |------|------|
 | **事件源** | 系统历史数据（错误日志、修复记录、Git历史、DTO执行记录） |
-| **探针位置** | `scanners/pattern-analyzer.js`（新建） |
+| **探针位置** | `infrastructure/scanners/pattern-analyzer.js`（新建） |
 | **捕获机制** | 每日聚合分析 → 关联多维度信号 → 模式识别 → 达到模式阈值则emit |
 | **时效性** | 日级（需要足够的历史数据窗口） |
 | **覆盖范围** | 重复失败模式、修补循环、架构瓶颈、性能退化趋势 |
@@ -152,7 +152,7 @@
 | 维度 | 定义 |
 |------|------|
 | **事件源** | L1-L5所有层的信号聚合 + 外部对标分析 |
-| **探针位置** | `scanners/evolution-detector.js`（新建） |
+| **探针位置** | `infrastructure/scanners/evolution-detector.js`（新建） |
 | **捕获机制** | 多信号关联 → 进化机会识别 → 凌霄阁审议 → 用户拍板 → 执行 |
 | **时效性** | 周级（需要足够的数据积累和深度分析） |
 | **覆盖范围** | 记忆机制、多Agent协同、自主闭环、自主学习 |
@@ -601,7 +601,7 @@ v4在v3的trigger schema基础上增加多层事件绑定：
     "events": {
       "L1": ["domain.object.created", "domain.object.updated"],
       "L2": ["domain.object.threshold_crossed"],
-      "L3": ["user.intent.inferred"],
+      "L3": ["user.intent.file_request.inferred"],
       "L4": ["knowledge.domain.discovered"],
       "L5": ["system.failure_pattern.pattern_emerged"]
     },
@@ -629,7 +629,7 @@ v4在v3的trigger schema基础上增加多层事件绑定：
 
 ---
 
-## 第四部分：77条规则五层事件拆解
+## 第四部分：70条规则五层事件拆解（v4.1修正）
 
 ### 4.0 五层覆盖统计
 
@@ -664,7 +664,7 @@ v4在v3的trigger schema基础上增加多层事件绑定：
 | R03 | ISC变更对齐 | `isc.rule.created/updated/deleted` | `isc.alignment.drifted` | — | — | `system.failure_pattern.pattern_emerged`（反复对齐失败） |
 | R04 | ISC-DTO握手 | — | `isc.alignment.drifted` | — | — | `system.architecture_bottleneck.pattern_emerged` |
 | R05 | ISC命名公约 | `isc.rule.created/updated` | `quality.naming.violated` | `conversation.correction.inferred`（用户纠正命名） | `knowledge.naming_convention.discovered` | — |
-| R06 | 重复错误检测 | `system.error.created` | `system.error.recurring.threshold_crossed` | `user.sentiment.frustration`（用户因错误不满） | — | `system.failure_pattern.pattern_emerged` ★核心 |
+| R06 | 重复错误检测 | `system.error.created` | `system.error.recurring.threshold_crossed` | `user.sentiment.frustration.shifted`（用户因错误不满） | — | `system.failure_pattern.pattern_emerged` ★核心 |
 | R07 | 规则缺失资源 | — | `isc.rule.resource.gap_found` | — | — | `system.patch_cycle.pattern_emerged` |
 | R08 | 超时重试 | `dto.task.failed` | — | — | — | `system.failure_pattern.pattern_emerged`（反复超时） |
 | R09 | 规则识别准确率 | — | `isc.rule.identity.gap_found` | — | — | — |
@@ -747,7 +747,7 @@ v4在v3的trigger schema基础上增加多层事件绑定：
 
 | # | 规则 | L1事件 | L2事件 | L3事件 | L4事件 | L5事件 |
 |---|------|--------|--------|--------|--------|--------|
-| R59 | 根因分析 | `dto.task.failed`, `pipeline.failed` | — | `user.sentiment.frustration` | `knowledge.debugging_technique.discovered` | `system.failure_pattern.pattern_emerged` ★核心 |
+| R59 | 根因分析 | `dto.task.failed`, `pipeline.failed` | — | `user.sentiment.frustration.shifted` | `knowledge.debugging_technique.discovered` | `system.failure_pattern.pattern_emerged` ★核心 |
 | R60 | 架构合规审计 | `system.design.created/updated` | — | — | `knowledge.architecture_pattern.discovered` ★核心 | — |
 | R61 | CRAS模式解决 | — | `aeo.insight.threshold_crossed` | `conversation.topic.recurring` ★核心 | — | `system.patch_cycle.pattern_emerged` ★核心 |
 | R62 | 重命名全局对齐 | `skill.lifecycle.renamed/moved` | — | — | — | `system.patch_cycle.pattern_emerged` |
@@ -841,10 +841,12 @@ v4在v3的trigger schema基础上增加多层事件绑定：
 
 ### 5.1 架构概览
 
+> **v4.1数据源修正**：v4.0假设CRAS可直接读取OpenClaw会话历史（`agents/*/sessions/`），但该路径从skill不可访问。v4.1改为**消息钩子+事件总线**方案：消息到达时通过钩子emit到events.jsonl，CRAS从事件总线消费，无需直接访问session存储。详见Part 8.5.1。
+
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│                        对话消息流（全量）                              │
-│   user msg → agent reply → user msg → agent reply → ...             │
+│                     消息流（通过消息钩子捕获）                          │
+│   user msg → message-hook emit → events.jsonl → CRAS消费            │
 └────────────────────────┬─────────────────────────────────────────────┘
                          │
               ┌──────────▼──────────┐
@@ -899,26 +901,26 @@ const PROBE_ID = 'cras-fast-channel';
 const STATE_FILE = path.join(__dirname, '.fast-channel-state.json');
 const SCAN_INTERVAL_MS = 5 * 60 * 1000; // 5分钟
 
-// 意图模式库（可扩展）
+// 意图模式库（可扩展，v4.1语义细分）
 const INTENT_PATTERNS = {
   file_request: {
     patterns: [/发.*源文件/, /发我.*md/, /发.*文件给我/, /源码.*发/],
-    event_type: 'user.intent.inferred',
+    event_type: 'user.intent.file_request.inferred',
     payload_type: 'file_request'
   },
   vision_task: {
     patterns: [/分析.*图/, /看.*图片/, /图.*理解/, /OCR/],
-    event_type: 'user.intent.inferred',
+    event_type: 'user.intent.vision_task.inferred',
     payload_type: 'vision_task'
   },
   frustration: {
     patterns: [/又.*错了/, /还是.*问题/, /怎么又/, /说了.*遍/, /不是.*意思/],
-    event_type: 'user.sentiment.sentiment_shifted',
+    event_type: 'user.sentiment.frustration.shifted',
     payload_type: 'frustration'
   },
   repeated_emphasis: {
     patterns: [/重点是/, /必须/, /一定要/, /关键/, /最重要/],
-    event_type: 'user.intent.emphasized',
+    event_type: 'user.intent.severity.emphasized',
     payload_type: 'emphasis'
   },
   correction: {
@@ -930,6 +932,26 @@ const INTENT_PATTERNS = {
     patterns: [/你要理解/, /本质是/, /第一性原理/, /你想想/, /仔细想/],
     event_type: 'conversation.teaching.inferred',
     payload_type: 'teaching'
+  },
+  rule_creation: {
+    patterns: [/创建.*规则/, /新增.*规则/, /加.*规则/, /注册.*规则/],
+    event_type: 'user.intent.rule_creation.inferred',
+    payload_type: 'rule_creation'
+  },
+  skillification: {
+    patterns: [/技能化/, /做成.*技能/, /封装.*技能/, /变成.*skill/],
+    event_type: 'user.intent.skillification.inferred',
+    payload_type: 'skillification'
+  },
+  evaluation: {
+    patterns: [/评测/, /测试.*效果/, /跑个.*评估/, /benchmark/],
+    event_type: 'user.intent.evaluation.inferred',
+    payload_type: 'evaluation'
+  },
+  task_routing: {
+    patterns: [/用.*模型/, /换.*模型/, /试试.*GLM/, /选.*模型/],
+    event_type: 'user.intent.task_routing.inferred',
+    payload_type: 'task_routing'
   }
 };
 
@@ -1522,10 +1544,10 @@ class KnowledgeAdapter {
 
 ### 7.2 模式检测引擎
 
-**文件位置**：`scanners/pattern-analyzer.js`（新建）
+**文件位置**：`infrastructure/scanners/pattern-analyzer.js`（新建，v4.1修正路径）
 
 ```javascript
-// scanners/pattern-analyzer.js
+// infrastructure/scanners/pattern-analyzer.js
 // L5 系统性模式检测引擎
 
 const bus = require('../infrastructure/event-bus/bus.js');
@@ -1824,10 +1846,10 @@ Phase 6: 验证与反馈（Verification & Feedback）
 
 ### 8.2 进化机会检测引擎
 
-**文件位置**：`scanners/evolution-detector.js`（新建）
+**文件位置**：`infrastructure/scanners/evolution-detector.js`（新建，v4.1修正路径）
 
 ```javascript
-// scanners/evolution-detector.js
+// infrastructure/scanners/evolution-detector.js
 // 元事件域探针 - 检测IQ提升机会
 
 const bus = require('../infrastructure/event-bus/bus.js');
@@ -2316,7 +2338,7 @@ infrastructure/
     └── *.js              # L2扫描器
 ```
 
-**方案中所有引用`scanners/*.js`的路径统一修正为`infrastructure/scanners/*.js`**。
+**方案中所有引用`infrastructure/scanners/*.js`的路径统一修正为`infrastructure/scanners/*.js`**。
 
 ### 8.5.4 风险四：event-trigger.js条件评估是空实现
 
@@ -2557,28 +2579,28 @@ const testCases = [
 | ES03 | event-bus | 基础设施 | `infrastructure/event-bus/bus.js` | ✅已有 | 统一事件持久化 |
 | ES04 | dispatcher | 路由 | `infrastructure/dispatcher/dispatcher.js` | ✅已有 | 事件路由到handler |
 | ES05 | dto-event-bus | (废弃) | `dto-core/core/event-bus.js` | ⚠️待废弃 | 统一到ES03 |
-| ES06 | skill-watcher | L1 | `scanners/skill-watcher.js` | 🆕新建 | 技能目录变更事件 |
-| ES07 | naming-scanner | L2 | `scanners/naming-scanner.js` | 🆕新建 | 命名规范扫描 |
-| ES08 | skill-quality-scanner | L2 | `scanners/skill-quality-scanner.js` | 🆕新建 | 技能质量扫描 |
-| ES09 | vectorization-scanner | L2 | `scanners/vectorization-scanner.js` | 🆕新建 | 向量化覆盖扫描 |
-| ES10 | rule-scanner | L2 | `scanners/rule-scanner.js` | 🆕新建 | 规则格式/完整性扫描 |
-| ES11 | alignment-scanner | L2 | `scanners/alignment-scanner.js` | 🆕新建 | ISC-DTO对齐扫描 |
-| ES12 | capability-scanner | L2 | `scanners/capability-scanner.js` | 🆕新建 | 能力锚点扫描 |
-| ES13 | error-scanner | L2 | `scanners/error-scanner.js` | 🆕新建 | 错误频率扫描 |
-| ES14 | config-watcher | L1 | `scanners/config-watcher.js` | 🆕新建 | 配置变更监听 |
+| ES06 | skill-watcher | L1 | `infrastructure/scanners/skill-watcher.js` | 🆕新建 | 技能目录变更事件 |
+| ES07 | naming-scanner | L2 | `infrastructure/scanners/naming-scanner.js` | 🆕新建 | 命名规范扫描 |
+| ES08 | skill-quality-scanner | L2 | `infrastructure/scanners/skill-quality-scanner.js` | 🆕新建 | 技能质量扫描 |
+| ES09 | vectorization-scanner | L2 | `infrastructure/scanners/vectorization-scanner.js` | 🆕新建 | 向量化覆盖扫描 |
+| ES10 | rule-scanner | L2 | `infrastructure/scanners/rule-scanner.js` | 🆕新建 | 规则格式/完整性扫描 |
+| ES11 | alignment-scanner | L2 | `infrastructure/scanners/alignment-scanner.js` | 🆕新建 | ISC-DTO对齐扫描 |
+| ES12 | capability-scanner | L2 | `infrastructure/scanners/capability-scanner.js` | 🆕新建 | 能力锚点扫描 |
+| ES13 | error-scanner | L2 | `infrastructure/scanners/error-scanner.js` | 🆕新建 | 错误频率扫描 |
+| ES14 | config-watcher | L1 | `infrastructure/scanners/config-watcher.js` | 🆕新建 | 配置变更监听 |
 | **ES25** | **cras-fast-channel** | **L3** | `skills/cras/conversation-probe.js` | 🆕新建 | 快通道意图提取 |
 | **ES26** | **cras-slow-channel** | **L3** | `skills/cras/daily-aggregator.js` | 🆕新建 | 慢通道模式分析 |
 | **ES27** | **knowledge-probe** | **L4** | `skills/cras/knowledge-discovery-probe.js` | 🆕新建 | 知识发现探针 |
-| **ES28** | **pattern-analyzer** | **L5** | `scanners/pattern-analyzer.js` | 🆕新建 | 系统性模式检测 |
-| **ES29** | **evolution-detector** | **META** | `scanners/evolution-detector.js` | 🆕新建 | 进化机会检测 |
-| ES24 | global-sweep | L1-L5 | `scanners/global-sweep.js` | 🆕新建 | 全量兜底扫描 |
+| **ES28** | **pattern-analyzer** | **L5** | `infrastructure/scanners/pattern-analyzer.js` | 🆕新建 | 系统性模式检测 |
+| **ES29** | **evolution-detector** | **META** | `infrastructure/scanners/evolution-detector.js` | 🆕新建 | 进化机会检测 |
+| ES24 | global-sweep | L1-L5 | `infrastructure/scanners/global-sweep.js` | 🆕新建 | 全量兜底扫描 |
 
 ### 9.2 五层事件源到规则的映射
 
 ```
 ┌───────────────────────────────────────────────────────────────────────┐
 │ L1: ES01(git) + ES02(bridge) + ES06(skill) + ES14(config)            │
-│     → 覆盖全部74条规则的lifecycle事件                                  │
+│     → 覆盖全部70条独立规则的lifecycle事件（5条纯阈值驱动规则除外）      │
 ├───────────────────────────────────────────────────────────────────────┤
 │ L2: ES07-ES13 + ES24(sweep)                                         │
 │     → 覆盖52条有量化条件的规则                                        │
@@ -2596,7 +2618,7 @@ const testCases = [
 │     → 核心驱动: R06(错误检测), R59(根因分析), R61(模式解决)            │
 ├───────────────────────────────────────────────────────────────────────┤
 │ META: ES29(evolution)                                                │
-│     → 覆盖全部74条规则（任何规则都可能产生进化信号）                    │
+│     → 覆盖全部70条独立规则（任何规则都可能产生进化信号）                │
 │     → 核心驱动: 四个进化方向（记忆/协同/闭环/学习）                    │
 └───────────────────────────────────────────────────────────────────────┘
 ```
@@ -2651,7 +2673,7 @@ const testCases = [
                │
     ┌──────────▼──────────┐
     │  ISC规则层            │
-    │  74条规则            │
+    │  70条独立规则        │
     │  trigger.events.L1-L5│
     └──────────┬──────────┘
                │
@@ -2680,9 +2702,9 @@ const testCases = [
 |------|------|---------|------|
 | 1.1 统一事件总线 | 废弃DTO内部bus | `dto-core/core/event-bus.js`（废弃） | 2h |
 | 1.2 dispatcher真正执行 | handler执行框架 | `infrastructure/dispatcher/dispatcher.js`（改造） | 3h |
-| 1.3 BaseScanner框架 | 扫描器基类 | `scanners/base-scanner.js`（新建） | 2h |
+| 1.3 BaseScanner框架 | 扫描器基类 | `infrastructure/scanners/base-scanner.js`（新建） | 2h |
 | 1.4 L1事件源完善 | git hook扩展 | `.git/hooks/post-commit`（改造） | 1h |
-| 1.5 L2扫描器实现 | 7个组合扫描器 | `scanners/*.js`（新建） | 8h |
+| 1.5 L2扫描器实现 | 7个组合扫描器 | `infrastructure/scanners/*.js`（新建） | 8h |
 | 1.6 事件Schema v4 | layer/probe字段 | `infrastructure/event-bus/bus.js`（改造） | 1h |
 
 ### Phase 2: CRAS双通道（L3）（2天）
@@ -2708,7 +2730,7 @@ const testCases = [
 
 | 任务 | 产出 | 文件位置 | 估时 |
 |------|------|---------|------|
-| 4.1 模式检测引擎 | L5事件emit | `scanners/pattern-analyzer.js`（新建） | 6h |
+| 4.1 模式检测引擎 | L5事件emit | `infrastructure/scanners/pattern-analyzer.js`（新建） | 6h |
 | 4.2 根因分析handler | 多维关联 | `infrastructure/dispatcher/handlers/refactor-analyzer.js`（新建） | 4h |
 | 4.3 重构执行handler | 方案→执行 | `infrastructure/dispatcher/handlers/refactor-executor.js`（新建） | 3h |
 | 4.4 L5路由配置 | dispatcher路由 | `infrastructure/dispatcher/routes.json`（更新） | 1h |
@@ -2717,7 +2739,7 @@ const testCases = [
 
 | 任务 | 产出 | 文件位置 | 估时 |
 |------|------|---------|------|
-| 5.1 进化检测引擎 | META事件emit | `scanners/evolution-detector.js`（新建） | 4h |
+| 5.1 进化检测引擎 | META事件emit | `infrastructure/scanners/evolution-detector.js`（新建） | 4h |
 | 5.2 凌霄阁进化审议 | 专用审议流程 | `skills/council-evolution.js`（新建） | 3h |
 | 5.3 META路由配置 | dispatcher路由 | `infrastructure/dispatcher/routes.json`（更新） | 1h |
 
@@ -2726,50 +2748,57 @@ const testCases = [
 | 任务 | 产出 | 文件位置 | 估时 |
 |------|------|---------|------|
 | 6.1 规则Schema迁移脚本 | v3→v4 trigger格式 | `scripts/migrate-rules-v4.js`（新建） | 3h |
-| 6.2 执行迁移 | 74条规则JSON更新 | `skills/isc-core/rules/*.json`（更新） | 2h |
+| 6.2 执行迁移 | 70条独立规则JSON更新 | `skills/isc-core/rules/*.json`（更新） | 2h |
 | 6.3 事件推导验证 | derive-events-v4.js | `skills/isc-core/bin/derive-events-v4.js`（新建） | 3h |
 | 6.4 端到端测试 | L1-L5全链路验证 | `tests/e2e-event-flow.js`（新建） | 4h |
 | 6.5 三角对齐监控 | ISC-Event-DTO | `monitors/alignment-monitor.js`（新建） | 2h |
 
 ### 总估时
 
-| Phase | 估时 | 可并行 |
-|-------|------|--------|
-| Phase 1 (L1+L2基础) | 2天 | — |
-| Phase 2 (L3 CRAS) | 2天 | 可与Phase 3并行 |
-| Phase 3 (L4知识发现) | 2天 | 可与Phase 2并行 |
-| Phase 4 (L5模式检测) | 2天 | 可与Phase 5并行 |
-| Phase 5 (META进化) | 1天 | 可与Phase 4并行 |
-| Phase 6 (迁移+验证) | 2天 | 需前5个Phase完成 |
-| **总计** | **11天**（串行）/ **7天**（最大并行） |
+> **v4.1修正**：v4.0声称"全部基于现有代码可落地"过于乐观。以下是工程审查后的诚实估时。
+
+| Phase | 估时 | 可并行 | 备注 |
+|-------|------|--------|------|
+| Phase 0 (工程基建) | 3天 | — | bus.js性能重构+scanners目录+条件评估器 |
+| Phase 1 (L1+L2基础) | 2天 | — | 扫描器实现、event schema升级 |
+| Phase 2 (L3 CRAS) | 3天 | 可与Phase 3并行 | 含消息钩子数据源+Module B Phase 1 |
+| Phase 3 (L4知识发现) | 2天 | 可与Phase 2并行 | |
+| Phase 4 (L5模式检测) | 3天 | 可与Phase 5并行 | 含根因分析handler |
+| Phase 5 (META进化) | 2天 | 可与Phase 4并行 | 含凌霄阁流程实现 |
+| Phase 6 (DTO总线统一) | 4天 | 需Phase 0完成 | ★高风险，需全量回归 |
+| Phase 7 (迁移+验证) | 3天 | 需前6个Phase完成 | 规则迁移+端到端测试 |
+| **总计** | **22天**（串行）/ **14天**（最大并行） | | 工程师评估24-28天更保守 |
 
 ---
 
 ## 第十一部分：代码变更清单
 
-### 新建文件（19个）
+### 新建文件（22个，v4.1新增3个）
 
 | 文件路径 | 用途 | 对应Phase |
 |---------|------|----------|
-| `scanners/base-scanner.js` | 扫描器基类 | P1 |
-| `scanners/skill-scanner.js` | L2技能扫描 | P1 |
-| `scanners/rule-scanner.js` | L2规则扫描 | P1 |
-| `scanners/vectorization-scanner.js` | L2向量化扫描 | P1 |
-| `scanners/infra-scanner.js` | L2基础设施扫描 | P1 |
-| `scanners/quality-scanner.js` | L2质量扫描 | P1 |
-| `scanners/sync-scanner.js` | L2同步扫描 | P1 |
-| `scanners/global-sweep.js` | 全量兜底扫描 | P1 |
+| `infrastructure/scanners/base-scanner.js` | 扫描器基类 | P1 |
+| `infrastructure/scanners/skill-scanner.js` | L2技能扫描 | P1 |
+| `infrastructure/scanners/rule-scanner.js` | L2规则扫描 | P1 |
+| `infrastructure/scanners/vectorization-scanner.js` | L2向量化扫描 | P1 |
+| `infrastructure/scanners/infra-scanner.js` | L2基础设施扫描 | P1 |
+| `infrastructure/scanners/quality-scanner.js` | L2质量扫描 | P1 |
+| `infrastructure/scanners/sync-scanner.js` | L2同步扫描 | P1 |
+| `infrastructure/scanners/global-sweep.js` | 全量兜底扫描 | P1 |
 | `skills/cras/conversation-probe.js` | L3 CRAS快通道 | P2 |
 | `skills/cras/daily-aggregator.js` | L3 CRAS慢通道 | P2 |
 | `skills/cras/intent-patterns.json` | L3意图模式库 | P2 |
 | `skills/cras/knowledge-discovery-probe.js` | L4知识发现探针 | P3 |
 | `infrastructure/dispatcher/handlers/knowledge-adapter.js` | L4知识适配 | P3 |
-| `scanners/pattern-analyzer.js` | L5模式检测 | P4 |
+| `infrastructure/scanners/pattern-analyzer.js` | L5模式检测 | P4 |
 | `infrastructure/dispatcher/handlers/refactor-analyzer.js` | L5根因分析 | P4 |
-| `scanners/evolution-detector.js` | META进化检测 | P5 |
-| `skills/isc-core/bin/derive-events-v4.js` | 事件推导算法 | P6 |
-| `scripts/migrate-rules-v4.js` | 规则迁移脚本 | P6 |
-| `tests/e2e-event-flow.js` | 端到端测试 | P6 |
+| `infrastructure/scanners/evolution-detector.js` | META进化检测 | P5 |
+| `skills/isc-core/bin/derive-events-v4.js` | 事件推导算法 | P7 |
+| `scripts/migrate-rules-v4.js` | 规则迁移脚本 | P7 |
+| `tests/e2e-event-flow.js` | 端到端测试 | P7 |
+| **`infrastructure/event-bus/acks.jsonl`** ★v4.1 | **分离式ack存储** | **P0** |
+| **`infrastructure/event-bus/noun-registry.jsonl`** ★v4.1 | **名词注册表** | **P0** |
+| **`infrastructure/dispatcher/handlers/knowledge-verifier.js`** ★v4.1 | **L4知识验证** | **P3** |
 
 ### 改造文件（8个）
 
@@ -2780,7 +2809,7 @@ const testCases = [
 | `infrastructure/dispatcher/routes.json` | 新增L3-L5+META路由 | P2-P5 |
 | `.git/hooks/post-commit` | 扩展emit事件类型 | P1 |
 | `dto-core/core/event-bus.js` | 标记废弃，引导到bus.js | P1 |
-| `skills/isc-core/rules/*.json` (74个) | trigger.events格式v4化 | P6 |
+| `skills/isc-core/rules/*.json` (70个独立规则) | trigger.events格式v4化 | P7 |
 | `openclaw.json` | 注册新Cron任务 | P2 |
 | `skills/cras/event-bridge.js` | 对接新的L3探针 | P2 |
 
@@ -2802,25 +2831,33 @@ const testCases = [
 | D10 | 系统性故障→重构必须强制经凌霄阁 | 重构改变系统结构，是最高风险操作 | 架构安全 |
 | D11 | 事件分类体系6类×开放名词，支撑30000条规则 | 动词封闭（6类穷尽状态变化），名词开放（按需生长） | 反熵增原则 |
 | D12 | DTO仍是唯一调度引擎，不新增引擎 | L3/L4/L5的handler最终都通过DTO调度执行 | 用户明确约束 |
+| **D13** ★ | **user.intent必须按具体意图细分命名** | v4.0将10+种意图映射到同一事件类型，路由效率低、调试困难 | v4.1质量审查 |
+| **D14** ★ | **覆盖率必须逐行核查，不接受估算** | v4.0声称100%实为92.9%，数据诚实性是红线 | v4.1质量审查 |
+| **D15** ★ | **名词空间必须有注册+收缩机制** | 只有"增长"无"收缩"违反反熵增原则 | v4.1质量审查 |
+| **D16** ★ | **bus.js ack改为追加式，不重写events.jsonl** | O(n)全量重写在5层事件吞吐下是性能灾难 | v4.1工程审查 |
+| **D17** ★ | **CRAS数据源用消息钩子替代session历史读取** | session历史不可从skill直接访问 | v4.1工程审查 |
+| **D18** ★ | **不声称"基于现有代码可落地"** | L3-L5+META探针全部需新建，工期24-28天 | v4.1工程审查（诚实） |
 
 ---
 
-## 附录A：v3→v4差异总结
+## 附录A：v3→v4→v4.1差异总结
 
-| 维度 | v3 | v4 | 变化 |
-|------|----|----|------|
-| 事件层级 | 3层+sweep | 5层+META+sweep | L3/L4/L5/META全新 |
-| 动词类别 | 4类/21个 | 6类/38个 | +signal(6)+discovery(7) |
-| 事件源数量 | 24个 | 29个 | +5个(ES25-ES29) |
-| 规则覆盖 | L1+L2 100% | L1-L5+META多层覆盖 | 从2层到5+1层 |
-| CRAS定位 | 消费事件+学习 | **L3事件探针+知识发现** | 角色根本性升级 |
-| 对话是否事件源 | 否 | **是** | 最大认知突破 |
-| 知识发现 | 无 | **完整闭环** | 全新 |
-| 系统性模式 | L2阈值 | **L5多维关联** | 从统计到智能 |
-| 自驱进化 | 无 | **完整机制** | 全新 |
-| 凌霄阁角色 | 可选 | **重构+进化强制** | 升级为安全门禁 |
-| trigger格式 | events数组 | events按层分类对象 | 结构升级 |
-| 事件Schema | type+source | +layer+probe+confidence | 元数据增强 |
+| 维度 | v3 | v4.0 | v4.1修正 |
+|------|----|----|---------|
+| 事件层级 | 3层+sweep | 5层+META+sweep | 不变 |
+| 动词类别 | 4类/21个 | 6类/38个 | 不变 |
+| 事件源数量 | 24个 | 29个 | 不变 |
+| 规则覆盖 | L1+L2 100% | ~~L1 100%~~（虚报） | **L1 92.9%, L2 54.3%（诚实数据）** |
+| 独立规则数 | — | ~~74条~~（虚报） | **70条（去重后实际值）** |
+| L3事件类型 | 无 | 12种（语义稀释） | **28种（每种意图独立命名）** |
+| CRAS定位 | 消费事件+学习 | L3事件探针 | **+消息钩子数据源替代方案** |
+| 对话数据源 | 无 | ~~假设可读取session历史~~ | **消息钩子+记忆文件代理** |
+| 闭环完整性 | L1/L2 | ~~声称L3-L5完整~~（缺失） | **L3-L5+META完整执行路径** |
+| 名词治理 | 无 | 无（只有增长） | **注册+去重+废弃收缩机制** |
+| 凌霄阁 | 可选 | 概念（缺细节） | **完整流程+成本控制+分级** |
+| bus.js性能 | — | ~~未识别问题~~ | **分离ack存储，O(1)追加** |
+| 工程可行性 | — | ~~声称"现有代码可落地"~~ | **专章分析6项风险+方案** |
+| 事件Schema | type+source | +layer+probe+confidence | 不变 |
 
 ---
 
@@ -2964,4 +3001,5 @@ v4完全向后兼容v3：
 
 ---
 
-*v4.0.0 — 五层事件认知模型，基于用户3小时深度教学的认知全面升级。*
+*v4.1.0 — 五层事件认知模型，工程审查+质量审查后修正版。*
+*修正内容：覆盖率数据实事求是、语义稀释消除、闭环执行路径补齐、工程可行性6项风险方案、名词治理收缩机制、凌霄阁详细设计。*
