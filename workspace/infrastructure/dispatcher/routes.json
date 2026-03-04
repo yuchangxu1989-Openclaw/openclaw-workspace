@@ -52,5 +52,23 @@
     "agent": "coder",
     "priority": "low",
     "description": "Health check events for monitoring"
+  },
+  "system.architecture.changed": {
+    "handler": "memory-archiver",
+    "agent": "coder",
+    "priority": "high",
+    "description": "Architecture changes archived to memory/architecture-changelog.md"
+  },
+  "system.config.changed": {
+    "handler": "memory-archiver",
+    "agent": "coder",
+    "priority": "high",
+    "description": "Config changes archived to memory/architecture-changelog.md"
+  },
+  "system.critical.fix": {
+    "handler": "memory-archiver",
+    "agent": "coder",
+    "priority": "high",
+    "description": "Critical fixes archived to memory/architecture-changelog.md"
   }
 }
