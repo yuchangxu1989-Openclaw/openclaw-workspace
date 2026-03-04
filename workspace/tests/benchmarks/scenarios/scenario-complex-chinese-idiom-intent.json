@@ -1,0 +1,26 @@
+{
+  "id": "scenario-complex-chinese-idiom-intent",
+  "name": "中文口语化表达：带俚语和省略",
+  "domain": "development",
+  "description": "用户使用口语化、带俚语的表达方式，Agent需解析非规范语言",
+  "source": "synthetic",
+  "reference": "natural language understanding robustness test",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "single-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["colloquial-language", "informal-expression", "slang"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "那个啥，就之前那个报错的玩意儿，你给它搞搞呗" }
+    },
+    { "expect": "intent_detected", "timeout_ms": 5000 },
+    { "expect": "rule_matched" },
+    { "expect": "result", "has_output": true }
+  ]
+}

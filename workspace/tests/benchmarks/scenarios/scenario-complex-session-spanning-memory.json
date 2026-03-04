@@ -1,0 +1,27 @@
+{
+  "id": "scenario-complex-session-spanning-memory",
+  "name": "跨会话记忆：引用昨天的决策",
+  "domain": "knowledge",
+  "description": "用户引用上一个会话中做出的决策作为当前任务的前提",
+  "source": "synthetic",
+  "reference": "session-spanning memory from agent research",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "single-intent",
+    "context": "context-dependent",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["session-spanning", "context-dependent", "memory-dependent", "prior-decision-reference"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "昨天我们不是决定用JSONL做事件队列吗？按那个方案开始实现" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

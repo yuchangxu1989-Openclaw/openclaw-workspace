@@ -1,0 +1,27 @@
+{
+  "id": "scenario-complex-conditional-branching",
+  "name": "条件分支：根据结果决定下一步",
+  "domain": "development",
+  "description": "用户给出条件分支指令：如果A则做X，如果B则做Y",
+  "source": "synthetic",
+  "reference": "conditional execution pattern from AutoGPT workflows",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "multi-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["multi-intent", "conditional-logic", "decision-tree"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "先检查Gateway内存，如果超过2GB就重启，重启后跑一遍健康检查；如果没超就直接跑健康检查" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

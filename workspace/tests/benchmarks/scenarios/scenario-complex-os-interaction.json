@@ -1,0 +1,27 @@
+{
+  "id": "scenario-complex-os-interaction",
+  "name": "系统运维：检查进程+清理+重启",
+  "domain": "development",
+  "description": "类AgentBench OS interaction：需要多步系统操作完成运维任务",
+  "source": "synthetic",
+  "reference": "AgentBench OS interaction environment",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "multi-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["multi-intent", "system-operation", "sequential-execution", "os-interaction"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "检查下Gateway进程内存占用，如果日志文件超过100MB就清理旧日志，然后优雅重启Gateway" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "scenario-complex-hidden-need",
+  "name": "隐含需求：表面问天气实际关心出行",
+  "domain": "knowledge",
+  "description": "用户表面上询问天气，但隐含需求是出行建议",
+  "source": "synthetic",
+  "reference": "implicit intent detection research",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "single-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["implicit-intent", "hidden-need", "inference-required"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "下午3点上海到北京的天气情况怎么样" }
+    },
+    { "expect": "intent_detected", "timeout_ms": 5000 },
+    { "expect": "rule_matched" },
+    { "expect": "result", "has_output": true }
+  ]
+}

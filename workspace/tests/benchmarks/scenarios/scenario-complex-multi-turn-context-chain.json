@@ -1,0 +1,39 @@
+{
+  "id": "scenario-complex-multi-turn-context-chain",
+  "name": "多轮上下文链：3轮递进需求",
+  "domain": "development",
+  "description": "第1轮建立上下文，第2轮追加约束，第3轮的意图必须结合前两轮才能理解",
+  "source": "synthetic",
+  "reference": "AgentBench multi-turn reasoning pattern",
+  "complexity": {
+    "turns": "multi-turn",
+    "intent": "single-intent",
+    "context": "context-dependent",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["multi-turn", "context-dependent", "progressive-refinement", "context-chain"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "帮我做一个自动化部署脚本" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "对了，部署目标是3台服务器，要支持灰度发布" }
+    },
+    { "expect": "intent_detected", "timeout_ms": 5000 },
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "上面说的那3台里面有一台是ARM架构的，要特殊处理" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

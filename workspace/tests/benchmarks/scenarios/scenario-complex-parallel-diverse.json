@@ -1,0 +1,27 @@
+{
+  "id": "scenario-complex-parallel-diverse",
+  "name": "多任务并行：查询+编码+分析",
+  "domain": "development",
+  "description": "一句话同时请求信息查询、代码修改和数据分析三个独立任务",
+  "source": "synthetic",
+  "reference": "multi-task decomposition pattern from CrewAI",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "multi-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "cross-domain"
+  },
+  "complexity_tags": ["multi-intent", "parallel-execution", "cross-domain", "task-decomposition"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "一边帮我查下Redis集群最佳实践，一边把那个缓存模块的代码重构成异步的，顺便分析下最近一周的API调用量趋势" }
+    },
+    { "expect": "intent_detected", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

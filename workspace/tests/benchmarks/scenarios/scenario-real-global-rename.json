@@ -1,0 +1,28 @@
+{
+  "id": "scenario-real-global-rename",
+  "name": "全局重命名：CTO→DTO跨文件替换",
+  "domain": "development",
+  "description": "全工作空间级别的术语替换，需避免误匹配",
+  "source": "real-conversation",
+  "source_date": "2026-03-02",
+  "original_text": "全工作空间替换CTO→DTO，68处修改涉及32个文件，排除REFACTOR/FACTOR/VECTOR误匹配",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "single-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["bulk-operation", "precision-required", "false-positive-avoidance"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "把全工作空间的CTO替换成DTO，注意排除REFACTOR、FACTOR、VECTOR这些误匹配" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

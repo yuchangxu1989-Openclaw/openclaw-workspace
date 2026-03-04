@@ -1,0 +1,27 @@
+{
+  "id": "scenario-complex-swe-bench-style",
+  "name": "真实Issue修复：代码定位+补丁生成",
+  "domain": "development",
+  "description": "类SWE-bench场景：给定错误描述，Agent需定位代码并生成修复补丁",
+  "source": "synthetic",
+  "reference": "SWE-bench real-world GitHub issue resolution",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "single-intent",
+    "context": "context-dependent",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["code-fix", "bug-localization", "patch-generation", "context-dependent"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "DTO的constructor拼写错误导致DTOPlatform类无法实例化，调度中枢瘫痪了。帮我找到错误位置修复一下" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}
