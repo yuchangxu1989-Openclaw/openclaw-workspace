@@ -1,7 +1,7 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成的文档，请勿手动编辑（由 ISC 规则同步）
 
-> **生成时间**: 2026/3/4 12:05:04
+> **生成时间**: 2026/3/4 16:08:49
 > **来源**: ISC 规则自动同步
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -108,28 +108,9 @@
 - **seef**: skills/seef/
 - **system-monitor**: skills/system-monitor/
 
-## 🟢 智谱多模态能力实测验证（2026-03-04）
-
-| 能力 | 模型 | BaseURL | 状态 | Key前缀 |
-|------|------|---------|------|---------|
-| 文本生成 | glm-4-flash | `https://open.bigmodel.cn/api/coding/paas/v4` | ✅ 可用 (200) | `a474ebc9...` |
-| 文本生成 | glm-5 | `https://open.bigmodel.cn/api/coding/paas/v4` | ✅ 可用 (200) | `a474ebc9...` |
-| 向量化 | embedding-3 | `https://open.bigmodel.cn/api/coding/paas/v4` | ✅ 可用 (200) | `a474ebc9...` |
-| 图像生成 | cogview-4 | `https://open.bigmodel.cn/api/coding/paas/v4` | ✅ 可用 (200) | `a474ebc9...` |
-| 图像理解 | glm-4v-flash | `https://open.bigmodel.cn/api/coding/paas/v4` | ✅ 可用 (200) | `a474ebc9...` |
-| 语音转文字 | glm-asr-2512 | `https://open.bigmodel.cn/api/coding/paas/v4` | ✅ 端点可达 | `a474ebc9...` |
-
-### Key 池
-- Key_2 (`a474ebc9...`): ✅ 可用 — 默认Key + 各agent/skill使用
-- Key_3 (`ce9cf293...`): ✅ 可用 — 备用Key
-- Key_1 (`48912b3b...`): ❌ 已移除 (401失效)
-
-### BaseURL 统一
-所有配置统一使用：`https://open.bigmodel.cn/api/coding/paas/v4`（带 `/coding/` 路径）
-
 ## 🟣 使用原则
 
-1. **主模型**: Claude Opus 4-6（文本推理）
+1. **主模型**: Claude Opus-4-6-Thinking（文本推理）
 2. **扩展模型**: 智谱（多模态、生成）
 3. **自动路由**: ISC规则自动识别需求，DTO调度对应模型
-4. **能力来源**: 本文档由 ISC 规则自动生成 + 实测验证
+4. **能力来源**: 本文档由 ISC 规则自动生成
