@@ -1,25 +1,20 @@
 {
   "id": "rule.architecture-diagram-visual-output-001",
   "rule_name": "架构图必须附带可视化图片",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "severity": "medium",
-  "description": "任何架构设计输出（架构图、系统集成映射图、模块关系图、数据流图）除了文本/MD格式外，必须额外生成一份直观的可视化图片（CogView-4）并发送给用户。",
-  "source": "2026-03-05 用户原话：'以后只要出架构图，除了文本、MD等格式表达以外，也额外给出一份直观的图片'",
+  "description": "任何架构设计输出除了文本/MD格式外，必须额外生成一份直观的可视化图片并发送给用户。使用Mermaid渲染结构化图表，不使用AI文生图（CogView等不适合技术架构图）。",
+  "source": "2026-03-05 用户反馈CogView生成的架构图质量差，改为Mermaid方案",
   "trigger": {
-    "events": [
-      "design.architecture.created",
-      "design.architecture.updated",
-      "design.integration_map.created"
-    ],
-    "detection": {
-      "type": "semantic_intent",
-      "intent_pattern": "产出了架构设计文档、系统图、模块关系图等结构化设计内容"
-    }
+    "events": ["design.architecture.created", "design.architecture.updated"]
   },
   "action": {
+    "method": "mermaid_render",
     "steps": [
-      "用CogView-4生成对应的可视化图片",
-      "通过飞书发送给用户（文本+图片双份）"
-    ]
+      "用Mermaid语法描述架构关系",
+      "渲染为PNG图片",
+      "通过飞书发送给用户（MD文本+PNG双份）"
+    ],
+    "note": "CogView-4仅用于艺术类图片，技术图表用Mermaid"
   }
 }
