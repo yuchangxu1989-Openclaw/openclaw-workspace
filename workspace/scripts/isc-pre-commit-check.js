@@ -90,6 +90,38 @@ function main() {
     }
   }
 
+  // --- Rule 5: Dependency Direction Check (DEP-001 ~ DEP-005) ---
+  const depCheckPath = path.join(__dirname, 'dependency-check.js');
+  if (fs.existsSync(depCheckPath)) {
+    try {
+      const jsFiles = files.filter(f => /\.[cm]?js$/.test(f));
+      if (jsFiles.length > 0) {
+        const depCheck = require(depCheckPath);
+        const depErrors = [
+          ...depCheck.checkDEP001(jsFiles),
+          ...depCheck.checkDEP005(jsFiles),
+          ...depCheck.checkL3toL1L2(jsFiles),
+        ];
+        const depWarnings = [
+          ...depCheck.checkDEP002(jsFiles),
+          ...depCheck.checkDEP004(jsFiles),
+        ];
+        // DEP-003 (cycle check) scans all L3 files, only relevant if infra files staged
+        if (jsFiles.some(f => f.startsWith('infrastructure/'))) {
+          depErrors.push(...depCheck.checkDEP003(jsFiles));
+        }
+        for (const v of depErrors) {
+          errors.push(`[${v.rule}] ${v.file}:${v.line} — ${v.message}`);
+        }
+        for (const v of depWarnings) {
+          warnings.push(`[${v.rule}] ${v.file}:${v.line} — ${v.message}`);
+        }
+      }
+    } catch (e) {
+      warnings.push(`[DEP-CHECK] 依赖检查加载失败: ${e.message}`);
+    }
+  }
+
   // --- Output ---
   if (warnings.length) {
     console.log('⚠️  ISC Pre-Commit 警告:');

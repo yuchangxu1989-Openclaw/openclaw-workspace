@@ -183,6 +183,57 @@ function get(flagName) {
   return _resolved[flagName];
 }
 
+/**
+ * 获取 flag 值并记录决策来源（用于关键决策路径审计）
+ * @param {string} flagName
+ * @returns {{ value: *, source: string }}
+ */
+function getWithSource(flagName) {
+  const envVal = readEnv(flagName);
+  if (envVal !== undefined) {
+    _logFlagDecision(flagName, envVal, 'env');
+    return { value: envVal, source: 'env' };
+  }
+  if (_fileConfig[flagName] !== undefined) {
+    const type = FLAG_TYPES[flagName];
+    const parsed = type ? parseValue(_fileConfig[flagName], type) : _fileConfig[flagName];
+    _logFlagDecision(flagName, parsed, 'file');
+    return { value: parsed, source: 'file' };
+  }
+  const defaultVal = DEFAULTS[flagName];
+  _logFlagDecision(flagName, defaultVal, 'default');
+  return { value: defaultVal, source: 'default' };
+}
+
+/** @private Log flag decision to unified DecisionLogger */
+function _logFlagDecision(flagName, value, source) {
+  if (!_decisionLogger || typeof _decisionLogger.log !== 'function') return;
+  try {
+    const sourcePriority = { env: '环境变量(最高)', file: `配置文件(${CONFIG_FILE})`, default: '硬编码默认值(最低)' };
+    const alternatives = [];
+    if (source !== 'env') {
+      const ev = readEnv(flagName);
+      if (ev !== undefined) alternatives.push({ id: 'env', value: String(ev), reason: '未使用' });
+    }
+    if (source !== 'file' && _fileConfig[flagName] !== undefined) {
+      alternatives.push({ id: 'file', value: String(_fileConfig[flagName]), reason: source === 'env' ? '被环境变量覆盖' : '未使用' });
+    }
+    if (source !== 'default' && DEFAULTS[flagName] !== undefined) {
+      alternatives.push({ id: 'default', value: String(DEFAULTS[flagName]), reason: source === 'env' ? '被环境变量覆盖' : '被配置文件覆盖' });
+    }
+    _decisionLogger.log({
+      phase: 'cognition',
+      component: 'FeatureFlags',
+      decision: `${flagName} = ${value}`,
+      what: `Flag ${flagName} resolved to ${value}`,
+      why: `来源: ${sourcePriority[source] || source}; 优先级链: env > file > default`,
+      confidence: 1.0,
+      alternatives_considered: alternatives,
+      decision_method: 'rule_match',
+    });
+  } catch (_) {}
+}
+
 function getAll() {
   const snapshot = { ..._resolved };
   for (const key of Object.keys(snapshot)) {
