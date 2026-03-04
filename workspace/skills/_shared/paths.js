@@ -7,4 +7,5 @@ const MEMORY_DIR = path.join(WORKSPACE, 'memory');
 const SECRETS_DIR = path.join(OPENCLAW_HOME, '.secrets');
 const MEDIA_DIR = path.join(OPENCLAW_HOME, 'media');
 const AGENTS_DIR = path.join(OPENCLAW_HOME, 'agents');
-module.exports = { OPENCLAW_HOME, WORKSPACE, SKILLS_DIR, REPORTS_DIR, MEMORY_DIR, SECRETS_DIR, MEDIA_DIR, AGENTS_DIR };
+const CRON_DIR = path.join(OPENCLAW_HOME, 'cron');
+module.exports = { OPENCLAW_HOME, WORKSPACE, SKILLS_DIR, REPORTS_DIR, MEMORY_DIR, SECRETS_DIR, MEDIA_DIR, AGENTS_DIR, CRON_DIR };

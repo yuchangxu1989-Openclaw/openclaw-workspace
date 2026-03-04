@@ -287,11 +287,13 @@
         "kind": "cron",
         "tz": "Asia/Shanghai"
       },
-      "sessionTarget": "main",
+      "sessionTarget": "isolated",
       "wakeMode": "now",
       "payload": {
-        "kind": "systemEvent",
-        "text": "执行系统维护: /root/.openclaw/workspace/scripts/system-maintenance.sh"
+        "kind": "agentTurn",
+        "message": "执行系统维护: /root/.openclaw/workspace/scripts/system-maintenance.sh",
+        "model": "claude/claude-sonnet-4-6",
+        "timeoutSeconds": 120
       },
       "state": {
         "nextRunAtMs": 1772647200000,
@@ -302,6 +304,9 @@
         "lastRunStatus": "skipped",
         "lastDeliveryStatus": "not-requested",
         "lastError": "disabled"
+      },
+      "delivery": {
+        "mode": "announce"
       }
     },
     {
@@ -499,7 +504,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行DTO声明式编排与AEO闭环衔接：\n1. DTO声明式编排器：node /root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js\n2. AEO-DTO闭环：监听DTO信号，触发评测，输出结果到SEEF/ISC：node /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs\n如无信号则静默完成。",
+        "message": "先检查是否有待处理的DTO信号：ls /root/.openclaw/workspace/.dto-signals/ 2>/dev/null | head -5\n如果目录不存在或为空，直接回复无信号即可，不需要运行完整流水线。\n否则执行DTO声明式编排与AEO闭环衔接：\n1. DTO声明式编排器：node /root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js\n2. AEO-DTO闭环：node /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs\n如无信号则静默完成。",
         "model": "claude/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 120
       },
@@ -633,11 +638,13 @@
         "kind": "cron",
         "tz": "Asia/Shanghai"
       },
-      "sessionTarget": "main",
+      "sessionTarget": "isolated",
       "wakeMode": "now",
       "payload": {
-        "kind": "systemEvent",
-        "text": "执行运维辅助任务：\n1. 会话文件自动清理：/root/.openclaw/workspace/scripts/session-cleanup.sh\n2. 统一向量化服务：/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh"
+        "kind": "agentTurn",
+        "message": "执行运维辅助任务：\n1. 会话文件自动清理：/root/.openclaw/workspace/scripts/session-cleanup.sh\n2. 统一向量化服务：/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+        "model": "claude/claude-sonnet-4-6",
+        "timeoutSeconds": 120
       },
       "delivery": {
         "mode": "none"
@@ -669,7 +676,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "运行事件调度器，检查事件总线中的未消费事件并按路由分发处理。\n\n执行命令：node /root/.openclaw/workspace/infrastructure/dispatcher/dispatcher.js\n\n如果有事件被处理，报告处理结果。如果无事件，静默完成。",
+        "message": "先执行快速预检：node /root/.openclaw/workspace/infrastructure/dispatcher/fast-check.js\n如果输出跳过，直接回复无事件即可，不需要运行完整dispatcher。\n否则运行事件调度器：node /root/.openclaw/workspace/infrastructure/dispatcher/dispatcher.js\n如果有事件被处理，报告处理结果。如果无事件，静默完成。",
         "model": "claude/claude-sonnet-4-6",
         "timeoutSeconds": 60
       },
@@ -731,7 +738,8 @@
       "schedule": {
         "expr": "0 */6 * * *",
         "kind": "cron",
-        "tz": "Asia/Shanghai"
+        "tz": "Asia/Shanghai",
+        "staggerMs": 300000
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -744,7 +752,9 @@
       "delivery": {
         "mode": "none"
       },
-      "state": {}
+      "state": {
+        "nextRunAtMs": 1772618410278
+      }
     }
   ]
 }
