@@ -38,51 +38,19 @@
             "maxTokens": 8192
           }
         ]
-      },
-      "cherryin": {
-        "baseUrl": "https://open.cherryin.net/v1",
-        "apiKey": "sk-rDITPCobMRxEGBnNw1JRzgaWBA16W3RoJhPenJtYZVzWAzSD",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "anthropic/claude-sonnet-4.6",
-            "name": "Claude Sonnet 4.6 (CherryIn)",
-            "contextWindow": 200000,
-            "maxTokens": 8192
-          }
-        ]
-      },
-      "zhipu": {
-        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
-        "apiKey": "REDACTED_ZHIPU_API_KEY",
-        "api": "openai-completions",
-        "models": [
-          {
-            "id": "glm-5",
-            "name": "GLM-5",
-            "contextWindow": 200000,
-            "maxTokens": 8192
-          }
-        ]
       }
     }
   },
   "agents": {
     "defaults": {
       "model": {
-        "primary": "claude/claude-opus-4-6-thinking",
-        "fallbacks": [
-          "cherryin/anthropic/claude-sonnet-4.6",
-          "zhipu/glm-5"
-        ]
+        "primary": "claude/claude-opus-4-6-thinking"
       },
       "models": {
         "claude/claude-opus-4-6-thinking": {},
         "claude/claude-opus-4-6": {},
         "claude/claude-sonnet-4-6-thinking": {},
-        "claude/claude-sonnet-4-6": {},
-        "cherryin/anthropic/claude-sonnet-4.6": {},
-        "zhipu/glm-5": {}
+        "claude/claude-sonnet-4-6": {}
       },
       "subagents": {
         "maxConcurrent": 16,

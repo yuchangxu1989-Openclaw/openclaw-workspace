@@ -70,11 +70,7 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "claude/claude-opus-4-6-thinking",
-        "fallbacks": [
-          "cherryin/anthropic/claude-sonnet-4.6",
-          "zhipu/glm-5"
-        ]
+        "primary": "claude/claude-opus-4-6-thinking"
       },
       "models": {
         "claude/claude-opus-4-6-thinking": {},

@@ -42,11 +42,10 @@
       "cherryin": {
         "baseUrl": "https://open.cherryin.net/v1",
         "apiKey": "sk-rDITPCobMRxEGBnNw1JRzgaWBA16W3RoJhPenJtYZVzWAzSD",
-        "api": "openai-completions",
+        "api": "openai",
         "models": [
           {
             "id": "anthropic/claude-sonnet-4.6",
-            "name": "Claude Sonnet 4.6 (CherryIn)",
             "contextWindow": 200000,
             "maxTokens": 8192
           }
@@ -55,11 +54,10 @@
       "zhipu": {
         "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
         "apiKey": "REDACTED_ZHIPU_API_KEY",
-        "api": "openai-completions",
+        "api": "openai",
         "models": [
           {
             "id": "glm-5",
-            "name": "GLM-5",
             "contextWindow": 200000,
             "maxTokens": 8192
           }
@@ -70,19 +68,13 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "claude/claude-opus-4-6-thinking",
-        "fallbacks": [
-          "cherryin/anthropic/claude-sonnet-4.6",
-          "zhipu/glm-5"
-        ]
+        "primary": "claude/claude-opus-4-6-thinking"
       },
       "models": {
         "claude/claude-opus-4-6-thinking": {},
         "claude/claude-opus-4-6": {},
         "claude/claude-sonnet-4-6-thinking": {},
-        "claude/claude-sonnet-4-6": {},
-        "cherryin/anthropic/claude-sonnet-4.6": {},
-        "zhipu/glm-5": {}
+        "claude/claude-sonnet-4-6": {}
       },
       "subagents": {
         "maxConcurrent": 16,
@@ -99,8 +91,8 @@
           "primary": "claude/claude-opus-4-6-thinking"
         },
         "identity": {
-          "name": "战略家",
-          "emoji": "🎖️"
+          "name": "\u6218\u7565\u5bb6",
+          "emoji": "\ud83c\udf96\ufe0f"
         },
         "subagents": {
           "allowAgents": [
@@ -122,8 +114,8 @@
           "primary": "claude/claude-opus-4-6-thinking"
         },
         "identity": {
-          "name": "系统架构师",
-          "emoji": "🔍"
+          "name": "\u7cfb\u7edf\u67b6\u6784\u5e08",
+          "emoji": "\ud83d\udd0d"
         }
       },
       {
@@ -135,8 +127,8 @@
           "primary": "claude/claude-opus-4-6"
         },
         "identity": {
-          "name": "开发工程师",
-          "emoji": "💻"
+          "name": "\u5f00\u53d1\u5de5\u7a0b\u5e08",
+          "emoji": "\ud83d\udcbb"
         }
       },
       {
@@ -148,8 +140,8 @@
           "primary": "claude/claude-sonnet-4-6-thinking"
         },
         "identity": {
-          "name": "质量仲裁官",
-          "emoji": "🔎"
+          "name": "\u8d28\u91cf\u4ef2\u88c1\u5b98",
+          "emoji": "\ud83d\udd0e"
         }
       },
       {
@@ -161,8 +153,8 @@
           "primary": "claude/claude-sonnet-4-6"
         },
         "identity": {
-          "name": "创作大师",
-          "emoji": "✍️"
+          "name": "\u521b\u4f5c\u5927\u5e08",
+          "emoji": "\u270d\ufe0f"
         }
       },
       {
@@ -174,8 +166,8 @@
           "primary": "claude/claude-sonnet-4-6-thinking"
         },
         "identity": {
-          "name": "洞察分析师",
-          "emoji": "📊"
+          "name": "\u6d1e\u5bdf\u5206\u6790\u5e08",
+          "emoji": "\ud83d\udcca"
         }
       },
       {
@@ -187,8 +179,8 @@
           "primary": "claude/claude-opus-4-6"
         },
         "identity": {
-          "name": "情报专家",
-          "emoji": "🎯"
+          "name": "\u60c5\u62a5\u4e13\u5bb6",
+          "emoji": "\ud83c\udfaf"
         }
       },
       {
@@ -200,8 +192,8 @@
           "primary": "claude/claude-sonnet-4-6-thinking"
         },
         "identity": {
-          "name": "定时任务执行者",
-          "emoji": "⏰"
+          "name": "\u5b9a\u65f6\u4efb\u52a1\u6267\u884c\u8005",
+          "emoji": "\u23f0"
         }
       }
     ]
@@ -256,7 +248,7 @@
         "default": {
           "appId": "cli_a92f2a545838dcc8",
           "appSecret": "r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC",
-          "botName": "战略家"
+          "botName": "\u6218\u7565\u5bb6"
         }
       },
       "groups": {
