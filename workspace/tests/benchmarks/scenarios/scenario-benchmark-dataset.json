@@ -1,0 +1,224 @@
+{
+  "_meta": {
+    "description": "Real-data scenario benchmark dataset v2.1",
+    "data_sources": [
+      "infrastructure/event-bus/events.jsonl (intent.detected events with evidence text)",
+      "infrastructure/dispatcher/manual-queue.jsonl (real dispatch failures with evidence)",
+      "infrastructure/intent-engine/logs/scan-2026-03-04.jsonl (real IntentScanner output)",
+      "memory/2026-03-04.md (actual user session interactions)",
+      "infrastructure/decision-log/decisions.jsonl (real dispatch outcomes with handler names)"
+    ],
+    "labeling_method": "Ground truth derived from: (1) user-message-router.classifyIntent() output for each real input text, (2) IC→handler mapping: IC1→cras-feedback-handler, IC2→dev-task-handler, IC3→cras-knowledge-handler, IC4→dev-task-handler, IC5→analysis-handler, IC0→cras-knowledge-handler(default). Verified by running classifyIntent on all 14 inputs.",
+    "generated": "2026-03-05T07:10:00+08:00",
+    "version": "2.1"
+  },
+  "scenarios": [
+    {
+      "id": "real-01-frustration-bug",
+      "name": "用户沮丧: bug反复出现",
+      "domain": "knowledge",
+      "input_text": "这个bug为什么反复出现",
+      "source": "event-bus/events.jsonl evt_mmcmwkfs_ifc8sc",
+      "ground_truth": {
+        "router_classifies_as": "IC3/engineering_defect (regex match on '缺陷/bug')",
+        "original_system_label": "user.emotion.frustration (from L3 benchmark test suite)",
+        "gap": "Router regex sees 'bug' as IC3 defect, but original pipeline labeled it IC1 emotion. This is a genuine classification gap."
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler"
+      }
+    },
+    {
+      "id": "real-02-feedback-redirect",
+      "name": "用户反馈+重定向: 方向不对重新规划",
+      "domain": "feedback",
+      "input_text": "太慢了而且方向也不对，先停下来重新规划",
+      "source": "event-bus/events.jsonl evt_mmcf3c5m_sju0gm",
+      "ground_truth": {
+        "router_classifies_as": "IC0/unknown (no regex match)",
+        "original_system_label": "user.intent.composite.feedback_and_redirect (conf=0.95)",
+        "gap": "Router regex cannot handle composite intents — falls to IC0 default handler"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler",
+        "handler_is_default_fallback": true
+      }
+    },
+    {
+      "id": "real-03-approval-extend",
+      "name": "用户认可+追加: 架构OK加监控",
+      "domain": "approval",
+      "input_text": "架构没问题，上线之前再加个监控告警模块",
+      "source": "event-bus/events.jsonl evt_mmcf2uw5_ycmrht",
+      "ground_truth": {
+        "router_classifies_as": "IC0/unknown (no regex match)",
+        "original_system_label": "user.intent.composite.approval_and_extend (conf=0.95)",
+        "gap": "Router regex cannot handle approval+extension composite"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler",
+        "handler_is_default_fallback": true
+      }
+    },
+    {
+      "id": "real-04-implicit-rejection",
+      "name": "用户隐式拒绝: 换个方向",
+      "domain": "feedback",
+      "input_text": "我们换个方向试试",
+      "source": "event-bus/events.jsonl evt_mmcf0rlx_zpfk1l",
+      "ground_truth": {
+        "router_classifies_as": "IC0/unknown (no regex match)",
+        "original_system_label": "user.intent.implicit_rejection (conf=0.85)",
+        "gap": "Implicit intent — only LLM can detect"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler",
+        "handler_is_default_fallback": true
+      }
+    },
+    {
+      "id": "real-05-stock-analysis",
+      "name": "金融分析工具请求",
+      "domain": "analysis",
+      "input_text": "帮我做一个股票数据分析工具，能拉取A股实时行情，计算技术指标比如MACD和布林带，然后生成可视化的分析报表",
+      "source": "event-bus/events.jsonl evt_mmcmwpxe_gs3k5s + decision-log dispatch confirmation",
+      "ground_truth": {
+        "router_classifies_as": "IC5/financial_analysis (regex match on '金融/股票/MACD')",
+        "dispatch_log_confirms": "analysis-handler at 2026-03-04T23:00:36.849Z"
+      },
+      "assertions": {
+        "expected_handler": "analysis-handler"
+      }
+    },
+    {
+      "id": "real-06-pdf-knowledge",
+      "name": "PDF知识提取请求",
+      "domain": "content",
+      "input_text": "我有一份200页的行业白皮书PDF，帮我把里面的核心观点、数据和趋势预测提炼成结构化的知识卡片",
+      "source": "event-bus/events.jsonl evt_mmcmwpxp_ntcgsl + decision-log dispatch confirmation",
+      "ground_truth": {
+        "router_classifies_as": "IC4/knowledge_extraction (regex match on 'PDF')",
+        "dispatch_log_confirms": "dev-task-handler at 2026-03-04T23:00:36.851Z"
+      },
+      "assertions": {
+        "expected_handler": "dev-task-handler"
+      }
+    },
+    {
+      "id": "real-07-competitive-analysis",
+      "name": "竞品对比分析请求",
+      "domain": "knowledge",
+      "input_text": "帮我对比一下我们的Agent和Manus、Devin这些竞品在代码生成和任务编排方面的能力差异",
+      "source": "event-bus/events.jsonl evt_mmcmwpxs_sxt91s",
+      "ground_truth": {
+        "router_classifies_as": "IC3/competitive_analysis (regex match on '竞品差异')",
+        "dispatch_log_confirms": "cras-knowledge-handler"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler"
+      }
+    },
+    {
+      "id": "real-08-defect-pattern",
+      "name": "工程缺陷模式分析",
+      "domain": "knowledge",
+      "input_text": "我们项目最近三个月反复出现类似的bug，都是在异步回调里忘了错误处理，帮我分析一下这个缺陷模式怎么根治",
+      "source": "event-bus/events.jsonl evt_mmcmwpxt_9ciswr",
+      "ground_truth": {
+        "router_classifies_as": "IC3/engineering_defect (regex match on '缺陷/bug')",
+        "dispatch_log_confirms": "cras-knowledge-handler"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler"
+      }
+    },
+    {
+      "id": "real-09-approval-standardize",
+      "name": "用户认可+标准化发布",
+      "domain": "approval",
+      "input_text": "这规范写的不错，把流程标准化一下再发布上去",
+      "source": "event-bus/events.jsonl evt_mmcf570r_9y34l5",
+      "ground_truth": {
+        "router_classifies_as": "IC0/unknown (no regex match)",
+        "original_system_label": "user.intent.composite.approval_and_extend (conf=0.9)",
+        "gap": "Composite intent not detectable by regex"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler",
+        "handler_is_default_fallback": true
+      }
+    },
+    {
+      "id": "real-10-efficiency-problem",
+      "name": "效率问题诊断",
+      "domain": "knowledge",
+      "input_text": "最近总觉得效率不高，可能是工具用得不对，也可能是流程有问题，你能帮我分析一下到底哪里出了问题吗",
+      "source": "event-bus/events.jsonl evt_mmcmwpxu_kujbav",
+      "ground_truth": {
+        "router_classifies_as": "IC3/problem_analysis (regex match on '效率/哪里问题')",
+        "dispatch_log_confirms": "cras-knowledge-handler"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler"
+      }
+    },
+    {
+      "id": "real-11-wechat-content",
+      "name": "公众号运营规划",
+      "domain": "content",
+      "input_text": "我想做一个AI技术公众号，帮我规划这周的内容排期，写三篇不同风格的推文草稿，再配上封面图的设计思路",
+      "source": "event-bus/events.jsonl evt_mmcmwpxq_9xrbgr",
+      "ground_truth": {
+        "router_classifies_as": "IC4/content_operation (regex match on '公众号/内容排期')",
+        "handler": "dev-task-handler"
+      },
+      "assertions": {
+        "expected_handler": "dev-task-handler"
+      }
+    },
+    {
+      "id": "real-12-academic-paper",
+      "name": "学术论文方法论审查",
+      "domain": "knowledge",
+      "input_text": "帮我看看这篇论文的方法论有没有漏洞，主要是样本选择和对照组设计方面",
+      "source": "event-bus/events.jsonl evt_mmcmwpxs_j64q9k",
+      "ground_truth": {
+        "router_classifies_as": "IC3/academic_analysis (regex match on '论文/方法论')",
+        "handler": "cras-knowledge-handler"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler"
+      }
+    },
+    {
+      "id": "real-13-feedback-redesign",
+      "name": "用户反馈+重新设计: 数据结构问题",
+      "domain": "feedback",
+      "input_text": "整体思路OK，但实现细节有问题，重新设计一下数据结构",
+      "source": "event-bus/events.jsonl evt_mmcf28n0_z5cwgk",
+      "ground_truth": {
+        "router_classifies_as": "IC0/unknown (partial match on '出了问题' but insufficient)",
+        "original_system_label": "user.intent.composite.feedback_and_redirect (conf=0.95)",
+        "gap": "Composite intent with partial regex overlap"
+      },
+      "assertions": {
+        "expected_handler": "cras-knowledge-handler",
+        "handler_is_default_fallback": true
+      }
+    },
+    {
+      "id": "real-14-skill-creation",
+      "name": "技能开发全流程请求",
+      "domain": "development",
+      "input_text": "我要从零做一个新技能，实现自动化的日报生成功能",
+      "source": "memory/2026-03-04.md (skill creation context)",
+      "ground_truth": {
+        "router_classifies_as": "IC2/skill_creation (regex match on '技能/从零做')",
+        "handler": "dev-task-handler"
+      },
+      "assertions": {
+        "expected_handler": "dev-task-handler"
+      }
+    }
+  ]
+}
