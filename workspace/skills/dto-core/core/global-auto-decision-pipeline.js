@@ -1,18 +1,17 @@
 #!/usr/bin/env node
 /**
- * 全局自主决策流水线 v1.6 - 根治空转版本bump
+ * 全局自主决策流水线 v2.0 - 语义化版本 + 变更分类
  * 
  * 变更记录:
- * v1.6 (2026-03-04):
- * - 根治空转版本bump：全面排除运行时数据文件
- * - 从includeDirs移除memory/和reports/（纯运行时数据目录）
- * - 新增excludeDirs: knowledge, reports, seef-*系列目录
- * - 新增excludeTopDirs机制，彻底排除memory和reports顶层目录
- * - 新增excludePatterns: user-profile.json, insight_*.md, research-*.md,
- *   report_*.json, lep-daily-report-*, cras-learning-*, cras-dashboard-*等
- * - 新增shouldTrackPath()方法，支持完整路径级别的排除检查
- * - 原则：只有技能代码(.js/.py/.sh)、配置文件(SKILL.md/package.json)、
- *   基础设施代码的真实变更才触发版本bump
+ * v2.0 (2026-03-05):
+ * - 新增classifyChange()方法：分析变更文件类型，分类为minor/patch/skip
+ * - minor: 代码文件(.js/.py/.sh)、核心文档(SKILL.md/README)变更 → 递增版本
+ * - patch: 配置文件、普通.md变更 → 递增版本
+ * - skip: 运行时数据(report/log/dashboard/state) → 不递增版本，不提交
+ * - commit message区分：[AUTO-MINOR] vs [AUTO-PATCH]（不再使用通用[AUTO]）
+ * - 新增excludePatterns: shadow-test-report, test-report, progress-report
+ * - 新增excludeSubPaths: infrastructure/mr/shadow-test-report
+ * - 根治infrastructure空转：shadow-test-report.json不再触发版本bump
  * 
  * v1.5 (2026-03-04):
  * - 移除分批限流（每次只处理3个的限制）
@@ -97,6 +96,7 @@ const CONFIG = {
       'infrastructure/dispatcher/dispatched',  // 调度记录，运行时产物
       'infrastructure/dispatcher/processed',
       'infrastructure/event-bus',              // 事件队列，运行时产物
+      'infrastructure/mr/shadow-test-report',  // MR影子测试报告
     ],
     // 要排除的文件模式
     excludePatterns: [
@@ -135,7 +135,10 @@ const CONFIG = {
       /cron-health-check-.*\.md$/, // cron健康检查报告
       /\.elite-memory\.json$/,     // 精英记忆运行时数据
       /\.evomap-registry\.json$/,  // EvoMap注册表运行时数据
-      /update-check\.json$/        // 更新检查状态
+      /update-check\.json$/,       // 更新检查状态
+      /shadow-test-report.*\.json$/,  // MR影子测试报告（高频运行时产物）
+      /test-report.*\.json$/,        // 测试报告（运行时产物）
+      /progress-report.*\.md$/       // 进度报告（运行时产物）
     ]
   },
   
@@ -416,6 +419,50 @@ class Pipeline {
     return changes;
   }
   
+  // 变更分类：判断变更是否实质性
+  classifyChange(itemInfo) {
+    try {
+      // 使用 git diff 检查实际变更内容
+      const diffCmd = `cd ${CONFIG.workspacePath} && git diff --cached --stat 2>/dev/null || git diff --stat 2>/dev/null`;
+      const diffStat = execSync(diffCmd, { encoding: 'utf8', timeout: 5000 }).trim();
+      
+      if (!diffStat) return 'skip'; // 无实际diff
+      
+      // 检查变更的文件
+      const changedFile = itemInfo.changedFile ? path.basename(itemInfo.changedFile) : '';
+      const changedExt = path.extname(changedFile).toLowerCase();
+      
+      // 纯运行时数据文件 → skip（不提交）
+      const runtimePatterns = [
+        /report/i, /log/i, /dashboard/i, /state\.json$/,
+        /heartbeat/i, /insight/i, /research-/i
+      ];
+      for (const p of runtimePatterns) {
+        if (p.test(changedFile)) return 'skip';
+      }
+      
+      // 代码文件变更 → minor
+      const codeExts = ['.js', '.ts', '.jsx', '.tsx', '.py', '.sh', '.cjs', '.mjs'];
+      if (codeExts.includes(changedExt)) return 'minor';
+      
+      // SKILL.md, package.json, 架构文档 → minor
+      if (/^(SKILL|README|CAPABILITY-ANCHOR|AGENTS|SOUL)\.md$/i.test(changedFile)) return 'minor';
+      if (changedFile === 'package.json') return 'minor';
+      
+      // 配置文件 → patch
+      const configExts = ['.json', '.yaml', '.yml', '.toml', '.conf', '.ini'];
+      if (configExts.includes(changedExt)) return 'patch';
+      
+      // .md 文件（非核心文档）→ patch
+      if (changedExt === '.md') return 'patch';
+      
+      // 默认 patch
+      return 'patch';
+    } catch {
+      return 'patch';
+    }
+  }
+
   // 步骤2: 更新版本
   updateVersion(itemInfo) {
     console.log(`[2/4] ${itemInfo.skill} 版本...`);
@@ -534,9 +581,10 @@ class Pipeline {
         }
       }
       
-      // 提交变更
+      // 提交变更 - 使用语义化commit message
+      const commitPrefix = itemInfo.changeType === 'minor' ? '[AUTO-MINOR]' : '[AUTO-PATCH]';
       const commitResult = execSync(
-        `cd ${CONFIG.workspacePath} && git commit -m "[AUTO] ${displayName} v${itemInfo.version}" 2>&1 || echo "nothing to commit"`, 
+        `cd ${CONFIG.workspacePath} && git commit -m "${commitPrefix} ${displayName} v${itemInfo.version}" 2>&1 || echo "nothing to commit"`, 
         { encoding: 'utf8', timeout: 10000 }
       );
       
@@ -627,8 +675,8 @@ class Pipeline {
   // 主执行
   run() {
     console.log('╔════════════════════════════════════════╗');
-    console.log('║     全局自主决策流水线 v1.5            ║');
-    console.log('║     (全量处理版)                       ║');
+    console.log('║     全局自主决策流水线 v2.0            ║');
+    console.log('║     (语义化版本 + 变更分类)            ║');
     console.log('╚════════════════════════════════════════╝');
     
     const start = Date.now();
@@ -644,7 +692,17 @@ class Pipeline {
     console.log(`处理 ${toProcess.length}/${changes.length} 个`);
     
     for (const change of toProcess) {
+      const changeType = this.classifyChange(change);
+      
+      if (changeType === 'skip') {
+        console.log(`  ⏭️ 跳过 ${change.skill}: 纯运行时数据，不递增版本`);
+        // 更新状态时间戳防止重复检测，但不bump版本
+        this.states.set(change.skill, Date.now());
+        continue;
+      }
+      
       const itemV = this.updateVersion(change);
+      itemV.changeType = changeType; // minor or patch
       const results = this.sync(itemV);
       this.feedback(itemV, results);
       // 修复：使用当前时间戳保存状态，避免文件mtime导致的循环检测
