@@ -13,7 +13,17 @@
       "skill.sync",
       "skill.evoMap.upload"
     ],
-    "precondition": "技能发布或同步前必须完成安全扫描"
+    "precondition": "技能发布或同步前必须完成安全扫描",
+    "actions": [
+      {
+        "type": "gate_check",
+        "description": "技能发布前执行Snyk 8类威胁检测，未通过则阻断发布"
+      },
+      {
+        "type": "block_on_fail",
+        "description": "检测到安全威胁时阻断技能发布并记录日志"
+      }
+    ]
   },
   "conditions": {
     "all": [
