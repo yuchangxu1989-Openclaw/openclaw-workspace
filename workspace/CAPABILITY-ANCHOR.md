@@ -1,7 +1,7 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成的文档，请勿手动编辑（由 ISC 规则同步）
 
-> **生成时间**: 2026/3/4 20:05:06
+> **生成时间**: 2026/3/5 00:05:37
 > **来源**: ISC 规则自动同步
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -84,7 +84,6 @@
 - **aeo**: skills/aeo/
 - **capability-anchor**: skills/capability-anchor/
 - **convert-helper**: skills/convert-helper/
-- **council-of-seven**: skills/council-of-seven/
 - **cras**: skills/cras/
 - **cras-generated-1771827136412**: skills/cras-generated-1771827136412/
 - **cras-generated-1771827197478**: skills/cras-generated-1771827197478/
@@ -102,6 +101,7 @@
 - **isc-core**: skills/isc-core/
 - **isc-document-quality**: skills/isc-document-quality/
 - **lep-executor**: skills/lep-executor/
+- **lingxiaoge-tribunal**: skills/lingxiaoge-tribunal/
 - **parallel-subagent**: skills/parallel-subagent/
 - **paths-center**: skills/paths-center/
 - **pdca-engine**: skills/pdca-engine/

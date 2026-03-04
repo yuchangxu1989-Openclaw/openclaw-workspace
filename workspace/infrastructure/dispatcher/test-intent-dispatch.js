@@ -47,8 +47,8 @@ const {
 
 // ─── Temp file cleanup ──────────────────────────────────────────
 
-const EMOTION_LOG = path.resolve(__dirname, '..', '..', 'decision-log', 'emotion-log.jsonl');
-const MANUAL_QUEUE = path.resolve(__dirname, '..', 'manual-queue.jsonl');
+const EMOTION_LOG = path.resolve(__dirname, '..', 'decision-log', 'emotion-log.jsonl');
+const MANUAL_QUEUE = path.resolve(__dirname, 'manual-queue.jsonl');
 
 function cleanupTestFiles() {
   // Only remove test-generated content, not real data
