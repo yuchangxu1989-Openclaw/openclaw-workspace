@@ -53,7 +53,7 @@
 
 ## 元数据
 - name: council-of-seven
-- version: "3.0.1"
+- version: "3.0.2"
 - description: 凌烟阁 Lingyan Tribunal - 七席三轮对抗式深度决策机制
 - status: implemented
 - author: Strategic Commander
