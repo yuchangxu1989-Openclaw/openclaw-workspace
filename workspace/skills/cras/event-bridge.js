@@ -55,7 +55,7 @@ function processAssessments() {
         insights.push(insight);
         saveInsight(insight);
       }
-      bus.ack(CONSUMER_ID, event.id);
+      // bus-adapter auto-acks via cursor, no explicit ack needed
     } catch (err) {
       console.error(`[CRAS] 分析事件失败: ${event.id}`, err.message);
     }
