@@ -21,7 +21,15 @@
       {
         "step": "schema_validation",
         "check": "必须包含所有必需字段",
-        "required_fields": ["id", "name", "domain", "type", "scope", "description", "governance"],
+        "required_fields": [
+          "id",
+          "name",
+          "domain",
+          "type",
+          "scope",
+          "description",
+          "governance"
+        ],
         "reject_if": "缺少任何必需字段",
         "error_message": "字段缺失：必须包含 id, name, domain, type, scope, description, governance"
       },
@@ -46,5 +54,17 @@
   },
   "principle": "风险前置：创建时验证 > 创建后修复",
   "created_at": "2026-02-25T06:12:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:process"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

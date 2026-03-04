@@ -15,5 +15,17 @@
     "councilRequired": false
   },
   "created_at": "2026-02-25T06:32:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:automation"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

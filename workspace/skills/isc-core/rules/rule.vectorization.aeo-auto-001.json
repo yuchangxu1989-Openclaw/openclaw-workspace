@@ -7,37 +7,46 @@
   "description": "AEO评测用例必须向量化 - 所有evaluation-sets/*.json文件必须生成1024维智谱向量",
   "version": "1.0.0",
   "priority": 6,
-  
   "condition": {
     "type": "file_exists",
     "path": "aeo/evaluation-sets/{path}.json"
   },
-  
   "requirement": {
     "vector_must_exist": true,
     "vector_dimension": 1024,
     "vector_engine": "zhipu-embedding-3",
     "vector_path": "infrastructure/vector-service/vectors/aeo-{path}.json"
   },
-  
   "auto_trigger": {
     "enabled": true,
-    "on_events": ["aeo.evaluation_set.created", "aeo.evaluation_set.updated"],
+    "on_events": [
+      "aeo.evaluation_set.created",
+      "aeo.evaluation_set.updated"
+    ],
     "action": "auto_vectorize",
     "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh"
   },
-  
   "governance": {
     "auto_execute": true,
     "councilRequired": false,
     "severity": "info"
   },
-  
   "integration": {
     "aeo_standalone_deprecated": true,
     "use_unified_service": true
   },
-  
   "created_at": "2026-02-28T23:30:00+08:00",
-  "updated_at": "2026-02-28T23:30:00+08:00"
+  "updated_at": "2026-02-28T23:30:00+08:00",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:vectorization"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

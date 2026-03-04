@@ -4,15 +4,12 @@
   "domain": "aeo",
   "type": "standard",
   "description": "AEO评测集注册管理标准 - 统一评测集的收录、分类和检索",
-  
   "standard": {
     "version": "1.0.0",
-    
     "registryLocation": {
       "path": "skills/aeo/unified-evaluation-sets/registry.json",
       "schema": "isc://evaluation-set-registry.schema.json"
     },
-    
     "idFormat": {
       "pattern": "eval.{skill-name}.{sequence}",
       "example": "eval.weather-skill.001",
@@ -21,7 +18,6 @@
         "sequence使用3位数字，从001开始"
       ]
     },
-    
     "storageModes": {
       "inline": {
         "description": "评测用例内联存储在registry.json中",
@@ -39,7 +35,6 @@
         "useCase": "外部协作评测集"
       }
     },
-    
     "standardLevels": {
       "golden": {
         "description": "黄金标准评测集",
@@ -73,7 +68,6 @@
         "displayColor": "#9B59B6"
       }
     },
-    
     "classification": {
       "bySkill": {
         "description": "按技能分类",
@@ -82,7 +76,11 @@
       },
       "byTrack": {
         "description": "按评测轨道分类",
-        "values": ["ai-effect", "functional-quality", "hybrid"],
+        "values": [
+          "ai-effect",
+          "functional-quality",
+          "hybrid"
+        ],
         "mandatory": true
       },
       "byStandard": {
@@ -90,7 +88,6 @@
         "mandatory": true
       }
     },
-    
     "requiredMetadata": [
       "description",
       "author",
@@ -98,7 +95,6 @@
       "version",
       "testCaseCount"
     ],
-    
     "dtoAlignment": {
       "description": "必须与DTO订阅对齐",
       "rules": [
@@ -108,7 +104,6 @@
       ]
     }
   },
-  
   "governance": {
     "registryMaintainer": "aeo",
     "reviewRequired": {
@@ -118,7 +113,18 @@
     },
     "autoValidate": true
   },
-  
   "created_at": "2026-02-26T19:50:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:aeo"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

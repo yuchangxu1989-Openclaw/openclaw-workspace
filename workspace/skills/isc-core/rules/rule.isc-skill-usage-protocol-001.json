@@ -8,7 +8,11 @@
   "rationale": "防止因技能语言、入口文件不一致导致调用失败",
   "enforcement": {
     "before_use": "必须读取SKILL.md",
-    "check_items": ["语言", "入口文件", "使用方法"],
+    "check_items": [
+      "语言",
+      "入口文件",
+      "使用方法"
+    ],
     "violation_action": "拒绝执行并提示查看SKILL.md"
   },
   "governance": {
@@ -16,5 +20,17 @@
     "councilRequired": false
   },
   "created_at": "2026-02-25T15:13:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:standards"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

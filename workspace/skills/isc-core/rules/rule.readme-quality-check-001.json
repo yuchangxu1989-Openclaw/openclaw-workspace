@@ -12,5 +12,17 @@
     ]
   },
   "created_at": "2026-02-23T07:27:39.250Z",
-  "status": "active"
+  "status": "active",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:general"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

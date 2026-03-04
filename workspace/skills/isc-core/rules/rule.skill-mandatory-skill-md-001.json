@@ -30,7 +30,11 @@
       "condition": "SKILL.md存在",
       "action": {
         "type": "content_validation",
-        "required_fields": ["name", "description", "version"],
+        "required_fields": [
+          "name",
+          "description",
+          "version"
+        ],
         "on_invalid": {
           "action": "warn_and_queue",
           "message": "SKILL.md格式不完整"
@@ -49,5 +53,17 @@
     "priority": 95
   },
   "created_at": "2026-02-26T17:50:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:quality"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

@@ -7,32 +7,42 @@
   "description": "技能必须向量化 - 所有SKILL.md文件必须生成1024维智谱向量",
   "version": "1.0.0",
   "priority": 9,
-  
   "condition": {
     "type": "file_exists",
     "path": "skills/{skill-name}/SKILL.md"
   },
-  
   "requirement": {
     "vector_must_exist": true,
     "vector_dimension": 1024,
     "vector_engine": "zhipu-embedding-3",
     "vector_path": "infrastructure/vector-service/vectors/skill-{skill-name}.json"
   },
-  
   "auto_trigger": {
     "enabled": true,
-    "on_events": ["skill.created", "skill.updated"],
+    "on_events": [
+      "skill.created",
+      "skill.updated"
+    ],
     "action": "auto_vectorize",
     "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh"
   },
-  
   "governance": {
     "auto_execute": true,
     "councilRequired": false,
     "severity": "error"
   },
-  
   "created_at": "2026-02-28T23:30:00+08:00",
-  "updated_at": "2026-02-28T23:30:00+08:00"
+  "updated_at": "2026-02-28T23:30:00+08:00",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:vectorization"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

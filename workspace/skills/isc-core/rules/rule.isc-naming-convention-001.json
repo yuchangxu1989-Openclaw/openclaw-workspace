@@ -14,7 +14,7 @@
     "format": "rule.{category}-{name}-{version}.json",
     "categories": {
       "R001": "auto-skillization",
-      "R002": "auto-vectorization", 
+      "R002": "auto-vectorization",
       "R003": "auto-evomap-sync",
       "R004": "auto-fix",
       "R005": "auto-readme",
@@ -43,5 +43,17 @@
     "migration": "逐步将旧格式规则迁移到新格式"
   },
   "created_at": "2026-02-25T06:25:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:naming"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

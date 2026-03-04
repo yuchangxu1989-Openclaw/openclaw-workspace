@@ -12,5 +12,17 @@
   "category": "user_experience",
   "version": "1.0.0",
   "created_at": "2026-02-23T19:28:00Z",
-  "status": "active"
+  "status": "active",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:user_experience"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

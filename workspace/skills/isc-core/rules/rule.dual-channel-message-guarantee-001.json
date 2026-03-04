@@ -13,7 +13,10 @@
       "condition": "消息类型 == 'important' OR 内容长度 > 500字",
       "action": {
         "type": "dual_channel_with_ack",
-        "channels": ["feishu", "feishu"],
+        "channels": [
+          "feishu",
+          "feishu"
+        ],
         "fallback": {
           "on_feishu_fail": "retry_3_times_then_alert",
           "on_backup_fail": "alert_user_and_log"
@@ -52,5 +55,17 @@
     "priority": 85
   },
   "created_at": "2026-02-26T18:13:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:communication"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

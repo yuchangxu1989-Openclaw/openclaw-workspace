@@ -25,5 +25,21 @@
   "severity": "high",
   "auto_fix": false,
   "created_at": "2026-02-25T05:53:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:quality"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "warn"
+      },
+      {
+        "type": "block",
+        "message": "Rule rule.skill-quality-001 violation"
+      }
+    ]
+  }
 }

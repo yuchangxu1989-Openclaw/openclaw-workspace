@@ -35,15 +35,30 @@
         "description": "规则名称，用于显示"
       },
       "domain": {
-        "enum": ["quality", "naming", "process", "interaction", "security"],
+        "enum": [
+          "quality",
+          "naming",
+          "process",
+          "interaction",
+          "security"
+        ],
         "description": "规则所属领域"
       },
       "type": {
-        "enum": ["rule", "standard", "guideline"],
+        "enum": [
+          "rule",
+          "standard",
+          "guideline"
+        ],
         "description": "规则类型"
       },
       "scope": {
-        "enum": ["skill", "system", "interaction", "global"],
+        "enum": [
+          "skill",
+          "system",
+          "interaction",
+          "global"
+        ],
         "description": "规则适用范围"
       },
       "description": {
@@ -64,7 +79,12 @@
         "fallback": "自动重命名非规则文件"
       },
       "isc_validator": {
-        "must_validate": ["id", "name", "domain", "governance"]
+        "must_validate": [
+          "id",
+          "name",
+          "domain",
+          "governance"
+        ]
       }
     }
   },
@@ -76,5 +96,17 @@
     "validation": "使用isc-validator.js验证格式"
   },
   "created_at": "2026-02-25T06:11:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:standardization"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

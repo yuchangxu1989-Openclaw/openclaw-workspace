@@ -167,5 +167,17 @@
     }
   },
   "managedBy": "isc-core",
-  "updatePolicy": "auto_sync"
+  "updatePolicy": "auto_sync",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:general"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

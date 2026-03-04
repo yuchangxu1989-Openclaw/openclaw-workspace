@@ -6,5 +6,17 @@
   "action": "exponential_backoff_retry",
   "priority": 8,
   "created_at": "2026-02-23T01:27:55.821Z",
-  "status": "active"
+  "status": "active",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:general"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

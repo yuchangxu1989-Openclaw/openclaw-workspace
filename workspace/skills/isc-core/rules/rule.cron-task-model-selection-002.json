@@ -4,58 +4,94 @@
   "domain": "cron",
   "type": "standard",
   "description": "CRON定时任务模型选择标准 - 根据任务类型自动选择最优模型",
-  
   "standard": {
     "version": "1.0.0",
-    
     "modelMapping": {
       "coding": {
         "description": "代码生成、重构、调试任务",
         "primary": "zhipu/glm-5",
-        "fallback": ["claude/claude-sonnet-4-6"],
+        "fallback": [
+          "claude/claude-sonnet-4-6"
+        ],
         "trigger": [
-          "生成代码", "重构", "调试", "优化代码",
-          "写脚本", "开发", "实现功能", "fix bug"
+          "生成代码",
+          "重构",
+          "调试",
+          "优化代码",
+          "写脚本",
+          "开发",
+          "实现功能",
+          "fix bug"
         ]
       },
       "reasoning": {
         "description": "深度分析、架构设计、学术研究",
         "primary": "glm-thinking",
-        "fallback": ["claude/claude-sonnet-4-6"],
+        "fallback": [
+          "claude/claude-sonnet-4-6"
+        ],
         "trigger": [
-          "分析", "设计", "架构", "研究", "推理",
-          "论文", "学术", "深度思考", "评估"
+          "分析",
+          "设计",
+          "架构",
+          "研究",
+          "推理",
+          "论文",
+          "学术",
+          "深度思考",
+          "评估"
         ]
       },
       "multimodal": {
         "description": "图像、视频、音频处理",
         "primary": "glm-4v",
-        "fallback": ["glm-ocr", "claude/claude-sonnet-4-6"],
+        "fallback": [
+          "glm-ocr",
+          "claude/claude-sonnet-4-6"
+        ],
         "trigger": [
-          "图像", "视频", "识别", "OCR", "分析图片",
-          "视觉", "多模态"
+          "图像",
+          "视频",
+          "识别",
+          "OCR",
+          "分析图片",
+          "视觉",
+          "多模态"
         ]
       },
       "routine": {
         "description": "常规检查、备份、维护任务",
         "primary": "claude/claude-sonnet-4-6",
-        "fallback": ["glm-4-flash"],
+        "fallback": [
+          "glm-4-flash"
+        ],
         "trigger": [
-          "检查", "备份", "清理", "监控", "维护",
-          "报告", "日志", "统计"
+          "检查",
+          "备份",
+          "清理",
+          "监控",
+          "维护",
+          "报告",
+          "日志",
+          "统计"
         ]
       },
       "creative": {
         "description": "创意写作、内容生成",
         "primary": "glm-4-plus",
-        "fallback": ["claude/claude-sonnet-4-6"],
+        "fallback": [
+          "claude/claude-sonnet-4-6"
+        ],
         "trigger": [
-          "写作", "生成内容", "创意", "文案",
-          "报告撰写", "总结"
+          "写作",
+          "生成内容",
+          "创意",
+          "文案",
+          "报告撰写",
+          "总结"
         ]
       }
     },
-    
     "selectionRules": [
       {
         "priority": 1,
@@ -82,7 +118,6 @@
         "reason": "默认使用GLM-5"
       }
     ],
-    
     "enforcement": {
       "description": "CRON任务必须指定模型，否则使用规则自动选择",
       "validateOnCreate": true,
@@ -90,12 +125,25 @@
       "autoCorrect": true
     }
   },
-  
   "dtoMapping": {
     "description": "DTO订阅触发模型选择",
-    "subscriptions": ["N021", "N022"]
+    "subscriptions": [
+      "N021",
+      "N022"
+    ]
   },
-  
   "created_at": "2026-02-26T20:00:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:cron"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }

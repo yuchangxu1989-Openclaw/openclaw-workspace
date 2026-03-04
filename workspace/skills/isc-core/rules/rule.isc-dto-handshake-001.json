@@ -28,5 +28,17 @@
     "action": "立即通知并自动修复"
   },
   "created_at": "2026-02-25T06:30:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:process"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
 }
