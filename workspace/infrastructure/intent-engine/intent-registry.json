@@ -1,0 +1,346 @@
+{
+  "version": "1.0.0",
+  "schema_version": "1",
+  "description": "Intent Registry v4.3 - 5类意图收敛分类（IC1-IC5），MECE互斥穷尽",
+  "created_at": "2026-03-05T00:07:00+08:00",
+  "updated_at": "2026-03-05T00:07:00+08:00",
+  "categories": {
+    "IC1": { "name": "情绪意图", "description": "用户正/负向情绪表达，包含挫败感等细分情绪" },
+    "IC2": { "name": "规则触发意图", "description": "可直接映射到ISC规则trigger的确定性意图" },
+    "IC3": { "name": "复杂意图", "description": "需5轮以上上下文推理才能确定的战略/架构级意图" },
+    "IC4": { "name": "隐含意图", "description": "用户未明确表达，需从语境、语气、行为模式推理的意图" },
+    "IC5": { "name": "多意图（复合）", "description": "单句包含2个以上独立意图，需拆分后分别路由" }
+  },
+  "intents": [
+    {
+      "id": "user.emotion.positive",
+      "category": "IC1",
+      "name": "正向情绪",
+      "description": "用户表达满意、认可、赞赏等正向情绪",
+      "examples": [
+        "这个方案不错，就按这个来",
+        "终于搞定了，太好了！",
+        "比上次好多了，继续保持"
+      ],
+      "anti_examples": [
+        "这个方案不错，但是还需要改几个地方",
+        "好吧，就这样吧（语气无奈）"
+      ],
+      "confidence_threshold": 0.75,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.emotion.negative",
+      "category": "IC1",
+      "name": "负向情绪",
+      "description": "用户表达不满、失望、批评等负向情绪",
+      "examples": [
+        "这做的什么垃圾，完全不行",
+        "又错了，你到底有没有在听我说",
+        "太差了，重做"
+      ],
+      "anti_examples": [
+        "这个有问题，帮我看一下这里的逻辑",
+        "不太对，我重新描述一下需求"
+      ],
+      "confidence_threshold": 0.7,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.emotion.frustration",
+      "category": "IC1",
+      "name": "挫败/疲惫情绪",
+      "description": "用户因反复失败或长时间未解决问题而表达挫败感",
+      "examples": [
+        "搞了三天了还是这样，我快放弃了",
+        "每次都要我重复说一遍，累了",
+        "算了算了，不弄了"
+      ],
+      "anti_examples": [
+        "这个比较难，我们换个思路试试",
+        "暂时搁置，先做别的"
+      ],
+      "confidence_threshold": 0.7,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "rule.trigger.self_correction",
+      "category": "IC2",
+      "name": "自纠偏触发",
+      "description": "Agent承认行为缺陷并表达纠偏意图，触发ISC规则 rule.self-correction-to-rule-001",
+      "isc_rule_ref": "rule.self-correction-to-rule-001",
+      "examples": [
+        "以后我会自动检查这个",
+        "这是我的问题，不该跳过验证步骤",
+        "对，不需要你提醒，我应该自动做的"
+      ],
+      "anti_examples": [
+        "我觉得这个流程可以优化",
+        "下次试试另一种方案"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "rule.trigger.architecture_review",
+      "category": "IC2",
+      "name": "架构评审触发",
+      "description": "检测到架构设计/重构方案，触发ISC规则 rule.architecture-review-pipeline-001",
+      "isc_rule_ref": "rule.architecture-review-pipeline-001",
+      "examples": [
+        "我们把消息队列从Redis换成Kafka",
+        "这个模块需要重构，拆成微服务",
+        "新的数据库schema设计好了，你看一下"
+      ],
+      "anti_examples": [
+        "帮我修一下这个bug",
+        "这个函数的参数名改一下"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "rule.trigger.skill_evolution",
+      "category": "IC2",
+      "name": "技能变更触发",
+      "description": "技能创建/修改/发布事件，触发ISC规则 skill.evolution.auto-trigger",
+      "isc_rule_ref": "skill.evolution.auto-trigger",
+      "examples": [
+        "这个技能更新完了，可以发布",
+        "新建一个技能处理图片压缩",
+        "把这个技能的SKILL.md改一下"
+      ],
+      "anti_examples": [
+        "看一下这个技能的文档",
+        "这个技能的评测结果怎么样"
+      ],
+      "confidence_threshold": 0.85,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "rule.trigger.security_gate",
+      "category": "IC2",
+      "name": "安全准出触发",
+      "description": "技能发布/同步前触发安全扫描，映射ISC规则 isc-skill-security-gate-030",
+      "isc_rule_ref": "isc-skill-security-gate-030",
+      "examples": [
+        "这个技能准备上线了",
+        "把技能同步到EvoMap",
+        "发布新版本到生产环境"
+      ],
+      "anti_examples": [
+        "在开发环境测试一下",
+        "本地跑一下看看效果"
+      ],
+      "confidence_threshold": 0.85,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "rule.trigger.config_protection",
+      "category": "IC2",
+      "name": "配置保护触发",
+      "description": "检测到对关键配置文件的修改操作，触发ISC规则 gateway-config-protection-N033",
+      "isc_rule_ref": "gateway-config-protection-N033",
+      "examples": [
+        "修改一下openclaw.json的配置",
+        "把gateway的端口改成8080",
+        "更新agent的models.json"
+      ],
+      "anti_examples": [
+        "看一下当前的配置",
+        "配置文件在哪里"
+      ],
+      "confidence_threshold": 0.9,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.strategic_direction",
+      "category": "IC3",
+      "name": "战略方向决策",
+      "description": "用户在讨论产品/技术的长期战略方向，需多轮上下文推理才能确定真实意图",
+      "examples": [
+        "我们接下来的重点是不是应该放在B端？你觉得呢",
+        "AI Agent这个赛道，我们的差异化到底在哪里",
+        "现在做EvoMap生态是不是太早了，市场还没准备好"
+      ],
+      "anti_examples": [
+        "帮我查一下竞品的定价策略",
+        "这个功能什么时候上线"
+      ],
+      "confidence_threshold": 0.65,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.architecture_decision",
+      "category": "IC3",
+      "name": "架构决策",
+      "description": "用户在权衡重大架构选择，涉及不可逆决策，需深度上下文理解",
+      "examples": [
+        "状态管理是用事件溯源还是CQRS，长远来看哪个更合适",
+        "意图引擎要不要做成独立微服务，还是嵌入主进程",
+        "数据存储层，用SQLite够不够，还是上PostgreSQL"
+      ],
+      "anti_examples": [
+        "这个接口用GET还是POST",
+        "变量名用驼峰还是下划线"
+      ],
+      "confidence_threshold": 0.6,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.resource_allocation",
+      "category": "IC3",
+      "name": "资源分配决策",
+      "description": "用户在讨论有限资源（时间/算力/API额度）的分配优先级",
+      "examples": [
+        "这周只剩两天，CRAS和意图引擎哪个先做",
+        "API额度快用完了，哪些功能可以暂时关掉",
+        "Claude和GLM的调用比例怎么分配最合理"
+      ],
+      "anti_examples": [
+        "帮我查一下剩余API额度",
+        "看看这周的任务列表"
+      ],
+      "confidence_threshold": 0.65,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.implicit_approval",
+      "category": "IC4",
+      "name": "隐含认可",
+      "description": "用户未明确说同意，但语气/行为暗示认可（如直接问下一步、跳过讨论）",
+      "examples": [
+        "行，然后呢",
+        "嗯，接下来做什么",
+        "可以，继续"
+      ],
+      "anti_examples": [
+        "好的方案，我非常同意！",
+        "就这么定了，执行吧"
+      ],
+      "confidence_threshold": 0.6,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.implicit_rejection",
+      "category": "IC4",
+      "name": "隐含否定",
+      "description": "用户未直说不行，但通过转移话题、沉默、反问等暗示否定",
+      "examples": [
+        "嗯...先说别的吧",
+        "这个...我再想想",
+        "你确定这样可以？（反问语气）"
+      ],
+      "anti_examples": [
+        "不行，这个方案有明显问题",
+        "我需要更多时间评估，下周再议"
+      ],
+      "confidence_threshold": 0.55,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.implicit_urgency",
+      "category": "IC4",
+      "name": "隐含紧迫感",
+      "description": "用户未直接说急，但措辞/频率/语气暗示时间压力",
+      "examples": [
+        "这个今天能搞定吗",
+        "怎么还没好",
+        "快一点，下午要用"
+      ],
+      "anti_examples": [
+        "这个不急，有空再弄",
+        "deadline是下周五"
+      ],
+      "confidence_threshold": 0.6,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.implicit_dissatisfaction",
+      "category": "IC4",
+      "name": "隐含不满",
+      "description": "用户未直接批评，但通过简短回复、冷淡语气暗示不满意",
+      "examples": [
+        "哦",
+        "好吧",
+        "随便"
+      ],
+      "anti_examples": [
+        "太差了，重做",
+        "我很失望，这不是我要的"
+      ],
+      "confidence_threshold": 0.5,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.composite.feedback_and_redirect",
+      "category": "IC5",
+      "name": "反馈+方向调整（复合）",
+      "description": "用户同时给出对当前工作的评价，并要求转向新方向",
+      "composite_intents": ["user.emotion.negative", "user.intent.strategic_direction"],
+      "examples": [
+        "这个方案太复杂了，我们换个更轻量的思路，你觉得直接用JSON文件行不行",
+        "做的不错但方向错了，应该先解决用户留存再考虑拉新",
+        "进度太慢了，砍掉IC5先把核心三类做到90分"
+      ],
+      "anti_examples": [
+        "这个做的不行（纯负面情绪，无方向调整）",
+        "我们换个方向（纯方向调整，无反馈）"
+      ],
+      "confidence_threshold": 0.6,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.intent.composite.approval_and_extend",
+      "category": "IC5",
+      "name": "认可+扩展需求（复合）",
+      "description": "用户认可当前成果的同时追加新需求或扩展范围",
+      "composite_intents": ["user.intent.implicit_approval", "user.intent.architecture_decision"],
+      "examples": [
+        "这个可以，顺便把日志模块也加上吧",
+        "不错，按这个方向走，另外性能测试也安排一下",
+        "行，就这样，对了再帮我查一下竞品的最新动态"
+      ],
+      "anti_examples": [
+        "好的，继续（纯认可无扩展）",
+        "另外还需要做XXX（纯新需求无认可）"
+      ],
+      "confidence_threshold": 0.6,
+      "status": "active",
+      "created_at": "2026-03-05T00:07:00+08:00"
+    }
+  ],
+  "metadata": {
+    "total_intents": 17,
+    "by_category": {
+      "IC1": 3,
+      "IC2": 5,
+      "IC3": 3,
+      "IC4": 4,
+      "IC5": 2
+    },
+    "isc_rules_referenced": [
+      "rule.self-correction-to-rule-001",
+      "rule.architecture-review-pipeline-001",
+      "skill.evolution.auto-trigger",
+      "isc-skill-security-gate-030",
+      "gateway-config-protection-N033"
+    ]
+  }
+}
