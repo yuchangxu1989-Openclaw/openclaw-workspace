@@ -76,8 +76,8 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 
 | 场景 | 执行方式 | 模型 |
 |------|---------|------|
-| 接收用户消息 | 主Agent直接处理 | **Kimi** |
-| 回复用户消息 | 主Agent直接发送 | **Kimi** |
+| 接收用户消息 | 主Agent直接处理 | **Claude Opus** |
+| 回复用户消息 | 主Agent直接发送 | **Claude Opus** |
 | **后台任务/分析/处理** | **spawn 子Agent** | **GLM-5（通过技能调用）** |
 | 代码生成/重构 | spawn 子Agent 调用技能 | **GLM-5** |
 | 系统诊断 | spawn 子Agent 调用技能 | **GLM-5** |
@@ -115,7 +115,7 @@ exec("cd /root/.openclaw/workspace/skills/glm-5-coder && node index.cjs --code '
 
 | 资源 | 数量 | 位置 |
 |------|------|------|
-| Kimi Key | 3个 | 环境变量 |
+| Claude Key | penguinsaichat (主) + cherryin (备) |
 | GLM-5 Key | 5个 | `/root/.openclaw/.secrets/zhipu-keys.env` |
 | GLM-5技能 | 1个 | `/root/.openclaw/workspace/skills/glm-5-coder/` |
 

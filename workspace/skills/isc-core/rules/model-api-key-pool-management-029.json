@@ -18,24 +18,23 @@
     "providers": {
       "zhipu": {
         "keys": [
-          { "id": "zhipu_primary", "priority": 1, "status": "active" },
-          { "id": "zhipu_backup_1", "priority": 2, "status": "active" },
-          { "id": "zhipu_backup_2", "priority": 3, "status": "active" }
+          {
+            "id": "zhipu_primary",
+            "priority": 1,
+            "status": "active"
+          },
+          {
+            "id": "zhipu_backup_1",
+            "priority": 2,
+            "status": "active"
+          },
+          {
+            "id": "zhipu_backup_2",
+            "priority": 3,
+            "status": "active"
+          }
         ],
         "rotation_policy": "round_robin",
-        "health_check": {
-          "enabled": true,
-          "interval": "5m",
-          "timeout": "10s"
-        }
-      },
-      "kimi": {
-        "keys": [
-          { "id": "kimi_primary", "priority": 1, "status": "active" },
-          { "id": "kimi_backup_1", "priority": 2, "status": "active" },
-          { "id": "kimi_backup_2", "priority": 3, "status": "active" }
-        ],
-        "rotation_policy": "least_used",
         "health_check": {
           "enabled": true,
           "interval": "5m",

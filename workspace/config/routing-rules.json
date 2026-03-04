@@ -1,7 +1,7 @@
 {
   "version": "1.1.0",
   "description": "任务类型到模型的路由配置 - 已修复模型标识",
-  "default_model": "kimi-coding/k2p5",
+  "default_model": "claude/claude-sonnet-4-6",
   
   "routing_rules": {
     "code_generation": {
@@ -71,7 +71,7 @@
     },
     
     "user_insight": {
-      "model": "kimi-coding/k2p5",
+      "model": "claude/claude-sonnet-4-6",
       "description": "用户洞察分析 - 轻量级任务",
       "timeout_ms": 60000,
       "max_tokens": 4096,
@@ -126,7 +126,7 @@
     },
     
     "daily_chat": {
-      "model": "kimi-coding/k2p5",
+      "model": "claude/claude-sonnet-4-6",
       "description": "日常对话、简单问答",
       "action": "skip_tool_call",
       "note": "使用当前主会话直接回答"
@@ -134,8 +134,8 @@
   },
   
   "fallback": {
-    "on_timeout": "kimi-coding/k2p5",
-    "on_error": "kimi-coding/k2p5",
+    "on_timeout": "claude/claude-sonnet-4-6",
+    "on_error": "claude/claude-sonnet-4-6",
     "error_message": " specialized model 调用失败，使用主模型继续回答。"
   },
   

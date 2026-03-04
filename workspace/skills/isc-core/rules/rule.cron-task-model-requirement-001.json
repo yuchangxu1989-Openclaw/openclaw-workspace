@@ -3,7 +3,7 @@
   "name": "cron_task_model_requirement",
   "domain": "cron",
   "type": "validation_rule",
-  "description": "定时任务必须指定模型规则 - GLM-5优先，Kimi-2.5备选",
+  "description": "定时任务必须指定模型规则 - GLM-5优先，Claude-Sonnet备选",
   "trigger": {
     "type": "event",
     "patterns": [
@@ -20,15 +20,14 @@
   "validation": {
     "required_field": "model",
     "model_priority": [
-      "zhipu/glm-5",
-      "kimi-coding/k2p5"
+      "zhipu/glm-5"
     ],
-    "error_message": "定时任务必须指定模型。优先级：1) GLM-5 (强推理) 2) Kimi K2.5 (备选)"
+    "error_message": "定时任务必须指定模型。优先级：1) GLM-5 (强推理) 2) Claude Sonnet (备选)"
   },
   "action": {
     "type": "enforce",
     "on_missing": "reject",
-    "default_model": "kimi-coding/k2p5",
+    "default_model": "claude/claude-sonnet-4-6",
     "auto_fix": false
   },
   "governance": {

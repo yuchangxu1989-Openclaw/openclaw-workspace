@@ -35,8 +35,6 @@
         "keys": [
           "${ZHIPU_KEY_1}",
           "${ZHIPU_KEY_2}",
-          "${KIMI_KEY_1}",
-          "${KIMI_KEY_2}"
         ],
         "strategy": "round_robin",
         "max_requests_per_key": 5
@@ -87,7 +85,6 @@
           "max_concurrency": 5,
           "model_distribution": {
             "glm-5": ["${ZHIPU_KEY_1}", "${ZHIPU_KEY_2}"],
-            "kimi-k25": ["${KIMI_KEY_1}", "${KIMI_KEY_2}"]
           },
           "key_rotation": "round_robin",
           "aggregation": "ordered_response"

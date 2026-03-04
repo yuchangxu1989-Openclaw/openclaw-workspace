@@ -120,7 +120,7 @@ class CapabilityAnchorSync {
     // 使用原则
     lines.push('## 🟣 使用原则');
     lines.push('');
-    lines.push('1. **主模型**: Kimi K2.5（文本推理）');
+    lines.push('1. **主模型**: Claude Opus-4-6-Thinking（文本推理）');
     lines.push('2. **扩展模型**: 智谱（多模态、生成）');
     lines.push('3. **自动路由**: ISC规则自动识别需求，DTO调度对应模型');
     lines.push('4. **能力来源**: 本文档由 ISC 规则自动生成');

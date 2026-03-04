@@ -23,7 +23,7 @@
   },
   "forbidden_methods": [
     "只返回文件路径让用户自己找",
-    "使用kimi_upload_file工具(该工具可能无法送达)",
+    "使用feishu文件发送工具",
     "分段发送导致内容不完整"
   ],
   "channel_limitations": {
@@ -34,7 +34,7 @@
     "user_request": "将xxx.md源文件发给我",
     "correct_response_channel_ok": "使用message工具发送文件",
     "correct_response_channel_limited": "使用exec cat输出完整内容，添加文件头信息",
-    "incorrect_response": "返回文件路径、使用kimi_upload_file、分段发送"
+    "incorrect_response": "返回文件路径、使用feishu_file_upload、分段发送"
   },
   "required": true,
   "priority": "high",

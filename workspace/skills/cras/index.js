@@ -72,8 +72,8 @@ class ActiveLearningEngine {
 
   async crawlSource(source) {
     console.log(`    搜索: ${source.name}...`);
-    // kimi_search 在独立进程中不可用，降级到模拟数据
-    // 实际搜索由调用方通过 kimi_search 工具完成
+    // 搜索工具在独立进程中不可用，降级到本地数据
+    // 实际搜索由调用方通过外部搜索工具完成
     return {
       source: source.name,
       timestamp: new Date().toISOString(),
@@ -137,7 +137,7 @@ class ActiveLearningEngine {
   }
 
   async fetchURL(url) {
-    // 实际实现：调用 kimi_fetch
+    // 实际实现：调用外部fetch工具
     return `内容来自 ${url}`;
   }
 
@@ -898,7 +898,7 @@ class ResearchStrategy {
 
   async searchWeb(topic) {
     console.log('  实时联网搜索...');
-    // kimi_search 在独立进程中不可用，标记为需要外部搜索
+    // 搜索工具在独立进程中不可用，标记为需要外部搜索
     console.log(`    [待搜索] ${topic} 行业趋势 2026`);
     return {
       query: `${topic} 行业趋势 2026`,

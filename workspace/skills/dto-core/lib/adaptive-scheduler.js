@@ -150,7 +150,7 @@ class AdaptiveScheduler {
     // 构建提示
     const prompt = this.buildPrompt(template, context);
     
-    // 调用 LLM（简化实现，实际应调用 kimi API）
+    // 调用 LLM（实际应调用配置的模型API）
     console.log('[AdaptiveScheduler] LLM 优化中...');
     
     // 模拟 LLM 返回

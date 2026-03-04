@@ -5,13 +5,13 @@
   
   "models": {
     "{{MODEL_GENERAL}}": {
-      "primary": "kimi-coding/k2p5",
+      "primary": "claude/claude-sonnet-4-6",
       "fallbacks": ["zhipu/glm-4.7", "zhipu/glm-4-flash"],
       "description": "通用对话模型，快速响应"
     },
     "{{MODEL_DEEP_THINKING}}": {
       "primary": "zhipu/glm-5",
-      "fallbacks": ["zhipu/glm-thinking", "kimi-coding/k2p5"],
+      "fallbacks": ["zhipu/glm-thinking", "claude/claude-sonnet-4-6"],
       "description": "深度思考模型，复杂推理"
     },
     "{{MODEL_VISION}}": {
@@ -26,7 +26,7 @@
     },
     "{{MODEL_CODE_REVIEW}}": {
       "primary": "zhipu/glm-5-coder",
-      "fallbacks": ["zhipu/glm-5", "kimi-coding/k2p5"],
+      "fallbacks": ["zhipu/glm-5", "claude/claude-sonnet-4-6"],
       "description": "代码审查模型，Bug检测"
     }
   },

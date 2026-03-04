@@ -13,10 +13,10 @@
       "condition": "消息类型 == 'important' OR 内容长度 > 500字",
       "action": {
         "type": "dual_channel_with_ack",
-        "channels": ["feishu", "kimi"],
+        "channels": ["feishu", "feishu"],
         "fallback": {
-          "on_feishu_fail": "retry_3_times_then_kimi_only",
-          "on_kimi_fail": "feishu_only_with_warning"
+          "on_feishu_fail": "retry_3_times_then_alert",
+          "on_backup_fail": "alert_user_and_log"
         }
       }
     },
@@ -38,7 +38,7 @@
       "action": {
         "type": "primary_channel",
         "channel": "feishu",
-        "backup": "kimi"
+        "backup": "feishu"
       }
     }
   ],

@@ -75,7 +75,7 @@ class FirstPrincipleLearning {
     // 搜索策略：找引用最多、最早发表的源头论文
     const query = `${keyword} "original" OR "first" OR "foundational"`;
     
-    // 模拟搜索（实际调用 kimi_search）
+    // 模拟搜索（实际调用外部搜索工具）
     return [
       { title: `Foundations of ${keyword}`, year: 2020, citations: 5000 },
       { title: `${keyword}: A New Approach`, year: 2021, citations: 3000 }
