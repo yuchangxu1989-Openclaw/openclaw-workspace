@@ -210,3 +210,10 @@
 {"what":"IC3","decision":"跳过意图 IC3 (无法评估)","why":"LLM不可用,regex不适用分类IC3,无法进行意图识别","confidence":0,"alternatives":[],"alternatives_considered":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T19:15:28.756Z"}
 {"what":"IC4","decision":"跳过意图 IC4 (无法评估)","why":"LLM不可用,regex不适用分类IC4,无法进行意图识别","confidence":0,"alternatives":[],"alternatives_considered":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T19:15:28.756Z"}
 {"what":"IC5","decision":"跳过意图 IC5 (无法评估)","why":"LLM不可用,regex不适用分类IC5,无法进行意图识别","confidence":0,"alternatives":[],"alternatives_considered":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T19:15:28.756Z"}
+
+{"what":"user.emotion.frustration","decision":"选择意图 user.emotion.frustration","why":"LLM confidence 0.85; 排除: user.emotion.negative; 证据: 这个bug为什么反复出现","confidence":0.85,"alternatives":["user.emotion.negative"],"alternatives_considered":[{"id":"user.emotion.negative","reason":"LLM排序较低"}],"method":"llm","timestamp":"2026-03-04T22:54:46.647Z"}
+
+
+{"what":"IC3","decision":"跳过意图 IC3 (无法评估)","why":"LLM不可用,regex不适用分类IC3,无法进行意图识别","confidence":0,"alternatives":[],"alternatives_considered":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T22:58:47.287Z"}
+{"what":"IC4","decision":"跳过意图 IC4 (无法评估)","why":"LLM不可用,regex不适用分类IC4,无法进行意图识别","confidence":0,"alternatives":[],"alternatives_considered":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T22:58:47.287Z"}
+{"what":"IC5","decision":"跳过意图 IC5 (无法评估)","why":"LLM不可用,regex不适用分类IC5,无法进行意图识别","confidence":0,"alternatives":[],"alternatives_considered":[],"method":"regex_fallback","status":"unresolved","timestamp":"2026-03-04T22:58:47.287Z"}

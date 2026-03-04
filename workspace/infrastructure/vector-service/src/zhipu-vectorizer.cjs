@@ -31,12 +31,12 @@ class ZhipuVectorizer {
     const secretPath = '/root/.openclaw/.secrets/zhipu-keys.env';
     if (fs.existsSync(secretPath)) {
       const content = fs.readFileSync(secretPath, 'utf-8');
-      // 读取 ZHIPU_API_KEY
-      const match = content.match(/ZHIPU_API_KEY=([a-f0-9\.]+)/);
-      if (match) return match[1];
-      // 回退到 ZHIPU_API_KEY
-      const match1 = content.match(/ZHIPU_API_KEY=([a-f0-9\.]+)/);
-      if (match1) return match1[1];
+      // 读取 ZHIPU_API_KEY（支持完整格式: hex.Base64Secret）
+      const match = content.match(/^ZHIPU_API_KEY=(.+)$/m);
+      if (match) return match[1].trim();
+      // 回退到带编号的 key
+      const match1 = content.match(/^ZHIPU_API_KEY_\d+=(.+)$/m);
+      if (match1) return match1[1].trim();
     }
     return null;
   }
