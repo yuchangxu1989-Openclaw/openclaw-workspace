@@ -1,229 +1,640 @@
 'use strict';
 
 /**
- * Event Bus Dispatcher
+ * Event Dispatcher v2.0
  * 
- * Reads unconsumed events from the JSONL event bus,
- * matches them against the routing table, and dispatches
- * to the appropriate handler via sessions_spawn or direct invocation.
+ * Execution-layer entry point: after rule matching, dispatches tasks
+ * to the corresponding handler for execution.
  * 
- * Usage:
- *   node dispatcher.js                    # process all pending events
- *   node dispatcher.js --dry-run          # show what would be dispatched
- *   node dispatcher.js --type isc.rule.*  # process only matching events
+ * Core features:
+ *   1. loadHandlers()        - load handler mapping from routes.json + convention
+ *   2. dispatch(rule, event)  - execute handler with timeout control (30s default)
+ *   3. Four-level priority routing: exact > prefix > suffix > wildcard
+ *   4. Fault tolerance: retry once → manual queue
+ *   5. Feature flag: DISPATCHER_ENABLED
+ *   6. Decision log
  * 
- * Designed to be called by OpenClaw Cron every 5 minutes.
+ * CommonJS, pure Node.js, zero external dependencies.
  */
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
-const bus = require('../event-bus/bus.js');
+// ─── Paths ───────────────────────────────────────────────────────
+
 const ROUTES_FILE = path.join(__dirname, 'routes.json');
-const LOG_FILE = path.join(__dirname, 'dispatch.log');
-const HEARTBEAT_FILE = path.join(__dirname, '..', 'observability', 'heartbeats.json');
-const CONSUMER_ID = 'dispatcher';
+const HANDLERS_DIR = path.join(__dirname, 'handlers');
+const MANUAL_QUEUE_FILE = path.join(__dirname, 'manual-queue.jsonl');
+const DECISION_LOG_FILE = path.join(__dirname, 'decision.log');
+const DEFAULT_TIMEOUT_MS = 30000;
 
-// ─── Configuration ───────────────────────────────────────────────
+// ─── Route Cache ─────────────────────────────────────────────────
 
-function loadRoutes() {
-  if (!fs.existsSync(ROUTES_FILE)) {
-    throw new Error(`[Dispatcher] Routes file not found: ${ROUTES_FILE}`);
-  }
-  return JSON.parse(fs.readFileSync(ROUTES_FILE, 'utf8'));
+/** @type {Map<string, {pattern: string, config: object}|null>} */
+const _routeCache = new Map();
+
+// ─── Feature Flag ────────────────────────────────────────────────
+
+function isEnabled() {
+  const flag = process.env.DISPATCHER_ENABLED;
+  // Default enabled; only disabled when explicitly set to 'false' or '0'
+  if (flag === 'false' || flag === '0') return false;
+  return true;
 }
 
-// ─── Route Matching ──────────────────────────────────────────────
+// ─── Decision Log ────────────────────────────────────────────────
+
+function logDecision(entry) {
+  const line = JSON.stringify({
+    ts: new Date().toISOString(),
+    ...entry,
+  });
+  try {
+    fs.appendFileSync(DECISION_LOG_FILE, line + '\n');
+  } catch (_) { /* best-effort */ }
+}
+
+// ─── Manual Queue ────────────────────────────────────────────────
+
+function enqueueManual(rule, event, error) {
+  const record = JSON.stringify({
+    ts: new Date().toISOString(),
+    ruleId: rule.id || rule.action || 'unknown',
+    action: rule.action,
+    eventType: event.type || event.eventType || 'unknown',
+    eventId: event.id || 'unknown',
+    error: error instanceof Error ? error.message : String(error),
+    event,
+    rule,
+  });
+  try {
+    fs.appendFileSync(MANUAL_QUEUE_FILE, record + '\n');
+  } catch (_) { /* best-effort */ }
+}
+
+// ─── Handler Loading ─────────────────────────────────────────────
 
 /**
- * Find the best matching route for an event type.
- * Exact matches take priority over wildcard matches.
+ * Load handler mapping from:
+ *   1. routes.json — explicit route → handler config
+ *   2. handlers/ directory — convention-based: filename (without .js) maps to action name
+ * 
+ * Returns: Map<string, { handler: Function|null, config: object, source: string }>
  */
-function findRoute(eventType, routes) {
-  // 1. Try exact match first
-  if (routes[eventType]) {
-    return { pattern: eventType, ...routes[eventType] };
-  }
+function loadHandlers() {
+  const handlers = new Map();
 
-  // 2. Try wildcard matches (most specific first)
-  const wildcardMatches = [];
-  for (const pattern of Object.keys(routes)) {
-    if (!pattern.endsWith('.*')) continue;
-    const prefix = pattern.slice(0, -2);
-    if (eventType === prefix || eventType.startsWith(prefix + '.')) {
-      wildcardMatches.push({ pattern, prefix, ...routes[pattern] });
+  // 1. Load routes.json
+  let routes = {};
+  if (fs.existsSync(ROUTES_FILE)) {
+    try {
+      routes = JSON.parse(fs.readFileSync(ROUTES_FILE, 'utf8'));
+    } catch (err) {
+      logDecision({ level: 'error', msg: `Failed to parse routes.json: ${err.message}` });
     }
   }
 
-  if (wildcardMatches.length === 0) return null;
-
-  // Return the most specific wildcard (longest prefix)
-  wildcardMatches.sort((a, b) => b.prefix.length - a.prefix.length);
-  return wildcardMatches[0];
-}
-
-// ─── Dispatch Logic ──────────────────────────────────────────────
-
-function log(message) {
-  const line = `[${new Date().toISOString()}] ${message}`;
-  console.log(line);
-  try {
-    fs.appendFileSync(LOG_FILE, line + '\n');
-  } catch (_) { /* ignore log write errors */ }
-}
-
-function dispatch(event, route, dryRun) {
-  const handlerInfo = `handler=${route.handler}, agent=${route.agent || 'default'}, priority=${route.priority || 'normal'}`;
-
-  if (dryRun) {
-    log(`[DRY-RUN] Would dispatch ${event.type} (${event.id}) → ${handlerInfo}`);
-    return { dispatched: false, dryRun: true };
+  for (const [pattern, config] of Object.entries(routes)) {
+    handlers.set(pattern, {
+      handler: null, // lazy-loaded
+      config,
+      source: 'routes.json',
+    });
   }
 
-  log(`[DISPATCH] ${event.type} (${event.id}) → ${handlerInfo}`);
+  // 2. Convention-based: scan handlers/ directory
+  if (fs.existsSync(HANDLERS_DIR)) {
+    try {
+      const files = fs.readdirSync(HANDLERS_DIR).filter(f => f.endsWith('.js'));
+      for (const file of files) {
+        const name = path.basename(file, '.js');
+        // Don't override explicit routes
+        if (!handlers.has(name)) {
+          const fullPath = path.join(HANDLERS_DIR, file);
+          let handlerFn = null;
+          try {
+            handlerFn = require(fullPath);
+            // Support module.exports = fn or module.exports = { handle: fn }
+            if (typeof handlerFn !== 'function' && typeof handlerFn.handle === 'function') {
+              handlerFn = handlerFn.handle;
+            }
+          } catch (err) {
+            logDecision({ level: 'warn', msg: `Failed to load handler ${file}: ${err.message}` });
+          }
+          handlers.set(name, {
+            handler: typeof handlerFn === 'function' ? handlerFn : null,
+            config: { handler: name, description: `Convention-loaded from ${file}` },
+            source: 'convention',
+          });
+        }
+      }
+    } catch (_) { /* handlers dir read error — non-fatal */ }
+  }
 
-  const result = {
-    eventId: event.id,
-    eventType: event.type,
-    handler: route.handler,
-    agent: route.agent,
-    priority: route.priority,
-    dispatchedAt: new Date().toISOString(),
-    status: 'dispatched',
-  };
+  return handlers;
+}
 
-  // In a full implementation, this would call sessions_spawn.
-  // For now, we write a dispatch record that other systems can pick up.
-  const dispatchDir = path.join(__dirname, 'dispatched');
-  fs.mkdirSync(dispatchDir, { recursive: true });
+/**
+ * Resolve a handler function by name.
+ * Tries:
+ *   1. Already-loaded function in handler map
+ *   2. handlers/<name>.js file
+ * 
+ * Returns function or null.
+ */
+function resolveHandler(handlerName, handlerMap) {
+  // Check if already in map with a loaded function
+  if (handlerMap && handlerMap.has(handlerName)) {
+    const entry = handlerMap.get(handlerName);
+    if (typeof entry.handler === 'function') return entry.handler;
+  }
 
-  const dispatchFile = path.join(dispatchDir, `${event.id}.json`);
-  fs.writeFileSync(dispatchFile, JSON.stringify({
-    event,
-    route: {
-      handler: route.handler,
-      agent: route.agent,
-      priority: route.priority,
-    },
-    dispatchedAt: result.dispatchedAt,
-    status: 'pending',
-  }, null, 2));
+  // Try convention load
+  const handlerPath = path.join(HANDLERS_DIR, `${handlerName}.js`);
+  if (fs.existsSync(handlerPath)) {
+    try {
+      let mod = require(handlerPath);
+      if (typeof mod === 'function') return mod;
+      if (mod && typeof mod.handle === 'function') return mod.handle;
+    } catch (_) { /* load failed */ }
+  }
 
+  return null;
+}
+
+// ─── Four-Level Priority Routing ─────────────────────────────────
+
+/**
+ * Route classification for each pattern in routes.json:
+ *   Level 1: Exact match     — "system.error" matches "system.error" only
+ *   Level 2: Prefix match    — "isc.rule.*" matches "isc.rule.created", "isc.rule.updated"
+ *   Level 3: Suffix match    — "*.completed" matches "aeo.assessment.completed"
+ *   Level 4: Wildcard        — "*" matches everything
+ */
+
+function classifyPattern(pattern) {
+  if (pattern === '*') return { level: 4, type: 'wildcard' };
+  if (pattern.startsWith('*.')) return { level: 3, type: 'suffix', suffix: pattern.slice(2) };
+  if (pattern.endsWith('.*')) return { level: 2, type: 'prefix', prefix: pattern.slice(0, -2) };
+  return { level: 1, type: 'exact' };
+}
+
+function matchPattern(eventAction, pattern) {
+  const cls = classifyPattern(pattern);
+  switch (cls.type) {
+    case 'exact':
+      return eventAction === pattern;
+    case 'prefix':
+      return eventAction === cls.prefix || eventAction.startsWith(cls.prefix + '.');
+    case 'suffix':
+      return eventAction === cls.suffix || eventAction.endsWith('.' + cls.suffix);
+    case 'wildcard':
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Find the best matching route for an action string.
+ * Uses four-level priority: exact > prefix > suffix > wildcard.
+ * Results are cached for performance.
+ * 
+ * @param {string} action - The action/event-type string to match
+ * @param {Object} routes - The routes object from routes.json
+ * @returns {{ pattern: string, config: object } | null}
+ */
+function findRoute(action, routes) {
+  // Check cache first
+  if (_routeCache.has(action)) {
+    return _routeCache.get(action);
+  }
+
+  const candidates = { 1: [], 2: [], 3: [], 4: [] };
+
+  for (const [pattern, config] of Object.entries(routes)) {
+    if (matchPattern(action, pattern)) {
+      const cls = classifyPattern(pattern);
+      candidates[cls.level].push({ pattern, config });
+    }
+  }
+
+  let result = null;
+
+  // Level 1: exact — should be at most one
+  if (candidates[1].length > 0) {
+    result = candidates[1][0];
+  }
+  // Level 2: prefix — pick longest prefix (most specific)
+  else if (candidates[2].length > 0) {
+    candidates[2].sort((a, b) => b.pattern.length - a.pattern.length);
+    result = candidates[2][0];
+  }
+  // Level 3: suffix — pick longest suffix (most specific)
+  else if (candidates[3].length > 0) {
+    candidates[3].sort((a, b) => b.pattern.length - a.pattern.length);
+    result = candidates[3][0];
+  }
+  // Level 4: wildcard
+  else if (candidates[4].length > 0) {
+    result = candidates[4][0];
+  }
+
+  // Cache the result (including null for no-match)
+  _routeCache.set(action, result);
   return result;
 }
 
-// ─── Heartbeat ───────────────────────────────────────────────────
-
-function writeHeartbeat(eventsProcessed, status) {
-  try {
-    const dir = path.dirname(HEARTBEAT_FILE);
-    fs.mkdirSync(dir, { recursive: true });
-
-    let heartbeats = {};
-    if (fs.existsSync(HEARTBEAT_FILE)) {
-      try { heartbeats = JSON.parse(fs.readFileSync(HEARTBEAT_FILE, 'utf8')); } catch (_) {}
-    }
-
-    heartbeats['event-dispatcher'] = {
-      lastRun: new Date().toISOString(),
-      status,
-      eventsProcessed,
-    };
-
-    fs.writeFileSync(HEARTBEAT_FILE, JSON.stringify(heartbeats, null, 2));
-  } catch (err) {
-    log(`[WARN] Failed to write heartbeat: ${err.message}`);
-  }
+/**
+ * Clear the route cache. Call after routes.json is reloaded.
+ */
+function clearRouteCache() {
+  _routeCache.clear();
 }
 
-// ─── Main Entry ──────────────────────────────────────────────────
+// ─── Timeout Wrapper ─────────────────────────────────────────────
 
-function main() {
+/**
+ * Execute a function with a timeout.
+ * Supports both sync and async handlers.
+ * 
+ * @param {Function} fn - Handler function
+ * @param {Array} args - Arguments to pass
+ * @param {number} timeoutMs - Timeout in milliseconds
+ * @returns {Promise<any>}
+ */
+function withTimeout(fn, args, timeoutMs) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(`Handler timed out after ${timeoutMs}ms`));
+    }, timeoutMs);
+
+    try {
+      const result = fn(...args);
+      // Handle both sync and async
+      if (result && typeof result.then === 'function') {
+        result
+          .then(val => { clearTimeout(timer); resolve(val); })
+          .catch(err => { clearTimeout(timer); reject(err); });
+      } else {
+        clearTimeout(timer);
+        resolve(result);
+      }
+    } catch (err) {
+      clearTimeout(timer);
+      reject(err);
+    }
+  });
+}
+
+// ─── Core Dispatch ───────────────────────────────────────────────
+
+/**
+ * Dispatch an event to the appropriate handler based on a matched rule.
+ * 
+ * @param {object} rule - The matched rule (must have .action)
+ * @param {object} event - The event to process
+ * @param {object} [options] - Options
+ * @param {number} [options.timeoutMs=30000] - Handler timeout
+ * @param {Map} [options.handlerMap] - Pre-loaded handler map
+ * @param {Object} [options.routes] - Routes object (for routing)
+ * @returns {Promise<{ success: boolean, result?: any, error?: string, handler: string, duration: number, retried: boolean }>}
+ */
+async function dispatch(rule, event, options = {}) {
+  const startTime = Date.now();
+  const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS;
+  const handlerMap = options.handlerMap || null;
+
+  // Feature flag check
+  if (!isEnabled()) {
+    const decision = {
+      action: rule.action,
+      eventType: event.type || event.eventType || 'unknown',
+      eventId: event.id || 'unknown',
+      handler: 'none',
+      result: 'skipped',
+      reason: 'DISPATCHER_ENABLED=false',
+      duration: Date.now() - startTime,
+    };
+    logDecision(decision);
+    return {
+      success: true,
+      result: 'skipped (dispatcher disabled)',
+      handler: 'none',
+      duration: decision.duration,
+      retried: false,
+      skipped: true,
+    };
+  }
+
+  // Resolve route
+  const routes = options.routes || _loadRoutesOnce();
+  const route = findRoute(rule.action, routes);
+  const handlerName = route ? route.config.handler : (rule.handler || null);
+
+  if (!handlerName) {
+    const decision = {
+      action: rule.action,
+      eventType: event.type || event.eventType || 'unknown',
+      handler: 'none',
+      result: 'no_route',
+      duration: Date.now() - startTime,
+    };
+    logDecision(decision);
+    enqueueManual(rule, event, 'No handler found for action: ' + rule.action);
+    return {
+      success: false,
+      error: 'No handler found for action: ' + rule.action,
+      handler: 'none',
+      duration: decision.duration,
+      retried: false,
+    };
+  }
+
+  // Resolve handler function
+  const handlerFn = resolveHandler(handlerName, handlerMap);
+
+  if (!handlerFn) {
+    // No executable handler — write dispatch record (file-based dispatch)
+    const dispatchRecord = {
+      event,
+      rule,
+      route: route ? route.config : null,
+      handlerName,
+      dispatchedAt: new Date().toISOString(),
+      status: 'pending_execution',
+    };
+
+    const dispatchDir = path.join(__dirname, 'dispatched');
+    fs.mkdirSync(dispatchDir, { recursive: true });
+    const dispatchFile = path.join(dispatchDir, `${event.id || Date.now()}.json`);
+    fs.writeFileSync(dispatchFile, JSON.stringify(dispatchRecord, null, 2));
+
+    const duration = Date.now() - startTime;
+    const decision = {
+      action: rule.action,
+      eventType: event.type || event.eventType || 'unknown',
+      eventId: event.id || 'unknown',
+      handler: handlerName,
+      matchedPattern: route ? route.pattern : 'direct',
+      result: 'file_dispatched',
+      duration,
+    };
+    logDecision(decision);
+
+    return {
+      success: true,
+      result: 'file_dispatched',
+      handler: handlerName,
+      duration,
+      retried: false,
+      dispatchFile,
+    };
+  }
+
+  // Execute handler with retry
+  const context = {
+    rule,
+    route: route ? route.config : null,
+    handlerName,
+    matchedPattern: route ? route.pattern : 'direct',
+  };
+
+  let lastError = null;
+  let retried = false;
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const result = await withTimeout(handlerFn, [event, context], timeoutMs);
+      const duration = Date.now() - startTime;
+
+      logDecision({
+        action: rule.action,
+        eventType: event.type || event.eventType || 'unknown',
+        eventId: event.id || 'unknown',
+        handler: handlerName,
+        matchedPattern: route ? route.pattern : 'direct',
+        result: 'success',
+        attempt: attempt + 1,
+        duration,
+      });
+
+      return {
+        success: true,
+        result,
+        handler: handlerName,
+        duration,
+        retried: attempt > 0,
+      };
+    } catch (err) {
+      lastError = err;
+      if (attempt === 0) {
+        retried = true;
+        logDecision({
+          action: rule.action,
+          eventType: event.type || event.eventType || 'unknown',
+          eventId: event.id || 'unknown',
+          handler: handlerName,
+          result: 'retry',
+          attempt: 1,
+          error: err.message,
+          duration: Date.now() - startTime,
+        });
+      }
+    }
+  }
+
+  // Both attempts failed → manual queue
+  const duration = Date.now() - startTime;
+  enqueueManual(rule, event, lastError);
+
+  logDecision({
+    action: rule.action,
+    eventType: event.type || event.eventType || 'unknown',
+    eventId: event.id || 'unknown',
+    handler: handlerName,
+    matchedPattern: route ? route.pattern : 'direct',
+    result: 'failed',
+    error: lastError ? lastError.message : 'unknown',
+    duration,
+  });
+
+  return {
+    success: false,
+    error: lastError ? lastError.message : 'unknown',
+    handler: handlerName,
+    duration,
+    retried: true,
+  };
+}
+
+// ─── Lazy Routes Loader ──────────────────────────────────────────
+
+let _cachedRoutes = null;
+
+function _loadRoutesOnce() {
+  if (_cachedRoutes) return _cachedRoutes;
+  if (fs.existsSync(ROUTES_FILE)) {
+    try {
+      _cachedRoutes = JSON.parse(fs.readFileSync(ROUTES_FILE, 'utf8'));
+    } catch (_) {
+      _cachedRoutes = {};
+    }
+  } else {
+    _cachedRoutes = {};
+  }
+  return _cachedRoutes;
+}
+
+/**
+ * Force-reload routes (useful after routes.json changes).
+ */
+function reloadRoutes() {
+  _cachedRoutes = null;
+  clearRouteCache();
+  return _loadRoutesOnce();
+}
+
+// ─── CLI Entry Point ─────────────────────────────────────────────
+
+async function main() {
   const args = process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
-  const typeFilterIdx = args.indexOf('--type');
-  const typeFilter = typeFilterIdx >= 0 ? args[typeFilterIdx + 1] : null;
 
-  log(`--- Dispatcher run started (dryRun=${dryRun}, typeFilter=${typeFilter || 'all'}) ---`);
+  if (args.includes('--help') || args.includes('-h')) {
+    console.log(`Event Dispatcher v2.0
 
-  let routes;
-  try {
-    routes = loadRoutes();
-  } catch (err) {
-    log(`[ERROR] ${err.message}`);
-    writeHeartbeat(0, 'error');
-    process.exit(1);
-  }
+Usage:
+  node dispatcher.js                        Process events from event bus
+  node dispatcher.js --dry-run              Show what would be dispatched
+  node dispatcher.js --status               Show dispatcher status
+  node dispatcher.js --clear-cache          Clear route cache
+  node dispatcher.js --manual-queue         Show manual queue entries
 
-  // Consume events from the bus
-  const consumeOpts = {};
-  if (typeFilter) {
-    consumeOpts.types = [typeFilter];
-  }
-
-  let events;
-  try {
-    events = bus.consume(CONSUMER_ID, consumeOpts);
-  } catch (err) {
-    log(`[ERROR] Failed to consume events: ${err.message}`);
-    writeHeartbeat(0, 'error');
-    process.exit(1);
-  }
-
-  log(`Found ${events.length} unconsumed event(s)`);
-
-  if (events.length === 0) {
-    writeHeartbeat(0, 'ok');
-    log('--- Dispatcher run completed (nothing to do) ---');
+Environment:
+  DISPATCHER_ENABLED=true|false   Feature flag (default: true)
+`);
     return;
   }
 
-  // Sort by priority based on route config
-  const priorityOrder = { high: 0, normal: 1, low: 2 };
-  const sortedEvents = events.map(evt => {
-    const route = findRoute(evt.type, routes);
-    return { evt, route };
-  }).sort((a, b) => {
-    const pa = a.route ? (priorityOrder[a.route.priority] ?? 1) : 1;
-    const pb = b.route ? (priorityOrder[b.route.priority] ?? 1) : 1;
-    return pa - pb;
-  });
+  if (args.includes('--status')) {
+    console.log(JSON.stringify({
+      enabled: isEnabled(),
+      routesFile: fs.existsSync(ROUTES_FILE),
+      handlersDir: fs.existsSync(HANDLERS_DIR),
+      routeCount: Object.keys(_loadRoutesOnce()).length,
+      cacheSize: _routeCache.size,
+      manualQueueExists: fs.existsSync(MANUAL_QUEUE_FILE),
+    }, null, 2));
+    return;
+  }
 
-  let processed = 0;
-  let errors = 0;
-
-  for (const { evt, route } of sortedEvents) {
-    if (!route) {
-      log(`[SKIP] No route for event type: ${evt.type} (${evt.id})`);
-      // Still ack so we don't re-process unroutable events forever
-      if (!dryRun) {
-        try { bus.ack(CONSUMER_ID, evt.id); } catch (_) {}
+  if (args.includes('--manual-queue')) {
+    if (!fs.existsSync(MANUAL_QUEUE_FILE)) {
+      console.log('Manual queue is empty.');
+      return;
+    }
+    const lines = fs.readFileSync(MANUAL_QUEUE_FILE, 'utf8').trim().split('\n').filter(Boolean);
+    console.log(`Manual queue: ${lines.length} entries`);
+    for (const line of lines.slice(-10)) {
+      try {
+        const entry = JSON.parse(line);
+        console.log(`  [${entry.ts}] ${entry.action} → ${entry.error}`);
+      } catch (_) {
+        console.log(`  ${line}`);
       }
+    }
+    return;
+  }
+
+  // Default: integrate with event bus for batch processing
+  const dryRun = args.includes('--dry-run');
+
+  let bus;
+  try {
+    bus = require('../event-bus/bus.js');
+  } catch (err) {
+    console.error(`[Dispatcher] Cannot load event bus: ${err.message}`);
+    process.exit(1);
+  }
+
+  const CONSUMER_ID = 'dispatcher';
+  const routes = reloadRoutes();
+  const handlerMap = loadHandlers();
+
+  let events;
+  try {
+    events = bus.consume(CONSUMER_ID, {});
+  } catch (err) {
+    console.error(`[Dispatcher] Failed to consume events: ${err.message}`);
+    process.exit(1);
+  }
+
+  console.log(`[Dispatcher] Found ${events.length} unconsumed event(s), enabled=${isEnabled()}`);
+
+  if (events.length === 0) return;
+
+  let processed = 0, failed = 0, skipped = 0;
+
+  for (const evt of events) {
+    const rule = { action: evt.type, ...evt };
+
+    if (dryRun) {
+      const route = findRoute(evt.type, routes);
+      console.log(`[DRY-RUN] ${evt.type} → ${route ? route.config.handler : 'NO ROUTE'}`);
       continue;
     }
 
-    try {
-      dispatch(evt, route, dryRun);
-      if (!dryRun) {
-        bus.ack(CONSUMER_ID, evt.id);
-      }
+    const result = await dispatch(rule, evt, { routes, handlerMap });
+
+    if (result.skipped) {
+      skipped++;
+    } else if (result.success) {
       processed++;
-    } catch (err) {
-      log(`[ERROR] Failed to dispatch ${evt.id}: ${err.message}`);
-      errors++;
+    } else {
+      failed++;
     }
+
+    // Ack the event regardless (don't re-process failures forever)
+    try { bus.ack(CONSUMER_ID, evt.id); } catch (_) {}
   }
 
-  const status = errors > 0 ? 'degraded' : 'ok';
-  writeHeartbeat(processed, status);
-  log(`--- Dispatcher run completed: ${processed} dispatched, ${errors} errors ---`);
+  console.log(`[Dispatcher] Done: ${processed} dispatched, ${failed} failed, ${skipped} skipped`);
 }
 
-// ─── Exports (for testing) & CLI execution ───────────────────────
+// ─── Exports ─────────────────────────────────────────────────────
 
-module.exports = { findRoute, dispatch, main, loadRoutes };
+module.exports = {
+  // Core API
+  dispatch,
+  loadHandlers,
+  resolveHandler,
+  findRoute,
+  clearRouteCache,
+  reloadRoutes,
+
+  // Utilities
+  isEnabled,
+  matchPattern,
+  classifyPattern,
+  withTimeout,
+  enqueueManual,
+  logDecision,
+
+  // CLI
+  main,
+
+  // For testing: access internals
+  _routeCache,
+  ROUTES_FILE,
+  HANDLERS_DIR,
+  MANUAL_QUEUE_FILE,
+  DECISION_LOG_FILE,
+  DEFAULT_TIMEOUT_MS,
+};
 
 if (require.main === module) {
-  main();
+  main().catch(err => {
+    console.error(`[Dispatcher] Fatal: ${err.message}`);
+    process.exit(1);
+  });
 }
