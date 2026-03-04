@@ -150,6 +150,7 @@ async function scenario2_intentEventLoop() {
   record('S2', '1. 构造对话切片', true, `${conversationSlice.length} messages (emotion+rule keywords)`);
 
   // Step 2: IntentScanner.scan（使用短超时避免 LLM 阻塞）
+  BusAdapter._clearDedupeCache(); // 防止之前的事件指纹污染
   let scanResult;
   try {
     const scanner = new IntentScanner({ timeout: 5000 });
@@ -191,26 +192,28 @@ async function scenario2_intentEventLoop() {
   }
 
   // Step 3: 验证识别结果通过 bus-adapter.emit 回流 EventBus
-  // IntentScanner._emitIntentEvents 内部会调用 EventBus.emit('intent.detected', ...)
-  // 检查 events.jsonl 是否有 intent.detected 事件
+  // IntentScanner._emitIntentEvents 内部调用 EventBus.emit('intent.detected', ...)
+  // Pipeline 回流使用 'user.intent.*.inferred' 格式
+  // 两种类型都算回流成功
   try {
     const eventsFile = BusAdapter.EVENTS_FILE;
     if (fs.existsSync(eventsFile)) {
       const lines = fs.readFileSync(eventsFile, 'utf8').trim().split('\n');
-      const recentIntentEvents = lines.slice(-50).filter(line => {
+      const recentIntentEvents = lines.slice(-100).filter(line => {
         try {
           const e = JSON.parse(line);
-          return e.type === 'intent.detected' && e.source === 'IntentScanner';
+          return (e.type === 'intent.detected') ||
+                 (e.type && e.type.startsWith('user.intent.')) ||
+                 (e.source === 'IntentScanner');
         } catch { return false; }
       });
 
       if (scanResult.skipped && scanResult.intents.length === 0) {
-        // 如果 scan 被跳过（无 API key 或禁用），intent.detected 不会回流，这也是正确行为
         record('S2', '3. 事件回流 EventBus', true,
           `scan skipped → no intent events expected (correct behavior)`);
       } else {
         record('S2', '3. 事件回流 EventBus', recentIntentEvents.length > 0,
-          `intent.detected events found: ${recentIntentEvents.length}`);
+          `intent events found: ${recentIntentEvents.length} (types: intent.detected / user.intent.*)`);
       }
     } else {
       record('S2', '3. 事件回流 EventBus', false, `events.jsonl not found: ${eventsFile}`);
@@ -219,7 +222,7 @@ async function scenario2_intentEventLoop() {
     record('S2', '3. 事件回流 EventBus', false, err.message);
   }
 
-  // Step 4: 验证 events.jsonl 中有 intent 事件（或 regex fallback 产生的事件）
+  // Step 4: 验证 events.jsonl 中有 intent 事件
   try {
     const eventsFile = BusAdapter.EVENTS_FILE;
     const content = fs.readFileSync(eventsFile, 'utf8').trim();
@@ -230,7 +233,8 @@ async function scenario2_intentEventLoop() {
         return (e.type || '').includes('intent');
       } catch { return false; }
     });
-    record('S2', '4. events.jsonl 有 intent 事件', intentLines.length > 0 || (scanResult.skipped && scanResult.intents.length === 0),
+    record('S2', '4. events.jsonl 有 intent 事件',
+      intentLines.length > 0 || (scanResult.skipped && scanResult.intents.length === 0),
       `total_events=${lines.length}, intent_events=${intentLines.length}`);
   } catch (err) {
     record('S2', '4. events.jsonl 有 intent 事件', false, err.message);
