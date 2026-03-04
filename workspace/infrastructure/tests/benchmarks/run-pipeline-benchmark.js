@@ -81,10 +81,12 @@ async function runCase(testCase) {
   const startTime = Date.now();
 
   try {
-    // Inject events into EventBus
-    for (const evt of testCase.input_events) {
+    // Inject events into EventBus (add unique _bench_id to avoid storm suppression)
+    for (let i = 0; i < testCase.input_events.length; i++) {
+      const evt = testCase.input_events[i];
+      const uniqueData = Object.assign({}, evt.data || {}, { _bench_id: `${testCase.id}_${i}_${Date.now()}` });
       try {
-        EventBus.emit(evt.type, evt.data || {}, evt.source || 'benchmark', evt.metadata || {});
+        EventBus.emit(evt.type, uniqueData, evt.source || 'benchmark', evt.metadata || {});
       } catch (_) {}
     }
 

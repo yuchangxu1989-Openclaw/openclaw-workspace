@@ -1,0 +1,156 @@
+{
+  "$schema": "isc-architecture-v1",
+  "name": "L3 意图识别层架构",
+  "version": "1.0.0",
+  "date": "2026-03-05",
+  "status": "design-approved",
+
+  "modules": [
+    {
+      "id": "bus-adapter",
+      "name": "EventBus Adapter",
+      "path": "infrastructure/event-bus/bus-adapter.js",
+      "layer": "infrastructure",
+      "status": "planned",
+      "description": "统一事件总线适配层，对外暴露新API，内部委托旧bus.js",
+      "exports": ["emit", "consume", "healthCheck", "stats", "legacy"]
+    },
+    {
+      "id": "bus-legacy",
+      "name": "EventBus Legacy (bus.js)",
+      "path": "infrastructure/event-bus/bus.js",
+      "layer": "infrastructure",
+      "status": "existing-no-change",
+      "description": "旧事件总线，cursor+ack消费模型",
+      "exports": ["emit", "consume", "ack", "history", "stats"]
+    },
+    {
+      "id": "l3-pipeline",
+      "name": "L3 Pipeline",
+      "path": "infrastructure/pipeline/l3-pipeline.js",
+      "layer": "L3",
+      "status": "existing-modify",
+      "description": "L3编排层，cron驱动，协调RuleMatcher+IntentScanner"
+    },
+    {
+      "id": "intent-scanner",
+      "name": "IntentScanner",
+      "path": "infrastructure/intent-engine/intent-scanner.js",
+      "layer": "L3",
+      "status": "existing-integrate",
+      "description": "意图识别引擎，LLM主路径+正则fallback"
+    },
+    {
+      "id": "isc-rule-matcher",
+      "name": "ISCRuleMatcher",
+      "path": "infrastructure/rule-engine/isc-rule-matcher.js",
+      "layer": "L3",
+      "status": "existing-integrate",
+      "description": "ISC规则匹配引擎"
+    },
+    {
+      "id": "registry-manager",
+      "name": "RegistryManager",
+      "path": "infrastructure/intent-engine/registry-manager.js",
+      "layer": "L3",
+      "status": "existing-integrate",
+      "description": "意图注册表管理"
+    },
+    {
+      "id": "decision-logger",
+      "name": "DecisionLogger",
+      "path": "infrastructure/decision-log/decision-logger.js",
+      "layer": "L3",
+      "status": "existing-integrate",
+      "description": "决策审计日志"
+    },
+    {
+      "id": "dispatcher",
+      "name": "Dispatcher",
+      "path": "infrastructure/dispatcher/",
+      "layer": "infrastructure",
+      "status": "existing-modify",
+      "description": "事件路由与handler执行"
+    }
+  ],
+
+  "dependencies": [
+    { "from": "l3-pipeline", "to": "bus-adapter", "type": "consume+emit" },
+    { "from": "l3-pipeline", "to": "intent-scanner", "type": "function-call" },
+    { "from": "l3-pipeline", "to": "isc-rule-matcher", "type": "function-call" },
+    { "from": "l3-pipeline", "to": "decision-logger", "type": "function-call" },
+    { "from": "bus-adapter", "to": "bus-legacy", "type": "delegation" },
+    { "from": "dispatcher", "to": "bus-adapter", "type": "consume" },
+    { "from": "intent-scanner", "to": "registry-manager", "type": "read-only" }
+  ],
+
+  "forbidden_dependencies": [
+    { "from": "L1", "to": "L2", "reason": "L1不应知道阈值逻辑" },
+    { "from": "L1", "to": "L3", "reason": "L1不应知道意图识别的存在" },
+    { "from": "L2", "to": "L3", "reason": "L2不应知道语义识别" },
+    { "from": "L3", "to": "L1", "reason": "L3不得直接调用L1函数" },
+    { "from": "L3", "to": "L2", "reason": "L3不得直接调用L2函数" },
+    { "from": "*", "to": "events.jsonl", "reason": "禁止直接文件读写，必须通过bus接口" }
+  ],
+
+  "event_flows": [
+    {
+      "name": "旧闭环（不动）",
+      "path": "ISC→DTO→SEEF→AEO→CRAS→ISC",
+      "bus": "bus-legacy",
+      "status": "existing-no-change"
+    },
+    {
+      "name": "L3闭环（适配后）",
+      "path": "bus-adapter.consume→RuleMatcher→IntentScanner→Dispatcher",
+      "bus": "bus-adapter→bus-legacy",
+      "status": "planned"
+    },
+    {
+      "name": "交叉联动",
+      "flows": [
+        "isc.rule.* → RuleMatcher.reload()",
+        "cras.insight.generated → RegistryManager.addIntent()",
+        "aeo.assessment.* → DecisionLogger"
+      ],
+      "status": "planned-phase3"
+    }
+  ],
+
+  "interfaces": {
+    "bus-adapter": {
+      "emit": {
+        "signature": "emit(type: string, payload: object, source: string, metadata?: object) → { id, suppressed }",
+        "delegates_to": "bus.emit(type, {...payload, ...metadata}, source)"
+      },
+      "consume": {
+        "signature": "consume({ type_filter?, since?, layer?, limit? }) → Event[]",
+        "delegates_to": "bus.history({type, since, limit})"
+      },
+      "healthCheck": {
+        "signature": "healthCheck() → { ok, total, corrupted }",
+        "implementation": "events.jsonl integrity check"
+      }
+    },
+    "intent-scanner": {
+      "scan": {
+        "signature": "async scan(conversationSlice: MessageSlice[]) → ScanResult",
+        "degradation": "LLM → regex_fallback → empty array"
+      }
+    },
+    "decision-logger": {
+      "log": {
+        "signature": "log(entry: DecisionLogEntry) → void",
+        "storage": "decision-logs/YYYY-MM-DD.jsonl"
+      }
+    }
+  },
+
+  "data_files": [
+    { "path": "infrastructure/event-bus/events.jsonl", "owner": "bus-legacy", "access": "bus-adapter only" },
+    { "path": "infrastructure/event-bus/cursor.json", "owner": "bus-legacy", "access": "bus-adapter only" },
+    { "path": "infrastructure/event-bus/intent-registry.json", "owner": "AEO", "access": "IntentScanner read-only" },
+    { "path": "infrastructure/event-bus/decision-logs/", "owner": "DecisionLogger", "retention": "30 days" },
+    { "path": "infrastructure/dispatcher/routes.json", "owner": "Dispatcher", "access": "manual edit" }
+  ]
+}

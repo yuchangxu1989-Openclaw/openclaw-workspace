@@ -311,7 +311,7 @@ interface RecognizeResult {
   // ─── 元数据 ───
   metadata: {
     engine:          "llm" | "regex_fallback";    // 实际使用的识别引擎
-    model?:          string;                       // LLM模型标识（如"claude-opus-4-6-thinking"/"glm-5"）
+    model?:          string;                       // LLM模型标识（如"{{MODEL_DEEP_THINKING}}"）
     latency_ms:      number;                       // 识别耗时（毫秒）
     registry_version: string;                      // 使用的intent-registry版本（ISO时间戳）
     matched_examples?: string[];                   // 命中的注册表示例（调试用）
@@ -735,7 +735,7 @@ interface Alternative {
     ],
     "timestamp": 1709596800000,
     "engine": "llm",
-    "model": "glm-5",
+    "model": "{{MODEL_DEEP_THINKING}}",
     "latency_ms": 1200
   }
 }
@@ -782,7 +782,7 @@ interface Alternative {
     ],
     "timestamp": 1709596920000,
     "engine": "llm",
-    "model": "glm-5",
+    "model": "{{MODEL_DEEP_THINKING}}",
     "latency_ms": 980
   }
 }
