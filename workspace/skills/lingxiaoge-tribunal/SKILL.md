@@ -202,7 +202,7 @@ AI：[自动执行三轮协议，输出裁决报告]
 ```yaml
 name: lingxiaoge-tribunal
 display_name: 凌霄阁-7人裁决神殿
-version: "4.0.1"
+version: "4.0.2"
 description: 7位独立Agent三轮对抗式深度决策机制。通用、独立、可嵌入。
 status: active
 author: Strategic Commander & 于长煦
