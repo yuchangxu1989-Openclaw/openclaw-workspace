@@ -1,7 +1,7 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成的文档，请勿手动编辑（由 ISC 规则同步）
 
-> **生成时间**: 2026/3/4 16:08:49
+> **生成时间**: 2026/3/4 20:05:06
 > **来源**: ISC 规则自动同步
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -114,95 +114,3 @@
 2. **扩展模型**: 智谱（多模态、生成）
 3. **自动路由**: ISC规则自动识别需求，DTO调度对应模型
 4. **能力来源**: 本文档由 ISC 规则自动生成
-
-## 🔵 通用交互能力
-
-### 飞书文件发送
-- **工具**: message(action=send, filePath=路径, filename=名称, caption=描述)
-- **触发词**: 发文件, 发MD, 发源文件, 发送文件
-- **说明**: 直接通过飞书发送本地文件给用户，支持md/txt/json/pdf等
-
-### 飞书文档读写
-- **工具**: feishu_doc(action=read/write/append/create)
-- **触发词**: 读飞书文档, 写飞书文档, 创建云文档
-- **说明**: 读取/写入/创建飞书云文档，支持markdown格式
-
-### 飞书Bitable操作
-- **工具**: feishu_bitable_*(get_meta/list_fields/list_records/create_record/update_record)
-- **触发词**: 多维表格, Bitable, 读表格, 写表格
-- **说明**: 操作飞书多维表格的字段和记录
-
-### 飞书知识库
-- **工具**: feishu_wiki(action=spaces/nodes/get/create/search)
-- **触发词**: 知识库, wiki, 搜索文档
-- **说明**: 浏览和管理飞书知识库
-
-## 🟢 搜索与浏览能力
-
-### Web搜索
-- **工具**: web_search(query=关键词)
-- **触发词**: 搜索, 查一下, Google, 搜
-- **说明**: Brave Search API搜索，返回标题/URL/摘要
-
-### 网页内容抓取
-- **工具**: web_fetch(url=地址)
-- **触发词**: 打开网页, 抓取, 读取URL
-- **说明**: 抓取网页内容转markdown
-
-### 浏览器控制
-- **工具**: browser(action=snapshot/navigate/act)
-- **触发词**: 打开浏览器, 截图, 操作网页
-- **说明**: 完整浏览器自动化，支持截图/导航/点击/输入
-
-## 🟣 大模型能力矩阵
-
-### Claude Opus 4-6 Thinking（主模型）
-- **Provider**: penguinsaichat
-- **用途**: 主Agent推理、深度分析、架构设计
-- **API**: anthropic-messages
-
-### Claude Sonnet 4-6（备用）
-- **Provider**: cherryin
-- **用途**: fallback、轻量任务
-- **API**: anthropic-messages
-
-### GLM-5（智谱）
-- **Provider**: zhipu (coding套餐)
-- **用途**: cron-worker默认模型、代码生成
-- **API**: openai-completions
-- **BaseURL**: https://open.bigmodel.cn/api/coding/paas/v4
-
-### GLM-4-Flash（智谱）
-- **用途**: 轻量快速任务
-- **API**: openai-completions
-
-## 🔴 语音与多媒体
-
-### TTS语音合成
-- **工具**: tts(text=文本)
-- **触发词**: 朗读, 语音, TTS
-- **说明**: 文字转语音，自动发送音频
-
-### GLM-ASR语音识别
-- **技能**: skills/glm-asr/
-- **触发词**: 语音识别, 转文字, 转录
-- **说明**: 智谱ASR，支持多语言
-
-## 🟠 节点与设备
-
-### 节点管理
-- **工具**: nodes(action=status/camera_snap/screen_record/location_get)
-- **触发词**: 拍照, 截屏, 位置, 设备状态
-- **说明**: 控制已配对的节点设备
-
-## ⚫ 记忆与会话
-
-### 记忆搜索
-- **工具**: memory_search(query=关键词)
-- **触发词**: 记得, 之前, 上次, 历史
-- **说明**: 语义搜索MEMORY.md和memory/*.md
-
-### 子Agent调度
-- **工具**: sessions_spawn(task=任务描述, thinking=high/low)
-- **触发词**: 派子Agent, 分析一下, 让架构师看看
-- **说明**: 异步派发子Agent执行复杂任务

@@ -1,5 +1,5 @@
 /**
- * 凌烟阁 Lingyan Tribunal 🏛️
+ * 凌霄阁-7人裁决神殿 Lingyan Tribunal 🏛️
  * 
  * 编排参考逻辑 - 实际执行由主Agent通过sessions_spawn编排
  * 
@@ -22,9 +22,9 @@ const SEATS = [
  * Round 1 prompt 模板
  */
 function round1Prompt(topic, context, seat) {
-  return `【凌烟阁 Round 1 - 独立审议】
+  return `【凌霄阁-7人裁决神殿 Round 1 - 独立审议】
 
-你是凌烟阁${seat.title}（${seat.role}），你的审视维度是：${seat.dimension}
+你是凌霄阁-7人裁决神殿${seat.title}（${seat.role}），你的审视维度是：${seat.dimension}
 
 ## 议题
 ${topic}
@@ -65,9 +65,9 @@ function round2Prompt(topic, seat, allRound1Results) {
     .map(r => `【${r.seat.title}】${r.summary}`)
     .join('\n');
 
-  return `【凌烟阁 Round 2 - 对抗质疑】
+  return `【凌霄阁-7人裁决神殿 Round 2 - 对抗质疑】
 
-你是凌烟阁${seat.title}（${seat.role}）。
+你是凌霄阁-7人裁决神殿${seat.title}（${seat.role}）。
 
 ## 议题
 ${topic}
@@ -101,9 +101,9 @@ ${othersViews}
  * Round 3 prompt 模板（给战略家/首席）
  */
 function round3Prompt(topic, context, allRound1Results, allRound2Results) {
-  return `【凌烟阁 Round 3 - 终审裁决】
+  return `【凌霄阁-7人裁决神殿 Round 3 - 终审裁决】
 
-你是凌烟阁首席（战略家），现在做最终裁决。
+你是凌霄阁-7人裁决神殿首席（战略家），现在做最终裁决。
 
 ## 议题
 ${topic}

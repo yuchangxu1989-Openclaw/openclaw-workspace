@@ -87,7 +87,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行CRAS模块B：用户洞察分析中枢。分析最近2小时用户交互，更新意图画像，并使用飞书卡片格式推送报告。命令：cd /root/.openclaw/workspace/skills/cras && node index.js --insight --format=feishu_card",
-        "model": "claude/claude-opus-4-6-thinking",
+        "model": "claude/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 180,
         "thinking": "medium"
       },
@@ -180,7 +180,7 @@
       "name": "全局自主决策流水线-每30分钟",
       "enabled": true,
       "createdAtMs": 1771992026679,
-      "updatedAtMs": 1772627418737,
+      "updatedAtMs": 1772614820384,
       "schedule": {
         "kind": "cron",
         "expr": "*/30 * * * *"
@@ -197,10 +197,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772629200000,
-        "lastRunAtMs": 1772627400005,
+        "nextRunAtMs": 1772616600000,
+        "lastRunAtMs": 1772614800010,
         "lastStatus": "ok",
-        "lastDurationMs": 18732,
+        "lastDurationMs": 20374,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "delivered",
@@ -362,7 +362,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行CRAS模块D：战略行研与产品规划。先执行 kimi_search 搜索行业趋势，然后基于知识库生成洞察报告。命令：kimi_search \"AI Agent行业趋势 2026\" limit=5 && cd /root/.openclaw/workspace/skills/cras && node index.js --research",
-        "model": "claude/claude-opus-4-6-thinking",
+        "model": "claude/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 600
       },
       "delivery": {
@@ -386,7 +386,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772625690275,
+      "updatedAtMs": 1772611274843,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -406,14 +406,15 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772629207906,
-        "lastRunAtMs": 1772625666841,
+        "nextRunAtMs": 1772614807906,
+        "lastRunAtMs": 1772611265340,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 23434,
+        "lastDurationMs": 9503,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": false,
+        "runningAtMs": 1772614843318
       }
     },
     {
@@ -422,7 +423,7 @@
       "name": "系统状态与流水线监控-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772626218464,
+      "updatedAtMs": 1772611920013,
       "schedule": {
         "expr": "10 */4 * * *",
         "kind": "cron",
@@ -433,7 +434,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行系统状态快照与流水线健康检查：\n1. 系统资源峰值记录：bash /root/.openclaw/workspace/skills/system-monitor/log-peaks.sh\n2. 流水线健康监控（超10分钟无反馈则自动重启）：node /root/.openclaw/workspace/skills/dto-core/core/pipeline-auto-recovery.js\n报告异常情况。",
-        "timeoutSeconds": 300,
+        "timeoutSeconds": 120,
         "model": "claude/claude-sonnet-4-6"
       },
       "delivery": {
@@ -441,14 +442,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772640600000,
-        "lastRunAtMs": 1772626200006,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 18458,
-        "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0,
-        "lastDelivered": true
+        "nextRunAtMs": 1772626200000,
+        "lastRunAtMs": 1772611800005,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 120008,
+        "lastDeliveryStatus": "unknown",
+        "consecutiveErrors": 1,
+        "lastError": "cron: job execution timed out"
       }
     },
     {
@@ -493,7 +494,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772625705038,
+      "updatedAtMs": 1772611340971,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -509,17 +510,17 @@
         "timeoutSeconds": 120
       },
       "delivery": {
-        "mode": "announce"
+        "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772629278795,
-        "lastRunAtMs": 1772625692294,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 12744,
-        "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 3,
-        "lastError": "Delivering to Feishu requires target <chatId|user:openId|chat:chatId>"
+        "nextRunAtMs": 1772614878795,
+        "lastRunAtMs": 1772611336964,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 4007,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": false
       }
     },
     {
@@ -528,7 +529,7 @@
       "name": "OpenClaw-自动备份-每日两次",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772622043292,
+      "updatedAtMs": 1772596070891,
       "schedule": {
         "expr": "0 7,19 * * *",
         "kind": "cron",
@@ -547,11 +548,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772665200000,
-        "lastRunAtMs": 1772622017619,
+        "nextRunAtMs": 1772622000000,
+        "lastRunAtMs": 1772596057346,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 25673,
+        "lastDurationMs": 13545,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
         "lastDelivered": true
@@ -563,7 +564,7 @@
       "name": "能力同步与PDCA-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772625911500,
+      "updatedAtMs": 1772611733678,
       "schedule": {
         "expr": "5 */4 * * *",
         "kind": "cron",
@@ -574,21 +575,21 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行能力锚点同步与PDCA循环：\n1. 能力锚点自动同步：node /root/.openclaw/workspace/skills/isc-capability-anchor-sync/index.js\n2. PDCA-C执行引擎（计划-执行-检查-行动循环）：node /root/.openclaw/workspace/skills/pdca-engine/index.js\n报告执行结果。",
-        "model": "claude/claude-opus-4-6-thinking",
+        "model": "claude/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 300
       },
       "delivery": {
-        "mode": "announce"
+        "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772640300000,
-        "lastRunAtMs": 1772625900006,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 11494,
-        "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 1,
-        "lastError": "Delivering to Feishu requires target <chatId|user:openId|chat:chatId>"
+        "nextRunAtMs": 1772625900000,
+        "lastRunAtMs": 1772611500005,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 233673,
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0
       }
     },
     {
@@ -597,7 +598,7 @@
       "name": "ISC-技能质量管理-每日",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772625635109,
+      "updatedAtMs": 1772539229541,
       "schedule": {
         "expr": "0 20 * * *",
         "kind": "cron",
@@ -609,21 +610,21 @@
         "kind": "agentTurn",
         "message": "执行ISC技能质量管理：\n1. 技能使用审计：bash /root/.openclaw/workspace/skills/isc-core/bin/skill-usage-audit.sh\n2. N023-为缺少评测集的技能自动生成评测标准：node /root/.openclaw/workspace/skills/isc-core/bin/n023-executor.js\n生成审计报告。",
         "timeoutSeconds": 180,
-        "model": "claude/claude-opus-4-6-thinking"
+        "model": "claude/claude-sonnet-4-6-thinking"
       },
       "delivery": {
         "mode": "announce",
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772712000000,
-        "lastRunAtMs": 1772625614018,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 21091,
-        "lastDeliveryStatus": "delivered",
-        "consecutiveErrors": 0,
-        "lastDelivered": true
+        "nextRunAtMs": 1772625600000,
+        "lastRunAtMs": 1772539200007,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 29534,
+        "lastError": "cron announce delivery failed",
+        "lastDeliveryStatus": "unknown",
+        "consecutiveErrors": 1
       }
     },
     {
@@ -632,7 +633,7 @@
       "name": "运维辅助-清理与向量化-综合",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772620551945,
+      "updatedAtMs": 1772598900008,
       "schedule": {
         "expr": "35 */6 * * *",
         "kind": "cron",
@@ -650,14 +651,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772642100000,
-        "lastRunAtMs": 1772620500008,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 51937,
-        "lastDeliveryStatus": "not-delivered",
+        "nextRunAtMs": 1772620500000,
+        "lastRunAtMs": 1772598900008,
+        "lastRunStatus": "skipped",
+        "lastStatus": "skipped",
+        "lastDurationMs": 0,
+        "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastError": "disabled"
       }
     },
     {
@@ -666,7 +667,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772627708222,
+      "updatedAtMs": 1772612294865,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -684,14 +685,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772628000000,
-        "lastRunAtMs": 1772627700006,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 8216,
-        "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0,
-        "lastDelivered": false
+        "nextRunAtMs": 1772615894865,
+        "lastRunAtMs": 1772612234857,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 60008,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 5,
+        "lastError": "cron: job execution timed out"
       }
     },
     {
@@ -700,7 +701,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772627434571,
+      "updatedAtMs": 1772614841296,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -718,11 +719,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772628300000,
-        "lastRunAtMs": 1772627427278,
+        "nextRunAtMs": 1772615700000,
+        "lastRunAtMs": 1772614820384,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7293,
+        "lastDurationMs": 20912,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -734,7 +735,7 @@
       "name": "记忆摘要-每6小时",
       "enabled": true,
       "createdAtMs": 1772607350016,
-      "updatedAtMs": 1772618474265,
+      "updatedAtMs": 1772607350016,
       "schedule": {
         "expr": "0 */6 * * *",
         "kind": "cron",
@@ -753,14 +754,7 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772640010278,
-        "lastRunAtMs": 1772618457413,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 16852,
-        "lastDelivered": false,
-        "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0
+        "nextRunAtMs": 1772618410278
       }
     }
   ]

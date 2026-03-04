@@ -1,7 +1,7 @@
 {
   "type": "decision-rule",
   "id": "R006",
-  "name": "council_of_seven_required",
+  "name": "lingxiaoge_tribunal_required",
   "description": "关键决策必经七人议会审议 - 所有新规则、订阅变更、流水线模块更新",
   "condition": "impact > 3 OR priority >= 9 OR type IN (security, architecture, new_skill, merge_skill, critical_rule, new_rule, subscription_change, pipeline_update)",
   "threshold": {
@@ -20,7 +20,7 @@
     "approval_ratio": 0.6
   },
   "priority": 10,
-  "action": "trigger_council_of_seven_deliberation",
+  "action": "trigger_lingxiaoge_tribunal_deliberation",
   "integration": {
     "script": "/root/.openclaw/workspace/skills/isc-core/integrations/council_integration.py",
     "council_script": "/root/.openclaw/workspace/skills/council-of-seven/council.py",

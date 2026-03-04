@@ -1,12 +1,12 @@
-# 凌烟阁 Lingyan Tribunal 🏛️
+# 凌霄阁-7人裁决神殿 ⚡🏛️
 
 > 七位智者，三轮辩论，一个裁决。
 
 ## 概述
 
-凌烟阁是基于 OpenClaw 多 Agent 架构的深度决策机制。不同于传统的投票表决，凌烟阁让 7 个 Agent 以不同视角独立思考、互相质疑、二次修正，最终由战略家综合裁决。
+凌霄阁-7人裁决神殿是基于 OpenClaw 多 Agent 架构的深度决策机制。不同于传统的投票表决，凌霄阁-7人裁决神殿让 7 个 Agent 以不同视角独立思考、互相质疑、二次修正，最终由战略家综合裁决。
 
-**命名典故**：唐太宗凌烟阁二十四功臣——最高决策殿堂。
+**命名典故**：唐太宗凌霄阁-7人裁决神殿二十四功臣——最高决策殿堂。
 
 ## 七席
 
@@ -49,11 +49,11 @@
 主 Agent 在 SKILL.md 中读取本技能后，按三轮制编排 sessions_spawn 调用。
 
 ### 触发示例
-用户说"开凌烟阁讨论 XXX"时触发。
+用户说"开凌霄阁-7人裁决神殿讨论 XXX"时触发。
 
 ## 元数据
 - name: council-of-seven
 - version: "3.0.2"
-- description: 凌烟阁 Lingyan Tribunal - 七席三轮对抗式深度决策机制
+- description: 凌霄阁-7人裁决神殿 Lingxiaoge Tribunal - 七席三轮对抗式深度决策机制
 - status: implemented
 - author: Strategic Commander
