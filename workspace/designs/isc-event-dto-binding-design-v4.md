@@ -1,12 +1,13 @@
-# ISC-事件-DTO 闭环方案 v4.2 — 五层事件认知模型（二轮复审全修正版）
+# ISC-事件-DTO 闭环方案 v4.3 — 五层事件认知模型（意图识别体系 + 三阻断项修复版）
 
-> **版本**: v4.2.0
+> **版本**: v4.3.0
 > **作者**: 系统架构师
 > **日期**: 2026-03-04
-> **状态**: V4.2 REVISED — 工程可行性审查 + 质量审查 + 二轮复审全修正
+> **状态**: V4.3 — 意图-事件识别与映射体系 + 三阻断项工程修复
 > **前置**: v3的全面升级，基于用户五层事件认知模型教学（3小时深度教学）
 > **v4.1变更**: 修正覆盖率统计、补齐闭环执行路径、解决语义稀释、增加工程可行性方案、增加名词治理机制
 > **v4.2变更**: 容灾降级回滚、事件风暴抑制、端到端Trace、消息钩子精确集成、semanticSimilarity实现、DTO双写去重+subscription迁移、事件反馈环防护、10+空壳函数填充
+> **v4.3变更**: 意图-事件识别与映射体系（CRAS识别+AEO治理，五类收敛+未知意图发现+反熵增治理+AEO准出门禁）、推导算法12个判断函数实现、bus.consume() type_filter/since完整实现、Dispatcher loadHandler/matchRoute通配优先级策略
 
 ---
 
@@ -453,7 +454,336 @@ function deriveIntentSubtype(rule) {
   const ruleContext = extractRuleContext(rule);
   return subtypeMap[ruleContext] || `${rule.domain}_${rule.action}`;
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// 以下12个判断函数 — v4.3补齐，消除推导算法黑箱
+// 每个函数基于规则JSON的字段结构做确定性判断
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * 规则JSON结构约定（所有判断函数的输入）:
+ * {
+ *   rule_id: "R01",
+ *   name: "ISC格式统一",
+ *   domain: "isc",            // 一级域（isc/skill/quality/security/...）
+ *   object: "rule",           // 被治理的对象
+ *   description: "...",       // 自然语言描述
+ *   severity: "high",         // critical/high/medium/low
+ *   tags: ["format", "compliance"],  // 标签集
+ *   trigger: { events: {...}, condition: {...}, sweep: {...} },
+ *   action: { type: "validate", handler: "...", on_failure: "warn" },
+ *   metadata: { involves_user: false, has_threshold: true, ... }
+ * }
+ */
+
+// ─── L1 判断函数 ───────────────────────────────────────────
+
+/**
+ * 判断规则是否治理对象生命周期（CRUD操作）
+ * 判断标准：
+ *   1. 规则的action.type包含validate/enforce/auto_fix（对对象施加操作）
+ *   2. 规则的domain+object对应一个被管理实体（非纯度量）
+ *   3. 排除：纯阈值驱动规则（R04/R07/R09/R34/R61）无对象生命周期
+ */
+function ruleGovernsObjectLifecycle(rule) {
+  // 硬排除：已确认无L1事件的5条规则
+  const noLifecycleRules = new Set(['R04', 'R07', 'R09', 'R34', 'R61']);
+  if (noLifecycleRules.has(rule.rule_id)) return false;
+
+  // 规则管理的对象存在可被创建/修改/删除的实体
+  const manageableObjects = [
+    'rule', 'skill', 'md', 'config', 'task', 'evaluation',
+    'report', 'message', 'knowledge', 'memory', 'plan',
+    'pipeline', 'decision', 'design', 'file', 'apikey',
+    'cron', 'subagent', 'capability_anchor'
+  ];
+  const ruleObject = (rule.object || '').toLowerCase();
+  if (manageableObjects.some(obj => ruleObject.includes(obj))) return true;
+
+  // 兜底：action.type为validate/enforce/auto_fix意味着对实体施加操作
+  const actionType = (rule.action?.type || '').toLowerCase();
+  if (['validate', 'enforce', 'auto_fix', 'pipeline'].includes(actionType)) return true;
+
+  return false;
+}
+
+/**
+ * 判断规则是否治理对象删除
+ * 判断标准：描述或tags中包含删除/清理/废弃/移除相关语义
+ */
+function ruleGovernsObjectDeletion(rule) {
+  const deletionKeywords = [
+    '删除', '清理', '废弃', '移除', '归档', '过期',
+    'delete', 'remove', 'cleanup', 'archive', 'expire', 'purge'
+  ];
+  const searchText = `${rule.description || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+  return deletionKeywords.some(kw => searchText.includes(kw));
+}
+
+// ─── L2 判断函数 ───────────────────────────────────────────
+
+/**
+ * 判断规则是否包含可量化条件（阈值/计数/百分比）
+ * 判断标准：
+ *   1. trigger.condition中包含数值比较
+ *   2. 描述中包含量化词汇（阈值/比率/频率/次数/分数）
+ *   3. action.type为validate（隐含验证标准=量化条件）
+ */
+function hasQuantifiableCondition(rule) {
+  // 检查trigger.condition是否包含数值表达式
+  const conditionStr = JSON.stringify(rule.trigger?.condition || '');
+  const quantPatterns = [
+    /threshold/i, />=|<=|>|</,
+    /\d+%/, /count/i, /rate/i, /score/i,
+    /min_confidence/i, /frequency/i
+  ];
+  if (quantPatterns.some(p => p.test(conditionStr))) return true;
+
+  // 检查描述中的量化词汇
+  const quantKeywords = [
+    '阈值', '比率', '频率', '次数', '分数', '百分比', '覆盖率',
+    '准确率', '成功率', '错误率', '上限', '下限', '超过', '低于',
+    'threshold', 'rate', 'count', 'score', 'percentage', 'limit'
+  ];
+  const descText = (rule.description || '').toLowerCase();
+  if (quantKeywords.some(kw => descText.includes(kw))) return true;
+
+  // 检查tags
+  const quantTags = ['threshold', 'metric', 'quantitative', 'scoring'];
+  if ((rule.tags || []).some(t => quantTags.includes(t.toLowerCase()))) return true;
+
+  return false;
+}
+
+/**
+ * 判断规则是否包含完整性检查（缺口/缺失检测）
+ * 判断标准：规则检查"某些东西是否存在/完整"
+ */
+function hasCompletenessCheck(rule) {
+  const completenessKeywords = [
+    '缺失', '缺少', '不完整', '未覆盖', '遗漏', '空缺',
+    '必须存在', '必须包含', '必须有', '强制', '必填',
+    'missing', 'incomplete', 'gap', 'required', 'mandatory',
+    'must have', 'must include', 'must exist'
+  ];
+  const searchText = `${rule.description || ''} ${rule.name || ''}`.toLowerCase();
+  return completenessKeywords.some(kw => searchText.includes(kw));
+}
+
+/**
+ * 判断规则是否包含验证标准（通过/不通过）
+ * 判断标准：规则对对象施加合规性校验
+ */
+function hasValidationCriteria(rule) {
+  // action.type为validate是最直接的信号
+  if (rule.action?.type === 'validate') return true;
+
+  const validationKeywords = [
+    '校验', '验证', '合规', '规范', '格式', '标准',
+    '命名', '质量', '安全', '权限', '准入', '准出',
+    'validate', 'verify', 'comply', 'format', 'standard',
+    'naming', 'quality', 'security', 'permission', 'gate'
+  ];
+  const searchText = `${rule.description || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+  return validationKeywords.some(kw => searchText.includes(kw));
+}
+
+// ─── L3 判断函数 ───────────────────────────────────────────
+
+/**
+ * 判断规则是否涉及用户交互/意图
+ * 判断标准：
+ *   1. 规则的触发源包含用户消息/对话
+ *   2. 规则的domain涉及interaction/orchestration
+ *   3. 描述中包含"用户"、"意图"、"请求"等交互词汇
+ *   4. metadata.involves_user显式标记
+ */
+function ruleInvolvesUserInteraction(rule) {
+  // 显式标记
+  if (rule.metadata?.involves_user === true) return true;
+  if (rule.metadata?.involves_user === false) return false;
+
+  // domain级判断
+  const interactiveDomains = ['interaction', 'orchestration'];
+  if (interactiveDomains.includes(rule.domain)) return true;
+
+  // 关键词检测
+  const interactionKeywords = [
+    '用户', '意图', '请求', '消息', '对话', '交互',
+    '反馈', '情绪', '指令', '命令', '输入',
+    'user', 'intent', 'request', 'message', 'conversation',
+    'interaction', 'feedback', 'command', 'input'
+  ];
+  const searchText = `${rule.description || ''} ${rule.name || ''}`.toLowerCase();
+  return interactionKeywords.some(kw => searchText.includes(kw));
+}
+
+/**
+ * 判断规则是否涉及用户情绪
+ * 判断标准：规则的应用场景包含用户满意度/不满/挫败感
+ */
+function ruleInvolvesUserSentiment(rule) {
+  const sentimentKeywords = [
+    '情绪', '满意', '不满', '挫败', '抱怨', '满足', '失望',
+    '体验', '反馈质量', '用户感受',
+    'sentiment', 'satisfaction', 'frustration', 'emotion',
+    'user experience', 'feedback quality'
+  ];
+  const searchText = `${rule.description || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+  return sentimentKeywords.some(kw => searchText.includes(kw));
+}
+
+/**
+ * 判断规则是否涉及对话模式（反复纠正、反复强调等）
+ * 判断标准：规则关注对话层面的重复/模式/趋势
+ */
+function ruleInvolvesConversationPattern(rule) {
+  const patternKeywords = [
+    '反复', '重复', '多次', '持续', '模式', '趋势',
+    '纠正', '强调', '教学', '偏好', '习惯',
+    'recurring', 'repeated', 'pattern', 'trend',
+    'correction', 'emphasis', 'preference'
+  ];
+  const searchText = `${rule.description || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+
+  // 额外条件：必须同时涉及用户交互
+  const hasPattern = patternKeywords.some(kw => searchText.includes(kw));
+  return hasPattern && ruleInvolvesUserInteraction(rule);
+}
+
+// ─── L4 判断函数 ───────────────────────────────────────────
+
+/**
+ * 判断规则是否可受外部知识驱动
+ * 判断标准：
+ *   1. 规则治理的领域存在外部最佳实践（安全/架构/文档/工具）
+ *   2. 规则的验证标准可能随行业发展变化
+ *   3. 排除：纯内部逻辑规则（ISC格式、DTO握手等）
+ */
+function ruleCouldBenefitFromExternalKnowledge(rule) {
+  // 某些domain天然受外部知识驱动
+  const knowledgeDrivenDomains = ['security', 'quality'];
+  if (knowledgeDrivenDomains.includes(rule.domain)) return true;
+
+  // 关键词检测：规则涉及可从外部学习的领域
+  const knowledgeKeywords = [
+    '最佳实践', '行业标准', '安全', '架构', '模式', '方法论',
+    '工具', '框架', '技术选型', '性能优化', '模型',
+    'best practice', 'standard', 'pattern', 'framework',
+    'optimization', 'methodology', 'tool', 'model capability'
+  ];
+  const searchText = `${rule.description || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+  if (knowledgeKeywords.some(kw => searchText.includes(kw))) return true;
+
+  // 规则涉及的对象有外部对标可能
+  const externalizableObjects = [
+    'documentation', 'naming', 'permission', 'api',
+    'report', 'architecture', 'coordination'
+  ];
+  const ruleObject = (rule.object || '').toLowerCase();
+  return externalizableObjects.some(obj => ruleObject.includes(obj));
+}
+
+// ─── L5 判断函数 ───────────────────────────────────────────
+
+/**
+ * 判断规则是否涉及错误处理/故障模式
+ * 判断标准：规则的触发或执行与错误、失败、异常相关
+ */
+function ruleInvolvesErrorHandling(rule) {
+  const errorKeywords = [
+    '错误', '失败', '异常', '超时', '重试', '回退', '降级',
+    '报警', '告警', '限流', '过期', '无效', '损坏',
+    'error', 'failure', 'exception', 'timeout', 'retry',
+    'fallback', 'degrade', 'alert', 'rate_limit', 'invalid'
+  ];
+  const searchText = `${rule.description || ''} ${rule.name || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+  if (errorKeywords.some(kw => searchText.includes(kw))) return true;
+
+  // action.on_failure不是warn意味着规则关注失败场景
+  const onFailure = rule.action?.on_failure || 'warn';
+  return ['retry', 'escalate', 'reject'].includes(onFailure);
+}
+
+/**
+ * 判断规则是否涉及质量检查
+ * 判断标准：规则的目标是维护/提升某种质量指标
+ */
+function ruleInvolvesQuality(rule) {
+  // domain为quality是最直接的信号
+  if (rule.domain === 'quality') return true;
+
+  const qualityKeywords = [
+    '质量', '完整性', '一致性', '规范性', '覆盖率', '评分',
+    '合规', '健康', '技术债', '代码质量', '文档质量',
+    'quality', 'completeness', 'consistency', 'compliance',
+    'coverage', 'health', 'tech debt', 'score'
+  ];
+  const searchText = `${rule.description || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+  return qualityKeywords.some(kw => searchText.includes(kw));
+}
+
+// ─── 辅助函数 ──────────────────────────────────────────────
+
+/**
+ * 提取规则的语义上下文（用于意图子类型推导）
+ * 从规则的domain/object/description/tags综合推导语义类别
+ */
+function extractRuleContext(rule) {
+  // 优先从metadata显式标记获取
+  if (rule.metadata?.intent_context) return rule.metadata.intent_context;
+
+  // 基于关键词的上下文推导映射
+  const contextPatterns = [
+    { keywords: ['文件', '发送', '交付', 'file', 'delivery', 'send'], context: 'file_delivery' },
+    { keywords: ['视觉', '图片', '图像', 'vision', 'image', 'ocr'], context: 'vision' },
+    { keywords: ['模型', '路由', '选择', 'model', 'routing', 'select'], context: 'model_routing' },
+    { keywords: ['规则', '创建', '新增', 'rule', 'create'], context: 'rule_creation' },
+    { keywords: ['技能化', '封装', 'skillif', 'skill creation'], context: 'skill_creation' },
+    { keywords: ['评测', '评估', '测试', 'evaluat', 'benchmark', 'test'], context: 'evaluation' },
+    { keywords: ['能力', '声明', '锚点', 'capability', 'declare', 'anchor'], context: 'capability_declaration' },
+    { keywords: ['双语', '中英', 'bilingual', 'i18n'], context: 'bilingual' },
+    { keywords: ['并行', '并发', 'parallel', 'concurrent'], context: 'parallel' },
+    { keywords: ['优先级', 'priority', 'urgency'], context: 'priority' },
+    { keywords: ['时间', '粒度', '计划', 'time', 'granularity', 'plan'], context: 'time_planning' },
+    { keywords: ['审议', '议会', '评审', 'council', 'review', 'deliberat'], context: 'council_review' }
+  ];
+
+  const searchText = `${rule.description || ''} ${rule.name || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+
+  for (const { keywords, context } of contextPatterns) {
+    if (keywords.some(kw => searchText.includes(kw))) return context;
+  }
+
+  // 兜底：用domain_object作为上下文
+  return `${rule.domain || 'unknown'}_${rule.object || 'general'}`;
+}
+
+/**
+ * 推导情绪子类型
+ */
+function deriveSentimentSubtype(rule) {
+  const sentimentPatterns = [
+    { keywords: ['挫败', 'frustrat'], subtype: 'frustration' },
+    { keywords: ['满意', 'satisf'], subtype: 'satisfaction' },
+    { keywords: ['文档质量', 'doc quality'], subtype: 'doc_quality' },
+    { keywords: ['信息过载', 'overload'], subtype: 'info_overload' }
+  ];
+  const searchText = `${rule.description || ''} ${(rule.tags || []).join(' ')}`.toLowerCase();
+  for (const { keywords, subtype } of sentimentPatterns) {
+    if (keywords.some(kw => searchText.includes(kw))) return subtype;
+  }
+  return 'general';
+}
 ```
+
+> **v4.3关键修复**：以上12个判断函数 + 2个辅助函数，从v4.1/v4.2的"调用签名无函数体"升级为完整的确定性实现。每个函数基于规则JSON的字段结构做多维度关键词+结构检查，支撑`derive-events-v4.js`对3000+条规则的自动推导——不再依赖人工标注。
+>
+> **判断策略分层**：
+> 1. **硬编码排除**（如`noLifecycleRules`）：对已确认的特例做精确处理
+> 2. **结构性判断**（如`rule.action?.type === 'validate'`）：检查规则JSON的具体字段值
+> 3. **关键词扫描**（如description/tags中的语义词汇）：覆盖长尾场景
+> 4. **兜底策略**（如`extractRuleContext`的`domain_object`兜底）：确保不返回undefined
 
 ### 2.7 可扩展性论证（77→3000→30000）
 
@@ -2804,13 +3134,55 @@ function emit(type, payload, source) {
   return event.id;
 }
 
-// consume — 基于cursor读取未消费事件
+// consume — 基于cursor读取未消费事件 ★v4.3完整实现：支持type_filter + since
 function consume(consumerId, options = {}) {
   const cursor = readCursor(consumerId);
   const events = readEventsFromOffset(cursor.offset);
   const acked = loadAckedSet(consumerId);  // 从acks.jsonl加载该消费者已ack的事件ID集合
   
-  return events.filter(e => !acked.has(e.id));
+  let filtered = events.filter(e => !acked.has(e.id));
+  
+  // ─── type_filter: 支持精确匹配和通配符 ───
+  // 通配符规则: 
+  //   'user.intent.file_request.inferred' → 精确匹配
+  //   'user.intent.*' → 匹配 user.intent 下任意子路径
+  //   '*.failed' → 匹配任何以 .failed 结尾的事件
+  //   '*' → 匹配所有（等于不过滤）
+  if (options.type_filter && options.type_filter !== '*') {
+    const filter = options.type_filter;
+    
+    if (filter.includes('*')) {
+      // 通配符匹配：将 * 转为正则
+      // 'user.intent.*' → /^user\.intent\..+$/
+      // '*.failed' → /^.+\.failed$/
+      const regexStr = '^' + filter
+        .replace(/\./g, '\\.')       // 转义.
+        .replace(/\*/g, '.+')        // * → .+（至少匹配一个字符）
+        + '$';
+      const regex = new RegExp(regexStr);
+      filtered = filtered.filter(e => regex.test(e.type));
+    } else {
+      // 精确匹配
+      filtered = filtered.filter(e => e.type === filter);
+    }
+  }
+  
+  // ─── since: 时间戳过滤（只返回该时间之后的事件） ───
+  if (options.since && typeof options.since === 'number') {
+    filtered = filtered.filter(e => e.timestamp >= options.since);
+  }
+  
+  // ─── layer: 按事件层级过滤（可选） ───
+  if (options.layer) {
+    filtered = filtered.filter(e => e.layer === options.layer);
+  }
+  
+  // ─── limit: 限制返回数量（可选，防止大量事件撑爆内存） ───
+  if (options.limit && typeof options.limit === 'number') {
+    filtered = filtered.slice(0, options.limit);
+  }
+  
+  return filtered;
 }
 
 // ack — O(1)追加，不再O(n)重写
@@ -3374,6 +3746,321 @@ const testCases = [
 | **D16** ★ | **bus.js ack改为追加式，不重写events.jsonl** | O(n)全量重写在5层事件吞吐下是性能灾难 | v4.1工程审查 |
 | **D17** ★ | **CRAS数据源用消息钩子替代session历史读取** | session历史不可从skill直接访问 | v4.1工程审查 |
 | **D18** ★ | **不声称"基于现有代码可落地"** | L3-L5+META探针全部需新建，工期24-28天 | v4.1工程审查（诚实） |
+
+---
+
+## 第八·十三部分：Dispatcher核心路由引擎 ★v4.3新增
+
+> **v4.2遗留阻断项**：`loadHandler()`和`matchRoute()`是事件系统中枢，但此前只有调用签名无实现。通配匹配优先级策略（精确 > 前缀 > 通配 > 默认）直接影响事件路由的正确性。
+
+### 8.13.1 路由匹配引擎
+
+```javascript
+// infrastructure/dispatcher/dispatcher.js — 完整实现 ★v4.3
+
+const fs = require('fs');
+const path = require('path');
+
+const ROUTES_FILE = path.join(__dirname, 'routes.json');
+const HANDLERS_DIR = path.join(__dirname, 'handlers');
+
+class Dispatcher {
+  constructor() {
+    this._routes = null;           // 路由表缓存
+    this._routesMtime = 0;         // 路由表文件修改时间
+    this._handlerCache = {};       // handler模块缓存
+    this._compiledRoutes = null;   // 编译后的路由（按优先级排序）
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // matchRoute — 四级优先级路由匹配
+  // ═══════════════════════════════════════════════════════════
+
+  /**
+   * 匹配事件类型到路由配置
+   * 
+   * 优先级（从高到低）：
+   *   1. 精确匹配 (exact)     — "user.intent.file_request.inferred"
+   *   2. 前缀通配 (prefix)    — "user.intent.*"
+   *   3. 后缀通配 (suffix)    — "*.failed"
+   *   4. 全通配 (global)      — "*"
+   * 
+   * 同级别内：更具体的匹配优先（更长的非通配前缀）
+   * 
+   * @param {string} eventType — 事件类型，如 "user.intent.file_request.inferred"
+   * @returns {Object|null} — 匹配的路由配置，或null（无匹配）
+   */
+  matchRoute(eventType) {
+    const routes = this._getCompiledRoutes();
+
+    // Phase 1: 精确匹配（O(1) HashMap查找）
+    if (routes.exact[eventType]) {
+      return { ...routes.exact[eventType], _match_type: 'exact', _pattern: eventType };
+    }
+
+    // Phase 2: 前缀通配匹配（按前缀长度降序，更具体的优先）
+    for (const { pattern, regex, prefixLen, config } of routes.prefix) {
+      if (regex.test(eventType)) {
+        return { ...config, _match_type: 'prefix', _pattern: pattern };
+      }
+    }
+
+    // Phase 3: 后缀通配匹配
+    for (const { pattern, regex, config } of routes.suffix) {
+      if (regex.test(eventType)) {
+        return { ...config, _match_type: 'suffix', _pattern: pattern };
+      }
+    }
+
+    // Phase 4: 全通配
+    if (routes.global) {
+      return { ...routes.global, _match_type: 'global', _pattern: '*' };
+    }
+
+    return null; // 无匹配
+  }
+
+  /**
+   * 编译routes.json为按优先级分类的路由结构
+   * 编译一次，缓存复用（routes.json变更时重新编译）
+   */
+  _getCompiledRoutes() {
+    this._reloadIfChanged();
+    if (this._compiledRoutes) return this._compiledRoutes;
+
+    const raw = this._routes;
+    const compiled = {
+      exact: {},     // 精确匹配: { eventType: config }
+      prefix: [],    // 前缀通配: [{ pattern, regex, prefixLen, config }]（按prefixLen降序）
+      suffix: [],    // 后缀通配: [{ pattern, regex, config }]
+      global: null   // 全通配: config
+    };
+
+    for (const [pattern, config] of Object.entries(raw)) {
+      if (pattern === '*') {
+        // 全通配
+        compiled.global = config;
+      } else if (!pattern.includes('*')) {
+        // 精确匹配
+        compiled.exact[pattern] = config;
+      } else if (pattern.endsWith('.*')) {
+        // 前缀通配: "user.intent.*"
+        const prefix = pattern.slice(0, -2); // "user.intent"
+        const regexStr = '^' + prefix.replace(/\./g, '\\.') + '\\..+$';
+        compiled.prefix.push({
+          pattern,
+          regex: new RegExp(regexStr),
+          prefixLen: prefix.length,
+          config
+        });
+      } else if (pattern.startsWith('*.')) {
+        // 后缀通配: "*.failed"
+        const suffix = pattern.slice(2); // "failed"
+        const regexStr = '^.+\\.' + suffix.replace(/\./g, '\\.') + '$';
+        compiled.suffix.push({
+          pattern,
+          regex: new RegExp(regexStr),
+          config
+        });
+      } else {
+        // 中间通配（罕见，如 "user.*.inferred"）— 退化为正则
+        const regexStr = '^' + pattern
+          .replace(/\./g, '\\.')
+          .replace(/\*/g, '.+')
+          + '$';
+        // 中间通配按前缀长度归入prefix组
+        const prefixLen = pattern.indexOf('*');
+        compiled.prefix.push({
+          pattern,
+          regex: new RegExp(regexStr),
+          prefixLen,
+          config
+        });
+      }
+    }
+
+    // 前缀通配按 prefixLen 降序排序（更具体的优先）
+    compiled.prefix.sort((a, b) => b.prefixLen - a.prefixLen);
+
+    this._compiledRoutes = compiled;
+    return compiled;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // loadHandler — 约定式handler加载
+  // ═══════════════════════════════════════════════════════════
+
+  /**
+   * 根据handler名称加载handler模块
+   * 
+   * 加载约定（按顺序查找）：
+   *   1. handlers/{name}.js          — 标准位置
+   *   2. handlers/{name}/index.js    — 目录形式
+   *   3. ../../skills/{name}/handler.js  — 技能内嵌handler
+   * 
+   * handler模块必须导出:
+   *   { handle: async function(event) → result }
+   * 
+   * @param {string} handlerName — handler名称
+   * @returns {Object} — handler模块实例（含handle方法）
+   * @throws {Error} — handler不存在或加载失败
+   */
+  loadHandler(handlerName) {
+    // 缓存命中
+    if (this._handlerCache[handlerName]) {
+      return this._handlerCache[handlerName];
+    }
+
+    // 按约定顺序查找handler文件
+    const searchPaths = [
+      path.join(HANDLERS_DIR, `${handlerName}.js`),
+      path.join(HANDLERS_DIR, handlerName, 'index.js'),
+      path.join(__dirname, '../../skills', handlerName, 'handler.js')
+    ];
+
+    for (const handlerPath of searchPaths) {
+      if (fs.existsSync(handlerPath)) {
+        try {
+          const handler = require(handlerPath);
+
+          // 验证handler接口
+          if (typeof handler.handle !== 'function') {
+            throw new Error(
+              `Handler '${handlerName}' at ${handlerPath} does not export handle() function`
+            );
+          }
+
+          this._handlerCache[handlerName] = handler;
+          return handler;
+
+        } catch (e) {
+          if (e.code === 'MODULE_NOT_FOUND') continue; // 尝试下一个路径
+          throw e; // 其他错误直接抛出
+        }
+      }
+    }
+
+    throw new Error(
+      `Handler '${handlerName}' not found. Searched:\n` +
+      searchPaths.map(p => `  - ${p}`).join('\n')
+    );
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // 路由表热重载
+  // ═══════════════════════════════════════════════════════════
+
+  _reloadIfChanged() {
+    try {
+      const stat = fs.statSync(ROUTES_FILE);
+      if (stat.mtimeMs > this._routesMtime) {
+        this._routes = JSON.parse(fs.readFileSync(ROUTES_FILE, 'utf8'));
+        this._routesMtime = stat.mtimeMs;
+        this._compiledRoutes = null; // 清除编译缓存，下次调用重新编译
+        this._handlerCache = {};     // 清除handler缓存（路由变更可能影响handler映射）
+      }
+    } catch (e) {
+      if (!this._routes) {
+        this._routes = {};
+        console.error(`Failed to load routes.json: ${e.message}`);
+      }
+    }
+  }
+}
+
+module.exports = { Dispatcher };
+```
+
+### 8.13.2 路由匹配优先级示例
+
+```
+routes.json 内容:
+{
+  "user.intent.file_request.inferred": { "handler": "file-sender", ... },      // 精确
+  "user.intent.*":                      { "handler": "intent-dispatcher", ... }, // 前缀通配
+  "user.sentiment.*":                   { "handler": "sentiment-handler", ... }, // 前缀通配
+  "*.failed":                           { "handler": "failure-handler", ... },   // 后缀通配
+  "*":                                  { "handler": "default-handler", ... }    // 全通配
+}
+
+事件路由结果:
+  "user.intent.file_request.inferred"  → file-sender        (精确匹配优先)
+  "user.intent.vision_task.inferred"   → intent-dispatcher   (前缀通配)
+  "user.sentiment.frustration.shifted" → sentiment-handler   (前缀通配)
+  "dto.task.failed"                    → failure-handler     (后缀通配)
+  "isc.rule.created"                   → default-handler     (全通配兜底)
+```
+
+### 8.13.3 Handler接口契约
+
+```javascript
+// handlers/example-handler.js — handler标准模板
+
+/**
+ * Handler接口契约:
+ * - 必须导出 handle(event) 异步函数
+ * - event 包含: { id, type, layer, source, probe, timestamp, payload, metadata }
+ * - 返回值: { success: boolean, emittedEvents?: Array, result?: any }
+ * - 抛出异常: 由Dispatcher容灾包装器处理（重试+降级，见Part 8.6）
+ */
+module.exports = {
+  async handle(event) {
+    const { type, payload, metadata } = event;
+
+    // 1. 业务逻辑
+    const result = await processEvent(payload);
+
+    // 2. 可选：emit下游事件（传递trace_id形成因果链）
+    const bus = require('../../event-bus/bus.js');
+    const downstream = bus.emit('downstream.event.type', {
+      upstream_event_id: event.id,
+      result_data: result
+    }, 'example-handler', metadata?.trace_id);
+
+    return {
+      success: true,
+      emittedEvents: [downstream],
+      result
+    };
+  }
+};
+```
+
+### 8.13.4 与容灾包装器的集成
+
+Dispatcher的`dispatch()`方法整合了matchRoute + loadHandler + 容灾执行（Part 8.6）+ Trace注入（Part 8.8）+ 限流（Part 8.7）的完整链路：
+
+```javascript
+// 完整dispatch流程（伪代码）
+
+async dispatch(event) {
+  // 1. 路由匹配
+  const route = this.matchRoute(event.type);
+  if (!route) {
+    // 无匹配路由 → 记录到未路由事件日志（可能是新事件类型）
+    bus.emit('dispatcher.event.unrouted', { event_type: event.type }, 'dispatcher');
+    return;
+  }
+
+  // 2. 限流检查（Part 8.7）
+  if (!rateLimiter.allow(route.handler, event.type)) {
+    bus.emit('dispatcher.event.rate_limited', {
+      handler: route.handler, event_type: event.type
+    }, 'dispatcher');
+    return;
+  }
+
+  // 3. 反馈环深度检查（Part 8.12）
+  if (!feedbackGuard.checkChainDepth(event)) return;
+
+  // 4. 加载handler
+  const handler = this.loadHandler(route.handler);
+
+  // 5. 容灾包装执行（Part 8.6: 重试+超时+降级）
+  await this.executeHandler(route.handler, event);
+  // executeHandler 内部已包含Trace span记录（Part 8.8）
+}
+```
 
 ---
 
