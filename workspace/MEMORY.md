@@ -1,4 +1,12 @@
 
+## 搜索工具认知修正（2026-03-06）
+**web_search(Brave)不是唯一搜索工具，也不是首选。**
+- **tavily-search**：AI优化搜索引擎，CRAS调研/主动学习首选，输出AI摘要+结构化结果
+- **web_search**：OpenClaw内置Brave搜索，通用备选
+- 教训：系统prompt里列了web_search导致条件反射选它，完全忽略了skills目录里的tavily-search
+- **根因**：没有按AGENTS.md要求启动时读CAPABILITY-ANCHOR.md，导致近因偏差覆盖了正确认知
+- **规则**：涉及搜索需求时，先查能力锚点确认可用工具，不要凭直觉
+
 ## ISC-事件-DTO闭环（2026-03-04决策）
 - 77条ISC规则中51条不可执行（缺trigger或action）
 - DTO只有3个任务定义，严重不对齐
