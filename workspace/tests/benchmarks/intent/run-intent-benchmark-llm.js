@@ -18,7 +18,7 @@ const DELAY_MS = args.includes('--delay') ? parseInt(args[args.indexOf('--delay'
 
 const DATASET_PATH = path.join(__dirname, 'intent-benchmark-dataset.json');
 const REPORT_PATH = path.join(__dirname, '../../../reports/day2-intent-llm-benchmark.md');
-const INTENT_ENGINE_PATH = path.join(__dirname, '../../intent-engine/intent-scanner.js');
+const INTENT_ENGINE_PATH = path.join(__dirname, '../../../infrastructure/intent-engine/intent-scanner.js');
 
 // ---- Load IntentScanner ----
 let IntentScanner;
