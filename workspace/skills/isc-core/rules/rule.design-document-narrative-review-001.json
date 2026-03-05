@@ -1,0 +1,46 @@
+{
+  "id": "rule.design-document-narrative-review-001",
+  "name": "design_document_narrative_review",
+  "domain": "quality",
+  "type": "rule",
+  "scope": "document",
+  "version": "1.0.0",
+  "description": "模拟演讲强制门禁——设计文档必须通过模拟演讲审查才能交付",
+  "rationale": "写出来的文档和讲出来的不一样，通过模拟演讲暴露叙事断层和逻辑漏洞",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "standard": {
+    "process": [
+      {
+        "id": "NR1",
+        "name": "模拟10分钟演讲",
+        "rule": "设计文档生成后必须模拟10分钟演讲，覆盖全部核心章节"
+      },
+      {
+        "id": "NR2",
+        "name": "追问标注",
+        "rule": "每段标注'评审者高概率追问什么'和'讲不清楚的原因'"
+      },
+      {
+        "id": "NR3",
+        "name": "问题修复门禁",
+        "rule": "发现问题必须修复后才能交付，不允许带伤上线"
+      },
+      {
+        "id": "NR4",
+        "name": "双层审查",
+        "rule": "分MD层审查和PDF层审查两轮，MD审查通过后生成PDF再审一轮"
+      }
+    ]
+  },
+  "trigger": {
+    "events": ["document.design.pdf_generated"],
+    "actions": ["quality.document.narrative_review"]
+  },
+  "priority": "P1",
+  "enforcement_tier": "P1_process",
+  "created_at": "2026-03-05",
+  "source": "用户教学：模拟演讲强制门禁"
+}
