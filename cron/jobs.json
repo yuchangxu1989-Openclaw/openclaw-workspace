@@ -669,7 +669,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772724617105,
+      "updatedAtMs": 1772725508277,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -687,11 +687,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772724900000,
-        "lastRunAtMs": 1772724600006,
+        "nextRunAtMs": 1772725800000,
+        "lastRunAtMs": 1772725500010,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 17099,
+        "lastDurationMs": 8267,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -703,7 +703,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772724622914,
+      "updatedAtMs": 1772725516738,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -721,11 +721,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772725500000,
-        "lastRunAtMs": 1772724617105,
+        "nextRunAtMs": 1772726400000,
+        "lastRunAtMs": 1772725508277,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 5809,
+        "lastDurationMs": 8461,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -770,7 +770,7 @@
       "id": "d2-03-cron-healer",
       "agentId": "cron-worker",
       "name": "D2-03-自愈守卫-每15分钟",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1772669566167,
       "updatedAtMs": 1772724637895,
       "schedule": {
@@ -791,7 +791,6 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772725500000,
         "lastRunAtMs": 1772724622914,
         "lastStatus": "ok",
         "consecutiveErrors": 0,

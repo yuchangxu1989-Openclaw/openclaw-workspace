@@ -1,7 +1,7 @@
 {
   "data_source": "real-conversation",
   "description": "从真实用户对话记录中提取的意图评测样本",
-  "extracted_at": "2026-03-05T23:28:00+08:00",
+  "extracted_at": "2026-03-05T23:47:00+08:00",
   "samples": [
     {
       "input": "DTO=调度引擎，事件=独立管理维度，运行时绑定",
@@ -223,6 +223,242 @@
       "data_source": "real-conversation",
       "source_file": "/root/.openclaw/workspace/reports/isc-enforcement-audit.md",
       "source_detail": "line 43"
+    },
+    {
+      "input": "对，现在的评测集是我坐在这里\"想象\"用户会怎么用，不是从真实数据里提取的。造出来的case天然缺乏真实场景的复杂度——多轮上下文、模糊表达、意图切换、中途打断、多任务并行这些真实对话里常见的模式，我一条都没造进去。",
+      "context": "讨论Day 2评测集质量问题，AI汇报了评测集构建进展后用户指出核心缺陷",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "teaching",
+        "correction",
+        "meta_request",
+        "implicit"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/media/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg",
+      "source_detail": "截图1-用户第2条消息"
+    },
+    {
+      "input": "这应该成为你的准则，未来遇到类似的任务，自动按照场景化标准来做数据采集、评测标准设计、评测集构建、评测报告生成、Badcase、根因分析、差距分析、优化评测集与评测标准、优化知识/记忆与工程实现、优化架构...连在一起的",
+      "context": "用户在纠正评测集方法论后，提出评测驱动开发闭环的完整流程",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/media/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg",
+      "source_detail": "截图1-用户第3条消息"
+    },
+    {
+      "input": "这是一条完整的评测驱动开发闭环，必须写成规则固化下来。",
+      "context": "用户确认评测驱动开发闭环流程后，要求固化为ISC规则",
+      "expected_intent_class": "IC1",
+      "expected_confidence": 0.95,
+      "complexity_tags": [
+        "implicit"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/media/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg",
+      "source_detail": "截图1-用户第4条消息"
+    },
+    {
+      "input": "另外，之前提到的例如技能的内部、外销分离这些都在Day2中做了么？这种测试用例有包含么？",
+      "context": "Day 2进展讨论中，用户突然切换话题追问之前讨论过的技能分离问题",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "multi_intent",
+        "switch",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/media/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg",
+      "source_detail": "截图1-用户第5条消息"
+    },
+    {
+      "input": "Day1过凌霄阁了么？",
+      "context": "Day 2工作进行中，用户突然问Day 1是否经过了凌霄阁审查",
+      "expected_intent_class": "IC1",
+      "expected_confidence": 0.95,
+      "complexity_tags": [
+        "switch"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/media/inbound/59fac6bb-0924-463b-af3e-55ee669dc418.jpg",
+      "source_detail": "截图2-用户第2条消息"
+    },
+    {
+      "input": "我不想看翻聊天记录，太长了，你赶紧把前面可能漏掉的但讨论过的部分，补在Day 2计划里",
+      "context": "AI回复说Day 1没过凌霄阁后，用户表达不耐烦并要求补漏",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "emotion",
+        "implicit",
+        "multi_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/media/inbound/71d7864f-238e-4e5b-9b32-31c304ae9d96.jpg",
+      "source_detail": "截图3-用户引用的消息"
+    },
+    {
+      "input": "你继续消化我给你的图片，我会继续帮你补今天16:00之后的记忆，准备好了么？",
+      "context": "当前session中，用户准备帮AI恢复下午的记忆空白",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "multi_intent",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:29消息"
+    },
+    {
+      "input": "够真实么？",
+      "context": "用户问AI对话截图作为评测数据源是否够真实",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.7,
+      "complexity_tags": [
+        "implicit",
+        "ambiguous"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:29消息"
+    },
+    {
+      "input": "首先，你需要用codex模型来做这个，开个子Agent，然后我会给你其他任务",
+      "context": "用户指定用特定模型执行评测集提取任务，并预告后续还有其他任务",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "multi_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:25消息"
+    },
+    {
+      "input": "你有详细评测过by真实用户场景的评测集么？目前有多少评测集已经是从真实的你我对话中产生的？",
+      "context": "用户挑战AI的评测集真实性",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "multi_intent",
+        "correction",
+        "meta_request"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:25消息"
+    },
+    {
+      "input": "所以你消化不掉了？",
+      "context": "AI收到5张截图后只是总结确认，用户质疑AI是否能处理",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.8,
+      "complexity_tags": [
+        "emotion",
+        "implicit"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:12消息"
+    },
+    {
+      "input": "排查hook脚本读取逻辑，我不希望你再git失败",
+      "context": "子Agent报告git commit被ISC hook拦截，用户要求修复hook而非绕过",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "multi_intent",
+        "correction"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:31消息"
+    },
+    {
+      "input": "我说的是你的后补模型",
+      "context": "AI问codex是指哪个模型，用户澄清是boomstyleai的fallback模型",
+      "expected_intent_class": "IC3",
+      "expected_confidence": 0.8,
+      "complexity_tags": [
+        "multi_turn",
+        "correction"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:26消息"
+    },
+    {
+      "input": "我发了一个很严重的问题",
+      "context": "用户预告要说重要问题",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.6,
+      "complexity_tags": [
+        "implicit",
+        "ambiguous"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:36消息"
+    },
+    {
+      "input": "刚给你的几十张图片都是凌晨的，也就是你做过的已经完成的任务。",
+      "context": "用户提醒AI截图是历史记录而非新任务",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.8,
+      "complexity_tags": [
+        "correction",
+        "teaching"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:37消息"
+    },
+    {
+      "input": "严重问题是，我并没有帮你解决下午13:30-18:00的失忆",
+      "context": "用户揭示真正的严重问题——AI有4.5小时记忆空白",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "implicit",
+        "teaching"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:37消息"
+    },
+    {
+      "input": "但有个好处是，你可以基于前面的数据多储备评测集",
+      "context": "用户在指出严重问题后给出silver lining——利用已有数据扩充评测集",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.8,
+      "complexity_tags": [
+        "implicit",
+        "switch"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:38消息"
+    },
+    {
+      "input": "你的意思是：智谱的图片理解模型失效了？",
+      "context": "子Agent报告无法读取图片后用户追问原因",
+      "expected_intent_class": "IC3",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "当前会话-23:46消息"
     }
   ]
 }
