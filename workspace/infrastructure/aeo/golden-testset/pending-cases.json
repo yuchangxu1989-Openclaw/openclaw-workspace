@@ -1,0 +1,32 @@
+{
+  "schema": "pending-correction-cases-v1",
+  "description": "用户纠偏信号自动提取的待review规则草案",
+  "generated_at": "2026-03-05T00:36:01.301Z",
+  "cases": [
+    {
+      "id": "PC-MMCQIROC-NBU",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-04",
+      "source": "memory/2026-03-04.md",
+      "signal_type": "direction_correction",
+      "signal_strength": "medium",
+      "raw_signal": "应该是",
+      "context": "# 20:20 - 事件分类补充：语义意图事件\n用户指出第四类事件：非结构化交互中的意图信号\n- 不可量化但可监听：反复强调、不耐烦、根因分析意图\n- CRAS应该是这类事件的探针，从对话流中提取并emit\n- v3方案需要补充此类事件的架构设计\n\n## 20:30 - ISC-Event-DTO v4方案完成（五层事件认知模型）\n\n### 核心认知升级（v3→v4）\n\n**v3缺陷**：只看到了L1（对象生命周期）和L2（量化阈值），把事件局限在代码/文件系统",
+      "extracted_correction": "这类事件的探针，从对话流中提取并emit",
+      "category": "approach_selection",
+      "rule_hint": "方案选择时评估多个选项，选择最符合场景的",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"应该是\"",
+        "action": "方案选择时评估多个选项，选择最符合场景的",
+        "domain": "implementation",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    }
+  ],
+  "last_updated": "2026-03-05T00:36:01.308Z"
+}

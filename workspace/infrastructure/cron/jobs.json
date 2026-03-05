@@ -1,0 +1,70 @@
+{
+  "_schema": "cron-jobs-v2",
+  "_description": "OpenClaw workspace cron job registry",
+  "_updated": "2026-03-05",
+  "_doc": "Job model field required per ISC rule.cron-task-model-requirement-001 (zhipu/glm-5 preferred)",
+  "jobs": [
+    {
+      "name": "day-completion-scanner",
+      "description": "Day完成事件检测器 - 自动扫描设计债务（每小时检查一次）",
+      "script": "infrastructure/self-check/day-completion-scanner.js",
+      "args": ["--auto"],
+      "schedule": "0 * * * *",
+      "schedule_human": "每小时整点",
+      "model": "zhipu/glm-5",
+      "model_fallback": "claude/claude-sonnet-4-6",
+      "enabled": true,
+      "trigger": "time",
+      "trigger_condition": "reports/dayN-closure-conditions.md 文件新增",
+      "outputs": ["reports/auto-debt-scan-dayN.md"],
+      "timeout_seconds": 120,
+      "on_failure": "log_and_continue",
+      "tags": ["self-check", "debt-scan", "day-completion"],
+      "created": "2026-03-05"
+    },
+    {
+      "name": "rework-analyzer",
+      "description": "返工根因分析器 - 检测子Agent steer/重启事件，分析根因（每5分钟）",
+      "script": "infrastructure/self-check/rework-analyzer.js",
+      "args": ["--auto"],
+      "schedule": "*/5 * * * *",
+      "schedule_human": "每5分钟",
+      "model": "zhipu/glm-5",
+      "model_fallback": "claude/claude-sonnet-4-6",
+      "enabled": true,
+      "trigger": "time",
+      "trigger_condition": "subagent日志中出现steer/restart/kill信号",
+      "outputs": [
+        "infrastructure/aeo/golden-testset/self-awareness-cases.json (append)",
+        "skills/isc-core/rules/_drafts/draft.rework-*.json",
+        "reports/rework-analysis-YYYY-MM-DD.md"
+      ],
+      "timeout_seconds": 60,
+      "on_failure": "log_and_continue",
+      "tags": ["self-check", "rework", "root-cause", "isc"],
+      "created": "2026-03-05"
+    },
+    {
+      "name": "correction-harvester",
+      "description": "用户纠偏收割器 - 检测纠偏信号，抽象规则草案（每5分钟）",
+      "script": "infrastructure/self-check/correction-harvester.js",
+      "args": ["--auto"],
+      "schedule": "*/5 * * * *",
+      "schedule_human": "每5分钟",
+      "model": "zhipu/glm-5",
+      "model_fallback": "claude/claude-sonnet-4-6",
+      "enabled": true,
+      "trigger": "time",
+      "trigger_condition": "记忆文件中出现纠偏信号关键词",
+      "outputs": [
+        "infrastructure/aeo/golden-testset/pending-cases.json",
+        "reports/correction-harvest-YYYY-MM-DD.md"
+      ],
+      "timeout_seconds": 60,
+      "on_failure": "log_and_continue",
+      "tags": ["self-check", "correction", "golden-testset", "rule-draft"],
+      "created": "2026-03-05"
+    }
+  ],
+  "_cron_install_hint": "在系统crontab中安装方式:\n  0 * * * *   cd /root/.openclaw/workspace && node infrastructure/self-check/day-completion-scanner.js --auto >> infrastructure/logs/day-scanner.log 2>&1\n  */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/rework-analyzer.js --auto >> infrastructure/logs/rework-analyzer.log 2>&1\n  */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/correction-harvester.js --auto >> infrastructure/logs/correction-harvester.log 2>&1"
+}
