@@ -1,90 +1,124 @@
-# PDF Generator 技能
+# PDF Generator 技能 v2.0
 
-高质量PDF文档生成器。Markdown → 排版精良的PDF，对标 `designs/isc-event-dto-binding-design-v5-final.pdf` 标准。
+高质量PDF文档生成器，完整对齐ISC规则标准。
+
+## 对齐规则
+
+| 规则ID | 名称 | 对齐方式 |
+|--------|------|----------|
+| rule.design-document-structure-001 | 结构标准7项 | generate.js `checkStructure()` 自动检查 |
+| rule.design-document-narrative-review-001 | 模拟演讲门禁 | generate.js 输出审查prompt，由调用方LLM执行 |
+| rule.architecture-diagram-visual-output-001 | 视觉标准10项 | `checkVisualStandards()` + mermaid白底渲染 |
+| rule.design-document-delivery-pipeline-001 | 9步交付流水线 | `runPipeline()` + `--step N` 分步执行 |
 
 ## 使用方法
 
 ```bash
-# 基本用法
-node /root/.openclaw/workspace/skills/pdf-generator/generate.js input.md output.pdf
+# 完整9步流水线
+node generate.js input.md output.pdf --with-diagrams
 
-# 带架构图（mermaid代码块自动渲染）
-node /root/.openclaw/workspace/skills/pdf-generator/generate.js input.md output.pdf --with-diagrams
+# 执行到第N步暂停
+node generate.js input.md output.pdf --step 6
+
+# 仅结构检查
+node generate.js input.md output.pdf --check-only
+
+# 仅输出模拟演讲prompt
+node generate.js input.md output.pdf --narrative-prompt
 ```
 
-## 输入规范
+## 9步交付流水线（不许跳步）
 
-Markdown文件必须遵循以下结构：
+| 步骤 | 名称 | 负责方 | 验收标准 |
+|------|------|--------|----------|
+| 1 | 结构审查 | generate.js自动 | 7项结构检查全部通过（S1-S7 + 层级≤3 + 图表编号） |
+| 2 | 内容瘦身 | generate.js自动 | 无>5行代码块在正文，无PM内容 |
+| 3 | MECE校验 | Agent/LLM | 同层级命名无重叠 |
+| 4 | 质量扫描 | isc-document-quality技能 | 评分≥8.0 |
+| 5 | 架构图标准化 | generate.js自动 | 10项视觉标准无error |
+| 6 | MD模拟演讲 | Agent/LLM（使用生成的prompt） | P0问题数=0 |
+| 7 | PDF生成 | generate.js自动 | Pandoc+XeLaTeX成功 |
+| 8 | PDF模拟演讲 | Agent/LLM（使用生成的prompt） | P0问题数=0 |
+| 9 | 交付 | Agent | PDF+MD源文件双份发送 |
+
+**规则：任何一步不过必须打回，不允许跳步。**
+
+## 结构检查项（自动执行）
+
+| ID | 检查项 | 严重度 |
+|----|--------|--------|
+| S1 | 一级目录不超过5章（不含附录） | error |
+| S2 | 文档有叙事脉络（至少有h1标题） | error |
+| S3 | >5行代码块必须在附录区域 | error |
+| S4 | TL;DR不超过150字 | error |
+| S5 | 禁止PM内容（Day/Sprint/工时） | error |
+| S6 | 章节编号连续 | error |
+| S7 | 交叉引用有效（无悬空引用） | error |
+| DEPTH | 标题层级≤3级 | error |
+| FIG | 图片有编号标题 | warning |
+
+## 模拟演讲审查
+
+generate.js在Step 6和Step 8自动生成审查prompt，包含：
+- 每章节的承上启下过渡检查
+- 孤立技术术语检测
+- 叙事连贯性评估
+- 评审者追问预测
+- 卡壳风险标注
+- P0/P1问题分级
+
+**调用方需要将prompt发给LLM执行审查，不在技能内直接调LLM。**
+
+## 架构图视觉标准（10项）
+
+| ID | 标准 | 检查方式 |
+|----|------|----------|
+| VS01 | 浅色背景（白色/浅灰） | mermaid渲染强制白底 |
+| VS02 | 中文标注 | 自动检测纯英文标注 |
+| VS03 | 颜色柔和 | 人工审查 |
+| VS04 | 文字不交叠 | 人工审查 |
+| VS05 | 命名MECE | Agent/LLM |
+| VS06 | 标题间距合理 | 人工审查 |
+| VS07 | 风格统一 | 人工审查 |
+| VS08 | 三层框间距 | 人工审查 |
+| VS09 | emoji去除/替换 | 自动检测 |
+| VS10 | 底部注释可读 | 人工审查 |
+
+## 输入规范
 
 ```markdown
 # 文档标题
 
+> TL;DR: 不超过150字的摘要
+
 ## 第一章：xxx
 ### 1.1 xxx
-### 1.2 xxx
 
 ## 第二章：xxx
 
 ## 附录
-### 附录 A：xxx
-### 代码清单
-#### C-01：xxx
+### 附录 A：代码清单
 ```
 
-### 规则
-1. **正文**只讲设计思想（为什么+是什么）
-2. **代码**全部放附录，正文用 `→ 见附录 C-XX` 引用
-3. **图表**用 mermaid 代码块，自动渲染为PNG嵌入
+**规则：**
+1. 正文只讲设计思想（为什么+是什么）
+2. 代码全部放附录，正文用 `→ 见附录 C-XX` 引用
+3. 图表用mermaid代码块，自动渲染为白底PNG
 4. 图表必须有编号和标题：`图 1.1：xxx` 格式
 5. 章节不超过3级（章→节→小节）
 
-## 输出质量标准
+## 编程接口
 
-- 自动生成目录（含页码）
-- 中文排版：Noto Serif CJK SC
-- 代码块：等宽字体、浅灰背景
-- 页边距适中、段间距合理
-- 页眉含文档标题，页脚含页码
-- Mermaid图自动渲染为高清PNG
+```javascript
+const { checkStructure, generateNarrativeReviewPrompt, runPipeline } = require('./generate.js');
 
-## 交付流水线（9步门禁，不许跳步）
+// 结构检查
+const result = checkStructure(markdown);
+// => { passed: boolean, violations: [...] }
 
-1. **结构审查** — 一级目录≤5章，叙事脉络清晰
-2. **内容瘦身** — 删PM内容（Day/Sprint/工时），代码块>5行抽附录
-3. **MECE校验** — 同层级实体关键词两两比对，重叠即打回
-4. **质量扫描** — isc-document-quality评估≥8.0分
-5. **架构图标准化** — 10项视觉标准（见下方）
-6. **MD模拟演讲** — 模拟10分钟演讲，标注追问点和讲不清的地方
-7. **PDF生成** — 生成PDF
-8. **PDF模拟演讲** — PDF层二次审查，发现问题修复后重新生成
-9. **交付** — 发送PDF+MD源文件
+// 演讲审查prompt
+const prompt = generateNarrativeReviewPrompt(markdown, false);
 
-## 架构图视觉标准（10项）
-
-1. 浅色背景（白色或浅灰）
-2. 中文标注（不接受纯英文）
-3. 颜色柔和不刺眼
-4. 文字与线框不交叠（padding充足）
-5. 同层级概念命名MECE（不重叠）
-6. 标题不贴框太近
-7. 图片风格全文统一
-8. 三层框间距适当（不过紧）
-9. emoji在PDF中可能渲染异常，去掉或替换为文字
-10. 底部注释字号足够大可读
-
-## 模拟演讲审查标准
-
-- 按10分钟演讲拆8段，每段标注时间分配
-- 每段标注"评审者高概率追问什么"
-- 每段标注"这里讲不清楚的原因"
-- 发现问题分P0必须修/P1建议修
-- P0全部修完才能进入下一步
-
-## 文档结构标准
-
-- 一级目录不超过5章
-- 叙事脉络：认知→机制→闭环→落地→参考（或等效递进线）
-- TL;DR不超过150字，必须含"为什么需要这个系统"的问题语境
-- 章节编号连续一致，不允许旧编号残留
-- 交叉引用必须有效（不允许悬空引用）
-- PM内容（Day/Sprint/工时估算）绝对禁止出现
+// 完整流水线
+const results = runPipeline('input.md', 'output.pdf', { step: 6, withDiagrams: true });
+```
