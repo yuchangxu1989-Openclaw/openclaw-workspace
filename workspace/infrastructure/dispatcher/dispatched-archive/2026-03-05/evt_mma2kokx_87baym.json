@@ -1,0 +1,26 @@
+{
+  "event": {
+    "id": "evt_mma2kokx_87baym",
+    "type": "aeo.assessment.completed",
+    "source": "aeo",
+    "payload": {
+      "skill_name": "weather",
+      "track": "quality",
+      "score": 0.85,
+      "passed": true
+    },
+    "timestamp": 1772509807473,
+    "consumed_by": [
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "cras-ingest",
+    "agent": "analyst",
+    "priority": "normal"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.364Z",
+  "status": "archived",
+  "archivedAt": "2026-03-05T01:12:19.309499+00:00",
+  "archiveReason": "expired_24h (age=45.3h)"
+}

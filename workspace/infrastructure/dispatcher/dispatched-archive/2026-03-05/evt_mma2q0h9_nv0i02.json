@@ -1,0 +1,27 @@
+{
+  "event": {
+    "id": "evt_mma2q0h9_nv0i02",
+    "type": "aeo.assessment.failed",
+    "source": "aeo",
+    "payload": {
+      "skill_name": "cras",
+      "score": 0.45,
+      "issues": [
+        "\u6a21\u62df\u6570\u636e"
+      ]
+    },
+    "timestamp": 1772510056173,
+    "consumed_by": [
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "aeo-retry",
+    "agent": "coder",
+    "priority": "high"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.359Z",
+  "status": "archived",
+  "archivedAt": "2026-03-05T01:12:19.309499+00:00",
+  "archiveReason": "expired_24h (age=45.3h)"
+}

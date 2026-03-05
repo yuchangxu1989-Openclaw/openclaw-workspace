@@ -1,0 +1,35 @@
+{
+  "event": {
+    "id": "evt_mmc4chrx_ubvjrm",
+    "type": "isc.rule.created",
+    "source": "isc-core",
+    "payload": {
+      "rule_id": "rule.self-correction-to-rule-001",
+      "action": "created",
+      "file": "rule.self-correction-to-rule-001.json",
+      "detected_at": 1772633716989
+    },
+    "timestamp": 1772633716989,
+    "consumed_by": []
+  },
+  "route": {
+    "handler": "dto-sync",
+    "agent": "coder",
+    "priority": "high"
+  },
+  "dispatchedAt": "2026-03-04T14:20:09.191Z",
+  "status": "completed",
+  "processedAt": "2026-03-04T14:20:30.000Z",
+  "result": {
+    "action": "dto_sync_verified",
+    "rule_id": "rule.self-correction-to-rule-001",
+    "rule_name": "\u81ea\u6211\u7ea0\u504f\u81ea\u52a8\u89c4\u5219\u5316",
+    "trigger_events": [
+      "agent.behavior.defect_acknowledged"
+    ],
+    "dto_subscription": "auto_discovered",
+    "notes": "\u9ad8\u4f18\u5148\u7ea7\u8fdb\u5316\u89c4\u5219\uff0cDTO\u5c06\u5728\u4e0b\u6b21\u626b\u63cf\u65f6\u81ea\u52a8\u8ba2\u9605\u3002\u89c4\u5219\u8981\u6c42Agent\u627f\u8ba4\u884c\u4e3a\u7f3a\u9677\u65f6\u81ea\u52a8\u521b\u5efaISC\u89c4\u5219\u56fa\u5316\u7ea0\u504f\u3002"
+  },
+  "archivedAt": "2026-03-05T01:12:19.309499+00:00",
+  "archiveReason": "already_completed"
+}

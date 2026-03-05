@@ -1,0 +1,27 @@
+{
+  "event": {
+    "id": "evt_mma2hpxr_md4lc7",
+    "type": "seef.skill.evaluated",
+    "source": "dto-core",
+    "payload": {
+      "source_event": "evt_mma2hpx0_8hg17z",
+      "rule_id": "N042",
+      "trigger": "dto-sync",
+      "evaluation_type": "post-sync"
+    },
+    "timestamp": 1772509669263,
+    "consumed_by": [
+      "dto-core",
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "seef-optimize",
+    "agent": "researcher",
+    "priority": "normal"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.360Z",
+  "status": "archived",
+  "archivedAt": "2026-03-05T01:12:19.309499+00:00",
+  "archiveReason": "expired_24h (age=45.3h)"
+}

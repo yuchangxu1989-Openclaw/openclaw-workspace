@@ -1,0 +1,24 @@
+{
+  "event": {
+    "id": "evt_mma52y5v_puvngt",
+    "type": "isc.rule.deleted",
+    "source": "isc-core",
+    "payload": {
+      "rule_id": "N033-gateway-config-protection",
+      "action": "deleted",
+      "file": null,
+      "detected_at": 1772514018931
+    },
+    "timestamp": 1772514018931,
+    "consumed_by": []
+  },
+  "route": {
+    "handler": "dto-sync",
+    "agent": "coder",
+    "priority": "high"
+  },
+  "dispatchedAt": "2026-03-03T07:39:38.225Z",
+  "status": "archived",
+  "archivedAt": "2026-03-05T01:12:19.309499+00:00",
+  "archiveReason": "expired_24h (age=41.5h)"
+}
