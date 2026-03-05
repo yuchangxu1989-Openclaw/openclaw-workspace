@@ -59,7 +59,9 @@
   },
   "trigger": {
     "events": [
+      "design.document.created",
       "document.design.created",
+      "design.document.modified",
       "document.design.modified"
     ],
     "actions": [
@@ -72,6 +74,6 @@
   "source": "用户教学：设计文档结构7项标准",
   "action": {
     "type": "check",
-    "handler": "handlers/document-structure-check.js"
+    "handler": "document-structure-check"
   }
 }

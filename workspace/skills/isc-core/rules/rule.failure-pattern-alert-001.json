@@ -1,0 +1,15 @@
+{
+  "id": "rule.failure-pattern-alert-001",
+  "name": "故障模式告警",
+  "description": "检测到系统故障模式时触发告警通知",
+  "version": "1.0.0",
+  "severity": "critical",
+  "trigger": {
+    "events": ["system.failure.pattern_detected"]
+  },
+  "action": {
+    "type": "alert",
+    "handler": "notify-alert"
+  },
+  "created_at": "2026-03-06"
+}

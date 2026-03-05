@@ -1,0 +1,18 @@
+{
+  "id": "rule.dependency-direction-check-001",
+  "name": "依赖方向检查",
+  "description": "skills不得直接引用infrastructure目录，依赖方向必须自顶向下",
+  "version": "1.0.0",
+  "trigger": {
+    "events": ["system.infrastructure.modified"]
+  },
+  "action": {
+    "type": "check",
+    "handler": "check-dependency-direction"
+  },
+  "enforcement": {
+    "level": "block",
+    "message": "依赖方向违规：skills层不得直接引用infrastructure层"
+  },
+  "created_at": "2026-03-06"
+}

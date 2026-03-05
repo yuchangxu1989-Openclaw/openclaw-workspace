@@ -4,17 +4,18 @@
   "description": "技能版本号必须与代码成熟度匹配，禁止虚假版本号和跳级升版",
   "version": "1.0.0",
   "trigger": {
-    "events": ["skill.lifecycle.created", "skill.lifecycle.modified"]
-  },
-  "conditions": {
-    "all": [
-      { "fact": "skill.hasVersionDeclaration", "operator": "equal", "value": true }
+    "events": [
+      "skill.lifecycle.created",
+      "skill.lifecycle.modified"
     ]
   },
+  "conditions": {},
   "action": {
     "type": "script",
-    "script": "scripts/check-version-integrity.js",
-    "params": { "skillName": "{{skill.name}}" }
+    "params": {
+      "skillName": "{{skill.name}}"
+    },
+    "handler": "check-version-integrity"
   },
   "enforcement": {
     "level": "block",

@@ -1,0 +1,206 @@
+[
+  {
+    "id": "e2e-001",
+    "name": "技能创建-版本合理-通过",
+    "event": {
+      "type": "skill.lifecycle.created",
+      "payload": {
+        "skillName": "weather-fetcher",
+        "version": "1.0.0",
+        "codeLines": 250,
+        "hasTests": false,
+        "hasErrorHandling": true
+      }
+    },
+    "expected_matched_rules": ["rule.version-integrity-gate-001"],
+    "expected_handler": "check-version-integrity",
+    "expected_result": "pass",
+    "description": "版本号合理的新技能应通过版本检查"
+  },
+  {
+    "id": "e2e-002",
+    "name": "技能创建-版本虚标-拦截",
+    "event": {
+      "type": "skill.lifecycle.created",
+      "payload": {
+        "skillName": "tiny-util",
+        "version": "v5.0.0",
+        "codeLines": 30,
+        "hasTests": false,
+        "hasErrorHandling": false
+      }
+    },
+    "expected_matched_rules": ["rule.version-integrity-gate-001"],
+    "expected_handler": "check-version-integrity",
+    "expected_result": "block",
+    "description": "版本虚标v5.0但只有30行代码，应被拦截"
+  },
+  {
+    "id": "e2e-003",
+    "name": "技能修改-能力锚点同步",
+    "event": {
+      "type": "skill.lifecycle.modified",
+      "payload": {
+        "skillName": "cras",
+        "changedFiles": ["SKILL.md", "index.js"]
+      }
+    },
+    "expected_matched_rules": ["rule.capability-anchor-lifecycle-sync-001"],
+    "expected_handler": "capability-anchor-sync",
+    "expected_result": "handler_called",
+    "description": "技能修改后应触发能力锚点同步"
+  },
+  {
+    "id": "e2e-004",
+    "name": "ISC规则创建-命名错误-不通过",
+    "event": {
+      "type": "isc.rule.created",
+      "payload": {
+        "filename": "isc-my-bad-rule.json",
+        "ruleId": "isc-my-bad-rule"
+      }
+    },
+    "expected_matched_rules": ["rule.isc-naming-convention-001"],
+    "expected_handler": "naming-convention-check",
+    "expected_result": "block",
+    "description": "使用错误前缀isc-的规则命名应被拒绝"
+  },
+  {
+    "id": "e2e-005",
+    "name": "ISC规则创建-命名正确-通过",
+    "event": {
+      "type": "isc.rule.created",
+      "payload": {
+        "filename": "rule.domain-name-001.json",
+        "ruleId": "rule.domain-name-001"
+      }
+    },
+    "expected_matched_rules": ["rule.isc-naming-convention-001"],
+    "expected_handler": "naming-convention-check",
+    "expected_result": "pass",
+    "description": "符合规范的规则命名应通过检查"
+  },
+  {
+    "id": "e2e-006",
+    "name": "基础设施修改-依赖方向违规-拦截",
+    "event": {
+      "type": "system.infrastructure.modified",
+      "payload": {
+        "changedFile": "infrastructure/event-bus/dispatcher.js",
+        "references": [
+          { "from": "skills/cras/index.js", "to": "infrastructure/event-bus/bus.js" }
+        ]
+      }
+    },
+    "expected_matched_rules": ["rule.dependency-direction-check-001"],
+    "expected_handler": "check-dependency-direction",
+    "expected_result": "block",
+    "description": "skills层引用infrastructure层应被拦截"
+  },
+  {
+    "id": "e2e-007",
+    "name": "设计文档创建-结构合格-通过",
+    "event": {
+      "type": "design.document.created",
+      "payload": {
+        "docName": "event-bus-design.md",
+        "topLevelSections": 4,
+        "hasTLDR": true,
+        "tldrLength": 120,
+        "sections": ["概述", "架构", "实现", "附录"]
+      }
+    },
+    "expected_matched_rules": ["rule.design-document-structure-001"],
+    "expected_handler": "document-structure-check",
+    "expected_result": "pass",
+    "description": "结构合格的设计文档应通过检查"
+  },
+  {
+    "id": "e2e-008",
+    "name": "技能创建-分类检测-local",
+    "event": {
+      "type": "skill.lifecycle.created",
+      "payload": {
+        "skillName": "local-helper",
+        "version": "0.1.0",
+        "codeLines": 50,
+        "skillContent": "const path = '/root/.openclaw/workspace/memory/test.md';\nmodule.exports = {};",
+        "hasStandardIO": false
+      }
+    },
+    "expected_matched_rules": ["rule.skill-distribution-auto-classify-001"],
+    "expected_handler": "classify-skill-distribution",
+    "expected_result": "local",
+    "description": "包含本地路径引用的技能应分类为local"
+  },
+  {
+    "id": "e2e-009",
+    "name": "技能修改-版本跳级-拦截",
+    "event": {
+      "type": "skill.lifecycle.modified",
+      "payload": {
+        "skillName": "jump-version-skill",
+        "version": "v3.0.0",
+        "previousVersion": "v0.1.0",
+        "codeLines": 100,
+        "hasTests": false,
+        "hasErrorHandling": false
+      }
+    },
+    "expected_matched_rules": ["rule.version-integrity-gate-001"],
+    "expected_handler": "check-version-integrity",
+    "expected_result": "block",
+    "description": "从v0.1到v3.0的版本跳级应被拦截"
+  },
+  {
+    "id": "e2e-010",
+    "name": "ISC规则修改-去重扫描触发",
+    "event": {
+      "type": "isc.rule.modified",
+      "payload": {
+        "ruleId": "rule.test-rule-001",
+        "changedFields": ["description", "trigger.events"]
+      }
+    },
+    "expected_matched_rules": ["rule.isc-rule-modified-dedup-scan-001"],
+    "expected_handler": "dedup-scan",
+    "expected_result": "scanned",
+    "description": "规则内容变化应触发去重扫描"
+  },
+  {
+    "id": "e2e-011",
+    "name": "评测完成-报告快照锁定",
+    "event": {
+      "type": "evaluation.benchmark.completed",
+      "payload": {
+        "reportId": "benchmark-2026-03-06",
+        "reportData": {
+          "totalCases": 50,
+          "passed": 45,
+          "failed": 5,
+          "passRate": 0.9
+        }
+      }
+    },
+    "expected_matched_rules": ["rule.report-snapshot-lock-001"],
+    "expected_handler": "report-snapshot",
+    "expected_result": "snapshot_locked",
+    "description": "评测完成后应锁定报告快照"
+  },
+  {
+    "id": "e2e-012",
+    "name": "故障模式检测-告警通知",
+    "event": {
+      "type": "system.failure.pattern_detected",
+      "payload": {
+        "pattern": "repeated_handler_timeout",
+        "occurrences": 5,
+        "affectedHandlers": ["capability-anchor-sync"]
+      }
+    },
+    "expected_matched_rules": ["rule.failure-pattern-alert-001"],
+    "expected_handler": "notify-alert",
+    "expected_result": "handler_called",
+    "description": "检测到故障模式应触发告警通知"
+  }
+]

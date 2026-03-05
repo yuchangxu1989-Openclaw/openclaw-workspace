@@ -46,6 +46,8 @@
   "version": "1.0.0",
   "trigger": {
     "events": [
+      "isc.rule.created",
+      "isc.rule.modified",
       "isc.rule.matched",
       "isc.category.matched"
     ],

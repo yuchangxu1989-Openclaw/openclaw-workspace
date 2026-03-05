@@ -1,0 +1,14 @@
+{
+  "id": "rule.isc-rule-modified-dedup-scan-001",
+  "name": "规则修改去重扫描",
+  "description": "ISC规则修改后触发去重扫描，检测是否与其他规则产生重复",
+  "version": "1.0.0",
+  "trigger": {
+    "events": ["isc.rule.modified"]
+  },
+  "action": {
+    "type": "scan",
+    "handler": "dedup-scan"
+  },
+  "created_at": "2026-03-06"
+}
