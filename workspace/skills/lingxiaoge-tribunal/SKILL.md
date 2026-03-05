@@ -125,7 +125,7 @@ node --test tests/unit/lingxiaoge.test.js
 ```yaml
 name: lingxiaoge-tribunal
 display_name: 凌霄阁-7人裁决神殿
-version: "1.0.0"
+version: "1.0.1"
 description: LLM驱动的7视角三轮对抗式深度决策引擎。完整可运行，支持CLI和模块调用。
 status: active
 distribution: publishable
