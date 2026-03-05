@@ -1,90 +1,94 @@
 {
-    "id": "rule.parallel-subagent-orchestration-001",
-    "name": "parallel_subagent_orchestration",
-    "domain": "orchestration",
-    "type": "workflow",
-    "description": "并行子Agent编排规则 - DTO调度多Agent并行执行复杂工作流",
-    "trigger": {
-        "type": "manual_or_event",
-        "events": [
-            "workflow.requested",
-            "complex_task.detected"
+  "id": "rule.parallel-subagent-orchestration-001",
+  "name": "parallel_subagent_orchestration",
+  "domain": "orchestration",
+  "type": "workflow",
+  "description": "并行子Agent编排规则 - DTO调度多Agent并行执行复杂工作流",
+  "trigger": {
+    "type": "manual_or_event",
+    "events": {
+      "L1": [
+        "workflow.requested",
+        "complex_task.detected"
+      ]
+    }
+  },
+  "workflow": {
+    "stages": [
+      {
+        "name": "analysis",
+        "type": "parallel",
+        "agents": [
+          {
+            "role": "analyzer",
+            "task": "需求分析",
+            "timeout": 120
+          },
+          {
+            "role": "researcher",
+            "task": "背景调研",
+            "timeout": 180
+          }
+        ]
+      },
+      {
+        "name": "synthesis",
+        "type": "sequential",
+        "depends_on": [
+          "analysis"
         ],
-        "actions": [
-            {
-                "type": "auto_trigger",
-                "description": "复杂任务自动拆分为并行子Agent执行，协调结果汇总并处理冲突"
-            }
+        "agents": [
+          {
+            "role": "synthesizer",
+            "task": "综合分析",
+            "timeout": 120
+          }
         ]
-    },
-    "workflow": {
-        "stages": [
-            {
-                "name": "analysis",
-                "type": "parallel",
-                "agents": [
-                    {
-                        "role": "analyzer",
-                        "task": "需求分析",
-                        "timeout": 120
-                    },
-                    {
-                        "role": "researcher",
-                        "task": "背景调研",
-                        "timeout": 180
-                    }
-                ]
-            },
-            {
-                "name": "synthesis",
-                "type": "sequential",
-                "depends_on": [
-                    "analysis"
-                ],
-                "agents": [
-                    {
-                        "role": "synthesizer",
-                        "task": "综合分析",
-                        "timeout": 120
-                    }
-                ]
-            },
-            {
-                "name": "execution",
-                "type": "parallel",
-                "depends_on": [
-                    "synthesis"
-                ],
-                "agents": [
-                    {
-                        "role": "coder",
-                        "task": "代码实现",
-                        "timeout": 300
-                    },
-                    {
-                        "role": "writer",
-                        "task": "文档编写",
-                        "timeout": 180
-                    }
-                ]
-            }
+      },
+      {
+        "name": "execution",
+        "type": "parallel",
+        "depends_on": [
+          "synthesis"
+        ],
+        "agents": [
+          {
+            "role": "coder",
+            "task": "代码实现",
+            "timeout": 300
+          },
+          {
+            "role": "writer",
+            "task": "文档编写",
+            "timeout": 180
+          }
         ]
-    },
-    "executor": {
-        "module": "parallel-subagent",
-        "action": "executeWorkflow",
-        "config": {
-            "max_parallel": 5,
-            "retry_failed": true,
-            "aggregate_results": true
-        }
-    },
-    "governance": {
-        "auto_execute": true,
-        "councilRequired": false,
-        "approval_threshold": "simple_majority"
-    },
-    "created_at": "2026-02-25T11:33:00+08:00",
-    "version": "1.0.0",
-    "enforcement_tier": "P1_process"
+      }
+    ]
+  },
+  "executor": {
+    "module": "parallel-subagent",
+    "action": "executeWorkflow",
+    "config": {
+      "max_parallel": 5,
+      "retry_failed": true,
+      "aggregate_results": true
+    }
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "approval_threshold": "simple_majority"
+  },
+  "created_at": "2026-02-25T11:33:00+08:00",
+  "version": "1.0.0",
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "auto",
+    "handler": "parallel-subagent-orchestration",
+    "on_failure": "retry",
+    "description": "复杂任务自动拆分为并行子Agent执行，协调结果汇总并处理冲突"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

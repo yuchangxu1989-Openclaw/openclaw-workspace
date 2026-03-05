@@ -1,201 +1,205 @@
 {
-    "id": "N035",
-    "name": "rule_trigger_completeness_monitor",
-    "ruleName": "规则触发完整性监控",
-    "domain": "monitoring",
-    "type": "rule",
-    "scope": "system",
-    "priority": "high",
-    "description": "监控所有规则的触发情况，检测未触发规则并报告原因",
-    "rationale": "确保所有规则都能正常执行，及时发现并修复触发失效问题",
-    "version": "1.0.0",
-    "created_at": "2026-02-28T16:45:00+08:00",
-    "updated_at": "2026-02-28T16:45:00+08:00",
-    "trigger": {
-        "conditions": [
-            {
-                "type": "post_dto_execution",
-                "description": "DTO每轮执行后"
-            },
-            {
-                "type": "scheduled",
-                "cron": "0 * * * *",
-                "description": "每小时检查一次"
-            },
-            {
-                "type": "event",
-                "event_name": "rule_registry_updated"
-            }
+  "id": "N035",
+  "name": "rule_trigger_completeness_monitor",
+  "ruleName": "规则触发完整性监控",
+  "domain": "monitoring",
+  "type": "rule",
+  "scope": "system",
+  "priority": "high",
+  "description": "监控所有规则的触发情况，检测未触发规则并报告原因",
+  "rationale": "确保所有规则都能正常执行，及时发现并修复触发失效问题",
+  "version": "1.0.0",
+  "created_at": "2026-02-28T16:45:00+08:00",
+  "updated_at": "2026-02-28T16:45:00+08:00",
+  "trigger": {
+    "conditions": [
+      {
+        "type": "post_dto_execution",
+        "description": "DTO每轮执行后"
+      },
+      {
+        "type": "scheduled",
+        "cron": "0 * * * *",
+        "description": "每小时检查一次"
+      },
+      {
+        "type": "event",
+        "event_name": "rule_registry_updated"
+      }
+    ],
+    "logic": "OR",
+    "events": {
+      "L1": [
+        "isc.rule.created",
+        "isc.rule.updated",
+        "isc.enforcement.audit_requested"
+      ]
+    }
+  },
+  "monitoring_config": {
+    "data_sources": {
+      "all_rules": {
+        "source": "filesystem",
+        "path": "/root/.openclaw/workspace/skills/isc-core/rules"
+      },
+      "triggered_rules": {
+        "source": "event_log",
+        "path": "/root/.openclaw/workspace/skills/dto-core/events/isc-rule-created.jsonl"
+      },
+      "subscriptions": {
+        "source": "filesystem",
+        "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions"
+      }
+    },
+    "analysis_period": "24h",
+    "trigger_definition": {
+      "min_events": 1,
+      "time_window": "30d"
+    }
+  },
+  "thresholds": {
+    "critical": {
+      "trigger_rate": "< 50%",
+      "untriggered_count": "> 30",
+      "action": "immediate_alert"
+    },
+    "warning": {
+      "trigger_rate": "< 80%",
+      "untriggered_count": "> 10",
+      "action": "daily_report"
+    },
+    "info": {
+      "trigger_rate": "< 95%",
+      "action": "weekly_summary"
+    }
+  },
+  "root_cause_analysis": {
+    "enabled": true,
+    "factors": [
+      {
+        "name": "missing_subscription",
+        "check": "rule_exists && !subscription_exists",
+        "severity": "high"
+      },
+      {
+        "name": "trigger_condition_not_met",
+        "check": "subscription_exists && !trigger_event_received",
+        "severity": "medium"
+      },
+      {
+        "name": "disabled_rule",
+        "check": "rule.enabled == false",
+        "severity": "low"
+      },
+      {
+        "name": "invalid_rule_format",
+        "check": "!valid_json(rule_file)",
+        "severity": "high"
+      },
+      {
+        "name": "dependency_missing",
+        "check": "rule.dependencies.any(d => !d.satisfied)",
+        "severity": "medium"
+      }
+    ],
+    "report_format": "structured_json"
+  },
+  "execution": {
+    "mode": "monitor_and_report",
+    "auto_execute": true,
+    "generate_remediation_plan": true
+  },
+  "actions": {
+    "on_analysis": [
+      {
+        "order": 1,
+        "action": "load_all_rules",
+        "description": "加载所有规则定义"
+      },
+      {
+        "order": 2,
+        "action": "load_trigger_history",
+        "description": "加载触发历史记录"
+      },
+      {
+        "order": 3,
+        "action": "identify_untriggered",
+        "description": "识别未触发规则"
+      },
+      {
+        "order": 4,
+        "action": "analyze_root_cause",
+        "description": "分析未触发原因"
+      },
+      {
+        "order": 5,
+        "action": "generate_remediation_plan",
+        "description": "生成整改计划"
+      },
+      {
+        "order": 6,
+        "action": "notify",
+        "description": "发送通知"
+      }
+    ],
+    "on_critical_threshold": [
+      {
+        "action": "immediate_alert",
+        "channels": [
+          "feishu",
+          "log",
+          "email"
         ],
-        "logic": "OR",
-        "events": [
-            "isc.rule.created",
-            "isc.rule.updated",
-            "isc.enforcement.audit_requested"
-        ],
-        "actions": [
-            {
-                "type": "auto_trigger",
-                "description": "规则创建/更新时验证trigger字段完整性，缺失则标记为unenforced"
-            }
-        ]
+        "urgency": "critical",
+        "message_template": "🚨 规则触发率严重偏低\n触发率: {trigger_rate}\n已触发: {triggered_count}/{total_count}\n未触发: {untriggered_count}\n\n请立即检查系统状态！"
+      }
+    ]
+  },
+  "reporting": {
+    "summary_report": {
+      "path": "/root/.openclaw/workspace/reports/rule-trigger-summary.json",
+      "format": "json",
+      "fields": [
+        "total_rules",
+        "triggered_rules",
+        "untriggered_rules",
+        "trigger_rate",
+        "untriggered_by_category",
+        "root_causes"
+      ]
     },
-    "monitoring_config": {
-        "data_sources": {
-            "all_rules": {
-                "source": "filesystem",
-                "path": "/root/.openclaw/workspace/skills/isc-core/rules"
-            },
-            "triggered_rules": {
-                "source": "event_log",
-                "path": "/root/.openclaw/workspace/skills/dto-core/events/isc-rule-created.jsonl"
-            },
-            "subscriptions": {
-                "source": "filesystem",
-                "path": "/root/.openclaw/workspace/skills/dto-core/subscriptions"
-            }
-        },
-        "analysis_period": "24h",
-        "trigger_definition": {
-            "min_events": 1,
-            "time_window": "30d"
-        }
+    "detailed_report": {
+      "path": "/root/.openclaw/workspace/reports/rule-trigger-details.json",
+      "include_untriggered_list": true,
+      "include_remediation_suggestions": true
     },
-    "thresholds": {
-        "critical": {
-            "trigger_rate": "< 50%",
-            "untriggered_count": "> 30",
-            "action": "immediate_alert"
-        },
-        "warning": {
-            "trigger_rate": "< 80%",
-            "untriggered_count": "> 10",
-            "action": "daily_report"
-        },
-        "info": {
-            "trigger_rate": "< 95%",
-            "action": "weekly_summary"
-        }
+    "remediation_plan": {
+      "path": "/root/.openclaw/workspace/reports/rule-remediation-plan.json",
+      "auto_generate": true,
+      "priority_order": [
+        "missing_subscription",
+        "invalid_format",
+        "disabled"
+      ]
+    }
+  },
+  "integration": {
+    "dto_pipeline": {
+      "report_after_each_run": true,
+      "include_in_feedback": true
     },
-    "root_cause_analysis": {
-        "enabled": true,
-        "factors": [
-            {
-                "name": "missing_subscription",
-                "check": "rule_exists && !subscription_exists",
-                "severity": "high"
-            },
-            {
-                "name": "trigger_condition_not_met",
-                "check": "subscription_exists && !trigger_event_received",
-                "severity": "medium"
-            },
-            {
-                "name": "disabled_rule",
-                "check": "rule.enabled == false",
-                "severity": "low"
-            },
-            {
-                "name": "invalid_rule_format",
-                "check": "!valid_json(rule_file)",
-                "severity": "high"
-            },
-            {
-                "name": "dependency_missing",
-                "check": "rule.dependencies.any(d => !d.satisfied)",
-                "severity": "medium"
-            }
-        ],
-        "report_format": "structured_json"
-    },
-    "execution": {
-        "mode": "monitor_and_report",
-        "auto_execute": true,
-        "generate_remediation_plan": true
-    },
-    "actions": {
-        "on_analysis": [
-            {
-                "order": 1,
-                "action": "load_all_rules",
-                "description": "加载所有规则定义"
-            },
-            {
-                "order": 2,
-                "action": "load_trigger_history",
-                "description": "加载触发历史记录"
-            },
-            {
-                "order": 3,
-                "action": "identify_untriggered",
-                "description": "识别未触发规则"
-            },
-            {
-                "order": 4,
-                "action": "analyze_root_cause",
-                "description": "分析未触发原因"
-            },
-            {
-                "order": 5,
-                "action": "generate_remediation_plan",
-                "description": "生成整改计划"
-            },
-            {
-                "order": 6,
-                "action": "notify",
-                "description": "发送通知"
-            }
-        ],
-        "on_critical_threshold": [
-            {
-                "action": "immediate_alert",
-                "channels": [
-                    "feishu",
-                    "log",
-                    "email"
-                ],
-                "urgency": "critical",
-                "message_template": "🚨 规则触发率严重偏低\n触发率: {trigger_rate}\n已触发: {triggered_count}/{total_count}\n未触发: {untriggered_count}\n\n请立即检查系统状态！"
-            }
-        ]
-    },
-    "reporting": {
-        "summary_report": {
-            "path": "/root/.openclaw/workspace/reports/rule-trigger-summary.json",
-            "format": "json",
-            "fields": [
-                "total_rules",
-                "triggered_rules",
-                "untriggered_rules",
-                "trigger_rate",
-                "untriggered_by_category",
-                "root_causes"
-            ]
-        },
-        "detailed_report": {
-            "path": "/root/.openclaw/workspace/reports/rule-trigger-details.json",
-            "include_untriggered_list": true,
-            "include_remediation_suggestions": true
-        },
-        "remediation_plan": {
-            "path": "/root/.openclaw/workspace/reports/rule-remediation-plan.json",
-            "auto_generate": true,
-            "priority_order": [
-                "missing_subscription",
-                "invalid_format",
-                "disabled"
-            ]
-        }
-    },
-    "integration": {
-        "dto_pipeline": {
-            "report_after_each_run": true,
-            "include_in_feedback": true
-        },
-        "isc_dashboard": {
-            "show_trigger_rate": true,
-            "show_untriggered_list": true
-        }
-    },
-    "enforcement_tier": "P1_process"
+    "isc_dashboard": {
+      "show_trigger_rate": true,
+      "show_untriggered_list": true
+    }
+  },
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "auto",
+    "handler": "N035-rule-trigger",
+    "on_failure": "retry",
+    "description": "规则创建/更新时验证trigger字段完整性，缺失则标记为unenforced"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

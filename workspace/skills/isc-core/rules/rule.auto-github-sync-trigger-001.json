@@ -1,56 +1,59 @@
 {
-    "id": "rule.auto-github-sync-trigger-001",
-    "name": "auto_github_sync",
-    "domain": "sync",
-    "type": "rule",
-    "scope": "system",
-    "description": "自动GitHub同步触发规则 - 核心系统代码变更时自动提交到GitHub",
-    "condition": "core_system_changed",
-    "trigger": {
-        "events": [
-            "file.changed",
-            "git.commit.created",
-            "workspace.file.modified"
-        ],
-        "actions": [
-            {
-                "type": "auto_trigger",
-                "description": "工作区文件变更时自动触发GitHub同步，保持远程仓库与本地一致"
-            }
-        ]
+  "id": "rule.auto-github-sync-trigger-001",
+  "name": "auto_github_sync",
+  "domain": "sync",
+  "type": "rule",
+  "scope": "system",
+  "description": "自动GitHub同步触发规则 - 核心系统代码变更时自动提交到GitHub",
+  "condition": "core_system_changed",
+  "trigger": {
+    "events": {
+      "L1": [
+        "file.changed",
+        "git.commit.created",
+        "workspace.file.modified"
+      ]
     },
-    "scope_definition": {
-        "include": [
-            "skills/isc-core/**",
-            "skills/dto-core/**",
-            "skills/cras/**",
-            "skills/seef/**",
-            "AGENTS.md",
-            "HEARTBEAT.md",
-            "CAPABILITY-ANCHOR.md"
-        ],
-        "exclude": [
-            "logs/**",
-            "*.log",
-            ".tmp/**",
-            "skills/*/logs/**"
-        ]
-    },
-    "action": "sync_to_github",
-    "governance": {
-        "auto_execute": true,
-        "councilRequired": false,
-        "commit_message_template": "[AUTO] {timestamp} - {change_summary}"
-    },
-    "diff_with_evomap": {
-        "github_scope": "核心系统代码 + 配置文档",
-        "evomap_scope": "技能Gene/Capsule资产",
-        "github_trigger": "代码文件变更",
-        "evomap_trigger": "技能创建/更新",
-        "github_frequency": "实时（文件变更即触发）",
-        "evomap_frequency": "技能生命周期事件"
-    },
-    "created_at": "2026-02-25T10:02:00+08:00",
-    "version": "1.0.0",
-    "enforcement_tier": "P1_process"
+    "condition": "core_system_changed"
+  },
+  "scope_definition": {
+    "include": [
+      "skills/isc-core/**",
+      "skills/dto-core/**",
+      "skills/cras/**",
+      "skills/seef/**",
+      "AGENTS.md",
+      "HEARTBEAT.md",
+      "CAPABILITY-ANCHOR.md"
+    ],
+    "exclude": [
+      "logs/**",
+      "*.log",
+      ".tmp/**",
+      "skills/*/logs/**"
+    ]
+  },
+  "action": {
+    "type": "auto",
+    "handler": "sync_to_github",
+    "on_failure": "retry"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "commit_message_template": "[AUTO] {timestamp} - {change_summary}"
+  },
+  "diff_with_evomap": {
+    "github_scope": "核心系统代码 + 配置文档",
+    "evomap_scope": "技能Gene/Capsule资产",
+    "github_trigger": "代码文件变更",
+    "evomap_trigger": "技能创建/更新",
+    "github_frequency": "实时（文件变更即触发）",
+    "evomap_frequency": "技能生命周期事件"
+  },
+  "created_at": "2026-02-25T10:02:00+08:00",
+  "version": "1.0.0",
+  "enforcement_tier": "P1_process",
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

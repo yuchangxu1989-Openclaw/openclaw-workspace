@@ -1,58 +1,53 @@
 {
-    "id": "rule.cron-task-model-requirement-001",
-    "name": "cron_task_model_requirement",
-    "domain": "cron",
-    "type": "validation_rule",
-    "description": "定时任务必须指定模型规则 - GLM-5优先，Claude-Sonnet备选",
-    "trigger": {
-        "type": "event",
-        "patterns": [
-            "cron:create",
-            "cron:update",
-            "cron:validate"
-        ],
-        "events": [
-            "cron.task.created",
-            "cron.task.updated",
-            "cron.task.validated"
-        ],
-        "actions": [
-            {
-                "type": "gate_check",
-                "description": "定时任务创建/更新时验证必须指定model字段，未指定则拒绝创建",
-                "behavior": "reject_cron_without_model"
-            },
-            {
-                "type": "auto_fix",
-                "description": "缺少model字段时，自动填入默认模型claude/claude-sonnet-4-6并警告",
-                "behavior": "apply_default_model"
-            }
-        ]
+  "id": "rule.cron-task-model-requirement-001",
+  "name": "cron_task_model_requirement",
+  "domain": "cron",
+  "type": "validation_rule",
+  "description": "定时任务必须指定模型规则 - GLM-5优先，Claude-Sonnet备选",
+  "trigger": {
+    "type": "event",
+    "patterns": [
+      "cron:create",
+      "cron:update",
+      "cron:validate"
+    ],
+    "events": {
+      "L1": [
+        "cron.task.created",
+        "cron.task.updated",
+        "cron.task.validated"
+      ]
     },
-    "condition": {
-        "payload": {
-            "kind": "agentTurn"
-        }
-    },
-    "validation": {
-        "required_field": "model",
-        "model_priority": [
-            "zhipu/glm-5"
-        ],
-        "error_message": "定时任务必须指定模型。优先级：1) GLM-5 (强推理) 2) Claude Sonnet (备选)"
-    },
-    "action": {
-        "type": "enforce",
-        "on_missing": "reject",
-        "default_model": "claude/claude-sonnet-4-6",
-        "auto_fix": false
-    },
-    "governance": {
-        "auto_execute": true,
-        "councilRequired": false,
-        "priority": 20
-    },
-    "created_at": "2026-02-26T15:40:00+08:00",
-    "version": "1.0.0",
-    "enforcement_tier": "P0_gate"
+    "condition": "{'payload': {'kind': 'agentTurn'}}"
+  },
+  "condition": {
+    "payload": {
+      "kind": "agentTurn"
+    }
+  },
+  "validation": {
+    "required_field": "model",
+    "model_priority": [
+      "zhipu/glm-5"
+    ],
+    "error_message": "定时任务必须指定模型。优先级：1) GLM-5 (强推理) 2) Claude Sonnet (备选)"
+  },
+  "action": {
+    "type": "enforce",
+    "on_missing": "reject",
+    "default_model": "claude/claude-sonnet-4-6",
+    "auto_fix": false,
+    "handler": "cron-task-model",
+    "on_failure": "reject"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "priority": 20
+  },
+  "created_at": "2026-02-26T15:40:00+08:00",
+  "version": "1.0.0",
+  "enforcement_tier": "P0_gate",
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

@@ -46,8 +46,9 @@ const DEFAULT_ROUTES = Object.freeze({
 });
 
 // ── Default feature flags ───────────────────────────────────────
+// D10 Fix: L3_PIPELINE_ENABLED must default to true (was false — debt repair 2026-03-05)
 const DEFAULT_FLAGS = Object.freeze({
-  L3_PIPELINE_ENABLED: false,
+  L3_PIPELINE_ENABLED: true,
   L3_EVENTBUS_ENABLED: true,
   L3_RULEMATCHER_ENABLED: true,
   L3_INTENTSCANNER_ENABLED: true,

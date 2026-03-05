@@ -24,7 +24,7 @@ try {
 // ── 默认值（硬编码兜底） ──────────────────────────────
 const DEFAULTS = Object.freeze({
   // ─── 核心模块开关 ───
-  L3_PIPELINE_ENABLED:              false,   // 总开关，false = L2直通
+  L3_PIPELINE_ENABLED:              true,    // 总开关，true = L3 Pipeline启用
   L3_EVENTBUS_ENABLED:              true,
   L3_RULEMATCHER_ENABLED:           true,
   L3_INTENTSCANNER_ENABLED:         true,

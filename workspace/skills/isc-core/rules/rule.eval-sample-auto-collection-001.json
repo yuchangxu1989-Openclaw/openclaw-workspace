@@ -12,17 +12,15 @@
     "样本池每周review，人工标注后入库到tests/registry.json"
   ],
   "trigger": {
-    "events": [
-      "intent.classified",
-      "pipeline.completed",
-      "test.failed"
-    ],
-    "actions": [
-      {
-        "type": "auto_collect",
-        "description": "自动收集为评测样本"
-      }
-    ]
+    "events": {
+      "L1": [
+        "intent.classified",
+        "test.failed"
+      ],
+      "L2": [
+        "pipeline.completed"
+      ]
+    }
   },
   "enforcement": {
     "on_violation": "warn_and_log",
@@ -32,5 +30,13 @@
       "pipeline_samples": "tests/collection/pending/",
       "regression_samples": "tests/regression/"
     }
-  }
+  },
+  "action": {
+    "type": "auto",
+    "handler": "eval-sample-auto",
+    "on_failure": "retry",
+    "description": "自动收集为评测样本"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

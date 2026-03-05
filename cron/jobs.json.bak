@@ -180,7 +180,7 @@
       "name": "全局自主决策流水线-每30分钟",
       "enabled": true,
       "createdAtMs": 1771992026679,
-      "updatedAtMs": 1772650850599,
+      "updatedAtMs": 1772668816231,
       "schedule": {
         "kind": "cron",
         "expr": "*/30 * * * *"
@@ -197,10 +197,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772652600000,
-        "lastRunAtMs": 1772650800005,
+        "nextRunAtMs": 1772670600000,
+        "lastRunAtMs": 1772668800006,
         "lastStatus": "ok",
-        "lastDurationMs": 50594,
+        "lastDurationMs": 16225,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "delivered",
@@ -300,13 +300,14 @@
         "lastRunAtMs": 1772647251948,
         "lastStatus": "error",
         "lastDurationMs": 29380,
-        "consecutiveErrors": 1,
+        "consecutiveErrors": 0,
         "lastRunStatus": "error",
         "lastDeliveryStatus": "unknown",
-        "lastError": "Delivering to Feishu requires target <chatId|user:openId|chat:chatId>"
+        "lastError": ""
       },
       "delivery": {
-        "mode": "announce"
+        "mode": "announce",
+        "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       }
     },
     {
@@ -339,10 +340,10 @@
         "lastStatus": "error",
         "lastRunAtMs": 1772553781564,
         "lastDurationMs": 600010,
-        "consecutiveErrors": 2,
+        "consecutiveErrors": 0,
         "lastRunStatus": "error",
         "lastDeliveryStatus": "unknown",
-        "lastError": "cron: job execution timed out"
+        "lastError": ""
       }
     },
     {
@@ -386,7 +387,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772650937127,
+      "updatedAtMs": 1772668870919,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -406,11 +407,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772654407906,
-        "lastRunAtMs": 1772650894058,
+        "nextRunAtMs": 1772672407906,
+        "lastRunAtMs": 1772668859719,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 43069,
+        "lastDurationMs": 11200,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
         "lastDelivered": true
@@ -422,7 +423,7 @@
       "name": "系统状态与流水线监控-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772640687518,
+      "updatedAtMs": 1772669444038,
       "schedule": {
         "expr": "10 */4 * * *",
         "kind": "cron",
@@ -441,11 +442,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772655000000,
-        "lastRunAtMs": 1772640600006,
+        "nextRunAtMs": 1772683800000,
+        "lastRunAtMs": 1772669400007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 87512,
+        "lastDurationMs": 44031,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
         "lastDelivered": true
@@ -493,7 +494,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772650944509,
+      "updatedAtMs": 1772668995886,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -510,17 +511,17 @@
       },
       "delivery": {
         "mode": "announce",
-        "target": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
+        "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772654544509,
-        "lastRunAtMs": 1772650937127,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 7382,
-        "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 5,
-        "lastError": "Delivering to Feishu requires target <chatId|user:openId|chat:chatId>"
+        "nextRunAtMs": 1772672478795,
+        "lastRunAtMs": 1772668984699,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 11187,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": true
       }
     },
     {
@@ -529,7 +530,7 @@
       "name": "OpenClaw-自动备份-每日两次",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772622043292,
+      "updatedAtMs": 1772665228186,
       "schedule": {
         "expr": "0 7,19 * * *",
         "kind": "cron",
@@ -548,11 +549,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772665200000,
-        "lastRunAtMs": 1772622017619,
+        "nextRunAtMs": 1772708400000,
+        "lastRunAtMs": 1772665215229,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 25673,
+        "lastDurationMs": 12957,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
         "lastDelivered": true
@@ -564,7 +565,7 @@
       "name": "能力同步与PDCA-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772640374013,
+      "updatedAtMs": 1772669115955,
       "schedule": {
         "expr": "5 */4 * * *",
         "kind": "cron",
@@ -579,17 +580,18 @@
         "timeoutSeconds": 300
       },
       "delivery": {
-        "mode": "announce"
+        "mode": "announce",
+        "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772654700000,
-        "lastRunAtMs": 1772640300007,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 74006,
-        "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 2,
-        "lastError": "Delivering to Feishu requires target <chatId|user:openId|chat:chatId>"
+        "nextRunAtMs": 1772683500000,
+        "lastRunAtMs": 1772669100007,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 15948,
+        "lastDeliveryStatus": "delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": true
       }
     },
     {
@@ -633,7 +635,7 @@
       "name": "运维辅助-清理与向量化-综合",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772642220013,
+      "updatedAtMs": 1772663820017,
       "schedule": {
         "expr": "35 */6 * * *",
         "kind": "cron",
@@ -651,14 +653,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772663700000,
-        "lastRunAtMs": 1772642100005,
+        "nextRunAtMs": 1772685300000,
+        "lastRunAtMs": 1772663700006,
         "lastRunStatus": "error",
         "lastStatus": "error",
-        "lastDurationMs": 120008,
+        "lastDurationMs": 120011,
         "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 1,
-        "lastError": "cron: job execution timed out"
+        "consecutiveErrors": 0,
+        "lastError": ""
       }
     },
     {
@@ -667,7 +669,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772651432754,
+      "updatedAtMs": 1772670360017,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -685,15 +687,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772651700000,
-        "lastRunAtMs": 1772651400008,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 32746,
-        "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772651700006
+        "nextRunAtMs": 1772670600000,
+        "lastRunAtMs": 1772670300008,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 60009,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 1,
+        "lastError": "cron: job execution timed out"
       }
     },
     {
@@ -702,7 +703,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772650892044,
+      "updatedAtMs": 1772669773003,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -720,15 +721,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772651700000,
-        "lastRunAtMs": 1772650884501,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 7543,
-        "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772651700006
+        "nextRunAtMs": 1772670600000,
+        "lastRunAtMs": 1772669712993,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 60010,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 1,
+        "lastError": "cron: job execution timed out"
       }
     },
     {
@@ -737,7 +737,7 @@
       "name": "记忆摘要-每6小时",
       "enabled": true,
       "createdAtMs": 1772607350016,
-      "updatedAtMs": 1772640156472,
+      "updatedAtMs": 1772661686147,
       "schedule": {
         "expr": "0 */6 * * *",
         "kind": "cron",
@@ -756,14 +756,49 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772661610278,
-        "lastRunAtMs": 1772640134993,
+        "nextRunAtMs": 1772683210278,
+        "lastRunAtMs": 1772661670447,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 21479,
+        "lastDurationMs": 15700,
         "lastDelivered": false,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "d2-03-cron-healer",
+      "agentId": "cron-worker",
+      "name": "D2-03-自愈守卫-每15分钟",
+      "enabled": true,
+      "createdAtMs": 1772669566167,
+      "updatedAtMs": 1772670479162,
+      "schedule": {
+        "expr": "*/15 * * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "运行D2-03自愈守卫：node /root/.openclaw/workspace/infrastructure/self-healing/cron-healer.js。如有修复或escalate，在结果中说明。",
+        "model": "claude/claude-sonnet-4-6",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
+      },
+      "state": {
+        "nextRunAtMs": 1772670600000,
+        "lastRunAtMs": 1772670466174,
+        "lastStatus": "ok",
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDurationMs": 12988,
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
       }
     }
   ]

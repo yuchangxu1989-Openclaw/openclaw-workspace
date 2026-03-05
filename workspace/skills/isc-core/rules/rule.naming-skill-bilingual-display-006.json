@@ -14,16 +14,20 @@
   "created_at": "2026-02-23T19:28:00Z",
   "status": "active",
   "trigger": {
-    "events": [
-      "isc:rule:matched",
-      "isc:category:user_experience"
-    ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "info"
-      }
-    ]
+    "events": {
+      "L1": [
+        "isc:rule:matched",
+        "isc:category:user_experience"
+      ]
+    }
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "monitor",
+    "handler": "bilingual-display-checker",
+    "on_failure": "warn",
+    "description": "报告输出时检查技能名称是否包含双语展示，不符合则警告"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

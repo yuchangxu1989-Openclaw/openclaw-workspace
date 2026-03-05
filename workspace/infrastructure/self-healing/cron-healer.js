@@ -39,6 +39,82 @@ const KNOWN_PATTERNS = [
       job.delivery.to = defaultTo;
       return { field: 'delivery.to', added: defaultTo };
     }
+  },
+  // D15: 新增模式库 - 扩展覆盖范围
+  {
+    id: 'script-not-found',
+    match: (job) => {
+      const err = job.state?.lastError || '';
+      const cmd = job.command || '';
+      return (err.includes('ENOENT') || err.includes('Cannot find module') || err.includes('No such file')) && cmd;
+    },
+    description: 'Script file not found - disable job and notify',
+    fix: (job) => {
+      const oldEnabled = job.enabled;
+      job.enabled = false;
+      job.state.disabledReason = `auto-disabled: script not found (${job.state.lastError?.slice(0, 100)})`;
+      return { field: 'enabled', old: oldEnabled, new: false, reason: 'script_not_found' };
+    }
+  },
+  {
+    id: 'timeout-too-short',
+    match: (job) => {
+      const err = job.state?.lastError || '';
+      return err.includes('timeout') || err.includes('ETIMEDOUT') || err.includes('exceeded');
+    },
+    description: 'Job timed out - double the timeout if configured',
+    fix: (job) => {
+      const oldTimeout = job.timeoutMs;
+      if (oldTimeout && oldTimeout < 300000) { // max 5 min
+        job.timeoutMs = Math.min(oldTimeout * 2, 300000);
+        return { field: 'timeoutMs', old: oldTimeout, new: job.timeoutMs };
+      }
+      // If no timeout or already at max, disable retries
+      job.state.skipRetry = true;
+      return { field: 'skipRetry', added: true, reason: 'timeout_max_reached' };
+    }
+  },
+  {
+    id: 'permission-denied',
+    match: (job) => {
+      const err = job.state?.lastError || '';
+      return err.includes('EACCES') || err.includes('permission denied') || err.includes('EPERM');
+    },
+    description: 'Permission denied - disable job until manual intervention',
+    fix: (job) => {
+      const oldEnabled = job.enabled;
+      job.enabled = false;
+      job.state.disabledReason = `auto-disabled: permission denied (requires manual fix)`;
+      return { field: 'enabled', old: oldEnabled, new: false, reason: 'permission_denied' };
+    }
+  },
+  {
+    id: 'syntax-error-in-command',
+    match: (job) => {
+      const err = job.state?.lastError || '';
+      return err.includes('SyntaxError') || err.includes('Unexpected token') || err.includes('is not a function');
+    },
+    description: 'Syntax/runtime error in script - disable and log for manual fix',
+    fix: (job) => {
+      const oldEnabled = job.enabled;
+      job.enabled = false;
+      job.state.disabledReason = `auto-disabled: code error — ${job.state.lastError?.slice(0, 150)}`;
+      return { field: 'enabled', old: oldEnabled, new: false, reason: 'code_error' };
+    }
+  },
+  {
+    id: 'api-key-error',
+    match: (job) => {
+      const err = job.state?.lastError || '';
+      return err.includes('401') || err.includes('403') || err.includes('invalid_api_key') || err.includes('API key');
+    },
+    description: 'API key invalid/expired - disable job, require key rotation',
+    fix: (job) => {
+      const oldEnabled = job.enabled;
+      job.enabled = false;
+      job.state.disabledReason = `auto-disabled: API authentication failure — rotate API keys`;
+      return { field: 'enabled', old: oldEnabled, new: false, reason: 'api_key_invalid' };
+    }
   }
 ];
 
@@ -108,4 +184,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { run };
+module.exports = { run, KNOWN_PATTERNS };

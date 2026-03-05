@@ -7,14 +7,12 @@
   "scope": "system-wide",
   "enforcement_tier": "P0_gate",
   "trigger": {
-    "events": ["user.message"],
-    "condition": "intent_classification_available",
-    "actions": [
-      {
-        "type": "route",
-        "description": "基于意图分类路由到对应处理器"
-      }
-    ]
+    "events": {
+      "L1": [
+        "user.message"
+      ]
+    },
+    "condition": "intent_classification_available"
   },
   "routing_rules": {
     "strategy": "intent_first",
@@ -60,5 +58,13 @@
     "created": "2026-03-05",
     "author": "system",
     "priority": 100
-  }
+  },
+  "action": {
+    "type": "route",
+    "handler": "user-message-intent",
+    "on_failure": "warn",
+    "description": "基于意图分类路由到对应处理器"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

@@ -1,0 +1,215 @@
+{
+  "id": "rule.vectorization-auto-trigger-001",
+  "name": "resource_lifecycle_auto_vectorization",
+  "domain": "vectorization",
+  "type": "rule",
+  "scope": "global",
+  "description": "资源生命周期自动向量化 - 任何资源(skill/memory/knowledge/aeo)的生命周期事件(created/updated/fixed/merged/deleted)统一触发向量化处理。参数化通配规则，替代原17条分散规则。",
+  "version": "1.0.0",
+  "priority": 10,
+  "parameters": {
+    "resource_types": [
+      "skill",
+      "memory",
+      "knowledge",
+      "aeo"
+    ],
+    "lifecycle_events": [
+      "created",
+      "updated",
+      "fixed",
+      "merged",
+      "deleted"
+    ],
+    "event_pattern": "{resource_type}.{event_type}",
+    "vector_engine": "zhipu-embedding-3",
+    "vector_dimension": 1024
+  },
+  "event_pattern_match": {
+    "description": "通配匹配：{resource_type}.{event_type}，resource_type和event_type取自parameters",
+    "patterns": [
+      "skill.created",
+      "skill.updated",
+      "skill.fixed",
+      "skill.merged",
+      "skill.deleted",
+      "memory.created",
+      "memory.updated",
+      "memory.fixed",
+      "memory.merged",
+      "memory.deleted",
+      "knowledge.created",
+      "knowledge.updated",
+      "knowledge.fixed",
+      "knowledge.merged",
+      "knowledge.deleted",
+      "aeo.evaluation_set.created",
+      "aeo.evaluation_set.updated"
+    ],
+    "wildcard_syntax": "{resource_type}.{event_type}"
+  },
+  "condition": {
+    "type": "event_pattern",
+    "match": "{resource_type}.{event_type}",
+    "resource_type": [
+      "skill",
+      "memory",
+      "knowledge",
+      "aeo"
+    ],
+    "event_type": [
+      "created",
+      "updated",
+      "fixed",
+      "merged",
+      "deleted"
+    ]
+  },
+  "resource_path_mapping": {
+    "skill": {
+      "source_pattern": "skills/{resource_id}/SKILL.md",
+      "vector_path": "infrastructure/vector-service/vectors/skill-{resource_id}.json",
+      "additional_docs": [
+        "evaluation-set",
+        "architecture-design"
+      ]
+    },
+    "memory": {
+      "source_pattern": "memory/{resource_id}.md",
+      "vector_path": "infrastructure/vector-service/vectors/memory-{resource_id}.json"
+    },
+    "knowledge": {
+      "source_pattern": "knowledge/{resource_id}.json",
+      "vector_path": "infrastructure/vector-service/vectors/knowledge-{resource_id}.json"
+    },
+    "aeo": {
+      "source_pattern": "aeo/evaluation-sets/{resource_id}.json",
+      "vector_path": "infrastructure/vector-service/vectors/aeo-{resource_id}.json"
+    }
+  },
+  "lifecycle_actions": {
+    "created": {
+      "action": "full_vectorize",
+      "description": "资源创建时立即全量向量化",
+      "async": false,
+      "timeout_seconds": 300
+    },
+    "updated": {
+      "action": "incremental_vectorize",
+      "description": "资源更新时增量向量化（仅变更部分）",
+      "async": false,
+      "timeout_seconds": 300
+    },
+    "fixed": {
+      "action": "full_vectorize",
+      "description": "资源修复后全量重新向量化",
+      "async": false,
+      "timeout_seconds": 300
+    },
+    "merged": {
+      "action": "full_vectorize",
+      "description": "资源合并后全量重新向量化",
+      "async": false,
+      "timeout_seconds": 300
+    },
+    "deleted": {
+      "action": "delete_vectors",
+      "description": "资源删除时立即清理对应所有向量文件",
+      "async": false,
+      "timeout_seconds": 60,
+      "backup_before_delete": true,
+      "backup_path": "infrastructure/vector-service/backup/deleted/{resource_type}-{resource_id}/"
+    }
+  },
+  "auto_trigger": {
+    "enabled": true,
+    "on_events": [
+      "skill.created",
+      "skill.updated",
+      "skill.fixed",
+      "skill.merged",
+      "skill.deleted",
+      "memory.created",
+      "memory.updated",
+      "memory.deleted",
+      "knowledge.created",
+      "knowledge.updated",
+      "knowledge.deleted",
+      "aeo.evaluation_set.created",
+      "aeo.evaluation_set.updated"
+    ],
+    "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args_template": [
+      "--event={event_type}",
+      "--type={resource_type}",
+      "--resource-id={resource_id}"
+    ],
+    "immediate": true
+  },
+  "execution_policy": {
+    "mode": "continuous",
+    "sequential": true,
+    "parallel_workers": 1,
+    "retry_on_failure": true,
+    "max_retries": 3,
+    "retry_delay_seconds": 5
+  },
+  "vector_standard": {
+    "engine": "zhipu",
+    "model": "embedding-3",
+    "dimension": 1024,
+    "api_url": "open.bigmodel.cn",
+    "batch_size": 5,
+    "deprecated_engines": [
+      "tfidf",
+      "bge-m3",
+      "local"
+    ]
+  },
+  "output": {
+    "vector_output_path": "infrastructure/vector-service/vectors/{resource_type}-{resource_id}.json",
+    "index_update": "infrastructure/vector-service/index.json",
+    "metadata_log": "infrastructure/vector-service/logs/vectorization.log"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "severity": "error",
+    "blocking": false
+  },
+  "trigger": {
+    "events": {
+      "L1": [
+        "isc:rule:matched",
+        "isc:category:vectorization"
+      ]
+    },
+    "condition": "{'type': 'event_pattern', 'match': '{resource_type}.{event_type}', 'resource_type': ['skill', 'memory', 'knowledge', 'aeo'], 'event_type': ['created', 'updated', 'fixed', 'merged', 'deleted']}"
+  },
+  "enforcement_tier": "P1_process",
+  "created_at": "2026-03-05T07:55:00+08:00",
+  "updated_at": "2026-03-05T07:55:00+08:00",
+  "replaces": [
+    "auto-skill-change-vectorization-028.json",
+    "rule.vectorization.aeo-auto-001.json",
+    "rule.vectorization-aeo-created-001.json",
+    "rule.vectorization.knowledge-auto-001.json",
+    "rule.vectorization-knowledge-created-001.json",
+    "rule.vectorization.memory-auto-001.json",
+    "rule.vectorization-memory-created-001.json",
+    "rule.vectorization.skill-auto-001.json",
+    "rule.vectorization-skill-created-001.json",
+    "rule.vectorization-skill-deleted-001.json",
+    "rule.vectorization-skill-fixed-001.json",
+    "rule.vectorization.skill-lifecycle-002.json",
+    "rule.vectorization-skill-merged-001.json",
+    "rule.vectorization-skill-updated-001.json"
+  ],
+  "action": {
+    "type": "monitor",
+    "handler": "vectorization-auto-trigger",
+    "on_failure": "warn"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
+}

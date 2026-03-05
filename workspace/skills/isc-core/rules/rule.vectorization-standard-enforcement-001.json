@@ -1,0 +1,124 @@
+{
+  "id": "rule.vectorization-standard-enforcement-001",
+  "name": "unified_vectorization_standard_enforcement",
+  "domain": "vectorization",
+  "type": "standard",
+  "scope": "global",
+  "description": "向量化统一标准强制执行 - 禁止TF-IDF/本地模型，强制使用智谱Embedding API(1024维)；定期扫描孤儿向量并清理；强制合规检查。本规则与 rule.vectorization-auto-trigger-001 配合使用，后者负责触发，本规则负责标准保障。",
+  "version": "1.0.0",
+  "priority": 10,
+  "vector_standard": {
+    "engine": "zhipu",
+    "model": "embedding-3",
+    "dimension": 1024,
+    "api_url": "open.bigmodel.cn",
+    "batch_size": 5,
+    "prohibited_engines": [
+      "tfidf",
+      "bge-m3",
+      "local"
+    ],
+    "mixed_vector_types_allowed": false
+  },
+  "prohibition": {
+    "tfidf_enabled": false,
+    "local_embedding": false,
+    "mixed_vector_types": false,
+    "on_violation": "block_and_alert"
+  },
+  "orphan_cleanup": {
+    "description": "定期扫描并清理孤儿向量（源文件不存在但向量仍存在）",
+    "schedule": "0 2 * * *",
+    "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args": [
+      "--cleanup-orphans",
+      "--dry-run=false"
+    ],
+    "dry_run_first": true,
+    "backup_before_delete": true,
+    "backup_path": "infrastructure/vector-service/backup/orphan-vectors/",
+    "timeout_minutes": 30,
+    "resource_types": [
+      "skill",
+      "memory",
+      "knowledge",
+      "aeo"
+    ],
+    "check_patterns": {
+      "skill": {
+        "vector_pattern": "infrastructure/vector-service/vectors/skill-*.json",
+        "source_pattern": "skills/{name}/SKILL.md",
+        "extract_name_regex": "skill-([^/]+)\\.json$"
+      },
+      "memory": {
+        "vector_pattern": "infrastructure/vector-service/vectors/memory-*.json",
+        "source_pattern": "memory/{name}.md",
+        "extract_name_regex": "memory-([^/]+)\\.json$"
+      },
+      "knowledge": {
+        "vector_pattern": "infrastructure/vector-service/vectors/knowledge-*.json",
+        "source_pattern": "knowledge/{name}.json",
+        "extract_name_regex": "knowledge-([^/]+)\\.json$"
+      },
+      "aeo": {
+        "vector_pattern": "infrastructure/vector-service/vectors/aeo-*.json",
+        "source_pattern": "aeo/evaluation-sets/{name}.json",
+        "extract_name_regex": "aeo-([^/]+)\\.json$"
+      }
+    },
+    "cleanup_criteria": {
+      "source_missing": true,
+      "vector_age_days": 7,
+      "grace_period_days": 3
+    }
+  },
+  "compliance_scan": {
+    "description": "定期扫描向量合规性（维度、引擎、格式）",
+    "schedule": "0 4 * * *",
+    "scan_interval_fallback": "6h",
+    "action": "enforce_standard",
+    "cleanup_deprecated": true,
+    "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args": [
+      "--compliance-scan"
+    ]
+  },
+  "migration": {
+    "from_version": "1.0.0",
+    "changes": [
+      "TF-IDF已废弃，所有向量必须重新生成",
+      "向量维度统一为1024",
+      "所有向量化通过智谱API完成"
+    ],
+    "migration_deadline": "2026-03-01T00:00:00+08:00"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "severity": "error",
+    "blocking": true,
+    "logging": "verbose"
+  },
+  "trigger": {
+    "events": {
+      "L1": [
+        "isc:rule:matched",
+        "isc:category:vectorization"
+      ]
+    }
+  },
+  "enforcement_tier": "P1_process",
+  "created_at": "2026-03-05T07:55:00+08:00",
+  "updated_at": "2026-03-05T07:55:00+08:00",
+  "replaces": [
+    "rule.vectorization.unified-standard-001.json",
+    "rule.vectorization.skill-cleanup-003.json"
+  ],
+  "action": {
+    "type": "monitor",
+    "handler": "vectorization-standard-enforcement",
+    "on_failure": "warn"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
+}

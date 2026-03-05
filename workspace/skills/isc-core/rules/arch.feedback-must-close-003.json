@@ -7,7 +7,10 @@
   "source": "Day 1/2设计债务复盘 — AP-003架构原则，根因γ修复",
   "trigger": {
     "events": {
-      "META": ["system.event.orphan_report", "system.event.dead_channel"]
+      "META": [
+        "system.event.orphan_report",
+        "system.event.dead_channel"
+      ]
     },
     "condition": "orphan_count > 0 OR dead_channel_detected"
   },
@@ -17,5 +20,6 @@
     "on_failure": "escalate"
   },
   "enforcement": "runtime_binding",
-  "enforcement_tier": "P1_monitor"
+  "enforcement_tier": "P1_monitor",
+  "schema_version": "2.0"
 }

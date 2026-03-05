@@ -1,122 +1,127 @@
 {
-    "type": "detection",
-    "id": "N018",
-    "name": "skill_rename_global_reference_alignment",
-    "description": "技能重命名全局引用对齐 - 检测到技能/模块重命名或移动时，自动扫描并更新所有引用点",
-    "domain": "architecture",
-    "scope": "system-wide",
-    "trigger": {
-        "events": [
-            "skill_renamed",
-            "skill_moved",
-            "module_refactored"
+  "type": "detection",
+  "id": "N018",
+  "name": "skill_rename_global_reference_alignment",
+  "description": "技能重命名全局引用对齐 - 检测到技能/模块重命名或移动时，自动扫描并更新所有引用点",
+  "domain": "architecture",
+  "scope": "system-wide",
+  "trigger": {
+    "events": {
+      "L1": [
+        "skill_renamed",
+        "skill_moved",
+        "module_refactored"
+      ]
+    },
+    "detection_method": "file_system_watcher",
+    "condition": "detection_active"
+  },
+  "governance": {
+    "auto_execute": true,
+    "priority": "HIGH",
+    "risk_level": "high",
+    "requires_backup": true
+  },
+  "scan_targets": [
+    {
+      "type": "cron_jobs",
+      "location": ".openclaw/cron/jobs.json",
+      "scan_pattern": "command|script_path"
+    },
+    {
+      "type": "dto_subscriptions",
+      "location": "skills/dto-core/subscriptions/",
+      "scan_pattern": "rule_id|file_reference"
+    },
+    {
+      "type": "isc_rules",
+      "location": "skills/isc-core/rules/",
+      "scan_pattern": "references|dependencies"
+    },
+    {
+      "type": "skill_imports",
+      "location": "skills/**/index.js",
+      "scan_pattern": "require|import"
+    },
+    {
+      "type": "documentation",
+      "location": "**/*.md",
+      "scan_pattern": "skill_name|file_path"
+    },
+    {
+      "type": "capability_anchor",
+      "location": "CAPABILITY-ANCHOR.md",
+      "scan_pattern": "skill_reference"
+    }
+  ],
+  "execution": {
+    "type": "phased_update",
+    "phases": [
+      {
+        "phase": 1,
+        "name": "scan_and_identify",
+        "action": "scan_all_targets",
+        "output": "affected_references_list"
+      },
+      {
+        "phase": 2,
+        "name": "backup",
+        "action": "create_backup",
+        "target": "all_files_to_modify"
+      },
+      {
+        "phase": 3,
+        "name": "update_references",
+        "action": "batch_update",
+        "order": [
+          "cron_jobs",
+          "dto_subscriptions",
+          "isc_rules",
+          "skill_imports",
+          "documentation",
+          "capability_anchor"
         ],
-        "detection_method": "file_system_watcher",
-        "actions": [
-            {
-                "type": "auto_trigger",
-                "description": "技能重命名后自动扫描全局引用并执行对齐更新"
-            }
+        "verification_each": true
+      },
+      {
+        "phase": 4,
+        "name": "verify_integrity",
+        "action": "run_integrity_checks",
+        "checks": [
+          "no_broken_cron_references",
+          "no_import_errors",
+          "dto_subscriptions_aligned",
+          "isc_dto_handshake_pass"
         ]
-    },
-    "governance": {
-        "auto_execute": true,
-        "priority": "HIGH",
-        "risk_level": "high",
-        "requires_backup": true
-    },
-    "scan_targets": [
-        {
-            "type": "cron_jobs",
-            "location": ".openclaw/cron/jobs.json",
-            "scan_pattern": "command|script_path"
-        },
-        {
-            "type": "dto_subscriptions",
-            "location": "skills/dto-core/subscriptions/",
-            "scan_pattern": "rule_id|file_reference"
-        },
-        {
-            "type": "isc_rules",
-            "location": "skills/isc-core/rules/",
-            "scan_pattern": "references|dependencies"
-        },
-        {
-            "type": "skill_imports",
-            "location": "skills/**/index.js",
-            "scan_pattern": "require|import"
-        },
-        {
-            "type": "documentation",
-            "location": "**/*.md",
-            "scan_pattern": "skill_name|file_path"
-        },
-        {
-            "type": "capability_anchor",
-            "location": "CAPABILITY-ANCHOR.md",
-            "scan_pattern": "skill_reference"
-        }
+      }
     ],
-    "execution": {
-        "type": "phased_update",
-        "phases": [
-            {
-                "phase": 1,
-                "name": "scan_and_identify",
-                "action": "scan_all_targets",
-                "output": "affected_references_list"
-            },
-            {
-                "phase": 2,
-                "name": "backup",
-                "action": "create_backup",
-                "target": "all_files_to_modify"
-            },
-            {
-                "phase": 3,
-                "name": "update_references",
-                "action": "batch_update",
-                "order": [
-                    "cron_jobs",
-                    "dto_subscriptions",
-                    "isc_rules",
-                    "skill_imports",
-                    "documentation",
-                    "capability_anchor"
-                ],
-                "verification_each": true
-            },
-            {
-                "phase": 4,
-                "name": "verify_integrity",
-                "action": "run_integrity_checks",
-                "checks": [
-                    "no_broken_cron_references",
-                    "no_import_errors",
-                    "dto_subscriptions_aligned",
-                    "isc_dto_handshake_pass"
-                ]
-            }
-        ],
-        "rollback_on_failure": true
+    "rollback_on_failure": true
+  },
+  "notification": {
+    "on_detection": {
+      "channel": "feishu",
+      "format": "compact",
+      "content": "检测到技能重命名: {old_name} → {new_name}，开始全局引用对齐"
     },
-    "notification": {
-        "on_detection": {
-            "channel": "feishu",
-            "format": "compact",
-            "content": "检测到技能重命名: {old_name} → {new_name}，开始全局引用对齐"
-        },
-        "on_complete": {
-            "content": "全局引用对齐完成，更新{affected_count}处引用"
-        },
-        "on_failure": {
-            "level": "critical",
-            "content": "全局对齐失败，已回滚到备份状态，需人工检查"
-        }
+    "on_complete": {
+      "content": "全局引用对齐完成，更新{affected_count}处引用"
     },
-    "created_at": "2026-02-25T23:45:00Z",
-    "updated_at": "2026-02-25T23:46:46+08:00",
-    "version": "1.0.0",
-    "status": "active",
-    "enforcement_tier": "P1_process"
+    "on_failure": {
+      "level": "critical",
+      "content": "全局对齐失败，已回滚到备份状态，需人工检查"
+    }
+  },
+  "created_at": "2026-02-25T23:45:00Z",
+  "updated_at": "2026-02-25T23:46:46+08:00",
+  "version": "1.0.0",
+  "status": "active",
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "auto",
+    "handler": "detection-skill-rename",
+    "on_failure": "retry",
+    "description": "技能重命名后自动扫描全局引用并执行对齐更新"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

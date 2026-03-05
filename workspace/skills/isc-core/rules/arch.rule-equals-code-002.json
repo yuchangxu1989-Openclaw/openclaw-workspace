@@ -7,8 +7,13 @@
   "source": "Day 1/2设计债务复盘 — AP-002架构原则，根因β修复",
   "trigger": {
     "events": {
-      "L1": ["isc.rule.created", "isc.rule.updated"],
-      "L2": ["isc.enforcement.rate.threshold_crossed"]
+      "L1": [
+        "isc.rule.created",
+        "isc.rule.updated"
+      ],
+      "L2": [
+        "isc.enforcement.rate.threshold_crossed"
+      ]
     },
     "condition": "enforcement_rate < 100%"
   },
@@ -25,5 +30,6 @@
     "on_failure": "warn"
   },
   "enforcement": "runtime_binding",
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "schema_version": "2.0"
 }

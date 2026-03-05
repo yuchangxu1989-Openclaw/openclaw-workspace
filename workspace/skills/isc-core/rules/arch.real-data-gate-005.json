@@ -7,7 +7,9 @@
   "source": "Day 1/2设计债务复盘 — AP-005架构原则，根因α修复",
   "trigger": {
     "events": {
-      "L2": ["quality.benchmark.completed"]
+      "L2": [
+        "quality.benchmark.completed"
+      ]
     },
     "condition": "mode == 'acceptance'"
   },
@@ -17,5 +19,6 @@
     "on_failure": "reject"
   },
   "enforcement": "runtime_binding",
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "schema_version": "2.0"
 }

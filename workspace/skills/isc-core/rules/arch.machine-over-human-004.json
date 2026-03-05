@@ -7,7 +7,9 @@
   "source": "Day 1/2设计债务复盘 — AP-004架构原则，根因δ修复",
   "trigger": {
     "events": {
-      "L2": ["quality.automation.gap_found"]
+      "L2": [
+        "quality.automation.gap_found"
+      ]
     },
     "condition": "manual_check_found_without_automation"
   },
@@ -17,5 +19,6 @@
     "on_failure": "warn"
   },
   "enforcement": "runtime_binding",
-  "enforcement_tier": "P1_monitor"
+  "enforcement_tier": "P1_monitor",
+  "schema_version": "2.0"
 }

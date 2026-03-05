@@ -49,16 +49,20 @@
   "created_at": "2026-02-28",
   "author": "长煦",
   "trigger": {
-    "events": [
-      "isc:rule:matched",
-      "isc:category:general"
-    ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "info"
-      }
-    ]
+    "events": {
+      "L1": [
+        "isc:rule:matched",
+        "isc:category:general"
+      ]
+    }
   },
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "action": {
+    "type": "gate",
+    "handler": "time-granularity-gate",
+    "on_failure": "warn",
+    "description": "计划创建时检查时间粒度是否符合规范，禁止周/月单位"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

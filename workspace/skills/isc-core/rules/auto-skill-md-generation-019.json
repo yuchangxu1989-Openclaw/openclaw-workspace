@@ -1,127 +1,131 @@
 {
-    "type": "auto-generation",
-    "id": "N019",
-    "name": "auto_skill_md_generation",
-    "description": "自动SKILL.md生成 - 代码文件存在但SKILL.md缺失或质量不达标时，由深度思考类模型自动生成",
-    "domain": "automation",
-    "scope": "skill",
-    "trigger": {
-        "events": [
-            "skill_code_created",
-            "skill_code_major_update",
-            "skill_md_missing",
-            "skill_md_quality_low"
-        ],
-        "condition": "code_files_exist AND (skill_md_missing OR skill_md_quality_score < 50)",
-        "actions": [
-            {
-                "type": "auto_trigger",
-                "description": "技能创建或重大更新时自动生成/更新SKILL.md文档"
-            }
-        ]
+  "type": "auto-generation",
+  "id": "N019",
+  "name": "auto_skill_md_generation",
+  "description": "自动SKILL.md生成 - 代码文件存在但SKILL.md缺失或质量不达标时，由深度思考类模型自动生成",
+  "domain": "automation",
+  "scope": "skill",
+  "trigger": {
+    "events": {
+      "L1": [
+        "skill_code_created",
+        "skill_code_major_update",
+        "skill_md_missing",
+        "skill_md_quality_low"
+      ]
     },
-    "detection": {
-        "skill_md_check": {
-            "required_fields": [
-                "name",
-                "description",
-                "version",
-                "usage"
-            ],
-            "min_length": 300,
-            "check_command": "node /root/.openclaw/workspace/skills/isc-document-quality/check-skill-md.js"
-        }
+    "condition": "code_files_exist AND (skill_md_missing OR skill_md_quality_score < 50)"
+  },
+  "detection": {
+    "skill_md_check": {
+      "required_fields": [
+        "name",
+        "description",
+        "version",
+        "usage"
+      ],
+      "min_length": 300,
+      "check_command": "node /root/.openclaw/workspace/skills/isc-document-quality/check-skill-md.js"
+    }
+  },
+  "governance": {
+    "auto_execute": true,
+    "priority": "HIGH",
+    "risk_level": "low",
+    "model_type": "deep_thinking",
+    "model_config": {
+      "type": "deep_thinking",
+      "examples": [
+        "glm-5",
+        "claude-3-opus",
+        "gpt-4o"
+      ],
+      "timeout": 1200,
+      "note": "模型名称不固定，只要是深度思考类模型即可"
+    }
+  },
+  "execution": {
+    "type": "auto_generate",
+    "steps": [
+      {
+        "order": 1,
+        "action": "analyze_code_structure",
+        "description": "分析技能代码结构，提取API、功能、依赖",
+        "executor": "lep-subagent",
+        "method": "analyzeSkillCode",
+        "output": "code_analysis_report"
+      },
+      {
+        "order": 2,
+        "action": "gap_analysis",
+        "description": "对比现有SKILL.md（如有）与代码实际功能，识别差距",
+        "executor": "deep_thinking_model",
+        "prompt_template": "分析以下技能代码与现有文档的差距：\n代码：{{code_analysis}}\n现有文档：{{existing_skill_md}}\n输出：缺失的功能、过时的描述、需补充的示例",
+        "output": "gap_analysis_report"
+      },
+      {
+        "order": 3,
+        "action": "generate_skill_md",
+        "description": "基于代码分析和差距分析，生成完整SKILL.md",
+        "executor": "deep_thinking_model",
+        "prompt_template": "根据以下信息生成标准SKILL.md：\n代码分析：{{code_analysis}}\n差距分析：{{gap_analysis}}\n\n要求：\n1. 严格按照SKILL.md标准格式\n2. 包含name、description、version、usage、examples\n3. 不要虚构功能，只写代码中实际存在的\n4. 使用中文",
+        "output": "generated_skill_md"
+      },
+      {
+        "order": 4,
+        "action": "validate_generation",
+        "description": "验证生成的SKILL.md质量",
+        "executor": "isc-document-quality",
+        "method": "validateSkillMD",
+        "condition": "quality_score >= 70",
+        "on_failure": "regenerate_with_feedback"
+      },
+      {
+        "order": 5,
+        "action": "write_to_file",
+        "description": "写入SKILL.md文件",
+        "executor": "fs",
+        "operation": "writeFile",
+        "path": "{{skill_path}}/SKILL.md",
+        "backup": true
+      },
+      {
+        "order": 6,
+        "action": "trigger_dto_sync",
+        "description": "通知DTO同步更新",
+        "executor": "dto-core",
+        "method": "notifySkillUpdate",
+        "trigger": "global_auto_decision_pipeline"
+      }
+    ]
+  },
+  "regeneration": {
+    "enabled": true,
+    "max_attempts": 3,
+    "feedback_loop": "将验证失败原因反馈给模型，要求改进",
+    "escalation": "3次失败后退化为人工创建任务"
+  },
+  "notification": {
+    "on_generate": {
+      "channel": "feishu",
+      "format": "compact",
+      "content": "✅ 已为 {{skill_name}} 自动生成SKILL.md，质量评分 {{quality_score}}"
     },
-    "governance": {
-        "auto_execute": true,
-        "priority": "HIGH",
-        "risk_level": "low",
-        "model_type": "deep_thinking",
-        "model_config": {
-            "type": "deep_thinking",
-            "examples": [
-                "glm-5",
-                "claude-3-opus",
-                "gpt-4o"
-            ],
-            "timeout": 1200,
-            "note": "模型名称不固定，只要是深度思考类模型即可"
-        }
-    },
-    "execution": {
-        "type": "auto_generate",
-        "steps": [
-            {
-                "order": 1,
-                "action": "analyze_code_structure",
-                "description": "分析技能代码结构，提取API、功能、依赖",
-                "executor": "lep-subagent",
-                "method": "analyzeSkillCode",
-                "output": "code_analysis_report"
-            },
-            {
-                "order": 2,
-                "action": "gap_analysis",
-                "description": "对比现有SKILL.md（如有）与代码实际功能，识别差距",
-                "executor": "deep_thinking_model",
-                "prompt_template": "分析以下技能代码与现有文档的差距：\n代码：{{code_analysis}}\n现有文档：{{existing_skill_md}}\n输出：缺失的功能、过时的描述、需补充的示例",
-                "output": "gap_analysis_report"
-            },
-            {
-                "order": 3,
-                "action": "generate_skill_md",
-                "description": "基于代码分析和差距分析，生成完整SKILL.md",
-                "executor": "deep_thinking_model",
-                "prompt_template": "根据以下信息生成标准SKILL.md：\n代码分析：{{code_analysis}}\n差距分析：{{gap_analysis}}\n\n要求：\n1. 严格按照SKILL.md标准格式\n2. 包含name、description、version、usage、examples\n3. 不要虚构功能，只写代码中实际存在的\n4. 使用中文",
-                "output": "generated_skill_md"
-            },
-            {
-                "order": 4,
-                "action": "validate_generation",
-                "description": "验证生成的SKILL.md质量",
-                "executor": "isc-document-quality",
-                "method": "validateSkillMD",
-                "condition": "quality_score >= 70",
-                "on_failure": "regenerate_with_feedback"
-            },
-            {
-                "order": 5,
-                "action": "write_to_file",
-                "description": "写入SKILL.md文件",
-                "executor": "fs",
-                "operation": "writeFile",
-                "path": "{{skill_path}}/SKILL.md",
-                "backup": true
-            },
-            {
-                "order": 6,
-                "action": "trigger_dto_sync",
-                "description": "通知DTO同步更新",
-                "executor": "dto-core",
-                "method": "notifySkillUpdate",
-                "trigger": "global_auto_decision_pipeline"
-            }
-        ]
-    },
-    "regeneration": {
-        "enabled": true,
-        "max_attempts": 3,
-        "feedback_loop": "将验证失败原因反馈给模型，要求改进",
-        "escalation": "3次失败后退化为人工创建任务"
-    },
-    "notification": {
-        "on_generate": {
-            "channel": "feishu",
-            "format": "compact",
-            "content": "✅ 已为 {{skill_name}} 自动生成SKILL.md，质量评分 {{quality_score}}"
-        },
-        "on_failure": {
-            "level": "warning",
-            "content": "⚠️ {{skill_name}} SKILL.md自动生成失败，已转为人工任务"
-        }
-    },
-    "created_at": "2026-02-26T01:05:00Z",
-    "version": "1.0.0",
-    "status": "proposed",
-    "enforcement_tier": "P1_process"
+    "on_failure": {
+      "level": "warning",
+      "content": "⚠️ {{skill_name}} SKILL.md自动生成失败，已转为人工任务"
+    }
+  },
+  "created_at": "2026-02-26T01:05:00Z",
+  "version": "1.0.0",
+  "status": "proposed",
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "auto",
+    "handler": "lep-subagent",
+    "on_failure": "retry",
+    "description": "技能创建或重大更新时自动生成/更新SKILL.md文档"
+  },
+  "schema_version": "2.0",
+  "migrated_at": "2026-03-05T08:01:40+08:00"
 }

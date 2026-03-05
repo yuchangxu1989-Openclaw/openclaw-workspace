@@ -7,9 +7,18 @@
   "source": "Day 1/2设计债务复盘 — AP-001架构原则，根因α修复",
   "trigger": {
     "events": {
-      "L1": ["skill.lifecycle.created", "skill.lifecycle.published", "isc.rule.created"],
-      "L2": ["quality.benchmark.completed", "orchestration.pipeline.completed"],
-      "META": ["system.day.closure_requested"]
+      "L1": [
+        "skill.lifecycle.created",
+        "skill.lifecycle.published",
+        "isc.rule.created"
+      ],
+      "L2": [
+        "quality.benchmark.completed",
+        "orchestration.pipeline.completed"
+      ],
+      "META": [
+        "system.day.closure_requested"
+      ]
     },
     "condition": "gate_check_required"
   },
@@ -19,5 +28,6 @@
     "on_failure": "reject"
   },
   "enforcement": "runtime_binding",
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "schema_version": "2.0"
 }
