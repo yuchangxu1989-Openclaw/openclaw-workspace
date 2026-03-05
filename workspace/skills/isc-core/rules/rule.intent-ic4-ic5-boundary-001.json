@@ -1,0 +1,78 @@
+{
+  "rule_id": "intent-ic4-ic5-boundary-001",
+  "version": "1.0.0",
+  "name": "IC4/IC5意图边界判定规则",
+  "category": "intent-classification",
+  "description": "明确IC4（隐含意图）与IC5（多意图复合）的边界判定标准",
+  "definitions": {
+    "IC4_implicit_intent": {
+      "label": "隐含意图",
+      "description": "字面意思≠真实意图，需要推理才能理解真实需求，但最终只有1个核心意图",
+      "characteristics": [
+        "表面表述与真实需求存在gap",
+        "需要上下文推理才能还原真实意图",
+        "推理完成后，核心可执行意图仅有1个"
+      ],
+      "examples": [
+        {
+          "input": "这个页面怎么这么慢",
+          "surface": "询问原因",
+          "real_intent": "优化页面性能",
+          "count": 1
+        },
+        {
+          "input": "用户反馈登录有问题",
+          "surface": "传达反馈",
+          "real_intent": "排查并修复登录问题",
+          "count": 1
+        }
+      ]
+    },
+    "IC5_multi_intent": {
+      "label": "多意图复合",
+      "description": "一句话包含≥2个独立可执行的意图/指令",
+      "characteristics": [
+        "可拆分为≥2个独立任务",
+        "每个子任务可独立执行、独立验收",
+        "即使带有隐含特征，只要可拆≥2个独立任务就是IC5"
+      ],
+      "examples": [
+        {
+          "input": "排查hook脚本，我不希望你再git失败",
+          "decomposition": [
+            "排查hook脚本问题",
+            "修复导致git失败的bug",
+            "增加预防措施防止再次失败"
+          ],
+          "count": 3,
+          "note": "虽然有隐含意图特征（'不希望再失败'≠字面），但可拆为3个独立任务→IC5"
+        },
+        {
+          "input": "把日志级别改成debug，然后重启服务看看报错",
+          "decomposition": [
+            "修改日志级别为debug",
+            "重启服务",
+            "检查报错信息"
+          ],
+          "count": 3
+        }
+      ]
+    }
+  },
+  "decision_rule": {
+    "primary": "如果一句话能拆成≥2个独立可执行任务→IC5，即使有隐含特征",
+    "secondary": "如果推理后只有1个核心意图→IC4，即使表述间接",
+    "priority": "独立任务数量 > 表述是否隐含",
+    "test": "将句子拆分为独立任务列表，count≥2则IC5，count=1则IC4"
+  },
+  "badcases": [
+    {
+      "input": "排查hook脚本，我不希望你再git失败",
+      "wrong_classification": "IC4",
+      "correct_classification": "IC5",
+      "reason": "可拆为排查+修复+预防=3个独立任务"
+    }
+  ],
+  "created_at": "2026-03-06",
+  "author": "lingxiaoge-v4.3"
+}
