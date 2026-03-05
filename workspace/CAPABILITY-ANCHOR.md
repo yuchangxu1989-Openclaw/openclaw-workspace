@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/6 07:49:49
-> **技能总数**: 53
+> **生成时间**: 2026/3/6 07:52:41
+> **技能总数**: 54
 > **ISC路由**: 12
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -146,6 +146,7 @@
 - 📄 **paths-center**: skills/paths-center/ — 路径中心 - 【占位符】概念驱动，需求不清
 - ✅ **pdca-engine**: skills/pdca-engine/ — PDCA-C执行引擎 - 每5分钟有实际产出
 - 📄 **pdf-generator**: skills/pdf-generator/
+- 📄 **project-mgmt**: skills/project-mgmt/ — 项目管理中枢 - 任务编排、Sprint规划、架构评审流水线、凌霄阁裁决
 - 📄 **rule-hygiene**: skills/rule-hygiene/ — ISC规则治理——去重、命名统一、三维分析（意图/事件/执行），输出规则-事件-DTO对齐矩阵
 - 📄 **seef**: skills/seef/ — SEEF技能生态进化工厂 - 高度自治、可被云端大模型动态发现与自由编排的独立子技能集合，具备自主执行完整PDCA闭环能力
 - ✅ **system-monitor**: skills/system-monitor/ — 技能健康度评估仪表盘 - 自动化扫描所有技能，评估完整性、活跃度、依赖健康度，生成可视化报告
