@@ -1,0 +1,17 @@
+{
+  "id": "rule.trust-code-not-memory-001",
+  "name": "相信程序不相信记忆",
+  "description": "记忆是声明式文字，会漂移、会丢失、会被覆盖。程序是命令式代码，写了什么执行什么。一切知识的最终载体必须是代码/规则/技能，不是memory文件。memory只是临时索引和检索入口，不是知识的归宿。",
+  "version": "1.0.0",
+  "priority": "P0",
+  "category": "meta-governance",
+  "trigger": {
+    "events": ["memory.updated", "knowledge.learned", "session.ended"],
+    "actions": ["verification.executable_artifact_check"]
+  },
+  "conditions": {
+    "invariant": "任何写入memory的知识条目，必须在同一个session内产出对应的可执行产物（规则/技能/代码），否则视为未完成"
+  },
+  "rationale": "用户原话：'不要相信记忆，要相信程序'",
+  "created_at": "2026-03-06T00:32:00+08:00"
+}
