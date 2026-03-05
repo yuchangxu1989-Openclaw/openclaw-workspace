@@ -131,6 +131,16 @@ async function callGLM5(prompt, apiKey, timeoutMs = 15000) {
 /**
  * Fallback: field-exact comparison when LLM unavailable
  */
+/**
+ * LLM fallback链：GLM-5 → Claude Sonnet → Claude Opus → Boom
+ * 语义去重必须用LLM，不允许降级到字段比对
+ */
+const LLM_FALLBACK_CHAIN = [
+  { provider: 'zhipu', model: 'glm-5', baseUrl: 'https://open.bigmodel.cn/api/paas/v4/chat/completions' },
+  { provider: 'claude-main', model: 'claude-sonnet-4-6-thinking' },
+  { provider: 'boom', model: 'claude-sonnet-4-6-thinking', baseUrl: 'https://boom.aihuige.com/v1' },
+];
+
 function fallbackDeepCheck(ruleA, ruleB) {
   const intentEq = (ruleA.description || '') === (ruleB.description || '') &&
                    (ruleA.name || '') === (ruleB.name || '');
@@ -156,23 +166,78 @@ function fallbackDeepCheck(ruleA, ruleB) {
   };
 }
 
+async function callLLM(prompt, provider) {
+  const https = require('https');
+  const url = new URL(provider.baseUrl || 'https://open.bigmodel.cn/api/paas/v4/chat/completions');
+  const body = JSON.stringify({
+    model: provider.model,
+    messages: [{ role: 'user', content: prompt }],
+    temperature: 0.1,
+  });
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${provider.apiKey}`,
+  };
+  return new Promise((resolve, reject) => {
+    const req = https.request({ hostname: url.hostname, path: url.pathname, method: 'POST', headers, timeout: 15000 }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try {
+          const j = JSON.parse(data);
+          const content = j.choices?.[0]?.message?.content || '';
+          const m = content.match(/\{[\s\S]*\}/);
+          if (m) resolve(JSON.parse(m[0]));
+          else reject(new Error('No JSON in response'));
+        } catch (e) { reject(e); }
+      });
+    });
+    req.on('error', reject);
+    req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
+    req.write(body);
+    req.end();
+  });
+}
+
 async function phase2Check(ruleA, ruleB, apiKey) {
-  if (!apiKey) {
-    return fallbackDeepCheck(ruleA, ruleB);
-  }
   const prompt = PHASE2_PROMPT
     .replace('{rule_a_json}', JSON.stringify(ruleA, null, 2))
     .replace('{rule_b_json}', JSON.stringify(ruleB, null, 2));
+
+  // 构建fallback链：所有可用的LLM
+  const chain = [];
+  
+  // GLM-5 keys
   try {
-    const result = await callGLM5(prompt, apiKey);
-    result.method = 'glm5';
-    return result;
-  } catch (e) {
-    // Fallback on any LLM failure
-    const fb = fallbackDeepCheck(ruleA, ruleB);
-    fb.llm_error = e.message;
-    return fb;
+    const keysModule = require(path.join(WS, 'skills/zhipu-keys/index.js'));
+    const keys = keysModule.getKeys ? keysModule.getKeys() : [];
+    for (const k of keys) {
+      chain.push({ provider: 'zhipu', model: 'glm-5', baseUrl: 'https://open.bigmodel.cn/api/paas/v4/chat/completions', apiKey: k });
+    }
+  } catch (_) {}
+  if (apiKey && !chain.find(c => c.apiKey === apiKey)) {
+    chain.unshift({ provider: 'zhipu', model: 'glm-5', baseUrl: 'https://open.bigmodel.cn/api/paas/v4/chat/completions', apiKey });
   }
+  
+  // Boom fallback
+  chain.push({ provider: 'boom', model: 'claude-sonnet-4-6-thinking', baseUrl: 'https://boom.aihuige.com/v1/chat/completions', apiKey: 'sk-D0IEFjB37bpDC3TyYECUcyQkoRMElMuIxGNzteHbuUbzXLAp' });
+
+  const errors = [];
+  for (const p of chain) {
+    try {
+      const result = await callLLM(prompt, p);
+      result.method = `${p.provider}/${p.model}`;
+      return result;
+    } catch (e) {
+      errors.push(`${p.provider}: ${e.message}`);
+    }
+  }
+  
+  // 所有LLM都失败了，用字段比对作为最后兜底（但记录告警）
+  const fb = fallbackDeepCheck(ruleA, ruleB);
+  fb.llm_errors = errors;
+  fb.warning = 'ALL_LLM_FAILED — 所有大模型均不可用，降级到字段比对，结果可能不准确';
+  return fb;
 }
 
 // ─── Load rules ─────────────────────────────────────────────────────────────
