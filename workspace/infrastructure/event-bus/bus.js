@@ -150,7 +150,49 @@ function readAllEvents() {
 
 // ─── Public API ──────────────────────────────────────────────────
 
+// ─── Dispatcher Integration ──────────────────────────────────────
+let _dispatcher = null;
+let _dispatcherReady = false;
+
+async function initDispatcher(options = {}) {
+  try {
+    const { Dispatcher } = require('./dispatcher');
+    _dispatcher = new Dispatcher(options);
+    await _dispatcher.init();
+    _dispatcherReady = true;
+  } catch (e) {
+    console.error(`[EventBus] Dispatcher init failed (non-fatal): ${e.message}`);
+    _dispatcherReady = false;
+  }
+}
+
+function _fireDispatcher(eventType, payload) {
+  if (!_dispatcherReady || !_dispatcher) return;
+  try {
+    // async, fire-and-forget, never blocks emit
+    Promise.resolve(_dispatcher.dispatch(eventType, payload)).catch(e => {
+      console.error(`[EventBus] Dispatcher.dispatch error (non-fatal): ${e.message}`);
+    });
+  } catch (e) {
+    // sync guard — should never happen but fault-isolated
+    console.error(`[EventBus] Dispatcher fire error (non-fatal): ${e.message}`);
+  }
+}
+
+// ─── Public API ──────────────────────────────────────────────────
+
 const bus = {
+  /**
+   * Initialize the integrated dispatcher. Call once at startup.
+   * @param {object} [options] - Dispatcher constructor options
+   */
+  initDispatcher,
+
+  /**
+   * Get the dispatcher instance (if initialized).
+   */
+  getDispatcher() { return _dispatcher; },
+
   /**
    * Publish an event to the bus.
    * @param {string} type - Event type (e.g. "isc.rule.updated")
@@ -182,6 +224,9 @@ const bus = {
     } finally {
       releaseLock(LOCK_FILE);
     }
+
+    // Fire-and-forget dispatcher (async, fault-isolated)
+    _fireDispatcher(type, payload);
 
     return event;
   },
