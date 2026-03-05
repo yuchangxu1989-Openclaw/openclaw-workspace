@@ -108,6 +108,74 @@ sessions_spawn({ task: "基于验证方案实现核心模块" })
 - 洞察分析师、创作大师、情报专家
 - 可按任务规模动态扩缩、并行调度、角色互换
 
+## 进化机制
+
+### 经验沉淀（每个Sprint结束后必须执行）
+
+Sprint结束时写入 `skills/project-mgmt/lessons/YYYY-MM-DD-{sprint名}.md`：
+
+```markdown
+# Sprint: {名称}
+## 目标 vs 实际
+- 计划: ...
+- 实际交付: ...
+- 偏差原因: ...
+
+## 什么做对了
+- ...
+
+## 什么做错了
+- ...
+
+## 流程改进点
+- 具体改进: ...
+- 是否需要更新SKILL.md: yes/no
+```
+
+### 自动回顾触发
+
+以下事件触发经验回顾：
+- Sprint完成或中止
+- 凌霄阁裁决打回超过2次
+- 任务延期超过预估50%
+- 用户明确纠偏流程
+
+### 流程进化规则
+
+1. **经验→规则**：同类教训出现2次 → 提炼为SKILL.md的新规则
+2. **指标驱动**：跟踪预估准确率、并行利用率、打回率，写入 `metrics/`
+3. **反模式库**：识别出的反模式记录在 `lessons/anti-patterns.md`，启动时检查
+4. **用户纠偏优先级最高**：用户对流程的任何纠偏立即更新SKILL.md，不等积累
+
+### 指标追踪
+
+每个Sprint结束写入 `skills/project-mgmt/metrics/YYYY-MM.json`：
+
+```json
+{
+  "sprint": "名称",
+  "planned_days": 3,
+  "actual_days": 4,
+  "tasks_total": 12,
+  "tasks_completed": 10,
+  "tasks_blocked": 2,
+  "review_rejections": 1,
+  "parallel_ratio": 0.6,
+  "lessons_captured": 3
+}
+```
+
+指标趋势用于校准未来Sprint估算。
+
+### 成长路径
+
+```
+L1: 流程执行（当前）— 按SKILL.md流程走
+L2: 经验驱动 — 基于历史lessons自动调整估算和流程
+L3: 预测性管理 — 基于metrics预判风险，提前干预
+L4: 自适应编排 — 根据任务特征自动选择最优流程变体
+```
+
 ## 检查点
 
 每次启动项目管理流程时自检：
@@ -116,3 +184,5 @@ sessions_spawn({ task: "基于验证方案实现核心模块" })
 3. 并行机会是否识别？
 4. 验收标准是否可验证？
 5. 凌霄阁是否在流程中？
+6. **上次Sprint的lessons是否已读？**
+7. **anti-patterns.md是否已检查？**
