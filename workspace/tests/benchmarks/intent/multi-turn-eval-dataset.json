@@ -7,14 +7,28 @@
     {
       "id": "conv-001",
       "turns": [
-        {"role": "user", "content": "你的评测集是怎么构建的？"},
-        {"role": "assistant", "content": "目前有29条黄金评测集样本，覆盖IC1-IC5各级别意图。"},
-        {"role": "user", "content": "你有详细评测过by真实用户场景的评测集么？目前有多少评测集已经是从真实的你我对话中产生的？"}
+        {
+          "role": "user",
+          "content": "你的评测集是怎么构建的？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前有29条黄金评测集样本，覆盖IC1-IC5各级别意图。"
+        },
+        {
+          "role": "user",
+          "content": "你有详细评测过by真实用户场景的评测集么？目前有多少评测集已经是从真实的你我对话中产生的？"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["multi_intent", "correction", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "correction",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "current-session",
       "source_detail": "当前会话-23:25消息，用户挑战评测集真实性"
@@ -22,16 +36,36 @@
     {
       "id": "conv-002",
       "turns": [
-        {"role": "user", "content": "Day 2的进展怎么样了？"},
-        {"role": "assistant", "content": "Day 2主要完成了ISC规则扩容、设计文档重构和Phase 0工程基建，目前有几个子任务在并行推进。"},
-        {"role": "user", "content": "对，现在的评测集是我坐在这里\"想象\"用户会怎么用，不是从真实数据里提取的。造出来的case天然缺乏真实场景的复杂度——多轮上下文、模糊表达、意图切换、中途打断、多任务并行这些真实对话里常见的模式，我一条都没造进去。"},
-        {"role": "assistant", "content": "理解了，我需要从真实对话中提取评测样本而不是合成想象。"},
-        {"role": "user", "content": "这应该成为你的准则，未来遇到类似的任务，自动按照场景化标准来做数据采集、评测标准设计、评测集构建、评测报告生成、Badcase、根因分析、差距分析、优化评测集与评测标准、优化知识/记忆与工程实现、优化架构...连在一起的"}
+        {
+          "role": "user",
+          "content": "Day 2的进展怎么样了？"
+        },
+        {
+          "role": "assistant",
+          "content": "Day 2主要完成了ISC规则扩容、设计文档重构和Phase 0工程基建，目前有几个子任务在并行推进。"
+        },
+        {
+          "role": "user",
+          "content": "对，现在的评测集是我坐在这里\"想象\"用户会怎么用，不是从真实数据里提取的。造出来的case天然缺乏真实场景的复杂度——多轮上下文、模糊表达、意图切换、中途打断、多任务并行这些真实对话里常见的模式，我一条都没造进去。"
+        },
+        {
+          "role": "assistant",
+          "content": "理解了，我需要从真实对话中提取评测样本而不是合成想象。"
+        },
+        {
+          "role": "user",
+          "content": "这应该成为你的准则，未来遇到类似的任务，自动按照场景化标准来做数据采集、评测标准设计、评测集构建、评测报告生成、Badcase、根因分析、差距分析、优化评测集与评测标准、优化知识/记忆与工程实现、优化架构...连在一起的"
+        }
       ],
       "target_turn_index": 4,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.85,
-      "complexity_tags": ["multi_intent", "teaching", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "/root/.openclaw/media/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg",
       "source_detail": "截图1-评测驱动开发闭环教学，渐进纠偏3轮"
@@ -39,14 +73,27 @@
     {
       "id": "conv-003",
       "turns": [
-        {"role": "user", "content": "Day 2的评测集和测试用例都覆盖了哪些场景？"},
-        {"role": "assistant", "content": "目前覆盖了ISC规则匹配、DTO任务调度、事件总线传递等核心场景。"},
-        {"role": "user", "content": "另外，之前提到的例如技能的内部、外销分离这些都在Day2中做了么？这种测试用例有包含么？"}
+        {
+          "role": "user",
+          "content": "Day 2的评测集和测试用例都覆盖了哪些场景？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前覆盖了ISC规则匹配、DTO任务调度、事件总线传递等核心场景。"
+        },
+        {
+          "role": "user",
+          "content": "另外，之前提到的例如技能的内部、外销分离这些都在Day2中做了么？这种测试用例有包含么？"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.85,
-      "complexity_tags": ["multi_intent", "switch", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "switch",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "/root/.openclaw/media/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg",
       "source_detail": "截图1-话题切换回指，从Day2进展突然追问之前的技能分离"
@@ -54,14 +101,28 @@
     {
       "id": "conv-004",
       "turns": [
-        {"role": "user", "content": "Day 1的关门条件都过了吗？"},
-        {"role": "assistant", "content": "Day 1还没有通过凌霄阁裁决，有几个条件需要补齐。"},
-        {"role": "user", "content": "我不想看翻聊天记录，太长了，你赶紧把前面可能漏掉的但讨论过的部分，补在Day 2计划里"}
+        {
+          "role": "user",
+          "content": "Day 1的关门条件都过了吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "Day 1还没有通过凌霄阁裁决，有几个条件需要补齐。"
+        },
+        {
+          "role": "user",
+          "content": "我不想看翻聊天记录，太长了，你赶紧把前面可能漏掉的但讨论过的部分，补在Day 2计划里"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.85,
-      "complexity_tags": ["emotion", "implicit", "multi_intent", "multi_turn"],
+      "complexity_tags": [
+        "emotion",
+        "implicit",
+        "multi_intent",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "/root/.openclaw/media/inbound/71d7864f-238e-4e5b-9b32-31c304ae9d96.jpg",
       "source_detail": "截图3-不耐烦+多意图（停止翻记录+补漏+整合到Day2）"
@@ -69,14 +130,28 @@
     {
       "id": "conv-005",
       "turns": [
-        {"role": "user", "content": "如果你一张图里，战略家有任务编排，DTO有任务编排，那读者怎么区分？"},
-        {"role": "assistant", "content": "确实存在命名重叠，我可以把DTO改为'声明式任务调度'来区分。"},
-        {"role": "user", "content": "如果你一张图里，战略家有任务编排，DTO有任务编排，那是不是DTO应该改为子任务编排或者技能编排？什么是MECE，懂了么？"}
+        {
+          "role": "user",
+          "content": "如果你一张图里，战略家有任务编排，DTO有任务编排，那读者怎么区分？"
+        },
+        {
+          "role": "assistant",
+          "content": "确实存在命名重叠，我可以把DTO改为'声明式任务调度'来区分。"
+        },
+        {
+          "role": "user",
+          "content": "如果你一张图里，战略家有任务编排，DTO有任务编排，那是不是DTO应该改为子任务编排或者技能编排？什么是MECE，懂了么？"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["teaching", "correction", "multi_intent", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "merged-forward-batch2",
       "source_detail": "MECE命名原则苏格拉底式教学"
@@ -84,14 +159,28 @@
     {
       "id": "conv-006",
       "turns": [
-        {"role": "user", "content": "v5设计文档PDF发我看看"},
-        {"role": "assistant", "content": "已发送v5设计文档PDF，共24个Part，涵盖ISC-事件-DTO完整架构。"},
-        {"role": "user", "content": "然后，你的PDF目录与标题的层级结构，很明显是有问题，一个架构师的详细设计文档为什么一级目录有10多部分？你应该做结构上的整合"}
+        {
+          "role": "user",
+          "content": "v5设计文档PDF发我看看"
+        },
+        {
+          "role": "assistant",
+          "content": "已发送v5设计文档PDF，共24个Part，涵盖ISC-事件-DTO完整架构。"
+        },
+        {
+          "role": "user",
+          "content": "然后，你的PDF目录与标题的层级结构，很明显是有问题，一个架构师的详细设计文档为什么一级目录有10多部分？你应该做结构上的整合"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["correction", "multi_intent", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "merged-forward-batch2",
       "source_detail": "文档结构整合，隐含意图=重构不是微调"
@@ -99,14 +188,28 @@
     {
       "id": "conv-007",
       "turns": [
-        {"role": "user", "content": "ISC规则批量创建完了？"},
-        {"role": "assistant", "content": "是的，已从68条扩容到131条，覆盖事件总线、CRAS、DTO、AEO、凌霄阁、安全、进化7个领域。"},
-        {"role": "user", "content": "并且你的流水线应该是：一旦有规则，就自动拆分成意图、事件、执行逻辑，跟DTO同步对齐"}
+        {
+          "role": "user",
+          "content": "ISC规则批量创建完了？"
+        },
+        {
+          "role": "assistant",
+          "content": "是的，已从68条扩容到131条，覆盖事件总线、CRAS、DTO、AEO、凌霄阁、安全、进化7个领域。"
+        },
+        {
+          "role": "user",
+          "content": "并且你的流水线应该是：一旦有规则，就自动拆分成意图、事件、执行逻辑，跟DTO同步对齐"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.95,
-      "complexity_tags": ["teaching", "multi_intent", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "merged-forward-batch2",
       "source_detail": "规则自动拆解元规则，隐含=现在的流水线还没做到这点"
@@ -114,16 +217,36 @@
     {
       "id": "conv-008",
       "turns": [
-        {"role": "user", "content": "事件系统的分类做完了吗？目前有几类事件？"},
-        {"role": "assistant", "content": "目前分三类：生命周期事件、阈值事件、定期扫描事件。"},
-        {"role": "user", "content": "事件不只是\"发生了什么\"，更是\"在哪里放探针去捕捉状态变化\"。任何对象的生命周期动作天然就是事件，可量化的条件达到阈值也是事件，定期扫描查缺补漏是事件体系的兜底网"},
-        {"role": "assistant", "content": "理解了，事件的本质是探针定位，我整理下这个三层框架。"},
-        {"role": "user", "content": "反复强调的东西就是意图信号，不耐烦也是意图信号，根因分析请求也是意图信号。这些不可量化但可监听的语义意图，也是事件。事件源是对话流，提取靠语义分析，CRAS就是你的探针"}
+        {
+          "role": "user",
+          "content": "事件系统的分类做完了吗？目前有几类事件？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前分三类：生命周期事件、阈值事件、定期扫描事件。"
+        },
+        {
+          "role": "user",
+          "content": "事件不只是\"发生了什么\"，更是\"在哪里放探针去捕捉状态变化\"。任何对象的生命周期动作天然就是事件，可量化的条件达到阈值也是事件，定期扫描查缺补漏是事件体系的兜底网"
+        },
+        {
+          "role": "assistant",
+          "content": "理解了，事件的本质是探针定位，我整理下这个三层框架。"
+        },
+        {
+          "role": "user",
+          "content": "反复强调的东西就是意图信号，不耐烦也是意图信号，根因分析请求也是意图信号。这些不可量化但可监听的语义意图，也是事件。事件源是对话流，提取靠语义分析，CRAS就是你的探针"
+        }
       ],
       "target_turn_index": 4,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["teaching", "multi_intent", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "事件思维模型教学，3→4类事件渐进纠偏"
@@ -131,14 +254,28 @@
     {
       "id": "conv-009",
       "turns": [
-        {"role": "user", "content": "CRAS的意图捕获怎么设计的？"},
-        {"role": "assistant", "content": "目前是单通道设计，每次对话结束后做一次意图提取和分类。"},
-        {"role": "user", "content": "意图捕获必须分快慢双通道：快通道5分钟增量扫描提取原子意图事件实时emit，慢通道daily聚合做意图占比频次趋势。不要把实时感知和统计报告混为一谈，报告是量化后的二阶事件"}
+        {
+          "role": "user",
+          "content": "CRAS的意图捕获怎么设计的？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前是单通道设计，每次对话结束后做一次意图提取和分类。"
+        },
+        {
+          "role": "user",
+          "content": "意图捕获必须分快慢双通道：快通道5分钟增量扫描提取原子意图事件实时emit，慢通道daily聚合做意图占比频次趋势。不要把实时感知和统计报告混为一谈，报告是量化后的二阶事件"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["teaching", "multi_intent", "correction", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "correction",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "CRAS双通道架构教学"
@@ -146,14 +283,28 @@
     {
       "id": "conv-010",
       "turns": [
-        {"role": "user", "content": "意图理解系统的设计原则定下来了吗？"},
-        {"role": "assistant", "content": "目前有IC1-IC5五级分类体系，还在完善中。"},
-        {"role": "user", "content": "现阶段不过度本地化，云端有更好的知识注入和记忆治理方案，本地保持轻量。五种收敛类型必须搞定：正负向情绪、规则意图、复杂意图要5轮上下文推理、隐含意图要推理、一句话多意图"}
+        {
+          "role": "user",
+          "content": "意图理解系统的设计原则定下来了吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前有IC1-IC5五级分类体系，还在完善中。"
+        },
+        {
+          "role": "user",
+          "content": "现阶段不过度本地化，云端有更好的知识注入和记忆治理方案，本地保持轻量。五种收敛类型必须搞定：正负向情绪、规则意图、复杂意图要5轮上下文推理、隐含意图要推理、一句话多意图"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.95,
-      "complexity_tags": ["teaching", "multi_intent", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "意图理解系统设计原则亲授"
@@ -161,16 +312,36 @@
     {
       "id": "conv-011",
       "turns": [
-        {"role": "user", "content": "从合并转发里恢复了多少条记忆？"},
-        {"role": "assistant", "content": "已从合并转发中恢复了完整的历史记忆，写入了memory文件。"},
-        {"role": "user", "content": "你学到的东西，不应该像看电影一样只是增加了点记忆，说实话，记忆不值钱的，很容易抹去的"},
-        {"role": "assistant", "content": "理解，知识必须变成代码和规则才能持久化。"},
-        {"role": "user", "content": "理解么？我不信MEMORY的，因为它是声明式的文字描述，真正执行起来会出现漂移。"}
+        {
+          "role": "user",
+          "content": "从合并转发里恢复了多少条记忆？"
+        },
+        {
+          "role": "assistant",
+          "content": "已从合并转发中恢复了完整的历史记忆，写入了memory文件。"
+        },
+        {
+          "role": "user",
+          "content": "你学到的东西，不应该像看电影一样只是增加了点记忆，说实话，记忆不值钱的，很容易抹去的"
+        },
+        {
+          "role": "assistant",
+          "content": "理解，知识必须变成代码和规则才能持久化。"
+        },
+        {
+          "role": "user",
+          "content": "理解么？我不信MEMORY的，因为它是声明式的文字描述，真正执行起来会出现漂移。"
+        }
       ],
       "target_turn_index": 4,
       "expected_intent_class": "IC4",
       "expected_confidence": 0.9,
-      "complexity_tags": ["teaching", "implicit", "correction", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "implicit",
+        "correction",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "记忆vs代码教学，渐进纠偏2轮"
@@ -178,14 +349,29 @@
     {
       "id": "conv-012",
       "turns": [
-        {"role": "user", "content": "记忆恢复后你做了什么？"},
-        {"role": "assistant", "content": "我把所有历史记忆整理写入了memory文件和MEMORY.md。"},
-        {"role": "user", "content": "你在我转发的对话历史中应该知道，你沉淀了一些技能，例如PDF的标准，也沉淀了规则，你不去补？？"}
+        {
+          "role": "user",
+          "content": "记忆恢复后你做了什么？"
+        },
+        {
+          "role": "assistant",
+          "content": "我把所有历史记忆整理写入了memory文件和MEMORY.md。"
+        },
+        {
+          "role": "user",
+          "content": "你在我转发的对话历史中应该知道，你沉淀了一些技能，例如PDF的标准，也沉淀了规则，你不去补？？"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.95,
-      "complexity_tags": ["correction", "emotion", "multi_intent", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "correction",
+        "emotion",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "严厉纠偏-只写memory没核实磁盘"
@@ -193,14 +379,28 @@
     {
       "id": "conv-013",
       "turns": [
-        {"role": "user", "content": "PDF技能补好了吗？"},
-        {"role": "assistant", "content": "是的，PDF输出标准已固化为技能文件。"},
-        {"role": "user", "content": "你觉得还有哪些遗漏？不要让我和你真实发生过的历史交互白费~"}
+        {
+          "role": "user",
+          "content": "PDF技能补好了吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "是的，PDF输出标准已固化为技能文件。"
+        },
+        {
+          "role": "user",
+          "content": "你觉得还有哪些遗漏？不要让我和你真实发生过的历史交互白费~"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["implicit", "multi_intent", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "implicit",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "主动查漏指令，隐含=你应该自己扫描不该我提醒"
@@ -208,14 +408,27 @@
     {
       "id": "conv-014",
       "turns": [
-        {"role": "user", "content": "9条规则从memory固化为ISC规则了"},
-        {"role": "assistant", "content": "是的，已从MEMORY.md中提取9条高优先级规则并创建为ISC规则文件。"},
-        {"role": "user", "content": "你知道这个的问题的根因是啥么？"}
+        {
+          "role": "user",
+          "content": "9条规则从memory固化为ISC规则了"
+        },
+        {
+          "role": "assistant",
+          "content": "是的，已从MEMORY.md中提取9条高优先级规则并创建为ISC规则文件。"
+        },
+        {
+          "role": "user",
+          "content": "你知道这个的问题的根因是啥么？"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC4",
       "expected_confidence": 0.9,
-      "complexity_tags": ["implicit", "teaching", "multi_turn"],
+      "complexity_tags": [
+        "implicit",
+        "teaching",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "苏格拉底式根因测试-表面修复vs根因分析"
@@ -223,14 +436,29 @@
     {
       "id": "conv-015",
       "turns": [
-        {"role": "user", "content": "为什么规则都是声明式的文件放在那里，没有被事件系统触发？"},
-        {"role": "assistant", "content": "因为Day 2和Day 3的事件驱动架构还没完成，规则缺少trigger和action绑定。"},
-        {"role": "user", "content": "根因是你没有很好地完成day2+day3，因为这套事件触发机制才是能让你不错过对任何学习机会识别的本质"}
+        {
+          "role": "user",
+          "content": "为什么规则都是声明式的文件放在那里，没有被事件系统触发？"
+        },
+        {
+          "role": "assistant",
+          "content": "因为Day 2和Day 3的事件驱动架构还没完成，规则缺少trigger和action绑定。"
+        },
+        {
+          "role": "user",
+          "content": "根因是你没有很好地完成day2+day3，因为这套事件触发机制才是能让你不错过对任何学习机会识别的本质"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.95,
-      "complexity_tags": ["teaching", "correction", "multi_intent", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "深层根因教学-事件驱动是学习的本质"
@@ -238,14 +466,28 @@
     {
       "id": "conv-016",
       "turns": [
-        {"role": "user", "content": "现在检查下ISC规则的可执行性"},
-        {"role": "assistant", "content": "正在扫描，目前有127条规则。"},
-        {"role": "user", "content": "你现在检查下，多少条规则，是否都自动拆解成事件和对应的执行链，然后让DTO或其他模块能够触发执行了？"}
+        {
+          "role": "user",
+          "content": "现在检查下ISC规则的可执行性"
+        },
+        {
+          "role": "assistant",
+          "content": "正在扫描，目前有127条规则。"
+        },
+        {
+          "role": "user",
+          "content": "你现在检查下，多少条规则，是否都自动拆解成事件和对应的执行链，然后让DTO或其他模块能够触发执行了？"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.95,
-      "complexity_tags": ["multi_intent", "implicit", "correction", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "implicit",
+        "correction",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "规则可执行性审计-不是问数量而是问执行链完整性"
@@ -253,14 +495,28 @@
     {
       "id": "conv-017",
       "turns": [
-        {"role": "user", "content": "并行任务开几路？"},
-        {"role": "assistant", "content": "受限于API并发限制，目前只能开2路并行。"},
-        {"role": "user", "content": "怎么可能受限于并发，我笑了，你有8-9个Agent，有那么多key"}
+        {
+          "role": "user",
+          "content": "并行任务开几路？"
+        },
+        {
+          "role": "assistant",
+          "content": "受限于API并发限制，目前只能开2路并行。"
+        },
+        {
+          "role": "user",
+          "content": "怎么可能受限于并发，我笑了，你有8-9个Agent，有那么多key"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["correction", "emotion", "multi_intent", "multi_turn"],
+      "complexity_tags": [
+        "correction",
+        "emotion",
+        "multi_intent",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "并行效率纠偏-错误的自我限制"
@@ -268,14 +524,29 @@
     {
       "id": "conv-018",
       "turns": [
-        {"role": "user", "content": "对话过程中有自动收录评测样本吗？"},
-        {"role": "assistant", "content": "rule.auto-collect-eval已经创建了，会在对话中自动识别和收录复杂意图样本。"},
-        {"role": "user", "content": "我现在跟你又讲了那么多话，你不知道补充评测集？"}
+        {
+          "role": "user",
+          "content": "对话过程中有自动收录评测样本吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "rule.auto-collect-eval已经创建了，会在对话中自动识别和收录复杂意图样本。"
+        },
+        {
+          "role": "user",
+          "content": "我现在跟你又讲了那么多话，你不知道补充评测集？"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.95,
-      "complexity_tags": ["correction", "emotion", "implicit", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "correction",
+        "emotion",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "评测集自动采集规则刚建就没执行"
@@ -283,14 +554,28 @@
     {
       "id": "conv-019",
       "turns": [
-        {"role": "user", "content": "你必须做任何事情的时候，都能独立做这种批判性思维、可扩展、可泛化、可生长的设计"},
-        {"role": "assistant", "content": "理解，这是反熵增原则。"},
-        {"role": "user", "content": "你如何提升你的进化效率？哪些环节有进化空间？一旦发生了可以让自己的IQ有实质性提升的机会，是不是个事件？"}
+        {
+          "role": "user",
+          "content": "你必须做任何事情的时候，都能独立做这种批判性思维、可扩展、可泛化、可生长的设计"
+        },
+        {
+          "role": "assistant",
+          "content": "理解，这是反熵增原则。"
+        },
+        {
+          "role": "user",
+          "content": "你如何提升你的进化效率？哪些环节有进化空间？一旦发生了可以让自己的IQ有实质性提升的机会，是不是个事件？"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["teaching", "multi_intent", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "元事件教学-进化机会本身就是事件"
@@ -298,16 +583,36 @@
     {
       "id": "conv-020",
       "turns": [
-        {"role": "user", "content": "ISC规则和DTO任务怎么关联的？"},
-        {"role": "assistant", "content": "目前ISC规则定义约束，DTO负责任务调度，通过事件总线连接。"},
-        {"role": "user", "content": "实际上都是要分层解耦的。我们不可能一步到位端到端，Agent一定是分层端到端。这也是你未来做架构优化的核心原则和检查点。"},
-        {"role": "assistant", "content": "明白了，感知/认知/执行三层解耦。"},
-        {"role": "user", "content": "ISC规则、任务、技能都必须分三层解耦：感知层谁负责探测捕获信号、认知层谁负责理解决策、执行层谁负责行动。三层之间通过事件总线解耦不直接耦合，任何一层替换升级不影响其他两层"}
+        {
+          "role": "user",
+          "content": "ISC规则和DTO任务怎么关联的？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前ISC规则定义约束，DTO负责任务调度，通过事件总线连接。"
+        },
+        {
+          "role": "user",
+          "content": "实际上都是要分层解耦的。我们不可能一步到位端到端，Agent一定是分层端到端。这也是你未来做架构优化的核心原则和检查点。"
+        },
+        {
+          "role": "assistant",
+          "content": "明白了，感知/认知/执行三层解耦。"
+        },
+        {
+          "role": "user",
+          "content": "ISC规则、任务、技能都必须分三层解耦：感知层谁负责探测捕获信号、认知层谁负责理解决策、执行层谁负责行动。三层之间通过事件总线解耦不直接耦合，任何一层替换升级不影响其他两层"
+        }
       ],
       "target_turn_index": 4,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.95,
-      "complexity_tags": ["teaching", "multi_intent", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "分层解耦原则教学，渐进深化2轮"
@@ -315,14 +620,28 @@
     {
       "id": "conv-021",
       "turns": [
-        {"role": "user", "content": "格式规范类的规则能事件化吗？"},
-        {"role": "assistant", "content": "格式规范比较静态，可能不太适合事件驱动。"},
-        {"role": "user", "content": "格式规范不是不可事件化——执行它的锚点在对象生命周期上。不是不知道事件是什么，是没有认真思考事件监听的锚点和满足条件"}
+        {
+          "role": "user",
+          "content": "格式规范类的规则能事件化吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "格式规范比较静态，可能不太适合事件驱动。"
+        },
+        {
+          "role": "user",
+          "content": "格式规范不是不可事件化——执行它的锚点在对象生命周期上。不是不知道事件是什么，是没有认真思考事件监听的锚点和满足条件"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC4",
       "expected_confidence": 0.9,
-      "complexity_tags": ["teaching", "correction", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "事件锚点纠偏-不是不能事件化而是没找对锚点"
@@ -330,14 +649,28 @@
     {
       "id": "conv-022",
       "turns": [
-        {"role": "user", "content": "ISC规则系统的现状怎样？"},
-        {"role": "assistant", "content": "目前有77条规则，覆盖了核心业务场景。"},
-        {"role": "user", "content": "77条ISC规则中51条不可执行缺trigger或action，DTO只有3个任务定义严重不对齐。DTO等于调度引擎，事件是独立管理维度，运行时绑定。第一性原理加MECE，不添加重叠概念"}
+        {
+          "role": "user",
+          "content": "ISC规则系统的现状怎样？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前有77条规则，覆盖了核心业务场景。"
+        },
+        {
+          "role": "user",
+          "content": "77条ISC规则中51条不可执行缺trigger或action，DTO只有3个任务定义严重不对齐。DTO等于调度引擎，事件是独立管理维度，运行时绑定。第一性原理加MECE，不添加重叠概念"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["correction", "multi_intent", "teaching", "multi_turn"],
+      "complexity_tags": [
+        "correction",
+        "multi_intent",
+        "teaching",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "ISC-事件-DTO系统诊断-多问题一次性指出"
@@ -345,14 +678,28 @@
     {
       "id": "conv-023",
       "turns": [
-        {"role": "user", "content": "API又崩了？三路全灭？"},
-        {"role": "assistant", "content": "是的，Claude主备key都余额不足，GLM-5令牌过期，三路fallback全部不可用。"},
-        {"role": "user", "content": "API Key散落5个地方太乱了，openclaw.json、agents的models.json、secrets的env文件、环境变量、技能代码硬编码。每个agent应该用独立的双渠道key，主力挂了自动切备用"}
+        {
+          "role": "user",
+          "content": "API又崩了？三路全灭？"
+        },
+        {
+          "role": "assistant",
+          "content": "是的，Claude主备key都余额不足，GLM-5令牌过期，三路fallback全部不可用。"
+        },
+        {
+          "role": "user",
+          "content": "API Key散落5个地方太乱了，openclaw.json、agents的models.json、secrets的env文件、环境变量、技能代码硬编码。每个agent应该用独立的双渠道key，主力挂了自动切备用"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.85,
-      "complexity_tags": ["multi_intent", "correction", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "memory/2026-03-05.md",
       "source_detail": "API三路全灭后→key管理重构指令"
@@ -360,14 +707,28 @@
     {
       "id": "conv-024",
       "turns": [
-        {"role": "user", "content": "误删的文件恢复了吗？"},
-        {"role": "assistant", "content": "已全部恢复，343个文件用git checkout从之前的commit中恢复。"},
-        {"role": "user", "content": "新会话醒来后先git status检查，不要盲目git add -A。git history不等于memory，commit历史是考古不是记忆，文件才能活过会话重置"}
+        {
+          "role": "user",
+          "content": "误删的文件恢复了吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "已全部恢复，343个文件用git checkout从之前的commit中恢复。"
+        },
+        {
+          "role": "user",
+          "content": "新会话醒来后先git status检查，不要盲目git add -A。git history不等于memory，commit历史是考古不是记忆，文件才能活过会话重置"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC4",
       "expected_confidence": 0.85,
-      "complexity_tags": ["teaching", "correction", "multi_intent", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "memory/2026-03-05.md",
       "source_detail": "误删事故后教训总结"
@@ -375,16 +736,36 @@
     {
       "id": "conv-025",
       "turns": [
-        {"role": "user", "content": "AEO的评测报告和Badcase分析是分开做的吗？"},
-        {"role": "assistant", "content": "目前评测报告和Badcase分析是分开的流程。"},
-        {"role": "user", "content": "AEO是意图系统的准出门禁：黄金评测集加自动化评测报告加Badcase主动根因分析加主动解决，这四个环节必须连在一起形成闭环"},
-        {"role": "assistant", "content": "理解，需要把四个环节串成一个完整闭环。"},
-        {"role": "user", "content": "每次会话中用户的复杂发言自动收录为评测样本，必须用原话原样不缩写不改写，必须带完整上下文，不需要用户提醒自动执行"}
+        {
+          "role": "user",
+          "content": "AEO的评测报告和Badcase分析是分开做的吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前评测报告和Badcase分析是分开的流程。"
+        },
+        {
+          "role": "user",
+          "content": "AEO是意图系统的准出门禁：黄金评测集加自动化评测报告加Badcase主动根因分析加主动解决，这四个环节必须连在一起形成闭环"
+        },
+        {
+          "role": "assistant",
+          "content": "理解，需要把四个环节串成一个完整闭环。"
+        },
+        {
+          "role": "user",
+          "content": "每次会话中用户的复杂发言自动收录为评测样本，必须用原话原样不缩写不改写，必须带完整上下文，不需要用户提醒自动执行"
+        }
       ],
       "target_turn_index": 4,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["meta_request", "multi_intent", "teaching", "multi_turn"],
+      "complexity_tags": [
+        "meta_request",
+        "multi_intent",
+        "teaching",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "AEO闭环+评测集自动采集规则，渐进教学"
@@ -392,14 +773,27 @@
     {
       "id": "conv-026",
       "turns": [
-        {"role": "user", "content": "评测数据能用合成的吗？"},
-        {"role": "assistant", "content": "合成数据可以作为补充，用于覆盖边缘场景。"},
-        {"role": "user", "content": "评测数据只有两个合法来源：真实对话和网络搜索。绝对禁止合成想象编造，没有第三种来源"}
+        {
+          "role": "user",
+          "content": "评测数据能用合成的吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "合成数据可以作为补充，用于覆盖边缘场景。"
+        },
+        {
+          "role": "user",
+          "content": "评测数据只有两个合法来源：真实对话和网络搜索。绝对禁止合成想象编造，没有第三种来源"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC4",
       "expected_confidence": 0.9,
-      "complexity_tags": ["correction", "teaching", "multi_turn"],
+      "complexity_tags": [
+        "correction",
+        "teaching",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "评测数据源红线"
@@ -407,14 +801,28 @@
     {
       "id": "conv-027",
       "turns": [
-        {"role": "user", "content": "ISC规则有重复的怎么办？"},
-        {"role": "assistant", "content": "我手动检查一下，去掉重复的。"},
-        {"role": "user", "content": "去重本身就该是个可复用技能，不要每次碰到去重就手动搞一遍"}
+        {
+          "role": "user",
+          "content": "ISC规则有重复的怎么办？"
+        },
+        {
+          "role": "assistant",
+          "content": "我手动检查一下，去掉重复的。"
+        },
+        {
+          "role": "user",
+          "content": "去重本身就该是个可复用技能，不要每次碰到去重就手动搞一遍"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC4",
       "expected_confidence": 0.85,
-      "complexity_tags": ["teaching", "implicit", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "memory/2026-03-05.md",
       "source_detail": "去重应技能化-可复用设计原则"
@@ -422,14 +830,28 @@
     {
       "id": "conv-028",
       "turns": [
-        {"role": "user", "content": "凌霄阁的7个裁决官怎么运作？"},
-        {"role": "assistant", "content": "7位裁决官各自从不同角度评审方案，最终投票决定是否通过。"},
-        {"role": "user", "content": "7位裁决神官必须互相battle，前提是充分领会用户意图，以断层式领先的全球最顶级AI为目标。流程是架构师出方案、工程师验证可落地性、质量分析师验证合理性、凌霄阁剖析、用户最终裁决"}
+        {
+          "role": "user",
+          "content": "凌霄阁的7个裁决官怎么运作？"
+        },
+        {
+          "role": "assistant",
+          "content": "7位裁决官各自从不同角度评审方案，最终投票决定是否通过。"
+        },
+        {
+          "role": "user",
+          "content": "7位裁决神官必须互相battle，前提是充分领会用户意图，以断层式领先的全球最顶级AI为目标。流程是架构师出方案、工程师验证可落地性、质量分析师验证合理性、凌霄阁剖析、用户最终裁决"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.85,
-      "complexity_tags": ["teaching", "multi_intent", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "凌霄阁运行规则-对抗式论证"
@@ -437,14 +859,27 @@
     {
       "id": "conv-029",
       "turns": [
-        {"role": "user", "content": "这些任务都需要我确认才能推进吗？"},
-        {"role": "assistant", "content": "大部分需要确认，因为涉及架构决策。"},
-        {"role": "user", "content": "不需要决策的环节直接自主推进，能并行就并行。目标6小时完成3天Sprint"}
+        {
+          "role": "user",
+          "content": "这些任务都需要我确认才能推进吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "大部分需要确认，因为涉及架构决策。"
+        },
+        {
+          "role": "user",
+          "content": "不需要决策的环节直接自主推进，能并行就并行。目标6小时完成3天Sprint"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC4",
       "expected_confidence": 0.85,
-      "complexity_tags": ["multi_intent", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "授权升级-自主执行+激进时间目标"
@@ -452,16 +887,35 @@
     {
       "id": "conv-030",
       "turns": [
-        {"role": "user", "content": "架构图的颜色太重了"},
-        {"role": "assistant", "content": "我调整一下配色方案。"},
-        {"role": "user", "content": "颜色轻一些，不要纯英文，白色或浅灰背景，中文标注，颜色柔和不刺眼"},
-        {"role": "assistant", "content": "好的，已更新视觉规范。"},
-        {"role": "user", "content": "核心模块的编码，开发工程师必须开thinking高质量推理模式。以后只要出架构图，除了文本MD格式外必须额外给出一份直观的图片"}
+        {
+          "role": "user",
+          "content": "架构图的颜色太重了"
+        },
+        {
+          "role": "assistant",
+          "content": "我调整一下配色方案。"
+        },
+        {
+          "role": "user",
+          "content": "颜色轻一些，不要纯英文，白色或浅灰背景，中文标注，颜色柔和不刺眼"
+        },
+        {
+          "role": "assistant",
+          "content": "好的，已更新视觉规范。"
+        },
+        {
+          "role": "user",
+          "content": "核心模块的编码，开发工程师必须开thinking高质量推理模式。以后只要出架构图，除了文本MD格式外必须额外给出一份直观的图片"
+        }
       ],
       "target_turn_index": 4,
       "expected_intent_class": "IC4",
       "expected_confidence": 0.85,
-      "complexity_tags": ["multi_intent", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "视觉规范→编码质量+双格式输出，话题从图切换到编码标准"
@@ -469,14 +923,28 @@
     {
       "id": "conv-031",
       "turns": [
-        {"role": "user", "content": "知识发现探针做好了吗？"},
-        {"role": "assistant", "content": "已完成，BaseProbe抽象基类+3个内置解析器，48/48测试通过。"},
-        {"role": "user", "content": "学术洞察发现增量价值点就要emit事件，匹配规则，自动生成适配任务，DTO调度，落地到本地系统。反复失败修补同类问题就触发根因分析、重构方案、凌霄阁审议、执行"}
+        {
+          "role": "user",
+          "content": "知识发现探针做好了吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "已完成，BaseProbe抽象基类+3个内置解析器，48/48测试通过。"
+        },
+        {
+          "role": "user",
+          "content": "学术洞察发现增量价值点就要emit事件，匹配规则，自动生成适配任务，DTO调度，落地到本地系统。反复失败修补同类问题就触发根因分析、重构方案、凌霄阁审议、执行"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["teaching", "multi_intent", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "两个核心闭环-知识发现→适配+故障→重构"
@@ -484,14 +952,29 @@
     {
       "id": "conv-032",
       "turns": [
-        {"role": "user", "content": "未知意图怎么处理？"},
-        {"role": "assistant", "content": "目前未知意图会标记为IC1进行基础处理。"},
-        {"role": "user", "content": "未知意图发现有三种方法：定期向量聚类用智谱embedding然后LLM意图分类再MECE增量识别做定时任务闭环；未解决问题主动溯源看是否因意图或事件类型缺失导致。意图反熵增红线：不MECE或过于长尾等于熵增爆炸，禁止"}
+        {
+          "role": "user",
+          "content": "未知意图怎么处理？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前未知意图会标记为IC1进行基础处理。"
+        },
+        {
+          "role": "user",
+          "content": "未知意图发现有三种方法：定期向量聚类用智谱embedding然后LLM意图分类再MECE增量识别做定时任务闭环；未解决问题主动溯源看是否因意图或事件类型缺失导致。意图反熵增红线：不MECE或过于长尾等于熵增爆炸，禁止"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.95,
-      "complexity_tags": ["teaching", "multi_intent", "meta_request", "implicit", "multi_turn"],
+      "complexity_tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "implicit",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "未知意图发现方法论+反熵增红线"
@@ -499,14 +982,28 @@
     {
       "id": "conv-033",
       "turns": [
-        {"role": "user", "content": "Day的研发流程有什么门禁？"},
-        {"role": "assistant", "content": "目前每个Day完成后会做代码review和测试。"},
-        {"role": "user", "content": "AEO功能质量测试加Agent数据效果评测是重点，不是走过场。每个Day的研发完成后必须经过凌霄阁裁决，裁决通过后才能自动解决遗留问题或进入下一个Day"}
+        {
+          "role": "user",
+          "content": "Day的研发流程有什么门禁？"
+        },
+        {
+          "role": "assistant",
+          "content": "目前每个Day完成后会做代码review和测试。"
+        },
+        {
+          "role": "user",
+          "content": "AEO功能质量测试加Agent数据效果评测是重点，不是走过场。每个Day的研发完成后必须经过凌霄阁裁决，裁决通过后才能自动解决遗留问题或进入下一个Day"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.9,
-      "complexity_tags": ["multi_intent", "teaching", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "MEMORY.md",
       "source_detail": "研发流程质量门禁-凌霄阁是硬卡点"
@@ -514,19 +1011,254 @@
     {
       "id": "conv-034",
       "turns": [
-        {"role": "user", "content": "PDF设计文档发我"},
-        {"role": "assistant", "content": "已发送v5设计文档PDF。"},
-        {"role": "user", "content": "严格层级目录章节小节不超过3级，设计思想代码参考分离，正文讲why和what，代码清单全放附录用C-01编号，排版清晰留白充足图表有编号标题图例"},
-        {"role": "assistant", "content": "收到，我按这个标准重新排版。"},
-        {"role": "user", "content": "禁止一级目录过多、代码掺杂正文、图片随手糊"}
+        {
+          "role": "user",
+          "content": "PDF设计文档发我"
+        },
+        {
+          "role": "assistant",
+          "content": "已发送v5设计文档PDF。"
+        },
+        {
+          "role": "user",
+          "content": "严格层级目录章节小节不超过3级，设计思想代码参考分离，正文讲why和what，代码清单全放附录用C-01编号，排版清晰留白充足图表有编号标题图例"
+        },
+        {
+          "role": "assistant",
+          "content": "收到，我按这个标准重新排版。"
+        },
+        {
+          "role": "user",
+          "content": "禁止一级目录过多、代码掺杂正文、图片随手糊"
+        }
       ],
       "target_turn_index": 2,
       "expected_intent_class": "IC5",
       "expected_confidence": 0.85,
-      "complexity_tags": ["multi_intent", "teaching", "meta_request", "multi_turn"],
+      "complexity_tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
       "data_source": "real-conversation",
       "source_file": "memory/2026-03-05.md",
       "source_detail": "PDF输出标准完整教学-正面规范+反面禁令"
+    },
+    {
+      "id": "conv-035",
+      "turns": [
+        {
+          "role": "assistant",
+          "content": "我设计了一个路由层来分发技能调用，这样可以更灵活地选择模型。"
+        },
+        {
+          "role": "user",
+          "content": "即便没有路由层，不也可以由默认模型来调度技能么？"
+        }
+      ],
+      "target_turn_index": 1,
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "2026-03-06 02:00-02:20 教学对话，反问=隐含否定（你在重复造轮子）"
+    },
+    {
+      "id": "conv-036",
+      "turns": [
+        {
+          "role": "assistant",
+          "content": "技能可以指定使用的模型，比如配置OpenAI的GPT-4或者Claude。"
+        },
+        {
+          "role": "user",
+          "content": "如果你从clawhub上下载个技能，还得指定OpenAI的模型？"
+        }
+      ],
+      "target_turn_index": 1,
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "2026-03-06 02:00-02:20 教学对话，反问=否定（技能不应绑定特定模型）"
+    },
+    {
+      "id": "conv-037",
+      "turns": [
+        {
+          "role": "assistant",
+          "content": "每个技能在SKILL.md中声明它需要的模型，运行时按声明加载。"
+        },
+        {
+          "role": "user",
+          "content": "如果你从clawhub上下载个技能，还得指定OpenAI的模型？"
+        },
+        {
+          "role": "assistant",
+          "content": "您说得对，技能不应该硬绑定模型。我可以改成在技能里指定模型偏好但允许覆盖。"
+        },
+        {
+          "role": "user",
+          "content": "笑了，技能为什么一定要写指定的模型呢？"
+        }
+      ],
+      "target_turn_index": 3,
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "correction",
+        "teaching",
+        "implicit_rejection",
+        "escalation",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "2026-03-06 02:00-02:20 教学对话，纠偏+教学+隐含否定（技能根本不该写模型）"
+    },
+    {
+      "id": "conv-038",
+      "turns": [
+        {
+          "role": "assistant",
+          "content": "这个问题我不太确定最佳方案，您觉得应该怎么处理？"
+        },
+        {
+          "role": "user",
+          "content": "好好解决，还用问我？"
+        }
+      ],
+      "target_turn_index": 1,
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "correction",
+        "implicit_criticism",
+        "directive",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "2026-03-06 02:00-02:20 教学对话，批评+指令+隐含：别什么都问我"
+    },
+    {
+      "id": "conv-039",
+      "turns": [
+        {
+          "role": "assistant",
+          "content": "关于配置文件的格式，我想确认一下是用YAML还是JSON..."
+        },
+        {
+          "role": "user",
+          "content": "好好解决，还用问我？"
+        },
+        {
+          "role": "assistant",
+          "content": "好的，我自己决定用JSON格式。另外还有个命名规范的问题..."
+        },
+        {
+          "role": "user",
+          "content": "咱们能不在这种低级问题上纠结了么？你该改得赶紧改"
+        }
+      ],
+      "target_turn_index": 3,
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "correction",
+        "urgency",
+        "directive",
+        "escalation",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "2026-03-06 02:00-02:20 教学对话，催促+纠偏+指令（停止纠结低级问题）"
+    },
+    {
+      "id": "conv-040",
+      "turns": [
+        {
+          "role": "assistant",
+          "content": "PDF生成模块已经完成，支持Markdown转PDF、自定义样式和目录生成。"
+        },
+        {
+          "role": "user",
+          "content": "比如你写PDF会模拟演讲么？"
+        }
+      ],
+      "target_turn_index": 1,
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "2026-03-06 02:00-02:20 教学对话，反问=你没有做（暗示功能不完整）"
+    },
+    {
+      "id": "conv-041",
+      "turns": [
+        {
+          "role": "assistant",
+          "content": "技能系统已经支持创建、发布和版本管理，可以上传到EvoMap生态。"
+        },
+        {
+          "role": "user",
+          "content": "你有区分本地技能和可销售技能么？"
+        }
+      ],
+      "target_turn_index": 1,
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "2026-03-06 02:00-02:20 教学对话，反问=你没有区分（暗示缺少关键分类）"
+    },
+    {
+      "id": "conv-042",
+      "turns": [
+        {
+          "role": "assistant",
+          "content": "我已经完成了今天的所有任务，包括ISC规则更新和技能进化流水线。"
+        },
+        {
+          "role": "user",
+          "content": "记得自己的能力锚点么？"
+        }
+      ],
+      "target_turn_index": 1,
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "implicit_criticism",
+        "rhetorical_question",
+        "reminder",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "current-session",
+      "source_detail": "2026-03-06 02:00-02:20 教学对话，提醒=你忘了更新能力锚点"
     }
-  ]
+  ],
+  "updated_at": "2026-03-06T02:23:00+08:00"
 }
