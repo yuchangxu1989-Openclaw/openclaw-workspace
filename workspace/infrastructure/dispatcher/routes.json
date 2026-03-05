@@ -106,6 +106,21 @@
     "priority": "high",
     "description": "Critical fixes archived to memory/architecture-changelog.md"
   },
+  "skill.lifecycle.*": {
+    "handler": "gate-check",
+    "priority": "critical",
+    "description": "P0 gate check for skill lifecycle events (arch.gate-before-action-001)"
+  },
+  "design.document.*": {
+    "handler": "gate-check",
+    "priority": "critical",
+    "description": "P0 gate check for design document events"
+  },
+  "system.day.closure_requested": {
+    "handler": "gate-check",
+    "priority": "critical",
+    "description": "P0 gate check for day closure"
+  },
   "user.intent.*": {
     "handler": "intent-dispatch",
     "agent": "coder",
