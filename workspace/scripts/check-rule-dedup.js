@@ -1,14 +1,20 @@
 #!/usr/bin/env node
 /**
- * check-rule-dedup.js — Pre-commit ISC规则去重检查（快速模式）
+ * check-rule-dedup.js — ISC规则去重检查（Phase 1快筛 + Phase 2语义深检）
  * 
- * 在pre-commit环境中运行，只做event快筛，不调LLM（避免阻塞提交）。
- * 发现event交集 >80% 时输出警告，发现完全相同ID时阻止。
+ * Phase 1: event交集快筛（pre-commit用）
+ * Phase 2: LLM语义三维判断（意图/事件链/执行效果）
  * 
- * Usage: node check-rule-dedup.js <rule_file.json> [--rules-dir <dir>]
- * Exit 0 = OK (通过或仅有警告)
- * Exit 1 = 阻止（发现相同ID或完全重复）
- * Exit 2 = 参数错误
+ * Usage:
+ *   node check-rule-dedup.js <rule_file.json> [--rules-dir <dir>] [--quick|--deep] [--verbose]
+ *   node check-rule-dedup.js --scan-all [--rules-dir <dir>] [--deep]
+ * 
+ * Modes:
+ *   --quick     只跑Phase 1（默认，pre-commit用）
+ *   --deep      Phase 1 + Phase 2（创建规则时用）
+ *   --scan-all  扫描所有规则两两比对，输出重复报告
+ * 
+ * Exit 0 = OK | Exit 1 = 阻止（发现重复） | Exit 2 = 参数错误
  */
 'use strict';
 
@@ -18,16 +24,29 @@ const path = require('path');
 const WS = path.resolve(__dirname, '..');
 const DEFAULT_RULES_DIR = path.join(WS, 'skills/isc-core/rules');
 
+// ─── Args ───────────────────────────────────────────────────────────────────
+
 function parseArgs(argv) {
   const args = argv.slice(2);
-  const opts = { file: null, rulesDir: DEFAULT_RULES_DIR, verbose: false };
+  const opts = {
+    file: null,
+    rulesDir: DEFAULT_RULES_DIR,
+    verbose: false,
+    mode: 'quick',  // quick | deep
+    scanAll: false,
+  };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--rules-dir' && args[i + 1]) opts.rulesDir = path.resolve(args[++i]);
     else if (args[i] === '--verbose' || args[i] === '-v') opts.verbose = true;
+    else if (args[i] === '--quick') opts.mode = 'quick';
+    else if (args[i] === '--deep') opts.mode = 'deep';
+    else if (args[i] === '--scan-all') opts.scanAll = true;
     else if (!args[i].startsWith('--')) opts.file = path.resolve(args[i]);
   }
   return opts;
 }
+
+// ─── Phase 1: Event extraction & overlap ────────────────────────────────────
 
 function extractEvents(rule) {
   const events = new Set();
@@ -54,9 +73,127 @@ function eventOverlap(eventsA, eventsB) {
   return intersection.length / union.size;
 }
 
-function main() {
-  const opts = parseArgs(process.argv);
+// ─── Phase 2: Semantic deep check ──────────────────────────────────────────
 
+const PHASE2_PROMPT = `你是ISC规则去重判官。给你两条规则的完整定义，请判断它们是否实质性重复。
+
+规则A：{rule_a_json}
+规则B：{rule_b_json}
+
+请分三个维度判断：
+1. 意图等价：两条规则想解决的问题是否相同？
+2. 事件链等价：监听的事件和产出的action是否形成相同的因果链？
+3. 执行效果等价：最终对系统的影响是否相同？
+
+严格输出JSON（不要额外文字）：{"duplicate": bool, "intent_equivalent": bool, "event_chain_equivalent": bool, "execution_equivalent": bool, "reason": "..."}`;
+
+function getZhipuKey() {
+  try {
+    const { getKey } = require(path.join(WS, 'skills/zhipu-keys/index.js'));
+    return getKey('cron');
+  } catch (_) {
+    return null;
+  }
+}
+
+async function callGLM5(prompt, apiKey, timeoutMs = 15000) {
+  const url = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'glm-5',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.1,
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    if (!resp.ok) throw new Error(`GLM-5 HTTP ${resp.status}`);
+    const data = await resp.json();
+    const text = data?.choices?.[0]?.message?.content || '';
+    // Extract JSON from response
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('No JSON in GLM-5 response');
+    return JSON.parse(match[0]);
+  } catch (e) {
+    clearTimeout(timer);
+    throw e;
+  }
+}
+
+/**
+ * Fallback: field-exact comparison when LLM unavailable
+ */
+function fallbackDeepCheck(ruleA, ruleB) {
+  const intentEq = (ruleA.description || '') === (ruleB.description || '') &&
+                   (ruleA.name || '') === (ruleB.name || '');
+  
+  const eventsA = extractEvents(ruleA).sort().join(',');
+  const eventsB = extractEvents(ruleB).sort().join(',');
+  const eventChainEq = eventsA === eventsB;
+  
+  const handlerA = ruleA?.action?.handler || ruleA?.action?.type || '';
+  const handlerB = ruleB?.action?.handler || ruleB?.action?.type || '';
+  const condA = JSON.stringify(ruleA?.conditions || ruleA?.trigger?.conditions || '');
+  const condB = JSON.stringify(ruleB?.conditions || ruleB?.trigger?.conditions || '');
+  const executionEq = handlerA === handlerB && condA === condB;
+
+  const duplicate = intentEq && eventChainEq && executionEq;
+  return {
+    duplicate,
+    intent_equivalent: intentEq,
+    event_chain_equivalent: eventChainEq,
+    execution_equivalent: executionEq,
+    reason: duplicate ? '字段精确比对：三维度完全相同' : '字段精确比对：至少一个维度不同',
+    method: 'fallback',
+  };
+}
+
+async function phase2Check(ruleA, ruleB, apiKey) {
+  if (!apiKey) {
+    return fallbackDeepCheck(ruleA, ruleB);
+  }
+  const prompt = PHASE2_PROMPT
+    .replace('{rule_a_json}', JSON.stringify(ruleA, null, 2))
+    .replace('{rule_b_json}', JSON.stringify(ruleB, null, 2));
+  try {
+    const result = await callGLM5(prompt, apiKey);
+    result.method = 'glm5';
+    return result;
+  } catch (e) {
+    // Fallback on any LLM failure
+    const fb = fallbackDeepCheck(ruleA, ruleB);
+    fb.llm_error = e.message;
+    return fb;
+  }
+}
+
+// ─── Load rules ─────────────────────────────────────────────────────────────
+
+function loadRulesFromDir(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir)
+    .filter(f => f.endsWith('.json') && !f.startsWith('_'))
+    .map(f => {
+      try {
+        const rule = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+        rule.__file = f;
+        return rule;
+      } catch (_) { return null; }
+    })
+    .filter(Boolean);
+}
+
+// ─── Main: single file check ───────────────────────────────────────────────
+
+async function checkSingleFile(opts) {
   if (!opts.file) {
     console.error('[DEDUP] 用法: node check-rule-dedup.js <rule_file.json>');
     process.exit(2);
@@ -66,7 +203,6 @@ function main() {
     process.exit(2);
   }
   if (!fs.existsSync(opts.rulesDir)) {
-    // 规则目录不存在，放行
     console.log('[DEDUP] ⚠  规则目录不存在，跳过去重检查');
     process.exit(0);
   }
@@ -86,47 +222,147 @@ function main() {
   const errors = [];
   const warnings = [];
 
-  // 扫描所有已有规则
   const existingFiles = fs.readdirSync(opts.rulesDir)
     .filter(f => f.endsWith('.json') && !f.startsWith('_'))
     .map(f => path.join(opts.rulesDir, f))
     .filter(f => path.resolve(f) !== newFile);
 
+  const apiKey = opts.mode === 'deep' ? getZhipuKey() : null;
+
   for (const f of existingFiles) {
     let rule;
-    try {
-      rule = JSON.parse(fs.readFileSync(f, 'utf8'));
-    } catch (_) { continue; }
+    try { rule = JSON.parse(fs.readFileSync(f, 'utf8')); } catch (_) { continue; }
 
     const existingId = rule.id || rule.rule_id || '';
 
-    // 完全相同ID = 硬阻止（除非是修改同一文件）
+    // Same ID = hard block
     if (newId && existingId && newId === existingId) {
       errors.push(`[DEDUP-ID] 规则ID "${newId}" 已存在于 ${path.basename(f)}，不能重复创建`);
       continue;
     }
 
-    // Event重叠检测
+    // Phase 1: Event overlap
     const existingEvents = extractEvents(rule);
     const overlap = eventOverlap(newEvents, existingEvents);
 
-    if (overlap >= 0.8) {
-      warnings.push(`[DEDUP-EVENT] 与 ${path.basename(f)} event重叠 ${(overlap*100).toFixed(0)}%，建议人工确认是否重复`);
-    } else if (overlap >= 0.5 && opts.verbose) {
-      console.log(`  [DEDUP] ℹ️  与 ${path.basename(f)} event重叠 ${(overlap*100).toFixed(0)}%（低风险）`);
+    if (overlap < 0.5) {
+      if (opts.verbose && overlap > 0) {
+        console.log(`  [DEDUP] ℹ️  与 ${path.basename(f)} event重叠 ${(overlap*100).toFixed(0)}%（低风险）`);
+      }
+      continue;  // Phase 1 pass → no duplicate
+    }
+
+    // overlap >= 50% → Phase 2 if deep mode
+    if (opts.mode === 'deep') {
+      const result = await phase2Check(newRule, rule, apiKey);
+      if (result.duplicate) {
+        errors.push(`[DEDUP-SEMANTIC] 与 ${path.basename(f)} 语义重复（${result.reason}）`);
+        console.log(`  📊 三维分析: 意图=${result.intent_equivalent} 事件链=${result.event_chain_equivalent} 执行=${result.execution_equivalent}`);
+      } else {
+        warnings.push(`[DEDUP-EVENT] 与 ${path.basename(f)} event重叠 ${(overlap*100).toFixed(0)}% 但语义不同（${result.reason}）`);
+      }
+    } else {
+      // Quick mode: just warn on high overlap
+      if (overlap >= 0.8) {
+        warnings.push(`[DEDUP-EVENT] 与 ${path.basename(f)} event重叠 ${(overlap*100).toFixed(0)}%，建议人工确认是否重复`);
+      } else if (opts.verbose) {
+        console.log(`  [DEDUP] ℹ️  与 ${path.basename(f)} event重叠 ${(overlap*100).toFixed(0)}%（低风险）`);
+      }
     }
   }
 
-  if (warnings.length) {
-    warnings.forEach(w => console.log(`  ⚠️  ${w}`));
-  }
-
+  if (warnings.length) warnings.forEach(w => console.log(`  ⚠️  ${w}`));
   if (errors.length) {
     errors.forEach(e => console.log(`  🚫 ${e}`));
     process.exit(1);
   }
-
   process.exit(0);
 }
 
-main();
+// ─── Main: scan-all ─────────────────────────────────────────────────────────
+
+async function scanAll(opts) {
+  if (!fs.existsSync(opts.rulesDir)) {
+    console.error('[DEDUP] 规则目录不存在:', opts.rulesDir);
+    process.exit(2);
+  }
+
+  const rules = loadRulesFromDir(opts.rulesDir);
+  console.log(`[DEDUP] 扫描 ${rules.length} 条规则...`);
+
+  const apiKey = opts.mode === 'deep' ? getZhipuKey() : null;
+  const pairs = [];
+
+  for (let i = 0; i < rules.length; i++) {
+    for (let j = i + 1; j < rules.length; j++) {
+      const evA = extractEvents(rules[i]);
+      const evB = extractEvents(rules[j]);
+      const overlap = eventOverlap(evA, evB);
+      if (overlap < 0.5) continue;
+
+      const pair = {
+        ruleA: rules[i].__file,
+        ruleB: rules[j].__file,
+        eventOverlap: overlap,
+      };
+
+      if (opts.mode === 'deep') {
+        pair.phase2 = await phase2Check(rules[i], rules[j], apiKey);
+      }
+      pairs.push(pair);
+    }
+  }
+
+  if (!pairs.length) {
+    console.log('[DEDUP] ✅ 未发现高重叠规则对');
+    process.exit(0);
+  }
+
+  console.log(`\n[DEDUP] 发现 ${pairs.length} 对高重叠规则：\n`);
+  for (const p of pairs) {
+    const dup = p.phase2?.duplicate ? '🚫 DUPLICATE' : '⚠️  HIGH_OVERLAP';
+    console.log(`${dup}  ${p.ruleA} ↔ ${p.ruleB}  (event overlap: ${(p.eventOverlap*100).toFixed(0)}%)`);
+    if (p.phase2) {
+      console.log(`   意图=${p.phase2.intent_equivalent} 事件链=${p.phase2.event_chain_equivalent} 执行=${p.phase2.execution_equivalent}`);
+      console.log(`   原因: ${p.phase2.reason}`);
+    }
+  }
+
+  const dupes = pairs.filter(p => p.phase2?.duplicate);
+  if (dupes.length) {
+    console.log(`\n[DEDUP] 🚫 发现 ${dupes.length} 对语义重复规则`);
+    process.exit(1);
+  }
+  process.exit(0);
+}
+
+// ─── Entry ──────────────────────────────────────────────────────────────────
+
+async function main() {
+  const opts = parseArgs(process.argv);
+  if (opts.scanAll) {
+    await scanAll(opts);
+  } else {
+    await checkSingleFile(opts);
+  }
+}
+
+// Export for testing
+module.exports = {
+  parseArgs,
+  extractEvents,
+  eventOverlap,
+  phase2Check,
+  fallbackDeepCheck,
+  callGLM5,
+  loadRulesFromDir,
+  PHASE2_PROMPT,
+};
+
+// Run if main
+if (require.main === module) {
+  main().catch(e => {
+    console.error('[DEDUP] 未知错误:', e.message);
+    process.exit(2);
+  });
+}
