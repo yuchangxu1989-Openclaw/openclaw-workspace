@@ -158,7 +158,8 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行CRAS洞察复盘任务。命令：node /root/.openclaw/workspace/skills/cras/modules/insight-enhancer.js",
-        "timeoutSeconds": 300
+        "timeoutSeconds": 300,
+        "model": "zhipu-cron/glm-5"
       },
       "delivery": {
         "mode": "announce",
@@ -635,7 +636,7 @@
       "name": "运维辅助-清理与向量化-综合",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772685416481,
+      "updatedAtMs": 1772728548549,
       "schedule": {
         "expr": "35 */6 * * *",
         "kind": "cron",
@@ -653,11 +654,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772728500000,
-        "lastRunAtMs": 1772685300006,
+        "nextRunAtMs": 1772750100000,
+        "lastRunAtMs": 1772728500008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 116475,
+        "lastDurationMs": 48541,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -669,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772727908021,
+      "updatedAtMs": 1772728564974,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -687,15 +688,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772728200000,
-        "lastRunAtMs": 1772727900008,
+        "nextRunAtMs": 1772728800000,
+        "lastRunAtMs": 1772728548549,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8013,
+        "lastDurationMs": 16425,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false,
-        "runningAtMs": 1772728200012
+        "runningAtMs": 1772728800006
       }
     },
     {
@@ -704,7 +705,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772727314962,
+      "updatedAtMs": 1772728229995,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -722,15 +723,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772728200000,
-        "lastRunAtMs": 1772727308082,
+        "nextRunAtMs": 1772729100000,
+        "lastRunAtMs": 1772728210558,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6880,
+        "lastDurationMs": 19437,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772728200012
+        "lastDelivered": false
       }
     },
     {
