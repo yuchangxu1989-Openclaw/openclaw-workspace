@@ -1,0 +1,745 @@
+{
+  "timestamp": "2026-03-05T19:09:48.834Z",
+  "model": "claude-opus-4-6-thinking",
+  "prompt_version": "v2",
+  "accuracy": 90.5,
+  "total": 42,
+  "correct": 38,
+  "classMetrics": {
+    "IC1": {
+      "total": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "IC2": {
+      "total": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "IC3": {
+      "total": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "IC4": {
+      "total": 13,
+      "tp": 11,
+      "fp": 2,
+      "fn": 2,
+      "precision": 0.846,
+      "recall": 0.846,
+      "f1": 0.846
+    },
+    "IC5": {
+      "total": 29,
+      "tp": 27,
+      "fp": 2,
+      "fn": 2,
+      "precision": 0.931,
+      "recall": 0.931,
+      "f1": 0.931
+    }
+  },
+  "errors": [
+    {
+      "id": "conv-008",
+      "expected": "IC5",
+      "predicted": "IC4",
+      "confidence": 0.82,
+      "reason": "表面是教学（语义意图信号也是事件），浓缩为一句：'补上第四类事件——语义意图信号事件，探针是CRAS'。事件源、提取方式、工具指定都是这一个新事件类别的不同侧面，用户不会说'你还漏了XX'。",
+      "target_text": "反复强调的东西就是意图信号，不耐烦也是意图信号，根因分析请求也是意图信号。这些不可量化但可监听的语义意图，也是事件。事件源是对话流，提取靠语义分析，CRAS就是你的探针",
+      "turn_count": 5,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-020",
+      "expected": "IC5",
+      "predicted": "IC4",
+      "confidence": 0.82,
+      "reason": "整条消息浓缩为'ISC规则/任务/技能必须按感知-认知-执行三层解耦架构设计'，事件总线是解耦机制，替换隔离是验收标准，三者是同一架构原则的不同侧面，非独立维度。用户不会说'你漏了事件总线'，因为理解三层解耦必然包含这些。隐含要求：将此作为架构核心原则落地执行。",
+      "target_text": "ISC规则、任务、技能都必须分三层解耦：感知层谁负责探测捕获信号、认知层谁负责理解决策、执行层谁负责行动。三层之间通过事件总线解耦不直接耦合，任何一层替换升级不影响其他两层",
+      "turn_count": 5,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-024",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "confidence": 0.82,
+      "reason": "操作指令(新会话先git status，禁止盲目git add -A) + 原则教学(git history≠memory，文件才是跨会话记忆载体)，两个独立维度需分别内化",
+      "target_text": "新会话醒来后先git status检查，不要盲目git add -A。git history不等于memory，commit历史是考古不是记忆，文件才能活过会话重置",
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-030",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "confidence": 0.95,
+      "reason": "两个独立规范：1)核心模块编码必须开thinking推理模式（开发规则）；2)架构图必须额外给图片格式（输出格式规则）。分别需要落实，属于≥2个独立维度。",
+      "target_text": "核心模块的编码，开发工程师必须开thinking高质量推理模式。以后只要出架构图，除了文本MD格式外必须额外给出一份直观的图片",
+      "turn_count": 5,
+      "tags": [
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "conv-001",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "两个独立问题：1)是否用真实场景做过评测；2)有多少评测集来自真实对话。需分别回答，浓缩会丢失其中一个。",
+      "tags": [
+        "multi_intent",
+        "correction",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-002",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "原则教学(固化为准则) + 多步骤工作流/流水线规范(数据采集→评测→Badcase→根因→优化的完整pipeline定义)，两个独立维度",
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-003",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "两个独立问题：技能内外销分离是否已实现 + 测试用例是否覆盖，需分别回答",
+      "tags": [
+        "multi_intent",
+        "switch",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-004",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "'不想翻记录，太长了'是情绪/抱怨 + '赶紧把漏掉的补在Day2计划里'是操作指令，两个独立维度。与示例'不想翻记录了，你把漏掉的补进计划→情绪+操作→IC5'高度吻合。",
+      "tags": [
+        "emotion",
+        "implicit",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-005",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.85,
+      "reason": "具体命名修正指令(DTO改为子任务/技能编排) + MECE原则教学(要求内化该分类原则)，归因+原则教学属两个独立维度",
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-006",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "诊断(目录层级有问题)+指令(做结构整合)，两个独立维度",
+      "tags": [
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-007",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "reason": "包含多步骤流水线规范：①触发条件(一旦有规则) ②自动拆分为意图/事件/执行逻辑(三个独立组件) ③跟DTO同步对齐——属于多个需分别实现的技术规范+流水线定义",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-008",
+      "expected": "IC5",
+      "predicted": "IC4",
+      "correct": false,
+      "confidence": 0.82,
+      "reason": "表面是教学（语义意图信号也是事件），浓缩为一句：'补上第四类事件——语义意图信号事件，探针是CRAS'。事件源、提取方式、工具指定都是这一个新事件类别的不同侧面，用户不会说'你还漏了XX'。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-009",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "包含≥3个独立技术规范（快通道实时规格、慢通道聚合规格、二阶事件定义）+原则纠偏（不要混淆实时感知与统计报告），与示例'快通道5分钟实时，慢通道daily聚合，别搞混'高度一致",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "correction",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-010",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "两个独立维度：1)架构原则（本地轻量/云端为主）；2)功能规范（五种收敛类型及各自要求）。浓缩为一句话会丢失其中一个维度。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-011",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "表面是质疑+解释，浓缩为'声明式MEMORY不可靠因为执行漂移'，是对上轮观点的深化论证，一个统一的原则教学，用户不会说'你还漏了XX'",
+      "tags": [
+        "teaching",
+        "implicit",
+        "correction",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-012",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.97,
+      "reason": "批评(应该知道却没主动做)+隐含指令(补技能+补规则)，两个独立维度",
+      "tags": [
+        "correction",
+        "emotion",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-013",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "独立问题(还有哪些遗漏)+隐含指令(主动扫描历史交互补漏)，两个可分离维度",
+      "tags": [
+        "implicit",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-014",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.85,
+      "reason": "表面是提问，实际是苏格拉底式追问——用户大概率已知根因，隐含要求是'你自己反思并说出为什么规则没有一开始就固化为ISC规则'，浓缩为'反思根因'一句话即可满足",
+      "tags": [
+        "implicit",
+        "teaching",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-015",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.97,
+      "reason": "归因(没完成day2+3) + 原则教学(事件触发是学习本质) + 隐含重做指令，三个独立维度",
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-016",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "包含≥3个独立检查维度：规则数量统计、是否已拆解为事件+执行链、是否已接入DTO等模块可触发执行，需分别回答",
+      "tags": [
+        "multi_intent",
+        "implicit",
+        "correction",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-017",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.9,
+      "reason": "情绪('我笑了') + 教学纠偏(指出有8-9个Agent和多key，并发不应是瓶颈，隐含重新评估并行路数)",
+      "tags": [
+        "correction",
+        "emotion",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-018",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "批评(这么多话你不知道)+隐含指令(用近期对话补充评测集)，两个独立维度",
+      "tags": [
+        "correction",
+        "emotion",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-019",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "≥3个独立维度：提升效率的方法(问题1)、哪些环节有空间(问题2)、IQ提升机会应视为事件(原则教学/引导性反问)",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-020",
+      "expected": "IC5",
+      "predicted": "IC4",
+      "correct": false,
+      "confidence": 0.82,
+      "reason": "整条消息浓缩为'ISC规则/任务/技能必须按感知-认知-执行三层解耦架构设计'，事件总线是解耦机制，替换隔离是验收标准，三者是同一架构原则的不同侧面，非独立维度。用户不会说'你漏了事件总线'，因为理解三层解耦必然包含这些。隐含要求：将此作为架构核心原则落地执行。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-021",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "多个'不是'构成单一纠偏：重新思考格式规范事件化的正确锚点（对象生命周期），与示例模式完全吻合",
+      "tags": [
+        "teaching",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-022",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "包含≥3个独立维度：①问题诊断（51条规则不可执行+DTO不对齐）②架构原则教学（DTO=调度引擎，事件独立管理，运行时绑定）③方法论约束（第一性原理+MECE，禁止重叠概念）。归因分析+原则教学+方法论规范，不可浓缩为单一要求。",
+      "tags": [
+        "correction",
+        "multi_intent",
+        "teaching",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-023",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "诊断(Key散落5处)+架构规范(每agent独立双渠道key)+功能规范(主备自动切换)，≥3个独立技术维度需分别实现",
+      "tags": [
+        "multi_intent",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-024",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "correct": false,
+      "confidence": 0.82,
+      "reason": "操作指令(新会话先git status，禁止盲目git add -A) + 原则教学(git history≠memory，文件才是跨会话记忆载体)，两个独立维度需分别内化",
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-025",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "包含≥2个独立技术规范：①自动收录触发机制（复杂发言→评测样本）②数据保真规范（原话不缩写不改写）③上下文完整性规范（带完整上下文）④自主执行规范（不需提醒自动执行）。类似'严格层级≤3级，代码正文分离，编号规则'示例，多个需分别实现的技术规范",
+      "tags": [
+        "meta_request",
+        "multi_intent",
+        "teaching",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-026",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "多条陈述浓缩为一个纠偏规则：'评测数据仅限真实对话和网络搜索，禁止合成'。来源列举+禁令是同一规则的不同侧面，用户不会说'你还漏了XX'。",
+      "tags": [
+        "correction",
+        "teaching",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-027",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "整条消息浓缩为'把去重做成可复用技能'，用户不会说漏了什么，与示例完全一致",
+      "tags": [
+        "teaching",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-028",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.85,
+      "reason": "包含≥3个独立维度：运作原则(互相battle)、目标定位(断层式领先)、前提条件(领会用户意图)、多步骤工作流定义(架构师→工程师→质量分析师→凌霄阁→用户裁决)。浓缩为一句话会丢失独立规范。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-029",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "多条指令（自主推进、并行、6小时目标）是同一态度'提升自主执行力度'的不同侧面，浓缩为一句话用户不会说漏了什么",
+      "tags": [
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-030",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "correct": false,
+      "confidence": 0.95,
+      "reason": "两个独立规范：1)核心模块编码必须开thinking推理模式（开发规则）；2)架构图必须额外给图片格式（输出格式规则）。分别需要落实，属于≥2个独立维度。",
+      "tags": [
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-031",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "两条独立触发流水线：①增量价值点→emit→匹配→任务→调度→落地；②反复失败→根因→重构→审议→执行。各有独立触发条件和多步骤工作流，属≥2个需分别实现的技术规范",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-032",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "包含≥3个独立维度：方法1(向量聚类→LLM分类→MECE增量识别的工作流)、方法2(未解决问题主动溯源)、反熵增红线原则(禁止非MECE/长尾)。多步骤工作流规范+独立原则教学，浓缩为一句话会丢失具体方法和红线规则。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-033",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.97,
+      "reason": "态度强调(测试是重点不是走过场) + 流程门禁规则(凌霄阁裁决通过才能进入下一Day)，两个独立维度，与示例完全吻合",
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-034",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "包含多个独立排版规范：层级≤3级、代码正文分离、编号规则、留白图表规范等，需分别实现",
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-035",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "反问形式质疑路由层的必要性，浓缩为'路由层没必要，默认模型就够了'，单一纠偏意图",
+      "tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "turn_count": 2
+    },
+    {
+      "id": "conv-036",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.85,
+      "reason": "反问即纠偏：技能不应绑定特定模型供应商。浓缩为一句话用户满意，无独立情绪标记或额外操作指令。",
+      "tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "turn_count": 2
+    },
+    {
+      "id": "conv-037",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "情绪表达('笑了')+教学反问(技能不应绑定模型)，两个独立维度",
+      "tags": [
+        "correction",
+        "teaching",
+        "implicit_rejection",
+        "escalation",
+        "multi_turn"
+      ],
+      "turn_count": 4
+    },
+    {
+      "id": "conv-038",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "操作指令(好好解决)+批评(还用问我)，两个独立维度，与示例'自己解决，还用问我？'同构",
+      "tags": [
+        "correction",
+        "implicit_criticism",
+        "directive",
+        "multi_turn"
+      ],
+      "turn_count": 2
+    },
+    {
+      "id": "conv-039",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "批评(别纠结低级问题) + 操作指令(赶紧改)，两个独立维度",
+      "tags": [
+        "correction",
+        "urgency",
+        "directive",
+        "escalation",
+        "multi_turn"
+      ],
+      "turn_count": 4
+    },
+    {
+      "id": "conv-040",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "反问形式隐含一个纠偏：你写PDF时应该模拟真实使用场景（如演讲），而非只做技术输出。浓缩为'应模拟真实场景来生成内容'，用户不会说漏了什么。",
+      "tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "turn_count": 2
+    },
+    {
+      "id": "conv-041",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.95,
+      "reason": "表面是提问，隐含意图是'你缺少本地/可销售技能的分类'，浓缩为一句话用户满意，与示例完全匹配",
+      "tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "turn_count": 2
+    },
+    {
+      "id": "conv-042",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.9,
+      "reason": "表面是提问，实际隐含要求是'回去对齐你的能力锚点'，一句话浓缩用户不会说漏了什么",
+      "tags": [
+        "implicit_criticism",
+        "rhetorical_question",
+        "reminder",
+        "multi_turn"
+      ],
+      "turn_count": 2
+    }
+  ]
+}

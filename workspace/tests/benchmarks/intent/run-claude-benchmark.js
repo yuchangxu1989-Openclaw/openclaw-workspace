@@ -179,7 +179,7 @@ async function main() {
   md += `**日期**: ${now}\n`;
   md += `**模型**: ${MODEL}\n`;
   md += `**数据集**: ${conversations.length} 条多轮对话（全部来自真实用户对话）\n`;
-  md += `**Prompt版本**: v2 (aligned with production registry, IC4/IC5 boundary examples)\n\n`;
+  md += `**Prompt版本**: v4-final (production-aligned IC definitions, 浓缩满意度测试, IC5-default)\n\n`;
   
   md += `## 总体结果\n\n`;
   md += `| 指标 | 值 |\n|------|----|\n`;
@@ -281,7 +281,7 @@ async function main() {
   const jsonData = {
     timestamp: new Date().toISOString(),
     model: MODEL,
-    prompt_version: 'v2',
+    prompt_version: 'v4-final',
     accuracy: +accuracy,
     total,
     correct,
