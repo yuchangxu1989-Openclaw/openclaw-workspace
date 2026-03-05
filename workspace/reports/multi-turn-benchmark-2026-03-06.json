@@ -1,0 +1,730 @@
+{
+  "timestamp": "2026-03-05T17:45:05.920Z",
+  "model": "claude-opus-4-6-thinking",
+  "accuracy": 67.6,
+  "total": 34,
+  "correct": 23,
+  "classMetrics": {
+    "IC1": {
+      "total": 0,
+      "tp": 0,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "IC2": {
+      "total": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "IC3": {
+      "total": 0,
+      "tp": 0,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0
+    },
+    "IC4": {
+      "total": 8,
+      "tp": 1,
+      "fp": 2,
+      "fn": 7,
+      "precision": 0.333,
+      "recall": 0.125,
+      "f1": 0.182
+    },
+    "IC5": {
+      "total": 26,
+      "tp": 22,
+      "fp": 6,
+      "fn": 4,
+      "precision": 0.786,
+      "recall": 0.846,
+      "f1": 0.815
+    }
+  },
+  "errors": [
+    {
+      "id": "conv-004",
+      "expected": "IC5",
+      "predicted": "IC1",
+      "confidence": 0.82,
+      "reason": "用户发出了明确的直接指令：把前面讨论过但可能遗漏的内容补充到Day 2计划里，虽然带有情绪表达（不想翻聊天记录），但核心是一个清晰的操作请求",
+      "target_text": "我不想看翻聊天记录，太长了，你赶紧把前面可能漏掉的但讨论过的部分，补在Day 2计划里",
+      "turn_count": 3,
+      "tags": [
+        "emotion",
+        "implicit",
+        "multi_intent",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-014",
+      "expected": "IC4",
+      "predicted": "IC3",
+      "confidence": 0.88,
+      "reason": "'这个问题'指代不明，需结合前文语境理解是指规则从memory固化为ISC这件事背后的根本原因，属于多轮上下文依赖",
+      "target_text": "你知道这个的问题的根因是啥么？",
+      "turn_count": 3,
+      "tags": [
+        "implicit",
+        "teaching",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-015",
+      "expected": "IC5",
+      "predicted": "IC4",
+      "confidence": 0.82,
+      "reason": "表面是归因分析和批评，实际隐含意图是要求助手重新正确完成day2+day3的事件驱动架构，把规则与触发机制绑定起来",
+      "target_text": "根因是你没有很好地完成day2+day3，因为这套事件触发机制才是能让你不错过对任何学习机会识别的本质",
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-018",
+      "expected": "IC5",
+      "predicted": "IC4",
+      "confidence": 0.88,
+      "reason": "表面是反问式抱怨，实际隐含的意图是要求助手立即从当前对话中提取样本补充评测集",
+      "target_text": "我现在跟你又讲了那么多话，你不知道补充评测集？",
+      "turn_count": 3,
+      "tags": [
+        "correction",
+        "emotion",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-020",
+      "expected": "IC5",
+      "predicted": "IC1",
+      "confidence": 0.88,
+      "reason": "用户在明确下达架构设计指令，详细规定ISC规则/任务/技能必须按感知/认知/执行三层解耦，并指定事件总线通信方式和可替换性要求，是对前一轮原则的具体化展开的直接明确要求",
+      "target_text": "ISC规则、任务、技能都必须分三层解耦：感知层谁负责探测捕获信号、认知层谁负责理解决策、执行层谁负责行动。三层之间通过事件总线解耦不直接耦合，任何一层替换升级不影响其他两层",
+      "turn_count": 5,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-021",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "confidence": 0.85,
+      "reason": "同时包含两个意图：一是纠正助手观点（格式规范可以事件化，锚点在对象生命周期上），二是批评助手思考不够深入（没有认真思考事件监听的锚点和满足条件）",
+      "target_text": "格式规范不是不可事件化——执行它的锚点在对象生命周期上。不是不知道事件是什么，是没有认真思考事件监听的锚点和满足条件",
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-024",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "confidence": 0.88,
+      "reason": "一句话包含多个意图：1)操作指令（新会话先git status检查）；2)禁止行为（不要盲目git add -A）；3)纠正认知/建立原则（git history≠memory，commit历史是考古不是记忆，文件才是持久化手段）",
+      "target_text": "新会话醒来后先git status检查，不要盲目git add -A。git history不等于memory，commit历史是考古不是记忆，文件才能活过会话重置",
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-026",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "confidence": 0.82,
+      "reason": "既表达对助手回答的强烈否定和纠正（情绪态度），又明确下达评测数据来源的规则指令（简单指令），属于纠正+指令的复合意图",
+      "target_text": "评测数据只有两个合法来源：真实对话和网络搜索。绝对禁止合成想象编造，没有第三种来源",
+      "turn_count": 3,
+      "tags": [
+        "correction",
+        "teaching",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-027",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "confidence": 0.88,
+      "reason": "既表达了对手动去重方式的不满（情绪态度），又明确提出要将去重封装为可复用技能的指令（具体要求），包含批评+指令两个意图",
+      "target_text": "去重本身就该是个可复用技能，不要每次碰到去重就手动搞一遍",
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-029",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "confidence": 0.92,
+      "reason": "一句话包含三个意图：1)非决策环节自主推进，2)尽量并行执行，3)设定6小时完成3天Sprint的时间目标",
+      "target_text": "不需要决策的环节直接自主推进，能并行就并行。目标6小时完成3天Sprint",
+      "turn_count": 3,
+      "tags": [
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ]
+    },
+    {
+      "id": "conv-030",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "confidence": 0.92,
+      "reason": "一句话包含两个独立指令：1）核心模块编码须开thinking高质量推理模式；2）以后架构图必须同时提供MD文本和图片两种格式。两个意图并列且互不依赖。",
+      "target_text": "核心模块的编码，开发工程师必须开thinking高质量推理模式。以后只要出架构图，除了文本MD格式外必须额外给出一份直观的图片",
+      "turn_count": 5,
+      "tags": [
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "conv-001",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "reason": "一句话包含两个意图：1)质疑评测集是否经过真实用户场景验证（带挑战性追问）；2)询问具体有多少条来自真实对话的数据量。同时也依赖上文评测集话题的上下文。",
+      "tags": [
+        "multi_intent",
+        "correction",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-002",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "reason": "一句话中同时包含多个意图：1)将方法论固化为准则；2)定义从数据采集到架构优化的完整闭环流程；3)要求未来遇到类似任务时自动执行该流程。既有原则设定，又有流程规范，还有未来行为约束，属于多意图复合。",
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-003",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "reason": "一句话包含两个意图：1）询问技能内外销分离功能是否在Day2中实现；2）询问相关测试用例是否覆盖该场景。同时引用了之前对话中提到的内容，带有上下文依赖特征。",
+      "tags": [
+        "multi_intent",
+        "switch",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-004",
+      "expected": "IC5",
+      "predicted": "IC1",
+      "correct": false,
+      "confidence": 0.82,
+      "reason": "用户发出了明确的直接指令：把前面讨论过但可能遗漏的内容补充到Day 2计划里，虽然带有情绪表达（不想翻聊天记录），但核心是一个清晰的操作请求",
+      "tags": [
+        "emotion",
+        "implicit",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-005",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "既包含具体修改建议（DTO改为子任务编排或技能编排），又表达对助手未理解MECE原则的不满和教育语气（什么是MECE，懂了么），指令与情绪态度复合",
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-006",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "同时包含对目录结构的批评不满（情绪态度）和要求做结构整合的明确指令（简单指令），一句话中复合了两个意图",
+      "tags": [
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-007",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "reason": "一句话包含多个意图：1)确认/要求流水线自动化触发机制；2)规则自动拆分为意图、事件、执行逻辑三层结构；3)与DTO同步对齐。既是对预期行为的描述确认，也隐含了实现或验证的指令要求。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-008",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "一句话中同时包含多个意图：1)纠正/补充事件分类体系，新增第四类'语义意图事件'；2)定义该事件类型的属性（事件源是对话流，提取靠语义分析）；3)指定CRAS作为该类事件的探针实现机制。多个指令和定义复合在一条消息中。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-009",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "一句话包含三个意图：1)纠正当前单通道设计不合理；2)给出快慢双通道的具体架构指令；3)澄清实时感知与统计报告的概念区分，属于多意图复合",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "correction",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-010",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "一句话中同时包含多个指令意图：1)架构原则指令（云端为主本地轻量）；2)功能需求指令（五种收敛类型必须搞定）；3)对每种类型的具体处理方式要求（情绪、规则、上下文推理、隐含推理、多意图），属于多意图复合表达",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-011",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.85,
+      "reason": "表面在解释不信任MEMORY的原因，实际隐含要求是：别把学到的东西存为声明式记忆文件，要转化为可执行的规则/代码等程序化机制来防止漂移",
+      "tags": [
+        "teaching",
+        "implicit",
+        "correction",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-012",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "同时包含对助手未主动补充技能和规则的不满情绪（反问语气+双问号），以及隐含的指令要求助手立即去补充沉淀的技能与规则，情绪表达与行动指令复合",
+      "tags": [
+        "correction",
+        "emotion",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-013",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "既有显式提问（还有哪些遗漏），又隐含要求助手主动回顾历史交互并沉淀为技能/知识，同时夹带情绪态度（不要白费），属于多意图复合",
+      "tags": [
+        "implicit",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-014",
+      "expected": "IC4",
+      "predicted": "IC3",
+      "correct": false,
+      "confidence": 0.88,
+      "reason": "'这个问题'指代不明，需结合前文语境理解是指规则从memory固化为ISC这件事背后的根本原因，属于多轮上下文依赖",
+      "tags": [
+        "implicit",
+        "teaching",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-015",
+      "expected": "IC5",
+      "predicted": "IC4",
+      "correct": false,
+      "confidence": 0.82,
+      "reason": "表面是归因分析和批评，实际隐含意图是要求助手重新正确完成day2+day3的事件驱动架构，把规则与触发机制绑定起来",
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-016",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "reason": "一句话包含多个检查意图：1)确认规则数量；2)是否已自动拆解为事件和执行链；3)是否能被DTO或其他模块触发执行，属于多意图复合",
+      "tags": [
+        "multi_intent",
+        "implicit",
+        "correction",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-017",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.85,
+      "reason": "同时包含情绪表达（'我笑了'表示不屑/嘲讽）、对助手回答的质疑反驳（怎么可能受限于并发）、以及隐含的指令意图（你有这么多Agent和key，应该开更多并行路数）",
+      "tags": [
+        "correction",
+        "emotion",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-018",
+      "expected": "IC5",
+      "predicted": "IC4",
+      "correct": false,
+      "confidence": 0.88,
+      "reason": "表面是反问式抱怨，实际隐含的意图是要求助手立即从当前对话中提取样本补充评测集",
+      "tags": [
+        "correction",
+        "emotion",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-019",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "一句话中包含三个递进但独立的意图：1)询问提升进化效率的方法；2)识别哪些环节有进化空间；3)对IQ实质性提升机会进行事件级别的定性判断。三个问题虽有逻辑递进但各自独立可答。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-020",
+      "expected": "IC5",
+      "predicted": "IC1",
+      "correct": false,
+      "confidence": 0.88,
+      "reason": "用户在明确下达架构设计指令，详细规定ISC规则/任务/技能必须按感知/认知/执行三层解耦，并指定事件总线通信方式和可替换性要求，是对前一轮原则的具体化展开的直接明确要求",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-021",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "correct": false,
+      "confidence": 0.85,
+      "reason": "同时包含两个意图：一是纠正助手观点（格式规范可以事件化，锚点在对象生命周期上），二是批评助手思考不够深入（没有认真思考事件监听的锚点和满足条件）",
+      "tags": [
+        "teaching",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-022",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "一句话中包含多个意图：陈述现状问题（51条不可执行、DTO不对齐）、澄清概念定义（DTO=调度引擎、事件独立维度）、下达设计约束指令（第一性原理+MECE、不添加重叠概念）",
+      "tags": [
+        "correction",
+        "multi_intent",
+        "teaching",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-023",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "既描述了API Key分散在5处的现状问题，又提出了具体的架构改进方案（独立双渠道key+主备自动切换），包含问题陈述和方案指令两个意图",
+      "tags": [
+        "multi_intent",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-024",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "correct": false,
+      "confidence": 0.88,
+      "reason": "一句话包含多个意图：1)操作指令（新会话先git status检查）；2)禁止行为（不要盲目git add -A）；3)纠正认知/建立原则（git history≠memory，commit历史是考古不是记忆，文件才是持久化手段）",
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-025",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "一句话包含多个独立要求：自动收录复杂发言为评测样本、原话原样不改写、带完整上下文、不需用户提醒自动执行，属于多意图复合指令",
+      "tags": [
+        "meta_request",
+        "multi_intent",
+        "teaching",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-026",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "correct": false,
+      "confidence": 0.82,
+      "reason": "既表达对助手回答的强烈否定和纠正（情绪态度），又明确下达评测数据来源的规则指令（简单指令），属于纠正+指令的复合意图",
+      "tags": [
+        "correction",
+        "teaching",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-027",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "correct": false,
+      "confidence": 0.88,
+      "reason": "既表达了对手动去重方式的不满（情绪态度），又明确提出要将去重封装为可复用技能的指令（具体要求），包含批评+指令两个意图",
+      "tags": [
+        "teaching",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-028",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "一条消息中同时包含多个意图：1)纠正/重新定义裁决官的运作模式（必须互相battle）；2)设定系统目标（断层式领先的全球最顶级AI）；3)规定完整的多角色工作流程（架构师→工程师→质量分析师→凌霄阁→用户裁决）。多个指令和定义复合在一句话中。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-029",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "correct": false,
+      "confidence": 0.92,
+      "reason": "一句话包含三个意图：1)非决策环节自主推进，2)尽量并行执行，3)设定6小时完成3天Sprint的时间目标",
+      "tags": [
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-030",
+      "expected": "IC4",
+      "predicted": "IC5",
+      "correct": false,
+      "confidence": 0.92,
+      "reason": "一句话包含两个独立指令：1）核心模块编码须开thinking高质量推理模式；2）以后架构图必须同时提供MD文本和图片两种格式。两个意图并列且互不依赖。",
+      "tags": [
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    },
+    {
+      "id": "conv-031",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "一句话包含两条完整工作流指令：1)增量价值点→emit事件→匹配规则→生成任务→DTO调度→落地的正常流水线；2)反复失败→根因分析→重构方案→凌霄阁审议→执行的异常处理流水线，属于多意图复合的系统设计指令",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-032",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.92,
+      "reason": "一条消息中包含三个独立意图：1)提出未知意图发现的三种方法论（聚类+分类+MECE闭环）；2)定义未解决问题主动溯源流程；3)设定意图管理的反熵增红线规则。多个指令/规范复合在一句话中。",
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "implicit",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-033",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "同时包含多个意图：1)表达态度——强调测试和评测是重点、不是走过场（IC2）；2)纠正补充当前流程——必须经过凌霄阁裁决才能进入下一Day，是对助手回答的修正性指令（IC1+IC3）",
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 3
+    },
+    {
+      "id": "conv-034",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.88,
+      "reason": "一条消息中包含多个独立的排版指令：目录层级限制、代码与正文分离、正文内容定位、代码清单编号规则、排版留白要求、图表标注规范，属于多意图复合",
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "turn_count": 5
+    }
+  ]
+}
