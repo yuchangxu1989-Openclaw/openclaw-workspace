@@ -14,7 +14,7 @@ const fs = require('fs');
 const path = require('path');
 
 const LOG_FILE = path.join(__dirname, 'enforcement-log.jsonl');
-const VALID_REAL_SOURCES = ['real_production', 'real_user', 'real_log', 'real', 'production', 'field_collected'];
+const VALID_REAL_SOURCES = ['real_production', 'real_user', 'real_log', 'real', 'production', 'field_collected', 'real-conversation', 'real_conversation'];
 
 function log(entry) {
   const line = JSON.stringify({ ...entry, timestamp: new Date().toISOString() });
