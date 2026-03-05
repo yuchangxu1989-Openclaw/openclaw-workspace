@@ -219,8 +219,11 @@ async function phase2Check(ruleA, ruleB, apiKey) {
     chain.unshift({ provider: 'zhipu', model: 'glm-5', baseUrl: 'https://open.bigmodel.cn/api/paas/v4/chat/completions', apiKey });
   }
   
-  // Boom fallback
-  chain.push({ provider: 'boom', model: 'claude-sonnet-4-6-thinking', baseUrl: 'https://boom.aihuige.com/v1/chat/completions', apiKey: 'sk-D0IEFjB37bpDC3TyYECUcyQkoRMElMuIxGNzteHbuUbzXLAp' });
+  // Penguinsaichat (Claude) fallback
+  chain.push({ provider: 'penguinsaichat', model: 'claude-sonnet-4-6-thinking', baseUrl: 'https://api.penguinsaichat.dpdns.org/v1/chat/completions', apiKey: 'sk-zGcFUDNZXL13QC69oJDup9qYK2Bf4lKbfW5RTXaP3tRuhy3A' });
+  
+  // Boom (GPT-5.3 Codex) fallback
+  chain.push({ provider: 'boom', model: 'gpt-5.3-codex', baseUrl: 'https://boom.aihuige.com/v1/chat/completions', apiKey: 'sk-D0IEFjB37bpDC3TyYECUcyQkoRMElMuIxGNzteHbuUbzXLAp' });
 
   const errors = [];
   for (const p of chain) {

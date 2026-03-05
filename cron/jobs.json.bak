@@ -670,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772730606520,
+      "updatedAtMs": 1772730906419,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -688,15 +688,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772730900000,
-        "lastRunAtMs": 1772730600008,
+        "nextRunAtMs": 1772731200000,
+        "lastRunAtMs": 1772730900006,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6512,
+        "lastDurationMs": 6413,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false,
-        "runningAtMs": 1772730900005
+        "runningAtMs": 1772731200005
       }
     },
     {
@@ -705,7 +705,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772730043879,
+      "updatedAtMs": 1772730913563,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -723,16 +723,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772730900000,
-        "lastRunAtMs": 1772730006902,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 36977,
+        "nextRunAtMs": 1772731800000,
+        "lastRunAtMs": 1772730906419,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 7144,
         "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 1,
-        "lastDelivered": false,
-        "lastDeliveryError": "⚠️ ✉️ Message failed",
-        "runningAtMs": 1772730900005
+        "consecutiveErrors": 0,
+        "lastDelivered": false
       }
     },
     {
