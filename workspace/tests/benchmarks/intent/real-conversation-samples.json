@@ -1,7 +1,7 @@
 {
   "data_source": "real-conversation",
   "description": "从真实用户对话记录中提取的意图评测样本",
-  "extracted_at": "2026-03-05T23:47:00+08:00",
+  "extracted_at": "2026-03-06T00:10:00+08:00",
   "samples": [
     {
       "input": "DTO=调度引擎，事件=独立管理维度，运行时绑定",
@@ -459,6 +459,149 @@
       "data_source": "real-conversation",
       "source_file": "current-session",
       "source_detail": "当前会话-23:46消息"
+    },
+    {
+      "input": "战略家横条加高，行间距修复",
+      "context": "平台全景图v7迭代中，用户审查视觉布局后给出修改指令",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.8,
+      "complexity_tags": [
+        "multi_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-平台全景图迭代v7"
+    },
+    {
+      "input": "DTO'任务编排'改成'声明式任务调度'",
+      "context": "发现DTO和战略家都用了'任务编排'一词，违反MECE命名原则",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.75,
+      "complexity_tags": [
+        "implicit_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-MECE命名修正"
+    },
+    {
+      "input": "标题上移，去掉版本号",
+      "context": "全景图v7.1视觉优化",
+      "expected_intent_class": "IC1",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "multi_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-全景图v7.1"
+    },
+    {
+      "input": "角色是能力标签不是固定岗位，按吞吐与瓶颈动态编组",
+      "context": "角色维度全景图设计中，用户纠正固定岗位思维",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.7,
+      "complexity_tags": [
+        "implicit_intent",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-角色维度全景图"
+    },
+    {
+      "input": "去箭头，修文字交叠",
+      "context": "角色维度全景图v2视觉审查",
+      "expected_intent_class": "IC1",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "multi_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-角色全景图v2"
+    },
+    {
+      "input": "24章太多了，改成5大章：认知、机制、闭环、落地、参考",
+      "context": "设计文档大重构，用户对24 Parts结构不满",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.8,
+      "complexity_tags": [
+        "multi_intent",
+        "implicit_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-设计文档大重构"
+    },
+    {
+      "input": "删除所有PM内容，Day/Sprint/工时估算全部去掉",
+      "context": "设计文档重构中，用户要求清除项目管理相关内容",
+      "expected_intent_class": "IC1",
+      "expected_confidence": 0.9,
+      "complexity_tags": [],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-PM清理"
+    },
+    {
+      "input": "大代码块超过5行的全部抽到附录代码清单，正文留引用",
+      "context": "设计文档重构中，用户建立代码与正文分离规范",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.75,
+      "complexity_tags": [
+        "implicit_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-代码清单规范"
+    },
+    {
+      "input": "同一层级的所有实体关键词不能重叠",
+      "context": "MECE命名原则讨论，用户提出核心约束规则",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.7,
+      "complexity_tags": [
+        "implicit_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-MECE命名原则"
+    },
+    {
+      "input": "你还在么",
+      "context": "Agent因API三路全灭宕机约4.5小时，用户发消息确认存活状态",
+      "expected_intent_class": "IC3",
+      "expected_confidence": 0.85,
+      "complexity_tags": [
+        "multi_turn",
+        "implicit_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-Agent宕机事件"
+    },
+    {
+      "input": "去重本身就该是个可复用技能",
+      "context": "ISC规则命名混乱讨论中，用户指出去重功能应抽象为独立技能",
+      "expected_intent_class": "IC4",
+      "expected_confidence": 0.75,
+      "complexity_tags": [
+        "implicit_intent"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-ISC规则命名混乱"
+    },
+    {
+      "input": "D2-03自愈守卫从15分钟降到1小时",
+      "context": "定时任务治理中，用户要求降低自愈守卫执行频率",
+      "expected_intent_class": "IC1",
+      "expected_confidence": 0.9,
+      "complexity_tags": [],
+      "data_source": "real-conversation",
+      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
+      "source_detail": "13:30-18:00记忆恢复-定时任务治理"
     }
   ]
 }
