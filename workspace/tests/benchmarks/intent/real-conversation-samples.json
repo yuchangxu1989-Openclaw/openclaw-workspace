@@ -1,20 +1,8 @@
 {
   "data_source": "real-conversation",
   "description": "从真实用户对话记录中提取的意图评测样本",
-  "extracted_at": "2026-03-06T00:10:00+08:00",
+  "extracted_at": "2026-03-06T00:15:00+08:00",
   "samples": [
-    {
-      "input": "DTO=调度引擎，事件=独立管理维度，运行时绑定",
-      "context": "- 77条ISC规则中51条不可执行（缺trigger或action） | - DTO只有3个任务定义，严重不对齐 | - 用户要求：DTO=调度引擎，事件=独立管理维度，运行时绑定 | - 架构师正在做完整设计方案 | - 原则：第一性原理+MECE，不添加重叠概念",
-      "expected_intent_class": "IC2",
-      "expected_confidence": 0.7,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/MEMORY.md",
-      "source_detail": "line 5"
-    },
     {
       "input": "\"你必须做任何事情的时候，都能独立做这种批判性思维、可扩展、可泛化、可生长的设计，一定是反熵增的。你的一切设计和进化都是以成为全球最强AI为目标的\"",
       "context": " | ## 反熵增原则（2026-03-04 灵魂烙印） | 用户原话：\"你必须做任何事情的时候，都能独立做这种批判性思维、可扩展、可泛化、可生长的设计，一定是反熵增的。你的一切设计和进化都是以成为全球最强AI为目标的\" | - 已写入SOUL.md作为灵魂烙印 | - 已创建ISC规则 rule.anti-entropy-design-principle-001.json",
@@ -42,18 +30,6 @@
       "source_detail": "line 53"
     },
     {
-      "input": "- 不等用户说就自动派复审",
-      "context": "## 架构评审流水线（2026-03-04 固化） | 标准流程：架构师→工程师+质量分析师并行复审→不通过自动打回→通过后凌霄阁终审→用户最终裁决 | - 不等用户说就自动派复审 | - 不等用户踢就自动打回 | - thinking=high默认开",
-      "expected_intent_class": "IC2",
-      "expected_confidence": 0.7,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/MEMORY.md",
-      "source_detail": "line 70"
-    },
-    {
       "input": "\"实际上都是要分层解耦的。我们不可能一步到位端到端，Agent一定是分层端到端。这也是你未来做架构优化的核心原则和检查点。\"",
       "context": "- 任何一层替换/升级，不影响其他两层 |  | **用户原话**：\"实际上都是要分层解耦的。我们不可能一步到位端到端，Agent一定是分层端到端。这也是你未来做架构优化的核心原则和检查点。\" |  | ## 编码质量标准（2026-03-05）",
       "expected_intent_class": "IC3",
@@ -67,139 +43,6 @@
       "source_detail": "line 115"
     },
     {
-      "input": "## PDF输出标准（用户要求，永久生效）",
-      "context": "- 有1条vectorization规则去重警告待人工确认 |  | ## PDF输出标准（用户要求，永久生效） | 基准文档：`designs/isc-event-dto-binding-design-v5-final.pdf` | - 严格层级目录（章→节→小节，≤3级）",
-      "expected_intent_class": "IC2",
-      "expected_confidence": 0.7,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "line 103"
-    },
-    {
-      "input": "*分析完成，等待用户决策*",
-      "context": "--- |  | *分析完成，等待用户决策*",
-      "expected_intent_class": "IC2",
-      "expected_confidence": 0.7,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/aeo-analysis.md",
-      "source_detail": "line 149"
-    },
-    {
-      "input": "| R02 | ISC创建闸门 | `isc.rule.created` | — | `user.intent.rule_creation.inferred`（用户要求创建规则） | — | — |",
-      "context": "|---|------|--------|--------|--------|--------|--------| | | R01 | ISC格式统一 | `isc.rule.created/updated` | `quality.rule_format.violated` | — | `knowledge.rule_standard.discovered` | `system.patch_cycle.pattern_emerged`（反复格式修复） | | | R02 | ISC创建闸门 | `isc.rule.created` | — | `user.intent.rule_creation.inferred`（用户要求创建规则） | — | — | | | R03 | ISC变更对齐 | `isc.rule.created/updated/deleted` | `isc.alignment.drifted` | — | — | `system.failure_pattern.pattern_emerged`（反复对齐失败） | | | R04 | ISC-DTO握手 | — | `isc.alignment.drifted` | — | — | `system.architecture_bottleneck.pattern_emerged` |",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 1178"
-    },
-    {
-      "input": "| R25 | 双语展示 | `interaction.report.created` | `quality.naming.violated` | `user.intent.bilingual.inferred`（用户要求双语） | — | — |",
-      "context": "| R23 | 基因文件命名 | `system.file.changed` | `quality.naming.violated` | — | — | — | | | R24 | 技能目录命名 | `skill.lifecycle.created/renamed` | `quality.naming.violated` | `conversation.correction.inferred` | — | — | | | R25 | 双语展示 | `interaction.report.created` | `quality.naming.violated` | `user.intent.bilingual.inferred`（用户要求双语） | — | — | |  | #### 4.1.4 自动化触发类（9条）",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 1205"
-    },
-    {
-      "input": "| R29 | 自动技能化 | `skill.lifecycle.created` | `quality.skill.threshold_crossed` | `user.intent.skillification.inferred`（用户要求技能化） | — | — |",
-      "context": "| R27 | EvoMap同步 | `skill.lifecycle.created/updated/published` | — | — | — | `system.failure_pattern.pattern_emerged`（同步反复失败） | | | R28 | GitHub同步 | `system.file.changed` | — | — | — | `system.failure_pattern.pattern_emerged` | | | R29 | 自动技能化 | `skill.lifecycle.created` | `quality.skill.threshold_crossed` | `user.intent.skillification.inferred`（用户要求技能化） | — | — | | | R30 | 自动向量化 | `skill.md.created/updated` | `vectorization.skill.gap_found` | — | `knowledge.embedding_method.discovered` | — | | | R31 | 能力锚点注册 | `skill.lifecycle.created/updated` | `quality.capability_anchor.gap_found` | `user.intent.capability_declare.inferred`（用户提到新能力） | — | — |",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 1213"
-    },
-    {
-      "input": "| R50 | AEO双轨编排 | `aeo.evaluation.requested` | — | `user.intent.evaluation.inferred`（用户要求评测） | — | — |",
-      "context": "|---|------|--------|--------|--------|--------|--------| | | R49 | AEO评测集注册 | `aeo.evaluation.created/updated` | `aeo.evaluation.gap_found` | — | — | — | | | R50 | AEO双轨编排 | `aeo.evaluation.requested` | — | `user.intent.evaluation.inferred`（用户要求评测） | — | — | | | R51 | AEO反馈采集 | `interaction.message.received` | `aeo.feedback.detected` | `user.sentiment.satisfaction.inferred` ★核心 | — | — | | | R52 | AEO洞察转行动 | `aeo.insight.generated` | `aeo.insight.threshold_crossed` | `user.intent.action_demand.emphasized` | — | `system.patch_cycle.pattern_emerged` |",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 1248"
-    },
-    {
-      "input": "| R54 | 七人议会 | `orchestration.decision.requested` | `orchestration.decision.threshold_crossed` | `user.intent.council_review.inferred`（用户要求审议） | `knowledge.decision_framework.discovered` | `system.architecture_bottleneck.pattern_emerged` |",
-      "context": "| # | 规则 | L1事件 | L2事件 | L3事件 | L4事件 | L5事件 | | |---|------|--------|--------|--------|--------|--------| | | R54 | 七人议会 | `orchestration.decision.requested` | `orchestration.decision.threshold_crossed` | `user.intent.council_review.inferred`（用户要求审议） | `knowledge.decision_framework.discovered` | `system.architecture_bottleneck.pattern_emerged` | | | R55 | 自定义决策 | `dto.task.failed` | — | — | — | `system.failure_pattern.pattern_emerged` | | | R56 | 流水线后修复 | `orchestration.pipeline.completed` | — | — | — | `system.patch_cycle.pattern_emerged` |",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 1257"
-    },
-    {
-      "input": "| R66 | 多Agent沟通 | `orchestration.subagent.spawned` | — | `user.intent.priority_adjust.inferred`（用户要求优先级调整） | `knowledge.agent_coordination.discovered` | — |",
-      "context": "| R64 | 并行子Agent | `orchestration.subagent.requested` | — | — | `knowledge.agent_coordination.discovered` | `system.architecture_bottleneck.pattern_emerged` | | | R65 | SEEF子技能 | `skill.lifecycle.created` | — | — | — | — | | | R66 | 多Agent沟通 | `orchestration.subagent.spawned` | — | `user.intent.priority_adjust.inferred`（用户要求优先级调整） | `knowledge.agent_coordination.discovered` | — | | | R67 | 流水线汇报过滤 | `orchestration.pipeline.completed` | — | `user.sentiment.info_overload.shifted`（用户对信息过载不满） | — | — | | ",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 1277"
-    },
-    {
-      "input": "| R73 源文件交付 | `user.intent.file_request.inferred` | 用户说\"发MD源文件\" → CRAS提取文件请求意图 → 直接执行发送 |",
-      "context": "| 规则 | L3事件 | 场景描述 | | |------|--------|---------| | | R73 源文件交付 | `user.intent.file_request.inferred` | 用户说\"发MD源文件\" → CRAS提取文件请求意图 → 直接执行发送 | | | R76 GLM视觉优先 | `user.intent.vision_task.inferred` | 用户发图片说\"分析一下\" → CRAS提取视觉意图 → 路由到GLM-4V | | | R77 智谱能力路由 | `user.intent.task_routing.inferred` | 用户任务输入 → CRAS识别模态 → 自动选择最优模型 |",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 1321"
-    },
-    {
-      "input": "Agent说\"我不确定\"、\"需要你确认\"、用户说\"我来做吧\"、\"你不会这个\"",
-      "context": "  identifyCapabilityGaps(messages) { |     // 从失败/人工介入消息中识别能力缺口 |     // 检测模式：Agent说\"我不确定\"、\"需要你确认\"、用户说\"我来做吧\"、\"你不会这个\" |     const gapPatterns = { |       agent_uncertainty: [/我不确定/, /需要你确认/, /我无法/, /暂时不支持/],",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn",
-        "multi_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 1757"
-    },
-    {
-      "input": "直接发飞书卡片给用户决策 | LLM恢复后自动切回 |",
-      "context": "| bus.js写入失败 | 事件无法持久化 | emit降级为console.error日志记录 | 磁盘空间/权限修复后自动恢复 | | | events.jsonl满10MB | 轮转触发 | 旧文件归档到.archive/，新文件从空开始 | 自动，无需人工 | | | 凌霄阁LLM不可用 | 审议无法完成 | 自动降级为\"人工审批\"：直接发飞书卡片给用户决策 | LLM恢复后自动切回 | |  | ### 8.6.4 系统级回滚方案",
-      "expected_intent_class": "IC2",
-      "expected_confidence": 0.7,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/designs/isc-event-dto-binding-design-v4.md",
-      "source_detail": "line 5711"
-    },
-    {
       "input": "1.浅色背景（白色或浅灰）2.中文标注（不接受纯英文）3.颜色柔和不刺眼。用户原话：'颜色轻一些，不要纯英文，...",
       "context": "- **`rule.vectorization.skill-lifecycle-002`** — 技能生命周期向量化规则 - 覆盖created, updated, merged, fixed事件，全量连续执行，不分批 | - **`rule.vectorization.unified-standard-001`** — 统一使用智谱向量化标准 - 禁止TF-IDF，强制使用智谱Embedding API(1024维) | - **`rule.visual-output-style-001`** — 所有工程图（架构图、集成映射图、数据流图等）必须：1.浅色背景（白色或浅灰）2.中文标注（不接受纯英文）3.颜色柔和不刺眼。用户原话：'颜色轻一些，不要纯英文，... | - **`rule.zhipu-capability-router-001`** — 智谱能力自动路由 - 根据输入模态自动选择模型",
       "expected_intent_class": "IC3",
@@ -211,18 +54,6 @@
       "data_source": "real-conversation",
       "source_file": "/root/.openclaw/workspace/reports/isc-rule-triage.md",
       "source_detail": "line 112"
-    },
-    {
-      "input": "| N007-v2 | 源文件交付标准 - 当用户要求'源文件'时，必须通过消息工具直接发送文件本身。如果通道不支持文件传输，则输出完整文件内容 | 无 | DTO订阅 | DTO订阅存在但规则无trigger.actions定义 |",
-      "context": "| isc-skill-security-gate-030 | 基于Snyk 8类威胁检测的技能发布前置门禁，阻断潜在供应链风险 | skill.publish, skill.sync, skill.evoMap.upload | DTO订阅 | DTO订阅存在但规则无trigger.actions定义 | | | N006 | 技能名称双语展示标准 - 所有汇报涉及skill英文名时必须同时展示中文名 | 无 | DTO订阅 | DTO订阅存在但规则无trigger.actions定义 | | | N007-v2 | 源文件交付标准 - 当用户要求'源文件'时，必须通过消息工具直接发送文件本身。如果通道不支持文件传输，则输出完整文件内容 | 无 | DTO订阅 | DTO订阅存在但规则无trigger.actions定义 | | | N016 | 流水线后自动修复循环 - 全局自主决策流水线发现问题后，自动循环修复直至稳定 | 无 | DTO订阅 | DTO订阅存在但规则无trigger.actions定义 | | | N017 | CRAS重复模式自动解决 - CRAS-B用户洞察分析发现同一问题模式≥2次时，主动根因分析并自动解决 | 无 | DTO订阅 | DTO订阅存在但规则无trigger.actions定义 |",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.78,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/reports/isc-enforcement-audit.md",
-      "source_detail": "line 43"
     },
     {
       "input": "对，现在的评测集是我坐在这里\"想象\"用户会怎么用，不是从真实数据里提取的。造出来的case天然缺乏真实场景的复杂度——多轮上下文、模糊表达、意图切换、中途打断、多任务并行这些真实对话里常见的模式，我一条都没造进去。",
@@ -254,18 +85,6 @@
       "source_detail": "截图1-用户第3条消息"
     },
     {
-      "input": "这是一条完整的评测驱动开发闭环，必须写成规则固化下来。",
-      "context": "用户确认评测驱动开发闭环流程后，要求固化为ISC规则",
-      "expected_intent_class": "IC1",
-      "expected_confidence": 0.95,
-      "complexity_tags": [
-        "implicit"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/media/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg",
-      "source_detail": "截图1-用户第4条消息"
-    },
-    {
       "input": "另外，之前提到的例如技能的内部、外销分离这些都在Day2中做了么？这种测试用例有包含么？",
       "context": "Day 2进展讨论中，用户突然切换话题追问之前讨论过的技能分离问题",
       "expected_intent_class": "IC5",
@@ -278,18 +97,6 @@
       "data_source": "real-conversation",
       "source_file": "/root/.openclaw/media/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg",
       "source_detail": "截图1-用户第5条消息"
-    },
-    {
-      "input": "Day1过凌霄阁了么？",
-      "context": "Day 2工作进行中，用户突然问Day 1是否经过了凌霄阁审查",
-      "expected_intent_class": "IC1",
-      "expected_confidence": 0.95,
-      "complexity_tags": [
-        "switch"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/media/inbound/59fac6bb-0924-463b-af3e-55ee669dc418.jpg",
-      "source_detail": "截图2-用户第2条消息"
     },
     {
       "input": "我不想看翻聊天记录，太长了，你赶紧把前面可能漏掉的但讨论过的部分，补在Day 2计划里",
@@ -306,44 +113,6 @@
       "source_detail": "截图3-用户引用的消息"
     },
     {
-      "input": "你继续消化我给你的图片，我会继续帮你补今天16:00之后的记忆，准备好了么？",
-      "context": "当前session中，用户准备帮AI恢复下午的记忆空白",
-      "expected_intent_class": "IC5",
-      "expected_confidence": 0.85,
-      "complexity_tags": [
-        "multi_intent",
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:29消息"
-    },
-    {
-      "input": "够真实么？",
-      "context": "用户问AI对话截图作为评测数据源是否够真实",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.7,
-      "complexity_tags": [
-        "implicit",
-        "ambiguous"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:29消息"
-    },
-    {
-      "input": "首先，你需要用codex模型来做这个，开个子Agent，然后我会给你其他任务",
-      "context": "用户指定用特定模型执行评测集提取任务，并预告后续还有其他任务",
-      "expected_intent_class": "IC5",
-      "expected_confidence": 0.9,
-      "complexity_tags": [
-        "multi_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:25消息"
-    },
-    {
       "input": "你有详细评测过by真实用户场景的评测集么？目前有多少评测集已经是从真实的你我对话中产生的？",
       "context": "用户挑战AI的评测集真实性",
       "expected_intent_class": "IC5",
@@ -358,250 +127,48 @@
       "source_detail": "当前会话-23:25消息"
     },
     {
-      "input": "所以你消化不掉了？",
-      "context": "AI收到5张截图后只是总结确认，用户质疑AI是否能处理",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.8,
+      "input": "如果你一张图里，战略家有任务编排，DTO有任务编排，那是不是DTO应该改为子任务编排或者技能编排？什么是MECE，懂了么？",
+      "context": "审查平台全景图时发现同一层级两个Agent的职责描述关键词重叠，用户用苏格拉底式提问引导AI理解MECE原则",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.9,
       "complexity_tags": [
-        "emotion",
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "data_source": "real-conversation",
+      "source_file": "merged-forward-batch2",
+      "source_detail": "下午会话-MECE命名原则教学"
+    },
+    {
+      "input": "然后，你的PDF目录与标题的层级结构，很明显是有问题，一个架构师的详细设计文档为什么一级目录有10多部分？你应该做结构上的整合",
+      "context": "审查v5设计文档PDF后，用户指出文档结构问题——24个Part应该整合为少数几个大章",
+      "expected_intent_class": "IC5",
+      "expected_confidence": 0.9,
+      "complexity_tags": [
+        "correction",
+        "multi_intent",
         "implicit"
       ],
       "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:12消息"
+      "source_file": "merged-forward-batch2",
+      "source_detail": "下午会话-文档结构整合指令"
     },
     {
-      "input": "排查hook脚本读取逻辑，我不希望你再git失败",
-      "context": "子Agent报告git commit被ISC hook拦截，用户要求修复hook而非绕过",
+      "input": "并且你的流水线应该是：一旦有规则，就自动拆分成意图、事件、执行逻辑，跟DTO同步对齐",
+      "context": "批量创建规则后用户提出更高层要求——规则创建不是终点，必须自动拆解为感知/认知/执行三层并与DTO对齐",
       "expected_intent_class": "IC5",
-      "expected_confidence": 0.9,
+      "expected_confidence": 0.95,
       "complexity_tags": [
+        "teaching",
         "multi_intent",
-        "correction"
+        "implicit"
       ],
       "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:31消息"
-    },
-    {
-      "input": "我说的是你的后补模型",
-      "context": "AI问codex是指哪个模型，用户澄清是boomstyleai的fallback模型",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.8,
-      "complexity_tags": [
-        "multi_turn",
-        "correction"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:26消息"
-    },
-    {
-      "input": "我发了一个很严重的问题",
-      "context": "用户预告要说重要问题",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.6,
-      "complexity_tags": [
-        "implicit",
-        "ambiguous"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:36消息"
-    },
-    {
-      "input": "刚给你的几十张图片都是凌晨的，也就是你做过的已经完成的任务。",
-      "context": "用户提醒AI截图是历史记录而非新任务",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.8,
-      "complexity_tags": [
-        "correction",
-        "teaching"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:37消息"
-    },
-    {
-      "input": "严重问题是，我并没有帮你解决下午13:30-18:00的失忆",
-      "context": "用户揭示真正的严重问题——AI有4.5小时记忆空白",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.85,
-      "complexity_tags": [
-        "implicit",
-        "teaching"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:37消息"
-    },
-    {
-      "input": "但有个好处是，你可以基于前面的数据多储备评测集",
-      "context": "用户在指出严重问题后给出silver lining——利用已有数据扩充评测集",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.8,
-      "complexity_tags": [
-        "implicit",
-        "switch"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:38消息"
-    },
-    {
-      "input": "你的意思是：智谱的图片理解模型失效了？",
-      "context": "子Agent报告无法读取图片后用户追问原因",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.85,
-      "complexity_tags": [
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "current-session",
-      "source_detail": "当前会话-23:46消息"
-    },
-    {
-      "input": "战略家横条加高，行间距修复",
-      "context": "平台全景图v7迭代中，用户审查视觉布局后给出修改指令",
-      "expected_intent_class": "IC5",
-      "expected_confidence": 0.8,
-      "complexity_tags": [
-        "multi_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-平台全景图迭代v7"
-    },
-    {
-      "input": "DTO'任务编排'改成'声明式任务调度'",
-      "context": "发现DTO和战略家都用了'任务编排'一词，违反MECE命名原则",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.75,
-      "complexity_tags": [
-        "implicit_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-MECE命名修正"
-    },
-    {
-      "input": "标题上移，去掉版本号",
-      "context": "全景图v7.1视觉优化",
-      "expected_intent_class": "IC1",
-      "expected_confidence": 0.9,
-      "complexity_tags": [
-        "multi_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-全景图v7.1"
-    },
-    {
-      "input": "角色是能力标签不是固定岗位，按吞吐与瓶颈动态编组",
-      "context": "角色维度全景图设计中，用户纠正固定岗位思维",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.7,
-      "complexity_tags": [
-        "implicit_intent",
-        "multi_turn"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-角色维度全景图"
-    },
-    {
-      "input": "去箭头，修文字交叠",
-      "context": "角色维度全景图v2视觉审查",
-      "expected_intent_class": "IC1",
-      "expected_confidence": 0.9,
-      "complexity_tags": [
-        "multi_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-角色全景图v2"
-    },
-    {
-      "input": "24章太多了，改成5大章：认知、机制、闭环、落地、参考",
-      "context": "设计文档大重构，用户对24 Parts结构不满",
-      "expected_intent_class": "IC5",
-      "expected_confidence": 0.8,
-      "complexity_tags": [
-        "multi_intent",
-        "implicit_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-设计文档大重构"
-    },
-    {
-      "input": "删除所有PM内容，Day/Sprint/工时估算全部去掉",
-      "context": "设计文档重构中，用户要求清除项目管理相关内容",
-      "expected_intent_class": "IC1",
-      "expected_confidence": 0.9,
-      "complexity_tags": [],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-PM清理"
-    },
-    {
-      "input": "大代码块超过5行的全部抽到附录代码清单，正文留引用",
-      "context": "设计文档重构中，用户建立代码与正文分离规范",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.75,
-      "complexity_tags": [
-        "implicit_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-代码清单规范"
-    },
-    {
-      "input": "同一层级的所有实体关键词不能重叠",
-      "context": "MECE命名原则讨论，用户提出核心约束规则",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.7,
-      "complexity_tags": [
-        "implicit_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-MECE命名原则"
-    },
-    {
-      "input": "你还在么",
-      "context": "Agent因API三路全灭宕机约4.5小时，用户发消息确认存活状态",
-      "expected_intent_class": "IC3",
-      "expected_confidence": 0.85,
-      "complexity_tags": [
-        "multi_turn",
-        "implicit_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-Agent宕机事件"
-    },
-    {
-      "input": "去重本身就该是个可复用技能",
-      "context": "ISC规则命名混乱讨论中，用户指出去重功能应抽象为独立技能",
-      "expected_intent_class": "IC4",
-      "expected_confidence": 0.75,
-      "complexity_tags": [
-        "implicit_intent"
-      ],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-ISC规则命名混乱"
-    },
-    {
-      "input": "D2-03自愈守卫从15分钟降到1小时",
-      "context": "定时任务治理中，用户要求降低自愈守卫执行频率",
-      "expected_intent_class": "IC1",
-      "expected_confidence": 0.9,
-      "complexity_tags": [],
-      "data_source": "real-conversation",
-      "source_file": "/root/.openclaw/workspace/memory/2026-03-05.md",
-      "source_detail": "13:30-18:00记忆恢复-定时任务治理"
+      "source_file": "merged-forward-batch2",
+      "source_detail": "下午会话-规则自动拆解元规则"
     }
-  ]
+  ],
+  "quality_standard": "只收复杂意图(IC3-IC5)、长段原话、带完整上下文的真实对话样本"
 }
