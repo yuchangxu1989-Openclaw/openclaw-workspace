@@ -36,8 +36,8 @@
         "pass_condition": "交集为空 → APPROVED，跳过阶段二"
       },
       "phase_2_deep_check": {
-        "method": "claude_opus_semantic_judgment",
-        "model": "claude-opus-4-6",
+        "method": "llm_semantic_judgment",
+        "model": "follow_openclaw_config",
         "description": "对event有交集的候选规则，调用Claude Opus判断condition+action是否语义等价",
         "prompt_input": "两条规则的event列表 + condition描述 + action类型/handler/效果",
         "output_schema": {

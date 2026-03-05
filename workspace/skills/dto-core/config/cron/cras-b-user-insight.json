@@ -2,12 +2,9 @@
   "id": "cras-b-user-insight-sweep",
   "intent": "CRAS-B 用户洞察 — EventBus 事件驱动 + 30分钟兜底补扫",
   "version": "2.0.0",
-  "model": "claude/claude-opus-4-6-thinking",
-
   "mode": "event_driven_with_fallback",
   "primary_channel": "eventbus",
   "primary_event": "cras.insight.request",
-
   "triggers": [
     {
       "type": "cron",
@@ -16,7 +13,6 @@
       "purpose": "fallback_sweep"
     }
   ],
-
   "fallback_sweep": {
     "description": "检查最近30分钟内是否有洞察输出，无则触发补扫",
     "check_window_minutes": 30,
@@ -47,7 +43,6 @@
       }
     }
   },
-
   "constraints": [
     {
       "standard": "cras.user_insight.enabled",
@@ -55,18 +50,15 @@
       "severity": "warning"
     }
   ],
-
   "timeout": {
     "total_seconds": 120,
     "per_action_seconds": 60
   },
-
   "retry": {
     "max_attempts": 2,
     "backoff": "exponential",
     "delay_seconds": 10
   },
-
   "error_handling": {
     "on_timeout": {
       "action": "notify_failure",
@@ -78,7 +70,6 @@
       "max_retries": 2
     }
   },
-
   "telemetry": {
     "metrics": [
       "sweep_triggered_count",
@@ -87,7 +78,6 @@
       "sweep_duration_ms"
     ]
   },
-
   "metadata": {
     "author": "system",
     "priority": "medium",

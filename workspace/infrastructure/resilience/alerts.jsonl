@@ -54,3 +54,14 @@
 {"ts":"2026-03-05T23:35:27.921Z","type":"handler_disabled","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
 {"ts":"2026-03-05T23:35:27.923Z","type":"handler_disabled","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
 {"ts":"2026-03-05T23:35:27.928Z","type":"handler_disabled","handlerName":"broken","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:39:02.606Z","alertType":"permanent_error","context":"unknown","error":"ENOENT: file not found","attempt":1}
+{"ts":"2026-03-05T23:39:02.640Z","alertType":"retry_exhausted","context":"unknown","attempts":3,"lastError":"ECONNRESET"}
+{"ts":"2026-03-05T23:39:02.653Z","alertType":"degradation","context":"unknown","primaryError":"primary failed"}
+{"ts":"2026-03-05T23:39:02.653Z","alertType":"degradation","context":"unknown","primaryError":"primary"}
+{"ts":"2026-03-05T23:39:02.653Z","alertType":"degradation_failed","context":"unknown","primaryError":"primary","fallbackError":"fallback"}
+{"ts":"2026-03-05T23:39:02.656Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-002","failCount":3,"lastError":"fail 3","eventType":"unknown"}
+{"ts":"2026-03-05T23:39:02.657Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-dlq","failCount":3,"lastError":"fail","eventType":"unknown"}
+{"ts":"2026-03-05T23:39:02.662Z","type":"handler_disabled","handlerName":"crashing-handler","consecutiveFailures":3,"lastError":"crash 3","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:39:02.665Z","type":"handler_disabled","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:39:02.667Z","type":"handler_disabled","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:39:02.671Z","type":"handler_disabled","handlerName":"broken","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
