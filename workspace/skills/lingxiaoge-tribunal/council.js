@@ -156,30 +156,7 @@ ${r2Summary}
 【综合评分】X/10`;
 }
 
-// ─── LLM Client (via llm-context injection layer) ──────────────────
-
-const path = require('path');
-const llmContext = require(path.join(__dirname, '../../infrastructure/llm-context'));
-
-/**
- * Call LLM via the standard context injection layer.
- * Supports legacy opts for backward compatibility, but routes through llm-context.
- * @param {string} prompt  — user message
- * @param {object} opts    — { timeout } (legacy: baseUrl/apiKey/model ignored, routed automatically)
- * @returns {string} assistant reply text
- */
-async function callLLM(prompt, opts = {}) {
-  const timeout = opts.timeout || 120_000;
-  // If _callLLM override is present (for testing), use it directly
-  if (opts._callLLM) {
-    return opts._callLLM(prompt, opts);
-  }
-  const result = await llmContext.chat(
-    [{ role: 'user', content: prompt }],
-    { capability: 'chat', priority: 'cost', timeout }
-  );
-  return result.content;
-}
+// ─── No direct LLM calls — prompts are generated, caller executes ──
 
 // ─── Core Engine ────────────────────────────────────────────────────
 
@@ -304,9 +281,6 @@ function parseArgs(argv) {
     if (arg === '--topic'   && argv[i + 1]) { args.topic   = argv[++i]; continue; }
     if (arg === '--context' && argv[i + 1]) { args.context = argv[++i]; continue; }
     if (arg === '--mode'    && argv[i + 1]) { args.mode    = argv[++i]; continue; }
-    if (arg === '--model'   && argv[i + 1]) { args.model   = argv[++i]; continue; }
-    if (arg === '--baseUrl' && argv[i + 1]) { args.baseUrl = argv[++i]; continue; }
-    if (arg === '--apiKey'  && argv[i + 1]) { args.apiKey  = argv[++i]; continue; }
     if (arg === '--timeout' && argv[i + 1]) { args.timeout = parseInt(argv[++i], 10); continue; }
     if (arg === '--serial')                 { args.parallel = false; continue; }
     if (arg === '--help' || arg === '-h')   { args.help = true; continue; }
@@ -316,25 +290,21 @@ function parseArgs(argv) {
 
 function printUsage() {
   console.log(`
-凌霄阁-7人裁决神殿 v1.0 ⚡🏛️
+凌霄阁-7人裁决神殿 v1.0 ⚡🏛️ (llm-context powered)
 
 Usage:
-  node council.js --topic "议题" [--context "背景"] [--mode 7|5|3] [--model glm-5]
+  node council.js --topic "议题" [--context "背景"] [--mode 7|5|3]
 
 Options:
   --topic    议题（必填）
   --context  背景材料
   --mode     席位模式: 7（全席）, 5（精简）, 3（极限）  [default: 7]
-  --model    LLM模型名                                  [required]
-  --baseUrl  LLM API基地址                               [required]
-  --apiKey   LLM API密钥（或设置 LLM_API_KEY 环境变量）
   --timeout  每次调用超时（毫秒）                         [default: 120000]
   --serial   Round 1 串行执行（默认并行）
   --help     显示帮助
 
-Environment:
-  LLM_API_KEY   — API密钥
-  LLM_BASE_URL  — API基地址
+LLM routing is handled automatically by infrastructure/llm-context.
+No need to specify --model, --baseUrl, or --apiKey.
 `.trim());
 }
 
@@ -354,9 +324,6 @@ async function main() {
   try {
     const result = await convene(args.topic, args.context || '', {
       mode:     args.mode,
-      model:    args.model,
-      apiKey:   args.apiKey,
-      baseUrl:  args.baseUrl,
       parallel: args.parallel,
       timeout:  args.timeout,
     });

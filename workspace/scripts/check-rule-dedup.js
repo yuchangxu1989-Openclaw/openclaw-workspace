@@ -88,59 +88,28 @@ const PHASE2_PROMPT = `你是ISC规则去重判官。给你两条规则的完整
 严格输出JSON（不要额外文字）：{"duplicate": bool, "intent_equivalent": bool, "event_chain_equivalent": bool, "execution_equivalent": bool, "reason": "..."}`;
 
 function getZhipuKey() {
-  try {
-    const { getKey } = require(path.join(WS, 'skills/zhipu-keys/index.js'));
-    return getKey('cron');
-  } catch (_) {
-    return null;
-  }
+  // Kept for backward compat, but LLM calls now go through llm-context
+  return 'llm-context-managed';
 }
 
-async function callGLM5(prompt, apiKey, timeoutMs = 15000) {
-  const url = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const resp = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'glm-5',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.1,
-      }),
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-    if (!resp.ok) throw new Error(`GLM-5 HTTP ${resp.status}`);
-    const data = await resp.json();
-    const text = data?.choices?.[0]?.message?.content || '';
-    // Extract JSON from response
-    const match = text.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('No JSON in GLM-5 response');
-    return JSON.parse(match[0]);
-  } catch (e) {
-    clearTimeout(timer);
-    throw e;
-  }
+// ─── LLM via infrastructure/llm-context ─────────────────────────────
+
+const llmContext = require(path.join(WS, 'infrastructure/llm-context'));
+
+async function callLLMSemantic(prompt) {
+  const result = await llmContext.chat(
+    [{ role: 'user', content: prompt }],
+    { capability: 'chat', priority: 'cost', temperature: 0.1, timeout: 15000 }
+  );
+  const text = result.content || '';
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('No JSON in LLM response');
+  return JSON.parse(match[0]);
 }
 
 /**
  * Fallback: field-exact comparison when LLM unavailable
  */
-/**
- * LLM fallback链：GLM-5 → Claude Sonnet → Claude Opus → Boom
- * 语义去重必须用LLM，不允许降级到字段比对
- */
-const LLM_FALLBACK_CHAIN = [
-  { provider: 'zhipu', model: 'glm-5', baseUrl: 'https://open.bigmodel.cn/api/paas/v4/chat/completions' },
-  { provider: 'claude-main', model: 'claude-sonnet-4-6-thinking' },
-  { provider: 'boom', model: 'claude-sonnet-4-6-thinking', baseUrl: 'https://boom.aihuige.com/v1' },
-];
-
 function fallbackDeepCheck(ruleA, ruleB) {
   const intentEq = (ruleA.description || '') === (ruleB.description || '') &&
                    (ruleA.name || '') === (ruleB.name || '');
@@ -166,81 +135,26 @@ function fallbackDeepCheck(ruleA, ruleB) {
   };
 }
 
-async function callLLM(prompt, provider) {
-  const https = require('https');
-  const url = new URL(provider.baseUrl || 'https://open.bigmodel.cn/api/paas/v4/chat/completions');
-  const body = JSON.stringify({
-    model: provider.model,
-    messages: [{ role: 'user', content: prompt }],
-    temperature: 0.1,
-  });
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${provider.apiKey}`,
-  };
-  return new Promise((resolve, reject) => {
-    const req = https.request({ hostname: url.hostname, path: url.pathname, method: 'POST', headers, timeout: 15000 }, res => {
-      let data = '';
-      res.on('data', c => data += c);
-      res.on('end', () => {
-        try {
-          const j = JSON.parse(data);
-          const content = j.choices?.[0]?.message?.content || '';
-          const m = content.match(/\{[\s\S]*\}/);
-          if (m) resolve(JSON.parse(m[0]));
-          else reject(new Error('No JSON in response'));
-        } catch (e) { reject(e); }
-      });
-    });
-    req.on('error', reject);
-    req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
-    req.write(body);
-    req.end();
-  });
-}
+/**
+ * LLM semantic dedup — all routing handled by llm-context
+ */
 
-async function phase2Check(ruleA, ruleB, apiKey) {
+async function phase2Check(ruleA, ruleB, _apiKeyIgnored) {
   const prompt = PHASE2_PROMPT
     .replace('{rule_a_json}', JSON.stringify(ruleA, null, 2))
     .replace('{rule_b_json}', JSON.stringify(ruleB, null, 2));
 
-  // 构建fallback链：所有可用的LLM
-  const chain = [];
-  
-  // GLM-5 keys
   try {
-    const keysModule = require(path.join(WS, 'skills/zhipu-keys/index.js'));
-    const keys = keysModule.getKeys ? keysModule.getKeys() : [];
-    for (const k of keys) {
-      chain.push({ provider: 'zhipu', model: 'glm-5', baseUrl: 'https://open.bigmodel.cn/api/paas/v4/chat/completions', apiKey: k });
-    }
-  } catch (_) {}
-  if (apiKey && !chain.find(c => c.apiKey === apiKey)) {
-    chain.unshift({ provider: 'zhipu', model: 'glm-5', baseUrl: 'https://open.bigmodel.cn/api/paas/v4/chat/completions', apiKey });
+    const result = await callLLMSemantic(prompt);
+    result.method = 'llm-context/auto';
+    return result;
+  } catch (e) {
+    // All LLM failed, fallback to field comparison
+    const fb = fallbackDeepCheck(ruleA, ruleB);
+    fb.llm_errors = [e.message];
+    fb.warning = 'ALL_LLM_FAILED — 所有大模型均不可用，降级到字段比对，结果可能不准确';
+    return fb;
   }
-  
-  // Penguinsaichat (Claude) fallback
-  chain.push({ provider: 'penguinsaichat', model: 'claude-sonnet-4-6-thinking', baseUrl: 'https://api.penguinsaichat.dpdns.org/v1/chat/completions', apiKey: 'sk-zGcFUDNZXL13QC69oJDup9qYK2Bf4lKbfW5RTXaP3tRuhy3A' });
-  
-  // Boom (GPT-5.3 Codex) fallback
-  chain.push({ provider: 'boom', model: 'gpt-5.3-codex', baseUrl: 'https://boom.aihuige.com/v1/chat/completions', apiKey: 'sk-D0IEFjB37bpDC3TyYECUcyQkoRMElMuIxGNzteHbuUbzXLAp' });
-
-  const errors = [];
-  for (const p of chain) {
-    try {
-      const result = await callLLM(prompt, p);
-      result.method = `${p.provider}/${p.model}`;
-      return result;
-    } catch (e) {
-      errors.push(`${p.provider}: ${e.message}`);
-    }
-  }
-  
-  // 所有LLM都失败了，用字段比对作为最后兜底（但记录告警）
-  const fb = fallbackDeepCheck(ruleA, ruleB);
-  fb.llm_errors = errors;
-  fb.warning = 'ALL_LLM_FAILED — 所有大模型均不可用，降级到字段比对，结果可能不准确';
-  return fb;
 }
 
 // ─── Load rules ─────────────────────────────────────────────────────────────
@@ -422,7 +336,7 @@ module.exports = {
   eventOverlap,
   phase2Check,
   fallbackDeepCheck,
-  callGLM5,
+  callLLMSemantic,
   loadRulesFromDir,
   PHASE2_PROMPT,
 };
