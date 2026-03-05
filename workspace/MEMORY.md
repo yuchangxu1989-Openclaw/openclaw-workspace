@@ -139,6 +139,17 @@ ISC规则、任务、技能都必须分三层解耦：
 - 多轮意图分类: 67.6% (23/34, Opus)
 - IC4/IC5边界是核心瓶颈
 
+## 模型路由（2026-03-06 从openclaw.json确认）
+- 配置在 `/root/.openclaw/openclaw.json` → models.providers
+- 3个provider: penguinsaichat(主), researcher(备), boom
+- 每个agent(main/coder/researcher/reviewer/analyst/scout/writer/cron-worker)都有5个模型:
+  - `claude-{agent}/claude-opus-4-6-thinking` — 核心推理
+  - `claude-{agent}/claude-sonnet-4-6-thinking` — 轻量推理
+  - `boom-{agent}/gpt-5.3-codex` — 工具性任务
+- **路由规则**: 核心模块→opus-thinking, 中间/工具性→boom/gpt-5.3-codex（优先于sonnet）, sonnet仅做最轻量fallback
+- **重要**: gpt-5.3-codex推理能力优于sonnet，boom渠道优先级高于sonnet
+- **教训**: spawn前先查配置文件，不凭记忆猜，不问用户要
+
 ## 项目管理产物沉淀规则（2026-03-06 固化）
 - **PROJECT-TRACKER.md** = 项目进度唯一真相源
 - 接到任务 → 立即在TRACKER建条目（任务/负责人/截止/状态）

@@ -79,6 +79,27 @@
 - **优先级**: 10
 - **说明**: GLM-5深度思考编码模型 - 用于复杂代码场景
 
+## 🔵 搜索与信息获取
+
+### tavily-search
+- **类型**: AI优化网络搜索引擎
+- **路径**: skills/tavily-search/index.js
+- **调用**: `const {search} = require('./skills/tavily-search/index.js'); await search('query', {maxResults:5, includeAnswer:true})`
+- **输出**: AI摘要 + 结构化搜索结果（含URL）
+- **环境变量**: TAVILY_API_KEY
+- **优先级**: 10
+- **说明**: CRAS调研/主动学习首选搜索引擎，优于web_search(Brave)
+
+### web_search (OpenClaw原生)
+- **类型**: Brave Search API
+- **调用**: OpenClaw内置tool `web_search`
+- **说明**: 通用网页搜索，Agent会话中直接可用
+
+### web_fetch (OpenClaw原生)
+- **类型**: URL内容提取
+- **调用**: OpenClaw内置tool `web_fetch`
+- **说明**: 抓取网页内容转markdown
+
 ## 🔴 核心能力
 
 - **aeo**: skills/aeo/
