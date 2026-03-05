@@ -1,10 +1,10 @@
 {
     "id": "rule.architecture-diagram-visual-output-001",
     "rule_name": "架构图必须附带可视化图片",
-    "version": "1.1.0",
-    "severity": "medium",
-    "description": "任何架构设计输出除了文本/MD格式外，必须额外生成一份直观的可视化图片并发送给用户。使用Mermaid渲染结构化图表，不使用AI文生图（CogView等不适合技术架构图）。",
-    "source": "2026-03-05 用户反馈CogView生成的架构图质量差，改为Mermaid方案",
+    "version": "2.0.0",
+    "severity": "high",
+    "description": "架构设计输出必须生成可视化图片，并符合10项视觉标准。使用Mermaid渲染，不使用AI文生图。",
+    "source": "2026-03-05 升级至v2.0：新增10项视觉标准",
     "trigger": {
         "events": [
             "design.architecture.created",
@@ -13,7 +13,7 @@
         "actions": [
             {
                 "type": "auto_trigger",
-                "description": "架构文档产出时自动检查是否需要可视化图表输出，缺少则提示补充"
+                "description": "架构文档产出时自动检查视觉标准合规性"
             }
         ]
     },
@@ -26,5 +26,19 @@
         ],
         "note": "CogView-4仅用于艺术类图片，技术图表用Mermaid"
     },
-    "enforcement_tier": "P1_process"
+    "visual_standards": [
+        {"id": "VS01", "name": "浅色背景", "rule": "使用白色或浅灰背景，禁止深色/黑色背景"},
+        {"id": "VS02", "name": "中文标注", "rule": "所有标注必须使用中文，不接受纯英文"},
+        {"id": "VS03", "name": "颜色柔和", "rule": "颜色柔和不刺眼，避免高饱和度荧光色"},
+        {"id": "VS04", "name": "文字不交叠", "rule": "文字与线框不交叠，padding充足"},
+        {"id": "VS05", "name": "命名MECE", "rule": "同层级概念命名MECE，不允许重叠"},
+        {"id": "VS06", "name": "标题间距", "rule": "标题不贴框太近，保持合理间距"},
+        {"id": "VS07", "name": "风格统一", "rule": "图片风格全文统一，不允许混搭"},
+        {"id": "VS08", "name": "三层框间距", "rule": "三层框间距适当，不过紧"},
+        {"id": "VS09", "name": "emoji处理", "rule": "emoji在PDF中可能渲染异常，考虑去掉或替换为文字标记"},
+        {"id": "VS10", "name": "底部注释可读", "rule": "底部注释字号足够大，确保可读性"}
+    ],
+    "enforcement_tier": "P1_process",
+    "created_at": "2026-03-05",
+    "updated_at": "2026-03-05"
 }

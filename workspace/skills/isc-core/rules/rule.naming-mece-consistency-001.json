@@ -1,0 +1,43 @@
+{
+  "id": "rule.naming-mece-consistency-001",
+  "name": "naming_mece_consistency_check",
+  "domain": "quality",
+  "type": "rule",
+  "scope": "naming",
+  "version": "1.0.0",
+  "description": "命名MECE校验——同一层级的所有实体关键词两两比对，不允许概念重叠",
+  "rationale": "命名重叠导致职责边界模糊，如战略家'任务编排'与DTO'任务编排'概念冲突",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "standard": {
+    "scope": ["Agent定位描述", "规则命名", "事件命名", "技能命名"],
+    "method": "同一图/同一层级所有实体关键词两两比对，重叠即报错",
+    "badcases": [
+      {
+        "case": "战略家'任务编排' vs DTO'任务编排'",
+        "reason": "同层级概念重叠，职责边界不清",
+        "fix": "战略家改为'战略决策与任务编排'，DTO改为'声明式任务调度'"
+      }
+    ],
+    "rules": [
+      {
+        "id": "MECE1",
+        "rule": "同一层级的所有实体关键词两两比对，不允许重叠"
+      },
+      {
+        "id": "MECE2",
+        "rule": "检测到重叠时，必须给出消歧建议并阻断提交"
+      }
+    ]
+  },
+  "trigger": {
+    "events": ["architecture.diagram.created", "isc.rule.created", "skill.created"],
+    "actions": ["quality.naming.mece_check"]
+  },
+  "priority": "P1",
+  "enforcement_tier": "P1_process",
+  "created_at": "2026-03-05",
+  "source": "用户教学：命名MECE校验标准"
+}
