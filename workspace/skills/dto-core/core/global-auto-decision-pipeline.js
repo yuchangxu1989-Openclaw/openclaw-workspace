@@ -1,17 +1,18 @@
 #!/usr/bin/env node
 /**
- * 全局自主决策流水线 v3.0 - D04设计债务修复：版本号语义化
+ * 全局自主决策流水线 v1.6 - 根治空转版本bump
  * 
  * 变更记录:
- * v2.0 (2026-03-05):
- * - 新增classifyChange()方法：分析变更文件类型，分类为minor/patch/skip
- * - minor: 代码文件(.js/.py/.sh)、核心文档(SKILL.md/README)变更 → 递增版本
- * - patch: 配置文件、普通.md变更 → 递增版本
- * - skip: 运行时数据(report/log/dashboard/state) → 不递增版本，不提交
- * - commit message区分：[AUTO-MINOR] vs [AUTO-PATCH]（不再使用通用[AUTO]）
- * - 新增excludePatterns: shadow-test-report, test-report, progress-report
- * - 新增excludeSubPaths: infrastructure/mr/shadow-test-report
- * - 根治infrastructure空转：shadow-test-report.json不再触发版本bump
+ * v1.6 (2026-03-04):
+ * - 根治空转版本bump：全面排除运行时数据文件
+ * - 从includeDirs移除memory/和reports/（纯运行时数据目录）
+ * - 新增excludeDirs: knowledge, reports, seef-*系列目录
+ * - 新增excludeTopDirs机制，彻底排除memory和reports顶层目录
+ * - 新增excludePatterns: user-profile.json, insight_*.md, research-*.md,
+ *   report_*.json, lep-daily-report-*, cras-learning-*, cras-dashboard-*等
+ * - 新增shouldTrackPath()方法，支持完整路径级别的排除检查
+ * - 原则：只有技能代码(.js/.py/.sh)、配置文件(SKILL.md/package.json)、
+ *   基础设施代码的真实变更才触发版本bump
  * 
  * v1.5 (2026-03-04):
  * - 移除分批限流（每次只处理3个的限制）
@@ -96,7 +97,6 @@ const CONFIG = {
       'infrastructure/dispatcher/dispatched',  // 调度记录，运行时产物
       'infrastructure/dispatcher/processed',
       'infrastructure/event-bus',              // 事件队列，运行时产物
-      'infrastructure/mr/shadow-test-report',  // MR影子测试报告
     ],
     // 要排除的文件模式
     excludePatterns: [
@@ -135,10 +135,7 @@ const CONFIG = {
       /cron-health-check-.*\.md$/, // cron健康检查报告
       /\.elite-memory\.json$/,     // 精英记忆运行时数据
       /\.evomap-registry\.json$/,  // EvoMap注册表运行时数据
-      /update-check\.json$/,       // 更新检查状态
-      /shadow-test-report.*\.json$/,  // MR影子测试报告（高频运行时产物）
-      /test-report.*\.json$/,        // 测试报告（运行时产物）
-      /progress-report.*\.md$/       // 进度报告（运行时产物）
+      /update-check\.json$/        // 更新检查状态
     ]
   },
   
@@ -419,84 +416,12 @@ class Pipeline {
     return changes;
   }
   
-  // D04修复：基于完整路径（非仅文件名）分类，正确区分代码/配置/运行时数据
-  classifyChange(itemInfo) {
-    try {
-      const changedFile = itemInfo.changedFile || '';
-      const changedFileName = path.basename(changedFile);
-      const changedExt = path.extname(changedFileName).toLowerCase();
-
-      // ── 1. 路径级别排除（优先级最高）──────────────────────────────────────
-      // 无论文件扩展名如何，以下目录下的变更一律不bump版本
-      const noVersionDirs = [
-        'reports/', 'memory/', 'logs/',
-        'infrastructure/logs/', 'infrastructure/event-bus/',
-        'infrastructure/dispatcher/dispatched',
-        'infrastructure/dispatcher/processed',
-        'infrastructure/mr/shadow-test-report',
-        'feishu_send_queue/', 'feishu_sent_cards/', 'feishu_sent_reports/',
-        'seef-discoveries/', 'seef-evaluations/', 'seef-evolution-history/',
-        'seef-optimization-plans/', 'seef-validations/'
-      ];
-      const relativePath = path.relative(CONFIG.workspacePath, changedFile).replace(/\\/g, '/');
-      for (const dir of noVersionDirs) {
-        if (relativePath.startsWith(dir)) {
-          return 'skip'; // 运行时产物目录，不bump
-        }
-      }
-
-      // ── 2. 文件名模式排除（运行时数据文件）───────────────────────────────
-      const runtimePatterns = [
-        /report/i, /\.log$/i, /dashboard/i, /state\.json$/,
-        /heartbeat/i, /insight/i, /research-/i,
-        /feedback\.jsonl$/, /cursor\.json$/, /runs\.json$/,
-        /dedup.*\.json$/, /probe-state/i
-      ];
-      for (const p of runtimePatterns) {
-        if (p.test(changedFileName)) return 'skip';
-      }
-
-      // ── 3. 代码文件变更 → minor（功能级，对外能力变更）───────────────────
-      const codeExts = ['.js', '.ts', '.jsx', '.tsx', '.py', '.sh', '.cjs', '.mjs', '.bash'];
-      if (codeExts.includes(changedExt)) return 'minor';
-
-      // ── 4. 核心文档/配置 → minor─────────────────────────────────────────
-      if (/^(SKILL|README|CAPABILITY-ANCHOR|AGENTS|SOUL)\.md$/i.test(changedFileName)) return 'minor';
-      if (changedFileName === 'package.json') return 'minor';
-
-      // ── 5. 配置文件 → patch（影响行为但非代码逻辑）──────────────────────
-      const configExts = ['.json', '.yaml', '.yml', '.toml', '.conf', '.ini'];
-      if (configExts.includes(changedExt)) return 'patch';
-
-      // ── 6. 普通.md文档 → patch──────────────────────────────────────────
-      if (changedExt === '.md') return 'patch';
-
-      // 默认 patch
-      return 'patch';
-    } catch {
-      return 'patch';
-    }
-  }
-
-  // D04修复：bumpVersion辅助方法，根据changeType决定bump哪个semver段
-  bumpVersion(version, changeType) {
-    const parts = String(version || '1.0.0').split('.').map(n => parseInt(n, 10) || 0);
-    if (changeType === 'minor') {
-      // 代码/功能变更 → bump MINOR段，reset patch
-      return `${parts[0]}.${parts[1] + 1}.0`;
-    } else {
-      // 配置/文档变更 → 仅bump PATCH段
-      return `${parts[0]}.${parts[1]}.${parts[2] + 1}`;
-    }
-  }
-
-  // 步骤2: 更新版本（D04修复：使用changeType决定bump段）
+  // 步骤2: 更新版本
   updateVersion(itemInfo) {
-    console.log(`[2/4] ${itemInfo.skill} 版本 (changeType=${itemInfo.changeType || 'patch'})...`);
+    console.log(`[2/4] ${itemInfo.skill} 版本...`);
     
     // 解析技能名称（处理 'skill:name' 格式）
     const skillName = itemInfo.skill.replace(/^skill:/, '');
-    const changeType = itemInfo.changeType || 'patch';
     
     // 技能类型使用SKILL.md版本管理
     if (itemInfo.type === 'skill') {
@@ -509,8 +434,9 @@ class Pipeline {
         if (match) version = match[1];
       }
       
-      // D04: 使用changeType决定bump段 (minor→MINOR, patch→PATCH)
-      const newVersion = this.bumpVersion(version, changeType);
+      const parts = version.split('.');
+      parts[2] = parseInt(parts[2] || 0) + 1;
+      const newVersion = parts.join('.');
       
       // 更新SKILL.md
       if (fs.existsSync(skillMd)) {
@@ -529,7 +455,7 @@ class Pipeline {
         } catch {}
       }
       
-      console.log(`  ${version} → ${newVersion} [${changeType}]`);
+      console.log(`  ${version} → ${newVersion}`);
       return { ...itemInfo, version: newVersion, skillName };
     }
     
@@ -537,8 +463,9 @@ class Pipeline {
     return this.updateGlobalVersion({ ...itemInfo, skillName });
   }
   
-  // 更新全局配置/数据目录的版本（D04修复：使用changeType）
+  // 更新全局配置/数据目录的版本
   updateGlobalVersion(itemInfo) {
+    // 使用统一的版本文件来跟踪非skills目录的版本
     const versionFile = path.join(CONFIG.workspacePath, '.workspace-versions.json');
     let versions = {};
     
@@ -549,16 +476,17 @@ class Pipeline {
     }
     
     const currentVersion = versions[itemInfo.skill] || '1.0.0';
-    const changeType = itemInfo.changeType || 'patch';
-    // D04: 全局版本同样使用changeType决定bump段
-    const newVersion = this.bumpVersion(currentVersion, changeType);
+    const parts = currentVersion.split('.');
+    parts[2] = parseInt(parts[2] || 0) + 1;
+    const newVersion = parts.join('.');
     
     versions[itemInfo.skill] = newVersion;
     fs.writeFileSync(versionFile, JSON.stringify(versions, null, 2));
     
-    console.log(`  ${currentVersion} → ${newVersion} [${changeType}] (全局版本)`);
+    console.log(`  ${currentVersion} → ${newVersion} (全局版本)`);
     return { ...itemInfo, version: newVersion };
   }
+
   // 步骤3: 同步 - 改进的Git同步逻辑，跟踪所有代码和文件变更
   sync(itemInfo) {
     console.log(`[3/4] ${itemInfo.skill} 同步...`);
@@ -606,10 +534,9 @@ class Pipeline {
         }
       }
       
-      // 提交变更 - 使用语义化commit message
-      const commitPrefix = itemInfo.changeType === 'minor' ? '[AUTO-MINOR]' : '[AUTO-PATCH]';
+      // 提交变更
       const commitResult = execSync(
-        `cd ${CONFIG.workspacePath} && git commit -m "${commitPrefix} ${displayName} v${itemInfo.version}" 2>&1 || echo "nothing to commit"`, 
+        `cd ${CONFIG.workspacePath} && git commit -m "[AUTO] ${displayName} v${itemInfo.version}" 2>&1 || echo "nothing to commit"`, 
         { encoding: 'utf8', timeout: 10000 }
       );
       
@@ -700,8 +627,8 @@ class Pipeline {
   // 主执行
   run() {
     console.log('╔════════════════════════════════════════╗');
-    console.log('║     全局自主决策流水线 v2.0            ║');
-    console.log('║     (语义化版本 + 变更分类)            ║');
+    console.log('║     全局自主决策流水线 v1.5            ║');
+    console.log('║     (全量处理版)                       ║');
     console.log('╚════════════════════════════════════════╝');
     
     const start = Date.now();
@@ -717,18 +644,7 @@ class Pipeline {
     console.log(`处理 ${toProcess.length}/${changes.length} 个`);
     
     for (const change of toProcess) {
-      const changeType = this.classifyChange(change);
-      
-      if (changeType === 'skip') {
-        console.log(`  ⏭️ 跳过 ${change.skill}: 纯运行时数据，不递增版本`);
-        // 更新状态时间戳防止重复检测，但不bump版本
-        this.states.set(change.skill, Date.now());
-        continue;
-      }
-      
-      // D04: 先注入changeType，updateVersion才能正确选择bump段
-      const itemWithType = { ...change, changeType };
-      const itemV = this.updateVersion(itemWithType);
+      const itemV = this.updateVersion(change);
       const results = this.sync(itemV);
       this.feedback(itemV, results);
       // 修复：使用当前时间戳保存状态，避免文件mtime导致的循环检测

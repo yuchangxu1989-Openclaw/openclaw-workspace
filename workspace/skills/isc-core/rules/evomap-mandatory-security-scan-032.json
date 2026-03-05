@@ -8,15 +8,21 @@
   "priority": "P0",
   "enabled": true,
   "trigger": {
-    "events": {
-      "L1": [
-        "evomap.skill.upload"
-      ],
-      "L2": [
-        "evomap.sync.request"
-      ]
-    },
-    "precondition": "EvoMap上传前必须完成安全扫描"
+    "events": [
+      "evomap.sync.request",
+      "evomap.skill.upload"
+    ],
+    "precondition": "EvoMap上传前必须完成安全扫描",
+    "actions": [
+      {
+        "type": "gate_check",
+        "description": "EvoMap上传前执行强制安全扫描，未通过则阻断同步"
+      },
+      {
+        "type": "block_on_fail",
+        "description": "安全扫描未通过时阻断EvoMap同步并隔离技能"
+      }
+    ]
   },
   "conditions": {
     "all": [
@@ -102,13 +108,5 @@
   },
   "managedBy": "isc-core",
   "updatePolicy": "auto_sync",
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "gate",
-    "handler": "evomap-mandatory-security",
-    "on_failure": "reject",
-    "description": "EvoMap上传前执行强制安全扫描，未通过则阻断同步"
-  },
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+  "enforcement_tier": "P0_gate"
 }

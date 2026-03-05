@@ -1,58 +1,63 @@
 {
-  "id": "rule.anti-entropy-design-principle-001",
-  "rule_name": "反熵增设计原则",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "所有设计和决策必须满足反熵增原则：批判性思维、可扩展、可泛化、可生长。违反此原则的设计必须被拦截。",
-  "source": "SOUL.md灵魂烙印，用户亲授第一性原理",
-  "trigger": {
-    "events": {
-      "L1": [
-        "design.document.created",
-        "design.document.modified",
-        "architecture.decision.made",
-        "isc.rule.created",
-        "skill.created",
-        "dto.task.created"
-      ]
+    "id": "rule.anti-entropy-design-principle-001",
+    "rule_name": "反熵增设计原则",
+    "version": "1.0.0",
+    "severity": "critical",
+    "description": "所有设计和决策必须满足反熵增原则：批判性思维、可扩展、可泛化、可生长。违反此原则的设计必须被拦截。",
+    "source": "SOUL.md灵魂烙印，用户亲授第一性原理",
+    "trigger": {
+        "events": [
+            "design.document.created",
+            "design.document.modified",
+            "architecture.decision.made",
+            "isc.rule.created",
+            "skill.created",
+            "dto.task.created"
+        ],
+        "description": "任何设计产出、架构决策、规则创建、技能创建、任务创建时触发",
+        "actions": [
+            {
+                "type": "gate_check",
+                "description": "验证设计产出是否满足四项反熵增检查：可扩展性、可泛化性、可生长性、有序度方向",
+                "behavior": "block_on_entropy_increase"
+            },
+            {
+                "type": "quality_gate",
+                "description": "不通过任一反熵增检查项时，阻塞交付并要求重新设计",
+                "behavior": "block_and_redesign"
+            }
+        ]
     },
-    "description": "任何设计产出、架构决策、规则创建、技能创建、任务创建时触发",
-    "condition": "gate_check_required"
-  },
-  "action": {
-    "type": "gate",
-    "checks": [
-      {
-        "id": "scalability",
-        "question": "这个设计在10倍规模下还成立吗？",
-        "fail_action": "block_and_redesign"
-      },
-      {
-        "id": "generalizability",
-        "question": "这解决的是一个问题还是一类问题？",
-        "fail_action": "require_generalization"
-      },
-      {
-        "id": "growability",
-        "question": "知识是否沉淀为可执行的规则/代码，而非停留在对话里？",
-        "fail_action": "require_codification"
-      },
-      {
-        "id": "entropy_direction",
-        "question": "这次变更让系统更有序还是更混乱？",
-        "fail_action": "block_and_simplify"
-      }
-    ],
-    "handler": "anti-entropy-design",
-    "on_failure": "reject"
-  },
-  "enforcement": "runtime_binding",
-  "dto_alignment": {
-    "trigger_dto_task": true,
-    "task_type": "quality_gate",
-    "description": "每次触发事件时，DTO自动调度反熵增检查任务"
-  },
-  "enforcement_tier": "P0_gate",
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+    "action": {
+        "type": "gate",
+        "checks": [
+            {
+                "id": "scalability",
+                "question": "这个设计在10倍规模下还成立吗？",
+                "fail_action": "block_and_redesign"
+            },
+            {
+                "id": "generalizability",
+                "question": "这解决的是一个问题还是一类问题？",
+                "fail_action": "require_generalization"
+            },
+            {
+                "id": "growability",
+                "question": "知识是否沉淀为可执行的规则/代码，而非停留在对话里？",
+                "fail_action": "require_codification"
+            },
+            {
+                "id": "entropy_direction",
+                "question": "这次变更让系统更有序还是更混乱？",
+                "fail_action": "block_and_simplify"
+            }
+        ]
+    },
+    "enforcement": "runtime_binding",
+    "dto_alignment": {
+        "trigger_dto_task": true,
+        "task_type": "quality_gate",
+        "description": "每次触发事件时，DTO自动调度反熵增检查任务"
+    },
+    "enforcement_tier": "P0_gate"
 }

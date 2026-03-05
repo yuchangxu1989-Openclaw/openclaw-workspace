@@ -3,7 +3,7 @@
 # 检测主渠道余额是否充足，不足时推飞书通知
 # 用法: bash api-key-probe.sh
 
-PRIMARY_KEY="REDACTED_CLAUDE_API_KEY"
+PRIMARY_KEY="sk-zGcFUDNZXL13QC69oJDup9qYK2Bf4lKbfW5RTXaP3tRuhy3A"
 PRIMARY_URL="https://api.penguinsaichat.dpdns.org/v1/messages"
 GATEWAY_TOKEN="3b2536af0fa208383b2af461f7585f4c8176fe198361ade4"
 FEISHU_USER="ou_a113e465324cc55f9ab3348c9a1a7b9b"

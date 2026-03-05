@@ -20,12 +20,7 @@
     "approval_ratio": 0.6
   },
   "priority": 10,
-  "action": {
-    "type": "monitor",
-    "handler": "lingxiaoge-tribunal-dispatcher",
-    "on_failure": "warn",
-    "description": "影响等级>3或类型为关键决策时，自动触发凌霄阁7人议会审议"
-  },
+  "action": "trigger_lingxiaoge_tribunal_deliberation",
   "integration": {
     "script": "/root/.openclaw/workspace/skills/isc-core/integrations/council_integration.py",
     "council_script": "/root/.openclaw/workspace/skills/council-of-seven/council.py",
@@ -37,15 +32,16 @@
   "updated_at": "2026-02-23T18:25:00Z",
   "status": "active",
   "trigger": {
-    "events": {
-      "L1": [
-        "isc:rule:matched",
-        "isc:category:governance"
-      ]
-    },
-    "condition": "impact > 3 OR priority >= 9 OR type IN (security, architecture, new_skill, merge_skill, critical_rule, new_rule, subscription_change, pipeline_update)"
+    "events": [
+      "isc:rule:matched",
+      "isc:category:governance"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
   },
-  "enforcement_tier": "P0_gate",
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+  "enforcement_tier": "P0_gate"
 }

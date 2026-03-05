@@ -272,19 +272,6 @@ class ISCRuleMatcher {
         const rule = JSON.parse(raw);
         rule._filePath = file;
         rule._fileName = path.basename(file);
-        // Normalize trigger.events: flatten layered dict {L1:[...], L2:[...]} → flat array
-        if (rule.trigger && rule.trigger.events && !Array.isArray(rule.trigger.events) && typeof rule.trigger.events === 'object') {
-          const flatEvents = [];
-          for (const layer of Object.values(rule.trigger.events)) {
-            if (Array.isArray(layer)) {
-              for (const evt of layer) {
-                if (!flatEvents.includes(evt)) flatEvents.push(evt);
-              }
-            }
-          }
-          rule.trigger.events = flatEvents;
-          rule._eventsNormalized = true;
-        }
         rules.push(rule);
       } catch (err) {
         errors.push(`${path.basename(file)}: ${err.message}`);

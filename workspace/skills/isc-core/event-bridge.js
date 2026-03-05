@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus-adapter'));
+const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus.js'));
 
 const RULES_DIR = path.join(__dirname, 'rules');
 const SNAPSHOT_FILE = path.join(__dirname, '.rules-snapshot.json');

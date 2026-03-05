@@ -651,21 +651,6 @@ Environment:
     return;
   }
 
-  // Anti-accumulation guard: auto-archive stale pending records >24h
-  try {
-    const { archiveStalePending } = require('./archive-stale-pending');
-    const archiveResult = archiveStalePending({ maxAgeHours: 24, dryRun: false });
-    if (archiveResult.archived > 0) {
-      console.log(`[Dispatcher] Auto-archived ${archiveResult.archived} stale pending record(s) (>24h)`);
-    }
-    if (archiveResult.errors.length > 0) {
-      console.warn(`[Dispatcher] archive-stale-pending errors: ${archiveResult.errors.join(', ')}`);
-    }
-  } catch (archiveErr) {
-    // Non-fatal: log and continue
-    console.warn(`[Dispatcher] archive-stale-pending unavailable: ${archiveErr.message}`);
-  }
-
   // Default: integrate with event bus for batch processing
   const dryRun = args.includes('--dry-run');
 

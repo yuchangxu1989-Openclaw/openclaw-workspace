@@ -25,9 +25,10 @@ const ZHIPU_CONFIG = {
  * 获取智谱API Key（从环境变量读取）
  */
 function getApiKey() {
-  const key = process.env.ZHIPU_API_KEY;
+  const ZhipuKeys = require('../../zhipu-keys/index.js');
+  const key = ZhipuKeys.getKey('embedding');
   if (!key) {
-    throw new Error('[ZhipuEmbedding] ZHIPU_API_KEY 未设置');
+    throw new Error('[ZhipuEmbedding] embedding key not found in openclaw.json');
   }
   return key;
 }

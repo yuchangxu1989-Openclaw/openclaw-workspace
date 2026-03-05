@@ -1,50 +1,47 @@
 {
-  "id": "skill.evolution.auto-trigger",
-  "name": "技能进化自动触发",
-  "description": "技能变更时自动触发SEEF进化流水线",
-  "version": "1.0.0",
-  "status": "active",
-  "trigger": {
-    "type": "event",
-    "sources": [
-      "skill.changed",
-      "skill.created",
-      "skill.published"
-    ],
-    "events": {
-      "L1": [
-        "skill.usage.pattern_detected",
-        "skill.performance.degraded"
-      ],
-      "META": [
-        "skill.evolution.scheduled"
-      ]
+    "id": "skill.evolution.auto-trigger",
+    "name": "技能进化自动触发",
+    "description": "技能变更时自动触发SEEF进化流水线",
+    "version": "1.0.0",
+    "status": "active",
+    "trigger": {
+        "type": "event",
+        "sources": [
+            "skill.changed",
+            "skill.created",
+            "skill.published"
+        ],
+        "events": [
+            "skill.usage.pattern_detected",
+            "skill.performance.degraded",
+            "skill.evolution.scheduled"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "技能使用模式变化或性能下降时自动触发技能进化流程"
+            }
+        ]
     },
-    "condition": "{'autoTrigger': True, 'minISCScore': 50, 'excludePatterns': ['**/node_modules/**', '**/.git/**', '**/*.log']}"
-  },
-  "condition": {
-    "autoTrigger": true,
-    "minISCScore": 50,
-    "excludePatterns": [
-      "**/node_modules/**",
-      "**/.git/**",
-      "**/*.log"
-    ]
-  },
-  "action": {
-    "type": "pipeline.trigger",
-    "target": "seef.evolution-pipeline",
-    "parameters": {
-      "immediate": false,
-      "queueIfRunning": true
+    "condition": {
+        "autoTrigger": true,
+        "minISCScore": 50,
+        "excludePatterns": [
+            "**/node_modules/**",
+            "**/.git/**",
+            "**/*.log"
+        ]
     },
-    "handler": "skill.evolution.auto-trigger",
-    "on_failure": "retry"
-  },
-  "priority": 5,
-  "createdAt": "2026-03-01T00:00:00Z",
-  "updatedAt": "2026-03-01T00:00:00Z",
-  "enforcement_tier": "P1_process",
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+    "action": {
+        "type": "pipeline.trigger",
+        "target": "seef.evolution-pipeline",
+        "parameters": {
+            "immediate": false,
+            "queueIfRunning": true
+        }
+    },
+    "priority": 5,
+    "createdAt": "2026-03-01T00:00:00Z",
+    "updatedAt": "2026-03-01T00:00:00Z",
+    "enforcement_tier": "P1_process"
 }

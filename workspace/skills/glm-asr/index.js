@@ -10,14 +10,8 @@ const path = require('path');
 
 class GLMASR {
   constructor() {
-    this.apiKey = process.env.ZHIPU_API_KEY || (() => {
-      try {
-        const { SECRETS_DIR } = require('../_shared/paths.js');
-        const content = require('fs').readFileSync(require('path').join(SECRETS_DIR, 'zhipu-keys.env'), 'utf8');
-        const m = content.match(/^ZHIPU_API_KEY=(.+)$/m);
-        return m ? m[1].trim() : null;
-      } catch (_) { return null; }
-    })();
+    const ZK = require('../zhipu-keys/index.js');
+    this.apiKey = ZK.getKey('asr');
     this.baseURL = 'open.bigmodel.cn';
     this.model = 'glm-asr-2512';
   }

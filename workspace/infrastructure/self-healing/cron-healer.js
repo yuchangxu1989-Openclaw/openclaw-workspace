@@ -1,204 +1,150 @@
-#!/usr/bin/env node
+'use strict';
+
 /**
- * cron-healer.js - 事件驱动自愈PoC
+ * D2-03 Cron Healer — 自愈守卫
  * 
- * 读取cron jobs.json，检测连续错误>=3的任务，
- * 对已知错误模式自动修复，未知模式escalate。
+ * 检测并修复 cron jobs 中的常见问题：
+ * 1. delivery.target → delivery.to 字段迁移
+ * 2. delivery 缺少 to 字段
+ * 3. consecutiveErrors > 0 的 job 诊断
+ * 4. escalate 无法自动修复的问题
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const JOBS_PATH = '/root/.openclaw/cron/jobs.json';
-const LOG_DIR = '/root/.openclaw/workspace/infrastructure/self-healing/logs';
-const ERROR_THRESHOLD = 3;
+const JOBS_FILE = '/root/.openclaw/cron/jobs.json';
+const HEAL_LOG_DIR = path.join(__dirname, 'logs');
+const DEFAULT_USER = 'user:ou_a113e465324cc55f9ab3348c9a1a7b9b';
 
-// 已知错误模式 → 自动修复函数
-const KNOWN_PATTERNS = [
-  {
-    id: 'delivery-target-to-to',
-    match: (job) => job.delivery?.target && !job.delivery?.to,
-    description: 'delivery.target should be delivery.to',
-    fix: (job) => {
-      const old = JSON.parse(JSON.stringify(job.delivery));
-      job.delivery.to = job.delivery.target;
-      delete job.delivery.target;
-      return { field: 'delivery', old, new: JSON.parse(JSON.stringify(job.delivery)) };
-    }
-  },
-  {
-    id: 'delivery-missing-to',
-    match: (job) => {
-      const err = job.state?.lastError || '';
-      return err.includes('Delivering to Feishu requires target') && 
-             job.delivery?.mode === 'announce' && !job.delivery?.to;
-    },
-    description: 'delivery.mode=announce but missing delivery.to',
-    fix: (job) => {
-      const defaultTo = 'user:ou_a113e465324cc55f9ab3348c9a1a7b9b';
-      job.delivery.to = defaultTo;
-      return { field: 'delivery.to', added: defaultTo };
-    }
-  },
-  // D15: 新增模式库 - 扩展覆盖范围
-  {
-    id: 'script-not-found',
-    match: (job) => {
-      const err = job.state?.lastError || '';
-      const cmd = job.command || '';
-      return (err.includes('ENOENT') || err.includes('Cannot find module') || err.includes('No such file')) && cmd;
-    },
-    description: 'Script file not found - disable job and notify',
-    fix: (job) => {
-      const oldEnabled = job.enabled;
-      job.enabled = false;
-      job.state.disabledReason = `auto-disabled: script not found (${job.state.lastError?.slice(0, 100)})`;
-      return { field: 'enabled', old: oldEnabled, new: false, reason: 'script_not_found' };
-    }
-  },
-  {
-    id: 'timeout-too-short',
-    match: (job) => {
-      const err = job.state?.lastError || '';
-      return err.includes('timeout') || err.includes('ETIMEDOUT') || err.includes('exceeded');
-    },
-    description: 'Job timed out - double the timeout if configured',
-    fix: (job) => {
-      const oldTimeout = job.timeoutMs;
-      if (oldTimeout && oldTimeout < 300000) { // max 5 min
-        job.timeoutMs = Math.min(oldTimeout * 2, 300000);
-        return { field: 'timeoutMs', old: oldTimeout, new: job.timeoutMs };
-      }
-      // If no timeout or already at max, disable retries
-      job.state.skipRetry = true;
-      return { field: 'skipRetry', added: true, reason: 'timeout_max_reached' };
-    }
-  },
-  {
-    id: 'permission-denied',
-    match: (job) => {
-      const err = job.state?.lastError || '';
-      return err.includes('EACCES') || err.includes('permission denied') || err.includes('EPERM');
-    },
-    description: 'Permission denied - disable job until manual intervention',
-    fix: (job) => {
-      const oldEnabled = job.enabled;
-      job.enabled = false;
-      job.state.disabledReason = `auto-disabled: permission denied (requires manual fix)`;
-      return { field: 'enabled', old: oldEnabled, new: false, reason: 'permission_denied' };
-    }
-  },
-  {
-    id: 'syntax-error-in-command',
-    match: (job) => {
-      const err = job.state?.lastError || '';
-      return err.includes('SyntaxError') || err.includes('Unexpected token') || err.includes('is not a function');
-    },
-    description: 'Syntax/runtime error in script - disable and log for manual fix',
-    fix: (job) => {
-      const oldEnabled = job.enabled;
-      job.enabled = false;
-      job.state.disabledReason = `auto-disabled: code error — ${job.state.lastError?.slice(0, 150)}`;
-      return { field: 'enabled', old: oldEnabled, new: false, reason: 'code_error' };
-    }
-  },
-  {
-    id: 'api-key-error',
-    match: (job) => {
-      const err = job.state?.lastError || '';
-      return err.includes('401') || err.includes('403') || err.includes('invalid_api_key') || err.includes('API key');
-    },
-    description: 'API key invalid/expired - disable job, require key rotation',
-    fix: (job) => {
-      const oldEnabled = job.enabled;
-      job.enabled = false;
-      job.state.disabledReason = `auto-disabled: API authentication failure — rotate API keys`;
-      return { field: 'enabled', old: oldEnabled, new: false, reason: 'api_key_invalid' };
-    }
-  },
-  {
-    id: 'network-unreachable',
-    match: (job) => {
-      const err = job.state?.lastError || '';
-      return err.includes('ECONNREFUSED') || err.includes('ETIMEDOUT') || err.includes('ENOTFOUND') || err.includes('fetch failed');
-    },
-    description: 'Network unreachable - apply exponential backoff retry',
-    fix: (job) => {
-      // Exponential backoff: increase retry interval but don't disable
-      const currentBackoff = job.state.retryBackoffMs || 60000;
-      const newBackoff = Math.min(currentBackoff * 2, 1800000); // max 30 min
-      job.state.retryBackoffMs = newBackoff;
-      // Reset error count to give it another chance
-      job.state.consecutiveErrors = Math.max(0, (job.state.consecutiveErrors || 0) - 2);
-      return { field: 'retryBackoffMs', old: currentBackoff, new: newBackoff };
-    }
-  }
-];
-
-function ensureLogDir() {
-  if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
+// 确保日志目录存在
+if (!fs.existsSync(HEAL_LOG_DIR)) {
+  fs.mkdirSync(HEAL_LOG_DIR, { recursive: true });
 }
 
-function log(entry) {
-  ensureLogDir();
-  const date = new Date().toISOString().slice(0, 10);
-  const logFile = path.join(LOG_DIR, `heal-${date}.jsonl`);
-  fs.appendFileSync(logFile, JSON.stringify({ ...entry, ts: new Date().toISOString() }) + '\n');
+const today = new Date().toISOString().slice(0, 10);
+const HEAL_LOG_FILE = path.join(HEAL_LOG_DIR, `heal-${today}.jsonl`);
+
+function appendLog(entry) {
+  const line = JSON.stringify({ ...entry, ts: new Date().toISOString() });
+  fs.appendFileSync(HEAL_LOG_FILE, line + '\n', 'utf8');
+  console.log(line);
 }
 
-function run() {
-  console.log(`[cron-healer] Reading ${JOBS_PATH}`);
-  const data = JSON.parse(fs.readFileSync(JOBS_PATH, 'utf8'));
-  const jobs = data.jobs;
+function loadJobs() {
+  const raw = fs.readFileSync(JOBS_FILE, 'utf8');
+  return JSON.parse(raw);
+}
 
-  const sick = jobs.filter(j => (j.state?.consecutiveErrors || 0) >= ERROR_THRESHOLD);
-  console.log(`[cron-healer] Found ${sick.length} job(s) with consecutiveErrors >= ${ERROR_THRESHOLD}`);
+function saveJobs(data) {
+  fs.writeFileSync(JOBS_FILE, JSON.stringify(data, null, 2), 'utf8');
+}
 
-  if (sick.length === 0) {
-    console.log('[cron-healer] All healthy. Nothing to do.');
-    return { healed: 0, escalated: 0 };
-  }
+function healJobs(data) {
+  const jobs = Array.isArray(data) ? data : (data.jobs || []);
+  const fixes = [];
+  const escalations = [];
 
-  let healed = 0, escalated = 0;
-
-  for (const job of sick) {
-    console.log(`\n[cron-healer] Diagnosing: "${job.name}" (errors: ${job.state.consecutiveErrors})`);
-    console.log(`  lastError: ${job.state.lastError || '(empty)'}`);
-
-    let fixed = false;
-    for (const pattern of KNOWN_PATTERNS) {
-      if (pattern.match(job)) {
-        console.log(`  ✅ Matched pattern: ${pattern.id} - ${pattern.description}`);
-        const diff = pattern.fix(job);
-        job.state.consecutiveErrors = 0;
-        log({ action: 'auto-fix', jobId: job.id, jobName: job.name, pattern: pattern.id, diff });
-        console.log(`  🔧 Fixed! consecutiveErrors reset to 0`);
-        healed++;
-        fixed = true;
-        break;
+  for (const job of jobs) {
+    const d = job.delivery;
+    
+    // Pattern 1: delivery.target → delivery.to
+    if (d && typeof d === 'object' && d.target && !d.to) {
+      const oldDelivery = { ...d };
+      d.to = d.target;
+      delete d.target;
+      fixes.push({
+        action: 'auto-fix',
+        jobId: job.id,
+        jobName: job.name,
+        pattern: 'delivery-target-to-to',
+        diff: { field: 'delivery', old: oldDelivery, new: { ...d } }
+      });
+    }
+    
+    // Pattern 2: announce mode missing `to`
+    if (d && typeof d === 'object' && d.mode === 'announce' && !d.to) {
+      d.to = DEFAULT_USER;
+      fixes.push({
+        action: 'auto-fix',
+        jobId: job.id,
+        jobName: job.name,
+        pattern: 'delivery-missing-to',
+        diff: { field: 'delivery.to', added: DEFAULT_USER }
+      });
+    }
+    
+    // Pattern 3: consecutiveErrors >= 3 → escalate
+    const state = job.state || {};
+    const lastError = job.lastError || state.lastError || '';
+    const errors = state.consecutiveErrors || 0;
+    
+    if (errors >= 3) {
+      escalations.push({
+        action: 'escalate',
+        jobId: job.id,
+        jobName: job.name,
+        consecutiveErrors: errors,
+        lastError: String(lastError).slice(0, 300)
+      });
+    }
+    
+    // Pattern 4: auth errors → escalate (cannot auto-fix)
+    if (lastError && (String(lastError).includes('401') || String(lastError).toLowerCase().includes('auth'))) {
+      escalations.push({
+        action: 'escalate',
+        jobId: job.id,
+        jobName: job.name,
+        reason: 'auth-error',
+        lastError: String(lastError).slice(0, 300)
+      });
+    }
+    
+    // Pattern 5: unknown errors without autofix
+    if (lastError && errors === 0 && !String(lastError).includes('401') && String(lastError).trim()) {
+      const status = state.lastStatus || state.lastRunStatus;
+      if (status === 'error') {
+        escalations.push({
+          action: 'escalate',
+          jobId: job.id,
+          jobName: job.name,
+          reason: 'unknown-error',
+          lastError: String(lastError).slice(0, 300)
+        });
       }
     }
-
-    if (!fixed) {
-      console.log(`  ⚠️ No known pattern matched. Escalating.`);
-      log({ action: 'escalate', jobId: job.id, jobName: job.name, lastError: job.state.lastError });
-      escalated++;
-    }
   }
 
-  // Write back
-  fs.writeFileSync(JOBS_PATH, JSON.stringify(data, null, 2) + '\n');
-  console.log(`\n[cron-healer] Done. Healed: ${healed}, Escalated: ${escalated}`);
-  return { healed, escalated };
+  return { fixes, escalations };
 }
 
-if (require.main === module) {
-  try {
-    run();
-  } catch (e) {
-    console.error('[cron-healer] Fatal:', e.message);
-    process.exit(1);
-  }
+// Main
+const data = loadJobs();
+const { fixes, escalations } = healJobs(data);
+
+// 应用修复
+if (fixes.length > 0) {
+  saveJobs(data);
 }
 
-module.exports = { run, KNOWN_PATTERNS };
+// 记录日志
+for (const fix of fixes) {
+  appendLog(fix);
+}
+for (const esc of escalations) {
+  appendLog(esc);
+}
+
+// 输出摘要
+const summary = {
+  runAt: new Date().toISOString(),
+  fixes: fixes.length,
+  escalations: escalations.length,
+  fixDetails: fixes.map(f => `${f.jobName} [${f.pattern}]`),
+  escalateDetails: escalations.map(e => `${e.jobName} [${e.reason || 'consecutive-errors'}]`)
+};
+
+console.log('\n=== SUMMARY ===');
+console.log(JSON.stringify(summary, null, 2));
+
+process.exit(0);

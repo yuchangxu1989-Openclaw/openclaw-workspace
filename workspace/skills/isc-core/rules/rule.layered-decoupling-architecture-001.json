@@ -1,36 +1,38 @@
 {
-  "id": "rule.layered-decoupling-architecture-001",
-  "rule_name": "分层解耦架构原则",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "所有规则、任务、技能的设计必须明确三层归属：感知层（谁观察/什么探针）、认知层（谁判断/什么引擎）、执行层（谁行动/什么技能）。三层通过事件总线解耦，不直接耦合。任何架构设计如果无法清晰说明三层归属，视为设计不完整。",
-  "source": "2026-03-04 用户原话：'实际上都是要分层解耦的。我们不可能一步到位端到端，Agent一定是分层端到端。这也是你未来做架构优化的核心原则和检查点。'",
-  "trigger": {
-    "events": {
-      "L1": [
-        "design.document.created",
-        "design.document.modified",
-        "isc.rule.created",
-        "skill.created",
-        "dto.task.created"
-      ]
+    "id": "rule.layered-decoupling-architecture-001",
+    "rule_name": "分层解耦架构原则",
+    "version": "1.0.0",
+    "severity": "critical",
+    "description": "所有规则、任务、技能的设计必须明确三层归属：感知层（谁观察/什么探针）、认知层（谁判断/什么引擎）、执行层（谁行动/什么技能）。三层通过事件总线解耦，不直接耦合。任何架构设计如果无法清晰说明三层归属，视为设计不完整。",
+    "source": "2026-03-04 用户原话：'实际上都是要分层解耦的。我们不可能一步到位端到端，Agent一定是分层端到端。这也是你未来做架构优化的核心原则和检查点。'",
+    "trigger": {
+        "events": [
+            "design.document.created",
+            "design.document.modified",
+            "isc.rule.created",
+            "skill.created",
+            "dto.task.created"
+        ],
+        "actions": [
+            {
+                "type": "gate_check",
+                "description": "验证设计文档是否明确三层归属（感知层/认知层/执行层）及事件总线解耦",
+                "behavior": "validate_three_layer_attribution"
+            },
+            {
+                "type": "block_on_fail",
+                "description": "任一层归属不清晰时标注设计缺陷，打回补充后方可通过",
+                "behavior": "block_incomplete_layering"
+            }
+        ]
     },
-    "condition": "check_required"
-  },
-  "check": {
-    "perception_layer": "是否明确了谁在观察、用什么探针？",
-    "cognition_layer": "是否明确了谁在判断、用什么引擎？",
-    "execution_layer": "是否明确了谁在行动、调用什么技能？",
-    "decoupling": "三层是否通过事件总线解耦，无直接调用依赖？"
-  },
-  "action": {
-    "type": "gate",
-    "handler": "layered-decoupling-checker",
-    "on_failure": "reject",
-    "description": "验证设计文档三层归属（感知层/认知层/执行层），任一层不清晰则标注缺陷打回"
-  },
-  "anti_entropy": "防止系统随时间退化为大泥球架构（Big Ball of Mud）。分层是反熵增的核心手段。",
-  "enforcement_tier": "P0_gate",
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+    "check": {
+        "perception_layer": "是否明确了谁在观察、用什么探针？",
+        "cognition_layer": "是否明确了谁在判断、用什么引擎？",
+        "execution_layer": "是否明确了谁在行动、调用什么技能？",
+        "decoupling": "三层是否通过事件总线解耦，无直接调用依赖？"
+    },
+    "action": "任一层归属不清晰→标注设计缺陷→打回补充→凌霄阁可将此项作为审查维度",
+    "anti_entropy": "防止系统随时间退化为大泥球架构（Big Ball of Mud）。分层是反熵增的核心手段。",
+    "enforcement_tier": "P0_gate"
 }

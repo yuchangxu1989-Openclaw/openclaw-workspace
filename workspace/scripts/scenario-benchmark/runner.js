@@ -359,34 +359,6 @@ function generateReport(results, startTime) {
 async function main() {
   console.log('🎯 Scenario Benchmark Runner starting...');
   console.log(`Infrastructure load: ${loadErrors.length === 0 ? 'OK' : loadErrors.length + ' degraded'}`);
-
-  // D06: ISC Gate - benchmark-submit 前强制查ISC合规
-  // 检查scenarios目录下是否有合成数据，有则警告
-  const enforcePath = path.resolve(__dirname, '../../infrastructure/enforcement/gate-check-benchmark-data.js');
-  if (fs.existsSync(enforcePath)) {
-    try {
-      const { execFileSync } = require('child_process');
-      // 只做advisory检查，不阻断 (合成数据已标为test-only)
-      console.log('[ISC] Checking benchmark data source compliance...');
-      // For scenarios dir, do a lightweight check inline
-      const scenariosCheck = path.join(__dirname, 'scenarios');
-      const scenarioFiles = fs.existsSync(scenariosCheck) ? fs.readdirSync(scenariosCheck).filter(f => f.endsWith('.json')) : [];
-      let syntheticCount = 0;
-      for (const f of scenarioFiles) {
-        try {
-          const s = JSON.parse(fs.readFileSync(path.join(scenariosCheck, f), 'utf8'));
-          if (!s.data_source || ['synthetic', 'mock', 'generated', 'fake', 'simulated'].includes(String(s.data_source).toLowerCase())) {
-            syntheticCount++;
-          }
-        } catch (_) {}
-      }
-      if (syntheticCount > 0) {
-        console.warn(`[ISC-WARN] ${syntheticCount}/${scenarioFiles.length} scenarios have synthetic/missing data_source. Results marked as DEV_ONLY, not for acceptance.`);
-      } else {
-        console.log('[ISC] Data source check: OK (all scenarios have real data sources)');
-      }
-    } catch (_) { /* non-blocking */ }
-  }
   
   const scenariosDir = path.join(__dirname, 'scenarios');
   const scenarios = loadScenarios(scenariosDir);

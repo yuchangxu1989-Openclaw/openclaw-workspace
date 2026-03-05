@@ -15,16 +15,8 @@ const RULES_DIR = path.join(WS, 'skills/isc-core/rules');
 
 function staged() {
   try {
-    // Run git from workspace dir. Since workspace/ isn't a git root,
-    // git returns paths relative to the actual git root (parent).
-    // Strip leading 'workspace/' prefix so regexes work consistently.
-    const GIT_ROOT = execSync('git rev-parse --show-toplevel', { cwd: WS, encoding: 'utf8' }).trim();
-    const WS_REL = path.relative(GIT_ROOT, WS); // e.g. "workspace"
-    const prefix = WS_REL ? WS_REL + '/' : '';
     return execSync('git diff --cached --name-only --diff-filter=ACM', { cwd: WS, encoding: 'utf8' })
-      .trim().split('\n').filter(Boolean)
-      .map(f => prefix && f.startsWith(prefix) ? f.slice(prefix.length) : f)
-      .filter(Boolean);
+      .trim().split('\n').filter(Boolean);
   } catch { return []; }
 }
 
@@ -83,12 +75,9 @@ function main() {
     if (/^skills\/isc-core\/rules\/.*\.json$/.test(f)) {
       try {
         const full = path.join(WS, f);
-        const GIT_ROOT = execSync('git rev-parse --show-toplevel', { cwd: WS, encoding: 'utf8' }).trim();
-        const WS_REL = path.relative(GIT_ROOT, WS);
-        const gitPath = WS_REL ? `${WS_REL}/${f}` : f;
         const content = fs.existsSync(full)
           ? fs.readFileSync(full, 'utf8')
-          : execSync(`git show :${gitPath}`, { cwd: WS, encoding: 'utf8' });
+          : execSync(`git show :${f}`, { cwd: WS, encoding: 'utf8' });
         const rule = JSON.parse(content);
         if (!rule.trigger || !rule.trigger.actions || !rule.trigger.actions.length) {
           errors.push(`[ISC-META-RULE] ${f} — 规则缺少 trigger.actions 字段，无法被执行引擎订阅`);

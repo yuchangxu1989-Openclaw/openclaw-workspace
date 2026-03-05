@@ -1,75 +1,71 @@
 {
-  "type": "orchestration",
-  "id": "N024",
-  "name": "aeo_dual_track_orchestration",
-  "description": "AEO双轨运营编排 - 自动区分AI效果运营和功能质量运营，分别执行评测",
-  "domain": "quality_assurance",
-  "scope": "system-wide",
-  "trigger": {
-    "events": {
-      "L1": [
-        "aeo_evaluation_required",
-        "skill_test_triggered"
-      ]
+    "type": "orchestration",
+    "id": "N024",
+    "name": "aeo_dual_track_orchestration",
+    "description": "AEO双轨运营编排 - 自动区分AI效果运营和功能质量运营，分别执行评测",
+    "domain": "quality_assurance",
+    "scope": "system-wide",
+    "trigger": {
+        "events": [
+            "aeo_evaluation_required",
+            "skill_test_triggered"
+        ],
+        "condition": "evaluation_request_received",
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "收到评测请求时，自动区分AI效果运营和功能质量运营双轨道，分别执行评测并合并报告"
+            }
+        ]
     },
-    "condition": "evaluation_request_received"
-  },
-  "dual_track": {
-    "ai_effect_track": {
-      "name": "AI效果运营",
-      "focus": "模型智能程度",
-      "dimensions": [
-        "accuracy",
-        "creativity",
-        "relevance",
-        "reasoning"
-      ],
-      "evaluation_method": "model_output_assessment",
-      "applicable_when": [
-        "skill_has_ai_component",
-        "output_is_generated_content",
-        "requires_semantic_evaluation"
-      ]
+    "dual_track": {
+        "ai_effect_track": {
+            "name": "AI效果运营",
+            "focus": "模型智能程度",
+            "dimensions": [
+                "accuracy",
+                "creativity",
+                "relevance",
+                "reasoning"
+            ],
+            "evaluation_method": "model_output_assessment",
+            "applicable_when": [
+                "skill_has_ai_component",
+                "output_is_generated_content",
+                "requires_semantic_evaluation"
+            ]
+        },
+        "function_quality_track": {
+            "name": "功能质量运营",
+            "focus": "系统功能完整性",
+            "dimensions": [
+                "availability",
+                "reliability",
+                "performance",
+                "correctness"
+            ],
+            "evaluation_method": "functional_testing",
+            "applicable_when": [
+                "all_skills",
+                "api_interface_testing",
+                "system_behavior_validation"
+            ]
+        }
     },
-    "function_quality_track": {
-      "name": "功能质量运营",
-      "focus": "系统功能完整性",
-      "dimensions": [
-        "availability",
-        "reliability",
-        "performance",
-        "correctness"
-      ],
-      "evaluation_method": "functional_testing",
-      "applicable_when": [
-        "all_skills",
-        "api_interface_testing",
-        "system_behavior_validation"
-      ]
-    }
-  },
-  "orchestration_logic": {
-    "step_1": "分析技能类型，判断适用的轨道",
-    "step_2": "AI效果轨道：执行语义评测、生成质量评估",
-    "step_3": "功能质量轨道：执行接口测试、性能测试",
-    "step_4": "合并双轨结果，生成综合报告"
-  },
-  "output": {
-    "ai_effect_report": "aeo/reports/{skill}-ai-effect.json",
-    "function_quality_report": "aeo/reports/{skill}-function-quality.json",
-    "combined_dashboard": "aeo/dashboard/{skill}-combined.html"
-  },
-  "governance": {
-    "auto_execute": true,
-    "priority": "HIGH"
-  },
-  "enforcement_tier": "P1_process",
-  "action": {
-    "type": "auto",
-    "handler": "aeo-dual-track",
-    "on_failure": "retry",
-    "description": "收到评测请求时，自动区分AI效果运营和功能质量运营双轨道，分别执行评测并合并报告"
-  },
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+    "orchestration_logic": {
+        "step_1": "分析技能类型，判断适用的轨道",
+        "step_2": "AI效果轨道：执行语义评测、生成质量评估",
+        "step_3": "功能质量轨道：执行接口测试、性能测试",
+        "step_4": "合并双轨结果，生成综合报告"
+    },
+    "output": {
+        "ai_effect_report": "aeo/reports/{skill}-ai-effect.json",
+        "function_quality_report": "aeo/reports/{skill}-function-quality.json",
+        "combined_dashboard": "aeo/dashboard/{skill}-combined.html"
+    },
+    "governance": {
+        "auto_execute": true,
+        "priority": "HIGH"
+    },
+    "enforcement_tier": "P1_process"
 }

@@ -66,10 +66,9 @@ function test(name, fn) {
 console.log('\n🧪 Feature Flag 模块测试\n');
 
 // ── Test 1: 默认值 ────────────────────────────────────
-// D10债务修复2026-03-05: L3_PIPELINE_ENABLED默认值已改为true
-test('默认值：L3_PIPELINE_ENABLED = true', () => {
+test('默认值：L3_PIPELINE_ENABLED = false', () => {
   const ff = freshRequire('./feature-flags');
-  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), true);
+  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), false);
 });
 
 test('默认值：L3_EVENTBUS_ENABLED = true', () => {
@@ -88,9 +87,9 @@ test('isEnabled：已启用的 boolean flag 返回 true', () => {
   assert.strictEqual(ff.isEnabled('L3_EVENTBUS_ENABLED'), true);
 });
 
-test('isEnabled：L3_PIPELINE_ENABLED 默认已启用', () => {
+test('isEnabled：未启用的 boolean flag 返回 false', () => {
   const ff = freshRequire('./feature-flags');
-  assert.strictEqual(ff.isEnabled('L3_PIPELINE_ENABLED'), true);
+  assert.strictEqual(ff.isEnabled('L3_PIPELINE_ENABLED'), false);
 });
 
 test('isEnabled：数字 > 0 返回 true', () => {
@@ -108,12 +107,12 @@ test('getAll 返回所有 flag', () => {
   const ff = freshRequire('./feature-flags');
   const all = ff.getAll();
   assert.strictEqual(typeof all, 'object');
-  assert.strictEqual(all.L3_PIPELINE_ENABLED, true);  // D10 修复后默认 true
+  assert.strictEqual(all.L3_PIPELINE_ENABLED, false);
   assert.strictEqual(all.L3_EVENTBUS_ENABLED, true);
   assert.strictEqual(all.L3_CIRCUIT_BREAKER_DEPTH, 5);
   // 确保返回的是拷贝
-  all.L3_PIPELINE_ENABLED = false;
-  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), true);
+  all.L3_PIPELINE_ENABLED = true;
+  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), false);
 });
 
 // ── Test 4: 环境变量优先 ──────────────────────────────
@@ -173,18 +172,18 @@ test('reload 重新加载配置文件', () => {
   cleanEnv();
   restoreConfig();
   const ff = freshRequire('./feature-flags');
-  // D10 修复后默认 true
-  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), true);
+  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), false);
 
-  // 临时改配置文件为 false 测试 reload
-  const custom = { L3_PIPELINE_ENABLED: false };
+  // 修改配置文件
+  const custom = { L3_PIPELINE_ENABLED: true };
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(custom), 'utf-8');
 
+  // reload 前值不变（已缓存）
   // reload 后值更新
   const result = ff.reload();
-  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), false);
+  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), true);
   assert.strictEqual(typeof result.loaded, 'number');
-  assert.strictEqual(result.resolved.L3_PIPELINE_ENABLED, false);
+  assert.strictEqual(result.resolved.L3_PIPELINE_ENABLED, true);
 
   restoreConfig();
 });
@@ -213,8 +212,7 @@ test('配置文件不存在时使用默认值', () => {
   fs.unlinkSync(CONFIG_FILE);
   
   const ff = freshRequire('./feature-flags');
-  // D10 修复后：DEFAULTS.L3_PIPELINE_ENABLED = true
-  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), true);
+  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), false);
   assert.strictEqual(ff.get('L3_EVENTBUS_ENABLED'), true);
   
   // 恢复
@@ -226,8 +224,7 @@ test('配置文件格式错误时使用默认值', () => {
   fs.writeFileSync(CONFIG_FILE, 'NOT VALID JSON!!!', 'utf-8');
   
   const ff = freshRequire('./feature-flags');
-  // D10 修复后：DEFAULTS.L3_PIPELINE_ENABLED = true
-  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), true);
+  assert.strictEqual(ff.get('L3_PIPELINE_ENABLED'), false);
   assert.strictEqual(ff.get('L3_CIRCUIT_BREAKER_DEPTH'), 5);
   
   restoreConfig();
@@ -237,12 +234,11 @@ test('配置文件格式错误时使用默认值', () => {
 test('getDefaults 返回默认值表', () => {
   const ff = freshRequire('./feature-flags');
   const defaults = ff.getDefaults();
-  // D10 修复后：defaults.L3_PIPELINE_ENABLED = true
-  assert.strictEqual(defaults.L3_PIPELINE_ENABLED, true);
+  assert.strictEqual(defaults.L3_PIPELINE_ENABLED, false);
   assert.strictEqual(defaults.L3_CIRCUIT_BREAKER_DEPTH, 5);
   // 确保是拷贝
-  defaults.L3_PIPELINE_ENABLED = false;
-  assert.strictEqual(ff.getDefaults().L3_PIPELINE_ENABLED, true);
+  defaults.L3_PIPELINE_ENABLED = true;
+  assert.strictEqual(ff.getDefaults().L3_PIPELINE_ENABLED, false);
 });
 
 test('getLastLoadTime 返回时间戳', () => {

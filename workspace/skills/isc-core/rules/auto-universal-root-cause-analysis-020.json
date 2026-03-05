@@ -1,179 +1,175 @@
 {
-  "type": "auto-analysis",
-  "id": "N020",
-  "name": "universal_root_cause_and_gap_analysis",
-  "description": "通用根因分析与差距分析 - 针对各类系统问题自动进行深度分析，由DTO驱动闭环解决",
-  "domain": "quality_assurance",
-  "scope": "system-wide",
-  "trigger": {
-    "events": {
-      "L1": [
-        "execution_failed",
-        "pipeline_error",
-        "sync_failure",
-        "health_check_failed",
-        "user_reported_issue",
-        "design_compliance_failure",
-        "architecture_audit_failed",
-        "hardcode_detected",
-        "isc_non_compliance_detected"
-      ]
-    },
-    "condition": "error_count > 0 OR issue_severity >= medium OR design_defect_detected == true"
-  },
-  "classification": {
-    "error_types": [
-      "execution_timeout",
-      "model_overload",
-      "token_limit_exceeded",
-      "connection_error",
-      "permission_denied",
-      "config_mismatch",
-      "dependency_missing",
-      "logic_error",
-      "design_compliance_failure",
-      "hardcode_in_example",
-      "isc_non_compliance",
-      "missing_required_files",
-      "audit_failure"
-    ]
-  },
-  "governance": {
-    "auto_execute": true,
-    "priority": "HIGH",
-    "risk_level": "medium",
-    "model_type": "deep_thinking",
-    "model_config": {
-      "type": "deep_thinking",
-      "description": "深度思考类模型，不写死具体模型名称",
-      "capabilities": [
-        "reasoning",
-        "analysis",
-        "root_cause_identification"
-      ],
-      "examples": [
-        "glm-5",
-        "claude-3-opus",
-        "gpt-4o",
-        "deepseek-reasoner"
-      ],
-      "selection_criteria": {
-        "priority": "reasoning_capability",
-        "fallback": "available_models"
-      },
-      "timeout": 1800
-    }
-  },
-  "execution": {
-    "type": "analyze_and_close_loop",
-    "steps": [
-      {
-        "order": 1,
-        "action": "collect_evidence",
-        "description": "收集问题相关证据：日志、配置、代码状态、执行历史",
-        "collectors": [
-          "execution_logs",
-          "system_metrics",
-          "config_state",
-          "dependency_graph"
+    "type": "auto-analysis",
+    "id": "N020",
+    "name": "universal_root_cause_and_gap_analysis",
+    "description": "通用根因分析与差距分析 - 针对各类系统问题自动进行深度分析，由DTO驱动闭环解决",
+    "domain": "quality_assurance",
+    "scope": "system-wide",
+    "trigger": {
+        "events": [
+            "execution_failed",
+            "pipeline_error",
+            "sync_failure",
+            "health_check_failed",
+            "user_reported_issue",
+            "design_compliance_failure",
+            "architecture_audit_failed",
+            "hardcode_detected",
+            "isc_non_compliance_detected"
         ],
-        "output": "evidence_package"
-      },
-      {
-        "order": 2,
-        "action": "root_cause_analysis",
-        "description": "深度分析根因，识别表面症状vs根本原因",
-        "executor": "deep_thinking_model",
-        "prompt_template": "你是一名系统架构专家。请分析以下系统问题的根因：\n\n问题描述：{{error_message}}\n错误类型：{{error_type}}\n发生时间：{{timestamp}}\n相关组件：{{affected_components}}\n\n证据包：\n{{evidence_package}}\n\n请提供：\n1. 直接原因（表面症状）\n2. 根本原因（深层问题）\n3. 触发条件（什么情况下会重现）\n4. 影响范围（哪些系统/功能受影响）\n5. 紧急程度评估",
-        "output": "root_cause_report"
-      },
-      {
-        "order": 3,
-        "action": "gap_analysis",
-        "description": "对比当前状态vs理想状态，识别差距",
-        "executor": "deep_thinking_model",
-        "prompt_template": "基于根因分析，进行差距分析：\n\n根因报告：{{root_cause_report}}\n\n当前系统能力：{{current_capabilities}}\nISC标准要求：{{isc_standards}}\n\n请分析：\n1. 当前缺失的能力/机制\n2. 与ISC标准的差距\n3. 类似问题的历史记录\n4. 最佳实践参考",
-        "output": "gap_analysis_report"
-      },
-      {
-        "order": 4,
-        "action": "generate_solution",
-        "description": "生成解决方案，包括短期修复和长期改进",
-        "executor": "deep_thinking_model",
-        "prompt_template": "基于根因和差距分析，生成解决方案：\n\n根因：{{root_cause_report}}\n差距：{{gap_analysis_report}}\n\n请提供：\n1. 立即修复方案（hotfix）\n2. 短期解决方案（1-3天）\n3. 长期架构改进（1-2周）\n4. 预防措施（避免复发）\n5. 实施优先级排序",
-        "output": "solution_proposal"
-      },
-      {
-        "order": 5,
-        "action": "dto_close_loop",
-        "description": "DTO驱动闭环执行",
-        "executor": "dto-core/declarative-orchestrator",
-        "method": "executeSolution",
-        "input": "{{solution_proposal}}",
+        "condition": "error_count > 0 OR issue_severity >= medium OR design_defect_detected == true",
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "检测到系统故障或badcase时自动执行根因分析，输出结构化诊断报告"
+            }
+        ]
+    },
+    "classification": {
+        "error_types": [
+            "execution_timeout",
+            "model_overload",
+            "token_limit_exceeded",
+            "connection_error",
+            "permission_denied",
+            "config_mismatch",
+            "dependency_missing",
+            "logic_error",
+            "design_compliance_failure",
+            "hardcode_in_example",
+            "isc_non_compliance",
+            "missing_required_files",
+            "audit_failure"
+        ]
+    },
+    "governance": {
+        "auto_execute": true,
+        "priority": "HIGH",
+        "risk_level": "medium",
+        "model_type": "deep_thinking",
+        "model_config": {
+            "type": "deep_thinking",
+            "description": "深度思考类模型，不写死具体模型名称",
+            "capabilities": [
+                "reasoning",
+                "analysis",
+                "root_cause_identification"
+            ],
+            "examples": [
+                "glm-5",
+                "claude-3-opus",
+                "gpt-4o",
+                "deepseek-reasoner"
+            ],
+            "selection_criteria": {
+                "priority": "reasoning_capability",
+                "fallback": "available_models"
+            },
+            "timeout": 1800
+        }
+    },
+    "execution": {
+        "type": "analyze_and_close_loop",
         "steps": [
-          "validate_solution",
-          "check_isc_compliance",
-          "auto_fix_if_safe",
-          "human_review_if_high_risk",
-          "deploy_and_verify",
-          "update_documentation"
-        ],
-        "feedback_loop": "execution_result_feeds_back_to_analysis"
-      },
-      {
-        "order": 6,
-        "action": "verify_resolution",
-        "description": "验证问题是否真正解决",
-        "verification_methods": [
-          "reproduce_original_scenario",
-          "check_metrics_recovery",
-          "confirm_no_regression"
-        ],
-        "on_success": "mark_resolved_and_document",
-        "on_failure": "escalate_to_manual_analysis"
-      }
-    ]
-  },
-  "learning": {
-    "enabled": true,
-    "feedback_loop": "resolved_issues_feed_into_pattern_recognition",
-    "pattern_extraction": "identify_common_root_causes",
-    "knowledge_base_update": "auto_update_troubleshooting_guide"
-  },
-  "escalation": {
-    "conditions": [
-      "analysis_confidence < 0.7",
-      "solution_execution_failed",
-      "issue_reoccurs_within_24h"
-    ],
-    "action": "create_manual_review_task",
-    "assignee": "system_architect",
-    "priority": "high"
-  },
-  "notification": {
-    "on_analysis_complete": {
-      "channel": "feishu",
-      "format": "card",
-      "content": "🔍 问题根因分析完成\n类型：{{error_type}}\n根因：{{root_cause_summary}}\n解决方案：{{solution_count}}个\n预计修复时间：{{estimated_fix_time}}"
+            {
+                "order": 1,
+                "action": "collect_evidence",
+                "description": "收集问题相关证据：日志、配置、代码状态、执行历史",
+                "collectors": [
+                    "execution_logs",
+                    "system_metrics",
+                    "config_state",
+                    "dependency_graph"
+                ],
+                "output": "evidence_package"
+            },
+            {
+                "order": 2,
+                "action": "root_cause_analysis",
+                "description": "深度分析根因，识别表面症状vs根本原因",
+                "executor": "deep_thinking_model",
+                "prompt_template": "你是一名系统架构专家。请分析以下系统问题的根因：\n\n问题描述：{{error_message}}\n错误类型：{{error_type}}\n发生时间：{{timestamp}}\n相关组件：{{affected_components}}\n\n证据包：\n{{evidence_package}}\n\n请提供：\n1. 直接原因（表面症状）\n2. 根本原因（深层问题）\n3. 触发条件（什么情况下会重现）\n4. 影响范围（哪些系统/功能受影响）\n5. 紧急程度评估",
+                "output": "root_cause_report"
+            },
+            {
+                "order": 3,
+                "action": "gap_analysis",
+                "description": "对比当前状态vs理想状态，识别差距",
+                "executor": "deep_thinking_model",
+                "prompt_template": "基于根因分析，进行差距分析：\n\n根因报告：{{root_cause_report}}\n\n当前系统能力：{{current_capabilities}}\nISC标准要求：{{isc_standards}}\n\n请分析：\n1. 当前缺失的能力/机制\n2. 与ISC标准的差距\n3. 类似问题的历史记录\n4. 最佳实践参考",
+                "output": "gap_analysis_report"
+            },
+            {
+                "order": 4,
+                "action": "generate_solution",
+                "description": "生成解决方案，包括短期修复和长期改进",
+                "executor": "deep_thinking_model",
+                "prompt_template": "基于根因和差距分析，生成解决方案：\n\n根因：{{root_cause_report}}\n差距：{{gap_analysis_report}}\n\n请提供：\n1. 立即修复方案（hotfix）\n2. 短期解决方案（1-3天）\n3. 长期架构改进（1-2周）\n4. 预防措施（避免复发）\n5. 实施优先级排序",
+                "output": "solution_proposal"
+            },
+            {
+                "order": 5,
+                "action": "dto_close_loop",
+                "description": "DTO驱动闭环执行",
+                "executor": "dto-core/declarative-orchestrator",
+                "method": "executeSolution",
+                "input": "{{solution_proposal}}",
+                "steps": [
+                    "validate_solution",
+                    "check_isc_compliance",
+                    "auto_fix_if_safe",
+                    "human_review_if_high_risk",
+                    "deploy_and_verify",
+                    "update_documentation"
+                ],
+                "feedback_loop": "execution_result_feeds_back_to_analysis"
+            },
+            {
+                "order": 6,
+                "action": "verify_resolution",
+                "description": "验证问题是否真正解决",
+                "verification_methods": [
+                    "reproduce_original_scenario",
+                    "check_metrics_recovery",
+                    "confirm_no_regression"
+                ],
+                "on_success": "mark_resolved_and_document",
+                "on_failure": "escalate_to_manual_analysis"
+            }
+        ]
     },
-    "on_resolution": {
-      "content": "✅ 问题已闭环解决\n耗时：{{total_resolution_time}}\n措施：{{applied_solution}}"
+    "learning": {
+        "enabled": true,
+        "feedback_loop": "resolved_issues_feed_into_pattern_recognition",
+        "pattern_extraction": "identify_common_root_causes",
+        "knowledge_base_update": "auto_update_troubleshooting_guide"
     },
-    "on_escalation": {
-      "level": "urgent",
-      "content": "🚨 问题需人工介入\n原因：{{escalation_reason}}\n已分配：{{assignee}}"
-    }
-  },
-  "created_at": "2026-02-26T01:10:00Z",
-  "version": "1.0.0",
-  "status": "active",
-  "enforcement_tier": "P1_process",
-  "action": {
-    "type": "auto",
-    "handler": "auto-universal-root",
-    "on_failure": "retry",
-    "description": "检测到系统故障或badcase时自动执行根因分析，输出结构化诊断报告"
-  },
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+    "escalation": {
+        "conditions": [
+            "analysis_confidence < 0.7",
+            "solution_execution_failed",
+            "issue_reoccurs_within_24h"
+        ],
+        "action": "create_manual_review_task",
+        "assignee": "system_architect",
+        "priority": "high"
+    },
+    "notification": {
+        "on_analysis_complete": {
+            "channel": "feishu",
+            "format": "card",
+            "content": "🔍 问题根因分析完成\n类型：{{error_type}}\n根因：{{root_cause_summary}}\n解决方案：{{solution_count}}个\n预计修复时间：{{estimated_fix_time}}"
+        },
+        "on_resolution": {
+            "content": "✅ 问题已闭环解决\n耗时：{{total_resolution_time}}\n措施：{{applied_solution}}"
+        },
+        "on_escalation": {
+            "level": "urgent",
+            "content": "🚨 问题需人工介入\n原因：{{escalation_reason}}\n已分配：{{assignee}}"
+        }
+    },
+    "created_at": "2026-02-26T01:10:00Z",
+    "version": "1.0.0",
+    "status": "active",
+    "enforcement_tier": "P1_process"
 }

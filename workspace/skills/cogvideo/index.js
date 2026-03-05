@@ -8,7 +8,8 @@ const https = require('https');
 
 class CogVideo {
   constructor(apiKey) {
-    this.apiKey = apiKey || process.env.ZHIPU_API_KEY;
+    const ZK = require('../zhipu-keys/index.js');
+    this.apiKey = apiKey || ZK.getKey('video');
     this.baseURL = 'open.bigmodel.cn';
     this.model = 'cogvideo';
   }

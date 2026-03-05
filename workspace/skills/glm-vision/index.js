@@ -8,7 +8,8 @@ const https = require('https');
 
 class GLMVision {
   constructor(apiKey) {
-    this.apiKey = apiKey || process.env.ZHIPU_API_KEY || process.env.KIMI_API_KEY;
+    const ZK = require('../zhipu-keys/index.js');
+    this.apiKey = apiKey || ZK.getKey('vision');
     this.baseURL = 'open.bigmodel.cn';
     this.model = process.env.GLM_VISION_MODEL || 'glm-4v-plus';
   }

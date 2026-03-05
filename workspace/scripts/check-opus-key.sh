@@ -1,5 +1,5 @@
 #!/bin/bash
-KEY="REDACTED_CLAUDE_API_KEY"
+KEY="sk-zGcFUDNZXL13QC69oJDup9qYK2Bf4lKbfW5RTXaP3tRuhy3A"
 URL="https://api.penguinsaichat.dpdns.org/v1/messages"
 
 RESP=$(curl -s -w "\n%{http_code}" "$URL" \

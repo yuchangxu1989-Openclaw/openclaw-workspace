@@ -23,19 +23,20 @@
   "created_at": "2026-02-25T05:53:00+08:00",
   "version": "1.0.0",
   "trigger": {
-    "events": {
-      "L1": [
-        "isc:rule:matched",
-        "isc:category:quality"
-      ]
-    }
+    "events": [
+      "isc:rule:matched",
+      "isc:category:quality"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "warn"
+      },
+      {
+        "type": "block",
+        "message": "Rule ISC-SKILL-QUALITY-001 violation"
+      }
+    ]
   },
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "auto",
-    "handler": "quality-skill-no",
-    "on_failure": "retry"
-  },
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+  "enforcement_tier": "P0_gate"
 }

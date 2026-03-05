@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-const API_KEY = process.env.ZHIPU_API_KEY || fs.readFileSync('/root/.openclaw/.secrets/zhipu-keys.env', 'utf8').match(/ZHIPU_API_KEY_1=(.*)/)?.[1]?.trim();
+const ZhipuKeys = require('../zhipu-keys/index.js');
+const API_KEY = ZhipuKeys.getKey('vision');
 const BASE_URL = 'https://open.bigmodel.cn/api/coding/paas/v4/chat/completions';
 
 /**

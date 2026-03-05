@@ -7,12 +7,14 @@
   "scope": "system-wide",
   "enforcement_tier": "P1_process",
   "trigger": {
-    "events": {
-      "L1": [
-        "user.message"
-      ]
-    },
-    "condition": "intent_classification_unavailable OR intent_confidence_low"
+    "events": ["user.message"],
+    "condition": "intent_classification_unavailable OR intent_confidence_low",
+    "actions": [
+      {
+        "type": "route",
+        "description": "基于domain字段兜底路由到对应模块"
+      }
+    ]
   },
   "routing_rules": {
     "strategy": "domain_fallback",
@@ -49,13 +51,5 @@
     "created": "2026-03-05",
     "author": "system",
     "priority": 90
-  },
-  "action": {
-    "type": "route",
-    "handler": "user-message-domain",
-    "on_failure": "warn",
-    "description": "基于domain字段兜底路由到对应模块"
-  },
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+  }
 }

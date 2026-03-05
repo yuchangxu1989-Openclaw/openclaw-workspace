@@ -49,25 +49,25 @@
     }
   },
   "trigger": {
-    "events": {
-      "L1": [
-        "rule.created",
-        "rule.updated",
-        "delivery.review_requested"
-      ]
-    }
+    "events": [
+      "rule.created",
+      "rule.updated",
+      "delivery.review_requested"
+    ],
+    "actions": [
+      {
+        "type": "audit",
+        "description": "扫描所有ISC规则，标记无执行机制的为unenforced"
+      },
+      {
+        "type": "gate",
+        "description": "凌霄阁评审前自动检查准入四条件"
+      }
+    ]
   },
   "version": "001",
   "created": "2026-03-05",
   "created_by": "战略家",
   "source": "Day 1复盘 - ISC规则写了但没执行的系统性缺陷",
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "gate",
-    "handler": "meta-enforcement-gate",
-    "on_failure": "reject",
-    "description": "扫描所有ISC规则，标记无执行机制的为unenforced"
-  },
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+  "enforcement_tier": "P0_gate"
 }

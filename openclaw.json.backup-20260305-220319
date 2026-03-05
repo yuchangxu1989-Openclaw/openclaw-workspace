@@ -1,0 +1,270 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.1",
+    "lastTouchedAt": "2026-03-02T13:38:00.000Z"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "claude": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-zGcFUDNZXL13QC69oJDup9qYK2Bf4lKbfW5RTXaP3tRuhy3A",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "zhipu": {
+        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "apiKey": "REDACTED_ZHIPU_API_KEY",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "glm-5",
+            "name": "GLM-5",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "claude/claude-opus-4-6-thinking"
+      },
+      "models": {
+        "claude/claude-opus-4-6-thinking": {},
+        "claude/claude-opus-4-6": {},
+        "claude/claude-sonnet-4-6-thinking": {},
+        "claude/claude-sonnet-4-6": {},
+        "zhipu/glm-5": {}
+      },
+      "subagents": {
+        "maxConcurrent": 16,
+        "maxSpawnDepth": 2,
+        "maxChildrenPerAgent": 20,
+        "archiveAfterMinutes": 120,
+        "runTimeoutSeconds": 0
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "model": {
+          "primary": "claude/claude-opus-4-6-thinking",
+          "fallbacks": [
+            "zhipu/glm-5"
+          ]
+        },
+        "identity": {
+          "name": "战略家",
+          "emoji": "🎖️"
+        },
+        "subagents": {
+          "allowAgents": [
+            "*"
+          ]
+        },
+        "tools": {
+          "allow": [
+            "*"
+          ]
+        }
+      },
+      {
+        "id": "researcher",
+        "name": "researcher",
+        "workspace": "/root/.openclaw/workspace-researcher",
+        "agentDir": "/root/.openclaw/agents/researcher/agent",
+        "model": {
+          "primary": "claude/claude-opus-4-6-thinking"
+        },
+        "identity": {
+          "name": "系统架构师",
+          "emoji": "🔍"
+        }
+      },
+      {
+        "id": "coder",
+        "name": "coder",
+        "workspace": "/root/.openclaw/workspace-coder",
+        "agentDir": "/root/.openclaw/agents/coder/agent",
+        "model": {
+          "primary": "claude/claude-opus-4-6"
+        },
+        "identity": {
+          "name": "开发工程师",
+          "emoji": "💻"
+        }
+      },
+      {
+        "id": "reviewer",
+        "name": "reviewer",
+        "workspace": "/root/.openclaw/workspace-reviewer",
+        "agentDir": "/root/.openclaw/agents/reviewer/agent",
+        "model": {
+          "primary": "claude/claude-sonnet-4-6-thinking"
+        },
+        "identity": {
+          "name": "质量仲裁官",
+          "emoji": "🔎"
+        }
+      },
+      {
+        "id": "writer",
+        "name": "writer",
+        "workspace": "/root/.openclaw/workspace-writer",
+        "agentDir": "/root/.openclaw/agents/writer/agent",
+        "model": {
+          "primary": "claude/claude-sonnet-4-6"
+        },
+        "identity": {
+          "name": "创作大师",
+          "emoji": "✍️"
+        }
+      },
+      {
+        "id": "analyst",
+        "name": "analyst",
+        "workspace": "/root/.openclaw/workspace-analyst",
+        "agentDir": "/root/.openclaw/agents/analyst/agent",
+        "model": {
+          "primary": "claude/claude-sonnet-4-6-thinking"
+        },
+        "identity": {
+          "name": "洞察分析师",
+          "emoji": "📊"
+        }
+      },
+      {
+        "id": "scout",
+        "name": "scout",
+        "workspace": "/root/.openclaw/workspace-scout",
+        "agentDir": "/root/.openclaw/agents/scout/agent",
+        "model": {
+          "primary": "claude/claude-opus-4-6"
+        },
+        "identity": {
+          "name": "情报专家",
+          "emoji": "🎯"
+        }
+      },
+      {
+        "id": "cron-worker",
+        "name": "cron-worker",
+        "workspace": "/root/.openclaw/workspace",
+        "agentDir": "/root/.openclaw/agents/cron-worker",
+        "model": {
+          "primary": "zhipu/glm-5"
+        },
+        "identity": {
+          "name": "定时任务执行者",
+          "emoji": "⏰"
+        }
+      }
+    ]
+  },
+  "tools": {
+    "profile": "full",
+    "allow": [
+      "*"
+    ],
+    "sessions": {
+      "visibility": "all"
+    },
+    "agentToAgent": {
+      "enabled": true
+    },
+    "elevated": {
+      "enabled": true
+    },
+    "exec": {
+      "backgroundMs": 30000,
+      "timeoutSec": 3600
+    },
+    "subagents": {
+      "tools": {
+        "allow": [
+          "*"
+        ],
+        "deny": []
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "reset": {
+      "mode": "daily",
+      "atHour": 4,
+      "idleMinutes": 120
+    }
+  },
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "streaming": true,
+      "blockStreaming": true,
+      "accounts": {
+        "default": {
+          "appId": "cli_a92f2a545838dcc8",
+          "appSecret": "r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC",
+          "botName": "战略家"
+        }
+      },
+      "groups": {
+        "allowAll": true,
+        "requireMention": true
+      }
+    }
+  },
+  "plugins": {
+    "enabled": true,
+    "entries": {
+      "feishu": {
+        "enabled": true
+      }
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "3b2536af0fa208383b2af461f7585f4c8176fe198361ade4"
+    }
+  }
+}

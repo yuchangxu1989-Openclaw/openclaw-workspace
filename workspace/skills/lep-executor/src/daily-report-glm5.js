@@ -36,24 +36,11 @@ const FEISHU_CONFIG = {
 
 /**
  * 加载 LLM API Key
- * 优先级: LLM_API_KEY > CLAUDE_API_KEY > API_KEY_3 > zhipu-keys.env > ZHIPU_API_KEY_3
+ * 唯一真相源: openclaw.json → zhipu-cron provider
  */
 function loadAPIKey() {
-  if (process.env.LLM_API_KEY) return process.env.LLM_API_KEY;
-  if (process.env.CLAUDE_API_KEY) return process.env.CLAUDE_API_KEY;
-  if (process.env.API_KEY_3) return process.env.API_KEY_3;
-  
-  // 从 secrets 文件加载（兼容旧配置）
-  const secretsPath = path.join(SECRETS_DIR, 'zhipu-keys.env');
-  if (fs.existsSync(secretsPath)) {
-    const content = fs.readFileSync(secretsPath, 'utf8');
-    const match = content.match(/ZHIPU_API_KEY_3=([a-zA-Z0-9._-]+)/);
-    if (match) return match[1];
-  }
-  
-  if (process.env.ZHIPU_API_KEY_3) return process.env.ZHIPU_API_KEY_3;
-  
-  throw new Error('LLM API key not found. Set LLM_API_KEY, CLAUDE_API_KEY, or API_KEY_3 env var.');
+  const ZhipuKeys = require('../../../zhipu-keys/index.js');
+  return ZhipuKeys.getKey('cron');
 }
 
 /**
