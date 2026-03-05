@@ -41,7 +41,7 @@
       "name": "CRAS-A-主动学习引擎",
       "enabled": true,
       "createdAtMs": 1771822636452,
-      "updatedAtMs": 1772752911393,
+      "updatedAtMs": 1772753614963,
       "schedule": {
         "expr": "0 9 * * *",
         "kind": "cron",
@@ -51,7 +51,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行CRAS模块A：主动学习引擎。搜索AI Agent最新进展，更新学习笔记。命令：cd /root/.openclaw/workspace/skills/cras && node index.js --learn",
+        "message": "执行CRAS模块A：主动学习引擎。先用 tavily-search 搜索真实数据（const {search} = require(\"/root/.openclaw/workspace/skills/tavily-search/index.js\")），搜索3个主题(每个maxResults=3): 1) \"AI Agent latest breakthroughs 2026\" 2) \"LLM tool use function calling advances\" 3) \"autonomous AI agent memory systems\"。基于搜索结果萃取洞察，写入 /root/.openclaw/workspace/skills/cras/insights/learning-$(date +%Y-%m-%d).json。每条洞察必须包含source_url字段标注数据来源，无真实来源的标注\"knowledge_inference\"。禁止编造搜索结果。",
         "model": "claude-cron-worker/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 300
       },
@@ -353,7 +353,7 @@
       "name": "CRAS-D-战略调研",
       "enabled": true,
       "createdAtMs": 1771822636491,
-      "updatedAtMs": 1772752934945,
+      "updatedAtMs": 1772753594937,
       "schedule": {
         "expr": "0 10 * * *",
         "kind": "cron",
@@ -363,7 +363,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行CRAS模块D：战略行研与产品规划。先执行 kimi_search 搜索行业趋势，然后基于知识库生成洞察报告。命令：kimi_search \"AI Agent行业趋势 2026\" limit=5 && cd /root/.openclaw/workspace/skills/cras && node index.js --research",
+        "message": "执行CRAS模块D：战略行研与产品规划。使用 tavily-search 技能搜索最新信息。调用方式: const {search} = require(\"/root/.openclaw/workspace/skills/tavily-search/index.js\"); 搜索3个主题(每个maxResults=5): 1) \"AI Agent framework 2026 production deployment\" 2) \"multi-agent orchestration state of the art\" 3) \"AI memory architecture knowledge graph 2026\"。将搜索结果综合分析生成洞察报告，写入 /root/.openclaw/workspace/skills/cras/insights/research-$(date +%Y-%m-%d).json。每条洞察必须标注数据来源URL，禁止编造。",
         "model": "claude-cron-worker/claude-opus-4-6-thinking",
         "timeoutSeconds": 600
       },
@@ -670,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772753112901,
+      "updatedAtMs": 1772753713014,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -688,11 +688,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772753400000,
-        "lastRunAtMs": 1772753100007,
+        "nextRunAtMs": 1772754000000,
+        "lastRunAtMs": 1772753700005,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 12894,
+        "lastDurationMs": 13009,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -704,7 +704,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772752515297,
+      "updatedAtMs": 1772753425624,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -722,11 +722,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772753400000,
-        "lastRunAtMs": 1772752508036,
+        "nextRunAtMs": 1772754300000,
+        "lastRunAtMs": 1772753414152,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7261,
+        "lastDurationMs": 11472,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -807,7 +807,7 @@
       "name": "event-dispatch-runner",
       "enabled": true,
       "createdAtMs": 1772735091190,
-      "updatedAtMs": 1772753121287,
+      "updatedAtMs": 1772753720887,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -825,11 +825,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772753400000,
-        "lastRunAtMs": 1772753112901,
+        "nextRunAtMs": 1772754000000,
+        "lastRunAtMs": 1772753713014,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8386,
+        "lastDurationMs": 7873,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false

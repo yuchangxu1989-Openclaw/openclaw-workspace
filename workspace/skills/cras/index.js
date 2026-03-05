@@ -55,7 +55,7 @@ class ActiveLearningEngine {
     
     for (const source of this.sources) {
       console.log(`  巡航: ${source.name}`);
-      // 模拟网络爬取（实际实现需调用 web_search/fetch）
+      // 实际实现需调用 tavily-search / web_fetch
       const rawData = await this.crawlSource(source);
       
       // 降噪与萃取

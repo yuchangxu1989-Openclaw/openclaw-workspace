@@ -32,3 +32,25 @@
 {"ts":"2026-03-05T23:18:34.342Z","type":"handler_disabled","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
 {"ts":"2026-03-05T23:18:34.344Z","type":"handler_disabled","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
 {"ts":"2026-03-05T23:18:34.348Z","type":"handler_disabled","handlerName":"broken","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:26:56.610Z","alertType":"permanent_error","context":"unknown","error":"ENOENT: file not found","attempt":1}
+{"ts":"2026-03-05T23:26:56.644Z","alertType":"retry_exhausted","context":"unknown","attempts":3,"lastError":"ECONNRESET"}
+{"ts":"2026-03-05T23:26:56.657Z","alertType":"degradation","context":"unknown","primaryError":"primary failed"}
+{"ts":"2026-03-05T23:26:56.657Z","alertType":"degradation","context":"unknown","primaryError":"primary"}
+{"ts":"2026-03-05T23:26:56.658Z","alertType":"degradation_failed","context":"unknown","primaryError":"primary","fallbackError":"fallback"}
+{"ts":"2026-03-05T23:26:56.661Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-002","failCount":3,"lastError":"fail 3","eventType":"unknown"}
+{"ts":"2026-03-05T23:26:56.664Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-dlq","failCount":3,"lastError":"fail","eventType":"unknown"}
+{"ts":"2026-03-05T23:26:56.671Z","type":"handler_disabled","handlerName":"crashing-handler","consecutiveFailures":3,"lastError":"crash 3","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:26:56.673Z","type":"handler_disabled","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:26:56.676Z","type":"handler_disabled","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:26:56.680Z","type":"handler_disabled","handlerName":"broken","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:35:27.864Z","alertType":"permanent_error","context":"unknown","error":"ENOENT: file not found","attempt":1}
+{"ts":"2026-03-05T23:35:27.897Z","alertType":"retry_exhausted","context":"unknown","attempts":3,"lastError":"ECONNRESET"}
+{"ts":"2026-03-05T23:35:27.909Z","alertType":"degradation","context":"unknown","primaryError":"primary failed"}
+{"ts":"2026-03-05T23:35:27.909Z","alertType":"degradation","context":"unknown","primaryError":"primary"}
+{"ts":"2026-03-05T23:35:27.909Z","alertType":"degradation_failed","context":"unknown","primaryError":"primary","fallbackError":"fallback"}
+{"ts":"2026-03-05T23:35:27.912Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-002","failCount":3,"lastError":"fail 3","eventType":"unknown"}
+{"ts":"2026-03-05T23:35:27.913Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-dlq","failCount":3,"lastError":"fail","eventType":"unknown"}
+{"ts":"2026-03-05T23:35:27.919Z","type":"handler_disabled","handlerName":"crashing-handler","consecutiveFailures":3,"lastError":"crash 3","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:35:27.921Z","type":"handler_disabled","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:35:27.923Z","type":"handler_disabled","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:35:27.928Z","type":"handler_disabled","handlerName":"broken","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
