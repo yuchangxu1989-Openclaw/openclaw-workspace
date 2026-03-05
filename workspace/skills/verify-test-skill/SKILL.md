@@ -11,7 +11,7 @@ verify-test-skill
 
 Test skill for verification
 
-## version: "1.0.5"
+## version: "0.1.0"
 
 ## Input
 

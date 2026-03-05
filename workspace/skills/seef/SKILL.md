@@ -1,7 +1,7 @@
 ---
 name: seef
 description: SEEF技能生态进化工厂 - 高度自治、可被云端大模型动态发现与自由编排的独立子技能集合，具备自主执行完整PDCA闭环能力
-version: "3.0.12""
+version: "2.1.0"
 status: active
 layer: core
 abbreviation: SEEF
