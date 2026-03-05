@@ -1,8 +1,25 @@
 # Day 3 详细设计方案
 
 **制定时间**: 2026-03-05  
+**更新时间**: 2026-03-05（债务结算子代理补充）  
 **架构师**: 战略家（基于Day 1-2暴露所有问题的系统性输出）  
 **方法论**: 反熵增 — 不是打补丁，是关闭每一个开环
+
+---
+
+## 债务结算前置更新
+
+在执行Day3前，以下债务已被**直接修复**（减少Day3工作量）：
+
+| 债务 | 修复内容 |
+|------|---------|
+| **D08+** | isc-rule-matcher.js修复trigger.events格式问题（dict→flat array），消灭71个rule-match错误 |
+| **D10** | L3_PIPELINE_ENABLED: false → **true**（立即生效） |
+| **D11** | skills/_shared/SKILL.md已创建，**全部技能现在有SKILL.md** |
+| **D15** | cron-healer模式库 2→**8个**（script-not-found, timeout, permission, syntax, api-key, network） |
+| **D06** | l3-pipeline-cron.js和runner.js增加ISC advisory检查 |
+
+详见: `reports/design-debt-settlement-report.md`
 
 ---
 

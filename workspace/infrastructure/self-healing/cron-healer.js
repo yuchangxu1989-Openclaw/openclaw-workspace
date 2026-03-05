@@ -115,6 +115,23 @@ const KNOWN_PATTERNS = [
       job.state.disabledReason = `auto-disabled: API authentication failure — rotate API keys`;
       return { field: 'enabled', old: oldEnabled, new: false, reason: 'api_key_invalid' };
     }
+  },
+  {
+    id: 'network-unreachable',
+    match: (job) => {
+      const err = job.state?.lastError || '';
+      return err.includes('ECONNREFUSED') || err.includes('ETIMEDOUT') || err.includes('ENOTFOUND') || err.includes('fetch failed');
+    },
+    description: 'Network unreachable - apply exponential backoff retry',
+    fix: (job) => {
+      // Exponential backoff: increase retry interval but don't disable
+      const currentBackoff = job.state.retryBackoffMs || 60000;
+      const newBackoff = Math.min(currentBackoff * 2, 1800000); // max 30 min
+      job.state.retryBackoffMs = newBackoff;
+      // Reset error count to give it another chance
+      job.state.consecutiveErrors = Math.max(0, (job.state.consecutiveErrors || 0) - 2);
+      return { field: 'retryBackoffMs', old: currentBackoff, new: newBackoff };
+    }
   }
 ];
 
