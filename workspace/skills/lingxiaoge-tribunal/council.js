@@ -158,8 +158,9 @@ ${r2Summary}
 
 // ─── LLM Client ─────────────────────────────────────────────────────
 
-const DEFAULT_BASE_URL = 'https://open.bigmodel.cn/api/paas/v4';
-const DEFAULT_MODEL    = 'glm-5';
+// 通用技能不预设任何模型/Provider，调用方必须显式传入
+const DEFAULT_BASE_URL = null;
+const DEFAULT_MODEL    = null;
 
 /**
  * Call an OpenAI-compatible chat completion endpoint.
@@ -231,9 +232,12 @@ async function callLLM(prompt, opts = {}) {
 async function convene(topic, context, options = {}) {
   const startTime = Date.now();
   const mode      = String(options.mode || '7');
-  const model     = options.model   || DEFAULT_MODEL;
+  const model     = options.model   || process.env.LLM_MODEL;
   const apiKey    = options.apiKey   || process.env.LLM_API_KEY;
-  const baseUrl   = options.baseUrl  || process.env.LLM_BASE_URL || DEFAULT_BASE_URL;
+  const baseUrl   = options.baseUrl  || process.env.LLM_BASE_URL;
+
+  if (!model)   throw new Error('LLM model is required (pass options.model or set LLM_MODEL)');
+  if (!baseUrl) throw new Error('LLM base URL is required (pass options.baseUrl or set LLM_BASE_URL)');
   const parallel  = options.parallel !== false;
   const timeout   = options.timeout  || 120_000;
   const llmCall   = options._callLLM || callLLM;
@@ -359,8 +363,8 @@ Options:
   --topic    议题（必填）
   --context  背景材料
   --mode     席位模式: 7（全席）, 5（精简）, 3（极限）  [default: 7]
-  --model    LLM模型名                                  [default: glm-5]
-  --baseUrl  LLM API基地址                               [default: GLM-5 endpoint]
+  --model    LLM模型名                                  [required]
+  --baseUrl  LLM API基地址                               [required]
   --apiKey   LLM API密钥（或设置 LLM_API_KEY 环境变量）
   --timeout  每次调用超时（毫秒）                         [default: 120000]
   --serial   Round 1 串行执行（默认并行）
