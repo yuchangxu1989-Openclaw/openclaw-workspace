@@ -9,8 +9,8 @@
 | Metric | Value |
 |--------|-------|
 | Overall Accuracy | **23.8%** (19/80) |
-| Avg Latency | 0.00ms |
-| Total Time | 0ms |
+| Avg Latency | 0.03ms |
+| Total Time | 2ms |
 
 ## Per-Category Precision / Recall / F1
 

@@ -18,7 +18,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "检查 ClawHub Skills 后台安装进度。命令：cat /tmp/clawhub-install.log | tail -50 && ls -la /root/.openclaw/workspace/skills/ | wc -l",
-        "model": "claude/claude-sonnet-4-6-thinking",
+        "model": "claude-cron-worker/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 60
       },
       "delivery": {
@@ -52,7 +52,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行CRAS模块A：主动学习引擎。搜索AI Agent最新进展，更新学习笔记。命令：cd /root/.openclaw/workspace/skills/cras && node index.js --learn",
-        "model": "claude/claude-sonnet-4-6-thinking",
+        "model": "claude-cron-worker/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 300
       },
       "delivery": {
@@ -87,7 +87,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行CRAS模块B：用户洞察分析中枢。分析最近2小时用户交互，更新意图画像，并使用飞书卡片格式推送报告。命令：cd /root/.openclaw/workspace/skills/cras && node index.js --insight --format=feishu_card",
-        "model": "claude/claude-opus-4-6-thinking",
+        "model": "claude-cron-worker/claude-opus-4-6-thinking",
         "timeoutSeconds": 180,
         "thinking": "medium"
       },
@@ -123,7 +123,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行CRAS模块E：自主反思与技能进化。遍历知识库，寻找规律，生成技能优化建议并执行。命令：cd /root/.openclaw/workspace/skills/cras && node index.js --evolve",
-        "model": "claude/claude-sonnet-4-6-thinking",
+        "model": "claude-cron-worker/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 300
       },
       "delivery": {
@@ -190,7 +190,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行全局自主决策流水线：检查所有技能变更，更新版本号，同步GitHub和EvoMap。使用 node /root/.openclaw/workspace/skills/dto-core/core/global-auto-decision-pipeline.js",
-        "model": "claude/claude-sonnet-4-6-thinking"
+        "model": "claude-cron-worker/claude-sonnet-4-6-thinking"
       },
       "delivery": {
         "mode": "announce",
@@ -224,7 +224,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行飞书聊天记录实时备份：运行 node /root/.openclaw/workspace/skills/feishu-chat-backup/index.js",
-        "model": "claude/claude-sonnet-4-6"
+        "model": "claude-cron-worker/claude-sonnet-4-6"
       },
       "delivery": {
         "mode": "none"
@@ -257,7 +257,7 @@
         "kind": "agentTurn",
         "message": "node /root/.openclaw/workspace/skills/lep-executor/src/daily-report.js",
         "timeoutSeconds": 300,
-        "model": "claude/claude-sonnet-4-6-thinking",
+        "model": "claude-cron-worker/claude-sonnet-4-6-thinking",
         "thinking": "medium"
       },
       "delivery": {
@@ -292,7 +292,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行系统维护: /root/.openclaw/workspace/scripts/system-maintenance.sh",
-        "model": "claude/claude-sonnet-4-6",
+        "model": "claude-cron-worker/claude-sonnet-4-6",
         "timeoutSeconds": 120
       },
       "state": {
@@ -328,7 +328,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行EvoMap-Evolver自动进化：分析过去4小时运行历史，提取信号，生成GEP进化提示词。使用飞书卡片格式推送报告。任务入口：node /root/.openclaw/workspace/skills/evolver/index.js --loop --format=feishu_card",
-        "model": "claude/claude-sonnet-4-6-thinking",
+        "model": "claude-cron-worker/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 600,
         "thinking": "medium"
       },
@@ -363,7 +363,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行CRAS模块D：战略行研与产品规划。先执行 kimi_search 搜索行业趋势，然后基于知识库生成洞察报告。命令：kimi_search \"AI Agent行业趋势 2026\" limit=5 && cd /root/.openclaw/workspace/skills/cras && node index.js --research",
-        "model": "claude/claude-opus-4-6-thinking",
+        "model": "claude-cron-worker/claude-opus-4-6-thinking",
         "timeoutSeconds": 600
       },
       "delivery": {
@@ -387,7 +387,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772719260194,
+      "updatedAtMs": 1772722846270,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -400,18 +400,18 @@
         "kind": "agentTurn",
         "message": "执行综合系统监控：\n1. 系统健康检查：node /root/.openclaw/workspace/skills/system-monitor/index.js health\n2. Gateway内存监控：bash /root/.openclaw/workspace/scripts/gateway-monitor-v2.sh\n报告异常情况，正常时静默完成。",
         "timeoutSeconds": 120,
-        "model": "claude/claude-sonnet-4-6"
+        "model": "claude-cron-worker/claude-sonnet-4-6"
       },
       "delivery": {
         "mode": "announce",
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772722807906,
-        "lastRunAtMs": 1772719250785,
+        "nextRunAtMs": 1772726407906,
+        "lastRunAtMs": 1772722833501,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 9409,
+        "lastDurationMs": 12769,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -435,7 +435,7 @@
         "kind": "agentTurn",
         "message": "执行系统状态快照与流水线健康检查：\n1. 系统资源峰值记录：bash /root/.openclaw/workspace/skills/system-monitor/log-peaks.sh\n2. 流水线健康监控（超10分钟无反馈则自动重启）：node /root/.openclaw/workspace/skills/dto-core/core/pipeline-auto-recovery.js\n报告异常情况。",
         "timeoutSeconds": 300,
-        "model": "claude/claude-sonnet-4-6"
+        "model": "claude-cron-worker/claude-sonnet-4-6"
       },
       "delivery": {
         "mode": "announce",
@@ -470,7 +470,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行CRAS知识治理与洞察分析：\n1. CRAS模块C-知识治理：cd /root/.openclaw/workspace/skills/cras && node index.js --govern\n2. CRAS四维意图洞察仪表盘：python3 /root/.openclaw/workspace/cras/cron_entry.py\n生成Top10意图分布、四维趋势洞察。",
-        "model": "claude/claude-sonnet-4-6-thinking",
+        "model": "claude-cron-worker/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 300,
         "thinking": "medium"
       },
@@ -494,7 +494,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772719286130,
+      "updatedAtMs": 1772722886678,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -506,7 +506,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "先检查是否有待处理的DTO信号：ls /root/.openclaw/workspace/.dto-signals/ 2>/dev/null | head -5\n如果目录不存在或为空，直接回复无信号即可，不需要运行完整流水线。\n否则执行DTO声明式编排与AEO闭环衔接：\n1. DTO声明式编排器：node /root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js\n2. AEO-DTO闭环：node /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs\n如无信号则静默完成。",
-        "model": "claude/claude-sonnet-4-6-thinking",
+        "model": "claude-cron-worker/claude-sonnet-4-6-thinking",
         "timeoutSeconds": 120
       },
       "delivery": {
@@ -514,11 +514,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772722878795,
-        "lastRunAtMs": 1772719278801,
+        "nextRunAtMs": 1772726478795,
+        "lastRunAtMs": 1772722878801,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7329,
+        "lastDurationMs": 7877,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
         "lastDelivered": true
@@ -542,7 +542,7 @@
         "kind": "agentTurn",
         "message": "执行备份脚本: bash /root/.openclaw/workspace/scripts/backup.sh，报告备份结果。",
         "timeoutSeconds": 300,
-        "model": "claude/claude-sonnet-4-6"
+        "model": "claude-cron-worker/claude-sonnet-4-6"
       },
       "delivery": {
         "mode": "announce",
@@ -576,7 +576,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行能力锚点同步与PDCA循环：\n1. 能力锚点自动同步：node /root/.openclaw/workspace/skills/isc-capability-anchor-sync/index.js\n2. PDCA-C执行引擎（计划-执行-检查-行动循环）：node /root/.openclaw/workspace/skills/pdca-engine/index.js\n报告执行结果。",
-        "model": "claude/claude-opus-4-6-thinking",
+        "model": "claude-cron-worker/claude-opus-4-6-thinking",
         "timeoutSeconds": 300
       },
       "delivery": {
@@ -612,7 +612,7 @@
         "kind": "agentTurn",
         "message": "执行ISC技能质量管理：\n1. 技能使用审计：bash /root/.openclaw/workspace/skills/isc-core/bin/skill-usage-audit.sh\n2. N023-为缺少评测集的技能自动生成评测标准：node /root/.openclaw/workspace/skills/isc-core/bin/n023-executor.js\n生成审计报告。",
         "timeoutSeconds": 180,
-        "model": "claude/claude-opus-4-6-thinking"
+        "model": "claude-cron-worker/claude-opus-4-6-thinking"
       },
       "delivery": {
         "mode": "announce",
@@ -646,7 +646,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行运维辅助任务：\n1. 会话文件自动清理：/root/.openclaw/workspace/scripts/session-cleanup.sh\n2. 统一向量化服务：/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
-        "model": "claude/claude-sonnet-4-6",
+        "model": "claude-cron-worker/claude-sonnet-4-6",
         "timeoutSeconds": 120
       },
       "delivery": {
@@ -669,7 +669,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772721010308,
+      "updatedAtMs": 1772723406862,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -680,22 +680,22 @@
       "payload": {
         "kind": "agentTurn",
         "message": "先执行快速预检：node /root/.openclaw/workspace/infrastructure/dispatcher/fast-check.js\n如果输出跳过，直接回复无事件即可，不需要运行完整dispatcher。\n否则运行事件调度器：node /root/.openclaw/workspace/infrastructure/dispatcher/dispatcher.js\n如果有事件被处理，报告处理结果。如果无事件，静默完成。",
-        "model": "claude/claude-sonnet-4-6",
+        "model": "claude-cron-worker/claude-sonnet-4-6",
         "timeoutSeconds": 60
       },
       "delivery": {
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772721300000,
-        "lastRunAtMs": 1772721000007,
+        "nextRunAtMs": 1772723700000,
+        "lastRunAtMs": 1772723400007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 10301,
+        "lastDurationMs": 6855,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false,
-        "runningAtMs": 1772721300007
+        "runningAtMs": 1772723700006
       }
     },
     {
@@ -704,7 +704,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772721025605,
+      "updatedAtMs": 1772722817513,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -715,21 +715,22 @@
       "payload": {
         "kind": "agentTurn",
         "message": "运行ISC规则变更检测器。\n\n执行命令：node /root/.openclaw/workspace/skills/isc-core/event-bridge.js\n\n如果检测到规则变更，报告变更详情。如无变更，静默完成。",
-        "model": "claude/claude-sonnet-4-6",
+        "model": "claude-cron-worker/claude-sonnet-4-6",
         "timeoutSeconds": 60
       },
       "delivery": {
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772721900000,
-        "lastRunAtMs": 1772721010308,
+        "nextRunAtMs": 1772723700000,
+        "lastRunAtMs": 1772722808465,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 15297,
+        "lastDurationMs": 9048,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": false,
+        "runningAtMs": 1772723700006
       }
     },
     {
@@ -750,7 +751,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行定期记忆摘要生成：node /root/.openclaw/workspace/scripts/memory-summary-cron.js\n\n将输出摘要作为报告返回。如果有重要变更已自动写入记忆文件，无需额外操作。",
-        "model": "claude/claude-sonnet-4-6",
+        "model": "claude-cron-worker/claude-sonnet-4-6",
         "timeoutSeconds": 60
       },
       "delivery": {
@@ -773,7 +774,7 @@
       "name": "D2-03-自愈守卫-每15分钟",
       "enabled": true,
       "createdAtMs": 1772669566167,
-      "updatedAtMs": 1772721039554,
+      "updatedAtMs": 1772722831448,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -784,7 +785,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "运行D2-03自愈守卫：node /root/.openclaw/workspace/infrastructure/self-healing/cron-healer.js。如有修复或escalate，在结果中说明。",
-        "model": "claude/claude-sonnet-4-6",
+        "model": "claude-cron-worker/claude-sonnet-4-6",
         "timeoutSeconds": 120
       },
       "delivery": {
@@ -792,14 +793,15 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772721900000,
-        "lastRunAtMs": 1772721025605,
+        "nextRunAtMs": 1772723700000,
+        "lastRunAtMs": 1772722817513,
         "lastStatus": "ok",
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
-        "lastDurationMs": 13949,
+        "lastDurationMs": 13935,
         "lastDeliveryStatus": "delivered",
-        "lastDelivered": true
+        "lastDelivered": true,
+        "runningAtMs": 1772723700006
       }
     }
   ]

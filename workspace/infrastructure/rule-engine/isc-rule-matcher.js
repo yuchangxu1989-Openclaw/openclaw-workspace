@@ -305,10 +305,14 @@ class ISCRuleMatcher {
 
     for (const rule of this.rules) {
       const trigger = rule.trigger || {};
-      const events = trigger.events || [];
+      let events = trigger.events || [];
+      // Support both array format and object-by-layer format (e.g. { L1: [...], L2: [...] })
+      if (events && !Array.isArray(events) && typeof events === 'object') {
+        events = Object.values(events).flat();
+      }
       const priority = normalizePriority(rule);
 
-      if (events.length === 0) {
+      if (!events || events.length === 0) {
         // Rules with no events — skip indexing (they're condition-only or manual)
         continue;
       }
