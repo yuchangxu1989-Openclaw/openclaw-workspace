@@ -1,0 +1,24 @@
+{
+  "event": {
+    "id": "evt_mma2q0h9_w8e1qb",
+    "type": "dto.sync.completed",
+    "source": "dto-core",
+    "payload": {
+      "rule_id": "N001",
+      "skill_name": "aeo"
+    },
+    "timestamp": 1772510056173,
+    "consumed_by": [
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "dto-orchestrate",
+    "agent": "coder",
+    "priority": "high"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.358Z",
+  "status": "archived",
+  "archivedAt": "2026-03-05T01:12:19.309499+00:00",
+  "archiveReason": "expired_24h (age=45.3h)"
+}

@@ -1,0 +1,26 @@
+{
+  "event": {
+    "id": "evt_mma2o6ur_zkvltv",
+    "type": "cras.insight.generated",
+    "source": "cras",
+    "payload": {
+      "skill_name": "weather",
+      "gaps": [
+        "forecast-7day"
+      ]
+    },
+    "timestamp": 1772509971123,
+    "consumed_by": [
+      "seef"
+    ]
+  },
+  "route": {
+    "handler": "isc-feedback",
+    "agent": "researcher",
+    "priority": "normal"
+  },
+  "dispatchedAt": "2026-03-03T03:55:04.391Z",
+  "status": "archived",
+  "archivedAt": "2026-03-05T01:12:19.309499+00:00",
+  "archiveReason": "expired_24h (age=45.3h)"
+}
