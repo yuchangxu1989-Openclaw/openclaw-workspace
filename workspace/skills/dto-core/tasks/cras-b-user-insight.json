@@ -2,6 +2,11 @@
   "id": "cras-b-user-insight",
   "intent": "CRAS-B 用户洞察分析 - 每30分钟执行",
   "version": "1.1.0",
+  "_reshaped": {
+    "status": "RESHAPED",
+    "note": "Day3-Gap2: 主路径迁移到 EventBus 事件驱动 (cras.insight.request → Dispatcher → skill-cras-handler)。本文件保留为向后兼容参考。新配置: skills/dto-core/config/cron/cras-b-user-insight.json",
+    "reshaped_at": "2026-03-06"
+  },
   "model": "claude/claude-opus-4-6-thinking",
   "triggers": [
     {

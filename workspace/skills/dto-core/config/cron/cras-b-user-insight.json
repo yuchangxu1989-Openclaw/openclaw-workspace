@@ -1,0 +1,99 @@
+{
+  "id": "cras-b-user-insight-sweep",
+  "intent": "CRAS-B 用户洞察 — EventBus 事件驱动 + 30分钟兜底补扫",
+  "version": "2.0.0",
+  "model": "claude/claude-opus-4-6-thinking",
+
+  "mode": "event_driven_with_fallback",
+  "primary_channel": "eventbus",
+  "primary_event": "cras.insight.request",
+
+  "triggers": [
+    {
+      "type": "cron",
+      "spec": "*/30 * * * *",
+      "timezone": "Asia/Shanghai",
+      "purpose": "fallback_sweep"
+    }
+  ],
+
+  "fallback_sweep": {
+    "description": "检查最近30分钟内是否有洞察输出，无则触发补扫",
+    "check_window_minutes": 30,
+    "check_method": "check_insight_output",
+    "checks": [
+      {
+        "type": "event_exists",
+        "event_type": "cras.insight.generated",
+        "window_minutes": 30,
+        "description": "检查最近30分钟是否有洞察输出事件"
+      },
+      {
+        "type": "event_exists",
+        "event_type": "cras.insight.request",
+        "window_minutes": 30,
+        "description": "检查最近30分钟是否有洞察请求事件"
+      }
+    ],
+    "action_on_no_output": "emit_insight_request",
+    "emit_event": {
+      "type": "cras.insight.request",
+      "payload": {
+        "source": "cron-fallback-sweep",
+        "reason": "no_insight_output_in_30min",
+        "format": "feishu_card",
+        "include_todos": true,
+        "persist_profile": true
+      }
+    }
+  },
+
+  "constraints": [
+    {
+      "standard": "cras.user_insight.enabled",
+      "operator": "required",
+      "severity": "warning"
+    }
+  ],
+
+  "timeout": {
+    "total_seconds": 120,
+    "per_action_seconds": 60
+  },
+
+  "retry": {
+    "max_attempts": 2,
+    "backoff": "exponential",
+    "delay_seconds": 10
+  },
+
+  "error_handling": {
+    "on_timeout": {
+      "action": "notify_failure",
+      "channel": "feishu",
+      "message": "⚠️ CRAS-B 用户洞察兜底补扫执行超时"
+    },
+    "on_error": {
+      "action": "retry_then_escalate",
+      "max_retries": 2
+    }
+  },
+
+  "telemetry": {
+    "metrics": [
+      "sweep_triggered_count",
+      "insight_output_found",
+      "fallback_emit_count",
+      "sweep_duration_ms"
+    ]
+  },
+
+  "metadata": {
+    "author": "system",
+    "priority": "medium",
+    "category": "insight",
+    "description": "主路径: EventBus cras.insight.request → Dispatcher → skill-cras-handler; Cron 仅做兜底补扫",
+    "reshaped_at": "2026-03-06",
+    "reshaped_from": "skills/dto-core/tasks/cras-b-user-insight.json"
+  }
+}

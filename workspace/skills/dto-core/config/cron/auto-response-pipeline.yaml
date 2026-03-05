@@ -1,0 +1,68 @@
+# ─────────────────────────────────────────────────────────────
+# 自动响应管道 (Event-Driven + Cron 兜底补扫)
+# 
+# 重塑说明 (Day3 Gap-2):
+#   旧模式: Cron 独立触发 evolver.insight.detected 事件处理
+#   新模式: 并入 L3 Pipeline 事件消费链路 (dispatcher/routes.json)
+#           Cron 仅做兜底补扫 — 检查是否有遗漏未处理的事件
+#
+# 主路径: EventBus → Dispatcher → auto-response-handler
+# 兜底路径: Cron 每15分钟检查 → 找到遗漏事件 → 重新 emit 给 EventBus
+# ─────────────────────────────────────────────────────────────
+
+id: auto-response-pipeline-sweep
+intent: "自动响应管道兜底补扫 — 检查遗漏的 evolver/cras 事件"
+version: "2.0.0"
+
+mode: event_driven_with_fallback
+primary_channel: eventbus  # 主路径走 EventBus → Dispatcher
+
+triggers:
+  - type: cron
+    spec: "*/15 * * * *"
+    timezone: Asia/Shanghai
+    purpose: fallback_sweep  # 仅做兜底，不做主处理
+
+fallback_sweep:
+  description: "扫描最近15分钟内未被处理的 evolver.insight.detected / cras.insight.critical 事件"
+  check_window_minutes: 15
+  event_types:
+    - evolver.insight.detected
+    - cras.insight.critical
+    - system.metric.threshold_exceeded
+  consumer_id: auto-response-sweep
+  action_on_missed: re_emit  # 重新 emit 到 EventBus，让 Dispatcher 正常路由
+  max_reemit_per_run: 10
+  dedup: true
+
+# 原始工作流保留不变，但现在由 Dispatcher handler 执行，不再由 Cron 直接触发
+workflow_ref: "skills/dto-core/tasks/auto-response-pipeline.yaml"
+
+constraints:
+  - standard: rule.auto_response.security_quality
+    operator: required
+    severity: error
+
+policies:
+  escalation:
+    - condition: "impact.scope == 'system_wide'"
+      action: "trigger_council"
+    - condition: "severity == 'critical'"
+      action: "trigger_council"
+
+resources:
+  timeout: 120  # 兜底补扫不需要原始的1800秒
+  cpu: 1
+  memory: 1G
+
+telemetry:
+  level: standard
+  metrics: [missed_events_found, reemit_count, sweep_duration_ms]
+
+metadata:
+  author: system
+  priority: medium
+  category: auto-response
+  description: "兜底补扫 — 主路径走 EventBus/Dispatcher 事件驱动"
+  reshaped_at: "2026-03-06"
+  reshaped_from: "skills/dto-core/tasks/auto-response-pipeline.yaml"

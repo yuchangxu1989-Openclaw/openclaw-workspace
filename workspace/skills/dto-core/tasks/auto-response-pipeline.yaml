@@ -2,6 +2,13 @@ id: auto-response-pipeline
 intent: "系统质量与安全问题自动响应管道"
 version: "1.0.0"
 
+# ─── Day3-Gap2 重塑标记 ───
+# 状态: RESHAPED → 事件驱动主路径
+# 新配置: skills/dto-core/config/cron/auto-response-pipeline.yaml
+# 事件路由: evolver.insight.detected / cras.insight.critical → Dispatcher → auto-response-handler
+# 本文件保留为工作流定义参考，实际触发已迁移到 EventBus + Dispatcher
+# reshaped_at: 2026-03-06
+
 triggers:
   - type: event
     source: evolver.insight.detected

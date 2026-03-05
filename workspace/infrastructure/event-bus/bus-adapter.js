@@ -310,6 +310,80 @@ function _clearDedupeCache() {
 }
 
 // ═══════════════════════════════════════════════════════════
+// Day3-Gap2: 事件驱动便捷 Emit 点
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * 触发 CRAS 用户洞察请求事件
+ * [Day3-Gap2] 替代旧 Cron 直接调用模式
+ * 
+ * @param {object} [params] - 洞察请求参数
+ * @param {string} [params.source='api'] - 触发来源
+ * @param {string} [params.format='feishu_card'] - 输出格式
+ * @param {boolean} [params.include_todos=true] - 是否包含待办
+ * @param {boolean} [params.persist_profile=true] - 是否持久化 profile
+ * @returns {{ id: string, suppressed: boolean } | null}
+ */
+function emitInsightRequest(params) {
+  params = params || {};
+  return emit('cras.insight.request', {
+    source: params.source || 'api',
+    format: params.format || 'feishu_card',
+    include_todos: params.include_todos !== false,
+    persist_profile: params.persist_profile !== false,
+    requested_at: new Date().toISOString(),
+  }, params.source || 'bus-adapter', {
+    layer: 'l3',
+    trigger: 'event_driven',
+  });
+}
+
+/**
+ * 触发系统健康检查请求事件
+ * [Day3-Gap2] 事件驱动触发入口
+ * 
+ * @param {object} [params] - 健康检查参数
+ * @param {string} [params.source='api'] - 触发来源
+ * @param {string[]} [params.checks] - 检查维度
+ * @returns {{ id: string, suppressed: boolean } | null}
+ */
+function emitHealthRequest(params) {
+  params = params || {};
+  return emit('system.health.request', {
+    source: params.source || 'api',
+    checks: params.checks || ['cpu', 'memory', 'disk', 'load', 'process', 'eventbus', 'pipeline', 'breaker', 'decision', 'flags'],
+    requested_at: new Date().toISOString(),
+  }, params.source || 'bus-adapter', {
+    layer: 'l3',
+    trigger: 'event_driven',
+  });
+}
+
+/**
+ * 触发自动响应事件 (用于外部系统集成)
+ * [Day3-Gap2] 事件驱动触发入口
+ * 
+ * @param {string} eventType - 事件类型 (evolver.insight.detected / cras.insight.critical / system.metric.threshold_exceeded)
+ * @param {object} payload - 事件载荷
+ * @param {string} [source='external'] - 来源
+ * @returns {{ id: string, suppressed: boolean } | null}
+ */
+function emitAutoResponse(eventType, payload, source) {
+  const validTypes = [
+    'evolver.insight.detected',
+    'cras.insight.critical',
+    'system.metric.threshold_exceeded',
+  ];
+  if (!validTypes.includes(eventType)) {
+    throw new Error(`emitAutoResponse: invalid type "${eventType}", must be one of: ${validTypes.join(', ')}`);
+  }
+  return emit(eventType, payload || {}, source || 'external', {
+    layer: 'l3',
+    trigger: 'event_driven',
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
 // 导出
 // ═══════════════════════════════════════════════════════════
 
@@ -318,6 +392,11 @@ module.exports = {
   consume,
   healthCheck,
   stats,
+
+  // Day3-Gap2: 事件驱动便捷 emit 点
+  emitInsightRequest,
+  emitHealthRequest,
+  emitAutoResponse,
 
   // 兼容新event-bus.js导出的常量
   EVENTS_FILE: bus._EVENTS_FILE,

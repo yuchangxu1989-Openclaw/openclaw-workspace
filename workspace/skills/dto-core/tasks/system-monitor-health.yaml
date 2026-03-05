@@ -1,6 +1,13 @@
 # DTO 系统监控任务定义
 # 每小时自动执行健康检查
 
+# ─── Day3-Gap2 重塑标记 ───
+# 状态: RESHAPED → L3 扩展版
+# 新配置: skills/dto-core/config/cron/system-monitor-health.yaml
+# 新增维度: EventBus吞吐/积压, Pipeline成功率, 熔断触发, DecisionLog异常, FeatureFlag变更
+# 本文件保留为向后兼容参考
+# reshaped_at: 2026-03-06
+
 id: system-monitor-health-check
 name: 系统健康检查
 schedule:

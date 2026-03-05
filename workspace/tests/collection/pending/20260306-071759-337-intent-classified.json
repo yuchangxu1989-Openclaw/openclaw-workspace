@@ -1,0 +1,20 @@
+{
+  "id": "sample-20260306-071759-337-intent-classified",
+  "event_type": "intent.classified",
+  "timestamp": "2026-03-05T23:17:59.338Z",
+  "input": "hello",
+  "output": {
+    "intent": "greet"
+  },
+  "context": {
+    "session_id": "test",
+    "channel": null,
+    "user_id": null
+  },
+  "metadata": {
+    "source": "auto_collect",
+    "status": "pending_review",
+    "collected_by": "eval-collector",
+    "rule_id": "rule.eval-sample-auto-collection-001"
+  }
+}

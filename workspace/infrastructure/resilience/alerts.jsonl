@@ -9,3 +9,26 @@
 {"ts":"2026-03-04T18:26:19.116Z","type":"handler_disabled","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
 {"ts":"2026-03-04T18:26:19.119Z","type":"handler_disabled","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
 {"ts":"2026-03-04T18:26:19.124Z","type":"handler_disabled","handlerName":"broken","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:17:59.319Z","type":"handler_disabled","handlerName":"cb-test","consecutiveFailures":3,"lastError":"crash3","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:18:10.113Z","alertType":"permanent_error","context":"unknown","error":"ENOENT: file not found","attempt":1}
+{"ts":"2026-03-05T23:18:10.147Z","alertType":"retry_exhausted","context":"unknown","attempts":3,"lastError":"ECONNRESET"}
+{"ts":"2026-03-05T23:18:10.158Z","alertType":"degradation","context":"unknown","primaryError":"primary failed"}
+{"ts":"2026-03-05T23:18:10.159Z","alertType":"degradation","context":"unknown","primaryError":"primary"}
+{"ts":"2026-03-05T23:18:10.159Z","alertType":"degradation_failed","context":"unknown","primaryError":"primary","fallbackError":"fallback"}
+{"ts":"2026-03-05T23:18:10.162Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-002","failCount":3,"lastError":"fail 3","eventType":"unknown"}
+{"ts":"2026-03-05T23:18:10.164Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-dlq","failCount":3,"lastError":"fail","eventType":"unknown"}
+{"ts":"2026-03-05T23:18:10.169Z","type":"handler_disabled","handlerName":"crashing-handler","consecutiveFailures":3,"lastError":"crash 3","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:18:10.171Z","type":"handler_disabled","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:18:10.173Z","type":"handler_disabled","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:18:10.177Z","type":"handler_disabled","handlerName":"broken","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:18:34.282Z","alertType":"permanent_error","context":"unknown","error":"ENOENT: file not found","attempt":1}
+{"ts":"2026-03-05T23:18:34.319Z","alertType":"retry_exhausted","context":"unknown","attempts":3,"lastError":"ECONNRESET"}
+{"ts":"2026-03-05T23:18:34.330Z","alertType":"degradation","context":"unknown","primaryError":"primary failed"}
+{"ts":"2026-03-05T23:18:34.330Z","alertType":"degradation","context":"unknown","primaryError":"primary"}
+{"ts":"2026-03-05T23:18:34.331Z","alertType":"degradation_failed","context":"unknown","primaryError":"primary","fallbackError":"fallback"}
+{"ts":"2026-03-05T23:18:34.333Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-002","failCount":3,"lastError":"fail 3","eventType":"unknown"}
+{"ts":"2026-03-05T23:18:34.335Z","type":"dead_letter","consumerId":"test-consumer","eventId":"evt-dlq","failCount":3,"lastError":"fail","eventType":"unknown"}
+{"ts":"2026-03-05T23:18:34.340Z","type":"handler_disabled","handlerName":"crashing-handler","consecutiveFailures":3,"lastError":"crash 3","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:18:34.342Z","type":"handler_disabled","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:18:34.344Z","type":"handler_disabled","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}
+{"ts":"2026-03-05T23:18:34.348Z","type":"handler_disabled","handlerName":"broken","consecutiveFailures":3,"lastError":"crash","reason":"Handler disabled after 3 consecutive crashes"}

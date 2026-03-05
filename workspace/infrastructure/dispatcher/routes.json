@@ -126,5 +126,38 @@
     "agent": "coder",
     "priority": "normal",
     "description": "L3 detected user intents dispatched for execution"
+  },
+
+  "evolver.insight.detected": {
+    "handler": "auto-response-handler",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[Day3-Gap2] Evolver洞察 → 自动响应管道 (事件驱动主路径，取代独立Cron触发)"
+  },
+  "cras.insight.critical": {
+    "handler": "auto-response-handler",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[Day3-Gap2] CRAS关键洞察 → 自动响应管道 (事件驱动主路径)"
+  },
+  "system.metric.threshold_exceeded": {
+    "handler": "auto-response-handler",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[Day3-Gap2] 系统指标越界 → 自动响应管道 (事件驱动主路径)"
+  },
+
+  "cras.insight.request": {
+    "handler": "skill-cras-handler",
+    "agent": "researcher",
+    "priority": "normal",
+    "description": "[Day3-Gap2] CRAS洞察请求 → 事件驱动触发用户洞察分析 (取代30分钟Cron直接调用)"
+  },
+
+  "system.health.request": {
+    "handler": "system-monitor",
+    "agent": "coder",
+    "priority": "low",
+    "description": "[Day3-Gap2] 系统健康检查请求 → 事件驱动触发 (Cron仅做兜底)"
   }
 }
