@@ -1,0 +1,29 @@
+{
+  "id": "rule.skill-distribution-auto-classify-001",
+  "name": "技能本地/可销售自动分类",
+  "description": "当技能创建或修改时，自动扫描技能内容判断是local还是publishable。检查维度：(1)是否有hardcode绝对路径 (2)是否引用workspace特定文件 (3)是否依赖本地配置/密钥 (4)是否有通用的输入输出接口。全部通过→publishable，任一不通过→local。结果写入SKILL.md的distribution字段。",
+  "version": "1.0.0",
+  "priority": "P1",
+  "category": "skill-governance",
+  "trigger": {
+    "events": ["skill.lifecycle.created", "skill.lifecycle.modified"],
+    "actions": ["skill.classification.auto_detect", "skill.metadata.update_distribution"]
+  },
+  "conditions": {
+    "local_indicators": [
+      "绝对路径引用（/root/、/home/、~/.openclaw/）",
+      "workspace特定文件引用（MEMORY.md、memory/、skills/isc-core/）",
+      "本地API key hardcode",
+      "本地cron/dto/isc配置依赖",
+      "无标准输入输出接口定义"
+    ],
+    "publishable_conditions": "所有local_indicators均不命中 + SKILL.md有完整的接口描述"
+  },
+  "action": {
+    "handler": "scripts/classify-skill-distribution.js",
+    "on_publishable": "emit skill.publishable.ready → 可进入EvoMap发布流水线",
+    "on_local": "标记distribution=local，不进入发布流水线"
+  },
+  "rationale": "用户原话：'需要区分，但只有记忆不够，需要通过事件来识别和区分'",
+  "created_at": "2026-03-06T01:46:00+08:00"
+}
