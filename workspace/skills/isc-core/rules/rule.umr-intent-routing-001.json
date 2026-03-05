@@ -1,13 +1,15 @@
 {
   "type": "routing",
-  "id": "UMR001",
+  "id": "rule.umr-intent-routing-001",
   "name": "user_message_intent_routing",
   "description": "基于IntentScanner意图分类(IC1-IC5)将user.message路由到对应处理器",
   "domain": "message_routing",
   "scope": "system-wide",
   "enforcement_tier": "P0_gate",
   "trigger": {
-    "events": ["user.general.message"],
+    "events": [
+      "user.general.message"
+    ],
     "condition": "intent_classification_available",
     "actions": [
       {

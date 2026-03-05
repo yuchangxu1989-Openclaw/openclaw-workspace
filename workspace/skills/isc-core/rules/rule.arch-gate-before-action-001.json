@@ -1,5 +1,5 @@
 {
-  "id": "arch.gate-before-action-001",
+  "id": "rule.arch-gate-before-action-001",
   "rule_name": "Gate Before Action — 行动前必有门禁",
   "version": "1.0.0",
   "severity": "critical",
@@ -20,7 +20,13 @@
         "system.day.closure_requested"
       ]
     },
-    "condition": "gate_check_required"
+    "condition": "gate_check_required",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行Gate Before Action — 行动前必有门禁规则检查"
+      }
+    ]
   },
   "action": {
     "type": "gate",

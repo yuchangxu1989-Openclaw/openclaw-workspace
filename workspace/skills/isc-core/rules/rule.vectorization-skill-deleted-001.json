@@ -1,1 +1,33 @@
-{"id":"rule.vectorization-skill-deleted-001","name":"vectorization_skill_deleted","domain":"vectorization","type":"automation","description":"技能删除时自动清理向量文件","trigger":{"events":["skill.general.deleted"],"condition":"skill_path OR skill_name"},"action":{"type":"exec","command":"knowledge.general.sh","args":["--cleanup","--event=deleted"]},"governance":{"auto_execute":true},"enforcement_tier":"P2_automation","created_at":"2026-03-05T03:00:00+08:00","version":"1.0.0"}
+{
+  "id": "rule.vectorization-skill-deleted-001",
+  "name": "vectorization_skill_deleted",
+  "domain": "vectorization",
+  "type": "automation",
+  "description": "技能删除时自动清理向量文件",
+  "trigger": {
+    "events": [
+      "skill.general.deleted"
+    ],
+    "condition": "skill_path OR skill_name",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行vectorization_skill_deleted规则检查"
+      }
+    ]
+  },
+  "action": {
+    "type": "exec",
+    "command": "knowledge.general.sh",
+    "args": [
+      "--cleanup",
+      "--event=deleted"
+    ]
+  },
+  "governance": {
+    "auto_execute": true
+  },
+  "enforcement_tier": "P2_automation",
+  "created_at": "2026-03-05T03:00:00+08:00",
+  "version": "1.0.0"
+}

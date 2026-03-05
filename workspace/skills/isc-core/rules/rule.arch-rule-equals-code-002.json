@@ -1,5 +1,5 @@
 {
-  "id": "arch.rule-equals-code-002",
+  "id": "rule.arch-rule-equals-code-002",
   "rule_name": "Rule = Code — 规则即代码",
   "version": "1.0.0",
   "severity": "critical",
@@ -15,7 +15,13 @@
         "isc.enforcement_rate.threshold_crossed"
       ]
     },
-    "condition": "enforcement_rate < 100%"
+    "condition": "enforcement_rate < 100%",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行Rule = Code — 规则即代码规则检查"
+      }
+    ]
   },
   "action": {
     "type": "enforce",

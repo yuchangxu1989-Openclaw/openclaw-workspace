@@ -1,13 +1,15 @@
 {
   "type": "routing",
-  "id": "UMR002",
+  "id": "rule.umr-domain-routing-001",
   "name": "user_message_domain_routing",
   "description": "基于消息payload的domain字段路由user.message，作为意图路由的降级兜底",
   "domain": "message_routing",
   "scope": "system-wide",
   "enforcement_tier": "P1_process",
   "trigger": {
-    "events": ["user.general.message"],
+    "events": [
+      "user.general.message"
+    ],
     "condition": "intent_classification_unavailable OR intent_confidence_low",
     "actions": [
       {

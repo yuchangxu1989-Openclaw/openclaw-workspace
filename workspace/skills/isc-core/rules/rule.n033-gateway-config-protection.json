@@ -1,0 +1,99 @@
+{
+  "schema": "isc.rule.v1",
+  "rule_id": "N033",
+  "rule_name": "gateway_config_protection",
+  "version": "1.1.0",
+  "created_at": "2026-02-28T16:45:00+08:00",
+  "updated_at": "2026-03-04T15:11:00+08:00",
+  "author": "ISC-DTO",
+  "priority": 10,
+  "category": "security",
+  "description": "禁止自动修改Gateway、飞书、Agent与模型配置，所有此类修改必须用户人工确认后方可执行",
+  "trigger": {
+    "type": "file_operation",
+    "patterns": [
+      "/root/.openclaw/openclaw.json",
+      "/root/.openclaw/gateway*",
+      "**/gateway*.json",
+      "**/config.json",
+      "/root/.openclaw/agents/*/models.json",
+      "/root/.openclaw/agents/*/agent.json",
+      "/root/.openclaw/cron/jobs.json",
+      "/root/.openclaw/identity/**",
+      "/root/.openclaw/feishu/**"
+    ],
+    "operations": [
+      "modify",
+      "delete",
+      "create"
+    ],
+    "events": [
+      "system.config.modified",
+      "system.config.created",
+      "system.config.deleted",
+      "system.config.change_requested"
+    ],
+    "actions": [
+      {
+        "type": "gate_check",
+        "description": "检测到敏感配置修改操作时，阻塞执行并要求用户人工确认",
+        "behavior": "block_until_user_approval"
+      },
+      {
+        "type": "auto_backup",
+        "description": "配置修改前自动创建带时间戳的备份文件",
+        "behavior": "create_timestamped_backup"
+      }
+    ]
+  },
+  "condition": {
+    "check_type": "sensitive_config",
+    "auto_confirm": false,
+    "require_explicit_approval": true,
+    "require_backup_before_change": true,
+    "require_preview_before_execute": true
+  },
+  "action": {
+    "type": "block_and_notify",
+    "message": "🚨 检测到敏感配置修改操作，需要用户确认",
+    "require_user_confirmation": true,
+    "default_action": "reject",
+    "pre_change_protocol": [
+      "1. 创建带时间戳的备份文件",
+      "2. 展示变更前后对比（diff预览）",
+      "3. 等待用户明确确认（OK/拍板/确认）",
+      "4. 用户确认后执行，记录操作日志"
+    ],
+    "notification_channels": [
+      "feishu"
+    ],
+    "escalation": {
+      "if_no_response_30min": "block_operation",
+      "if_rejected": "block_and_log"
+    }
+  },
+  "exemptions": [],
+  "violation_handling": {
+    "log_level": "CRITICAL",
+    "alert_immediately": true,
+    "block_auto_execution": true
+  },
+  "metadata": {
+    "rationale": "用户明确要求：涉及Gateway、飞书、Agent与模型配置的修改，必须主动找用户确认，不可自主执行。历史上自动修改导致系统崩溃和断联。",
+    "user_quotes": [
+      "你不要动Gateway相关配置，因为你编码能力很垃圾，每次一动系统就崩，咱俩就断联",
+      "你有没有一条ISC规则是：涉及到Gateway、飞书、Agent与模型配置的，必须主动找我确认，不可以自主执行修改？",
+      "注意给我能备份、能回滚的一步步操作，别直接一步改到位"
+    ],
+    "covered_files": [
+      "openclaw.json - Gateway全局配置",
+      "agents/*/models.json - Agent模型配置",
+      "agents/*/agent.json - Agent基础配置",
+      "cron/jobs.json - 定时任务配置",
+      "identity/** - 身份认证配置",
+      "feishu/** - 飞书集成配置"
+    ]
+  },
+  "enforcement_tier": "P0_gate",
+  "id": "rule.n033-gateway-config-protection"
+}

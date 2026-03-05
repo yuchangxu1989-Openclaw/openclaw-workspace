@@ -21,7 +21,13 @@
         "quality.review.selection_rationality_check"
       ]
     },
-    "condition": "selection_decision_made AND task_importance_level EXISTS"
+    "condition": "selection_decision_made AND task_importance_level EXISTS",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行选型铁律：质量>效率>成本规则检查"
+      }
+    ]
   },
   "action": {
     "type": "gate",

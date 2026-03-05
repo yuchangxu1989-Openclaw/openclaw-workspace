@@ -1,0 +1,21 @@
+{
+  "id": "rule.intent-anti-entropy-001",
+  "rule_name": "意图类型反熵增治理",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "意图类型数量必须保持MECE、不长尾。治理红线：(1)语义重叠的意图必须合并，(2)触发频率极低（30天<3次）的意图降级为观察态，(3)90天未触发的意图自动废弃提案，(4)任何新注册意图必须证明与现有意图不重叠。",
+  "trigger": {
+    "events": [
+      "event.type.created",
+      "dto.general.monthly"
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "扫描意图注册表→检测重叠/长尾→生成治理报告→执行合并/降级/废弃"
+      }
+    ]
+  },
+  "action": "扫描意图注册表→检测重叠/长尾→生成治理报告→执行合并/降级/废弃",
+  "enforcement_tier": "P1_process"
+}

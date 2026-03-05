@@ -1,0 +1,20 @@
+{
+  "id": "rule.intent-type-convergence-001",
+  "rule_name": "意图类型收敛标准",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "意图识别系统必须覆盖且仅覆盖5种收敛类型：(1)正负向情绪意图、(2)规则触发意图、(3)复杂意图（需5轮以上上下文推理）、(4)隐含意图（非明确表达，需推理）、(5)一句话多意图。任何新意图类型必须归入以上5类之一，否则不予注册。",
+  "trigger": {
+    "events": [
+      "event.type.registration_requested"
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "验证新意图类型归属，不属于5类则拒绝注册并要求MECE重分类"
+      }
+    ]
+  },
+  "action": "验证新意图类型归属，不属于5类则拒绝注册并要求MECE重分类",
+  "enforcement_tier": "P1_process"
+}

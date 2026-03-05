@@ -1,5 +1,5 @@
 {
-  "id": "arch.feedback-must-close-003",
+  "id": "rule.arch-feedback-must-close-003",
   "rule_name": "Feedback Must Close — 反馈必须闭环",
   "version": "1.0.0",
   "severity": "high",
@@ -12,7 +12,13 @@
         "system.event.dead_channel"
       ]
     },
-    "condition": "orphan_count > 0 OR dead_channel_detected"
+    "condition": "orphan_count > 0 OR dead_channel_detected",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行Feedback Must Close — 反馈必须闭环规则检查"
+      }
+    ]
   },
   "action": {
     "type": "enforce",

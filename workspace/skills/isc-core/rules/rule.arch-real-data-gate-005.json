@@ -1,5 +1,5 @@
 {
-  "id": "arch.real-data-gate-005",
+  "id": "rule.arch-real-data-gate-005",
   "rule_name": "Real Data Gate — 真实数据门禁",
   "version": "1.0.0",
   "severity": "critical",
@@ -11,7 +11,13 @@
         "quality.benchmark.completed"
       ]
     },
-    "condition": "mode == 'acceptance'"
+    "condition": "mode == 'acceptance'",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行Real Data Gate — 真实数据门禁规则检查"
+      }
+    ]
   },
   "action": {
     "type": "gate",

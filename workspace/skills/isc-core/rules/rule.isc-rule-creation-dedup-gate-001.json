@@ -16,7 +16,13 @@
       "new_rule_file_path",
       "new_rule_content"
     ],
-    "condition": "gate_check_required"
+    "condition": "gate_check_required",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行ISC规则创建去重门禁规则检查"
+      }
+    ]
   },
   "action": {
     "type": "gate",
@@ -100,16 +106,24 @@
   "examples": [
     {
       "scenario": "events完全不重叠",
-      "new_rule_events": ["skill.general.created"],
-      "existing_rule_events": ["isc.rule.before_create"],
+      "new_rule_events": [
+        "skill.general.created"
+      ],
+      "existing_rule_events": [
+        "isc.rule.before_create"
+      ],
       "phase_1_result": "无交集 → 直接放行",
       "phase_2_called": false,
       "outcome": "APPROVED（零LLM成本）"
     },
     {
       "scenario": "events有交集，但condition不同",
-      "new_rule_events": ["isc.rule.created"],
-      "existing_rule_events": ["isc.rule.created"],
+      "new_rule_events": [
+        "isc.rule.created"
+      ],
+      "existing_rule_events": [
+        "isc.rule.created"
+      ],
       "new_condition": "仅对P0_gate规则检查",
       "existing_condition": "对所有规则检查trigger完整性",
       "phase_2_result": "condition_equivalent=false → 不重复",
@@ -117,8 +131,12 @@
     },
     {
       "scenario": "events有交集，condition等价，但action不同",
-      "new_rule_events": ["isc.rule.before_create"],
-      "existing_rule_events": ["isc.rule.before_create"],
+      "new_rule_events": [
+        "isc.rule.before_create"
+      ],
+      "existing_rule_events": [
+        "isc.rule.before_create"
+      ],
       "new_action": "检查命名规范",
       "existing_action": "检查字段完整性",
       "phase_2_result": "action_equivalent=false → 不重复",
@@ -126,8 +144,12 @@
     },
     {
       "scenario": "真实重复：三维度全部等价",
-      "new_rule_events": ["isc.rule.before_create"],
-      "existing_rule_events": ["isc.rule.before_create"],
+      "new_rule_events": [
+        "isc.rule.before_create"
+      ],
+      "existing_rule_events": [
+        "isc.rule.before_create"
+      ],
       "new_condition": "任意新规则创建前",
       "existing_condition": "任意新规则创建前",
       "new_action": "去重检查，阻止重复规则写入",

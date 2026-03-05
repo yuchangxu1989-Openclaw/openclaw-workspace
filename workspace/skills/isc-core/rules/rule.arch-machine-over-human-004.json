@@ -1,5 +1,5 @@
 {
-  "id": "arch.machine-over-human-004",
+  "id": "rule.arch-machine-over-human-004",
   "rule_name": "Machine Over Human — 机器约束优于人的纪律",
   "version": "1.0.0",
   "severity": "high",
@@ -11,7 +11,13 @@
         "quality.automation.gap_found"
       ]
     },
-    "condition": "manual_check_found_without_automation"
+    "condition": "manual_check_found_without_automation",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行Machine Over Human — 机器约束优于人的纪律规则检查"
+      }
+    ]
   },
   "action": {
     "type": "enforce",

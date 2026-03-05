@@ -1,0 +1,298 @@
+{
+  "id": "rule.n036-memory-loss-recovery",
+  "name": "memory_loss_self_recovery",
+  "ruleName": "记忆丢失后自主恢复",
+  "domain": "resilience",
+  "type": "rule",
+  "scope": "system",
+  "priority": "critical",
+  "description": "当MEMORY.md丢失或损坏时，从文件系统自动重建规则清单和系统状态",
+  "rationale": "确保系统在任何情况下都能自主决策，不依赖外部记忆文件",
+  "version": "1.0.0",
+  "created_at": "2026-02-28T16:45:00+08:00",
+  "updated_at": "2026-02-28T16:45:00+08:00",
+  "trigger": {
+    "conditions": [
+      {
+        "type": "file_missing",
+        "file_path": "/root/.openclaw/workspace/MEMORY.md",
+        "description": "MEMORY.md文件缺失"
+      },
+      {
+        "type": "file_corrupted",
+        "file_path": "/root/.openclaw/workspace/MEMORY.md",
+        "check": "!valid_markdown || size < 100",
+        "description": "MEMORY.md文件损坏"
+      },
+      {
+        "type": "registry_empty",
+        "file_path": "/root/.openclaw/workspace/.rule-registry.json",
+        "check": "!exists || rule_count == 0",
+        "description": "规则注册表为空"
+      },
+      {
+        "type": "manual",
+        "command": "isc bootstrap-recovery",
+        "description": "手动触发恢复"
+      }
+    ],
+    "logic": "OR",
+    "events": [
+      "session.general.started",
+      "system.memory.loss_detected",
+      "session.context.incomplete"
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "检测到记忆丢失时自动触发恢复流程，从文件系统重建关键上下文"
+      }
+    ]
+  },
+  "recovery_phases": {
+    "phase_1_discovery": {
+      "name": "规则发现",
+      "description": "从文件系统发现所有规则文件",
+      "steps": [
+        {
+          "order": 1,
+          "action": "scan_rules_directory",
+          "target": "/root/.openclaw/workspace/skills/isc-core/rules",
+          "recursive": true,
+          "pattern": "*.json"
+        },
+        {
+          "order": 2,
+          "action": "scan_standards_directory",
+          "target": "/root/.openclaw/workspace/skills/isc-core/standards",
+          "recursive": true,
+          "pattern": "*.json"
+        },
+        {
+          "order": 3,
+          "action": "validate_rule_files",
+          "description": "验证每个规则文件的JSON格式"
+        }
+      ]
+    },
+    "phase_2_parsing": {
+      "name": "规则解析",
+      "description": "解析规则文件提取元数据",
+      "steps": [
+        {
+          "order": 1,
+          "action": "extract_rule_id",
+          "sources": [
+            "id",
+            "ruleId",
+            "name"
+          ],
+          "fallback": "filename"
+        },
+        {
+          "order": 2,
+          "action": "extract_metadata",
+          "fields": [
+            "name",
+            "domain",
+            "category",
+            "triggers",
+            "auto_execute",
+            "version"
+          ]
+        },
+        {
+          "order": 3,
+          "action": "categorize",
+          "group_by": "domain"
+        }
+      ]
+    },
+    "phase_3_rebuild": {
+      "name": "状态重建",
+      "description": "重建系统状态和注册表",
+      "steps": [
+        {
+          "order": 1,
+          "action": "create_rule_registry",
+          "output": "/root/.openclaw/workspace/.rule-registry.json",
+          "include": [
+            "rules",
+            "categories",
+            "stats"
+          ]
+        },
+        {
+          "order": 2,
+          "action": "create_subscriptions",
+          "output_dir": "/root/.openclaw/workspace/skills/dto-core/subscriptions",
+          "template": "auto_subscription"
+        },
+        {
+          "order": 3,
+          "action": "init_trigger_log",
+          "output": "/root/.openclaw/workspace/skills/dto-core/events/rule-trigger-log.jsonl"
+        }
+      ]
+    },
+    "phase_4_validation": {
+      "name": "恢复验证",
+      "description": "验证恢复后的系统完整性",
+      "steps": [
+        {
+          "order": 1,
+          "action": "validate_registry_integrity",
+          "checks": [
+            "all_rules_have_id",
+            "categories_populated",
+            "no_duplicates"
+          ]
+        },
+        {
+          "order": 2,
+          "action": "validate_subscription_alignment",
+          "check": "every_rule_has_subscription"
+        },
+        {
+          "order": 3,
+          "action": "test_trigger_mechanism",
+          "description": "测试规则触发机制"
+        }
+      ]
+    }
+  },
+  "execution": {
+    "mode": "auto_recovery",
+    "auto_execute": true,
+    "require_confirmation": false,
+    "max_recovery_time_seconds": 300,
+    "rollback_on_failure": true
+  },
+  "actions": {
+    "on_recovery_start": [
+      {
+        "order": 1,
+        "action": "log",
+        "level": "info",
+        "message": "🔄 启动记忆恢复流程"
+      },
+      {
+        "order": 2,
+        "action": "notify",
+        "channels": [
+          "feishu",
+          "log"
+        ],
+        "message_template": "🔄 检测到记忆丢失，正在执行自主恢复..."
+      }
+    ],
+    "on_recovery_complete": [
+      {
+        "order": 1,
+        "action": "generate_recovery_report",
+        "output": "/root/.openclaw/workspace/reports/memory-recovery-report.json"
+      },
+      {
+        "order": 2,
+        "action": "notify",
+        "channels": [
+          "feishu",
+          "log"
+        ],
+        "urgency": "normal",
+        "message_template": "✅ 记忆恢复完成\n恢复规则数: {recovered_rules}\n恢复类别数: {recovered_categories}\n耗时: {duration_seconds}s\n\n系统已恢复正常运行。"
+      },
+      {
+        "order": 3,
+        "action": "recommend_backup",
+        "message": "建议立即备份恢复后的MEMORY.md"
+      }
+    ],
+    "on_recovery_failure": [
+      {
+        "order": 1,
+        "action": "log",
+        "level": "error",
+        "message": "❌ 记忆恢复失败"
+      },
+      {
+        "order": 2,
+        "action": "notify",
+        "channels": [
+          "feishu",
+          "log",
+          "email"
+        ],
+        "urgency": "critical",
+        "message_template": "🚨 记忆恢复失败\n失败原因: {failure_reason}\n\n需要人工干预！"
+      }
+    ]
+  },
+  "fallback_strategies": {
+    "partial_rules_recovery": {
+      "condition": "some_rules_unparsable",
+      "action": "skip_and_continue",
+      "log_skipped": true
+    },
+    "no_rules_found": {
+      "condition": "rules_dir_empty",
+      "action": "halt_and_alert",
+      "message": "无法找到任何规则文件，恢复中止"
+    },
+    "subscription_conflict": {
+      "condition": "subscription_already_exists",
+      "action": "skip_creation",
+      "preserve_existing": true
+    }
+  },
+  "verification": {
+    "post_recovery_checks": [
+      {
+        "name": "rule_count_check",
+        "assert": "rule_count > 0"
+      },
+      {
+        "name": "category_count_check",
+        "assert": "category_count > 0"
+      },
+      {
+        "name": "registry_validity",
+        "assert": "valid_json(registry_file)"
+      },
+      {
+        "name": "subscription_alignment",
+        "assert": "subscription_count == rule_count"
+      }
+    ],
+    "continuous_monitoring": {
+      "enabled": true,
+      "interval": "5m",
+      "check_registry_integrity": true
+    }
+  },
+  "integration": {
+    "dto_pipeline": {
+      "auto_invoke_on_bootstrap": true,
+      "report_recovery_status": true
+    },
+    "isc_core": {
+      "update_rule_index": true,
+      "sync_with_standards": true
+    }
+  },
+  "metadata": {
+    "recovery_capabilities": [
+      "从文件系统重建规则清单",
+      "重新生成规则注册表",
+      "自动创建DTO订阅",
+      "重建触发日志",
+      "验证系统完整性"
+    ],
+    "dependencies": [
+      "文件系统访问权限",
+      "规则目录可读",
+      "写入注册表目录权限"
+    ]
+  },
+  "enforcement_tier": "P1_process"
+}

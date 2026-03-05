@@ -1,0 +1,104 @@
+{
+  "type": "auto-vectorization",
+  "id": "rule.n028-auto-skill-change-vectorization-028",
+  "name": "skill_change_auto_vectorization",
+  "description": "技能变更自动向量化 - 技能增删改合并迭代时，自动识别必要文档并向量化",
+  "domain": "automation",
+  "scope": "skill",
+  "trigger": {
+    "events": [
+      "skill_created",
+      "skill_updated",
+      "skill_merged",
+      "skill_iterated"
+    ],
+    "condition": "skill_has_skill_md OR evaluation_set_exists",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "技能文件变更时自动触发向量化处理，更新知识库索引"
+      }
+    ]
+  },
+  "necessary_documents": [
+    {
+      "type": "SKILL.md",
+      "priority": "P0",
+      "reason": "核心能力描述，必须向量化",
+      "vectorization_depth": "full"
+    },
+    {
+      "type": "evaluation-set",
+      "priority": "P1",
+      "reason": "AEO评测用例，效果运营需要",
+      "vectorization_depth": "full"
+    },
+    {
+      "type": "architecture-design",
+      "priority": "P1",
+      "reason": "架构设计文档，知识检索需要",
+      "vectorization_depth": "summary"
+    },
+    {
+      "type": "implementation-plan",
+      "priority": "P2",
+      "reason": "实现计划，非核心但有用",
+      "vectorization_depth": "summary"
+    }
+  ],
+  "optional_documents": [
+    {
+      "type": "source-code",
+      "priority": "P3",
+      "condition": "code_search_required",
+      "reason": "仅当需要代码语义搜索时才向量化"
+    },
+    {
+      "type": "test-files",
+      "priority": "P3",
+      "reason": "测试文件通常不向量化"
+    },
+    {
+      "type": "logs",
+      "priority": "P4",
+      "reason": "日志不向量化，直接存储"
+    },
+    {
+      "type": "package.json / config",
+      "priority": "P4",
+      "reason": "配置项不向量化"
+    }
+  ],
+  "incremental": {
+    "description": "增量向量化策略",
+    "on_create": "全量向量化必要文档",
+    "on_update": "检测变更文件，仅更新变更",
+    "on_delete": "删除对应向量",
+    "on_merge": "合并后重新向量化"
+  },
+  "deletion_policy": {
+    "description": "技能删除时清理向量",
+    "action": "delete_all_vectors_for_skill",
+    "backup": "archive_before_delete"
+  },
+  "governance": {
+    "auto_execute": true,
+    "priority": "HIGH"
+  },
+  "execution": {
+    "type": "auto_vectorize",
+    "steps": [
+      "scan_necessary_documents",
+      "check_existing_vectors",
+      "incremental_update",
+      "generate_vector_metadata",
+      "update_index"
+    ],
+    "output": {
+      "vector_output_path": "infrastructure/vector-service/vectors/{skill-name}/",
+      "index_update": "infrastructure/vector-service/index.json",
+      "metadata_log": "infrastructure/vector-service/logs/vectorization.log"
+    }
+  },
+  "enforcement_tier": "P1_process"
+}

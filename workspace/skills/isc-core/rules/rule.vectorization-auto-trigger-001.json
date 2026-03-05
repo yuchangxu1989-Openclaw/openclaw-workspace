@@ -184,7 +184,13 @@
         "isc.category.matched"
       ]
     },
-    "condition": "{'type': 'event_pattern', 'match': '{resource_type}.{event_type}', 'resource_type': ['skill', 'memory', 'knowledge', 'aeo'], 'event_type': ['created', 'updated', 'fixed', 'merged', 'deleted']}"
+    "condition": "{'type': 'event_pattern', 'match': '{resource_type}.{event_type}', 'resource_type': ['skill', 'memory', 'knowledge', 'aeo'], 'event_type': ['created', 'updated', 'fixed', 'merged', 'deleted']}",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行resource_lifecycle_auto_vectorization规则检查"
+      }
+    ]
   },
   "enforcement_tier": "P1_process",
   "created_at": "2026-03-05T07:55:00+08:00",

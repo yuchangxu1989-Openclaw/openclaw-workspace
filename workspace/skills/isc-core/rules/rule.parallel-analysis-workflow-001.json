@@ -6,7 +6,15 @@
   "description": "并行分析工作流 - 同时执行多个分析任务提高效率",
   "trigger": {
     "type": "event",
-    "events": ["cras.general.requested"]
+    "events": [
+      "cras.general.requested"
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行parallel_analysis_workflow规则检查"
+      }
+    ]
   },
   "orchestration": {
     "parallel": true,
