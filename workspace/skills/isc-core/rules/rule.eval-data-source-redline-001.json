@@ -30,5 +30,9 @@
     "user_quote": "评测必须用真实场景，要么从跟我的对话中，要么从网络搜索。"
   },
   "enforcement_tier": "P0_gate",
-  "created_at": "2026-03-06T00:28:00+08:00"
+  "created_at": "2026-03-06T00:28:00+08:00",
+  "action": {
+    "type": "check",
+    "handler": "handlers/eval-quality-check.js"
+  }
 }

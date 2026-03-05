@@ -33,5 +33,9 @@
       }
     ]
   },
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "action": {
+    "type": "check",
+    "handler": "handlers/document-structure-check.js"
+  }
 }

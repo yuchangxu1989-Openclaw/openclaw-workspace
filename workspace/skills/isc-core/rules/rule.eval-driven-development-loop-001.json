@@ -110,5 +110,9 @@
   "version": "001",
   "created": "2026-03-05",
   "created_by": "战略家",
-  "source": "长煦指导 - 评测驱动开发闭环准则"
+  "source": "长煦指导 - 评测驱动开发闭环准则",
+  "action": {
+    "type": "check",
+    "handler": "handlers/eval-quality-check.js"
+  }
 }

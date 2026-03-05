@@ -123,5 +123,9 @@
   "created_at": "2026-02-26T01:05:00Z",
   "version": "1.0.0",
   "status": "proposed",
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "check",
+    "handler": "handlers/document-structure-check.js"
+  }
 }

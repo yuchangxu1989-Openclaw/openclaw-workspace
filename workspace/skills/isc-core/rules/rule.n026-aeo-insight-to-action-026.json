@@ -63,5 +63,9 @@
     "priority": "HIGH",
     "council_required": "for_long_term_actions"
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "check",
+    "handler": "handlers/eval-quality-check.js"
+  }
 }

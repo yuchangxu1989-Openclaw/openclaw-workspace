@@ -20,5 +20,9 @@
     "auto_rerun": "数据集变更后自动重跑benchmark并输出对比报告"
   },
   "rationale": "用户原话：'你的评测集，只搞单轮对话？' IC4/IC5脱离上下文根本无法判断意图。",
-  "created_at": "2026-03-06T00:58:00+08:00"
+  "created_at": "2026-03-06T00:58:00+08:00",
+  "action": {
+    "type": "check",
+    "handler": "handlers/eval-quality-check.js"
+  }
 }

@@ -32,5 +32,9 @@
       "pipeline_samples": "tests/collection/pending/",
       "regression_samples": "tests/regression/"
     }
+  },
+  "action": {
+    "type": "check",
+    "handler": "handlers/eval-quality-check.js"
   }
 }

@@ -6,8 +6,14 @@
   "priority": "P1",
   "category": "skill-governance",
   "trigger": {
-    "events": ["skill.lifecycle.created", "skill.lifecycle.modified"],
-    "actions": ["skill.classification.auto_detect", "skill.metadata.update_distribution"]
+    "events": [
+      "skill.lifecycle.created",
+      "skill.lifecycle.modified"
+    ],
+    "actions": [
+      "skill.classification.auto_detect",
+      "skill.metadata.update_distribution"
+    ]
   },
   "conditions": {
     "local_indicators": [
@@ -20,9 +26,8 @@
     "publishable_conditions": "所有local_indicators均不命中 + SKILL.md有完整的接口描述"
   },
   "action": {
-    "handler": "scripts/classify-skill-distribution.js",
-    "on_publishable": "emit skill.publishable.ready → 可进入EvoMap发布流水线",
-    "on_local": "标记distribution=local，不进入发布流水线"
+    "type": "check",
+    "handler": "handlers/document-structure-check.js"
   },
   "rationale": "用户原话：'需要区分，但只有记忆不够，需要通过事件来识别和区分'",
   "created_at": "2026-03-06T01:46:00+08:00"

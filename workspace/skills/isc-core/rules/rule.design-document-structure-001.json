@@ -69,5 +69,9 @@
   "priority": "P1",
   "enforcement_tier": "P1_process",
   "created_at": "2026-03-05",
-  "source": "用户教学：设计文档结构7项标准"
+  "source": "用户教学：设计文档结构7项标准",
+  "action": {
+    "type": "check",
+    "handler": "handlers/document-structure-check.js"
+  }
 }

@@ -38,5 +38,9 @@
       }
     ]
   },
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "action": {
+    "type": "check",
+    "handler": "handlers/eval-quality-check.js"
+  }
 }
