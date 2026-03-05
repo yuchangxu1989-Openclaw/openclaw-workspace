@@ -156,60 +156,29 @@ ${r2Summary}
 【综合评分】X/10`;
 }
 
-// ─── LLM Client ─────────────────────────────────────────────────────
+// ─── LLM Client (via llm-context injection layer) ──────────────────
 
-// 通用技能不预设任何模型/Provider，调用方必须显式传入
-const DEFAULT_BASE_URL = null;
-const DEFAULT_MODEL    = null;
+const path = require('path');
+const llmContext = require(path.join(__dirname, '../../infrastructure/llm-context'));
 
 /**
- * Call an OpenAI-compatible chat completion endpoint.
+ * Call LLM via the standard context injection layer.
+ * Supports legacy opts for backward compatibility, but routes through llm-context.
  * @param {string} prompt  — user message
- * @param {object} opts    — { baseUrl, apiKey, model, timeout }
+ * @param {object} opts    — { timeout } (legacy: baseUrl/apiKey/model ignored, routed automatically)
  * @returns {string} assistant reply text
  */
 async function callLLM(prompt, opts = {}) {
-  const baseUrl = (opts.baseUrl || DEFAULT_BASE_URL).replace(/\/+$/, '');
-  const apiKey  = opts.apiKey;
-  const model   = opts.model || DEFAULT_MODEL;
   const timeout = opts.timeout || 120_000;
-
-  if (!apiKey) throw new Error('LLM API key is required (pass apiKey or set LLM_API_KEY)');
-
-  const url = `${baseUrl}/chat/completions`;
-  const body = JSON.stringify({
-    model,
-    messages: [{ role: 'user', content: prompt }],
-    temperature: 0.7,
-    max_tokens: 2048,
-  });
-
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeout);
-
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body,
-      signal: controller.signal,
-    });
-
-    if (!res.ok) {
-      const text = await res.text().catch(() => '');
-      throw new Error(`LLM API ${res.status}: ${text.slice(0, 200)}`);
-    }
-
-    const json = await res.json();
-    const content = json.choices?.[0]?.message?.content;
-    if (!content) throw new Error('Empty response from LLM');
-    return content;
-  } finally {
-    clearTimeout(timer);
+  // If _callLLM override is present (for testing), use it directly
+  if (opts._callLLM) {
+    return opts._callLLM(prompt, opts);
   }
+  const result = await llmContext.chat(
+    [{ role: 'user', content: prompt }],
+    { capability: 'chat', priority: 'cost', timeout }
+  );
+  return result.content;
 }
 
 // ─── Core Engine ────────────────────────────────────────────────────
@@ -232,12 +201,6 @@ async function callLLM(prompt, opts = {}) {
 async function convene(topic, context, options = {}) {
   const startTime = Date.now();
   const mode      = String(options.mode || '7');
-  const model     = options.model   || process.env.LLM_MODEL;
-  const apiKey    = options.apiKey   || process.env.LLM_API_KEY;
-  const baseUrl   = options.baseUrl  || process.env.LLM_BASE_URL;
-
-  if (!model)   throw new Error('LLM model is required (pass options.model or set LLM_MODEL)');
-  if (!baseUrl) throw new Error('LLM base URL is required (pass options.baseUrl or set LLM_BASE_URL)');
   const parallel  = options.parallel !== false;
   const timeout   = options.timeout  || 120_000;
   const llmCall   = options._callLLM || callLLM;
@@ -245,7 +208,7 @@ async function convene(topic, context, options = {}) {
   if (!topic) throw new Error('Topic is required');
 
   const seats = getSeatsForMode(mode);
-  const llmOpts = { baseUrl, apiKey, model, timeout };
+  const llmOpts = { timeout, _callLLM: options._callLLM };
 
   // ── Round 1: Independent deliberation ──
   const round1Tasks = seats.map(seat => {
@@ -329,7 +292,6 @@ async function convene(topic, context, options = {}) {
       round3,
     },
     duration_ms: Date.now() - startTime,
-    model,
   };
 }
 
