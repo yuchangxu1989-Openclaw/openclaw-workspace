@@ -670,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772734812296,
+      "updatedAtMs": 1772736907161,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -688,15 +688,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772735100000,
-        "lastRunAtMs": 1772734800006,
+        "nextRunAtMs": 1772737200000,
+        "lastRunAtMs": 1772736900007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 12290,
+        "lastDurationMs": 7154,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772735100005
+        "lastDelivered": false
       }
     },
     {
@@ -705,7 +704,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772734525186,
+      "updatedAtMs": 1772736316038,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -723,11 +722,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772735400000,
-        "lastRunAtMs": 1772734506814,
+        "nextRunAtMs": 1772737200000,
+        "lastRunAtMs": 1772736306014,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 18372,
+        "lastDurationMs": 10024,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -808,7 +807,7 @@
       "name": "event-dispatch-runner",
       "enabled": true,
       "createdAtMs": 1772735091190,
-      "updatedAtMs": 1772735091190,
+      "updatedAtMs": 1772736913507,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -825,7 +824,16 @@
       "delivery": {
         "mode": "none"
       },
-      "state": {}
+      "state": {
+        "nextRunAtMs": 1772737200000,
+        "lastRunAtMs": 1772736907161,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 6346,
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0
+      }
     }
   ]
 }

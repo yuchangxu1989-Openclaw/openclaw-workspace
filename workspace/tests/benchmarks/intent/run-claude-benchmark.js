@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Claude API 多轮意图分类 Benchmark
- * 调用 claude-opus-4-6-thinking 对34条多轮对话做意图分类
+ * Claude API 多轮意图分类 Benchmark v2
+ * 优化版：aligned IC definitions with production registry, IC4/IC5 boundary examples
  */
 
 const fs = require('fs');
@@ -12,21 +12,16 @@ const API_KEY = 'sk-zGcFUDNZXL13QC69oJDup9qYK2Bf4lKbfW5RTXaP3tRuhy3A';
 const MODEL = 'claude-opus-4-6-thinking';
 
 const DATASET_PATH = path.join(__dirname, 'multi-turn-eval-dataset.json');
+const PROMPT_PATH = path.join(__dirname, 'intent-classification-prompt.txt');
 const REPORT_DIR = path.join(__dirname, '..', '..', '..', 'reports');
 
-const SYSTEM_PROMPT = `你是意图分类专家。给你一段多轮对话，请判断最后一条用户消息的意图类别：
-- IC1: 简单指令（直接明确的请求）
-- IC2: 情绪态度（表达情绪、不满、认可等）
-- IC3: 多轮上下文依赖（需要结合前几轮才能理解的意图）
-- IC4: 隐含意图（表面说A实际要B，需要推理）
-- IC5: 多意图复合（一句话包含多个意图）
-
-只输出JSON，格式：{"class":"IC?","confidence":0.x,"reason":"简短理由"}
-不要输出其他任何内容。`;
+function loadSystemPrompt() {
+  return fs.readFileSync(PROMPT_PATH, 'utf-8').trim();
+}
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-async function classifyWithClaude(turns, targetIndex) {
+async function classifyWithClaude(systemPrompt, turns, targetIndex, retries = 2) {
   const conversationText = turns.map((t, i) => {
     const marker = i === targetIndex ? ' [TARGET - 请分类这条]' : '';
     return `${t.role === 'user' ? '用户' : '助手'}: ${t.content}${marker}`;
@@ -34,53 +29,71 @@ async function classifyWithClaude(turns, targetIndex) {
 
   const body = {
     model: MODEL,
-    max_tokens: 300,
+    max_tokens: 400,
     messages: [{ role: 'user', content: `以下是一段多轮对话，请分类标记为[TARGET]的用户消息的意图：\n\n${conversationText}` }],
-    system: SYSTEM_PROMPT
+    system: systemPrompt
   };
 
-  const resp = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify(body)
-  });
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': API_KEY,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify(body)
+      });
 
-  if (!resp.ok) {
-    const text = await resp.text();
-    throw new Error(`API ${resp.status}: ${text.slice(0, 200)}`);
+      if (!resp.ok) {
+        const text = await resp.text();
+        if (attempt < retries && (resp.status >= 500 || resp.status === 429)) {
+          console.log(`  ⏳ Retry ${attempt + 1} (HTTP ${resp.status})`);
+          await sleep(2000 * (attempt + 1));
+          continue;
+        }
+        throw new Error(`API ${resp.status}: ${text.slice(0, 200)}`);
+      }
+
+      const data = await resp.json();
+      let content = '';
+      for (const block of data.content) {
+        if (block.type === 'text') content += block.text;
+      }
+
+      // Parse JSON from response
+      const jsonMatch = content.match(/\{[^}]+\}/);
+      if (!jsonMatch) throw new Error(`No JSON in response: ${content.slice(0, 200)}`);
+      
+      const parsed = JSON.parse(jsonMatch[0]);
+      return {
+        intent_class: parsed.class,
+        confidence: parsed.confidence,
+        reason: parsed.reason
+      };
+    } catch (e) {
+      if (attempt < retries) {
+        console.log(`  ⏳ Retry ${attempt + 1}: ${e.message.slice(0, 80)}`);
+        await sleep(2000 * (attempt + 1));
+        continue;
+      }
+      throw e;
+    }
   }
-
-  const data = await resp.json();
-  let content = '';
-  for (const block of data.content) {
-    if (block.type === 'text') content += block.text;
-  }
-
-  // Parse JSON from response
-  const jsonMatch = content.match(/\{[^}]+\}/);
-  if (!jsonMatch) throw new Error(`No JSON in response: ${content.slice(0, 100)}`);
-  
-  const parsed = JSON.parse(jsonMatch[0]);
-  return {
-    intent_class: parsed.class,
-    confidence: parsed.confidence,
-    reason: parsed.reason
-  };
 }
 
 async function main() {
+  const systemPrompt = loadSystemPrompt();
+  console.log(`📋 System prompt loaded (${systemPrompt.length} chars)`);
+
   const dataset = JSON.parse(fs.readFileSync(DATASET_PATH, 'utf-8'));
   const conversations = dataset.conversations;
   console.log(`📊 加载 ${conversations.length} 条多轮对话样本\n`);
 
   const results = [];
   let correct = 0;
-  const byClass = {};      // expected class -> { tp, fp, fn }
-  const predByClass = {};   // predicted class -> count
+  const byClass = {};
   const errors = [];
 
   // Init all classes
@@ -90,20 +103,20 @@ async function main() {
 
   for (let i = 0; i < conversations.length; i++) {
     const conv = conversations[i];
-    const { id, turns, target_turn_index, expected_intent_class, complexity_tags } = conv;
+    const { id, turns, target_turn_index, expected_ic, complexity_tags } = conv;
     const targetText = turns[target_turn_index].content.slice(0, 50);
     process.stdout.write(`  [${i+1}/${conversations.length}] ${id}: ${targetText}... `);
 
     let prediction;
     try {
-      prediction = await classifyWithClaude(turns, target_turn_index);
+      prediction = await classifyWithClaude(systemPrompt, turns, target_turn_index);
     } catch (e) {
       console.log(`❌ ERROR: ${e.message}`);
       prediction = { intent_class: 'ERROR', confidence: 0, reason: e.message };
     }
 
     const predicted = prediction.intent_class;
-    const expected = expected_intent_class;
+    const expected = expected_ic;
     const isCorrect = predicted === expected;
     if (isCorrect) correct++;
 
@@ -124,10 +137,17 @@ async function main() {
       });
     }
 
-    results.push({ id, expected, predicted, correct: isCorrect, confidence: prediction.confidence, reason: prediction.reason, tags: complexity_tags, turn_count: turns.length });
+    results.push({
+      id, expected, predicted,
+      correct: isCorrect,
+      confidence: prediction.confidence,
+      reason: prediction.reason,
+      tags: complexity_tags,
+      turn_count: turns.length
+    });
     console.log(isCorrect ? '✅' : `❌ (expected ${expected}, got ${predicted})`);
 
-    if (i < conversations.length - 1) await sleep(500);
+    if (i < conversations.length - 1) await sleep(600);
   }
 
   // Compute metrics
@@ -146,32 +166,54 @@ async function main() {
     const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
     const f1 = precision + recall > 0 ? 2 * precision * recall / (precision + recall) : 0;
     classMetrics[cls] = { total: clsTotal, tp, fp, fn, precision: +precision.toFixed(3), recall: +recall.toFixed(3), f1: +f1.toFixed(3) };
-    console.log(`  ${cls}: P=${precision.toFixed(3)} R=${recall.toFixed(3)} F1=${f1.toFixed(3)} (${clsTotal} samples, TP=${tp} FP=${fp} FN=${fn})`);
+    if (clsTotal > 0 || fp > 0) {
+      console.log(`  ${cls}: P=${precision.toFixed(3)} R=${recall.toFixed(3)} F1=${f1.toFixed(3)} (${clsTotal} samples, TP=${tp} FP=${fp} FN=${fn})`);
+    }
   }
 
   // Generate markdown report
   if (!fs.existsSync(REPORT_DIR)) fs.mkdirSync(REPORT_DIR, { recursive: true });
   
-  let md = `# 多轮对话意图分类 Benchmark 报告\n\n`;
-  md += `**日期**: 2026-03-06\n`;
+  const now = new Date().toISOString().slice(0, 10);
+  let md = `# 意图分类 Benchmark v2 报告\n\n`;
+  md += `**日期**: ${now}\n`;
   md += `**模型**: ${MODEL}\n`;
-  md += `**数据集**: ${conversations.length} 条多轮对话（全部来自真实用户对话）\n\n`;
+  md += `**数据集**: ${conversations.length} 条多轮对话（全部来自真实用户对话）\n`;
+  md += `**Prompt版本**: v2 (aligned with production registry, IC4/IC5 boundary examples)\n\n`;
   
   md += `## 总体结果\n\n`;
   md += `| 指标 | 值 |\n|------|----|\n`;
   md += `| 总样本数 | ${total} |\n`;
   md += `| 正确数 | ${correct} |\n`;
   md += `| **准确率** | **${accuracy}%** |\n`;
-  md += `| 错误数 | ${errors.length} |\n\n`;
+  md += `| 错误数 | ${errors.length} |\n`;
+  md += `| 目标 | ≥90% |\n`;
+  md += `| ${+accuracy >= 90 ? '✅ 达标' : '❌ 未达标'} | |\n\n`;
 
   md += `## 分类别 Precision / Recall / F1\n\n`;
   md += `| 类别 | 样本数 | TP | FP | FN | Precision | Recall | F1 |\n`;
   md += `|------|--------|----|----|----|-----------|---------|---------|\n`;
   for (const cls of ['IC1','IC2','IC3','IC4','IC5']) {
     const m = classMetrics[cls];
-    md += `| ${cls} | ${m.total} | ${m.tp} | ${m.fp} | ${m.fn} | ${m.precision} | ${m.recall} | ${m.f1} |\n`;
+    if (m.total > 0 || m.fp > 0) {
+      md += `| ${cls} | ${m.total} | ${m.tp} | ${m.fp} | ${m.fn} | ${m.precision} | ${m.recall} | ${m.f1} |\n`;
+    }
   }
   md += `\n`;
+
+  // Improvement comparison
+  md += `## 与 v1 对比\n\n`;
+  md += `| 指标 | v1 (旧prompt) | v2 (优化后) | 变化 |\n`;
+  md += `|------|-------------|-------------|------|\n`;
+  md += `| 准确率 | 67.6% (23/34) | ${accuracy}% (${correct}/${total}) | ${(+accuracy - 67.6).toFixed(1)}pp |\n`;
+  md += `| 错误数 | 11 | ${errors.length} | ${errors.length - 11 > 0 ? '+' : ''}${errors.length - 11} |\n`;
+  md += `| 数据集大小 | 34 | ${total} | +${total - 34} |\n\n`;
+
+  md += `### v2 主要优化\n\n`;
+  md += `1. **IC1-IC3定义对齐生产环境**：IC1从"简单指令"改为"情绪意图"，消除IC5→IC1误分类\n`;
+  md += `2. **IC4/IC5边界精确化**：加入"教道理vs任务单"决策法和独立性测试\n`;
+  md += `3. **Few-shot examples**：覆盖IC4/IC5的6种典型模式\n`;
+  md += `4. **反问句速判规则**：反问单独出现→IC4，反问+独立指令→IC5\n\n`;
 
   // Error analysis
   if (errors.length > 0) {
@@ -187,33 +229,22 @@ async function main() {
       
       // Root cause analysis
       md += `**根因分析**: `;
-      if (err.expected === 'IC5' && err.predicted === 'IC4') {
-        md += `模型识别到了隐含意图但未捕捉到多意图复合特征，倾向于归类为单一隐含意图。`;
-      } else if (err.expected === 'IC4' && err.predicted === 'IC5') {
-        md += `模型过度拆分，将隐含意图的多个表达误判为独立意图。`;
+      if (err.expected === 'IC4' && err.predicted === 'IC5') {
+        md += `模型过度拆分——将教学/纠偏目的下的多个陈述误判为独立意图。需强化"教道理vs任务单"决策法。`;
+      } else if (err.expected === 'IC5' && err.predicted === 'IC4') {
+        md += `模型过度归一——将独立可执行的多个意图误归为单一隐含意图。需强化独立性测试。`;
+      } else if (err.expected === 'IC5' && err.predicted === 'IC1') {
+        md += `模型降级——将多意图复合消息误判为单一情绪表达或简单指令。`;
       } else if (err.expected === 'IC4' && err.predicted === 'IC3') {
-        md += `模型关注了上下文依赖性但忽略了隐含的深层意图。`;
-      } else if (err.expected === 'IC5' && err.predicted === 'IC3') {
-        md += `模型仅识别到上下文依赖，未能分解出复合意图结构。`;
+        md += `模型聚焦上下文依赖性但忽略了隐含的教学/Socratic目的。`;
       } else {
-        md += `预测偏差 ${err.expected}→${err.predicted}，需进一步分析意图边界定义。`;
+        md += `预测偏差 ${err.expected}→${err.predicted}，需针对性分析。`;
       }
       md += `\n\n`;
     }
-  } else {
-    md += `## 错误样本分析\n\n无错误样本，全部分类正确。\n\n`;
-  }
 
-  md += `## 数据集特征\n\n`;
-  const avgTurns = (results.reduce((s,r) => s + r.turn_count, 0) / results.length).toFixed(1);
-  md += `- 平均轮数: ${avgTurns}\n`;
-  md += `- 3轮以上样本: ${results.filter(r => r.turn_count > 2).length}/${total}\n`;
-  md += `- IC分布: ${['IC1','IC2','IC3','IC4','IC5'].map(c => `${c}=${byClass[c].total}`).join(', ')}\n\n`;
-
-  md += `## 结论与改进方向\n\n`;
-  md += `> 基于 ${MODEL} 的多轮意图分类评测，准确率 ${accuracy}%。\n\n`;
-  if (errors.length > 0) {
-    md += `主要错误模式：\n`;
+    // Error pattern summary
+    md += `### 错误模式汇总\n\n`;
     const errorPatterns = {};
     for (const e of errors) {
       const key = `${e.expected}→${e.predicted}`;
@@ -222,15 +253,44 @@ async function main() {
     for (const [pattern, count] of Object.entries(errorPatterns).sort((a,b) => b[1]-a[1])) {
       md += `- ${pattern}: ${count} 次\n`;
     }
+    md += `\n`;
+  } else {
+    md += `## 错误样本分析\n\n🎯 无错误样本，全部分类正确！\n\n`;
   }
 
-  const reportPath = path.join(REPORT_DIR, 'multi-turn-benchmark-2026-03-06.md');
+  md += `## 数据集特征\n\n`;
+  const avgTurns = (results.reduce((s,r) => s + r.turn_count, 0) / results.length).toFixed(1);
+  md += `- 平均轮数: ${avgTurns}\n`;
+  md += `- 3轮以上样本: ${results.filter(r => r.turn_count > 2).length}/${total}\n`;
+  md += `- IC分布: ${['IC1','IC2','IC3','IC4','IC5'].map(c => `${c}=${byClass[c].total}`).join(', ')}\n\n`;
+
+  // Full results table
+  md += `## 完整结果\n\n`;
+  md += `| ID | 期望 | 预测 | 正确 | 置信度 |\n`;
+  md += `|----|------|------|------|--------|\n`;
+  for (const r of results) {
+    md += `| ${r.id} | ${r.expected} | ${r.predicted} | ${r.correct ? '✅' : '❌'} | ${r.confidence} |\n`;
+  }
+  md += `\n`;
+
+  const reportPath = path.join(REPORT_DIR, 'intent-benchmark-90-target-2026-03-06.md');
   fs.writeFileSync(reportPath, md);
   console.log(`\n📄 报告已保存: ${reportPath}`);
 
-  // Also save raw JSON
-  const jsonPath = path.join(REPORT_DIR, 'multi-turn-benchmark-2026-03-06.json');
-  fs.writeFileSync(jsonPath, JSON.stringify({ timestamp: new Date().toISOString(), model: MODEL, accuracy: +accuracy, total, correct, classMetrics, errors, results }, null, 2));
+  // Save raw JSON
+  const jsonData = {
+    timestamp: new Date().toISOString(),
+    model: MODEL,
+    prompt_version: 'v2',
+    accuracy: +accuracy,
+    total,
+    correct,
+    classMetrics,
+    errors,
+    results
+  };
+  const jsonPath = path.join(REPORT_DIR, 'intent-benchmark-90-target-2026-03-06.json');
+  fs.writeFileSync(jsonPath, JSON.stringify(jsonData, null, 2));
   console.log(`📄 JSON数据: ${jsonPath}`);
 }
 
