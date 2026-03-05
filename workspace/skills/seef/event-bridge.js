@@ -19,7 +19,7 @@
 const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
-const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus.js'));
+const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus-adapter'));
 
 const CONSUMER_ID = 'seef';
 const SEEF_DIR = __dirname;

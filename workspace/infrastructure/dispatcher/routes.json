@@ -126,5 +126,33 @@
     "handler": "analysis-handler",
     "priority": "normal",
     "description": "Typed file changes (code/config/log/data) — category-specific routing"
+  },
+  "dto-sync": {
+    "handler": "skill-dto-handler",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[alias] dto-sync → skill-dto-handler: ISC rule changes trigger DTO alignment sync",
+    "_alias_for": "skill-dto-handler"
+  },
+  "seef-optimize": {
+    "handler": "skill-cras-handler",
+    "agent": "researcher",
+    "priority": "normal",
+    "description": "[alias] seef-optimize → skill-cras-handler: SEEF optimization results fed to CRAS",
+    "_alias_for": "skill-cras-handler"
+  },
+  "cras-ingest": {
+    "handler": "skill-cras-handler",
+    "agent": "researcher",
+    "priority": "normal",
+    "description": "[alias] cras-ingest → skill-cras-handler: CRAS knowledge ingestion",
+    "_alias_for": "skill-cras-handler"
+  },
+  "isc-feedback": {
+    "handler": "skill-isc-handler",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[alias] isc-feedback → skill-isc-handler: ISC feedback loop closure",
+    "_alias_for": "skill-isc-handler"
   }
 }

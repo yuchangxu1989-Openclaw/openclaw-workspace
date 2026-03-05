@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus.js'));
+const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus-adapter'));
 
 /**
  * AEO 事件桥接

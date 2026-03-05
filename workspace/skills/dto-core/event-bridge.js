@@ -4,7 +4,7 @@
  */
 const path = require('path');
 const fs = require('fs');
-const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus.js'));
+const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus-adapter'));
 
 const CONSUMER_ID = 'dto-core';
 

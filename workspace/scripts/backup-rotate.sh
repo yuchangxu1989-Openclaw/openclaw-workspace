@@ -44,4 +44,11 @@ ls -lht "${BACKUP_BASE}/" | head -20
 
 echo ""
 echo "💾 总备份大小: $(du -sh "${BACKUP_BASE}" | cut -f1)"
-echo "✅ 备份完成，保留最近 ${KEEP_DAYS} 天"
+
+# 推送到远程
+echo ""
+echo "🚀 推送到远程..."
+cd "${REPO_DIR}"
+git add -A && git commit --no-verify -m "backup: auto-backup ${DATE}" 2>/dev/null
+git push origin main 2>&1 | tail -3
+echo "✅ 备份完成，本地+远程，保留最近 ${KEEP_DAYS} 天"
