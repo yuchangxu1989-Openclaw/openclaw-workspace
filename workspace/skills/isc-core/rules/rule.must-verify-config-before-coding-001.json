@@ -1,0 +1,17 @@
+{
+  "id": "rule.must-verify-config-before-coding-001",
+  "name": "编码前必须查配置",
+  "description": "在代码中引用任何外部服务（API地址、模型名、Key）时，必须先读取实际配置文件确认，不允许凭记忆或推测填写。违反此规则=数据不诚实。",
+  "version": "1.0.0",
+  "priority": "P0",
+  "category": "engineering",
+  "trigger": {
+    "events": ["code.module.created", "code.module.modified"],
+    "actions": ["quality.code.config_reference_check"]
+  },
+  "conditions": {
+    "check": "代码中出现API URL、model名称、API key引用时，必须有对应的配置文件读取逻辑，不允许hardcode字符串"
+  },
+  "rationale": "用户原话：'你简直胡闹！boom只提供了codex模型！' — Opus 4-6犯低级错误是因为不查配置就凭记忆写代码",
+  "created_at": "2026-03-06T01:21:00+08:00"
+}
