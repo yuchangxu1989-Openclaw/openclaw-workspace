@@ -37,7 +37,7 @@
   },
   "trigger": {
     "events": ["isc.rule.created"],
-    "actions": ["isc.rule.auto_decompose", "dto.task.auto_bind"]
+    "actions": ["isc.rule.triggered", "dto.task.triggered"]
   },
   "priority": "P0",
   "enforcement_tier": "P0_block",

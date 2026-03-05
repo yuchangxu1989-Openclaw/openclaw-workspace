@@ -170,8 +170,8 @@
   "updatePolicy": "auto_sync",
   "trigger": {
     "events": [
-      "isc:rule:matched",
-      "isc:category:general"
+      "isc.rule.matched",
+      "isc.category.matched"
     ],
     "actions": [
       {

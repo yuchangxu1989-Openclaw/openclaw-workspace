@@ -6,8 +6,8 @@
     "description": "事件分5层：L1对象生命周期（创建/修改/删除）、L2量化阈值（计数器越过阈值）、L3语义意图（对话流中的意图信号，CRAS快通道5min捕获）、L4知识发现（学术/公网学习发现增量价值→触发本地适配）、L5系统性模式（反复失败/修补同类问题→触发根因分析重构）。还有元事件：自驱进化。",
     "category": "event-bus",
     "trigger": {
-        "events": ["event.registered", "event.emitted"],
-        "actions": ["event.layer_classification_check"]
+        "events": ["event.general.created", "event.general.emitted"],
+        "actions": ["event.general.layer_classification_check"]
     },
     "conditions": {
         "layers": {

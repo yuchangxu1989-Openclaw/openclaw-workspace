@@ -8,9 +8,9 @@
     "condition": "core_system_changed",
     "trigger": {
         "events": [
-            "file.changed",
-            "git.commit.created",
-            "workspace.file.modified"
+            "system.general.modified",
+            "system.commit.created",
+            "system.file.modified"
         ],
         "actions": [
             {

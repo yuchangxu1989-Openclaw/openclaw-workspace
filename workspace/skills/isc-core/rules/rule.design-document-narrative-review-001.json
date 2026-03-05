@@ -36,7 +36,7 @@
     ]
   },
   "trigger": {
-    "events": ["document.design.pdf_generated"],
+    "events": ["document.design.created"],
     "actions": ["quality.document.narrative_review"]
   },
   "priority": "P1",

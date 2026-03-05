@@ -6,7 +6,7 @@
   "priority": "P0",
   "category": "meta-governance",
   "trigger": {
-    "events": ["knowledge.learned", "user.teaching.received", "system.error.lesson_extracted"],
+    "events": ["knowledge.general.created", "user.teaching.received", "system.error.lesson_extracted"],
     "actions": ["knowledge.executable.create_rule", "knowledge.executable.create_skill", "knowledge.executable.update_code"]
   },
   "conditions": {

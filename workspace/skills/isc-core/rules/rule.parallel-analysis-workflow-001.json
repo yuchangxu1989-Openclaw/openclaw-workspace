@@ -6,7 +6,7 @@
   "description": "并行分析工作流 - 同时执行多个分析任务提高效率",
   "trigger": {
     "type": "event",
-    "events": ["analysis.requested"]
+    "events": ["cras.general.requested"]
   },
   "orchestration": {
     "parallel": true,

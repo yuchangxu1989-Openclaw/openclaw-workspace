@@ -20,8 +20,8 @@
   "auto_trigger": {
     "enabled": true,
     "on_events": [
-      "skill.created",
-      "skill.updated"
+      "skill.general.created",
+      "skill.general.updated"
     ],
     "action": "auto_vectorize",
     "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh"
@@ -35,8 +35,8 @@
   "updated_at": "2026-02-28T23:30:00+08:00",
   "trigger": {
     "events": [
-      "isc:rule:matched",
-      "isc:category:vectorization"
+      "isc.rule.matched",
+      "isc.category.matched"
     ],
     "actions": [
       {

@@ -38,8 +38,8 @@
         ],
         "logic": "OR",
         "events": [
-            "session.started",
-            "agent.memory.loss_detected",
+            "session.general.started",
+            "system.memory.loss_detected",
             "session.context.incomplete"
         ],
         "actions": [

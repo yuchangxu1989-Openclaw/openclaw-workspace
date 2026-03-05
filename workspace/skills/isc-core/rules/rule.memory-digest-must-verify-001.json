@@ -6,8 +6,8 @@
     "description": "消化任何历史信息后必须核实磁盘文件实际存在。流程：记录→核实文件→补缺→commit。不能只写memory不查磁盘。",
     "category": "meta-governance",
     "trigger": {
-        "events": ["memory.updated", "knowledge.learned"],
-        "actions": ["verification.disk_check"]
+        "events": ["knowledge.general.updated", "knowledge.general.created"],
+        "actions": ["quality.general.disk_check"]
     },
     "conditions": {
         "workflow": ["record", "verify_file_exists", "fill_gaps", "git_commit"],

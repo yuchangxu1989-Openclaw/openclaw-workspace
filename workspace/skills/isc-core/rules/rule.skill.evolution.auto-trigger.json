@@ -7,9 +7,9 @@
     "trigger": {
         "type": "event",
         "sources": [
-            "skill.changed",
-            "skill.created",
-            "skill.published"
+            "skill.general.modified",
+            "skill.general.created",
+            "skill.general.published"
         ],
         "events": [
             "skill.usage.pattern_detected",
@@ -33,7 +33,7 @@
         ]
     },
     "action": {
-        "type": "pipeline.trigger",
+        "type": "orchestration.general.trigger",
         "target": "seef.evolution-pipeline",
         "parameters": {
             "immediate": false,

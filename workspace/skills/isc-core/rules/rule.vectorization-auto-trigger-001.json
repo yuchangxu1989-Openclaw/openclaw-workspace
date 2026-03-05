@@ -28,21 +28,21 @@
   "event_pattern_match": {
     "description": "通配匹配：{resource_type}.{event_type}，resource_type和event_type取自parameters",
     "patterns": [
-      "skill.created",
-      "skill.updated",
-      "skill.fixed",
-      "skill.merged",
-      "skill.deleted",
-      "memory.created",
-      "memory.updated",
-      "memory.fixed",
-      "memory.merged",
-      "memory.deleted",
-      "knowledge.created",
-      "knowledge.updated",
-      "knowledge.fixed",
-      "knowledge.merged",
-      "knowledge.deleted",
+      "skill.general.created",
+      "skill.general.updated",
+      "skill.general.modified",
+      "skill.general.completed",
+      "skill.general.deleted",
+      "knowledge.general.created",
+      "knowledge.general.updated",
+      "knowledge.general.modified",
+      "knowledge.general.completed",
+      "knowledge.general.deleted",
+      "knowledge.general.created",
+      "knowledge.general.updated",
+      "knowledge.general.modified",
+      "knowledge.general.completed",
+      "knowledge.general.deleted",
       "aeo.evaluation_set.created",
       "aeo.evaluation_set.updated"
     ],
@@ -124,17 +124,17 @@
   "auto_trigger": {
     "enabled": true,
     "on_events": [
-      "skill.created",
-      "skill.updated",
-      "skill.fixed",
-      "skill.merged",
-      "skill.deleted",
-      "memory.created",
-      "memory.updated",
-      "memory.deleted",
-      "knowledge.created",
-      "knowledge.updated",
-      "knowledge.deleted",
+      "skill.general.created",
+      "skill.general.updated",
+      "skill.general.modified",
+      "skill.general.completed",
+      "skill.general.deleted",
+      "knowledge.general.created",
+      "knowledge.general.updated",
+      "knowledge.general.deleted",
+      "knowledge.general.created",
+      "knowledge.general.updated",
+      "knowledge.general.deleted",
       "aeo.evaluation_set.created",
       "aeo.evaluation_set.updated"
     ],
@@ -180,8 +180,8 @@
   "trigger": {
     "events": {
       "L1": [
-        "isc:rule:matched",
-        "isc:category:vectorization"
+        "isc.rule.matched",
+        "isc.category.matched"
       ]
     },
     "condition": "{'type': 'event_pattern', 'match': '{resource_type}.{event_type}', 'resource_type': ['skill', 'memory', 'knowledge', 'aeo'], 'event_type': ['created', 'updated', 'fixed', 'merged', 'deleted']}"

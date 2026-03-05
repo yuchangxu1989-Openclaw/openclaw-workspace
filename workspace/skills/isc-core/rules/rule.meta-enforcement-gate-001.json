@@ -50,9 +50,9 @@
   },
   "trigger": {
     "events": [
-      "rule.created",
-      "rule.updated",
-      "delivery.review_requested"
+      "isc.general.created",
+      "isc.general.updated",
+      "orchestration.general.review_requested"
     ],
     "actions": [
       {

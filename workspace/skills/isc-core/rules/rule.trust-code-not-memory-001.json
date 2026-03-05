@@ -6,8 +6,8 @@
   "priority": "P0",
   "category": "meta-governance",
   "trigger": {
-    "events": ["memory.updated", "knowledge.learned", "session.ended"],
-    "actions": ["verification.executable_artifact_check"]
+    "events": ["knowledge.general.updated", "knowledge.general.created", "session.general.completed"],
+    "actions": ["quality.general.executable_artifact_check"]
   },
   "conditions": {
     "invariant": "任何写入memory的知识条目，必须在同一个session内产出对应的可执行产物（规则/技能/代码），否则视为未完成"

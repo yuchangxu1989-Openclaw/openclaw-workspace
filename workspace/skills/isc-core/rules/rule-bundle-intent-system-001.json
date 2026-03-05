@@ -7,7 +7,7 @@
         "description": "意图识别系统必须覆盖且仅覆盖5种收敛类型：(1)正负向情绪意图、(2)规则触发意图、(3)复杂意图（需5轮以上上下文推理）、(4)隐含意图（非明确表达，需推理）、(5)一句话多意图。任何新意图类型必须归入以上5类之一，否则不予注册。",
         "trigger": {
             "events": [
-                "intent.type.registration_requested"
+                "event.type.registration_requested"
             ],
             "actions": [
                 {
@@ -27,8 +27,8 @@
         "description": "意图识别系统的任何变更（新增意图类型、修改识别逻辑、更换模型）必须通过AEO评测准出：黄金评测集自动化测试通过 + Badcase主动根因分析完成。未通过不得上线。",
         "trigger": {
             "events": [
-                "intent.system.changed",
-                "intent.type.registered"
+                "event.system.modified",
+                "event.type.created"
             ],
             "actions": [
                 {
@@ -48,8 +48,8 @@
         "description": "每周执行一次未知意图发现：(1)用智谱embedding对近期对话做向量聚类，(2)LLM对聚类结果做意图分类，(3)MECE原则识别增量且高频的意图类型，(4)主动溯源未解决问题是否因意图类型缺失导致。发现候选新意图→提交用户确认→注册。",
         "trigger": {
             "events": [
-                "schedule.weekly",
-                "problem.unresolved.detected"
+                "dto.general.weekly",
+                "system.unresolved.detected"
             ],
             "actions": [
                 {
@@ -69,8 +69,8 @@
         "description": "意图类型数量必须保持MECE、不长尾。治理红线：(1)语义重叠的意图必须合并，(2)触发频率极低（30天<3次）的意图降级为观察态，(3)90天未触发的意图自动废弃提案，(4)任何新注册意图必须证明与现有意图不重叠。",
         "trigger": {
             "events": [
-                "intent.type.registered",
-                "schedule.monthly"
+                "event.type.created",
+                "dto.general.monthly"
             ],
             "actions": [
                 {

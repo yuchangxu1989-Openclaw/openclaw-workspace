@@ -7,7 +7,7 @@
   "scope": "system-wide",
   "enforcement_tier": "P1_process",
   "trigger": {
-    "events": ["user.message"],
+    "events": ["user.general.message"],
     "condition": "intent_classification_unavailable OR intent_confidence_low",
     "actions": [
       {

@@ -7,7 +7,7 @@
     "category": "cras",
     "trigger": {
         "events": ["cras.intent.detected"],
-        "actions": ["event.semantic_intent.emit"]
+        "actions": ["event.semantic_intent.triggered"]
     },
     "conditions": {
         "intent_mappings": {

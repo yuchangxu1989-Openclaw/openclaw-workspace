@@ -7,11 +7,11 @@
     "source": "SOUL.md灵魂烙印，用户亲授第一性原理",
     "trigger": {
         "events": [
-            "design.document.created",
-            "design.document.modified",
-            "architecture.decision.made",
+            "document.document.created",
+            "document.document.modified",
+            "architecture.decision.completed",
             "isc.rule.created",
-            "skill.created",
+            "skill.general.created",
             "dto.task.created"
         ],
         "description": "任何设计产出、架构决策、规则创建、技能创建、任务创建时触发",

@@ -6,7 +6,7 @@
     "description": "当收到用户回复引用的消息体为[Interactive Card]时，不得询问用户卡片内容。必须根据最近发出的消息、当前对话上下文推断卡片内容并直接响应。",
     "trigger": {
         "events": [
-            "message.reply.received"
+            "session.reply.received"
         ],
         "condition": "replied_message.body contains '[Interactive Card]'",
         "actions": [

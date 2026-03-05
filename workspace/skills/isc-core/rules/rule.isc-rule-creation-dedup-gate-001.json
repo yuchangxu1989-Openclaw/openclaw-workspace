@@ -100,7 +100,7 @@
   "examples": [
     {
       "scenario": "events完全不重叠",
-      "new_rule_events": ["skill.created"],
+      "new_rule_events": ["skill.general.created"],
       "existing_rule_events": ["isc.rule.before_create"],
       "phase_1_result": "无交集 → 直接放行",
       "phase_2_called": false,

@@ -6,7 +6,7 @@
     "description": "核心模块的编码，开发工程师必须开thinking（高质量推理模式）。",
     "category": "engineering",
     "trigger": {
-        "events": ["code.module.core.modified"],
+        "events": ["skill.module_core.modified"],
         "actions": ["quality.code.thinking_required"]
     },
     "conditions": {

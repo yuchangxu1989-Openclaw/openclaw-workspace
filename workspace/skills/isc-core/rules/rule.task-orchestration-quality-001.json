@@ -8,8 +8,8 @@
   "trigger": {
     "events": {
       "L1": [
-        "orchestration.task.decomposed",
-        "orchestration.subagent.spawned",
+        "orchestration.task.completed",
+        "orchestration.subagent.created",
         "orchestration.task.sequential_detected"
       ],
       "L2": [

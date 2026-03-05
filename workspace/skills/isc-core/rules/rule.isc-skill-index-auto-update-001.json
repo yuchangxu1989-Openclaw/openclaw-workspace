@@ -8,10 +8,10 @@
     "rationale": "确保技能索引始终与实际情况一致，便于快速查找",
     "trigger": {
         "events": [
-            "skill.created",
-            "skill.updated",
-            "skill.deleted",
-            "isc.skill.index.refresh_requested"
+            "skill.general.created",
+            "skill.general.updated",
+            "skill.general.deleted",
+            "isc.skill_index.refresh_requested"
         ],
         "condition": "skill_path OR skill_name OR skill_id",
         "actions": [

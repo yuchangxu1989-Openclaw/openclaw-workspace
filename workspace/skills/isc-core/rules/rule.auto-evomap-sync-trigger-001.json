@@ -9,7 +9,7 @@
     "condition": "skill_created OR skill_updated",
     "trigger": {
         "events": [
-            "skill.published",
+            "skill.general.published",
             "skill.version.updated",
             "skill.lifecycle.status_changed"
         ],

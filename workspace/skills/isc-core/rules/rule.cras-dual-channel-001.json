@@ -7,7 +7,7 @@
     "category": "cras",
     "trigger": {
         "events": ["cras.scan.completed", "cras.report.generated"],
-        "actions": ["cras.channel.validate"]
+        "actions": ["cras.channel.requested"]
     },
     "conditions": {
         "fast_channel": {"interval": "5min", "output": "atomic_intent_events", "mode": "realtime"},

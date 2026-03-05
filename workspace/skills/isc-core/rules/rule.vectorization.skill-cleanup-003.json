@@ -10,7 +10,7 @@
   "condition": {
     "type": "event_trigger",
     "events": [
-      "skill.deleted"
+      "skill.general.deleted"
     ],
     "file_pattern": "**/SKILL.md"
   },
@@ -44,7 +44,7 @@
   },
   "deletion_event": {
     "description": "技能删除事件处理",
-    "trigger": "skill.deleted",
+    "trigger": "skill.general.deleted",
     "steps": [
       "identify_skill_vectors",
       "backup_vectors_to_archive",
@@ -73,7 +73,7 @@
   "auto_trigger": {
     "enabled": true,
     "on_events": [
-      "skill.deleted"
+      "skill.general.deleted"
     ],
     "action": "cleanup_vectors",
     "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
@@ -103,8 +103,8 @@
   "updated_at": "2026-03-01T00:50:00+08:00",
   "trigger": {
     "events": [
-      "isc:rule:matched",
-      "isc:category:vectorization"
+      "isc.rule.matched",
+      "isc.category.matched"
     ],
     "actions": [
       {

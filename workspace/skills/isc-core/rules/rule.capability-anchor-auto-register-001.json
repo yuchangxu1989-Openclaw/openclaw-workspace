@@ -6,11 +6,11 @@
     "severity": "critical",
     "trigger": {
         "events": [
-            "skill.created",
-            "skill.updated",
-            "tool.discovered",
-            "provider.added",
-            "capability.changed"
+            "skill.general.created",
+            "skill.general.updated",
+            "system.general.discovered",
+            "system.general.added",
+            "skill.general.modified"
         ],
         "condition": "new_capability_not_in_anchor",
         "actions": [

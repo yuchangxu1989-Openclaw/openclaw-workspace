@@ -9,8 +9,8 @@
   "enabled": true,
   "trigger": {
     "events": [
-      "skill.publish",
-      "skill.sync",
+      "skill.general.publish",
+      "skill.general.sync",
       "skill.evoMap.upload"
     ],
     "precondition": "技能发布或同步前必须完成安全扫描",

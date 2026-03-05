@@ -17,7 +17,7 @@
     "enforcer": "E2E验证 + 场景benchmark runner"
   },
   "trigger": {
-    "events": ["benchmark.created", "evaluation.submitted", "module.released"],
+    "events": ["quality.general.created", "aeo.general.completed", "skill.general.completed"],
     "actions": [
       {
         "type": "gate",

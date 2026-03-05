@@ -7,14 +7,14 @@
     "trigger": {
         "type": "event",
         "patterns": [
-            "cron:create",
-            "cron:update",
-            "cron:validate"
+            "dto.general.create",
+            "dto.general.update",
+            "dto.general.requested"
         ],
         "events": [
-            "cron.task.created",
-            "cron.task.updated",
-            "cron.task.validated"
+            "dto.task.created",
+            "dto.task.updated",
+            "dto.task.validated"
         ],
         "actions": [
             {

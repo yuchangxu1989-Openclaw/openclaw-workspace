@@ -33,7 +33,7 @@
     ]
   },
   "trigger": {
-    "events": ["architecture.diagram.created", "isc.rule.created", "skill.created"],
+    "events": ["architecture.diagram.created", "isc.rule.created", "skill.general.created"],
     "actions": ["quality.naming.mece_check"]
   },
   "priority": "P1",

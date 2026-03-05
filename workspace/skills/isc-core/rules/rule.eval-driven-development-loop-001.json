@@ -78,7 +78,7 @@
     "skip_prohibition": "不允许跳过任何phase。如果某phase无产出，必须显式标注'本轮无需变更'及原因。"
   },
   "trigger": {
-    "events": ["feature.developed", "module.created", "system.built", "benchmark.completed"],
+    "events": ["skill.general.created", "skill.general.created", "system.general.created", "quality.general.completed"],
     "actions": [
       {
         "type": "gate",

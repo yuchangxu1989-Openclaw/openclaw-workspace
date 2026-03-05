@@ -6,8 +6,8 @@
     "description": "7席认知维度：道（第一性原理）战（战略取舍）工（工程实现）盾（风险安全）眼（用户市场）远（未来进化）衡（综合仲裁）。触发条件：重大架构决策、拿不定主意的设计、影响系统进化方向的决策。用户是最终裁决者不是凌霄阁。流程：架构师出方案→工程师+质量分析师并行复审→不通过自动打回→通过后凌霄阁终审→用户最终裁决。",
     "category": "governance",
     "trigger": {
-        "events": ["architecture.decision.major", "design.conflict.detected"],
-        "actions": ["council.lingxiaoge.convene"]
+        "events": ["architecture.decision.major", "document.conflict.detected"],
+        "actions": ["system.lingxiaoge.requested"]
     },
     "conditions": {
         "seats": {

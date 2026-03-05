@@ -10,10 +10,10 @@
   "condition": {
     "type": "event_trigger",
     "events": [
-      "skill.created",
-      "skill.updated",
-      "skill.merged",
-      "skill.fixed"
+      "skill.general.created",
+      "skill.general.updated",
+      "skill.general.completed",
+      "skill.general.modified"
     ],
     "file_pattern": "**/SKILL.md"
   },
@@ -67,10 +67,10 @@
   "auto_trigger": {
     "enabled": true,
     "on_events": [
-      "skill.created",
-      "skill.updated",
-      "skill.merged",
-      "skill.fixed"
+      "skill.general.created",
+      "skill.general.updated",
+      "skill.general.completed",
+      "skill.general.modified"
     ],
     "action": "auto_vectorize_continuous",
     "handler": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
@@ -90,8 +90,8 @@
   "updated_at": "2026-03-01T00:50:00+08:00",
   "trigger": {
     "events": [
-      "isc:rule:matched",
-      "isc:category:vectorization"
+      "isc.rule.matched",
+      "isc.category.matched"
     ],
     "actions": [
       {

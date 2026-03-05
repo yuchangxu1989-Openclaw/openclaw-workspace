@@ -9,9 +9,9 @@
         "event": "global_auto_decision_pipeline_complete",
         "condition": "pipeline.findings.fixable_issues.length > 0",
         "events": [
-            "pipeline.execution.completed",
-            "pipeline.stage.failed",
-            "decision.repair.needed"
+            "orchestration.execution.completed",
+            "orchestration.stage.failed",
+            "system.repair.needed"
         ],
         "actions": [
             {

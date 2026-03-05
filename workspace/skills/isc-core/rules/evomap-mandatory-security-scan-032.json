@@ -9,8 +9,8 @@
   "enabled": true,
   "trigger": {
     "events": [
-      "evomap.sync.request",
-      "evomap.skill.upload"
+      "evomap.sync.requested",
+      "evomap.skill.requested"
     ],
     "precondition": "EvoMap上传前必须完成安全扫描",
     "actions": [

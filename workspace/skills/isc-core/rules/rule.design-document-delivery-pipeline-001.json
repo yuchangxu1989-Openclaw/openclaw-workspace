@@ -30,8 +30,8 @@
     ]
   },
   "trigger": {
-    "events": ["document.design.delivery_requested"],
-    "actions": ["pipeline.document.delivery_execute"]
+    "events": ["document.design.requested"],
+    "actions": ["orchestration.document.triggered"]
   },
   "priority": "P0",
   "enforcement_tier": "P0_block",

@@ -10,8 +10,8 @@
   "enforcement_tier": "P0_gate",
   "trigger": {
     "events": [
-      "skill.publish_requested",
-      "skill.evomap.upload",
+      "skill.general.publish_requested",
+      "skill.evomap.requested",
       "skill.evomap.sync"
     ],
     "precondition": "技能发布或同步到EvoMap前必须通过分发分离检查",
@@ -30,14 +30,14 @@
     "all": [
       {
         "id": "CHK-001",
-        "fact": "skill.distribution",
+        "fact": "skill.general.distribution",
         "operator": "in",
         "value": ["internal", "external", "both"],
         "failMessage": "技能缺少distribution字段声明，必须为internal/external/both之一"
       },
       {
         "id": "CHK-002",
-        "fact": "skill.distribution",
+        "fact": "skill.general.distribution",
         "operator": "in",
         "value": ["external", "both"],
         "then": {
@@ -93,7 +93,7 @@
       },
       {
         "id": "CHK-006",
-        "fact": "skill.sandbox_compatible",
+        "fact": "skill.general.sandbox_compatible",
         "operator": "equal",
         "value": true,
         "failMessage": "外销技能必须兼容沙箱运行环境"

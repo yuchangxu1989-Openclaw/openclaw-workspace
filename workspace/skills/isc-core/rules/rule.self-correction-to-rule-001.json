@@ -7,7 +7,7 @@
     "source": "2026-03-04 用户指出：不要用关键词正则，要理解意图并泛化",
     "trigger": {
         "events": [
-            "agent.behavior.defect_acknowledged"
+            "system.behavior.defect_acknowledged"
         ],
         "detection": {
             "type": "semantic_intent",

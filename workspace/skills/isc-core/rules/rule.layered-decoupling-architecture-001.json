@@ -7,10 +7,10 @@
     "source": "2026-03-04 用户原话：'实际上都是要分层解耦的。我们不可能一步到位端到端，Agent一定是分层端到端。这也是你未来做架构优化的核心原则和检查点。'",
     "trigger": {
         "events": [
-            "design.document.created",
-            "design.document.modified",
+            "document.document.created",
+            "document.document.modified",
             "isc.rule.created",
-            "skill.created",
+            "skill.general.created",
             "dto.task.created"
         ],
         "actions": [

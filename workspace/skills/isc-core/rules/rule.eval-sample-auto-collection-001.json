@@ -13,9 +13,9 @@
   ],
   "trigger": {
     "events": [
-      "intent.classified",
-      "pipeline.completed",
-      "test.failed"
+      "event.general.classified",
+      "orchestration.general.completed",
+      "quality.general.failed"
     ],
     "actions": [
       {

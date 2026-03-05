@@ -7,8 +7,8 @@
     "trigger": {
         "type": "manual_or_event",
         "events": [
-            "workflow.requested",
-            "complex_task.detected"
+            "orchestration.general.requested",
+            "orchestration.general.detected"
         ],
         "actions": [
             {

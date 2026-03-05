@@ -22,9 +22,9 @@
   "trigger": {
     "events": {
       "META": [
-        "subagent.task.created",
-        "subagent.task.timeout",
-        "subagent.task.truncated"
+        "orchestration.task.created",
+        "orchestration.task.timeout",
+        "orchestration.task.truncated"
       ]
     }
   },

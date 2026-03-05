@@ -7,7 +7,7 @@
     "category": "aeo",
     "trigger": {
         "events": ["session.message.received"],
-        "actions": ["aeo.eval.auto_collect"]
+        "actions": ["aeo.eval.triggered"]
     },
     "conditions": {
         "complexity": ["IC3", "IC4", "IC5"],

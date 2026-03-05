@@ -6,8 +6,8 @@
     "description": "每个规则/任务/技能必须分三层解耦：感知层（谁在观察？用什么探针？）、认知层（谁在判断？）、执行层（谁在行动？）。三层通过事件总线解耦，任何一层替换不影响其他两层。",
     "category": "architecture",
     "trigger": {
-        "events": ["architecture.decision.made", "isc.rule.created", "skill.created", "dto.task.created"],
-        "actions": ["architecture.layered_check"]
+        "events": ["architecture.decision.completed", "isc.rule.created", "skill.general.created", "dto.task.created"],
+        "actions": ["architecture.general.layered_check"]
     },
     "conditions": {
         "layers_required": ["perception", "cognition", "execution"],
