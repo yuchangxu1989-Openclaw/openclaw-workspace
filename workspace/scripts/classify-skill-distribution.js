@@ -96,3 +96,13 @@ if (process.argv.includes('--json')) {
   );
   console.log('\n→ 详细报告: reports/skill-distribution-classification.json');
 }
+
+// 追加检查：publishable技能不允许hardcode Provider
+const PROVIDER_PATTERNS = [
+  /bigmodel\.cn/,
+  /penguinsaichat/,
+  /boom\.aihuige/,
+  /api\.anthropic/,
+  /api\.openai\.com/,
+];
+// TODO: 集成到classifySkill函数中，publishable技能命中Provider pattern → 降级为local
