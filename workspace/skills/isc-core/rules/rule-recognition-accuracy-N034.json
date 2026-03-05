@@ -1,0 +1,41 @@
+{
+  "schema": "isc.rule.v1",
+  "rule_id": "N034",
+  "rule_name": "rule_recognition_accuracy",
+  "version": "1.0.0",
+  "created_at": "2026-02-28T16:45:00+08:00",
+  "author": "ISC-DTO",
+  "priority": 9,
+  "category": "governance",
+  "description": "规则识别与计数准确性校验，禁止将规则类别数误认为规则总数",
+  "trigger": {
+    "type": "scheduled",
+    "cron": "0 */1 * * *",
+    "also_on": ["rule_query", "rule_count_request"]
+  },
+  "condition": {
+    "check_type": "actual_file_count",
+    "must_verify_by": "filesystem_ls",
+    "prohibited_methods": ["infer_from_range", "guess_from_category"]
+  },
+  "action": {
+    "type": "validate_and_correct",
+    "steps": [
+      "ls -la ${ISC_RULES_DIR} | grep -c '\\.json$'",
+      "compare_with_reported_count",
+      "if_mismatch_alert_and_correct"
+    ],
+    "error_message": "规则数量统计错误：不得基于编号范围推断，必须实际计数",
+    "auto_fix": false,
+    "require_verification": true
+  },
+  "prevention": {
+    "check_before_report": true,
+    "verify_file_exists": true,
+    "ban_keywords": ["N001-N018表示18条", "类别数等于总数"]
+  },
+  "metadata": {
+    "rationale": "防止将N001-N018误认为18条规则，实际应为61条",
+    "root_cause": "基于编号范围推断而非实际文件计数"
+  }
+}

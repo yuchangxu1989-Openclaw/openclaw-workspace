@@ -149,34 +149,26 @@ function classifyIntentByRegex(text) {
 }
 
 // --- LLM Fallback ---
+// v3.1: Switched from Anthropic SDK (penguinsaichat, all keys 401) to ZhipuAI GLM-4-Flash
+// ZhipuAI keys loaded from /root/.openclaw/.secrets/zhipu-keys.env (all 3 verified valid 2026-03-05)
 
-const ANTHROPIC_SDK_PATH = '/usr/lib/node_modules/openclaw/node_modules/@anthropic-ai/sdk';
-const CLAUDE_BASE_URL = 'https://api.penguinsaichat.dpdns.org/';
-const CLAUDE_API_KEY = (function() {
-  try {
-    var cfg = JSON.parse(fs.readFileSync('/root/.openclaw/openclaw.json', 'utf8'));
-    return (cfg.models && cfg.models.providers && cfg.models.providers.claude && cfg.models.providers.claude.apiKey)
-      || process.env.CLAUDE_KEY_MAIN;
-  } catch (_) {
-    return process.env.CLAUDE_KEY_MAIN;
-  }
-})();
-const LLM_MODEL = 'claude-sonnet-4-6';
+const https = require('https');
+const LLM_MODEL = 'glm-4-flash';
 const LLM_TIMEOUT_MS = 10000;
 
-var _anthropicClient = null;
-
-function getAnthropicClient() {
-  if (_anthropicClient) return _anthropicClient;
+// Load ZhipuAI key: prefer env ZHIPU_API_KEY, then read from secrets file
+const ZHIPU_API_KEY = (function() {
+  if (process.env.ZHIPU_API_KEY) return process.env.ZHIPU_API_KEY;
   try {
-    var sdk = require(ANTHROPIC_SDK_PATH);
-    _anthropicClient = new sdk.Anthropic({ apiKey: CLAUDE_API_KEY, baseURL: CLAUDE_BASE_URL });
-    return _anthropicClient;
-  } catch (err) {
-    console.error('[UserMessageRouter] Failed to init Anthropic client:', err.message);
-    return null;
-  }
-}
+    var secretsFile = fs.readFileSync('/root/.openclaw/.secrets/zhipu-keys.env', 'utf8');
+    var match = secretsFile.match(/^ZHIPU_API_KEY=(.+)$/m);
+    if (match) return match[1].trim();
+    // fallback to KEY_2
+    match = secretsFile.match(/^ZHIPU_API_KEY_2=(.+)$/m);
+    if (match) return match[1].trim();
+  } catch (_) {}
+  return null;
+})();
 
 function buildLLMSystemPrompt() {
   var categoriesSection = '';
@@ -196,22 +188,63 @@ function buildLLMSystemPrompt() {
 
 const LLM_INTENT_SYSTEM_PROMPT = buildLLMSystemPrompt();
 
+/**
+ * Call ZhipuAI OpenAI-compatible API using native https (no SDK dependency).
+ */
+function zhipuRequest(messages, systemPrompt) {
+  return new Promise(function(resolve, reject) {
+    var body = JSON.stringify({
+      model: LLM_MODEL,
+      messages: [{ role: 'system', content: systemPrompt }].concat(messages),
+      max_tokens: 512,
+    });
+    var options = {
+      hostname: 'open.bigmodel.cn',
+      path: '/api/paas/v4/chat/completions',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + ZHIPU_API_KEY,
+        'Content-Length': Buffer.byteLength(body),
+      },
+    };
+    var req = https.request(options, function(res) {
+      var data = '';
+      res.on('data', function(chunk) { data += chunk; });
+      res.on('end', function() {
+        try {
+          var parsed = JSON.parse(data);
+          resolve(parsed);
+        } catch (e) {
+          reject(new Error('ZhipuAI response parse error: ' + data.slice(0, 100)));
+        }
+      });
+    });
+    req.on('error', reject);
+    req.setTimeout(LLM_TIMEOUT_MS, function() {
+      req.destroy(new Error('ZhipuAI request timeout'));
+    });
+    req.write(body);
+    req.end();
+  });
+}
+
 async function classifyIntentByLLM(text) {
-  const client = getAnthropicClient();
-  if (!client) return { category: 'IC0', name: 'unknown', confidence: 0.1, source: 'llm_init_failed' };
+  if (!ZHIPU_API_KEY) {
+    console.error('[UserMessageRouter] No ZhipuAI API key available');
+    return { category: 'IC0', name: 'unknown', confidence: 0.1, source: 'llm_init_failed' };
+  }
 
   const timeoutPromise = new Promise((_, reject) =>
     setTimeout(() => reject(new Error('LLM timeout')), LLM_TIMEOUT_MS)
   );
 
   const llmPromise = (async () => {
-    const response = await client.messages.create({
-      model: LLM_MODEL,
-      max_tokens: 512,
-      system: LLM_INTENT_SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: '请分类以下用户消息的意图：\n\n"' + text + '"' }],
-    });
-    const rawContent = (response.content[0] && response.content[0].text) || '';
+    const response = await zhipuRequest(
+      [{ role: 'user', content: '请分类以下用户消息的意图：\n\n"' + text + '"' }],
+      LLM_INTENT_SYSTEM_PROMPT
+    );
+    const rawContent = (response.choices && response.choices[0] && response.choices[0].message && response.choices[0].message.content) || '';
     const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error('No JSON in LLM response');
     const parsed = JSON.parse(jsonMatch[0]);
@@ -223,6 +256,7 @@ async function classifyIntentByLLM(text) {
       confidence: primaryIntent.confidence || 0.5,
       reasoning: primaryIntent.reasoning || '',
       source: 'llm',
+      llm_provider: 'zhipu_glm4flash',
       is_composite: parsed.is_composite || false,
       all_intents: parsed.intents || [],
     };

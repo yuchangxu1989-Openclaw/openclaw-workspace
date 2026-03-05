@@ -1,0 +1,27 @@
+{
+  "id": "config-key-protection-001",
+  "name": "API Key配置文件写保护",
+  "description": "禁止Agent（含子Agent）自主修改openclaw.json或models.json中的API Key配置。任何key变更必须经用户明确指令确认。",
+  "severity": "critical",
+  "category": "security",
+  "trigger": {
+    "events": [
+      "file.modified",
+      "config.changed"
+    ],
+    "conditions": {
+      "file_pattern": ["openclaw.json", "models.json"],
+      "field_pattern": ["apiKey", "apikey", "api_key"]
+    }
+  },
+  "action": {
+    "type": "block_and_alert",
+    "message": "🚨 检测到API Key配置修改尝试！此操作需要用户明确授权。",
+    "require_user_confirmation": true
+  },
+  "metadata": {
+    "created": "2026-03-05",
+    "created_by": "user_directive",
+    "rationale": "子Agent清理hardcoded key时误改openclaw.json导致系统失联。血的教训。"
+  }
+}

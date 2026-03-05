@@ -16,3 +16,6 @@
 {"ts":"2026-03-04T23:42:58.569Z","stage":"uninstalled","stats":{"intercepted":1,"l3_processed":1,"l3_success":1,"l3_fallback":0,"legacy_passthrough":0,"shadow_comparisons":1}}
 {"ts":"2026-03-04T23:42:58.569Z","stage":"rule-matcher","trace_id":"l3gw_1772667778569_ks4v","event_type":"isc.rule.changed","matched":0,"rules":[]}
 {"ts":"2026-03-04T23:42:58.571Z","stage":"dispatcher","trace_id":"l3gw_1772667778569_ks4v","event_type":"isc.rule.changed","dispatched":1,"results":[{"handler":"skill-isc-handler","success":true}]}
+{"ts":"2026-03-05T01:12:24.841Z","stage":"installed","flags":{"enabled":true,"events":["user.message"],"shadowMode":false,"fallbackEnabled":true},"message":"L3 Gateway installed — events matching FeatureFlag will go through L3 main path"}
+{"ts":"2026-03-05T01:12:29.816Z","stage":"uninstalled","stats":{"intercepted":0,"l3_processed":0,"l3_success":0,"l3_fallback":0,"legacy_passthrough":0,"shadow_comparisons":0}}
+{"ts":"2026-03-05T01:12:52.393Z","stage":"installed","flags":{"enabled":true,"events":["user.message"],"shadowMode":false,"fallbackEnabled":true},"message":"L3 Gateway installed — events matching FeatureFlag will go through L3 main path"}

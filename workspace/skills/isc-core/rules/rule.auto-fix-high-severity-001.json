@@ -1,0 +1,32 @@
+{
+  "id": "rule.auto-fix-high-severity-001",
+  "legacyId": "R004",
+  "name": "auto_fix_high_severity",
+  "domain": "remediation",
+  "type": "rule",
+  "scope": "system",
+  "description": "自动修复高严重度问题 - 严重度高且允许自动修复时执行",
+  "condition": "severity == HIGH AND auto_fix_enabled",
+  "severity": "HIGH",
+  "priority": 10,
+  "action": "execute_auto_remediation",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "created_at": "2026-02-25T06:32:00+08:00",
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:remediation"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  },
+  "enforcement_tier": "P1_process"
+}

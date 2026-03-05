@@ -1,0 +1,22 @@
+{
+  "type": "naming-standard",
+  "id": "isc-naming-skill-dir",
+  "version": "1.0.0",
+  "scope": "skill-directory",
+  "pattern": "kebab-case",
+  "example": "isc-document-quality",
+  "created_at": "2026-02-23T07:27:39.250Z",
+  "status": "active",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:general"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
+}

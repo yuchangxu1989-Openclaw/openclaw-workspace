@@ -1,0 +1,40 @@
+{
+  "id": "rule.http-skills-suite-001",
+  "name": "http_skills_suite",
+  "domain": "integration",
+  "type": "skill_suite",
+  "description": "HTTP技能套件 - GitHub API、EvoMap A2A、文件下载、API聚合",
+  "skills": [
+    "github-api",
+    "evomap-a2a",
+    "file-downloader",
+    "api-aggregator"
+  ],
+  "version": "1.0.0",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "dto_integration": {
+    "enabled": true,
+    "module_mapping": {
+      "github-api": "github",
+      "evomap-a2a": "evomap",
+      "file-downloader": "downloader",
+      "api-aggregator": "aggregator"
+    }
+  },
+  "created_at": "2026-02-25T12:42:00+08:00",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:integration"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
+}

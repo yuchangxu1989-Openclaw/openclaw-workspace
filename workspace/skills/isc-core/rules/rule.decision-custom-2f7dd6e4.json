@@ -1,0 +1,22 @@
+{
+  "type": "decision-rule",
+  "id": "rule_2f7dd6e4",
+  "version": "1.0.0",
+  "condition": "timeout_error AND retry_count < 3",
+  "action": "exponential_backoff_retry",
+  "priority": 8,
+  "created_at": "2026-02-23T00:58:42.355Z",
+  "status": "active",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:general"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "rule.dual-channel-message-guarantee-001",
+  "name": "dual_channel_message_guarantee",
+  "domain": "communication",
+  "type": "governance_rule",
+  "description": "双通道消息投递保证 - 关键消息必须双通道确认送达",
+  "rationale": "防止飞书通道偶发丢失导致用户看不到重要信息",
+  "rules": [
+    {
+      "id": "R-D1",
+      "name": "critical_message_dual_delivery",
+      "description": "关键消息双通道投递并确认",
+      "condition": "消息类型 == 'important' OR 内容长度 > 500字",
+      "action": {
+        "type": "dual_channel_with_ack",
+        "channels": [
+          "feishu",
+          "feishu"
+        ],
+        "fallback": {
+          "on_feishu_fail": "retry_3_times_then_alert",
+          "on_backup_fail": "alert_user_and_log"
+        }
+      }
+    },
+    {
+      "id": "R-D2",
+      "name": "message_delivery_verification",
+      "description": "消息投递后验证用户是否收到",
+      "condition": "消息发送后 30秒",
+      "action": {
+        "type": "check_delivery_status",
+        "if_missing": "resend_via_alternative_channel"
+      }
+    },
+    {
+      "id": "R-D3",
+      "name": "session_affinity_preference",
+      "description": "优先使用用户当前活跃会话",
+      "condition": "用户当前会话 == 'feishu'",
+      "action": {
+        "type": "primary_channel",
+        "channel": "feishu",
+        "backup": "feishu"
+      }
+    }
+  ],
+  "enforcement": {
+    "mode": "strict",
+    "on_violation": "log_and_retry"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false,
+    "priority": 85
+  },
+  "created_at": "2026-02-26T18:13:00+08:00",
+  "version": "1.0.0",
+  "trigger": {
+    "events": [
+      "isc:rule:matched",
+      "isc:category:communication"
+    ],
+    "actions": [
+      {
+        "type": "log",
+        "level": "info"
+      }
+    ]
+  }
+}
