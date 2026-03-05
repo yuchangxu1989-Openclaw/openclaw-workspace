@@ -1,7 +1,7 @@
 ---
 name: glm-asr
 description: GLM-ASR 语音转文本 - 使用智谱 GLM-ASR-2512 模型，支持多语言语音转录
-version: "1.0.9"
+version: "1.0.10"
 status: active
 tags: [asr, speech, audio, zhipu]
 ---
