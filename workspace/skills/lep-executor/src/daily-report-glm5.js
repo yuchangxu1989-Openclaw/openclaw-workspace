@@ -8,10 +8,10 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const https = require('https');
-const http = require('http');
-const { URL } = require('url');
 const { WORKSPACE, SECRETS_DIR, SKILLS_DIR } = require('../../_shared/paths');
+
+// LLM via infrastructure/llm-context (no direct HTTP calls)
+const llmContext = require(path.join(WORKSPACE, 'infrastructure/llm-context'));
 
 // 配置
 const WORKSPACE_ROOT = WORKSPACE;
@@ -23,92 +23,26 @@ const REPORT_DATE = new Date().toLocaleDateString('zh-CN', {
 });
 const TIMESTAMP = new Date().toISOString();
 
-// LLM配置 - 全部通过环境变量配置，不再硬编码智谱地址
-const LLM_CONFIG = {
-  baseURL: process.env.LLM_BASE_URL || 'https://api.penguinsaichat.dpdns.org/v1/chat/completions',
-  model: process.env.LLM_MODEL || process.env.LLM_DEFAULT_MODEL || 'claude-sonnet-4-6'
-};
-
 // 飞书配置
 const FEISHU_CONFIG = {
   targetUser: process.env.FEISHU_TARGET_USER || 'ou_8eafdc7241d381d714746e486b641883'
 };
 
 /**
- * 加载 LLM API Key
- * 唯一真相源: openclaw.json → zhipu-cron provider
- */
-function loadAPIKey() {
-  const ZhipuKeys = require('../../../zhipu-keys/index.js');
-  return ZhipuKeys.getKey('cron');
-}
-
-/**
- * 调用 LLM API（通过环境变量配置 provider）
+ * 调用 LLM API（通过 llm-context 统一路由，不直接发HTTP）
  */
 async function callGLM5(prompt) {
-  const apiKey = loadAPIKey();
-  const endpoint = new URL(LLM_CONFIG.baseURL);
-  
-  const body = JSON.stringify({
-    model: LLM_CONFIG.model,
-    messages: [
+  const result = await llmContext.chat(
+    [
       {
         role: 'system',
         content: '你是一位系统监控专家，擅长生成清晰、专业的系统健康报告。请用中文回复，使用Markdown格式。'
       },
-      {
-        role: 'user',
-        content: prompt
-      }
+      { role: 'user', content: prompt }
     ],
-    stream: false,
-    temperature: 0.3,
-    max_tokens: 4096
-  });
-
-  const transport = endpoint.protocol === 'https:' ? https : http;
-
-  return new Promise((resolve, reject) => {
-    const options = {
-      hostname: endpoint.hostname,
-      port: endpoint.port || (endpoint.protocol === 'https:' ? 443 : 80),
-      path: endpoint.pathname + (endpoint.search || ''),
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(body)
-      },
-      timeout: 180000
-    };
-
-    const req = transport.request(options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => data += chunk);
-      res.on('end', () => {
-        try {
-          const response = JSON.parse(data);
-          if (response.choices && response.choices[0]) {
-            resolve(response.choices[0].message.content);
-          } else {
-            reject(new Error(`Invalid response: ${data}`));
-          }
-        } catch (e) {
-          reject(new Error(`Parse error: ${e.message}`));
-        }
-      });
-    });
-
-    req.on('error', reject);
-    req.on('timeout', () => {
-      req.destroy();
-      reject(new Error('Request timeout'));
-    });
-
-    req.write(body);
-    req.end();
-  });
+    { capability: 'chat', priority: 'cost', timeout: 180000 }
+  );
+  return result.content;
 }
 
 /**
@@ -407,9 +341,7 @@ function saveReport(content) {
 
 // 主程序
 async function main() {
-  console.log('🚀 LEP韧性日报生成器 v2.1 (可配置LLM)');
-  console.log(`   LLM endpoint: ${LLM_CONFIG.baseURL}`);
-  console.log(`   Model: ${LLM_CONFIG.model}`);
+  console.log('🚀 LEP韧性日报生成器 v2.2 (llm-context)');
   console.log('=' .repeat(50));
   
   try {

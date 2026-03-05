@@ -15,7 +15,6 @@
 
 'use strict';
 
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { EventEmitter } = require('events');
@@ -31,34 +30,11 @@ try { _metrics = require('../observability/metrics'); } catch (_) {}
 // ============================================================================
 
 const SECRETS_FILE = '/root/.openclaw/.secrets/zhipu-keys.env';
-const ZHIPU_KEY = _loadZhipuKey();
-const ZHIPU_URL = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
-const ZHIPU_MODEL = 'glm-5';
 const REGISTRY_PATH = path.join(__dirname, 'intent-registry.json');
 const LOG_DIR = path.join(__dirname, 'logs');
 const FEATURE_FLAG = (process.env.INTENT_SCANNER_ENABLED || 'true').toLowerCase();
 
-/**
- * Load Zhipu API key: env var → secrets file → null (graceful degradation)
- */
-function _loadZhipuKey() {
-  // 1. Environment variable (highest priority)
-  if (process.env.ZHIPU_API_KEY) {
-    return process.env.ZHIPU_API_KEY;
-  }
-  // 2. Secrets file fallback
-  try {
-    const content = fs.readFileSync(SECRETS_FILE, 'utf8');
-    const match = content.match(/^ZHIPU_API_KEY=(.+)$/m);
-    if (match && match[1]) {
-      return match[1].trim();
-    }
-  } catch (_) {
-    // File not found or unreadable — continue to degradation
-  }
-  // 3. No key available — will degrade to regex path
-  return null;
-}
+// Key management handled by infrastructure/llm-context
 
 // ============================================================================
 // Regex patterns for IC1/IC2 fallback (hardcoded for resilience)
@@ -89,9 +65,7 @@ class IntentScanner extends EventEmitter {
     this._registry = null;
     this._registryPath = options.registryPath || REGISTRY_PATH;
     this._logDir = options.logDir || LOG_DIR;
-    this._zhipuKey = options.zhipuKey || ZHIPU_KEY;
-    this._zhipuUrl = options.zhipuUrl || ZHIPU_URL;
-    this._zhipuModel = options.zhipuModel || ZHIPU_MODEL;
+    this._llmAvailable = true; // llm-context handles key management
     this._timeout = options.timeout || 30000;
   }
 
@@ -121,7 +95,7 @@ class IntentScanner extends EventEmitter {
     const registry = this._loadRegistry();
 
     // No API key → skip LLM entirely, degrade to regex
-    if (!this._zhipuKey) {
+    if (!this._llmAvailable) {
       // Log degradation decision
       try {
         decisionLog({
@@ -434,7 +408,7 @@ ${intentDefs}
   }
 
   // --------------------------------------------------------------------------
-  // Zhipu API
+  // LLM via llm-context (no direct HTTP calls)
   // --------------------------------------------------------------------------
 
   async _callZhipuWithRetry(systemPrompt, userContent, maxRetries = 2) {
@@ -453,61 +427,18 @@ ${intentDefs}
     throw lastError;
   }
 
-  _callZhipu(systemPrompt, userContent) {
-    return new Promise((resolve, reject) => {
-      const body = JSON.stringify({
-        model: this._zhipuModel,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userContent }
-        ],
-        temperature: 0.1,
-        max_tokens: 4096
-      });
-
-      const urlObj = new URL(this._zhipuUrl);
-      const options = {
-        hostname: urlObj.hostname,
-        port: 443,
-        path: urlObj.pathname,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this._zhipuKey}`,
-          'Content-Length': Buffer.byteLength(body)
-        },
-        timeout: this._timeout
-      };
-
-      const req = https.request(options, (res) => {
-        let data = '';
-        res.on('data', chunk => { data += chunk; });
-        res.on('end', () => {
-          if (res.statusCode >= 400) {
-            return reject(new Error(`Zhipu API error ${res.statusCode}: ${data.slice(0, 500)}`));
-          }
-          try {
-            const json = JSON.parse(data);
-            const content = json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content;
-            if (!content) {
-              return reject(new Error('Zhipu API returned empty content'));
-            }
-            resolve(content);
-          } catch (e) {
-            reject(new Error(`Zhipu API parse error: ${e.message}`));
-          }
-        });
-      });
-
-      req.on('error', reject);
-      req.on('timeout', () => {
-        req.destroy();
-        reject(new Error('Zhipu API request timed out'));
-      });
-
-      req.write(body);
-      req.end();
-    });
+  async _callZhipu(systemPrompt, userContent) {
+    const llmContext = require('../llm-context');
+    const result = await llmContext.chat(
+      [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userContent }
+      ],
+      { capability: 'chat', priority: 'cost', timeout: this._timeout }
+    );
+    const content = result.content;
+    if (!content) throw new Error('LLM returned empty content');
+    return content;
   }
 
   // --------------------------------------------------------------------------

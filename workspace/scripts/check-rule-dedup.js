@@ -87,25 +87,9 @@ const PHASE2_PROMPT = `你是ISC规则去重判官。给你两条规则的完整
 
 严格输出JSON（不要额外文字）：{"duplicate": bool, "intent_equivalent": bool, "event_chain_equivalent": bool, "execution_equivalent": bool, "reason": "..."}`;
 
-function getZhipuKey() {
-  // Kept for backward compat, but LLM calls now go through llm-context
-  return 'llm-context-managed';
-}
-
-// ─── LLM via infrastructure/llm-context ─────────────────────────────
+// ─── LLM via infrastructure/llm-context (no direct HTTP calls) ──────
 
 const llmContext = require(path.join(WS, 'infrastructure/llm-context'));
-
-async function callLLMSemantic(prompt) {
-  const result = await llmContext.chat(
-    [{ role: 'user', content: prompt }],
-    { capability: 'chat', priority: 'cost', temperature: 0.1, timeout: 15000 }
-  );
-  const text = result.content || '';
-  const match = text.match(/\{[\s\S]*\}/);
-  if (!match) throw new Error('No JSON in LLM response');
-  return JSON.parse(match[0]);
-}
 
 /**
  * Fallback: field-exact comparison when LLM unavailable
@@ -139,20 +123,27 @@ function fallbackDeepCheck(ruleA, ruleB) {
  * LLM semantic dedup — all routing handled by llm-context
  */
 
-async function phase2Check(ruleA, ruleB, _apiKeyIgnored) {
+async function phase2Check(ruleA, ruleB) {
   const prompt = PHASE2_PROMPT
     .replace('{rule_a_json}', JSON.stringify(ruleA, null, 2))
     .replace('{rule_b_json}', JSON.stringify(ruleB, null, 2));
 
   try {
-    const result = await callLLMSemantic(prompt);
-    result.method = 'llm-context/auto';
-    return result;
+    const result = await llmContext.chat(
+      [{ role: 'user', content: prompt }],
+      { capability: 'chat', priority: 'cost', temperature: 0.1, timeout: 15000 }
+    );
+    const text = result.content || '';
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('No JSON in LLM response');
+    const parsed = JSON.parse(match[0]);
+    parsed.method = `${result.provider}/${result.model}`;
+    return parsed;
   } catch (e) {
     // All LLM failed, fallback to field comparison
     const fb = fallbackDeepCheck(ruleA, ruleB);
     fb.llm_errors = [e.message];
-    fb.warning = 'ALL_LLM_FAILED — 所有大模型均不可用，降级到字段比对，结果可能不准确';
+    fb.warning = 'LLM_FAILED — 降级到字段比对，结果可能不准确';
     return fb;
   }
 }
@@ -209,7 +200,7 @@ async function checkSingleFile(opts) {
     .map(f => path.join(opts.rulesDir, f))
     .filter(f => path.resolve(f) !== newFile);
 
-  const apiKey = opts.mode === 'deep' ? getZhipuKey() : null;
+  
 
   for (const f of existingFiles) {
     let rule;
@@ -236,7 +227,7 @@ async function checkSingleFile(opts) {
 
     // overlap >= 50% → Phase 2 if deep mode
     if (opts.mode === 'deep') {
-      const result = await phase2Check(newRule, rule, apiKey);
+      const result = await phase2Check(newRule, rule);
       if (result.duplicate) {
         errors.push(`[DEDUP-SEMANTIC] 与 ${path.basename(f)} 语义重复（${result.reason}）`);
         console.log(`  📊 三维分析: 意图=${result.intent_equivalent} 事件链=${result.event_chain_equivalent} 执行=${result.execution_equivalent}`);
@@ -272,7 +263,7 @@ async function scanAll(opts) {
   const rules = loadRulesFromDir(opts.rulesDir);
   console.log(`[DEDUP] 扫描 ${rules.length} 条规则...`);
 
-  const apiKey = opts.mode === 'deep' ? getZhipuKey() : null;
+  
   const pairs = [];
 
   for (let i = 0; i < rules.length; i++) {
@@ -289,7 +280,7 @@ async function scanAll(opts) {
       };
 
       if (opts.mode === 'deep') {
-        pair.phase2 = await phase2Check(rules[i], rules[j], apiKey);
+        pair.phase2 = await phase2Check(rules[i], rules[j]);
       }
       pairs.push(pair);
     }
@@ -336,7 +327,6 @@ module.exports = {
   eventOverlap,
   phase2Check,
   fallbackDeepCheck,
-  callLLMSemantic,
   loadRulesFromDir,
   PHASE2_PROMPT,
 };

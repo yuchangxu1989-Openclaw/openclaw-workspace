@@ -161,114 +161,79 @@ ${r2Summary}
 // ─── Core Engine ────────────────────────────────────────────────────
 
 /**
- * Convene the Lingxiao Tribunal.
+ * Generate all prompts for a Lingxiao Tribunal session.
+ * Returns a structured plan of prompts; the caller (Agent) is responsible
+ * for executing them via sessions_spawn or its own LLM capability.
  *
  * @param {string} topic          — The issue to deliberate
  * @param {string} context        — Background material
  * @param {object} [options]
  * @param {string} [options.mode='7']       — '7' | '5' | '3'
- * @param {string} [options.model]          — LLM model name
- * @param {string} [options.apiKey]         — LLM API key
- * @param {string} [options.baseUrl]        — LLM base URL
- * @param {boolean}[options.parallel=true]  — Parallel Round 1
- * @param {number} [options.timeout]        — Per-call timeout ms
- * @param {Function}[options._callLLM]      — Override LLM caller (for testing)
- * @returns {object} Structured verdict report
+ * @returns {object} { topic, mode, seats, rounds } with prompt lists
  */
-async function convene(topic, context, options = {}) {
-  const startTime = Date.now();
-  const mode      = String(options.mode || '7');
-  const parallel  = options.parallel !== false;
-  const timeout   = options.timeout  || 120_000;
-  const llmCall   = options._callLLM || callLLM;
-
+function convene(topic, context, options = {}) {
+  const mode = String(options.mode || '7');
   if (!topic) throw new Error('Topic is required');
 
   const seats = getSeatsForMode(mode);
-  const llmOpts = { timeout, _callLLM: options._callLLM };
 
-  // ── Round 1: Independent deliberation ──
-  const round1Tasks = seats.map(seat => {
-    const prompt = round1Prompt(topic, context, seat);
-    return llmCall(prompt, llmOpts)
-      .then(result => ({
-        seat: seat.id,
-        seatTitle: `${seat.emoji} ${seat.title}`,
-        result,
-        status: 'ok',
-      }))
-      .catch(err => ({
-        seat: seat.id,
-        seatTitle: `${seat.emoji} ${seat.title}`,
-        result: `[缺席: ${err.message}]`,
-        status: 'absent',
-        error: err.message,
-      }));
-  });
-
-  let round1Results;
-  if (parallel) {
-    round1Results = await Promise.all(round1Tasks);
-  } else {
-    round1Results = [];
-    for (const task of round1Tasks) {
-      round1Results.push(await task);
-    }
-  }
-
-  // ── Round 2: Cross-examination (serial) ──
-  const round2Results = [];
-  for (const seat of seats) {
-    const prompt = round2Prompt(topic, round1Results, seat);
-    try {
-      const result = await llmCall(prompt, llmOpts);
-      round2Results.push({
-        seat: seat.id,
-        seatTitle: `${seat.emoji} ${seat.title}`,
-        result,
-        status: 'ok',
-      });
-    } catch (err) {
-      round2Results.push({
-        seat: seat.id,
-        seatTitle: `${seat.emoji} ${seat.title}`,
-        result: `[缺席: ${err.message}]`,
-        status: 'absent',
-        error: err.message,
-      });
-    }
-  }
-
-  // ── Round 3: Final verdict (serial) ──
-  let round3;
-  const r3Prompt = round3Prompt(topic, round1Results, round2Results);
-  try {
-    const verdictText = await llmCall(r3Prompt, llmOpts);
-    // Try to extract score from verdict text
-    const scoreMatch = verdictText.match(/【综合评分】\s*([\d.]+)/);
-    round3 = {
-      verdict: verdictText,
-      score: scoreMatch ? parseFloat(scoreMatch[1]) : null,
-      status: 'ok',
-    };
-  } catch (err) {
-    round3 = {
-      verdict: `[裁决失败: ${err.message}]`,
-      score: null,
-      status: 'absent',
-      error: err.message,
-    };
-  }
+  // Round 1: Independent deliberation prompts (can be executed in parallel)
+  const round1Prompts = seats.map(seat => ({
+    seat: seat.id,
+    seatTitle: `${seat.emoji} ${seat.title}`,
+    prompt: round1Prompt(topic, context, seat),
+  }));
 
   return {
     topic,
     mode,
+    seats: seats.map(s => ({ id: s.id, title: s.title, emoji: s.emoji })),
     rounds: {
-      round1: round1Results,
-      round2: round2Results,
-      round3,
+      round1: {
+        prompts: round1Prompts,
+        parallel: true,
+        description: 'Round 1: 独立审议 — 各席并行生成观点',
+      },
+      // Round 2 & 3 prompts depend on Round 1 results.
+      // Use buildRound2Prompts() and buildRound3Prompt() after Round 1 execution.
+      round2: {
+        description: 'Round 2: 交叉Battle — 需Round 1结果，调用 buildRound2Prompts(topic, round1Results, seats)',
+      },
+      round3: {
+        description: 'Round 3: 终审裁决 — 需Round 1+2结果，调用 buildRound3Prompt(topic, round1Results, round2Results)',
+      },
     },
-    duration_ms: Date.now() - startTime,
+    // NOTE: LLM执行由调用方（Agent）负责，此函数仅生成prompt
+    _callLLM_note: '由调用方注入LLM能力 — 使用sessions_spawn或Agent自身模型执行prompt',
+  };
+}
+
+/**
+ * Build Round 2 prompts after Round 1 results are available.
+ * @param {string} topic
+ * @param {Array<{seat: string, seatTitle: string, result: string}>} round1Results
+ * @param {string} mode — '7' | '5' | '3'
+ * @returns {Array<{seat: string, seatTitle: string, prompt: string}>}
+ */
+function buildRound2Prompts(topic, round1Results, mode) {
+  const seats = getSeatsForMode(mode || '7');
+  return seats.map(seat => ({
+    seat: seat.id,
+    seatTitle: `${seat.emoji} ${seat.title}`,
+    prompt: round2Prompt(topic, round1Results, seat),
+  }));
+}
+
+/**
+ * Build Round 3 prompt after Round 1 and Round 2 results are available.
+ * @param {string} topic
+ * @param {Array} round1Results
+ * @param {Array} round2Results
+ * @returns {{prompt: string}}
+ */
+function buildRound3Prompt(topic, round1Results, round2Results) {
+  return {
+    prompt: round3Prompt(topic, round1Results, round2Results),
   };
 }
 
@@ -290,25 +255,23 @@ function parseArgs(argv) {
 
 function printUsage() {
   console.log(`
-凌霄阁-7人裁决神殿 v1.0 ⚡🏛️ (llm-context powered)
+凌霄阁-7人裁决神殿 v2.0 ⚡🏛️ (prompt-only, no direct LLM calls)
 
 Usage:
   node council.js --topic "议题" [--context "背景"] [--mode 7|5|3]
+
+Outputs structured JSON with prompts for each round.
+The calling Agent is responsible for executing prompts via sessions_spawn or its own model.
 
 Options:
   --topic    议题（必填）
   --context  背景材料
   --mode     席位模式: 7（全席）, 5（精简）, 3（极限）  [default: 7]
-  --timeout  每次调用超时（毫秒）                         [default: 120000]
-  --serial   Round 1 串行执行（默认并行）
   --help     显示帮助
-
-LLM routing is handled automatically by infrastructure/llm-context.
-No need to specify --model, --baseUrl, or --apiKey.
 `.trim());
 }
 
-async function main() {
+function main() {
   const args = parseArgs(process.argv.slice(2));
 
   if (args.help) {
@@ -322,10 +285,8 @@ async function main() {
   }
 
   try {
-    const result = await convene(args.topic, args.context || '', {
-      mode:     args.mode,
-      parallel: args.parallel,
-      timeout:  args.timeout,
+    const result = convene(args.topic, args.context || '', {
+      mode: args.mode,
     });
 
     console.log(JSON.stringify(result, null, 2));
@@ -349,7 +310,8 @@ module.exports = {
   round1Prompt,
   round2Prompt,
   round3Prompt,
-  callLLM,
   convene,
+  buildRound2Prompts,
+  buildRound3Prompt,
   parseArgs,
 };
