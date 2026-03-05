@@ -670,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772754613695,
+      "updatedAtMs": 1772754911625,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -688,11 +688,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772754900000,
-        "lastRunAtMs": 1772754600006,
+        "nextRunAtMs": 1772755200000,
+        "lastRunAtMs": 1772754900010,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 13689,
+        "lastDurationMs": 11615,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -807,7 +807,7 @@
       "name": "event-dispatch-runner",
       "enabled": true,
       "createdAtMs": 1772735091190,
-      "updatedAtMs": 1772754621264,
+      "updatedAtMs": 1772754919916,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -825,11 +825,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772754900000,
-        "lastRunAtMs": 1772754613695,
+        "nextRunAtMs": 1772755200000,
+        "lastRunAtMs": 1772754911625,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7569,
+        "lastDurationMs": 8291,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false

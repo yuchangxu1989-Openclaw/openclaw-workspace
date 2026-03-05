@@ -1,0 +1,38 @@
+{
+  "rule_id": "rule.project-mgmt-startup-checklist-001",
+  "name": "项目管理启动自检门禁",
+  "version": "1.0.0",
+  "priority": "P1",
+  "type": "gate",
+  "description": "启动项目管理流程时，必须完成自检清单，包括读取历史经验和反模式",
+  "trigger": {
+    "events": [
+      "project.started",
+      "sprint.started",
+      "task.orchestration.initiated"
+    ]
+  },
+  "conditions": {
+    "checklist": [
+      "四项意图是否明确（目标/时效/成本/验收）",
+      "MEU拆分是否到位",
+      "并行机会是否识别",
+      "验收标准是否可验证",
+      "凌霄阁是否在流程中",
+      "上次Sprint的lessons是否已读",
+      "anti-patterns.md是否已检查"
+    ],
+    "must_read": [
+      "skills/project-mgmt/SKILL.md",
+      "skills/project-mgmt/lessons/anti-patterns.md"
+    ]
+  },
+  "actions": {
+    "on_checklist_incomplete": "阻止进入执行阶段，要求补齐",
+    "on_anti_pattern_match": "高亮告警，提醒避免已知反模式"
+  },
+  "rationale": {
+    "source": "用户教学",
+    "principle": "不读历史经验就开工 = 注定重复犯错"
+  }
+}
