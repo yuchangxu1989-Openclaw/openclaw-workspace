@@ -104,8 +104,7 @@
         "lastDeliveryStatus": "delivered",
         "lastDelivered": true
       },
-      "_disabled_reason": "2026-03-04: Module B全部是mock代码，输出假数据。等v4方案CRAS双通道重建后再启用",
-      "model": "claude-main/claude-sonnet-4-6-thinking"
+      "_disabled_reason": "2026-03-04: Module B全部是mock代码，输出假数据。等v4方案CRAS双通道重建后再启用"
     },
     {
       "id": "d9d8123d-e14e-408d-b72c-04b273530943",
@@ -671,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772728807544,
+      "updatedAtMs": 1772729410419,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -689,11 +688,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772729100000,
-        "lastRunAtMs": 1772728800009,
+        "nextRunAtMs": 1772729700000,
+        "lastRunAtMs": 1772729400008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7535,
+        "lastDurationMs": 10411,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -705,7 +704,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772728229995,
+      "updatedAtMs": 1772729151889,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -723,11 +722,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772729100000,
-        "lastRunAtMs": 1772728210558,
+        "nextRunAtMs": 1772730000000,
+        "lastRunAtMs": 1772729108367,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 19437,
+        "lastDurationMs": 43522,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
