@@ -14,7 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const { Dispatcher } = require('./dispatcher');
 
-const EVENTS_LOG = path.resolve(__dirname, '../logs/events.jsonl');
+const EVENTS_LOG = path.resolve(__dirname, 'events.jsonl');
 const CURSOR_FILE = path.resolve(__dirname, '.cron-dispatch-cursor.json');
 const WINDOW_MS = 5 * 60 * 1000; // 5 minutes
 

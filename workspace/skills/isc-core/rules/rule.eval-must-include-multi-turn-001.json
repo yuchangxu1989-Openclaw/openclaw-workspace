@@ -6,8 +6,14 @@
   "priority": "P0",
   "category": "aeo",
   "trigger": {
-    "events": ["aeo.evaluation.dataset_created", "aeo.evaluation.dataset_modified"],
-    "actions": ["aeo.evaluation.multi_turn_check", "aeo.benchmark.auto_rerun"]
+    "events": [
+      "aeo.evaluation.dataset_created",
+      "aeo.evaluation.dataset_modified"
+    ],
+    "actions": [
+      "aeo.evaluation.multi_turn_check",
+      "aeo.benchmark.auto_rerun"
+    ]
   },
   "conditions": {
     "multi_turn_ratio": "多轮样本占比>=40%",

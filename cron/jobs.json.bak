@@ -670,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772734506814,
+      "updatedAtMs": 1772734812296,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -688,15 +688,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772734800000,
-        "lastRunAtMs": 1772734500007,
+        "nextRunAtMs": 1772735100000,
+        "lastRunAtMs": 1772734800006,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6807,
+        "lastDurationMs": 12290,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false,
-        "runningAtMs": 1772734800004
+        "runningAtMs": 1772735100005
       }
     },
     {
@@ -801,6 +801,31 @@
         "lastDeliveryStatus": "delivered",
         "lastDelivered": true
       }
+    },
+    {
+      "id": "event-dispatch-runner",
+      "agentId": "cron-worker",
+      "name": "event-dispatch-runner",
+      "enabled": true,
+      "createdAtMs": 1772735091190,
+      "updatedAtMs": 1772735091190,
+      "schedule": {
+        "expr": "*/5 * * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "node /root/.openclaw/workspace/infrastructure/event-bus/cron-dispatch-runner.js",
+        "model": "claude-cron-worker/claude-sonnet-4-6",
+        "timeoutSeconds": 60
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {}
     }
   ]
 }

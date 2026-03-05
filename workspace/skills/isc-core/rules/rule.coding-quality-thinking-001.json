@@ -1,21 +1,25 @@
 {
-    "id": "rule.coding-quality-thinking-001",
-    "rule_name": "编码质量标准",
-    "version": "1.0.0",
-    "severity": "high",
-    "description": "核心模块的编码，开发工程师必须开thinking（高质量推理模式）。",
-    "category": "engineering",
-    "trigger": {
-        "events": ["skill.module_core.modified"],
-        "actions": ["quality.code.thinking_required"]
-    },
-    "conditions": {
-        "scope": "core_modules",
-        "requirement": "thinking_mode_enabled"
-    },
-    "rationale": {
-        "source": "用户教学"
-    },
-    "enforcement_tier": "P1_check",
-    "created_at": "2026-03-06T00:28:00+08:00"
+  "id": "rule.coding-quality-thinking-001",
+  "rule_name": "编码质量标准",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "核心模块的编码，开发工程师必须开thinking（高质量推理模式）。",
+  "category": "engineering",
+  "trigger": {
+    "events": [
+      "skill.module_core.modified"
+    ],
+    "actions": [
+      "quality.code.thinking_required"
+    ]
+  },
+  "conditions": {
+    "scope": "core_modules",
+    "requirement": "thinking_mode_enabled"
+  },
+  "rationale": {
+    "source": "用户教学"
+  },
+  "enforcement_tier": "P1_check",
+  "created_at": "2026-03-06T00:28:00+08:00"
 }

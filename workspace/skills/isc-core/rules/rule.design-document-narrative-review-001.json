@@ -36,8 +36,12 @@
     ]
   },
   "trigger": {
-    "events": ["document.design.created"],
-    "actions": ["quality.document.narrative_review"]
+    "events": [
+      "document.design.created"
+    ],
+    "actions": [
+      "quality.document.narrative_review"
+    ]
   },
   "priority": "P1",
   "enforcement_tier": "P1_process",

@@ -58,7 +58,7 @@
   },
   "action": {
     "type": "block",
-    "handler": "content-scan",
+    "handler": "handlers/document-structure-check.js",
     "message": "❌ 违规：技能代码中检测到硬编码的LLM Provider URL或API Key。请使用 infrastructure/llm-context 标准接口调用LLM。\n\n正确用法：\nconst llm = require('路径/infrastructure/llm-context');\nconst result = await llm.chat(messages, { capability: 'chat' });",
     "auto_fix_hint": "将直接的 fetch/https 调用替换为 require('infrastructure/llm-context').chat()"
   },
@@ -67,6 +67,11 @@
     "author": "战略家",
     "rationale": "技能与模型解耦是系统反熵增的关键架构决策。硬编码Provider信息导致：1)密钥泄露风险 2)Provider切换时需改所有技能 3)无法自动fallback 4)无法统一监控LLM调用",
     "related_infrastructure": "infrastructure/llm-context/",
-    "tags": ["architecture", "llm", "decoupling", "security"]
+    "tags": [
+      "architecture",
+      "llm",
+      "decoupling",
+      "security"
+    ]
   }
 }

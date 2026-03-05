@@ -21,7 +21,7 @@
   },
   "action": {
     "type": "gate",
-    "handler": "data-source-gate",
+    "handler": "handlers/eval-quality-check.js",
     "on_failure": "reject"
   },
   "enforcement": "runtime_binding",

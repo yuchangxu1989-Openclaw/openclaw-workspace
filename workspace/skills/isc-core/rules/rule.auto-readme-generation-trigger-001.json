@@ -8,7 +8,10 @@
   "description": "自动README生成触发规则 - 代码文件存在但README缺失时生成",
   "condition": "code_files_exist AND readme_missing",
   "priority": 6,
-  "action": "generate_readme_from_code",
+  "action": {
+    "type": "check",
+    "handler": "handlers/document-structure-check.js"
+  },
   "governance": {
     "auto_execute": true,
     "councilRequired": false

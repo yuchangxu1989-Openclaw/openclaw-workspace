@@ -27,7 +27,7 @@
   },
   "action": {
     "type": "audit",
-    "handler": "orchestration-quality-checker",
+    "handler": "handlers/eval-quality-check.js",
     "checks": [
       {
         "id": "max_parallelism",

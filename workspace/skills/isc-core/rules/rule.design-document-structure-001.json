@@ -58,8 +58,13 @@
     ]
   },
   "trigger": {
-    "events": ["document.design.created", "document.design.modified"],
-    "actions": ["quality.document.structure_check"]
+    "events": [
+      "document.design.created",
+      "document.design.modified"
+    ],
+    "actions": [
+      "quality.document.structure_check"
+    ]
   },
   "priority": "P1",
   "enforcement_tier": "P1_process",

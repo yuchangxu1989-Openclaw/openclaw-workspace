@@ -12,7 +12,12 @@
     "councilRequired": false
   },
   "standard": {
-    "scope": ["Agent定位描述", "规则命名", "事件命名", "技能命名"],
+    "scope": [
+      "Agent定位描述",
+      "规则命名",
+      "事件命名",
+      "技能命名"
+    ],
     "method": "同一图/同一层级所有实体关键词两两比对，重叠即报错",
     "badcases": [
       {
@@ -33,8 +38,14 @@
     ]
   },
   "trigger": {
-    "events": ["architecture.diagram.created", "isc.rule.created", "skill.general.created"],
-    "actions": ["quality.naming.mece_check"]
+    "events": [
+      "architecture.diagram.created",
+      "isc.rule.created",
+      "skill.general.created"
+    ],
+    "actions": [
+      "quality.naming.mece_check"
+    ]
   },
   "priority": "P1",
   "enforcement_tier": "P1_process",

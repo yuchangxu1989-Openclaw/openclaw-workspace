@@ -1,38 +1,42 @@
 /**
- * capability-anchor-sync handler
- * 
- * Triggers CAPABILITY-ANCHOR.md regeneration on relevant events:
- * - skill:created, skill:updated, skill:deleted
- * - isc:rule:changed
- * - infrastructure:changed
+ * capability-anchor-sync handler — 触发能力锚点重建
  */
-'use strict';
-
 const { execSync } = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
-const TRIGGER_EVENTS = [
-  'skill:created',
-  'skill:updated', 
-  'skill:deleted',
-  'isc:rule:changed',
-  'infrastructure:changed'
-];
+const LOG_FILE = path.resolve(__dirname, '../../logs/capability-anchor-sync.jsonl');
+const REGEN_SCRIPT = path.resolve(__dirname, '../../../scripts/regenerate-capability-anchor.sh');
 
-module.exports = {
-  events: TRIGGER_EVENTS,
+module.exports = async function(event, rule, context) {
+  let result;
   
-  async handle(event) {
-    const syncScript = path.join(__dirname, '../../../skills/isc-capability-anchor-sync/index.js');
+  if (fs.existsSync(REGEN_SCRIPT)) {
     try {
-      execSync(`node "${syncScript}"`, { 
-        cwd: path.join(__dirname, '../../..'),
+      const output = execSync(`bash ${REGEN_SCRIPT}`, {
         timeout: 30000,
-        stdio: 'pipe'
+        encoding: 'utf8',
+        cwd: '/root/.openclaw/workspace'
       });
-      console.log(`[capability-anchor-sync] Regenerated CAPABILITY-ANCHOR.md on ${event.type}`);
-    } catch (err) {
-      console.error(`[capability-anchor-sync] Failed: ${err.message}`);
+      result = { executed: true, output: output.slice(0, 500) };
+    } catch (e) {
+      result = { executed: false, error: e.message.slice(0, 300) };
     }
+  } else {
+    result = { executed: false, error: `Script not found: ${REGEN_SCRIPT}` };
   }
+
+  const record = {
+    timestamp: new Date().toISOString(),
+    handler: 'capability-anchor-sync',
+    eventType: event.type,
+    ruleId: rule.id,
+    result
+  };
+
+  const dir = path.dirname(LOG_FILE);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  fs.appendFileSync(LOG_FILE, JSON.stringify(record) + '\n');
+
+  return { success: result.executed !== false || result.error?.includes('Script not found'), result };
 };

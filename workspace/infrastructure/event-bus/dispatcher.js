@@ -84,11 +84,19 @@ class Dispatcher {
           continue;
         }
 
-        // Execute action (Phase 0: log only)
+        // Execute actions — Phase 1: handler dispatch + log
         const actions = this._extractActions(rule);
         for (const action of actions) {
           this._logAction({ eventType, ruleId: rule.id, action, payload, depth: _depth });
+          // Attempt handler execution
+          await this._executeHandler(action, rule, { id: `evt_${Date.now()}`, type: eventType, payload, source: 'dispatcher' });
         }
+        // Also run rule-level handler if specified
+        if (rule.action && rule.action.handler) {
+          await this._executeHandler(rule.action, rule, { id: `evt_${Date.now()}`, type: eventType, payload, source: 'dispatcher' });
+        }
+        // Always run log-action as universal logger
+        await this._executeHandler({ handler: 'log-action' }, rule, { id: `evt_${Date.now()}`, type: eventType, payload, source: 'dispatcher' });
         this.stats.executed++;
         this._log({ status: 'executed', eventType, ruleId: rule.id, depth: _depth });
       } catch (e) {
@@ -139,6 +147,21 @@ class Dispatcher {
     if (trigger.actions && Array.isArray(trigger.actions)) return trigger.actions;
     if (trigger.action) return [trigger.action];
     return [{ type: 'log_only' }];
+  }
+
+  async _executeHandler(action, rule, event) {
+    const handlerName = action.handler || action.type;
+    if (!handlerName) return;
+    const handlerPath = path.join(__dirname, 'handlers', `${handlerName}.js`);
+    try {
+      if (!fs.existsSync(handlerPath)) return; // no handler file, skip silently
+      const handler = require(handlerPath);
+      const result = await handler(event, rule, {});
+      this.logger.debug?.(`[Dispatcher] Handler ${handlerName} executed: ${JSON.stringify(result)}`);
+    } catch (e) {
+      this.logger.warn?.(`[Dispatcher] Handler ${handlerName} failed: ${e.message}`) ||
+        this.logger.log?.(`[Dispatcher] Handler ${handlerName} failed: ${e.message}`);
+    }
   }
 
   _logAction(entry) {

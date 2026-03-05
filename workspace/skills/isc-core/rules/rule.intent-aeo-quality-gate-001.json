@@ -16,6 +16,9 @@
       }
     ]
   },
-  "action": "触发AEO自动化评测 → 生成报告 → Badcase根因分析 → 通过后方可生效",
+  "action": {
+    "type": "check",
+    "handler": "handlers/eval-quality-check.js"
+  },
   "enforcement_tier": "P1_process"
 }

@@ -22,7 +22,8 @@
     "args": [
       "--event=created",
       "--type=aeo"
-    ]
+    ],
+    "handler": "handlers/eval-quality-check.js"
   },
   "governance": {
     "auto_execute": true

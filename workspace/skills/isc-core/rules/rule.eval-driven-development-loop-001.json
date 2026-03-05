@@ -14,21 +14,37 @@
         "phase": 1,
         "name": "场景化数据采集",
         "description": "从真实会话、网络调研、竞品分析中采集场景数据，不允许纯手造",
-        "sources": ["real_conversations", "web_research", "competitor_analysis", "production_logs"],
+        "sources": [
+          "real_conversations",
+          "web_research",
+          "competitor_analysis",
+          "production_logs"
+        ],
         "output": "raw_scenario_data"
       },
       {
         "phase": 2,
         "name": "评测标准设计",
         "description": "定义评测维度、通过标准、复杂度分级",
-        "dimensions": ["accuracy", "latency", "coverage", "complexity_handling", "edge_cases"],
+        "dimensions": [
+          "accuracy",
+          "latency",
+          "coverage",
+          "complexity_handling",
+          "edge_cases"
+        ],
         "output": "eval_criteria"
       },
       {
         "phase": 3,
         "name": "评测集构建",
         "description": "基于采集数据构建结构化评测集，标注复杂度维度(轮次/意图/上下文/中断/领域交叉)",
-        "requirements": ["source_traceability", "complexity_tags", "difficulty_distribution", "minimum_coverage"],
+        "requirements": [
+          "source_traceability",
+          "complexity_tags",
+          "difficulty_distribution",
+          "minimum_coverage"
+        ],
         "output": "eval_dataset"
       },
       {
@@ -78,7 +94,12 @@
     "skip_prohibition": "不允许跳过任何phase。如果某phase无产出，必须显式标注'本轮无需变更'及原因。"
   },
   "trigger": {
-    "events": ["skill.general.created", "skill.general.created", "system.general.created", "quality.general.completed"],
+    "events": [
+      "skill.general.created",
+      "skill.general.created",
+      "system.general.created",
+      "quality.general.completed"
+    ],
     "actions": [
       {
         "type": "gate",
