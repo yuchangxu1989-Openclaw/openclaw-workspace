@@ -1,7 +1,6 @@
-# 凌霄阁-7人裁决神殿 ⚡🏛️
+# 凌霄阁-7人裁决神殿 v1.0 ⚡🏛️
 
-distribution: internal
-
+distribution: publishable
 
 > 七位神官，三轮battle，一个裁决。用户是最终裁决者。
 
@@ -9,191 +8,115 @@ distribution: internal
 
 ## 这是什么
 
-一个**通用的深度决策机制**。7个独立Agent从完全不同的视角审视同一个议题，互相质疑、互相battle，最终输出一份经过充分对抗的裁决报告。
+一个**完整可运行的深度决策引擎**。通过LLM驱动7个独立视角对同一议题进行三轮对抗式审议，输出结构化裁决报告。
 
-**不依赖特定环境**。任何支持多Agent调度的平台（OpenClaw、AutoGen、CrewAI等）都可以使用。核心是7个视角的prompt模板和三轮对抗协议。
+**核心能力**：
+- ✅ LLM驱动的多角色三轮对抗（Round 1并行 → Round 2串行交叉质疑 → Round 3终审裁决）
+- ✅ 7/5/3席降级模式（全席 / 精简 / 极限）
+- ✅ OpenAI-compatible API（默认GLM-5，可切换任意模型）
+- ✅ CLI入口 + 模块导出（`convene()` 函数）
+- ✅ 单Agent失败容错（标记"缺席"，不影响整体流程）
+- ✅ 结构化JSON输出（含评分、耗时、各轮详情）
 
-**不捆绑流水线**。可以独立调用——任何你觉得"需要深度讨论"的场景都可以开凌霄阁。
+**能力边界**：
+- ⚠️ 不支持流式输出（每轮完成后才返回）
+- ⚠️ 不包含持久化存储（结果仅在内存/stdout）
+- ⚠️ Round 2/3必须串行，总耗时取决于LLM响应速度
+- ⚠️ 不含Web UI或交互式界面
 
 ---
 
-## 使用条件
+## 快速开始
 
-| 条件 | 要求 |
-|------|------|
-| Agent数量 | **7个独立Agent**（或7次独立调用，每次扮演不同角色） |
-| 思考深度 | 建议开启thinking/reasoning模式 |
-| 输入 | 议题描述 + 背景材料（方案文档、审查报告等） |
-| 输出 | 裁决报告（含各方观点、分歧、最终决策、风险缓解） |
+### CLI 调用
 
-### 最低配置（单Agent环境）
-如果只有1个Agent，可以串行扮演7个角色。效果打折但可用。
+```bash
+# 设置环境变量
+export LLM_API_KEY=your-api-key
+export LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4  # 可选，默认GLM-5
 
-### 推荐配置（多Agent环境）
-7个Agent并行调用（Round 1），串行质疑（Round 2），1个Agent综合裁决（Round 3）。
+# 运行裁决
+node council.js --topic "是否应该重构核心模块" --context "当前技术债较重" --mode 7
+
+# 精简模式
+node council.js --topic "议题" --mode 3 --model gpt-4
+
+# 查看帮助
+node council.js --help
+```
+
+### 模块调用
+
+```javascript
+const { convene } = require('./council.js');
+
+const result = await convene('是否应该重构核心模块', '当前技术债较重', {
+  mode: '7',        // '7' | '5' | '3'
+  model: 'glm-5',   // 任意OpenAI-compatible模型
+  apiKey: 'xxx',     // 或设置 LLM_API_KEY 环境变量
+  baseUrl: 'https://open.bigmodel.cn/api/paas/v4',
+  parallel: true,    // Round 1 并行
+});
+
+console.log(result.rounds.round3.verdict);
+console.log(result.rounds.round3.score);
+```
+
+### 输出格式
+
+```json
+{
+  "topic": "...",
+  "mode": "7",
+  "rounds": {
+    "round1": [{ "seat": "dao", "seatTitle": "🏛️ 道席", "result": "...", "status": "ok" }, ...],
+    "round2": [{ "seat": "dao", "seatTitle": "🏛️ 道席", "result": "...", "status": "ok" }, ...],
+    "round3": { "verdict": "...", "score": 7.5, "status": "ok" }
+  },
+  "duration_ms": 12345,
+  "model": "glm-5"
+}
+```
 
 ---
 
 ## 七席神官
 
-7个视角经过精心设计，确保**MECE（不重叠、不遗漏）**，覆盖从技术到商业到用户到未来的全维度：
+| 席位 | 角色 | 审视维度 | 核心问题 |
+|------|------|---------|---------|
+| 🏛️ **道席** | 第一性原理守护者 | 本质与边界 | 根基上有没有错？ |
+| ⚔️ **战席** | 战略决策者 | 方向与取舍 | 该不该做？值不值得？ |
+| 🔧 **工席** | 工程实现者 | 可落地性 | 能实现吗？成本多大？ |
+| 🛡️ **盾席** | 质量与安全守护者 | 风险与韧性 | 最坏情况？回滚方案？ |
+| 👁️ **眼席** | 用户与市场洞察者 | 用户价值与体验 | 用户真的需要吗？ |
+| 🔮 **远席** | 未来与进化预判者 | 可扩展性与成长 | 3年后还适用吗？ |
+| ⚖️ **衡席** | 综合仲裁者 | 平衡与整合 | 最优平衡点在哪？ |
 
-| 席位 | 角色 | 审视维度 | 核心问题 | 与其他席位的差异 |
-|------|------|---------|---------|----------------|
-| 🏛️ **道席** | 第一性原理守护者 | 本质与边界 | "这个方案的第一性原理是什么？有没有在根基上就错了？" | 唯一追问"为什么"而非"怎么做"的席位 |
-| ⚔️ **战席** | 战略决策者 | 方向与取舍 | "该不该做？优先级对吗？资源投入值得吗？" | 关注全局战略和机会成本 |
-| 🔧 **工席** | 工程实现者 | 可落地性 | "能实现吗？成本多大？技术债多少？" | 唯一关心代码级细节的席位 |
-| 🛡️ **盾席** | 质量与安全守护者 | 风险与韧性 | "最坏情况是什么？怎么回滚？安全边界在哪？" | 专职找漏洞、极端case、安全问题 |
-| 👁️ **眼席** | 用户与市场洞察者 | 用户价值与体验 | "用户真的需要吗？体验如何？市场怎么看？" | 唯一从外部视角（而非系统内部）审视的席位 |
-| 🔮 **远席** | 未来与进化预判者 | 可扩展性与成长 | "3年后还适用吗？技术趋势如何？进化空间在哪？" | 唯一关注长期（非当下）的席位 |
-| ⚖️ **衡席** | 综合仲裁者 | 平衡与整合 | "各方分歧的根因是什么？最优平衡点在哪？" | 不代表自己立场，专职整合和仲裁冲突 |
+### 降级模式
 
-### 视角设计原则
-- **完备性**：从本质（道）到方向（战）到实现（工）到风险（盾）到用户（眼）到未来（远）到整合（衡），覆盖决策的全生命周期
-- **差异性**：每个席位有且只有一个核心维度，不与其他席位重叠
-- **对抗性**：工席和盾席天然对立（能做 vs 风险太大），战席和眼席天然对立（战略需要 vs 用户不买单），道席挑战所有人的根基假设
+| 模式 | 席位 | Token消耗 | 适用场景 |
+|------|------|----------|---------|
+| **7席** | 全部7席 | ~85K | 重大架构决策 |
+| **5席** | 道+战+工盾+眼远+衡 | ~60K | 一般决策 |
+| **3席** | 道+战+衡 | ~35K | 快速评估 |
 
 ---
 
 ## 三轮对抗协议
 
-### Round 1：独立审议（并行，7个Agent同时）
-
-每个神官独立分析议题，输出：
-
-```
-【立场】支持 / 反对 / 有条件支持
-【核心论点】最多3条，每条一句话
-【关键风险】从自己维度看到的最大风险
-【信心度】1-10
-【一句话结论】
-```
-
-**算力控制**：Round 1每个Agent限制800 token输出。不要长篇大论，要观点密度。
-
-### Round 2：交叉Battle（串行或2-3组并行）
-
-每个神官看到所有人的Round 1观点后：
-
-```
-【挑战】指出其他神官论点的最大漏洞（至少2个）
-【回应】回应对自己的质疑
-【修正】是否修正立场？修正到什么程度？
-【信心度变化】从X到Y，原因
-```
-
-**算力控制**：Round 2每个Agent限制600 token。重点是质疑和回应，不是重复立场。
-
-### Round 3：综合裁决（衡席主笔，道席审核）
-
-衡席综合所有观点，输出：
-
-```
-【核心分歧】各方最根本的分歧是什么
-【事实判断】哪些争议可以用事实解决
-【价值判断】哪些争议是价值取向不同
-【裁决】最终建议（含条件和边界）
-【风险缓解】针对反对方最强论点的应对措施
-【执行建议】下一步怎么做
-```
-
-道席审核裁决是否偏离了第一性原理。如果偏离，打回Round 3重做。
-
-**算力控制**：Round 3限制1500 token。
+1. **Round 1 — 独立审议**（可并行）：每席独立分析，输出立场+论点+风险+信心度
+2. **Round 2 — 交叉Battle**（串行）：看到所有观点后，挑战漏洞、回应质疑、修正立场
+3. **Round 3 — 终审裁决**（串行）：衡席+道席综合裁决，输出分歧分析+最终建议+评分
 
 ---
 
-## 算力消耗预估
+## 测试
 
-| 轮次 | Agent数 | 每Agent token | 总消耗 |
-|------|---------|-------------|--------|
-| Round 1 | 7 | ~800 out + ~2000 in | ~19,600 |
-| Round 2 | 7 | ~600 out + ~6000 in | ~46,200 |
-| Round 3 | 2 | ~1500 out + ~8000 in | ~19,000 |
-| **总计** | — | — | **~85,000 tokens** |
-
-**降级模式**（算力紧张时）：
-- **5人模式**：合并工席+盾席为"工程风险席"，合并眼席+远席为"外部视野席"。省约30% token。
-- **3人模式**：只保留道席、战席、衡席。极限精简，省约60% token。
-
----
-
-## 触发条件
-
-### 适用场景（应该开凌霄阁）
-- 架构级设计方案的终审
-- 重大技术选型（不可逆决策）
-- 战略方向分歧
-- 影响系统进化方向的决策
-- 任何你"拿不定主意"的重大问题
-
-### 不适用场景（不要开凌霄阁）
-- Bug修复
-- 常规功能开发
-- 已有明确标准答案的问题
-- 工程师和质量分析师都没通过的半成品（先循环修到通过再来）
-
----
-
-## 调用方式
-
-### 方式1：OpenClaw sessions_spawn（推荐）
-
-```javascript
-// Round 1：7个Agent并行
-const round1Results = await Promise.all(SEATS.map(seat =>
-  sessions_spawn({
-    agentId: "main",
-    label: `lingxiaoge-${seat.id}`,
-    task: round1Prompt(topic, context, seat),
-    thinking: "high"
-  })
-));
-
-// Round 2：每个Agent看到所有Round 1结果后质疑
-const round2Results = await Promise.all(SEATS.map(seat =>
-  sessions_spawn({
-    agentId: "main", 
-    label: `lingxiaoge-${seat.id}-r2`,
-    task: round2Prompt(topic, round1Results, seat),
-    thinking: "high"
-  })
-));
-
-// Round 3：衡席综合裁决 + 道席审核
-const verdict = await sessions_spawn({
-  agentId: "main",
-  label: "lingxiaoge-verdict",
-  task: round3Prompt(topic, round1Results, round2Results),
-  thinking: "high"
-});
+```bash
+node --test tests/unit/lingxiaoge.test.js
 ```
 
-### 方式2：单Agent串行（任何平台可用）
-
-```
-Step 1: 让AI依次扮演7个角色，每次给出Round 1观点
-Step 2: 让AI扮演每个角色，看到所有观点后质疑
-Step 3: 让AI扮演衡席做最终裁决
-```
-
-### 方式3：直接在对话中使用
-
-```
-用户：开凌霄阁讨论 [议题]
-AI：[自动执行三轮协议，输出裁决报告]
-```
-
----
-
-## 与流水线的关系
-
-凌霄阁**可以**嵌入流水线（如架构评审流水线的终审环节），但**不强制绑定**。
-
-它是一个独立技能：
-- 独立调用：`开凌霄阁讨论 XXX`
-- 嵌入流水线：作为ISC规则 `rule.architecture-review-pipeline-001` 的一个stage
-- 被其他技能调用：任何技能发现重大决策点时可以触发
+21条测试覆盖：模式切换、prompt生成、结果结构化、容错、CLI解析、轮次间数据传递、评分提取。
 
 ---
 
@@ -202,12 +125,14 @@ AI：[自动执行三轮协议，输出裁决报告]
 ```yaml
 name: lingxiaoge-tribunal
 display_name: 凌霄阁-7人裁决神殿
-version: "0.5.0"
-description: 7位独立Agent三轮对抗式深度决策机制。通用、独立、可嵌入。
+version: "1.0.0"
+description: LLM驱动的7视角三轮对抗式深度决策引擎。完整可运行，支持CLI和模块调用。
 status: active
-author: Strategic Commander & 于长煦
+distribution: publishable
+author: Strategic Commander & 长煦
 license: MIT
-tags: [decision-making, multi-agent, council, battle, governance]
-min_agents: 1 (degraded) / 7 (full)
-avg_tokens: ~85,000 (full) / ~35,000 (3-seat degraded)
+tags: [decision-making, multi-agent, council, battle, governance, llm]
+min_agents: 1
+dependencies: none (uses native fetch)
+avg_tokens: ~85,000 (7-seat) / ~60,000 (5-seat) / ~35,000 (3-seat)
 ```
