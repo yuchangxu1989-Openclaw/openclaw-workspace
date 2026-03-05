@@ -11,7 +11,7 @@ new-skill
 
 填补能力空白: 缺少 audio 类型能力
 
-## version: "0.1.0"
+## version: "0.1.1"
 
 ## Input
 
