@@ -158,7 +158,7 @@ const CLAUDE_API_KEY = (function() {
     return (cfg.models && cfg.models.providers && cfg.models.providers.claude && cfg.models.providers.claude.apiKey)
       || process.env.CLAUDE_KEY_MAIN;
   } catch (_) {
-    return process.env.CLAUDE_KEY_MAIN || 'REDACTED_CLAUDE_API_KEY';
+    return process.env.CLAUDE_KEY_MAIN;
   }
 })();
 const LLM_MODEL = 'claude-sonnet-4-6';

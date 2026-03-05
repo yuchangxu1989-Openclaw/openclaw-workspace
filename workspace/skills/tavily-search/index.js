@@ -1,6 +1,13 @@
 const https = require('https');
+const { SECRETS_DIR } = require('../_shared/paths.js');
 
-const API_KEY = process.env.TAVILY_API_KEY || 'REDACTED_TAVILY_API_KEY';
+const API_KEY = process.env.TAVILY_API_KEY || (() => {
+  try {
+    const content = require('fs').readFileSync(require('path').join(SECRETS_DIR, 'tavily.env'), 'utf8');
+    const m = content.match(/^TAVILY_API_KEY=(.+)$/m);
+    return m ? m[1].trim() : null;
+  } catch (_) { return null; }
+})();
 
 async function search(query, options = {}) {
   const body = JSON.stringify({

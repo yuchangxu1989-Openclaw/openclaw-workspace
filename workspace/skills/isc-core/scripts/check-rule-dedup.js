@@ -26,7 +26,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CONFIG = {
   claude: {
     baseUrl: 'https://api.penguinsaichat.dpdns.org',
-    apiKey: 'REDACTED_CLAUDE_API_KEY',
+    apiKey: (() => {
+      if (process.env.CLAUDE_KEY_MAIN) return process.env.CLAUDE_KEY_MAIN;
+      try {
+        const cfg = JSON.parse(fs.readFileSync('/root/.openclaw/openclaw.json', 'utf8'));
+        return cfg?.models?.providers?.claude?.apiKey || null;
+      } catch (_) { return null; }
+    })(),
     model: 'claude-opus-4-6',
     maxTokens: 1024,
     timeoutMs: 30_000,
