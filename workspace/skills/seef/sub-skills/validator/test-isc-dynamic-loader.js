@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const { ISCRuleLoader } = require('./isc-rule-loader');
 
-const { SKILLS_DIR } = require('../../../_shared/paths');
+const { SKILLS_DIR } = require('../../../shared/paths');
 const RULES_DIR = path.join(SKILLS_DIR, 'isc-core/rules');
 const TEST_RULE_PATH = path.join(RULES_DIR, 'rule.test-dynamic-loader-999.json');
 

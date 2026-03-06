@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { exists, readText, readJson, walk, hasAny } = require('./_p0_utils');
+const { exists, readText, readJson, walk, hasAny } = require('./p0-utils');
 
 /**
  * GitHub Sync Trigger Handler

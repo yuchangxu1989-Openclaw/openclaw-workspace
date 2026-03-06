@@ -10,7 +10,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 const _require = createRequire(import.meta.url);
-const { SKILLS_DIR } = _require('../../../../_shared/paths');
+const { SKILLS_DIR } = _require('../../../../shared/paths');
 import { StateManager, PIPELINE_STATES } from './state-manager.js';
 import { ISCValidator } from './isc-validator.js';
 

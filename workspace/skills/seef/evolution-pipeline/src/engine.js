@@ -1,4 +1,4 @@
-const { SKILLS_DIR } = require('../../../_shared/paths');
+const { SKILLS_DIR } = require('../../../shared/paths');
 /**
  * 流水线引擎 (Pipeline Engine)
  * 

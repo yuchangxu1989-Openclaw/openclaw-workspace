@@ -1,5 +1,5 @@
 const path = require('path');
-const { walk, readText, hasAny } = require('./_p0_utils');
+const { walk, readText, hasAny } = require('./p0-utils');
 
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';

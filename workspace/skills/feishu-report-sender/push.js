@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { WORKSPACE } = require('../_shared/paths');
+const { WORKSPACE } = require('../shared/paths');
 
 const SEND_QUEUE = path.join(WORKSPACE, 'feishu_send_queue');
 const SENT_CARDS = path.join(WORKSPACE, 'feishu_sent_cards');

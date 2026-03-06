@@ -8,7 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { SKILLS_DIR } = require('../../_shared/paths');
+const { SKILLS_DIR } = require('../../shared/paths');
 const { embedSingle, embedBatch, cosineSimilarity, ZHIPU_CONFIG } = require('./zhipu-embedding');
 
 // 优化配置

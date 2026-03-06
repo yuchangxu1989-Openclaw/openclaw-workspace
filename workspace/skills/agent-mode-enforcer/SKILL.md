@@ -41,7 +41,7 @@ node index.cjs "任务描述"
 ```
 
 ## 依赖
-- `../_shared/paths` (WORKSPACE 路径常量)
+- `../shared/paths` (WORKSPACE 路径常量)
 - Node.js 内置模块: `fs`, `path`
 - 无外部 API 调用
 

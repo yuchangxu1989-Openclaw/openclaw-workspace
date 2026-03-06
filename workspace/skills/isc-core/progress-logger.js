@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { WORKSPACE } = require('../_shared/paths');
+const { WORKSPACE } = require('../shared/paths');
 
 const PROGRESS_PATH = path.join(WORKSPACE, 'progress-log.md');
 

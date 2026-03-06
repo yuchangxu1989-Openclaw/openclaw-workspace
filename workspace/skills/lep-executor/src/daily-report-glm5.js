@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { WORKSPACE, SECRETS_DIR, SKILLS_DIR } = require('../../_shared/paths');
+const { WORKSPACE, SECRETS_DIR, SKILLS_DIR } = require('../../shared/paths');
 
 // LLM via infrastructure/llm-context (no direct HTTP calls)
 const llmContext = require(path.join(WORKSPACE, 'infrastructure/llm-context'));

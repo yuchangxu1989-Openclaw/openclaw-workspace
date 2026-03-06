@@ -14,7 +14,7 @@ import { createRequire } from 'module';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const _require = createRequire(import.meta.url);
-const { WORKSPACE, MEMORY_DIR, SKILLS_DIR } = _require('../_shared/paths');
+const { WORKSPACE, MEMORY_DIR, SKILLS_DIR } = _require('../shared/paths');
 
 const PDCA_CONFIG = {
   version: '1.0.2',

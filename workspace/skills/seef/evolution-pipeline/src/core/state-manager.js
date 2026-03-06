@@ -79,7 +79,7 @@ class StateManager {
   constructor(config = {}) {
     this.config = {
       statePath: config.statePath || path.join(__dirname, '../../.pipeline/state'),
-      skillsBasePath: config.skillsBasePath || require('../../../../_shared/paths').SKILLS_DIR,
+      skillsBasePath: config.skillsBasePath || require('../../../../shared/paths').SKILLS_DIR,
       ...config
     };
     

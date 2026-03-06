@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, walk } = require('./_p0_utils');
+const { exists, readText, walk } = require('./p0-utils');
 
 /**
  * 技能变更时自动更新CAPABILITY-ANCHOR.md中的索引

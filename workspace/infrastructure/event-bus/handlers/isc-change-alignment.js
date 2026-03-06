@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, readJson, walk, hasAny } = require('./_p0_utils');
+const { exists, readText, readJson, walk, hasAny } = require('./p0-utils');
 
 /**
  * ISC Change Alignment Handler
@@ -150,7 +150,7 @@ async function performBuiltInAlignmentCheck(workspace, logger) {
   if (await exists(handlersDir)) {
     const handlerFiles = await walk(handlersDir);
     for (const f of handlerFiles) {
-      if (f.endsWith('.js') && !f.includes('_p0_utils') && !f.includes('node_modules')) {
+      if (f.endsWith('.js') && !f.includes('p0-utils') && !f.includes('node_modules')) {
         handlers.push(path.basename(f, '.js'));
       }
     }

@@ -27,7 +27,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { WORKSPACE, MEMORY_DIR } = require('../_shared/paths');
+const { WORKSPACE, MEMORY_DIR } = require('../shared/paths');
 
 // ─── 事件总线 ───
 const bus = require(path.join(WORKSPACE, 'infrastructure/event-bus/bus-adapter'));

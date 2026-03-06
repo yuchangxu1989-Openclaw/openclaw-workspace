@@ -1,4 +1,4 @@
-const { SKILLS_DIR } = require('../../../_shared/paths');
+const { SKILLS_DIR } = require('../../../shared/paths');
 /**
  * ISC规则动态加载器
  * 从 /skills/isc-core/rules/ 动态扫描、解析、缓存ISC规则

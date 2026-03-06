@@ -58,7 +58,7 @@
   │  │                                                         │    │
   │  │  glm-asr, glm-tts, glm-image, cogview, cogvideo,       │    │
   │  │  file-sender, tavily-search, zhipu-vision, convert,     │    │
-  │  │  github-api, parallel-subagent, _shared, ...            │    │
+  │  │  github-api, parallel-subagent, shared, ...            │    │
   │  └─────────────────────────────────────────────────────────┘    │
   └─────────────────────────────────────────────────────────────────┘
 ```
@@ -245,7 +245,7 @@ graph TD
 | 3 | `skills/zhipu-vision/index.js:5` | 硬编码 `.secrets/zhipu-keys.env` |
 | 4 | `skills/zhipu-image-gen/index.js:5` | 硬编码 `.secrets/zhipu-keys.env` |
 
-**正确做法**：通过环境变量或 `skills/_shared/paths.js` 的 `SECRETS_DIR` 常量访问。
+**正确做法**：通过环境变量或 `skills/shared/paths.js` 的 `SECRETS_DIR` 常量访问。
 
 ---
 
@@ -267,7 +267,7 @@ graph TD
 
 | 优先级 | 违规 | 修复方案 | 影响范围 |
 |--------|------|---------|---------|
-| P0 | .secrets硬编码 (4处) | 改用env var或_shared/paths.js | 4个文件 |
+| P0 | .secrets硬编码 (4处) | 改用env var或shared/paths.js | 4个文件 |
 | P1 | L3→L2 (dashboard→aeo) | dashboard通过事件消费aeo数据 | 1个文件 |
 | P1 | lep-core幻影依赖 (3处) | 删除或改为动态路径+try-catch | 2个文件 |
 | P2 | L2→L3 event-bridge (6处) | 创建event-bus/sdk.js薄客户端 | 6个文件 |

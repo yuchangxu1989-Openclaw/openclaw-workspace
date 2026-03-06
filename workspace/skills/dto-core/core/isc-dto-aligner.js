@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
+const { SKILLS_DIR, WORKSPACE } = require('../../shared/paths');
 
 const ALIGNER_CONFIG = {
   iscStandardsPath: path.join(SKILLS_DIR, 'isc-core/standards'),

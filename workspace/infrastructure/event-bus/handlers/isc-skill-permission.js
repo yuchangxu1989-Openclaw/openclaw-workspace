@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, walk, hasAny } = require('./_p0_utils');
+const { exists, readText, walk, hasAny } = require('./p0-utils');
 
 /**
  * 技能权限分级（Filesystem/Network/Shell/Credential四维度）

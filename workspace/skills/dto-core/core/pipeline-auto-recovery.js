@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
+const { SKILLS_DIR, WORKSPACE } = require('../../shared/paths');
 
 const MONITOR_CONFIG = {
   pipelinePath: path.join(SKILLS_DIR, 'dto-core/core/global-auto-decision-pipeline.js'),

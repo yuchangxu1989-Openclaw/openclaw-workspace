@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
+const { SKILLS_DIR, WORKSPACE } = require('../../shared/paths');
 
 const ISC_CORE_DIR = path.join(__dirname, '..');
 

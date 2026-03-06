@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { SKILLS_DIR, WORKSPACE } = require('../../_shared/paths');
+const { SKILLS_DIR, WORKSPACE } = require('../../shared/paths');
 
 const EVOMAP_CONFIG = {
   uploaderPath: path.join(SKILLS_DIR, 'evomap-uploader'),

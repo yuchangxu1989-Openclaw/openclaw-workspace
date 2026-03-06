@@ -99,7 +99,7 @@ function auditSkill(skillName) {
 function auditAll() {
   if (!fs.existsSync(SKILLS_DIR)) return [];
   return fs.readdirSync(SKILLS_DIR)
-    .filter(d => !d.startsWith('.') && d !== '_shared' && fs.statSync(path.join(SKILLS_DIR, d)).isDirectory())
+    .filter(d => !d.startsWith('.') && d !== 'shared' && fs.statSync(path.join(SKILLS_DIR, d)).isDirectory())
     .map(auditSkill)
     .filter(Boolean);
 }

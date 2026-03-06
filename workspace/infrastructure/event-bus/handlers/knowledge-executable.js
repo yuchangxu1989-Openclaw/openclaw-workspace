@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, walk } = require('./_p0_utils');
+const { exists, readText, walk } = require('./p0-utils');
 
 /**
  * 可执行知识发现与规则生成

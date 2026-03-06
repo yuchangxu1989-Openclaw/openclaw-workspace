@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { WORKSPACE, SKILLS_DIR } = require('../_shared/paths');
+const { WORKSPACE, SKILLS_DIR } = require('../shared/paths');
 
 const QUEUE_PATHS = [
   path.join(SKILLS_DIR, 'cras/feishu_queue'),

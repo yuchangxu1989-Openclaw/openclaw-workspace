@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { WORKSPACE } = require('../../_shared/paths');
+const { WORKSPACE } = require('../../shared/paths');
 
 // 配置
 const WORKSPACE_ROOT = WORKSPACE;

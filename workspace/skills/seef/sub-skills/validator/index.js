@@ -1,4 +1,4 @@
-const { SKILLS_DIR, REPORTS_DIR, WORKSPACE } = require('../../../_shared/paths');
+const { SKILLS_DIR, REPORTS_DIR, WORKSPACE } = require('../../../shared/paths');
 /**
  * SEEF Validator - 技能验证器
  * P1阶段实现：准入准出门禁 + ISC规则校验

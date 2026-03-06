@@ -15,7 +15,7 @@
 |------|---------|
 | **D08+** | isc-rule-matcher.js修复trigger.events格式问题（dict→flat array），消灭71个rule-match错误 |
 | **D10** | L3_PIPELINE_ENABLED: false → **true**（立即生效） |
-| **D11** | skills/_shared/SKILL.md已创建，**全部技能现在有SKILL.md** |
+| **D11** | skills/shared/SKILL.md已创建，**全部技能现在有SKILL.md** |
 | **D15** | cron-healer模式库 2→**8个**（script-not-found, timeout, permission, syntax, api-key, network） |
 | **D06** | l3-pipeline-cron.js和runner.js增加ISC advisory检查 |
 

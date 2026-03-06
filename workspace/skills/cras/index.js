@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { SKILLS_DIR, WORKSPACE } = require('../_shared/paths');
+const { SKILLS_DIR, WORKSPACE } = require('../shared/paths');
 
 // CRAS 配置
 const CRAS_CONFIG = {

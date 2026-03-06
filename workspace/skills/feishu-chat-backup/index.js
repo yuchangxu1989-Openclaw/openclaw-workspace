@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { SKILLS_DIR, AGENTS_DIR } = require('../_shared/paths');
+const { SKILLS_DIR, AGENTS_DIR } = require('../shared/paths');
 
 const BACKUP_CONFIG = {
   version: '2.0.0',

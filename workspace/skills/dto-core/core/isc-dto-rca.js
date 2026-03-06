@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { SKILLS_DIR } = require('../../_shared/paths');
+const { SKILLS_DIR } = require('../../shared/paths');
 
 const RCA_CONFIG = {
   logPath: path.join(SKILLS_DIR, 'isc-core/logs/isc-dto-rca-log.jsonl')
@@ -140,7 +140,7 @@ class ISCDTORootCauseAnalyzer {
 // ISC-DTO版本对齐检查
 const fs = require('fs');
 const path = require('path');
-const { SKILLS_DIR } = require(path.join(__dirname, '../../_shared/paths'));
+const { SKILLS_DIR } = require(path.join(__dirname, '../../shared/paths'));
 
 function checkAlignment() {
   const dtoVersion = require(path.join(SKILLS_DIR, 'dto-core/package.json')).version;

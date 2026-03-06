@@ -11,7 +11,7 @@ const path = require('path');
 class FileWatcher {
   constructor(config = {}) {
     this.config = config;
-    this.watchPaths = config.watch?.paths || [require('../../../_shared/paths').SKILLS_DIR];
+    this.watchPaths = config.watch?.paths || [require('../../../shared/paths').SKILLS_DIR];
     this.ignored = config.watch?.ignored || [
       '**/node_modules/**',
       '**/.git/**',

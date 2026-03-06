@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, readJson } = require('./_p0_utils');
+const { exists, readText, readJson } = require('./p0-utils');
 
 /**
  * 规则创建后自动拆解

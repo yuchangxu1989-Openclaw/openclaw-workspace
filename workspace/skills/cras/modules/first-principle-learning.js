@@ -5,7 +5,7 @@
  */
 
 const https = require('https');
-const { WORKSPACE } = require('../../_shared/paths');
+const { WORKSPACE } = require('../../shared/paths');
 
 class FirstPrincipleLearning {
   constructor() {

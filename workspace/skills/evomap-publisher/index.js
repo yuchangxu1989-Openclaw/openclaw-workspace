@@ -9,7 +9,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const { EventEmitter } = require('events');
-const { SKILLS_DIR } = require('../_shared/paths');
+const { SKILLS_DIR } = require('../shared/paths');
 
 // 尝试加载evomap-a2a
 let EvoMapA2A;

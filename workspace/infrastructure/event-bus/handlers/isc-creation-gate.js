@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, readJson, walk } = require('./_p0_utils');
+const { exists, readText, readJson, walk } = require('./p0-utils');
 
 /**
  * ISC规则创建闸门

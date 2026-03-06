@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 import { EventEmitter } from 'events';
 import { createRequire } from 'module';
 const _require = createRequire(import.meta.url);
-const { SKILLS_DIR } = _require('../../../_shared/paths');
+const { SKILLS_DIR } = _require('../../../shared/paths');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

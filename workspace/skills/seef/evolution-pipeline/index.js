@@ -18,7 +18,7 @@ import path from 'path';
 import { EventEmitter } from 'events';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const { SKILLS_DIR } = require('../../_shared/paths');
+const { SKILLS_DIR } = require('../../shared/paths');
 
 // 导入集成层模块
 import { EvoMapClient } from './lib/evomap-client.js';

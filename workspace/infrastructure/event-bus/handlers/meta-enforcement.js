@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, readJson, walk } = require('./_p0_utils');
+const { exists, readText, readJson, walk } = require('./p0-utils');
 
 /**
  * 元执行力审计：规则→handler存在性+可执行性全面检查
@@ -178,7 +178,7 @@ function generateHandlerSkeleton(ruleData, handlerName) {
 
   return `const fs = require('fs');
 const path = require('path');
-const { exists, readText } = require('./_p0_utils');
+const { exists, readText } = require('./p0-utils');
 
 /**
  * ${description}

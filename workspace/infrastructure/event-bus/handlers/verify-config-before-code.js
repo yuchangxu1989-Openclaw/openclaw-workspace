@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText } = require('./_p0_utils');
+const { exists, readText } = require('./p0-utils');
 
 /**
  * 编码前必须查配置，禁止hardcode API地址/模型名/Key

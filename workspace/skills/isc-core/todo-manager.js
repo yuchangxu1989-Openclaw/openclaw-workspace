@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { WORKSPACE } = require('../_shared/paths');
+const { WORKSPACE } = require('../shared/paths');
 
 const TODO_PATH = path.join(WORKSPACE, 'todo.md');
 

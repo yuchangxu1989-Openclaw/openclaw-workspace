@@ -158,7 +158,7 @@ Day 1/2 暴露的 15+ 个设计缺陷归结为 **4 个系统性根因**：
 | **根因** | 51个技能目录中13个缺少SKILL.md。ISC规则`rule.skill-mandatory-skill-md-001`存在但未在提交流程中强制执行 |
 | **应在哪个阶段发现** | 技能创建时。应有pre-commit hook强制检查 |
 | **为什么没发现** | enforcement层不存在(见D02)，规则写了但没人拦截 |
-| **证据** | 缺失列表: agent-mode-enforcer, api-aggregator, cogvideo, cogview, evomap-uploader, file-downloader, github-api, glm-4v, glm-image, glm-ocr, glm-tts, glm-video, glm-vision, _shared |
+| **证据** | 缺失列表: agent-mode-enforcer, api-aggregator, cogvideo, cogview, evomap-uploader, file-downloader, github-api, glm-4v, glm-image, glm-ocr, glm-tts, glm-video, glm-vision, shared |
 
 ---
 

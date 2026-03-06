@@ -5,7 +5,7 @@
  */
 
 const path = require('path');
-const { SKILLS_DIR } = require('../../_shared/paths');
+const { SKILLS_DIR } = require('../../shared/paths');
 const EventPublisher = require('../core/event-publisher');
 const EventBus = require('../core/event-bus');
 

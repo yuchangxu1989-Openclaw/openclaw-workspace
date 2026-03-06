@@ -8,7 +8,7 @@
  */
 
 const path = require('path');
-const { WORKSPACE } = require('../_shared/paths');
+const { WORKSPACE } = require('../shared/paths');
 const bus = require(path.join(WORKSPACE, 'infrastructure/event-bus/bus-adapter'));
 const { callLLM } = require('./intent-extractor-llm');
 

@@ -1,4 +1,4 @@
-const { SKILLS_DIR } = require('../../../../_shared/paths');
+const { SKILLS_DIR } = require('../../../../shared/paths');
 /**
  * EvoMap上传器 (EvoMap Uploader)
  * 

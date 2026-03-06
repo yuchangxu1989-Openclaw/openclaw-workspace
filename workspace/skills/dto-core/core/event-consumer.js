@@ -12,7 +12,7 @@
 const fs = require('fs');
 const path = require('path');
 const { EventEmitter } = require('events');
-const { WORKSPACE } = require('../../_shared/paths');
+const { WORKSPACE } = require('../../shared/paths');
 
 // ── 常量 ───────────────────────────────────────────────
 const SIGNALS_DIR   = path.join(WORKSPACE, '.dto-signals');

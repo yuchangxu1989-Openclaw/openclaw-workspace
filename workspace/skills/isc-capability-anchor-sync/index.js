@@ -13,7 +13,7 @@ import { createRequire } from 'module';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const _require = createRequire(import.meta.url);
-const { WORKSPACE, SKILLS_DIR } = _require('../_shared/paths');
+const { WORKSPACE, SKILLS_DIR } = _require('../shared/paths');
 
 const CONFIG = {
   rulesDir: path.join(SKILLS_DIR, 'isc-core/rules'),

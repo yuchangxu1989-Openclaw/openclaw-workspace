@@ -17,7 +17,7 @@ const SKILLS_DIR = path.resolve(__dirname, '../skills');
 const REPORT_PATH = path.resolve(__dirname, '../reports/enforcement-poc-report.json');
 
 // Directories to exclude from the check
-const EXCLUDE_DIRS = ['_shared', 'node_modules', '.git'];
+const EXCLUDE_DIRS = ['shared', 'node_modules', '.git'];
 
 function gateCheck() {
   console.log('═══ Runtime Enforcement PoC ═══');

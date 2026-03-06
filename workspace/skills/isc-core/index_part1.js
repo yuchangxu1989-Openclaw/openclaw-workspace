@@ -17,7 +17,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { WORKSPACE } = require('../_shared/paths');
+const { WORKSPACE } = require('../shared/paths');
 
 // ============================================================
 // ISC大成版配置

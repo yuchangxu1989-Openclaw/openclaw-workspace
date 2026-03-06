@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { SKILLS_DIR, WORKSPACE, MEMORY_DIR } = require('../_shared/paths');
+const { SKILLS_DIR, WORKSPACE, MEMORY_DIR } = require('../shared/paths');
 
 // 配置
 const CONFIG = {

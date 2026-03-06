@@ -15,7 +15,7 @@ import fs from 'fs';
 import path from 'path';
 import { createRequire } from 'module';
 const _require = createRequire(import.meta.url);
-const { SKILLS_DIR } = _require('../../../_shared/paths');
+const { SKILLS_DIR } = _require('../../../shared/paths');
 import { EventEmitter } from 'events';
 
 /**

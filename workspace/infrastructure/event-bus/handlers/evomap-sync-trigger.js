@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, readJson, walk, hasAny } = require('./_p0_utils');
+const { exists, readText, readJson, walk, hasAny } = require('./p0-utils');
 
 /**
  * EvoMap Sync Trigger Handler

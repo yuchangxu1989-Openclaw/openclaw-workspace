@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { SKILLS_DIR } = require('../../_shared/paths');
+const { SKILLS_DIR } = require('../../shared/paths');
 
 const PROBER_CONFIG = {
   version: '1.0.0',

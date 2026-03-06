@@ -146,7 +146,7 @@ function extractRequires(filePath) {
     }
 
     // Match dynamic requires: require(path.join(WORKSPACE, 'skills', ...))
-    if (/require\s*\(.*path\.join/.test(line) && /skills/.test(line) && !/'skills'.*'_shared'/.test(line)) {
+    if (/require\s*\(.*path\.join/.test(line) && /skills/.test(line) && !/'skills'.*'shared'/.test(line)) {
       results.push({
         line: i + 1,
         raw: line.trim(),
@@ -421,14 +421,14 @@ function checkDEP005(files) {
       if (line.trim().startsWith('//') || line.trim().startsWith('*')) continue;
 
       // Match .secrets references (require, readFileSync, path constants, etc.)
-      // Exempt: skills/_shared/paths.js is the designated secrets path provider
-      if (f === 'skills/_shared/paths.js') continue;
+      // Exempt: skills/shared/paths.js is the designated secrets path provider
+      if (f === 'skills/shared/paths.js') continue;
       if (/['"\/]\.secrets[\/'"]/i.test(line) || /\.secrets\//.test(line)) {
         violations.push({
           rule: 'DEP-005',
           file: f,
           line: i + 1,
-          message: `Direct .secrets/ reference found. Use environment variables or _shared/paths.js SECRETS_DIR instead.`,
+          message: `Direct .secrets/ reference found. Use environment variables or shared/paths.js SECRETS_DIR instead.`,
           severity: 'error',
         });
       }

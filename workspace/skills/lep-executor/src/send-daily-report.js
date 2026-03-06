@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const { WORKSPACE, REPORTS_DIR } = require('../../_shared/paths');
+const { WORKSPACE, REPORTS_DIR } = require('../../shared/paths');
 
 const WORKSPACE_ROOT = WORKSPACE;
 

@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exists, readText, readJson, walk } = require('./_p0_utils');
+const { exists, readText, readJson, walk } = require('./p0-utils');
 
 /**
  * ISC-DTO定期握手机制
