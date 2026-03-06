@@ -2,19 +2,19 @@
 
 /**
  * Memory Archiver Handler
- * 
+ *
  * Processes critical system events and archives them to
  * memory/architecture-changelog.md for long-term memory retention.
- * 
+ *
  * Triggered by:
  *   - system.architecture.changed
  *   - system.config.changed
  *   - system.critical.fix
- * 
+ *
  * Usage:
  *   node memory-archiver.js <event-json-file>   # process a dispatched event
  *   node memory-archiver.js --test               # emit a test event and verify
- * 
+ *
  * Can also be required and called programmatically:
  *   const archiver = require('./memory-archiver');
  *   archiver.archive(event);
@@ -104,6 +104,23 @@ function archive(event) {
   return result;
 }
 
+/**
+ * Standard event-bus handler signature wrapper.
+ * Compatible with handler-executor signatures:
+ *   1) handler(event)
+ *   2) handler(event, rule)
+ *   3) handler(event, rule, context)
+ */
+async function memoryArchiverHandler(event, rule, context) {
+  return archive(event);
+}
+
+// Keep backward compatibility for existing object-style API consumers.
+memoryArchiverHandler.archive = archive;
+memoryArchiverHandler.formatEntry = formatEntry;
+memoryArchiverHandler.ensureChangelog = ensureChangelog;
+memoryArchiverHandler.CHANGELOG_PATH = CHANGELOG_PATH;
+
 // ─── CLI Entry ───────────────────────────────────────────────────
 
 function main() {
@@ -178,7 +195,7 @@ function main() {
 
 // ─── Exports ─────────────────────────────────────────────────────
 
-module.exports = { archive, formatEntry, ensureChangelog, CHANGELOG_PATH };
+module.exports = memoryArchiverHandler;
 
 if (require.main === module) {
   main();
