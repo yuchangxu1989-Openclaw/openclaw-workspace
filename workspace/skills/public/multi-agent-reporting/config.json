@@ -1,73 +1,24 @@
 {
-  "requiredFields": ["agentId", "model", "task", "status"],
-  "optionalFields": [
-    "duration",
-    "commit",
-    "thinking",
-    "error",
-    "blocker",
-    "decision",
-    "decisionOwner",
-    "nextAction",
-    "nextOwner",
-    "nextETA",
-    "handoffTo",
-    "artifact",
-    "branch",
-    "updatedAt"
-  ],
-  "statusIcons": {
-    "completed": "✅",
-    "running": "🔄",
-    "failed": "❌",
-    "blocked": "⏸️",
-    "pending": "⏳",
-    "needs_decision": "⚖️",
-    "waiting": "🕒",
-    "cancelled": "🚫"
+  "statusMeta": {
+    "running":        { "icon": "🔄", "label": "执行中", "short": "执行" },
+    "completed":      { "icon": "✅", "label": "已完成", "short": "完成" },
+    "blocked":        { "icon": "⏸️", "label": "已阻塞", "short": "阻塞" },
+    "failed":         { "icon": "❌", "label": "已失败", "short": "失败" },
+    "needs_decision": { "icon": "⚖️", "label": "待决策", "short": "待决" },
+    "pending":        { "icon": "⏳", "label": "排队中", "short": "排队" },
+    "queued":         { "icon": "⏳", "label": "排队中", "short": "排队" },
+    "waiting":        { "icon": "🕒", "label": "等待中", "short": "等待" },
+    "cancelled":      { "icon": "🚫", "label": "已取消", "short": "取消" }
   },
-  "outputFormat": "dashboard",
-  "showThinking": true,
-  "showSummary": true,
-  "showNextSteps": true,
-  "showDashboard": true,
-  "showStatusSections": true,
-  "showModelBreakdown": true,
-  "showNextHop": true,
-  "showDecisions": true,
-  "showTaskIds": true,
-  "title": "Multi-Agent Progress Report",
-  "sectionTitles": {
-    "overview": "Overview",
-    "running": "Running",
-    "completed": "Completed",
-    "blocked": "Blocked",
-    "needsDecision": "Needs Decision",
-    "nextActions": "Next Actions",
-    "modelBreakdown": "Model Breakdown",
-    "detailedBoard": "Detailed Board"
+  "cardColors": {
+    "active": "blue",
+    "idle": "grey",
+    "risk": "orange",
+    "done": "green"
   },
-  "statusGroups": {
-    "running": ["running"],
-    "completed": ["completed"],
-    "blocked": ["blocked", "failed"],
-    "needsDecision": ["needs_decision"]
-  },
-  "validation": {
-    "requireCommitOnComplete": true,
-    "requireErrorOnFail": true,
-    "requireFullModelName": true,
-    "modelNameMinLength": 8,
-    "knownModelPrefixes": [
-      "claude-", "gpt-", "gemini-", "llama-", "mistral-", "command-",
-      "deepseek-", "qwen-", "yi-", "phi-", "o1-", "o3-", "o4-"
-    ],
-    "shortNameBlacklist": [
-      "claude", "gpt", "gpt4", "gpt-4", "sonnet", "opus", "haiku",
-      "gemini", "llama", "mistral", "deepseek", "qwen"
-    ],
-    "requireNextActionOnActive": false,
-    "requireDecisionOwnerOnNeedsDecision": false,
-    "requireBlockerOnBlocked": false
-  }
+  "maxCompletedInline": 5,
+  "maxCompletedTable": 10,
+  "maxCompletedInCard": 5,
+  "showThinking": false,
+  "showQueued": false
 }
