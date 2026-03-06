@@ -385,6 +385,7 @@ async function extractIntents() {
           evidence: intent.evidence || '',
           sentiment: intent.sentiment || 'neutral',
           source_file: path.basename(file),
+          extraction_path: 'slow',           // 标记来源：慢路(cron增量扫描)
           extracted_at: Date.now(),
           extractor_version: '1.0.0',
         }, 'cras-intent-extractor', {
