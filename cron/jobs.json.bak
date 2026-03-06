@@ -655,7 +655,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772790320052,
+      "updatedAtMs": 1772790922682,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -672,11 +672,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772790600000,
-        "lastRunAtMs": 1772790300016,
+        "nextRunAtMs": 1772791200000,
+        "lastRunAtMs": 1772790900012,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 20036,
+        "lastDurationMs": 22670,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -788,7 +788,7 @@
       "name": "event-dispatch-runner",
       "enabled": true,
       "createdAtMs": 1772735091190,
-      "updatedAtMs": 1772790389058,
+      "updatedAtMs": 1772790982707,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -805,13 +805,13 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772790600000,
-        "lastRunAtMs": 1772790329036,
+        "nextRunAtMs": 1772791200000,
+        "lastRunAtMs": 1772790922682,
         "lastRunStatus": "error",
         "lastStatus": "error",
-        "lastDurationMs": 60022,
+        "lastDurationMs": 60025,
         "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 2,
+        "consecutiveErrors": 1,
         "lastError": "cron: job execution timed out"
       }
     }
