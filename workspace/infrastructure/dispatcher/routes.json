@@ -133,6 +133,24 @@
     "priority": "normal",
     "description": "L3 detected user intents dispatched for execution"
   },
+  "intent.ruleify": {
+    "handler": "intent-event-handler",
+    "agent": "coder",
+    "priority": "high",
+    "description": "Intent ruleify → create real ISC rule draft consumption path"
+  },
+  "intent.reflect": {
+    "handler": "intent-event-handler",
+    "agent": "researcher",
+    "priority": "normal",
+    "description": "Intent reflect → route into CRAS analysis / knowledge sink"
+  },
+  "intent.directive": {
+    "handler": "intent-event-handler",
+    "agent": "coder",
+    "priority": "high",
+    "description": "Intent directive → create real DTO task consumption path"
+  },
 
   "evolver.insight.detected": {
     "handler": "auto-response-handler",

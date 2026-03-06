@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-demo-rule-bxg6y9",
+  "name": "intent_demo-rule",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "demo summary",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "demo-rule"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: demo-rule"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt2"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "demo-rule",
+    "confidence": null,
+    "source_file": null,
+    "evidence": null,
+    "created_at": "2026-03-06T11:58:08.255Z"
+  }
+}

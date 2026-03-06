@@ -153,6 +153,9 @@ class Dispatcher {
     const fallback = path.join(__dirname, 'handlers', `${shortName}.js`);
     if (fs.existsSync(fallback)) return fallback;
 
+    const dispatcherFallback = path.resolve(__dirname, '../dispatcher/handlers', `${shortName}.js`);
+    if (fs.existsSync(dispatcherFallback)) return dispatcherFallback;
+
     return null;
   }
 
