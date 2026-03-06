@@ -164,7 +164,7 @@ Total: 101, Failed: 0
 
 | 维度 | 修复前 | 修复后 |
 |------|--------|--------|
-| 可执行规则数 | 约 55 条（19 条因路径问题静默失败） | 约 74 条 |
+| 可执行规则数 | 约 55 条（19 条因路径问题静默失败） | 全部 74 条可解析（19/19 handler 验证通过） |
 | handler 崩溃风险 | 11 个 handler 在 context={} 时 TypeError | 0 个 |
 | crontab 竞争风险 | api-probe 无锁保护 | flock 互斥 |
 | intent 事件链路 | routes.json 配了但规则匹配命中 0 | 3 条 ISC 规则 → handler 闭环 |
