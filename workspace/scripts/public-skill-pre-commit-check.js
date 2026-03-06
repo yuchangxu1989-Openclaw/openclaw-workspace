@@ -14,7 +14,8 @@ const WS = path.resolve(__dirname, '..');
 
 function stagedFiles() {
   try {
-    return execSync('git diff --cached --name-only --diff-filter=ACM', { cwd: WS, encoding: 'utf8' })
+    const repoRoot = execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).trim();
+    return execSync('git diff --cached --name-only --diff-filter=ACM', { cwd: repoRoot, encoding: 'utf8' })
       .trim()
       .split('\n')
       .filter(Boolean);
@@ -24,9 +25,11 @@ function stagedFiles() {
 }
 
 function loadFromWorkingTreeOrIndex(relPath) {
-  const full = path.join(WS, relPath);
+  // relPath may have workspace/ prefix from git, resolve against repo root
+  const repoRoot = execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).trim();
+  const full = path.join(repoRoot, relPath);
   if (fs.existsSync(full)) return fs.readFileSync(full, 'utf8');
-  return execSync(`git show :${relPath}`, { cwd: WS, encoding: 'utf8' });
+  return execSync(`git show :${relPath}`, { cwd: repoRoot, encoding: 'utf8' });
 }
 
 function stripComments(text) {
@@ -66,7 +69,8 @@ function main() {
   const staged = stagedFiles();
   if (!staged.length) process.exit(0);
 
-  const publicStaged = staged.filter(f => f.startsWith('skills/public/'));
+  // git root is /root/.openclaw, staged paths start with workspace/
+  const publicStaged = staged.filter(f => f.startsWith('workspace/skills/public/') || f.startsWith('skills/public/'));
   if (!publicStaged.length) process.exit(0);
 
   const errors = [];
@@ -74,12 +78,14 @@ function main() {
   // A) SKILL.md + frontmatter name/description
   const touchedSkillDirs = new Set();
   for (const f of publicStaged) {
-    const m = f.match(/^skills\/public\/([^/]+)\//);
+    const m = f.match(/(?:workspace\/)?skills\/public\/([^/]+)\//);
     if (m) touchedSkillDirs.add(m[1]);
   }
 
   for (const dir of touchedSkillDirs) {
-    const rel = `skills/public/${dir}/SKILL.md`;
+    const rel = publicStaged.find(f => f.endsWith(`${dir}/SKILL.md`)) 
+      ? publicStaged.find(f => f.endsWith(`${dir}/SKILL.md`))
+      : `workspace/skills/public/${dir}/SKILL.md`;
     try {
       const md = loadFromWorkingTreeOrIndex(rel);
       const r = hasFrontmatterNameDescription(md);
