@@ -1,0 +1,4288 @@
+{
+  "timestamp": "2026-03-06T15:26:40.110Z",
+  "skillPath": "skills",
+  "riskLevel": "critical",
+  "permissions": {
+    "filesystem": true,
+    "network": true,
+    "shell": true,
+    "credential": true
+  },
+  "activePermissions": [
+    "filesystem",
+    "network",
+    "shell",
+    "credential"
+  ],
+  "filesAnalyzed": 365,
+  "filesWithPermissions": 278,
+  "details": [
+    {
+      "file": "skills/aeo/aeo.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/aeo/assessment-store.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ]
+    },
+    {
+      "file": "skills/aeo/bin/migrate-evaluation-sets.cjs",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/aeo/check.cjs",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/aeo/evaluation-sets/fix-test-cases.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.copyFile"
+      ]
+    },
+    {
+      "file": "skills/aeo/index.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/aeo-integration.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.copyFile",
+        "fs.existsSync"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/core/aeo-dto-bridge.cjs",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/aeo/src/core/cron-model-selector.cjs",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/core/notification-sender.cjs",
+      "permissions": [
+        "network",
+        "shell",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/core/registry-manager.cjs",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/aeo/src/core/thinking-content-manager.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/dashboard/alert-notifier.cjs",
+      "permissions": [
+        "filesystem",
+        "network"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "network_evidence": [
+        "fetch("
+      ]
+    },
+    {
+      "file": "skills/aeo/src/dashboard/data-api.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/dashboard/realtime-monitor.cjs",
+      "permissions": [
+        "filesystem",
+        "network"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.stat",
+        "fs.writeFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "WebSocket"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/dashboard/trend-chart.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.writeFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/evaluation/ai-effect-evaluator.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/evaluation/function-quality-evaluator.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/evaluation/run-demo.cjs",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/aeo/src/evaluation/scheduler.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/evaluation/scorer.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.writeFileSync",
+        "fs.mkdirSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/evaluation/selector.cjs",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "network_evidence": [
+        "axios"
+      ],
+      "credential_evidence": [
+        "token"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/remediation/auto-remediation-loop.cjs",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/sandbox/container-pool.cjs",
+      "permissions": [
+        "shell"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "exec(",
+        "spawn(",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/sandbox/memory-guardian.cjs",
+      "permissions": [
+        "shell"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/sandbox/process-sandbox.cjs",
+      "permissions": [
+        "shell",
+        "credential"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/aeo/src/sandbox/sandbox-runtime.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/agent-mode-enforcer/index.cjs",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir",
+        "fs.mkdirSync",
+        "require('fs')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/anti-entropy-checker/index.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/api-aggregator/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "fetch(",
+        "request("
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/api-aggregator/test-parallel.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/architecture-review-pipeline/index.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "spawn("
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cogvideo/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey"
+      ]
+    },
+    {
+      "file": "skills/cogview/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey"
+      ]
+    },
+    {
+      "file": "skills/cras/cloud-storage/feishu-doc.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "SECRET",
+        "secret",
+        "token",
+        "access_token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/cras/cloud-storage/notion.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "TOKEN",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/cras/cras-b-fixed.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cras/event-bridge.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "fs.mkdirSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cras/index.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cras/insight-enhancer.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cras/intent-extractor-inline.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cras/intent-extractor-inline.test.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cras/intent-extractor-llm.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "request(",
+        "require('http')",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/cras/intent-extractor.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/cras/intent-extractor.test.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        "apiKey"
+      ]
+    },
+    {
+      "file": "skills/cras/modules/first-principle-learning.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "fs.mkdirSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cras/modules/vectorization-optimized.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.stat",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": [
+        "token"
+      ]
+    },
+    {
+      "file": "skills/cras/modules/zhipu-embedding.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/cras/rule-suggester.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ]
+    },
+    {
+      "file": "skills/daily-ops-report/generate.cjs",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/dto-core/core/auto-response-controller.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/cron-error-notifier.js",
+      "permissions": [
+        "shell",
+        "credential"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/cron-output-interceptor.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/declarative-orchestrator.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/declarative-parallel-orchestrator.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/dto-core/core/dto-auto-handshake-responder.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/event-consumer.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.readdir",
+        "fs.rename"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "exec(",
+        "execFile",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/dto-core/core/event-publisher.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "axios"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/dto-core/core/global-auto-decision-pipeline.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/isc-dto-aligner.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/isc-dto-rca.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/isc-rule-created-listener.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/core/pipeline-auto-recovery.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/event-bridge.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ]
+    },
+    {
+      "file": "skills/dto-core/examples/event-publisher-usage.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/index.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/lib/adp-selfcheck-system.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/dto-core/lib/adp-validation-framework.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/dto-core/lib/executor.js",
+      "permissions": [
+        "network",
+        "shell",
+        "credential"
+      ],
+      "network_evidence": [
+        "request("
+      ],
+      "shell_evidence": [
+        "child_process",
+        "spawn(",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/dto-core/lib/intent-parser.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/dto-core/lib/offline-manager.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.readdir"
+      ]
+    },
+    {
+      "file": "skills/dto-core/lib/root-cause-analyzer.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.existsSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        "token"
+      ]
+    },
+    {
+      "file": "skills/dto-core/lib/script-validator.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "subprocess"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/dto-core/tests/test-event-publisher.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/evolver/index.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "spawn(",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env",
+        "dotenv"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/a2a_ingest.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/a2a_promote.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/analyze_by_skill.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/build_public.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/extract_log.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/generate_history.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "fs.mkdirSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/evolver/scripts/gep_append_event.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/gep_personality_report.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/human_report.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/evolver/scripts/publish_public.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.copyFile",
+        "fs.existsSync"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "spawnSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        "TOKEN",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/recover_loop.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.existsSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "spawnSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/scripts/suggest_version.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/evolve.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.readdir"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "spawn(",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        ".env",
+        "dotenv"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/a2a.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/a2aProtocol.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "credential_evidence": [
+        "SECRET",
+        "secret",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/analyzer.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "exec("
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/assetStore.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.rename",
+        "fs.existsSync"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/bridge.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "fs.mkdirSync"
+      ],
+      "shell_evidence": [
+        "spawn("
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/deviceId.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execFile",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/envFingerprint.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/evolver/src/gep/hubSearch.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/memoryGraph.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.rename",
+        "fs.existsSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/memoryGraphAdapter.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/paths.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/personality.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.rename",
+        "fs.existsSync"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/prompt.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        "SECRET",
+        "secret",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/sanitize.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        "secret",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/solidify.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.rmdir",
+        "fs.unlink"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/strategy.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/taskReceiver.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/gep/validationReport.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/evolver/src/ops/cleanup.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.unlink",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/ops/health_check.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readdir",
+        "fs.stat",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "SECRET",
+        "TOKEN",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/ops/innovation.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readdir",
+        "fs.existsSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/ops/lifecycle.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.writeFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "spawn(",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/ops/self_repair.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.unlink",
+        "fs.stat",
+        "fs.existsSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/ops/skills_monitor.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/evolver/src/ops/trigger.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/evomap-a2a/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "WebSocket"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/evomap-publisher/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.stat",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "WebSocket"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-chat-backup/index.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.readdir"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/check_health.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.stat",
+        "fs.access"
+      ],
+      "credential_evidence": [
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/cleanup.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.unlink",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/exec_cache.js",
+      "permissions": [
+        "shell"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "exec(",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/export_history.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "shell_evidence": [
+        "exec("
+      ],
+      "credential_evidence": [
+        "TOKEN",
+        "token",
+        ".env",
+        "dotenv"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/feishu-helper.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        "SECRET",
+        "secret",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/index.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "exec(",
+        "execSync",
+        "spawn(",
+        "spawnSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/issue_tracker.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.existsSync"
+      ],
+      "network_evidence": [],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        "TOKEN",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/lifecycle.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "spawn(",
+        "spawnSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/report.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        "token",
+        "access_token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/self-repair.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.unlink",
+        "fs.stat",
+        "fs.existsSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/send-card-cli.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/skills_monitor.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/trigger.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.writeFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/utils/logger.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.mkdirSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/utils/sleep.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/visualize_dashboard.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.createReadStream",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": [
+        "TOKEN",
+        "token",
+        ".env",
+        "dotenv"
+      ]
+    },
+    {
+      "file": "skills/feishu-evolver-wrapper/weekly_insight.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/feishu-report-sender/index.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.rename"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/feishu-report-sender/push.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.rename",
+        "fs.existsSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/file-downloader/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.rename",
+        "fs.createReadStream"
+      ],
+      "network_evidence": [
+        "request(",
+        "require('http')",
+        "require('https')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/five-layer-event-model/index.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/github-api/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "TOKEN",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/glm-4v/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/glm-image/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey"
+      ]
+    },
+    {
+      "file": "skills/glm-ocr/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.stat",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey"
+      ]
+    },
+    {
+      "file": "skills/glm-tts/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey"
+      ]
+    },
+    {
+      "file": "skills/glm-video/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey"
+      ]
+    },
+    {
+      "file": "skills/glm-vision/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "apiKey",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/intent-design-principles/index.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        "token"
+      ]
+    },
+    {
+      "file": "skills/isc-capability-anchor-sync/index.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/bin/evomap-auto-sync-executor.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/bin/isc-distribution-center.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/bin/isc-dto-alignment-checker.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.readdir",
+        "fs.existsSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/bin/isc-file-watcher.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/bin/isc-smart-creator.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/bin/isc-validator.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/bin/n023-executor.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/bin/skill-health-prober.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/core/isc-dto-alignment-engine.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/core/version-change-publisher.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/event-bridge.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ]
+    },
+    {
+      "file": "skills/isc-core/extract_templates.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "fs.mkdirSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/handlers/anti-entropy-check.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/handlers/completeness-check.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/handlers/document-structure-check.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/handlers/eval-quality-check.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/handlers/naming-convention-check.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/index.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ]
+    },
+    {
+      "file": "skills/isc-core/index_part1.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ]
+    },
+    {
+      "file": "skills/isc-core/index_part2.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ]
+    },
+    {
+      "file": "skills/isc-core/integrations/council_integration.py",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "pathlib"
+      ],
+      "shell_evidence": [
+        "subprocess"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/progress-logger.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/scripts/batch-revalidate-v2.mjs",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.readFileSync"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "apiKey",
+        "token"
+      ]
+    },
+    {
+      "file": "skills/isc-core/scripts/batch-revalidate.mjs",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.readFileSync"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "apiKey",
+        "token"
+      ]
+    },
+    {
+      "file": "skills/isc-core/scripts/check-rule-dedup.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/isc-core/scripts/check-rule-similarity.sh",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/scripts/migrate-rule-schema.py",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/scripts/validate-rule-schema.py",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/scripts/validate-rule-schema.sh",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-core/services/zhipu_embedding.py",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "requests.post"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "api_key",
+        "token"
+      ]
+    },
+    {
+      "file": "skills/isc-core/todo-manager.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/isc-document-quality/index.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/layered-architecture-checker/index.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.access",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/lep-executor/isc-dto-handshake.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/lep-executor/simple-entry.js",
+      "permissions": [
+        "shell"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/lep-executor/src/core/LEPExecutor.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "shell_evidence": [
+        "child_process",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/lep-executor/src/daily-report-glm5.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.writeFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        "SECRET",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/lep-executor/src/daily-report.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/lep-executor/src/parallel-subagent/src/resilience.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/lep-executor/src/send-daily-report.js",
+      "permissions": [
+        "network",
+        "shell",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/parallel-subagent/index-v2.js",
+      "permissions": [
+        "shell",
+        "credential"
+      ],
+      "shell_evidence": [
+        "spawn("
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/parallel-subagent/index.js",
+      "permissions": [
+        "shell",
+        "credential"
+      ],
+      "shell_evidence": [
+        "spawn("
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/pdca-engine/index.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/file-sender/artifact-auto-send.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.mkdirSync",
+        "require('fs')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/public/file-sender/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "request(",
+        "require('http')",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "secret",
+        "token",
+        "access_token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/public/glm-asr/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "api_key",
+        "apiKey",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/public/lingxiaoge-tribunal/council.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "token"
+      ]
+    },
+    {
+      "file": "skills/public/multi-agent-dispatch/cli.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-dispatch/dispatch-bridge.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-dispatch/dispatch-engine.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.rename",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/public/multi-agent-dispatch/dispatch-reap-cron.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/public/multi-agent-dispatch/examples/integration.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-dispatch/greyscale-validation.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-dispatch/rollback-to-old-dispatch.sh",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/public/multi-agent-dispatch/test/dispatch-engine.test.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/public/multi-agent-reporting/examples/basic-usage.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-reporting/examples/demo.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-reporting/live-board-cli.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-reporting/test/report-validator.test.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-reporting/test/reporting.test.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/multi-agent-reporting/test/trigger-integration.test.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/pdf-generator/diagram.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.stat",
+        "fs.readFileSync",
+        "fs.writeFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/pdf-generator/generate.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "spawnSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/system-monitor/index.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/public/system-monitor/skill-health-dashboard.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync"
+      ]
+    },
+    {
+      "file": "skills/public/tavily-search/index.js",
+      "permissions": [
+        "network",
+        "credential"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "api_key",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/event-bridge.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.existsSync",
+        "require('fs')"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/index.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "fs.mkdirSync"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/lib/decision-engine.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/lib/dto-adapter.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/lib/evomap-client.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "from 'fs'"
+      ],
+      "network_evidence": [
+        "WebSocket"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/lib/executor.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.readdir"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "spawn("
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/lib/skill-evaluator.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/__tests__/core.test.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.mkdirSync",
+        "from 'fs'"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/__tests__/integration.test.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/__tests__/state-machine.test.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/__tests__/unit.test.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.stat"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/core/isc-validator.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/core/pipeline-engine.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/core/state-manager.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.readdir"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/core/watcher.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "from 'fs'"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/engine.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/error-handler.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/executor.js",
+      "permissions": [
+        "shell",
+        "credential"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "exec(",
+        "spawn("
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/index.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/notification/notification-system.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir"
+      ],
+      "network_evidence": [
+        "fetch("
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/scheduler/task-scheduler.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/state-machine.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "from 'fs'"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/state-manager.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.unlink",
+        "fs.readdir"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/trigger.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/uploaders/evomap-uploader.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/validators/isc-validator.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/src/watcher.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/auto-fix.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/chaos-test.js",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir"
+      ],
+      "shell_evidence": [
+        "child_process"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/e2e-test.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/integration/dto-events.test.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.mkdirSync",
+        "from 'fs'"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/integration/full-pipeline.test.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/integration-phase3.test.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/performance-test.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/phase3-integration-test.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir"
+      ],
+      "network_evidence": [
+        "request("
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "apiKey",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/phase3-quick-test.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.existsSync",
+        "fs.readFileSync",
+        "from 'fs'"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/pipeline.test.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.existsSync",
+        "from 'fs'"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/reporter.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir"
+      ],
+      "shell_evidence": [
+        "child_process"
+      ]
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/unit/decision-engine.test.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.mkdirSync",
+        "from 'fs'"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/unit/evaluator.test.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "fs.mkdirSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/evolution-pipeline/tests/unit/executor.test.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.mkdirSync",
+        "from 'fs'"
+      ],
+      "shell_evidence": [
+        "exec("
+      ]
+    },
+    {
+      "file": "skills/seef/isc_bridge.py",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "pathlib"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/seef.py",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "pathlib"
+      ],
+      "shell_evidence": [
+        "subprocess"
+      ],
+      "credential_evidence": [
+        "secret",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/sub-skills/aligner/index.cjs",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync",
+        "fs.writeFileSync"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/seef/sub-skills/creator/index.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.writeFileSync",
+        "fs.mkdirSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/seef/sub-skills/discoverer/index.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.existsSync"
+      ]
+    },
+    {
+      "file": "skills/seef/sub-skills/evaluator/index.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ]
+    },
+    {
+      "file": "skills/seef/sub-skills/optimizer/index.cjs",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "fs.mkdirSync"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/sub-skills/recorder/index.cjs",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ]
+    },
+    {
+      "file": "skills/seef/sub-skills/validator/index.js",
+      "permissions": [
+        "filesystem",
+        "shell"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.readdir",
+        "fs.stat"
+      ],
+      "shell_evidence": [
+        "child_process",
+        "execSync",
+        "require('child_process')"
+      ]
+    },
+    {
+      "file": "skills/seef/sub-skills/validator/isc-rule-loader.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readdir",
+        "fs.stat",
+        "fs.existsSync",
+        "fs.readFileSync"
+      ]
+    },
+    {
+      "file": "skills/seef/sub-skills/validator/test-isc-dynamic-loader.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.unlink",
+        "fs.existsSync",
+        "fs.writeFileSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/seef/subskills/aligner.py",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "pathlib"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/subskills/creator.py",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "shutil",
+        "pathlib"
+      ],
+      "network_evidence": [
+        "axios",
+        "request("
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/subskills/creator_v2.py",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "pathlib"
+      ],
+      "shell_evidence": [
+        "subprocess"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/subskills/discoverer.py",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "pathlib"
+      ],
+      "shell_evidence": [
+        "subprocess"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/subskills/evaluator.py",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "pathlib"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/subskills/evaluator_v2.py",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "pathlib"
+      ],
+      "shell_evidence": [
+        "subprocess"
+      ],
+      "credential_evidence": []
+    },
+    {
+      "file": "skills/seef/subskills/optimizer.py",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "shutil",
+        "pathlib"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/subskills/recorder.py",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "pathlib"
+      ],
+      "credential_evidence": [
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/seef/subskills/validator.py",
+      "permissions": [
+        "filesystem",
+        "shell",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "open(",
+        "os.path",
+        "pathlib"
+      ],
+      "shell_evidence": [
+        "exec(",
+        "subprocess"
+      ],
+      "credential_evidence": [
+        "secret",
+        "password",
+        "token",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/shared/paths.js",
+      "permissions": [
+        "credential"
+      ],
+      "credential_evidence": [
+        "SECRET",
+        "secret",
+        ".env"
+      ]
+    },
+    {
+      "file": "skills/system-mapping-visualizer/index.js",
+      "permissions": [
+        "filesystem"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.mkdir",
+        "fs.writeFileSync",
+        "fs.mkdirSync",
+        "require('fs')"
+      ]
+    },
+    {
+      "file": "skills/zhipu-image-gen/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.writeFile",
+        "fs.writeFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "https.get",
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "API_KEY"
+      ]
+    },
+    {
+      "file": "skills/zhipu-keys/index.js",
+      "permissions": [
+        "filesystem",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "credential_evidence": [
+        "apiKey"
+      ]
+    },
+    {
+      "file": "skills/zhipu-vision/index.js",
+      "permissions": [
+        "filesystem",
+        "network",
+        "credential"
+      ],
+      "filesystem_evidence": [
+        "fs.readFile",
+        "fs.readFileSync",
+        "require('fs')"
+      ],
+      "network_evidence": [
+        "https.request",
+        "request(",
+        "require('https')"
+      ],
+      "credential_evidence": [
+        "API_KEY",
+        "token"
+      ]
+    }
+  ],
+  "skillMdUpdated": true
+}
