@@ -44,7 +44,7 @@ function scanDirectory(dir, root, depth = 0, maxDepth = 5) {
   try {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
     for (const entry of entries) {
-      if (entry.name === 'node_modules' || entry.name === '.git') continue;
+      if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === '.entropy-archive') continue;
       const fullPath = path.join(dir, entry.name);
       const relPath = path.relative(root, fullPath);
 
