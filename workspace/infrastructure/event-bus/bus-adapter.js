@@ -19,6 +19,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const bus = require('./bus');
+const breaker = require('./circuit-breaker');
 
 // ─── Observability: Metrics ───
 let _metrics = null;
@@ -56,6 +57,24 @@ function _fingerprint(type, payload) {
   const payloadStr = JSON.stringify(payload || {}).slice(0, 200);
   const hash = crypto.createHash('md5').update(payloadStr).digest('hex').slice(0, 8);
   return `${type}::${hash}`;
+}
+
+/**
+ * 注入链路追踪元数据
+ * - 无 trace_id：新建 trace，depth=0
+ * - 有 trace_id：继承 trace，depth+1
+ */
+function _enrichMetadata(metadata, type) {
+  metadata = metadata || {};
+  if (!metadata.trace_id) {
+    metadata.trace_id = `trace_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+    metadata.chain_depth = 0;
+  } else {
+    metadata.chain_depth = (metadata.chain_depth || 0) + 1;
+  }
+  metadata.emitted_at = Date.now();
+  metadata.event_type = type;
+  return metadata;
 }
 
 /**
@@ -127,6 +146,7 @@ function emit(type, payload, source, metadata) {
   payload = payload || {};
   source = source || 'unknown';
   metadata = metadata || {};
+  metadata = _enrichMetadata(metadata, type);
 
   // ─── 风暴抑制：5秒去重 ───
   _pruneDedupeCache();
@@ -135,6 +155,14 @@ function emit(type, payload, source, metadata) {
   if (lastEmit && (Date.now() - lastEmit) < DEDUPE_WINDOW_MS) {
     if (_metrics) _metrics.inc('events_dropped_total');
     return { id: null, suppressed: true };
+  }
+
+  // ─── 熔断器检查 ───
+  const checkResult = breaker.check(type, metadata);
+  if (!checkResult.allowed) {
+    if (_metrics) _metrics.inc('events_circuit_broken_total');
+    console.warn(`[EventBus] Circuit breaker: ${checkResult.reason}`);
+    return { id: null, suppressed: false, circuitBroken: true, reason: checkResult.reason };
   }
 
   // ─── 委托旧bus.js emit（文件锁保护） ───
