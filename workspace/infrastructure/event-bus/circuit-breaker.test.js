@@ -43,6 +43,7 @@ describe('circuit-breaker', () => {
     expect(duringCooldown.reason).toContain('circuit breaker tripped');
 
     await new Promise(r => setTimeout(r, 120));
+    circuitBreaker.configure({ globalPerMinute: 10 });
     const recovered = circuitBreaker.check('t-new');
     expect(recovered.allowed).toBe(true);
   });
