@@ -552,7 +552,7 @@ if (require.main === module) {
     }
     const testSet = JSON.parse(fs.readFileSync(testSetPath, 'utf8'));
     // Support both array format and {test_cases: [...]} format
-    const cases = Array.isArray(testSet) ? testSet : (testSet.test_cases || []);
+    const cases = Array.isArray(testSet) ? testSet : (testSet.test_cases || testSet.samples || []);
     evaluateAccuracy(cases).then(result => {
       console.log('\n📊 AEO评测结果:');
       console.log(`   Accuracy:  ${(result.accuracy * 100).toFixed(1)}%`);
