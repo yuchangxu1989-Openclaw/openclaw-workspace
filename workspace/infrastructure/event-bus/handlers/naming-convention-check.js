@@ -1,34 +1,33 @@
-/**
- * naming-convention-check handler
- * 检查ISC规则命名是否符合规范
- */
 const fs = require('fs');
 const path = require('path');
 
-const LOG_FILE = path.resolve(__dirname, '../../logs/naming-convention.jsonl');
-
 module.exports = async function(event, rule, context) {
-  const payload = event.payload || {};
-  const filename = payload.filename || '';
+  const root = (context && (context.workspaceRoot || context.cwd || context.rootDir)) || process.cwd();
+  const violations = [];
 
-  // rule.{category}-{name}-{version}.json
-  const validPattern = /^rule\.[a-z][a-z0-9-]+-\d{3}\.json$/;
-  const result = validPattern.test(filename) ? 'pass' : 'block';
-  const details = result === 'pass'
-    ? `命名${filename}符合规范`
-    : `命名${filename}不符合规范，应为 rule.{category}-{name}-{nnn}.json`;
+  const iscRuleFile = path.join(root, 'CRITICAL_ENFORCEMENT_RULES.md');
+  if (fs.existsSync(iscRuleFile)) {
+    const t = fs.readFileSync(iscRuleFile, 'utf8');
+    const bad = t.match(/ISC[-_\s]?\d{1,2}\b/g) || [];
+    if (bad.length) violations.push({ scope: 'isc-rule', bad });
+  }
 
-  const record = {
-    timestamp: new Date().toISOString(),
-    handler: 'naming-convention-check',
-    eventType: event.type,
-    ruleId: rule.id,
-    filename, result, details
+  const skillsDir = path.join(root, 'skills');
+  if (fs.existsSync(skillsDir)) {
+    for (const name of fs.readdirSync(skillsDir)) {
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
+        violations.push({ scope: 'skill', name });
+      }
+    }
+  }
+
+  if (event && event.type && !/^[a-z0-9]+(?:[._-][a-z0-9]+)*$/.test(event.type)) {
+    violations.push({ scope: 'event-type', name: event.type });
+  }
+
+  return {
+    ok: violations.length === 0,
+    violations,
+    message: violations.length ? `发现${violations.length}项命名不规范` : '命名规范检查通过'
   };
-
-  const dir = path.dirname(LOG_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.appendFileSync(LOG_FILE, JSON.stringify(record) + '\n');
-
-  return { success: result === 'pass', result, details };
 };
