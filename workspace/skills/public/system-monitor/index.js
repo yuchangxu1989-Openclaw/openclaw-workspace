@@ -12,7 +12,7 @@ import { createRequire } from 'module';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const _require = createRequire(import.meta.url);
-const { CRON_DIR, AGENTS_DIR, WORKSPACE } = _require('../shared/paths');
+const { CRON_DIR, AGENTS_DIR, WORKSPACE } = _require('../../shared/paths');
 
 const MONITOR_CONFIG = {
   version: '1.0.1',

@@ -399,7 +399,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行综合系统监控：\n1. 系统健康检查：node /root/.openclaw/workspace/skills/system-monitor/index.js health\n2. Gateway内存监控：bash /root/.openclaw/workspace/scripts/gateway-monitor-v2.sh\n报告异常情况，正常时静默完成。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
+        "message": "执行综合系统监控：\n1. 系统健康检查：node /root/.openclaw/workspace/skills/public/system-monitor/index.js health\n2. Gateway内存监控：bash /root/.openclaw/workspace/scripts/gateway-monitor-v2.sh\n报告异常情况，正常时静默完成。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
         "timeoutSeconds": 120,
         "model": "claude-cron-worker/claude-sonnet-4-6"
       },
@@ -434,7 +434,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行系统状态快照与流水线健康检查：\n1. 系统资源峰值记录：bash /root/.openclaw/workspace/skills/system-monitor/log-peaks.sh\n2. 流水线健康监控（超10分钟无反馈则自动重启）：node /root/.openclaw/workspace/skills/dto-core/core/pipeline-auto-recovery.js\n报告异常情况。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
+        "message": "执行系统状态快照与流水线健康检查：\n1. 系统资源峰值记录：bash /root/.openclaw/workspace/skills/public/system-monitor/log-peaks.sh\n2. 流水线健康监控（超10分钟无反馈则自动重启）：node /root/.openclaw/workspace/skills/dto-core/core/pipeline-auto-recovery.js\n报告异常情况。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
         "timeoutSeconds": 300,
         "model": "claude-cron-worker/claude-sonnet-4-6"
       },
@@ -670,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772779513009,
+      "updatedAtMs": 1772779813035,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -688,15 +688,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772779800000,
-        "lastRunAtMs": 1772779500018,
+        "nextRunAtMs": 1772780100000,
+        "lastRunAtMs": 1772779800008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 12991,
+        "lastDurationMs": 13027,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772779800006
+        "lastDelivered": false
       }
     },
     {
@@ -808,7 +807,7 @@
       "name": "event-dispatch-runner",
       "enabled": true,
       "createdAtMs": 1772735091190,
-      "updatedAtMs": 1772779528921,
+      "updatedAtMs": 1772779820055,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -826,15 +825,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772779800000,
-        "lastRunAtMs": 1772779521531,
+        "nextRunAtMs": 1772780100000,
+        "lastRunAtMs": 1772779813035,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7390,
+        "lastDurationMs": 7020,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772779800006
+        "lastDelivered": false
       }
     }
   ]
