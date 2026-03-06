@@ -9,8 +9,39 @@
  * 5. 优先级队列 - 3个优先级等级，高优先级任务优先执行
  */
 
-const { sessions_spawn } = require('../../../../../.openclaw/extensions/openclaw-sessions');
+const path = require('path');
+const fs = require('fs');
 const { EventEmitter } = require('events');
+
+function resolveOpenClawSessionsModule() {
+  const envPath = process.env.OPENCLOW_SESSIONS_MODULE || process.env.OPENCLAW_SESSIONS_MODULE;
+  const candidates = [
+    envPath,
+    'openclaw-sessions',
+    path.resolve(process.cwd(), '.openclaw/extensions/openclaw-sessions'),
+    path.resolve(process.cwd(), '../../.openclaw/extensions/openclaw-sessions'),
+    path.resolve(__dirname, '../../.openclaw/extensions/openclaw-sessions'),
+    path.resolve(__dirname, '../../../.openclaw/extensions/openclaw-sessions'),
+    path.resolve(__dirname, '../../../../.openclaw/extensions/openclaw-sessions'),
+    path.resolve(__dirname, '../../../../../.openclaw/extensions/openclaw-sessions')
+  ].filter(Boolean);
+
+  let lastErr;
+  for (const m of candidates) {
+    try {
+      if (m.startsWith('/') && !fs.existsSync(m) && !fs.existsSync(m + '.js')) continue;
+      const mod = require(m);
+      if (mod && typeof mod.sessions_spawn === 'function') return mod;
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+
+  const hint = lastErr ? ` 原始错误: ${lastErr.message}` : '';
+  throw new Error('无法加载 OpenClaw sessions 模块。请在 OpenClaw 运行时中使用，或通过 OPENCLAW_SESSIONS_MODULE 指定模块路径。' + hint);
+}
+
+const { sessions_spawn } = resolveOpenClawSessionsModule();
 
 // ============================================
 // 工具类实现

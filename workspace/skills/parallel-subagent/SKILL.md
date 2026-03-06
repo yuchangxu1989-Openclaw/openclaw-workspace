@@ -12,6 +12,8 @@ distribution: both
 
 企业级并行子代理执行框架，提供信号量并发控制、连接池复用、熔断保护、重试机制和优先级队列。
 
+> 运行时要求：**需要OpenClaw运行时**（依赖 openclaw-sessions 模块）。
+
 ## 核心特性
 
 ### 1. 信号量并发控制 (Semaphore)
