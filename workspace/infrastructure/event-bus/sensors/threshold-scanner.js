@@ -3,7 +3,7 @@
 /**
  * 阈值扫描器 - 检查系统指标，emit L2阈值事件
  *
- * 触发方式：cron */10 * * * *
+ * 触发方式：cron every 10 minutes
  */
 
 const fs = require('fs');
