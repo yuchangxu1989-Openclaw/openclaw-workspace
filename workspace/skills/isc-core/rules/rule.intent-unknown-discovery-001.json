@@ -18,7 +18,7 @@
   },
   "action": {
     "type": "handler",
-    "handler": "batch3-misc-handlers.intentUnknownDiscoveryHandler",
+    "handler": "intent-unknown-discovery",
     "description": "执行向量聚类→意图分类→MECE增量识别→用户确认→注册"
   },
   "enforcement_tier": "P1_process"

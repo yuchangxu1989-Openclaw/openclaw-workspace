@@ -213,7 +213,7 @@
   ],
   "action": {
     "type": "monitor",
-    "handler": "handlers/eval-quality-check.js",
+    "handler": "eval-quality-check",
     "on_failure": "warn"
   },
   "schema_version": "2.0",
