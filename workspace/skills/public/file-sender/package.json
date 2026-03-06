@@ -4,7 +4,7 @@
   "description": "通过飞书 API 真正发送本地文件（上传+消息投递）",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js /root/.openclaw/workspace/README.md test.md"
+    "test": "node index.js ./test-file.txt receive_id"
   },
   "keywords": [
     "file",

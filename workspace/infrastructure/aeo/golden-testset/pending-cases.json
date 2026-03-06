@@ -26,7 +26,31 @@
       "reviewed_by": null,
       "review_date": null,
       "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMEAE34X-7VA",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-06",
+      "source": "memory/2026-03-06.md",
+      "signal_type": "direction_correction",
+      "signal_strength": "medium",
+      "raw_signal": "应该用",
+      "context": "移入 skills/public/ 作为可销售通用技能\n\n### 8任务并行派发（首次真正多Agent并行）\n全部完成，但**犯了错误：全用Claude模型，应该用codex**\n\n| 任务 | Agent/模型 | 耗时 | 产出 |\n|------|-----------|------|------|\n| 飞书文件API调研 | scout/opus-4-6 | 2m45s | reports/feishu-file-api.md |\n| API探测脚本",
+      "extracted_correction": "应该用codex**\n\n| 任务 | Agent/模型 | 耗时 | 产出 |\n|------|-----------|------|------|\n| 飞书文件API调研 | scout/opus-",
+      "category": "approach_selection",
+      "rule_hint": "方案选择时评估多个选项，选择最符合场景的",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"应该用\"",
+        "action": "方案选择时评估多个选项，选择最符合场景的",
+        "domain": "implementation",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
     }
   ],
-  "last_updated": "2026-03-05T00:36:01.308Z"
+  "last_updated": "2026-03-06T02:40:01.377Z"
 }
