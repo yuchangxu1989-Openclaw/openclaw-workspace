@@ -111,5 +111,10 @@
       "target": "{design_id}"
     }
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "handler",
+    "handler": "gate-check-trigger",
+    "description": ""
+  }
 }

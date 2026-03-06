@@ -45,7 +45,8 @@
     "type": "enforce",
     "on_missing": "reject",
     "default_model": "follow_openclaw_config",
-    "auto_fix": false
+    "auto_fix": false,
+    "handler": "log-action"
   },
   "governance": {
     "auto_execute": true,

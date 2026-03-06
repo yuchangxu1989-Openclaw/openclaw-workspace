@@ -15,6 +15,10 @@
       }
     ]
   },
-  "action": "验证新意图类型归属，不属于5类则拒绝注册并要求MECE重分类",
+  "action": {
+    "type": "handler",
+    "handler": "batch3-misc-handlers.intentTypeConvergenceHandler",
+    "description": "验证新意图类型归属，不属于5类则拒绝注册并要求MECE重分类"
+  },
   "enforcement_tier": "P1_process"
 }

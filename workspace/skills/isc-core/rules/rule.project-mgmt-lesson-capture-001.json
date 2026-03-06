@@ -20,12 +20,24 @@
       {
         "type": "lesson",
         "path": "skills/project-mgmt/lessons/YYYY-MM-DD-{sprint}.md",
-        "fields": ["目标vs实际", "做对了什么", "做错了什么", "流程改进点"]
+        "fields": [
+          "目标vs实际",
+          "做对了什么",
+          "做错了什么",
+          "流程改进点"
+        ]
       },
       {
         "type": "metrics",
         "path": "skills/project-mgmt/metrics/YYYY-MM.json",
-        "fields": ["planned_days", "actual_days", "tasks_total", "tasks_completed", "review_rejections", "parallel_ratio"]
+        "fields": [
+          "planned_days",
+          "actual_days",
+          "tasks_total",
+          "tasks_completed",
+          "review_rejections",
+          "parallel_ratio"
+        ]
       }
     ],
     "anti_pattern_check": {
@@ -49,5 +61,10 @@
     "source": "用户教学",
     "principle": "项目管理能力必须持续成长，不是静态流程文档",
     "anti_entropy": "每次执行都产生可复用知识，系统有序度递增"
+  },
+  "action": {
+    "type": "handler",
+    "handler": "report-snapshot",
+    "description": ""
   }
 }

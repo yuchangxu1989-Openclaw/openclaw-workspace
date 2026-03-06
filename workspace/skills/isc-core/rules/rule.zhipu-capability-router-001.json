@@ -116,5 +116,10 @@
       }
     ]
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "handler",
+    "handler": "log-action",
+    "description": ""
+  }
 }

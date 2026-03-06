@@ -1,21 +1,25 @@
 {
-    "id": "rule.visual-output-style-001",
-    "rule_name": "工程图视觉规范",
-    "version": "1.0.0",
-    "severity": "medium",
-    "description": "所有工程图（架构图、集成映射图、数据流图等）必须：1.浅色背景（白色或浅灰）2.中文标注（不接受纯英文）3.颜色柔和不刺眼。用户原话：'颜色轻一些，不要纯英文，我不想看纯英文'",
-    "source": "2026-03-05 用户反馈",
-    "trigger": {
-        "events": [
-            "document.diagram.created"
-        ],
-        "actions": [
-            {
-                "type": "auto_trigger",
-                "description": "可视化输出时自动应用个性化设计风格，拒绝通用AI审美"
-            }
-        ]
-    },
-    "action": "Mermaid渲染时：bgColor=ffffff, theme=default, 所有节点文本中文优先（可附英文）, subgraph用浅色fill",
-    "enforcement_tier": "P1_process"
+  "id": "rule.visual-output-style-001",
+  "rule_name": "工程图视觉规范",
+  "version": "1.0.0",
+  "severity": "medium",
+  "description": "所有工程图（架构图、集成映射图、数据流图等）必须：1.浅色背景（白色或浅灰）2.中文标注（不接受纯英文）3.颜色柔和不刺眼。用户原话：'颜色轻一些，不要纯英文，我不想看纯英文'",
+  "source": "2026-03-05 用户反馈",
+  "trigger": {
+    "events": [
+      "document.diagram.created"
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "可视化输出时自动应用个性化设计风格，拒绝通用AI审美"
+      }
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "document-structure-check",
+    "description": "Mermaid渲染时：bgColor=ffffff, theme=default, 所有节点文本中文优先（可附英文）, subgraph用浅色fill"
+  },
+  "enforcement_tier": "P1_process"
 }

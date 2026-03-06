@@ -1,22 +1,40 @@
 {
-    "id": "rule.cras-dual-channel-001",
-    "rule_name": "CRAS双通道架构",
-    "version": "1.0.0",
-    "severity": "high",
-    "description": "意图捕获必须分快慢双通道：快通道（5min增量扫描）提取原子意图事件实时emit；慢通道（daily聚合）计算意图占比/频次/趋势emit模式事件。不要把实时感知和统计报告混为一谈。",
-    "category": "cras",
-    "trigger": {
-        "events": ["cras.scan.completed", "cras.report.generated"],
-        "actions": ["cras.channel.requested"]
+  "id": "rule.cras-dual-channel-001",
+  "rule_name": "CRAS双通道架构",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "意图捕获必须分快慢双通道：快通道（5min增量扫描）提取原子意图事件实时emit；慢通道（daily聚合）计算意图占比/频次/趋势emit模式事件。不要把实时感知和统计报告混为一谈。",
+  "category": "cras",
+  "trigger": {
+    "events": [
+      "cras.scan.completed",
+      "cras.report.generated"
+    ],
+    "actions": [
+      "cras.channel.requested"
+    ]
+  },
+  "conditions": {
+    "fast_channel": {
+      "interval": "5min",
+      "output": "atomic_intent_events",
+      "mode": "realtime"
     },
-    "conditions": {
-        "fast_channel": {"interval": "5min", "output": "atomic_intent_events", "mode": "realtime"},
-        "slow_channel": {"interval": "daily", "output": "pattern_events", "mode": "aggregation"},
-        "forbidden": "mixing_realtime_perception_with_statistical_reports"
+    "slow_channel": {
+      "interval": "daily",
+      "output": "pattern_events",
+      "mode": "aggregation"
     },
-    "rationale": {
-        "source": "用户教学"
-    },
-    "enforcement_tier": "P1_check",
-    "created_at": "2026-03-06T00:28:00+08:00"
+    "forbidden": "mixing_realtime_perception_with_statistical_reports"
+  },
+  "rationale": {
+    "source": "用户教学"
+  },
+  "enforcement_tier": "P1_check",
+  "created_at": "2026-03-06T00:28:00+08:00",
+  "action": {
+    "type": "handler",
+    "handler": "log-action",
+    "description": ""
+  }
 }

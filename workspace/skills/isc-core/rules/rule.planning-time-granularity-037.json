@@ -60,5 +60,10 @@
       }
     ]
   },
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "action": {
+    "type": "handler",
+    "handler": "log-action",
+    "description": ""
+  }
 }

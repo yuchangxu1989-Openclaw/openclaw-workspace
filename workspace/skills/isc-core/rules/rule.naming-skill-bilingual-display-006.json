@@ -25,5 +25,10 @@
       }
     ]
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "handler",
+    "handler": "naming-convention-check",
+    "description": ""
+  }
 }

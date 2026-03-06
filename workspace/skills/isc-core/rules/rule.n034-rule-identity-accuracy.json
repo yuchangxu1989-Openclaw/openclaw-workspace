@@ -163,5 +163,10 @@
     "id_mismatch_tolerance": 0,
     "description": "规则统计必须100%准确，不允许误差"
   },
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "action": {
+    "type": "handler",
+    "handler": "naming-convention-check",
+    "description": ""
+  }
 }
