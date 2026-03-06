@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { WORKSPACE, SKILLS_DIR } = require('../shared/paths');
+const { autoSendArtifact } = require('../public/file-sender/artifact-auto-send');
 
 const QUEUE_PATHS = [
   path.join(SKILLS_DIR, 'cras/feishu_queue'),
@@ -89,11 +90,30 @@ class FeishuReportSender {
       
       console.log(`[FeishuSender] 报告已准备发送: ${reportFile.name}`);
       
+      let artifactSend = null;
+      const artifactPath = report.artifact_path || report.file_path || report.report_path || report.source_file || report.output_file || report.original_file || null;
+      if (artifactPath) {
+        try {
+          artifactSend = await autoSendArtifact({
+            filePath: artifactPath,
+            receiveId: report.target || this.targetUser,
+            receiveIdType: report.receive_id_type,
+            filename: report.filename,
+            required: false,
+            source: `feishu-report-sender:${reportFile.name}`
+          });
+        } catch (artifactError) {
+          console.error(`[FeishuSender] 原文件自动发送失败 ${reportFile.name}: ${artifactError.message}`);
+        }
+      } else {
+        console.error(`[FeishuSender] 未找到可自动发送的原文件字段 ${reportFile.name}`);
+      }
+
       // 移动到已发送
       const sentFile = path.join(SENT_PATH, reportFile.name);
       fs.renameSync(reportFile.path, sentFile);
       
-      return { success: true, sentFile };
+      return { success: true, sentFile, artifactSend };
     } catch (e) {
       console.error(`[FeishuSender] 发送失败 ${reportFile.name}:`, e.message);
       return { success: false, error: e.message };
