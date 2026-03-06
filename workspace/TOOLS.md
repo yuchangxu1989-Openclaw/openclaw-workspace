@@ -43,7 +43,7 @@ Add whatever helps you do your job. This is your cheat sheet.
 
 用户说"发源文件"/"发文件"时，用file-sender技能：
 ```bash
-cd /root/.openclaw/workspace/skills/file-sender && node index.js <文件路径> ou_a113e465324cc55f9ab3348c9a1a7b9b open_id [显示文件名]
+cd /root/.openclaw/workspace/skills/public/file-sender && node index.js <文件路径> <receive_id> <receive_id_type> [显示文件名]
 ```
 **禁止**用message工具的filePath——那只发路径字符串，不发文件本体。
 不要问、不要提醒、不要等确认，直接发。
