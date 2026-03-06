@@ -440,7 +440,8 @@
         "lastDurationMs": 86105,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": true
+        "lastDelivered": true,
+        "runningAtMs": 1772784600008
       }
     },
     {
@@ -553,7 +554,7 @@
       "name": "能力同步与PDCA-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772770500027,
+      "updatedAtMs": 1772784319190,
       "schedule": {
         "expr": "5 */4 * * *",
         "kind": "cron",
@@ -572,14 +573,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772784300000,
-        "lastRunAtMs": 1772769900011,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 600016,
-        "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 2,
-        "runningAtMs": 1772784300010
+        "nextRunAtMs": 1772798700000,
+        "lastRunAtMs": 1772784300012,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 19178,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": false
       }
     },
     {
@@ -655,7 +656,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772784021500,
+      "updatedAtMs": 1772784337603,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -672,15 +673,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772784300000,
-        "lastRunAtMs": 1772784000009,
+        "nextRunAtMs": 1772784600000,
+        "lastRunAtMs": 1772784319190,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 21491,
+        "lastDurationMs": 18413,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false,
-        "runningAtMs": 1772784300010
+        "runningAtMs": 1772784600008
       }
     },
     {
@@ -789,7 +790,7 @@
       "name": "event-dispatch-runner",
       "enabled": true,
       "createdAtMs": 1772735091190,
-      "updatedAtMs": 1772784090602,
+      "updatedAtMs": 1772784397626,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -806,14 +807,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772784300000,
-        "lastRunAtMs": 1772784030542,
+        "nextRunAtMs": 1772784600000,
+        "lastRunAtMs": 1772784337603,
         "lastRunStatus": "error",
         "lastStatus": "error",
-        "lastDurationMs": 60060,
+        "lastDurationMs": 60023,
         "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 1,
-        "runningAtMs": 1772784300010
+        "consecutiveErrors": 2,
+        "runningAtMs": 1772784600008
       }
     }
   ]
