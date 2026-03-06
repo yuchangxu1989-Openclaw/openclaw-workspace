@@ -1,27 +1,19 @@
 {
-  "timestamp": "2026-03-06T09:20:01.446Z",
+  "timestamp": "2026-03-06T09:25:26.455Z",
   "scanned": {
-    "files": 2903,
-    "dirs": 357
+    "files": 2916,
+    "dirs": 356
   },
-  "issues": 2,
-  "fixes": 2,
+  "issues": 1,
+  "fixes": 1,
   "details": {
     "issues": [
-      {
-        "type": "empty_dir",
-        "dir": "skills/isc-core/rules/_drafts"
-      },
       {
         "type": "empty_dir",
         "dir": "infrastructure/event-bus/signals/error"
       }
     ],
     "fixes": [
-      {
-        "type": "empty_dir_removed",
-        "dir": "skills/isc-core/rules/_drafts"
-      },
       {
         "type": "empty_dir_removed",
         "dir": "infrastructure/event-bus/signals/error"
