@@ -16,3 +16,7 @@
 {"ts":"2026-03-04T23:42:58.569Z","stage":"uninstalled","stats":{"intercepted":1,"l3_processed":1,"l3_success":1,"l3_fallback":0,"legacy_passthrough":0,"shadow_comparisons":1}}
 {"ts":"2026-03-04T23:42:58.569Z","stage":"rule-matcher","trace_id":"l3gw_1772667778569_ks4v","event_type":"isc.rule.changed","matched":0,"rules":[]}
 {"ts":"2026-03-04T23:42:58.571Z","stage":"dispatcher","trace_id":"l3gw_1772667778569_ks4v","event_type":"isc.rule.changed","dispatched":1,"results":[{"handler":"skill-isc-handler","success":true}]}
+{"ts":"2026-03-06T10:49:31.470Z","stage":"rule-matcher","trace_id":"l3gw_1772794171458_ug96","event_type":"user.message","matched":0,"rules":[]}
+{"ts":"2026-03-06T10:49:31.475Z","stage":"dispatcher","trace_id":"l3gw_1772794171458_ug96","event_type":"user.message","dispatched":1,"results":[{"handler":"cras-knowledge-handler","success":true}]}
+{"ts":"2026-03-06T10:49:51.415Z","stage":"rule-matcher","trace_id":"l3gw_1772794191397_tknp","event_type":"user.message","matched":0,"rules":[]}
+{"ts":"2026-03-06T10:49:51.420Z","stage":"dispatcher","trace_id":"l3gw_1772794191397_tknp","event_type":"user.message","dispatched":1,"results":[{"handler":"cras-knowledge-handler","success":true}]}

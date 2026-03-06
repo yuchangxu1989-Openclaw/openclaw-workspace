@@ -564,8 +564,7 @@
       "payload": {
         "kind": "agentTurn",
         "message": "执行能力锚点同步与PDCA循环：\n1. 能力锚点自动同步：node /root/.openclaw/workspace/skills/isc-capability-anchor-sync/index.js\n2. PDCA-C执行引擎（计划-执行-检查-行动循环）：node /root/.openclaw/workspace/skills/pdca-engine/index.js\n报告执行结果。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
-        "model": "boom-cron-worker/gpt-5.3-codex",
-        "timeoutSeconds": 600
+        "timeoutSeconds": 180
       },
       "delivery": {
         "mode": "announce",
@@ -622,7 +621,7 @@
       "name": "运维辅助-清理与向量化-综合",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772772000029,
+      "updatedAtMs": 1772793470882,
       "schedule": {
         "expr": "35 */6 * * *",
         "kind": "cron",
@@ -639,14 +638,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772793300000,
-        "lastRunAtMs": 1772771700008,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 300021,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 1,
-        "lastError": "cron: job execution timed out"
+        "nextRunAtMs": 1772814900000,
+        "lastRunAtMs": 1772793300007,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 170875,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": false
       }
     },
     {
@@ -655,7 +654,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772791517753,
+      "updatedAtMs": 1772793916447,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -672,15 +671,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772791800000,
-        "lastRunAtMs": 1772791500011,
+        "nextRunAtMs": 1772794200000,
+        "lastRunAtMs": 1772793900008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 17742,
+        "lastDurationMs": 16439,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false,
-        "runningAtMs": 1772791800011
+        "runningAtMs": 1772794200007
       }
     },
     {
@@ -689,7 +688,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772791225086,
+      "updatedAtMs": 1772793931949,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -706,11 +705,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772792100000,
-        "lastRunAtMs": 1772791214629,
+        "nextRunAtMs": 1772794800000,
+        "lastRunAtMs": 1772793916447,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 10457,
+        "lastDurationMs": 15502,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -789,7 +788,7 @@
       "name": "event-dispatch-runner",
       "enabled": true,
       "createdAtMs": 1772735091190,
-      "updatedAtMs": 1772791577775,
+      "updatedAtMs": 1772793974608,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -806,14 +805,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772791877775,
-        "lastRunAtMs": 1772791517753,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 60022,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 3,
-        "lastError": "cron: job execution timed out"
+        "nextRunAtMs": 1772794200000,
+        "lastRunAtMs": 1772793931949,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 42659,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": false,
+        "runningAtMs": 1772794200007
       }
     }
   ]

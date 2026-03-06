@@ -22,6 +22,15 @@
 const fs = require('fs');
 const path = require('path');
 
+// ─── CRAS Inline Intent Hook（快路运行时接线） ───
+let _extractIntentInline = null;
+function getInlineIntentExtractor() {
+  if (!_extractIntentInline) {
+    ({ extractIntentInline: _extractIntentInline } = require('../../skills/cras/intent-inline-hook'));
+  }
+  return _extractIntentInline;
+}
+
 // ═══════════════════════════════════════════════════════════
 // 依赖模块（延迟加载避免循环依赖）
 // ═══════════════════════════════════════════════════════════
@@ -189,6 +198,46 @@ async function processEventL3(event) {
     if (isConversationEvent(event.type) && intentEnabled) {
       const scanner = getIntentScanner();
       const slice = eventToConversationSlice(event);
+
+      // ─── Stage 1a: CRAS Inline Intent Hook（真正接入运行时快路） ───
+      let inlineResult = null;
+      try {
+        const inlineExtractor = getInlineIntentExtractor();
+        inlineResult = await inlineExtractor((event.payload && event.payload.text) || '', {
+          channel: event.payload?.channel || event.channel || 'unknown',
+          session_id: event.payload?.session_id || event.payload?.sessionId || event.session_id || event.sessionId || event.id || 'unknown',
+          history: Array.isArray(event.payload?.history) ? event.payload.history : [],
+          messages: Array.isArray(event.payload?.messages) ? event.payload.messages : [],
+          recentRounds: Array.isArray(event.payload?.recentRounds) ? event.payload.recentRounds : [],
+        });
+      } catch (inlineErr) {
+        gatewayLog({
+          stage: 'intent-inline-hook',
+          trace_id: traceId,
+          event_type: event.type,
+          status: 'failed',
+          error: inlineErr.message,
+        });
+      }
+
+      const inlineCount = Array.isArray(inlineResult?.intents) ? inlineResult.intents.length : 0;
+      result.inline_intents_detected = inlineCount;
+      result.stages.push({
+        name: 'IntentInlineHook',
+        status: inlineCount > 0 ? 'ok' : 'no_intent',
+        intents: inlineCount,
+        details: Array.isArray(inlineResult?.intents)
+          ? inlineResult.intents.map(i => ({ type: i.type, confidence: i.confidence }))
+          : [],
+      });
+
+      gatewayLog({
+        stage: 'intent-inline-hook',
+        trace_id: traceId,
+        event_type: event.type,
+        intents: inlineCount,
+        status: inlineCount > 0 ? 'ok' : 'no_intent',
+      });
 
       if (slice.length > 0) {
         scanResult = await scanner.scan(slice);

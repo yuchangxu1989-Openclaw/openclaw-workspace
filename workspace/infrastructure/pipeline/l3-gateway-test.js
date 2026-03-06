@@ -112,10 +112,31 @@ async function runTests() {
 
     assert(typeof result.duration_ms === 'number', 'T3.9: duration_ms 是数字');
 
-    console.log(`    ℹ️  L3 处理链: ${result.stages.map(s => `${s.name}:${s.status}`).join(' → ')}`);
-    console.log(`    ℹ️  匹配规则: ${result.matched_rules}, 意图: ${result.intents_detected}, 分发: ${result.dispatched_actions}`);
-    console.log(`    ℹ️  耗时: ${result.duration_ms}ms`);
-  }
+    // 关闭 IntentScanner LLM（这里专测 inline hook 接线）
+    process.env.INTENT_SCANNER_ENABLED = 'false';
+
+    const queryEvent = {
+      id: 'test_query_001',
+      type: 'user.message',
+      source: 'test',
+      payload: { text: '帮我查一下当前系统状态和最近错误日志' },
+      metadata: {},
+      timestamp: Date.now(),
+    };
+
+    const queryResult = await gateway.processEventL3(queryEvent);
+    const inlineStage = queryResult.stages.find(s => s.name === 'IntentInlineHook');
+    assert(inlineStage !== undefined, 'T3.10: IntentInlineHook stage 存在');
+    assert(inlineStage && (inlineStage.status === 'ok' || inlineStage.status === 'no_intent'), 'T3.11: IntentInlineHook 已运行');
+    if (inlineStage) {
+      const hasQuery = Array.isArray(inlineStage.details)
+        && inlineStage.details.some(d => d.type === 'QUERY');
+      assert(hasQuery, 'T3.12: QUERY 类输入进入快路并被识别');
+      console.log(`    ℹ️  Inline intents: ${JSON.stringify(inlineStage.details)}`);
+    }
+
+    // 恢复
+    process.env.INTENT_SCANNER_ENABLED = 'true';
 
   // ────────────────────────────────────────────────────────
   // Test 4: Gateway install + emit 拦截

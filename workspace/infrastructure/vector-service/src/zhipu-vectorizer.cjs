@@ -20,24 +20,33 @@ class ZhipuVectorizer {
 
   /**
    * 加载智谱API密钥
-   * 优先从环境变量读取，否则从密钥文件读取
+   * 优先从 zhipu-keys 模块读取，其次环境变量，最后从 openclaw.json
    */
   _loadApiKey() {
-    // 优先使用环境变量
+    // 优先使用 zhipu-keys 模块（统一真相源）
+    try {
+      const zhipuKeys = require('/root/.openclaw/workspace/skills/zhipu-keys/index.js');
+      return zhipuKeys.getKey('embedding');
+    } catch (e) {
+      console.error('[zhipu-vectorizer] 无法从 zhipu-keys 模块加载:', e.message);
+    }
+    
+    // 环境变量
     if (process.env.ZHIPU_API_KEY) {
       return process.env.ZHIPU_API_KEY;
     }
     
-    const secretPath = '/root/.openclaw/.secrets/zhipu-keys.env';
-    if (fs.existsSync(secretPath)) {
-      const content = fs.readFileSync(secretPath, 'utf-8');
-      // 读取 ZHIPU_API_KEY（支持完整格式: hex.Base64Secret）
-      const match = content.match(/^ZHIPU_API_KEY=(.+)$/m);
-      if (match) return match[1].trim();
-      // 回退到带编号的 key
-      const match1 = content.match(/^ZHIPU_API_KEY_\d+=(.+)$/m);
-      if (match1) return match1[1].trim();
+    // 直接从 openclaw.json 读取
+    const configPath = '/root/.openclaw/openclaw.json';
+    if (fs.existsSync(configPath)) {
+      try {
+        const cfg = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+        return cfg?.models?.providers?.['zhipu-embedding']?.apiKey;
+      } catch (e) {
+        console.error('[zhipu-vectorizer] 解析 openclaw.json 失败:', e.message);
+      }
     }
+    
     return null;
   }
 
