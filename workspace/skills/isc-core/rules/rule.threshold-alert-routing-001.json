@@ -1,0 +1,37 @@
+{
+  "id": "rule.threshold-alert-routing-001",
+  "rule_name": "阈值越界告警路由",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "threshold-scanner 发射的4类阈值越界事件统一路由到 notify-alert handler。修复 P0-04：isc.yellow_light / eventbus.size / handler.failure / eventbus.backlog 四种 threshold_crossed 事件无消费路径。",
+  "category": "monitoring",
+  "trigger": {
+    "events": [
+      "isc.yellow_light.threshold_crossed",
+      "system.eventbus.size_threshold_crossed",
+      "system.handler.failure_threshold_crossed",
+      "system.eventbus.backlog_threshold_crossed"
+    ],
+    "actions": [
+      "threshold.alert.notify",
+      "threshold.alert.log"
+    ]
+  },
+  "conditions": {
+    "source": "threshold-scanner",
+    "severity_mapping": {
+      "isc.yellow_light.threshold_crossed": "warning",
+      "system.eventbus.size_threshold_crossed": "critical",
+      "system.handler.failure_threshold_crossed": "critical",
+      "system.eventbus.backlog_threshold_crossed": "warning"
+    }
+  },
+  "rationale": "reviewer审计发现 threshold-scanner 发射的4类事件全部无消费规则，告警触发后完全静默",
+  "enforcement_tier": "P0_block",
+  "created_at": "2026-03-06T18:45:00+08:00",
+  "action": {
+    "type": "handler",
+    "handler": "notify-alert",
+    "description": "阈值越界 → 写入 alerts.jsonl 供 heartbeat 读取"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "rule.git-commit-dispatch-001",
+  "rule_name": "Git提交事件分发路由",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "git.commit.completed 是所有代码变更的入口事件。此规则将其路由到质量检查、架构审查、规则-代码配对检查等下游管道。修复 P0-03：100+ 次 git.commit.completed 事件全部 NO_ROUTE 的问题。",
+  "category": "infrastructure",
+  "trigger": {
+    "events": [
+      "git.commit.completed"
+    ],
+    "actions": [
+      "git.commit.quality_check",
+      "git.commit.architecture_review",
+      "git.commit.rule_code_pairing"
+    ]
+  },
+  "conditions": {
+    "source": "git-sensor",
+    "filter": "所有提交均触发，handler 内部按 categories 字段做 fanout 分发"
+  },
+  "rationale": "reviewer审计发现 git.commit.completed 是事件总线中频率最高事件之一（100+条），但无任何规则消费，导致CI-like自动化完全失效",
+  "enforcement_tier": "P0_block",
+  "created_at": "2026-03-06T18:45:00+08:00",
+  "action": {
+    "type": "handler",
+    "handler": "completeness-check",
+    "description": "Git提交触发规则触发完整性检查"
+  }
+}

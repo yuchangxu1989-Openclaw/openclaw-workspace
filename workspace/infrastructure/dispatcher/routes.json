@@ -15,6 +15,12 @@
     "priority": "high",
     "description": "ISC rule changes — check rules and trigger downstream sync"
   },
+  "isc.enforcement_rate.threshold_crossed": {
+    "handler": "skill-isc-handler",
+    "agent": "coder",
+    "priority": "high",
+    "description": "ISC enforcement rate threshold crossed — alert and log"
+  },
   "dto.task.completed": {
     "handler": "skill-dto-handler",
     "priority": "normal",
@@ -77,10 +83,10 @@
     "description": "SEEF optimization results fed to CRAS for learning"
   },
   "system.error": {
-    "handler": "system-alert",
+    "handler": "notify-alert",
     "agent": "coder",
     "priority": "high",
-    "description": "System errors trigger alerting"
+    "description": "System errors trigger alerting (fixed: system-alert handler不存在, 改用notify-alert)"
   },
   "system.health": {
     "handler": "system-monitor",
@@ -159,5 +165,37 @@
     "agent": "coder",
     "priority": "low",
     "description": "[Day3-Gap2] 系统健康检查请求 → 事件驱动触发 (Cron仅做兜底)"
+  },
+
+  "git.commit.completed": {
+    "handler": "completeness-check",
+    "agent": "coder",
+    "priority": "normal",
+    "description": "[P0-03] Git提交完成 → 触发规则完整性检查和代码质量门"
+  },
+
+  "isc.yellow_light.threshold_crossed": {
+    "handler": "notify-alert",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[P0-04] ISC黄灯规则比率越界 → 告警通知"
+  },
+  "system.eventbus.size_threshold_crossed": {
+    "handler": "notify-alert",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[P0-04] 事件总线体积越界 → 告警通知"
+  },
+  "system.handler.failure_threshold_crossed": {
+    "handler": "notify-alert",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[P0-04] Handler失败率越界 → 告警通知"
+  },
+  "system.eventbus.backlog_threshold_crossed": {
+    "handler": "notify-alert",
+    "agent": "coder",
+    "priority": "high",
+    "description": "[P0-04] 事件积压越界 → 告警通知"
   }
 }
