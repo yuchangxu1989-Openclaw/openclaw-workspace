@@ -1,0 +1,49 @@
+{
+  "thresholds": [
+    {
+      "id": "isc-yellow-light-ratio",
+      "metric": "ISC黄灯规则占比",
+      "measure": "yellow_light_ratio",
+      "threshold": 0.3,
+      "operator": "gt",
+      "eventType": "isc.yellow_light.threshold_crossed",
+      "cooldownMs": 1800000
+    },
+    {
+      "id": "event-bus-size",
+      "metric": "事件总线文件大小",
+      "measure": "event_bus_size",
+      "threshold": 5242880,
+      "operator": "gt",
+      "eventType": "system.eventbus.size_threshold_crossed",
+      "cooldownMs": 3600000
+    },
+    {
+      "id": "handler-failure-rate",
+      "metric": "Handler失败率",
+      "measure": "handler_failure_rate",
+      "threshold": 0.1,
+      "operator": "gt",
+      "eventType": "system.handler.failure_threshold_crossed",
+      "cooldownMs": 900000
+    },
+    {
+      "id": "unconsumed-event-backlog",
+      "metric": "未消费事件积压",
+      "measure": "unconsumed_backlog",
+      "threshold": 100,
+      "operator": "gt",
+      "eventType": "system.eventbus.backlog_threshold_crossed",
+      "cooldownMs": 1800000
+    },
+    {
+      "id": "rule-code-pairing-rate",
+      "metric": "Rule=Code配对率",
+      "measure": "rule_code_pairing_rate",
+      "threshold": 1,
+      "operator": "lt",
+      "eventType": "isc.enforcement_rate.threshold_crossed",
+      "cooldownMs": 3600000
+    }
+  ]
+}

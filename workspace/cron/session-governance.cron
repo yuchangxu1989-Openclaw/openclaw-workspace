@@ -3,3 +3,6 @@
 
 # Gateway内存监控 - 每5分钟执行
 */5 * * * * /root/.openclaw/workspace/scripts/gateway-memory-governor.sh
+
+# EventBus 阈值扫描 - 每10分钟执行
+*/10 * * * * cd /root/.openclaw/workspace && /usr/bin/node infrastructure/event-bus/sensors/threshold-scanner.js >> logs/threshold-scanner.log 2>&1
