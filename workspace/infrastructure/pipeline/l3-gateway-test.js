@@ -138,6 +138,11 @@ async function runTests() {
     // 恢复
     process.env.INTENT_SCANNER_ENABLED = 'true';
 
+    console.log(`    ℹ️  L3 处理链: ${result.stages.map(s => `${s.name}:${s.status}`).join(' → ')}`);
+    console.log(`    ℹ️  匹配规则: ${result.matched_rules}, 意图: ${result.intents_detected}, 分发: ${result.dispatched_actions}`);
+    console.log(`    ℹ️  耗时: ${result.duration_ms}ms`);
+  }
+
   // ────────────────────────────────────────────────────────
   // Test 4: Gateway install + emit 拦截
   // ────────────────────────────────────────────────────────

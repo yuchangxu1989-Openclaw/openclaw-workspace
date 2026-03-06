@@ -192,14 +192,8 @@ async function processEventL3(event) {
   };
 
   try {
-    // ─── Stage 1: IntentScanner（仅对话类事件） ───
-    let scanResult = null;
-    const intentEnabled = getFlag('INTENT_SCANNER_ENABLED', true) && getFlag('L3_INTENTSCANNER_ENABLED', true);
-    if (isConversationEvent(event.type) && intentEnabled) {
-      const scanner = getIntentScanner();
-      const slice = eventToConversationSlice(event);
-
-      // ─── Stage 1a: CRAS Inline Intent Hook（真正接入运行时快路） ───
+    // ─── Stage 1a: CRAS Inline Intent Hook（真正接入运行时快路） ───
+    if (isConversationEvent(event.type)) {
       let inlineResult = null;
       try {
         const inlineExtractor = getInlineIntentExtractor();
@@ -238,6 +232,14 @@ async function processEventL3(event) {
         intents: inlineCount,
         status: inlineCount > 0 ? 'ok' : 'no_intent',
       });
+    }
+
+    // ─── Stage 1b: IntentScanner（仅对话类事件，且受 flag 控制） ───
+    let scanResult = null;
+    const intentEnabled = getFlag('INTENT_SCANNER_ENABLED', true) && getFlag('L3_INTENTSCANNER_ENABLED', true);
+    if (isConversationEvent(event.type) && intentEnabled) {
+      const scanner = getIntentScanner();
+      const slice = eventToConversationSlice(event);
 
       if (slice.length > 0) {
         scanResult = await scanner.scan(slice);
