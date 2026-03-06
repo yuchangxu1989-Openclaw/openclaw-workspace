@@ -122,7 +122,7 @@
   ],
   "action": {
     "type": "monitor",
-    "handler": "vectorization-standard-enforcement",
+    "handler": "infrastructure/event-bus/handlers/vectorization-standard-enforcement.js",
     "on_failure": "warn"
   },
   "schema_version": "2.0",

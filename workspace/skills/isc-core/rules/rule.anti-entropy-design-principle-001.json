@@ -52,7 +52,7 @@
         "fail_action": "block_and_simplify"
       }
     ],
-    "handler": "anti-entropy-checker"
+    "handler": "infrastructure/event-bus/handlers/anti-entropy-check.js"
   },
   "enforcement": "runtime_binding",
   "dto_alignment": {

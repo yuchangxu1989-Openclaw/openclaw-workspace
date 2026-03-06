@@ -32,14 +32,21 @@
         "id": "CHK-001",
         "fact": "skill.general.distribution",
         "operator": "in",
-        "value": ["internal", "external", "both"],
+        "value": [
+          "internal",
+          "external",
+          "both"
+        ],
         "failMessage": "技能缺少distribution字段声明，必须为internal/external/both之一"
       },
       {
         "id": "CHK-002",
         "fact": "skill.general.distribution",
         "operator": "in",
-        "value": ["external", "both"],
+        "value": [
+          "external",
+          "both"
+        ],
         "then": {
           "all": [
             {
@@ -131,5 +138,14 @@
   },
   "managedBy": "isc-core",
   "updatePolicy": "manual",
-  "tags": ["security", "distribution", "evomap", "P0"]
+  "tags": [
+    "security",
+    "distribution",
+    "evomap",
+    "P0"
+  ],
+  "action": {
+    "handler": "infrastructure/event-bus/handlers/skill-distribution-separation.js",
+    "type": "handler"
+  }
 }

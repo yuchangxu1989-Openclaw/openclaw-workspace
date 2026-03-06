@@ -36,11 +36,19 @@
     ]
   },
   "trigger": {
-    "events": ["isc.rule.created"],
-    "actions": ["isc.rule.triggered", "dto.task.triggered"]
+    "events": [
+      "isc.rule.created"
+    ],
+    "actions": [
+      "isc.rule.triggered",
+      "dto.task.triggered"
+    ]
   },
   "priority": "P0",
   "enforcement_tier": "P0_block",
   "created_at": "2026-03-05",
-  "source": "用户教学：元规则——规则创建后自动拆解"
+  "source": "用户教学：元规则——规则创建后自动拆解",
+  "action": {
+    "handler": "isc-rule-decompose"
+  }
 }

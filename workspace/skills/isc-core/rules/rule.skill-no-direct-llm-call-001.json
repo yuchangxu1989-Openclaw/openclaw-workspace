@@ -6,13 +6,28 @@
   "priority": "P0",
   "category": "architecture",
   "trigger": {
-    "events": ["skill.lifecycle.created", "skill.lifecycle.modified"],
-    "actions": ["quality.code.no_direct_llm_check"]
+    "events": [
+      "skill.lifecycle.created",
+      "skill.lifecycle.modified"
+    ],
+    "actions": [
+      "quality.code.no_direct_llm_check"
+    ]
   },
   "conditions": {
-    "forbidden_patterns": ["fetch.*chat/completions", "axios.*chat/completions", "https.request.*bigmodel", "https.request.*anthropic", "https.request.*openai"],
+    "forbidden_patterns": [
+      "fetch.*chat/completions",
+      "axios.*chat/completions",
+      "https.request.*bigmodel",
+      "https.request.*anthropic",
+      "https.request.*openai"
+    ],
     "allowed": "用户显式在配置中指定技能-模型绑定关系"
   },
   "rationale": "用户原话：'即便没有路由层，不也可以由默认模型来调度技能么？技能为什么一定要写指定的模型呢？'",
-  "created_at": "2026-03-06T02:07:00+08:00"
+  "created_at": "2026-03-06T02:07:00+08:00",
+  "action": {
+    "handler": "infrastructure/event-bus/handlers/skill-no-direct-llm.js",
+    "type": "handler"
+  }
 }

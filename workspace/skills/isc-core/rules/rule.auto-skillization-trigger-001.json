@@ -9,7 +9,10 @@
   "condition": "skill_quality_score >= 50",
   "threshold": 50,
   "priority": 9,
-  "action": "trigger_auto_skillization_pipeline",
+  "action": {
+    "type": "trigger_auto_skillization_pipeline",
+    "handler": "auto-skillization"
+  },
   "governance": {
     "auto_execute": true,
     "councilRequired": false

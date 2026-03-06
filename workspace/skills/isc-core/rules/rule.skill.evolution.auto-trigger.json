@@ -1,47 +1,48 @@
 {
-    "id": "skill.evolution.auto-trigger",
-    "name": "技能进化自动触发",
-    "description": "技能变更时自动触发SEEF进化流水线",
-    "version": "1.0.0",
-    "status": "active",
-    "trigger": {
-        "type": "event",
-        "sources": [
-            "skill.general.modified",
-            "skill.general.created",
-            "skill.general.published"
-        ],
-        "events": [
-            "skill.usage.pattern_detected",
-            "skill.performance.degraded",
-            "skill.evolution.scheduled"
-        ],
-        "actions": [
-            {
-                "type": "auto_trigger",
-                "description": "技能使用模式变化或性能下降时自动触发技能进化流程"
-            }
-        ]
+  "id": "skill.evolution.auto-trigger",
+  "name": "技能进化自动触发",
+  "description": "技能变更时自动触发SEEF进化流水线",
+  "version": "1.0.0",
+  "status": "active",
+  "trigger": {
+    "type": "event",
+    "sources": [
+      "skill.general.modified",
+      "skill.general.created",
+      "skill.general.published"
+    ],
+    "events": [
+      "skill.usage.pattern_detected",
+      "skill.performance.degraded",
+      "skill.evolution.scheduled"
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "技能使用模式变化或性能下降时自动触发技能进化流程"
+      }
+    ]
+  },
+  "condition": {
+    "autoTrigger": true,
+    "minISCScore": 50,
+    "excludePatterns": [
+      "**/node_modules/**",
+      "**/.git/**",
+      "**/*.log"
+    ]
+  },
+  "action": {
+    "type": "orchestration.general.trigger",
+    "target": "seef.evolution-pipeline",
+    "parameters": {
+      "immediate": false,
+      "queueIfRunning": true
     },
-    "condition": {
-        "autoTrigger": true,
-        "minISCScore": 50,
-        "excludePatterns": [
-            "**/node_modules/**",
-            "**/.git/**",
-            "**/*.log"
-        ]
-    },
-    "action": {
-        "type": "orchestration.general.trigger",
-        "target": "seef.evolution-pipeline",
-        "parameters": {
-            "immediate": false,
-            "queueIfRunning": true
-        }
-    },
-    "priority": 5,
-    "createdAt": "2026-03-01T00:00:00Z",
-    "updatedAt": "2026-03-01T00:00:00Z",
-    "enforcement_tier": "P1_process"
+    "handler": "infrastructure/event-bus/handlers/skill-evolution-trigger.js"
+  },
+  "priority": 5,
+  "createdAt": "2026-03-01T00:00:00Z",
+  "updatedAt": "2026-03-01T00:00:00Z",
+  "enforcement_tier": "P1_process"
 }

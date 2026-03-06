@@ -148,5 +148,8 @@
   },
   "managedBy": "isc-core",
   "updatePolicy": "auto_sync",
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "action": {
+    "handler": "isc-skill-security"
+  }
 }

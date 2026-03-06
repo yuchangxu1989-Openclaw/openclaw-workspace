@@ -20,7 +20,8 @@
   "action": {
     "type": "skill",
     "skill": "seef",
-    "subskill": "evaluator"
+    "subskill": "evaluator",
+    "handler": "infrastructure/event-bus/handlers/seef-skill-registered.js"
   },
   "governance": {
     "auto_execute": true

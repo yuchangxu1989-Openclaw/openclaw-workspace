@@ -294,5 +294,9 @@
       "写入注册表目录权限"
     ]
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "action": {
+    "handler": "infrastructure/event-bus/handlers/memory-loss-recovery.js",
+    "type": "handler"
+  }
 }

@@ -1,32 +1,35 @@
 {
-    "id": "rule.auto-evomap-sync-trigger-001",
-    "legacyId": "R003",
-    "name": "auto_evomap_sync",
-    "domain": "sync",
-    "type": "rule",
-    "scope": "skill",
-    "description": "自动EvoMap同步触发规则 - 技能创建或更新时同步到EvoMap网络",
-    "condition": "skill_created OR skill_updated",
-    "trigger": {
-        "events": [
-            "skill.general.published",
-            "skill.version.updated",
-            "skill.lifecycle.status_changed"
-        ],
-        "actions": [
-            {
-                "type": "auto_trigger",
-                "description": "技能生命周期变更时自动触发EvoMap同步，确保网络中的技能信息一致"
-            }
-        ]
-    },
-    "priority": 7,
-    "action": "sync_to_evomap_network",
-    "governance": {
-        "auto_execute": true,
-        "councilRequired": false
-    },
-    "created_at": "2026-02-25T06:32:00+08:00",
-    "version": "1.0.0",
-    "enforcement_tier": "P1_process"
+  "id": "rule.auto-evomap-sync-trigger-001",
+  "legacyId": "R003",
+  "name": "auto_evomap_sync",
+  "domain": "sync",
+  "type": "rule",
+  "scope": "skill",
+  "description": "自动EvoMap同步触发规则 - 技能创建或更新时同步到EvoMap网络",
+  "condition": "skill_created OR skill_updated",
+  "trigger": {
+    "events": [
+      "skill.general.published",
+      "skill.version.updated",
+      "skill.lifecycle.status_changed"
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "技能生命周期变更时自动触发EvoMap同步，确保网络中的技能信息一致"
+      }
+    ]
+  },
+  "priority": 7,
+  "action": {
+    "type": "sync_to_evomap_network",
+    "handler": "evomap-sync-trigger"
+  },
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "created_at": "2026-02-25T06:32:00+08:00",
+  "version": "1.0.0",
+  "enforcement_tier": "P1_process"
 }

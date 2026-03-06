@@ -9,7 +9,10 @@
   "condition": "severity == HIGH AND auto_fix_enabled",
   "severity": "HIGH",
   "priority": 10,
-  "action": "execute_auto_remediation",
+  "action": {
+    "type": "execute_auto_remediation",
+    "handler": "auto-fix-severity"
+  },
   "governance": {
     "auto_execute": true,
     "councilRequired": false

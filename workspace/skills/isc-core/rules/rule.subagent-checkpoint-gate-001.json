@@ -38,7 +38,7 @@
   "version": "1.0.0",
   "action": {
     "type": "gate",
-    "handler": "subagent-checkpoint-gate",
+    "handler": "infrastructure/event-bus/handlers/subagent-checkpoint-gate.js",
     "on_failure": "reject",
     "description": "创建子Agent时检查任务复杂度，超标则要求拆分"
   },
