@@ -28,6 +28,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { chooseGovernedModel } = require('./model-governance');
 
 const PENDING_FILE = path.join(__dirname, 'state', 'pending-dispatches.json');
 
@@ -51,21 +52,66 @@ function writePending(data) {
  * onDispatch callback for DispatchEngine.
  * Records the task as pending for agent pickup.
  */
-function onDispatchBridge(task) {
+function onDispatchBridge(task, engine = null) {
   const pending = readPending();
+  const governance = task.governance || null;
+  const decision = governance ? {
+    requestedModel: governance.requestedModel,
+    finalModel: governance.finalModel || task.model,
+    changed: governance.changed,
+    reason: governance.reason,
+    evaluation: governance.opus || governance.evaluation || null,
+  } : chooseGovernedModel(task);
+  const governedTask = {
+    ...task,
+    model: decision.finalModel,
+    governance: governance || {
+      requestedModel: decision.requestedModel,
+      finalModel: decision.finalModel,
+      changed: decision.changed,
+      reason: decision.reason,
+      evaluation: decision.evaluation,
+    },
+  };
+
   // Avoid duplicates
-  if (!pending.tasks.find(t => t.taskId === task.taskId)) {
+  if (!pending.tasks.find(t => t.taskId === governedTask.taskId)) {
     pending.tasks.push({
-      taskId: task.taskId,
-      title: task.title,
-      model: task.model,
-      agentId: task.agentId,
-      priority: task.priority,
-      payload: task.payload,
+      taskId: governedTask.taskId,
+      title: governedTask.title,
+      model: governedTask.model,
+      requestedModel: decision.requestedModel,
+      agentId: governedTask.agentId,
+      priority: governedTask.priority,
+      payload: governedTask.payload,
+      payloadForSpawn: {
+        ...governedTask.payload,
+        governance: governedTask.governance,
+      },
+      governance: governedTask.governance,
+      status: governedTask.status,
+      dispatchAttempts: governedTask.dispatchAttempts || 0,
       dispatchedAt: new Date().toISOString(),
     });
   }
   writePending(pending);
+
+  if (engine && typeof engine.liveBoard === 'function') {
+    try {
+      const board = engine.liveBoard();
+      const active = board.summary.busySlots;
+      const queued = board.summary.queueDepth;
+      if (queued > 0 && board.summary.freeSlots > 0) {
+        // enforce continuous drain when callback side-effects change external pickup state
+        engine.drain();
+      }
+      return { pending: pending.tasks.length, active, queued };
+    } catch {
+      return { pending: pending.tasks.length };
+    }
+  }
+
+  return { pending: pending.tasks.length };
 }
 
 /**

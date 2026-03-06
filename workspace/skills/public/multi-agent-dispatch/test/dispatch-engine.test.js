@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { DispatchEngine, formatDuration } = require('../dispatch-engine');
+const { DEFAULT_MODEL, OPUS_MODEL } = require('../model-governance');
 
 function tmpEngine(opts = {}) {
   const baseDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dispatch-engine-'));
@@ -352,6 +353,67 @@ describe('onDispatch callback', () => {
     const s = e._load();
     expect(s.finished.find(t => t.taskId === 'fail-spawn')).toBeTruthy();
     expect(s.spawning['backfill'] || s.running['backfill']).toBeTruthy();
+  });
+});
+
+describe('Model governance', () => {
+  test('defaults missing model to gpt-5.4', () => {
+    const e = tmpEngine({ maxSlots: 1 });
+    const task = e.enqueue({ title: '普通实现任务' });
+    const state = e._load();
+    expect(state.spawning[task.taskId].model).toBe(DEFAULT_MODEL);
+    expect(state.spawning[task.taskId].governance.reason).toBe('defaulted_to_gpt_5_4');
+  });
+
+  test('downgrades opus for non-critical ordinary tasks', () => {
+    const e = tmpEngine({ maxSlots: 1 });
+    const task = e.enqueue({
+      title: '写周报',
+      model: OPUS_MODEL,
+      priority: 'normal',
+      justification: '想用最强模型写周报',
+    });
+    const state = e._load();
+    expect(state.spawning[task.taskId].model).toBe(DEFAULT_MODEL);
+    expect(state.spawning[task.taskId].governance.reason).toBe('opus_downgraded_by_policy');
+    expect(state.spawning[task.taskId].governance.opus.allowed).toBe(false);
+  });
+
+  test('allows opus only for critical architecture with justification', () => {
+    const e = tmpEngine({ maxSlots: 1 });
+    const task = e.enqueue({
+      title: '核心系统架构设计评审',
+      model: OPUS_MODEL,
+      priority: 'critical',
+      justification: '这是核心链路重构，需要高质量架构判断与权衡。',
+    });
+    const state = e._load();
+    expect(state.spawning[task.taskId].model).toBe(OPUS_MODEL);
+    expect(state.spawning[task.taskId].governance.reason).toBe('opus_allowed_by_policy');
+    expect(state.spawning[task.taskId].governance.opus.allowed).toBe(true);
+  });
+});
+
+describe('Bridge governance persistence', () => {
+  test('pending dispatch preserves downgraded model and governance metadata', () => {
+    const baseDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dispatch-bridge-'));
+    const { onDispatchBridge, getPendingTasks, clearPending } = require('../dispatch-bridge');
+    clearPending();
+    const e = new DispatchEngine({ baseDir, maxSlots: 1, onDispatch: (task) => onDispatchBridge(task) });
+
+    e.enqueue({
+      taskId: 'opus-doc-1',
+      title: '整理会议纪要',
+      model: OPUS_MODEL,
+      priority: 'high',
+      justification: '想试试 opus',
+    });
+
+    const pending = getPendingTasks();
+    const record = pending.find((t) => t.taskId === 'opus-doc-1');
+    expect(record).toBeTruthy();
+    expect(record.model).toBe(DEFAULT_MODEL);
+    expect(record.governance.reason).toBe('opus_downgraded_by_policy');
   });
 });
 

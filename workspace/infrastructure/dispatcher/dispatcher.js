@@ -21,6 +21,7 @@ const fs = require('fs');
 const path = require('path');
 
 const { DispatchLayer } = require('./dispatch-layer');
+const { onDispatchBridge } = require('../../skills/public/multi-agent-dispatch/dispatch-bridge');
 
 // ── Dispatch Engine greyscale switch ─────────────────────────────────────────
 // DISPATCH_ENGINE env var controls which engine is used:
@@ -36,6 +37,7 @@ function getDispatchEngine() {
     const { DispatchEngine } = require('../../skills/public/multi-agent-dispatch/dispatch-engine');
     _dispatchEngine = new DispatchEngine({
       maxSlots: parseInt(process.env.DISPATCH_ENGINE_SLOTS || '3', 10), // greyscale: start with 3
+      onDispatch: (task) => onDispatchBridge(task, _dispatchEngine),
     });
     return _dispatchEngine;
   } catch (e) {

@@ -34,6 +34,7 @@ const fs = require('fs');
 const path = require('path');
 const { EventEmitter } = require('events');
 const { execSync } = require('child_process');
+const { applyModelGovernance } = require('./model-governance');
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -96,24 +97,30 @@ function emptyState() {
 
 function makeTask(input) {
   const taskId = input.taskId || uid();
+  const governed = applyModelGovernance(input);
   return {
     taskId,
-    title:       input.title || '(untitled)',
-    description: input.description || '',
-    source:      input.source || 'manual',
-    model:       input.model || null,
-    agentId:     input.agentId || null,
-    priority:    input.priority || 'normal',   // 'critical' | 'high' | 'normal' | 'low'
-    payload:     input.payload || {},
-    tags:        input.tags || [],
+    title:       governed.title || '(untitled)',
+    description: governed.description || '',
+    source:      governed.source || 'manual',
+    model:       governed.model || null,
+    agentId:     governed.agentId || null,
+    priority:    governed.priority || 'normal',   // 'critical' | 'high' | 'normal' | 'low'
+    payload:     governed.payload || {},
+    tags:        governed.tags || [],
+    governance:  governed.governance || null,
 
     // lifecycle timestamps
     status:      'queued',
-    createdAt:   input.createdAt || now(),
+    createdAt:   governed.createdAt || now(),
     queuedAt:    now(),
     spawningAt:  null,
     runningAt:   null,
     finishedAt:  null,
+
+    // dispatch bookkeeping
+    dispatchAttempts: 0,
+    lastDispatchAt: null,
 
     // session link
     sessionKey:  null,
@@ -282,9 +289,16 @@ class DispatchEngine extends EventEmitter {
 
       task.status = 'spawning';
       task.spawningAt = now();
+      task.lastDispatchAt = task.spawningAt;
+      task.dispatchAttempts = (task.dispatchAttempts || 0) + 1;
       s.spawning[task.taskId] = task;
 
-      this._log('dispatched', { taskId: task.taskId, title: task.title, slotsAfter: free - 1 });
+      this._log('dispatched', {
+        taskId: task.taskId,
+        title: task.title,
+        slotsAfter: free - 1,
+        dispatchAttempts: task.dispatchAttempts,
+      });
       dispatched.push(task);
     }
 
@@ -295,7 +309,9 @@ class DispatchEngine extends EventEmitter {
       // Fire external spawn callback for each task
       if (this.onDispatch) {
         for (const task of dispatched) {
-          try { this.onDispatch(task); } catch (e) {
+          try {
+            this.onDispatch(task, this);
+          } catch (e) {
             // spawn callback failed → mark as failed, which triggers backfill
             this.markFailed(task.taskId, { error: `onDispatch error: ${e.message}` });
           }
