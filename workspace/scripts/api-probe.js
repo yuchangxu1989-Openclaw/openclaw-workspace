@@ -111,13 +111,25 @@ async function main(){
     state.main.failCount += 1; state.main.successCount = 0;
     log(`main primary(${primaryProvider}) 探测失败计数: ${state.main.failCount}/3`);
     if (state.main.mode !== 'fallback' && state.main.failCount >= 3) {
-      modelCfg.primary = modelCfg.fallback;
+      // 1. 先通知：即将切换
+      await sendFeishuWebhook(FEISHU_WEBHOOK,'⚠️ 主渠道异常，即将切换备用',`主 provider **${primaryProvider}** 连续 3 次探测失败，正在自动切换到备用渠道...`,'red');
+      // 2. 执行切换
+      const fallbackModel = modelCfg.fallback;
+      modelCfg.primary = fallbackModel;
       mainAgent.failover.active = 'fallback';
       saveConfig(config);
-      restartGateway();
       state.main.mode = 'fallback'; state.main.failCount = 0; state.main.successCount = 0;
-      log(`已自动切换 main 到 fallback: ${modelCfg.primary}`);
-      await sendFeishuWebhook(FEISHU_WEBHOOK,'🔁 main 已自动切换到备用 provider',`主 provider **${primaryProvider}** 连续 3 次失败，已切换到 **${modelCfg.primary}** 并重启 gateway。`,'orange');
+      log(`已自动切换 main 到 fallback: ${fallbackModel}`);
+      // 3. 切完后通知：已切换，提示重启
+      await sendFeishuWebhook(FEISHU_WEBHOOK,'🔁 已切换到备用渠道',`已将 main agent 从 **${primaryProvider}** 切换到 **${fallbackModel}**。\n\n正在尝试自动重启 gateway...`,'orange');
+      // 4. 尝试重启，成功或失败都通知
+      try {
+        restartGateway();
+        await sendFeishuWebhook(FEISHU_WEBHOOK,'✅ Gateway 已自动重启',`备用渠道 **${fallbackModel}** 已生效。`,'green');
+      } catch(e) {
+        log(`gateway重启失败: ${e.message}`);
+        await sendFeishuWebhook(FEISHU_WEBHOOK,'❌ Gateway 自动重启失败，需要手动重启',`切换已完成但 gateway 重启失败：${e.message}\n\n请手动执行: openclaw gateway restart`,'red');
+      }
     }
   } else {
     state.main.successCount += 1; state.main.failCount = 0;
