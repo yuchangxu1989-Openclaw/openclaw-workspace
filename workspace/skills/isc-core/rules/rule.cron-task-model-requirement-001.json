@@ -46,7 +46,7 @@
     "on_missing": "reject",
     "default_model": "follow_openclaw_config",
     "auto_fix": false,
-    "handler": "log-action"
+    "handler": "cron-task-model-requirement"
   },
   "governance": {
     "auto_execute": true,

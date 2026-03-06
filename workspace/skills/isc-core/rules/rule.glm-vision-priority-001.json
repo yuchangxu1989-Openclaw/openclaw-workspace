@@ -30,7 +30,7 @@
     "type": "model_switch",
     "target": "zhipu/glm-4v-plus",
     "fallback": "follow_openclaw_config",
-    "handler": "log-action"
+    "handler": "glm-vision-priority"
   },
   "governance": {
     "auto_execute": true,
