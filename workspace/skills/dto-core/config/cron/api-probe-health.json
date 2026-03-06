@@ -1,7 +1,7 @@
 {
   "name": "api-probe-health",
   "schedule": "*/5 * * * *",
-  "command": "cd /root/.openclaw/workspace && node /root/.openclaw/workspace/scripts/api-probe.js >> /tmp/api-probe.log 2>&1",
+  "command": "cd /root/.openclaw/workspace && flock -n /tmp/api-probe-health.lock node /root/.openclaw/workspace/scripts/api-probe.js >> /tmp/api-probe.log 2>&1",
   "workingDirectory": "/root/.openclaw/workspace",
   "timezone": "Asia/Shanghai",
   "enabled": true,
