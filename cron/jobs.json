@@ -670,7 +670,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772773811050,
+      "updatedAtMs": 1772775395989,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -688,14 +688,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772774100000,
-        "lastRunAtMs": 1772773800009,
+        "nextRunAtMs": 1772775600000,
+        "lastRunAtMs": 1772775384747,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 11041,
+        "lastDurationMs": 11242,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": false,
+        "runningAtMs": 1772775600005
       }
     },
     {
@@ -704,7 +705,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772773221203,
+      "updatedAtMs": 1772775402532,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -722,11 +723,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772774100000,
-        "lastRunAtMs": 1772773214805,
+        "nextRunAtMs": 1772775900000,
+        "lastRunAtMs": 1772775395989,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6398,
+        "lastDurationMs": 6543,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -807,7 +808,7 @@
       "name": "event-dispatch-runner",
       "enabled": true,
       "createdAtMs": 1772735091190,
-      "updatedAtMs": 1772773817313,
+      "updatedAtMs": 1772775411107,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -825,14 +826,15 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772774100000,
-        "lastRunAtMs": 1772773811050,
+        "nextRunAtMs": 1772775600000,
+        "lastRunAtMs": 1772775402532,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6263,
+        "lastDurationMs": 8575,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": false,
+        "runningAtMs": 1772775600005
       }
     }
   ]

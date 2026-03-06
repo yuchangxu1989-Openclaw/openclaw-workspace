@@ -1,8 +1,3 @@
-/**
- * Event Dispatcher — Phase 0 核心基建
- * 事件→规则匹配→条件评估→Action记录
- */
-
 const fs = require('fs');
 const path = require('path');
 const { evaluate: evaluateCondition } = require('./condition-evaluator');
@@ -60,7 +55,6 @@ class Dispatcher {
     let events = trigger.events;
     if (!events) return [];
     if (Array.isArray(events)) return events;
-    // object format: flatten values
     if (typeof events === 'object') return Object.values(events).flat();
     return [String(events)];
   }
@@ -85,18 +79,14 @@ class Dispatcher {
           continue;
         }
 
-        // Execute actions — Phase 1: handler dispatch + log
         const actions = this._extractActions(rule);
         for (const action of actions) {
           this._logAction({ eventType, ruleId: rule.id, action, payload, depth: _depth });
-          // Attempt handler execution
           await this._executeHandler(action, rule, { id: `evt_${Date.now()}`, type: eventType, payload, source: 'dispatcher' });
         }
-        // Also run rule-level handler if specified
         if (rule.action && rule.action.handler) {
           await this._executeHandler(rule.action, rule, { id: `evt_${Date.now()}`, type: eventType, payload, source: 'dispatcher' });
         }
-        // Always run log-action as universal logger
         await this._executeHandler({ handler: 'log-action' }, rule, { id: `evt_${Date.now()}`, type: eventType, payload, source: 'dispatcher' });
         this.stats.executed++;
         this._log({ status: 'executed', eventType, ruleId: rule.id, depth: _depth });
@@ -109,16 +99,10 @@ class Dispatcher {
 
   _matchRules(eventType) {
     const results = new Set();
-
-    // Exact match
     const exact = this.eventIndex.get(eventType);
     if (exact) exact.forEach(r => results.add(r));
-
-    // Wildcard *
     const wildcard = this.eventIndex.get('*');
     if (wildcard) wildcard.forEach(r => results.add(r));
-
-    // Domain wildcard: skill.* matches skill.created, skill.updated, etc.
     for (const [pattern, rules] of this.eventIndex) {
       if (pattern.endsWith('.*')) {
         const domain = pattern.slice(0, -2);
@@ -127,17 +111,14 @@ class Dispatcher {
         }
       }
     }
-
     return [...results];
   }
 
   _evaluateConditions(rule, payload) {
-    // 优先使用 rule.conditions，其次 rule.trigger.condition，兼容两种格式
     const conditions = rule.conditions || (rule.trigger && rule.trigger.condition) || rule.condition;
     const result = evaluateCondition(conditions, payload);
 
     if (result.needs_llm) {
-      // 记录需要LLM认知判断的条件（不阻塞，默认pass）
       this._log({
         status: 'needs_llm',
         ruleId: rule.id,
@@ -157,12 +138,31 @@ class Dispatcher {
     return [{ type: 'log_only' }];
   }
 
+  _resolveHandlerPath(handlerName) {
+    if (!handlerName) return null;
+
+    const isPathLike = handlerName.includes('/') || handlerName.endsWith('.js');
+    if (isPathLike) {
+      const candidate = path.isAbsolute(handlerName)
+        ? handlerName
+        : path.resolve(process.cwd(), handlerName);
+      if (fs.existsSync(candidate)) return candidate;
+    }
+
+    const shortName = handlerName.endsWith('.js') ? handlerName.slice(0, -3) : handlerName;
+    const fallback = path.join(__dirname, 'handlers', `${shortName}.js`);
+    if (fs.existsSync(fallback)) return fallback;
+
+    return null;
+  }
+
   async _executeHandler(action, rule, event) {
     const handlerName = action.handler || action.type;
     if (!handlerName) return;
-    const handlerPath = path.join(__dirname, 'handlers', `${handlerName}.js`);
+
+    const handlerPath = this._resolveHandlerPath(handlerName);
     try {
-      if (!fs.existsSync(handlerPath)) return; // no handler file, skip silently
+      if (!handlerPath) return;
       const handler = require(handlerPath);
       const result = await handler(event, rule, {});
       this.logger.debug?.(`[Dispatcher] Handler ${handlerName} executed: ${JSON.stringify(result)}`);

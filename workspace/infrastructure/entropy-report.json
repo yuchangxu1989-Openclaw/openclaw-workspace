@@ -1,0 +1,865 @@
+{
+  "timestamp": "2026-03-06T05:40:15.278Z",
+  "scanned": {
+    "files": 2695,
+    "dirs": 368
+  },
+  "issues": 64,
+  "fixes": 76,
+  "details": {
+    "issues": [
+      {
+        "type": "duplicate",
+        "files": [
+          "aeo-vector-system/demo-index/case-vectors.json",
+          "aeo-vector-system/test-index/case-vectors.json",
+          "aeo-vector-system/test-index/e2e/case-vectors.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "aeo-vector-system/demo-index/vocab.json",
+          "aeo-vector-system/test-index/e2e/vocab.json",
+          "aeo-vector-system/test-index/vocab.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "evolver/reports/evolver_cycle_0002_1772481823.json",
+          "feishu_sent_reports/evolver_cycle_0002_1772481823.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "feishu_sent_cards/send_1772481802432_insight_1772380873908.json",
+          "feishu_sent_cards/send_1772481802934_insight_1772402481768.json",
+          "feishu_sent_cards/send_1772481803435_insight_1772424623997.json",
+          "feishu_sent_cards/send_1772481804437_insight_1772445688757.json",
+          "feishu_sent_cards/send_1772542889809_insight_1772510660642.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "feishu_sent_reports/insight_1772380873908.json",
+          "feishu_sent_reports/insight_1772402481768.json",
+          "feishu_sent_reports/insight_1772424623997.json",
+          "feishu_sent_reports/insight_1772445688757.json",
+          "feishu_sent_reports/insight_1772510660642.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/decision-log/test-decision-logger.js",
+          "tests/unit/decision-logger.test.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/dispatcher/.test-tmp-1772644983353/handlers/test-always-fail.js",
+          "infrastructure/dispatcher/.test-tmp-1772645215614/handlers/test-always-fail.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/dispatcher/.test-tmp-1772644983353/handlers/test-fail-once.js",
+          "infrastructure/dispatcher/.test-tmp-1772645215614/handlers/test-fail-once.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/dispatcher/.test-tmp-1772644983353/handlers/test-success.js",
+          "infrastructure/dispatcher/.test-tmp-1772645215614/handlers/test-success.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/dispatcher/dispatcher.test.js",
+          "tests/unit/dispatcher.test.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/dispatcher/test-intent-dispatch.js",
+          "tests/unit/intent-dispatch.test.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/event-bus.js",
+          "infrastructure/event-bus/event-bus.js.deprecated"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/processed/pre-commit-1772767373524.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772767414152.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/test-bus.js",
+          "tests/unit/event-bus.test.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/intent-engine/intent-scanner.test.js",
+          "tests/unit/intent-scanner.test.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/lep-core/executors/base.js",
+          "skills/lep-executor/src/executors/base.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/lep-core/executors/n016-repair-loop.js",
+          "skills/lep-executor/src/executors/n016-repair-loop.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/lep-core/executors/n017-recurring-pattern.js",
+          "skills/lep-executor/src/executors/n017-recurring-pattern.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/lep-core/executors/n018-global-alignment.js",
+          "skills/lep-executor/src/executors/n018-global-alignment.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/mr/config/shadow-test.json",
+          "tests/integration/mr-shadow-test-config.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/mr/mr-router.js",
+          "infrastructure/mr/mr-router.mvp.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/mr/test-mvp.js",
+          "tests/unit/mr-mvp.test.mjs"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/mr/test-safety.js",
+          "tests/unit/mr-safety.test.mjs"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/mr/test-shadow-tester.js",
+          "tests/unit/mr-shadow-tester.test.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/rule-engine/isc-rule-matcher.test.js",
+          "tests/unit/isc-rule-matcher.test.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/tests/benchmarks/intent-benchmark-dataset.json",
+          "tests/benchmarks/intent/intent-benchmark-dataset.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/tests/benchmarks/pipeline-benchmark-dataset.json",
+          "tests/benchmarks/pipeline/pipeline-benchmark-dataset.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/tests/benchmarks/run-intent-benchmark.js",
+          "tests/benchmarks/intent/run-intent-benchmark.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/tests/benchmarks/run-pipeline-benchmark.js",
+          "tests/benchmarks/pipeline/run-pipeline-benchmark.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/vector-service/backup/orphan-vectors/orphan-skill-evolution-pipeline-20260301-010051.json",
+          "infrastructure/vector-service/backup/orphan-vectors/orphan-skill-evolution-pipeline-20260301-020001.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/l3-verify-e2e.js",
+          "tests/e2e/l3-verify-e2e.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/runner.js",
+          "tests/benchmarks/scenarios/runner.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-analysis-financial.json",
+          "tests/benchmarks/scenarios/scenario-analysis-financial.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-content-pdf-knowledge.json",
+          "tests/benchmarks/scenarios/scenario-content-pdf-knowledge.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-content-wechat-operation.json",
+          "tests/benchmarks/scenarios/scenario-content-wechat-operation.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-cras-academic-insight.json",
+          "tests/benchmarks/scenarios/scenario-cras-academic-insight.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-cras-competitive-analysis.json",
+          "tests/benchmarks/scenarios/scenario-cras-competitive-analysis.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-cras-engineering-defect.json",
+          "tests/benchmarks/scenarios/scenario-cras-engineering-defect.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-cras-user-intent-insight.json",
+          "tests/benchmarks/scenarios/scenario-cras-user-intent-insight.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-dev-skill-creation.json",
+          "tests/benchmarks/scenarios/scenario-dev-skill-creation.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-dev-skill-orchestration.json",
+          "tests/benchmarks/scenarios/scenario-dev-skill-orchestration.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "scripts/scenario-benchmark/scenarios/scenario-dev-webpage-build.json",
+          "tests/benchmarks/scenarios/scenario-dev-webpage-build.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/cras/knowledge/active-learning_1771827136407.json",
+          "skills/cras/knowledge/active-learning_1771827197473.json",
+          "skills/cras/knowledge/active-learning_1771827454116.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/dto-core/events/cras-signals.jsonl",
+          "skills/evolver/assets/gep/events.jsonl",
+          "skills/evolver/assets/gep/genes.jsonl",
+          "skills/lep-executor/!",
+          "tests/collection/.gitkeep",
+          "tests/collection/pending/.gitkeep",
+          "tests/regression/archived/.gitkeep"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/dto-core/triggers/conditional-trigger.js",
+          "skills/dto-core/triggers/interval-trigger.js",
+          "skills/dto-core/triggers/webhook-trigger.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/parallel-subagent/SKILL.md",
+          "skills/public/parallel-subagent/SKILL.md"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/parallel-subagent/index-v2.js",
+          "skills/public/parallel-subagent/index-v2.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/parallel-subagent/index.js",
+          "skills/public/parallel-subagent/index.js"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/seef/docs/ARCHITECTURE.md",
+          "skills/seef/evolution-pipeline/docs/ARCHITECTURE.md"
+        ]
+      },
+      {
+        "type": "temp_file",
+        "file": "infrastructure/event-bus/events.jsonl.bak"
+      },
+      {
+        "type": "empty_file",
+        "file": "skills/dto-core/events/cras-signals.jsonl"
+      },
+      {
+        "type": "empty_file",
+        "file": "skills/evolver/assets/gep/events.jsonl"
+      },
+      {
+        "type": "empty_file",
+        "file": "skills/evolver/assets/gep/genes.jsonl"
+      },
+      {
+        "type": "empty_file",
+        "file": "skills/lep-executor/!"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tests/regression/archived"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "skills/public/parallel-subagent"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "skills/project-mgmt/metrics"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "skills/lep-executor/src/executors"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "skills/isc-core/rules/_drafts"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "scripts/scenario-benchmark/scenarios"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "infrastructure/vector-service/backup/deleted-skills"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "infrastructure/event-bus/signals/error"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "infrastructure/dispatcher/.test-tmp-1772645215614/handlers"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "infrastructure/dispatcher/.test-tmp-1772645215614"
+      }
+    ],
+    "fixes": [
+      {
+        "type": "dedup",
+        "from": "aeo-vector-system/test-index/case-vectors.json",
+        "to": ".entropy-archive/duplicates/case-vectors.json.1772775615266",
+        "kept": "aeo-vector-system/demo-index/case-vectors.json"
+      },
+      {
+        "type": "dedup",
+        "from": "aeo-vector-system/test-index/e2e/case-vectors.json",
+        "to": ".entropy-archive/duplicates/case-vectors.json.1772775615266",
+        "kept": "aeo-vector-system/demo-index/case-vectors.json"
+      },
+      {
+        "type": "dedup",
+        "from": "aeo-vector-system/test-index/vocab.json",
+        "to": ".entropy-archive/duplicates/vocab.json.1772775615266",
+        "kept": "aeo-vector-system/demo-index/vocab.json"
+      },
+      {
+        "type": "dedup",
+        "from": "aeo-vector-system/test-index/e2e/vocab.json",
+        "to": ".entropy-archive/duplicates/vocab.json.1772775615266",
+        "kept": "aeo-vector-system/demo-index/vocab.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_reports/evolver_cycle_0002_1772481823.json",
+        "to": ".entropy-archive/duplicates/evolver_cycle_0002_1772481823.json.1772775615266",
+        "kept": "evolver/reports/evolver_cycle_0002_1772481823.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_cards/send_1772481802934_insight_1772402481768.json",
+        "to": ".entropy-archive/duplicates/send_1772481802934_insight_1772402481768.json.1772775615266",
+        "kept": "feishu_sent_cards/send_1772481802432_insight_1772380873908.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_cards/send_1772481803435_insight_1772424623997.json",
+        "to": ".entropy-archive/duplicates/send_1772481803435_insight_1772424623997.json.1772775615266",
+        "kept": "feishu_sent_cards/send_1772481802432_insight_1772380873908.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_cards/send_1772481804437_insight_1772445688757.json",
+        "to": ".entropy-archive/duplicates/send_1772481804437_insight_1772445688757.json.1772775615266",
+        "kept": "feishu_sent_cards/send_1772481802432_insight_1772380873908.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_cards/send_1772542889809_insight_1772510660642.json",
+        "to": ".entropy-archive/duplicates/send_1772542889809_insight_1772510660642.json.1772775615266",
+        "kept": "feishu_sent_cards/send_1772481802432_insight_1772380873908.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_reports/insight_1772402481768.json",
+        "to": ".entropy-archive/duplicates/insight_1772402481768.json.1772775615266",
+        "kept": "feishu_sent_reports/insight_1772380873908.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_reports/insight_1772424623997.json",
+        "to": ".entropy-archive/duplicates/insight_1772424623997.json.1772775615266",
+        "kept": "feishu_sent_reports/insight_1772380873908.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_reports/insight_1772445688757.json",
+        "to": ".entropy-archive/duplicates/insight_1772445688757.json.1772775615266",
+        "kept": "feishu_sent_reports/insight_1772380873908.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_sent_reports/insight_1772510660642.json",
+        "to": ".entropy-archive/duplicates/insight_1772510660642.json.1772775615266",
+        "kept": "feishu_sent_reports/insight_1772380873908.json"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/decision-log/test-decision-logger.js",
+        "to": ".entropy-archive/duplicates/test-decision-logger.js.1772775615266",
+        "kept": "tests/unit/decision-logger.test.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/dispatcher/.test-tmp-1772645215614/handlers/test-always-fail.js",
+        "to": ".entropy-archive/duplicates/test-always-fail.js.1772775615266",
+        "kept": "infrastructure/dispatcher/.test-tmp-1772644983353/handlers/test-always-fail.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/dispatcher/.test-tmp-1772645215614/handlers/test-fail-once.js",
+        "to": ".entropy-archive/duplicates/test-fail-once.js.1772775615266",
+        "kept": "infrastructure/dispatcher/.test-tmp-1772644983353/handlers/test-fail-once.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/dispatcher/.test-tmp-1772645215614/handlers/test-success.js",
+        "to": ".entropy-archive/duplicates/test-success.js.1772775615266",
+        "kept": "infrastructure/dispatcher/.test-tmp-1772644983353/handlers/test-success.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/dispatcher/dispatcher.test.js",
+        "to": ".entropy-archive/duplicates/dispatcher.test.js.1772775615266",
+        "kept": "tests/unit/dispatcher.test.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/dispatcher/test-intent-dispatch.js",
+        "to": ".entropy-archive/duplicates/test-intent-dispatch.js.1772775615266",
+        "kept": "tests/unit/intent-dispatch.test.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/event-bus.js.deprecated",
+        "to": ".entropy-archive/duplicates/event-bus.js.deprecated.1772775615266",
+        "kept": "infrastructure/event-bus/event-bus.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772767414152.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772767414152.signal.1772775615266",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772767373524.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/test-bus.js",
+        "to": ".entropy-archive/duplicates/test-bus.js.1772775615266",
+        "kept": "tests/unit/event-bus.test.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/intent-engine/intent-scanner.test.js",
+        "to": ".entropy-archive/duplicates/intent-scanner.test.js.1772775615267",
+        "kept": "tests/unit/intent-scanner.test.js"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/lep-executor/src/executors/base.js",
+        "to": ".entropy-archive/duplicates/base.js.1772775615267",
+        "kept": "infrastructure/lep-core/executors/base.js"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/lep-executor/src/executors/n016-repair-loop.js",
+        "to": ".entropy-archive/duplicates/n016-repair-loop.js.1772775615267",
+        "kept": "infrastructure/lep-core/executors/n016-repair-loop.js"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/lep-executor/src/executors/n017-recurring-pattern.js",
+        "to": ".entropy-archive/duplicates/n017-recurring-pattern.js.1772775615267",
+        "kept": "infrastructure/lep-core/executors/n017-recurring-pattern.js"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/lep-executor/src/executors/n018-global-alignment.js",
+        "to": ".entropy-archive/duplicates/n018-global-alignment.js.1772775615267",
+        "kept": "infrastructure/lep-core/executors/n018-global-alignment.js"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/integration/mr-shadow-test-config.json",
+        "to": ".entropy-archive/duplicates/mr-shadow-test-config.json.1772775615267",
+        "kept": "infrastructure/mr/config/shadow-test.json"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/mr/mr-router.mvp.js",
+        "to": ".entropy-archive/duplicates/mr-router.mvp.js.1772775615267",
+        "kept": "infrastructure/mr/mr-router.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/mr/test-mvp.js",
+        "to": ".entropy-archive/duplicates/test-mvp.js.1772775615267",
+        "kept": "tests/unit/mr-mvp.test.mjs"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/mr/test-safety.js",
+        "to": ".entropy-archive/duplicates/test-safety.js.1772775615267",
+        "kept": "tests/unit/mr-safety.test.mjs"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/mr/test-shadow-tester.js",
+        "to": ".entropy-archive/duplicates/test-shadow-tester.js.1772775615267",
+        "kept": "tests/unit/mr-shadow-tester.test.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/rule-engine/isc-rule-matcher.test.js",
+        "to": ".entropy-archive/duplicates/isc-rule-matcher.test.js.1772775615267",
+        "kept": "tests/unit/isc-rule-matcher.test.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/tests/benchmarks/intent-benchmark-dataset.json",
+        "to": ".entropy-archive/duplicates/intent-benchmark-dataset.json.1772775615267",
+        "kept": "tests/benchmarks/intent/intent-benchmark-dataset.json"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/tests/benchmarks/pipeline-benchmark-dataset.json",
+        "to": ".entropy-archive/duplicates/pipeline-benchmark-dataset.json.1772775615267",
+        "kept": "tests/benchmarks/pipeline/pipeline-benchmark-dataset.json"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/tests/benchmarks/run-intent-benchmark.js",
+        "to": ".entropy-archive/duplicates/run-intent-benchmark.js.1772775615267",
+        "kept": "tests/benchmarks/intent/run-intent-benchmark.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/tests/benchmarks/run-pipeline-benchmark.js",
+        "to": ".entropy-archive/duplicates/run-pipeline-benchmark.js.1772775615267",
+        "kept": "tests/benchmarks/pipeline/run-pipeline-benchmark.js"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/vector-service/backup/orphan-vectors/orphan-skill-evolution-pipeline-20260301-020001.json",
+        "to": ".entropy-archive/duplicates/orphan-skill-evolution-pipeline-20260301-020001.json.1772775615267",
+        "kept": "infrastructure/vector-service/backup/orphan-vectors/orphan-skill-evolution-pipeline-20260301-010051.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/e2e/l3-verify-e2e.js",
+        "to": ".entropy-archive/duplicates/l3-verify-e2e.js.1772775615267",
+        "kept": "scripts/l3-verify-e2e.js"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/scenarios/runner.js",
+        "to": ".entropy-archive/duplicates/runner.js.1772775615267",
+        "kept": "scripts/scenario-benchmark/runner.js"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-analysis-financial.json",
+        "to": ".entropy-archive/duplicates/scenario-analysis-financial.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-analysis-financial.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-content-pdf-knowledge.json",
+        "to": ".entropy-archive/duplicates/scenario-content-pdf-knowledge.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-content-pdf-knowledge.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-content-wechat-operation.json",
+        "to": ".entropy-archive/duplicates/scenario-content-wechat-operation.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-content-wechat-operation.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-cras-academic-insight.json",
+        "to": ".entropy-archive/duplicates/scenario-cras-academic-insight.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-cras-academic-insight.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-cras-competitive-analysis.json",
+        "to": ".entropy-archive/duplicates/scenario-cras-competitive-analysis.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-cras-competitive-analysis.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-cras-engineering-defect.json",
+        "to": ".entropy-archive/duplicates/scenario-cras-engineering-defect.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-cras-engineering-defect.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-cras-user-intent-insight.json",
+        "to": ".entropy-archive/duplicates/scenario-cras-user-intent-insight.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-cras-user-intent-insight.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-dev-skill-creation.json",
+        "to": ".entropy-archive/duplicates/scenario-dev-skill-creation.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-dev-skill-creation.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-dev-skill-orchestration.json",
+        "to": ".entropy-archive/duplicates/scenario-dev-skill-orchestration.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-dev-skill-orchestration.json"
+      },
+      {
+        "type": "dedup",
+        "from": "scripts/scenario-benchmark/scenarios/scenario-dev-webpage-build.json",
+        "to": ".entropy-archive/duplicates/scenario-dev-webpage-build.json.1772775615267",
+        "kept": "tests/benchmarks/scenarios/scenario-dev-webpage-build.json"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/cras/knowledge/active-learning_1771827197473.json",
+        "to": ".entropy-archive/duplicates/active-learning_1771827197473.json.1772775615267",
+        "kept": "skills/cras/knowledge/active-learning_1771827136407.json"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/cras/knowledge/active-learning_1771827454116.json",
+        "to": ".entropy-archive/duplicates/active-learning_1771827454116.json.1772775615267",
+        "kept": "skills/cras/knowledge/active-learning_1771827136407.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/collection/.gitkeep",
+        "to": ".entropy-archive/duplicates/.gitkeep.1772775615268",
+        "kept": "skills/lep-executor/!"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/collection/pending/.gitkeep",
+        "to": ".entropy-archive/duplicates/.gitkeep.1772775615268",
+        "kept": "skills/lep-executor/!"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/regression/archived/.gitkeep",
+        "to": ".entropy-archive/duplicates/.gitkeep.1772775615268",
+        "kept": "skills/lep-executor/!"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/evolver/assets/gep/genes.jsonl",
+        "to": ".entropy-archive/duplicates/genes.jsonl.1772775615268",
+        "kept": "skills/lep-executor/!"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/evolver/assets/gep/events.jsonl",
+        "to": ".entropy-archive/duplicates/events.jsonl.1772775615268",
+        "kept": "skills/lep-executor/!"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/dto-core/events/cras-signals.jsonl",
+        "to": ".entropy-archive/duplicates/cras-signals.jsonl.1772775615268",
+        "kept": "skills/lep-executor/!"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/dto-core/triggers/interval-trigger.js",
+        "to": ".entropy-archive/duplicates/interval-trigger.js.1772775615268",
+        "kept": "skills/dto-core/triggers/webhook-trigger.js"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/dto-core/triggers/conditional-trigger.js",
+        "to": ".entropy-archive/duplicates/conditional-trigger.js.1772775615268",
+        "kept": "skills/dto-core/triggers/webhook-trigger.js"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/public/parallel-subagent/SKILL.md",
+        "to": ".entropy-archive/duplicates/SKILL.md.1772775615268",
+        "kept": "skills/parallel-subagent/SKILL.md"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/public/parallel-subagent/index-v2.js",
+        "to": ".entropy-archive/duplicates/index-v2.js.1772775615268",
+        "kept": "skills/parallel-subagent/index-v2.js"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/public/parallel-subagent/index.js",
+        "to": ".entropy-archive/duplicates/index.js.1772775615268",
+        "kept": "skills/parallel-subagent/index.js"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/seef/evolution-pipeline/docs/ARCHITECTURE.md",
+        "to": ".entropy-archive/duplicates/ARCHITECTURE.md.1772775615268",
+        "kept": "skills/seef/docs/ARCHITECTURE.md"
+      },
+      {
+        "type": "temp_cleanup",
+        "from": "infrastructure/event-bus/events.jsonl.bak"
+      },
+      {
+        "type": "empty_cleanup",
+        "from": "skills/lep-executor/!"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tests/regression/archived"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "skills/public/parallel-subagent"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "skills/project-mgmt/metrics"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "skills/lep-executor/src/executors"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "skills/isc-core/rules/_drafts"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "scripts/scenario-benchmark/scenarios"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "infrastructure/vector-service/backup/deleted-skills"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "infrastructure/event-bus/signals/error"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "infrastructure/dispatcher/.test-tmp-1772645215614/handlers"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "infrastructure/dispatcher/.test-tmp-1772645215614"
+      }
+    ]
+  }
+}

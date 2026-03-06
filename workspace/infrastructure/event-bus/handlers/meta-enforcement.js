@@ -15,7 +15,7 @@ module.exports = async function(event, rule, context) {
   logger.info('[meta-enforcement] 启动元执行力审计');
 
   try {
-    const rulesDir = path.join(workspace, 'infrastructure', 'isc', 'rules');
+    const rulesDir = path.join(workspace, 'skills', 'isc-core', 'rules');
     const handlersDir = path.join(workspace, 'infrastructure', 'event-bus', 'handlers');
 
     if (!exists(rulesDir)) {

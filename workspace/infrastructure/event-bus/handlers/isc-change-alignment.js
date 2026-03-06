@@ -1,6 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-const { exists, readText, readJson, walk, hasAny } = require('./p0-utils');
+const { exists, readJson, walk } = require('./p0-utils');
 
 /**
  * ISC Change Alignment Handler
