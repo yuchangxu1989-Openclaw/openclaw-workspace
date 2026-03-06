@@ -467,13 +467,13 @@ test('field not in payload → pass (skip)', () => {
   assert(r.pass, 'should pass when field missing');
 });
 
-test('truthiness check: single identifier "gate_check_required"', () => {
-  const r = evaluate('gate_check_required', { gate_check_required: true });
+test('truthiness check: single identifier "gate-check_required"', () => {
+  const r = evaluate('gate-check_required', { gate-check_required: true });
   assert(r.pass, 'should pass');
 });
 
 test('truthiness check: falsy value', () => {
-  const r = evaluate('gate_check_required', { gate_check_required: false });
+  const r = evaluate('gate-check_required', { gate-check_required: false });
   assert(!r.pass, 'should not pass');
 });
 

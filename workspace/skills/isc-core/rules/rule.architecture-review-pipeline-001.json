@@ -15,12 +15,12 @@
     ],
     "actions": [
       {
-        "type": "gate_check",
+        "type": "gate-check",
         "description": "架构方案必须经过标准化评审流水线：架构师出方案→工程师验证→质量分析师验证→凌霄阁终审",
         "behavior": "enforce_review_pipeline"
       },
       {
-        "type": "block_on_fail",
+        "type": "block-on-fail",
         "description": "跳过任何评审阶段的架构方案不得进入实施阶段",
         "behavior": "block_unreviewed_architecture"
       }

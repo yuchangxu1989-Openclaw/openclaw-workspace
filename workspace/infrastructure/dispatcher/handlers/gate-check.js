@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * gate_check handler — Runtime Enforcement PoC
+ * gate-check handler — Runtime Enforcement PoC
  * 
  * Reads the ISC rule's check/trigger definition and validates the event payload.
  * Returns { passed: true } or { blocked: true, reason: "..." }
@@ -78,8 +78,8 @@ function evaluateGate(event, rule) {
     return { blocked: true, reason: `[${rule.id}] Event missing type field` };
   }
 
-  // If rule requires gate_check_required condition, verify payload has gate evidence
-  if (rule.trigger && rule.trigger.condition === 'gate_check_required') {
+  // If rule requires gate-check_required condition, verify payload has gate evidence
+  if (rule.trigger && rule.trigger.condition === 'gate-check_required') {
     // The event payload must indicate it has passed or is requesting a gate check
     // For enforcement: if the event represents an action without prior gate approval, block it
     if (!event.gateApproved && !event._gateCheckRequest) {

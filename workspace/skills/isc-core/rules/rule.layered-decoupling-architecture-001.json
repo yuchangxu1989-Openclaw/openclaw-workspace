@@ -15,12 +15,12 @@
     ],
     "actions": [
       {
-        "type": "gate_check",
+        "type": "gate-check",
         "description": "验证设计文档是否明确三层归属（感知层/认知层/执行层）及事件总线解耦",
         "behavior": "validate_three_layer_attribution"
       },
       {
-        "type": "block_on_fail",
+        "type": "block-on-fail",
         "description": "任一层归属不清晰时标注设计缺陷，打回补充后方可通过",
         "behavior": "block_incomplete_layering"
       }

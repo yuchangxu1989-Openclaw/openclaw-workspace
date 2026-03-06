@@ -1,63 +1,69 @@
 #!/bin/bash
-# session-cleanup-governor.sh - 会话文件治理脚本
-# 部署位置: /root/.openclaw/workspace/scripts/session-cleanup-governor.sh
-# 执行频率: 每2小时通过Cron执行
+set -euo pipefail
 
-SESSION_DIR="/root/.openclaw/agents/main/sessions"
+BASE_DIR="/root/.openclaw/agents"
+ARCHIVE_ROOT="/root/.openclaw/archives/session-governance"
 LOG_FILE="/root/.openclaw/workspace/logs/session-cleanup.log"
-RETAIN_COUNT=30          # 保留最近30个会话
-MAX_SIZE_MB=5            # 单会话文件超过5MB告警
-MAX_AGE_HOURS=24         # 超过24小时的子Agent会话清理
+CRON_KEEP_COUNT=120
+MAIN_KEEP_COUNT=20
+DELETED_RETENTION_HOURS=6
 
-# 创建日志目录
-mkdir -p $(dirname $LOG_FILE)
+mkdir -p "$ARCHIVE_ROOT" "$(dirname "$LOG_FILE")"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+ARCHIVE_DIR="$ARCHIVE_ROOT/$STAMP"
+mkdir -p "$ARCHIVE_DIR/cron-worker-active"
 
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] 开始会话文件治理" >> $LOG_FILE
+echo "[$(date '+%F %T')] session governance start" >> "$LOG_FILE"
 
-# 1. 清理旧会话（保留最近N个）
-BEFORE_COUNT=$(ls -1 $SESSION_DIR/*.jsonl 2>/dev/null | wc -l)
-ls -t $SESSION_DIR/*.jsonl 2>/dev/null | tail -n +$((RETAIN_COUNT + 1)) | while read file; do
-    # 检查是否是活跃的飞书主会话（保留）
-    if [[ "$file" == *"7eea85ef-e9cd-4351-8f4f-d97d4a94ebc5"* ]]; then
-        echo "  跳过主会话: $file" >> $LOG_FILE
+python3 - <<'PY' >> "$LOG_FILE"
+import os, glob, time, gzip, shutil
+BASE_DIR = "/root/.openclaw/agents"
+ARCHIVE_DIR = os.environ["ARCHIVE_DIR"]
+CRON_KEEP_COUNT = int(os.environ["CRON_KEEP_COUNT"])
+MAIN_KEEP_COUNT = int(os.environ["MAIN_KEEP_COUNT"])
+DELETED_RETENTION_SECONDS = int(os.environ["DELETED_RETENTION_HOURS"]) * 3600
+now = time.time()
+archived = 0
+purged_deleted = 0
+kept = {}
+
+for agent in os.listdir(BASE_DIR):
+    sp = os.path.join(BASE_DIR, agent, "sessions")
+    if not os.path.isdir(sp):
         continue
-    fi
-    
-    # 归档到压缩存储
-    mkdir -p /data/archive/sessions/$(date +%Y%m)
-    gzip -c "$file" > "/data/archive/sessions/$(date +%Y%m)/$(basename $file).gz" 2>/dev/null
-    rm -f "$file"
-    echo "  归档并删除: $file" >> $LOG_FILE
-done
+    active = []
+    for f in glob.glob(os.path.join(sp, "*.jsonl")):
+        active.append((os.path.getmtime(f), f))
+    active.sort(reverse=True)
+    keep = len(active)
+    archive_slice = []
+    if agent == "cron-worker" and len(active) > CRON_KEEP_COUNT:
+        keep = CRON_KEEP_COUNT
+        archive_slice = active[CRON_KEEP_COUNT:]
+    elif agent == "main" and len(active) > MAIN_KEEP_COUNT:
+        keep = MAIN_KEEP_COUNT
+        archive_slice = active[MAIN_KEEP_COUNT:]
 
-AFTER_COUNT=$(ls -1 $SESSION_DIR/*.jsonl 2>/dev/null | wc -l)
-DELETED=$((BEFORE_COUNT - AFTER_COUNT))
-echo "  会话清理: $BEFORE_COUNT -> $AFTER_COUNT (删除$DELETED个)" >> $LOG_FILE
+    kept[agent] = keep
+    if archive_slice:
+        target_dir = os.path.join(ARCHIVE_DIR, f"{agent}-active")
+        os.makedirs(target_dir, exist_ok=True)
+        for _, f in archive_slice:
+            out = os.path.join(target_dir, os.path.basename(f) + ".gz")
+            with open(f, "rb") as src, gzip.open(out, "wb", compresslevel=6) as dst:
+                shutil.copyfileobj(src, dst)
+            os.remove(f)
+            archived += 1
 
-# 2. 检查大会话文件（>5MB告警）
-find $SESSION_DIR -name "*.jsonl" -size +${MAX_SIZE_MB}M 2>/dev/null | while read file; do
-    SIZE=$(du -m "$file" | cut -f1)
-    echo "  [告警] 大会话文件: $file (${SIZE}MB)" >> $LOG_FILE
-    # TODO: 发送飞书告警通知
-    
-    # 尝试分片处理（保留最近1000条）
-    if [[ "$SIZE" -gt 10 ]]; then
-        echo "    执行分片..." >> $LOG_FILE
-        tail -n 1000 "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
-    fi
-done
+    for f in glob.glob(os.path.join(sp, "*.jsonl.deleted.*")):
+        if now - os.path.getmtime(f) > DELETED_RETENTION_SECONDS:
+            os.remove(f)
+            purged_deleted += 1
 
-# 3. 清理子Agent僵尸会话（>30分钟无更新）
-find $SESSION_DIR -name "*.jsonl" -mmin +30 2>/dev/null | while read file; do
-    # 检查是否是子Agent会话（包含subagent标识）
-    if [[ "$file" == *"subagent"* ]]; then
-        rm -f "$file"
-        echo "  清理僵尸子Agent会话: $file" >> $LOG_FILE
-    fi
-done
+print(f"archived_active={archived}")
+print(f"purged_deleted={purged_deleted}")
+for agent in sorted(kept):
+    print(f"keep[{agent}]={kept[agent]}")
+PY
 
-# 4. 统计报告
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] 治理完成" >> $LOG_FILE
-echo "  当前会话数: $(ls -1 $SESSION_DIR/*.jsonl 2>/dev/null | wc -l)" >> $LOG_FILE
-echo "  归档存储: $(du -sh /data/archive/sessions 2>/dev/null | cut -f1)" >> $LOG_FILE
-echo "" >> $LOG_FILE
+echo "[$(date '+%F %T')] session governance done" >> "$LOG_FILE"

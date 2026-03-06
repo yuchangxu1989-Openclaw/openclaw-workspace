@@ -16,7 +16,7 @@
         "behavior": "infer_card_context_and_respond"
       },
       {
-        "type": "block_on_fail",
+        "type": "block-on-fail",
         "description": "禁止向用户反问卡片内容，必须自行推断",
         "behavior": "block_user_query_about_card"
       }

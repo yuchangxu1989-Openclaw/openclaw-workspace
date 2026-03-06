@@ -8,7 +8,9 @@
       "name": "day-completion-scanner",
       "description": "Day完成事件检测器 - 自动扫描设计债务（每小时检查一次）",
       "script": "infrastructure/self-check/day-completion-scanner.js",
-      "args": ["--auto"],
+      "args": [
+        "--auto"
+      ],
       "schedule": "0 * * * *",
       "schedule_human": "每小时整点",
       "model": "zhipu/glm-5",
@@ -16,17 +18,25 @@
       "enabled": true,
       "trigger": "time",
       "trigger_condition": "reports/dayN-closure-conditions.md 文件新增",
-      "outputs": ["reports/auto-debt-scan-dayN.md"],
+      "outputs": [
+        "reports/auto-debt-scan-dayN.md"
+      ],
       "timeout_seconds": 120,
       "on_failure": "log_and_continue",
-      "tags": ["self-check", "debt-scan", "day-completion"],
+      "tags": [
+        "self-check",
+        "debt-scan",
+        "day-completion"
+      ],
       "created": "2026-03-05"
     },
     {
       "name": "rework-analyzer",
       "description": "返工根因分析器 - 检测子Agent steer/重启事件，分析根因（每5分钟）",
       "script": "infrastructure/self-check/rework-analyzer.js",
-      "args": ["--auto"],
+      "args": [
+        "--auto"
+      ],
       "schedule": "*/5 * * * *",
       "schedule_human": "每5分钟",
       "model": "zhipu/glm-5",
@@ -41,14 +51,21 @@
       ],
       "timeout_seconds": 60,
       "on_failure": "log_and_continue",
-      "tags": ["self-check", "rework", "root-cause", "isc"],
+      "tags": [
+        "self-check",
+        "rework",
+        "root-cause",
+        "isc"
+      ],
       "created": "2026-03-05"
     },
     {
       "name": "correction-harvester",
       "description": "用户纠偏收割器 - 检测纠偏信号，抽象规则草案（每5分钟）",
       "script": "infrastructure/self-check/correction-harvester.js",
-      "args": ["--auto"],
+      "args": [
+        "--auto"
+      ],
       "schedule": "*/5 * * * *",
       "schedule_human": "每5分钟",
       "model": "zhipu/glm-5",
@@ -62,14 +79,21 @@
       ],
       "timeout_seconds": 60,
       "on_failure": "log_and_continue",
-      "tags": ["self-check", "correction", "golden-testset", "rule-draft"],
+      "tags": [
+        "self-check",
+        "correction",
+        "golden-testset",
+        "rule-draft"
+      ],
       "created": "2026-03-05"
     },
     {
       "name": "auto-response-sweep",
       "description": "[Day3-Gap2] 自动响应管道兜底补扫 — 检查EventBus中遗漏的evolver/cras事件",
       "script": "infrastructure/cron/fallback-sweep.js",
-      "args": ["auto-response"],
+      "args": [
+        "auto-response"
+      ],
       "schedule": "*/15 * * * *",
       "schedule_human": "每15分钟",
       "model": "zhipu/glm-5",
@@ -78,17 +102,26 @@
       "trigger_condition": "兜底: EventBus中有未处理的evolver.insight.detected等事件",
       "mode": "event_driven_with_fallback",
       "primary_channel": "eventbus",
-      "outputs": ["infrastructure/logs/fallback-sweep.jsonl"],
+      "outputs": [
+        "infrastructure/logs/fallback-sweep.jsonl"
+      ],
       "timeout_seconds": 60,
       "on_failure": "log_and_continue",
-      "tags": ["event-driven", "fallback-sweep", "auto-response", "day3-gap2"],
+      "tags": [
+        "event-driven",
+        "fallback-sweep",
+        "auto-response",
+        "day3-gap2"
+      ],
       "created": "2026-03-06"
     },
     {
       "name": "user-insight-sweep",
       "description": "[Day3-Gap2] CRAS用户洞察兜底补扫 — 检查30分钟内是否有洞察输出",
       "script": "infrastructure/cron/fallback-sweep.js",
-      "args": ["user-insight"],
+      "args": [
+        "user-insight"
+      ],
       "schedule": "*/30 * * * *",
       "schedule_human": "每30分钟",
       "model": "zhipu/glm-5",
@@ -98,17 +131,27 @@
       "mode": "event_driven_with_fallback",
       "primary_channel": "eventbus",
       "primary_event": "cras.insight.request",
-      "outputs": ["infrastructure/logs/fallback-sweep.jsonl"],
+      "outputs": [
+        "infrastructure/logs/fallback-sweep.jsonl"
+      ],
       "timeout_seconds": 60,
       "on_failure": "log_and_continue",
-      "tags": ["event-driven", "fallback-sweep", "user-insight", "day3-gap2"],
+      "tags": [
+        "event-driven",
+        "fallback-sweep",
+        "user-insight",
+        "day3-gap2"
+      ],
       "created": "2026-03-06"
     },
     {
       "name": "system-health-l3",
       "description": "[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标",
       "script": "infrastructure/cron/fallback-sweep.js",
-      "args": ["health"],
+      "args": [
+        "health",
+        "--auto-rootcause-repair"
+      ],
       "schedule": "0 * * * *",
       "schedule_human": "每小时整点",
       "model": "zhipu/glm-5",
@@ -118,10 +161,20 @@
       "mode": "event_driven_with_fallback",
       "primary_channel": "eventbus",
       "primary_event": "system.health.request",
-      "outputs": ["infrastructure/logs/fallback-sweep.jsonl", "infrastructure/logs/health.jsonl"],
+      "outputs": [
+        "infrastructure/logs/fallback-sweep.jsonl",
+        "infrastructure/logs/health.jsonl",
+        "infrastructure/logs/auto-repair-executions.jsonl",
+        "infrastructure/dispatcher/state/auto-repair-tasks.json"
+      ],
       "timeout_seconds": 60,
       "on_failure": "log_and_continue",
-      "tags": ["event-driven", "health-check", "l3-metrics", "day3-gap2"],
+      "tags": [
+        "event-driven",
+        "health-check",
+        "l3-metrics",
+        "day3-gap2"
+      ],
       "created": "2026-03-06"
     }
   ],

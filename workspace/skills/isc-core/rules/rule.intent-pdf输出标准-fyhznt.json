@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-pdf输出标准-fyhznt",
+  "name": "intent_pdf输出标准",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "用户将PDF输出的排版和内容组织要求固化为永久生效的规则",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "PDF输出标准"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: PDF输出标准"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772817302337"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "PDF输出标准",
+    "confidence": 0.95,
+    "source_file": "2026-03-05.md",
+    "evidence": "## PDF输出标准（用户要求，永久生效）...严格层级目录...设计思想/代码/参考���离...禁止一级目录过多、代码掺杂正文、图片随手糊",
+    "created_at": "2026-03-06T17:15:02.337Z"
+  }
+}

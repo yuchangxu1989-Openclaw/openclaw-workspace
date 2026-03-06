@@ -4,7 +4,7 @@
 /**
  * Condition 2: Runtime Enforcement PoC
  * 
- * Implements a real gate_check for ISC rule:
+ * Implements a real gate-check for ISC rule:
  *   rule.skill-mandatory-skill-md-001 — 每个技能目录必须有SKILL.md
  * 
  * This is executable enforcement code, not just a JSON field.
@@ -77,7 +77,7 @@ function gateCheck() {
     rule_id: 'rule.skill-mandatory-skill-md-001',
     rule_name: 'Skill Mandatory SKILL.md',
     severity: 'P0',
-    check_type: 'gate_check',
+    check_type: 'gate-check',
     timestamp: new Date().toISOString(),
     target: SKILLS_DIR,
     total_scanned: total,

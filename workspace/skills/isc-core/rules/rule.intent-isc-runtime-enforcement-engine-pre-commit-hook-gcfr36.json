@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36",
+  "name": "intent_isc-runtime-enforcement-engine-pre-commit-hook",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "用户在建设可执行的规则系统，包括3个gate check和pre-commit hook v2.0的3-check enforcement",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "ISC Runtime Enforcement Engine & pre-commit hook"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: ISC Runtime Enforcement Engine & pre-commit hook"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772817302320"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "ISC Runtime Enforcement Engine & pre-commit hook",
+    "confidence": 0.85,
+    "source_file": "2026-03-05.md",
+    "evidence": "ISC Runtime Enforcement Engine - 3个gate check; ISC pre-commit hook v2.0 安装 - 3-check enforcement",
+    "created_at": "2026-03-06T17:15:02.320Z"
+  }
+}

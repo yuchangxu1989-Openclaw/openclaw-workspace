@@ -1193,7 +1193,7 @@ exit $FAIL
 │  aeo-pipeline.js       指标计算、回归检测、基线对比            │
 │  badcase-analyzer.js   miss case聚类、根因推断                │
 │  cron-healer.js        8+个模式库，故障诊断与修复策略          │
-│  enforce.js / gates    ISC合规检查，gate_check执行            │
+│  enforce.js / gates    ISC合规检查，gate-check执行            │
 │  day-transition.js     Day完成检测、scope生成                │
 └──────────────────────────┬──────────────────────────────────┘
                            │

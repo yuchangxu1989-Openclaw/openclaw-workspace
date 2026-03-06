@@ -15,11 +15,11 @@
     "precondition": "EvoMap上传前必须完成安全扫描",
     "actions": [
       {
-        "type": "gate_check",
+        "type": "gate-check",
         "description": "EvoMap上传前执行强制安全扫描，未通过则阻断同步"
       },
       {
-        "type": "block_on_fail",
+        "type": "block-on-fail",
         "description": "安全扫描未通过时阻断EvoMap同步并隔离技能"
       }
     ]

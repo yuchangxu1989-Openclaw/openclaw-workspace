@@ -18,7 +18,7 @@
     ],
     "actions": [
       {
-        "type": "gate_check",
+        "type": "gate-check",
         "description": "定时任务创建/更新时验证必须指定model字段，未指定则拒绝创建",
         "behavior": "reject_cron_without_model"
       },

@@ -17,7 +17,7 @@
     "description": "任何设计产出、架构决策、规则创建、技能创建、任务创建时触发",
     "actions": [
       {
-        "type": "gate_check",
+        "type": "gate-check",
         "description": "验证设计产出是否满足四项反熵增检查：可扩展性、可泛化性、可生长性、有序度方向",
         "behavior": "block_on_entropy_increase"
       },

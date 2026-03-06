@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-mece命名原则-86o70p",
+  "name": "intent_mece命名原则",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "将MECE命名原则确立为规则命名、事件命名、技能命名等的评测维度和规范",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "MECE命名原则"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: MECE命名原则"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772817302344"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "MECE命名原则",
+    "confidence": 0.88,
+    "source_file": "2026-03-05.md",
+    "evidence": "MECE命名原则（新评测维度）...同一层级的所有实体关键词不能重叠...已进入AEO评测集作为评测维度",
+    "created_at": "2026-03-06T17:15:02.344Z"
+  }
+}

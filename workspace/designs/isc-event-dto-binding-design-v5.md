@@ -54,7 +54,7 @@
 
 ### AP-002: Rule = Code（规则即代码）
 
-> **ISC规则定义(JSON)与规则执行(gate_check代码)必须1:1配对。只有JSON定义无代码实现的规则，在合规审计中视为"不存在"。**
+> **ISC规则定义(JSON)与规则执行(gate-check代码)必须1:1配对。只有JSON定义无代码实现的规则，在合规审计中视为"不存在"。**
 
 | 维度 | 约束 |
 |------|------|
@@ -141,7 +141,7 @@ v5.0 五条架构原则（Part 0.1）★NEW
   enforcement审计结果: enforced=0, partial=48, unenforced=39
   
 v5.0目标态：
-  ISC规则(JSON定义) → [编译为gate_check] → pre-commit拦截 → cron审计拦截 → 运行时拦截
+  ISC规则(JSON定义) → [编译为gate-check] → pre-commit拦截 → cron审计拦截 → 运行时拦截
   每条P0规则有可执行gate + 违规日志 + 自动修复（如可能）
 ```
 

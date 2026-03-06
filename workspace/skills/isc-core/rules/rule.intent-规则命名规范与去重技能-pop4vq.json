@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-规则命名规范与去重技能-pop4vq",
+  "name": "intent_规则命名规范与去重技能",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "用户要求将ISC规则去重和命名统一变成可复用技能和标准化流程",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "规则命名规范与去重技能"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: 规则命名规范与去重技能"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772817302349"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "规则命名规范与去重技能",
+    "confidence": 0.92,
+    "source_file": "2026-03-05.md",
+    "evidence": "用户要求\"去重本身就该是个可复用技能\"；42%(53条)命名不合标准，7种前缀体系混用；待执行：重命名+去重",
+    "created_at": "2026-03-06T17:15:02.349Z"
+  }
+}

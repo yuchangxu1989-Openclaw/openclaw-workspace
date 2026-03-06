@@ -35,7 +35,7 @@
     ],
     "actions": [
       {
-        "type": "gate_check",
+        "type": "gate-check",
         "description": "检测到敏感配置修改操作时，阻塞执行并要求用户人工确认",
         "behavior": "block_until_user_approval"
       },

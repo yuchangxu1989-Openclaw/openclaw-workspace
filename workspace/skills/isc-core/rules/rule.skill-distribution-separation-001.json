@@ -17,11 +17,11 @@
     "precondition": "技能发布或同步到EvoMap前必须通过分发分离检查",
     "actions": [
       {
-        "type": "gate_check",
+        "type": "gate-check",
         "description": "发布前执行distribution标记、权限声明、密钥泄露、沙箱兼容检查"
       },
       {
-        "type": "block_on_fail",
+        "type": "block-on-fail",
         "description": "任一检查项失败则阻断发布"
       }
     ]

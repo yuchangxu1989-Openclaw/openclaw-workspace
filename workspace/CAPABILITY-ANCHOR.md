@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/7 00:05:09
-> **技能总数**: 56
+> **生成时间**: 2026/3/7 04:05:05
+> **技能总数**: 57
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -76,6 +76,7 @@
 - ✅ **api-aggregator**: skills/api-aggregator/
 - ✅ **architecture-review-pipeline**: skills/architecture-review-pipeline/ — 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入凌霄阁终审并给出最终裁决。
 - ✅ **capability-anchor**: skills/capability-anchor/ — 能力锚点系统 - 【占位符】强制读取机制刚建立
+- ✅ **convert-helper**: skills/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
 - ✅ **cras**: skills/cras/ — CRAS认知进化伙伴 - 知识管理与认知进化中枢。实现从数据汲取到技能进化的全闭环，包含主动学习引擎、用户洞察分析、知识治理、战略行研、自主进化五大模块。
 - ✅ **cras-generated-1771827136412**: skills/cras-generated-1771827136412/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **cras-generated-1771827197478**: skills/cras-generated-1771827197478/ — CRAS 自动生成的技能 - 填补能力空白
