@@ -104,6 +104,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { ensureCapabilityAnchorLoaded } = require('./session-anchor-bootstrap');
 
 const WORKSPACE = '/root/.openclaw/workspace';
 const CRITICAL_PATHS = {
@@ -136,6 +137,22 @@ function bootstrap() {
     if (!exists) {
       status.healthy = false;
       console.error(`❌ 关键组件缺失: ${name} (${filepath})`);
+    }
+  }
+
+  // 会话入口加固：显式预加载能力锚点，降低已知能力在决策入口被遗忘
+  if (status.components.anchor?.exists) {
+    try {
+      const anchor = ensureCapabilityAnchorLoaded({ source: 'system-bootstrap' });
+      status.components.anchor.loaded = true;
+      status.components.anchor.cacheHit = anchor.cacheHit;
+      status.components.anchor.size = anchor.size;
+      status.components.anchor.loadedAt = new Date(anchor.loadedAt).toISOString();
+    } catch (e) {
+      status.healthy = false;
+      status.components.anchor.loaded = false;
+      status.components.anchor.loadError = e.message;
+      console.error(`❌ 能力锚点预加载失败: ${e.message}`);
     }
   }
 

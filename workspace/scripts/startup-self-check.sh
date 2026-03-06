@@ -6,6 +6,8 @@
 CHECK_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 ERRORS=0
 WARNINGS=0
+WORKSPACE="/root/.openclaw/workspace"
+SESSION_ANCHOR_BOOTSTRAP="$WORKSPACE/infrastructure/session-anchor-bootstrap.js"
 
 echo "╔════════════════════════════════════════╗"
 echo "║     启动自检 - ${CHECK_TIME}        ║"
@@ -47,6 +49,21 @@ if [ $ERRORS -gt 0 ]; then
   else
     echo "  ❌ Git恢复失败，需要手动修复"
   fi
+fi
+
+# ========== 会话能力锚点预加载 ==========
+echo ""
+echo "⚓ 预加载能力锚点..."
+if [ -f "$WORKSPACE/CAPABILITY-ANCHOR.md" ] && [ -f "$SESSION_ANCHOR_BOOTSTRAP" ]; then
+  if node -e "const { ensureCapabilityAnchorLoaded } = require('$SESSION_ANCHOR_BOOTSTRAP'); const a = ensureCapabilityAnchorLoaded({ source: 'startup-self-check' }); console.log('  ✅ 已加载能力锚点:', a.cacheHit ? 'cache-hit' : 'fresh-load', 'size=' + a.size);"; then
+    :
+  else
+    echo "  ❌ 能力锚点预加载失败"
+    ERRORS=$((ERRORS + 1))
+  fi
+else
+  echo "  ⚠️  能力锚点或bootstrap脚本缺失"
+  WARNINGS=$((WARNINGS + 1))
 fi
 
 # ========== 模型配置检查 ==========

@@ -19,6 +19,7 @@
 
 const { ProviderRegistry } = require('./providers');
 const { Router } = require('./router');
+const { ensureCapabilityAnchorLoaded } = require('../session-anchor-bootstrap');
 
 // ─── HTTP Client (OpenAI-compatible & Anthropic) ─────────────────────
 
@@ -164,6 +165,13 @@ class LLMContext {
     this._router = new Router(this._registry);
     this._httpCall = config._httpCall || httpCall;
     this._httpEmbed = config._httpEmbed || httpEmbed;
+    this._capabilityAnchor = null;
+
+    try {
+      this._capabilityAnchor = ensureCapabilityAnchorLoaded({ source: 'llm-context.constructor' });
+    } catch (_) {
+      // non-fatal here; callers may still operate, but bootstrap should catch real issues earlier
+    }
   }
 
   /**
