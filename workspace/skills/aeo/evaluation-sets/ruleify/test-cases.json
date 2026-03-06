@@ -44,5 +44,6 @@
       "input": "输出 md 报告后直接把源文件发给我，不要问我要不要发送。",
       "expected": "规则要求默认自动发送 md 源文件；成功记录发送结果；失败写显式错误日志并进入 alerts.jsonl；禁止静默失败或二次确认"
     }
-  ]
+  ],
+  "data_source": "regression_cases_from_real_user_interaction"
 }
