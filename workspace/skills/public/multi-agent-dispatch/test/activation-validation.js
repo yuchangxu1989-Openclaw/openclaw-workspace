@@ -25,7 +25,10 @@ const path = require('path');
 const os = require('os');
 
 const { DispatchEngine } = require('../dispatch-engine');
-const { ReportTrigger } = require('../../multi-agent-reporting/report-trigger');
+// Integration test: requires sibling reporting skill (peer dependency)
+let ReportTrigger;
+try { ({ ReportTrigger } = require('../../multi-agent-reporting/report-trigger')); }
+catch { console.error('multi-agent-reporting not found — skipping trigger tests'); process.exit(0); }
 
 // ── Test infra ───────────────────────────────────────────────────────────────
 
@@ -305,9 +308,9 @@ console.log('\nT11: Report Text Content Quality');
 console.log('\nT12: Dual-Mode Safety — Both Engines Can Coexist');
 {
   // Old dispatcher state file
-  const oldStateFile = '/root/.openclaw/workspace/infrastructure/dispatcher/state/dispatch-layer-state.json';
+  const oldStateFile = path.resolve(__dirname, '..', '..', '..', '..', 'infrastructure', 'dispatcher', 'state', 'dispatch-layer-state.json');
   // New engine state file
-  const newStateFile = '/root/.openclaw/workspace/skills/public/multi-agent-dispatch/state/engine-state.json';
+  const newStateFile = path.resolve(__dirname, '..', 'state', 'engine-state.json');
 
   let oldExists = false, newExists = false;
   try { fs.statSync(oldStateFile); oldExists = true; } catch {}

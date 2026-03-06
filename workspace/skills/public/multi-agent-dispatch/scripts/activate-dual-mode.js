@@ -20,7 +20,7 @@ const path = require('path');
 const { DispatchEngine } = require('../dispatch-engine');
 const { onDispatchBridge } = require('../dispatch-bridge');
 
-const OLD_STATE = '/root/.openclaw/workspace/infrastructure/dispatcher/state/dispatch-layer-state.json';
+const OLD_STATE = path.resolve(__dirname, '..', '..', '..', '..', 'infrastructure', 'dispatcher', 'state', 'dispatch-layer-state.json');
 const ACTIVATION_MARKER = path.join(__dirname, '..', 'state', 'activation-status.json');
 
 function main() {
