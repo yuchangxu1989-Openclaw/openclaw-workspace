@@ -1,8 +1,11 @@
 const path = require('path');
 const { walk, readText, hasAny } = require('./p0-utils');
 
-module.exports = async function(event, rule, context) {
-  const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
+module.exports = async function(event, rule, context = {}) {
+  const workspace = context.workspace || '/root/.openclaw/workspace';
+  const logger = context.logger || console;
+  const bus = context.bus || { emit() {} };
+  const notify = typeof context.notify === 'function' ? context.notify.bind(context) : () => {};
   const skillPath = event.skillPath || event.payload?.skillPath || event.path || path.join(workspace, 'skills');
   const files = walk(skillPath, ['.js', '.ts', '.py', '.sh', '.json', '.md']);
   const threats = [];
@@ -24,13 +27,13 @@ module.exports = async function(event, rule, context) {
     passed: threats.length === 0
   };
 
-  context.bus.emit('skill.security.scan.completed', { skillPath, result });
+  bus.emit('skill.security.scan.completed', { skillPath, result });
   if (!result.passed) {
-    context.notify(`❌ 技能安全门禁失败：检测到 ${threats.length} 个威胁`);
-    context.bus.emit('skill.general.publish.blocked', { reason: 'security_gate_failed', result });
+    notify(`❌ 技能安全门禁失败：检测到 ${threats.length} 个威胁`);
+    bus.emit('skill.general.publish.blocked', { reason: 'security_gate_failed', result });
     throw new Error('skill security gate failed');
   }
 
-  context.logger.info('[isc-skill-security-gate-030] passed', result);
+  logger.info('[isc-skill-security-gate-030] passed', result);
   return result;
 };

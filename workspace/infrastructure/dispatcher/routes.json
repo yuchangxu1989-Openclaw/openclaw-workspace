@@ -151,7 +151,6 @@
     "priority": "high",
     "description": "Intent directive → create real DTO task consumption path"
   },
-
   "evolver.insight.detected": {
     "handler": "auto-response-handler",
     "agent": "coder",
@@ -170,28 +169,24 @@
     "priority": "high",
     "description": "[Day3-Gap2] 系统指标越界 → 自动响应管道 (事件驱动主路径)"
   },
-
   "cras.insight.request": {
     "handler": "skill-cras-handler",
     "agent": "researcher",
     "priority": "normal",
     "description": "[Day3-Gap2] CRAS洞察请求 → 事件驱动触发用户洞察分析 (取代30分钟Cron直接调用)"
   },
-
   "system.health.request": {
     "handler": "system-monitor",
     "agent": "coder",
     "priority": "low",
     "description": "[Day3-Gap2] 系统健康检查请求 → 事件驱动触发 (Cron仅做兜底)"
   },
-
   "git.commit.completed": {
     "handler": "completeness-check",
     "agent": "coder",
     "priority": "normal",
     "description": "[P0-03] Git提交完成 → 触发规则完整性检查和代码质量门"
   },
-
   "isc.yellow_light.threshold_crossed": {
     "handler": "notify-alert",
     "agent": "coder",
@@ -215,5 +210,29 @@
     "agent": "coder",
     "priority": "high",
     "description": "[P0-04] 事件积压越界 → 告警通知"
+  },
+  "git.pre_commit.detected": {
+    "handler": "log-action",
+    "agent": "coder",
+    "priority": "low",
+    "description": "[Day2-closeout] Git pre-commit signals are consumed by log-action to avoid manual-queue buildup"
+  },
+  "git.commit.quality_check": {
+    "handler": "log-action",
+    "agent": "coder",
+    "priority": "low",
+    "description": "[Day2-closeout] Derived git quality-check action is logged instead of queueing as missing handler"
+  },
+  "git.commit.architecture_review": {
+    "handler": "log-action",
+    "agent": "coder",
+    "priority": "low",
+    "description": "[Day2-closeout] Derived architecture-review action is logged instead of queueing as missing handler"
+  },
+  "git.commit.rule_code_pairing": {
+    "handler": "log-action",
+    "agent": "coder",
+    "priority": "low",
+    "description": "[Day2-closeout] Derived rule/code pairing action is logged instead of queueing as missing handler"
   }
 }
