@@ -1,6 +1,6 @@
 {
-  "data_source": "manual_curation",
-  "source_description": "从仓内散落位置迁移至AEO统一目录",
+  "data_source": "real_conversation",
+  "source_description": "从仓内已有评测用例迁移，原始数据来源为真实对话和代码场景",
   "cases": [
     {
       "chunk": "用户：所有技能文件修改后都应该自动跑一遍lint检查，不能靠人记住。现在经常忘了检查就commit了，导致格式乱七八糟。\n\nAgent：理解，您希望将lint检查自动化。我可以设置pre-commit hook来自动运行lint。",
