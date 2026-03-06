@@ -1,0 +1,124 @@
+# ISC Rules Handler Coverage Audit
+
+- 扫描时间: 2026-03-06
+- 规则总数: **105**
+- 具备 handler 字段: **72** (68.6%)
+- 相比之前 44%: **提升到 68.6%**（+24.6pp）
+
+## 分类统计
+- ✅ 有handler且文件存在: **45**
+- ⚠️ 有handler但文件不存在: **27**
+- ❌ 无handler: **33**
+
+## 详情
+
+### ✅ 有handler且文件存在
+- `skills/isc-core/rules/rule.anti-entropy-design-principle-001.json` → `anti-entropy-checker` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.arch-feedback-must-close-003.json` → `event-health-monitor` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.arch-gate-before-action-001.json` → `enforcement-engine` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.arch-machine-over-human-004.json` → `automation-gap-scanner` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.arch-rule-equals-code-002.json` → `enforcement-audit` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.architecture-diagram-visual-output-001.json` → `document-structure-check` → `infrastructure/event-bus/handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.capability-anchor-lifecycle-sync-001.json` → `capability-anchor-sync` → `infrastructure/event-bus/handlers/capability-anchor-sync.js`
+- `skills/isc-core/rules/rule.cras-dual-channel-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.cron-task-model-requirement-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.dependency-direction-check-001.json` → `check-dependency-direction` → `infrastructure/event-bus/handlers/check-dependency-direction.js`
+- `skills/isc-core/rules/rule.design-document-structure-001.json` → `document-structure-check` → `infrastructure/event-bus/handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.detection-report-feishu-card-001.json` → `report-snapshot` → `infrastructure/event-bus/handlers/report-snapshot.js`
+- `skills/isc-core/rules/rule.failure-pattern-alert-001.json` → `notify-alert` → `infrastructure/event-bus/handlers/notify-alert.js`
+- `skills/isc-core/rules/rule.five-layer-event-model-001.json` → `skills/five-layer-event-model/index.js` → `skills/five-layer-event-model/index.js`
+- `skills/isc-core/rules/rule.glm-vision-priority-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.intent-type-convergence-001.json` → `batch3-misc-handlers.intentTypeConvergenceHandler` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.intent-unknown-discovery-001.json` → `batch3-misc-handlers.intentUnknownDiscoveryHandler` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.interaction-source-file-delivery-007.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.interactive-card-context-inference-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.isc-rule-creation-dedup-gate-001.json` → `scripts/check-rule-dedup.js` → `scripts/check-rule-dedup.js`
+- `skills/isc-core/rules/rule.isc-rule-modified-dedup-scan-001.json` → `dedup-scan` → `infrastructure/event-bus/handlers/dedup-scan.js`
+- `skills/isc-core/rules/rule.isc-standard-format-001.json` → `document-structure-check` → `infrastructure/event-bus/handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.layered-decoupling-architecture-001.json` → `layered-architecture-checker` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.lingxiaoge-tribunal-001.json` → `notify-alert` → `infrastructure/event-bus/handlers/notify-alert.js`
+- `skills/isc-core/rules/rule.memory-digest-must-verify-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.n016-decision-auto-repair-loop-post-pipeline-016.json` → `auto-fix` → `infrastructure/event-bus/handlers/auto-fix.js`
+- `skills/isc-core/rules/rule.n017-detection-cras-recurring-pattern-auto-resolve-017.json` → `auto-fix` → `infrastructure/event-bus/handlers/auto-fix.js`
+- `skills/isc-core/rules/rule.n020-auto-universal-root-cause-analysis-020.json` → `notify-alert` → `infrastructure/event-bus/handlers/notify-alert.js`
+- `skills/isc-core/rules/rule.n022-detection-architecture-design-isc-compliance-audit-022.json` → `gate-check-trigger` → `infrastructure/event-bus/handlers/gate-check-trigger.js`
+- `skills/isc-core/rules/rule.n029-model-api-key-pool-management-029.json` → `notify-alert` → `infrastructure/event-bus/handlers/notify-alert.js`
+- `skills/isc-core/rules/rule.n034-rule-identity-accuracy.json` → `naming-convention-check` → `infrastructure/event-bus/handlers/naming-convention-check.js`
+- `skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json` → `naming-convention-check` → `infrastructure/event-bus/handlers/naming-convention-check.js`
+- `skills/isc-core/rules/rule.planning-time-granularity-037.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.project-mgmt-lesson-capture-001.json` → `report-snapshot` → `infrastructure/event-bus/handlers/report-snapshot.js`
+- `skills/isc-core/rules/rule.project-mgmt-startup-checklist-001.json` → `document-structure-check` → `infrastructure/event-bus/handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.report-snapshot-lock-001.json` → `report-snapshot` → `infrastructure/event-bus/handlers/report-snapshot.js`
+- `skills/isc-core/rules/rule.semantic-intent-event-001.json` → `batch3-misc-handlers.semanticIntentEventHandler` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.skill-distribution-auto-classify-001.json` → `classify-skill-distribution` → `infrastructure/event-bus/handlers/classify-skill-distribution.js`
+- `skills/isc-core/rules/rule.subagent-checkpoint-gate-001.json` → `subagent-checkpoint-gate` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.umr-domain-routing-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.umr-intent-routing-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+- `skills/isc-core/rules/rule.vectorization-standard-enforcement-001.json` → `vectorization-standard-enforcement` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
+- `skills/isc-core/rules/rule.version-integrity-gate-001.json` → `check-version-integrity` → `infrastructure/event-bus/handlers/check-version-integrity.js`
+- `skills/isc-core/rules/rule.visual-output-style-001.json` → `document-structure-check` → `infrastructure/event-bus/handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.zhipu-capability-router-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
+
+### ⚠️ 有handler但文件不存在
+- `skills/isc-core/rules/rule.arch-real-data-gate-005.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.auto-collect-eval-from-conversation-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.coding-quality-thinking-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.design-document-delivery-pipeline-001.json` → `handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.design-document-narrative-review-001.json` → `handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.eval-data-source-redline-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.eval-driven-development-loop-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.eval-must-include-multi-turn-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.eval-sample-auto-collection-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.intent-aeo-quality-gate-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.intent-anti-entropy-001.json` → `handlers/anti-entropy-check.js`
+- `skills/isc-core/rules/rule.isc-evomap-mandatory-security-scan-032.json` → `handlers/completeness-check.js`
+- `skills/isc-core/rules/rule.isc-naming-convention-001.json` → `handlers/naming-convention-check.js`
+- `skills/isc-core/rules/rule.isc-skill-usage-protocol-001.json` → `handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.n018-detection-skill-rename-global-alignment-018.json` → `handlers/naming-convention-check.js`
+- `skills/isc-core/rules/rule.n019-auto-skill-md-generation-019.json` → `handlers/document-structure-check.js`
+- `skills/isc-core/rules/rule.n023-auto-aeo-evaluation-standard-generation-023.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.n024-aeo-dual-track-orchestration-024.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.n025-aeo-feedback-auto-collection-025.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.n026-aeo-insight-to-action-026.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.n035-rule-trigger-completeness.json` → `handlers/completeness-check.js`
+- `skills/isc-core/rules/rule.naming-mece-consistency-001.json` → `handlers/naming-convention-check.js`
+- `skills/isc-core/rules/rule.quality-over-efficiency-over-cost-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.quality-skill-no-placeholder-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.skill-mandatory-skill-md-001.json` → `handlers/completeness-check.js`
+- `skills/isc-core/rules/rule.task-orchestration-quality-001.json` → `handlers/eval-quality-check.js`
+- `skills/isc-core/rules/rule.vectorization-auto-trigger-001.json` → `handlers/eval-quality-check.js`
+
+### ❌ 无handler
+- `skills/isc-core/rules/rule.aeo-e2e-decision-pipeline-test-001.json`
+- `skills/isc-core/rules/rule.architecture-review-pipeline-001.json`
+- `skills/isc-core/rules/rule.auto-evomap-sync-trigger-001.json`
+- `skills/isc-core/rules/rule.auto-fix-high-severity-001.json`
+- `skills/isc-core/rules/rule.auto-github-sync-trigger-001.json`
+- `skills/isc-core/rules/rule.auto-skillization-trigger-001.json`
+- `skills/isc-core/rules/rule.capability-anchor-auto-register-001.json`
+- `skills/isc-core/rules/rule.discovery-must-trigger-rule-creation-001.json`
+- `skills/isc-core/rules/rule.intent-ic4-ic5-boundary-001.json`
+- `skills/isc-core/rules/rule.isc-change-auto-trigger-alignment-001.json`
+- `skills/isc-core/rules/rule.isc-creation-gate-001.json`
+- `skills/isc-core/rules/rule.isc-dto-handshake-001.json`
+- `skills/isc-core/rules/rule.isc-rule-auto-decompose-001.json`
+- `skills/isc-core/rules/rule.isc-skill-index-auto-update-001.json`
+- `skills/isc-core/rules/rule.isc-skill-permission-classification-031.json`
+- `skills/isc-core/rules/rule.isc-skill-security-gate-030.json`
+- `skills/isc-core/rules/rule.knowledge-must-be-executable-001.json`
+- `skills/isc-core/rules/rule.meta-enforcement-gate-001.json`
+- `skills/isc-core/rules/rule.multi-agent-communication-priority-001.json`
+- `skills/isc-core/rules/rule.must-verify-config-before-coding-001.json`
+- `skills/isc-core/rules/rule.n033-gateway-config-protection.json`
+- `skills/isc-core/rules/rule.n036-memory-loss-recovery.json`
+- `skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json`
+- `skills/isc-core/rules/rule.pipeline-report-filter-001.json`
+- `skills/isc-core/rules/rule.public-skill-classification-001.json`
+- `skills/isc-core/rules/rule.public-skill-quality-gate-001.json`
+- `skills/isc-core/rules/rule.scenario-acceptance-gate-001.json`
+- `skills/isc-core/rules/rule.seef-skill-registered-001.json`
+- `skills/isc-core/rules/rule.seef-subskill-orchestration-001.json`
+- `skills/isc-core/rules/rule.self-correction-to-rule-001.json`
+- `skills/isc-core/rules/rule.skill-distribution-separation-001.json`
+- `skills/isc-core/rules/rule.skill-no-direct-llm-call-001.json`
+- `skills/isc-core/rules/rule.skill.evolution.auto-trigger.json`
