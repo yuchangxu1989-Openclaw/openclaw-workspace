@@ -1,0 +1,30 @@
+{
+  "requiredFields": ["agentId", "model", "task", "status"],
+  "optionalFields": ["duration", "commit", "thinking", "error"],
+  "statusIcons": {
+    "completed": "✅",
+    "running": "🔄",
+    "failed": "❌",
+    "blocked": "⏸️",
+    "pending": "⏳"
+  },
+  "outputFormat": "table",
+  "showThinking": true,
+  "showSummary": true,
+  "showNextSteps": true,
+  "title": "Multi-Agent Progress Report",
+  "validation": {
+    "requireCommitOnComplete": true,
+    "requireErrorOnFail": true,
+    "requireFullModelName": true,
+    "modelNameMinLength": 8,
+    "knownModelPrefixes": [
+      "claude-", "gpt-", "gemini-", "llama-", "mistral-", "command-",
+      "deepseek-", "qwen-", "yi-", "phi-", "o1-", "o3-", "o4-"
+    ],
+    "shortNameBlacklist": [
+      "claude", "gpt", "gpt4", "gpt-4", "sonnet", "opus", "haiku",
+      "gemini", "llama", "mistral", "deepseek", "qwen"
+    ]
+  }
+}
