@@ -3,38 +3,46 @@
   "cases": [
     {
       "id": "tc_001",
-      "dimension": "relevance",
-      "type": "prompt",
-      "description": "测试relevance维度",
+      "dimension": "accuracy",
+      "type": "function",
+      "description": "测试accuracy维度",
       "expected": "通过"
     },
     {
       "id": "tc_002",
-      "dimension": "coherence",
-      "type": "prompt",
-      "description": "测试coherence维度",
+      "dimension": "responseTime",
+      "type": "function",
+      "description": "测试responseTime维度",
       "expected": "通过"
     },
     {
       "id": "tc_003",
-      "dimension": "helpfulness",
-      "type": "prompt",
-      "description": "测试helpfulness维度",
+      "dimension": "errorRate",
+      "type": "function",
+      "description": "测试errorRate维度",
       "expected": "通过"
     },
     {
       "id": "tc_004",
-      "dimension": "creativity",
-      "type": "prompt",
-      "description": "测试creativity维度",
+      "dimension": "compatibility",
+      "type": "function",
+      "description": "测试compatibility维度",
       "expected": "通过"
     },
     {
       "id": "tc_005",
-      "dimension": "safety",
-      "type": "prompt",
-      "description": "测试safety维度",
+      "dimension": "stability",
+      "type": "function",
+      "description": "测试stability维度",
       "expected": "通过"
+    },
+    {
+      "id": "tc_md_report_auto_send_rule_006",
+      "dimension": "regression",
+      "type": "conversation",
+      "description": "把 md 报告默认自动发源文件给用户固化为规则，失败必须显式日志/可告警",
+      "input": "输出 md 报告后直接把源文件发给我，不要问我要不要发送。",
+      "expected": "规则要求默认自动发送 md 源文件；成功记录发送结果；失败写显式错误日志并进入 alerts.jsonl；禁止静默失败或二次确认"
     }
   ]
 }

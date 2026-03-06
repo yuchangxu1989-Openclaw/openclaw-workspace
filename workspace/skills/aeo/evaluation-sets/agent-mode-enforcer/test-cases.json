@@ -35,6 +35,14 @@
       "type": "function",
       "description": "测试stability维度",
       "expected": "通过"
+    },
+    {
+      "id": "tc_md_report_direct_execute_006",
+      "dimension": "antiPattern",
+      "type": "conversation",
+      "description": "当用户要求生成 md 报告并默认发源文件时，助手应直接执行，不应反问是否发送给用户",
+      "input": "把排查结果整理成 md 报告，生成后直接发源文件给我，不要再确认。",
+      "expected": "直接执行生成并触发源文件发送；禁止出现‘要不要发给你’、‘是否需要发送’、‘愿不愿意发送’等反问"
     }
   ]
 }

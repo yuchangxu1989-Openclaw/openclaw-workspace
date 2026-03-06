@@ -7,6 +7,7 @@ const SUPPORTED_EXTS = new Set(['.md', '.png', '.json', '.pdf']);
 const WORKSPACE_ROOT = path.resolve(__dirname, '..', '..', '..');
 const LOG_DIR = path.join(WORKSPACE_ROOT, 'infrastructure', 'logs');
 const LOG_FILE = path.join(LOG_DIR, 'artifact-auto-send.jsonl');
+const ALERTS_FILE = path.join(LOG_DIR, 'alerts.jsonl');
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
@@ -15,6 +16,17 @@ function ensureDir(dir) {
 function log(entry) {
   ensureDir(LOG_DIR);
   fs.appendFileSync(LOG_FILE, JSON.stringify({ ts: new Date().toISOString(), ...entry }) + '\n');
+}
+
+function alert(entry) {
+  ensureDir(LOG_DIR);
+  fs.appendFileSync(ALERTS_FILE, JSON.stringify({
+    timestamp: new Date().toISOString(),
+    handler: 'artifact-auto-send',
+    severity: entry.severity || 'error',
+    acknowledged: false,
+    ...entry,
+  }) + '\n');
 }
 
 function inferReceiveIdType(receiveId, explicitType) {
@@ -47,6 +59,16 @@ async function autoSendArtifact({ filePath, receiveId, receiveIdType, filename, 
   if (!candidate.exists || !candidate.isFile) {
     const error = `产物不存在或不是文件: ${candidate.filePath}`;
     log({ level: 'error', stage: 'validate', source, filePath: candidate.filePath, error });
+    if (required || candidate.ext === '.md') {
+      alert({
+        eventType: 'artifact.auto_send.failed',
+        message: error,
+        source,
+        stage: 'validate',
+        filePath: candidate.filePath,
+        ext: candidate.ext || null,
+      });
+    }
     if (required) throw new Error(error);
     return { success: false, skipped: true, reason: error };
   }
@@ -71,6 +93,16 @@ async function autoSendArtifact({ filePath, receiveId, receiveIdType, filename, 
     return { success: true, ...result };
   } catch (error) {
     log({ level: 'error', stage: 'send', source, filePath: candidate.filePath, ext: candidate.ext, receiveId: target.receiveId, receiveIdType: target.receiveIdType, error: error.message });
+    alert({
+      eventType: 'artifact.auto_send.failed',
+      message: error.message,
+      source,
+      stage: 'send',
+      filePath: candidate.filePath,
+      ext: candidate.ext,
+      receiveId: target.receiveId,
+      receiveIdType: target.receiveIdType,
+    });
     throw error;
   }
 }
