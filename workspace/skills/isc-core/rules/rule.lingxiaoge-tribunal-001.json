@@ -1,0 +1,41 @@
+{
+  "id": "rule.lingxiaoge-tribunal-001",
+  "name": "凌霄阁-7人裁决神殿",
+  "version": "2.0.0",
+  "type": "governance",
+  "priority": "P0",
+  "description": "凌霄阁是通用多维度裁决技能，7席认知维度独立battle，用户是最终裁决者。",
+  "definition": {
+    "nature": "通用裁决技能，不绑定任何特定流程。门禁是基础设施组件，凌霄阁是被门禁或编排层按需调用的裁决引擎。",
+    "seats": {
+      "道": "第一性原理 — 追问本质",
+      "战": "战略取舍 — 做什么不做什么",
+      "工": "工程实现 — 可落地性",
+      "盾": "风险安全 — 防御视角",
+      "眼": "用户市场 — 需求洞察",
+      "远": "未来进化 — 扩展性",
+      "衡": "综合仲裁 — 最终建议"
+    },
+    "protocol": "7席必须互相battle，不是走过场",
+    "final_authority": "用户是最终裁决者，凌霄阁只给建议"
+  },
+  "trigger": {
+    "events": [
+      "architecture.decision.major",
+      "design.direction.uncertain",
+      "system.evolution.direction_change",
+      "sprint.day.completed",
+      "review.rejection.count >= 2"
+    ]
+  },
+  "constraints": [
+    "前提：充分领会用户意图，以断层式领先的全球最顶级AI为目标",
+    "禁止将凌霄阁与特定业务流程耦合",
+    "半成品不进凌霄阁"
+  ],
+  "skill_path": "skills/lingxiaoge-tribunal/",
+  "rationale": {
+    "source": "用户教学 2026-03-04",
+    "merged_from": ["rule.council-lingxiaoge-trigger-001", "rule.decision-council-seven-required-001", "rule.lingxiaoge-is-generic-skill-001"]
+  }
+}
