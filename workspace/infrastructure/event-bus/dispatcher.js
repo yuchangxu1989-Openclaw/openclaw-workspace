@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { evaluate: evaluateCondition } = require('./condition-evaluator');
 
 class Dispatcher {
   constructor(options = {}) {
@@ -131,14 +132,21 @@ class Dispatcher {
   }
 
   _evaluateConditions(rule, payload) {
-    const conditions = rule.conditions;
-    if (!conditions || typeof conditions !== 'object') return true;
-    if (Array.isArray(conditions)) return true; // skip array conditions for now
+    // 优先使用 rule.conditions，其次 rule.trigger.condition，兼容两种格式
+    const conditions = rule.conditions || (rule.trigger && rule.trigger.condition) || rule.condition;
+    const result = evaluateCondition(conditions, payload);
 
-    for (const [field, expected] of Object.entries(conditions)) {
-      if (payload[field] !== expected) return false;
+    if (result.needs_llm) {
+      // 记录需要LLM认知判断的条件（不阻塞，默认pass）
+      this._log({
+        status: 'needs_llm',
+        ruleId: rule.id,
+        reason: result.reason,
+        conditions: typeof conditions === 'string' ? conditions : JSON.stringify(conditions).slice(0, 200),
+      });
     }
-    return true;
+
+    return result.pass;
   }
 
   _extractActions(rule) {
