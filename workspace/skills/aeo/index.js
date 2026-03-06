@@ -60,6 +60,11 @@ function buildStandard(skillName, skillType, tracks) {
     skill: skillName,
     type: skillType,
     generatedAt: new Date().toISOString(),
+    data_source: 'system_generated_from_skill_metadata',
+    data_source_details: {
+      basis: ['skill_name', 'SKILL.md_if_present'],
+      trigger: 'aeo_evaluation_required'
+    },
     tracks,
     dimensions: [...new Set(dimensions)],
     thresholds: {
@@ -97,7 +102,16 @@ function buildTestCases(skillName, tracks) {
     }
   }
 
-  return { skill: skillName, generatedAt: new Date().toISOString(), cases };
+  return {
+    skill: skillName,
+    generatedAt: new Date().toISOString(),
+    data_source: 'system_generated_from_skill_metadata',
+    data_source_details: {
+      basis: ['skill_name', 'SKILL.md_if_present'],
+      trigger: 'aeo_evaluation_required'
+    },
+    cases
+  };
 }
 
 function evaluateTrackReadiness(skillName, tracks) {
@@ -160,6 +174,11 @@ async function run(input = {}, context = {}) {
     timestamp: new Date().toISOString(),
     skill: skillName,
     type: skillType,
+    data_source: 'system_generated_from_skill_metadata',
+    data_source_details: {
+      basis: ['skill_name', 'SKILL.md_if_present'],
+      trigger: 'aeo_evaluation_required'
+    },
     tracks,
     generated: {
       standardPath: path.relative(ROOT, standardPath),
