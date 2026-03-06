@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2026-03-06T17:31:20.171Z",
+  "kernel": "self-bootstrap-kernel",
+  "anchor": {
+    "path": "CAPABILITY-ANCHOR.md",
+    "size": 7508,
+    "cacheHit": false,
+    "loadedAt": 1772818280153,
+    "preview": "# 系统能力锚点 - 根治遗忘\n# 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成\n\n> **生成时间**: 2026/3/7 00:05:09\n> **技能总数**: 56\n> **ISC路由**: 6\n\n## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）\n\n### glm-4v\n- **模型**: glm-4v\n- **触发词**: 视频.*理解, 分析视频, 视频描述\n- **输入**: video\n- **优先级**: 10\n- **技能路径**: skills/glm-4v/\n\n### glm-ocr\n- **模型**: glm-ocr\n- **触发词**: OCR, 识别文字, 提取文本, PDF.*识别\n- **输入**: pdf, image\n- **优先级**: 10\n- **技能路径**: skills/glm-ocr/\n\n### glm-image\n- **模型**: glm-image\n- **触发词**: 生成图片, 画图, 绘制, 创建图像\n- **输入**: text\n- **优先级**: 10\n- **技能路径**: skills/glm-image/\n\n### glm-video\n- **模型**: glm-video\n- **触发词**: 生成视频, 制作视频, 视频生成\n- **输入**: image, text\n- **优先级**: 10\n- **技能路径**: skills/glm-video/\n\n### glm-tts\n- **模型**: glm-tts\n- **触发词**: 语音合成, TTS, 文字转语音, 朗读\n- **输入**: text\n- **优先级**: 10\n- **技能路径**: skills/glm-tts/\n\n### glm-asr\n- **模型**: glm-asr\n- **触发词**: 语音识别, ASR, 语音转文字, 转录\n- **输入**: audio\n- **优先级**: 10\n\n### 智谱技能（无ISC路由，需手动调用）\n\n- **cogvideo**: skills/cogvideo/\n- **cogview**: skills/cogview/\n- **glm-vision**: skills/glm-vision/\n- **zhipu-image-gen**: skills/zhipu-image-gen/\n- **zhipu-keys**: skills/zhipu-keys/\n- **zhipu-vision**: skills/zhipu-vision/\n\n## 🔵 搜索与信息获取\n\n### web_search（OpenClaw原生）\n- **类型**: Brave Search API\n- **状态**: 需配置"
+  },
+  "memoryDigest": "memory/bootstrap-memory-digest.json",
+  "dispatch": {
+    "enqueued": [],
+    "dispatched": [],
+    "queueDepth": 166,
+    "runningCount": 2,
+    "idleSlots": []
+  },
+  "rca": {
+    "file": "reports/self-bootstrap-rca-cases.json",
+    "total": 0
+  },
+  "eval": {
+    "file": "reports/self-bootstrap-eval.json",
+    "verdict": "pass",
+    "score": 1
+  }
+}

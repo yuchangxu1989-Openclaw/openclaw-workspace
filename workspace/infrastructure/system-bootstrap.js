@@ -105,6 +105,7 @@
 const fs = require('fs');
 const path = require('path');
 const { ensureCapabilityAnchorLoaded } = require('./session-anchor-bootstrap');
+const { runSelfBootstrapKernel } = require('./self-bootstrap-kernel');
 
 const WORKSPACE = '/root/.openclaw/workspace';
 const CRITICAL_PATHS = {
@@ -154,6 +155,24 @@ function bootstrap() {
       status.components.anchor.loadError = e.message;
       console.error(`❌ 能力锚点预加载失败: ${e.message}`);
     }
+  }
+
+  // 最小生存内核：在无用户输入情况下，也先把 anchor / memory / dispatcher / RCA / eval 铺起来
+  try {
+    const kernelStatus = runSelfBootstrapKernel();
+    status.components.selfBootstrapKernel = {
+      ready: true,
+      evalVerdict: kernelStatus.eval?.verdict,
+      evalScore: kernelStatus.eval?.score,
+      memoryDigest: kernelStatus.memoryDigest,
+    };
+  } catch (e) {
+    status.healthy = false;
+    status.components.selfBootstrapKernel = {
+      ready: false,
+      error: e.message,
+    };
+    console.error(`❌ Self-bootstrap kernel 执行失败: ${e.message}`);
   }
 
   // 统计规则库
