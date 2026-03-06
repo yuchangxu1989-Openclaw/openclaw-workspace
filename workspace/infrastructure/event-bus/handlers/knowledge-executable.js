@@ -9,7 +9,7 @@ const { exists, readText, walk } = require('./p0-utils');
  */
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
-  const logger = context.logger;
+  const logger = context.logger || console;
   const bus = context.bus;
 
   logger.info('[knowledge-executable] 启动可执行知识发现');

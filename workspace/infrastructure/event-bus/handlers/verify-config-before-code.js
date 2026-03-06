@@ -9,7 +9,7 @@ const { exists, readText } = require('./p0-utils');
  */
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
-  const logger = context.logger;
+  const logger = context.logger || console;
   const bus = context.bus;
 
   logger.info('[verify-config-before-code] 启动代码配置检查');

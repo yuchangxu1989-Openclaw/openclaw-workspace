@@ -9,7 +9,7 @@ const { exists, readText, readJson, walk } = require('./p0-utils');
  */
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
-  const logger = context.logger;
+  const logger = context.logger || console;
   const bus = context.bus;
 
   logger.info('[meta-enforcement] 启动元执行力审计');
@@ -189,7 +189,7 @@ const { exists, readText } = require('./p0-utils');
  */
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
-  const logger = context.logger;
+  const logger = context.logger || console;
   const bus = context.bus;
 
   logger.info('[${ruleName}] handler执行 (auto-generated skeleton)');

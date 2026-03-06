@@ -9,7 +9,7 @@ const { exists, readText, walk } = require('./p0-utils');
  */
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
-  const logger = context.logger;
+  const logger = context.logger || console;
   const bus = context.bus;
 
   logger.info('[isc-skill-index-update] 启动技能索引更新');

@@ -296,7 +296,7 @@
   },
   "enforcement_tier": "P1_process",
   "action": {
-    "handler": "infrastructure/event-bus/handlers/memory-loss-recovery.js",
+    "handler": "memory-loss-recovery",
     "type": "handler"
   }
 }

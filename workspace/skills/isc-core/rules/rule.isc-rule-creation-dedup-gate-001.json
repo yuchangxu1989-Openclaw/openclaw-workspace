@@ -26,7 +26,7 @@
   },
   "action": {
     "type": "gate",
-    "handler": "scripts/check-rule-dedup.js",
+    "handler": "dedup-scan",
     "runtime": "node",
     "dedup_algorithm": {
       "phase_1_fast_filter": {

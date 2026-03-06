@@ -34,7 +34,7 @@
   },
   "action": {
     "type": "handler",
-    "handler": "infrastructure/event-bus/handlers/layered-architecture-checker.js",
+    "handler": "layered-architecture-checker",
     "description": "任一层归属不清晰→标注设计缺陷→打回补充→凌霄阁可将此项作为审查维度"
   },
   "anti_entropy": "防止系统随时间退化为大泥球架构（Big Ball of Mud）。分层是反熵增的核心手段。",

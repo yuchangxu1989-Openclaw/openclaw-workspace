@@ -1,0 +1,21 @@
+{
+  "id": "intent-ruleify-dispatch-001",
+  "name": "Intent Ruleify → ISC Rule Draft Dispatch",
+  "description": "当意图被分类为 ruleify 时，路由到 intent-event-handler 创建 ISC 规则草案",
+  "version": "1.0.0",
+  "priority": "high",
+  "enabled": true,
+  "trigger": {
+    "event_type": "intent.ruleify"
+  },
+  "conditions": [],
+  "action": {
+    "type": "handler",
+    "handler": "intent-event-handler"
+  },
+  "metadata": {
+    "category": "intent-routing",
+    "created": "2026-03-06",
+    "author": "analyst"
+  }
+}

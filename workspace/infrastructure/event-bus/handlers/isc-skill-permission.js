@@ -9,7 +9,7 @@ const { exists, readText, walk, hasAny } = require('./p0-utils');
  */
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
-  const logger = context.logger;
+  const logger = context.logger || console;
   const bus = context.bus;
 
   logger.info('[isc-skill-permission] 启动技能权限分级分析');

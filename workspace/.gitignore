@@ -1,1 +1,47 @@
-workspace/scripts/.probe-state.json
+# Runtime artifacts - do not track
+infrastructure/logs/*.jsonl
+infrastructure/enforcement/*.jsonl
+infrastructure/event-bus/signals/processed/
+infrastructure/event-bus/signals/*.signal
+infrastructure/event-bus/.cron-dispatch-cursor.json
+infrastructure/event-bus/sensors/.threshold-state.json
+infrastructure/self-check/.*-state.json
+infrastructure/dispatcher/state/
+infrastructure/dispatcher/dispatched-archive/
+infrastructure/notifications/
+
+# Skill runtime state
+skills/dto-core/tasks/
+skills/cras/.intent-extractor-state.json
+skills/isc-core/.rules-snapshot.json
+skills/public/multi-agent-dispatch/state/
+
+# Scripts runtime
+scripts/.probe-state.json
+scripts/logs/
+
+# Locks
+*.lock
+!package-lock.json
+
+# Entropy archive
+.entropy-archive/
+
+# Temp files
+tmp-*.json
+
+# Feishu sent artifacts
+feishu_sent_cards/
+feishu_sent_reports/
+
+# Pipeline runtime state
+.pipeline-feedback.jsonl
+.pipeline-monitor.json
+.pipeline-states.json
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db

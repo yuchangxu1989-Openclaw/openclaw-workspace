@@ -11,7 +11,7 @@ const path = require('path');
 const securityGate = require('./isc-skill-security-gate-030');
 
 module.exports = async function(event, rule, context) {
-  const logger = context.logger;
+  const logger = context.logger || console;
 
   logger.info('[isc-skill-security] 委托执行安全门禁检查 → isc-skill-security-gate-030');
 

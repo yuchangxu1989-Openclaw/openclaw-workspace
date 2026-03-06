@@ -9,7 +9,7 @@ const { exists, readText } = require('./p0-utils');
  */
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
-  const logger = context.logger;
+  const logger = context.logger || console;
   const bus = context.bus;
 
   logger.info('[multi-agent-priority] 启动多Agent并行配置检查');

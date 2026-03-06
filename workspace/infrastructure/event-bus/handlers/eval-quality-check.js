@@ -73,7 +73,7 @@ function result(ok, code, message, details = {}) {
 
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || process.cwd();
-  const logger = context && context.logger;
+  const logger = (context && context.logger) || console;
   const bus = context && context.bus;
   const notify = context && context.notify;
 

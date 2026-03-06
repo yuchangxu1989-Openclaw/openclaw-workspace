@@ -1,0 +1,22 @@
+{
+  "id": "rule.intent-ruleify-consumption-001",
+  "rule_name": "Intent Ruleify 消费路由",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "当意图分析器识别出 ruleify 类意图时，路由到 intent-event-handler 创建 ISC 规则草案。确保 intent.ruleify 事件在 event-bus 链路中被正确匹配和执行。",
+  "trigger": {
+    "events": ["intent.ruleify"],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "路由 intent.ruleify 到 intent-event-handler 进行规则草案创建"
+      }
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "intent-event-handler",
+    "description": "解析 ruleify 意图 → 创建 ISC 规则草案 → 提交审核"
+  },
+  "enforcement_tier": "P0_blocking"
+}

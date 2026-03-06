@@ -71,7 +71,7 @@
       "if_no_response_30min": "block_operation",
       "if_rejected": "block_and_log"
     },
-    "handler": "infrastructure/event-bus/handlers/gateway-config-protection.js"
+    "handler": "gateway-config-protection"
   },
   "exemptions": [],
   "violation_handling": {

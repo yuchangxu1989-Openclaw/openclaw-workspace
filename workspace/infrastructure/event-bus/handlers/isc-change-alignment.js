@@ -1,4 +1,5 @@
 const { exists, readJson, walk } = require('./p0-utils');
+const path = require("path");
 
 /**
  * ISC Change Alignment Handler
@@ -26,11 +27,20 @@ module.exports = async function(event, rule, context) {
       try {
         const checker = require(checkerPath);
         if (typeof checker === 'function') {
-          alignmentResult = await checker({
-            workspace,
-            event,
-            logger
-          });
+          // Support both Class exports and plain function exports.
+          const looksLikeClass = checker.prototype && Object.getOwnPropertyNames(checker.prototype).length > 1;
+          if (looksLikeClass) {
+            const instance = new checker();
+            if (typeof instance.check === 'function') {
+              alignmentResult = await instance.check({ workspace, event, logger });
+            } else if (typeof instance.iscProactive === 'function') {
+              alignmentResult = await instance.iscProactive({ workspace, event, logger });
+            } else {
+              throw new Error('alignment checker class missing check()/iscProactive()');
+            }
+          } else {
+            alignmentResult = await checker({ workspace, event, logger });
+          }
           logger.info('[isc-change-alignment] Checker executed successfully');
         }
       } catch (checkerErr) {

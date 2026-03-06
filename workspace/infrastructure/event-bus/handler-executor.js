@@ -8,6 +8,34 @@ const HANDLERS_DIRS = [
 ];
 
 function loadHandler(handlerName) {
+  const WORKSPACE = path.resolve(__dirname, '../..');
+
+  // If handlerName looks like a path (contains / or \), resolve it directly
+  if (handlerName.includes('/') || handlerName.includes('\\')) {
+    const absPath = path.isAbsolute(handlerName)
+      ? handlerName
+      : path.resolve(WORKSPACE, handlerName);
+    const candidate = absPath.endsWith('.js') ? absPath : `${absPath}.js`;
+    if (fs.existsSync(candidate)) {
+      try {
+        delete require.cache[require.resolve(candidate)];
+        const mod = require(candidate);
+        if (typeof mod === 'function') return mod;
+        if (mod && typeof mod.handle === 'function') return (event, rule, context) => mod.handle(event, rule, context);
+        if (mod && typeof mod.execute === 'function') return (event, rule, context) => mod.execute(event, rule, context);
+      } catch (err) {
+        console.error(`[HandlerExecutor] Failed to load path handler ${handlerName}: ${err.message}`);
+      }
+    }
+    // Fall through to short-name search using basename
+    const baseName = path.basename(handlerName, '.js');
+    return loadHandlerByShortName(baseName);
+  }
+
+  return loadHandlerByShortName(handlerName);
+}
+
+function loadHandlerByShortName(handlerName) {
   for (const dir of HANDLERS_DIRS) {
     const handlerPath = path.join(dir, `${handlerName}.js`);
     if (!fs.existsSync(handlerPath)) continue;

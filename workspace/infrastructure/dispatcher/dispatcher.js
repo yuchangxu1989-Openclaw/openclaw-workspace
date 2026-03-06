@@ -20,6 +20,30 @@
 const fs = require('fs');
 const path = require('path');
 
+const { DispatchLayer } = require('./dispatch-layer');
+
+// ── Dispatch Engine greyscale switch ─────────────────────────────────────────
+// DISPATCH_ENGINE env var controls which engine is used:
+//   'old'  → DispatchLayer only (original behaviour, default)
+//   'new'  → DispatchEngine only (new 19-slot engine)
+//   'dual' → Both record, only old executes (shadow mode for validation)
+// Rollback: set DISPATCH_ENGINE=old and restart cron / gateway.
+const DISPATCH_ENGINE_MODE = (process.env.DISPATCH_ENGINE || 'old').toLowerCase();
+let _dispatchEngine = null;
+function getDispatchEngine() {
+  if (_dispatchEngine) return _dispatchEngine;
+  try {
+    const { DispatchEngine } = require('../../skills/public/multi-agent-dispatch/dispatch-engine');
+    _dispatchEngine = new DispatchEngine({
+      maxSlots: parseInt(process.env.DISPATCH_ENGINE_SLOTS || '3', 10), // greyscale: start with 3
+    });
+    return _dispatchEngine;
+  } catch (e) {
+    console.error('[dispatcher] Failed to load DispatchEngine:', e.message);
+    return null;
+  }
+}
+
 // Decision Logger — unified audit trail
 let _decisionLogger = null;
 try {
@@ -204,7 +228,34 @@ function resolveHandler(handlerName, handlerMap) {
     if (typeof entry.handler === 'function') return entry.handler;
   }
 
-  // Try convention load
+  // If handlerName looks like a path, try resolving from workspace root
+  if (handlerName.includes('/')) {
+    const WORKSPACE = path.resolve(__dirname, '../..');
+    const absPath = path.isAbsolute(handlerName)
+      ? handlerName
+      : path.resolve(WORKSPACE, handlerName);
+    const candidate = absPath.endsWith('.js') ? absPath : `${absPath}.js`;
+    if (fs.existsSync(candidate)) {
+      try {
+        let mod = require(candidate);
+        if (typeof mod === 'function') return mod;
+        if (mod && typeof mod.handle === 'function') return mod.handle;
+        if (mod && typeof mod.execute === 'function') return mod.execute;
+      } catch (_) { /* load failed */ }
+    }
+    // Fall through to basename short-name lookup
+    const baseName = path.basename(handlerName, '.js');
+    const fallbackPath = path.join(HANDLERS_DIR, `${baseName}.js`);
+    if (fs.existsSync(fallbackPath)) {
+      try {
+        let mod = require(fallbackPath);
+        if (typeof mod === 'function') return mod;
+        if (mod && typeof mod.handle === 'function') return mod.handle;
+      } catch (_) { /* load failed */ }
+    }
+  }
+
+  // Try convention load from HANDLERS_DIR
   const handlerPath = path.join(HANDLERS_DIR, `${handlerName}.js`);
   if (fs.existsSync(handlerPath)) {
     try {
@@ -359,6 +410,11 @@ async function dispatch(rule, event, options = {}) {
   const startTime = Date.now();
   const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS;
   const handlerMap = options.handlerMap || null;
+  const dispatchLayer = options.dispatchLayer || new DispatchLayer();
+
+  // ── Greyscale: mirror enqueue to new engine when mode is 'new' or 'dual' ──
+  const _newEngine = (DISPATCH_ENGINE_MODE === 'new' || DISPATCH_ENGINE_MODE === 'dual')
+    ? getDispatchEngine() : null;
 
   // ─── Metrics: track dispatch attempt ───
   if (_metrics) _metrics.inc('dispatch_total');
@@ -414,6 +470,15 @@ async function dispatch(rule, event, options = {}) {
   const _selectedLevel = route ? classifyPattern(route.pattern).type : 'none';
 
   if (!handlerName) {
+    try {
+      dispatchLayer.enqueue({
+        taskId: event.id || `manual_${Date.now()}`,
+        title: rule.action,
+        source: 'dispatcher.no_route',
+        priority: 'normal',
+        payload: { event, rule, error: 'No handler found for action: ' + rule.action }
+      });
+    } catch (_) {}
     const decision = {
       action: rule.action,
       eventType: event.type || event.eventType || 'unknown',
@@ -439,6 +504,16 @@ async function dispatch(rule, event, options = {}) {
   const handlerFn = resolveHandler(handlerName, handlerMap);
 
   if (!handlerFn) {
+    try {
+      dispatchLayer.enqueue({
+        taskId: event.id || `file_${Date.now()}`,
+        title: rule.action,
+        source: 'dispatcher.file_dispatched',
+        priority: route && route.config && route.config.priority ? route.config.priority : 'normal',
+        payload: { event, rule, handlerName, route: route ? route.config : null }
+      });
+      dispatchLayer.dispatchNext();
+    } catch (_) {}
     // No executable handler — write dispatch record (file-based dispatch)
     const dispatchRecord = {
       event,
@@ -484,6 +559,33 @@ async function dispatch(rule, event, options = {}) {
     matchedPattern: route ? route.pattern : 'direct',
   };
 
+  try {
+    dispatchLayer.enqueue({
+      taskId: event.id || `exec_${Date.now()}`,
+      title: rule.action,
+      source: 'dispatcher.execution',
+      priority: route && route.config && route.config.priority ? route.config.priority : 'normal',
+      payload: { eventType: event.type || event.eventType || 'unknown', handlerName }
+    });
+    dispatchLayer.dispatchNext();
+
+    // ── Greyscale: shadow-enqueue to new engine ──
+    if (_newEngine) {
+      try {
+        _newEngine.enqueue({
+          taskId: event.id || `exec_${Date.now()}`,
+          title: rule.action,
+          source: 'dispatcher.execution.greyscale',
+          priority: route && route.config && route.config.priority ? route.config.priority : 'normal',
+          model: 'greyscale-shadow',
+          payload: { eventType: event.type || event.eventType || 'unknown', handlerName }
+        });
+      } catch (shadowErr) {
+        console.error('[dispatcher:greyscale] shadow enqueue failed:', shadowErr.message);
+      }
+    }
+  } catch (_) {}
+
   let lastError = null;
   let retried = false;
 
@@ -511,6 +613,11 @@ async function dispatch(rule, event, options = {}) {
       // ─── Metrics: dispatch success ───
       if (_metrics) _metrics.inc('dispatch_success');
       if (dispatchTimer) dispatchTimer.stop();
+
+      try {
+        dispatchLayer.markTask(event.id || `exec_${Date.now()}`, 'done', { result });
+        dispatchLayer.dispatchNext();
+      } catch (_) {}
 
       return {
         success: true,
@@ -563,6 +670,13 @@ async function dispatch(rule, event, options = {}) {
     error: lastError ? lastError.message : 'unknown',
     duration,
   });
+
+  try {
+    dispatchLayer.markTask(event.id || `exec_${Date.now()}`, 'failed', {
+      error: lastError ? lastError.message : 'unknown'
+    });
+    dispatchLayer.dispatchNext();
+  } catch (_) {}
 
   return {
     success: false,

@@ -1,0 +1,22 @@
+{
+  "id": "rule.intent-reflect-consumption-001",
+  "rule_name": "Intent Reflect 消费路由",
+  "version": "1.0.0",
+  "severity": "medium",
+  "description": "当意图分析器识别出 reflect 类意图时，路由到 intent-event-handler 进入 CRAS 分析/知识沉淀路径。确保 intent.reflect 事件在 event-bus 链路中被正确匹配和执行。",
+  "trigger": {
+    "events": ["intent.reflect"],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "路由 intent.reflect 到 intent-event-handler 进行反思分析"
+      }
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "intent-event-handler",
+    "description": "解析 reflect 意图 → 进入 CRAS 分析 → 知识沉淀"
+  },
+  "enforcement_tier": "P1_process"
+}
