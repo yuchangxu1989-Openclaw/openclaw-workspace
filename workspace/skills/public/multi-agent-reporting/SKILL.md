@@ -1,310 +1,278 @@
 ---
 name: multi-agent-reporting
-description: Dispatch-board style reporting for multi-agent orchestration — renders a scheduler-style dashboard with Overview, Running, Completed, Blocked, Needs-Decision, Model Breakdown, and per-task Next-Hop actions. Replaces verbal status summaries with a structured task board.
-version: 2.0.0
-author: OpenClaw Community
+description: 多Agent状态汇报 — 渲染实时看板，支持文本和飞书卡片双输出。纯汇报，不含调度。
+version: 3.0.0
+author: OpenClaw
 license: MIT
 tags:
   - multi-agent
   - reporting
-  - orchestration
-  - dashboard
-  - dispatch
-  - protocol
-  - validation
+  - live-board
+  - feishu-card
 ---
 
-# Multi-Agent Reporting Skill — v2 Dashboard
+# Multi-Agent Reporting v3
 
-A portable, framework-agnostic reporting engine for multi-agent systems.
-In v2 the default output is a **dispatch-board / scheduler-style dashboard**, not a plain summary table.
-The dashboard groups tasks into status zones, shows per-model workload, and surfaces per-task next-hop actions.
+纯汇报技能。接收任务数组，输出实时看板。**与调度技能完全分离。**
 
-## Dashboard Output (default)
+## 核心规则
 
-```
-## Multi-Agent Sprint Board
+| # | 规则 |
+|---|------|
+| 1 | 主表只放进行中的任务 |
+| 2 | 0 活跃时不给空表 — 补新完成、风险、待决策 |
+| 3 | 标题精准描述当前并发状态，不写并发上限 |
+| 4 | Agent 名用人物角色全称（`displayName`） |
+| 5 | 表头：# / Agent / 任务 / 模型 / 状态 / 用时 |
+| 6 | 没有"下一步"列 |
+| 7 | 列宽尽量窄（模型名自动缩写） |
+| 8 | 少废话，结论极短 |
 
-### Overview
-`█████████████▓▓░░····` 65.0% complete
-
-✅ Done: **13** · 🔄 Running: **3** · ⏸️ Blocked: **1** · ⚖️ Decision: **1** · ⏳ Pending: **2**
-
-Coverage: 80.0% · Blocked/Stalled: 10.0%
-
-### Running (3)
-
-| Agent    | Model              | Task                 | Duration | Next Action       |
-|----------|--------------------|----------------------|----------|-------------------|
-| agent-4  | claude-sonnet-4    | Build payment flow   | 4m 12s   | PR review         |
-| agent-5  | gpt-4o             | Write migration SQL  | 2m 05s   | —                 |
-
-### Completed (13)
-...
-
-### Blocked / Failed (1)
-...
-
-### Needs Decision (1)
-...
-
-### Model Breakdown
-...
-
-### Next Actions
-- ⏸️ agent-7: DB migration — blocked: schema lock held by dev-env
-- ⚖️ agent-9: Auth provider — awaiting decision: use Auth0 or Cognito? → cc @tech-lead
-```
-
-## Quick Start
+## 快速使用
 
 ```js
-const { formatReport, formatDashboard, validateReport, computeStats } = require('./index.js');
+const { renderReport, renderText, renderCard } = require('./index.js');
 
 const tasks = [
   {
-    agentId: 'agent-1',
-    model: 'claude-sonnet-4-20250514',
-    task: 'Implement auth module',
-    status: 'completed',
-    duration: '3m 42s',
-    commit: 'a1b2c3d',
-    thinking: 'high'
-  },
-  {
-    agentId: 'agent-2',
-    model: 'gpt-4o-2024-08-06',
-    task: 'Design API schema',
+    agentId: 'writer',
+    displayName: '创作大师',
+    model: 'claude-opus-4-20250514',
+    task: '写技术文档',
     status: 'running',
-    duration: '1m 20s',
-    nextAction: 'Open PR for review',
-    nextOwner: 'agent-lead',
-    nextETA: '15m'
+    duration: '3m12s'
   },
-  {
-    agentId: 'agent-3',
-    model: 'gemini-2.5-pro-preview-06-05',
-    task: 'DB migration',
-    status: 'blocked',
-    blocker: 'Schema lock held by dev-env'
-  },
-  {
-    agentId: 'agent-4',
-    model: 'claude-sonnet-4-20250514',
-    task: 'Choose auth provider',
-    status: 'needs_decision',
-    decision: 'Auth0 vs Cognito',
-    decisionOwner: 'tech-lead',
-    nextETA: '1h'
-  }
+  // ...
 ];
 
-// Full dashboard (new default)
-console.log(formatReport(tasks));
+// 统一入口 — 同时获取文本 + 卡片
+const { text, card, title, stats } = renderReport(tasks);
 
-// Or call directly:
-console.log(formatDashboard(tasks));
-
-// Legacy table format still works:
-console.log(formatReport(tasks, { outputFormat: 'table' }));
+// 或分别调用
+const textBoard = renderText(tasks);
+const feishuCard = renderCard(tasks);
 ```
 
-## API Reference
+## 输出示例
 
-### `formatReport(tasks, options?)`
+### 有活跃任务时
 
-Main entry point. When `outputFormat` is `"dashboard"` (the new default), delegates to `formatDashboard()`.
-For `"table"`, `"list"`, or `"compact"` falls back to legacy renderers.
+```
+## 🔄 3 Agent 并行执行中 · ⚠️1风险
 
-**Returns:** `string` — Markdown report.
+| # | Agent | 任务 | 模型 | 状态 | 用时 |
+|---|-------|------|------|------|------|
+| 1 | 创作大师 | 写文档 | opus-4 | 🔄执行 | 3m12s |
+| 2 | 研究员 | 调研 | gpt-4o | 🔄执行 | 1m45s |
+| 3 | 分析师 | 分析 | gem-2.5-pro | 🔄执行 | 2m03s |
 
----
+**✅ 新完成 (2)**
+- 架构师「系统设计」5m20s
+- 测试专家「单元测试」2m10s
 
-### `formatDashboard(tasks, options?)`
+**⚠️ 关键风险 (1)**
+- ⏸️ DBA专家「DB迁移」schema lock 未释放
+```
 
-Renders the full dispatch-board view. Sections are conditionally included based on data.
+### 0 活跃任务时
 
-**Options:**
+```
+## ⏸️ 0 活跃 · ⚠️1风险 · ✅1完成
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `title` | `string` | `"Multi-Agent Progress Report"` | Dashboard title |
-| `showSummary` | `boolean` | `true` | Show Overview bar |
-| `showStatusSections` | `boolean` | `true` | Show Running / Completed / Blocked sections |
-| `showDecisions` | `boolean` | `true` | Show Needs Decision section |
-| `showModelBreakdown` | `boolean` | `true` | Show Model Breakdown section |
-| `showNextHop` | `boolean` | `true` | Show per-task Next Hop detail table |
-| `showNextSteps` | `boolean` | `true` | Show actionable Next Actions bullets |
-| `showThinking` | `boolean` | `true` | Show thinking level on model names |
-| `statusGroups` | `object` | see config | Map zone names to status lists |
-| `sectionTitles` | `object` | see config | Rename any section heading |
+### ✅ 新完成 (1)
 
----
+| # | Agent | 任务 | 模型 | 用时 |
+|---|-------|------|------|------|
+| 1 | 架构师 | 系统设计 | sonnet-4 | 5m |
 
-### `validateReport(tasks, options?)`
+**⚠️ 关键风险 (1)**
+- ⏸️ DBA专家「DB迁移」schema lock
 
-Validates task entries. v2 adds support for:
-- `blocker` as alternative to `error` for blocked tasks
-- `artifact` as alternative to `commit` for completed tasks
-- `decisionOwner` required check (opt-in)
-- `nextAction` required check on active tasks (opt-in)
+**⚖️ 待决策 (1)**
+- 产品经理「选方案」Redis vs Memcached
+```
 
-**Returns:** `ValidationResult`
+## API
+
+### `renderReport(tasks, opts?)`
+
+统一入口。返回：
 
 ```js
 {
-  valid: boolean,
-  totalEntries: number,
-  passedEntries: number,
-  failedEntries: number,
-  issues: [
-    { index, agentId, field, message, severity: 'error'|'warning' }
-  ],
-  markdown: string
+  text: string,     // Markdown 文本看板
+  card: object,     // 飞书交互卡片 JSON
+  title: string,    // 动态标题
+  stats: object     // 统计数据
 }
 ```
 
----
+### `renderText(tasks, opts?)`
 
-### `generateTemplate(taskList, options?)`
+纯文本 Markdown 输出。
 
-Same as v1 but includes v2 optional fields in each row.
+### `renderCard(tasks, opts?)`
 
----
+飞书交互卡片 JSON。结构：
 
-### `computeStats(tasks, options?)`
+```json
+{
+  "config": { "wide_screen_mode": true },
+  "header": {
+    "title": { "tag": "plain_text", "content": "🔄 3 Agent 并行执行中" },
+    "template": "blue"
+  },
+  "elements": [ ... ]
+}
+```
 
-**Returns:** `StatsResult`
+卡片颜色逻辑：
+- 🟠 orange — 有风险或待决策
+- 🔵 blue — 有活跃任务
+- 🟢 green — 全部完成
+- ⚪ grey — 空/无任务
+
+### `computeStats(tasks)`
 
 ```js
-{
-  total, completed, running, failed, blocked, pending,
-  needs_decision, waiting, cancelled, other,
-  completionRate,   // "65.0%"
-  coverageRate,     // "(completed + running) / total"
-  blockedRate,      // "(blocked + failed + needs_decision) / total"
-  byAgent: { [agentId]: { total, completed, ... } },
-  byModel: { [model]:   { total, completed, ... } }
-}
+{ total, active, completed, blocked, decisions, queued, other }
 ```
 
-## TaskEntry Schema — v2
+### `classify(tasks)`
+
+```js
+{ active: [], completed: [], blocked: [], decisions: [], queued: [], other: [] }
+```
+
+### `generateTitle(stats, opts?)`
+
+动态生成标题。
+
+### `shortModel(model)`
+
+缩写模型名：`claude-opus-4-20250514` → `opus-4`
+
+### `agentName(task)`
+
+获取 Agent 全称：优先 `displayName` → `agentName` → `agentId`
+
+## TaskEntry Schema
 
 ```typescript
 interface TaskEntry {
-  // Required
-  agentId: string;          // Agent identifier (e.g. "agent-1", "seef", "cras")
-  model: string;            // Full model name (e.g. "claude-sonnet-4-20250514")
-  task: string;             // Task description
-  status: string;           // See statuses below
-
-  // Timing
-  duration?: string;        // Human-readable elapsed (e.g. "3m 42s")
-  updatedAt?: string;       // ISO timestamp of last update
-
-  // Completion
-  commit?: string;          // Git commit hash (completed tasks)
-  artifact?: string;        // Alternative to commit (e.g. "doc link", "PR #42")
-  branch?: string;          // Branch name
-
-  // Thinking / model config
-  thinking?: string;        // "none" | "low" | "medium" | "high"
-
-  // Error / block
-  error?: string;           // Error message (failed tasks)
-  blocker?: string;         // Blocker description (blocked tasks)
-
-  // Decision gate
-  decision?: string;        // The decision question
-  decisionOwner?: string;   // Who must decide (e.g. "tech-lead")
-
-  // Next hop (dispatch board)
-  nextAction?: string;      // What happens next
-  nextOwner?: string;       // Who does it
-  nextETA?: string;         // When (e.g. "15m", "EOD")
-  handoffTo?: string;       // Downstream agent/system
-
-  [key: string]: any;       // Custom fields are preserved
+  agentId: string;         // Agent 标识
+  displayName?: string;    // 人物角色全称（优先显示）
+  agentName?: string;      // Agent 名（备选）
+  model: string;           // 完整模型名
+  task: string;            // 任务描述
+  status: string;          // 见下方状态表
+  duration?: string;       // 用时（如 "3m12s"）
+  thinking?: string;       // 思考级别 "none"|"low"|"medium"|"high"
+  blocker?: string;        // 阻塞原因（blocked 状态）
+  error?: string;          // 错误信息（failed 状态）
+  decision?: string;       // 决策问题（needs_decision 状态）
+  decisionOwner?: string;  // 决策人
 }
 ```
 
-## Statuses
+## 状态
 
-| Status | Icon | Zone |
-|--------|------|------|
-| `running` | 🔄 | Running |
-| `completed` | ✅ | Completed |
-| `failed` | ❌ | Blocked / Failed |
-| `blocked` | ⏸️ | Blocked / Failed |
-| `needs_decision` | ⚖️ | Needs Decision |
-| `pending` | ⏳ | (pending, counted only) |
-| `waiting` | 🕒 | (custom zones) |
-| `cancelled` | 🚫 | (custom zones) |
+| 状态 | 图标 | 简称 | 分组 |
+|------|------|------|------|
+| `running` | 🔄 | 执行 | 主表 |
+| `completed` | ✅ | 完成 | 新完成 |
+| `blocked` | ⏸️ | 阻塞 | 关键风险 |
+| `failed` | ❌ | 失败 | 关键风险 |
+| `needs_decision` | ⚖️ | 待决 | 待决策 |
+| `pending` | ⏳ | 排队 | 排队（可选显示） |
+| `queued` | ⏳ | 排队 | 排队（可选显示） |
 
-## Configuration
+## 配置选项
 
-All defaults live in `config.json`. Override any value per-call via `options`.
+| 选项 | 默认 | 说明 |
+|------|------|------|
+| `title` | 自动 | 覆盖标题 |
+| `showThinking` | `false` | 模型名后显示思考级别 |
+| `showQueued` | `false` | 显示排队中的任务 |
+| `maxCompletedInline` | `5` | 有活跃时，完成列表最大行数 |
+| `maxCompletedTable` | `10` | 0 活跃时，完成表格最大行数 |
+| `maxCompletedInCard` | `5` | 卡片中完成列表最大行数 |
 
-### Custom status groups
+## CLI
+
+```bash
+node live-board-cli.js tasks.json          # 文本输出
+node live-board-cli.js tasks.json --card   # 飞书卡片 JSON
+node live-board-cli.js tasks.json --json   # 完整结构
+```
+
+## 与调度技能的关系
+
+本技能 **只做渲染**。调度逻辑（任务分配、队列管理、并发控制）由调度技能负责。
+
+### 手动调用
+
+调度技能产出任务状态数组 → 本技能渲染为看板。
+
+```
+调度器 → tasks[] → renderReport() → { text, card }
+```
+
+### 自动触发（ReportTrigger）
+
+`report-trigger.js` 是调度引擎和汇报渲染的桥接层。**调度事件即汇报触发器**：
 
 ```js
-formatReport(tasks, {
-  statusGroups: {
-    running:       ['running', 'in_review'],
-    completed:     ['completed', 'merged'],
-    blocked:       ['blocked', 'failed', 'cancelled'],
-    needsDecision: ['needs_decision', 'awaiting_approval']
-  }
+const { DispatchEngine } = require('../multi-agent-dispatch/dispatch-engine');
+const { ReportTrigger } = require('./report-trigger');
+
+const engine = new DispatchEngine({ maxSlots: 19 });
+const trigger = new ReportTrigger(engine, {
+  agentRegistry: {
+    writer: '创作大师',
+    coder: '开发工程师',
+    analyst: '洞察分析师',
+    // ...
+  },
+  onReport: ({ text, card, title, stats, event }) => {
+    // event: 'dispatched' | 'running' | 'finished' | 'manual'
+    console.log(`[${event}] ${title}`);
+    // 发送飞书卡片、更新看板等
+  },
 });
+
+// 以下操作会自动触发汇报：
+engine.enqueue({ ... });         // → dispatched
+engine.markRunning(taskId);      // → running
+engine.markDone(taskId);         // → finished
+engine.markFailed(taskId);       // → finished
+
+// 手动刷新：
+const report = trigger.buildReport('manual');
 ```
 
-### Custom section titles (localization)
+触发规则：
+| 事件 | 触发时机 |
+|------|----------|
+| `dispatched` | 任务入队并分配到槽位 |
+| `running` | spawn 确认，任务开始执行 |
+| `finished` | 完成/失败/取消，槽位释放 |
 
-```js
-formatReport(tasks, {
-  sectionTitles: {
-    overview:      'Übersicht',
-    running:       'In Arbeit',
-    completed:     'Abgeschlossen',
-    blocked:       'Blockiert',
-    needsDecision: 'Entscheidung erforderlich',
-    modelBreakdown:'Modell-Auslastung',
-    nextActions:   'Nächste Schritte'
-  }
-});
-```
+### Agent 名称注册
 
-## Output Formats
+内置注册表（可覆盖）：
 
-| Format | Description |
-|--------|-------------|
-| `dashboard` | (**default v2**) Full dispatch-board: Overview + zone sections + model breakdown + next-hop |
-| `table` | Single Markdown table (v1 default) |
-| `list` | Numbered bullet list (good for Discord/WhatsApp) |
-| `compact` | One line per task in a code block (CI logs) |
+| agentId | displayName |
+|---------|-------------|
+| `main` | 战略家 |
+| `writer` | 创作大师 |
+| `coder` | 开发工程师 |
+| `analyst` | 洞察分析师 |
+| `researcher` | 系统架构师 |
+| `reviewer` | 质量仲裁官 |
+| `scout` | 情报专家 |
 
-## Migration from v1
-
-v2 is backward-compatible. Existing `formatReport(tasks)` calls now render
-the dashboard instead of the plain table. To keep the old table output:
-
-```js
-formatReport(tasks, { outputFormat: 'table' });
-```
-
-New fields (`blocker`, `nextAction`, `needs_decision`, etc.) are optional —
-existing TaskEntry objects without them render cleanly with `—` placeholders.
-
-## Integration
-
-Framework-agnostic. Works with:
-- OpenClaw multi-agent orchestration
-- LangGraph / CrewAI / AutoGen
-- Custom agent frameworks
-- CI/CD pipelines
-- Any system that produces `TaskEntry[]` data
-
-No external dependencies. Pure Node.js (≥14).
+运行时更新：`trigger.updateRegistry({ myAgent: '我的Agent' })`
 
 ## License
 
