@@ -424,7 +424,7 @@
       "name": "系统状态与流水线监控-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772741502707,
+      "updatedAtMs": 1772756201337,
       "schedule": {
         "expr": "10 */4 * * *",
         "kind": "cron",
@@ -443,15 +443,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772755800000,
-        "lastRunAtMs": 1772741416911,
+        "nextRunAtMs": 1772770200000,
+        "lastRunAtMs": 1772756119011,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 85796,
+        "lastDurationMs": 82326,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": true,
-        "runningAtMs": 1772756119010
+        "lastDelivered": true
       }
     },
     {
@@ -696,7 +695,8 @@
         "lastDurationMs": 10551,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": false,
+        "runningAtMs": 1772756400006
       }
     },
     {
@@ -705,7 +705,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772755222787,
+      "updatedAtMs": 1772756215165,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -723,15 +723,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772756100000,
-        "lastRunAtMs": 1772755213605,
+        "nextRunAtMs": 1772757000000,
+        "lastRunAtMs": 1772756201337,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 9182,
+        "lastDurationMs": 13828,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772756119010
+        "lastDelivered": false
       }
     },
     {
@@ -834,7 +833,8 @@
         "lastDurationMs": 6206,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": false,
+        "runningAtMs": 1772756400006
       }
     }
   ]
