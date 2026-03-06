@@ -1,45 +1,39 @@
 {
   "skill": "api",
+  "generatedAt": "2026-03-06T13:42:34.650Z",
   "cases": [
     {
       "id": "tc_001",
-      "dimension": "accuracy",
-      "type": "function",
-      "description": "测试accuracy维度",
-      "expected": "通过",
-      "input": "测试 accuracy 维度的输入"
+      "track": "function_quality_track",
+      "dimension": "availability",
+      "input": {
+        "action": "验证 api 在 availability 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
     },
     {
       "id": "tc_002",
-      "dimension": "responseTime",
-      "type": "function",
-      "description": "测试responseTime维度",
-      "expected": "通过",
-      "input": "测试 responseTime 维度的输入"
+      "track": "function_quality_track",
+      "dimension": "performance",
+      "input": {
+        "action": "验证 api 在 performance 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
     },
     {
       "id": "tc_003",
-      "dimension": "errorRate",
-      "type": "function",
-      "description": "测试errorRate维度",
-      "expected": "通过",
-      "input": "测试 errorRate 维度的输入"
-    },
-    {
-      "id": "tc_004",
-      "dimension": "compatibility",
-      "type": "function",
-      "description": "测试compatibility维度",
-      "expected": "通过",
-      "input": "测试 compatibility 维度的输入"
-    },
-    {
-      "id": "tc_005",
-      "dimension": "stability",
-      "type": "function",
-      "description": "测试stability维度",
-      "expected": "通过",
-      "input": "测试 stability 维度的输入"
+      "track": "function_quality_track",
+      "dimension": "correctness",
+      "input": {
+        "action": "验证 api 在 correctness 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
     }
   ]
 }

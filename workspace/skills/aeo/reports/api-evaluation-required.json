@@ -1,0 +1,22 @@
+{
+  "handler": "aeo-evaluation-required",
+  "timestamp": "2026-03-06T13:42:34.651Z",
+  "skill": "api",
+  "type": "function-quality",
+  "tracks": [
+    "function_quality_track"
+  ],
+  "generated": {
+    "standardPath": "skills/aeo/evaluation-sets/api/standard.json",
+    "testCasesPath": "skills/aeo/evaluation-sets/api/test-cases.json"
+  },
+  "readiness": [
+    {
+      "track": "function_quality_track",
+      "skill": "api",
+      "status": "prepared",
+      "score": 1,
+      "summary": "已生成功能质量评测所需维度与基础用例"
+    }
+  ]
+}

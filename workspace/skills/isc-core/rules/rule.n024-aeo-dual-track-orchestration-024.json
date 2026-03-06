@@ -13,7 +13,8 @@
     "condition": "evaluation_request_received",
     "actions": [
       {
-        "type": "auto_trigger",
+        "type": "aeo-evaluation-required",
+        "handler": "aeo-evaluation-required",
         "description": "收到评测请求时，自动区分AI效果运营和功能质量运营双轨道，分别执行评测并合并报告"
       }
     ]
