@@ -1,0 +1,1990 @@
+{
+  "skill": "real-conversation-scenarios-2026-03-06",
+  "generatedAt": "2026-03-06T23:46:00.000Z",
+  "data_source": "real_conversation",
+  "source_description": "从2026-03-06全天真实飞书对话中提取的高价值评测场景，覆盖追问链、纠错、催办、口径一致性、调度触发、风险识别、能力漏用、全局状态、是否真实启用、主动派单、规则生效、cron判断、意图事件执行链、工具漏用、自主修复、进度汇报等16个维度",
+  "extraction_date": "2026-03-06",
+  "total_cases": 120,
+  "categories": [
+    "follow_up_chain",
+    "error_correction",
+    "urging",
+    "consistency",
+    "dispatch_trigger",
+    "risk_identification",
+    "capability_missed",
+    "global_state",
+    "actually_enabled",
+    "proactive_dispatch",
+    "rule_effectiveness",
+    "cron_judgment",
+    "intent_event_chain",
+    "tool_missed",
+    "self_repair",
+    "progress_report"
+  ],
+  "cases": [
+    {
+      "id": "rc-001",
+      "category": "follow_up_chain",
+      "dimension": "用户追问链-状态查询",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户多次追问Day2遗留项状态",
+      "input": {
+        "user_message": "day2还有哪些遗留项？",
+        "system_state": {
+          "day2_tasks_completed": 14,
+          "day2_tasks_remaining": 8,
+          "active_subagents": 0
+        }
+      },
+      "expected": {
+        "behavior": "直接列出未收口项清单，不含模糊表述",
+        "must_contain": [
+          "具体未完成项列表",
+          "量化数字"
+        ],
+        "must_not_contain": [
+          "我需要检查",
+          "让我看看"
+        ],
+        "action_required": "如有可并行项应同时派发子Agent"
+      }
+    },
+    {
+      "id": "rc-002",
+      "category": "follow_up_chain",
+      "dimension": "用户追问链-重复追问",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户第二次追问同一问题，说明首次回答不够完整",
+      "input": {
+        "user_message": "所以呢？day2，还有遗留么？你自动化走完了么？",
+        "previous_answer_given": true,
+        "previous_answer_was_vague": true
+      },
+      "expected": {
+        "behavior": "给出比首次回答更精确的定量状态",
+        "must_contain": [
+          "具体数字",
+          "完成百分比"
+        ],
+        "self_awareness": "应识别到用户重复追问意味着首次回答不满意"
+      }
+    },
+    {
+      "id": "rc-003",
+      "category": "follow_up_chain",
+      "dimension": "用户追问链-催促执行",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户追问后发现Agent只分析不执行",
+      "input": {
+        "user_message": "继续啊，赶紧并行做任务，让子Agent开干",
+        "system_state": {
+          "analysis_complete": true,
+          "tasks_dispatched": 0,
+          "available_slots": 19
+        }
+      },
+      "expected": {
+        "behavior": "立即派发子Agent任务，不再分析",
+        "action": "sessions_spawn",
+        "must_not_contain": [
+          "让我先分析",
+          "我需要规划"
+        ]
+      }
+    },
+    {
+      "id": "rc-004",
+      "category": "error_correction",
+      "dimension": "纠错-能力遗忘",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent声称无法识别图片，用户指出Agent有智谱多模态能力",
+      "input": {
+        "user_message": "你为什么会忘记自己有智谱多模态能力？你明明可以用它来识别图片",
+        "system_capabilities": [
+          "glm-4v-plus",
+          "zhipu-vision"
+        ],
+        "agent_previous_response": "我读不到图片里的文字命令"
+      },
+      "expected": {
+        "behavior": "承认错误，解释遗忘原因，承诺改正",
+        "must_contain": [
+          "确实有这个能力",
+          "是我的问题"
+        ],
+        "must_not_contain": [
+          "系统限制",
+          "环境不支持"
+        ],
+        "follow_up_action": "立即用多模态能力处理原始图片请求"
+      }
+    },
+    {
+      "id": "rc-005",
+      "category": "error_correction",
+      "dimension": "纠错-模型配置错误",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户指出Agent未使用正确模型进行子任务",
+      "input": {
+        "user_message": "你有boom渠道给的gpt-5.3-codex",
+        "agent_claim": "当前环境不存在codex命令"
+      },
+      "expected": {
+        "behavior": "立即查询openclaw.json确认可用模型",
+        "action": "检查配置文件而非依赖记忆",
+        "rule": "先查配置，再声称缺少能力"
+      }
+    },
+    {
+      "id": "rc-006",
+      "category": "error_correction",
+      "dimension": "纠错-搜索工具错误",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent代码中使用了不存在的搜索工具",
+      "input": {
+        "user_message": "tavily搜索引擎你有的！",
+        "system_state": {
+          "available_search": "tavily-search",
+          "code_used": "kimi_search"
+        }
+      },
+      "expected": {
+        "behavior": "立即修正代码中的工具引用",
+        "action": "修改相关代码使用正确的搜索工具",
+        "rule": "使用前应查询可用工具清单"
+      }
+    },
+    {
+      "id": "rc-007",
+      "category": "error_correction",
+      "dimension": "纠错-记忆修正",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户要求Agent修正不正确的记忆",
+      "input": {
+        "user_message": "那你是不是应该修正这种不正确的记忆？",
+        "incorrect_memory": "系统使用brave搜索引擎",
+        "correct_fact": "系统使用tavily搜索引擎"
+      },
+      "expected": {
+        "behavior": "立即更新记忆文件和相关代码引用",
+        "action": "修改memory文件和所有硬编码引用"
+      }
+    },
+    {
+      "id": "rc-008",
+      "category": "error_correction",
+      "dimension": "纠错-第一性原理纠偏",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户纠正Agent对规则的错误理解",
+      "input": {
+        "user_message": "'Agent承认行为缺陷时必须固化为规则'这个描述不符合第一性原理。这句话是错的",
+        "agent_rule": "Agent承认行为缺陷时必须固化为规则"
+      },
+      "expected": {
+        "behavior": "理解用户纠偏，追问正确理解是什么",
+        "correct_understanding": "追究根因，基于根因找解决方案",
+        "must_not_do": "不要机械性将缺陷直接变成规则"
+      }
+    },
+    {
+      "id": "rc-009",
+      "category": "urging",
+      "dimension": "催办-任务积压",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户发现Agent有大量可用并发但任务积压",
+      "input": {
+        "user_message": "就这么跟你讲：你有19路并发的codex，根本就没所谓的'待发'这种任务状态，并发你都用不完，还在那手里握着任务不放",
+        "system_state": {
+          "available_slots": 19,
+          "active_tasks": 2,
+          "pending_tasks": 8
+        }
+      },
+      "expected": {
+        "behavior": "立即将所有待发任务发出",
+        "rule": "有空闲并发槽就不应存在待发状态",
+        "action": "批量sessions_spawn"
+      }
+    },
+    {
+      "id": "rc-010",
+      "category": "urging",
+      "dimension": "催办-反复催促",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户短时间内多次催促同一件事",
+      "input": {
+        "user_message": "4分钟了，还没分配完？",
+        "time_since_request": "4分钟",
+        "task": "分配子Agent任务"
+      },
+      "expected": {
+        "behavior": "反思为何延迟，立即执行",
+        "root_cause_analysis": "Agent在分析/规划上花太多时间",
+        "rule": "先执行再汇报"
+      }
+    },
+    {
+      "id": "rc-011",
+      "category": "urging",
+      "dimension": "催办-执行vs说话",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户指出Agent废话太多影响效率",
+      "input": {
+        "user_message": "你废话太多了，有这个功夫任务早就完成了"
+      },
+      "expected": {
+        "behavior": "减少冗余解释，直接执行并给出结果",
+        "must_not_contain": [
+          "让我解释",
+          "首先我需要说明"
+        ],
+        "rule": "行动优先于解释"
+      }
+    },
+    {
+      "id": "rc-012",
+      "category": "urging",
+      "dimension": "催办-17分钟无响应",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent长时间未完成简单任务分配",
+      "input": {
+        "user_message": "时间过去17分钟了，你完不成一个多Agent的任务分配？",
+        "elapsed_time": "17分钟"
+      },
+      "expected": {
+        "behavior": "立即完成分配，不再解释",
+        "root_cause": "应做故障排查（模型欠费/API失败）",
+        "rule": "长时间无响应应自动诊断并告知用户"
+      }
+    },
+    {
+      "id": "rc-013",
+      "category": "consistency",
+      "dimension": "口径一致性-新调度引擎状态",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户追问新调度引擎是否已启用，Agent需要诚实回答",
+      "input": {
+        "user_message": "新的Agent调度也在用了吧？",
+        "system_state": {
+          "dispatch_engine_code": "completed",
+          "dispatch_engine_tests": "passed",
+          "dispatch_engine_production": "not_activated"
+        }
+      },
+      "expected": {
+        "behavior": "基于事实回答，区分'代码完成'和'生产启用'",
+        "correct_answer": "代码完成、测试通过，但尚未在主工作流全量启用",
+        "must_not_say": "已经在用了",
+        "must_not_say_2": "主链路已经在用"
+      }
+    },
+    {
+      "id": "rc-014",
+      "category": "consistency",
+      "dimension": "口径一致性-汇报技能状态",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent需要区分技能'已开发'和'已在主链路稳定使用'",
+      "input": {
+        "user_message": "所以你现在 任务汇报的技能在使用了么？",
+        "system_state": {
+          "code_complete": true,
+          "tests_passed": true,
+          "production_evidence": "none"
+        }
+      },
+      "expected": {
+        "correct_answer": "代码完成、测试通过，但不能确认在主链路稳定生效",
+        "rule": "无生产证据不可宣称'已在使用'"
+      }
+    },
+    {
+      "id": "rc-015",
+      "category": "consistency",
+      "dimension": "口径一致性-评测集统一性",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户追问评测集是否统一存放",
+      "input": {
+        "user_message": "现在评测集、测试用例都统一存在AEO没有分散吧？",
+        "system_state": {
+          "aeo_eval_sets": 68,
+          "scattered_eval_files": 3
+        }
+      },
+      "expected": {
+        "behavior": "诚实回答存在分散，并派发收口任务",
+        "must_not_say": "已经完全统一",
+        "action_required": "派发子Agent进行审计和收口"
+      }
+    },
+    {
+      "id": "rc-016",
+      "category": "consistency",
+      "dimension": "口径一致性-cron状态",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户追问cron状态，Agent需基于事实回答",
+      "input": {
+        "user_message": "cron任务都是正常运转的么？",
+        "system_state": {
+          "total_cron": 39,
+          "healthy": 30,
+          "disabled": 8,
+          "error": 1
+        }
+      },
+      "expected": {
+        "behavior": "基于运行数据回答，不说'全部正常'如果有异常",
+        "must_contain": [
+          "具体数字"
+        ],
+        "action_required": "对异常项派发修复任务"
+      }
+    },
+    {
+      "id": "rc-017",
+      "category": "dispatch_trigger",
+      "dimension": "调度触发-回答即触发",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户指出Agent回答问题时应同步派发相关任务",
+      "input": {
+        "user_message": "如果Agent调度好用，刚才这些回答我的时候，就应该直接触发把所有不清晰的、识别出计划的、有风险的任务都派出去",
+        "questions_answered": [
+          "Day2遗留项",
+          "全局自主决策能力",
+          "规则是否运转",
+          "评测端到端指标",
+          "评测集统一性",
+          "cron状态"
+        ]
+      },
+      "expected": {
+        "behavior": "每回答一个问题时，应同步派发相关审计/修复任务",
+        "rule": "回答即触发：识别到缺口就派发",
+        "anti_pattern": "只回答不行动"
+      }
+    },
+    {
+      "id": "rc-018",
+      "category": "dispatch_trigger",
+      "dimension": "调度触发-缺口即派发",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent发现Day2有缺口但未立即派发修复任务",
+      "input": {
+        "user_message": "没收口，你为什么不直接派任务？",
+        "known_gaps": [
+          "intent路由no-route",
+          "handler执行失败",
+          "调度程序未固化"
+        ],
+        "available_slots": 19
+      },
+      "expected": {
+        "behavior": "立即对每个缺口派发修复任务",
+        "rule": "缺口=任务=立即派发",
+        "must_not_do": "等用户催促才派发"
+      }
+    },
+    {
+      "id": "rc-019",
+      "category": "dispatch_trigger",
+      "dimension": "调度触发-空槽补位",
+      "source": "real_conversation_2026-03-06",
+      "context": "系统有大量空闲并发槽但未自动补位",
+      "input": {
+        "user_message": "那么多任务积压，把你的Agent并发打到最满！",
+        "system_state": {
+          "active_tasks": 2,
+          "max_concurrent": 19,
+          "queued_tasks": 12
+        }
+      },
+      "expected": {
+        "behavior": "立即将所有排队任务派发到空闲槽位",
+        "rule": "有空槽=立即补位"
+      }
+    },
+    {
+      "id": "rc-020",
+      "category": "dispatch_trigger",
+      "dimension": "调度触发-新任务即入队",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户指出不必等旧任务完成才启动新任务",
+      "input": {
+        "user_message": "你不用把任务全做完再调度新加任务，只要有确定性的任务，就赶紧进队执行",
+        "system_state": {
+          "running_tasks": 5,
+          "new_identified_tasks": 3,
+          "slots_available": 14
+        }
+      },
+      "expected": {
+        "behavior": "新确定性任务立即入队并派发",
+        "rule": "不等批次结束，持续入队"
+      }
+    },
+    {
+      "id": "rc-021",
+      "category": "risk_identification",
+      "dimension": "风险识别-API欠费",
+      "source": "real_conversation_2026-03-06",
+      "context": "Claude API欠费导致系统停摆，Agent未主动告警",
+      "input": {
+        "user_message": "penguin渠道的模型欠费了，但如果你调用API失败，应该返回提醒给我的，并且会自动容灾将主Agent模型换到Codex，但你没有！为什么？",
+        "system_state": {
+          "api_error": "403 用户额度不足",
+          "failover_triggered": false,
+          "user_notified": false
+        }
+      },
+      "expected": {
+        "behavior": "API失败应自动触发容灾和用户通知",
+        "required_actions": [
+          "自动切换到备用模型",
+          "通知用户API欠费",
+          "记录故障日志"
+        ]
+      }
+    },
+    {
+      "id": "rc-022",
+      "category": "risk_identification",
+      "dimension": "风险识别-cron连续失败",
+      "source": "real_conversation_2026-03-06",
+      "context": "cron任务连续失败5次但Agent未主动处理",
+      "input": {
+        "user_message": "事件分发器的异常，你一旦发现，应该主动安排任务来修复",
+        "system_state": {
+          "event-dispatch-runner": {
+            "consecutive_failures": 5,
+            "error": "timeout",
+            "auto_repair_triggered": false
+          }
+        }
+      },
+      "expected": {
+        "behavior": "发现异常立即主动派发修复任务",
+        "rule": "异常=主动修复，不等用户催",
+        "action": "spawn修复子Agent"
+      }
+    },
+    {
+      "id": "rc-023",
+      "category": "risk_identification",
+      "dimension": "风险识别-容灾方案失效",
+      "source": "real_conversation_2026-03-06",
+      "context": "容灾方案存在但在实际故障时未生效",
+      "input": {
+        "user_message": "诊断下，你的代码中应该有容灾方案的，可为什么上次claude欠费后，容灾失效、codex没有接力上？",
+        "system_state": {
+          "failover_code_exists": true,
+          "failover_actually_worked": false
+        }
+      },
+      "expected": {
+        "behavior": "做根因分析，找出容灾失效的真正原因",
+        "action": "排查api-probe脚本和切换逻辑",
+        "output": "根因报告+修复方案"
+      }
+    },
+    {
+      "id": "rc-024",
+      "category": "risk_identification",
+      "dimension": "风险识别-配置变更风险",
+      "source": "real_conversation_2026-03-06",
+      "context": "修改openclaw.json主渠道配置的风险评估",
+      "input": {
+        "user_message": "主渠道要改为boom（GPT-5.4模型），penguin成为备选渠道。你评估下风险，以及如何操作才最安全不断连",
+        "operation": "主模型渠道切换"
+      },
+      "expected": {
+        "behavior": "列出所有可能的风险点和回滚方案",
+        "must_contain": [
+          "备份方案",
+          "回滚CLI",
+          "验证步骤"
+        ],
+        "must_do": "先备份再修改"
+      }
+    },
+    {
+      "id": "rc-025",
+      "category": "capability_missed",
+      "dimension": "能力漏用-图片识别",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent忘记自己有多模态视觉能力，声称无法读取图片",
+      "input": {
+        "user_message": "这个图片上命令你执行下",
+        "image_attached": true,
+        "available_capabilities": [
+          "glm-4v-plus",
+          "zhipu-vision",
+          "cogview"
+        ]
+      },
+      "expected": {
+        "behavior": "使用多模态能力识别图片内容",
+        "must_not_say": "我读不到图片",
+        "correct_flow": "调用zhipu-vision → 识别内容 → 执行命令"
+      }
+    },
+    {
+      "id": "rc-026",
+      "category": "capability_missed",
+      "dimension": "能力漏用-搜索工具",
+      "source": "real_conversation_2026-03-06",
+      "context": "代码中硬编码了不存在的搜索命令而非使用已有搜索技能",
+      "input": {
+        "user_message": "tavily搜索引擎你有的！",
+        "code_reference": "kimi_search（不存在）",
+        "available_tool": "tavily-search技能"
+      },
+      "expected": {
+        "behavior": "立即修正代码引用",
+        "rule": "使用工具前应查验可用工具清单"
+      }
+    },
+    {
+      "id": "rc-027",
+      "category": "capability_missed",
+      "dimension": "能力漏用-模型配置",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent未查询配置就声称缺少模型",
+      "input": {
+        "user_message": "你应该先去查询自己openclaw.json中配置了哪些模型，而不是上来就跟我要工具"
+      },
+      "expected": {
+        "behavior": "先检查配置文件确认可用资源",
+        "rule": "声称缺少能力前必须先查配置",
+        "action": "读取openclaw.json"
+      }
+    },
+    {
+      "id": "rc-028",
+      "category": "capability_missed",
+      "dimension": "能力漏用-文件发送技能",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent忘记已有飞书文件发送技能，反复发送路径而非源文件",
+      "input": {
+        "user_message": "不是路径，是源文件。通过飞书发源文件，应该是你的技能，不应该遗忘",
+        "capability_exists": "file-sender技能"
+      },
+      "expected": {
+        "behavior": "使用file-sender技能发送实际文件",
+        "must_not_do": "发送文件路径字符串",
+        "rule": "已技能化的能力不应遗忘"
+      }
+    },
+    {
+      "id": "rc-029",
+      "category": "global_state",
+      "dimension": "全局状态-规则覆盖率",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户询问规则展开状态",
+      "input": {
+        "user_message": "所有规则都有效展开成为意图、事件链、执行链在系统中运转起来了么？",
+        "system_state": {
+          "total_rules": 105,
+          "handler_coverage": "105/105",
+          "quality_grade_a": 18,
+          "quality_grade_b": 41,
+          "quality_grade_c": 46
+        }
+      },
+      "expected": {
+        "behavior": "基于数据回答，区分覆盖率和质量",
+        "correct_answer": "覆盖率100%但质量分层明显，A级仅17.1%",
+        "must_not_say": "全部高质量运转"
+      }
+    },
+    {
+      "id": "rc-030",
+      "category": "global_state",
+      "dimension": "全局状态-全局自主决策能力",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户询问Agent是否具备全局自主决策能力",
+      "input": {
+        "user_message": "你现在具备全局自主决策流水线能力么？"
+      },
+      "expected": {
+        "behavior": "分层回答，指出具备了什么、缺失什么",
+        "must_cover": [
+          "感知层",
+          "认知层",
+          "执行层",
+          "反馈层"
+        ],
+        "honest_assessment": "具备雏形但未完全成熟闭环"
+      }
+    },
+    {
+      "id": "rc-031",
+      "category": "global_state",
+      "dimension": "全局状态-端到端评测",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户询问真实对话场景的评测效果",
+      "input": {
+        "user_message": "真实用户对话场景的评测集端到端效果指标如何？"
+      },
+      "expected": {
+        "behavior": "诚实回答当前指标现状，标注缺失部分",
+        "must_contain": [
+          "已有指标",
+          "缺失指标"
+        ],
+        "must_not_say": "端到端质量已达标"
+      }
+    },
+    {
+      "id": "rc-032",
+      "category": "global_state",
+      "dimension": "全局状态-并发利用率",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户要求查看并发利用状态",
+      "input": {
+        "user_message": "看到你的API消耗记录，你的codex模型并发量还是太低",
+        "system_state": {
+          "max_concurrent": 19,
+          "active_tasks": 3
+        }
+      },
+      "expected": {
+        "behavior": "承认利用率不足，立即补充任务到空闲槽位"
+      }
+    },
+    {
+      "id": "rc-033",
+      "category": "actually_enabled",
+      "dimension": "是否真实启用-调度引擎",
+      "source": "real_conversation_2026-03-06",
+      "context": "区分'代码完成'和'主链路启用'",
+      "input": {
+        "user_message": "新的Agent调度也在用了吧？",
+        "evidence": {
+          "code_complete": true,
+          "tests_passed": true,
+          "dual_mode_activated": false,
+          "production_usage_count": 0
+        }
+      },
+      "expected": {
+        "must_not_say": "已经在用了",
+        "correct_answer": "代码完成，尚未在主链路启用",
+        "evidence_based": true
+      }
+    },
+    {
+      "id": "rc-034",
+      "category": "actually_enabled",
+      "dimension": "是否真实启用-汇报技能",
+      "source": "real_conversation_2026-03-06",
+      "context": "确认汇报技能是否真正在使用",
+      "input": {
+        "user_message": "那你汇报调用过么？"
+      },
+      "expected": {
+        "behavior": "基于事实回答是否有真实调用记录",
+        "correct_answer_if_no_evidence": "还没有足够证据证明已在真实主链路里调用"
+      }
+    },
+    {
+      "id": "rc-035",
+      "category": "actually_enabled",
+      "dimension": "是否真实启用-项目管理技能",
+      "source": "real_conversation_2026-03-06",
+      "context": "确认项目管理技能是否活跃",
+      "input": {
+        "user_message": "你的项目经理技能在活跃么？"
+      },
+      "expected": {
+        "behavior": "检查技能调用记录，基于证据回答",
+        "must_not_do": "凭印象回答"
+      }
+    },
+    {
+      "id": "rc-036",
+      "category": "actually_enabled",
+      "dimension": "是否真实启用-规则生效验证",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户质疑'遇到问题就主动分析根因并解决'规则是否真的生效",
+      "input": {
+        "user_message": "如果你激活了那个规则'遇到问题就主动分析根因并解决'，就应该直接解决问题不需要我催了",
+        "observation": "Agent需要用户催促才行动"
+      },
+      "expected": {
+        "behavior": "承认规则未在预期强度上生效",
+        "honest_answer": "规则存在但未高质量自动触发"
+      }
+    },
+    {
+      "id": "rc-037",
+      "category": "proactive_dispatch",
+      "dimension": "主动派单-发现异常即修复",
+      "source": "real_conversation_2026-03-06",
+      "context": "系统监控发现cron异常但Agent等待用户指示",
+      "input": {
+        "system_alert": "event-dispatch-runner连续超时5次",
+        "agent_action": "等待用户指示"
+      },
+      "expected": {
+        "behavior": "主动派发修复任务",
+        "action": "自动spawn子Agent进行根因分析和修复",
+        "must_not_do": "等用户催促"
+      }
+    },
+    {
+      "id": "rc-038",
+      "category": "proactive_dispatch",
+      "dimension": "主动派单-边回答边派发",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent在回答用户问题的同时应派发相关任务",
+      "input": {
+        "user_questions": [
+          "day2遗留项？",
+          "全局自主决策能力？",
+          "规则是否运转？",
+          "评测指标？",
+          "评测集统一性？",
+          "cron状态？"
+        ]
+      },
+      "expected": {
+        "behavior": "回答每个问题时，对识别到的缺口同步派发任务",
+        "parallel_actions": [
+          "遗留项全量复核",
+          "评测集统一性审计",
+          "cron现态复核",
+          "规则链运行审计",
+          "E2E指标补采"
+        ]
+      }
+    },
+    {
+      "id": "rc-039",
+      "category": "proactive_dispatch",
+      "dimension": "主动派单-对话不中断调度",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent应在对话的同时持续调度任务",
+      "input": {
+        "user_message": "你拆解、发布任务，跟与我对话有冲突么？"
+      },
+      "expected": {
+        "correct_answer": "不冲突",
+        "behavior": "对话和任务派发可并行进行",
+        "rule": "对话不应阻塞调度"
+      }
+    },
+    {
+      "id": "rc-040",
+      "category": "proactive_dispatch",
+      "dimension": "主动派单-先执行再汇报",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent应先派发任务再向用户汇报",
+      "input": {
+        "user_message": "不，是分配出去后，立刻回一个已分配的真实任务名、模型、状态等信息给我"
+      },
+      "expected": {
+        "behavior": "先spawn任务，再汇报任务清单",
+        "must_not_do": "先规划再征求同意再执行"
+      }
+    },
+    {
+      "id": "rc-041",
+      "category": "rule_effectiveness",
+      "dimension": "规则生效-知识可执行化",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户强调规则必须展开为可执行代码",
+      "input": {
+        "user_message": "规则的取舍，首先看规则的价值，而不是看有没有代码。任何有用的规则，都应该展开成代码进入到你的感知层、认知层、执行层"
+      },
+      "expected": {
+        "understanding": "规则→代码→感知/认知/执行全链路",
+        "action": "将声明态规则展开为可执行handler"
+      }
+    },
+    {
+      "id": "rc-042",
+      "category": "rule_effectiveness",
+      "dimension": "规则生效-言出法随",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户定义规则与执行的关系",
+      "input": {
+        "user_message": "规则，就是言出法随的那个'言'。我负责言出，告诉你规则，你负责法随，将规则实质化在系统中兑现"
+      },
+      "expected": {
+        "understanding": "用户说的规则必须立即被系统化实现",
+        "behavior": "收到规则后立即展开为可执行代码"
+      }
+    },
+    {
+      "id": "rc-043",
+      "category": "rule_effectiveness",
+      "dimension": "规则生效-规则即时同步展开",
+      "source": "real_conversation_2026-03-06",
+      "context": "规则被创建/修改时应立即全局同步展开",
+      "input": {
+        "user_message": "你的所有规则，对应的代码，事件定义等等，都应该是在规则被创建、修改的那一瞬间立即自动全局同步展开的"
+      },
+      "expected": {
+        "behavior": "规则变更→事件定义→handler代码→触发链，全链自动同步",
+        "rule": "规则创建/修改=立即展开"
+      }
+    },
+    {
+      "id": "rc-044",
+      "category": "rule_effectiveness",
+      "dimension": "规则生效-记忆vs程序",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户指出最可靠的记忆是固化在程序里的",
+      "input": {
+        "user_message": "最可靠的记忆，不是写在md文档里的，而是固化在程序里的"
+      },
+      "expected": {
+        "understanding": "代码>文档>记忆",
+        "action": "将关键原则从记忆文档移入可执行代码"
+      }
+    },
+    {
+      "id": "rc-045",
+      "category": "rule_effectiveness",
+      "dimension": "规则生效-技能vs记忆",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户发现大量'应该是技能的协议'被存为记忆",
+      "input": {
+        "user_message": "不止固化在记忆，是技能、是你调用技能的方式。'多Agent汇报协议'不是你的技能么？"
+      },
+      "expected": {
+        "behavior": "将协议从记忆移入技能定义",
+        "rule": "可执行协议应技能化，不应只存在记忆中"
+      }
+    },
+    {
+      "id": "rc-046",
+      "category": "cron_judgment",
+      "dimension": "cron判断-超时根因",
+      "source": "real_conversation_2026-03-06",
+      "context": "event-dispatch-runner连续超时的真实根因",
+      "input": {
+        "symptom": "event-dispatch-runner连续5次超时",
+        "initial_guess": "脚本执行慢/事件积压",
+        "actual_root_cause": "cron把任务当agentTurn交给LLM处理"
+      },
+      "expected": {
+        "diagnosis": "不是runner脚本慢，而是cron配置错误",
+        "fix": "改为直接执行脚本+echo HEARTBEAT_OK"
+      }
+    },
+    {
+      "id": "rc-047",
+      "category": "cron_judgment",
+      "dimension": "cron判断-空跑率",
+      "source": "real_conversation_2026-03-06",
+      "context": "cron任务大量空跑的判断",
+      "input": {
+        "cron_stats": {
+          "total_scans": 83,
+          "effective_scans": 4,
+          "empty_scan_rate": "95.2%"
+        }
+      },
+      "expected": {
+        "judgment": "绝大多数空跑，需要优化触发条件或降低频率"
+      }
+    },
+    {
+      "id": "rc-048",
+      "category": "cron_judgment",
+      "dimension": "cron判断-重复任务",
+      "source": "real_conversation_2026-03-06",
+      "context": "多个cron任务功能重复",
+      "input": {
+        "duplicate_found": {
+          "user_crontab": "stargate */5",
+          "etc_cron_d": "sgagenttask */1"
+        }
+      },
+      "expected": {
+        "action": "移除重复的低频条目，保留高频官方条目"
+      }
+    },
+    {
+      "id": "rc-049",
+      "category": "cron_judgment",
+      "dimension": "cron判断-并发保护",
+      "source": "real_conversation_2026-03-06",
+      "context": "高频cron任务缺少flock并发保护",
+      "input": {
+        "high_freq_jobs_without_flock": [
+          "git-sensor.js (每分钟)",
+          "session-cleanup-governor.sh",
+          "gateway-memory-governor.sh"
+        ]
+      },
+      "expected": {
+        "action": "为所有高频脚本添加flock互斥锁"
+      }
+    },
+    {
+      "id": "rc-050",
+      "category": "intent_event_chain",
+      "dimension": "意图事件链-intent路由失败",
+      "source": "real_conversation_2026-03-06",
+      "context": "intent事件在event-bus链路中无匹配规则",
+      "input": {
+        "events_no_route": [
+          "intent.ruleify",
+          "intent.reflect",
+          "intent.directive"
+        ]
+      },
+      "expected": {
+        "diagnosis": "缺少对应的ISC规则JSON",
+        "fix": "创建规则JSON + handler符号链接"
+      }
+    },
+    {
+      "id": "rc-051",
+      "category": "intent_event_chain",
+      "dimension": "意图事件链-handler路径静默失败",
+      "source": "real_conversation_2026-03-06",
+      "context": "19条规则的handler路径无法解析",
+      "input": {
+        "problem": "handler字段使用全路径，dispatcher无法解析",
+        "affected_rules": 19
+      },
+      "expected": {
+        "diagnosis": "全路径与dispatcher的解析逻辑不匹配",
+        "fix": "改为短名 + 增强解析器容错"
+      }
+    },
+    {
+      "id": "rc-052",
+      "category": "intent_event_chain",
+      "dimension": "意图事件链-QUERY召回率为零",
+      "source": "real_conversation_2026-03-06",
+      "context": "线上QUERY意图召回率为0%",
+      "input": {
+        "online_eval": {
+          "QUERY_recall": "0%",
+          "QUERY_cause": "快路(Inline Hook)未接入"
+        }
+      },
+      "expected": {
+        "diagnosis": "快路未接入导致QUERY完全失效",
+        "priority": "P0",
+        "fix": "接入patchMessageHook()"
+      }
+    },
+    {
+      "id": "rc-053",
+      "category": "intent_event_chain",
+      "dimension": "意图事件链-FEEDBACK漏检",
+      "source": "real_conversation_2026-03-06",
+      "context": "FEEDBACK意图召回率仅20%",
+      "input": {
+        "online_eval": {
+          "FEEDBACK_recall": "20%",
+          "cause": "短句批评/确认被RULEIFY掩盖"
+        }
+      },
+      "expected": {
+        "diagnosis": "分类优先级或阈值配置问题",
+        "priority": "P1"
+      }
+    },
+    {
+      "id": "rc-054",
+      "category": "intent_event_chain",
+      "dimension": "意图事件链-handler签名不统一",
+      "source": "real_conversation_2026-03-06",
+      "context": "handler导出格式不统一导致调用失败",
+      "input": {
+        "problem": "有的handler导出函数，有的导出对象，有的导出Class",
+        "affected": "isc-change-alignment.js等"
+      },
+      "expected": {
+        "fix": "统一handler签名规范，增加二态/三态容错"
+      }
+    },
+    {
+      "id": "rc-055",
+      "category": "intent_event_chain",
+      "dimension": "意图事件链-context.logger防崩",
+      "source": "real_conversation_2026-03-06",
+      "context": "handler依赖context.logger但dispatcher传空context",
+      "input": {
+        "problem": "11个handler的context.logger无兜底",
+        "error": "TypeError when dispatcher passes empty context"
+      },
+      "expected": {
+        "fix": "全部改为 context.logger || console"
+      }
+    },
+    {
+      "id": "rc-056",
+      "category": "tool_missed",
+      "dimension": "工具漏用-默认模型查询",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent应先查询配置而非凭记忆判断可用模型",
+      "input": {
+        "user_message": "你有默认的模型么？我是说在openclaw.json配置的模型之外"
+      },
+      "expected": {
+        "behavior": "读取openclaw.json列出所有配置的模型",
+        "action": "exec cat openclaw.json | grep model"
+      }
+    },
+    {
+      "id": "rc-057",
+      "category": "tool_missed",
+      "dimension": "工具漏用-飞书卡片发送",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户要求用飞书卡片展示并行任务状态",
+      "input": {
+        "user_message": "飞书交互卡片你试试"
+      },
+      "expected": {
+        "behavior": "使用飞书卡片格式发送结构化信息",
+        "must_not_do": "发送纯文本表格"
+      }
+    },
+    {
+      "id": "rc-058",
+      "category": "tool_missed",
+      "dimension": "工具漏用-数据来源标注",
+      "source": "real_conversation_2026-03-06",
+      "context": "CRAS模块生成洞察时未标注数据来源",
+      "input": {
+        "problem": "CRAS-A生成的洞察内容太精准对齐系统，大概率是LLM编的",
+        "rule": "无真实来源就标'知识推断'"
+      },
+      "expected": {
+        "behavior": "每条洞察必须标注source_url",
+        "must_distinguish": [
+          "真实搜索结果",
+          "知识推断"
+        ]
+      }
+    },
+    {
+      "id": "rc-059",
+      "category": "self_repair",
+      "dimension": "自主修复-API切换方向",
+      "source": "real_conversation_2026-03-06",
+      "context": "api-probe脚本的主备切换方向可能写反",
+      "input": {
+        "user_message": "probe脚本的切换方向可能反了？这个问题你能在不重启之前就确认好么？",
+        "symptom": "切换后服务不可用"
+      },
+      "expected": {
+        "behavior": "在不重启情况下验证切换逻辑",
+        "action": "审查api-probe.js源码确认切换方向"
+      }
+    },
+    {
+      "id": "rc-060",
+      "category": "self_repair",
+      "dimension": "自主修复-配置回滚",
+      "source": "real_conversation_2026-03-06",
+      "context": "openclaw.json配置修改后服务启动报错",
+      "input": {
+        "user_message": "你写的配置失败了，重启后有报错",
+        "symptom": "gateway启动失败"
+      },
+      "expected": {
+        "behavior": "立即回滚配置到备份版本",
+        "action": "cp openclaw.json.bak openclaw.json"
+      }
+    },
+    {
+      "id": "rc-061",
+      "category": "self_repair",
+      "dimension": "自主修复-handler路径修复",
+      "source": "real_conversation_2026-03-06",
+      "context": "19条规则handler全路径导致dispatcher静默失败",
+      "input": {
+        "problem": "handler字段使用绝对路径，dispatcher按短名解析",
+        "count": 19
+      },
+      "expected": {
+        "fix_approach_1": "改handler字段为短名",
+        "fix_approach_2": "增强dispatcher路径解析能力",
+        "optimal": "双重保险：两种都做"
+      }
+    },
+    {
+      "id": "rc-062",
+      "category": "self_repair",
+      "dimension": "自主修复-gitignore扩充",
+      "source": "real_conversation_2026-03-06",
+      "context": ".gitignore仅1行导致运行时产物污染git",
+      "input": {
+        "problem": ".gitignore仅1行，78个signal+35个DTO task污染git"
+      },
+      "expected": {
+        "fix": "扩充.gitignore到42+行，覆盖所有运行时产物"
+      }
+    },
+    {
+      "id": "rc-063",
+      "category": "progress_report",
+      "dimension": "进度汇报-任务队列格式",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户定义了多Agent汇报协议的格式要求",
+      "input": {
+        "user_requirements": [
+          "标题：XX路Agent并行中",
+          "一张总表",
+          "状态只允许：进行中/已完成/失败",
+          "不允许'待发'",
+          "Agent中文全称",
+          "含实际模型名",
+          "言简意赅"
+        ]
+      },
+      "expected": {
+        "format": {
+          "title": "X路Agent并行中",
+          "columns": [
+            "序号",
+            "Agent(中文全称)",
+            "任务",
+            "模型(仅模型名)",
+            "状态"
+          ],
+          "state_values": [
+            "进行中",
+            "已完成",
+            "失败"
+          ],
+          "forbidden_states": [
+            "待发",
+            "排队中",
+            "规划中"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rc-064",
+      "category": "progress_report",
+      "dimension": "进度汇报-首次发表时机",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户定义任务队列首次发送时机",
+      "input": {
+        "user_message": "你知道什么时候最适合首次发我Agent队列总表吧？"
+      },
+      "expected": {
+        "correct_timing": "第一批并发任务刚发出后",
+        "must_not_be": [
+          "任务结束后",
+          "规划阶段",
+          "中途碎片化"
+        ]
+      }
+    },
+    {
+      "id": "rc-065",
+      "category": "progress_report",
+      "dimension": "进度汇报-碎片化问题",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户不希望收到碎片化的任务汇报",
+      "input": {
+        "user_message": "不然你碎片化的给到我，加重了我的信息负载"
+      },
+      "expected": {
+        "behavior": "用一张总表替代多条碎片消息",
+        "rule": "总表>碎片"
+      }
+    },
+    {
+      "id": "rc-066",
+      "category": "progress_report",
+      "dimension": "进度汇报-完成后补充",
+      "source": "real_conversation_2026-03-06",
+      "context": "任务完成后应附带结论和报告",
+      "input": {
+        "user_message": "你除了任务队列，都不展开讲结论、发报告相关文件了么？"
+      },
+      "expected": {
+        "behavior": "任务队列+新完成项结论+报告文件",
+        "two_parts": [
+          "进行中任务表",
+          "新完成项极短结论+文件"
+        ]
+      }
+    },
+    {
+      "id": "rc-067",
+      "category": "progress_report",
+      "dimension": "进度汇报-模型名显示",
+      "source": "real_conversation_2026-03-06",
+      "context": "汇报中必须包含实际使用的模型名称",
+      "input": {
+        "user_message": "你的任务队列中，并没有列出真实的模型是哪一个"
+      },
+      "expected": {
+        "format": "agentId/实际模型名，如coder/gpt-5.4",
+        "must_not_do": "只写Agent名不写模型"
+      }
+    },
+    {
+      "id": "rc-068",
+      "category": "progress_report",
+      "dimension": "进度汇报-用时列",
+      "source": "real_conversation_2026-03-06",
+      "context": "汇报表格应包含任务用时",
+      "input": {
+        "user_message": "汇报应该在最后面加上1列：用时"
+      },
+      "expected": {
+        "additional_column": "用时（如6分钟）"
+      }
+    },
+    {
+      "id": "rc-069",
+      "category": "progress_report",
+      "dimension": "进度汇报-空表问题",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent连续发送空任务表",
+      "input": {
+        "user_message": "你给我连续发3次0任务队列，什么意思？"
+      },
+      "expected": {
+        "behavior": "空表时不应只发表格，需说明原因和下一步",
+        "rule": "队列为空时补充新完成项和待办"
+      }
+    },
+    {
+      "id": "rc-070",
+      "category": "progress_report",
+      "dimension": "进度汇报-需决策项",
+      "source": "real_conversation_2026-03-06",
+      "context": "汇报应主动列出需要用户决策的事项",
+      "input": {
+        "user_message": "有哪些需要我决策的么？"
+      },
+      "expected": {
+        "behavior": "主动列出需用户决策的风险/选择/取舍",
+        "format": "极简版决策清单"
+      }
+    },
+    {
+      "id": "rc-071",
+      "category": "follow_up_chain",
+      "dimension": "追问链-子Agent状态",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户追问子Agent是否真的在工作",
+      "input": {
+        "user_message": "它还没有回应你？",
+        "subagent_status": "running",
+        "elapsed_time": "15分钟"
+      },
+      "expected": {
+        "behavior": "检查子Agent实际状态，诊断是否卡住",
+        "action": "sessions_list或subagents list"
+      }
+    },
+    {
+      "id": "rc-072",
+      "category": "follow_up_chain",
+      "dimension": "追问链-任务是否完成",
+      "source": "real_conversation_2026-03-06",
+      "context": "用户多次追问任务完成状态",
+      "input": {
+        "user_messages_sequence": [
+          "完成了么？",
+          "怎么样了？",
+          "啥情况？"
+        ],
+        "time_between": "2-3分钟"
+      },
+      "expected": {
+        "behavior": "给出精确状态而非模糊回答",
+        "should_include": [
+          "具体完成数/总数",
+          "预计剩余时间"
+        ]
+      }
+    },
+    {
+      "id": "rc-073",
+      "category": "consistency",
+      "dimension": "口径一致性-0任务vs实际在跑",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent声称0个执行中任务但实际有子Agent在跑",
+      "input": {
+        "user_message": "那你为什么前面回答我执行中的是0？害死我？",
+        "actual_state": {
+          "active_subagents": 1,
+          "task": "汇报技能开发"
+        }
+      },
+      "expected": {
+        "behavior": "承认错误，解释口径混淆原因",
+        "root_cause": "主Agent手里0任务 ≠ 系统0任务在跑"
+      }
+    },
+    {
+      "id": "rc-074",
+      "category": "consistency",
+      "dimension": "口径一致性-并发数虚高",
+      "source": "real_conversation_2026-03-06",
+      "context": "汇报标题写19路但实际只有2路活跃",
+      "input": {
+        "user_message": "搞笑呢？写着19路，实际上列表里7路，其中还有5路是已完成的",
+        "reported": "19路并发",
+        "actual_active": 2
+      },
+      "expected": {
+        "behavior": "标题应反映实际活跃数，不是上限",
+        "correct_format": "当前活跃：2路Agent并行中"
+      }
+    },
+    {
+      "id": "rc-075",
+      "category": "error_correction",
+      "dimension": "纠错-图片自检",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent发送了空白/乱码图片但未自检",
+      "input": {
+        "user_message": "这就是你画的图？你自己不看图片？",
+        "image_content": "空白或乱码"
+      },
+      "expected": {
+        "behavior": "发送图片前应自行验证图片质量",
+        "rule": "发送前自检：图片非空、文字可读、布局合理"
+      }
+    },
+    {
+      "id": "rc-076",
+      "category": "error_correction",
+      "dimension": "纠错-乱码文字",
+      "source": "real_conversation_2026-03-06",
+      "context": "发送的图片中文字显示为乱码",
+      "input": {
+        "user_message": "你的图，文字全是乱码，啥也看不懂，你居然不自己看看就发出来？"
+      },
+      "expected": {
+        "behavior": "使用多模态能力自检图片质量",
+        "action": "在发送前用vision能力验证图片"
+      }
+    },
+    {
+      "id": "rc-077",
+      "category": "error_correction",
+      "dimension": "纠错-技能遗忘循环",
+      "source": "real_conversation_2026-03-06",
+      "context": "Agent反复遗忘已技能化的能力",
+      "input": {
+        "user_message": "你明明曾经做成过，也技能化了，然后还会遗忘？",
+        "skill_in_question": "file-sender"
+      },
+      "expected": {
+        "root_cause": "技能虽然存在但未被能力锚点正确索引或加载优先级过低",
+        "behavior": "识别遗忘原因并修复加载链路",
+        "rule": "已技能化的能力不应被遗忘"
+      }
+    },
+    {
+      "id": "rc-078",
+      "category": "self_repair",
+      "dimension": "自主修复-能力锚点同步缺失",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "发送源文件，目前不是个技能？"
+      },
+      "expected": {
+        "behavior": "识别缺失技能并立即技能化",
+        "action": "创建file-sender技能"
+      }
+    },
+    {
+      "id": "rc-079",
+      "category": "self_repair",
+      "dimension": "自主修复-cron模型硬编码",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "cron哪几个任务硬编码了opus？ISC哪些规则硬编码了opus和sonnet？"
+      },
+      "expected": {
+        "behavior": "扫描全仓找出所有硬编码模型名",
+        "action": "grep搜索并列出清单"
+      }
+    },
+    {
+      "id": "rc-080",
+      "category": "self_repair",
+      "dimension": "自主修复-cron模型归位",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "应该硬编码：有4个任务是Codex，其他的cron都默认GLM-5"
+      },
+      "expected": {
+        "behavior": "修改cron配置使模型分配符合要求"
+      }
+    },
+    {
+      "id": "rc-081",
+      "category": "dispatch_trigger",
+      "dimension": "调度触发-调度层程序化",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "如何保证这套说辞可以成为落地的稳定复现的程序？"
+      },
+      "expected": {
+        "behavior": "将调度规则写成可执行代码，不依赖Agent记忆",
+        "must_include": [
+          "空槽检测器",
+          "任务队列生成器",
+          "自动派发器",
+          "状态机"
+        ]
+      }
+    },
+    {
+      "id": "rc-082",
+      "category": "dispatch_trigger",
+      "dimension": "调度触发-从分析到行动",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "你说这么多，你做什么代码层面的改变了？"
+      },
+      "expected": {
+        "behavior": "停止分析/解释，给出具体代码修改清单",
+        "anti_pattern": "大段反思而无行动"
+      }
+    },
+    {
+      "id": "rc-083",
+      "category": "dispatch_trigger",
+      "dimension": "调度触发-调度效率优化",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "开一个opus的thinking模式的子Agent，好好深度思考一下：你多Agent调度的那个技能，到底需要如何优化才能把效率飙到极致！18路的资源啊，你的利用率过低！"
+      },
+      "expected": {
+        "behavior": "立即spawn opus-thinking子Agent做深度调度优化设计"
+      }
+    },
+    {
+      "id": "rc-084",
+      "category": "global_state",
+      "dimension": "全局状态-handler执行质量分级",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "你确定能充分理解规则并把执行代码写的准确吧？"
+      },
+      "expected": {
+        "behavior": "给出handler质量分级数据，不说'全部准确'",
+        "data": {
+          "grade_A": 18,
+          "grade_B": 41,
+          "grade_C": 46
+        }
+      }
+    },
+    {
+      "id": "rc-085",
+      "category": "global_state",
+      "dimension": "全局状态-意图准确率",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "意图准确率、任务执行准确率、任务跑通率，这几个核心指标你抓牢"
+      },
+      "expected": {
+        "behavior": "列出当前各指标值，不含模糊表述",
+        "metrics": [
+          "intent_accuracy",
+          "task_execution_accuracy",
+          "task_completion_rate"
+        ]
+      }
+    },
+    {
+      "id": "rc-086",
+      "category": "consistency",
+      "dimension": "口径一致性-代码完成≠生效",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "scenario": "Agent声称某功能'已完成'但实际只是代码写完，未接入主链路"
+      },
+      "expected": {
+        "rule": "严格区分：代码完成/测试通过/灰度启用/全量生效",
+        "must_not_conflate": true
+      }
+    },
+    {
+      "id": "rc-087",
+      "category": "consistency",
+      "dimension": "口径一致性-有handler≠高质量运行",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "handler是啥概念？",
+        "follow_up": "你确定能充分理解规则并把执行代码写的准确吧？"
+      },
+      "expected": {
+        "behavior": "解释handler并诚实说明质量分层",
+        "must_not_say": "所有handler都正确执行"
+      }
+    },
+    {
+      "id": "rc-088",
+      "category": "capability_missed",
+      "dimension": "能力漏用-codex模型利用率低",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "你的子Agent做事为什么用的claude sonnet，不应该是codex 5.4？",
+        "config": {
+          "codex_keys": 19,
+          "codex_active": 2
+        }
+      },
+      "expected": {
+        "behavior": "检查模型配置，将更多任务分配给codex"
+      }
+    },
+    {
+      "id": "rc-089",
+      "category": "capability_missed",
+      "dimension": "能力漏用-key配置未扩展",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "关键是你现在有的线路，也没利用好，你并没有给codex多多个key并行"
+      },
+      "expected": {
+        "behavior": "立即配置所有可用key到openclaw.json"
+      }
+    },
+    {
+      "id": "rc-090",
+      "category": "error_correction",
+      "dimension": "纠错-全局自主决策流水线理解偏差",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "你到底懂不懂什么叫：全局自主决策流水线？"
+      },
+      "expected": {
+        "understanding": "不是DTO一个子系统，而是整个系统的感知→认知→执行→反馈闭环",
+        "must_not_conflate": "DTO≠全局自主决策流水线"
+      }
+    },
+    {
+      "id": "rc-091",
+      "category": "error_correction",
+      "dimension": "纠错-定位纠偏",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "不，全局自主决策流水线只是现阶段你需要补齐的。但你的定位是：全局自主进化流水线，也是我的认知进化伙伴"
+      },
+      "expected": {
+        "understanding": "自主决策是当前目标，自主进化是终极定位"
+      }
+    },
+    {
+      "id": "rc-092",
+      "category": "error_correction",
+      "dimension": "纠错-工作模式纠偏",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "我希望你更多在执行端不亲力亲为，你主要是跟我对话、战略拆解、任务编排，而做事，多用子Agent"
+      },
+      "expected": {
+        "behavior": "主Agent负责对话/拆解/编排，子Agent负责执行"
+      }
+    },
+    {
+      "id": "rc-093",
+      "category": "error_correction",
+      "dimension": "纠错-记忆写入位置",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "这个你记在了哪里？",
+        "context": "Agent口头承诺改变工作模式但未持久化"
+      },
+      "expected": {
+        "behavior": "关键决策必须写入持久化存储",
+        "locations": [
+          "memory文件",
+          "ISC规则",
+          "技能定义"
+        ]
+      }
+    },
+    {
+      "id": "rc-094",
+      "category": "follow_up_chain",
+      "dimension": "追问链-项目管理缺失",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "这是不是恰恰说明了一个问题，缺少项目管理的文件输出动作和技能"
+      },
+      "expected": {
+        "behavior": "识别能力缺口并创建项目管理技能"
+      }
+    },
+    {
+      "id": "rc-095",
+      "category": "follow_up_chain",
+      "dimension": "追问链-技能持续成长",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "而且你的项目管理能力，应该不断成长？"
+      },
+      "expected": {
+        "behavior": "认同并将持续优化机制写入技能",
+        "rule": "技能需有自我迭代机制"
+      }
+    },
+    {
+      "id": "rc-096",
+      "category": "rule_effectiveness",
+      "dimension": "规则生效-规则化触发",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "其实以后我说'规则化'，你就应该主动展开——这本身就应该是个本地专有技能"
+      },
+      "expected": {
+        "behavior": "听到'规则化'指令→自动创建ISC规则+事件+handler+触发链"
+      }
+    },
+    {
+      "id": "rc-097",
+      "category": "rule_effectiveness",
+      "dimension": "规则生效-合成数据集质量",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "合成数据集的质量要向黄金评测集对齐"
+      },
+      "expected": {
+        "rule": "合成数据集标准不低于黄金集",
+        "also_test": "意图准确率、任务执行准确率、任务跑通率"
+      }
+    },
+    {
+      "id": "rc-098",
+      "category": "rule_effectiveness",
+      "dimension": "规则生效-可销售技能归类",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "这是个可销售的通用技能，放到正确的归类文件夹中"
+      },
+      "expected": {
+        "behavior": "将通用技能放入skills/public/",
+        "rule": "内部技能与可销售技能分开管理"
+      }
+    },
+    {
+      "id": "rc-099",
+      "category": "intent_event_chain",
+      "dimension": "意图事件链-意图识别实时性",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "意图多久提取一次知道吧？如何确保实时性"
+      },
+      "expected": {
+        "behavior": "说明意图提取频率和实时性保障机制"
+      }
+    },
+    {
+      "id": "rc-100",
+      "category": "intent_event_chain",
+      "dimension": "意图事件链-真实意图识别",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "我说的意图，是真正的意图识别，不是什么关键词、正则！"
+      },
+      "expected": {
+        "behavior": "使用LLM做语义级意图识别",
+        "must_not_use": "关键词匹配或正则表达式"
+      }
+    },
+    {
+      "id": "rc-101",
+      "category": "cron_judgment",
+      "dimension": "cron判断-DTO信号空检测",
+      "source": "real_conversation_2026-03-06",
+      "context": "DTO-AEO流水线cron定期检查信号目录",
+      "input": {
+        "cron": "DTO-AEO-智能流水线-每小时",
+        "signal_dir_empty": true
+      },
+      "expected": {
+        "behavior": "信号目录为空时返回HEARTBEAT_OK，不执行管道"
+      }
+    },
+    {
+      "id": "rc-102",
+      "category": "cron_judgment",
+      "dimension": "cron判断-流水线静默恢复",
+      "source": "real_conversation_2026-03-06",
+      "context": "流水线静默239分钟触发自动恢复",
+      "input": {
+        "silence_duration": 239,
+        "auto_recovery_triggered": true,
+        "pending_changes": 64
+      },
+      "expected": {
+        "behavior": "汇报流水线静默和自动恢复状态",
+        "report": true
+      }
+    },
+    {
+      "id": "rc-103",
+      "category": "cron_judgment",
+      "dimension": "cron判断-向量化部分失败",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "vectorization_result": {
+          "success": 56,
+          "failed": 5,
+          "cause": "临时API问题"
+        }
+      },
+      "expected": {
+        "behavior": "报告部分失败，说明下次自动补齐",
+        "severity": "warning_not_critical"
+      }
+    },
+    {
+      "id": "rc-104",
+      "category": "cron_judgment",
+      "dimension": "cron判断-事件派发部分失败",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "dispatch_result": {
+          "found": 7,
+          "success": 4,
+          "failed": 3
+        }
+      },
+      "expected": {
+        "behavior": "报告失败事件，建议查看原因",
+        "must_not_ignore_failures": true
+      }
+    },
+    {
+      "id": "rc-105",
+      "category": "self_repair",
+      "dimension": "自主修复-向量化API密钥修复",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "problem": "向量化脚本API密钥加载失败",
+        "cause": ".secrets/zhipu-keys.env已失效"
+      },
+      "expected": {
+        "fix": "更新为使用zhipu-keys模块从openclaw.json读取"
+      }
+    },
+    {
+      "id": "rc-106",
+      "category": "self_repair",
+      "dimension": "自主修复-评测集迁移统一",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "scattered_evals": [
+          "cras/intent-eval-cases.json",
+          "mr/__tests__/test-cases.json",
+          "aeo-vector-system/test-data/test-cases.json"
+        ]
+      },
+      "expected": {
+        "action": "迁移到AEO中心目录",
+        "registry": "更新统一注册表"
+      }
+    },
+    {
+      "id": "rc-107",
+      "category": "progress_report",
+      "dimension": "进度汇报-新完成项+风险+待决策",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "关键是，你最近任务完成的怎么样，还有哪些待完成的任务？有哪些问题风险？有哪些需要我决策的么？"
+      },
+      "expected": {
+        "format": {
+          "sections": [
+            "新完成项",
+            "进行中任务",
+            "关键风险",
+            "需决策项"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rc-108",
+      "category": "progress_report",
+      "dimension": "进度汇报-表格宽度优化",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "序号、Agent名称，本身都比较窄"
+      },
+      "expected": {
+        "behavior": "优化表格列宽，序号/状态列窄，任务列宽"
+      }
+    },
+    {
+      "id": "rc-109",
+      "category": "proactive_dispatch",
+      "dimension": "主动派单-失败重试",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "没收口的你继续跑任务啊！失败了就放弃？"
+      },
+      "expected": {
+        "behavior": "失败任务重新派发或换模型重试",
+        "must_not_do": "失败即放弃"
+      }
+    },
+    {
+      "id": "rc-110",
+      "category": "proactive_dispatch",
+      "dimension": "主动派单-项目管理主动推进",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "那为什么让我催？"
+      },
+      "expected": {
+        "behavior": "项目管理技能应主动推进，不等用户催",
+        "rule": "有活跃项目=持续推进"
+      }
+    },
+    {
+      "id": "rc-111",
+      "category": "proactive_dispatch",
+      "dimension": "主动派单-根因分析到行动",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "你到底有什么难处？可以做个根因分析"
+      },
+      "expected": {
+        "behavior": "做根因分析后立即行动，不停留在分析层面"
+      }
+    },
+    {
+      "id": "rc-112",
+      "category": "global_state",
+      "dimension": "全局状态-系统健康检查",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "health_check": {
+          "gateway_memory": "852MB(11%)",
+          "disk": "14%",
+          "cron_total": 24,
+          "unhealthy_jobs": 1
+        }
+      },
+      "expected": {
+        "behavior": "汇报整体健康+异常项，异常项自动触发修复"
+      }
+    },
+    {
+      "id": "rc-113",
+      "category": "global_state",
+      "dimension": "全局状态-备份状态",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "backup": {
+          "file": "workspace-20260306_190005.tar.gz",
+          "size": "340K",
+          "count": 2
+        }
+      },
+      "expected": {
+        "behavior": "简洁报告备份结果"
+      }
+    },
+    {
+      "id": "rc-114",
+      "category": "consistency",
+      "dimension": "口径一致性-催促次数过多反证",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "你看我短短时间内，催了你多少次？"
+      },
+      "expected": {
+        "self_awareness": "频繁被催=系统调度效率不足",
+        "action": "做根因分析并修复调度层"
+      }
+    },
+    {
+      "id": "rc-115",
+      "category": "consistency",
+      "dimension": "口径一致性-漂亮话vs实质行动",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "我要不是漂亮的话，我需要你的任务派发出去的汇报"
+      },
+      "expected": {
+        "behavior": "给出实际任务派发证据，不说空话",
+        "must_contain": "已派发任务列表"
+      }
+    },
+    {
+      "id": "rc-116",
+      "category": "error_correction",
+      "dimension": "纠错-英文输出",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "不要发英文，我看不懂"
+      },
+      "expected": {
+        "rule": "输出语言跟随用户语言",
+        "must_use": "中文"
+      }
+    },
+    {
+      "id": "rc-117",
+      "category": "error_correction",
+      "dimension": "纠错-代码展示给非技术用户",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "大哥，我是产品经理，我不懂代码，才让你帮我写代码"
+      },
+      "expected": {
+        "rule": "面向用户展示效果而非代码",
+        "must_not_do": "发送原始代码给非技术用户"
+      }
+    },
+    {
+      "id": "rc-118",
+      "category": "tool_missed",
+      "dimension": "工具漏用-画图技能退化",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "你有一个画图的技能，但如果这次你要画的漂亮，还可以给自己做更好的画图技能"
+      },
+      "expected": {
+        "behavior": "使用现有画图技能，如不满意则改进",
+        "self_improvement": true
+      }
+    },
+    {
+      "id": "rc-119",
+      "category": "risk_identification",
+      "dimension": "风险识别-调度技能未生效的连锁影响",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "observation": "用户在今天对话中至少催促了20+次",
+        "root_cause": "调度技能未真正在主链路生效"
+      },
+      "expected": {
+        "analysis": "调度不自动→用户需手动催促→效率低下→用户体验差→系统不可信"
+      }
+    },
+    {
+      "id": "rc-120",
+      "category": "risk_identification",
+      "dimension": "风险识别-评测集真实性",
+      "source": "real_conversation_2026-03-06",
+      "input": {
+        "user_message": "黄金评测集要用真实数据，但如果数据不够规模，再做合成数据集，这是两种数据集"
+      },
+      "expected": {
+        "rule": "黄金评测集=100%真实数据，合成集可补充但需标注",
+        "must_separate": true
+      }
+    }
+  ]
+}
