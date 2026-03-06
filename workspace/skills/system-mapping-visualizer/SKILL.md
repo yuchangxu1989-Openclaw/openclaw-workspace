@@ -1,7 +1,7 @@
 ---
 name: system-mapping-visualizer
 chinese_name: 系统映射可视化器
-version: "1.0.0"
+version: "1.0.1"
 status: active
 layer: method
 category: visualization

@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/6 16:05:12
-> **技能总数**: 55
+> **生成时间**: 2026/3/6 20:05:09
+> **技能总数**: 56
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -111,6 +111,7 @@
 - ✅ **ruleify**: skills/ruleify/ — |
 - ✅ **seef**: skills/seef/ — SEEF技能生态进化工厂 - 高度自治、可被云端大模型动态发现与自由编排的独立子技能集合，具备自主执行完整PDCA闭环能力
 - ✅ **shared**: skills/shared/
+- ✅ **system-mapping-visualizer**: skills/system-mapping-visualizer/
 - ✅ **test-skill-for-seef**: skills/test-skill-for-seef/
 - ✅ **verify-test-skill**: skills/verify-test-skill/
 

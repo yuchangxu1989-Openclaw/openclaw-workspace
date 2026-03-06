@@ -1,136 +1,131 @@
 #!/usr/bin/env node
 
 /**
- * multi-agent-reporting — Basic Usage Examples
+ * multi-agent-reporting v2 — Dashboard example
  *
  * Run:  node examples/basic-usage.js
  */
 
 'use strict';
 
-const { formatReport, validateReport, generateTemplate, computeStats } = require('../index.js');
+const { formatReport, formatDashboard, validateReport, computeStats, generateTemplate } = require('../index.js');
 
-// ── Sample task data ────────────────────────────────────────────────────────
+// ── Sample tasks covering all status zones ───────────────────────────────────
 
 const tasks = [
   {
-    agentId: 'coder-1',
+    agentId: 'auth-agent',
     model: 'claude-sonnet-4-20250514',
+    task: 'Implement JWT auth module',
+    status: 'completed',
+    duration: '3m 42s',
+    commit: 'a1b2c3d',
     thinking: 'high',
-    task: 'Implement user authentication module',
-    status: 'completed',
-    duration: '4m 12s',
-    commit: 'a3f8c21'
+    artifact: 'PR #42'
   },
   {
-    agentId: 'coder-2',
+    agentId: 'api-agent',
     model: 'gpt-4o-2024-08-06',
-    task: 'Build REST API endpoints',
+    task: 'Design REST API schema',
     status: 'running',
-    duration: '2m 35s'
+    duration: '1m 20s',
+    nextAction: 'Open PR for review',
+    nextOwner: 'tech-lead',
+    nextETA: '20m'
   },
   {
-    agentId: 'coder-3',
-    model: 'claude-opus-4-20250514',
-    thinking: 'medium',
-    task: 'Design database schema',
-    status: 'completed',
-    duration: '6m 01s',
-    commit: 'b7d4e19'
-  },
-  {
-    agentId: 'coder-4',
+    agentId: 'db-agent',
     model: 'gemini-2.5-pro-preview-06-05',
+    task: 'DB schema migration',
+    status: 'blocked',
+    blocker: 'Schema lock held by dev-env — wait for nightly reset'
+  },
+  {
+    agentId: 'infra-agent',
+    model: 'claude-sonnet-4-20250514',
+    task: 'Choose auth provider',
+    status: 'needs_decision',
+    decision: 'Auth0 vs Cognito',
+    decisionOwner: 'tech-lead',
+    nextETA: '1h'
+  },
+  {
+    agentId: 'test-agent',
+    model: 'gpt-4o-2024-08-06',
     task: 'Write integration tests',
     status: 'failed',
-    duration: '1m 48s',
-    error: 'Test runner timeout on CI'
+    error: 'Timeout in test runner (jest --runInBand)'
   },
   {
-    agentId: 'coder-5',
-    model: 'deepseek-r1-0528',
-    task: 'Implement rate limiter middleware',
-    status: 'blocked',
-    error: 'Waiting for API endpoint definitions from coder-2'
+    agentId: 'docs-agent',
+    model: 'claude-haiku-3-5-20241022',
+    task: 'Generate API docs',
+    status: 'pending'
   }
 ];
 
-// ── Example 1: Table format (default) ───────────────────────────────────────
+// ── 1. Full dashboard (new default) ──────────────────────────────────────────
 
-console.log('═══════════════════════════════════════════════════');
-console.log('  Example 1: Table Format (default)');
-console.log('═══════════════════════════════════════════════════\n');
+console.log('\n══════════════════════════════════════');
+console.log('  DASHBOARD (default outputFormat)');
+console.log('══════════════════════════════════════\n');
 console.log(formatReport(tasks));
 
-// ── Example 2: List format ──────────────────────────────────────────────────
+// ── 2. Dashboard — no model breakdown ────────────────────────────────────────
 
-console.log('\n═══════════════════════════════════════════════════');
-console.log('  Example 2: List Format');
-console.log('═══════════════════════════════════════════════════\n');
+console.log('\n══════════════════════════════════════');
+console.log('  DASHBOARD — minimal');
+console.log('══════════════════════════════════════\n');
+console.log(formatDashboard(tasks, {
+  showModelBreakdown: false,
+  showNextHop: false
+}));
+
+// ── 3. Legacy table format ────────────────────────────────────────────────────
+
+console.log('\n══════════════════════════════════════');
+console.log('  LEGACY TABLE (outputFormat: table)');
+console.log('══════════════════════════════════════\n');
+console.log(formatReport(tasks, { outputFormat: 'table' }));
+
+// ── 4. List format (Discord / WhatsApp) ──────────────────────────────────────
+
+console.log('\n══════════════════════════════════════');
+console.log('  LIST FORMAT');
+console.log('══════════════════════════════════════\n');
 console.log(formatReport(tasks, { outputFormat: 'list' }));
 
-// ── Example 3: Compact format ───────────────────────────────────────────────
+// ── 5. Compact format (CI logs) ───────────────────────────────────────────────
 
-console.log('\n═══════════════════════════════════════════════════');
-console.log('  Example 3: Compact Format');
-console.log('═══════════════════════════════════════════════════\n');
+console.log('\n══════════════════════════════════════');
+console.log('  COMPACT FORMAT');
+console.log('══════════════════════════════════════\n');
 console.log(formatReport(tasks, { outputFormat: 'compact' }));
 
-// ── Example 4: Validation ───────────────────────────────────────────────────
+// ── 6. Validation ─────────────────────────────────────────────────────────────
 
-console.log('\n═══════════════════════════════════════════════════');
-console.log('  Example 4: Validation');
-console.log('═══════════════════════════════════════════════════\n');
-
-const badTasks = [
-  { agentId: 'agent-1', model: 'claude', task: 'Do thing', status: 'completed' },
-  { agentId: 'agent-2', model: 'gpt-4o-2024-08-06', task: 'Other thing', status: 'failed' },
-  { agentId: '', model: 'gemini-2.5-pro-preview-06-05', task: '', status: 'running' }
-];
-
-const result = validateReport(badTasks);
+console.log('\n══════════════════════════════════════');
+console.log('  VALIDATION');
+console.log('══════════════════════════════════════\n');
+const result = validateReport(tasks);
 console.log(result.markdown);
-console.log('\nProgrammatic result:');
-console.log(`  valid: ${result.valid}`);
-console.log(`  passed: ${result.passedEntries}/${result.totalEntries}`);
 
-// ── Example 5: Template generation ──────────────────────────────────────────
+// ── 7. Stats ──────────────────────────────────────────────────────────────────
 
-console.log('\n═══════════════════════════════════════════════════');
-console.log('  Example 5: Template Generation');
-console.log('═══════════════════════════════════════════════════\n');
-
-const planned = [
-  { agentId: 'frontend-agent', task: 'Build React dashboard', model: 'claude-sonnet-4-20250514' },
-  { agentId: 'backend-agent', task: 'Implement GraphQL resolvers' },
-  { agentId: 'devops-agent', task: 'Set up CI/CD pipeline', model: 'gpt-4o-2024-08-06' }
-];
-
-console.log(generateTemplate(planned));
-
-// ── Example 6: Raw statistics ───────────────────────────────────────────────
-
-console.log('\n═══════════════════════════════════════════════════');
-console.log('  Example 6: Raw Statistics');
-console.log('═══════════════════════════════════════════════════\n');
-
+console.log('\n══════════════════════════════════════');
+console.log('  RAW STATS');
+console.log('══════════════════════════════════════\n');
 const stats = computeStats(tasks);
 console.log(JSON.stringify(stats, null, 2));
 
-// ── Example 7: Custom config ────────────────────────────────────────────────
+// ── 8. Template ───────────────────────────────────────────────────────────────
 
-console.log('\n═══════════════════════════════════════════════════');
-console.log('  Example 7: Custom Status Icons & Title');
-console.log('═══════════════════════════════════════════════════\n');
-
-console.log(formatReport(tasks, {
-  title: 'Sprint 42 Agent Report',
-  statusIcons: {
-    completed: '🟢',
-    running: '🟡',
-    failed: '🔴',
-    blocked: '⚪',
-    pending: '🔵'
-  },
-  showNextSteps: false
-}));
+console.log('\n══════════════════════════════════════');
+console.log('  TEMPLATE (pre-filled from plan)');
+console.log('══════════════════════════════════════\n');
+const template = generateTemplate([
+  { agentId: 'fe', task: 'Build frontend', model: 'claude-sonnet-4-20250514' },
+  { agentId: 'be', task: 'Build backend', model: 'gpt-4o-2024-08-06' },
+  { agentId: 'qa', task: 'QA & testing' }
+]);
+console.log(template);

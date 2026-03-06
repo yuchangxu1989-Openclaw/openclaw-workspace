@@ -1,7 +1,7 @@
 ---
 name: cras-generated-1771827136412
 description: CRAS 自动生成的技能 - 填补能力空白
-version: "0.1.2"
+version: "0.1.3"
 status: active
 ---
 

@@ -11,7 +11,7 @@ api
 
 填补能力空白: 缺少 integration 类型能力
 
-## version: "0.3.4"
+## version: "0.3.5"
 
 ## Input
 

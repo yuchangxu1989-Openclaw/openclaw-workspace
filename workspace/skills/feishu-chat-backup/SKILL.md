@@ -1,7 +1,7 @@
 ---
 name: feishu-chat-backup
 description: 飞书聊天记录备份系统 - 实质性记录对话日志
-version: "1.0.37"
+version: "1.0.38"
 status: active
 ---
 

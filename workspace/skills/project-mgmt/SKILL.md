@@ -1,7 +1,7 @@
 ---
 name: project-mgmt
 description: 项目管理中枢 - 任务编排、Sprint规划、架构评审流水线、凌霄阁裁决
-version: "1.0.0"
+version: "1.0.1"
 status: active
 tags: [project, management, orchestration, sprint, review]
 ---

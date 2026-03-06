@@ -1,35 +1,65 @@
 ---
 name: multi-agent-reporting
-description: Standardized reporting protocol for multi-agent orchestration — format, validate, and summarize agent task reports with coverage metrics and next-step suggestions.
-version: 1.0.0
+description: Dispatch-board style reporting for multi-agent orchestration — renders a scheduler-style dashboard with Overview, Running, Completed, Blocked, Needs-Decision, Model Breakdown, and per-task Next-Hop actions. Replaces verbal status summaries with a structured task board.
+version: 2.0.0
 author: OpenClaw Community
 license: MIT
 tags:
   - multi-agent
   - reporting
   - orchestration
+  - dashboard
+  - dispatch
   - protocol
   - validation
 ---
 
-# Multi-Agent Reporting Skill
+# Multi-Agent Reporting Skill — v2 Dashboard
 
-A portable, framework-agnostic reporting engine for multi-agent systems. Generates standardized progress reports, validates report completeness, and computes coverage metrics — all without depending on any specific orchestrator.
+A portable, framework-agnostic reporting engine for multi-agent systems.
+In v2 the default output is a **dispatch-board / scheduler-style dashboard**, not a plain summary table.
+The dashboard groups tasks into status zones, shows per-model workload, and surfaces per-task next-hop actions.
 
-## Features
+## Dashboard Output (default)
 
-| Feature | Description |
-|---------|-------------|
-| **Report Formatter** | Renders agent task data into Markdown tables, lists, or compact format |
-| **Report Validator** | Checks each entry for required fields, model names, commit hashes, error reasons |
-| **Statistics Engine** | Computes totals, completion rate, coverage, and per-status breakdowns |
-| **Next-Step Advisor** | Suggests actionable next steps based on current report state |
-| **Parameterized Config** | Every field, icon, and format is configurable via JSON |
+```
+## Multi-Agent Sprint Board
+
+### Overview
+`█████████████▓▓░░····` 65.0% complete
+
+✅ Done: **13** · 🔄 Running: **3** · ⏸️ Blocked: **1** · ⚖️ Decision: **1** · ⏳ Pending: **2**
+
+Coverage: 80.0% · Blocked/Stalled: 10.0%
+
+### Running (3)
+
+| Agent    | Model              | Task                 | Duration | Next Action       |
+|----------|--------------------|----------------------|----------|-------------------|
+| agent-4  | claude-sonnet-4    | Build payment flow   | 4m 12s   | PR review         |
+| agent-5  | gpt-4o             | Write migration SQL  | 2m 05s   | —                 |
+
+### Completed (13)
+...
+
+### Blocked / Failed (1)
+...
+
+### Needs Decision (1)
+...
+
+### Model Breakdown
+...
+
+### Next Actions
+- ⏸️ agent-7: DB migration — blocked: schema lock held by dev-env
+- ⚖️ agent-9: Auth provider — awaiting decision: use Auth0 or Cognito? → cc @tech-lead
+```
 
 ## Quick Start
 
 ```js
-const { formatReport, validateReport, generateTemplate } = require('./index.js');
+const { formatReport, formatDashboard, validateReport, computeStats } = require('./index.js');
 
 const tasks = [
   {
@@ -38,71 +68,88 @@ const tasks = [
     task: 'Implement auth module',
     status: 'completed',
     duration: '3m 42s',
-    commit: 'a1b2c3d'
+    commit: 'a1b2c3d',
+    thinking: 'high'
   },
   {
     agentId: 'agent-2',
     model: 'gpt-4o-2024-08-06',
-    thinking: 'high',
     task: 'Design API schema',
     status: 'running',
-    duration: '1m 20s'
+    duration: '1m 20s',
+    nextAction: 'Open PR for review',
+    nextOwner: 'agent-lead',
+    nextETA: '15m'
+  },
+  {
+    agentId: 'agent-3',
+    model: 'gemini-2.5-pro-preview-06-05',
+    task: 'DB migration',
+    status: 'blocked',
+    blocker: 'Schema lock held by dev-env'
+  },
+  {
+    agentId: 'agent-4',
+    model: 'claude-sonnet-4-20250514',
+    task: 'Choose auth provider',
+    status: 'needs_decision',
+    decision: 'Auth0 vs Cognito',
+    decisionOwner: 'tech-lead',
+    nextETA: '1h'
   }
 ];
 
-// Format a report
-const report = formatReport(tasks);
-console.log(report);
+// Full dashboard (new default)
+console.log(formatReport(tasks));
 
-// Validate entries
-const validation = validateReport(tasks);
-console.log(validation);
+// Or call directly:
+console.log(formatDashboard(tasks));
 
-// Generate a blank template from a task list
-const template = generateTemplate([
-  { agentId: 'agent-1', task: 'Build frontend' },
-  { agentId: 'agent-2', task: 'Build backend' }
-]);
-console.log(template);
+// Legacy table format still works:
+console.log(formatReport(tasks, { outputFormat: 'table' }));
 ```
 
 ## API Reference
 
 ### `formatReport(tasks, options?)`
 
-Formats an array of task entries into a Markdown report.
+Main entry point. When `outputFormat` is `"dashboard"` (the new default), delegates to `formatDashboard()`.
+For `"table"`, `"list"`, or `"compact"` falls back to legacy renderers.
 
-**Parameters:**
+**Returns:** `string` — Markdown report.
 
-| Param | Type | Default | Description |
-|-------|------|---------|-------------|
-| `tasks` | `Array<TaskEntry>` | *(required)* | Array of task report entries |
-| `options.outputFormat` | `string` | `"table"` | `"table"`, `"list"`, or `"compact"` |
-| `options.statusIcons` | `object` | *(see config.json)* | Map of status → emoji |
-| `options.showThinking` | `boolean` | `true` | Show thinking level annotation |
-| `options.showSummary` | `boolean` | `true` | Append summary statistics |
-| `options.showNextSteps` | `boolean` | `true` | Append next-step suggestions |
-| `options.title` | `string` | `"Multi-Agent Progress Report"` | Report title |
+---
 
-**Returns:** `string` — Markdown-formatted report.
+### `formatDashboard(tasks, options?)`
+
+Renders the full dispatch-board view. Sections are conditionally included based on data.
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `title` | `string` | `"Multi-Agent Progress Report"` | Dashboard title |
+| `showSummary` | `boolean` | `true` | Show Overview bar |
+| `showStatusSections` | `boolean` | `true` | Show Running / Completed / Blocked sections |
+| `showDecisions` | `boolean` | `true` | Show Needs Decision section |
+| `showModelBreakdown` | `boolean` | `true` | Show Model Breakdown section |
+| `showNextHop` | `boolean` | `true` | Show per-task Next Hop detail table |
+| `showNextSteps` | `boolean` | `true` | Show actionable Next Actions bullets |
+| `showThinking` | `boolean` | `true` | Show thinking level on model names |
+| `statusGroups` | `object` | see config | Map zone names to status lists |
+| `sectionTitles` | `object` | see config | Rename any section heading |
 
 ---
 
 ### `validateReport(tasks, options?)`
 
-Validates each task entry for completeness and correctness.
+Validates task entries. v2 adds support for:
+- `blocker` as alternative to `error` for blocked tasks
+- `artifact` as alternative to `commit` for completed tasks
+- `decisionOwner` required check (opt-in)
+- `nextAction` required check on active tasks (opt-in)
 
-**Parameters:**
-
-| Param | Type | Default | Description |
-|-------|------|---------|-------------|
-| `tasks` | `Array<TaskEntry>` | *(required)* | Array of task report entries |
-| `options.requiredFields` | `string[]` | `["agentId","model","task","status"]` | Fields that must be present |
-| `options.requireCommitOnComplete` | `boolean` | `true` | Completed tasks must have a commit |
-| `options.requireErrorOnFail` | `boolean` | `true` | Failed tasks must have an error reason |
-| `options.requireFullModelName` | `boolean` | `true` | Model name must look like a full identifier |
-
-**Returns:** `ValidationResult` — structured validation output.
+**Returns:** `ValidationResult`
 
 ```js
 {
@@ -111,9 +158,9 @@ Validates each task entry for completeness and correctness.
   passedEntries: number,
   failedEntries: number,
   issues: [
-    { index: number, agentId: string, field: string, message: string, severity: 'error'|'warning' }
+    { index, agentId, field, message, severity: 'error'|'warning' }
   ],
-  markdown: string   // Pre-rendered validation report in Markdown
+  markdown: string
 }
 ```
 
@@ -121,95 +168,136 @@ Validates each task entry for completeness and correctness.
 
 ### `generateTemplate(taskList, options?)`
 
-Generates a pre-filled report template from a task list.
-
-**Parameters:**
-
-| Param | Type | Default | Description |
-|-------|------|---------|-------------|
-| `taskList` | `Array<{agentId, task, model?}>` | *(required)* | Planned tasks |
-| `options.outputFormat` | `string` | `"table"` | `"table"`, `"list"`, or `"compact"` |
-| `options.defaultStatus` | `string` | `"pending"` | Default status for template rows |
-| `options.statusIcons` | `object` | *(see config.json)* | Map of status → emoji |
-
-**Returns:** `string` — Markdown template.
+Same as v1 but includes v2 optional fields in each row.
 
 ---
 
 ### `computeStats(tasks, options?)`
 
-Computes summary statistics from task entries.
-
 **Returns:** `StatsResult`
 
 ```js
 {
-  total: number,
-  completed: number,
-  running: number,
-  failed: number,
-  blocked: number,
-  pending: number,
-  other: number,
-  completionRate: string,    // e.g. "75.0%"
-  coverageRate: string,      // e.g. "87.5%" (completed + running) / total
+  total, completed, running, failed, blocked, pending,
+  needs_decision, waiting, cancelled, other,
+  completionRate,   // "65.0%"
+  coverageRate,     // "(completed + running) / total"
+  blockedRate,      // "(blocked + failed + needs_decision) / total"
   byAgent: { [agentId]: { total, completed, ... } },
-  byModel: { [model]: { total, completed, ... } }
+  byModel: { [model]:   { total, completed, ... } }
 }
 ```
 
-## TaskEntry Schema
+## TaskEntry Schema — v2
 
 ```typescript
 interface TaskEntry {
-  agentId: string;          // Agent identifier
+  // Required
+  agentId: string;          // Agent identifier (e.g. "agent-1", "seef", "cras")
   model: string;            // Full model name (e.g. "claude-sonnet-4-20250514")
   task: string;             // Task description
-  status: string;           // "completed" | "running" | "failed" | "blocked" | "pending" | custom
-  duration?: string;        // Human-readable duration
-  commit?: string;          // Git commit hash (required for completed tasks)
-  thinking?: string;        // Thinking level: "none" | "low" | "medium" | "high"
-  error?: string;           // Error reason (required for failed tasks)
-  [key: string]: any;       // Additional custom fields are preserved
+  status: string;           // See statuses below
+
+  // Timing
+  duration?: string;        // Human-readable elapsed (e.g. "3m 42s")
+  updatedAt?: string;       // ISO timestamp of last update
+
+  // Completion
+  commit?: string;          // Git commit hash (completed tasks)
+  artifact?: string;        // Alternative to commit (e.g. "doc link", "PR #42")
+  branch?: string;          // Branch name
+
+  // Thinking / model config
+  thinking?: string;        // "none" | "low" | "medium" | "high"
+
+  // Error / block
+  error?: string;           // Error message (failed tasks)
+  blocker?: string;         // Blocker description (blocked tasks)
+
+  // Decision gate
+  decision?: string;        // The decision question
+  decisionOwner?: string;   // Who must decide (e.g. "tech-lead")
+
+  // Next hop (dispatch board)
+  nextAction?: string;      // What happens next
+  nextOwner?: string;       // Who does it
+  nextETA?: string;         // When (e.g. "15m", "EOD")
+  handoffTo?: string;       // Downstream agent/system
+
+  [key: string]: any;       // Custom fields are preserved
 }
+```
+
+## Statuses
+
+| Status | Icon | Zone |
+|--------|------|------|
+| `running` | 🔄 | Running |
+| `completed` | ✅ | Completed |
+| `failed` | ❌ | Blocked / Failed |
+| `blocked` | ⏸️ | Blocked / Failed |
+| `needs_decision` | ⚖️ | Needs Decision |
+| `pending` | ⏳ | (pending, counted only) |
+| `waiting` | 🕒 | (custom zones) |
+| `cancelled` | 🚫 | (custom zones) |
+
+## Configuration
+
+All defaults live in `config.json`. Override any value per-call via `options`.
+
+### Custom status groups
+
+```js
+formatReport(tasks, {
+  statusGroups: {
+    running:       ['running', 'in_review'],
+    completed:     ['completed', 'merged'],
+    blocked:       ['blocked', 'failed', 'cancelled'],
+    needsDecision: ['needs_decision', 'awaiting_approval']
+  }
+});
+```
+
+### Custom section titles (localization)
+
+```js
+formatReport(tasks, {
+  sectionTitles: {
+    overview:      'Übersicht',
+    running:       'In Arbeit',
+    completed:     'Abgeschlossen',
+    blocked:       'Blockiert',
+    needsDecision: 'Entscheidung erforderlich',
+    modelBreakdown:'Modell-Auslastung',
+    nextActions:   'Nächste Schritte'
+  }
+});
 ```
 
 ## Output Formats
 
-### Table (default)
+| Format | Description |
+|--------|-------------|
+| `dashboard` | (**default v2**) Full dispatch-board: Overview + zone sections + model breakdown + next-hop |
+| `table` | Single Markdown table (v1 default) |
+| `list` | Numbered bullet list (good for Discord/WhatsApp) |
+| `compact` | One line per task in a code block (CI logs) |
 
-```
-## Multi-Agent Progress Report
+## Migration from v1
 
-| Agent | Model | Task | Status | Duration | Commit |
-|-------|-------|------|--------|----------|--------|
-| agent-1 | claude-sonnet-4-20250514 | Implement auth | ✅ completed | 3m 42s | a1b2c3d |
-| agent-2 | gpt-4o(high) | Design API | 🔄 running | 1m 20s | — |
+v2 is backward-compatible. Existing `formatReport(tasks)` calls now render
+the dashboard instead of the plain table. To keep the old table output:
 
-### Summary
-- **Total:** 2 | **Completed:** 1 | **Running:** 1 | **Failed:** 0 | **Blocked:** 0
-- **Completion:** 50.0% | **Coverage:** 100.0%
-
-### Next Steps
-- 🔄 agent-2: Design API — still running, monitor for completion
+```js
+formatReport(tasks, { outputFormat: 'table' });
 ```
 
-### List
-
-A bulleted list format suitable for chat / Discord / WhatsApp.
-
-### Compact
-
-Single-line per task, minimal decoration — ideal for log output or CI.
-
-## Configuration
-
-All defaults live in `config.json`. Override any value by passing an `options` object to any function.
+New fields (`blocker`, `nextAction`, `needs_decision`, etc.) are optional —
+existing TaskEntry objects without them render cleanly with `—` placeholders.
 
 ## Integration
 
-This skill is **framework-agnostic**. It works with:
-
+Framework-agnostic. Works with:
 - OpenClaw multi-agent orchestration
 - LangGraph / CrewAI / AutoGen
 - Custom agent frameworks
