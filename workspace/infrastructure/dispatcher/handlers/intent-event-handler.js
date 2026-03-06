@@ -2,9 +2,9 @@
 
 /**
  * Intent Event Handler — 为 intent.ruleify / intent.reflect / intent.directive
- * 提供真实消费路径，避免停留在 no_route / 报告层。
+ * 提供真实消费路径，避免停留在 no-route / 报告层。
  *
- * - intent.ruleify   → 生成 ISC 规则草案（最小可执行骨架）
+ * - intent.ruleify   → 生成 ISC 规则草案（最小可执行骨架）+ 发出 isc.rule.created
  * - intent.reflect   → 触发 CRAS 分析并沉淀洞察
  * - intent.directive → 在 DTO 中创建任务
  */
@@ -12,8 +12,13 @@
 const fs = require('fs');
 const path = require('path');
 
+const WORKSPACE = '/root/.openclaw/workspace';
+const RULES_DIR = path.join(WORKSPACE, 'skills', 'isc-core', 'rules');
+const REPORT_FILE = path.join(WORKSPACE, 'infrastructure', 'logs', 'intent-event-handler.jsonl');
+
 let _dtoBridge = null;
 let _crasBridge = null;
+let _bus = null;
 
 function getDTOBridge() {
   if (!_dtoBridge) {
@@ -27,6 +32,13 @@ function getCRASBridge() {
     _crasBridge = require(path.join(__dirname, '..', '..', '..', 'skills', 'cras', 'event-bridge.js'));
   }
   return _crasBridge;
+}
+
+function getBus() {
+  if (!_bus) {
+    _bus = require(path.join(__dirname, '..', '..', '..', 'infrastructure', 'event-bus', 'bus-adapter'));
+  }
+  return _bus;
 }
 
 function slugify(input) {
@@ -48,15 +60,35 @@ function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
-function buildRuleDraft(event) {
+function appendReport(entry) {
+  ensureDir(path.dirname(REPORT_FILE));
+  fs.appendFileSync(REPORT_FILE, JSON.stringify({ ts: new Date().toISOString(), ...entry }) + '\n');
+}
+
+function normalizePayload(event) {
   const payload = event.payload || {};
+  return {
+    ...payload,
+    intent_type: payload.intent_type || event.type?.split('.').pop()?.toUpperCase() || null,
+    target: payload.target || payload.subject || payload.name || null,
+    summary: payload.summary || payload.description || null,
+    evidence: payload.evidence || payload.quote || null,
+    confidence: payload.confidence ?? null,
+    source_event_id: event.id || null,
+    source_event_type: event.type || null,
+    source_file: payload.source_file || null,
+  };
+}
+
+function buildRuleDraft(event) {
+  const payload = normalizePayload(event);
   const target = payload.target || 'intent-derived-policy';
   const summary = payload.summary || payload.evidence || 'Auto-generated from intent.ruleify';
   const ruleSlug = slugify(target);
   const hash = shortHash(`${target}::${summary}`);
   const ruleId = `rule.intent-${ruleSlug}-${hash}`;
   const fileName = `${ruleId}.json`;
-  const filePath = path.join('/root/.openclaw/workspace/skills/isc-core/rules', fileName);
+  const filePath = path.join(RULES_DIR, fileName);
 
   if (fs.existsSync(filePath)) {
     return { created: false, exists: true, rule_id: ruleId, file: filePath };
@@ -91,9 +123,9 @@ function buildRuleDraft(event) {
     metadata: {
       intent_type: payload.intent_type || 'RULEIFY',
       target,
-      confidence: payload.confidence ?? null,
-      source_file: payload.source_file || null,
-      evidence: payload.evidence || null,
+      confidence: payload.confidence,
+      source_file: payload.source_file,
+      evidence: payload.evidence,
       created_at: new Date().toISOString()
     }
   };
@@ -105,50 +137,68 @@ function buildRuleDraft(event) {
 
 function handleRuleify(event) {
   const draft = buildRuleDraft(event);
-  return {
+  if (draft.created) {
+    getBus().emit('isc.rule.created', {
+      rule_id: draft.rule_id,
+      file: path.basename(draft.file),
+      path: draft.file,
+      source_event: event.id || null,
+      source_type: event.type || null,
+    }, 'intent-event-handler');
+  }
+
+  const result = {
     status: 'ok',
     handler: 'intent-event-handler',
     action: 'ruleify',
     result: draft
   };
+  appendReport({ eventType: event.type, action: 'ruleify', result: draft });
+  return result;
 }
 
 function handleReflect(event) {
-  const bridge = getCRASBridge();
-  const payload = event.payload || {};
-  return {
+  const payload = normalizePayload(event);
+  const result = getCRASBridge().analyzeRequest({
+    ...event,
+    payload: {
+      ...payload,
+      type: 'system.error',
+      source: 'intent.reflect',
+      error: payload.summary || payload.evidence || payload.target || 'intent reflect',
+      original_intent_type: payload.intent_type || 'REFLECT'
+    }
+  });
+
+  const wrapped = {
     status: 'ok',
     handler: 'intent-event-handler',
     action: 'reflect',
-    result: bridge.analyzeRequest({
-      ...event,
-      payload: {
-        ...payload,
-        type: 'system.error',
-        source: 'intent.reflect',
-        error: payload.summary || payload.evidence || payload.target || 'intent reflect',
-        original_intent_type: payload.intent_type || 'REFLECT'
-      }
-    })
+    result
   };
+  appendReport({ eventType: event.type, action: 'reflect', insight: result?.insight?.id || null });
+  return wrapped;
 }
 
 function handleDirective(event) {
-  const bridge = getDTOBridge();
-  const payload = event.payload || {};
-  return {
+  const payload = normalizePayload(event);
+  const result = getDTOBridge().createTaskFromEvent({
+    ...event,
+    payload: {
+      ...payload,
+      task_name: payload.target || payload.summary || 'intent-directive-task',
+      description: payload.summary || payload.evidence || 'Created from intent.directive'
+    }
+  });
+
+  const wrapped = {
     status: 'ok',
     handler: 'intent-event-handler',
     action: 'directive',
-    result: bridge.createTaskFromEvent({
-      ...event,
-      payload: {
-        ...payload,
-        task_name: payload.target || payload.summary || 'intent-directive-task',
-        description: payload.summary || payload.evidence || 'Created from intent.directive'
-      }
-    })
+    result
   };
+  appendReport({ eventType: event.type, action: 'directive', task_id: result?.task_id || null });
+  return wrapped;
 }
 
 function handle(event) {
@@ -166,3 +216,7 @@ function handle(event) {
 
 module.exports = handle;
 module.exports.handle = handle;
+module.exports.handleRuleify = handleRuleify;
+module.exports.handleReflect = handleReflect;
+module.exports.handleDirective = handleDirective;
+module.exports.buildRuleDraft = buildRuleDraft;

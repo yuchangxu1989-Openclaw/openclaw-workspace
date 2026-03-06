@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-post-commit-quality-gate-h8z2sz",
+  "name": "intent_post-commit-quality-gate",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "提交后应自动创建质量检查规则",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "Post Commit Quality Gate"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: Post Commit Quality Gate"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772801351001"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "Post Commit Quality Gate",
+    "confidence": null,
+    "source_file": null,
+    "evidence": null,
+    "created_at": "2026-03-06T12:49:11.001Z"
+  }
+}
