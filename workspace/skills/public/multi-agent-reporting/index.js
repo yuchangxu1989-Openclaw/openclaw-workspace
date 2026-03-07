@@ -1,371 +1,161 @@
 /**
- * multi-agent-reporting v3.0.0
+ * multi-agent-reporting v3.1.0
  *
- * Pure reporting skill — renders multi-agent status into:
- *   1. Plain text (Markdown) live board
- *   2. Feishu interactive card JSON
- *
- * Design rules:
- *   - Main table: ONLY active (running) tasks
- *   - 0 active? Show completed + risks + decisions (never empty)
- *   - Title: precise concurrency state, not max capacity
- *   - Agent name: full persona name (displayName)
- *   - Headers: # / Agent / 任务 / 模型 / 状态 / 用时
- *   - No "下一步" column
- *   - Narrow columns, short model names
- *   - Minimal text, ultra-short conclusions
- *   - Separate from dispatch — this is ONLY rendering
- *
- * Zero dependencies. Pure Node.js (≥14).
+ * Stable reporting skill.
+ * Output contract:
+ *   1. Prefix: 当前 active 总数：X
+ *   2. Main table: 任务 / 模型 / 状态
+ *   3. Suffix: done / timeout / blocked 汇总
+ *   4. Optional sections: 关键进展 / 风险 / 待决策项
  */
 
 'use strict';
 
-const path = require('path');
-const defaultCfg = require(path.join(__dirname, 'config.json'));
-
-// ─── Status helpers ─────────────────────────────────────────────────────────
-
-const STATUS_META = defaultCfg.statusMeta;
-
-function norm(s) {
-  return (s || 'pending').toLowerCase().replace(/[^a-z_]/g, '_');
+function normalizeStatus(status) {
+  const s = String(status || '').toLowerCase();
+  if (['running', 'active', 'in_progress'].includes(s)) return 'active';
+  if (['completed', 'complete', 'done', 'success'].includes(s)) return 'done';
+  if (['blocked', 'failed', 'fail', 'error'].includes(s)) return 'blocked';
+  if (['timeout', 'timed_out'].includes(s)) return 'timeout';
+  return s || 'unknown';
 }
 
-function meta(s) {
-  return STATUS_META[norm(s)] || { icon: '❓', label: s, short: String(s).slice(0, 4) };
-}
-
-function esc(s) {
-  return String(s || '—').replace(/\|/g, '\\|');
-}
-
-// ─── Model name shortening ─────────────────────────────────────────────────
-// Goal: as narrow as possible while keeping the distinctive part.
-//   claude-sonnet-4-20250514       → sonnet-4
-//   claude-opus-4-20250514         → opus-4
-//   gpt-4o-2024-08-06              → gpt-4o
-//   gemini-2.5-pro-preview-06-05   → gem-2.5-pro
-//   boom-writer/gpt-5.4            → gpt-5.4
-//   deepseek-r1                    → deepseek-r1
-
-function shortModel(model) {
+function pureModel(model) {
   if (!model) return '—';
-  let m = model;
-  // Remove router/provider prefix (e.g. "boom-writer/gpt-5.4")
+  let m = String(model);
   if (m.includes('/')) m = m.split('/').pop();
-  // Remove preview + date suffixes
   m = m.replace(/-preview-\d{2,4}[-/]\d{2}([-/]\d{2})?$/, '');
-  // Remove date suffixes: -YYYYMMDD or -YYYY-MM-DD
   m = m.replace(/-\d{4}-\d{2}-\d{2}$/, '');
   m = m.replace(/-\d{8}$/, '');
-  // Remove trailing -preview
   m = m.replace(/-preview$/, '');
-  // Shorten known family prefixes
-  m = m.replace(/^claude-/, '');
-  m = m.replace(/^gemini-/, 'gem-');
   return m;
 }
 
-// ─── Agent name (prefer full persona name) ──────────────────────────────────
-
-function agentName(t) {
-  return t.displayName || t.agentName || t.agentId || '—';
+function esc(value) {
+  return String(value ?? '—').replace(/\|/g, '\\|');
 }
-
-// ─── Model display (with optional thinking level) ───────────────────────────
-
-function modelDisplay(t, opts) {
-  let m = shortModel(t.model);
-  if (opts && opts.showThinking && t.thinking && t.thinking !== 'none') {
-    m += `(${t.thinking})`;
-  }
-  return m;
-}
-
-// ─── Classify tasks into zones ──────────────────────────────────────────────
-
-function classify(tasks) {
-  const result = { active: [], completed: [], blocked: [], decisions: [], queued: [], other: [] };
-  for (const t of (tasks || [])) {
-    const s = norm(t.status);
-    switch (s) {
-      case 'running':        result.active.push(t); break;
-      case 'completed':      result.completed.push(t); break;
-      case 'blocked':
-      case 'failed':         result.blocked.push(t); break;
-      case 'needs_decision': result.decisions.push(t); break;
-      case 'pending':
-      case 'queued':
-      case 'waiting':        result.queued.push(t); break;
-      default:               result.other.push(t);
-    }
-  }
-  return result;
-}
-
-// ─── Compute stats ──────────────────────────────────────────────────────────
 
 function computeStats(tasks) {
-  const c = classify(tasks);
-  return {
-    total: (tasks || []).length,
-    active: c.active.length,
-    completed: c.completed.length,
-    blocked: c.blocked.length,
-    decisions: c.decisions.length,
-    queued: c.queued.length,
-    other: c.other.length
+  const stats = {
+    total: 0,
+    active: 0,
+    done: 0,
+    timeout: 0,
+    blocked: 0,
+    completed: 0,
+    decisions: 0,
+    queued: 0,
+    other: 0
   };
-}
 
-// ─── Title generation ───────────────────────────────────────────────────────
-// Precise concurrency state. Never write max capacity.
-//   3 active          → "🔄 3 Agent 并行执行中"
-//   0 active, 5 done  → "⏸️ 0 活跃 · ✅5完成"
-//   all done          → "✅ 6 项全部完成"
-//   0 total           → "📋 暂无任务"
-//   mixed risks       → "🔄 2 Agent 并行 · ⚠️1风险"
-
-function generateTitle(stats, opts) {
-  if (opts && opts.title) return opts.title;
-  if (stats.total === 0) return '📋 暂无任务';
-  if (stats.completed === stats.total) return `✅ ${stats.total} 项全部完成`;
-
-  const parts = [];
-  if (stats.active > 0) {
-    parts.push(`🔄 ${stats.active} Agent 并行执行中`);
-  } else {
-    parts.push('⏸️ 0 活跃');
+  for (const task of (tasks || [])) {
+    stats.total += 1;
+    const status = normalizeStatus(task.status);
+    if (status === 'active') stats.active += 1;
+    else if (status === 'done') {
+      stats.done += 1;
+      stats.completed += 1;
+    }
+    else if (status === 'timeout') stats.timeout += 1;
+    else if (status === 'blocked') stats.blocked += 1;
+    else if (status === 'needs_decision') stats.decisions += 1;
+    else if (status === 'queued' || status === 'pending' || status === 'waiting') stats.queued += 1;
+    else stats.other += 1;
   }
-  if (stats.blocked > 0) parts.push(`⚠️${stats.blocked}风险`);
-  if (stats.decisions > 0) parts.push(`⚖️${stats.decisions}待决`);
-  if (stats.active === 0 && stats.completed > 0) parts.push(`✅${stats.completed}完成`);
 
-  return parts.join(' · ');
+  return stats;
 }
 
-// ─── Card header color ──────────────────────────────────────────────────────
-
-function cardColor(stats) {
-  const colors = defaultCfg.cardColors;
-  if (stats.blocked > 0 || stats.decisions > 0) return colors.risk;
-  if (stats.active > 0) return colors.active;
-  if (stats.completed === stats.total && stats.total > 0) return colors.done;
-  return colors.idle;
+function generateTitle(stats, opts = {}) {
+  return opts.title || `当前 active 总数：${stats.active}`;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// TEXT RENDERER (Markdown)
-// ═══════════════════════════════════════════════════════════════════════════
-
-function renderText(tasks, opts) {
-  opts = { ...defaultCfg, ...opts };
-  if (!Array.isArray(tasks) || tasks.length === 0) return '_暂无任务数据。_';
-
-  const stats = computeStats(tasks);
-  const c = classify(tasks);
-  const title = generateTitle(stats, opts);
+function renderText(tasks, opts = {}) {
+  const stats = computeStats(tasks || []);
   const lines = [];
 
-  lines.push(`## ${title}`, '');
+  lines.push(`当前 active 总数：${stats.active}`, '');
+  lines.push('| 任务 | 模型 | 状态 |');
+  lines.push('|---|---|---|');
 
-  // ── Main table: active tasks only ──────────────────────────────────────
-  if (c.active.length > 0) {
-    lines.push('| # | Agent | 任务 | 模型 | 状态 | 用时 |');
-    lines.push('|---|-------|------|------|------|------|');
-    c.active.forEach((t, i) => {
-      const m = meta(t.status);
-      lines.push(
-        `| ${i + 1} | ${esc(agentName(t))} | ${esc(t.task)} | ${esc(modelDisplay(t, opts))} | ${m.icon}${m.short} | ${esc(t.duration)} |`
-      );
-    });
-    lines.push('');
+  for (const task of (tasks || [])) {
+    lines.push(`| ${esc(task.task || '—')} | ${esc(pureModel(task.model))} | ${esc(normalizeStatus(task.status))} |`);
   }
 
-  // ── 0 active: show completed as table ──────────────────────────────────
-  if (c.active.length === 0 && c.completed.length > 0) {
-    const max = opts.maxCompletedTable || 10;
-    const show = c.completed.slice(0, max);
-    lines.push(`### ✅ 新完成 (${c.completed.length})`, '');
-    lines.push('| # | Agent | 任务 | 模型 | 用时 |');
-    lines.push('|---|-------|------|------|------|');
-    show.forEach((t, i) => {
-      lines.push(
-        `| ${i + 1} | ${esc(agentName(t))} | ${esc(t.task)} | ${esc(modelDisplay(t, opts))} | ${esc(t.duration)} |`
-      );
-    });
-    if (c.completed.length > max) lines.push(`_…另有 ${c.completed.length - max} 项_`);
-    lines.push('');
+  if (!tasks || tasks.length === 0) {
+    lines.push('| — | — | — |');
   }
 
-  // ── Active > 0: completed as compact list ──────────────────────────────
-  if (c.active.length > 0 && c.completed.length > 0) {
-    const max = opts.maxCompletedInline || 5;
-    const show = c.completed.slice(0, max);
-    lines.push(`**✅ 新完成 (${c.completed.length})**`);
-    for (const t of show) {
-      lines.push(`- ${agentName(t)}「${t.task}」${t.duration || ''}`);
-    }
-    if (c.completed.length > max) lines.push(`- _…另有 ${c.completed.length - max} 项_`);
-    lines.push('');
+  lines.push('', `- done：${stats.done}`, `- timeout：${stats.timeout}`, `- blocked：${stats.blocked}`);
+
+  if (opts.highlights && opts.highlights.length) {
+    lines.push('', '关键进展');
+    for (const item of opts.highlights) lines.push(`- ${item}`);
   }
 
-  // ── Risks (blocked + failed) ───────────────────────────────────────────
-  if (c.blocked.length > 0) {
-    lines.push(`**⚠️ 关键风险 (${c.blocked.length})**`);
-    for (const t of c.blocked) {
-      const reason = t.blocker || t.error || '原因待查';
-      const m = meta(t.status);
-      lines.push(`- ${m.icon} ${agentName(t)}「${t.task}」${reason}`);
-    }
-    lines.push('');
+  if (opts.risks && opts.risks.length) {
+    lines.push('', '风险');
+    for (const item of opts.risks) lines.push(`- ${item}`);
   }
 
-  // ── Decisions ──────────────────────────────────────────────────────────
-  if (c.decisions.length > 0) {
-    lines.push(`**⚖️ 待决策 (${c.decisions.length})**`);
-    for (const t of c.decisions) {
-      const owner = t.decisionOwner ? ` → @${t.decisionOwner}` : '';
-      lines.push(`- ${agentName(t)}「${t.task}」${t.decision || ''}${owner}`);
-    }
-    lines.push('');
+  if (opts.decisions && opts.decisions.length) {
+    lines.push('', '待决策项');
+    for (const item of opts.decisions) lines.push(`- ${item}`);
   }
 
-  // ── Queued (optional) ──────────────────────────────────────────────────
-  if (c.queued.length > 0 && opts.showQueued) {
-    lines.push(`**⏳ 排队 (${c.queued.length})**`);
-    for (const t of c.queued) {
-      lines.push(`- ${agentName(t)}「${t.task}」`);
-    }
-    lines.push('');
-  }
-
-  return lines.join('\n').trimEnd();
+  return lines.join('\n');
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// FEISHU CARD RENDERER
-// ═══════════════════════════════════════════════════════════════════════════
-
-function renderCard(tasks, opts) {
-  opts = { ...defaultCfg, ...opts };
-  if (!Array.isArray(tasks) || tasks.length === 0) {
-    return {
-      config: { wide_screen_mode: true },
-      header: { title: { tag: 'plain_text', content: '📋 暂无任务' }, template: 'grey' },
-      elements: [{ tag: 'div', text: { tag: 'lark_md', content: '当前没有任务数据。' } }]
-    };
-  }
-
-  const stats = computeStats(tasks);
-  const c = classify(tasks);
-  const title = generateTitle(stats, opts);
-  const color = cardColor(stats);
+function renderCard(tasks, opts = {}) {
+  const stats = computeStats(tasks || []);
   const elements = [];
+  const rows = (tasks || []).map((task) => `- ${task.task || '—'} ｜ ${pureModel(task.model)} ｜ ${normalizeStatus(task.status)}`);
 
-  // ── Summary counts ─────────────────────────────────────────────────────
-  const countParts = [];
-  if (stats.active > 0)    countParts.push(`🔄执行 **${stats.active}**`);
-  if (stats.completed > 0) countParts.push(`✅完成 **${stats.completed}**`);
-  if (stats.blocked > 0)   countParts.push(`⚠️风险 **${stats.blocked}**`);
-  if (stats.decisions > 0) countParts.push(`⚖️待决 **${stats.decisions}**`);
-  if (stats.queued > 0)    countParts.push(`⏳排队 **${stats.queued}**`);
-  if (countParts.length > 0) {
-    elements.push({ tag: 'div', text: { tag: 'lark_md', content: countParts.join(' · ') } });
-  }
+  elements.push({ tag: 'div', text: { tag: 'lark_md', content: `当前 active 总数：**${stats.active}**` } });
+  elements.push({ tag: 'hr' });
+  elements.push({ tag: 'div', text: { tag: 'lark_md', content: rows.length ? rows.join('\n') : '- — ｜ — ｜ —' } });
+  elements.push({ tag: 'hr' });
+  elements.push({ tag: 'div', text: { tag: 'lark_md', content: `done：**${stats.done}** · timeout：**${stats.timeout}** · blocked：**${stats.blocked}**` } });
 
-  // ── Active tasks ───────────────────────────────────────────────────────
-  if (c.active.length > 0) {
+  if (opts.highlights && opts.highlights.length) {
     elements.push({ tag: 'hr' });
-    const taskLines = c.active.map((t, i) => {
-      const m = meta(t.status);
-      return `**#${i + 1}** ${agentName(t)} · ${t.task} · \`${modelDisplay(t, opts)}\` · ${m.icon}${m.short} · ${t.duration || '—'}`;
-    });
-    elements.push({ tag: 'div', text: { tag: 'lark_md', content: taskLines.join('\n') } });
+    elements.push({ tag: 'div', text: { tag: 'lark_md', content: `**关键进展**\n${opts.highlights.map((x) => `- ${x}`).join('\n')}` } });
   }
-
-  // ── Completed ──────────────────────────────────────────────────────────
-  if (c.completed.length > 0) {
+  if (opts.risks && opts.risks.length) {
     elements.push({ tag: 'hr' });
-    const max = opts.maxCompletedInCard || 5;
-    const show = c.completed.slice(0, max);
-    const cl = [`**✅ 新完成 (${c.completed.length})**`];
-    for (const t of show) {
-      cl.push(`${agentName(t)}「${t.task}」${t.duration || ''}`);
-    }
-    if (c.completed.length > max) cl.push(`…另有 ${c.completed.length - max} 项`);
-    elements.push({ tag: 'div', text: { tag: 'lark_md', content: cl.join('\n') } });
+    elements.push({ tag: 'div', text: { tag: 'lark_md', content: `**风险**\n${opts.risks.map((x) => `- ${x}`).join('\n')}` } });
   }
-
-  // ── Risks ──────────────────────────────────────────────────────────────
-  if (c.blocked.length > 0) {
+  if (opts.decisions && opts.decisions.length) {
     elements.push({ tag: 'hr' });
-    const rl = [`**⚠️ 关键风险 (${c.blocked.length})**`];
-    for (const t of c.blocked) {
-      const reason = t.blocker || t.error || '原因待查';
-      const m = meta(t.status);
-      rl.push(`${m.icon} ${agentName(t)}「${t.task}」${reason}`);
-    }
-    elements.push({ tag: 'div', text: { tag: 'lark_md', content: rl.join('\n') } });
-  }
-
-  // ── Decisions ──────────────────────────────────────────────────────────
-  if (c.decisions.length > 0) {
-    elements.push({ tag: 'hr' });
-    const dl = [`**⚖️ 待决策 (${c.decisions.length})**`];
-    for (const t of c.decisions) {
-      const owner = t.decisionOwner ? ` → @${t.decisionOwner}` : '';
-      dl.push(`${agentName(t)}「${t.task}」${t.decision || ''}${owner}`);
-    }
-    elements.push({ tag: 'div', text: { tag: 'lark_md', content: dl.join('\n') } });
+    elements.push({ tag: 'div', text: { tag: 'lark_md', content: `**待决策项**\n${opts.decisions.map((x) => `- ${x}`).join('\n')}` } });
   }
 
   return {
     config: { wide_screen_mode: true },
-    header: { title: { tag: 'plain_text', content: title }, template: color },
+    header: {
+      title: { tag: 'plain_text', content: generateTitle(stats, opts) },
+      template: stats.blocked > 0 ? 'orange' : (stats.active > 0 ? 'blue' : 'grey')
+    },
     elements
   };
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// MAIN ENTRY
-// ═══════════════════════════════════════════════════════════════════════════
-
-/**
- * Render a multi-agent status report.
- *
- * @param {Array<object>} tasks  - Task entries (see SKILL.md for schema)
- * @param {object} [opts]        - Override config options
- * @returns {{ text: string, card: object, title: string, stats: object }}
- */
-function renderReport(tasks, opts) {
+function renderReport(tasks, opts = {}) {
   const stats = computeStats(tasks || []);
-  const title = generateTitle(stats, opts);
   return {
     text: renderText(tasks, opts),
     card: renderCard(tasks, opts),
-    title,
+    title: generateTitle(stats, opts),
     stats
   };
 }
-
-// ═══════════════════════════════════════════════════════════════════════════
-// EXPORTS
-// ═══════════════════════════════════════════════════════════════════════════
 
 module.exports = {
   renderReport,
   renderText,
   renderCard,
   computeStats,
-  classify,
   generateTitle,
-  shortModel,
-  agentName,
-  // Testing internals
-  _meta: meta,
-  _norm: norm,
-  _cardColor: cardColor,
-  _modelDisplay: modelDisplay
+  pureModel,
+  normalizeStatus
 };
