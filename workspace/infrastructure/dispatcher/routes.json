@@ -234,5 +234,25 @@
     "agent": "coder",
     "priority": "low",
     "description": "[Day2-closeout] Derived rule/code pairing action is logged instead of queueing as missing handler"
+  },
+  "dto.signal.created": {
+    "handler": "skill-dto-handler",
+    "priority": "high",
+    "description": "DTO signal created — event-driven trigger for DTO-AEO pipeline (Day2-Gap1)"
+  },
+  "file.changed": {
+    "handler": "skill-system-monitor-handler",
+    "priority": "normal",
+    "description": "File changed (summary) — event-driven trigger from git-change-watcher (Day2-Gap1)"
+  },
+  "file.changed.*": {
+    "handler": "skill-system-monitor-handler",
+    "priority": "normal",
+    "description": "File changed (categorized: code/config/log/data/doc) — event-driven dispatch (Day2-Gap1)"
+  },
+  "cron.job.requested": {
+    "handler": "cron-job-requested",
+    "priority": "normal",
+    "description": "[Day2-Gap1] 定时任务统一桥接到 EventBus；默认事件接入，按需 fallback 执行底层脚本"
   }
 }

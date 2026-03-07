@@ -15,6 +15,15 @@
 
 ## Sprint 1: 全系统闭环修复工程（L3架构重构）
 
+### CRAS-E / 意图内化 高优先级任务（自动提取）
+
+- 🔴 P0 CRAS-E持续进化中枢改造 — 证据：CRAS不能只是定时任务，必须是个持续进化的技能
+- 🔴 P0 失忆后可持续进化保障 — 证据：如果你失忆了，还能像最近这几次任务一样自主进化么？一定要确保
+- 🔴 P0 每轮对话意图洞察强制化 — 证据：你现在每轮对话都洞察我意图并自主进化么
+- 🔴 P1 Day2遗留项逐桩打透 — 证据：Day2还有遗留项么
+- 🔴 P0 禁止空架子产物治理 — 证据：一个个桩打透，别都做空架子
+
+
 **基础文档**: `/root/.openclaw/media/outbound/system-loop-engineering-plan.md`（1184行完整方案）
 **总体目标**: 从"Agent人肉编排"升级为"信号→调度→执行→评测→反馈"自动化管道
 
@@ -60,11 +69,13 @@
 
 **🔴 Day 2 遗留项（从转发对话中提取）:**
 
-1. 🔴 **定时任务重塑**（用户明确要求融入Day2-3）
-   - 3个必须重塑：自动响应管道→并入L3、用户洞察→事件驱动化、健康检查→全域监控
-   - 1个适配：技能进化管道（trigger改走bus-adapter emit）
-   - 1个清理：dto-task-queue历史残留
-   - **核心思想变化**：从"各模块各自cron轮询"→"EventBus事件驱动 + cron仅做兜底补扫"
+1. ✅ **定时任务重塑**（用户明确要求融入Day2-3）— **已验收通过 2026-03-07**
+   - 4个Watcher + 4个Cron Adapter全部实现并测试通过
+   - Check-and-skip双模式（事件触发优先 + cron兜底）正常运行
+   - EventBus routes.json 完整（4条新路由已补充）
+   - **验收结果**: 48/48 测试全部通过
+   - **验收报告**: `reports/day2-gap1-verification-report-20260307.md`
+   - **核心思想变化**：从"各模块各自cron轮询"→"EventBus事件驱动 + cron仅做兜底补扫" ✅ 已落地
 
 2. 🔴 **全局自主决策流水线定时任务/报告范围升级**（用户提出）
    - 从"监控代码流水线"升级为"监控整个认知-决策-执行闭环"
@@ -122,3 +133,32 @@
 
 ## 归档
 旧Sprint移至 `memory/sprint-archive/`
+
+
+### 自主扩列任务（自动生成）
+
+- ⏳ P0 CRAS-E持续进化中枢改造 / 主实现 [parent=task-cras_e_rebuild]
+- ⏳ P0 CRAS-E持续进化中枢改造 / 集成改造 [parent=task-cras_e_rebuild]
+- ⏳ P0 CRAS-E持续进化中枢改造 / 验证测试 [parent=task-cras_e_rebuild]
+- ⏳ P0 CRAS-E持续进化中枢改造 / 风险治理 [parent=task-cras_e_rebuild]
+- ⏳ P0 CRAS-E持续进化中枢改造 / 汇报与验收 [parent=task-cras_e_rebuild]
+- ⏳ P1 Day2遗留项逐桩打透 / 主实现 [parent=task-day2_closure]
+- ⏳ P1 Day2遗留项逐桩打透 / 集成改造 [parent=task-day2_closure]
+- ⏳ P1 Day2遗留项逐桩打透 / 验证测试 [parent=task-day2_closure]
+- ⏳ P1 Day2遗留项逐桩打透 / 风险治理 [parent=task-day2_closure]
+- ⏳ P1 Day2遗留项逐桩打透 / 汇报与验收 [parent=task-day2_closure]
+- ⏳ P0 失忆后可持续进化保障 / 主实现 [parent=task-memoryless_evolution]
+- ⏳ P0 失忆后可持续进化保障 / 集成改造 [parent=task-memoryless_evolution]
+- ⏳ P0 失忆后可持续进化保障 / 验证测试 [parent=task-memoryless_evolution]
+- ⏳ P0 失忆后可持续进化保障 / 风险治理 [parent=task-memoryless_evolution]
+- ⏳ P0 失忆后可持续进化保障 / 汇报与验收 [parent=task-memoryless_evolution]
+- ⏳ P0 禁止空架子产物治理 / 主实现 [parent=task-no_empty_shell]
+- ⏳ P0 禁止空架子产物治理 / 集成改造 [parent=task-no_empty_shell]
+- ⏳ P0 禁止空架子产物治理 / 验证测试 [parent=task-no_empty_shell]
+- ⏳ P0 禁止空架子产物治理 / 风险治理 [parent=task-no_empty_shell]
+- ⏳ P0 禁止空架子产物治理 / 汇报与验收 [parent=task-no_empty_shell]
+- ⏳ P0 每轮对话意图洞察强制化 / 主实现 [parent=task-per_turn_intent]
+- ⏳ P0 每轮对话意图洞察强制化 / 集成改造 [parent=task-per_turn_intent]
+- ⏳ P0 每轮对话意图洞察强制化 / 验证测试 [parent=task-per_turn_intent]
+- ⏳ P0 每轮对话意图洞察强制化 / 风险治理 [parent=task-per_turn_intent]
+- ⏳ P0 每轮对话意图洞察强制化 / 汇报与验收 [parent=task-per_turn_intent]
