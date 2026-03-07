@@ -672,6 +672,20 @@ class ISCCore {
     console.log('ISC智能标准中心 - 完整周期执行');
     console.log(this.config.output.separator.repeat(60));
     console.log('');
+
+    // ── ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001: 硬钢印嵌入 ──
+    // ISC full-cycle 必须在输出中声明 hard-gate 规则存在性
+    console.log('[ISC] 🔒 Hard Gate Rules (程序钢印):');
+    console.log('  - ISC-INTENT-EVAL-001: LLM意图识别评测门槛 — fail-closed');
+    console.log('  - ISC-CLOSED-BOOK-001: 闭卷评测禁止硬编码 — fail-closed');
+    try {
+      const { evaluateAll } = require(path.join(__dirname, '../../infrastructure/enforcement/isc-eval-gates'));
+      console.log('  - isc-eval-gates.js: ✓ loaded (enforcement active)');
+      this._iscEvalGates = evaluateAll;
+    } catch (e) {
+      console.warn('  - isc-eval-gates.js: ⚠ not loadable — enforcement via Python gates');
+    }
+    console.log('');
     
     // 1. 标准定义
     console.log(this.definitionLayer.getReport());

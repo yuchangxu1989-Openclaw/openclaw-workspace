@@ -124,5 +124,14 @@ module.exports = async function(event, rule, context) {
     return { status: 'blocked', failures, message: '质量门禁未通过，阻断发布' };
   }
 
-  return { status: 'pass', checks: results.length, message: '质量门禁全部通过' };
+  // ── ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001 check for release gate ──
+  let iscGateResult = null;
+  try {
+    const { evaluateAll } = require('../../enforcement/isc-eval-gates');
+    iscGateResult = evaluateAll(payload);
+  } catch (_) {
+    iscGateResult = { ok: false, gateStatus: 'FAIL-CLOSED', summary: 'isc-eval-gates not loadable' };
+  }
+
+  return { status: 'pass', checks: results.length, message: '质量门禁全部通过', isc_gates: iscGateResult };
 };

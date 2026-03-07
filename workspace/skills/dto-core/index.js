@@ -291,6 +291,35 @@ class DTOPlatform {
     console.log(`\n[DTO] 执行任务: ${taskId}`);
     console.log(`       执行ID: ${executionId}`);
     console.log(`       模式: ${task.executionMode}`);
+
+    // ── ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001 fail-closed enforcement ──
+    // All DTO executions that carry evaluation/gate/release semantics must pass ISC gates
+    const taskMeta = JSON.stringify({ taskId, ...task, ...options }).toLowerCase();
+    const isEvalRelated = /eval|gate|review|verdict|benchmark|audit|release|report.*pass|sign.?off/i.test(taskMeta);
+    let iscGateResult = null;
+    if (isEvalRelated) {
+      try {
+        const { evaluateAll } = require(path.join(__dirname, '../../infrastructure/enforcement/isc-eval-gates'));
+        iscGateResult = evaluateAll(options.input || {});
+        if (!iscGateResult.ok) {
+          console.error(`[DTO] 🚫 ISC FAIL-CLOSED for ${taskId}: ${iscGateResult.summary}`);
+          this.eventBus.publish('execution.isc_blocked', { executionId, taskId, iscGateResult });
+          return {
+            executionId,
+            status: 'blocked',
+            failClosed: true,
+            gateStatus: 'FAIL-CLOSED',
+            reason: iscGateResult.summary,
+            iscGateResult
+          };
+        }
+        console.log(`[DTO] ✓ ISC gates passed for eval-task ${taskId}`);
+      } catch (e) {
+        // Module not loadable — fail-closed by default
+        console.warn(`[DTO] ⚠️ ISC gates module not loadable, fail-closed: ${e.message}`);
+        iscGateResult = { ok: false, gateStatus: 'FAIL-CLOSED', summary: 'isc-eval-gates module not loadable' };
+      }
+    }
     
     // 获取执行引擎
     const engine = this.engines.get(task.executionMode);

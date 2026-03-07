@@ -144,7 +144,20 @@ function runGate(taskData) {
   // Check 3: Tracker sync
   results.checks.tracker_sync = checkTrackerSync(taskData);
   
-  // Overall verdict
+  // Check 4: ISC Hard Gates (ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001)
+  let iscGateResult = { ok: false, gateStatus: 'FAIL-CLOSED', summary: 'isc-eval-gates not checked' };
+  try {
+    const { evaluateAll } = require('../../enforcement/isc-eval-gates');
+    iscGateResult = evaluateAll(taskData.payload || taskData);
+  } catch (_) { /* fail-closed by default */ }
+  results.checks.isc_hard_gates = {
+    passed: iscGateResult.ok,
+    gateStatus: iscGateResult.gateStatus,
+    rules: ['ISC-INTENT-EVAL-001', 'ISC-CLOSED-BOOK-001'],
+    detail: iscGateResult.ok ? 'both gates passed' : iscGateResult.summary
+  };
+  
+  // Overall verdict — ISC gates are advisory here (fail-closed blocks at higher level)
   const criticalChecks = [results.checks.artifact_exists];
   results.verdict = criticalChecks.every(c => c.passed) ? 'PASS' : 'BLOCK';
   results.warnings = [];

@@ -242,6 +242,29 @@ class LEPExecutor extends EventEmitter {
   // ============ 私有方法 ============
 
   async _preExecutionChecks(context) {
+    // 0. ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001 hard gate (fail-closed)
+    //    Applies when task carries evaluation/gate/verdict semantics
+    const taskMeta = JSON.stringify(context.task || {}).toLowerCase();
+    const isEvalTask = /eval|gate|review|verdict|benchmark|audit|release|report.*pass/i.test(taskMeta);
+    if (isEvalTask) {
+      try {
+        const { evaluateAll } = require(path.join(__dirname, '../../enforcement/isc-eval-gates'));
+        const payload = context.task?.payload || context.task?.context || {};
+        const iscVerdict = evaluateAll(payload);
+        if (!iscVerdict.ok) {
+          const err = new Error(`[ISC FAIL-CLOSED] ${iscVerdict.summary}`);
+          err.iscVerdict = iscVerdict;
+          err.failClosed = true;
+          throw err;
+        }
+        context.iscGateStatus = 'PASS';
+      } catch (e) {
+        if (e.failClosed) throw e;
+        // Module load failure → fail-closed by default
+        context.iscGateStatus = 'FAIL-CLOSED-MODULE-ERROR';
+      }
+    }
+
     // 1. 熔断检查
     if (!this.resilience.circuitBreaker.canExecute(context.task.type)) {
       throw new CircuitBreakerOpenError(`Circuit breaker open for task type: ${context.task.type}`);

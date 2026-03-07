@@ -156,10 +156,23 @@ module.exports = async function(event, rule, context) {
     };
   }
 
+  // ── ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001 for eval-type subagent tasks ──
+  let iscGateResult = null;
+  const taskMeta = JSON.stringify(payload).toLowerCase();
+  if (/eval|gate|review|benchmark|audit|report.*pass/i.test(taskMeta)) {
+    try {
+      const { evaluateAll } = require('../../enforcement/isc-eval-gates');
+      iscGateResult = evaluateAll(payload);
+    } catch (_) {
+      iscGateResult = { ok: false, gateStatus: 'FAIL-CLOSED', summary: 'isc-eval-gates not loadable' };
+    }
+  }
+
   return {
     status: 'pass',
     complexity: complexity.complexity,
     estimated_minutes: complexity.estimated_minutes,
     message: '子Agent任务复杂度检查通过',
+    isc_gates: iscGateResult
   };
 };

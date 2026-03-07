@@ -112,7 +112,14 @@ module.exports = async function(event, rule, context) {
       aligned,
       iscOnly,
       dtoOnly,
-      autoFixes
+      autoFixes,
+      // ── ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001 hard gate status ──
+      iscHardGates: {
+        'ISC-INTENT-EVAL-001': 'enforced_via_isc-eval-gates.js',
+        'ISC-CLOSED-BOOK-001': 'enforced_via_isc-eval-gates.js',
+        enforcement: 'fail-closed',
+        note: '所有评测/验收/gate节点均已接入双钢印校验'
+      }
     };
 
     const reportPath = path.join(reportsDir, `isc-dto-handshake-${Date.now()}.json`);

@@ -1,0 +1,133 @@
+{
+  "timestamp": "2026-03-07T10:49:10.437Z",
+  "summary": {
+    "passed": 26,
+    "failed": 0,
+    "total": 26
+  },
+  "results": [
+    {
+      "name": "evaluateIntentGate: empty payload → FAIL",
+      "status": "pass"
+    },
+    {
+      "name": "evaluateIntentGate: valid → PASS",
+      "status": "pass"
+    },
+    {
+      "name": "evaluateClosedBookGate: empty payload → FAIL",
+      "status": "pass"
+    },
+    {
+      "name": "evaluateClosedBookGate: valid → PASS",
+      "status": "pass"
+    },
+    {
+      "name": "evaluateClosedBookGate: forbidden paths accessed → FAIL",
+      "status": "pass"
+    },
+    {
+      "name": "evaluateAll: both rules → combined FAIL-CLOSED",
+      "status": "pass"
+    },
+    {
+      "name": "evaluateAll: both rules satisfied → PASS",
+      "status": "pass"
+    },
+    {
+      "name": "gate.js: empty payload → failClosed true",
+      "status": "pass"
+    },
+    {
+      "name": "gate.js: valid payload → ok true",
+      "status": "pass"
+    },
+    {
+      "name": "gate-check.js: empty → failClosed",
+      "status": "pass"
+    },
+    {
+      "name": "enforcement-audit: ISC hard gates declared active",
+      "status": "pass"
+    },
+    {
+      "name": "isc-dto-handshake: contains iscHardGates field",
+      "status": "pass"
+    },
+    {
+      "name": "sprint-closure-gate: contains ISC gate import",
+      "status": "pass"
+    },
+    {
+      "name": "artifact-gate-check: ISC hard gates in runGate",
+      "status": "pass"
+    },
+    {
+      "name": "scenario-acceptance-gate: ISC gates injection",
+      "status": "pass"
+    },
+    {
+      "name": "public-skill-quality-gate: ISC gates injection",
+      "status": "pass"
+    },
+    {
+      "name": "subagent-checkpoint-gate: ISC gates for eval tasks",
+      "status": "pass"
+    },
+    {
+      "name": "aeo/index.js: ISC gates injection",
+      "status": "pass"
+    },
+    {
+      "name": "isc-core/index.js: hard gate declaration in executeFullCycle",
+      "status": "pass"
+    },
+    {
+      "name": "dto-core/index.js: ISC gate in execute method",
+      "status": "pass"
+    },
+    {
+      "name": "LEPExecutor.js: ISC gate in _preExecutionChecks",
+      "status": "pass"
+    },
+    {
+      "name": "middleware.requireGates: empty → blocked",
+      "status": "pass"
+    },
+    {
+      "name": "middleware.requireGates: valid → ok",
+      "status": "pass"
+    },
+    {
+      "name": "middleware.wrapHandler: blocks eval events without evidence",
+      "status": "pass"
+    },
+    {
+      "name": "gate_intent_eval.py exists",
+      "status": "pass"
+    },
+    {
+      "name": "gate_closed_book_eval.py exists",
+      "status": "pass"
+    }
+  ],
+  "integration_points": [
+    "infrastructure/enforcement/isc-eval-gates.js (core library)",
+    "infrastructure/event-bus/handlers/gate.js",
+    "infrastructure/event-bus/handlers/gate-check.js",
+    "infrastructure/event-bus/handlers/sprint-closure-gate.js",
+    "infrastructure/event-bus/handlers/artifact-gate-check.js",
+    "infrastructure/event-bus/handlers/scenario-acceptance-gate.js",
+    "infrastructure/event-bus/handlers/public-skill-quality-gate.js",
+    "infrastructure/event-bus/handlers/subagent-checkpoint-gate.js",
+    "infrastructure/event-bus/handlers/enforcement-audit.js",
+    "infrastructure/event-bus/handlers/isc-dto-handshake.js",
+    "infrastructure/event-bus/handlers/isc-eval-middleware.js",
+    "skills/aeo/index.js",
+    "skills/isc-core/index.js",
+    "skills/dto-core/index.js",
+    "infrastructure/lep-core/core/LEPExecutor.js",
+    "workspace-coder/.openclaw/gate_intent_eval.py",
+    "workspace-coder/.openclaw/gate_closed_book_eval.py"
+  ]
+}

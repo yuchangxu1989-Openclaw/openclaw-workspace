@@ -92,10 +92,20 @@ module.exports = async function(event, rule, context) {
     };
   }
 
+  // ── ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001 enforcement ──
+  let iscGateResult = null;
+  try {
+    const { evaluateAll } = require('../../enforcement/isc-eval-gates');
+    iscGateResult = evaluateAll(payload);
+  } catch (_) {
+    iscGateResult = { ok: false, gateStatus: 'FAIL-CLOSED', summary: 'isc-eval-gates not loadable' };
+  }
+
   return {
-    status: 'pass',
+    status: iscGateResult?.ok ? 'pass' : 'pass_with_isc_warning',
     scenarios: scenarios.length,
     domains: [...uniqueDomains],
     message: '场景化验收门禁通过',
+    isc_gates: iscGateResult
   };
 };

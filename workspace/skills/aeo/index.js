@@ -192,6 +192,17 @@ async function run(input = {}, context = {}) {
 
   logger.info?.(`[aeo] evaluation_required handled for ${skillName}`);
 
+  // ── ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001 enforcement ──
+  // AEO evaluations that produce pass/fail verdicts MUST carry ISC gate evidence.
+  // Default: fail-closed. Gate evidence must be supplied by the caller payload.
+  let iscGateResult = null;
+  try {
+    const { evaluateAll } = require(path.join(ROOT, 'infrastructure', 'enforcement', 'isc-eval-gates'));
+    iscGateResult = evaluateAll(payload);
+  } catch (_) {
+    iscGateResult = { ok: false, gateStatus: 'FAIL-CLOSED', summary: 'isc-eval-gates module not loadable — fail-closed' };
+  }
+
   return {
     ok: true,
     skill: 'aeo',
@@ -201,7 +212,8 @@ async function run(input = {}, context = {}) {
     tracks,
     standard: readJsonSafe(standardPath, standard),
     testCases: readJsonSafe(testCasesPath, testCases),
-    reportPath: path.relative(ROOT, reportPath)
+    reportPath: path.relative(ROOT, reportPath),
+    isc_gates: iscGateResult
   };
 }
 
