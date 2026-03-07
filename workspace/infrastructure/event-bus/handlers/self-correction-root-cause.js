@@ -26,8 +26,8 @@ const ROOT_CAUSE_TYPES = {
 
 function classifyRootCause(defectDescription) {
   const desc = (defectDescription || '').toLowerCase();
-  if (/规则.*缺|没有.*规则|缺少.*rule/i.test(desc)) return 'rule_missing';
   if (/handler.*缺|handler.*不存在|handler.*missing/i.test(desc)) return 'handler_missing';
+  if (/规则.*缺|没有.*规则|缺少.*rule/i.test(desc)) return 'rule_missing';
   if (/逻辑.*错|bug|错误.*处理/i.test(desc)) return 'logic_error';
   if (/认知|偏差|盲区|遗漏|忽略/i.test(desc)) return 'cognitive_bias';
   if (/架构|耦合|设计.*缺/i.test(desc)) return 'architecture_defect';
