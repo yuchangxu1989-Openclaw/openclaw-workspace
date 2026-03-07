@@ -431,6 +431,9 @@ module.exports = {
   DATA_DIR: path.dirname(bus._EVENTS_FILE),
   DEDUPE_WINDOW_MS,
 
+  // [Gap4] 兼容层：ack 透传给旧 bus（供 DTO/SEEF 等模块在迁移期间使用）
+  ack: (consumerId, eventId) => bus.ack(consumerId, eventId),
+
   // 旧bus透传（渐进迁移用）
   legacy: bus,
 

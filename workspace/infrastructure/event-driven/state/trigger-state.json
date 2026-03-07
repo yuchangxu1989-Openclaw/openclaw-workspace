@@ -1,26 +1,53 @@
 {
   "isc-detect": {
-    "lastEventTrigger": 1772667814712,
+    "lastEventTrigger": 1772854781084,
     "lastEventMeta": {
       "test": true,
       "filename": "test-rule.json"
     },
-    "eventTriggerCount": 1
+    "eventTriggerCount": 5,
+    "lastCronRun": 1772854775463,
+    "lastCronOutcome": "skipped",
+    "cronRunCount": 2
   },
   "dto-aeo": {
-    "lastEventTrigger": 1772667814714,
+    "lastEventTrigger": 1772854781086,
     "lastEventMeta": {
       "test": true,
       "signals_count": 1
     },
-    "eventTriggerCount": 1
+    "eventTriggerCount": 5,
+    "lastCronRun": 1772854775464,
+    "lastCronOutcome": "skipped",
+    "cronRunCount": 2
   },
   "event-dispatcher": {
-    "lastEventTrigger": 1772667814718,
+    "lastEventTrigger": 1772854781090,
     "lastEventMeta": {
       "consumed": 5,
       "dispatched": 2
     },
+    "eventTriggerCount": 5,
+    "lastCronRun": 1772854775465,
+    "lastCronOutcome": "skipped",
+    "cronRunCount": 2
+  },
+  "global-pipeline": {
+    "lastCronRun": 1772854775467,
+    "lastCronOutcome": "skipped",
+    "cronRunCount": 2,
+    "lastEventTrigger": 1772854775466,
+    "lastEventMeta": {},
+    "eventTriggerCount": 1
+  },
+  "gap1-skip-1772854775454": {
+    "lastEventTrigger": 1772854775454,
+    "lastEventMeta": {},
+    "eventTriggerCount": 1
+  },
+  "gap1-force-1772854775455": {
+    "lastEventTrigger": 1772854775455,
+    "lastEventMeta": {},
     "eventTriggerCount": 1
   }
 }

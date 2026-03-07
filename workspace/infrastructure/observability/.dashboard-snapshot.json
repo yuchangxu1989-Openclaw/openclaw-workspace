@@ -1,0 +1,274 @@
+{
+  "schema": "pipeline-dashboard-v1",
+  "generated_at": "2026-03-07T03:46:26.240Z",
+  "window_hours": 24,
+  "layers": {
+    "L1": {
+      "layer": "L1_INTENT",
+      "status": "no_data",
+      "data": {
+        "requests_total": 0,
+        "no_match_total": 0,
+        "no_match_rate": 0,
+        "hit_rate": 0,
+        "latency_avg_ms": 0,
+        "latency_p95_ms": 0,
+        "hits_by_category": {},
+        "registered_intents": 17,
+        "categories": [
+          "IC1",
+          "IC2",
+          "IC3",
+          "IC4",
+          "IC5"
+        ],
+        "active_intents": 17,
+        "intent_events_24h": 0,
+        "event_category_dist": {}
+      },
+      "alerts": [
+        {
+          "level": "info",
+          "msg": "意图识别模块无运行时数据"
+        }
+      ]
+    },
+    "L2": {
+      "layer": "L2_DECISION",
+      "status": "healthy",
+      "data": {
+        "decisions_total": 1592,
+        "avg_confidence": 1,
+        "degradation_count": 0,
+        "by_phase": {
+          "execution": {
+            "count": 1579,
+            "avg_confidence": 1
+          },
+          "cognition": {
+            "count": 11,
+            "avg_confidence": 1
+          },
+          "sensing": {
+            "count": 2,
+            "avg_confidence": 0.95
+          }
+        },
+        "by_component": {
+          "Dispatcher": 1569,
+          "ISCRuleMatcher": 11,
+          "L3Gateway": 10,
+          "IntentScanner": 2
+        },
+        "by_method": {
+          "rule_match": 1580,
+          "manual": 10,
+          "llm": 2
+        },
+        "rules_evaluated": 0,
+        "rules_matched": 0,
+        "rules_no_match": 0,
+        "rules_match_rate": 0,
+        "breaker_trips": 0
+      },
+      "alerts": []
+    },
+    "L3": {
+      "layer": "L3_EXECUTION",
+      "status": "warning",
+      "data": {
+        "dispatch_total": 0,
+        "dispatch_success": 0,
+        "dispatch_failed": 0,
+        "dispatch_timeout": 0,
+        "dispatch_retry": 0,
+        "dispatch_success_rate": 0,
+        "dispatch_latency_avg": 0,
+        "dispatch_latency_p95": 0,
+        "pipeline_latency_avg": 0,
+        "pipeline_latency_p95": 0,
+        "pipeline_total_runs": 381,
+        "last_run": {
+          "id": "run_1772752872310_t3x848",
+          "timestamp": "2026-03-05T23:21:12.310Z",
+          "events": 1,
+          "rules": 0,
+          "intents": 0,
+          "dispatched": 0,
+          "errors": 0,
+          "duration_ms": 1
+        },
+        "recent_error_rate": 30,
+        "cron_24h": {
+          "ok": 506,
+          "fail": 69,
+          "skip": 0
+        },
+        "cron_problems": [
+          {
+            "job": "event-dispatch-runner",
+            "fails": 44
+          },
+          {
+            "job": "merged-capability-pdca-4h",
+            "fails": 1
+          },
+          {
+            "job": "merged-ops-maintenance",
+            "fails": 1
+          },
+          {
+            "job": "new-event-dispatcher",
+            "fails": 17
+          },
+          {
+            "job": "new-isc-change-detector",
+            "fails": 6
+          }
+        ]
+      },
+      "alerts": [
+        {
+          "level": "warn",
+          "msg": "Cron任务24h失败 69 次: event-dispatch-runner, merged-capability-pdca-4h, merged-ops-maintenance, new-event-dispatcher, new-isc-change-detector"
+        }
+      ]
+    },
+    "L4": {
+      "layer": "L4_EFFECT",
+      "status": "healthy",
+      "data": {
+        "aeo_total_assessments": 3,
+        "aeo_recent_assessments": 0,
+        "aeo_avg_score": 0.76,
+        "aeo_pass_rate": 66.7,
+        "aeo_by_track": {
+          "quality": {
+            "count": 2,
+            "avg_score": 0.67
+          },
+          "effect": {
+            "count": 1,
+            "avg_score": 0.95
+          }
+        },
+        "eval_sets_count": 69,
+        "correction_events_24h": 0,
+        "composite_score": 88,
+        "score_breakdown": {
+          "breaker_safety": 100,
+          "aeo_quality": 76
+        }
+      },
+      "alerts": []
+    },
+    "L5": {
+      "layer": "L5_SYSTEM",
+      "status": "healthy",
+      "data": {
+        "component_health": "healthy",
+        "components": {
+          "event_bus": {
+            "status": "up",
+            "error": null,
+            "warning": null
+          },
+          "rule_matcher": {
+            "status": "up",
+            "error": null,
+            "warning": null
+          },
+          "dispatcher": {
+            "status": "up",
+            "error": null,
+            "warning": null
+          },
+          "decision_log": {
+            "status": "up",
+            "error": null,
+            "warning": null
+          },
+          "pipeline": {
+            "status": "up",
+            "error": null,
+            "warning": null
+          }
+        },
+        "eventbus": {
+          "emitted": 0,
+          "processed": 0,
+          "dropped": 0,
+          "backlog": 0
+        },
+        "uptime": "0s",
+        "events_file_size": 8782,
+        "events_file_size_mb": 0.01,
+        "events_24h_count": 19,
+        "event_type_dist": {
+          "user.message": 1,
+          "gap1.verify.test": 1,
+          "gap1.storm.test": 1,
+          "isc.rule.changed": 1,
+          "dto.signal.created": 1,
+          "dto.task.created": 2,
+          "git.commit.completed": 1,
+          "git.pre_commit.detected": 1,
+          "cron.job.requested": 6,
+          "isc.rule.created": 4
+        },
+        "event_source_dist": {
+          "test-shadow": 1,
+          "gap1-test": 1,
+          "test": 1,
+          "verification-test": 2,
+          "dto-core": 2,
+          "git-sensor": 2,
+          "cron-event-bridge-runner": 4,
+          "manual-test": 2,
+          "isc-core": 4
+        },
+        "mem_total_mb": 7685,
+        "mem_used_mb": 1149,
+        "mem_pct": 15,
+        "disk_pct": 14,
+        "feature_flags": {
+          "llm_intent_classification": true,
+          "deep_dedup_check": true,
+          "auto_eval_collection": true,
+          "event_dispatcher": true
+        },
+        "flags_on": 4,
+        "flags_off": 0,
+        "node_rss_mb": 65.6,
+        "node_heap_mb": 15.1,
+        "load_avg": [
+          0.38,
+          0.34,
+          0.19
+        ]
+      },
+      "alerts": []
+    }
+  },
+  "overall": {
+    "status": "warning",
+    "composite_score": 88,
+    "score_breakdown": {
+      "breaker_safety": 100,
+      "aeo_quality": 76
+    },
+    "status_icon": "🟡"
+  },
+  "all_alerts": [
+    {
+      "level": "info",
+      "msg": "意图识别模块无运行时数据",
+      "layer": "L1"
+    },
+    {
+      "level": "warn",
+      "msg": "Cron任务24h失败 69 次: event-dispatch-runner, merged-capability-pdca-4h, merged-ops-maintenance, new-event-dispatcher, new-isc-change-detector",
+      "layer": "L3"
+    }
+  ]
+}

@@ -134,7 +134,34 @@ function evaluate(input) {
 
 function handler(event) {
   const payload = (event && event.payload) || event || {};
-  return evaluate(payload);
+  const result = evaluate(payload);
+
+  // [Gap4] 发布反熵事件到 L3 EventBus
+  try {
+    const busPath = require('path').join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus-adapter.js');
+    const bus = require(busPath);
+    if (result && !result.pass) {
+      bus.emit('anti.entropy.issue.detected', {
+        score: result.score,
+        violations_count: (result.violations || []).length,
+        violations: (result.violations || []).slice(0, 3), // 最多3条
+        source_path: payload.filePath || payload.path || 'unknown',
+      }, 'anti-entropy-checker');
+    } else if (result && result.pass && (result.violations || []).length === 0) {
+      // 清洁通过 — 不发事件，避免噪声
+    } else if (result && result.pass) {
+      // 有轻微问题但通过
+      bus.emit('anti.entropy.fix.applied', {
+        score: result.score,
+        violations_count: (result.violations || []).length,
+        source_path: payload.filePath || payload.path || 'unknown',
+      }, 'anti-entropy-checker');
+    }
+  } catch (_) {
+    // bus不可用时静默降级，不影响主流程
+  }
+
+  return result;
 }
 
 function parseArgv(argv) {

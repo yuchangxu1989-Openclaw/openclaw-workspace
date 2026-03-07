@@ -1,0 +1,12 @@
+{
+  "_note": "[Gap4] 此配置文件由 Gap4 集成改造创建，供 SEEF Python 子技能读取 L3 EventBus 路径",
+  "events_file": "/root/.openclaw/workspace/infrastructure/event-bus/events.jsonl",
+  "cursor_file": "/root/.openclaw/workspace/infrastructure/event-bus/cursor.json",
+  "workspace": "/root/.openclaw/workspace",
+  "bus_adapter": "/root/.openclaw/workspace/infrastructure/event-bus/bus-adapter.js",
+  "version": "l3",
+  "consumer_defaults": {
+    "timeout_ms": 30000,
+    "max_retries": 2
+  }
+}

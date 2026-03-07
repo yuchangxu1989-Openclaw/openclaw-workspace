@@ -1,7 +1,8 @@
 'use strict';
 
 const path = require('path');
-const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus.js'));
+// [Gap4 升级] 使用 bus-adapter.js（推荐入口，含风暴抑制 + isc-rule 热重载钩子）
+const bus = require(path.join(__dirname, '..', '..', 'infrastructure', 'event-bus', 'bus-adapter.js'));
 
 /**
  * AEO 事件桥接

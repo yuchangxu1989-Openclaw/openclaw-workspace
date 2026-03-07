@@ -54,5 +54,8 @@ module.exports = {
   ConfigLoader,
   
   // 版本
-  VERSION: '1.0.0'
+  VERSION: '1.0.0',
+
+  // [Gap4] L3 EventBus 桥接
+  bridge: require('./lep-event-bridge'),
 };

@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-03-07T03:44:33.583Z",
+  "sprint": "test-sprint",
+  "verdict": "BLOCKED",
+  "gates": {
+    "artifact_audit": {
+      "passed": false,
+      "detail": {}
+    },
+    "metrics_collected": {
+      "passed": false,
+      "detail": {
+        "missing": "/root/.openclaw/workspace/infrastructure/skills/project-mgmt/metrics/2026-03.json"
+      }
+    },
+    "lessons_captured": {
+      "passed": false,
+      "detail": {
+        "error": "no lesson files found"
+      }
+    },
+    "tribunal_verdict": {
+      "passed": false,
+      "detail": {
+        "files_found": 0
+      }
+    }
+  },
+  "missing_gates": [
+    "artifact_audit",
+    "metrics_collected",
+    "lessons_captured",
+    "tribunal_verdict"
+  ]
+}
