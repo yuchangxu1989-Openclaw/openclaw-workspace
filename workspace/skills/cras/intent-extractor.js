@@ -34,6 +34,7 @@ const bus = require(path.join(WORKSPACE, 'infrastructure/event-bus/bus-adapter')
 
 // ─── LLM调用层 ───
 const { callLLM } = require('./intent-extractor-llm');
+const { evaluateIntentCase, ARCHITECTURE_VERSION } = require('../aeo/src/evaluation/intent-alignment.cjs');
 
 // ─── 配置 ───
 const CONFIG = loadConfig();
@@ -441,6 +442,11 @@ async function extractIntents() {
  * 输入：标注好的测试集（对话片段 + 预期意图）
  * 输出：准确率、召回率、F1分数
  *
+ * 对齐标准：
+ *   - 最终判定完全由LLM语义识别结果决定
+ *   - 关键词/正则信号仅记录为辅助交叉匹配，不参与最终通过判定
+ *   - 评测模式只读，不emit事件，不影响生产链路
+ *
  * @param {Array<{chunk: string, expected: Array<{type: string, target?: string}>}>} testSet
  * @returns {Promise<{accuracy: number, precision: number, recall: number, f1: number, details: Array}>}
  */
@@ -464,39 +470,36 @@ async function evaluateAccuracy(testSet) {
       const predicted = parseLLMResponse(response)
         .filter(i => i.confidence >= CONFIG.minConfidence);
       const expected = testCase.expected || [];
+      const judgment = evaluateIntentCase({
+        chunk: testCase.chunk,
+        expected,
+        predicted,
+      });
 
-      // 计算匹配
-      const predictedTypes = new Set(predicted.map(p => p.type));
-      const expectedTypes = new Set(expected.map(e => e.type));
-
-      for (const pType of predictedTypes) {
-        if (expectedTypes.has(pType)) {
-          truePositives++;
-        } else {
-          falsePositives++;
-        }
-      }
-
-      for (const eType of expectedTypes) {
-        if (!predictedTypes.has(eType)) {
-          falseNegatives++;
-        }
-      }
+      truePositives += judgment.llmPrimary.truePositives;
+      falsePositives += judgment.llmPrimary.falsePositives;
+      falseNegatives += judgment.llmPrimary.falseNegatives;
 
       details.push({
         chunk: testCase.chunk.slice(0, 100) + '...',
-        expected: Array.from(expectedTypes),
-        predicted: Array.from(predictedTypes),
-        match: expectedTypes.size === predictedTypes.size &&
-          [...expectedTypes].every(t => predictedTypes.has(t)),
+        expected,
+        predicted,
+        match: judgment.llmPrimary.exactSetMatch,
+        llm_primary: judgment.llmPrimary,
+        auxiliary_cross_check: judgment.auxiliaryCrossCheck,
+        architecture: judgment.architecture,
       });
     } catch (err) {
       details.push({
         chunk: testCase.chunk.slice(0, 100) + '...',
-        expected: (testCase.expected || []).map(e => e.type),
+        expected: testCase.expected || [],
         predicted: [],
         match: false,
         error: err.message,
+        architecture: {
+          policy: 'llm_primary_keyword_regex_auxiliary',
+          version: ARCHITECTURE_VERSION,
+        }
       });
       falseNegatives += (testCase.expected || []).length;
     }
@@ -512,6 +515,11 @@ async function evaluateAccuracy(testSet) {
     ? details.filter(d => d.match).length / details.length : 0;
 
   return {
+    architecture: {
+      policy: 'llm_primary_keyword_regex_auxiliary',
+      version: ARCHITECTURE_VERSION,
+      sandbox_safe: true,
+    },
     accuracy: Math.round(accuracy * 1000) / 1000,
     precision: Math.round(precision * 1000) / 1000,
     recall: Math.round(recall * 1000) / 1000,
