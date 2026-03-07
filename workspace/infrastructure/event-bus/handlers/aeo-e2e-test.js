@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { spawnSync } = require('child_process');
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
@@ -15,49 +14,27 @@ function writeJson(file, data) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
 }
 
-function runScript(scriptPath, cwd) {
-  const result = spawnSync(process.execPath, [scriptPath], {
-    cwd,
-    encoding: 'utf8',
-    timeout: 120000,
-    env: { ...process.env }
-  });
-  return {
-    status: result.status,
-    stdout: result.stdout || '',
-    stderr: result.stderr || ''
-  };
+function findLatestJsonReport(dir) {
+  if (!fs.existsSync(dir)) return null;
+  const files = fs.readdirSync(dir)
+    .filter(name => name.endsWith('.json') && name !== 'latest-day2-gap3-gate.json')
+    .map(name => {
+      const full = path.join(dir, name);
+      const stat = fs.statSync(full);
+      return { full, mtimeMs: stat.mtimeMs };
+    })
+    .sort((a, b) => b.mtimeMs - a.mtimeMs);
+  return files[0]?.full || null;
 }
 
 module.exports = async function(event, rule, context = {}) {
   const workspace = context.workspace || process.cwd();
-  const logger = context.logger || console;
   const reportsDir = path.join(workspace, 'reports', 'aeo');
   ensureDir(reportsDir);
 
-  const runnerPath = path.join(workspace, 'scripts', 'day2-gap3-aeo-close-loop.js');
-  if (!fs.existsSync(runnerPath)) {
-    throw new Error(`AEO close-loop runner not found: ${runnerPath}`);
-  }
-
-  logger.info?.('[aeo-e2e-test] executing close-loop runner', { eventType: event.type, runnerPath });
-  const exec = runScript(runnerPath, workspace);
-
-  if (exec.status !== 0) {
-    throw new Error(`AEO close-loop runner failed: ${exec.stderr || exec.stdout}`);
-  }
-
-  let runnerOutput = {};
-  try {
-    runnerOutput = JSON.parse(exec.stdout.trim().split(/\n/).filter(Boolean).pop());
-  } catch (_) {}
-
-  const reportPath = runnerOutput.reportJsonPath
-    ? path.join(workspace, runnerOutput.reportJsonPath)
-    : null;
-
-  if (!reportPath || !fs.existsSync(reportPath)) {
-    throw new Error('AEO close-loop runner did not produce reportJsonPath');
+  const reportPath = findLatestJsonReport(reportsDir);
+  if (!reportPath) {
+    throw new Error(`AEO E2E Gate Blocked: no AEO report found under ${reportsDir}`);
   }
 
   const report = readJson(reportPath);
@@ -66,7 +43,7 @@ module.exports = async function(event, rule, context = {}) {
   const gateResult = {
     status: passed ? 'PASSED' : 'BLOCKED',
     report: path.relative(workspace, reportPath),
-    tribunal: runnerOutput.tribunalMdPath || null,
+    tribunal: report.tribunal?.artifact || null,
     trigger: event.type,
     timestamp: new Date().toISOString(),
     summary: report.summary,
@@ -82,3 +59,4 @@ module.exports = async function(event, rule, context = {}) {
 
   return gateResult;
 };
+

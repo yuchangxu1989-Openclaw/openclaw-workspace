@@ -1,120 +1,13 @@
 {
-  "timestamp": "2026-03-07T03:45:05.466Z",
+  "timestamp": "2026-03-07T04:10:01.480Z",
   "scanned": {
-    "files": 4305,
-    "dirs": 422
+    "files": 4340,
+    "dirs": 420
   },
-  "issues": 12,
-  "fixes": 11,
+  "issues": 0,
+  "fixes": 0,
   "details": {
-    "issues": [
-      {
-        "type": "duplicate",
-        "files": [
-          "infrastructure/intent-engine/logs/scan-2026-03-06.jsonl",
-          "infrastructure/intent-engine/logs/scan-2026-03-07.jsonl"
-        ]
-      },
-      {
-        "type": "duplicate",
-        "files": [
-          "skills/public/multi-agent-dispatch/state/engine-state.json.lock",
-          "skills/public/multi-agent-dispatch/state/live-board.json.lock"
-        ]
-      },
-      {
-        "type": "empty_file",
-        "file": "skills/public/multi-agent-dispatch/state/engine-state.json.lock"
-      },
-      {
-        "type": "empty_file",
-        "file": "skills/public/multi-agent-dispatch/state/live-board.json.lock"
-      },
-      {
-        "type": "oversized_log",
-        "file": "infrastructure/logs/dispatcher-actions.jsonl",
-        "size": 5970847
-      },
-      {
-        "type": "empty_dir",
-        "dir": "skills/isc-core/rules/_drafts"
-      },
-      {
-        "type": "empty_dir",
-        "dir": "reports/tribunal"
-      },
-      {
-        "type": "empty_dir",
-        "dir": "reports/aeo"
-      },
-      {
-        "type": "empty_dir",
-        "dir": "infrastructure/skills/project-mgmt/metrics"
-      },
-      {
-        "type": "empty_dir",
-        "dir": "infrastructure/skills/project-mgmt/lessons"
-      },
-      {
-        "type": "empty_dir",
-        "dir": "infrastructure/skills/project-mgmt"
-      },
-      {
-        "type": "empty_dir",
-        "dir": "infrastructure/skills"
-      }
-    ],
-    "fixes": [
-      {
-        "type": "dedup",
-        "from": "infrastructure/intent-engine/logs/scan-2026-03-07.jsonl",
-        "to": ".entropy-archive/duplicates/scan-2026-03-07.jsonl.1772855105401",
-        "kept": "infrastructure/intent-engine/logs/scan-2026-03-06.jsonl"
-      },
-      {
-        "type": "dedup",
-        "from": "skills/public/multi-agent-dispatch/state/engine-state.json.lock",
-        "to": ".entropy-archive/duplicates/engine-state.json.lock.1772855105406",
-        "kept": "skills/public/multi-agent-dispatch/state/live-board.json.lock"
-      },
-      {
-        "type": "empty_cleanup",
-        "from": "skills/public/multi-agent-dispatch/state/live-board.json.lock"
-      },
-      {
-        "type": "log_trimmed",
-        "file": "infrastructure/logs/dispatcher-actions.jsonl",
-        "from": 5970847,
-        "to": 141415
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "skills/isc-core/rules/_drafts"
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "reports/tribunal"
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "reports/aeo"
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "infrastructure/skills/project-mgmt/metrics"
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "infrastructure/skills/project-mgmt/lessons"
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "infrastructure/skills/project-mgmt"
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "infrastructure/skills"
-      }
-    ]
+    "issues": [],
+    "fixes": []
   }
 }

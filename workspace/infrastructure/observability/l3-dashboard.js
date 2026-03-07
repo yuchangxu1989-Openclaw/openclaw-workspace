@@ -9,6 +9,7 @@
  *   - Alert state (alerts.js)
  *   - Pipeline run logs
  *   - DecisionLog summaries
+ *   - Global five-layer autonomous decision dashboard
  * 
  * Can be called by heartbeat for periodic system status output.
  * 
@@ -34,6 +35,10 @@ function _loadAlerts() {
 
 function _loadDecisionLog() {
   try { return require('../decision-log/decision-logger'); } catch (_) { return null; }
+}
+
+function _loadGlobalDecisionDashboard() {
+  try { return require('./global-decision-dashboard'); } catch (_) { return null; }
 }
 
 // ─── Constants ───────────────────────────────────────────────────
@@ -224,6 +229,21 @@ function generateReport(options = {}) {
         for (const [comp, count] of sorted.slice(0, 10)) {
           lines.push(`  - ${comp}: ${count}`);
         }
+      }
+      lines.push('');
+    } catch (_) {}
+  }
+
+  // ─── Global Five-Layer Dashboard ───
+  const globalDashboard = _loadGlobalDecisionDashboard();
+  if (globalDashboard && typeof globalDashboard.buildDashboard === 'function') {
+    try {
+      const dashboard = globalDashboard.buildDashboard({ hours: 24 });
+      lines.push(`## 🧭 全局自主决策五层总览 (24h)`);
+      lines.push('');
+      lines.push(`- 总状态: ${dashboard.overall_status}`);
+      for (const [layerName, layer] of Object.entries(dashboard.layers || {})) {
+        lines.push(`- ${layerName}: ${layer.status}`);
       }
       lines.push('');
     } catch (_) {}
