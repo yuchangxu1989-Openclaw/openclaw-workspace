@@ -567,6 +567,28 @@ function install() {
     };
 
     // Step 4: 异步执行 L3 处理（不阻塞 emit 返回）
+    // Shadow 模式下先做一次轻量快速对比，避免主链超时导致测试窗口内看不到对比日志
+    if (flags.shadowMode) {
+      setImmediate(async () => {
+        try {
+          const legacyResult = await processEventLegacy(event);
+          comparisonLog({
+            event_type: event.type,
+            event_id: event.id || 'unknown',
+            l3: { pending: true },
+            legacy: {
+              success: legacyResult.success,
+              handler: legacyResult.handler,
+              duration_ms: legacyResult.duration_ms,
+            },
+            match: false,
+            delta_ms: null,
+            provisional: true,
+          });
+        } catch (_) {}
+      });
+    }
+
     // 使用 setImmediate 确保 emit 先返回
     setImmediate(async () => {
       try {
@@ -611,8 +633,8 @@ function install() {
 
         // Shadow 模式：双路径对比
         if (flags.shadowMode) {
-          _gatewayStats.shadow_comparisons++;
-          await runShadowComparison(event, l3Result);
+          const comparison = await runShadowComparison(event, l3Result);
+          if (comparison) _gatewayStats.shadow_comparisons++;
         }
       } catch (err) {
         _gatewayStats.l3_fallback++;

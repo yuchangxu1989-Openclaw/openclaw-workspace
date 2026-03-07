@@ -260,22 +260,40 @@ class L3Pipeline {
       const depth = getChainDepth(event);
 
       // ─── 断路器检查 ───
-      if (depth > this.maxChainDepth) {
+      const ingressBreakerTripped = !!(
+        event && event.metadata && event.metadata.breaker && event.metadata.breaker.circuit_broken
+      );
+      if (ingressBreakerTripped || depth > this.maxChainDepth) {
         summary.circuit_breaks++;
         // ─── Metrics: track breaker trip ───
         if (_metrics) _metrics.inc('pipeline_breaker_trips');
         if (_alerts) _alerts.recordBreakerTrip();
 
+        const breakerReason = ingressBreakerTripped
+          ? (event.metadata.breaker.reason || 'eventbus ingress circuit broken')
+          : `chain_depth=${depth} > max_allowed=${this.maxChainDepth}`;
+        const breakerStage = ingressBreakerTripped
+          ? (event.metadata.breaker.stage || 'eventbus.ingress')
+          : 'pipeline';
+
         safeDecisionLog({
           phase: 'execution',
           component: 'l3-pipeline.circuit-breaker',
           event_id: event.id || null,
-          decision: `熔断: 事件 ${event.id || 'unknown'} 深度${depth}超限`,
-          what: `Circuit break: event ${event.id || 'unknown'} (type=${event.type}) depth=${depth} exceeds max=${this.maxChainDepth}`,
-          why: `防止无限循环(cras→isc→dto→cras): chain_depth=${depth} > max_allowed=${this.maxChainDepth}`,
+          decision: `熔断: 事件 ${event.id || 'unknown'} 于 ${breakerStage} 被断开`,
+          what: `Circuit break: event ${event.id || 'unknown'} (type=${event.type}) blocked at ${breakerStage}`,
+          why: ingressBreakerTripped
+            ? `上游 EventBus ingress breaker 已拒绝该事件: ${breakerReason}`
+            : `防止无限循环(cras→isc→dto→cras): chain_depth=${depth} > max_allowed=${this.maxChainDepth}`,
           confidence: 1.0,
-          alternatives_considered: [{ id: '继续处理', reason: `深度${depth}超过阈值${this.maxChainDepth},有循环风险` }],
-          input_summary: JSON.stringify({ event_id: event.id, type: event.type, chain_depth: depth }),
+          alternatives_considered: [{ id: '继续处理', reason: breakerReason }],
+          input_summary: JSON.stringify({
+            event_id: event.id,
+            type: event.type,
+            chain_depth: depth,
+            breaker_stage: breakerStage,
+            breaker_reason: breakerReason,
+          }),
         }, flags);
         continue; // 跳过此事件
       }

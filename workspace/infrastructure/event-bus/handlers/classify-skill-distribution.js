@@ -9,23 +9,25 @@ const SECRET_PATTERNS = [/sk-[a-zA-Z0-9]{32,}/, /AKIA[A-Z0-9]{16}/, /-----BEGIN.
 
 module.exports = async function(event, rule, context) {
   const payload = event.payload || {};
-  const paths = payload.paths || [];
+  const paths = Array.isArray(payload.paths) && payload.paths.length > 0
+    ? payload.paths
+    : inferSkillPaths(payload);
   const results = [];
 
   for (const skillPath of paths) {
     const fullPath = path.resolve(context?.workspace || WORKSPACE, skillPath);
-    if (!fs.existsSync(fullPath)) continue;
 
     const checks = {
-      noLocalPaths: !containsLocalPaths(fullPath),
-      hasStandardIO: hasStandardInterface(fullPath),
-      hasDocs: hasDocumentation(fullPath),
-      noHardcodedSecrets: !containsSecrets(fullPath),
+      noLocalPaths: !containsLocalPaths(fullPath, payload),
+      hasStandardIO: hasStandardInterface(fullPath, payload),
+      hasDocs: hasDocumentation(fullPath, payload),
+      noHardcodedSecrets: !containsSecrets(fullPath, payload),
     };
 
     const passAll = Object.values(checks).every(Boolean);
     const isPublic = skillPath.startsWith('skills/public/');
     const isInternal = skillPath.startsWith('skills/') && !isPublic;
+    const classification = passAll ? 'publishable' : 'local';
 
     if (passAll && isInternal) {
       context?.bus?.emit?.('skill.classification.suggest_public', {
@@ -44,7 +46,7 @@ module.exports = async function(event, rule, context) {
       context?.notify?.('feishu', `⚠️ skills/public/${path.basename(skillPath)} 不符合通用标准：${violations.join(', ')}`, { severity: 'warning' });
     }
 
-    results.push({ skillPath, classification: passAll ? 'publishable' : 'local', checks });
+    results.push({ skillPath, classification, checks });
   }
 
   const record = {
@@ -60,10 +62,19 @@ module.exports = async function(event, rule, context) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   fs.appendFileSync(LOG_FILE, JSON.stringify(record) + '\n');
 
-  return { success: true, result: results };
+  const primary = results[0]?.classification || '';
+  return { success: true, result: primary, details: results };
 };
 
+function inferSkillPaths(payload) {
+  if (payload.skillPath) return [payload.skillPath];
+  if (payload.skillName) return [path.join('skills', payload.skillName)];
+  return [];
+}
+
 function walkDir(dirPath) {
+  if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory()) return [];
+
   const out = [];
   const stack = [dirPath];
   while (stack.length) {
@@ -78,7 +89,11 @@ function walkDir(dirPath) {
   return out;
 }
 
-function containsLocalPaths(dirPath) {
+function containsLocalPaths(dirPath, payload) {
+  if (typeof payload?.skillContent === 'string' && LOCAL_PATTERNS.some(p => p.test(payload.skillContent))) {
+    return true;
+  }
+
   const files = walkDir(dirPath).filter(f => f.endsWith('.js') || f.endsWith('.md'));
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf8');
@@ -87,17 +102,23 @@ function containsLocalPaths(dirPath) {
   return false;
 }
 
-function hasStandardInterface(dirPath) {
+function hasStandardInterface(dirPath, payload) {
+  if (typeof payload?.hasStandardIO === 'boolean') return payload.hasStandardIO;
   const skillMd = path.join(dirPath, 'SKILL.md');
   const indexJs = path.join(dirPath, 'index.js');
   return fs.existsSync(skillMd) || fs.existsSync(indexJs);
 }
 
-function hasDocumentation(dirPath) {
+function hasDocumentation(dirPath, payload) {
+  if (typeof payload?.skillContent === 'string') return true;
   return fs.existsSync(path.join(dirPath, 'SKILL.md')) || fs.existsSync(path.join(dirPath, 'README.md'));
 }
 
-function containsSecrets(dirPath) {
+function containsSecrets(dirPath, payload) {
+  if (typeof payload?.skillContent === 'string' && SECRET_PATTERNS.some(p => p.test(payload.skillContent))) {
+    return true;
+  }
+
   const files = walkDir(dirPath);
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf8');

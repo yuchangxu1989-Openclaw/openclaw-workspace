@@ -1,13 +1,23 @@
 {
-  "timestamp": "2026-03-07T04:10:01.480Z",
+  "timestamp": "2026-03-07T05:20:01.357Z",
   "scanned": {
-    "files": 4340,
-    "dirs": 420
+    "files": 4382,
+    "dirs": 421
   },
-  "issues": 0,
-  "fixes": 0,
+  "issues": 1,
+  "fixes": 1,
   "details": {
-    "issues": [],
-    "fixes": []
+    "issues": [
+      {
+        "type": "empty_dir",
+        "dir": "skills/isc-core/rules/_drafts"
+      }
+    ],
+    "fixes": [
+      {
+        "type": "empty_dir_removed",
+        "dir": "skills/isc-core/rules/_drafts"
+      }
+    ]
   }
 }

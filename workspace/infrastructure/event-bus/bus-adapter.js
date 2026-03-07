@@ -68,9 +68,13 @@ function _enrichMetadata(metadata, type) {
   metadata = metadata || {};
   if (!metadata.trace_id) {
     metadata.trace_id = `trace_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-    metadata.chain_depth = 0;
+    if (metadata.chain_depth === undefined || metadata.chain_depth === null || Number.isNaN(Number(metadata.chain_depth))) {
+      metadata.chain_depth = 0;
+    } else {
+      metadata.chain_depth = Number(metadata.chain_depth);
+    }
   } else {
-    metadata.chain_depth = (metadata.chain_depth || 0) + 1;
+    metadata.chain_depth = Number(metadata.chain_depth || 0) + 1;
   }
   metadata.emitted_at = Date.now();
   metadata.event_type = type;
@@ -159,23 +163,29 @@ function emit(type, payload, source, metadata) {
 
   // ─── 熔断器检查 ───
   const checkResult = breaker.check(type, metadata);
+
+  // 语义对齐：无论是否允许进入 EventBus ingress，都把 breaker 判定结果
+  // 以 metadata 形式附着到事件上，供下游 Pipeline 在消费层统计 circuit_breaks。
+  // 若 ingress 已拒绝，则仍写入一条标记为 circuit_broken 的事件，让跨层观测一致。
+  const enrichedPayload = Object.assign({}, payload);
+  const finalMetadata = Object.assign({}, metadata);
   if (!checkResult.allowed) {
-    if (_metrics) _metrics.inc('events_circuit_broken_total');
-    console.warn(`[EventBus] Circuit breaker: ${checkResult.reason}`);
-    return { id: null, suppressed: false, circuitBroken: true, reason: checkResult.reason };
+    finalMetadata.breaker = Object.assign({}, finalMetadata.breaker, {
+      stage: 'eventbus.ingress',
+      allowed: false,
+      reason: checkResult.reason,
+      circuit_broken: true,
+    });
+  }
+
+  if (Object.keys(finalMetadata).length > 0) {
+    enrichedPayload._metadata = finalMetadata;
   }
 
   // ─── 委托旧bus.js emit（文件锁保护） ───
-  // 旧bus.emit签名: (type, payload, source) → event
-  // 将metadata合入payload传递（保持旧bus兼容，metadata作为payload的子字段）
-  const enrichedPayload = Object.assign({}, payload);
-  if (Object.keys(metadata).length > 0) {
-    enrichedPayload._metadata = metadata;
-  }
-
   const event = bus.emit(type, enrichedPayload, source);
 
-  // ─── Metrics: track emit ───
+  // ─── Metrics: track emit / breaker ───
   if (_metrics) _metrics.inc('events_emitted_total');
 
   // 更新去重缓存
@@ -183,6 +193,12 @@ function emit(type, payload, source, metadata) {
 
   // ─── emit后钩子 ───
   _postEmitHook(type);
+
+  if (!checkResult.allowed) {
+    if (_metrics) _metrics.inc('events_circuit_broken_total');
+    console.warn(`[EventBus] Circuit breaker: ${checkResult.reason}`);
+    return { id: event.id, suppressed: false, circuitBroken: true, reason: checkResult.reason };
+  }
 
   return { id: event.id, suppressed: false };
 }

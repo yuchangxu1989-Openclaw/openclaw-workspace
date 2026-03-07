@@ -281,13 +281,65 @@ function resolveHandler(handlerName, handlerMap) {
  */
 
 function classifyPattern(pattern) {
+  if (typeof pattern !== 'string') return { level: 0, type: 'invalid' };
   if (pattern === '*') return { level: 4, type: 'wildcard' };
   if (pattern.startsWith('*.')) return { level: 3, type: 'suffix', suffix: pattern.slice(2) };
   if (pattern.endsWith('.*')) return { level: 2, type: 'prefix', prefix: pattern.slice(0, -2) };
   return { level: 1, type: 'exact' };
 }
 
+function normalizeActionValue(action) {
+  if (typeof action === 'string') return action;
+  if (action == null) return null;
+  if (Array.isArray(action)) {
+    for (const item of action) {
+      const normalized = normalizeActionValue(item);
+      if (normalized) return normalized;
+    }
+    return null;
+  }
+  if (typeof action === 'object') {
+    const candidates = [
+      action.event,
+      action.eventType,
+      action.type,
+      action.name,
+      action.action,
+      action.kind,
+    ];
+    for (const candidate of candidates) {
+      const normalized = normalizeActionValue(candidate);
+      if (normalized) return normalized;
+    }
+  }
+  return null;
+}
+
+function extractRuleAction(rule, event) {
+  if (rule) {
+    const directAction = normalizeActionValue(rule.action);
+    if (directAction) return directAction;
+
+    const handlerHint = normalizeActionValue(rule.handler);
+    if (handlerHint) return handlerHint;
+
+    const nestedRule = rule.rule;
+    if (nestedRule) {
+      const nestedAction = normalizeActionValue(nestedRule.action);
+      if (nestedAction) return nestedAction;
+
+      const triggerEvents = nestedRule.trigger && nestedRule.trigger.events;
+      const nestedTriggerAction = normalizeActionValue(triggerEvents);
+      if (nestedTriggerAction) return nestedTriggerAction;
+    }
+  }
+
+  return normalizeActionValue(event && (event.type || event.eventType)) || 'unknown';
+}
+
 function matchPattern(eventAction, pattern) {
+  if (typeof eventAction !== 'string' || !eventAction) return false;
+  if (typeof pattern !== 'string' || !pattern) return false;
   const cls = classifyPattern(pattern);
   switch (cls.type) {
     case 'exact':
@@ -424,15 +476,10 @@ async function dispatch(rule, event, options = {}) {
 
   // Handle ISC rule wrapper format: { rule: ISC_RULE, priority, match_type, pattern }
   // Normalize to ensure rule.action exists for routing
-  if (!rule.action && rule.rule) {
-    const iscRule = rule.rule;
-    rule.action = (iscRule.trigger && iscRule.trigger.events && iscRule.trigger.events[0])
-      || event.type || event.eventType || 'unknown';
-    // Carry forward ISC rule info for handlers
-    rule._iscRule = iscRule;
-  } else if (!rule.action) {
-    rule.action = event.type || event.eventType || 'unknown';
+  if (rule.rule) {
+    rule._iscRule = rule.rule;
   }
+  rule.action = extractRuleAction(rule, event);
 
   // Feature flag check
   if (!isEnabled()) {
@@ -837,6 +884,7 @@ module.exports = {
   isEnabled,
   matchPattern,
   classifyPattern,
+  extractRuleAction,
   withTimeout,
   enqueueManual,
   logDecision,

@@ -1,6 +1,6 @@
 {
   "schema": "pipeline-dashboard-v1",
-  "generated_at": "2026-03-07T03:46:26.240Z",
+  "generated_at": "2026-03-07T04:41:17.749Z",
   "window_hours": 24,
   "layers": {
     "L1": {
@@ -37,16 +37,16 @@
       "layer": "L2_DECISION",
       "status": "healthy",
       "data": {
-        "decisions_total": 1592,
+        "decisions_total": 1559,
         "avg_confidence": 1,
         "degradation_count": 0,
         "by_phase": {
           "execution": {
-            "count": 1579,
+            "count": 1543,
             "avg_confidence": 1
           },
           "cognition": {
-            "count": 11,
+            "count": 14,
             "avg_confidence": 1
           },
           "sensing": {
@@ -55,14 +55,16 @@
           }
         },
         "by_component": {
-          "Dispatcher": 1569,
-          "ISCRuleMatcher": 11,
+          "Dispatcher": 1526,
+          "ISCRuleMatcher": 14,
           "L3Gateway": 10,
-          "IntentScanner": 2
+          "IntentScanner": 2,
+          "l3-pipeline": 6,
+          "l3-pipeline.rule-matcher": 1
         },
         "by_method": {
-          "rule_match": 1580,
-          "manual": 10,
+          "rule_match": 1540,
+          "manual": 17,
           "llm": 2
         },
         "rules_evaluated": 0,
@@ -87,30 +89,30 @@
         "dispatch_latency_p95": 0,
         "pipeline_latency_avg": 0,
         "pipeline_latency_p95": 0,
-        "pipeline_total_runs": 381,
+        "pipeline_total_runs": 384,
         "last_run": {
-          "id": "run_1772752872310_t3x848",
-          "timestamp": "2026-03-05T23:21:12.310Z",
-          "events": 1,
+          "id": "run_1772855229169_p3mf1f",
+          "timestamp": "2026-03-07T03:47:09.169Z",
+          "events": 0,
           "rules": 0,
           "intents": 0,
           "dispatched": 0,
           "errors": 0,
-          "duration_ms": 1
+          "duration_ms": 2
         },
-        "recent_error_rate": 30,
+        "recent_error_rate": 25,
         "cron_24h": {
-          "ok": 506,
-          "fail": 69,
+          "ok": 510,
+          "fail": 63,
           "skip": 0
         },
         "cron_problems": [
           {
             "job": "event-dispatch-runner",
-            "fails": 44
+            "fails": 42
           },
           {
-            "job": "merged-capability-pdca-4h",
+            "job": "memory-summary-6h",
             "fails": 1
           },
           {
@@ -119,18 +121,18 @@
           },
           {
             "job": "new-event-dispatcher",
-            "fails": 17
+            "fails": 15
           },
           {
             "job": "new-isc-change-detector",
-            "fails": 6
+            "fails": 4
           }
         ]
       },
       "alerts": [
         {
           "level": "warn",
-          "msg": "Cron任务24h失败 69 次: event-dispatch-runner, merged-capability-pdca-4h, merged-ops-maintenance, new-event-dispatcher, new-isc-change-detector"
+          "msg": "Cron任务24h失败 63 次: event-dispatch-runner, memory-summary-6h, merged-ops-maintenance, new-event-dispatcher, new-isc-change-detector"
         }
       ]
     },
@@ -201,34 +203,39 @@
           "backlog": 0
         },
         "uptime": "0s",
-        "events_file_size": 8782,
-        "events_file_size_mb": 0.01,
-        "events_24h_count": 19,
+        "events_file_size": 41730,
+        "events_file_size_mb": 0.04,
+        "events_24h_count": 66,
         "event_type_dist": {
           "user.message": 1,
           "gap1.verify.test": 1,
           "gap1.storm.test": 1,
           "isc.rule.changed": 1,
           "dto.signal.created": 1,
-          "dto.task.created": 2,
-          "git.commit.completed": 1,
-          "git.pre_commit.detected": 1,
+          "dto.task.created": 13,
+          "git.commit.completed": 18,
+          "git.pre_commit.detected": 17,
           "cron.job.requested": 6,
-          "isc.rule.created": 4
+          "isc.rule.created": 4,
+          "seef.skill.discovered": 1,
+          "isc.rule.files_changed": 1,
+          "isc.enforcement_rate.threshold_crossed": 1
         },
         "event_source_dist": {
           "test-shadow": 1,
           "gap1-test": 1,
           "test": 1,
           "verification-test": 2,
-          "dto-core": 2,
-          "git-sensor": 2,
+          "dto-core": 13,
+          "git-sensor": 36,
           "cron-event-bridge-runner": 4,
           "manual-test": 2,
-          "isc-core": 4
+          "isc-core": 4,
+          "gap4-test": 1,
+          "threshold-scanner": 1
         },
         "mem_total_mb": 7685,
-        "mem_used_mb": 1149,
+        "mem_used_mb": 1118,
         "mem_pct": 15,
         "disk_pct": 14,
         "feature_flags": {
@@ -239,12 +246,12 @@
         },
         "flags_on": 4,
         "flags_off": 0,
-        "node_rss_mb": 65.6,
-        "node_heap_mb": 15.1,
+        "node_rss_mb": 71.9,
+        "node_heap_mb": 18.2,
         "load_avg": [
-          0.38,
-          0.34,
-          0.19
+          0.37,
+          0.32,
+          0.23
         ]
       },
       "alerts": []
@@ -267,7 +274,7 @@
     },
     {
       "level": "warn",
-      "msg": "Cron任务24h失败 69 次: event-dispatch-runner, merged-capability-pdca-4h, merged-ops-maintenance, new-event-dispatcher, new-isc-change-detector",
+      "msg": "Cron任务24h失败 63 次: event-dispatch-runner, memory-summary-6h, merged-ops-maintenance, new-event-dispatcher, new-isc-change-detector",
       "layer": "L3"
     }
   ]

@@ -60,8 +60,8 @@ function check(type, metadata = {}) {
   }
 
   const chainDepth = Number(metadata.chain_depth || 0);
-  if (chainDepth >= _limits.maxChainDepth) {
-    return { allowed: false, reason: `chain depth ${chainDepth} >= ${_limits.maxChainDepth}` };
+  if (chainDepth > _limits.maxChainDepth) {
+    return { allowed: false, reason: `chain depth ${chainDepth} > ${_limits.maxChainDepth}` };
   }
 
   _prune(now);
