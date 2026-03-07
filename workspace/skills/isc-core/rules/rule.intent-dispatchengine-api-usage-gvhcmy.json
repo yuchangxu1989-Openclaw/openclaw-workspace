@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-dispatchengine-api-usage-gvhcmy",
+  "name": "intent_dispatchengine-api-usage",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "用户要求记住DispatchEngine的正确生命周期方法，排除不存在的markFinished",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "DispatchEngine API usage"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: DispatchEngine API usage"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772851203139"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "DispatchEngine API usage",
+    "confidence": 0.85,
+    "source_file": "2026-03-07.md",
+    "evidence": "DispatchEngine lifecycle methods are markRunning, markDone, markFailed, cancel, heartbeat; there is no markFinished.",
+    "created_at": "2026-03-07T02:40:03.139Z"
+  }
+}

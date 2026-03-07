@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-agent-orchestration-design-standard-p3nxat",
+  "name": "intent_agent-orchestration-design-standard",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "用户要求将'诊断必须自动扩展为具体执行队列'确立为agent编排的设计标准",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "agent orchestration design standard"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: agent orchestration design standard"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772851203114"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "agent orchestration design standard",
+    "confidence": 0.95,
+    "source_file": "2026-03-07.md",
+    "evidence": "This should be remembered as a design standard for agent orchestration: diagnosis must auto-expand into concrete repair queues, not stall at explanation.",
+    "created_at": "2026-03-07T02:40:03.114Z"
+  }
+}

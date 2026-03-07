@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const { DispatchEngine } = require('./dispatch-engine');
-const { onDispatchBridge, ackTask, getPendingTasks, PENDING_FILE } = require('./dispatch-bridge');
+const { onDispatchBridge, ackTask, markSpawned, markDelivered, markDeliveryFailed, getPendingTasks, PENDING_FILE } = require('./dispatch-bridge');
 
 const DEFAULTS = {
   maxDispatchPerTick: 19,
@@ -66,12 +66,26 @@ async function spawnOne(task, engine) {
     throw new Error('sessions_spawn not available in current runtime');
   }
 
+  ackTask(task.taskId, { source: 'dispatch-runner', worker: 'dispatch-runner' });
+
   const payload = buildSpawnPayload(task);
   const result = await globalThis.sessions_spawn(payload);
 
   const sessionKey = result?.sessionKey || result?.session?.sessionKey || result?.id || null;
   engine.markRunning(task.taskId, { sessionKey, spawnPayload: payload, spawnResult: result });
-  ackTask(task.taskId);
+  markSpawned(task.taskId, {
+    source: 'dispatch-runner',
+    worker: 'dispatch-runner',
+    sessionKey,
+    message: 'sessions_spawn success',
+  });
+  markDelivered(task.taskId, {
+    source: 'dispatch-runner',
+    worker: 'dispatch-runner',
+    sessionKey,
+    message: 'task handed to subagent runtime',
+    status: 'running',
+  });
   return { taskId: task.taskId, sessionKey, payload, result };
 }
 
@@ -121,10 +135,15 @@ async function drainAndRun(opts = {}) {
       spawned.push(result);
     } catch (error) {
       errors.push({ taskId: task.taskId, error: error.message });
+      markDeliveryFailed(task.taskId, {
+        source: 'dispatch-runner',
+        worker: 'dispatch-runner',
+        error: error.message,
+        status: 'failed',
+      });
       try {
         engine.markFailed(task.taskId, { error: `dispatch-runner spawn error: ${error.message}` });
       } catch {}
-      try { ackTask(task.taskId); } catch {}
     }
   }
 

@@ -11,6 +11,8 @@
 import { EventEmitter } from 'events';
 import { TaskPriority, TaskStatus, EventType } from '../types/index.js';
 
+const DEFAULT_SCHEDULE_CHECK_INTERVAL_MS = 1000;
+
 /**
  * 任务类
  * @class Task
@@ -195,6 +197,9 @@ export class TaskScheduler extends EventEmitter {
     /** @private @type {NodeJS.Timeout|null} */
     this.pollTimer = null;
 
+    /** @private @type {NodeJS.Timeout|null} */
+    this.scheduleTimer = null;
+
     /** @private @type {number} */
     this.totalExecuted = 0;
 
@@ -254,6 +259,7 @@ export class TaskScheduler extends EventEmitter {
     this.isRunning = true;
     this.isPaused = false;
     this._startPolling();
+    this._startSchedulePolling();
 
     this.emit('started');
     this._log('info', 'TaskScheduler started');
@@ -267,6 +273,7 @@ export class TaskScheduler extends EventEmitter {
 
     this.isRunning = false;
     this._stopPolling();
+    this._stopSchedulePolling();
 
     this.emit('stopped');
     this._log('info', 'TaskScheduler stopped');
@@ -348,11 +355,16 @@ export class TaskScheduler extends EventEmitter {
       task.cron = schedule;
     }
 
+    const nextRun = this._calculateNextRun(schedule);
+
     this.scheduledTasks.set(task.id, {
       task,
       schedule,
-      nextRun: this._calculateNextRun(schedule)
+      nextRun,
+      lastTriggeredAt: null
     });
+
+    task.status = TaskStatus.SCHEDULED;
 
     this.emit(EventType.TASK_CREATED, task);
     this._log('info', `Task scheduled: ${task.name} at ${schedule}`);
@@ -536,6 +548,82 @@ export class TaskScheduler extends EventEmitter {
   }
 
   /**
+   * 启动定时任务轮询
+   * @private
+   */
+  _startSchedulePolling() {
+    if (this.scheduleTimer) return;
+
+    this.scheduleTimer = setInterval(() => {
+      this._pollScheduledTasks().catch((error) => {
+        this.emit(EventType.ERROR_OCCURRED, error);
+        this._log('error', `Scheduled task poll failed: ${error.message}`);
+      });
+    }, this.config.scheduleCheckInterval || DEFAULT_SCHEDULE_CHECK_INTERVAL_MS);
+  }
+
+  /**
+   * 停止定时任务轮询
+   * @private
+   */
+  _stopSchedulePolling() {
+    if (this.scheduleTimer) {
+      clearInterval(this.scheduleTimer);
+      this.scheduleTimer = null;
+    }
+  }
+
+  /**
+   * 轮询已注册的定时任务并按事件驱动投递到执行队列
+   * @private
+   * @returns {Promise<void>}
+   */
+  async _pollScheduledTasks() {
+    if (!this.isRunning || this.isPaused || this.scheduledTasks.size === 0) {
+      return;
+    }
+
+    const now = new Date();
+
+    for (const entry of this.scheduledTasks.values()) {
+      if (!entry?.nextRun || entry.task.cancelled) {
+        continue;
+      }
+
+      if (entry.nextRun.getTime() > now.getTime()) {
+        continue;
+      }
+
+      entry.lastTriggeredAt = now;
+      entry.nextRun = this._calculateNextRun(entry.schedule, now);
+
+      const scheduledTask = entry.task;
+      const runtimeTask = new Task({
+        ...scheduledTask,
+        id: `${scheduledTask.id}_run_${Date.now()}`,
+        metadata: {
+          ...scheduledTask.metadata,
+          scheduledTaskId: scheduledTask.id,
+          scheduledAt: entry.lastTriggeredAt.toISOString(),
+          trigger: 'schedule'
+        }
+      });
+
+      this.addTask(runtimeTask);
+
+      this.emit(EventType.SCHEDULE_TRIGGERED, {
+        scheduledTaskId: scheduledTask.id,
+        runtimeTaskId: runtimeTask.id,
+        schedule: entry.schedule,
+        triggeredAt: now,
+        nextRun: entry.nextRun
+      });
+
+      this._log('info', `Scheduled task triggered: ${scheduledTask.name} -> ${runtimeTask.id}`);
+    }
+  }
+
+  /**
    * 轮询处理
    * @private
    */
@@ -560,12 +648,62 @@ export class TaskScheduler extends EventEmitter {
    * @param {string|Date} schedule - 调度表达式
    * @returns {Date}
    */
-  _calculateNextRun(schedule) {
+  _calculateNextRun(schedule, fromTime = new Date()) {
     if (schedule instanceof Date) {
-      return schedule;
+      const date = schedule;
+      if (date.getTime() > (fromTime instanceof Date ? fromTime.getTime() : Date.now())) {
+        return date;
+      }
+      return null;
     }
-    // 简单的cron解析，实际应使用cron-parser
-    return new Date(Date.now() + 60000);
+
+    const baseTime = fromTime instanceof Date ? fromTime.getTime() : Date.now();
+    const cron = String(schedule).trim();
+
+    const everyMinutes = cron.match(/^\*\/(\d+) \* \* \* \*$/);
+    if (everyMinutes) {
+      const intervalMinutes = Math.max(1, parseInt(everyMinutes[1], 10));
+      return new Date(baseTime + intervalMinutes * 60 * 1000);
+    }
+
+    if (cron === '* * * * *') {
+      return new Date(baseTime + 60 * 1000);
+    }
+
+    const parts = cron.split(/\s+/);
+    if (parts.length === 5) {
+      const [minuteExpr, hourExpr] = parts;
+      const minute = /^\d+$/.test(minuteExpr) ? parseInt(minuteExpr, 10) : null;
+      const hour = /^\d+$/.test(hourExpr) ? parseInt(hourExpr, 10) : null;
+
+      if (minute !== null && hour !== null) {
+        const next = new Date(baseTime);
+        next.setSeconds(0, 0);
+        next.setMinutes(minute);
+        next.setHours(hour);
+
+        if (next.getTime() <= baseTime) {
+          next.setDate(next.getDate() + 1);
+        }
+
+        return next;
+      }
+
+      if (minute !== null && hourExpr === '*') {
+        const next = new Date(baseTime);
+        next.setSeconds(0, 0);
+        next.setMinutes(minute);
+
+        if (next.getTime() <= baseTime) {
+          next.setHours(next.getHours() + 1);
+        }
+
+        return next;
+      }
+    }
+
+    // fallback：按分钟级兜底，确保定时任务至少可被事件驱动触发
+    return new Date(baseTime + 60 * 1000);
   }
 
   /**

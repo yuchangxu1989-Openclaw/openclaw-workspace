@@ -110,6 +110,21 @@ sessions_spawn({ task: "基于验证方案实现核心模块" })
 
 ## 进化机制
 
+### 项目管理产物治理闭环（Day2 Gap5补强）
+
+项目管理不只负责拆任务，还必须负责**产物沉淀、汇总、复盘、计量**四件事闭环：
+
+1. `memory/tasks/*.json` 负责任务事实登记
+2. `PROJECT-TRACKER.md` 负责人类可读主视图
+3. `reports/task-queue/latest-report.md` 负责阶段性汇总
+4. `skills/project-mgmt/lessons/*.md` 负责经验沉淀
+5. `skills/project-mgmt/metrics/*.json` 负责量化趋势
+
+执行要求：
+- 任何“项目管理 / 汇报 / 验收 / 集成改造 / 治理闭环”类任务，完成推进时必须至少更新其中两类产物
+- 禁止只扩列不沉淀；禁止只写报告不落 lessons/metrics
+- 若已接入治理运行器，优先通过自动治理脚本刷新上述产物
+
 ### 经验沉淀（每个Sprint结束后必须执行）
 
 Sprint结束时写入 `skills/project-mgmt/lessons/YYYY-MM-DD-{sprint名}.md`：

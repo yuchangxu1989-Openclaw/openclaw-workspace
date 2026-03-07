@@ -2,7 +2,15 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { DispatchEngine } = require('../dispatch-engine');
-const { onDispatchBridge, getPendingTasks, clearPending } = require('../dispatch-bridge');
+const {
+  onDispatchBridge,
+  getPendingTasks,
+  clearPending,
+  ackTask,
+  markSpawned,
+  markDelivered,
+  markDeliveryFailed,
+} = require('../dispatch-bridge');
 const { republishStrandedSpawning } = require('../dispatch-runner');
 
 function tmpDir() {
@@ -25,6 +33,47 @@ describe('dispatch hardening', () => {
     expect(pending[0].taskId).toBe('meta-1');
     expect(pending[0].status).toBe('spawning');
     expect(pending[0].dispatchAttempts).toBe(1);
+    expect(pending[0].delivery.state).toBe('pending');
+  });
+
+  test('delivery chain metadata progresses pending → acked → spawned → delivered', () => {
+    clearPending();
+    const baseDir = tmpDir();
+    const engine = new DispatchEngine({
+      baseDir,
+      maxSlots: 1,
+      onDispatch: (task, eng) => onDispatchBridge(task, eng),
+    });
+
+    engine.enqueue({ taskId: 'chain-1', title: 'Chain task' });
+
+    ackTask('chain-1', { source: 'test', worker: 'jest' });
+    markSpawned('chain-1', { source: 'test', worker: 'jest', sessionKey: 'sess-1' });
+    markDelivered('chain-1', { source: 'test', worker: 'jest', sessionKey: 'sess-1', message: 'handoff ok' });
+
+    const task = getPendingTasks().find(t => t.taskId === 'chain-1');
+    expect(task.delivery.state).toBe('delivered');
+    expect(task.delivery.sessionKey).toBe('sess-1');
+    expect(task.delivery.history.map(h => h.state)).toEqual(['pending', 'acked', 'spawned', 'delivered']);
+  });
+
+  test('delivery failure is persisted for correlation', () => {
+    clearPending();
+    const baseDir = tmpDir();
+    const engine = new DispatchEngine({
+      baseDir,
+      maxSlots: 1,
+      onDispatch: (task, eng) => onDispatchBridge(task, eng),
+    });
+
+    engine.enqueue({ taskId: 'chain-fail-1', title: 'Broken chain task' });
+    ackTask('chain-fail-1', { source: 'test', worker: 'jest' });
+    markDeliveryFailed('chain-fail-1', { source: 'test', worker: 'jest', error: 'spawn timeout' });
+
+    const task = getPendingTasks().find(t => t.taskId === 'chain-fail-1');
+    expect(task.delivery.state).toBe('failed');
+    expect(task.delivery.error).toBe('spawn timeout');
+    expect(task.delivery.history[task.delivery.history.length - 1].state).toBe('failed');
   });
 
   test('republishStrandedSpawning re-queues bridge pickup for spawning task', () => {

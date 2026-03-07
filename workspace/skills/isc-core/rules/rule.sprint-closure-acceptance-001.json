@@ -1,0 +1,76 @@
+{
+  "rule_id": "rule.sprint-closure-acceptance-001",
+  "name": "Sprint收工验收门禁",
+  "version": "1.0.0",
+  "priority": "P0",
+  "type": "gate",
+  "enforcement_tier": "P0_block",
+  "domain": "project-mgmt",
+  "scope": "sprint",
+  "description": "Sprint/Day标记完成前，必须通过四重验收：产物核查、指标采集、经验沉淀、凌霄阁裁决。缺任何一项不允许close。",
+  "rationale": "Sprint结束时经常跳过经验沉淀和指标采集，导致项目管理能力不增长。此门禁强制四重验收。",
+  "trigger": {
+    "events": [
+      "sprint.closure.requested",
+      "sprint.day.closure.requested",
+      "project.milestone.closure.requested"
+    ],
+    "actions": [
+      {
+        "type": "gate",
+        "description": "执行四重验收门禁"
+      }
+    ]
+  },
+  "conditions": {
+    "four_gates": [
+      {
+        "id": "artifact_audit",
+        "name": "产物核查",
+        "description": "所有标记完成的任务必须通过 rule.project-artifact-gate-001",
+        "fail_action": "block"
+      },
+      {
+        "id": "metrics_collected",
+        "name": "指标采集",
+        "description": "Sprint指标必须写入 skills/project-mgmt/metrics/YYYY-MM.json",
+        "required_fields": ["planned_days", "actual_days", "tasks_total", "tasks_completed", "review_rejections", "parallel_ratio"],
+        "fail_action": "block"
+      },
+      {
+        "id": "lessons_captured",
+        "name": "经验沉淀",
+        "description": "经验教训必须写入 skills/project-mgmt/lessons/YYYY-MM-DD-{sprint}.md",
+        "required_sections": ["目标vs实际", "做对了什么", "做错了什么", "流程改进点"],
+        "fail_action": "block"
+      },
+      {
+        "id": "tribunal_verdict",
+        "name": "凌霄阁裁决",
+        "description": "必须有凌霄阁裁决结果（通过/有条件通过/打回）",
+        "fail_action": "warn_with_escalation"
+      }
+    ]
+  },
+  "actions": {
+    "on_all_pass": [
+      "emit sprint.closure.approved 事件",
+      "更新PROJECT-TRACKER Sprint状态",
+      "触发anti-pattern扫描：同类教训≥2次自动提炼为反模式"
+    ],
+    "on_gate_fail": [
+      "emit sprint.closure.rejected 事件",
+      "输出缺失项清单",
+      "阻止Sprint标记完成"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "sprint-closure-gate"
+  },
+  "metadata": {
+    "created": "2026-03-07",
+    "source": "Day2 Gap5 closure + project-mgmt SKILL.md进化机制",
+    "anti_entropy": true
+  }
+}
