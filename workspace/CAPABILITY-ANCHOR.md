@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/7 08:05:04
-> **技能总数**: 57
+> **生成时间**: 2026/3/7 12:05:06
+> **技能总数**: 59
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -89,7 +89,9 @@
 - ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A协议连接器 - 实现与EvoMap Hub的WebSocket连接、自动重连、消息队列管理
 - ✅ **evomap-publisher**: skills/evomap-publisher/ — EvoMap极简发布器 - 只负责一件事：将SEEF+DTO生成的技能发布到EvoMap网络
 - ✅ **evomap-uploader**: skills/evomap-uploader/
+- ✅ **feishu-card-sender**: skills/feishu-card-sender/
 - ✅ **feishu-chat-backup**: skills/feishu-chat-backup/ — 飞书聊天记录备份系统 - 实质性记录对话日志
+- ✅ **feishu-common**: skills/feishu-common/
 - ✅ **feishu-evolver-wrapper**: skills/feishu-evolver-wrapper/ — Feishu-integrated wrapper for the capability-evolver. Manages the evolution loop lifecycle (start/stop/ensure), sends rich Feishu card reports, and provides dashboard visualization. Use when running evolver with Feishu reporting or when managing the evolution daemon.
 - ✅ **feishu-report-sender**: skills/feishu-report-sender/ — 飞书报告发送器 - 将CRAS、EvoMap的报告队列实际推送到飞书
 - ✅ **file-downloader**: skills/file-downloader/
