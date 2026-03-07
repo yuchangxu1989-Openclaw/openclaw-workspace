@@ -3,7 +3,7 @@
  *
  * Stable reporting skill.
  * Output contract:
- *   1. Prefix: 当前 active 总数：X
+ *   1. Prefix: Agent并行总数：X
  *   2. Main table: 任务 / 模型 / 状态
  *   3. Suffix: done / timeout / blocked 汇总
  *   4. Optional sections: 关键进展 / 风险 / 待决策项
@@ -67,14 +67,14 @@ function computeStats(tasks) {
 }
 
 function generateTitle(stats, opts = {}) {
-  return opts.title || `当前 active 总数：${stats.active}`;
+  return opts.title || `Agent并行总数：${stats.active}`;
 }
 
 function renderText(tasks, opts = {}) {
   const stats = computeStats(tasks || []);
   const lines = [];
 
-  lines.push(`当前 active 总数：${stats.active}`, '');
+  lines.push(`Agent并行总数：${stats.active}`, '');
   lines.push('| 任务 | 模型 | 状态 |');
   lines.push('|---|---|---|');
 
@@ -111,7 +111,7 @@ function renderCard(tasks, opts = {}) {
   const elements = [];
   const rows = (tasks || []).map((task) => `- ${task.task || '—'} ｜ ${pureModel(task.model)} ｜ ${normalizeStatus(task.status)}`);
 
-  elements.push({ tag: 'div', text: { tag: 'lark_md', content: `当前 active 总数：**${stats.active}**` } });
+  elements.push({ tag: 'div', text: { tag: 'lark_md', content: `Agent并行总数：**${stats.active}**` } });
   elements.push({ tag: 'hr' });
   elements.push({ tag: 'div', text: { tag: 'lark_md', content: rows.length ? rows.join('\n') : '- — ｜ — ｜ —' } });
   elements.push({ tag: 'hr' });

@@ -1,7 +1,7 @@
 ---
 name: multi-agent-reporting
-description: 多Agent状态汇报 — 统一输出“当前active总数 + 任务/模型/状态表 + done/timeout/blocked汇总”，并可追加关键进展/风险/待决策项。纯汇报，不含调度。
-version: 3.1.0
+description: 多Agent状态汇报 — 统一输出“Agent并行总数 + 任务/模型/状态表 + done/timeout/blocked汇总”，并可追加关键进展/风险/待决策项。纯汇报，不含调度。
+version: 3.1.1
 author: OpenClaw
 license: MIT
 tags:
@@ -11,7 +11,7 @@ tags:
   - feishu-card
 ---
 
-# Multi-Agent Reporting v3.1
+# Multi-Agent Reporting v3.1.1
 
 纯汇报技能。接收任务数组，输出稳定统一的状态汇报。**与调度技能完全分离。**
 
@@ -19,7 +19,7 @@ tags:
 
 | # | 规则 |
 |---|------|
-| 1 | 表前必须输出：`当前 active 总数：X` |
+| 1 | 表前必须输出：`Agent并行总数：X` |
 | 2 | 主表固定三列：`任务 / 模型 / 状态` |
 | 3 | 模型列只放纯模型名，不混入渠道、provider 前缀、角色名 |
 | 4 | 不显示 Agent 名、人设名、label、渠道前缀 |
@@ -56,7 +56,7 @@ const report = renderReport(tasks, {
 ## 文本输出模板
 
 ```md
-当前 active 总数：0
+Agent并行总数：0
 
 | 任务 | 模型 | 状态 |
 |---|---|---|
