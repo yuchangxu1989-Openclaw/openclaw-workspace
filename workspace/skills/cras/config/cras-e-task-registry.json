@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "description": "CRAS-E high-priority tasks extracted from conversation and required to be materialized into code/rules/tests.",
+  "updated_at": "2026-03-07T00:00:00.000Z",
+  "tasks": [
+    {
+      "id": "cras_e_rebuild",
+      "title": "CRAS-E持续进化中枢改造",
+      "priority": "P0",
+      "status": "open",
+      "acceptance": [
+        "对话信号可落盘",
+        "可发事件到bus",
+        "有状态报告",
+        "纳入PROJECT-TRACKER"
+      ]
+    },
+    {
+      "id": "memoryless_evolution",
+      "title": "失忆后可持续进化保障",
+      "priority": "P0",
+      "status": "open",
+      "acceptance": [
+        "任务从会话提取后落到memory/tasks",
+        "重启后可重放"
+      ]
+    },
+    {
+      "id": "per_turn_intent",
+      "title": "每轮对话意图洞察强制化",
+      "priority": "P0",
+      "status": "open",
+      "acceptance": [
+        "每次输入可运行capture脚本",
+        "生成结构化信号"
+      ]
+    },
+    {
+      "id": "day2_closure",
+      "title": "Day2遗留项逐桩打透",
+      "priority": "P1",
+      "status": "open",
+      "acceptance": [
+        "遗留项进入tracker和task store",
+        "后续可挂接执行器"
+      ]
+    },
+    {
+      "id": "no_empty_shell",
+      "title": "禁止空架子产物治理",
+      "priority": "P0",
+      "status": "open",
+      "acceptance": [
+        "任务要求至少两类硬产物",
+        "报告中可见"
+      ]
+    }
+  ]
+}
