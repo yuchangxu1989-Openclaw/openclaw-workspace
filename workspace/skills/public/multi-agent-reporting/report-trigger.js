@@ -2,6 +2,7 @@
  * report-trigger.js — Bridge between DispatchEngine and Reporting
  *
  * Requirement #6: 调度更新本身就是汇报触发器。
+ * Requirement #GP: 每 N 次汇报自动插入阶段性全局进展总结。
  * Enqueue / status change / completion → auto triggers renderReport().
  *
  * Usage:
@@ -11,7 +12,8 @@
  *   const engine = new DispatchEngine({ maxSlots: 19 });
  *   const trigger = new ReportTrigger(engine, {
  *     agentRegistry: { writer: '创作大师', coder: '开发工程师', ... },
- *     onReport: ({ text, card, title, stats, event }) => { ... }
+ *     globalProgressInterval: 3,  // insert summary every 3 reports
+ *     onReport: ({ text, card, title, stats, event, globalProgress }) => { ... }
  *   });
  *
  * Zero dependencies beyond the two sibling skills.
@@ -20,6 +22,12 @@
 'use strict';
 
 const { renderReport } = require('./index.js');
+const {
+  computeGlobalProgress,
+  renderProgressText,
+  renderProgressCardElements,
+  DEFAULTS: GP_DEFAULTS,
+} = require('./global-progress.js');
 
 // ── Default agent display name registry ─────────────────────────────────────
 // Sourced from workspace SOUL.md files. Override via opts.agentRegistry.
@@ -70,11 +78,12 @@ class ReportTrigger {
   /**
    * @param {DispatchEngine} engine  — dispatch engine instance
    * @param {object} opts
-   * @param {object}   opts.agentRegistry  — { agentId: displayName }
-   * @param {Function} opts.onReport       — callback({ text, card, title, stats, event })
-   * @param {object}   opts.renderOpts     — extra opts for renderReport()
-   * @param {boolean}  opts.includeRecent  — include recent finished in report (default: true)
-   * @param {number}   opts.recentMax      — max recent finished tasks (default: 10)
+   * @param {object}   opts.agentRegistry        — { agentId: displayName }
+   * @param {Function} opts.onReport             — callback({ text, card, title, stats, event, globalProgress })
+   * @param {object}   opts.renderOpts           — extra opts for renderReport()
+   * @param {boolean}  opts.includeRecent        — include recent finished in report (default: true)
+   * @param {number}   opts.recentMax            — max recent finished tasks (default: 10)
+   * @param {number}   opts.globalProgressInterval — insert global progress every N reports (default: 3, 0 = off)
    */
   constructor(engine, opts = {}) {
     this.engine = engine;
@@ -84,6 +93,11 @@ class ReportTrigger {
     this.includeRecent = opts.includeRecent !== false;
     this.recentMax = opts.recentMax || 10;
     this._lastReport = null;
+
+    // Global progress tracking
+    this.globalProgressInterval = opts.globalProgressInterval ?? GP_DEFAULTS.interval;
+    this._reportCount = 0;
+    this._lastGlobalProgress = null;
 
     // Hook into all dispatch engine events
     this._bind();
@@ -102,6 +116,7 @@ class ReportTrigger {
   /**
    * Build current report from engine state.
    * Can be called directly (manual refresh) or auto-triggered by events.
+   * Periodically includes a global progress summary section.
    */
   buildReport(event) {
     const state = this.engine._load();
@@ -125,6 +140,42 @@ class ReportTrigger {
 
     const result = renderReport(tasks, this.renderOpts);
     result.event = event || 'manual';
+
+    // ── Global Progress Injection ────────────────────────────────────────
+    this._reportCount++;
+    result.reportCount = this._reportCount;
+    result.globalProgress = null;
+
+    const interval = this.globalProgressInterval;
+    if (interval > 0 && this._reportCount % interval === 0) {
+      try {
+        const progressData = computeGlobalProgress(this.engine);
+        const progressText = renderProgressText(progressData);
+        const progressCardElements = renderProgressCardElements(progressData);
+
+        result.globalProgress = {
+          data: progressData,
+          text: progressText,
+          cardElements: progressCardElements,
+          reportCount: this._reportCount,
+          interval,
+        };
+
+        // Append progress text to the main text report
+        result.text = result.text + '\n\n' + progressText;
+
+        // Append progress card elements to the card
+        if (result.card && Array.isArray(result.card.elements)) {
+          result.card.elements.push(...progressCardElements);
+        }
+
+        this._lastGlobalProgress = result.globalProgress;
+      } catch (e) {
+        // Don't let progress computation errors break the report
+        console.error(`[report-trigger] globalProgress error: ${e.message}`);
+      }
+    }
+
     this._lastReport = result;
     return result;
   }
@@ -147,6 +198,16 @@ class ReportTrigger {
     return this._lastReport;
   }
 
+  /** Get last global progress summary (or null). */
+  get lastGlobalProgress() {
+    return this._lastGlobalProgress;
+  }
+
+  /** Current report count since construction. */
+  get reportCount() {
+    return this._reportCount;
+  }
+
   /** Update agent registry at runtime. */
   updateRegistry(patch) {
     Object.assign(this.registry, patch);
@@ -167,4 +228,8 @@ module.exports = {
   toReportingTask,
   DEFAULT_AGENT_REGISTRY,
   STATUS_MAP,
+  // Re-export global progress utilities for direct use
+  computeGlobalProgress,
+  renderProgressText,
+  renderProgressCardElements,
 };

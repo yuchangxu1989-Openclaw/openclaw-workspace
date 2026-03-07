@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { touchReportCounter, readJson } = require('./report-counter');
 
 const WORKSPACE = path.resolve(__dirname, '..');
 const TASKS_DIR = path.join(WORKSPACE, 'memory', 'tasks');
@@ -41,14 +42,14 @@ function render(tasks) {
   lines.push(`- 子任务: ${subs.length}`);
   lines.push('');
 
-  let reportCount = 0;
-  const reportStateFile = path.join(OUT_DIR, 'report-counter.json');
-  if (fs.existsSync(reportStateFile)) {
-    try { reportCount = JSON.parse(fs.readFileSync(reportStateFile, 'utf8')).count || 0; } catch {}
-  }
-  reportCount += 1;
-  ensureDir(OUT_DIR);
-  fs.writeFileSync(reportStateFile, JSON.stringify({ count: reportCount }, null, 2), 'utf8');
+  // Use shared report counter
+  const counterResult = touchReportCounter({
+    source: 'task-queue-report',
+    event: 'render',
+    title: null,
+    stats: { root: root.length, subs: subs.length, total: tasks.length },
+  });
+  const reportCount = counterResult.count;
 
   for (const task of root) {
     lines.push(`## [${task.priority}] ${task.title}`);

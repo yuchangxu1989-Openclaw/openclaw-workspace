@@ -86,7 +86,9 @@ function buildRuntimeQueue() {
     }
   }
 
-  const reportCounter = readJson(path.join(OUT_DIR, 'report-counter.json'), { count: 0 }).count || 0;
+  const { readJson: readCounter } = require('./report-counter');
+  const COUNTER_FILE = path.join(OUT_DIR, 'report-counter.json');
+  const reportCounter = readCounter(COUNTER_FILE, { count: 0 }).count || 0;
   if (reportCounter > 0 && reportCounter % 3 === 0) {
     queuedNext.unshift({
       id: `runtime-global-summary-${Date.now()}`,
