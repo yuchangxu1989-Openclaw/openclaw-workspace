@@ -82,7 +82,7 @@ class FeishuChatBackup {
    * 将用户名"长煦"改为"长煦"
    */
   normalizeUsername(name) {
-    if (name === '长煦' || name === 'ou_8eafdc7241d381d714746e486b641883') {
+    if (name === '长煦' || name === 'ou_a113e465324cc55f9ab3348c9a1a7b9b') {
       return '长煦';
     }
     return name;
@@ -249,7 +249,7 @@ class FeishuChatBackup {
     if (msg.type === 'message' && msg.message) {
       const content = JSON.stringify(msg.message);
       return content.includes('feishu') || 
-             content.includes('ou_8eafdc7241d381d714746e486b641883');
+             content.includes('ou_a113e465324cc55f9ab3348c9a1a7b9b');
     }
     return false;
   }

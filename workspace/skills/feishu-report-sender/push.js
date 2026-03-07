@@ -10,7 +10,7 @@ const { WORKSPACE } = require('../shared/paths');
 
 const SEND_QUEUE = path.join(WORKSPACE, 'feishu_send_queue');
 const SENT_CARDS = path.join(WORKSPACE, 'feishu_sent_cards');
-const TARGET_USER = 'ou_8eafdc7241d381d714746e486b641883';
+const TARGET_USER = 'ou_a113e465324cc55f9ab3348c9a1a7b9b';
 
 async function main() {
   if (!fs.existsSync(SEND_QUEUE)) {

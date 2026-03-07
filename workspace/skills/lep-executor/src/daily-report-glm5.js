@@ -25,7 +25,7 @@ const TIMESTAMP = new Date().toISOString();
 
 // 飞书配置
 const FEISHU_CONFIG = {
-  targetUser: process.env.FEISHU_TARGET_USER || 'ou_8eafdc7241d381d714746e486b641883'
+  targetUser: process.env.FEISHU_TARGET_USER || 'ou_a113e465324cc55f9ab3348c9a1a7b9b'
 };
 
 /**

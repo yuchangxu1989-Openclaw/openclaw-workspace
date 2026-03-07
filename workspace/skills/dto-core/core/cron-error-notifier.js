@@ -77,7 +77,7 @@ class CronErrorNotifier {
    */
   async sendFeishuCard(card) {
     // 使用 openclaw message 发送
-    const cmd = `openclaw message send --channel feishu --target user:ou_8eafdc7241d381d714746e486b641883 --message '${JSON.stringify(card)}'`;
+    const cmd = `openclaw message send --channel feishu --target user:ou_a113e465324cc55f9ab3348c9a1a7b9b --message '${JSON.stringify(card)}'`;
     
     execSync(cmd, { timeout: 30000 });
   }
