@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-cras-e系统架构与交付约束-21ztnb",
+  "name": "intent_cras-e系统架构与交付约束",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "用户要求将提炼出的需求转化为持久约束：CRAS-E必须成为持续进化器官、具备抗失忆能力、支持动态队列扩展、优先飞书卡片交付",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "CRAS-E系统架构与交付约束"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: CRAS-E系统架构与交付约束"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772841903044"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "CRAS-E系统架构与交付约束",
+    "confidence": 0.92,
+    "source_file": "2026-03-07.md",
+    "evidence": "Real user requirements distilled and should be treated as durable constraints: 1. CRAS-E must become a continuous evolution organ... 6. Deliverables visible to the user should prefer Feishu chat cards",
+    "created_at": "2026-03-07T00:05:03.045Z"
+  }
+}
