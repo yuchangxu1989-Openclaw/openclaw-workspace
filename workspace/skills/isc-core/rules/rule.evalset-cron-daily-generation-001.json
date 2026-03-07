@@ -1,0 +1,52 @@
+{
+  "id": "rule.evalset-cron-daily-generation-001",
+  "rule_name": "评测集每日自动生成",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "每24小时自主从真实会话中采样生成评测集。采样策略版本化，与按需生成统一去重，闭卷安全，落盘到 evaluation-sets/ 并注册到 registry.json。",
+  "category": "aeo",
+  "data_source": "real_conversation",
+  "trigger": {
+    "events": [
+      "cron.evalset.daily"
+    ],
+    "schedule": "0 5 * * *"
+  },
+  "conditions": {
+    "data_source": "real_conversation",
+    "dedup_required": true,
+    "dedup_scope": "cross_cron_and_adhoc",
+    "closed_book_required": true,
+    "sampling_strategy_versioned": true,
+    "registry_update_required": true
+  },
+  "action": {
+    "type": "execute",
+    "handler": "evalset-cron-daily",
+    "script": "skills/aeo/bin/generate-real-conv-evalset.cjs",
+    "args": ["--source", "cron"]
+  },
+  "constraints": {
+    "closed_book_safety": {
+      "no_hardcoded_evalset": true,
+      "no_reference_reads": true,
+      "forbidden_paths": ["memory/", "labels/", "annotations/", "answers/", "ground_truth/"]
+    },
+    "dedup_unified": {
+      "algorithm": ["sha256_content_hash", "jaccard_fuzzy_0.85"],
+      "fingerprint_db": "skills/aeo/evalset-cron-output/.dedup-fingerprints.json",
+      "scope": ["all_evaluation_sets", "unified_evaluation_sets"]
+    },
+    "versioning": {
+      "generator_version_field": "generatorVersion",
+      "sampling_strategy_field": "samplingStrategy",
+      "strategy_registry": "skills/aeo/bin/evalset-cron/session-sampler.cjs::SAMPLING_STRATEGIES"
+    }
+  },
+  "rationale": {
+    "source": "系统设计",
+    "reason": "自主持续扩充评测集覆盖面，不依赖人工手动生成"
+  },
+  "enforcement_tier": "P1_check",
+  "created_at": "2026-03-07T20:15:00+08:00"
+}

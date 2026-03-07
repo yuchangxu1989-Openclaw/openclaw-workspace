@@ -1,101 +1,20 @@
 {
-  "setId": "eval.real-conv-2026-03-06.001",
   "skill": "real-conv-2026-03-06",
-  "name": "真实对话场景评测集 - 2026-03-06",
-  "description": "从2026-03-06全天真实飞书对话中提取的120个高价值评测场景，覆盖16个核心维度：追问链、纠错、催办、口径一致性、调度触发、风险识别、能力漏用、全局状态、是否真实启用、主动派单、规则生效、cron判断、意图事件执行链、工具漏用、自主修复、进度汇报",
-  "version": "1.0.0",
-  "track": "ai_effect_track",
-  "dataSource": "real_conversation",
-  "goldStandard": true,
-  "totalCases": 120,
-  "categories": {
-    "error_correction": {
-      "count": 14,
-      "description": "纠错场景：能力遗忘、模型配置错误、搜索工具错误、第一性原理纠偏等"
-    },
-    "consistency": {
-      "count": 10,
-      "description": "口径一致性：区分代码完成/测试通过/生产启用、并发数虚高等"
-    },
-    "progress_report": {
-      "count": 10,
-      "description": "进度汇报：队列格式、首次发送时机、碎片化问题等"
-    },
-    "self_repair": {
-      "count": 9,
-      "description": "自主修复：API密钥修复、配置回滚、handler路径修复等"
-    },
-    "global_state": {
-      "count": 8,
-      "description": "全局状态回答：规则覆盖率、全局决策能力、端到端评测等"
-    },
-    "rule_effectiveness": {
-      "count": 8,
-      "description": "规则生效：知识可执行化、言出法随、规则即时同步展开等"
-    },
-    "cron_judgment": {
-      "count": 8,
-      "description": "cron判断：超时根因、空跑率、重复任务、并发保护等"
-    },
-    "intent_event_chain": {
-      "count": 8,
-      "description": "意图事件执行链：路由失败、handler路径静默失败、QUERY召回率等"
-    },
-    "follow_up_chain": {
-      "count": 7,
-      "description": "用户追问链：状态查询、重复追问、催促执行等"
-    },
-    "dispatch_trigger": {
-      "count": 7,
-      "description": "调度触发：回答即触发、缺口即派发、空槽补位等"
-    },
-    "proactive_dispatch": {
-      "count": 7,
-      "description": "主动派单：发现异常即修复、边回答边派发等"
-    },
-    "risk_identification": {
-      "count": 6,
-      "description": "风险识别：API欠费、cron连续失败、容灾失效等"
-    },
-    "capability_missed": {
-      "count": 6,
-      "description": "能力漏用：图片识别、搜索工具、文件发送技能等"
-    },
-    "urging": {
-      "count": 4,
-      "description": "催办场景：任务积压、反复催促、执行vs说话等"
-    },
-    "actually_enabled": {
-      "count": 4,
-      "description": "是否真实启用：调度引擎、汇报技能、项目管理等"
-    },
-    "tool_missed": {
-      "count": 4,
-      "description": "工具漏用：默认模型查询、飞书卡片、数据来源标注等"
-    }
-  },
-  "qualityMetrics": {
-    "sourceFidelity": "100% - 全部来自真实对话",
-    "scenarioDiversity": "16个维度",
-    "evaluationCoverage": [
-      "用户追问链",
-      "多轮澄清",
-      "系统真伪口径",
-      "自动派发",
-      "运行态审计",
-      "cron判断",
-      "意图/事件/执行链",
-      "工具漏用",
-      "自主修复",
-      "进度汇报"
-    ]
-  },
+  "type": "ai-effect",
+  "generatedAt": "2026-03-07T12:12:35.789Z",
+  "generatorVersion": "1.0.0",
   "data_source": "real_conversation",
-  "data_source_details": {
-    "basis": [
-      "2026-03-06全天飞书对话会话记录",
-      "378条用户消息"
-    ],
-    "extraction_method": "人工+AI从真实对话中提取高价值场景"
+  "tracks": [
+    "ai_effect_track"
+  ],
+  "dimensions": [
+    "intent_accuracy",
+    "context_awareness",
+    "action_quality",
+    "self_correction"
+  ],
+  "thresholds": {
+    "pass": 0.75,
+    "excellent": 0.9
   }
 }

@@ -1,7 +1,7 @@
 {
   "_schema": "cron-jobs-v2",
   "_description": "OpenClaw workspace cron job registry",
-  "_updated": "2026-03-07T11:43+08:00",
+  "_updated": "2026-03-07T20:15+08:00",
   "_doc": "Job model field required per ISC rule.cron-task-model-requirement-001 (zhipu/glm-5 preferred)",
   "jobs": [
     {
@@ -261,6 +261,43 @@
       "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
       "execution_mode": "event_requested",
       "time_schedule": "15 * * * *"
+    },
+    {
+      "name": "evalset-cron-daily",
+      "description": "评测集自动生成器 - 每日从真实会话中采样生成评测集，统一去重后落盘并注册到registry",
+      "script": "skills/aeo/bin/generate-real-conv-evalset.cjs",
+      "args": [
+        "--source",
+        "cron",
+        "--memory-dir",
+        "/root/.openclaw/workspace/memory"
+      ],
+      "schedule": "0 5 * * *",
+      "schedule_human": "每日凌晨5点",
+      "model": "zhipu/glm-5",
+      "enabled": true,
+      "trigger": "standalone",
+      "trigger_condition": "定时：每24小时自动从前一日真实会话中采样",
+      "outputs": [
+        "skills/aeo/evaluation-sets/real-conv-YYYY-MM-DD/test-cases.json",
+        "skills/aeo/evalset-cron-output/run-log.jsonl",
+        "skills/aeo/evalset-cron-output/.dedup-fingerprints.json"
+      ],
+      "timeout_seconds": 120,
+      "on_failure": "log_and_continue",
+      "tags": [
+        "evalset",
+        "cron",
+        "aeo",
+        "dedup",
+        "closed-book-safe"
+      ],
+      "created": "2026-03-07",
+      "version": "1.0.0",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "standalone",
+      "time_schedule": "0 5 * * *"
     }
   ],
   "_cron_install_hint": "在系统crontab中安装方式:\n  0 * * * *   cd /root/.openclaw/workspace && node infrastructure/self-check/day-completion-scanner.js --auto >> infrastructure/logs/day-scanner.log 2>&1\n  */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/rework-analyzer.js --auto >> infrastructure/logs/rework-analyzer.log 2>&1\n  */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/correction-harvester.js --auto >> infrastructure/logs/correction-harvester.log 2>&1",
