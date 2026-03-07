@@ -17,11 +17,11 @@
 
 ### CRAS-E / 意图内化 高优先级任务（自动提取）
 
-- 🔴 P0 CRAS-E持续进化中枢改造 — 证据：CRAS不能只是定时任务，必须是个持续进化的技能
-- 🔴 P0 失忆后可持续进化保障 — 证据：如果你失忆了，还能像最近这几次任务一样自主进化么？一定要确保
-- 🔴 P0 每轮对话意图洞察强制化 — 证据：你现在每轮对话都洞察我意图并自主进化么
-- 🔴 P1 Day2遗留项逐桩打透 — 证据：Day2还有遗留项么
-- 🔴 P0 禁止空架子产物治理 — 证据：一个个桩打透，别都做空架子
+- ⏳ P0 CRAS-E持续进化中枢改造 — 证据：CRAS不能只是定时任务，必须是个持续进化的技能
+- ⏳ P0 失忆后可持续进化保障 — 证据：如果你失忆了，还能像最近这几次任务一样自主进化么？一定要确保
+- ⏳ P0 每轮对话意图洞察强制化 — 证据：你现在每轮对话都洞察我意图并自主进化么
+- ⏳ P1 Day2遗留项逐桩打透 — 证据：Day2还有遗留项么
+- ⏳ P0 禁止空架子产物治理 — 证据：一个个桩打透，别都做空架子
 
 
 **基础文档**: `/root/.openclaw/media/outbound/system-loop-engineering-plan.md`（1184行完整方案）
@@ -85,8 +85,11 @@
 3. 🔴 **AEO功能质量测试 + Agent数据效果评测**（用户标记为重点）
    - 每个Day研发完成后必须经凌霄阁裁决
 
-4. 🔴 **以此类推：除定时任务外，还有哪些因架构重大变更需要重塑的？**（用户追问，未作答）
-   - 需要系统性盘点：ISC规则、DTO订阅、CRAS洞察、可观测性报告等所有子系统在L3下是否对齐
+4. ✅ **L3架构变化后的全系统重塑盘点**（Gap4 — 2026-03-07已完成）
+   - 全系统盘点完成：ISC/DTO/CRAS/AEO/SEEF/LEP/Anti-entropy全部检查
+   - 集成改造落地：dispatcher路由44→65条，4个event-bridge升级，LEP L3桥接新建，anti-entropy接入L3
+   - 遗留P2项：5条（lep-executor旧引用、SEEF Python直接API、历史积压428条消化、evolver集成、pdca事件）
+   - 详见报告: `reports/day2-gap4-l3-remodel-inventory.md`
 
 5. 🔴 **项目管理产物沉淀机制**（本次会话刚建立）
    - PROJECT-TRACKER.md已创建
@@ -137,28 +140,28 @@
 
 ### 自主扩列任务（自动生成）
 
-- ⏳ P0 CRAS-E持续进化中枢改造 / 主实现 [parent=task-cras_e_rebuild]
-- ⏳ P0 CRAS-E持续进化中枢改造 / 集成改造 [parent=task-cras_e_rebuild]
-- ⏳ P0 CRAS-E持续进化中枢改造 / 验证测试 [parent=task-cras_e_rebuild]
-- ⏳ P0 CRAS-E持续进化中枢改造 / 风险治理 [parent=task-cras_e_rebuild]
-- ⏳ P0 CRAS-E持续进化中枢改造 / 汇报与验收 [parent=task-cras_e_rebuild]
-- ⏳ P1 Day2遗留项逐桩打透 / 主实现 [parent=task-day2_closure]
-- ⏳ P1 Day2遗留项逐桩打透 / 集成改造 [parent=task-day2_closure]
-- ⏳ P1 Day2遗留项逐桩打透 / 验证测试 [parent=task-day2_closure]
-- ⏳ P1 Day2遗留项逐桩打透 / 风险治理 [parent=task-day2_closure]
-- ⏳ P1 Day2遗留项逐桩打透 / 汇报与验收 [parent=task-day2_closure]
-- ⏳ P0 失忆后可持续进化保障 / 主实现 [parent=task-memoryless_evolution]
-- ⏳ P0 失忆后可持续进化保障 / 集成改造 [parent=task-memoryless_evolution]
-- ⏳ P0 失忆后可持续进化保障 / 验证测试 [parent=task-memoryless_evolution]
-- ⏳ P0 失忆后可持续进化保障 / 风险治理 [parent=task-memoryless_evolution]
-- ⏳ P0 失忆后可持续进化保障 / 汇报与验收 [parent=task-memoryless_evolution]
-- ⏳ P0 禁止空架子产物治理 / 主实现 [parent=task-no_empty_shell]
-- ⏳ P0 禁止空架子产物治理 / 集成改造 [parent=task-no_empty_shell]
-- ⏳ P0 禁止空架子产物治理 / 验证测试 [parent=task-no_empty_shell]
-- ⏳ P0 禁止空架子产物治理 / 风险治理 [parent=task-no_empty_shell]
-- ⏳ P0 禁止空架子产物治理 / 汇报与验收 [parent=task-no_empty_shell]
-- ⏳ P0 每轮对话意图洞察强制化 / 主实现 [parent=task-per_turn_intent]
-- ⏳ P0 每轮对话意图洞察强制化 / 集成改造 [parent=task-per_turn_intent]
-- ⏳ P0 每轮对话意图洞察强制化 / 验证测试 [parent=task-per_turn_intent]
-- ⏳ P0 每轮对话意图洞察强制化 / 风险治理 [parent=task-per_turn_intent]
-- ⏳ P0 每轮对话意图洞察强制化 / 汇报与验收 [parent=task-per_turn_intent]
+- 📋 P0 CRAS-E持续进化中枢改造 / 主实现 [parent=task-cras_e_rebuild]
+- 📋 P0 CRAS-E持续进化中枢改造 / 汇报与验收 [parent=task-cras_e_rebuild]
+- 📋 P0 CRAS-E持续进化中枢改造 / 集成改造 [parent=task-cras_e_rebuild]
+- 📋 P0 CRAS-E持续进化中枢改造 / 风险治理 [parent=task-cras_e_rebuild]
+- 📋 P0 CRAS-E持续进化中枢改造 / 验证测试 [parent=task-cras_e_rebuild]
+- 📋 P1 Day2遗留项逐桩打透 / 主实现 [parent=task-day2_closure]
+- 📋 P1 Day2遗留项逐桩打透 / 汇报与验收 [parent=task-day2_closure]
+- 📋 P1 Day2遗留项逐桩打透 / 集成改造 [parent=task-day2_closure]
+- 📋 P1 Day2遗留项逐桩打透 / 风险治理 [parent=task-day2_closure]
+- 📋 P1 Day2遗留项逐桩打透 / 验证测试 [parent=task-day2_closure]
+- 📋 P0 失忆后可持续进化保障 / 主实现 [parent=task-memoryless_evolution]
+- 📋 P0 失忆后可持续进化保障 / 汇报与验收 [parent=task-memoryless_evolution]
+- 📋 P0 失忆后可持续进化保障 / 集成改造 [parent=task-memoryless_evolution]
+- 📋 P0 失忆后可持续进化保障 / 风险治理 [parent=task-memoryless_evolution]
+- 📋 P0 失忆后可持续进化保障 / 验证测试 [parent=task-memoryless_evolution]
+- 📋 P0 每轮对话意图洞察强制化 / 主实现 [parent=task-per_turn_intent]
+- 📋 P0 每轮对话意图洞察强制化 / 汇报与验收 [parent=task-per_turn_intent]
+- 📋 P0 每轮对话意图洞察强制化 / 集成改造 [parent=task-per_turn_intent]
+- 📋 P0 每轮对话意图洞察强制化 / 风险治理 [parent=task-per_turn_intent]
+- 📋 P0 每轮对话意图洞察强制化 / 验证测试 [parent=task-per_turn_intent]
+- 📋 P0 禁止空架子产物治理 / 主实现 [parent=task-no_empty_shell]
+- 📋 P0 禁止空架子产物治理 / 汇报与验收 [parent=task-no_empty_shell]
+- 📋 P0 禁止空架子产物治理 / 集成改造 [parent=task-no_empty_shell]
+- 📋 P0 禁止空架子产物治理 / 风险治理 [parent=task-no_empty_shell]
+- 📋 P0 禁止空架子产物治理 / 验证测试 [parent=task-no_empty_shell]
