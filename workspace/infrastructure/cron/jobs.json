@@ -1,7 +1,7 @@
 {
   "_schema": "cron-jobs-v2",
   "_description": "OpenClaw workspace cron job registry",
-  "_updated": "2026-03-06",
+  "_updated": "2026-03-07T11:43+08:00",
   "_doc": "Job model field required per ISC rule.cron-task-model-requirement-001 (zhipu/glm-5 preferred)",
   "jobs": [
     {
@@ -16,7 +16,7 @@
       "model": "zhipu/glm-5",
       "model_fallback": "claude/claude-sonnet-4-6",
       "enabled": true,
-      "trigger": "time",
+      "trigger": "event_bridge",
       "trigger_condition": "reports/dayN-closure-conditions.md 文件新增",
       "outputs": [
         "reports/auto-debt-scan-dayN.md"
@@ -28,7 +28,11 @@
         "debt-scan",
         "day-completion"
       ],
-      "created": "2026-03-05"
+      "created": "2026-03-05",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "event_requested",
+      "time_schedule": "0 * * * *"
     },
     {
       "name": "rework-analyzer",
@@ -42,7 +46,7 @@
       "model": "zhipu/glm-5",
       "model_fallback": "claude/claude-sonnet-4-6",
       "enabled": true,
-      "trigger": "time",
+      "trigger": "event_bridge",
       "trigger_condition": "subagent日志中出现steer/restart/kill信号",
       "outputs": [
         "infrastructure/aeo/golden-testset/self-awareness-cases.json (append)",
@@ -57,7 +61,11 @@
         "root-cause",
         "isc"
       ],
-      "created": "2026-03-05"
+      "created": "2026-03-05",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "event_requested",
+      "time_schedule": "*/5 * * * *"
     },
     {
       "name": "correction-harvester",
@@ -71,7 +79,7 @@
       "model": "zhipu/glm-5",
       "model_fallback": "claude/claude-sonnet-4-6",
       "enabled": true,
-      "trigger": "time",
+      "trigger": "event_bridge",
       "trigger_condition": "记忆文件中出现纠偏信号关键词",
       "outputs": [
         "infrastructure/aeo/golden-testset/pending-cases.json",
@@ -85,7 +93,11 @@
         "golden-testset",
         "rule-draft"
       ],
-      "created": "2026-03-05"
+      "created": "2026-03-05",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "event_requested",
+      "time_schedule": "*/5 * * * *"
     },
     {
       "name": "auto-response-sweep",
@@ -98,7 +110,7 @@
       "schedule_human": "每15分钟",
       "model": "zhipu/glm-5",
       "enabled": true,
-      "trigger": "time",
+      "trigger": "event_bridge",
       "trigger_condition": "兜底: EventBus中有未处理的evolver.insight.detected等事件",
       "mode": "event_driven_with_fallback",
       "primary_channel": "eventbus",
@@ -113,7 +125,11 @@
         "auto-response",
         "day3-gap2"
       ],
-      "created": "2026-03-06"
+      "created": "2026-03-06",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "event_driven_with_fallback",
+      "time_schedule": "*/15 * * * *"
     },
     {
       "name": "user-insight-sweep",
@@ -126,7 +142,7 @@
       "schedule_human": "每30分钟",
       "model": "zhipu/glm-5",
       "enabled": true,
-      "trigger": "time",
+      "trigger": "event_bridge",
       "trigger_condition": "兜底: 30分钟内无cras.insight.generated事件",
       "mode": "event_driven_with_fallback",
       "primary_channel": "eventbus",
@@ -142,7 +158,11 @@
         "user-insight",
         "day3-gap2"
       ],
-      "created": "2026-03-06"
+      "created": "2026-03-06",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "event_driven_with_fallback",
+      "time_schedule": "*/30 * * * *"
     },
     {
       "name": "system-health-l3",
@@ -156,7 +176,7 @@
       "schedule_human": "每小时整点",
       "model": "zhipu/glm-5",
       "enabled": true,
-      "trigger": "time",
+      "trigger": "event_bridge",
       "trigger_condition": "定时 + 事件驱动兜底",
       "mode": "event_driven_with_fallback",
       "primary_channel": "eventbus",
@@ -175,8 +195,84 @@
         "l3-metrics",
         "day3-gap2"
       ],
-      "created": "2026-03-06"
+      "created": "2026-03-06",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "event_driven_with_fallback",
+      "time_schedule": "0 * * * *"
+    },
+    {
+      "name": "pipeline-dashboard-full",
+      "description": "[Day2-Gap2] 五层闭环运营仪表盘 — 采集认知-决策-执行-效果-系统全链路指标，生成Agent运营视角报告",
+      "script": "infrastructure/observability/pipeline-dashboard-cron.js",
+      "args": [],
+      "schedule": "0 */4 * * *",
+      "schedule_human": "每4小时",
+      "model": "zhipu/glm-5",
+      "enabled": true,
+      "trigger": "event_bridge",
+      "trigger_condition": "定时采集：L1意图/L2决策/L3执行/L4效果/L5系统全层指标",
+      "mode": "standalone",
+      "outputs": [
+        "reports/pipeline-dashboard-YYYY-MM-DD.md",
+        "infrastructure/observability/.dashboard-snapshot.json",
+        "infrastructure/observability/.dashboard-history.jsonl"
+      ],
+      "timeout_seconds": 90,
+      "on_failure": "log_and_continue",
+      "tags": [
+        "pipeline-dashboard",
+        "five-layer-monitoring",
+        "agent-ops",
+        "day2-gap2"
+      ],
+      "created": "2026-03-07",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "event_requested",
+      "time_schedule": "0 */4 * * *"
+    },
+    {
+      "name": "pipeline-dashboard-quick",
+      "description": "[Day2-Gap2] 五层闭环快速健康检查 — 1h窗口，状态恶化时自动推送卡片",
+      "script": "infrastructure/observability/pipeline-dashboard-cron.js",
+      "args": [
+        "--quick"
+      ],
+      "schedule": "15 * * * *",
+      "schedule_human": "每小时第15分",
+      "model": "zhipu/glm-5",
+      "enabled": true,
+      "trigger": "event_bridge",
+      "trigger_condition": "定时快检：1h窗口，仅在critical时触发推送",
+      "mode": "standalone",
+      "outputs": [
+        "infrastructure/observability/.dashboard-snapshot.json"
+      ],
+      "timeout_seconds": 60,
+      "on_failure": "log_and_continue",
+      "tags": [
+        "pipeline-dashboard",
+        "quick-check",
+        "day2-gap2"
+      ],
+      "created": "2026-03-07",
+      "bridge_event": "cron.job.requested",
+      "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+      "execution_mode": "event_requested",
+      "time_schedule": "15 * * * *"
     }
   ],
-  "_cron_install_hint": "在系统crontab中安装方式:\n  0 * * * *   cd /root/.openclaw/workspace && node infrastructure/self-check/day-completion-scanner.js --auto >> infrastructure/logs/day-scanner.log 2>&1\n  */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/rework-analyzer.js --auto >> infrastructure/logs/rework-analyzer.log 2>&1\n  */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/correction-harvester.js --auto >> infrastructure/logs/correction-harvester.log 2>&1"
+  "_cron_install_hint": "在系统crontab中安装方式:\n  0 * * * *   cd /root/.openclaw/workspace && node infrastructure/self-check/day-completion-scanner.js --auto >> infrastructure/logs/day-scanner.log 2>&1\n  */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/rework-analyzer.js --auto >> infrastructure/logs/rework-analyzer.log 2>&1\n  */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/correction-harvester.js --auto >> infrastructure/logs/correction-harvester.log 2>&1",
+  "_event_driven_refactor": {
+    "version": "day2-gap1",
+    "bridge_runner": "infrastructure/event-bus/cron-event-bridge-runner.js",
+    "primary_event": "cron.job.requested",
+    "strategy": "cron只保留时间唤起职责，具体任务统一桥接为事件请求；底层脚本执行改为按需fallback",
+    "verification": [
+      "node infrastructure/event-bus/cron-event-bridge-runner.js --list",
+      "node infrastructure/event-bus/cron-event-bridge-runner.js --job system-health-l3 --emit-only",
+      "node infrastructure/event-driven/tests/verify-migration.js"
+    ]
+  }
 }
