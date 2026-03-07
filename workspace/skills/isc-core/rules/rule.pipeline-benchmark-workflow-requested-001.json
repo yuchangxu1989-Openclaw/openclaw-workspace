@@ -1,0 +1,19 @@
+{
+  "id": "rule.pipeline-benchmark-workflow-requested-001",
+  "name": "pipeline_benchmark_workflow_requested",
+  "domain": "orchestration",
+  "type": "workflow",
+  "version": "1.0.0",
+  "description": "兼容 workflow.requested 事件命名，触发并行子 agent 编排。",
+  "trigger": {
+    "events": [
+      "workflow.requested"
+    ]
+  },
+  "priority": "P1",
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "handler",
+    "handler": "parallel-subagent-orchestration"
+  }
+}

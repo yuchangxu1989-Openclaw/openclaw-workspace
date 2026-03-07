@@ -1,0 +1,19 @@
+{
+  "id": "rule.pipeline-benchmark-analysis-requested-001",
+  "name": "pipeline_benchmark_analysis_requested",
+  "domain": "analysis",
+  "type": "workflow",
+  "version": "1.0.0",
+  "description": "兼容 analysis.requested 事件命名，触发并行分析治理流程。",
+  "trigger": {
+    "events": [
+      "analysis.requested"
+    ]
+  },
+  "priority": "P1",
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "handler",
+    "handler": "parallel-analysis"
+  }
+}

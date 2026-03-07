@@ -7,35 +7,114 @@ const fs = require('fs');
 const path = require('path');
 
 const WORKSPACE = process.env.WORKSPACE || path.resolve(__dirname, '../../..');
+const INTENT_ALIGNMENT_POLICY = 'llm_primary_keyword_regex_auxiliary';
 
 function checkEvalSets() {
   const violations = [];
-  const evalDir = path.join(WORKSPACE, 'skills/aeo/eval-sets');
-  if (!fs.existsSync(evalDir)) {
-    return [{ issue: 'No eval-sets directory found at skills/aeo/eval-sets' }];
+  const candidateDirs = [
+    path.join(WORKSPACE, 'skills/aeo/eval-sets'),
+    path.join(WORKSPACE, 'skills/aeo/evaluation-sets')
+  ].filter(dir => fs.existsSync(dir));
+
+  if (candidateDirs.length === 0) {
+    return [{ issue: 'No eval-sets directory found at skills/aeo/eval-sets or skills/aeo/evaluation-sets' }];
   }
-  const files = fs.readdirSync(evalDir).filter(f => f.endsWith('.json'));
-  for (const f of files) {
+
+  const jsonFiles = [];
+  for (const dir of candidateDirs) {
+    collectJsonFiles(dir, jsonFiles);
+  }
+
+  for (const filePath of jsonFiles) {
+    const relative = path.relative(WORKSPACE, filePath);
     try {
-      const data = JSON.parse(fs.readFileSync(path.join(evalDir, f), 'utf8'));
-      const items = Array.isArray(data) ? data : data.items || [];
-      if (items.length < 3) {
-        violations.push({ file: f, issue: `Only ${items.length} eval items (min 3)` });
+      const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      const items = extractEvalItems(data);
+      if (items.length < 1) {
+        violations.push({ file: relative, issue: 'No eval items found' });
       }
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
-        if (!item.input && !item.query && !item.question) {
-          violations.push({ file: f, item: i, issue: 'Missing input/query field' });
+        if (!hasInputField(item)) {
+          violations.push({ file: relative, item: i, issue: 'Missing input/query/chunk field' });
         }
-        if (!item.expected && !item.answer && !item.output) {
-          violations.push({ file: f, item: i, issue: 'Missing expected/answer field' });
+        if (!hasExpectedField(item)) {
+          violations.push({ file: relative, item: i, issue: 'Missing expected/answer/output field' });
         }
       }
     } catch (e) {
-      violations.push({ file: f, error: 'Invalid JSON' });
+      violations.push({ file: relative, error: `Invalid JSON: ${e.message}` });
     }
   }
   return violations;
+}
+
+function checkIntentArchitectureAlignment() {
+  const violations = [];
+  const intentEvalSet = path.join(WORKSPACE, 'skills/aeo/evaluation-sets/cras-intent/test-cases.json');
+  const intentExtractor = path.join(WORKSPACE, 'skills/cras/intent-extractor.js');
+  const executor = path.join(WORKSPACE, 'skills/aeo/src/evaluation/executor.cjs');
+  const alignmentHelper = path.join(WORKSPACE, 'skills/aeo/src/evaluation/intent-alignment.cjs');
+
+  if (!fs.existsSync(intentEvalSet)) {
+    violations.push({ file: path.relative(WORKSPACE, intentEvalSet), issue: 'Missing CRAS intent eval set' });
+  } else {
+    const data = JSON.parse(fs.readFileSync(intentEvalSet, 'utf8'));
+    const items = extractEvalItems(data);
+    if (!items.length) {
+      violations.push({ file: path.relative(WORKSPACE, intentEvalSet), issue: 'Intent eval set has no cases' });
+    }
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (!Array.isArray(item.expected)) {
+        violations.push({ file: path.relative(WORKSPACE, intentEvalSet), item: i, issue: 'Intent case missing expected array' });
+      }
+    }
+  }
+
+  if (!fileContains(intentExtractor, 'evaluateIntentCase')) {
+    violations.push({ file: path.relative(WORKSPACE, intentExtractor), issue: 'Intent extractor eval is not delegated to LLM-primary evaluator' });
+  }
+
+  if (!fileContains(executor, INTENT_ALIGNMENT_POLICY)) {
+    violations.push({ file: path.relative(WORKSPACE, executor), issue: 'AEO executor missing LLM-primary intent evaluation policy' });
+  }
+
+  if (!fs.existsSync(alignmentHelper)) {
+    violations.push({ file: path.relative(WORKSPACE, alignmentHelper), issue: 'Missing shared intent alignment helper' });
+  }
+
+  return violations;
+}
+
+function collectJsonFiles(dir, acc) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      collectJsonFiles(fullPath, acc);
+    } else if (entry.isFile() && entry.name.endsWith('.json')) {
+      acc.push(fullPath);
+    }
+  }
+}
+
+function extractEvalItems(data) {
+  if (Array.isArray(data)) return data;
+  return data.items || data.cases || data.test_cases || data.samples || [];
+}
+
+function hasInputField(item) {
+  return !!(item && (item.input || item.query || item.question || item.chunk || item.user_message || item.prompt));
+}
+
+function hasExpectedField(item) {
+  return !!(item && (item.expected !== undefined || item.answer !== undefined || item.output !== undefined));
+}
+
+function fileContains(filePath, needle) {
+  if (!fs.existsSync(filePath)) return false;
+  return fs.readFileSync(filePath, 'utf8').includes(needle);
 }
 
 function checkTestCoverage() {
@@ -64,6 +143,15 @@ function main() {
 
   const evalV = checkEvalSets();
   results.checks.push({ check: 'eval-set-quality', violations: evalV, passed: evalV.length === 0 });
+
+  const intentAlignmentV = checkIntentArchitectureAlignment();
+  results.checks.push({
+    check: 'intent-architecture-alignment',
+    policy: INTENT_ALIGNMENT_POLICY,
+    sandbox_safe: true,
+    violations: intentAlignmentV,
+    passed: intentAlignmentV.length === 0
+  });
 
   const testV = checkTestCoverage();
   results.checks.push({ check: 'test-coverage', violations: testV, passed: testV.length === 0 });

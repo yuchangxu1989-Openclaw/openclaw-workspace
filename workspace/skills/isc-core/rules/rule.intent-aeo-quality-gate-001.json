@@ -1,9 +1,9 @@
 {
   "id": "rule.intent-aeo-quality-gate-001",
   "rule_name": "意图识别AEO准出门禁",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "severity": "critical",
-  "description": "意图识别系统的任何变更（新增意图类型、修改识别逻辑、更换模型）必须通过AEO评测准出：黄金评测集自动化测试通过 + Badcase主动根因分析完成。未通过不得上线。",
+  "description": "意图识别系统的任何变更（新增意图类型、修改识别逻辑、更换模型）必须通过AEO评测准出：黄金评测集自动化测试通过 + Badcase主动根因分析完成。评测链必须以LLM语义意图识别为主判断链，关键词/正则仅可作为辅助交叉匹配信号，未通过不得上线。",
   "trigger": {
     "events": [
       "event.system.modified",

@@ -1,0 +1,19 @@
+{
+  "id": "rule.pipeline-benchmark-skill-created-alignment-001",
+  "name": "pipeline_benchmark_skill_created_alignment",
+  "domain": "skill",
+  "type": "rule",
+  "version": "1.0.0",
+  "description": "对 skill.created 做通用对齐，覆盖能力锚点、分层架构、命名一致性与公开技能分类检查，确保新技能创建时的基础治理规则都能被命中。",
+  "trigger": {
+    "events": [
+      "skill.created"
+    ]
+  },
+  "priority": "P1",
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "check",
+    "handler": "capability-anchor-sync"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "rule.pipeline-benchmark-defect-acknowledged-001",
+  "name": "pipeline_benchmark_defect_acknowledged",
+  "domain": "quality",
+  "type": "rule",
+  "version": "1.0.0",
+  "description": "兼容 agent.behavior.defect_acknowledged 事件命名，触发自我纠偏规则化。",
+  "trigger": {
+    "events": [
+      "agent.behavior.defect_acknowledged"
+    ]
+  },
+  "priority": "P1",
+  "enforcement_tier": "P0_gate",
+  "action": {
+    "type": "handler",
+    "handler": "self-correction-root-cause"
+  }
+}

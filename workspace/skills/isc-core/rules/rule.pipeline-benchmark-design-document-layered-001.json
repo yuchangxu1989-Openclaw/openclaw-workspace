@@ -1,0 +1,20 @@
+{
+  "id": "rule.pipeline-benchmark-design-document-layered-001",
+  "name": "pipeline_benchmark_design_document_layered",
+  "domain": "architecture",
+  "type": "rule",
+  "version": "1.0.0",
+  "description": "设计文档事件在 benchmark 命名空间下补充分层解耦检查。",
+  "trigger": {
+    "events": [
+      "design.document.created",
+      "design.document.modified"
+    ]
+  },
+  "priority": "P1",
+  "enforcement_tier": "P1_process",
+  "action": {
+    "type": "check",
+    "handler": "layered-architecture-checker"
+  }
+}

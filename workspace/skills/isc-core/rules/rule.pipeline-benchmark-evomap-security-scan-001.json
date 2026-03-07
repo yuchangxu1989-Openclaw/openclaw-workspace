@@ -1,0 +1,19 @@
+{
+  "id": "rule.pipeline-benchmark-evomap-security-scan-001",
+  "name": "pipeline_benchmark_evomap_security_scan",
+  "domain": "security",
+  "type": "rule",
+  "version": "1.0.0",
+  "description": "兼容 evomap.sync.request 事件命名，确保 EvoMap 同步请求进入强制安全扫描流程。",
+  "trigger": {
+    "events": [
+      "evomap.sync.request"
+    ]
+  },
+  "priority": "P1",
+  "enforcement_tier": "P0_gate",
+  "action": {
+    "type": "check",
+    "handler": "evomap-security-scan"
+  }
+}
