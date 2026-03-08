@@ -287,3 +287,10 @@ ISC规则、任务、技能都必须分三层解耦：
 - reviewer判定质量太差→自动换一个不同Agent重写，不回原writer
 - 最多重试2次，仍不通过升级主Agent
 - 根因：writer一次性写回质量不达标，缺乏自动质量门禁
+
+## 2026-03-08 子Agent任务清单不可见问题（根因+根治）
+- 现象：主Agent并行派发大量子Agent后，用户只能看到零散转述，无法在单一视图看到全量任务状态。
+- 根因：缺少统一任务登记与状态板（spawn时未强制入账）；缺少完成事件驱动的汇总机制；缺少标准化看板输出。
+- 影响：用户无法实时回答“在跑哪些、已完成哪些、结果如何”，并行协作可观测性不足。
+- 根治：新增 `logs/subagent-task-board.json` 作为任务真相源；新增 `scripts/subagent-report.sh` 输出标准状态看板；新增 ISC 规则 `rule.subagent-report-queue-001.json` 在完成事件更新任务板并在累计完成>=3时自动汇总。
+- 约束：主Agent每次spawn必须登记 taskId/label/agentId/status/spawnTime，完成后补 completeTime/result_summary。

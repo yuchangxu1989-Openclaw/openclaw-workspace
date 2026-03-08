@@ -417,3 +417,9 @@ The goal: Be helpful without being annoying. Check in a few times a day, do usef
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+
+## 子Agent任务登记（强制）
+- 主Agent每次 `spawn` 子Agent后，必须立即登记到：`/root/.openclaw/workspace/logs/subagent-task-board.json`。
+- 最低字段：`taskId, label, agentId, status(running/done/failed), spawnTime, completeTime, result_summary`。
+- 建议附加：`model`（用于看板展示）。
+- 子Agent完成事件触发后，必须更新同一 taskId 记录；当累计完成（done+failed）>=3，触发 `scripts/subagent-report.sh` 做批量汇总。

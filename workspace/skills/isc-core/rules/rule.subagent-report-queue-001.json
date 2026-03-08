@@ -1,0 +1,41 @@
+{
+  "rule_id": "rule.subagent-report-queue-001",
+  "version": "1.0.0",
+  "description": "子Agent完成时更新任务看板，并在累计完成>=3时触发统一汇总汇报",
+  "trigger": {
+    "event": "subagent.task.completed",
+    "source": "main-agent"
+  },
+  "conditions": [
+    {
+      "type": "file_exists",
+      "path": "/root/.openclaw/workspace/logs/subagent-task-board.json"
+    }
+  ],
+  "actions": [
+    {
+      "type": "update_task_board",
+      "path": "/root/.openclaw/workspace/logs/subagent-task-board.json",
+      "match_key": "taskId",
+      "update_fields": ["status", "completeTime", "result_summary"]
+    },
+    {
+      "type": "aggregate_check",
+      "expression": "count(status == 'done') + count(status == 'failed') >= 3"
+    },
+    {
+      "type": "exec",
+      "when": "aggregate_check == true",
+      "command": "bash /root/.openclaw/workspace/scripts/subagent-report.sh"
+    },
+    {
+      "type": "emit",
+      "when": "aggregate_check == true",
+      "event": "subagent.report.queue.ready",
+      "payload": {
+        "board_file": "/root/.openclaw/workspace/logs/subagent-task-board.json",
+        "report_script": "/root/.openclaw/workspace/scripts/subagent-report.sh"
+      }
+    }
+  ]
+}
