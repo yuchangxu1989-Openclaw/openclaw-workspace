@@ -29,18 +29,18 @@
   "dto.task.completed": {
     "handler": "skill-dto-handler",
     "priority": "normal",
-    "description": "DTO task completed — process downstream via DTO skill handler"
+    "description": "本地任务编排 task completed — process downstream via 本地任务编排 skill handler"
   },
   "dto.task.created": {
     "handler": "skill-dto-handler",
     "priority": "normal",
-    "description": "DTO task created — acknowledged by DTO skill handler"
+    "description": "本地任务编排 task created — acknowledged by 本地任务编排 skill handler"
   },
   "dto.sync.*": {
     "handler": "skill-dto-handler",
     "agent": "coder",
     "priority": "high",
-    "description": "DTO sync lifecycle events — handled by DTO skill handler"
+    "description": "本地任务编排 sync lifecycle events — handled by 本地任务编排 skill handler"
   },
   "cras.knowledge.learned": {
     "handler": "skill-cras-handler",
@@ -154,7 +154,7 @@
     "handler": "intent-event-handler",
     "agent": "coder",
     "priority": "high",
-    "description": "Intent directive → create real DTO task consumption path"
+    "description": "Intent directive → create real 本地任务编排 task consumption path"
   },
   "evolver.insight.detected": {
     "handler": "auto-response-handler",
@@ -243,7 +243,7 @@
   "dto.signal.created": {
     "handler": "skill-dto-handler",
     "priority": "high",
-    "description": "DTO signal created — event-driven trigger for DTO-AEO pipeline (Day2-Gap1)"
+    "description": "本地任务编排 signal created — event-driven trigger for 本地任务编排-AEO pipeline (Day2-Gap1)"
   },
   "file.changed": {
     "handler": "skill-system-monitor-handler",
@@ -332,7 +332,7 @@
     "handler": "skill-dto-handler",
     "agent": "coder",
     "priority": "normal",
-    "description": "[Gap4] Workflow requested → DTO task creation"
+    "description": "[Gap4] Workflow requested → 本地任务编排 task creation"
   },
   "api_key_rate_limit": {
     "handler": "notify-alert",

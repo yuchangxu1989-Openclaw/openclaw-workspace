@@ -46,5 +46,5 @@ EOF
 # 写入DTO事件队列
 echo "$NOTIFICATION" >> "$DTO_EVENT_PATH"
 
-echo "[ISC→DTO] 已通知: $RULE_ID"
+echo "[ISC→本地任务编排] 已通知: $RULE_ID"
 echo "  📍 位置: $RELATIVE_PATH"

@@ -6,7 +6,7 @@
       "id": "N023",
       "name": "自动生成评测标准",
       "description": "当新技能注册时，自动生成对应的评测标准",
-      "source": "ISC-DTO",
+      "source": "ISC-本地任务编排",
       "topic": "skill.registered",
       "handler": {
         "module": "aeo/src/core/dual-track-orchestrator",
@@ -23,7 +23,7 @@
       "id": "N024",
       "name": "双轨运营编排",
       "description": "根据技能类型和评测需求，自动选择AI效果轨道或功能质量轨道",
-      "source": "ISC-DTO",
+      "source": "ISC-本地任务编排",
       "topic": "aeo.evaluation.requested",
       "handler": {
         "module": "aeo/src/core/dual-track-orchestrator",
@@ -37,7 +37,7 @@
       "id": "N025",
       "name": "反馈自动收录",
       "description": "检测用户反馈中的质疑/澄清/重复修改信号，自动收录到问题库",
-      "source": "ISC-DTO",
+      "source": "ISC-本地任务编排",
       "topic": "user.feedback.received",
       "handler": {
         "module": "aeo/src/feedback/auto-collector",
@@ -54,7 +54,7 @@
       "id": "N026",
       "name": "洞察到整改闭环",
       "description": "基于洞察分析结果，自动生成可执行的整改方案",
-      "source": "ISC-DTO",
+      "source": "ISC-本地任务编排",
       "topic": "aeo.insights.generated",
       "handler": {
         "module": "aeo/src/insight/action-generator",
@@ -68,7 +68,7 @@
       "id": "N027",
       "name": "跨系统同步",
       "description": "AEO数据跨系统同步",
-      "source": "ISC-DTO",
+      "source": "ISC-本地任务编排",
       "topic": "aeo.sync.requested",
       "handler": {
         "module": "aeo/src/core/aeo-core",
