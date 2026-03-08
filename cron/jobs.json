@@ -654,7 +654,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772960400007,
+      "updatedAtMs": 1772960700009,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -671,11 +671,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772960700000,
-        "lastRunAtMs": 1772960400007,
+        "nextRunAtMs": 1772961000000,
+        "lastRunAtMs": 1772960700008,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 0,
+        "lastDurationMs": 1,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "lastError": "isolated job requires payload.kind=agentTurn"

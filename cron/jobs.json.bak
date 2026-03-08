@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772956885442,
+      "updatedAtMs": 1772960493535,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -503,15 +503,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772960478795,
-        "lastRunAtMs": 1772956878804,
+        "nextRunAtMs": 1772964078795,
+        "lastRunAtMs": 1772960478801,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 6638,
+        "lastDurationMs": 14734,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772960478800
+        "lastDelivered": false
       }
     },
     {
@@ -679,7 +678,7 @@
         "lastDurationMs": 0,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
-        "lastError": "isolated job requires payload.kind=agentTurn"
+        "runningAtMs": 1772960700007
       }
     },
     {
