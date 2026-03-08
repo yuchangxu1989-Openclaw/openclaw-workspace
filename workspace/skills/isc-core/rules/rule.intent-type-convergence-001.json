@@ -17,9 +17,9 @@
     "event": "event.type.registration_requested"
   },
   "action": {
-    "type": "handler",
-    "handler": "intent-type-convergence",
-    "description": "验证新意图类型归属，不属于5类则拒绝注册并要求MECE重分类"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.intent-type-convergence-001.sh"
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

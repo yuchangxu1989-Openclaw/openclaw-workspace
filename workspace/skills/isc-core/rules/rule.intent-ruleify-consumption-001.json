@@ -17,9 +17,9 @@
     "event": "intent.ruleify"
   },
   "action": {
-    "type": "handler",
-    "handler": "intent-event-handler",
-    "description": "解析 ruleify 意图 → 创建 ISC 规则草案 → 提交审核"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.intent-ruleify-consumption-001.sh"
   },
-  "enforcement_tier": "P0_blocking"
+  "enforcement_tier": "P0_blocking",
+  "enforcement": "programmatic"
 }

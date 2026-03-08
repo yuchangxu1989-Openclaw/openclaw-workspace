@@ -23,7 +23,8 @@
     ]
   },
   "action": {
-    "handler": "skill-isc-handler"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.intent-doc-quality-gate-001质量门禁规则-wrsequ.sh"
   },
   "governance": {
     "auto_execute": false,
@@ -37,5 +38,6 @@
     "source_file": "2026-03-08.md",
     "evidence": "重大文档双Agent质量门禁规则落地（用户要求，永久生效）",
     "created_at": "2026-03-08T09:05:20.169Z"
-  }
+  },
+  "enforcement": "programmatic"
 }

@@ -17,9 +17,9 @@
     "event": "intent.reflect"
   },
   "action": {
-    "type": "handler",
-    "handler": "intent-event-handler",
-    "description": "解析 reflect 意图 → 进入 CRAS 分析 → 知识沉淀"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.intent-reflect-consumption-001.sh"
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

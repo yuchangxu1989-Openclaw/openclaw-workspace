@@ -24,8 +24,8 @@
     "event": "intent.ruleify"
   },
   "action": {
-    "handler": "skill-isc-handler",
-    "type": "handler"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.intent-mece命名原则-86o70p.sh"
   },
   "governance": {
     "auto_execute": false,
@@ -39,5 +39,6 @@
     "source_file": "2026-03-05.md",
     "evidence": "MECE命名原则（新评测维度）...同一层级的所有实体关键词不能重叠...已进入AEO评测集作为评测维度",
     "created_at": "2026-03-06T17:15:02.344Z"
-  }
+  },
+  "enforcement": "programmatic"
 }

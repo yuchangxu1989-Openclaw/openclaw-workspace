@@ -18,8 +18,9 @@
     "event": "event.type.created"
   },
   "action": {
-    "type": "check",
-    "handler": "anti-entropy-check"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.intent-anti-entropy-001.sh"
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

@@ -11,12 +11,13 @@
   },
   "conditions": [],
   "action": {
-    "type": "handler",
-    "handler": "intent-event-handler"
+    "type": "script",
+    "script": "scripts/isc-hooks/intent-reflect-dispatch-001.sh"
   },
   "metadata": {
     "category": "intent-routing",
     "created": "2026-03-06",
     "author": "analyst"
-  }
+  },
+  "enforcement": "programmatic"
 }

@@ -17,9 +17,9 @@
     "event": "intent.directive"
   },
   "action": {
-    "type": "handler",
-    "handler": "intent-event-handler",
-    "description": "解析 directive 意图 → 创建 DTO 任务 → 分发执行"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.intent-directive-consumption-001.sh"
   },
-  "enforcement_tier": "P0_blocking"
+  "enforcement_tier": "P0_blocking",
+  "enforcement": "programmatic"
 }

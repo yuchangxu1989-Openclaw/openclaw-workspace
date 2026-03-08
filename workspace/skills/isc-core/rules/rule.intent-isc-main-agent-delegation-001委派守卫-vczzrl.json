@@ -23,7 +23,8 @@
     ]
   },
   "action": {
-    "handler": "skill-isc-handler"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl.sh"
   },
   "governance": {
     "auto_execute": false,
@@ -37,5 +38,6 @@
     "source_file": "2026-03-08.md",
     "evidence": "四层防御：认知层+会话层+程序化守卫层+评测验证层",
     "created_at": "2026-03-08T09:05:20.188Z"
-  }
+  },
+  "enforcement": "programmatic"
 }
