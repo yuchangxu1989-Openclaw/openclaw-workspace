@@ -17,10 +17,43 @@ echo "=== Completion Handler ==="
 # Step 1: 更新task-board（强制）
 bash /root/.openclaw/workspace/scripts/update-task.sh "$TASK_ID" "$STATUS" "$SUMMARY"
 
-# Step 2: 生成看板快照供主Agent发送
+# Step 2: 自动质量核查（强制）
+# 判断是否需要核查（开发/写作类任务需要，纯分析/查询类不需要）
+NEED_QA="false"
+
+# 从task-board读取任务的agentId
+AGENT_ID=$(node -e "
+const board = JSON.parse(require('fs').readFileSync('$BOARD_FILE','utf8'));
+const task = board.find(t => t.label === '$TASK_ID' || t.taskId === '$TASK_ID');
+if (task) console.log(task.agentId || '');
+")
+
+# 开发类Agent的产出必须核查
+case "$AGENT_ID" in
+  coder|writer|researcher)
+    NEED_QA="true"
+    ;;
+  reviewer|analyst|scout)
+    NEED_QA="false"  # 核查者/分析者本身不需要再核查
+    ;;
+esac
+
+# 如果任务状态是failed，不需要核查
+if [ "$STATUS" = "failed" ]; then
+  NEED_QA="false"
+fi
+
+if [ "$NEED_QA" = "true" ]; then
+  echo ""
+  echo "🔍 需要质量核查：$TASK_ID (by $AGENT_ID)"
+  echo "请主Agent立即派reviewer或analyst核查此任务产出"
+  echo "命令模板：sessions_spawn agentId=reviewer label=qa-$TASK_ID task='核查...'"
+fi
+
+# Step 3: 生成看板快照供主Agent发送
 bash /root/.openclaw/workspace/scripts/show-task-board.sh
 
-# Step 3: 检查是否触发批量汇报（running=0时）
+# Step 4: 检查是否触发批量汇报（running=0时）
 BOARD_FILE="/root/.openclaw/workspace/logs/subagent-task-board.json"
 if [ -f "$BOARD_FILE" ]; then
   RUNNING=$(node -e "

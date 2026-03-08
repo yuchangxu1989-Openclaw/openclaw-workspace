@@ -1,0 +1,27 @@
+{
+  "id": "ISC-AUTO-QA-001",
+  "name": "开发产出自动质量核查",
+  "description": "coder/writer/researcher完成的任务必须自动触发质量核查，核查者必须是不同Agent",
+  "priority": "high",
+  "enforced_by": "completion-handler.sh",
+  "trigger": {
+    "event": "subagent.completion",
+    "condition": "agentId in [coder, writer, researcher] AND status != failed",
+    "hook": "completion-handler.sh Step 2"
+  },
+  "action": {
+    "type": "prompt",
+    "method": "echo提示主Agent派reviewer/analyst核查",
+    "skill": "completion-handler.sh"
+  },
+  "exceptions": [
+    "reviewer/analyst/scout的产出不需要核查（防无限循环）",
+    "failed任务不需要核查"
+  ],
+  "related_rules": [
+    "ISC-EVAL-ROLE-SEPARATION-001",
+    "ISC-COMPLETION-HANDLER-001"
+  ],
+  "created": "2026-03-08",
+  "status": "active"
+}

@@ -440,6 +440,17 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
+### 开发产出必须质量核查（ISC-AUTO-QA-001）
+completion-handler.sh会自动检测是否需要核查。
+当输出包含"🔍 需要质量核查"时，主Agent必须立即派reviewer/analyst核查。
+
+核查规则：
+- coder/writer/researcher的产出 → 必须核查
+- reviewer/analyst/scout的产出 → 不需要再核查（避免无限循环）
+- failed任务 → 不需要核查
+
+核查Agent必须和执行Agent不同（角色分离铁律）。
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.

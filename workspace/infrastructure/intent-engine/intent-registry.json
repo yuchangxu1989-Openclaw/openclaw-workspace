@@ -401,6 +401,25 @@
       "created_at": "2026-03-08T17:40:00+08:00",
       "isc_rule": "ISC-COMPLETION-HANDLER-001",
       "source": "ISC-COMPLETION-HANDLER-001"
+    },
+    {
+      "id": "system.auto-qa.trigger",
+      "category": "IC5",
+      "name": "开发产出自动质量核查触发",
+      "description": "子Agent(coder/writer/researcher)完成任务时自动触发质量核查",
+      "examples": [
+        "🔍 需要质量核查：task-xxx (by coder)",
+        "coder完成了开发任务，需要核查"
+      ],
+      "anti_examples": [
+        "reviewer完成了核查任务",
+        "任务失败了"
+      ],
+      "confidence_threshold": 0.9,
+      "status": "active",
+      "created_at": "2026-03-08T17:44:00+08:00",
+      "isc_rule": "ISC-AUTO-QA-001",
+      "source": "ISC-AUTO-QA-001"
     }
   ],
   "metadata": {

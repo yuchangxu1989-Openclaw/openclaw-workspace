@@ -145,6 +145,7 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
    - 主Agent绝不亲自写文档（参见ISC-MAIN-AGENT-DELEGATION-001）
 8. **评测角色分离铁律（ISC-EVAL-ROLE-SEPARATION-001）**：执行者≠评测者。任何Agent的执行结果必须由不同Agent评测，自评=Badcase。
 9. **completion event程序化处理（ISC-COMPLETION-HANDLER-001）**：收到子Agent完成事件→第一个动作必须是 `exec bash /root/.openclaw/workspace/scripts/completion-handler.sh`，不是读结果不是回复用户。违反=Badcase。
+10. **开发产出自动核查（ISC-AUTO-QA-001）**：coder/writer/researcher完成的任务必须自动触发质量核查，核查者必须是不同Agent。completion-handler.sh会提示"🔍 需要质量核查"，看到提示必须立即派reviewer/analyst执行核查。
 
 ## 主Agent委派铁律（最高优先级，永久生效）
 
