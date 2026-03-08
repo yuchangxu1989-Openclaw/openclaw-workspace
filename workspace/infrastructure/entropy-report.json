@@ -1,66 +1,19 @@
 {
-  "timestamp": "2026-03-08T09:50:05.911Z",
+  "timestamp": "2026-03-08T09:50:10.715Z",
   "scanned": {
-    "files": 94169,
+    "files": 94170,
     "dirs": 497
   },
-  "issues": 4,
-  "fixes": 4,
+  "issues": 1,
+  "fixes": 0,
   "details": {
     "issues": [
-      {
-        "type": "duplicate",
-        "files": [
-          "infrastructure/event-bus/signals/processed/pre-commit-1772962573044.signal",
-          "infrastructure/event-bus/signals/processed/pre-commit-1772962586451.signal"
-        ]
-      },
-      {
-        "type": "duplicate",
-        "files": [
-          "infrastructure/event-bus/signals/processed/pre-commit-1772962973305.signal",
-          "infrastructure/event-bus/signals/processed/pre-commit-1772962995146.signal"
-        ]
-      },
-      {
-        "type": "duplicate",
-        "files": [
-          "infrastructure/event-bus/signals/processed/pre-commit-1772963166816.signal",
-          "infrastructure/event-bus/signals/processed/pre-commit-1772963193572.signal",
-          "infrastructure/event-bus/signals/processed/pre-commit-1772963234384.signal"
-        ]
-      },
       {
         "type": "oversized_log",
         "file": "infrastructure/logs/auto-repair-executions.jsonl",
         "size": 1280846104
       }
     ],
-    "fixes": [
-      {
-        "type": "dedup",
-        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772962586451.signal",
-        "to": ".entropy-archive/duplicates/pre-commit-1772962586451.signal.1772963404166",
-        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772962573044.signal"
-      },
-      {
-        "type": "dedup",
-        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772962995146.signal",
-        "to": ".entropy-archive/duplicates/pre-commit-1772962995146.signal.1772963404166",
-        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772962973305.signal"
-      },
-      {
-        "type": "dedup",
-        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772963193572.signal",
-        "to": ".entropy-archive/duplicates/pre-commit-1772963193572.signal.1772963404166",
-        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772963166816.signal"
-      },
-      {
-        "type": "dedup",
-        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772963234384.signal",
-        "to": ".entropy-archive/duplicates/pre-commit-1772963234384.signal.1772963404166",
-        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772963166816.signal"
-      }
-    ]
+    "fixes": []
   }
 }
