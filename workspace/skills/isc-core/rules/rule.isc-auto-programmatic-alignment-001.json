@@ -1,0 +1,10 @@
+{
+  "id": "rule.isc-auto-programmatic-alignment-001",
+  "name": "ISC规则增删改自动程序化对齐",
+  "description": "任何ISC规则的创建、修改、删除，都必须自动触发全链路程序化对齐：感知探针→认知判断→执行动作→质量验真",
+  "priority": "P0",
+  "category": "meta",
+  "trigger": {"events": ["isc.rule.created", "isc.rule.modified", "isc.rule.deleted"]},
+  "enforcement": "programmatic",
+  "action": {"type": "script", "script": "scripts/isc-auto-align.sh"}
+}
