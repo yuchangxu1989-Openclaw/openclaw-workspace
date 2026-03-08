@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-doc-quality-gate-001质量门禁规则-wrsequ",
+  "name": "intent_doc-quality-gate-001质量门禁规则",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "将writer→reviewer→不通过重写的流程固化为永久生效的规则",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "doc-quality-gate-001质量门禁规则"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: doc-quality-gate-001质量门禁规则"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772960720169"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "doc-quality-gate-001质量门禁规则",
+    "confidence": 0.95,
+    "source_file": "2026-03-08.md",
+    "evidence": "重大文档双Agent质量门禁规则落地（用户要求，永久生效）",
+    "created_at": "2026-03-08T09:05:20.169Z"
+  }
+}
