@@ -39,7 +39,8 @@
   },
   "action": {
     "type": "sync_to_github",
-    "handler": "github-sync-trigger"
+    "handler": "github-sync-trigger",
+    "script": "scripts/isc-hooks/rule.auto-github-sync-trigger-001.sh"
   },
   "governance": {
     "auto_execute": true,
@@ -56,5 +57,6 @@
   },
   "created_at": "2026-02-25T10:02:00+08:00",
   "version": "1.0.0",
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

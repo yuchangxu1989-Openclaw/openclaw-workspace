@@ -33,6 +33,8 @@
   "action": {
     "type": "handler",
     "handler": "memory-digest-must-verify",
-    "description": ""
-  }
+    "description": "",
+    "script": "scripts/isc-hooks/rule.memory-digest-must-verify-001.sh"
+  },
+  "enforcement": "programmatic"
 }

@@ -25,7 +25,8 @@
   },
   "action": {
     "handler": "skill-isc-handler",
-    "type": "handler"
+    "type": "handler",
+    "script": "scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh"
   },
   "governance": {
     "auto_execute": false,
@@ -39,5 +40,6 @@
     "source_file": null,
     "evidence": null,
     "created_at": "2026-03-06T15:28:30.618Z"
-  }
+  },
+  "enforcement": "programmatic"
 }

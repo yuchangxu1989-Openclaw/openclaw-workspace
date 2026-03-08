@@ -184,6 +184,8 @@
   "enforcement_tier": "P0_gate",
   "action": {
     "handler": "isc-skill-permission",
-    "type": "handler"
-  }
+    "type": "handler",
+    "script": "scripts/isc-hooks/rule.isc-skill-permission-classification-031.sh"
+  },
+  "enforcement": "programmatic"
 }

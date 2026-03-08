@@ -77,10 +77,12 @@
   "author": "lingxiaoge-v4.3",
   "action": {
     "handler": "intent-boundary",
-    "type": "handler"
+    "type": "handler",
+    "script": "scripts/isc-hooks/rule.intent-ic4-ic5-boundary-001.sh"
   },
   "trigger": {
     "event": "isc.rule.matched",
     "condition": "always"
-  }
+  },
+  "enforcement": "programmatic"
 }

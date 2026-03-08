@@ -40,10 +40,12 @@
       "immediate": false,
       "queueIfRunning": true
     },
-    "handler": "skill-evolution-trigger"
+    "handler": "skill-evolution-trigger",
+    "script": "scripts/isc-hooks/skill.evolution.auto-trigger.sh"
   },
   "priority": 5,
   "createdAt": "2026-03-01T00:00:00Z",
   "updatedAt": "2026-03-01T00:00:00Z",
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }
