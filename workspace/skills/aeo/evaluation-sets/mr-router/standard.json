@@ -1,0 +1,26 @@
+{
+  "skill": "mr-router",
+  "type": "routing-quality",
+  "generatedAt": "2026-03-08T00:45:00.000Z",
+  "data_source": "system_generated_from_registry_metadata",
+  "data_source_details": {
+    "basis": [
+      "unified-evaluation-sets/registry.json",
+      "test-cases.json"
+    ],
+    "trigger": "evaluation_governance_hygiene_remediation"
+  },
+  "tracks": [
+    "routing_quality_track"
+  ],
+  "dimensions": [
+    "routing_accuracy",
+    "policy_compliance",
+    "fallback_quality",
+    "selection_stability"
+  ],
+  "thresholds": {
+    "pass": 0.75,
+    "excellent": 0.9
+  }
+}

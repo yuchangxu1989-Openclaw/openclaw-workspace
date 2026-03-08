@@ -1,7 +1,7 @@
 ---
 name: aeo
 description: 智能体效果运营系统 - Phase 2 双轨运营
-version: "2.0.13"
+version: "2.0.14"
 status: active
 layer: infrastructure
 tags: [aeo, quality, evaluation, dual-track]

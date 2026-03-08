@@ -1,0 +1,36 @@
+{
+  "skill": "real-conv-2026-03-07-exec-chain-remediation",
+  "type": "hybrid",
+  "generatedAt": "2026-03-07T21:04:00+08:00",
+  "generatorVersion": "2.1.0-manual-remediation",
+  "data_source": "real_conversation_correction",
+  "tracks": [
+    "functional_quality",
+    "ai_effect_track"
+  ],
+  "dimensions": [
+    "autonomy",
+    "correction",
+    "execution_chain_completeness",
+    "timely_task_fanout"
+  ],
+  "thresholds": {
+    "pass": 0.85,
+    "excellent": 0.95
+  },
+  "review": {
+    "status": "approved_for_standard",
+    "basis": "real user correction driven remediation",
+    "notes": "Expected execution chains must be materially executable and map to real artifact/state transitions. High-weight dimensions are hard-coded into registry+runner."
+  },
+  "datasetWeighting": {
+    "prioritizedDimensions": [
+      "autonomy",
+      "correction",
+      "execution_chain_completeness",
+      "timely_task_fanout"
+    ],
+    "weightingProfile": "execution-chain-hardening-v1",
+    "enforcementMode": "programmatic-hard-gate"
+  }
+}

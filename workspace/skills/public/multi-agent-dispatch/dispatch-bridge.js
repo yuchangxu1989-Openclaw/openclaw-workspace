@@ -26,6 +26,7 @@
 const fs = require('fs');
 const path = require('path');
 const { chooseGovernedModel } = require('./model-governance');
+const { attachModelKey, inferModelKey } = require('./runtime-model-key');
 
 const PENDING_FILE = path.join(__dirname, 'state', 'pending-dispatches.json');
 
@@ -79,7 +80,7 @@ function buildDispatchDecision(task) {
 
 function toPendingRecord(task) {
   const decision = buildDispatchDecision(task);
-  const governedTask = {
+  const governedTask = attachModelKey({
     ...task,
     model: decision.finalModel,
     governance: task.governance || {
@@ -89,12 +90,16 @@ function toPendingRecord(task) {
       reason: decision.reason,
       evaluation: decision.evaluation,
     },
-  };
+  }, decision.finalModel);
+
+  const modelKey = inferModelKey(governedTask, decision.finalModel);
 
   return {
     taskId: governedTask.taskId,
     title: governedTask.title,
     model: governedTask.model,
+    modelKey,
+    runtimeModelKey: modelKey,
     requestedModel: decision.requestedModel,
     agentId: governedTask.agentId,
     priority: governedTask.priority,
@@ -155,6 +160,8 @@ function onDispatchBridge(task, engine = null) {
   } else {
     existing.title = task.title;
     existing.model = task.model || existing.model;
+    existing.modelKey = inferModelKey(task, task.model) || existing.modelKey || null;
+    existing.runtimeModelKey = existing.modelKey || existing.runtimeModelKey || null;
     existing.agentId = task.agentId || existing.agentId;
     existing.priority = task.priority || existing.priority;
     existing.payload = task.payload || existing.payload;

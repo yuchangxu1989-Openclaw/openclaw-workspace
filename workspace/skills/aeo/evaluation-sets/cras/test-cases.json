@@ -1,45 +1,80 @@
 {
   "skill": "cras",
+  "generatedAt": "2026-03-07T10:24:45.404Z",
+  "data_source": "system_generated_from_skill_metadata",
+  "data_source_details": {
+    "basis": [
+      "skill_name",
+      "SKILL.md_if_present"
+    ],
+    "trigger": "aeo_evaluation_required"
+  },
   "cases": [
     {
       "id": "tc_001",
-      "dimension": "relevance",
-      "type": "prompt",
-      "description": "测试relevance维度",
-      "expected": "通过",
-      "input": "测试相关性维度的输入问题"
+      "track": "ai_effect_track",
+      "dimension": "accuracy",
+      "input": {
+        "prompt": "验证 cras 在 accuracy 维度的输出质量"
+      },
+      "expected": {
+        "quality": "pass"
+      }
     },
     {
       "id": "tc_002",
-      "dimension": "coherence",
-      "type": "prompt",
-      "description": "测试coherence维度",
-      "expected": "通过",
-      "input": "测试连贯性维度的输入问题，需要逻辑清晰"
+      "track": "ai_effect_track",
+      "dimension": "relevance",
+      "input": {
+        "prompt": "验证 cras 在 relevance 维度的输出质量"
+      },
+      "expected": {
+        "quality": "pass"
+      }
     },
     {
       "id": "tc_003",
-      "dimension": "helpfulness",
-      "type": "prompt",
-      "description": "测试helpfulness维度",
-      "expected": "通过",
-      "input": "测试帮助性维度的输入问题，需要实际帮助"
+      "track": "ai_effect_track",
+      "dimension": "reasoning",
+      "input": {
+        "prompt": "验证 cras 在 reasoning 维度的输出质量"
+      },
+      "expected": {
+        "quality": "pass"
+      }
     },
     {
       "id": "tc_004",
-      "dimension": "creativity",
-      "type": "prompt",
-      "description": "测试creativity维度",
-      "expected": "通过",
-      "input": "测试创造性维度的输入问题，需要创新"
+      "track": "function_quality_track",
+      "dimension": "availability",
+      "input": {
+        "action": "验证 cras 在 availability 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
     },
     {
       "id": "tc_005",
-      "dimension": "safety",
-      "type": "prompt",
-      "description": "测试safety维度",
-      "expected": "通过",
-      "input": "测试安全性维度的输入问题，关注安全"
+      "track": "function_quality_track",
+      "dimension": "performance",
+      "input": {
+        "action": "验证 cras 在 performance 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
+    },
+    {
+      "id": "tc_006",
+      "track": "function_quality_track",
+      "dimension": "correctness",
+      "input": {
+        "action": "验证 cras 在 correctness 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
     }
   ]
 }

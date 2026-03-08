@@ -1,0 +1,6 @@
+{"ts":"2026-03-07T11:22:41.779Z","status":"triggered","traceId":"evt_failed_1772882561436","source":"dispatcher","handler":"test-closed-loop-failure-handler","action":"test.closed-loop.failure","reason":"closed-loop permanent failure"}
+{"ts":"2026-03-07T11:22:56.478Z","status":"triggered","traceId":"evt_failed_1772882576127","source":"dispatcher","handler":"test-closed-loop-failure-handler","action":"test.closed-loop.failure","reason":"closed-loop permanent failure"}
+{"ts":"2026-03-07T11:26:22.613Z","status":"triggered","traceId":"crashing-handler","source":"resilience","handler":"crashing-handler","reason":"handler_disabled_after_consecutive_failures"}
+{"ts":"2026-03-07T11:26:22.615Z","status":"triggered","traceId":"disabled-one","source":"resilience","handler":"disabled-one","reason":"handler_disabled_after_consecutive_failures"}
+{"ts":"2026-03-07T11:26:22.617Z","status":"triggered","traceId":"to-enable","source":"resilience","handler":"to-enable","reason":"handler_disabled_after_consecutive_failures"}
+{"ts":"2026-03-07T11:26:22.621Z","status":"triggered","traceId":"broken","source":"resilience","handler":"broken","reason":"handler_disabled_after_consecutive_failures"}

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { buildClosedBookSummary, applyReleaseEvidenceDefaults } = require('../../enforcement/isc-eval-gates');
 
 function collectRulesFromText(text) {
   const ids = new Set();
@@ -57,6 +58,7 @@ module.exports = async function(event, rule, context) {
   }
 
   const missingHandlers = [...declared].filter((id) => !implemented.has(id));
+  const closedBookSummary = buildClosedBookSummary(event && event.payload ? event.payload : {});
 
   return {
     ok: missingHandlers.length === 0,
@@ -67,6 +69,7 @@ module.exports = async function(event, rule, context) {
       'ISC-INTENT-EVAL-001': iscGatesActive ? 'active' : 'missing',
       'ISC-CLOSED-BOOK-001': iscGatesActive ? 'active' : 'missing'
     },
+    ...applyReleaseEvidenceDefaults(event && event.payload ? event.payload : {}, null, { closedBookSummary }),
     message: missingHandlers.length === 0 ? 'ISC规则均有对应handler线索 (含硬钢印)' : `缺少${missingHandlers.length}个ISC规则对应handler`
   };
 };

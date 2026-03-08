@@ -50,7 +50,55 @@
       "reviewed_by": null,
       "review_date": null,
       "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMGG9L2X-ZHR",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "source": "memory/2026-03-07.md",
+      "signal_type": "rework_request",
+      "signal_strength": "strong",
+      "raw_signal": "重新捞起来",
+      "context": "subagent/runtime 真值为准，不能以已 spawn 总数或计划数汇报真实并行。\n- 2026-03-07 22:51 CST: 用户追问“债务任务重新捞起来了么”；已按诚实口径确认：是，已重新捞起一批核心债务任务并真实 running，但还没有完成“所有历史债务任务”的全量清扫，不能说全部捞完。\n- 2026-03-07 22:51 CST: 当时真实 running 的 10 个任务包括：评测集诊断整改方案飞书重写、cron 深度治理、可销售资产治理",
+      "extracted_correction": "重新捞起来了么”；已按诚实口径确认：是，已重新捞起一批核心债务任务并真实 running，但还没有完成“所有历史债务任务”的全量清扫，不能说全部捞完。\n- 2026-03-07 22:51 CST: ",
+      "category": "delivery_quality",
+      "rule_hint": "交付物需满足验收标准，否则视为未完成",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"重新捞起来\"",
+        "action": "交付物需满足验收标准，否则视为未完成",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMH1P6TB-RPV",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-08",
+      "source": "memory/2026-03-08.md",
+      "signal_type": "missing_feature",
+      "signal_strength": "weak",
+      "raw_signal": "没有硬证据**证明最近24h真实对话被可审计地沉淀进评测集；已补 `real_conv_evalset_coverage.py` 与覆盖报告/seed contract，但仍需 ledger 级实现",
+      "context": "工件升级\n  - 评测治理卫生修复（已完成：补齐缺失 `standard.json`、registry 对齐至 76 套）\n- 真实对话沉淀现状需牢记：目前**没有硬证据**证明最近24h真实对话被可审计地沉淀进评测集；已补 `real_conv_evalset_coverage.py` 与覆盖报告/seed contract，但仍需 ledger 级实现（candidate/selected/dropped/freshest/mapping）。\n- CRAS-D 当前客观现实需记住：最新实时报表已生成并成功发至飞书；本地系统状态显示执行压力极大（manual-queue backlog 38",
+      "extracted_correction": "没有硬证据**证明最近24h真实对话被可审计地沉淀进评测集；已补 `real_conv_evalset_coverage.py` 与覆盖报告/seed contract，但仍需 ledger 级实现（",
+      "category": "completeness",
+      "rule_hint": "交付前检查完整性清单，不遗漏关键功能",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"没有硬证据**证明最近24h真实对话被可审计地沉淀进评测集；已补 `real_conv_evalset_coverage.py` 与覆盖报告/seed contract，但仍需 ledger 级实现\"",
+        "action": "交付前检查完整性清单，不遗漏关键功能",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
     }
   ],
-  "last_updated": "2026-03-06T02:40:01.377Z"
+  "last_updated": "2026-03-08T01:00:01.344Z"
 }

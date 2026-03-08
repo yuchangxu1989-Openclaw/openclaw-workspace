@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-crp2hd-001",
+  "name": "knowledge-crp2hd",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 不要把实时感知和统计报告混为一谈。报告是量化后的二阶事件。",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "不要把实时感知和统计报告混为一谈。报告是量化后的二阶事件。",
+    "discoveredAt": "2026-03-07T09:15:50.373Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-crp2hd.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

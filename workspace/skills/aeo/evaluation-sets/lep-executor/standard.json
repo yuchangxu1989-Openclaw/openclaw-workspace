@@ -1,13 +1,28 @@
 {
   "skill": "lep-executor",
-  "type": "ai-effect",
-  "generatedAt": "2026-02-26T10:15:30.423Z",
+  "type": "mixed",
+  "generatedAt": "2026-03-07T10:29:44.510Z",
+  "data_source": "system_generated_from_skill_metadata",
+  "data_source_details": {
+    "basis": [
+      "skill_name",
+      "SKILL.md_if_present"
+    ],
+    "trigger": "aeo_evaluation_required"
+  },
+  "tracks": [
+    "ai_effect_track",
+    "function_quality_track"
+  ],
   "dimensions": [
-    "relevance",
-    "coherence",
-    "helpfulness",
+    "accuracy",
     "creativity",
-    "safety"
+    "relevance",
+    "reasoning",
+    "availability",
+    "reliability",
+    "performance",
+    "correctness"
   ],
   "thresholds": {
     "pass": 0.75,

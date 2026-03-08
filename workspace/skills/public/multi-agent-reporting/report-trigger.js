@@ -22,6 +22,7 @@
 'use strict';
 
 const { renderReport } = require('./index.js');
+const { inferModelKey } = require('../multi-agent-dispatch/runtime-model-key');
 const {
   computeGlobalProgress,
   renderProgressText,
@@ -54,21 +55,36 @@ const STATUS_MAP = {
   done:      'completed',
   failed:    'failed',
   cancelled: 'completed',  // treat cancelled as completed (it's done)
+  timeout:   'timeout',
 };
 
 function toReportingTask(dispatchTask, registry) {
   const agentId = dispatchTask.agentId || 'unknown';
   const displayName = registry[agentId] || dispatchTask.displayName || agentId;
 
+  const reportingStatus = dispatchTask.timeoutDecision
+    ? 'timeout'
+    : (STATUS_MAP[dispatchTask.status] || dispatchTask.status || 'queued');
+
   return {
+    taskId: dispatchTask.taskId || null,
     agentId,
     displayName,
-    model:    dispatchTask.model || '—',
-    task:     dispatchTask.title || dispatchTask.task || '(untitled)',
-    status:   STATUS_MAP[dispatchTask.status] || dispatchTask.status || 'queued',
+    model: dispatchTask.model || '—',
+    modelKey: inferModelKey(dispatchTask, dispatchTask.model),
+    runtimeModelKey: inferModelKey(dispatchTask, dispatchTask.model),
+    task: dispatchTask.title || dispatchTask.task || '(untitled)',
+    status: reportingStatus,
     duration: dispatchTask.duration || null,
-    blocker:  dispatchTask.error || null,
-    error:    dispatchTask.error || null,
+    blocker: dispatchTask.error || null,
+    error: dispatchTask.error || null,
+    decision: dispatchTask.timeoutDecision?.action || dispatchTask.nextAction || null,
+    timeoutDecision: dispatchTask.timeoutDecision || null,
+    startedAt: dispatchTask.startedAt || dispatchTask.runningAt || dispatchTask.spawningAt || dispatchTask.queuedAt || dispatchTask.createdAt || null,
+    runningAt: dispatchTask.runningAt || null,
+    spawningAt: dispatchTask.spawningAt || null,
+    queuedAt: dispatchTask.queuedAt || null,
+    createdAt: dispatchTask.createdAt || null,
   };
 }
 
@@ -122,17 +138,25 @@ class ReportTrigger {
     const state = this.engine._load();
     const tasks = [];
 
-    // Active: spawning + running
-    for (const t of Object.values(state.spawning)) {
-      tasks.push(toReportingTask(t, this.registry));
+    const activeRunning = Object.values(state.running || {}).filter((t) => {
+      const modelKey = inferModelKey(t, t.model);
+      return t && t.model && modelKey;
+    });
+
+    const activeModelKeys = new Set(activeRunning.map((t) => inferModelKey(t, t.model)));
+    if (activeRunning.length !== activeModelKeys.size) {
+      const duplicated = [...activeModelKeys].filter((key) => activeRunning.filter((t) => inferModelKey(t, t.model) === key).length > 1);
+      throw new Error(`report-trigger active/runtime-model-key mismatch: duplicated keys ${duplicated.join(', ')}`);
     }
-    for (const t of Object.values(state.running)) {
+
+    // 只展示真实有模型 key 在跑的 active 任务：仅 running，且必须有 runtime model key
+    for (const t of activeRunning) {
       tasks.push(toReportingTask(t, this.registry));
     }
 
     // Recent finished (for the "新完成" / "风险" sections)
-    if (this.includeRecent && state.finished.length > 0) {
-      const recent = state.finished.slice(0, this.recentMax);
+    if (this.includeRecent && Array.isArray(state.finished) && state.finished.length > 0) {
+      const recent = state.finished.slice(0, this.recentMax).filter((t) => t && t.model);
       for (const t of recent) {
         tasks.push(toReportingTask(t, this.registry));
       }

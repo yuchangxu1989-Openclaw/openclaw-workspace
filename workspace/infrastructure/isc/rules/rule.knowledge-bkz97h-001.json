@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-bkz97h-001",
+  "name": "knowledge-bkz97h",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 必须先走多模态检查，若存在 `glm-4v-plus` 则优先识别，再决定是否需要用户补充文字。",
+  "source": {
+    "file": "2026-03-06.md",
+    "originalText": "必须先走多模态检查，若存在 `glm-4v-plus` 则优先识别，再决定是否需要用户补充文字。",
+    "discoveredAt": "2026-03-07T09:15:50.374Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.sequence.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-bkz97h.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

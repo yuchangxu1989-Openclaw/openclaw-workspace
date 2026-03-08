@@ -1,0 +1,85 @@
+[
+  {
+    "id": "real-badcase-001",
+    "level": "C2",
+    "category": "隐含意图-效率优化",
+    "source": "真实对话 2026-03-08 14:45",
+    "trigger": "用户说'50条太少了，要500条'",
+    "hidden_intent": "500条量级必须多Agent并行写，不能让1个Agent串行写",
+    "actual_behavior": "系统只扩大了数量要求从50→500，仍然派1个Agent执行",
+    "expected_behavior": "识别到量级变化隐含并行需求，主动拆成10路×50条并行",
+    "badcase_conditions": ["未识别量级→并行的隐含映射", "用户需要额外一轮纠偏才并行化"],
+    "pass_criteria": "量级>当前Agent产能时自动拆分并行，无需用户提醒",
+    "required_capabilities": ["隐含意图识别", "资源-任务自动匹配", "并行调度"]
+  },
+  {
+    "id": "real-badcase-002",
+    "level": "C2",
+    "category": "自主性缺失-通信阻塞",
+    "source": "真实对话 2026-03-08 14:53",
+    "trigger": "主Agent亲自用feishu_doc write重写飞书文档（耗时数分钟）",
+    "hidden_intent": "重大交付/关联文档应派子Agent做，主Agent必须保持通信畅通",
+    "actual_behavior": "主Agent自己调feishu_doc write写了328个block，期间无法响应用户消息",
+    "expected_behavior": "主Agent派QA工程师子Agent做文档重写+凌霄阁审查，自己保持通信",
+    "badcase_conditions": ["主Agent执行重型IO操作导致通信阻塞", "未走独立QA审查流程", "用户等待期间无法交互"],
+    "pass_criteria": "重大交付全部由子Agent执行，主Agent仅做调度和通信",
+    "required_capabilities": ["主Agent轻量化", "子Agent重型任务委派", "通信畅通保障"]
+  }
+]
+,
+  {
+    "id": "real-badcase-003",
+    "level": "C2",
+    "category": "自主性缺失-汇报未自动触发",
+    "source": "真实对话 2026-03-08 15:35",
+    "trigger": "派出多批次子Agent后，用户问'为什么不调用汇报技能？我根本没看到12个队列'",
+    "root_cause_analysis": {
+      "表层": "派完子Agent没主动调用multi-agent-reporting输出队列状态",
+      "深层": "缺少'派发后自动汇报'的规则绑定——派发是一个事件，汇报应该是这个事件的自动后续动作",
+      "根因": "ISC规则体系中缺少 dispatch.batch.completed → auto_report 的事件绑定。汇报依赖用户催促而非事件驱动"
+    },
+    "hidden_intent": "用户问'为什么'=要求根因分析并根治，不是只在催促下补做",
+    "actual_behavior": "只在用户催促后才拉了队列汇报，没做根因分析，没建防护机制",
+    "expected_behavior": "1. 每次批量派发子Agent后自动调用汇报技能输出队列 2. 建立ISC规则绑定dispatch→report 3. 用户问'为什么'时做根因分析而非只补做",
+    "badcase_conditions": ["派发后未自动汇报", "等用户催才补做", "用户问'为什么'只做症状修复不做根因分析"],
+    "pass_criteria": "批量派发后5秒内自动输出标准格式队列状态，无需用户提醒",
+    "required_capabilities": ["事件驱动汇报", "dispatch→report自动绑定", "'为什么'=根因分析的意图识别"]
+  }
+,
+  {
+    "id": "real-badcase-004",
+    "level": "C2",
+    "category": "规则全链路-声明不等于完成",
+    "source": "真实对话 2026-03-08 15:49",
+    "trigger": "建ISC规则dispatch-auto-report-001后，用户问'意图库和事件库是第一时间添加了么？'",
+    "root_cause_analysis": {
+      "表层": "写了规则JSON但没注册意图库和事件库",
+      "深层": "ISC-core SKILL.md的流程定义不完整——规则生命周期只到'写JSON+注册'就结束，没有'全链路展开'步骤",
+      "根因": "ISC-core技能本身没有把'规则→意图注册→事件注册→感知探针→执行绑定'固化为必须步骤。MEMORY.md有正确认知但SKILL.md没有约束，执行时跟SKILL.md流程走导致每次都漏"
+    },
+    "actual_behavior": "写了rule.dispatch-auto-report-001.json + MEMORY.md铁律，报'规则已建'。意图库和事件库均未注册。",
+    "expected_behavior": "规则创建后立即展开全链路：1.意图库注册 2.事件库注册 3.感知层探针 4.执行层绑定。4项不全=不允许报'规则已建'",
+    "badcase_conditions": ["只写JSON声明", "未注册意图库", "未注册事件库", "SKILL.md流程缺全链路检查"],
+    "pass_criteria": "规则创建后4项全链路检查全部通过才报完成",
+    "required_capabilities": ["全链路展开", "ISC-core流程完整性"],
+    "systemic_fix_needed": "修改ISC-core SKILL.md，增加规则创建后的全链路展开检查清单"
+  },
+  {
+    "id": "real-badcase-005",
+    "level": "C2",
+    "category": "习惯根因溯源",
+    "source": "真实对话 2026-03-08 15:51",
+    "trigger": "用户问'凭什么你有建规则等同于写JSON的习惯？找到源头！'",
+    "root_cause_analysis": {
+      "表层": "每次建规则只写JSON",
+      "深层": "ISC-core SKILL.md规则创建流程只定义到'registerStandard(definition)→存JSON'",
+      "根因": "SKILL.md是执行时的流程指引，MEMORY.md是认知原则。两者冲突时我跟SKILL.md走，导致正确认知（规则=代码展开）无法覆盖错误流程（规则=JSON声明）",
+      "系统性": "认知层(MEMORY.md)与执行层(SKILL.md)不一致=系统性Bug"
+    },
+    "actual_behavior": "被问后才溯源到ISC-core SKILL.md的设计缺陷",
+    "expected_behavior": "SKILL.md与MEMORY.md的认知保持一致，规则创建流程自带全链路检查",
+    "badcase_conditions": ["认知层与执行层不一致", "SKILL.md流程不完整", "等用户追问才溯源"],
+    "pass_criteria": "ISC-core SKILL.md已包含全链路展开为必须步骤，无认知-执行分裂",
+    "required_capabilities": ["元认知一致性", "SKILL.md自修复", "习惯溯源"]
+  }
+]

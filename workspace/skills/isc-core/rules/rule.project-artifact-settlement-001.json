@@ -1,0 +1,57 @@
+{
+  "id": "rule.project-artifact-settlement-001",
+  "rule_name": "Project Artifact Settlement — 子Agent产物落盘门禁",
+  "version": "1.0.0",
+  "severity": "critical",
+  "description": "子Agent任务标记完成前，必须校验其关键输出已写入项目文件（规则、报告、文档或代码）并可追溯；仅口头完成或未落盘视为未完成。",
+  "source": "Day2遗留项#5 项目管理产物沉淀机制补强",
+  "trigger": {
+    "events": {
+      "L2": [
+        "subagent.task.completed",
+        "orchestration.subagent.completed",
+        "pipeline.stage.completed"
+      ],
+      "META": [
+        "system.day.closure_requested"
+      ]
+    },
+    "condition": "subagent-completion_detected",
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "执行子Agent产物落盘检查与证据归档校验"
+      }
+    ]
+  },
+  "action": {
+    "type": "gate",
+    "handler": "enforcement-engine",
+    "on_failure": "reject"
+  },
+  "checks": {
+    "required_artifacts": [
+      {
+        "name": "file_write_evidence",
+        "rule": "must_have_at_least_one_file_created_or_updated"
+      },
+      {
+        "name": "deliverable_trace",
+        "rule": "must_map_subagent_output_to_target_file_path"
+      },
+      {
+        "name": "tracker_sync",
+        "path": "/root/.openclaw/workspace/PROJECT-TRACKER.md",
+        "rule": "must_record_completion_with_evidence_path"
+      }
+    ],
+    "failure_reasons": [
+      "subagent_output_not_persisted",
+      "missing_output_to_file_mapping",
+      "tracker_missing_settlement_record"
+    ]
+  },
+  "enforcement": "runtime_binding",
+  "enforcement_tier": "P0_gate",
+  "schema_version": "2.0"
+}

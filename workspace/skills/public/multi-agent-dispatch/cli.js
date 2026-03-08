@@ -7,7 +7,7 @@
  * Minimal CLI for the dispatch engine.
  * 
  * Usage:
- *   node cli.js enqueue '{"title":"Build auth","model":"codex/gpt-5.4"}'
+ *   node cli.js enqueue '{"title":"Build auth","model":"boom-coder/gpt-5.3-codex"}'
  *   node cli.js enqueue-batch '[{"title":"Task A"},{"title":"Task B"}]'
  *   node cli.js running <taskId> ['{"sessionKey":"..."}']
  *   node cli.js done <taskId> ['{"result":"ok"}']

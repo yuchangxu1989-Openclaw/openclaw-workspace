@@ -1,0 +1,26 @@
+{
+  "skill": "cras-intent",
+  "type": "intent-quality",
+  "generatedAt": "2026-03-08T00:45:00.000Z",
+  "data_source": "system_generated_from_registry_metadata",
+  "data_source_details": {
+    "basis": [
+      "unified-evaluation-sets/registry.json",
+      "test-cases.json"
+    ],
+    "trigger": "evaluation_governance_hygiene_remediation"
+  },
+  "tracks": [
+    "intent_quality_track"
+  ],
+  "dimensions": [
+    "intent_precision",
+    "intent_recall",
+    "classification_consistency",
+    "negative_sample_handling"
+  ],
+  "thresholds": {
+    "pass": 0.75,
+    "excellent": 0.9
+  }
+}

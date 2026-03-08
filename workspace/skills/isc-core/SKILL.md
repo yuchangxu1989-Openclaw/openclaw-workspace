@@ -1,7 +1,7 @@
 ---
 name: isc-core
 description: ISC智能标准中心 - 标准生成与演进机制的唯一管理源
-version: "2.0.7"
+version: "2.0.10"
 status: active
 layer: infrastructure
 abbreviation: ISC
@@ -320,6 +320,68 @@ const draft = isc.generateStandardFromProblem(problem);
 // 注册（需 Council of Seven 审议）
 isc.registerStandard(draft);
 ```
+
+---
+
+## ⚠️ 规则全链路展开（强制，最高优先级）
+
+**写 JSON ≠ 规则已建。规则是一等公民，代码是规则的展开形态。**
+
+任何规则/标准创建后，必须完成以下 4 项全链路展开，4 项不全 = 规则未完成 = 禁止报"规则已建"。
+
+### 全链路检查清单（每条规则必须逐项完成）
+
+| # | 检查项 | 路径 | 动作 |
+|---|--------|------|------|
+| 1 | **意图注册** | `infrastructure/intent-engine/intent-registry.json` | 注册对应意图类型（IC1-IC5），含 examples/anti_examples |
+| 2 | **事件注册** | `infrastructure/event-bus/events.jsonl` | 注册触发事件类型，含 trigger_condition 和 bound_action |
+| 3 | **感知层探针** | 对应技能/hook/cron/scanner | 部署探测代码：谁在观察这个信号？用什么方式捕获？ |
+| 4 | **执行层绑定** | DTO任务/技能路由/自动动作 | 绑定具体执行动作：捕获到信号后谁来执行什么？ |
+
+### 执行流程（不可跳过）
+
+```
+规则创建请求
+    │
+    ▼
+① 写入规则 JSON → rules/rule.xxx.json
+    │
+    ▼
+② 意图库注册 → intent-registry.json 新增意图条目
+    │
+    ▼
+③ 事件库注册 → events.jsonl 新增事件类型
+    │
+    ▼
+④ 感知层部署 → 探针/hook/cron/scanner 代码就位
+    │
+    ▼
+⑤ 执行层绑定 → DTO任务/技能/自动动作 绑定
+    │
+    ▼
+⑥ 全链路自检 → 4项全pass才允许报"规则已建"
+    │
+    ▼
+⑦ 端到端验真 → 模拟触发一次，确认信号→感知→认知→执行全链路走通
+```
+
+### 反例（Badcase）
+
+以下行为一律判 Badcase：
+- 只写了 JSON 就报"规则已建"
+- 意图库未注册
+- 事件库未注册
+- 有声明无代码（感知层/执行层空）
+- 跳过端到端验真
+
+### 根因记录
+
+此节源于 2026-03-08 系统性缺陷发现：ISC-core SKILL.md 原流程只到"声明→注册→存在"就结束，
+导致 MEMORY.md 中"规则→三层展开"的正确认知无法在执行层生效。
+认知层(MEMORY.md)与执行层(SKILL.md)不一致 = 系统性Bug。
+本修复将认知层的原则固化到执行层的流程中，消除分裂。
+
+---
 
 ### DTO 集成
 

@@ -5,10 +5,16 @@ const fs = require('fs');
 const path = require('path');
 const { DispatchEngine } = require('./dispatch-engine');
 const { onDispatchBridge, ackTask, markSpawned, markDelivered, markDeliveryFailed, getPendingTasks, PENDING_FILE } = require('./dispatch-bridge');
+const { inferModelKey } = require('./runtime-model-key');
+const { validateModelProviderRoute, buildProviderIndexFromAgents } = require('./spawn-routing');
+const { readFreeModelKeys } = require('./free-key-auto-expand');
 
 const DEFAULTS = {
   maxDispatchPerTick: 19,
   republishSpawningMs: 5_000,
+  // CHANGE 2: Model-specific timeout defaults (in seconds)
+  defaultTimeoutSeconds: 3600,        // 60min for most models
+  boomTimeoutSeconds: 900,           // 15min for boom tasks
 };
 
 function ensureDir(dir) { fs.mkdirSync(dir, { recursive: true }); }
@@ -45,8 +51,42 @@ function writeRunnerState(baseDir, state) {
   writeJson(runnerStateFile(baseDir), state);
 }
 
+/**
+ * Determine the timeout for a task based on its model.
+ * CHANGE 2: boom tasks get a 15-minute timeout (was ~60min).
+ */
+function resolveTimeout(task) {
+  const payload = task.payload || {};
+  // Explicit timeout in task payload takes precedence
+  if (payload.runTimeoutSeconds || payload.timeoutSeconds) {
+    return {
+      runTimeoutSeconds: payload.runTimeoutSeconds || undefined,
+      timeoutSeconds: payload.timeoutSeconds || undefined,
+      source: 'explicit',
+    };
+  }
+
+  const model = String(payload.model || task.model || '').toLowerCase();
+  const isBoom = model.includes('gpt-5.3-codex') || model.includes('boom-');
+
+  if (isBoom) {
+    return {
+      runTimeoutSeconds: DEFAULTS.boomTimeoutSeconds,
+      timeoutSeconds: DEFAULTS.boomTimeoutSeconds,
+      source: 'boom_compressed',
+    };
+  }
+
+  return {
+    runTimeoutSeconds: undefined,
+    timeoutSeconds: undefined,
+    source: 'default',
+  };
+}
+
 function buildSpawnPayload(task) {
   const payload = task.payload || {};
+  const timeout = resolveTimeout(task);
   return {
     agentId: payload.agentId || task.agentId || 'coder',
     mode: payload.mode || 'run',
@@ -54,10 +94,11 @@ function buildSpawnPayload(task) {
     cleanup: payload.cleanup || 'delete',
     label: payload.label || task.title || task.taskId,
     cwd: payload.cwd,
-    timeoutSeconds: payload.timeoutSeconds,
-    runTimeoutSeconds: payload.runTimeoutSeconds,
+    timeoutSeconds: timeout.timeoutSeconds || payload.timeoutSeconds,
+    runTimeoutSeconds: timeout.runTimeoutSeconds || payload.runTimeoutSeconds,
     model: payload.model || task.model,
-    task: payload.task || task.description || task.title,
+    task: (payload.task || task.description || task.title) + '\n\n【语言要求】所有输出、报告、文件内容必须使用中文。',
+    _timeoutSource: timeout.source,
   };
 }
 
@@ -69,20 +110,53 @@ async function spawnOne(task, engine) {
   ackTask(task.taskId, { source: 'dispatch-runner', worker: 'dispatch-runner' });
 
   const payload = buildSpawnPayload(task);
+
+  // ── Fail-fast: model→provider route consistency check ──────────────────
+  // Prevents cross-provider misroutes (e.g. boom-coder/claude-opus-4-6-thinking)
+  try {
+    const routeCheck = validateModelProviderRoute(payload.model, {
+      providerIndex: spawnOne._providerIndex || undefined,
+    });
+    // Strip provider prefix from model if provider-scoped (gateway resolves provider by agent config)
+    if (routeCheck.providerScoped) {
+      payload.model = routeCheck.modelId;
+    }
+    // Cache index for the tick to avoid repeated fs reads
+    if (!spawnOne._providerIndex) {
+      spawnOne._providerIndex = buildProviderIndexFromAgents().index;
+    }
+  } catch (routeError) {
+    if (routeError.code === 'SPAWN_MODEL_PROVIDER_ROUTE_MISMATCH') {
+      const details = routeError.details || {};
+      throw new Error(
+        `[spawn-routing] BLOCKED: model "${details.modelId}" cannot route through provider "${details.providerName}"` +
+        (details.matchedProviders?.length ? `; valid providers: ${details.matchedProviders.join(', ')}` : '') +
+        `. Fix the model key in the task or openclaw config.`
+      );
+    }
+    throw routeError;
+  }
+  // ── End fail-fast ──────────────────────────────────────────────────────
+
   const result = await globalThis.sessions_spawn(payload);
 
   const sessionKey = result?.sessionKey || result?.session?.sessionKey || result?.id || null;
-  engine.markRunning(task.taskId, { sessionKey, spawnPayload: payload, spawnResult: result });
+  const runtimeModelKey = inferModelKey(task, payload.model);
+  engine.markRunning(task.taskId, { sessionKey, spawnPayload: payload, spawnResult: result, modelKey: runtimeModelKey, runtimeModelKey });
   markSpawned(task.taskId, {
     source: 'dispatch-runner',
     worker: 'dispatch-runner',
     sessionKey,
+    modelKey: runtimeModelKey,
+    runtimeModelKey,
     message: 'sessions_spawn success',
   });
   markDelivered(task.taskId, {
     source: 'dispatch-runner',
     worker: 'dispatch-runner',
     sessionKey,
+    modelKey: runtimeModelKey,
+    runtimeModelKey,
     message: 'task handed to subagent runtime',
     status: 'running',
   });
@@ -119,11 +193,21 @@ async function drainAndRun(opts = {}) {
     onDispatch: (task, eng) => onDispatchBridge(task, eng),
   });
 
+  // Reset provider index cache for fresh tick
+  spawnOne._providerIndex = null;
+
   const runnerState = readRunnerState(baseDir);
   const spawned = [];
   const errors = [];
 
-  engine.reapStale();
+  const reaped = engine.reapStale({
+    // Default stale timeout: 30min for non-boom tasks
+    staleRunningMs: 30 * 60_000,
+    // CHANGE 2: boom/gpt-5.3-codex tasks get compressed 15min stale timeout
+    modelStaleOverrides: {
+      'gpt-5.3-codex': DEFAULTS.boomTimeoutSeconds * 1000,
+    },
+  });
   engine.drain();
   const republished = republishStrandedSpawning(engine, opts);
 
@@ -154,8 +238,16 @@ async function drainAndRun(opts = {}) {
     ok: errors.length === 0,
     spawned: spawned.length,
     republished,
+    reaped: reaped.length,
+    reapedFollowups: reaped.filter((item) => item.derivedTaskId).length,
     errors,
     board: engine.liveBoard(),
+    expansion: {
+      freeModelKeys: readFreeModelKeys(),
+      enabled: !!(engine.autoExpand && engine.autoExpand.options && engine.autoExpand.options.enabled),
+      highWatermarkRatio: engine.autoExpand?.options?.highWatermarkRatio ?? null,
+      maxExtraPerTick: engine.autoExpand?.options?.maxExtraPerTick ?? null,
+    },
   };
 }
 
@@ -175,4 +267,6 @@ module.exports = {
   drainAndRun,
   republishStrandedSpawning,
   buildSpawnPayload,
+  resolveTimeout,
+  DEFAULTS,
 };

@@ -57,6 +57,9 @@ function computeGlobalProgress(engineOrSnapshot) {
   const queued = allTasks.filter(t => t.status === 'queued');
   const done = finished.filter(t => t.status === 'done');
   const failed = finished.filter(t => t.status === 'failed');
+  const occupiedKeys = Number.isFinite(summary.trueOccupiedModelKeys)
+    ? summary.trueOccupiedModelKeys
+    : (Number.isFinite(summary.occupiedModelKeyCount) ? summary.occupiedModelKeyCount : (summary.busySlots || 0));
 
   // Recent completions (last N)
   const recentCompleted = done.slice(0, DEFAULTS.maxRecentCompleted).map(t => ({
@@ -74,14 +77,19 @@ function computeGlobalProgress(engineOrSnapshot) {
   }));
 
   // Utilisation
-  const utilisation = summary.busySlots && summary.maxSlots
-    ? ((summary.busySlots / summary.maxSlots) * 100).toFixed(1) + '%'
+  const utilisation = summary.maxSlots
+    ? ((occupiedKeys / summary.maxSlots) * 100).toFixed(1) + '%'
     : summary.utilisation || '0.0%';
 
   return {
     timestamp: now,
     maxSlots: summary.maxSlots || 0,
-    busySlots: summary.busySlots || 0,
+    busySlots: occupiedKeys,
+    acceptedCount: summary.acceptedCount || (running.length + queued.length),
+    queuedCount: summary.queuedCount || queued.length,
+    ackedCount: summary.ackedCount || 0,
+    deliveredCount: summary.deliveredCount || 0,
+    trueOccupiedModelKeys: occupiedKeys,
     freeSlots: summary.freeSlots || 0,
     utilisation,
     totalRunning: running.length,

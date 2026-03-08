@@ -114,7 +114,31 @@ const board = engine.liveBoard();   // structured snapshot
 const tasks = engine.allTasks();    // flat list for formatReport()
 ```
 
-## CLI
+## 基操加固（本次最小补齐）
+
+围绕“任务生命周期、超时重启、并行拆分、主表状态一致性”，当前最关键的基操缺口是：
+
+- **缺少一组最小闭环验证**，能直接证明：
+  1. 超时任务会进入明确终态，并按策略 `restart/replace/archive/human_handoff` 收敛；
+  2. 并行拆分时 busy / queue / spawning / running 计数持续一致；
+  3. 主表（`engine-state.json` 的 active + finished）对同一 `taskId` 始终只有一个权威当前终态；
+  4. bridge 侧投递状态与主表终态至少可关联、不破坏主表唯一终态。
+
+最小实现已补：
+
+- `test/lifecycle-basics.min.test.js`
+  - 覆盖超时重启闭环
+  - 覆盖并行回填计数一致性
+  - 覆盖 bridge 投递状态与主表收敛关系
+  - 覆盖失败场景下主表唯一终态记录
+
+运行：
+
+```bash
+node skills/public/multi-agent-dispatch/test/lifecycle-basics.min.test.js
+node skills/public/multi-agent-dispatch/test/timeout-governance.min.test.js
+```
+
 
 ```bash
 BASE=skills/public/multi-agent-dispatch

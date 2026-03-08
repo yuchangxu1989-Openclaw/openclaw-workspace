@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { evaluate: evaluateCondition } = require('./condition-evaluator');
+const bus = require('./bus');
 
 class Dispatcher {
   constructor(options = {}) {
@@ -8,6 +9,7 @@ class Dispatcher {
     this.maxDepth = options.maxDepth || 5;
     this.logger = options.logger || console;
     this.logFile = options.logFile || path.resolve(__dirname, '../logs/dispatcher-actions.jsonl');
+    this.routesFile = options.routesFile || path.resolve(__dirname, '../dispatcher/routes.json');
 
     this.rules = [];
     this.eventIndex = new Map(); // eventPattern → [rule, ...]
@@ -24,7 +26,7 @@ class Dispatcher {
     } catch (e) {
       this.logger.warn?.(`[Dispatcher] Cannot read rules dir: ${e.message}`) || 
         this.logger.log?.(`[Dispatcher] Cannot read rules dir: ${e.message}`);
-      return;
+      files = [];
     }
 
     for (const file of files) {
@@ -38,6 +40,30 @@ class Dispatcher {
         this.logger.warn?.(`[Dispatcher] Failed to load ${file}: ${e.message}`) ||
           this.logger.log?.(`[Dispatcher] Failed to load ${file}: ${e.message}`);
       }
+    }
+
+    this._loadRouteRules();
+  }
+
+  _loadRouteRules() {
+    try {
+      if (!fs.existsSync(this.routesFile)) return;
+      const raw = fs.readFileSync(this.routesFile, 'utf8');
+      const data = JSON.parse(raw);
+      const routeRules = Array.isArray(data?.routes)
+        ? data.routes
+        : Array.isArray(data)
+          ? data
+          : [];
+      for (const rule of routeRules) {
+        if (!rule || !rule.trigger) continue;
+        if (!rule.id) rule.id = `route_${Date.now()}`;
+        this.rules.push(rule);
+        this._indexRule(rule);
+      }
+    } catch (e) {
+      this.logger.warn?.(`[Dispatcher] Failed to load route rules: ${e.message}`) ||
+        this.logger.log?.(`[Dispatcher] Failed to load route rules: ${e.message}`);
     }
   }
 
@@ -71,6 +97,20 @@ class Dispatcher {
     const matched = this._matchRules(eventType);
     this.stats.matched += matched.length;
 
+    if (matched.length === 0) {
+      this._emitStandardEvent('dispatcher.route.failed', {
+        originalEventType: eventType,
+        routeEventType: eventType,
+        matchedRules: 0,
+        reason: 'no_matching_route',
+        source: payload?.source || 'dispatcher',
+        subsystem: payload?.subsystem || eventType.split('.')[0] || 'dispatcher',
+        sandbox: payload?.sandbox !== false,
+        severity: payload?.severity || 'warning',
+        originalPayload: payload
+      });
+    }
+
     for (const rule of matched) {
       try {
         if (!this._evaluateConditions(rule, payload)) {
@@ -93,6 +133,18 @@ class Dispatcher {
       } catch (e) {
         this.stats.failed++;
         this._log({ status: 'failed', eventType, ruleId: rule.id, error: e.message, depth: _depth });
+        this._emitStandardEvent('dispatcher.route.failed', {
+          originalEventType: eventType,
+          routeEventType: eventType,
+          ruleId: rule.id,
+          reason: 'dispatch_execution_failed',
+          error: e.message,
+          source: payload?.source || 'dispatcher',
+          subsystem: payload?.subsystem || eventType.split('.')[0] || 'dispatcher',
+          sandbox: payload?.sandbox !== false,
+          severity: payload?.severity || 'error',
+          originalPayload: payload
+        });
       }
     }
   }
@@ -165,13 +217,83 @@ class Dispatcher {
 
     const handlerPath = this._resolveHandlerPath(handlerName);
     try {
-      if (!handlerPath) return;
+      if (!handlerPath) {
+        const reason = `handler_not_found:${handlerName}`;
+        this._emitHandlerFailure(event, rule, action, new Error(reason));
+        throw new Error(reason);
+      }
       const handler = require(handlerPath);
       const result = await handler(event, rule, {});
       this.logger.debug?.(`[Dispatcher] Handler ${handlerName} executed: ${JSON.stringify(result)}`);
     } catch (e) {
+      this._emitHandlerFailure(event, rule, action, e);
       this.logger.warn?.(`[Dispatcher] Handler ${handlerName} failed: ${e.message}`) ||
         this.logger.log?.(`[Dispatcher] Handler ${handlerName} failed: ${e.message}`);
+      throw e;
+    }
+  }
+
+  _emitHandlerFailure(event, rule, action, error) {
+    const handlerName = action?.handler || action?.type || 'unknown';
+    const payload = event?.payload || {};
+    this._emitStandardEvent('dispatcher.handler.failed', {
+      originalEventType: event?.type,
+      routeEventType: event?.type,
+      ruleId: rule?.id,
+      handler: handlerName,
+      entityType: 'dispatcher_handler',
+      entityId: handlerName,
+      message: error?.message || 'handler_failed',
+      reason: error?.message || 'handler_failed',
+      source: 'dispatcher',
+      subsystem: payload?.subsystem || 'dispatcher',
+      sandbox: payload?.sandbox !== false,
+      severity: payload?.severity || 'error',
+      originalPayload: payload
+    });
+
+    const queuePath = path.resolve(__dirname, '../dispatcher/manual-queue.jsonl');
+    const queueEntry = {
+      timestamp: new Date().toISOString(),
+      eventType: event?.type,
+      ruleId: rule?.id || null,
+      handler: handlerName,
+      reason: error?.message || 'handler_failed',
+      payload,
+      source: 'dispatcher.handler.failed'
+    };
+    try {
+      fs.mkdirSync(path.dirname(queuePath), { recursive: true });
+      fs.appendFileSync(queuePath, JSON.stringify(queueEntry) + '\n');
+    } catch (_) {}
+
+    this._emitStandardEvent('dispatcher.manual_queue.enqueued', {
+      originalEventType: event?.type,
+      routeEventType: event?.type,
+      ruleId: rule?.id,
+      handler: handlerName,
+      queue: 'manual-queue',
+      entityType: 'dispatcher_manual_queue',
+      entityId: handlerName,
+      message: 'manual queue enqueued after handler failure',
+      reason: error?.message || 'handler_failed',
+      source: 'dispatcher',
+      subsystem: payload?.subsystem || 'dispatcher',
+      sandbox: payload?.sandbox !== false,
+      severity: payload?.severity || 'warning',
+      originalPayload: payload
+    });
+  }
+
+  _emitStandardEvent(eventType, payload) {
+    try {
+      bus.emit(eventType, {
+        ...payload,
+        source: payload?.source || 'dispatcher'
+      });
+    } catch (e) {
+      this.logger.warn?.(`[Dispatcher] Standard event emit failed: ${eventType} ${e.message}`) ||
+        this.logger.log?.(`[Dispatcher] Standard event emit failed: ${eventType} ${e.message}`);
     }
   }
 

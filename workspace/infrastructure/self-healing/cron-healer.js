@@ -16,6 +16,10 @@ const path = require('path');
 const JOBS_FILE = '/root/.openclaw/cron/jobs.json';
 const HEAL_LOG_DIR = path.join(__dirname, 'logs');
 const DEFAULT_USER = 'user:ou_a113e465324cc55f9ab3348c9a1a7b9b';
+const { MainlineRecovery, MainlineWAL, MainlineTrace } = require('../resilience/mainline-capabilities');
+const recovery = new MainlineRecovery();
+const wal = new MainlineWAL();
+const trace = new MainlineTrace();
 
 // 确保日志目录存在
 if (!fs.existsSync(HEAL_LOG_DIR)) {
@@ -28,6 +32,11 @@ const HEAL_LOG_FILE = path.join(HEAL_LOG_DIR, `heal-${today}.jsonl`);
 function appendLog(entry) {
   const line = JSON.stringify({ ...entry, ts: new Date().toISOString() });
   fs.appendFileSync(HEAL_LOG_FILE, line + '\n', 'utf8');
+  trace.log('self_healing.log', entry);
+  wal.append({ type: 'self_healing_log', traceId: entry.jobId || entry.jobName || 'cron-healer', ...entry });
+  if (entry.action === 'escalate') {
+    recovery.trigger({ traceId: entry.jobId || entry.jobName || 'cron-healer', source: 'self-healing', reason: entry.reason || entry.pattern || 'escalate', jobId: entry.jobId, jobName: entry.jobName });
+  }
   console.log(line);
 }
 

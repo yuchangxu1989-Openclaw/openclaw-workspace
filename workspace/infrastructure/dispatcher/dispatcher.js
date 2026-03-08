@@ -22,6 +22,14 @@ const path = require('path');
 
 const { DispatchLayer } = require('./dispatch-layer');
 const { onDispatchBridge } = require('../../skills/public/multi-agent-dispatch/dispatch-bridge');
+const { emitManualQueueSignals } = require('./manual-queue-events');
+const {
+  MainlineWAL,
+  MainlineTrace,
+  MainlineRecovery,
+  MainlineCircuitBreaker,
+  executeWithRetry,
+} = require('../resilience/mainline-capabilities');
 
 // ── Dispatch Engine greyscale switch ─────────────────────────────────────────
 // DISPATCH_ENGINE env var controls which engine is used:
@@ -65,6 +73,13 @@ const HANDLERS_DIR = path.join(__dirname, 'handlers');
 const MANUAL_QUEUE_FILE = path.join(__dirname, 'manual-queue.jsonl');
 const DECISION_LOG_FILE = path.join(__dirname, 'decision.log');
 const DEFAULT_TIMEOUT_MS = 30000;
+const dispatcherWAL = new MainlineWAL();
+const dispatcherTrace = new MainlineTrace();
+const dispatcherRecovery = new MainlineRecovery();
+const dispatcherCircuit = new MainlineCircuitBreaker({
+  failureThreshold: parseInt(process.env.DISPATCHER_CIRCUIT_THRESHOLD || '3', 10),
+  resetTimeoutMs: parseInt(process.env.DISPATCHER_CIRCUIT_RESET_MS || String(5 * 60 * 1000), 10),
+});
 
 // ─── Route Cache ─────────────────────────────────────────────────
 
@@ -138,7 +153,7 @@ function logDecision(entry) {
 // ─── Manual Queue ────────────────────────────────────────────────
 
 function enqueueManual(rule, event, error) {
-  const record = JSON.stringify({
+  const queueRecord = {
     ts: new Date().toISOString(),
     ruleId: rule.id || rule.action || 'unknown',
     action: rule.action,
@@ -147,10 +162,23 @@ function enqueueManual(rule, event, error) {
     error: error instanceof Error ? error.message : String(error),
     event,
     rule,
-  });
+  };
+  const record = JSON.stringify(queueRecord);
   try {
     fs.appendFileSync(MANUAL_QUEUE_FILE, record + '\n');
   } catch (_) { /* best-effort */ }
+
+  let signalsPromise = Promise.resolve(null);
+  try {
+    const queueLines = fs.existsSync(MANUAL_QUEUE_FILE)
+      ? fs.readFileSync(MANUAL_QUEUE_FILE, 'utf8').split('\n').filter(Boolean).map(line => {
+          try { return JSON.parse(line); } catch (_) { return null; }
+        }).filter(Boolean)
+      : [queueRecord];
+    signalsPromise = emitManualQueueSignals(queueRecord, { queueLines, sandbox: true, escalateCreated: true }).catch(() => null);
+  } catch (_) { /* best-effort */ }
+
+  return { queueRecord, signalsPromise };
 }
 
 // ─── Handler Loading ─────────────────────────────────────────────
@@ -465,6 +493,7 @@ async function dispatch(rule, event, options = {}) {
   const timeoutMs = options.timeoutMs || DEFAULT_TIMEOUT_MS;
   const handlerMap = options.handlerMap || null;
   const dispatchLayer = options.dispatchLayer || new DispatchLayer();
+  const traceId = event.traceId || event.id || `dispatch_${Date.now()}`;
 
   // ── Greyscale: mirror enqueue to new engine when mode is 'new' or 'dual' ──
   const _newEngine = (DISPATCH_ENGINE_MODE === 'new' || DISPATCH_ENGINE_MODE === 'dual')
@@ -480,6 +509,8 @@ async function dispatch(rule, event, options = {}) {
     rule._iscRule = rule.rule;
   }
   rule.action = extractRuleAction(rule, event);
+  dispatcherTrace.log('dispatch.start', { traceId, action: rule.action, eventType: event.type || event.eventType || 'unknown' });
+  dispatcherWAL.append({ type: 'dispatch_start', traceId, action: rule.action, eventId: event.id || 'unknown', eventType: event.type || event.eventType || 'unknown' });
 
   // Feature flag check
   if (!isEnabled()) {
@@ -518,6 +549,24 @@ async function dispatch(rule, event, options = {}) {
   }
   const _selectedLevel = route ? classifyPattern(route.pattern).type : 'none';
 
+  if (handlerName && !dispatcherCircuit.canExecute(handlerName)) {
+    const state = dispatcherCircuit.getState(handlerName);
+    const duration = Date.now() - startTime;
+    const error = `Circuit breaker open for handler: ${handlerName}`;
+    dispatcherTrace.log('dispatch.circuit_open', { traceId, handler: handlerName, action: rule.action, failures: state.failures || 0 });
+    dispatcherWAL.append({ type: 'dispatch_circuit_open', traceId, handler: handlerName, action: rule.action, failures: state.failures || 0 });
+    enqueueManual(rule, event, error);
+    dispatcherRecovery.trigger({ traceId, source: 'dispatcher', handler: handlerName, action: rule.action, reason: error });
+    return {
+      success: false,
+      error,
+      handler: handlerName,
+      duration,
+      retried: false,
+      circuitBreakerOpen: true,
+    };
+  }
+
   if (!handlerName) {
     try {
       dispatchLayer.enqueue({
@@ -539,7 +588,10 @@ async function dispatch(rule, event, options = {}) {
       _selectedLevel,
     };
     logDecision(decision);
-    enqueueManual(rule, event, 'No handler found for action: ' + rule.action);
+    const manual = enqueueManual(rule, event, 'No handler found for action: ' + rule.action);
+    if (manual && manual.signalsPromise) {
+      await manual.signalsPromise;
+    }
     return {
       success: false,
       error: 'No handler found for action: ' + rule.action,
@@ -638,67 +690,79 @@ async function dispatch(rule, event, options = {}) {
   let lastError = null;
   let retried = false;
 
-  for (let attempt = 0; attempt < 2; attempt++) {
+  try {
+    const result = await executeWithRetry(async (attempt) => {
+      const maybeResult = await withTimeout(handlerFn, [event, context], timeoutMs);
+      if (attempt > 1) retried = true;
+      return { maybeResult, attempt };
+    }, {
+      retries: 1,
+      baseDelayMs: 250,
+      shouldRetry: (error, attempt) => {
+        if (attempt === 1) {
+          logDecision({
+            action: rule.action,
+            eventType: event.type || event.eventType || 'unknown',
+            eventId: event.id || 'unknown',
+            handler: handlerName,
+            result: 'retry',
+            attempt,
+            error: error.message,
+            duration: Date.now() - startTime,
+          });
+        }
+        return true;
+      },
+    });
+
+    const duration = Date.now() - startTime;
+    const reportedHandler = (result.maybeResult && result.maybeResult.handler) || handlerName;
+    dispatcherCircuit.recordSuccess(reportedHandler);
+    dispatcherTrace.log('dispatch.success', { traceId, action: rule.action, handler: reportedHandler, attempt: result.attempt, duration });
+    dispatcherWAL.append({ type: 'dispatch_success', traceId, action: rule.action, handler: reportedHandler, attempt: result.attempt, duration });
+
+    logDecision({
+      action: rule.action,
+      eventType: event.type || event.eventType || 'unknown',
+      eventId: event.id || 'unknown',
+      handler: reportedHandler,
+      matchedPattern: route ? route.pattern : 'direct',
+      result: 'success',
+      attempt: result.attempt,
+      duration,
+      _routeCandidates,
+      _selectedLevel,
+    });
+
+    if (_metrics) _metrics.inc('dispatch_success');
+    if (dispatchTimer) dispatchTimer.stop();
+
     try {
-      const result = await withTimeout(handlerFn, [event, context], timeoutMs);
-      const duration = Date.now() - startTime;
+      dispatchLayer.markTask(event.id || `exec_${Date.now()}`, 'done', { result: result.maybeResult });
+      dispatchLayer.dispatchNext();
+    } catch (_) {}
 
-      // Allow handler to override the reported handler name (for sub-routing)
-      const reportedHandler = (result && result.handler) || handlerName;
-
-      logDecision({
-        action: rule.action,
-        eventType: event.type || event.eventType || 'unknown',
-        eventId: event.id || 'unknown',
-        handler: reportedHandler,
-        matchedPattern: route ? route.pattern : 'direct',
-        result: 'success',
-        attempt: attempt + 1,
-        duration,
-        _routeCandidates,
-        _selectedLevel,
-      });
-
-      // ─── Metrics: dispatch success ───
-      if (_metrics) _metrics.inc('dispatch_success');
-      if (dispatchTimer) dispatchTimer.stop();
-
-      try {
-        dispatchLayer.markTask(event.id || `exec_${Date.now()}`, 'done', { result });
-        dispatchLayer.dispatchNext();
-      } catch (_) {}
-
-      return {
-        success: true,
-        result,
-        handler: reportedHandler,
-        duration,
-        retried: attempt > 0,
-      };
-    } catch (err) {
-      lastError = err;
-      if (attempt === 0) {
-        retried = true;
-        // ─── Metrics: dispatch retry ───
-        if (_metrics) _metrics.inc('dispatch_retry');
-
-        logDecision({
-          action: rule.action,
-          eventType: event.type || event.eventType || 'unknown',
-          eventId: event.id || 'unknown',
-          handler: handlerName,
-          result: 'retry',
-          attempt: 1,
-          error: err.message,
-          duration: Date.now() - startTime,
-        });
-      }
-    }
+    return {
+      success: true,
+      result: result.maybeResult,
+      handler: reportedHandler,
+      duration,
+      retried,
+    };
+  } catch (err) {
+    lastError = err;
   }
 
   // Both attempts failed → manual queue
   const duration = Date.now() - startTime;
-  enqueueManual(rule, event, lastError);
+  const manual = enqueueManual(rule, event, lastError);
+  dispatcherCircuit.recordFailure(handlerName, lastError);
+  dispatcherTrace.log('dispatch.failure', { traceId, action: rule.action, handler: handlerName, error: lastError ? lastError.message : 'unknown', duration });
+  dispatcherWAL.append({ type: 'dispatch_failure', traceId, action: rule.action, handler: handlerName, error: lastError ? lastError.message : 'unknown', duration, retried });
+  dispatcherRecovery.trigger({ traceId, source: 'dispatcher', handler: handlerName, action: rule.action, reason: lastError ? lastError.message : 'unknown' });
+  if (manual && manual.signalsPromise) {
+    await manual.signalsPromise;
+  }
 
   // ─── Metrics: dispatch failure ───
   if (_metrics) {

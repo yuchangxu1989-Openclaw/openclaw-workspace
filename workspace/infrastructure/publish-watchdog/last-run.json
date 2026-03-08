@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-03-07T16:45:54.345Z",
+  "config": {
+    "thresholdMinutes": 180,
+    "lookbackHours": 72,
+    "autoReplayLimit": 0,
+    "alertCooldownMinutes": 30,
+    "eventTypes": [
+      "evomap.publish.requested",
+      "skill.version.changed",
+      "skill.version.detected",
+      "isc.version.changed",
+      "dto.publish.requested"
+    ]
+  },
+  "scannedEvents": 886,
+  "pendingCount": 0,
+  "alerted": [],
+  "replayed": [],
+  "replayFailed": []
+}

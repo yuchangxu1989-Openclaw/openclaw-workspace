@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
-  "description": "EvoMap Gene上传清单 - 清单内技能同步到EvoMap，同时开启自动发现。包含LEP基础设施和SEEF子技能库",
+  "version": "1.0.4",
+  "description": "EvoMap Gene上传清单 - 清单内技能同步到EvoMap，同时开启自动发现。包含SEEF子技能库",
   "managed_by": "isc-dto",
   "update_policy": "auto_sync",
   "allowed_skills": [
@@ -8,28 +8,13 @@
     "isc-core",
     "evomap-a2a",
     "evomap-publisher",
-    "lep-executor",
-    "lep-subagent",
     "cras",
     "parallel-subagent",
     "seef",
     "aeo",
     "isc-document-quality"
   ],
-  "infrastructure_skills": [
-    {
-      "name": "lep-core",
-      "path": "infrastructure/lep-core",
-      "type": "infrastructure",
-      "description": "LEP韧性执行核心"
-    },
-    {
-      "name": "lep-subagent",
-      "path": "infrastructure/lep-subagent",
-      "type": "infrastructure",
-      "description": "LEP子Agent管理"
-    }
-  ],
+  "infrastructure_skills": [],
   "seef_subskills": [
     {
       "name": "seef-standards",
@@ -58,6 +43,6 @@
   ],
   "blocked_skills": [],
   "auto_discover": true,
-  "last_updated": "2026-03-07T00:25:00+08:00",
-  "updated_by": "subagent_manifest_closeout"
+  "last_updated": "2026-03-07T22:37:00+08:00",
+  "updated_by": "subagent_heartbeat_manifest_fix"
 }

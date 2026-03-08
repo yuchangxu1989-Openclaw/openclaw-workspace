@@ -37,6 +37,73 @@ function containsForbiddenReference(values) {
   return hits;
 }
 
+function detectAttestationPresent(payload = {}) {
+  const sources = [
+    payload.attestation,
+    payload.attestation_present,
+    payload.release_attestation,
+    payload.closed_book_eval && payload.closed_book_eval.attestation,
+    payload.closed_book_eval && payload.closed_book_eval.attestation_present,
+    payload.closed_book_eval && payload.closed_book_eval.release_attestation,
+    payload.report_meta && payload.report_meta.attestation,
+    payload.report_meta && payload.report_meta.attestation_present,
+    payload.evidence_attestation
+  ];
+
+  return sources.some((value) => {
+    if (value === true) return true;
+    if (typeof value === 'string') return value.trim().length > 0;
+    if (value && typeof value === 'object') return Object.keys(value).length > 0;
+    return false;
+  });
+}
+
+function buildClosedBookSummary(payload = {}, closedBookRule = null) {
+  const cbe = payload.closed_book_eval || {};
+  const forbiddenSourceHits = [
+    ...containsForbiddenReference(cbe.forbidden_paths_checked),
+    ...containsForbiddenReference(cbe.forbidden_paths_accessed),
+    ...containsForbiddenReference(cbe.evidence),
+    ...containsForbiddenReference(payload.forbidden_sources),
+    ...containsForbiddenReference(payload.reference_reads)
+  ];
+
+  const uniqueForbiddenSourceHits = [...new Set(forbiddenSourceHits)];
+  const evidenceCount = asList(cbe.evidence).length;
+  const attestationPresent = detectAttestationPresent(payload);
+  const closedBookStatus = closedBookRule
+    ? (closedBookRule.ok ? 'PASS' : 'FAIL-CLOSED')
+    : ((cbe.enabled === true && cbe.no_hardcoded_evalset === true && cbe.no_reference_reads === true)
+      ? 'PASS'
+      : 'FAIL-CLOSED');
+
+  return {
+    closed_book_status: closedBookStatus,
+    evidence_count: evidenceCount,
+    forbidden_source_hits: uniqueForbiddenSourceHits.length,
+    attestation_present: attestationPresent,
+    forbidden_source_hit_details: uniqueForbiddenSourceHits
+  };
+}
+
+function applyReleaseEvidenceDefaults(payload = {}, verdict = null, extra = {}) {
+  const summary = extra.closedBookSummary || buildClosedBookSummary(payload, verdict && verdict.rules && verdict.rules[1]);
+  const releaseEvidence = {
+    required: true,
+    default_for: 'release_preflight',
+    closed_book_status: summary.closed_book_status,
+    evidence_count: summary.evidence_count,
+    forbidden_source_hits: summary.forbidden_source_hits,
+    attestation_present: summary.attestation_present
+  };
+
+  return {
+    ...summary,
+    release_evidence: releaseEvidence,
+    release_preflight_required: true
+  };
+}
+
 function evaluateIntentGate(payload = {}) {
   const intentBasis = payload.intent_basis || {};
   const violations = [];
@@ -85,6 +152,8 @@ function evaluateClosedBookGate(payload = {}) {
     violations.push(`closed_book_eval.forbidden_paths_accessed is non-empty: ${accessed.join(', ')}`);
   }
 
+  const closedBookSummary = buildClosedBookSummary(payload);
+
   return {
     ruleId: 'ISC-CLOSED-BOOK-001',
     ok: violations.length === 0,
@@ -103,9 +172,16 @@ function evaluateClosedBookGate(payload = {}) {
       no_reference_reads: cbe.no_reference_reads === true,
       forbidden_paths_checked_count: asList(cbe.forbidden_paths_checked).length,
       evidence_count: asList(cbe.evidence).length,
-      forbidden_paths_accessed_count: accessed.length
+      forbidden_paths_accessed_count: accessed.length,
+      closed_book_status: violations.length === 0 ? 'PASS' : 'FAIL-CLOSED',
+      forbidden_source_hits: closedBookSummary.forbidden_source_hits,
+      attestation_present: closedBookSummary.attestation_present
     },
-    violations
+    violations,
+    closed_book_summary: {
+      ...closedBookSummary,
+      closed_book_status: violations.length === 0 ? 'PASS' : 'FAIL-CLOSED'
+    }
   };
 }
 
@@ -115,6 +191,10 @@ function evaluateAll(payload = {}) {
   const passRequested = textIncludesPass(payload);
   const ok = intent.ok && closedBook.ok;
   const gateStatus = ok ? 'PASS' : 'FAIL-CLOSED';
+  const closedBookSummary = {
+    ...closedBook.closed_book_summary,
+    closed_book_status: closedBook.ok ? 'PASS' : 'FAIL-CLOSED'
+  };
 
   return {
     ok,
@@ -123,7 +203,8 @@ function evaluateAll(payload = {}) {
     summary: ok
       ? 'PASS: ISC intent-eval + closed-book hard gates satisfied.'
       : [intent.message, closedBook.message].filter(Boolean).join(' | '),
-    rules: [intent, closedBook]
+    rules: [intent, closedBook],
+    release_evidence: applyReleaseEvidenceDefaults(payload, { rules: [intent, closedBook] }, { closedBookSummary })
   };
 }
 
@@ -152,6 +233,9 @@ module.exports = {
   asList,
   textIncludesPass,
   containsForbiddenReference,
+  detectAttestationPresent,
+  buildClosedBookSummary,
+  applyReleaseEvidenceDefaults,
   evaluateIntentGate,
   evaluateClosedBookGate,
   evaluateAll,

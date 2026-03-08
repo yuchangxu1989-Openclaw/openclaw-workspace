@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-am2op3-001",
+  "name": "knowledge-am2op3",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 不要自己蒙头设计。",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "不要自己蒙头设计。",
+    "discoveredAt": "2026-03-07T09:15:50.373Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-am2op3.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

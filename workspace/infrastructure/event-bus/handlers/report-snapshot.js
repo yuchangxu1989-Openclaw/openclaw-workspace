@@ -4,6 +4,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { buildClosedBookSummary, applyReleaseEvidenceDefaults } = require('../../enforcement/isc-eval-gates');
 
 const LOG_FILE = path.resolve(__dirname, '../../logs/report-snapshots.jsonl');
 const SNAPSHOT_DIR = path.resolve(__dirname, '../../../reports/snapshots');
@@ -12,6 +13,7 @@ module.exports = async function(event, rule, context) {
   const payload = event.payload || {};
   const reportId = payload.reportId || `report_${Date.now()}`;
   const reportData = payload.reportData || {};
+  const closedBookSummary = buildClosedBookSummary(reportData);
 
   if (!fs.existsSync(SNAPSHOT_DIR)) fs.mkdirSync(SNAPSHOT_DIR, { recursive: true });
 
@@ -20,7 +22,8 @@ module.exports = async function(event, rule, context) {
     id: reportId,
     lockedAt: new Date().toISOString(),
     checksum: Buffer.from(JSON.stringify(reportData)).toString('base64').slice(0, 32),
-    data: reportData
+    data: reportData,
+    ...applyReleaseEvidenceDefaults(reportData, null, { closedBookSummary })
   };
 
   fs.writeFileSync(snapshotFile, JSON.stringify(snapshot, null, 2));

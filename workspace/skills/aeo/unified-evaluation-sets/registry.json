@@ -4,8 +4,8 @@
   "description": "AEO统一评测集注册表 - ISC标准格式",
   "registryMetadata": {
     "maintainer": "AEO",
-    "lastUpdated": "2026-03-06T23:46:00.000Z",
-    "totalSets": 72,
+    "lastUpdated": "2026-03-08T00:45:00.000Z",
+    "totalSets": 76,
     "goldenStandardCount": 2
   },
   "indexing": {
@@ -216,6 +216,18 @@
       ],
       "real-conv-2026-03-06": [
         "eval.real-conv-2026-03-06.001"
+      ],
+      "real-conv-2026-03-07-exec-chain-remediation": [
+        "eval.real-conv-2026-03-07-exec-chain-remediation.001"
+      ],
+      "feishu-card-sender": [
+        "eval.feishu-card-sender.001"
+      ],
+      "feishu-common": [
+        "eval.feishu-common.001"
+      ],
+      "isc-report-readability": [
+        "eval.isc-report-readability.001"
       ]
     },
     "byTrack": {
@@ -226,7 +238,9 @@
         "eval.weather.001",
         "eval.file-tool.001"
       ],
-      "hybrid": []
+      "hybrid": [
+        "eval.real-conv-2026-03-07-exec-chain-remediation.001"
+      ]
     },
     "byStandard": {
       "golden": [
@@ -301,7 +315,8 @@
         "eval.zhipu-image-gen.001",
         "eval.zhipu-keys.001",
         "eval.zhipu-router.001",
-        "eval.zhipu-vision.001"
+        "eval.zhipu-vision.001",
+        "eval.real-conv-2026-03-07-exec-chain-remediation.001"
       ],
       "experimental": [
         "eval.chat-bot.001"
@@ -1747,6 +1762,175 @@
         "description": "zhipu-vision 技能评测用例集",
         "author": "aeo-auto-index",
         "createdAt": "2026-03-06T23:42:52.219357",
+        "version": "1.0.0",
+        "testCaseCount": 5
+      }
+    },
+    "eval.real-conv-2026-03-06.001": {
+      "id": "eval.real-conv-2026-03-06.001",
+      "name": "真实对话评测集 2026-03-06",
+      "targetSkill": "real-conv-2026-03-06",
+      "track": "ai-effect",
+      "standard": "standard",
+      "location": {
+        "type": "file",
+        "path": "../evaluation-sets/real-conv-2026-03-06/test-cases.json"
+      },
+      "metadata": {
+        "description": "从 2026-03-06 真实对话自动采样生成",
+        "author": "evalset-cron-1.0.0",
+        "createdAt": "2026-03-07T12:12:35.790Z",
+        "updatedAt": "2026-03-07T12:12:35.790Z",
+        "version": "1.0.0",
+        "testCaseCount": 2,
+        "generatorVersion": "1.0.0",
+        "samplingStrategy": "v1.0",
+        "source": "cron",
+        "dedupStats": {
+          "input": 2,
+          "exactDups": 0,
+          "fuzzyDups": 0,
+          "unique": 2,
+          "source": "cron-2026-03-06"
+        }
+      },
+      "dimensions": [
+        {
+          "name": "intent_accuracy",
+          "weight": 0.3,
+          "threshold": 0.8
+        },
+        {
+          "name": "context_awareness",
+          "weight": 0.25,
+          "threshold": 0.75
+        },
+        {
+          "name": "action_quality",
+          "weight": 0.25,
+          "threshold": 0.8
+        },
+        {
+          "name": "self_correction",
+          "weight": 0.2,
+          "threshold": 0.7
+        }
+      ]
+    },
+    "eval.real-conv-2026-03-07-exec-chain-remediation.001": {
+      "id": "eval.real-conv-2026-03-07-exec-chain-remediation.001",
+      "name": "真实对话执行链整改评测集 2026-03-07",
+      "targetSkill": "real-conv-2026-03-07-exec-chain-remediation",
+      "track": "hybrid",
+      "standard": "standard",
+      "location": {
+        "type": "file",
+        "path": "../evaluation-sets/real-conv-2026-03-07-exec-chain-remediation/test-cases.json"
+      },
+      "metadata": {
+        "description": "围绕用户连续纠偏的执行链路问题重构，含真实预期执行链",
+        "author": "subagent-manual-remediation",
+        "createdAt": "2026-03-07T21:04:00+08:00",
+        "updatedAt": "2026-03-08T00:18:00+08:00",
+        "version": "1.1.0",
+        "testCaseCount": 8,
+        "generatorVersion": "2.0.0-manual-remediation",
+        "samplingStrategy": "real-user-correction-harvest-v1",
+        "source": "same-session-user-corrections",
+        "programmaticWeighting": "execution-chain-hardening-v1",
+        "hardeningDate": "2026-03-08"
+      },
+      "dimensions": [
+        {
+          "name": "autonomy",
+          "weight": 0.2,
+          "threshold": 0.9,
+          "priority": "high"
+        },
+        {
+          "name": "correction",
+          "weight": 0.25,
+          "threshold": 0.9,
+          "priority": "high"
+        },
+        {
+          "name": "execution_chain_completeness",
+          "weight": 0.3,
+          "threshold": 0.92,
+          "priority": "high"
+        },
+        {
+          "name": "timely_task_fanout",
+          "weight": 0.25,
+          "threshold": 0.9,
+          "priority": "high"
+        }
+      ],
+      "datasetWeighting": {
+        "prioritizedDimensions": [
+          "autonomy",
+          "correction",
+          "execution_chain_completeness",
+          "timely_task_fanout"
+        ],
+        "weightingProfile": "execution-chain-hardening-v1",
+        "enforcementMode": "programmatic-hard-gate",
+        "source": "real-user-correction-hardening"
+      }
+    },
+    "eval.feishu-card-sender.001": {
+      "id": "eval.feishu-card-sender.001",
+      "name": "feishu-card-sender 评测集",
+      "targetSkill": "feishu-card-sender",
+      "track": "functional-quality",
+      "standard": "standard",
+      "location": {
+        "type": "file",
+        "path": "../evaluation-sets/feishu-card-sender/test-cases.json"
+      },
+      "metadata": {
+        "description": "feishu-card-sender 技能评测用例集",
+        "author": "aeo-auto-index",
+        "createdAt": "2026-03-07T12:00:09.280Z",
+        "updatedAt": "2026-03-08T00:45:00.000Z",
+        "version": "1.0.0",
+        "testCaseCount": 5
+      }
+    },
+    "eval.feishu-common.001": {
+      "id": "eval.feishu-common.001",
+      "name": "feishu-common 评测集",
+      "targetSkill": "feishu-common",
+      "track": "functional-quality",
+      "standard": "standard",
+      "location": {
+        "type": "file",
+        "path": "../evaluation-sets/feishu-common/test-cases.json"
+      },
+      "metadata": {
+        "description": "feishu-common 技能评测用例集",
+        "author": "aeo-auto-index",
+        "createdAt": "2026-03-07T12:00:09.280Z",
+        "updatedAt": "2026-03-08T00:45:00.000Z",
+        "version": "1.0.0",
+        "testCaseCount": 5
+      }
+    },
+    "eval.isc-report-readability.001": {
+      "id": "eval.isc-report-readability.001",
+      "name": "isc-report-readability 评测集",
+      "targetSkill": "isc-report-readability",
+      "track": "functional-quality",
+      "standard": "standard",
+      "location": {
+        "type": "file",
+        "path": "../evaluation-sets/isc-report-readability/test-cases.json"
+      },
+      "metadata": {
+        "description": "isc-report-readability 技能评测用例集",
+        "author": "aeo-auto-index",
+        "createdAt": "2026-03-07T12:00:09.280Z",
+        "updatedAt": "2026-03-08T00:45:00.000Z",
         "version": "1.0.0",
         "testCaseCount": 5
       }

@@ -1,0 +1,306 @@
+{
+  "skill": "real-conversation-scenarios-2026-03-07-execution-chain-remediation",
+  "generatedAt": "2026-03-07T21:04:00+08:00",
+  "generatorVersion": "2.0.0-manual-remediation",
+  "samplingStrategy": "real-user-correction-harvest-v1",
+  "data_source": "real_conversation_correction",
+  "source_description": "围绕用户连续指出的真实执行链路问题，手工重构的正式评测集；强调真实预期执行链而非泛化行为描述",
+  "extraction_date": "2026-03-07",
+  "total_cases": 8,
+  "categories": [
+    "intent_expansion",
+    "event_completion",
+    "task_expansion",
+    "timeout_redispatch",
+    "state_update_on_effective_output",
+    "execute_first",
+    "natural_language_understanding",
+    "correction_enqueue"
+  ],
+  "closed_book_evidence": {
+    "enabled": true,
+    "no_hardcoded_evalset": false,
+    "manual_real_case_reconstruction": true,
+    "evidence": [
+      "Cases are reconstructed from same-day real user corrections and repo artifacts",
+      "Execution-chain expectations are grounded in existing queue/event/registry/report structure",
+      "No synthetic fantasy toolchain introduced beyond current workspace conventions"
+    ]
+  },
+  "cases": [
+    {
+      "id": "exec-chain-remediation-001",
+      "category": "intent_expansion",
+      "dimension": "intent-expansion-from-natural-complaint",
+      "source": "real_conversation_correction",
+      "source_date": "2026-03-07",
+      "input": {
+        "user_message": "严肃整改评测集：围绕我刚才连续指出的真实问题，把执行链路相关样本重构掉。重点补上意图扩充能力。"
+      },
+      "expected": {
+        "intent_interpretation": {
+          "primary": "rebuild_execution_chain_eval_samples",
+          "expanded_subintents": [
+            "mine_recent_user_corrections_as_source_of_truth",
+            "convert_problem_statement_into_evaluable_cases",
+            "store_cases_in_formal_evalset",
+            "link_new_cases_into_regression_assets"
+          ],
+          "must_not_do": [
+            "只写原则分析不落样本",
+            "只产出报告不更新评测数据"
+          ]
+        },
+        "expected_execution_chain": [
+          "inspect existing evaluation-set / registry / regression locations",
+          "derive concrete subdimensions from user complaint '意图扩充能力'",
+          "create or update real-conversation evaluation cases with explicit expected_execution_chain",
+          "register dataset into unified evaluation registry",
+          "add regression sample mirroring this failure mode"
+        ],
+        "success_criteria": [
+          "评测样本中出现expanded_subintents或等价字段",
+          "预期链路覆盖正式评测集+回归样本双落库"
+        ]
+      }
+    },
+    {
+      "id": "exec-chain-remediation-002",
+      "category": "event_completion",
+      "dimension": "event-backfill-from-user-intent",
+      "source": "real_conversation_correction",
+      "source_date": "2026-03-07",
+      "input": {
+        "user_message": "别只识别大类任务，事件要补全。用户一句话里隐含的入队、改状态、回归收集这些后续事件都要补出来。"
+      },
+      "expected": {
+        "event_completion": {
+          "root_event": "user.request.evalset_remediation",
+          "required_followup_events": [
+            "evalset.case_rewrite_requested",
+            "evalset.case_registered",
+            "regression.sample_enqueued",
+            "artifact.status_updated"
+          ],
+          "must_not_miss": [
+            "queue/enqueue-like event",
+            "status mutation event after artifact written"
+          ]
+        },
+        "expected_execution_chain": [
+          "parse user utterance into root remediation request",
+          "complete downstream events implied by the request",
+          "emit or model queue/registration/status events in expected chain",
+          "materialize artifacts matching those events"
+        ],
+        "success_criteria": [
+          "case contains explicit followup event list",
+          "followup events correspond to real artifacts written"
+        ]
+      }
+    },
+    {
+      "id": "exec-chain-remediation-003",
+      "category": "task_expansion",
+      "dimension": "task-list-expansion",
+      "source": "real_conversation_correction",
+      "source_date": "2026-03-07",
+      "input": {
+        "user_message": "任务扩列能力要补上。别只做用户字面说的一个动作，应该把评测集、候选集、回归样本、注册表一起推进。"
+      },
+      "expected": {
+        "task_expansion": {
+          "explicit_task": "重构执行链路评测样本",
+          "expanded_tasks": [
+            "更新正式评测集文件",
+            "补充候选/待审核样本池",
+            "归档回归样本",
+            "更新统一注册表元数据",
+            "输出变更说明"
+          ],
+          "priority_order": [
+            "formal_evalset",
+            "candidate_pool",
+            "regression_archive",
+            "registry",
+            "report"
+          ]
+        },
+        "expected_execution_chain": [
+          "expand single ask into dependent artifact tasks",
+          "execute artifact writes in dependency order",
+          "avoid stopping after first artifact"
+        ],
+        "success_criteria": [
+          "至少3类不同落点被同时更新",
+          "priority order can be inferred from artifacts"
+        ]
+      }
+    },
+    {
+      "id": "exec-chain-remediation-004",
+      "category": "timeout_redispatch",
+      "dimension": "timeout-redispatch-without-user-reminder",
+      "source": "real_conversation_correction",
+      "source_date": "2026-03-07",
+      "input": {
+        "user_message": "timeout重派也做成评测样本。别等我追问，超时了就该自动换承接任务或重新入队。"
+      },
+      "expected": {
+        "timeout_policy": {
+          "trigger": "assigned remediation subtask exceeds timeout/no effective output",
+          "required_behavior": [
+            "mark current attempt timed_out",
+            "re-dispatch or re-enqueue the unfinished subtask",
+            "preserve original objective and context",
+            "continue pipeline without waiting for user reminder"
+          ],
+          "must_not_do": [
+            "silent stall",
+            "leave task in doing forever"
+          ]
+        },
+        "expected_execution_chain": [
+          "detect timeout condition",
+          "write timeout status",
+          "create redispatch/requeue action",
+          "resume execution on same objective",
+          "eventually update final state on successful completion"
+        ],
+        "success_criteria": [
+          "sample explicitly distinguishes timeout status vs final success status",
+          "redispatch is part of expected chain rather than commentary"
+        ]
+      }
+    },
+    {
+      "id": "exec-chain-remediation-005",
+      "category": "state_update_on_effective_output",
+      "dimension": "artifact-written-then-state-transition",
+      "source": "real_conversation_correction",
+      "source_date": "2026-03-07",
+      "input": {
+        "user_message": "有效输出一出来就该改状态，不要产物写完了还挂在doing。"
+      },
+      "expected": {
+        "state_transition_rule": {
+          "effective_output_examples": [
+            "评测集文件已写入",
+            "回归样本已归档",
+            "注册表已更新"
+          ],
+          "required_transition": "doing -> done (or partial_done with explicit remaining queue)",
+          "must_not_do": [
+            "artifact exists but status unchanged",
+            "仅口头声称完成 without state mutation"
+          ]
+        },
+        "expected_execution_chain": [
+          "produce artifact",
+          "verify artifact is materially usable",
+          "immediately write terminal/progress state",
+          "announce next remaining queued work if any"
+        ],
+        "success_criteria": [
+          "样本要求状态变化由有效产物触发",
+          "不是由主观分析结束触发"
+        ]
+      }
+    },
+    {
+      "id": "exec-chain-remediation-006",
+      "category": "execute_first",
+      "dimension": "less-analysis-more-execution",
+      "source": "real_conversation_correction",
+      "source_date": "2026-03-07",
+      "input": {
+        "user_message": "少分析，先执行。像这种整改评测集的活，应该先去定位文件并落样本，再补说明。"
+      },
+      "expected": {
+        "execution_bias": {
+          "required_order": [
+            "locate target files",
+            "write/modify eval artifacts",
+            "then summarize rationale"
+          ],
+          "must_not_do": [
+            "先长篇分析再迟迟不动文件",
+            "把执行计划当最终交付"
+          ]
+        },
+        "expected_execution_chain": [
+          "discover relevant files",
+          "perform concrete writes first",
+          "only after writes provide concise explanation"
+        ],
+        "success_criteria": [
+          "case evaluates action-first ordering, not only final content"
+        ]
+      }
+    },
+    {
+      "id": "exec-chain-remediation-007",
+      "category": "natural_language_understanding",
+      "dimension": "understand-human-phrasing-and-corrective-tone",
+      "source": "real_conversation_correction",
+      "source_date": "2026-03-07",
+      "input": {
+        "user_message": "听懂人话：我说‘落到正式评测集/候选集与回归样本中’，意思就是三处都要落，不是任选一个。"
+      },
+      "expected": {
+        "nl_understanding": {
+          "interpreted_constraints": [
+            "正式评测集必须更新",
+            "候选集/待审核池必须补样本",
+            "回归样本必须归档"
+          ],
+          "must_not_misread": [
+            "把斜杠表达理解为可选项",
+            "忽略‘与’所表达的并列要求"
+          ]
+        },
+        "expected_execution_chain": [
+          "parse colloquial Chinese coordination correctly",
+          "fan out required artifact writes to all mentioned destinations",
+          "report completion against all destinations"
+        ],
+        "success_criteria": [
+          "sample explicitly checks conjunction semantics"
+        ]
+      }
+    },
+    {
+      "id": "exec-chain-remediation-008",
+      "category": "correction_enqueue",
+      "dimension": "correction-immediately-turns-into-queued-work",
+      "source": "real_conversation_correction",
+      "source_date": "2026-03-07",
+      "input": {
+        "user_message": "用户一纠偏就该入队，别只是说‘收到，下次注意’。这次指出的问题都要变成当前待执行项和回归样本。"
+      },
+      "expected": {
+        "correction_handling": {
+          "required_behavior": [
+            "convert correction into actionable queue items immediately",
+            "record the failure mode as regression sample",
+            "reflect current execution rather than future promise"
+          ],
+          "must_not_do": [
+            "ack-only response",
+            "defer to unspecified future improvement"
+          ]
+        },
+        "expected_execution_chain": [
+          "detect correction signal",
+          "enqueue remediation subtasks in current run",
+          "persist corresponding regression sample",
+          "update status to reflect queued/executed work"
+        ],
+        "success_criteria": [
+          "case encodes immediate enqueue semantics",
+          "regression linkage is mandatory"
+        ]
+      }
+    }
+  ]
+}

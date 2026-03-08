@@ -1,6 +1,6 @@
 /**
  * Evaluation Set Registry Manager - 评测集注册表管理器
- * @version 1.0.0
+ * @version 1.1.0
  * @description ISC标准评测集管理工具
  */
 
@@ -8,6 +8,61 @@ const fs = require('fs');
 const path = require('path');
 
 const REGISTRY_PATH = path.join(__dirname, '../unified-evaluation-sets/registry.json');
+
+const HIGH_WEIGHT_DIMENSION_PROFILES = {
+  autonomy: { weight: 0.2, threshold: 0.9 },
+  correction: { weight: 0.25, threshold: 0.9 },
+  execution_chain_completeness: { weight: 0.3, threshold: 0.92 },
+  timely_task_fanout: { weight: 0.25, threshold: 0.9 }
+};
+
+function normalizeDimensionEntry(entry) {
+  if (typeof entry === 'string') {
+    return { name: entry };
+  }
+  return entry && typeof entry === 'object' ? { ...entry } : null;
+}
+
+function applyProgrammaticWeighting(dimensions = []) {
+  const normalized = dimensions
+    .map(normalizeDimensionEntry)
+    .filter(Boolean);
+
+  const prioritized = normalized.filter(d => HIGH_WEIGHT_DIMENSION_PROFILES[d.name]);
+  if (!prioritized.length) {
+    return {
+      dimensions: normalized,
+      datasetWeighting: {
+        prioritizedDimensions: [],
+        weightingProfile: 'default'
+      }
+    };
+  }
+
+  const weighted = normalized.map(d => {
+    const profile = HIGH_WEIGHT_DIMENSION_PROFILES[d.name];
+    return profile
+      ? { ...d, weight: profile.weight, threshold: d.threshold ?? profile.threshold, priority: 'high' }
+      : { ...d, priority: d.priority || 'normal' };
+  });
+
+  const total = weighted.reduce((sum, d) => sum + (typeof d.weight === 'number' ? d.weight : 0), 0);
+  const balanced = total > 0
+    ? weighted.map(d => typeof d.weight === 'number'
+      ? { ...d, weight: Number((d.weight / total).toFixed(4)) }
+      : d)
+    : weighted;
+
+  return {
+    dimensions: balanced,
+    datasetWeighting: {
+      prioritizedDimensions: prioritized.map(d => d.name),
+      weightingProfile: 'execution-chain-hardening-v1',
+      enforcementMode: 'programmatic-hard-gate'
+    }
+  };
+}
+
 
 /**
  * 评测集注册管理器
@@ -104,15 +159,23 @@ class EvaluationSetRegistry {
         author: config.author || 'system',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        version: '1.0.0',
+        version: '1.1.0',
         testCaseCount: testCases.length
       },
-      dimensions: dimensions.length > 0 ? dimensions : this._getDefaultDimensions(track),
+      dimensions: [],
+      datasetWeighting: {
+        prioritizedDimensions: [],
+        weightingProfile: 'default'
+      },
       dtoMapping: dtoSubscriptionId ? {
         subscriptionId: dtoSubscriptionId,
         autoTrigger: true
       } : null
     };
+
+    const weighted = applyProgrammaticWeighting(dimensions.length > 0 ? dimensions : this._getDefaultDimensions(track));
+    evaluationSet.dimensions = weighted.dimensions;
+    evaluationSet.datasetWeighting = weighted.datasetWeighting;
 
     // 如果是内联存储，直接包含测试用例
     if (location.type === 'inline' && testCases.length > 0) {

@@ -29,6 +29,8 @@ from dataclasses import dataclass, asdict
 from string import Template
 import hashlib
 
+from distribution_classifier import classify_skill_distribution
+
 # DTO事件总线集成
 class DTOEventBus:
     """DTO事件总线客户端"""
@@ -83,6 +85,8 @@ class CreatedSkill:
     skill_name: str
     skill_path: str
     template_type: str
+    distribution: str
+    distribution_details: Dict[str, Any]
     files_created: List[str]
     isc_compliant: bool
     creation_timestamp: str
@@ -311,6 +315,13 @@ class SkillCreator:
             template_type,
             request
         )
+
+        # 自动分类：local / public，并写回 SKILL.md
+        distribution_details = classify_skill_distribution(skill_path)
+        distribution = distribution_details['distribution']
+        self._apply_distribution_to_skill_md(skill_path, distribution)
+        if 'SKILL.md' not in files_created and (skill_path / 'SKILL.md').exists():
+            files_created.append('SKILL.md')
         
         # 验证ISC合规性
         isc_compliant = self._verify_isc_compliance(skill_path)
@@ -319,6 +330,8 @@ class SkillCreator:
             skill_name=skill_name,
             skill_path=str(skill_path),
             template_type=template_type,
+            distribution=distribution,
+            distribution_details=distribution_details,
             files_created=files_created,
             isc_compliant=isc_compliant,
             creation_timestamp=datetime.now().isoformat(),
@@ -338,6 +351,34 @@ class SkillCreator:
         
         return sanitized or 'new-skill'
     
+    def _apply_distribution_to_skill_md(self, skill_path: Path, distribution: str) -> None:
+        """将自动分类结果写入 SKILL.md。"""
+        skill_md = skill_path / 'SKILL.md'
+        if not skill_md.exists():
+            return
+
+        content = skill_md.read_text(encoding='utf-8')
+        if re.search(r'^distribution:\s*(local|public)\s*$', content, flags=re.MULTILINE):
+            content = re.sub(
+                r'^distribution:\s*(local|public)\s*$',
+                f'distribution: {distribution}',
+                content,
+                count=1,
+                flags=re.MULTILINE,
+            )
+        else:
+            lines = content.splitlines()
+            if lines:
+                lines.insert(1, '')
+                lines.insert(2, f'distribution: {distribution}')
+                content = '\n'.join(lines)
+                if not content.endswith('\n'):
+                    content += '\n'
+            else:
+                content = f'distribution: {distribution}\n'
+
+        skill_md.write_text(content, encoding='utf-8')
+
     def _generate_skill_files(self, skill_path: Path, skill_name: str,
                                template_type: str, request: Dict) -> List[str]:
         """生成技能文件"""
@@ -401,6 +442,8 @@ class SkillCreator:
     def _generate_skill_md(self, template_type: str, vars: Dict[str, str]) -> str:
         """生成SKILL.md"""
         return f"""# {vars['skill_name_title']}
+
+distribution: local
 
 ## Name
 

@@ -1,9 +1,37 @@
 {
   "_schema": "cron-jobs-v2",
   "_description": "OpenClaw workspace cron job registry",
-  "_updated": "2026-03-07T20:15+08:00",
+  "_updated": "2026-03-08T06:55+08:00",
   "_doc": "Job model field required per ISC rule.cron-task-model-requirement-001 (zhipu/glm-5 preferred)",
   "jobs": [
+    {
+      "name": "dispatch-governance-runner",
+      "description": "multi-agent-dispatch 全链路治理 — stale回收、超时派生跟进、spawning重发布、pending自动spawn",
+      "script": "skills/public/multi-agent-dispatch/dispatch-cron-runner.js",
+      "args": [],
+      "schedule": "*/5 * * * *",
+      "schedule_human": "每5分钟",
+      "model": "zhipu/glm-5",
+      "enabled": true,
+      "trigger": "standalone",
+      "trigger_condition": "定时执行dispatch治理全链路，替代仅reap巡检",
+      "mode": "standalone",
+      "outputs": [
+        "infrastructure/logs/dispatch-cron-runner.log",
+        "infrastructure/logs/dispatch-cron-runner.jsonl",
+        "skills/public/multi-agent-dispatch/state/runner-state.json",
+        "skills/public/multi-agent-dispatch/state/pending-dispatches.json"
+      ],
+      "timeout_seconds": 60,
+      "on_failure": "log_and_continue",
+      "tags": [
+        "dispatch",
+        "timeout-governance",
+        "spawn",
+        "followup"
+      ],
+      "created": "2026-03-08"
+    },
     {
       "name": "day-completion-scanner",
       "description": "Day完成事件检测器 - 自动扫描设计债务（每小时检查一次）",
@@ -14,7 +42,7 @@
       "schedule": "0 * * * *",
       "schedule_human": "每小时整点",
       "model": "zhipu/glm-5",
-      "model_fallback": "claude/claude-sonnet-4-6",
+      "model_fallback": "claude/claude-opus-4-6",
       "enabled": true,
       "trigger": "event_bridge",
       "trigger_condition": "reports/dayN-closure-conditions.md 文件新增",
@@ -44,7 +72,7 @@
       "schedule": "*/5 * * * *",
       "schedule_human": "每5分钟",
       "model": "zhipu/glm-5",
-      "model_fallback": "claude/claude-sonnet-4-6",
+      "model_fallback": "claude/claude-opus-4-6",
       "enabled": true,
       "trigger": "event_bridge",
       "trigger_condition": "subagent日志中出现steer/restart/kill信号",
@@ -77,7 +105,7 @@
       "schedule": "*/5 * * * *",
       "schedule_human": "每5分钟",
       "model": "zhipu/glm-5",
-      "model_fallback": "claude/claude-sonnet-4-6",
+      "model_fallback": "claude/claude-opus-4-6",
       "enabled": true,
       "trigger": "event_bridge",
       "trigger_condition": "记忆文件中出现纠偏信号关键词",

@@ -1,15 +1,8 @@
 'use strict';
 
-/**
- * Model routing / budget governance for multi-agent dispatch.
- *
- * Policy target:
- *   - Default to gpt-5.4
- *   - Opus only for very important architecture design / hard troubleshooting
- *   - Enforceable in code, auditable in task state / pending dispatches / tests
- */
-
-const DEFAULT_MODEL = 'codex/gpt-5.4';
+const DEFAULT_MODEL_ID = 'gpt-5.3-codex';
+const DEFAULT_PROVIDER_PREFIX = 'boom-main';
+const DEFAULT_MODEL = `${DEFAULT_PROVIDER_PREFIX}/${DEFAULT_MODEL_ID}`;
 const OPUS_MODEL = 'claude-opus-4-20250514';
 const ALLOWED_OPUS_PRIORITIES = new Set(['critical']);
 const OPUS_JUSTIFICATION_MIN_LEN = 12;
@@ -89,6 +82,20 @@ function isOpusModel(model = '') {
   return /opus/i.test(model);
 }
 
+function normalizeModelRef(model = '') {
+  return String(model || '').trim();
+}
+
+function agentScopedDefaultModel(agentId) {
+  const normalizedAgentId = String(agentId || '').trim();
+  if (!normalizedAgentId) return DEFAULT_MODEL;
+  return `boom-${normalizedAgentId}/${DEFAULT_MODEL_ID}`;
+}
+
+function deriveDefaultModel(task = {}) {
+  return agentScopedDefaultModel(task.agentId || task.payload?.agentId || null);
+}
+
 function isArchitectureOrHardTroubleshooting(task = {}) {
   const text = textOf(task);
   return includesAny(text, ARCHITECTURE_PATTERNS) || includesAny(text, TROUBLESHOOTING_PATTERNS);
@@ -126,9 +133,10 @@ function evaluateOpusEligibility(task = {}) {
 }
 
 function chooseGovernedModel(task = {}) {
-  const requestedModel = task.model || null;
+  const requestedModel = normalizeModelRef(task.model || null) || null;
   const evaluation = evaluateOpusEligibility(task);
   const requestedOpus = isOpusModel(requestedModel || '');
+  const defaultModel = deriveDefaultModel(task);
 
   if (requestedOpus) {
     if (evaluation.allowed) {
@@ -144,7 +152,7 @@ function chooseGovernedModel(task = {}) {
 
     return {
       requestedModel,
-      finalModel: DEFAULT_MODEL,
+      finalModel: defaultModel,
       changed: true,
       allowed: false,
       reason: 'opus_downgraded_by_policy',
@@ -154,10 +162,10 @@ function chooseGovernedModel(task = {}) {
 
   return {
     requestedModel,
-    finalModel: requestedModel || DEFAULT_MODEL,
-    changed: (requestedModel || DEFAULT_MODEL) !== requestedModel,
+    finalModel: requestedModel || defaultModel,
+    changed: (requestedModel || defaultModel) !== requestedModel,
     allowed: true,
-    reason: requestedModel ? 'requested_model_kept' : 'defaulted_to_gpt_5_4',
+    reason: requestedModel ? 'requested_model_kept' : 'defaulted_to_gpt_5_3_codex',
     evaluation,
   };
 }
@@ -168,7 +176,7 @@ function applyModelGovernance(task = {}) {
     ...task,
     model: decision.finalModel,
     governance: {
-      policy: 'default-gpt-5.4-opus-only-critical-architecture-or-hard-troubleshooting',
+      policy: 'default-gpt53codex-opus-only-critical',
       requestedModel: decision.requestedModel,
       finalModel: decision.finalModel,
       changed: decision.changed,
@@ -194,7 +202,11 @@ function applyModelGovernance(task = {}) {
 
 module.exports = {
   DEFAULT_MODEL,
+  DEFAULT_MODEL_ID,
+  DEFAULT_PROVIDER_PREFIX,
   OPUS_MODEL,
+  agentScopedDefaultModel,
+  deriveDefaultModel,
   isOpusModel,
   isArchitectureOrHardTroubleshooting,
   evaluateOpusEligibility,

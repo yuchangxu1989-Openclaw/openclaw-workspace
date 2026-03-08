@@ -1,7 +1,7 @@
 ---
 name: dto-core
 description: DTO (Declarative Task Orchestration) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
-version: "2.1.3"
+version: "2.1.4"
 status: active
 layer: core
 abbreviation: DTO

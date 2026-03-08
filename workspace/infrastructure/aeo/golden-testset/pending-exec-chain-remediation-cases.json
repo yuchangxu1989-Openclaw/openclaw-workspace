@@ -1,0 +1,96 @@
+{
+  "schema": "pending-correction-cases-v2",
+  "description": "待review的真实纠偏候选样本池 - 围绕执行链路缺陷补采",
+  "generated_at": "2026-03-07T21:04:00+08:00",
+  "source": "same-session user corrections",
+  "cases": [
+    {
+      "id": "CAND-EXEC-CHAIN-001",
+      "status": "candidate",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "signal_type": "capability_gap",
+      "theme": "intent_expansion",
+      "user_signal": "重点补上意图扩充能力",
+      "candidate_eval_case_id": "exec-chain-remediation-001",
+      "expected_queue_action": "promote_to_formal_evalset_and_regression"
+    },
+    {
+      "id": "CAND-EXEC-CHAIN-002",
+      "status": "candidate",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "signal_type": "capability_gap",
+      "theme": "event_completion",
+      "user_signal": "事件要补全。隐含的入队、改状态、回归收集这些后续事件都要补出来",
+      "candidate_eval_case_id": "exec-chain-remediation-002",
+      "expected_queue_action": "promote_to_formal_evalset_and_regression"
+    },
+    {
+      "id": "CAND-EXEC-CHAIN-003",
+      "status": "candidate",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "signal_type": "capability_gap",
+      "theme": "task_expansion",
+      "user_signal": "应该把评测集、候选集、回归样本、注册表一起推进",
+      "candidate_eval_case_id": "exec-chain-remediation-003",
+      "expected_queue_action": "promote_to_formal_evalset_and_regression"
+    },
+    {
+      "id": "CAND-EXEC-CHAIN-004",
+      "status": "candidate",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "signal_type": "recovery_gap",
+      "theme": "timeout_redispatch",
+      "user_signal": "timeout重派也做成评测样本。超时了就该自动换承接任务或重新入队",
+      "candidate_eval_case_id": "exec-chain-remediation-004",
+      "expected_queue_action": "promote_to_formal_evalset_and_regression"
+    },
+    {
+      "id": "CAND-EXEC-CHAIN-005",
+      "status": "candidate",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "signal_type": "state_management_gap",
+      "theme": "state_update_on_effective_output",
+      "user_signal": "有效输出一出来就该改状态",
+      "candidate_eval_case_id": "exec-chain-remediation-005",
+      "expected_queue_action": "promote_to_formal_evalset_and_regression"
+    },
+    {
+      "id": "CAND-EXEC-CHAIN-006",
+      "status": "candidate",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "signal_type": "execution_order_gap",
+      "theme": "execute_first",
+      "user_signal": "少分析，先执行",
+      "candidate_eval_case_id": "exec-chain-remediation-006",
+      "expected_queue_action": "promote_to_formal_evalset_and_regression"
+    },
+    {
+      "id": "CAND-EXEC-CHAIN-007",
+      "status": "candidate",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "signal_type": "understanding_gap",
+      "theme": "natural_language_understanding",
+      "user_signal": "听懂人话……意思就是三处都要落，不是任选一个",
+      "candidate_eval_case_id": "exec-chain-remediation-007",
+      "expected_queue_action": "promote_to_formal_evalset_and_regression"
+    },
+    {
+      "id": "CAND-EXEC-CHAIN-008",
+      "status": "candidate",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "signal_type": "correction_handling_gap",
+      "theme": "correction_enqueue",
+      "user_signal": "用户一纠偏就该入队",
+      "candidate_eval_case_id": "exec-chain-remediation-008",
+      "expected_queue_action": "promote_to_formal_evalset_and_regression"
+    }
+  ]
+}

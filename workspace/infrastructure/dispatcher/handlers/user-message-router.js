@@ -17,6 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { shouldAutoExpandBasicOp } = require('../basic-op-policy');
 
 // ─── Decision Logger ─────────────────────────────────────────────
 
@@ -144,6 +145,9 @@ function loadHandler(handlerName) {
 
 async function handle(event, context) {
   const text = (event.payload && event.payload.text) || '';
+  const basicOp = shouldAutoExpandBasicOp(text, {
+    priority: (context && context.rule && context.rule.priority) || 'high',
+  });
   const intent = classifyIntent(text);
 
   // Get ISC rule from context (passed through by dispatcher)
@@ -160,12 +164,13 @@ async function handle(event, context) {
     confidence: intent.confidence,
   });
 
-  // Load and execute target handler
+  // Load and execute the target handler
   const handlerFn = loadHandler(targetHandlerName);
 
+  let result;
   if (!handlerFn) {
     // No handler file found — return a structured skeleton result
-    return {
+    result = {
       status: 'routed',
       handler: targetHandlerName,
       intent,
@@ -174,21 +179,29 @@ async function handle(event, context) {
       text_preview: text.slice(0, 100),
       timestamp: new Date().toISOString(),
     };
+  } else {
+    const handlerContext = {
+      ...context,
+      intent,
+      parentHandler: 'user-message-router',
+      targetHandlerName,
+      basicOp,
+    };
+    result = await handlerFn(event, handlerContext);
+    if (result && typeof result === 'object') {
+      result.handler = targetHandlerName;
+    }
   }
 
-  // Execute the target handler
-  const handlerContext = {
-    ...context,
-    intent,
-    parentHandler: 'user-message-router',
-    targetHandlerName,
-  };
-
-  const result = await handlerFn(event, handlerContext);
-
-  // Ensure the handler name is reported correctly
-  if (result && typeof result === 'object') {
-    result.handler = targetHandlerName;
+  if (basicOp.shouldExpand) {
+    result = {
+      ...(result && typeof result === 'object' ? result : {}),
+      auto_expand: {
+        enabled: true,
+        signal: basicOp.signal,
+        derived_tasks: basicOp.derivedTasks,
+      },
+    };
   }
 
   return result;

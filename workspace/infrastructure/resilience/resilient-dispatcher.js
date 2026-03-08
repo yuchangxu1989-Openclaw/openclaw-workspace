@@ -14,6 +14,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { MainlineWAL, MainlineTrace, MainlineRecovery } = require('./mainline-capabilities');
 
 // Base dispatcher
 let _baseDispatcher;
@@ -33,6 +34,9 @@ try {
 const HANDLER_CRASH_THRESHOLD = 3;  // consecutive crashes → disable
 const HANDLER_COOLDOWN_MS = 5 * 60 * 1000; // 5min cooldown before re-enable
 const HANDLER_STATE_FILE = path.join(__dirname, 'handler-state.json');
+const resilienceWAL = new MainlineWAL();
+const resilienceTrace = new MainlineTrace();
+const resilienceRecovery = new MainlineRecovery();
 
 // ── Handler Health Tracking ─────────────────────────────────────
 // Map<handlerName, { consecutiveFailures, totalFailures, totalSuccess, lastFailure, lastSuccess, disabled, disabledAt }>
@@ -107,6 +111,9 @@ function recordFailure(handlerName, error) {
   if (health.consecutiveFailures >= HANDLER_CRASH_THRESHOLD && !health.disabled) {
     health.disabled = true;
     health.disabledAt = Date.now();
+    resilienceTrace.log('resilience.circuit_open', { handlerName, consecutiveFailures: health.consecutiveFailures, lastError: health.lastError });
+    resilienceWAL.append({ type: 'handler_disabled', traceId: handlerName, handlerName, consecutiveFailures: health.consecutiveFailures, lastError: health.lastError });
+    resilienceRecovery.trigger({ traceId: handlerName, source: 'resilience', handler: handlerName, reason: 'handler_disabled_after_consecutive_failures' });
 
     _logAlert('handler_disabled', {
       handlerName,
@@ -198,6 +205,9 @@ async function dispatch(rule, event, options = {}) {
         ? Math.max(0, HANDLER_COOLDOWN_MS - (Date.now() - health.disabledAt))
         : 0,
     };
+
+    resilienceTrace.log('resilience.dispatch_blocked', { handlerName, eventType: event.type || 'unknown' });
+    resilienceWAL.append({ type: 'dispatch_blocked', traceId: event.traceId || event.id || handlerName, handlerName, eventType: event.type || 'unknown' });
 
     // Write to manual queue
     _writeManualQueue(rule, event, result.error);

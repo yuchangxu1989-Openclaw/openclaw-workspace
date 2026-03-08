@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-15b9ou-001",
+  "name": "knowledge-15b9ou",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 不要混淆\"谁发现问题\"和\"谁负责实现\"。",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "不要混淆\"谁发现问题\"和\"谁负责实现\"。",
+    "discoveredAt": "2026-03-07T09:15:50.374Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-15b9ou.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

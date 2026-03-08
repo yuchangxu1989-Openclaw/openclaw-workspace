@@ -1,0 +1,13 @@
+{
+  "id": "tmp.handler.fail.route",
+  "trigger": {
+    "events": [
+      "day2.handler.failure.test"
+    ],
+    "actions": [
+      {
+        "handler": "missing-day2-handler"
+      }
+    ]
+  }
+}

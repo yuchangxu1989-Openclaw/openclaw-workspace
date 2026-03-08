@@ -7,6 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const { EventEmitter } = require('events');
+const { evaluateIntentCase, ARCHITECTURE_VERSION } = require('./intent-alignment.cjs');
 
 /**
  * 评测执行器 - 集成LEP执行测试用例
@@ -302,6 +303,39 @@ class EvaluationExecutor extends EventEmitter {
    */
   async _executePromptTest(testCase, context) {
     const { prompt, systemPrompt, context: promptContext = {} } = testCase;
+
+    if (testCase.intentEvaluation && typeof testCase.intentExtractor === 'function') {
+      const predictedIntents = await Promise.resolve(
+        testCase.intentExtractor({
+          prompt,
+          systemPrompt,
+          promptContext,
+          testCase,
+          context
+        })
+      );
+
+      const judgment = evaluateIntentCase({
+        chunk: testCase.chunk || prompt || '',
+        expected: testCase.expected || [],
+        predicted: predictedIntents || [],
+        requireTargetAlignment: !!testCase.requireTargetAlignment,
+      });
+
+      return {
+        output: {
+          predictedIntents: predictedIntents || [],
+          judgment,
+        },
+        metadata: {
+          type: 'prompt',
+          promptLength: prompt?.length,
+          evaluationPolicy: 'llm_primary_keyword_regex_auxiliary',
+          architectureVersion: ARCHITECTURE_VERSION,
+          sandboxSafe: true,
+        }
+      };
+    }
     
     // 模拟LLM调用
     console.log(`[EvaluationExecutor] Prompt Test: ${prompt.slice(0, 50)}...`);
@@ -332,6 +366,19 @@ class EvaluationExecutor extends EventEmitter {
    * @returns {Object} 评估结果
    */
   _evaluateResult(testCase, result) {
+    if (testCase.intentEvaluation) {
+      const judgment = result?.output?.judgment || { passed: false, score: 0, reason: 'Missing LLM intent judgment' };
+      return {
+        passed: !!judgment.passed,
+        score: typeof judgment.score === 'number' ? judgment.score : 0,
+        dimension: 'accuracy',
+        policy: 'llm_primary_keyword_regex_auxiliary',
+        architectureVersion: ARCHITECTURE_VERSION,
+        llmPrimary: judgment.llmPrimary,
+        auxiliaryCrossCheck: judgment.auxiliaryCrossCheck,
+      };
+    }
+
     const expected = testCase.expected;
     const actual = result.output;
     

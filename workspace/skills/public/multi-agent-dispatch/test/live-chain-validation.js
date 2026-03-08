@@ -66,7 +66,7 @@ function main() {
   const t1 = engine.enqueue({
     title: '验证-调度引擎激活',
     agentId: 'coder',
-    model: 'boom-coder/gpt-5.4',
+    model: 'boom-coder/gpt-5.3-codex',
     priority: 'high',
     source: 'live-validation',
     tags: ['validation', 'test'],
@@ -94,7 +94,7 @@ function main() {
     fillTasks.push(engine.enqueue({
       title: `填充任务-${i + 1}`,
       agentId: ['coder', 'writer', 'analyst', 'researcher'][i % 4],
-      model: 'boom-coder/gpt-5.4',
+      model: 'boom-coder/gpt-5.3-codex',
       source: 'live-validation',
       tags: ['validation', 'fill'],
     }));

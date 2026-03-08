@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-7skl5c-001",
+  "name": "knowledge-7skl5c",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 不要尝试web_search",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "不要尝试web_search",
+    "discoveredAt": "2026-03-07T09:15:50.373Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-7skl5c.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "handler": "aeo-evaluation-required",
+  "timestamp": "2026-03-07T10:29:44.510Z",
+  "skill": "lep-executor",
+  "type": "mixed",
+  "data_source": "system_generated_from_skill_metadata",
+  "data_source_details": {
+    "basis": [
+      "skill_name",
+      "SKILL.md_if_present"
+    ],
+    "trigger": "aeo_evaluation_required"
+  },
+  "tracks": [
+    "ai_effect_track",
+    "function_quality_track"
+  ],
+  "generated": {
+    "standardPath": "skills/aeo/evaluation-sets/lep-executor/standard.json",
+    "testCasesPath": "skills/aeo/evaluation-sets/lep-executor/test-cases.json"
+  },
+  "readiness": [
+    {
+      "track": "ai_effect_track",
+      "skill": "lep-executor",
+      "status": "prepared",
+      "score": 1,
+      "summary": "已生成语义评测所需维度与基础用例"
+    },
+    {
+      "track": "function_quality_track",
+      "skill": "lep-executor",
+      "status": "prepared",
+      "score": 1,
+      "summary": "已生成功能质量评测所需维度与基础用例"
+    }
+  ]
+}

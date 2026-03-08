@@ -185,13 +185,24 @@ class UserInsightHub {
     
     const format = options.format || 'text';
     const outputPath = options.output;
+    const timeWindowHours = Number.isFinite(Number(options.timeWindowHours))
+      ? Number(options.timeWindowHours)
+      : 2;
+
+    const context = this.buildInteractionContext(interaction, { ...options, timeWindowHours });
     
-    // 异步分析
     const analysis = {
       timestamp: new Date().toISOString(),
-      intent: this.classifyIntent(interaction),
-      emotion: this.detectEmotion(interaction),
-      pattern: this.identifyPattern(interaction)
+      timeWindowHours,
+      analyzedInteractions: context.messages.length,
+      summary: context.summary,
+      intent: this.classifyIntent(context),
+      emotion: this.detectEmotion(context),
+      pattern: this.identifyPattern(context),
+      signals: this.extractSignals(context),
+      priorities: this.derivePriorities(context),
+      topRequests: this.extractTopRequests(context),
+      risks: this.detectRisks(context)
     };
     
     this.interactionHistory.push(analysis);
@@ -204,12 +215,13 @@ class UserInsightHub {
     
     // 读取待办事项
     const todos = this.loadTodoItems();
+    const executionContext = this.buildExecutionContext(analysis, todos, context);
     
     // 生成报告
-    const report = this.generateReport(analysis, todos, format);
+    const report = this.generateReport(analysis, todos, format, executionContext);
+    const reportArtifacts = this.persistInsightArtifacts(analysis, report, format, executionContext);
     
     if (format === 'feishu_card') {
-      // 飞书卡片格式：输出JSON或保存到文件
       const reportJson = JSON.stringify(report, null, 2);
       if (outputPath) {
         fs.writeFileSync(outputPath, reportJson, 'utf-8');
@@ -219,7 +231,6 @@ class UserInsightHub {
         console.log(reportJson);
       }
       
-      // 同时保存到飞书推送队列，供外部工具发送
       const feishuQueuePath = path.join(SKILLS_DIR, 'cras/feishu_queue');
       if (!fs.existsSync(feishuQueuePath)) {
         fs.mkdirSync(feishuQueuePath, { recursive: true });
@@ -228,16 +239,20 @@ class UserInsightHub {
       fs.writeFileSync(queueFile, JSON.stringify({
         type: 'feishu_card',
         card: report,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        artifact_path: reportArtifacts.markdownPath,
+        report_path: reportArtifacts.jsonPath,
+        report_kind: 'cras_b_user_insight',
+        execution_context: executionContext.summary,
+        target: process.env.FEISHU_TARGET_USER || undefined
       }, null, 2));
       console.log(`[CRAS-B] 飞书卡片已入队: ${queueFile}`);
     } else {
-      // 文本格式
       console.log(report);
     }
     
     console.log('[CRAS-B] 用户洞察分析完成');
-    return { analysis, todos, report };
+    return { analysis, todos, report, context, executionContext, artifacts: reportArtifacts };
   }
 
   loadTodoItems() {
@@ -308,48 +323,72 @@ class UserInsightHub {
     return { pending, completed };
   }
 
-  generateReport(analysis, todos, format = 'text') {
+  generateReport(analysis, todos, format = 'text', executionContext = null) {
     if (format === 'feishu_card') {
       this.persistProfile();
-      return this.generateFeishuCardReport(analysis, todos);
+      return this.generateFeishuCardReport(analysis, todos, executionContext);
     }
 
     const lines = [];
-    lines.push('【CRAS-B 用户洞察分析报告】');
-    lines.push(`分析时间: ${analysis.timestamp}`);
+    lines.push('# CRAS-B 用户洞察分析报告');
     lines.push('');
-    lines.push('---');
+    lines.push(`- 分析时间: ${analysis.timestamp}`);
+    lines.push(`- 分析窗口: 最近 ${analysis.timeWindowHours || 2} 小时`);
+    lines.push(`- 采样交互: ${analysis.analyzedInteractions || 0} 条`);
+    lines.push(`- 当前主意图: ${analysis.intent}`);
+    lines.push(`- 当前情绪: ${analysis.emotion}`);
+    lines.push(`- 当前模式: ${analysis.pattern}`);
     lines.push('');
-    lines.push('### 待办事项清单（供决策）');
+    lines.push('## 一句话摘要');
+    lines.push(analysis.summary?.headline || '暂无明显主线，建议继续观察。');
     lines.push('');
-    
-    if (todos.pending.length === 0) {
-      lines.push('当前无待办事项');
-    } else {
-      lines.push(`待办事项 (${todos.pending.length}项):`);
+
+    if (analysis.signals?.length) {
+      lines.push('## 关键洞察');
+      analysis.signals.slice(0, 5).forEach((signal, index) => {
+        lines.push(`${index + 1}. **${signal.label}**：${signal.detail}`);
+      });
       lines.push('');
-      for (const item of todos.pending) {
-        // 直接使用已解析的优先级
-        lines.push(`${item.priority} ${item.text}`);
+    }
+
+    lines.push('## 待办事项清单（供决策）');
+    if (todos.pending.length === 0) {
+      lines.push('- 当前无待办事项');
+    } else {
+      for (const item of todos.pending.slice(0, 8)) {
+        lines.push(`- ${item.priority} ${item.text}`);
       }
     }
-    
     lines.push('');
-    lines.push('---');
-    lines.push('');
-    lines.push('### 用户画像更新');
+
+    if (executionContext?.nextActions?.length) {
+      lines.push('## 建议下一步动作');
+      executionContext.nextActions.forEach((action, index) => {
+        lines.push(`${index + 1}. **${action.owner || 'system'}** · ${action.title}`);
+        lines.push(`   - 原因: ${action.why}`);
+        lines.push(`   - 路由: ${action.route}`);
+      });
+      lines.push('');
+    }
+
+    if (executionContext?.autonomyReadiness) {
+      lines.push('## 自主执行准备度');
+      lines.push(`- 状态: ${executionContext.autonomyReadiness.status}`);
+      lines.push(`- 说明: ${executionContext.autonomyReadiness.detail}`);
+      lines.push('');
+    }
+
+    lines.push('## 用户画像更新');
     lines.push(`- 主要意图: ${analysis.intent}`);
     lines.push(`- 情绪状态: ${analysis.emotion}`);
     lines.push(`- 交互模式: ${analysis.pattern}`);
     lines.push(`- 累计交互: ${this.userProfile.interactionCount} 次`);
     
-    // 持久化存储
     this.persistProfile();
-    
     return lines.join('\n');
   }
 
-  generateFeishuCardReport(analysis, todos) {
+  generateFeishuCardReport(analysis, todos, executionContext = null) {
     // 意图标签映射
     const intentLabels = {
       query: { text: '查询', emoji: '🔍' },

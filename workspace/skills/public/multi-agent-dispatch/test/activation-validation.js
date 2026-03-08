@@ -243,7 +243,7 @@ console.log('\nT10: Full Lifecycle Chain (enqueue → spawn → running → done
   const t = engine.enqueue({
     title: 'lifecycle-test',
     agentId: 'coder',
-    model: 'boom-coder/gpt-5.4',
+    model: 'boom-coder/gpt-5.3-codex',
     priority: 'high',
   });
   assert(reportLog.length >= 1, 'report fired after enqueue');
@@ -279,7 +279,7 @@ console.log('\nT11: Report Text Content Quality');
   });
 
   // 3 active tasks
-  const t1 = engine.enqueue({ title: '实现调度引擎', agentId: 'coder', model: 'boom-coder/gpt-5.4' });
+  const t1 = engine.enqueue({ title: '实现调度引擎', agentId: 'coder', model: 'boom-coder/gpt-5.3-codex' });
   const t2 = engine.enqueue({ title: '编写设计文档', agentId: 'writer', model: 'claude-opus-4-20250514' });
   engine.markRunning(t1.taskId);
   engine.markRunning(t2.taskId);
@@ -294,7 +294,7 @@ console.log('\nT11: Report Text Content Quality');
   assert(report.text.includes('用时'), 'text has 用时 header');
   assert(!report.text.includes('下一步'), 'no 下一步 column');
   assert(report.text.includes('开发工程师'), 'uses full persona name');
-  assert(report.text.includes('gpt-5.4'), 'model shortened correctly');
+  assert(report.text.includes('gpt-5.3-codex'), 'model shortened correctly');
   assert(report.text.includes('opus-4'), 'claude model shortened');
 
   // Check card

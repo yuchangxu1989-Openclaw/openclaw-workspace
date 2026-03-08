@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-rhlxhu-001",
+  "name": "knowledge-rhlxhu",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 禁止合成/想象/编造。没有第三种来源。**",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "禁止合成/想象/编造。没有第三种来源。**",
+    "discoveredAt": "2026-03-07T09:15:50.372Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-rhlxhu.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

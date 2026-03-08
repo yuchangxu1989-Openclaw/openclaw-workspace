@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-03-08T01:57:16.653Z",
+  "summary": {
+    "totalIscEvents": 3,
+    "totalDtoSubscriptions": 0,
+    "aligned": 0,
+    "iscOnly": 3,
+    "dtoOnly": 0,
+    "alignmentRate": "0%"
+  },
+  "aligned": [],
+  "iscOnly": [
+    {
+      "event": "knowledge.prohibition.triggered",
+      "rule": "rule.knowledge-rhlxhu-001.json"
+    },
+    {
+      "event": "knowledge.sequence.triggered",
+      "rule": "rule.knowledge-bkz97h-001.json"
+    },
+    {
+      "event": "knowledge.rule.triggered",
+      "rule": "rule.knowledge-z9u5rd-001.json"
+    }
+  ],
+  "dtoOnly": [],
+  "autoFixes": [
+    {
+      "type": "isc_without_dto",
+      "event": "knowledge.prohibition.triggered",
+      "action": "needs_dto_mapping"
+    },
+    {
+      "type": "isc_without_dto",
+      "event": "knowledge.sequence.triggered",
+      "action": "needs_dto_mapping"
+    },
+    {
+      "type": "isc_without_dto",
+      "event": "knowledge.rule.triggered",
+      "action": "needs_dto_mapping"
+    }
+  ],
+  "iscHardGates": {
+    "ISC-INTENT-EVAL-001": "enforced_via_isc-eval-gates.js",
+    "ISC-CLOSED-BOOK-001": "enforced_via_isc-eval-gates.js",
+    "enforcement": "fail-closed",
+    "note": "所有评测/验收/gate节点均已接入双钢印校验"
+  }
+}

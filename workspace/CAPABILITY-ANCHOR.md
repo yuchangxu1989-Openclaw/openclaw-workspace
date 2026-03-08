@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/7 16:05:35
-> **技能总数**: 59
+> **生成时间**: 2026/3/8 12:05:05
+> **技能总数**: 60
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -101,6 +101,7 @@
 - ✅ **isc-capability-anchor-sync**: skills/isc-capability-anchor-sync/ — ISC能力锚点自动同步器 - 从ISC规则自动生成能力锚点文档
 - ✅ **isc-core**: skills/isc-core/ — ISC智能标准中心 - 标准生成与演进机制的唯一管理源
 - ✅ **isc-document-quality**: skills/isc-document-quality/ — ISC智能标准中心 - 文档质量评估系统。对技能文档进行多维度质量评分，包括基础完整性、规范符合度、内容准确性、扩展完整性。输出标准化评估报告。
+- ✅ **isc-report-readability**: skills/isc-report-readability/
 - ✅ **layered-architecture-checker**: skills/layered-architecture-checker/
 - ✅ **lep-executor**: skills/lep-executor/ — LEP韧性执行中心 (Local Execution Protocol) - 全局统一韧性任务执行引擎，整合现有分散的韧性能力
 - ✅ **new-skill**: skills/new-skill/

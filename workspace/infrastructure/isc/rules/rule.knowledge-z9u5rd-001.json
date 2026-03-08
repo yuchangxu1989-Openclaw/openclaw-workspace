@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-z9u5rd-001",
+  "name": "knowledge-z9u5rd",
+  "domain": "knowledge",
+  "type": "enforcement",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 规则：rule.architecture-review-pipeline-001.json",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "规则：rule.architecture-review-pipeline-001.json",
+    "discoveredAt": "2026-03-07T09:15:50.373Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.rule.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-z9u5rd.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

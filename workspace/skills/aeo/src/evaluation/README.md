@@ -1,4 +1,38 @@
-# AEO Phase 2 - 双轨运营系统
+## 🧠 意图识别架构对齐（2026-03-07）
+
+针对“LLM意图识别为评测主基座”已做强制对齐：
+
+- **主判断链**：意图评测最终结果必须来自 LLM 语义识别结果。
+- **辅助链**：关键词/正则只记录为 `auxiliaryCrossCheck`，仅用于交叉核验与debug，不得覆盖主判定。
+- **Runner 对齐**：`executor.cjs` 在 `intentEvaluation=true` 时，强制走共享的 `intent-alignment.cjs`。
+- **CRAS 对齐**：`skills/cras/intent-extractor.js` 的 `evaluateAccuracy()` 已改为调用同一套 LLM 主判定逻辑。
+- **ISC 门禁**：`eval-quality-check.js` 新增 `intent-architecture-alignment` 检查，验证评测集、主判定实现、共享对齐模块是否存在。
+- **环境约束**：以上改动全部为评测/校验路径，保持只读与沙盒安全，不会向生产事件总线新增写操作。
+
+### Intent Evaluation Runner 示例
+
+```javascript
+const { EvaluationExecutor } = require('./executor.cjs');
+
+const executor = new EvaluationExecutor();
+const results = await executor.executeBatch([
+  {
+    type: 'prompt',
+    intentEvaluation: true,
+    chunk: '用户：把日志级别调成 debug，然后重启 gateway。',
+    expected: [{ type: 'DIRECTIVE', target: '日志级别' }],
+    intentExtractor: async () => [
+      { type: 'DIRECTIVE', target: '日志级别', confidence: 0.95, summary: '用户要求执行操作' }
+    ]
+  }
+]);
+```
+
+此时：
+- `result.evaluation.llmPrimary` = 主判定
+- `result.evaluation.auxiliaryCrossCheck` = 辅助信号
+- `result.evaluation.policy` = `llm_primary_keyword_regex_auxiliary`
+
 
 ## 📦 交付组件
 

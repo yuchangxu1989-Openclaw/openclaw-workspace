@@ -1,0 +1,32 @@
+{
+  "id": "rework-auto-restart-1772939702630",
+  "name": "auto_rework_prevention_restart",
+  "domain": "subagent",
+  "type": "constraint",
+  "status": "draft_pending_review",
+  "auto_generated": true,
+  "generation_source": "rework-analyzer",
+  "generation_date": "2026-03-08T03:15:02.630Z",
+  "confidence": 1.8,
+  "evidence": {
+    "event_count": 2,
+    "category": "restart",
+    "sample_signals": [
+      "**待完成：** gateway 重启（等审计子 agent 报告后执行）",
+      "重启（等审计子 agent"
+    ]
+  },
+  "description": "重启事件根因分析",
+  "trigger": {
+    "type": "pattern",
+    "patterns": [
+      "restart"
+    ]
+  },
+  "action": {
+    "type": "enforce",
+    "description": "子Agent重启前保存状态，重启后自动分析失败原因"
+  },
+  "review_required": true,
+  "review_notes": "由 rework-analyzer 自动生成，需人工审核后激活"
+}

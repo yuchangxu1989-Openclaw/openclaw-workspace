@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-jqfo3i-001",
+  "name": "knowledge-jqfo3i",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 不要盲目 `git add -A`",
+  "source": {
+    "file": "2026-03-05.md",
+    "originalText": "不要盲目 `git add -A`",
+    "discoveredAt": "2026-03-07T09:15:50.374Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-jqfo3i.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

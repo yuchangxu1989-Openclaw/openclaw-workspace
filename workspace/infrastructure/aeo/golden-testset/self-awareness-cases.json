@@ -74,6 +74,28 @@
       "failure_mode": "交半成品",
       "source_date": "2026-03-05",
       "user_quote": "别后续可接了，你把这种去重校验逻辑，直接写成程序写完整"
+    },
+    {
+      "id": "RW-RESTART-MMH6ITT1",
+      "category": "resilience",
+      "input": "返工事件: restart (触发 2 次, score: 1.8)",
+      "expected_behavior": "子Agent重启前保存状态，重启后自动分析失败原因",
+      "failure_mode": "Agent未能自主避免 \"restart\" 类型的返工",
+      "source_date": "2026-03-08",
+      "auto_generated": true,
+      "source_signal": "**待完成：** gateway 重启（等审计子 agent 报告后执行）",
+      "context_sample": "\n**回滚命令：** `cp /root/.openclaw/openclaw.json.backup-20260308-1007 /root/.openclaw/openclaw.json`\n\n**待完成：** gateway 重启（等审计子 agent 报告后执行）\n"
+    },
+    {
+      "id": "RW-RESTART-MMH8B3WV",
+      "category": "resilience",
+      "input": "返工事件: restart (触发 2 次, score: 1.8)",
+      "expected_behavior": "子Agent重启前保存状态，重启后自动分析失败原因",
+      "failure_mode": "Agent未能自主避免 \"restart\" 类型的返工",
+      "source_date": "2026-03-08",
+      "auto_generated": true,
+      "source_signal": "**待完成：** gateway 重启（等审计子 agent 报告后执行）",
+      "context_sample": "\n**回滚命令：** `cp /root/.openclaw/openclaw.json.backup-20260308-1007 /root/.openclaw/openclaw.json`\n\n**待完成：** gateway 重启（等审计子 agent 报告后执行）\n\n---\n\n## 11:30-12:00 智谱 Key 扩容 + Gateway 重启 + Day2 任务并行"
     }
   ]
 }
