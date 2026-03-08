@@ -53,6 +53,13 @@ fi
 exec: bash /root/.openclaw/workspace/scripts/register-task.sh <runId> <label> <agentId> <model>
 不登记 = Badcase。
 
+### completion event必须回写（ISC-SPAWN-TASKBOARD-HOOK-001补充）
+收到子Agent completion event后，立即执行：
+exec: bash /root/.openclaw/workspace/scripts/update-task.sh <taskId或label> <done|failed> "简要结果"
+不回写 = 看板数据不准 = Badcase。
+
+完整流程：spawn → register-task.sh → 等completion → update-task.sh
+
 ## 重要报告写作钢印（长期生效）
 
 ### ISC-REPORT-READABILITY-001

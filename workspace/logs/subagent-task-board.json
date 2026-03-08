@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "taskId": "52216df9",
+    "label": "qa-aeo-standard-doc-final",
+    "agentId": "reviewer",
+    "model": "boom-reviewer/gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-08T09:24:38.763Z",
+    "completeTime": "2026-03-08T09:33:04.060Z",
+    "result_summary": "结构合格，v2标题残留需手动改"
+  },
+  {
+    "taskId": "fe41d610",
+    "label": "optimize-file-sender-skill",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T09:26:28.809Z",
+    "completeTime": "2026-03-08T09:33:04.087Z",
+    "result_summary": "SKILL.md+ISC规则+TOOLS.md+CAPABILITY-ANCHOR全更新"
+  },
+  {
+    "taskId": "ce023d7b",
+    "label": "add-update-task-script",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T09:32:32.581Z"
+  }
+]

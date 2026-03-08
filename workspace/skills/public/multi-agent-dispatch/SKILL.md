@@ -253,3 +253,13 @@ const report = renderBoardReport(board, { highlights: [...], risks: [...] });
    - exec: bash /root/.openclaw/workspace/scripts/register-task.sh <runId> <label> <agentId> <model>
 
 违反此规则 = Badcase（ISC-SPAWN-TASKBOARD-HOOK-001）
+
+### completion event必须回写
+
+收到子Agent completion event后，立即执行：
+```bash
+bash /root/.openclaw/workspace/scripts/update-task.sh <taskId或label> <done|failed> "简要结果"
+```
+不回写 = 看板数据不准 = Badcase。
+
+完整流程：spawn → register-task.sh → 等completion → update-task.sh
