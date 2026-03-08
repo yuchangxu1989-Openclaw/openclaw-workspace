@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-子agent产出自动发送-g7wmm7",
+  "name": "intent_子agent产出自动发送",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "用户期望将报告类产出自动发送功能程序化，以解决记忆丢失后行为不一致问题",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "子Agent产出自动发送"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: 子Agent产出自动发送"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772964307093"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "子Agent产出自动发送",
+    "confidence": 0.85,
+    "source_file": "2026-03-08.md",
+    "evidence": "completion-handler自动检测报告类产出→自动file-sender发送",
+    "created_at": "2026-03-08T10:05:07.093Z"
+  }
+}

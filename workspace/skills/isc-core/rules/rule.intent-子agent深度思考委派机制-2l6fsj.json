@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-子agent深度思考委派机制-2l6fsj",
+  "name": "intent_子agent深度思考委派机制",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "用户希望将深度思考任务委派给子Agent确立为常规规则",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "子Agent深度思考委派机制"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: 子Agent深度思考委派机制"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772964307072"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "子Agent深度思考委派机制",
+    "confidence": 0.92,
+    "source_file": "2026-03-08.md",
+    "evidence": "我问你的问题，如果需要深思熟虑，其实你可以分配给子Agent",
+    "created_at": "2026-03-08T10:05:07.072Z"
+  }
+}
