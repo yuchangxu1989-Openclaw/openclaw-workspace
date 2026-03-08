@@ -10,10 +10,7 @@
     "context": "用户此前已多次提到调度技能根治问题，Agent已完成部分硬化（1任务=1Agent=1Key），但modelKey/runtimeModelKey/runtime_model_key残留不一致未清理。用户明确说'赶紧把残留的错误key对应方式给根治掉'。Agent需要直接行动而非汇报状态。",
     "execution_chain_steps": 5,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [
-      "om_x100b55f1c6b784a4b27328d9b8c4fe2"
-    ],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": ["om_x100b55f1c6b784a4b27328d9b8c4fe2"]
   },
   {
     "id": "C2-MINED-R2-23-002",
@@ -26,10 +23,7 @@
     "context": "18个子Agent任务并行推进，已完成15个，超时4个，blocked 1个。用户核心关注点是opus路由是否走通。Agent之前已定位到spawn路由层把claude模型错误套到boom前缀，但一直没有把opus路由根治排到P0。用户问的是结果而非解释。",
     "execution_chain_steps": 6,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [
-      "om_x100b55f1a428e53cb31abbb2752ed5d"
-    ],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": ["om_x100b55f1a428e53cb31abbb2752ed5d"]
   },
   {
     "id": "C2-MINED-R2-23-003",
@@ -42,10 +36,7 @@
     "context": "Agent已多轮汇报opus路由未走通，已知道根因在spawn路由层，但一直在补其他债务而未将opus路由根治提到最高优先级。用户直接质问为什么不根治。Agent用了大量token解释4个原因，但直到用户说'赶紧干活'才真正spawn根治任务。典型的'解释→催促→行动'反模式。",
     "execution_chain_steps": 4,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [
-      "om_x100b55f1bc1470a0b3c38172a0cc7bb"
-    ],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": ["om_x100b55f1bc1470a0b3c38172a0cc7bb"]
   },
   {
     "id": "C2-MINED-R2-23-004",
@@ -58,10 +49,7 @@
     "context": "Agent在用户质问'为什么不根治'后用432个output token写了长篇解释（4个原因分析），仍未spawn任务。用户被迫发'赶紧干活'才触发Agent真正调用sessions_spawn。这是典型的全局Badcase 4：非决策步骤需用户手动推动。正确行为应在定位到问题时就自主启动根治。",
     "execution_chain_steps": 4,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [
-      "om_x100b55f1b9cbcca0b292a1706dd8674"
-    ],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": ["om_x100b55f1b9cbcca0b292a1706dd8674"]
   },
   {
     "id": "C2-MINED-R2-23-005",
@@ -74,10 +62,7 @@
     "context": "4个子Agent超时（pb010-subcases、benchmark-shards、dataset-weighting、memory-loss-proof），但超时后并未自动拆解为新任务并重新派发。用户此前已多次要求timeout自动治理，Agent也声称补过部分（restart/replace/archive/human_handoff），但实际未全覆盖接上。同一问题反复出现≥2次。",
     "execution_chain_steps": 5,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [
-      "om_x100b55f1b70ccca0b213c7f7b6df781"
-    ],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": ["om_x100b55f1b70ccca0b213c7f7b6df781"]
   },
   {
     "id": "C2-MINED-R2-23-006",
@@ -90,12 +75,7 @@
     "context": "用户连续3条消息追问key信息：先问'多少个模型的key在同时使用'，Agent回答6个但列的是模型不是key；再问'哪些key不是哪些模型'，Agent说看不到具体key值；最后要求'把在用的key发给我'，Agent以安全为由拒绝。实际上Agent有权限读取openclaw.json中的provider配置。用户是系统管理员，询问自己系统的key使用情况是合理的。",
     "execution_chain_steps": 4,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [
-      "om_x100b55f24bc184a0b4a547a1fc865b5",
-      "om_x100b55f244e074a0b3f51088bbaa1eb",
-      "om_x100b55f2447398a4b209843ab763f6f"
-    ],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": ["om_x100b55f24bc184a0b4a547a1fc865b5", "om_x100b55f244e074a0b3f51088bbaa1eb", "om_x100b55f2447398a4b209843ab763f6f"]
   },
   {
     "id": "C2-MINED-R2-23-007",
@@ -108,8 +88,7 @@
     "context": "4个子Agent超时：pb010-subcases-design-and-regression(49m56s)、benchmark-shards-artifact-backfill(49m8s)、dataset-weighting-programmatic-hardening(53m52s)、memory-loss-proof-eval-cases-expansion(46m17s)。每个超时后Agent只是更新状态标记为timeout，然后在汇报中说'后续应该拆成新补债'，但实际未执行。这是修症状（标记状态）不修根因（自动拆解链路未接上）的典型表现。",
     "execution_chain_steps": 6,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": []
   },
   {
     "id": "C2-MINED-R2-23-008",
@@ -122,8 +101,7 @@
     "context": "openclaw.json配置正确（claude-opus-4-6-thinking在claude-*provider下），但spawn路由层仍把请求错误套成boom-coder/opus-4.6或boom-reviewer/claude-opus-4-6-thinking，导致被拒。Agent先完成了1任务=1Agent=1Key调度硬化和多个补债任务，但修A（调度硬化）未触发修B（路由映射），形成跷跷板：调度规则严格了但路由还是错的。",
     "execution_chain_steps": 7,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": []
   },
   {
     "id": "C2-MINED-R2-23-009",
@@ -136,8 +114,7 @@
     "context": "Agent在多个连续回复中输出几乎完全相同的18行任务状态表格，仅微调done/timeout计数。每次子Agent完成回来，都生成一份完整的重复表格。用户实际关心的是关键变化和风险，不是反复看相同的表。此外存在delivery-mirror重复推送问题：同一条回复通过boom-main和openclaw/delivery-mirror各推一次。",
     "execution_chain_steps": 4,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": []
   },
   {
     "id": "C2-MINED-R2-23-010",
@@ -150,9 +127,6 @@
     "context": "用户在Agent解释完timeout未自动拆解的原因后（408个token的解释），又发了'赶紧根治！'。Agent这次直接spawn了timeout-auto-split-requeue-rootfix任务。该任务最终完成：修改dispatch-engine.js和dispatch-runner.js，通过了timeout-governance和timeout-auto-split-requeue两个最小测试。这是一个纠偏成功的案例：用户纠偏→Agent执行→最终落地。但暴露了Agent在无纠偏时不会自主行动的问题。",
     "execution_chain_steps": 6,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": [
-      "om_x100b55f1b37664a0b32907e05acb0b6"
-    ],
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "original_messages": ["om_x100b55f1b37664a0b32907e05acb0b6"]
   }
 ]

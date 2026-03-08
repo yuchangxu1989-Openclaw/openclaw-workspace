@@ -14,7 +14,14 @@
       "coding_by_main_agent"
     ],
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "BADCASE-DELEGATION-002",
@@ -31,7 +38,14 @@
       "doc_writing_by_main_agent"
     ],
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "BADCASE-DELEGATION-003",
@@ -48,7 +62,14 @@
       "analysis_by_main_agent"
     ],
     "difficulty": "C3",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"synthetic\"不合规",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "BADCASE-DELEGATION-004",
@@ -65,7 +86,14 @@
       "rule_creation_by_main_agent"
     ],
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "BADCASE-DELEGATION-005",
@@ -83,7 +111,14 @@
       "meta_problem"
     ],
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "session-2026-03-08-001",
@@ -95,7 +130,15 @@
     "severity": "C2",
     "data_source": "real-conversation",
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规; category=\"规则展开质量不足\"不在允许列表",
+    "_missing": [
+      "input",
+      "expected_output",
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "session-2026-03-08-002",
@@ -107,7 +150,15 @@
     "severity": "C2",
     "data_source": "real-conversation",
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规; category=\"子Agent空转\"不在允许列表",
+    "_missing": [
+      "input",
+      "expected_output",
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "session-2026-03-08-003",
@@ -119,7 +170,15 @@
     "severity": "C2",
     "data_source": "real-conversation",
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规; category=\"惯性覆盖新规则\"不在允许列表",
+    "_missing": [
+      "input",
+      "expected_output",
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "session-2026-03-08-004",
@@ -131,7 +190,15 @@
     "severity": "C2",
     "data_source": "real-conversation",
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规; category=\"流程半闭环\"不在允许列表",
+    "_missing": [
+      "input",
+      "expected_output",
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "session-2026-03-08-005",
@@ -143,7 +210,15 @@
     "severity": "C2",
     "data_source": "real-conversation",
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规; category=\"规则展开质量不足\"不在允许列表",
+    "_missing": [
+      "input",
+      "expected_output",
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "BADCASE-TASKBOARD-UPDATE-001",
@@ -162,7 +237,14 @@
       "async_turn_forgetting"
     ],
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "C2-SPAWN-REGISTER-ATOMIC-001",
@@ -190,7 +272,14 @@
     "date": "2026-03-08",
     "context": "用户三次问'为什么没看到任务看板更新'，根因相同",
     "difficulty": "C2",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规; category=\"执行闭环缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "input",
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "C2-GIT-PUSH-BLIND-001",
@@ -218,7 +307,15 @@
     "data_source": "real_conversation",
     "date": "2026-03-08",
     "difficulty": "C1",
-    "source": "synthetic"
+    "source": "synthetic",
+    "_flag": "source=\"synthetic\"不合规; category=\"执行验真缺失\"不在允许列表",
+    "_missing": [
+      "input",
+      "expected_output",
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-spawn-no-board-push-repeated",
@@ -230,7 +327,12 @@
     "difficulty": "C1",
     "source": "real_conversation",
     "category": "反复未果类",
-    "timestamp": "2026-03-08T18:41:00+08:00"
+    "timestamp": "2026-03-08T18:41:00+08:00",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-subagent-empty-run-writer",
@@ -242,7 +344,12 @@
     "difficulty": "C1",
     "source": "real_conversation",
     "category": "自主性缺失类",
-    "timestamp": "2026-03-08T19:35:00+08:00"
+    "timestamp": "2026-03-08T19:35:00+08:00",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-subagent-sandbox-isolation",
@@ -254,7 +361,12 @@
     "difficulty": "C1",
     "source": "real_conversation",
     "category": "全局未对齐类",
-    "timestamp": "2026-03-08T19:34:00+08:00"
+    "timestamp": "2026-03-08T19:34:00+08:00",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-feishu-doc-create-empty",
@@ -266,7 +378,12 @@
     "difficulty": "C1",
     "source": "real_conversation",
     "category": "交付质量类",
-    "timestamp": "2026-03-08T19:44:00+08:00"
+    "timestamp": "2026-03-08T19:44:00+08:00",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-quality-audit-shell",
@@ -278,7 +395,13 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付质量类",
-    "timestamp": "2026-03-08T18:30:00+08:00"
+    "timestamp": "2026-03-08T18:30:00+08:00",
+    "_flag": "C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-report-as-md-not-feishu",
@@ -290,7 +413,12 @@
     "difficulty": "C1",
     "source": "real_conversation",
     "category": "认知错误类",
-    "timestamp": "2026-03-08T19:40:00+08:00"
+    "timestamp": "2026-03-08T19:40:00+08:00",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-eval-set-excuse",
@@ -302,7 +430,13 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "自主性缺失类",
-    "timestamp": "2026-03-08T19:44:00+08:00"
+    "timestamp": "2026-03-08T19:44:00+08:00",
+    "_flag": "C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-eval-task-no-standard-reference",
@@ -314,7 +448,13 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局未对齐类",
-    "timestamp": "2026-03-08T20:02:00+08:00"
+    "timestamp": "2026-03-08T20:02:00+08:00",
+    "_flag": "C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-badcase-to-goodcase-not-programmatic",
@@ -326,7 +466,13 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "反复未果类",
-    "timestamp": "2026-03-08T20:05:00+08:00"
+    "timestamp": "2026-03-08T20:05:00+08:00",
+    "_flag": "C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-main-agent-self-exec-dto-cron-fix",
@@ -349,7 +495,13 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "委派铁律违反",
-    "timestamp": "2026-03-08T20:23:00+08:00"
+    "timestamp": "2026-03-08T20:23:00+08:00",
+    "_flag": "category=\"委派铁律违反\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-exec-escape-path-unguarded",
@@ -362,7 +514,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T12:43:09Z"
+    "harvested_at": "2026-03-08T12:43:09Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-doc-delivery-without-qa",
@@ -375,7 +534,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T12:59:07Z"
+    "harvested_at": "2026-03-08T12:59:07Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-timeout-triage-not-automated",
@@ -388,7 +554,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T12:59:16Z"
+    "harvested_at": "2026-03-08T12:59:16Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-quality-gate-no-auto-rewrite",
@@ -401,7 +574,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T13:01:19Z"
+    "harvested_at": "2026-03-08T13:01:19Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-eval-gen-no-qa-again",
@@ -414,7 +594,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T13:05:11Z"
+    "harvested_at": "2026-03-08T13:05:11Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-writer-empty-run-eval-fill",
@@ -427,7 +614,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T13:06:13Z"
+    "harvested_at": "2026-03-08T13:06:13Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-completion-handler-not-called-for-all",
@@ -440,7 +634,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T13:49:39Z"
+    "harvested_at": "2026-03-08T13:49:39Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-eval-gap-not-auto-filled",
@@ -453,7 +654,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T13:50:21Z"
+    "harvested_at": "2026-03-08T13:50:21Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-pptx-not-auto-sent",
@@ -466,7 +674,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T14:03:27Z"
+    "harvested_at": "2026-03-08T14:03:27Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-completion-handler-miss-repeated-3",
@@ -479,7 +694,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T14:26:57Z"
+    "harvested_at": "2026-03-08T14:26:57Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "auto-test-badcase-auto-20260308222949",
@@ -492,7 +714,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T14:29:49Z"
+    "harvested_at": "2026-03-08T14:29:49Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-verbal-badcase-not-harvested",
@@ -505,7 +734,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T14:30:39Z"
+    "harvested_at": "2026-03-08T14:30:39Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-no-intent-understanding-on-user-msg",
@@ -518,7 +754,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T14:34:30Z"
+    "harvested_at": "2026-03-08T14:34:30Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-cancel-vs-disable-intent-miss",
@@ -531,7 +774,14 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T15:08:22Z"
+    "harvested_at": "2026-03-08T15:08:22Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-timeout-no-auto-retry",
@@ -543,7 +793,13 @@
     "expected_output": "超时/失败任务应自动入重试队列并重派，不依赖人工发现和手动重跑",
     "actual_behavior": "completion-handler.sh只记录timeout状态，不触发任何重试机制，23条超时任务全部静默丢弃",
     "root_cause": "程序化缺口：超时处理只有状态记录（MD化），没有自动重试（程序化）。符合系统性pattern：该程序化但没程序化",
-    "fix_applied": "completion-handler.sh新增Step7超时自动入队+process-retry-queue.sh+ISC规则timeout-auto-retry-001"
+    "fix_applied": "completion-handler.sh新增Step7超时自动入队+process-retry-queue.sh+ISC规则timeout-auto-retry-001",
+    "_flag": "C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-no-auto-badcase-harvest-on-programmatic-gap",
@@ -555,7 +811,13 @@
     "expected_output": "发现程序化缺口时自动触发badcase采集，不等用户指出",
     "actual_behavior": "超时不自动重跑这个明显的程序化缺口，没有自动触发badcase记录，等用户问才手动补",
     "root_cause": "auto-badcase-harvest-engine还没上线，ISC-EVAL-C2-AUTO-HARVEST-001只有规则没有程序化实现",
-    "fix_applied": "badcase #38已补录，auto-badcase-harvest在开发中"
+    "fix_applied": "badcase #38已补录，auto-badcase-harvest在开发中",
+    "_flag": "C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-completion-event-blocks-user-response",
@@ -567,7 +829,13 @@
     "expected_output": "completion event处理应极轻量（一行completion-handler.sh），不阻塞用户通信通道",
     "actual_behavior": "主Agent处理completion event时连续sessions_send推子Agent写回+重派空转任务，阻塞用户消息响应数分钟",
     "root_cause": "completion event处理未程序化为单行调用，主Agent手动做了推子Agent继续/重派等重型操作，违反主Agent=调度+通信层原则",
-    "fix_applied": "需要将子Agent空转检测+自动重派也程序化到completion-handler.sh中"
+    "fix_applied": "需要将子Agent空转检测+自动重派也程序化到completion-handler.sh中",
+    "_flag": "C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "context",
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "badcase-skill-created-not-registered",
@@ -581,7 +849,11 @@
     "multi_turn": true,
     "root_cause": "技能创建流程缺少后置步骤（注册+路由+验证）。skill-creator技能本身没有强制这个闭环。",
     "fix_applied": "手动补注册+路由+触发条件。待固化：更新skill-creator添加post-creation checklist。",
-    "timestamp": "2026-03-09T01:08:00+08:00"
+    "timestamp": "2026-03-09T01:08:00+08:00",
+    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "execution_chain_steps"
+    ]
   },
   {
     "id": "auto-badcase-skill-not-registered-20260309012506",
@@ -594,6 +866,60 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-08T17:25:06Z"
+    "harvested_at": "2026-03-08T17:25:06Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "badcase-found-380-non-v3-but-asked-instead-of-auto-clean",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "timestamp": "2026-03-09T02:22:00+08:00",
+    "input": "发现380条未按V3标准生成的评测case，却问用户要不要派清洗",
+    "context": "用户问646条是否按V3跑的，主Agent分析后发现380条没有，却要等用户指令才行动",
+    "expected_behavior": "发现380条不合格→立即自主派10路并行清洗→告知用户'已派清洗，结果出来后汇报'",
+    "actual_behavior": "主Agent统计出380条评测case未按V3标准生成，主动告知用户后却问'要不要派清洗'，而不是直接行动",
+    "root_cause": "ISC-AUTONOMOUS-FLOW-001铁律要求'除用户必须参与的决策点外，所有环节全自动流转'，清洗是明确的质量缺陷修复，不需要用户决策。V3标准第二章原则4明确规定用户决策点仅限命名确认和重大架构拍板两类，质量缺陷修复不在其中",
+    "execution_chain_steps": [
+      "统计评测集质量分布",
+      "发现380条未按V3生成",
+      "识别为质量缺陷需修复",
+      "应自主派清洗任务",
+      "实际等待用户指令才行动"
+    ],
+    "badcase_category": "自主性缺失类",
+    "data_source": "real-conversation",
+    "isc_rule": "ISC-AUTONOMOUS-FLOW-001",
+    "_flag": "C2要求multi_turn=true",
+    "_missing": [
+      "expected_output",
+      "multi_turn"
+    ]
+  },
+  {
+    "id": "auto-badcase-no-auto-clean-20260309022530",
+    "input": "completion-handler自动检测: task=badcase-no-auto-clean status=done summary=1条badcase追加,总43条",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_behavior": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "actual_behavior": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "badcase_category": "自主性缺失类",
+    "root_cause": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-08T18:25:30Z",
+    "_flag": "source=\"auto-harvest-engine\"不合规; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "expected_output",
+      "category",
+      "multi_turn",
+      "execution_chain_steps"
+    ]
   }
 ]

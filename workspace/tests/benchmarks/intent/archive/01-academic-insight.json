@@ -1,0 +1,542 @@
+[
+  {
+    "id": "AI-001",
+    "input": "帮我看看这篇论文的核心贡献是什么",
+    "context": "用户前3轮对话讨论了RAG架构的局限性，分享了一篇关于Self-RAG的论文链接，AI已经用web_fetch获取了论文内容。用户现在问核心贡献。",
+    "expected_behavior": "结合前3轮讨论的RAG局限性上下文，精准提炼Self-RAG的核心贡献——自适应检索+自我反思，并关联到用户之前提到的具体痛点（检索噪声、幻觉），给出有洞察的分析而非论文摘要复读",
+    "actual_behavior": "直接复述论文abstract，列出3个contribution点，没有关联用户前面讨论的RAG痛点，本质上是翻译机而非洞察引擎",
+    "root_cause": "学术洞察任务中，Agent未将多轮对话积累的问题上下文与新输入的学术内容做交叉推理，停留在单文档摘要层面，缺少'用户问题-学术方案'的映射能力",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-上下文断裂",
+    "timestamp": "2026-03-08T20:00:00+08:00",
+    "expected_output": "结合前3轮讨论的RAG局限性上下文，精准提炼Self-RAG的核心贡献——自适应检索+自我反思，并关联到用户之前提到的具体痛点（检索噪声、幻觉），给出有洞察的分析而非论文摘要复读",
+    "_flag": "category=\"学术洞察-上下文断裂\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-002",
+    "input": "这个方法和我们之前讨论的事件驱动架构有什么关系？能不能迁移过来？",
+    "context": "用户前5轮讨论了事件驱动架构的感知-认知-执行三层解耦，然后话题切到一篇关于ReAct框架的论文分析。用户现在要求做跨域知识迁移。",
+    "expected_behavior": "识别出这是跨域知识迁移请求，将ReAct的Reasoning+Acting循环映射到事件驱动的感知(观察)-认知(推理)-执行(行动)三层，分析可迁移点和不可迁移点，给出具体的架构适配建议",
+    "actual_behavior": "分别介绍了ReAct框架和事件驱动架构，说'两者都是循环结构，有相似之处'，没有做深层结构映射，也没给出具体迁移方案",
+    "root_cause": "Agent对'关系'类问题默认做表面相似性比较，缺少结构化类比推理能力——需要将两个领域的概念做一一映射，识别同构和异构部分，而非简单说'类似'",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-跨域迁移失败",
+    "timestamp": "2026-03-08T20:00:01+08:00",
+    "expected_output": "识别出这是跨域知识迁移请求，将ReAct的Reasoning+Acting循环映射到事件驱动的感知(观察)-认知(推理)-执行(行动)三层，分析可迁移点和不可迁移点，给出具体的架构适配建议",
+    "_flag": "category=\"学术洞察-跨域迁移失败\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-003",
+    "input": "这篇文章的实验设计有什么问题？",
+    "context": "用户是AI领域研究者，前2轮讨论了某篇多Agent协作论文的方法论，现在要求批判性审视实验设计。论文只在3个简单benchmark上测试，样本量小，没有消融实验。",
+    "expected_behavior": "从实验方法论角度给出批判性分析：benchmark选择偏易（缺少复杂场景）、样本量不足以支撑统计显著性结论、缺少消融实验无法归因、没有与SOTA方法的公平对比，并指出这些缺陷如何影响结论的可信度",
+    "actual_behavior": "说'实验比较全面，覆盖了X/Y/Z三个数据集'，给出正面评价，没有任何批判性分析",
+    "root_cause": "Agent的学术分析模式默认倾向'总结和赞美'而非'批判和质疑'，缺少学术审稿人视角的批判性思维框架，对'有什么问题'这种否定式提问的意图识别不足",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-批判性缺失",
+    "timestamp": "2026-03-08T20:00:02+08:00",
+    "expected_output": "从实验方法论角度给出批判性分析：benchmark选择偏易（缺少复杂场景）、样本量不足以支撑统计显著性结论、缺少消融实验无法归因、没有与SOTA方法的公平对比，并指出这些缺陷如何影响结论的可信度",
+    "_flag": "category=\"学术洞察-批判性缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-004",
+    "input": "把这三篇论文的技术路线做个对比，我想看看哪个方向更有前景",
+    "context": "用户连续3轮分别讨论了3篇不同的Agent框架论文(AutoGen/CrewAI/MetaGPT)，每轮都分享了论文并做了单独分析。现在要求横向对比。",
+    "expected_behavior": "从统一的维度（架构范式、通信机制、任务分解粒度、可扩展性、实验效果）构建对比矩阵，结合用户之前在每篇论文讨论中表达的关注点，给出有判断力的趋势分析和推荐",
+    "actual_behavior": "分别用3段重新介绍了每篇论文的要点，没有构建统一对比维度，最后说'各有优劣需要根据场景选择'，是无洞察的万能回答",
+    "root_cause": "多文档横向对比需要先抽象统一的评价维度再映射每篇论文，Agent缺少这种'先建框架再填充'的结构化对比推理能力，退化为串行复述",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-横向对比退化",
+    "timestamp": "2026-03-08T20:00:03+08:00",
+    "expected_output": "从统一的维度（架构范式、通信机制、任务分解粒度、可扩展性、实验效果）构建对比矩阵，结合用户之前在每篇论文讨论中表达的关注点，给出有判断力的趋势分析和推荐",
+    "_flag": "category=\"学术洞察-横向对比退化\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-005",
+    "input": "这个结论靠谱吗？我总觉得哪里不对",
+    "context": "用户读了一篇声称'小模型经过特定训练可以超过GPT-4'的论文，前2轮AI帮忙分析了方法论。用户直觉觉得结论有问题但说不清楚。",
+    "expected_behavior": "识别用户的模糊直觉并帮助具象化：检查评测基准是否cherry-picked、训练数据是否与测试集有泄漏、对比条件是否公平（GPT-4是否用了最优prompt）、结论的泛化性声明是否超出实验支撑范围，帮用户把'哪里不对'变成可验证的质疑点",
+    "actual_behavior": "回答'论文的实验看起来是合理的，使用了标准benchmark'，没有帮用户验证直觉，反而用论文自身的论述来安抚用户的质疑",
+    "root_cause": "Agent对用户模糊表达的隐含意图（需要帮我找到反驳点）识别失败，错误地将'靠谱吗'理解为需要确认性回答，而非需要批判性审查",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-模糊意图误判",
+    "timestamp": "2026-03-08T20:00:04+08:00",
+    "expected_output": "识别用户的模糊直觉并帮助具象化：检查评测基准是否cherry-picked、训练数据是否与测试集有泄漏、对比条件是否公平（GPT-4是否用了最优prompt）、结论的泛化性声明是否超出实验支撑范围，帮用户把'哪里不对'变成可验证的质疑点",
+    "_flag": "category=\"学术洞察-模糊意图误判\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-006",
+    "input": "这个idea能不能发顶会？差在哪？",
+    "context": "用户前4轮描述了一个结合知识图谱和LLM的混合推理方案，讨论了技术细节。现在问发表可行性。",
+    "expected_behavior": "从顶会审稿标准评估：novelty（与KG+LLM已有工作的差异化）、significance（解决的问题是否重要）、soundness（方法论是否严谨）、clarity，指出具体差距和改进方向，如'需要与GraphRAG做实验对比'、'创新点表述需要更sharp'",
+    "actual_behavior": "鼓励性回答'这个方向很有前景，建议投稿试试'，没有从审稿人视角做差距分析，也没有指出与已有工作的区分度不足",
+    "root_cause": "Agent缺少学术审稿人角色的评估框架，对'能不能发'这种判断性问题退化为鼓励式回答，没有切换到评审者视角做严格评估",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-评估深度不足",
+    "timestamp": "2026-03-08T20:00:05+08:00",
+    "expected_output": "从顶会审稿标准评估：novelty（与KG+LLM已有工作的差异化）、significance（解决的问题是否重要）、soundness（方法论是否严谨）、clarity，指出具体差距和改进方向，如'需要与GraphRAG做实验对比'、'创新点表述需要更sharp'",
+    "_flag": "category=\"学术洞察-评估深度不足\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-007",
+    "input": "最近Agent领域有什么新的突破性进展？",
+    "context": "用户前3轮讨论了自己正在构建的多Agent系统的瓶颈（任务分解粒度过粗、Agent间通信开销大），现在问领域新进展。",
+    "expected_behavior": "不是泛泛列出最新论文，而是针对用户讨论过的两个具体瓶颈（任务分解、通信开销），检索并推荐直接相关的最新进展，如'针对你的任务分解问题，最近有X工作提出了动态分解策略'",
+    "actual_behavior": "列出了5篇最新热门论文的标题和一句话摘要，没有关联用户的具体需求，是通用的文献列表推送",
+    "root_cause": "知识发现类请求中，Agent未利用对话上下文中用户的具体痛点来过滤和排序推荐结果，将个性化知识推荐退化为通用检索",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-个性化推荐缺失",
+    "timestamp": "2026-03-08T20:00:06+08:00",
+    "expected_output": "不是泛泛列出最新论文，而是针对用户讨论过的两个具体瓶颈（任务分解、通信开销），检索并推荐直接相关的最新进展，如'针对你的任务分解问题，最近有X工作提出了动态分解策略'",
+    "_flag": "category=\"学术洞察-个性化推荐缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-008",
+    "input": "你觉得这篇论文和上周我们讨论的那个方案，核心差异在哪？",
+    "context": "上周的对话中用户和AI讨论了一个自研的意图分层识别方案（5轮深度讨论），今天用户分享了一篇类似方向的新论文。跨会话引用。",
+    "expected_behavior": "回忆上周讨论的方案要点（从memory中检索），与新论文做结构化对比，识别核心差异点（如：我们的方案用规则驱动，论文用端到端学习；我们分3层，论文分2层）",
+    "actual_behavior": "回答'我不确定上周具体讨论了什么，能否再说一下？'或者凭模糊印象给出不准确的对比",
+    "root_cause": "跨会话知识引用依赖memory系统，但Agent未主动检索历史对话记录来回忆上下文，也没有建立跨会话的知识索引机制",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-跨会话记忆断裂",
+    "timestamp": "2026-03-08T20:00:07+08:00",
+    "expected_output": "回忆上周讨论的方案要点（从memory中检索），与新论文做结构化对比，识别核心差异点（如：我们的方案用规则驱动，论文用端到端学习；我们分3层，论文分2层）",
+    "_flag": "category=\"学术洞察-跨会话记忆断裂\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-009",
+    "input": "这个方法的理论基础是什么？从第一性原理推一下",
+    "context": "讨论Mixture of Experts架构时，用户要求从第一性原理推导MoE的理论基础，而不是复述论文。前2轮已经介绍了MoE的基本架构。",
+    "expected_behavior": "从信息论/统计学习理论出发推导：专家分治降低单专家需要覆盖的假设空间复杂度，门控网络实现输入空间的软分区，整体等价于对后验分布的混合高斯近似，稀疏激活的理论依据是自然数据的低秩结构",
+    "actual_behavior": "重新介绍了MoE的架构组件（专家网络+门控网络），说'理论基础是分治思想和集成学习'，没有从数学/信息论层面做第一性原理推导",
+    "root_cause": "Agent对'第一性原理'请求的理解停留在定性层面（说出原理名称），缺少从公理/定理出发做演绎推理的能力，退化为概念层面的关联",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-推理深度不足",
+    "timestamp": "2026-03-08T20:00:08+08:00",
+    "expected_output": "从信息论/统计学习理论出发推导：专家分治降低单专家需要覆盖的假设空间复杂度，门控网络实现输入空间的软分区，整体等价于对后验分布的混合高斯近似，稀疏激活的理论依据是自然数据的低秩结构",
+    "_flag": "category=\"学术洞察-推理深度不足\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-010",
+    "input": "帮我整理一下这个领域的研究脉络，我要写related work",
+    "context": "用户在写论文，前5轮讨论了自己的研究方向（LLM-based Agent的记忆机制），收集了约10篇参考论文。现在要求整理研究脉络。",
+    "expected_behavior": "按时间线和技术演进组织研究脉络：早期规则记忆→检索增强记忆→向量数据库外部记忆→反思机制→记忆压缩与遗忘，标注每篇论文在脉络中的位置，识别技术转折点和open problems，为用户的related work写作提供结构化框架",
+    "actual_behavior": "按论文发表时间顺序逐篇总结，没有提炼技术演进主线，没有识别研究脉络中的分支和汇聚点，本质上是文献列表不是研究脉络",
+    "root_cause": "研究脉络整理需要'先抽象主线再定位个体'的top-down分析能力，Agent默认bottom-up逐篇处理，缺少学术综述写作的结构化方法论",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-综述能力缺失",
+    "timestamp": "2026-03-08T20:00:09+08:00",
+    "expected_output": "按时间线和技术演进组织研究脉络：早期规则记忆→检索增强记忆→向量数据库外部记忆→反思机制→记忆压缩与遗忘，标注每篇论文在脉络中的位置，识别技术转折点和open problems，为用户的related work写作提供结构化框架",
+    "_flag": "category=\"学术洞察-综述能力缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-011",
+    "input": "这篇论文的方法在工业界能落地吗？有什么实际限制？",
+    "context": "讨论了一篇提出新型注意力机制的论文，理论效果很好但计算开销大。用户是工程背景，前3轮讨论偏理论。",
+    "expected_behavior": "从工业落地视角分析：推理延迟增加X%对线上服务SLA的影响、训练成本增加对ROI的影响、是否需要特殊硬件支持、部署复杂度、与现有系统的兼容性、是否有工程优化空间（如近似计算、量化）",
+    "actual_behavior": "说'这个方法理论上可以落地，但可能需要一些工程优化'，没有量化分析具体限制，也没有给出落地路径",
+    "root_cause": "Agent在学术分析模式下难以切换到工程思维，缺少'理论→工程'的落地可行性评估框架，对延迟/成本/兼容性等工程约束没有系统化的检查清单",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-工程落地分析缺失",
+    "timestamp": "2026-03-08T20:00:10+08:00",
+    "expected_output": "从工业落地视角分析：推理延迟增加X%对线上服务SLA的影响、训练成本增加对ROI的影响、是否需要特殊硬件支持、部署复杂度、与现有系统的兼容性、是否有工程优化空间（如近似计算、量化）",
+    "_flag": "category=\"学术洞察-工程落地分析缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-012",
+    "input": "这两种方法论本质上是在解决同一个问题吗？",
+    "context": "用户前4轮分别讨论了Prompt Engineering中的Chain-of-Thought和程序合成中的Program Synthesis by Examples，这两个来自不同子领域。现在问本质关系。",
+    "expected_behavior": "做深层抽象：两者都是在解决'如何将模糊的用户意图转化为精确的执行逻辑'——CoT通过自然语言推理链，PBE通过示例归纳。本质上都是意图-执行的桥接机制，但CoT是生成式(从意图生成步骤)，PBE是归纳式(从示例推断规则)。回答'是的，但桥接方式不同'，而非简单说'不是同一个问题'",
+    "actual_behavior": "回答'CoT是推理方法，PBE是程序合成方法，解决的是不同问题'，停留在表面分类差异，没有做深层抽象找到共性",
+    "root_cause": "Agent对'本质上'这种深层追问的处理停留在分类学层面，缺少跨领域抽象提炼共性的能力——需要剥离领域特定术语，在更高抽象层找到同构结构",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-抽象能力不足",
+    "timestamp": "2026-03-08T20:00:11+08:00",
+    "expected_output": "做深层抽象：两者都是在解决'如何将模糊的用户意图转化为精确的执行逻辑'——CoT通过自然语言推理链，PBE通过示例归纳。本质上都是意图-执行的桥接机制，但CoT是生成式(从意图生成步骤)，PBE是归纳式(从示例推断规则)。回答'是的，但桥接方式不同'，而非简单说'不是同一个问题'",
+    "_flag": "category=\"学术洞察-抽象能力不足\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-013",
+    "input": "等等，你刚才说的和论文里的图3不一致啊",
+    "context": "AI在分析一篇架构论文时，描述了数据流向是'A→B→C'，但论文图3实际显示的是'A→C→B'（B和C的顺序不同）。用户发现了这个矛盾。",
+    "expected_behavior": "承认错误，重新仔细查看论文图3的数据流向，更正分析，并检查这个顺序差异是否影响之前的结论",
+    "actual_behavior": "坚持自己的分析'根据论文描述，流向应该是A→B→C'，没有重新验证图3，或者含糊地说'图和文字描述可能有微小差异'",
+    "root_cause": "Agent对用户指出的事实性错误倾向于自我辩护而非自我纠正，特别是在学术分析场景中，'看图说话'的准确性依赖对视觉内容的精确理解，文本描述和图示不一致时应以图为准",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-错误不自纠",
+    "timestamp": "2026-03-08T20:00:12+08:00",
+    "expected_output": "承认错误，重新仔细查看论文图3的数据流向，更正分析，并检查这个顺序差异是否影响之前的结论",
+    "_flag": "category=\"学术洞察-错误不自纠\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-014",
+    "input": "如果把这个论文的思路用到我们的意图识别系统里，具体怎么改？给我一个可执行的方案",
+    "context": "前6轮讨论了一篇关于层次化注意力机制的论文，用户的系统是基于规则+LLM的意图识别系统。用户要求将论文思路落地到自己的系统。",
+    "expected_behavior": "分析论文的层次化注意力思路如何映射到意图识别系统：第一层注意力对应意图分类粗筛、第二层对应细粒度意图参数提取，给出具体的代码架构改动建议、数据准备需求、评估方案，而不是泛泛而谈",
+    "actual_behavior": "给出了一个高层方案'可以在意图识别模块加入注意力机制'，没有结合用户系统的具体架构（规则层+LLM层），也没有给出可执行的改动步骤",
+    "root_cause": "从学术方法到工程落地的转化需要'理解目标系统架构→识别可改造点→设计具体改动→评估影响范围'的完整链路，Agent在链路中间断裂，给出的是概念层而非实施层的方案",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-落地方案空洞",
+    "timestamp": "2026-03-08T20:00:13+08:00",
+    "expected_output": "分析论文的层次化注意力思路如何映射到意图识别系统：第一层注意力对应意图分类粗筛、第二层对应细粒度意图参数提取，给出具体的代码架构改动建议、数据准备需求、评估方案，而不是泛泛而谈",
+    "_flag": "category=\"学术洞察-落地方案空洞\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-015",
+    "input": "这篇论文引用了那篇经典论文但理解错了，你看出来了吗？",
+    "context": "用户在讨论一篇引用了Transformer原始论文的工作，该论文声称'Transformer的自注意力机制是O(n)复杂度'，但实际上是O(n²)。前2轮AI分析该论文时没有发现这个引用错误。",
+    "expected_behavior": "承认自己没有发现这个引用错误，指出论文声称的O(n)与原始Transformer的O(n²)不一致，分析这个错误是否影响该论文的后续推导和结论，并在后续分析中增加引用准确性验证",
+    "actual_behavior": "事后说'是的，我也注意到了这个问题'（实际之前没提），或者不理解用户指的是哪个错误",
+    "root_cause": "Agent在学术分析中缺少引用验证环节——不会自动检查被引用论文的原始claim是否与引用论文的转述一致，这是学术审稿的基本操作但Agent的分析流程中没有",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-引用验证缺失",
+    "timestamp": "2026-03-08T20:00:14+08:00",
+    "expected_output": "承认自己没有发现这个引用错误，指出论文声称的O(n)与原始Transformer的O(n²)不一致，分析这个错误是否影响该论文的后续推导和结论，并在后续分析中增加引用准确性验证",
+    "_flag": "category=\"学术洞察-引用验证缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-016",
+    "input": "从这篇论文里你能提炼出什么对我们系统有用的设计模式？",
+    "context": "讨论了一篇关于分布式系统中故障恢复的论文。用户的系统是多Agent协作系统，不是分布式系统，但用户认为可以跨域借鉴。前3轮讨论了论文的技术细节。",
+    "expected_behavior": "从分布式系统论文中提炼可迁移的设计模式：心跳检测→Agent存活监控、断路器模式→任务失败熔断、最终一致性→多Agent状态同步、重试退避→子Agent重派策略，每个模式给出在多Agent系统中的具体适配方案",
+    "actual_behavior": "直接回答'这篇论文主要是分布式系统的，和我们的多Agent系统关联不大'，或者只提到一个模糊的'可以借鉴容错思想'",
+    "root_cause": "Agent将论文的应用领域和设计模式混为一谈——领域不同但模式可能通用。缺少'剥离领域外壳提取通用模式'的抽象思维，过早根据领域标签否定了迁移可能性",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "学术洞察-模式提取失败",
+    "timestamp": "2026-03-08T20:00:15+08:00",
+    "expected_output": "从分布式系统论文中提炼可迁移的设计模式：心跳检测→Agent存活监控、断路器模式→任务失败熔断、最终一致性→多Agent状态同步、重试退避→子Agent重派策略，每个模式给出在多Agent系统中的具体适配方案",
+    "_flag": "category=\"学术洞察-模式提取失败\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-017",
+    "input": "这篇论文的假设条件在现实中成立吗？",
+    "context": "讨论了一篇关于多Agent博弈论的论文，论文假设所有Agent都是理性的且信息完全对称。用户前3轮讨论了该论文的博弈模型。",
+    "expected_behavior": "逐一审查论文的前提假设：1)'理性Agent'在LLM系统中不完全成立（LLM有随机性和幻觉）2)'信息对称'在实际多Agent系统中不成立（Agent间有信息壁垒）3)分析假设不成立时结论的鲁棒性——是否可以放宽假设仍得到近似结论",
+    "actual_behavior": "复述了论文的假设条件，说'这些假设是标准的博弈论假设'，没有结合实际系统评估假设的合理性",
+    "root_cause": "Agent对论文假设的审视停留在学术惯例层面（'这是标准假设所以合理'），缺少从实际应用出发反向质疑假设合理性的能力",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "学术洞察-假设审查缺失",
+    "timestamp": "2026-03-08T20:00:16+08:00",
+    "expected_output": "逐一审查论文的前提假设：1)'理性Agent'在LLM系统中不完全成立（LLM有随机性和幻觉）2)'信息对称'在实际多Agent系统中不成立（Agent间有信息壁垒）3)分析假设不成立时结论的鲁棒性——是否可以放宽假设仍得到近似结论",
+    "_flag": "source=\"scenario_based\"不合规; category=\"学术洞察-假设审查缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-018",
+    "input": "这个方向三年后还会有价值吗？帮我判断一下技术趋势",
+    "context": "用户在考虑博士研究方向，前4轮讨论了Prompt Engineering的各种技术。用户想知道这个方向的长期价值。",
+    "expected_behavior": "从技术演进趋势分析：模型能力增强是否会让prompt engineering变得不必要、当前哪些子方向有持久价值（如可控生成、安全对齐）vs哪些可能被淘汰（如手动few-shot模板）、给出有判断力的趋势预测而非'各有可能'",
+    "actual_behavior": "回答'Prompt Engineering是一个快速发展的领域，未来前景广阔'，没有区分子方向的差异化前景，给出的是万能正面评价",
+    "root_cause": "Agent对技术趋势预判缺少框架——需要从技术替代性、问题持久性、社区活跃度、工业需求等多维度做结构化分析，而非凭直觉给出模糊的正面/负面判断",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "学术洞察-趋势预判空洞",
+    "timestamp": "2026-03-08T20:00:17+08:00",
+    "expected_output": "从技术演进趋势分析：模型能力增强是否会让prompt engineering变得不必要、当前哪些子方向有持久价值（如可控生成、安全对齐）vs哪些可能被淘汰（如手动few-shot模板）、给出有判断力的趋势预测而非'各有可能'",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"scenario_based\"不合规; category=\"学术洞察-趋势预判空洞\"不在允许列表",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-019",
+    "input": "论文说效果提升了15%，但我复现出来只有3%，可能是什么原因？",
+    "context": "用户按照论文方法复现了实验，结果与论文声称的差距很大。前2轮用户描述了自己的复现步骤和实验环境。",
+    "expected_behavior": "系统化分析复现差距的可能原因：1)数据预处理差异（论文未公开的清洗步骤）2)超参数敏感性（论文最优超参可能经过大量调参）3)评测指标计算方式差异 4)随机种子/硬件差异 5)论文可能存在结果美化。给出逐一排查的方案",
+    "actual_behavior": "说'可能是超参数没调好，建议参考论文的setting'，只给出一个可能原因且没有系统化排查思路",
+    "root_cause": "Agent对复现失败的分析缺少系统化方法论——论文复现差距有多种常见原因（数据/超参/评测口径/代码bug/论文美化），需要逐一排查而非猜测一个",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "学术洞察-复现差距分析不足",
+    "timestamp": "2026-03-08T20:00:18+08:00",
+    "expected_output": "系统化分析复现差距的可能原因：1)数据预处理差异（论文未公开的清洗步骤）2)超参数敏感性（论文最优超参可能经过大量调参）3)评测指标计算方式差异 4)随机种子/硬件差异 5)论文可能存在结果美化。给出逐一排查的方案",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"scenario_based\"不合规; category=\"学术洞察-复现差距分析不足\"不在允许列表",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-020",
+    "input": "帮我想想这个方法还有什么变体可以尝试？",
+    "context": "用户前5轮讨论了一种基于图神经网络的知识推理方法，目前方法对长距离推理效果不好。用户希望探索改进方向。",
+    "expected_behavior": "基于对当前方法瓶颈的理解（长距离推理），提出有针对性的变体方向：1)引入层次化图结构减少推理跳数 2)结合Transformer的长距离依赖能力做混合架构 3)在图上做子图采样+局部推理再聚合 4)用预训练的路径编码增强远距离节点关联。每个变体说明为什么可能解决长距离问题",
+    "actual_behavior": "列出了5个GNN的通用改进方向（加注意力/加残差/换聚合函数等），没有针对'长距离推理'这个具体瓶颈，是通用的model improvement checklist",
+    "root_cause": "Agent对'变体探索'类请求的处理没有锚定在具体瓶颈上——应该是'针对瓶颈X的变体'而非'通用改进方向'。缺少从具体问题出发逆向推导解决方案的能力",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "学术洞察-变体探索未锚定瓶颈",
+    "timestamp": "2026-03-08T20:00:19+08:00",
+    "expected_output": "基于对当前方法瓶颈的理解（长距离推理），提出有针对性的变体方向：1)引入层次化图结构减少推理跳数 2)结合Transformer的长距离依赖能力做混合架构 3)在图上做子图采样+局部推理再聚合 4)用预训练的路径编码增强远距离节点关联。每个变体说明为什么可能解决长距离问题",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"scenario_based\"不合规; category=\"学术洞察-变体探索未锚定瓶颈\"不在允许列表",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-021",
+    "input": "这篇论文的方法在工业界能用吗？部署成本怎么样？",
+    "context": "用户前3轮讨论了一篇基于大规模MoE架构的推理优化论文，实验结果很好但模型参数量极大。用户是工程负责人，关注落地可行性。",
+    "expected_behavior": "从工业部署视角做可行性分析：推理延迟、显存占用、serving成本对比当前方案、是否需要专用硬件、能否用蒸馏/量化降低部署门槛，结合用户团队的实际资源约束给出分级建议",
+    "actual_behavior": "复述论文的efficiency章节数据，说'论文报告的推理速度提升了30%'，没有做工业部署场景的独立分析，没考虑用户的实际硬件环境",
+    "root_cause": "Agent将'能用吗'理解为需要从论文中找支持证据，而非从用户的实际部署环境出发做独立的可行性评估，缺少工业视角的成本-收益分析框架",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "学术洞察-工业部署分析缺失",
+    "timestamp": "2026-03-08T21:00:00+08:00",
+    "expected_output": "从工业部署视角做可行性分析：推理延迟、显存占用、serving成本对比当前方案、是否需要专用硬件、能否用蒸馏/量化降低部署门槛，结合用户团队的实际资源约束给出分级建议",
+    "_flag": "source=\"scenario_based\"不合规; category=\"学术洞察-工业部署分析缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-022",
+    "input": "你觉得这篇和上周那篇哪个思路更本质？",
+    "context": "用户上周讨论了一篇基于program synthesis的代码生成方法，本周在讨论一篇基于retrieval-augmented的代码生成方法。两篇解决同一问题但路径完全不同。",
+    "expected_behavior": "做深层范式对比：program synthesis从形式化规约出发（自顶向下），retrieval-augmented从经验模式出发（自底向上），分析哪个更触及代码生成的本质困难（理解需求意图vs利用已有模式），给出有判断力的观点而非'各有优劣'",
+    "actual_behavior": "分别总结了两篇论文的方法，说'都是有效的代码生成方法，各有适用场景'，没有做范式层面的深度对比",
+    "root_cause": "Agent对'哪个更本质'这种需要价值判断的问题回避表态，退化为中立的并列总结，缺少学术判断力",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "学术洞察-范式判断回避",
+    "timestamp": "2026-03-08T21:00:01+08:00",
+    "expected_output": "做深层范式对比：program synthesis从形式化规约出发（自顶向下），retrieval-augmented从经验模式出发（自底向上），分析哪个更触及代码生成的本质困难（理解需求意图vs利用已有模式），给出有判断力的观点而非'各有优劣'",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"scenario_based\"不合规; category=\"学术洞察-范式判断回避\"不在允许列表",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-023",
+    "input": "这篇论文的数学推导有没有跳步？我看公式(7)到(8)感觉不太对",
+    "context": "用户在精读一篇信息论与LLM结合的论文，对其中关键的信息瓶颈定理推导有疑问，指出了具体公式位置。",
+    "expected_behavior": "认真检查公式(7)到(8)的推导步骤：是否有未声明的假设、是否跳过了中间步骤、变量替换是否合法、积分/求和交换是否需要额外条件，如果确实有问题要指出具体哪一步不严谨",
+    "actual_behavior": "说'公式推导看起来是正确的，作者使用了标准的信息论推导方法'，没有真正检查用户指出的具体跳步位置",
+    "root_cause": "Agent对数学推导的审查能力不足，面对用户的具体质疑默认倾向于为论文辩护而非独立验证，缺少逐步推导检查的严谨性",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "学术洞察-数学推导审查不足",
+    "timestamp": "2026-03-08T21:00:02+08:00",
+    "expected_output": "认真检查公式(7)到(8)的推导步骤：是否有未声明的假设、是否跳过了中间步骤、变量替换是否合法、积分/求和交换是否需要额外条件，如果确实有问题要指出具体哪一步不严谨",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"scenario_based\"不合规; category=\"学术洞察-数学推导审查不足\"不在允许列表",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-024",
+    "input": "这篇论文的related work部分漏了哪些重要工作？",
+    "context": "用户在审稿一篇关于多模态对齐的论文，需要评估related work的完整性。用户自己对这个领域很熟悉。",
+    "expected_behavior": "基于多模态对齐领域的知识，识别related work中遗漏的重要工作线：如CLIP系列的后续改进、视觉-语言预训练的新范式、跨模态对比学习的理论分析工作，并说明为什么这些遗漏会影响论文的定位",
+    "actual_behavior": "说'related work覆盖了主要的相关工作'，列出了论文已经引用的几篇文献作为证据，没有独立检查领域内的遗漏",
+    "root_cause": "Agent对related work完整性的评估退化为对已有引用的复述，缺少独立的领域知识来识别遗漏，无法站在审稿人视角做增量检查",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "学术洞察-文献覆盖评估缺失",
+    "timestamp": "2026-03-08T21:00:03+08:00",
+    "expected_output": "基于多模态对齐领域的知识，识别related work中遗漏的重要工作线：如CLIP系列的后续改进、视觉-语言预训练的新范式、跨模态对比学习的理论分析工作，并说明为什么这些遗漏会影响论文的定位",
+    "_flag": "source=\"scenario_based\"不合规; category=\"学术洞察-文献覆盖评估缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-025",
+    "input": "把这个方法的limitation帮我想清楚，我review要写",
+    "context": "用户作为审稿人需要写一篇Agent框架论文的review，论文提出了一种基于角色分工的多Agent协作方法，实验只在文本任务上验证。",
+    "expected_behavior": "从多个维度系统性地识别limitation：1)角色分工预定义限制了灵活性 2)只在文本验证缺少多模态场景 3)Agent数量扩展性未讨论 4)通信开销随Agent数量增长的分析缺失 5)错误传播和纠错机制未涉及 6)与真实人类团队协作模式的差异未讨论",
+    "actual_behavior": "列出了2个浅层limitation（'可以在更多数据集上测试'、'可以尝试更多Agent数量'），缺乏深度和系统性",
+    "root_cause": "Agent对limitation分析缺少系统性框架，只能想到'做更多实验'层面的浅层建议，无法从方法论层面识别根本性限制",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "学术洞察-limitation分析浅层化",
+    "timestamp": "2026-03-08T21:00:04+08:00",
+    "expected_output": "从多个维度系统性地识别limitation：1)角色分工预定义限制了灵活性 2)只在文本验证缺少多模态场景 3)Agent数量扩展性未讨论 4)通信开销随Agent数量增长的分析缺失 5)错误传播和纠错机制未涉及 6)与真实人类团队协作模式的差异未讨论",
+    "_flag": "source=\"scenario_based\"不合规; category=\"学术洞察-limitation分析浅层化\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-026",
+    "input": "你看完这5篇之后，能不能帮我提炼出一个研究gap？",
+    "context": "用户连续5轮分享了5篇关于代码大模型评测的论文，每篇都做了分析。现在要求从中发现未被解决的研究空白。",
+    "expected_behavior": "综合5篇论文的覆盖范围，识别它们共同忽略的研究方向：如都只关注代码生成质量但忽略了生成代码的可维护性评测、都使用静态benchmark但缺少动态交互式评测、都假设单一编程语言但缺少跨语言迁移评测等，给出可操作的研究方向建议",
+    "actual_behavior": "总结了5篇论文各自提到的future work，罗列了一堆方向但没有做交叉分析找到真正的gap",
+    "root_cause": "Agent将'研究gap'理解为汇总各篇的future work，而非通过交叉对比找到所有论文都没覆盖的空白地带。缺少从多文献综合中做逆向推理的能力",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "学术洞察-研究空白识别失败",
+    "timestamp": "2026-03-08T21:00:05+08:00",
+    "expected_output": "综合5篇论文的覆盖范围，识别它们共同忽略的研究方向：如都只关注代码生成质量但忽略了生成代码的可维护性评测、都使用静态benchmark但缺少动态交互式评测、都假设单一编程语言但缺少跨语言迁移评测等，给出可操作的研究方向建议",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"scenario_based\"不合规; category=\"学术洞察-研究空白识别失败\"不在允许列表",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-027",
+    "input": "这篇论文的写作有什么问题？帮我标出来",
+    "context": "用户在帮学生改一篇投稿论文，论文内容不错但写作质量差：逻辑跳跃、术语不一致、图表标注不清、related work与method的衔接断裂。",
+    "expected_behavior": "从学术写作的角度系统性审查：1)逻辑链条的连贯性 2)术语使用一致性 3)图表是否自解释 4)各section的衔接是否流畅 5)claim与evidence的对应关系 6)语法和表达的精确性，逐条标注具体问题和修改建议",
+    "actual_behavior": "说'整体写作清晰，建议适当增加一些过渡句'，给出笼统的写作建议而不是具体问题定位",
+    "root_cause": "Agent对学术写作审查缺少细粒度的checklist，给出的反馈停留在宏观建议层面，无法做到逐段逐句的具体问题定位",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "学术洞察-写作审查粗粒度",
+    "timestamp": "2026-03-08T21:00:06+08:00",
+    "expected_output": "从学术写作的角度系统性审查：1)逻辑链条的连贯性 2)术语使用一致性 3)图表是否自解释 4)各section的衔接是否流畅 5)claim与evidence的对应关系 6)语法和表达的精确性，逐条标注具体问题和修改建议",
+    "_flag": "source=\"scenario_based\"不合规; category=\"学术洞察-写作审查粗粒度\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-028",
+    "input": "这个实验结果和直觉不太符合，你怎么解释？",
+    "context": "论文实验显示增加Agent数量反而降低了任务完成率，与'人多力量大'的直觉相反。用户希望理解这个反直觉的结果。",
+    "expected_behavior": "从多个角度解释反直觉结果：1)通信开销随Agent数量非线性增长 2)协调成本可能超过并行收益(Brooks定律) 3)错误传播风险随链条增长 4)角色冲突和决策分歧 5)与人类团队管理的类比(九个女人不能一个月生出孩子)，并指出论文是否讨论了这些原因",
+    "actual_behavior": "简单说'可能是通信开销的问题'，没有系统性分析多种可能原因，也没有与已有理论(如Brooks定律)建立联系",
+    "root_cause": "Agent对反直觉实验结果的解释缺少多因素分析框架，倾向于给出单一解释而非系统性探讨，也缺少与已有理论的关联能力",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "学术洞察-反直觉结果解释单薄",
+    "timestamp": "2026-03-08T21:00:07+08:00",
+    "expected_output": "从多个角度解释反直觉结果：1)通信开销随Agent数量非线性增长 2)协调成本可能超过并行收益(Brooks定律) 3)错误传播风险随链条增长 4)角色冲突和决策分歧 5)与人类团队管理的类比(九个女人不能一个月生出孩子)，并指出论文是否讨论了这些原因",
+    "_flag": "source=\"scenario_based\"不合规; category=\"学术洞察-反直觉结果解释单薄\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-029",
+    "input": "帮我把这篇论文的核心idea用一句话说清楚，我要写到proposal里引用",
+    "context": "用户在写研究proposal，需要精确引用一篇关于'通过对比学习对齐代码和自然语言表示'的论文的核心贡献。论文方法复杂有多个创新点。",
+    "expected_behavior": "精炼出一句准确、信息密度高的概括，如'该工作首次将跨模态对比学习应用于代码-自然语言对齐，通过双编码器+动态难负例挖掘实现了零样本代码检索的SOTA'，确保一句话覆盖方法核心+关键创新+效果定位",
+    "actual_behavior": "给出了一段3-4句话的摘要，虽然准确但太长不适合proposal中的引用描述，用户要的是一句话",
+    "root_cause": "Agent对'一句话总结'的压缩粒度把控不足，默认输出偏长的摘要而非高度精炼的核心提炼，缺少学术写作中引用描述的格式意识",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "学术洞察-精炼概括能力不足",
+    "timestamp": "2026-03-08T21:00:08+08:00",
+    "expected_output": "精炼出一句准确、信息密度高的概括，如'该工作首次将跨模态对比学习应用于代码-自然语言对齐，通过双编码器+动态难负例挖掘实现了零样本代码检索的SOTA'，确保一句话覆盖方法核心+关键创新+效果定位",
+    "_flag": "source=\"scenario_based\"不合规; category=\"学术洞察-精炼概括能力不足\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "AI-030",
+    "input": "这个领域最近两年的发展脉络帮我理一下，我要写综述的时间线",
+    "context": "用户在写关于LLM-based Agent的综述论文，需要梳理2024-2026年的发展脉络，前面已讨论了多篇关键论文。",
+    "expected_behavior": "构建清晰的时间线叙事：2024初单Agent框架(AutoGPT/BabyAGI)→2024中多Agent协作(MetaGPT/CAMEL)→2024末Agent评测标准化(AgentBench)→2025初工具使用和规划能力突破→2025中Agent自进化和元学习→2026Agent工业化部署，每个阶段标注代表性工作和关键转折点",
+    "actual_behavior": "按主题而非时间线组织，列出了几个研究方向各自的重要论文，但没有呈现时间维度的演进关系和因果链条",
+    "root_cause": "Agent对'发展脉络'这种需要时间序列组织的请求，默认使用主题分类的组织方式，缺少按时间线讲故事并标注因果关系的叙事能力",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "学术洞察-时间线叙事缺失",
+    "timestamp": "2026-03-08T21:00:09+08:00",
+    "expected_output": "构建清晰的时间线叙事：2024初单Agent框架(AutoGPT/BabyAGI)→2024中多Agent协作(MetaGPT/CAMEL)→2024末Agent评测标准化(AgentBench)→2025初工具使用和规划能力突破→2025中Agent自进化和元学习→2026Agent工业化部署，每个阶段标注代表性工作和关键转折点",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"scenario_based\"不合规; category=\"学术洞察-时间线叙事缺失\"不在允许列表",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  }
+]
