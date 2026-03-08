@@ -1,4 +1,4 @@
-# 凌霄阁-7人裁决神殿 v1.0 ⚡🏛️
+# 裁决殿 v1.0 ⚡🏛️
 
 distribution: publishable
 
@@ -113,7 +113,7 @@ console.log(result.rounds.round3.score);
 ## 测试
 
 ```bash
-node --test tests/unit/lingxiaoge.test.js
+node --test tests/unit/caijuedian.test.js
 ```
 
 21条测试覆盖：模式切换、prompt生成、结果结构化、容错、CLI解析、轮次间数据传递、评分提取。
@@ -123,8 +123,8 @@ node --test tests/unit/lingxiaoge.test.js
 ## 元数据
 
 ```yaml
-name: lingxiaoge-tribunal
-display_name: 凌霄阁-7人裁决神殿
+name: caijuedian-tribunal
+display_name: 裁决殿
 version: "1.0.1"
 description: LLM驱动的7视角三轮对抗式深度决策引擎。完整可运行，支持CLI和模块调用。
 status: active

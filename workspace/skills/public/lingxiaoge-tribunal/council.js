@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 凌霄阁-7人裁决神殿 v1.0 ⚡🏛️
+ * 裁决殿 v1.0 ⚡🏛️
  *
  * 完整裁决引擎 — LLM驱动的多视角三轮对抗式决策
  * 支持7/5/3席降级、并行Round 1、串行Round 2/3
@@ -64,7 +64,7 @@ function getSeatsForMode(mode) {
 // ─── Prompt Builders ────────────────────────────────────────────────
 
 function round1Prompt(topic, context, seat) {
-  return `【凌霄阁-7人裁决神殿 · Round 1 · 独立审议】
+  return `【裁决殿 · Round 1 · 独立审议】
 
 你是${seat.emoji} ${seat.title}（${seat.role}）。
 你的审视维度：${seat.dimension}
@@ -99,7 +99,7 @@ function round2Prompt(topic, round1Results, seat) {
 
   const myView = round1Results.find(r => r.seat === seat.id);
 
-  return `【凌霄阁-7人裁决神殿 · Round 2 · 交叉Battle】
+  return `【裁决殿 · Round 2 · 交叉Battle】
 
 你是${seat.emoji} ${seat.title}（${seat.role}）。
 
@@ -131,7 +131,7 @@ function round3Prompt(topic, round1Results, round2Results) {
     .map(r => `${r.seatTitle || r.seat}：${r.result}`)
     .join('\n\n');
 
-  return `【凌霄阁-7人裁决神殿 · Round 3 · 终审裁决】
+  return `【裁决殿 · Round 3 · 终审裁决】
 
 你是⚖️ 衡席（综合仲裁者）+ 🏛️ 道席（第一性原理审核）。
 
@@ -255,7 +255,7 @@ function parseArgs(argv) {
 
 function printUsage() {
   console.log(`
-凌霄阁-7人裁决神殿 v2.0 ⚡🏛️ (prompt-only, no direct LLM calls)
+裁决殿 v2.0 ⚡🏛️ (prompt-only, no direct LLM calls)
 
 Usage:
   node council.js --topic "议题" [--context "背景"] [--mode 7|5|3]

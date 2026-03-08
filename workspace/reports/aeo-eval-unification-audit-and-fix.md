@@ -49,7 +49,7 @@
 
 - `skills/public/multi-agent-dispatch/test/dispatch-engine.test.js`
 - `skills/public/multi-agent-reporting/test/*.test.js` (3个)
-- `skills/public/lingxiaoge-tribunal/tests/unit/lingxiaoge.test.js`
+- `skills/public/caijuedian-tribunal/tests/unit/caijuedian.test.js`
 - `skills/seef/evolution-pipeline/src/__tests__/*.test.js` (9个)
 - `skills/seef/evolution-pipeline/tests/**/*.test.js` (6个)
 - `skills/cras/intent-extractor*.test.js` (2个)

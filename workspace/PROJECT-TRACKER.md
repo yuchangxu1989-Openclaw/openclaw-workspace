@@ -31,23 +31,23 @@
 
 ### Day 1（2026-03-04）— L3架构核心搭建
 
-**凌霄阁裁决**: 有条件通过（5席有条件通过, 2席通过）
+**裁决殿裁决**: 有条件通过（5席有条件通过, 2席通过）
 
 **已完成:**
 - ✅ L3 Pipeline核心模块（EventBus/RuleMatcher/IntentScanner/Dispatcher/FeatureFlags/DecisionLogger）
 - ✅ E2E测试 36/36 全部通过
-- ✅ 凌霄阁裁决引擎 v1.0.0 独立技能化
+- ✅ 裁决殿裁决引擎 v1.0.0 独立技能化
 - ✅ ISC Enforcement闭环 P0+P1 100% enforced
 - ✅ Day 1 closure完成（`0422fb0`）
 
-**Day 1凌霄阁遗留条件（需Day 2解决）:**
+**Day 1裁决殿遗留条件（需Day 2解决）:**
 - ✅ → Day 2已解决（见下）
 
 ---
 
 ### Day 2（2026-03-05）— 韧性层 + 质量体系 + 意图识别
 
-**凌霄阁裁决**: `a1a6dd5` 最小化决策追溯
+**裁决殿裁决**: `a1a6dd5` 最小化决策追溯
 
 **已完成:**
 - ✅ L3错误处理与恢复机制 — 4模块, 64/64测试通过（error-handler/resilient-bus/resilient-dispatcher/config-self-healer）
@@ -62,7 +62,7 @@
 - ✅ 依赖方向图 + CI门禁（DEP-001~DEP-005）
 - ✅ 评测样本自动回收机制
 - ✅ 统一测试注册器 + runner + 覆盖率分析
-- ✅ 凌霄阁v4.3三项遗留（Feature Flag降级、依赖方向CI门禁、IC4/IC5边界规则）
+- ✅ 裁决殿v4.3三项遗留（Feature Flag降级、依赖方向CI门禁、IC4/IC5边界规则）
 - ✅ LLM上下文注入层 — 技能与模型彻底解耦
 - ✅ 多轮意图分类benchmark — 67.6%→90.5%准确率（Day2 P0达标）`853ca2c`
 - ✅ E2E event dispatch suite — 12 cases, 100% pass rate
@@ -83,7 +83,7 @@
    - 报告不再是Dev视角的changelog，而是Agent运营视角的效果仪表盘
 
 3. 🔴 **AEO功能质量测试 + Agent数据效果评测**（用户标记为重点）
-   - 每个Day研发完成后必须经凌霄阁裁决
+   - 每个Day研发完成后必须经裁决殿裁决
 
 4. ✅ **L3架构变化后的全系统重塑盘点**（Gap4 — 2026-03-07已完成）
    - 全系统盘点完成：ISC/LTO/CRAS/AEO/SEEF/LEP/Anti-entropy全部检查
@@ -105,7 +105,7 @@
 
 **📋 待规划:**
 - Day 2遗留项1-4需在Day 3 scope中排期
-- 凌霄阁裁决Day 2后才能正式进入Day 3范围
+- 裁决殿裁决Day 2后才能正式进入Day 3范围
 
 ---
 

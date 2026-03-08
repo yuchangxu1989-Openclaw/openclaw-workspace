@@ -33,19 +33,19 @@
     },
     "unenforced_policy": {
       "status_label": "unenforced",
-      "treatment": "等同于未制定，凌霄阁审计时标红",
+      "treatment": "等同于未制定，裁决殿审计时标红",
       "grace_period_hours": 48,
       "description": "新建规则有48h宽限期绑定执行机制，超时自动标记unenforced"
     },
     "council_gate": {
-      "name": "凌霄阁准入门禁",
+      "name": "裁决殿准入门禁",
       "requirements": [
         "所有适用ISC规则逐条验证通过",
         "零unenforced规则",
         "E2E自动化验证100%通过",
         "DecisionLog审计轨迹完整(sensing→cognition→execution)"
       ],
-      "description": "交付物进入凌霄阁评审的最低门槛，不是加分项"
+      "description": "交付物进入裁决殿评审的最低门槛，不是加分项"
     }
   },
   "trigger": {
@@ -61,7 +61,7 @@
       },
       {
         "type": "gate",
-        "description": "凌霄阁评审前自动检查准入四条件"
+        "description": "裁决殿评审前自动检查准入四条件"
       }
     ],
     "event": "isc.general.created"

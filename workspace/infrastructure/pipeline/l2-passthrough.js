@@ -6,7 +6,7 @@ const path = require('path');
 /**
  * L2 直通模式 (L2 Passthrough Mode)
  * 
- * 凌霄阁裁决：任何单点故障可在30秒内降级为L2直通模式
+ * 裁决殿裁决：任何单点故障可在30秒内降级为L2直通模式
  * 
  * 当 L3_PIPELINE_ENABLED=false 时，事件绕过 L3 闭环流水线，
  * 直接走 L2 逻辑：event → 简单路由 → 直接执行

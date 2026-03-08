@@ -1,8 +1,8 @@
 /**
- * 凌霄阁裁决引擎 v2.0 — 单元测试
+ * 裁决殿裁决引擎 v2.0 — 单元测试
  *
  * convene() 现在是纯函数，返回prompt列表，不调用LLM。
- * 运行: node --test tests/unit/lingxiaoge.test.js
+ * 运行: node --test tests/unit/caijuedian.test.js
  */
 
 'use strict';

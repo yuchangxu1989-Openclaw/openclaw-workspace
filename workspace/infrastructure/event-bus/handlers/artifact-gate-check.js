@@ -264,10 +264,10 @@ function sprintClosureGate(sprintName) {
     gates.lessons_captured.detail = { error: 'no lesson files found' };
   }
   
-  // Gate 4: 凌霄阁裁决 — 检查最近的裁决记录
+  // Gate 4: 裁决殿裁决 — 检查最近的裁决记录
   const tribunalDir = path.join(WORKSPACE, 'reports');
   const tribunalFiles = fs.existsSync(tribunalDir)
-    ? fs.readdirSync(tribunalDir).filter(f => f.includes('tribunal') || f.includes('lingxiaoge') || f.includes('裁决'))
+    ? fs.readdirSync(tribunalDir).filter(f => f.includes('tribunal') || f.includes('caijuedian') || f.includes('裁决'))
     : [];
   gates.tribunal_verdict.passed = tribunalFiles.length > 0;
   gates.tribunal_verdict.detail = { files_found: tribunalFiles.length };

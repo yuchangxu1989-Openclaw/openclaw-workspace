@@ -252,7 +252,7 @@ exec("cd /root/.openclaw/workspace/skills/glm-5-coder && node index.cjs --code '
 用户只在以下场景介入：
 - 需要确认命名/术语/定位
 - 重大架构变更的最终拍板
-- 凌霄阁裁决后的用户终审
+- 裁决殿裁决后的用户终审
 
 其余环节（扫描/分析/设计/QA/执行/验真/汇报）全部自动完成。
 如果中间任何一步需要用户手动推动才往下走 → **Badcase**。

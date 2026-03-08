@@ -6,7 +6,7 @@ const { exists, readText, readJson, walk, hasAny } = require('./p0-utils');
  * Architecture Review Pipeline Handler
  * 
  * 规则意图：架构方案必须经过标准化评审流水线
- * 流水线：架构师→工程师+质量分析师并行→修复循环→凌霄阁终审→用户裁决
+ * 流水线：架构师→工程师+质量分析师并行→修复循环→裁决殿终审→用户裁决
  * 感知：document/architecture/skill restructure事件
  * 执行：检查文档方案+审核记录，缺少则自动生成评审模板
  */
@@ -38,7 +38,7 @@ module.exports = async function(event, rule, context) {
       hasEngineerReview: false,   // 工程师评审
       hasQAReview: false,         // 质量分析师评审
       hasFixLog: false,           // 修复记录
-      hasFinalReview: false,      // 凌霄阁终审
+      hasFinalReview: false,      // 裁决殿终审
       hasUserDecision: false      // 用户裁决
     };
 
@@ -48,7 +48,7 @@ module.exports = async function(event, rule, context) {
       reviewChecklist.hasEngineerReview = hasAny(docContent, ['工程师评审', 'Engineer Review', '## 工程评审']);
       reviewChecklist.hasQAReview = hasAny(docContent, ['质量分析', 'QA Review', '质量评审', 'Quality Review']);
       reviewChecklist.hasFixLog = hasAny(docContent, ['修复记录', 'Fix Log', '修复循环', 'Remediation']);
-      reviewChecklist.hasFinalReview = hasAny(docContent, ['凌霄阁', '终审', 'Final Review', 'Final Approval']);
+      reviewChecklist.hasFinalReview = hasAny(docContent, ['裁决殿', '终审', 'Final Review', 'Final Approval']);
       reviewChecklist.hasUserDecision = hasAny(docContent, ['用户裁决', 'User Decision', '用户决策', 'User Approval']);
     }
 
@@ -146,7 +146,7 @@ function generateReviewTemplate(missingSteps, payload) {
     hasEngineerReview: '⚙️ 工程师评审',
     hasQAReview: '🔍 质量分析师评审',
     hasFixLog: '🔧 修复循环记录',
-    hasFinalReview: '🏛️ 凌霄阁终审',
+    hasFinalReview: '🏛️ 裁决殿终审',
     hasUserDecision: '👤 用户裁决'
   };
 
@@ -172,7 +172,7 @@ function generateAppendTemplate(missingSteps) {
     hasEngineerReview: '### ⚙️ 工程师评审\n- 评审人: \n- 日期: \n- 可行性: \n- 风险点: \n- 结论: [ ] 通过 / [ ] 需修改\n',
     hasQAReview: '### 🔍 质量分析师评审\n- 评审人: \n- 日期: \n- 质量风险: \n- 测试建议: \n- 结论: [ ] 通过 / [ ] 需修改\n',
     hasFixLog: '### 🔧 修复循环记录\n- 修复内容: \n- 修复日期: \n- 验证结果: \n',
-    hasFinalReview: '### 🏛️ 凌霄阁终审\n- 终审人: \n- 日期: \n- 最终意见: \n- 结论: [ ] 批准 / [ ] 驳回\n',
+    hasFinalReview: '### 🏛️ 裁决殿终审\n- 终审人: \n- 日期: \n- 最终意见: \n- 结论: [ ] 批准 / [ ] 驳回\n',
     hasUserDecision: '### 👤 用户裁决\n- 决策人: \n- 日期: \n- 决策: [ ] 采纳 / [ ] 否决\n- 备注: \n'
   };
 

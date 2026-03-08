@@ -7,7 +7,7 @@
   "enforcement_tier": "P0_block",
   "domain": "project-mgmt",
   "scope": "sprint",
-  "description": "Sprint/Day标记完成前，必须通过四重验收：产物核查、指标采集、经验沉淀、凌霄阁裁决。缺任何一项不允许close。",
+  "description": "Sprint/Day标记完成前，必须通过四重验收：产物核查、指标采集、经验沉淀、裁决殿裁决。缺任何一项不允许close。",
   "rationale": "Sprint结束时经常跳过经验沉淀和指标采集，导致项目管理能力不增长。此门禁强制四重验收。",
   "trigger": {
     "events": [
@@ -59,8 +59,8 @@
       },
       {
         "id": "tribunal_verdict",
-        "name": "凌霄阁裁决",
-        "description": "必须有凌霄阁裁决结果（通过/有条件通过/打回）",
+        "name": "裁决殿裁决",
+        "description": "必须有裁决殿裁决结果（通过/有条件通过/打回）",
         "fail_action": "warn_with_escalation"
       }
     ]

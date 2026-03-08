@@ -85,7 +85,7 @@ distribution: internal
 - 顶部：外部输入 / 用户 / 定时器 / 配置源
 - 中部：治理编排核心（ISC / 本地任务编排 / Dispatcher / EventBus）
 - 下部：执行技能、反馈、报告、发布
-- 右侧：证据与门禁（AEO、凌霄阁、审计）
+- 右侧：证据与门禁（AEO、裁决殿、审计）
 
 ### 推荐 Mermaid
 - `flowchart TB`

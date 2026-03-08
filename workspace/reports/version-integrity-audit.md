@@ -53,7 +53,7 @@
 | isc-core | v3.1.39 | v2.0 | 6319 | ✅ | ❌ | ✅ | ❌ **虚假** (v3需验证+优化证据) |
 | isc-document-quality | v1.1.0 | v1.0 | 557 | ✅ | ❌ | ❌ | ✅ 合理 |
 | lep-executor | v1.0.12 | v2.0 | 5379 | ✅ | ❌ | ✅ | ✅ 低估(实际更好) |
-| lingxiaoge-tribunal | v4.0.3 | v0.5 | 117 | ✅ | ❌ | ❌ | ❌ **虚假** (117行无测试声明v4) |
+| caijuedian-tribunal | v4.0.3 | v0.5 | 117 | ✅ | ❌ | ❌ | ❌ **虚假** (117行无测试声明v4) |
 | new-skill | v1.0.5 | v0.1 | 40 | ✅ | ❌ | ❌ | ❌ **虚假** (模板代码) |
 | new-skill-v2 | v1.0.4 | v0.1 | 40 | ✅ | ❌ | ❌ | ❌ **虚假** (模板代码) |
 | parallel-subagent | v3.0.7 | v1.0 | 835 | ✅ | ❌ | ✅ | ❌ **虚假** (无测试声明v3) |
@@ -90,7 +90,7 @@
 | etl | v1.0.7 | v0.3 | 40行模板代码 |
 | isc-capability-anchor-sync | v1.0.10 | v0.5 | 无测试无错误处理 |
 | isc-core | v3.1.39 | v2.0 | 无v3级验证/优化证据 |
-| lingxiaoge-tribunal | v4.0.3 | v0.5 | 117行无测试声明v4 |
+| caijuedian-tribunal | v4.0.3 | v0.5 | 117行无测试声明v4 |
 | new-skill | v1.0.5 | v0.1 | 模板代码 |
 | new-skill-v2 | v1.0.4 | v0.1 | 模板代码 |
 | parallel-subagent | v3.0.7 | v1.0 | 无测试声明v3 |

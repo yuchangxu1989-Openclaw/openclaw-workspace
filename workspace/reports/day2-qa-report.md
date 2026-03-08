@@ -209,7 +209,7 @@ const details = `去重扫描触发：规则${ruleId}...`;
 
 **严重等级：低**
 
-4条规则（failure-pattern-alert-001、lingxiaoge-tribunal-001等）使用 notify-alert，但该 handler 只写 `infrastructure/logs/alerts.jsonl`，无Feishu/Discord推送，依赖 heartbeat 被动读取。
+4条规则（failure-pattern-alert-001、caijuedian-tribunal-001等）使用 notify-alert，但该 handler 只写 `infrastructure/logs/alerts.jsonl`，无Feishu/Discord推送，依赖 heartbeat 被动读取。
 
 **建议改进**：接入 Feishu Webhook 或 OpenClaw bus 通知机制。
 

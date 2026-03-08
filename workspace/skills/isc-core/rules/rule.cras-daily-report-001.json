@@ -7,13 +7,19 @@
   "domain": "cras",
   "category": "reporting",
   "trigger": {
-    "events": ["cron.cras-daily-report"],
+    "events": [
+      "cron.cras-daily-report"
+    ],
     "schedule": "0 19 * * *",
     "timezone": "Asia/Shanghai"
   },
   "conditions": {
     "all": [
-      { "fact": "cron_job_name", "operator": "equal", "value": "CRAS-每日洞察报告" }
+      {
+        "fact": "cron_job_name",
+        "operator": "equal",
+        "value": "CRAS-每日洞察报告"
+      }
     ]
   },
   "actions": [
@@ -29,9 +35,20 @@
     }
   ],
   "metadata": {
-    "modules": ["learning", "user", "knowledge", "strategy", "evolution"],
+    "modules": [
+      "learning",
+      "user",
+      "knowledge",
+      "strategy",
+      "evolution"
+    ],
     "failover": "per-module-graceful",
     "created": "2026-03-08",
     "author": "coder-agent"
+  },
+  "enforcement": "programmatic",
+  "action": {
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.cras-daily-report-001.sh"
   }
 }

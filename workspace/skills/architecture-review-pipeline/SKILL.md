@@ -1,6 +1,6 @@
 ---
 name: architecture-review-pipeline
-description: 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入凌霄阁终审并给出最终裁决。
+description: 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入裁决殿终审并给出最终裁决。
 allowed-tools: sessions_spawn, sessions_history
 ---
 
@@ -13,7 +13,7 @@ allowed-tools: sessions_spawn, sessions_history
 1. **不等用户说就自动派复审**：进入 `draft` 后立即并行发起工程师 + 质量分析师复审。
 2. **不等用户踢就自动打回**：任一复审不通过，自动进入 `rejected` 并输出问题清单。
 3. **thinking=high 默认开**：所有评审子任务默认高思考强度，可参数覆盖。
-4. **半成品不进凌霄阁**：仅当工程与质量复审均通过时，才进入 `tribunal`。
+4. **半成品不进裁决殿**：仅当工程与质量复审均通过时，才进入 `tribunal`。
 5. **用户最终裁决位于流程外层**：技能输出“终审建议与结论”，由外层对话中的用户做最终采纳/否决。
 
 ## 输入
@@ -21,7 +21,7 @@ allowed-tools: sessions_spawn, sessions_history
 - `config`（可选）：
   - `reviewers.engineer.agentId`（默认：`engineer`）
   - `reviewers.qa.agentId`（默认：`qa-analyst`）
-  - `reviewers.tribunal.agentId`（默认：`lingxiaoge-tribunal`）
+  - `reviewers.tribunal.agentId`（默认：`caijuedian-tribunal`）
   - `thinking`（默认：`high`）
   - `model`（默认：空，交由平台路由）
   - `timeoutSeconds`（默认：`900`）
@@ -33,7 +33,7 @@ allowed-tools: sessions_spawn, sessions_history
 - `timeline`: 状态迁移记录
 - `reviews.engineering`: 工程复审摘要
 - `reviews.qa`: 质量复审摘要
-- `tribunal`: 凌霄阁终审摘要（仅通过双复审后存在）
+- `tribunal`: 裁决殿终审摘要（仅通过双复审后存在）
 - `result`: `approved` 或 `rejected`
 - `issues`: 不通过时的问题列表
 - `finalDecision`: 面向用户最终裁决的建议

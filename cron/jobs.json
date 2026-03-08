@@ -620,7 +620,7 @@
       "name": "运维辅助-清理与向量化-综合",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772944738645,
+      "updatedAtMs": 1772966121217,
       "schedule": {
         "expr": "35 */6 * * *",
         "kind": "cron",
@@ -637,15 +637,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772966100000,
-        "lastRunAtMs": 1772944500006,
+        "nextRunAtMs": 1772987700000,
+        "lastRunAtMs": 1772966100007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 238639,
+        "lastDurationMs": 21210,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false,
-        "runningAtMs": 1772966100006
+        "lastDelivered": false
       }
     },
     {
@@ -654,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772965800009,
+      "updatedAtMs": 1772966121218,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -671,14 +670,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772966100000,
-        "lastRunAtMs": 1772965800009,
+        "nextRunAtMs": 1772966400000,
+        "lastRunAtMs": 1772966121217,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 0,
+        "lastDurationMs": 1,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
-        "runningAtMs": 1772966100006
+        "lastError": "isolated job requires payload.kind=agentTurn"
       }
     },
     {

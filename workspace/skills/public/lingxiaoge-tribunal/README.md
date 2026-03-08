@@ -1,4 +1,4 @@
-# 凌霄阁-7人裁决神殿 ⚡🏛️
+# 裁决殿 ⚡🏛️
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -7,11 +7,11 @@
 ## 快速开始
 
 ```
-你：开凌霄阁讨论 [你的议题]
+你：开裁决殿讨论 [你的议题]
 AI：[自动执行三轮协议，输出裁决报告]
 ```
 
-## 什么是凌霄阁
+## 什么是裁决殿
 
 一个**通用的深度决策技能**。当你面对重大决策、方向分歧、架构取舍时，让7个完全不同视角的"神官"独立分析、互相质疑、最终综合裁决。
 
@@ -55,7 +55,7 @@ AI：[自动执行三轮协议，输出裁决报告]
 ## 文件结构
 
 ```
-lingxiaoge-tribunal/
+caijuedian-tribunal/
 ├── SKILL.md          # 完整使用文档
 ├── README.md         # 快速上手
 └── council.js        # Prompt模板和编排逻辑

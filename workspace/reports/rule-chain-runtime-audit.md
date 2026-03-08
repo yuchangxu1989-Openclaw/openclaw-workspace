@@ -97,7 +97,7 @@
 | 6 | intent-ruleify-dispatch-001 | 触发事件 intent.ruleify.dispatch 从未发出 |
 | 7 | rule.isc-evomap-mandatory-security-scan-032 | 触发事件 skill.evomap.pre_publish 从未发出 |
 | 8 | rule.isc-skill-security-gate-030 | 触发事件 skill.general.pre_publish 从未发出 |
-| 9 | rule.lingxiaoge-tribunal-001 | 触发事件 lingxiaoge.tribunal.requested 从未发出 |
+| 9 | rule.caijuedian-tribunal-001 | 触发事件 caijuedian.tribunal.requested 从未发出 |
 | 10 | rule.project-mgmt-lesson-capture-001 | 触发事件 project.milestone.completed 从未发出 |
 | 11 | rule.project-mgmt-startup-checklist-001 | 触发事件 project.sprint.started 从未发出 |
 | 12 | rule.public-skill-quality-gate-001 | 触发事件 skill.public.pre_publish 从未发出 |

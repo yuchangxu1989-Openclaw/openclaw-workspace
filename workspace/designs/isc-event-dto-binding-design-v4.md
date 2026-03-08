@@ -26,7 +26,7 @@
 - CRAS双通道架构（快通道5min + 慢通道daily）+ 可行数据源替代方案
 - 知识发现→评估→适配→反馈完整闭环（L4）
 - 系统性故障→根因分析→重构→验证完整闭环（L5）
-- 自驱进化机制 + 凌霄阁审议详细流程（META）
+- 自驱进化机制 + 裁决殿审议详细流程（META）
 - 名词空间注册治理与收缩机制（反熵增执行保障）
 - 工程可行性专章：6项致命风险逐一解决方案
 - **诚实声明**：L3-L5+META层探针需全部新建，预计总工期24-28天（非"基于现有代码可落地"）
@@ -92,9 +92,9 @@
 | **L2 量化阈值** | infrastructure/scanners/*.js → 周期扫描指标、计算当前值、与阈值比对 | 阈值越过判定 + 条件评估器（min_confidence/time_window） | ISC handler → 质量修复/告警/升级 → DTO任务 |
 | **L3 语义意图** | CRAS快通道（消息钩子→事件消费→IntentScanner） → 5min增量扫描 | **LLM（Opus/GLM-5）+ intent-registry.json** → 意图分类+置信度评估 | ISC handler（R73/R76/R77等）→ 文件发送/模型路由/反馈采集 |
 | **L3 意图治理** | CRAS触发计数回写 + `intent.unknown.discovered`事件积累 | **AEO: 向量聚类(智谱embedding) → LLM分类 → MECE校验** | AEO: 注册/合并/废弃intent-registry → AEO评测准出 |
-| **L4 知识发现** | CRAS主动学习引擎 → 公网/学术搜索 → 发现价值评估 | knowledge-discovery-probe四维评估 + 凌霄阁（高影响） | knowledge-adapter → DTO创建适配任务 → 回归验证 |
-| **L5 系统性模式** | pattern-analyzer → git历史+事件总线+DTO记录 → 日聚合分析 | refactor-analyzer根因分析（因果链构建）+ 凌霄阁（强制） | refactor-executor → Git分支 → DTO重构任务链 → 回归验证 |
-| **META 自驱进化** | evolution-detector → L1-L5全层信号二阶聚合 → 周聚合 | 凌霄阁七人议会 + 用户拍板 | evolution-executor → DTO进化任务 → AEO效果度量 |
+| **L4 知识发现** | CRAS主动学习引擎 → 公网/学术搜索 → 发现价值评估 | knowledge-discovery-probe四维评估 + 裁决殿（高影响） | knowledge-adapter → DTO创建适配任务 → 回归验证 |
+| **L5 系统性模式** | pattern-analyzer → git历史+事件总线+DTO记录 → 日聚合分析 | refactor-analyzer根因分析（因果链构建）+ 裁决殿（强制） | refactor-executor → Git分支 → DTO重构任务链 → 回归验证 |
+| **META 自驱进化** | evolution-detector → L1-L5全层信号二阶聚合 → 周聚合 | 裁决殿七人议会 + 用户拍板 | evolution-executor → DTO进化任务 → AEO效果度量 |
 
 #### 0.3.2 核心子系统的三层归属
 
@@ -104,7 +104,7 @@
 | **DTO任务调度** | event-trigger（事件订阅匹配）+ runtime-binder（订阅绑定） | 条件评估器（事件是否满足trigger条件） | task-executor（任务执行）+ result-emitter（结果事件） |
 | **CRAS对话分析** | 消息钩子（interaction.message.received）→ 事件总线消费 | 快通道：LLM意图识别 / 慢通道：趋势聚合分析 | emit L3事件（意图/情绪/模式）→ 由Dispatcher路由到handler |
 | **AEO效果运营** | 用户反馈事件 + 意图触发计数 + 评测结果事件 | AEO评测框架（黄金集+准确率+Badcase根因） | 飞书报告推送 / 规则调优 / 意图注册表更新 |
-| **凌霄阁审议** | L4/L5/META的高影响事件（自动触发）+ 用户请求（手动触发） | 七人议会角色评估 → 投票（≥5/7通过）→ 用户确认 | 审议结论事件 → 批准/否决 → 下游执行handler |
+| **裁决殿审议** | L4/L5/META的高影响事件（自动触发）+ 用户请求（手动触发） | 七人议会角色评估 → 投票（≥5/7通过）→ 用户确认 | 审议结论事件 → 批准/否决 → 下游执行handler |
 | **名词空间治理** | noun-registry.jsonl（名词注册表）+ 名词使用频率统计 | 去重扫描（编辑距离+语义相似度）+ 废弃规则（30/90天） | 合并别名 / 状态变更（dormant→deprecated→retired） |
 | **事件风暴抑制** | bus.emitDeduped（500ms去重窗口）+ emitBatch（批量合并） | HandlerRateLimiter（滑动窗口限流判断） | 限流：跳过执行 / 批量：合并后单次执行 |
 | **容灾降级** | handler执行异常（catch块）+ events.jsonl损坏检测（selfCheck） | 降级策略矩阵（按handler类型差异化决策） | 重试（指数退避）/ 降级队列 / 飞书通知 / 延迟重试 |
@@ -204,7 +204,7 @@
   L3     │ CRAS探针 │ LLM推理   │ 意图handler│
   L4     │ 知识探针 │ 价值评估  │ 适配executor│
   L5     │ 模式分析 │ 根因分析  │ 重构executor│
-  META   │ 进化检测 │ 凌霄阁   │ 进化executor│
+  META   │ 进化检测 │ 裁决殿   │ 进化executor│
          └──────────┴──────────┴──────────┘
 ```
 
@@ -339,7 +339,7 @@
 |------|------|
 | **事件源** | L1-L5所有层的信号聚合 + 外部对标分析 |
 | **探针位置** | `infrastructure/scanners/evolution-detector.js`（新建） |
-| **捕获机制** | 多信号关联 → 进化机会识别 → 凌霄阁审议 → 用户拍板 → 执行 |
+| **捕获机制** | 多信号关联 → 进化机会识别 → 裁决殿审议 → 用户拍板 → 执行 |
 | **时效性** | 周级（需要足够的数据积累和深度分析） |
 | **覆盖范围** | 记忆机制、多Agent协同、自主闭环、自主学习 |
 | **典型事件** | `evolution.memory.opportunity_detected`, `evolution.coordination.bottleneck_detected` |
@@ -1043,7 +1043,7 @@ function detectDuplicateNouns(registry) {
 **自动废弃规则**：
 1. **30天未使用**：名词的`last_used`超过30天 → 标记为`dormant`（休眠）
 2. **90天未使用**：`dormant`状态超过60天 → 标记为`deprecated`（废弃候选）
-3. **废弃确认**：`deprecated`状态的名词在下次进化检测中由凌霄阁确认是否正式废弃
+3. **废弃确认**：`deprecated`状态的名词在下次进化检测中由裁决殿确认是否正式废弃
 4. **正式废弃**：`status: "retired"`，所有引用该名词的事件路由自动移除
 
 **收缩metrics**：
@@ -1335,7 +1335,7 @@ v4在v3的trigger schema基础上增加多层事件绑定：
 | R36 统一向量化标准 | `knowledge.embedding_method.discovered` | 发现更好的Embedding方法 → 评估可行性 → 可能更新向量化标准 |
 | R60 架构合规审计 | `knowledge.architecture_pattern.discovered` | 发现新的架构模式 → 评估是否适用 → 生成适配方案 |
 | R47/R48 安全规则 | `knowledge.security_practice.discovered` | 发现新的安全最佳实践 → 评估 → 更新安全规则 |
-| R64 并行子Agent | `knowledge.agent_coordination.discovered` | 发现更好的多Agent协同模式 → 凌霄阁审议 → 可能重构 |
+| R64 并行子Agent | `knowledge.agent_coordination.discovered` | 发现更好的多Agent协同模式 → 裁决殿审议 → 可能重构 |
 | R77 智谱能力路由 | `knowledge.model_capability.discovered` | 发现新模型/新能力 → 评估 → 更新路由规则 |
 
 ### 4.4 L5高价值规则清单（系统性模式驱动）
@@ -1344,7 +1344,7 @@ v4在v3的trigger schema基础上增加多层事件绑定：
 
 | 规则 | L5事件 | 场景描述 | 触发动作 |
 |------|--------|---------|---------|
-| R06 重复错误检测 | `system.failure_pattern.pattern_emerged` | 同一模块连续3次修补 | 根因分析 → 重构方案 → 凌霄阁审议 |
+| R06 重复错误检测 | `system.failure_pattern.pattern_emerged` | 同一模块连续3次修补 | 根因分析 → 重构方案 → 裁决殿审议 |
 | R59 根因分析 | `system.failure_pattern.pattern_emerged` | 跨模块关联失败模式 | 深度根因分析 → 架构级重构建议 |
 | R61 CRAS模式解决 | `system.patch_cycle.pattern_emerged` | 反复修补同类问题 | 识别修补循环 → 从根本上解决 |
 | R04 ISC-DTO握手 | `system.architecture_bottleneck.pattern_emerged` | 对齐机制本身成为瓶颈 | 架构重新设计 |
@@ -2983,7 +2983,7 @@ skills/aeo/intent-evaluations/
 │  *.discovered              *.evaluated         *.adapted              │
 │                                                                       │
 │  ┌─────────────────────────────────────────────────────────────┐     │
-│  │ 决策门禁：impact > 3 → 凌霄阁审议 → 用户拍板                 │     │
+│  │ 决策门禁：impact > 3 → 裁决殿审议 → 用户拍板                 │     │
 │  └─────────────────────────────────────────────────────────────┘     │
 └───────────────────────────────────────────────────────────────────────┘
 ```
@@ -3174,7 +3174,7 @@ Phase 3: 审批（Approval）
   基于评估报告的 impact_score 分级:
     ├── 低影响 (score < 3): 自动批准 → 直接进入Phase 4
     ├── 中影响 (score 3-6): 生成飞书卡片通知用户 → 等待确认
-    └── 高影响 (score > 6): 凌霄阁审议 → 七人投票 → 用户拍板
+    └── 高影响 (score > 6): 裁决殿审议 → 七人投票 → 用户拍板
   
   审批通过后 emit knowledge.{domain}.approved
 
@@ -3228,7 +3228,7 @@ class KnowledgeAdapter {
       await this.notifyUserForApproval(event, assessment);
       // 用户确认后由回调触发 executeAdaptation
     } else {
-      // 高影响：凌霄阁审议
+      // 高影响：裁决殿审议
       bus.emit('orchestration.decision.requested', {
         type: 'knowledge_adaptation',
         evidence: event.payload,
@@ -3309,7 +3309,7 @@ class KnowledgeAdapter {
 │  │ Detection    │───▶│ Analysis    │───▶│ Refactor    │               │
 │  │              │    │             │    │             │               │
 │  │ pattern-     │    │ 根因分析     │    │ 重构方案     │               │
-│  │ analyzer.js  │    │ 多维关联     │    │ 凌霄阁审议   │               │
+│  │ analyzer.js  │    │ 多维关联     │    │ 裁决殿审议   │               │
 │  │              │    │ 因果链构建   │    │ 用户确认     │               │
 │  │ 数据源：      │    │ 影响评估     │    │ DTO调度执行  │               │
 │  │ · 错误日志   │    │             │    │ 回归验证     │               │
@@ -3323,7 +3323,7 @@ class KnowledgeAdapter {
 │  pattern_emerged           completed           completed              │
 │                                                                       │
 │  ┌─────────────────────────────────────────────────────────────┐     │
-│  │ 强制门禁：所有重构必须经凌霄阁审议 + 用户确认                   │     │
+│  │ 强制门禁：所有重构必须经裁决殿审议 + 用户确认                   │     │
 │  └─────────────────────────────────────────────────────────────┘     │
 └───────────────────────────────────────────────────────────────────────┘
 ```
@@ -3690,8 +3690,8 @@ Phase 3: 重构方案生成（Refactor Planning）
     │   └── 实施工期
     └── emit system.refactor.proposed (附方案列表)
 
-Phase 4: 审批（★强制凌霄阁★）
-  所有重构提案强制经凌霄阁审议:
+Phase 4: 审批（★强制裁决殿★）
+  所有重构提案强制经裁决殿审议:
     ├── 七人议会评估:
     │   ├── 架构师: 方案的技术正确性
     │   ├── 工程师: 实施难度和工期
@@ -3735,9 +3735,9 @@ Phase 6: 验证与反馈（Verification & Feedback）
 
 | 严重度 | 触发条件 | 响应时间 | 审批方式 |
 |--------|---------|---------|---------|
-| **Critical** | 架构瓶颈导致核心功能不可用 | 立即 | 凌霄阁紧急会议（简化流程） |
-| **High** | 修补循环≥5次，且影响用户体验 | 24h内 | 凌霄阁标准流程 |
-| **Medium** | 跨模块关联失败，3-4次修补 | 7天内 | 凌霄阁标准流程 |
+| **Critical** | 架构瓶颈导致核心功能不可用 | 立即 | 裁决殿紧急会议（简化流程） |
+| **High** | 修补循环≥5次，且影响用户体验 | 24h内 | 裁决殿标准流程 |
+| **Medium** | 跨模块关联失败，3-4次修补 | 7天内 | 裁决殿标准流程 |
 | **Low** | 单模块轻微回归，影响可控 | 排入迭代 | 自动批准+用户知会 |
 
 **routes.json 新增路由**：
@@ -3766,7 +3766,7 @@ Phase 6: 验证与反馈（Verification & Feedback）
     "handler": "council-refactor-review",
     "agent": "main",
     "priority": "critical",
-    "description": "重构方案强制经凌霄阁审议"
+    "description": "重构方案强制经裁决殿审议"
   },
   "system.refactor.approved": {
     "handler": "refactor-executor",
@@ -4095,9 +4095,9 @@ feasibility: 当前技术条件下的可行性 (1-10)
 | 自主学习 | 8 | 6 | 5 | 240 | 🥉 |
 | 多Agent协同 | 7 | 5 | 5 | 175 | 4th |
 
-### 8.4 凌霄阁审议流程详细设计（v4.1补齐）
+### 8.4 裁决殿审议流程详细设计（v4.1补齐）
 
-> v4.0只提到"凌霄阁审议"但未给出执行细节。v4.1完整设计。
+> v4.0只提到"裁决殿审议"但未给出执行细节。v4.1完整设计。
 
 #### 8.4.1 审议触发条件
 
@@ -4177,7 +4177,7 @@ feasibility: 当前技术条件下的可行性 (1-10)
 | **月总成本** | | | **60K-130K tokens** |
 
 **成本控制策略**：
-1. **预筛**: impact_score < 3 的不进入凌霄阁（自动处理或用户确认即可）
+1. **预筛**: impact_score < 3 的不进入裁决殿（自动处理或用户确认即可）
 2. **缓存**: 相似提案复用之前的审议结论
 3. **简化模式**: 紧急场景下可3人快审（战略家+架构师+工程师）
 
@@ -4202,7 +4202,7 @@ Phase 2: 进化提案生成
     │   └── 资源需求
     └── emit evolution.{direction}.evolution_proposed
 
-Phase 3: 凌霄阁审议（见8.4.2-8.4.3）
+Phase 3: 裁决殿审议（见8.4.2-8.4.3）
     → 通过后 emit evolution.{direction}.evolution_approved
     → 用户拍板确认
 
@@ -4254,13 +4254,13 @@ Phase 6: 进化元反馈（递归进化）
     "handler": "evolution-council",
     "agent": "main",
     "priority": "critical",
-    "description": "进化机会路由到凌霄阁审议"
+    "description": "进化机会路由到裁决殿审议"
   },
   "evolution.*.evolution_proposed": {
     "handler": "council-review",
     "agent": "main",
     "priority": "critical",
-    "description": "进化提案路由到凌霄阁投票"
+    "description": "进化提案路由到裁决殿投票"
   },
   "evolution.*.evolution_approved": {
     "handler": "evolution-executor",
@@ -4876,7 +4876,7 @@ const testCases = [
 |------|------|---------|------|
 | 3.1 知识发现探针 | L4事件emit | `skills/cras/knowledge-discovery-probe.js`（新建） | 4h |
 | 3.2 知识适配handler | 评估+适配 | `infrastructure/dispatcher/handlers/knowledge-adapter.js`（新建） | 4h |
-| 3.3 凌霄阁接口 | 高影响决策审议 | `skills/council-integration.js`（改造） | 2h |
+| 3.3 裁决殿接口 | 高影响决策审议 | `skills/council-integration.js`（改造） | 2h |
 | 3.4 L4路由配置 | dispatcher路由 | `infrastructure/dispatcher/routes.json`（更新） | 1h |
 
 ### Phase 4: 系统性模式检测（L5）（2天）
@@ -4893,7 +4893,7 @@ const testCases = [
 | 任务 | 产出 | 文件位置 | 估时 |
 |------|------|---------|------|
 | 5.1 进化检测引擎 | META事件emit | `infrastructure/scanners/evolution-detector.js`（新建） | 4h |
-| 5.2 凌霄阁进化审议 | 专用审议流程 | `skills/council-evolution.js`（新建） | 3h |
+| 5.2 裁决殿进化审议 | 专用审议流程 | `skills/council-evolution.js`（新建） | 3h |
 | 5.3 META路由配置 | dispatcher路由 | `infrastructure/dispatcher/routes.json`（更新） | 1h |
 
 ### Phase 6: 规则迁移+验证（2天）
@@ -4917,7 +4917,7 @@ const testCases = [
 | Phase 2 (L3 CRAS) | 3天 | 可与Phase 3并行 | 含消息钩子数据源+Module B Phase 1 |
 | Phase 3 (L4知识发现) | 2天 | 可与Phase 2并行 | |
 | Phase 4 (L5模式检测) | 3天 | 可与Phase 5并行 | 含根因分析handler |
-| Phase 5 (META进化) | 2天 | 可与Phase 4并行 | 含凌霄阁流程实现 |
+| Phase 5 (META进化) | 2天 | 可与Phase 4并行 | 含裁决殿流程实现 |
 | Phase 6 (DTO总线统一) | 4天 | 需Phase 0完成 | ★高风险，需全量回归 |
 | Phase 7 (迁移+验证) | 3天 | 需前6个Phase完成 | 规则迁移+端到端测试 |
 | **总计** | **22天**（串行）/ **14天**（最大并行） | | 工程师评估24-28天更保守 |
@@ -4977,11 +4977,11 @@ const testCases = [
 | D3 | CRAS作为L3的唯一探针，双通道设计 | 快通道捕捉原子意图（实时性），慢通道识别宏观模式（深度） | 用户明确指定 |
 | D4 | L5不等于L2的"错误次数≥N" | L5是多维关联分析（跨模块、跨时间、因果链），L2是单维度阈值 | 用户教学 |
 | D5 | 元事件域是L1-L5的二阶聚合，不是第六层 | 进化机会来自所有层的信号综合，不是独立信号源 | 架构分析 |
-| D6 | 所有进化决策必须经凌霄阁审议+用户拍板 | 进化改变系统根基，风险极高，必须有人类监督 | 用户明确指定 |
+| D6 | 所有进化决策必须经裁决殿审议+用户拍板 | 进化改变系统根基，风险极高，必须有人类监督 | 用户明确指定 |
 | D7 | 事件Schema增加layer/probe/confidence字段 | L3/L4是推断性的，需要置信度；layer/probe方便调试和统计 | 架构需要 |
 | D8 | trigger.events从数组改为按层分类的对象 | 明确标注每条规则与哪些层相关，方便查询和管理 | 可维护性 |
-| D9 | 知识发现→凌霄阁审议→用户确认→执行 | 外部知识适配有风险，高影响变更必须人审 | 用户价值观 |
-| D10 | 系统性故障→重构必须强制经凌霄阁 | 重构改变系统结构，是最高风险操作 | 架构安全 |
+| D9 | 知识发现→裁决殿审议→用户确认→执行 | 外部知识适配有风险，高影响变更必须人审 | 用户价值观 |
+| D10 | 系统性故障→重构必须强制经裁决殿 | 重构改变系统结构，是最高风险操作 | 架构安全 |
 | D11 | 事件分类体系6类×开放名词，支撑30000条规则 | 动词封闭（6类穷尽状态变化），名词开放（按需生长） | 反熵增原则 |
 | D12 | DTO仍是唯一调度引擎，不新增引擎 | L3/L4/L5的handler最终都通过DTO调度执行 | 用户明确约束 |
 | **D13** ★ | **user.intent必须按具体意图细分命名** | v4.0将10+种意图映射到同一事件类型，路由效率低、调试困难 | v4.1质量审查 |
@@ -5332,7 +5332,7 @@ async dispatch(event) {
 | 对话数据源 | 无 | ~~假设可读取session历史~~ | **消息钩子+记忆文件代理** |
 | 闭环完整性 | L1/L2 | ~~声称L3-L5完整~~（缺失） | **L3-L5+META完整执行路径** |
 | 名词治理 | 无 | 无（只有增长） | **注册+去重+废弃收缩机制** |
-| 凌霄阁 | 可选 | 概念（缺细节） | **完整流程+成本控制+分级** |
+| 裁决殿 | 可选 | 概念（缺细节） | **完整流程+成本控制+分级** |
 | bus.js性能 | — | ~~未识别问题~~ | **分离ack存储，O(1)追加** |
 | 工程可行性 | — | ~~声称"现有代码可落地"~~ | **专章分析6项风险+方案** |
 | 事件Schema | type+source | +layer+probe+confidence | 不变 |
@@ -5462,7 +5462,7 @@ v4完全向后兼容v3：
 | 新增事件层是否需要重构？ | 不需要 | ✅ 五层模型穷尽感知通道 |
 | CRAS双通道能否独立扩展？ | 快慢通道独立 | ✅ 可独立新增通道 |
 | 知识发现闭环能否泛化？ | 不限于特定知识类型 | ✅ 名词开放 |
-| 进化机制能否自我进化？ | 进化检测器本身可被升级 | ✅ 凌霄阁可审议进化机制本身 |
+| 进化机制能否自我进化？ | 进化检测器本身可被升级 | ✅ 裁决殿可审议进化机制本身 |
 | **★名词空间会否无序膨胀？** | **有注册+去重+废弃机制** | **✅ 2.8节名词治理机制** |
 | **★语义是否会稀释？** | **每个意图独立命名** | **✅ v4.1细分了28种L3事件** |
 | **★有"收缩"能力吗？** | **休眠→废弃→退役流程** | **✅ 2.8.3节自动废弃规则** |
@@ -5497,7 +5497,7 @@ v4完全向后兼容v3：
 │  Layer 2: 链路级降级（闭环断裂时退化为安全模式）                       │
 │  ├── L3探针宕机 → 退化为L1/L2驱动（功能降级但不停服）                │
 │  ├── CRAS不可用 → 意图识别关闭，其他层不受影响                       │
-│  └── 凌霄阁不可用 → 降级为人工审批                                   │
+│  └── 裁决殿不可用 → 降级为人工审批                                   │
 │                                                                      │
 │  Layer 3: 系统级回滚（重大变更可回退）                                │
 │  ├── 规则迁移回滚 → v3 trigger格式向后兼容                           │
@@ -5708,7 +5708,7 @@ class EventBus {
 | dispatcher宕机 | 所有事件路由停止 | 事件持续写入events.jsonl（不丢失），恢复后从cursor消费积压事件 | **最高优先级恢复** |
 | bus.js写入失败 | 事件无法持久化 | emit降级为console.error日志记录 | 磁盘空间/权限修复后自动恢复 |
 | events.jsonl满10MB | 轮转触发 | 旧文件归档到.archive/，新文件从空开始 | 自动，无需人工 |
-| 凌霄阁LLM不可用 | 审议无法完成 | 自动降级为"人工审批"：直接发飞书卡片给用户决策 | LLM恢复后自动切回 |
+| 裁决殿LLM不可用 | 审议无法完成 | 自动降级为"人工审批"：直接发飞书卡片给用户决策 | LLM恢复后自动切回 |
 
 ### 8.6.4 系统级回滚方案
 
@@ -6719,7 +6719,7 @@ class Dispatcher {
 | 闭环完整性 | 7.0 | 8.5 | 端到端Trace + 容灾降级 = 闭环不仅完整而且可观测可恢复 |
 | 反熵增 | 7.5 | 8.0 | 事件风暴抑制=防止事件空间的熵增失控 |
 | 自驱进化 | 7.0 | 7.5 | 空壳函数填充 = 进化探针从"设计"变为"可执行" |
-| 凌霄阁审议 | 7.0 | 7.5 | 降级方案（LLM不可用时退化为人工审批） |
+| 裁决殿审议 | 7.0 | 7.5 | 降级方案（LLM不可用时退化为人工审批） |
 | 用户教学对齐 | 6.5 | 7.5 | 完整trace示例让用户看到从消息到执行的全链路 |
 
 **加权预期总分**：~7.9-8.2
@@ -6762,7 +6762,7 @@ class Dispatcher {
 | 闭环完整性 | 8.5 | **9.0** | bus.consume()补完+Dispatcher路由引擎→事件从产生到消费的最后一公里打通 |
 | 反熵增 | 8.0 | **8.5** | 意图生命周期状态机（active→dormant→deprecated→retired）+MECE治理 |
 | 自驱进化 | 7.5 | 8.0 | AEO未知意图发现→意图类型可自主增长（但受MECE约束） |
-| 凌霄阁审议 | 7.5 | 7.5 | 不变 |
+| 裁决殿审议 | 7.5 | 7.5 | 不变 |
 | 用户教学对齐 | 7.5 | **8.5** | 意图识别体系完全遵循用户五原则（轻量/五类/LLM引擎/AEO治理/不做RAG） |
 
 **加权预期总分**：~8.3-8.5

@@ -16,7 +16,7 @@ const DEFAULT_CONFIG = {
   reviewers: {
     engineer: { agentId: 'engineer' },
     qa: { agentId: 'qa-analyst' },
-    tribunal: { agentId: 'lingxiaoge-tribunal' }
+    tribunal: { agentId: 'caijuedian-tribunal' }
   },
   thinking: 'high',
   model: undefined,
@@ -195,10 +195,10 @@ async function runPipeline(designDocPath, userConfig = {}) {
   }
 
   state = STATES.TRIBUNAL;
-  pushTimeline(timeline, STATES.QA_REVIEW, STATES.TRIBUNAL, '双复审通过，进入凌霄阁终审');
+  pushTimeline(timeline, STATES.QA_REVIEW, STATES.TRIBUNAL, '双复审通过，进入裁决殿终审');
 
   const tribunalRaw = await spawnReview({
-    roleName: '凌霄阁终审团',
+    roleName: '裁决殿终审团',
     agentId: config.reviewers.tribunal.agentId,
     designDoc,
     config

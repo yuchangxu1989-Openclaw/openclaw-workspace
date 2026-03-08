@@ -187,7 +187,7 @@ function main() {
         '真实数据集执行',
         '自动化报告生成',
         'badcase根因分析',
-        '凌霄阁裁决材料生成'
+        '裁决殿裁决材料生成'
       ]
     },
     badcases,
@@ -207,7 +207,7 @@ function main() {
 
   const tribunalMdPath = path.join(TRIBUNAL_DIR, `${runId}-tribunal.md`);
   ensureDir(path.dirname(tribunalMdPath));
-  const tribunalMd = `# Day2 Gap3 凌霄阁裁决记录\n\n- 议题: Day2 Gap3：AEO功能质量测试与数据评测闭环\n- 生成时间: ${report.generatedAt}\n- 数据来源: 真实 workspace 脚本执行\n\n## 裁决结论\n- 结论: ${report.tribunal.decision}\n- 理由: ${report.tribunal.reason}\n- 条件:\n${report.tribunal.conditions.map(c => `  - ${c}`).join('\n') || '  - 无'}\n\n## AEO评测摘要\n- Pipeline Benchmark: ${pipelineRun.success ? 'PASS' : 'FAIL'}\n- Event Dispatch E2E: ${e2eRun.success ? 'PASS' : 'FAIL'}\n- Gate Ready: ${report.summary.gateReady ? 'YES' : 'NO'}\n- Badcase数: ${report.summary.badcaseCount}\n\n## Badcase根因\n${badcases.map(x => `- [${x.category}] ${x.rootCause}｜行动: ${x.action}${x.evidence ? `｜证据: ${x.evidence}` : ''}`).join('\n')}\n\n## 产物\n- JSON报告: ${path.relative(ROOT, reportJsonPath)}\n- Pipeline明细: ${report.artifacts.pipelineReport}\n- E2E明细: ${report.artifacts.e2eReport}\n`;
+  const tribunalMd = `# Day2 Gap3 裁决殿裁决记录\n\n- 议题: Day2 Gap3：AEO功能质量测试与数据评测闭环\n- 生成时间: ${report.generatedAt}\n- 数据来源: 真实 workspace 脚本执行\n\n## 裁决结论\n- 结论: ${report.tribunal.decision}\n- 理由: ${report.tribunal.reason}\n- 条件:\n${report.tribunal.conditions.map(c => `  - ${c}`).join('\n') || '  - 无'}\n\n## AEO评测摘要\n- Pipeline Benchmark: ${pipelineRun.success ? 'PASS' : 'FAIL'}\n- Event Dispatch E2E: ${e2eRun.success ? 'PASS' : 'FAIL'}\n- Gate Ready: ${report.summary.gateReady ? 'YES' : 'NO'}\n- Badcase数: ${report.summary.badcaseCount}\n\n## Badcase根因\n${badcases.map(x => `- [${x.category}] ${x.rootCause}｜行动: ${x.action}${x.evidence ? `｜证据: ${x.evidence}` : ''}`).join('\n')}\n\n## 产物\n- JSON报告: ${path.relative(ROOT, reportJsonPath)}\n- Pipeline明细: ${report.artifacts.pipelineReport}\n- E2E明细: ${report.artifacts.e2eReport}\n`;
   fs.writeFileSync(tribunalMdPath, tribunalMd);
   report.tribunal.artifact = path.relative(ROOT, tribunalMdPath);
   fs.writeFileSync(reportJsonPath, JSON.stringify(report, null, 2));

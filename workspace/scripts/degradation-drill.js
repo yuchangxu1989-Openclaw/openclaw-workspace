@@ -6,7 +6,7 @@ const path = require('path');
 /**
  * 降级演练脚本 (Degradation Drill)
  * 
- * 凌霄阁裁决验证：
+ * 裁决殿裁决验证：
  * "L3全量feature flag：即使L3上线，任何单点故障可在30秒内降级为L2直通模式"
  * 
  * 模拟场景：
@@ -435,7 +435,7 @@ function generateReport(drillResults) {
   
   let md = `# Day 2 降级演练报告\n\n`;
   md += `> 生成时间: ${now}\n`;
-  md += `> 凌霄阁裁决: "L3全量feature flag：任何单点故障可在30秒内降级为L2直通模式"\n\n`;
+  md += `> 裁决殿裁决: "L3全量feature flag：任何单点故障可在30秒内降级为L2直通模式"\n\n`;
   
   md += `## 总览\n\n`;
   md += `| 指标 | 值 |\n|------|----|\n`;
@@ -443,7 +443,7 @@ function generateReport(drillResults) {
   md += `| 通过 | ${drillResults.filter(r => r.passed).length} |\n`;
   md += `| 失败 | ${drillResults.filter(r => !r.passed).length} |\n`;
   md += `| 最大切换耗时 | ${Math.max(...drillResults.map(r => r.switchTime))}ms |\n`;
-  md += `| 凌霄阁要求 | < 30,000ms |\n`;
+  md += `| 裁决殿要求 | < 30,000ms |\n`;
   md += `| **总体判定** | **${allPassed ? '✅ PASS' : '❌ FAIL'}** |\n\n`;
 
   md += `## Feature Flag 盘点\n\n`;
@@ -499,12 +499,12 @@ function generateReport(drillResults) {
   md += `## 结论\n\n`;
   if (allPassed) {
     md += `所有 ${drillResults.length} 个降级场景均通过验证。Feature Flag 体系完整覆盖 L3 全部功能点，`;
-    md += `最大切换耗时 ${Math.max(...drillResults.map(r => r.switchTime))}ms，远低于凌霄阁要求的 30 秒上限。\n\n`;
-    md += `**凌霄阁裁决验证: ✅ PASS**\n`;
+    md += `最大切换耗时 ${Math.max(...drillResults.map(r => r.switchTime))}ms，远低于裁决殿要求的 30 秒上限。\n\n`;
+    md += `**裁决殿裁决验证: ✅ PASS**\n`;
   } else {
     const failedScenarios = drillResults.filter(r => !r.passed);
     md += `${failedScenarios.length} 个场景未通过验证，需要修复后重新演练。\n\n`;
-    md += `**凌霄阁裁决验证: ❌ FAIL**\n`;
+    md += `**裁决殿裁决验证: ❌ FAIL**\n`;
   }
 
   return md;
@@ -517,7 +517,7 @@ function generateReport(drillResults) {
 async function runDrill() {
   console.log('═══ Day 2 降级演练 ═══\n');
   console.log(`场景数: ${scenarios.length}`);
-  console.log(`凌霄阁要求: 切换耗时 < 30 秒\n`);
+  console.log(`裁决殿要求: 切换耗时 < 30 秒\n`);
 
   const drillResults = [];
 
