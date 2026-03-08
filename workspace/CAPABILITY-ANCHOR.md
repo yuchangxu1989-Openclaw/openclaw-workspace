@@ -128,3 +128,27 @@
 3. **搜索首选**: tavily-search（AI优化），web_search为备选
 4. **能力来源**: 本文档由 isc-capability-anchor-sync 全量扫描自动生成
 5. **同步频率**: 每小时自动 + 技能变更时触发
+
+## 主Agent行为边界（ISC-MAIN-AGENT-DELEGATION-001，永久生效）
+
+### 主Agent白名单（仅限这些操作）
+- 接收/回复用户消息
+- 调度子Agent（sessions_spawn）
+- 读取文件确认子Agent产出质量（read/feishu_doc read）
+- 更新MEMORY.md、HEARTBEAT.md等元数据文件
+- 轻量exec（git status、ls、cat等查询命令）
+- memory_search/memory_get
+
+### 主Agent黑名单（绝对禁止，必须委派子Agent）
+- 写飞书文档（feishu_doc write/append/insert）
+- 写代码文件（.js/.ts/.py/.sh/.json，超过20行）
+- 执行重型脚本（node/python/bash脚本执行）
+- 大批量文件操作（>3个文件的创建/修改）
+- 数据分析/报告生成
+- 架构设计文档撰写
+
+### 违反判定
+主Agent执行黑名单操作 = Badcase，自动采集到评测集
+
+### 兜底条件
+仅当所有可用子Agent（最多19个）均失败/不可用时，主Agent才可临时执行黑名单操作，且必须在MEMORY.md记录原因

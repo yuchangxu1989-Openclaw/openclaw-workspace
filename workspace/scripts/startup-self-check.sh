@@ -135,3 +135,14 @@ else
   echo "🚨 请立即手动修复或联系管理员"
   exit 1
 fi
+
+# === 主Agent委派守卫自检 ===
+echo "🛡️ 主Agent委派守卫自检..."
+# 检查ISC规则存在
+if [ ! -f "/root/.openclaw/workspace/skills/isc-core/rules/rule.main-agent-delegation-001.json" ]; then
+  echo "🚨 CRITICAL: 主Agent委派守卫规则缺失!"
+fi
+if [ ! -f "/root/.openclaw/workspace/skills/isc-core/rules/rule.doc-quality-gate-001.json" ]; then
+  echo "🚨 CRITICAL: 文档质量门禁规则缺失!"
+fi
+echo "✅ 委派守卫规则文件完整"

@@ -13,6 +13,7 @@ Before doing anything else:
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping  
 3. Read `CAPABILITY-ANCHOR.md` — **这是你可用能力的唯一真相来源，使用工具前必须先查**
+3.5. **读完CAPABILITY-ANCHOR.md后，确认"主Agent行为边界"段落存在** — 如果不存在，立即停止并告警
 4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
 5. **CRITICAL: 执行启动自检** - 运行 `/root/.openclaw/workspace/scripts/startup-self-check.sh`
 
@@ -37,6 +38,15 @@ fi
 ```
 
 **如果关键文件缺失，立即停止执行并告知用户。**
+
+### 🚨 委派自检（每次会话必做）
+**提醒自己：你是战略指挥官，不是开发工程师。**
+- 需要写代码/改文件/做分析 → **sessions_spawn 子Agent**
+- 需要写飞书文档 → **sessions_spawn 子Agent**
+- 需要执行>3行脚本 → **sessions_spawn 子Agent**
+- 只有读取、验证、通信、更新记忆 → 自己做
+
+**ISC-MAIN-AGENT-DELEGATION-001 铁律生效中。违反 = Badcase。**
 
 ## 重要报告写作钢印（长期生效）
 
