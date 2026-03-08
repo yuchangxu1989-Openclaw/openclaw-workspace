@@ -194,7 +194,7 @@
 **实现**：`dto-signals-watcher.js` 监听 `.dto-signals/` 目录。检测到新文件后：
 1. 读取信号文件内容
 2. emit `dto.signal.created` 事件
-3. 调用 `dto-core/event-bridge.processEvents()` 消费事件队列
+3. 调用 `lto-core/event-bridge.processEvents()` 消费事件队列
 4. 将已处理信号文件移入 `.dto-signals/.processed/`
 5. 标记事件触发
 
@@ -260,7 +260,7 @@ node infrastructure/event-driven/event-watcher-daemon.js --status
 | `node fast-check.js && ...` | `node infrastructure/event-driven/cron-adapters/event-dispatcher-adapter.js` |
 | `node isc-core/event-bridge.js` | `node infrastructure/event-driven/cron-adapters/isc-detect-adapter.js` |
 | 全局决策流水线脚本 | `node infrastructure/event-driven/cron-adapters/global-pipeline-adapter.js` |
-| `node dto-core/event-bridge.js` | `node infrastructure/event-driven/cron-adapters/dto-aeo-adapter.js` |
+| `node lto-core/event-bridge.js` | `node infrastructure/event-driven/cron-adapters/dto-aeo-adapter.js` |
 
 ### Phase 3: 验证
 

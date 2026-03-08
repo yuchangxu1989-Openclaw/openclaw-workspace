@@ -82,4 +82,4 @@ rule.yyy | event.d | action.e | ❌缺失 | ✅ | ❌ | ✅
 ## 依赖
 
 - ISC规则目录：`skills/isc-core/rules/`
-- DTO任务定义：`skills/dto-core/`（用于对齐矩阵）
+- DTO任务定义：`skills/lto-core/`（用于对齐矩阵）

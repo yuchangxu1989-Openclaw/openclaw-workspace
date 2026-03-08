@@ -20,7 +20,7 @@ module.exports = async function(event, rule, context) {
   // 允许同步的scope目录/文件
   const SYNC_SCOPE = [
     'skills/isc-core',
-    'skills/dto-core',
+    'skills/lto-core',
     'infrastructure/event-bus',
     'infrastructure/evomap',
     'AGENTS.md',

@@ -135,7 +135,7 @@ if (checker.prototype && checker.prototype.constructor === checker) {
 - `infrastructure/enforcement/*.jsonl` — 执行记录
 - `infrastructure/event-bus/signals/` — 信号文件
 - `infrastructure/dispatcher/state/` — 调度器状态
-- `skills/dto-core/tasks/` — 本地任务编排 任务文件
+- `skills/lto-core/tasks/` — 本地任务编排 任务文件
 - `scripts/logs/` — 脚本日志
 - `.pipeline-*.json*` — Pipeline 状态
 - `feishu_sent_*/` — 飞书发送记录

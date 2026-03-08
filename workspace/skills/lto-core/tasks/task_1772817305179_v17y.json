@@ -1,0 +1,35 @@
+{
+  "id": "task_1772817305179_v17y",
+  "name": "系统架构重构",
+  "description": "执行Key分配、Provider清理、智谱用途分离等具体变更",
+  "source_event": "evt_mmf5jt7p_277aep",
+  "source_type": "intent.directive",
+  "status": "pending",
+  "created_at": "2026-03-06T17:15:05.179Z",
+  "payload": {
+    "intent_type": "DIRECTIVE",
+    "target": "系统架构重构",
+    "summary": "执行Key分配、Provider清理、智谱用途分离等具体变更",
+    "confidence": 0.82,
+    "evidence": "执行的变更：1. 删除cherryin 2. 每Agent独立双渠道key 3. 智谱三用途分离",
+    "sentiment": "neutral",
+    "source_file": "2026-03-05.md",
+    "extraction_path": "slow",
+    "extracted_at": 1772817136549,
+    "extractor_version": "1.0.0",
+    "_metadata": {
+      "layer": "l3",
+      "trace_id": "intent_1772817136549_iwvc",
+      "chain_depth": 1,
+      "emitted_at": 1772817136549,
+      "event_type": "intent.directive"
+    },
+    "source_event_id": "evt_mmf5jt7p_277aep",
+    "source_event_type": "intent.directive",
+    "task_name": "系统架构重构",
+    "description": "执行Key分配、Provider清理、智谱用途分离等具体变更",
+    "model": "zhipu/glm-5"
+  },
+  "model": "zhipu/glm-5",
+  "updated_at": "2026-03-06T17:20:03.935Z"
+}

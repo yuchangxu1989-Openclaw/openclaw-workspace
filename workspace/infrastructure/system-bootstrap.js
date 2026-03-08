@@ -71,7 +71,7 @@
  * │   ├── isc-core/                             # ISC智能标准中心
  * │   │   ├── rules/                            # 规则库（102条JSON）
  * │   │   └── index.js                          # 规则引擎
- * │   ├── dto-core/                             # DTO任务编排
+ * │   ├── lto-core/                             # DTO任务编排
  * │   ├── cras/                                 # CRAS认知进化（感知层）
  * │   ├── aeo/                                  # AEO效果运营（反馈层）
  * │   ├── lep-executor/                         # LEP韧性执行

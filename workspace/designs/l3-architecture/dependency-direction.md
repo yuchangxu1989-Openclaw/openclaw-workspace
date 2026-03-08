@@ -49,7 +49,7 @@
   │  │  aeo/event-bridge.js                                    │    │
   │  │  cras/event-bridge.js, rule-suggester.js                │    │
   │  │  seef/event-bridge.js                                   │    │
-  │  │  dto-core/event-bridge.js                               │    │
+  │  │  lto-core/event-bridge.js                               │    │
   │  └────────────────────────┬────────────────────────────────┘    │
   │                           │ ✅ 允许                             │
   │                           ▼                                     │
@@ -108,7 +108,7 @@
 | 4 | **observability/l3-dashboard** | `infrastructure/observability/l3-dashboard.js` | metrics(lazy), health(lazy), alerts(lazy), decision-log(lazy) |
 | 4 | **observability/dashboard** | `infrastructure/observability/dashboard.js` | event-bus/bus.js, state-tracker, ❌skills/aeo(!) |
 | 5 | **mr** | `infrastructure/mr/` | lep-core |
-| 5 | **lep-core** | `infrastructure/lep-core/` | ❌dto-core(!), ❌parallel-subagent(!), ❌feishu-chat-backup(!) |
+| 5 | **lep-core** | `infrastructure/lep-core/` | ❌lto-core(!), ❌parallel-subagent(!), ❌feishu-chat-backup(!) |
 
 ### 3.2 L3→L3 依赖关系图（Mermaid）
 
@@ -222,7 +222,7 @@ graph TD
 | 2 | `skills/seef/event-bridge.js:22` | `infrastructure/event-bus/bus.js` | L2→L3直接require |
 | 3 | `skills/cras/rule-suggester.js:12` | `infrastructure/event-bus/bus-adapter` | L2→L3直接require |
 | 4 | `skills/cras/event-bridge.js:15` | `infrastructure/event-bus/bus-adapter` | L2→L3直接require |
-| 5 | `skills/dto-core/event-bridge.js:7` | `infrastructure/event-bus/bus.js` | L2→L3直接require |
+| 5 | `skills/lto-core/event-bridge.js:7` | `infrastructure/event-bus/bus.js` | L2→L3直接require |
 | 6 | `skills/aeo/event-bridge.js:4` | `infrastructure/event-bus/bus.js` | L2→L3直接require |
 
 **修复方案**：创建 `infrastructure/event-bus/sdk.js` 薄客户端，skills/ 通过SDK与EventBus交互，而非直接require bus.js/bus-adapter.js。
@@ -232,7 +232,7 @@ graph TD
 | # | 文件 | 引用目标 | 违规类型 |
 |---|------|---------|---------|
 | 1 | `infrastructure/observability/dashboard.js:56` | `skills/aeo/assessment-store.js` | L3→L2直接require |
-| 2 | `infrastructure/lep-core/core/LEPExecutor.js:742` | `../dto-core/...` (phantom→skills/) | L3→L2幻影依赖 |
+| 2 | `infrastructure/lep-core/core/LEPExecutor.js:742` | `../lto-core/...` (phantom→skills/) | L3→L2幻影依赖 |
 | 3 | `infrastructure/lep-core/core/LEPExecutor.js:18` | `../parallel-subagent/...` (phantom→skills/) | L3→L1幻影依赖 |
 | 4 | `infrastructure/lep-core/executors/base.js:131` | `../../feishu-chat-backup` (phantom→skills/) | L3→L2幻影依赖 |
 

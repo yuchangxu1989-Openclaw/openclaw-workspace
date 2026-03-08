@@ -28,12 +28,12 @@
 | Cron 用途 | 执行全部业务逻辑 | 每15分钟兜底补扫，检查遗漏事件并重新 emit |
 
 **新增文件**:
-- `skills/dto-core/config/cron/auto-response-pipeline.yaml` — 兜底补扫 Cron 配置
+- `skills/lto-core/config/cron/auto-response-pipeline.yaml` — 兜底补扫 Cron 配置
 - `infrastructure/dispatcher/handlers/auto-response-handler.js` — 事件驱动 handler
 
 **修改文件**:
 - `infrastructure/dispatcher/routes.json` — 添加 3 条路由
-- `skills/dto-core/tasks/auto-response-pipeline.yaml` — 添加重塑标记
+- `skills/lto-core/tasks/auto-response-pipeline.yaml` — 添加重塑标记
 
 ### 2. 用户洞察 (cras-b-user-insight)
 
@@ -43,12 +43,12 @@
 | Cron 用途 | 直接执行洞察分析 | 每30分钟检查是否有洞察输出，无则 emit `cras.insight.request` |
 
 **新增文件**:
-- `skills/dto-core/config/cron/cras-b-user-insight.json` — 兜底补扫 Cron 配置
+- `skills/lto-core/config/cron/cras-b-user-insight.json` — 兜底补扫 Cron 配置
 
 **修改文件**:
 - `infrastructure/dispatcher/routes.json` — 添加 `cras.insight.request` 路由
 - `infrastructure/event-bus/bus-adapter.js` — 添加 `emitInsightRequest()` 便捷方法
-- `skills/dto-core/tasks/cras-b-user-insight.json` — 添加重塑标记
+- `skills/lto-core/tasks/cras-b-user-insight.json` — 添加重塑标记
 
 ### 3. 系统健康检查 (system-monitor-health)
 
@@ -60,12 +60,12 @@
 | 触发方式 | 每小时 Cron | EventBus `system.health.request` + Cron 兜底 |
 
 **新增文件**:
-- `skills/dto-core/config/cron/system-monitor-health.yaml` — L3 扩展版 Cron 配置
+- `skills/lto-core/config/cron/system-monitor-health.yaml` — L3 扩展版 Cron 配置
 
 **修改文件**:
 - `infrastructure/dispatcher/routes.json` — 添加 `system.health.request` 路由
 - `infrastructure/event-bus/bus-adapter.js` — 添加 `emitHealthRequest()` 便捷方法
-- `skills/dto-core/tasks/system-monitor-health.yaml` — 添加重塑标记
+- `skills/lto-core/tasks/system-monitor-health.yaml` — 添加重塑标记
 
 ---
 
@@ -166,9 +166,9 @@
 ## 变更文件清单
 
 ### 新增 (6 files)
-- `skills/dto-core/config/cron/auto-response-pipeline.yaml`
-- `skills/dto-core/config/cron/cras-b-user-insight.json`
-- `skills/dto-core/config/cron/system-monitor-health.yaml`
+- `skills/lto-core/config/cron/auto-response-pipeline.yaml`
+- `skills/lto-core/config/cron/cras-b-user-insight.json`
+- `skills/lto-core/config/cron/system-monitor-health.yaml`
 - `infrastructure/dispatcher/handlers/auto-response-handler.js`
 - `infrastructure/cron/fallback-sweep.js`
 - `reports/day3-cron-reshape-report.md` (本文件)
@@ -177,6 +177,6 @@
 - `infrastructure/dispatcher/routes.json` — +5 路由
 - `infrastructure/event-bus/bus-adapter.js` — +3 emit 便捷方法
 - `infrastructure/cron/jobs.json` — +3 Cron job 注册
-- `skills/dto-core/tasks/auto-response-pipeline.yaml` — 重塑标记
-- `skills/dto-core/tasks/cras-b-user-insight.json` — 重塑标记
-- `skills/dto-core/tasks/system-monitor-health.yaml` — 重塑标记
+- `skills/lto-core/tasks/auto-response-pipeline.yaml` — 重塑标记
+- `skills/lto-core/tasks/cras-b-user-insight.json` — 重塑标记
+- `skills/lto-core/tasks/system-monitor-health.yaml` — 重塑标记

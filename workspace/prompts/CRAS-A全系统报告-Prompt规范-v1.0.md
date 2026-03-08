@@ -134,8 +134,8 @@ exec ls /root/.openclaw/workspace/cras/ 2>/dev/null || echo "检查cras目录"
 
 #### 2.4 本地任务编排-Core（声明式任务编排）
 ```bash
-exec ls /root/.openclaw/workspace/skills/dto-core/core/
-read /root/.openclaw/workspace/skills/dto-core/core/global-auto-decision-pipeline.js limit=100
+exec ls /root/.openclaw/workspace/skills/lto-core/core/
+read /root/.openclaw/workspace/skills/lto-core/core/global-auto-decision-pipeline.js limit=100
 ```
 
 **评估维度**:

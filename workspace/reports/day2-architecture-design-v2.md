@@ -1665,7 +1665,7 @@ module.exports = { harvest };
  *   4. payload 结构与同类型事件的 schema 一致
  */
 const KNOWN_SOURCES = [
-  'isc-core', 'aeo', 'dto-core', 'seef', 'cras',
+  'isc-core', 'aeo', 'lto-core', 'seef', 'cras',
   'IntentScanner', 'cras-intent-extractor', 'git-sensor',
   'threshold-scanner', 'fallback-sweep', 'handler',
 ];

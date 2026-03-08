@@ -19,7 +19,7 @@ const ALIGNMENT_CONFIG = {
     path.join(ISC_CORE_DIR, 'rules/naming'),
     path.join(ISC_CORE_DIR, 'rules/interaction')
   ],
-  dtoSubsPath: path.join(SKILLS_DIR, 'dto-core/subscriptions')
+  dtoSubsPath: path.join(SKILLS_DIR, 'lto-core/subscriptions')
 };
 
 class ISCDTOAlignmentChecker {

@@ -20,8 +20,8 @@ CRAS-C 知识治理模块在执行向量化任务时出现 **300秒执行超时*
 
 | 文件 | 原值 | 新值 | 说明 |
 |------|------|------|------|
-| `dto-core/lib/executor.js` | 300000ms (5分钟) | 600000ms (10分钟) | 执行器默认超时 |
-| `dto-core/lib/agent-collaboration-protocol.js` | 300000ms | 600000ms | Agent心跳超时 |
+| `lto-core/lib/executor.js` | 300000ms (5分钟) | 600000ms (10分钟) | 执行器默认超时 |
+| `lto-core/lib/agent-collaboration-protocol.js` | 300000ms | 600000ms | Agent心跳超时 |
 | `parallel-subagent/index.js` | 300秒 | 600秒 | 子Agent默认超时 |
 
 ### 2. 向量化任务性能优化 (`cras/index.js`)
@@ -111,8 +111,8 @@ for (let i = 0; i < batches.length; i += maxConcurrency) {
 ## 修改文件清单
 
 1. `/root/.openclaw/workspace/skills/cras/index.js` - 向量化任务优化
-2. `/root/.openclaw/workspace/skills/dto-core/lib/executor.js` - 超时配置
-3. `/root/.openclaw/workspace/skills/dto-core/lib/agent-collaboration-protocol.js` - 心跳超时
+2. `/root/.openclaw/workspace/skills/lto-core/lib/executor.js` - 超时配置
+3. `/root/.openclaw/workspace/skills/lto-core/lib/agent-collaboration-protocol.js` - 心跳超时
 4. `/root/.openclaw/workspace/skills/parallel-subagent/index.js` - 子Agent超时
 5. `/root/.openclaw/workspace/skills/cras/config/vectorization-config.json` - 配置文档（新增）
 

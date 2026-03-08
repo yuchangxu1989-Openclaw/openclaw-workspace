@@ -54,8 +54,8 @@
 | 组件 | 位置 | 类型 | 问题 |
 |------|------|------|------|
 | `infrastructure/event-bus/bus.js` | 基础设施层 | JSONL文件+文件锁 | 完整的持久化实现，但只被dispatcher消费 |
-| `dto-core/core/event-bus.js` | DTO内部 | 内存EventEmitter | 进程内有效，不持久化，重启丢失 |
-| `dto-core/core/event-consumer.js` | DTO内部 | `.dto-signals/`目录监视 | 第三条路径，与前两者独立 |
+| `lto-core/core/event-bus.js` | DTO内部 | 内存EventEmitter | 进程内有效，不持久化，重启丢失 |
+| `lto-core/core/event-consumer.js` | DTO内部 | `.dto-signals/`目录监视 | 第三条路径，与前两者独立 |
 
 **三条事件通道互不通信。**
 
@@ -315,7 +315,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
         "file": "string",
         "domain": "string"
       },
-      "consumers": ["dto-core", "seef"]
+      "consumers": ["lto-core", "seef"]
     },
     "isc.rule.updated": {
       "source": "isc-core",
@@ -325,7 +325,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
         "file": "string",
         "changed_fields": "string[]"
       },
-      "consumers": ["dto-core", "seef"]
+      "consumers": ["lto-core", "seef"]
     },
     "isc.rule.deleted": {
       "source": "isc-core",
@@ -333,11 +333,11 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
       "payload_schema": {
         "rule_id": "string"
       },
-      "consumers": ["dto-core"]
+      "consumers": ["lto-core"]
     },
     
     "skill.created": {
-      "source": "dto-core",
+      "source": "lto-core",
       "description": "新技能被创建",
       "payload_schema": {
         "skill_name": "string",
@@ -346,7 +346,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
       "consumers": ["isc-core", "seef", "cras"]
     },
     "skill.updated": {
-      "source": "dto-core",
+      "source": "lto-core",
       "description": "技能被修改",
       "payload_schema": {
         "skill_name": "string",
@@ -355,7 +355,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
       "consumers": ["isc-core", "seef"]
     },
     "skill.deleted": {
-      "source": "dto-core",
+      "source": "lto-core",
       "description": "技能被删除",
       "payload_schema": {
         "skill_name": "string"
@@ -395,7 +395,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
     },
     
     "dto.task.completed": {
-      "source": "dto-core",
+      "source": "lto-core",
       "description": "DTO任务执行完成",
       "payload_schema": {
         "task_id": "string",
@@ -406,7 +406,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
       "consumers": ["seef", "cras"]
     },
     "dto.task.failed": {
-      "source": "dto-core",
+      "source": "lto-core",
       "description": "DTO任务执行失败",
       "payload_schema": {
         "task_id": "string",
@@ -424,7 +424,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
         "score": "number",
         "report": "object"
       },
-      "consumers": ["dto-core", "cras"]
+      "consumers": ["lto-core", "cras"]
     },
     
     "cras.insight.generated": {
@@ -435,7 +435,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
         "category": "string",
         "impact": "number"
       },
-      "consumers": ["isc-core", "dto-core"]
+      "consumers": ["isc-core", "lto-core"]
     },
 
     "system.architecture.changed": {
@@ -473,7 +473,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
 **改造方案：**
 
 ```javascript
-// skills/dto-core/core/event-bus.js  ← 改为代理模式
+// skills/lto-core/core/event-bus.js  ← 改为代理模式
 // 不再自己实现EventEmitter，而是代理到infrastructure bus
 
 const infraBus = require('../../../infrastructure/event-bus/bus.js');
@@ -484,7 +484,7 @@ class DTOEventBusProxy {
    */
   publish(eventType, payload) {
     return infraBus.emit(eventType, {
-      source: 'dto-core',
+      source: 'lto-core',
       payload,
       timestamp: Date.now()
     });
@@ -493,7 +493,7 @@ class DTOEventBusProxy {
   /**
    * 消费事件 → 从infrastructure JSONL读取（带游标）
    */
-  consume(eventType, handler, consumerId = 'dto-core') {
+  consume(eventType, handler, consumerId = 'lto-core') {
     // 注册消费者，由runtime-binder统一调度
     return { eventType, handler, consumerId };
   }
@@ -539,7 +539,7 @@ function query(eventType, limit = 100) {
 
 ### 4.4 DTO侧：Runtime Binder（核心新组件）
 
-**新文件**: `skills/dto-core/core/runtime-binder.js`
+**新文件**: `skills/lto-core/core/runtime-binder.js`
 
 这是整个方案的核心：运行时绑定ISC规则→事件→DTO任务。
 
@@ -887,7 +887,7 @@ module.exports = RuntimeBinder;
 
 ### 4.5 DTO侧：Task Executor（任务执行器改造）
 
-**改造文件**: `skills/dto-core/core/task-executor.js`
+**改造文件**: `skills/lto-core/core/task-executor.js`
 
 ```javascript
 /**
@@ -1005,7 +1005,7 @@ module.exports = TaskExecutor;
 
 ### 4.6 消除.dto-signals目录（合并到统一bus）
 
-**改造**: `skills/dto-core/core/event-consumer.js`
+**改造**: `skills/lto-core/core/event-consumer.js`
 
 当前event-consumer监视`.dto-signals/`目录中的JSON文件。这是第三条事件通道，必须消除。
 
@@ -1087,7 +1087,7 @@ function validateEventType(eventType) {
 └─────────────────────────────────────────┘
 ```
 
-**入口脚本**: `skills/dto-core/bin/run-cycle.js`
+**入口脚本**: `skills/lto-core/bin/run-cycle.js`
 
 ```javascript
 #!/usr/bin/env node
@@ -1214,10 +1214,10 @@ T+5min  本地任务编排 runtime-binder消费事件
 
 | 任务 | 描述 | 风险 |
 |------|------|------|
-| T2.1 | 实现 `dto-core/core/runtime-binder.js` | 中 |
+| T2.1 | 实现 `lto-core/core/runtime-binder.js` | 中 |
 | T2.2 | 实现 trigger normalization（处理4种历史格式） | 中 |
 | T2.3 | 实现 action normalization | 低 |
-| T2.4 | 实现 `dto-core/core/task-executor.js` v2 | 中 |
+| T2.4 | 实现 `lto-core/core/task-executor.js` v2 | 中 |
 | T2.5 | 集成测试：ISC规则变更→事件→DTO任务执行 | 高 |
 
 ### 6.3 阶段三：规则标准化迁移（3-5天）
@@ -1262,26 +1262,26 @@ T+5min  本地任务编排 runtime-binder消费事件
 |------|------|------|
 | `isc-core/config/event-registry.json` | ISC | 事件类型注册表 |
 | `isc-core/schemas/rule-trigger-action.schema.json` | ISC | 规则trigger/action标准schema |
-| `dto-core/core/runtime-binder.js` | 本地任务编排 | 运行时绑定引擎 |
-| `dto-core/core/task-executor.js` | 本地任务编排 | 统一任务执行器 |
-| `dto-core/bin/run-cycle.js` | 本地任务编排 | cron入口脚本 |
+| `lto-core/core/runtime-binder.js` | 本地任务编排 | 运行时绑定引擎 |
+| `lto-core/core/task-executor.js` | 本地任务编排 | 统一任务执行器 |
+| `lto-core/bin/run-cycle.js` | 本地任务编排 | cron入口脚本 |
 
 ### 改造文件
 
 | 文件 | 改造内容 |
 |------|---------|
 | `infrastructure/event-bus/bus.js` | 添加 `consumeUnread()`, `query()` |
-| `dto-core/core/event-bus.js` | 改为infrastructure bus的proxy |
+| `lto-core/core/event-bus.js` | 改为infrastructure bus的proxy |
 | `isc-core/event-bridge.js` | 使用infrastructure bus, 事件类型验证 |
-| `dto-core/core/event-consumer.js` | 废弃独立运行，合并到RuntimeBinder |
+| `lto-core/core/event-consumer.js` | 废弃独立运行，合并到RuntimeBinder |
 
 ### 不动文件
 
 | 文件 | 原因 |
 |------|------|
-| `dto-core/engines/*.js` | 三个执行引擎不变，被TaskExecutor调用 |
-| `dto-core/tasks/*.yaml` | 任务定义格式不变 |
-| `dto-core/subscriptions/*.json` | 保留作为元数据，RuntimeBinder读取 |
+| `lto-core/engines/*.js` | 三个执行引擎不变，被TaskExecutor调用 |
+| `lto-core/tasks/*.yaml` | 任务定义格式不变 |
+| `lto-core/subscriptions/*.json` | 保留作为元数据，RuntimeBinder读取 |
 | `infrastructure/dispatcher/routes.json` | 保留，dispatcher作为备用消费者 |
 | `isc-core/rules/*.json` | 渐进迁移，不一次全改 |
 
@@ -1351,7 +1351,7 @@ ISC Rules  →  RuntimeBinder  →  TaskExecutor  →  DAG/Linear/Adaptive Engin
               (统一)             (保持现有)
 ```
 
-RuntimeBinder是DTO的一个**core组件**，不是外部系统。它住在`dto-core/core/`目录下，使用DTO的已有基础设施。
+RuntimeBinder是DTO的一个**core组件**，不是外部系统。它住在`lto-core/core/`目录下，使用DTO的已有基础设施。
 
 ---
 
@@ -1625,7 +1625,7 @@ class EventRegistryMaintainer {
 | P1.b | **技能目录结构变更感知** | global-auto-decision只管Git | 新增skill-dir-watcher：新skill目录→自动发布`skill.created` | `isc-core/services/skill-dir-watcher.js` 新建 |
 | P1.c | **外部API健康感知** | 只在失败时才知道key过期 | 定期probe OpenAI/智谱/飞书 API，不可用时发布`api.health.degraded` | `infrastructure/health-probes/api-health.js` 新建 |
 | P1.d | **用户行为模式感知** | 无 | 分析session历史：高频使用的功能、从未使用的技能→生成`user.pattern.detected` | `cras/services/user-behavior-probe.js` 新建 |
-| P1.e | **Git仓库级感知** | global-auto-decision做了但仅限版本bump | 增强：识别breaking change vs patch，自动判断影响范围 | `dto-core/core/global-auto-decision-pipeline.js` 增强 |
+| P1.e | **Git仓库级感知** | global-auto-decision做了但仅限版本bump | 增强：识别breaking change vs patch，自动判断影响范围 | `lto-core/core/global-auto-decision-pipeline.js` 增强 |
 | P1.f | **依赖关系变更感知** | 无 | 监视package.json/node_modules变更→发布`dependency.changed` | `isc-core/event-bridge.js` 增强 |
 
 ### P2: 数据源自适应接入 (Adaptive Data Source Integration)
@@ -1888,9 +1888,9 @@ class RuleConflictDetector {
 |---|---------|---------|---------|---------|
 | C1.a | **规则有效性衰减检测** | 无 | 规则创建后超过30天未触发→标记dormant，超过90天→建议归档 | `isc-core/services/rule-lifecycle-manager.js` 新建 |
 | C1.b | **trigger覆盖率分析** | 无 | 分析所有事件类型，哪些有规则覆盖、哪些裸奔→输出覆盖矩阵 | `isc-core/services/trigger-coverage-analyzer.js` 新建 |
-| C1.c | **action效果评估** | 无 | 统计每个action type的执行成功率/失败率/平均耗时→动态调整on_failure策略 | `dto-core/core/action-effectiveness-tracker.js` 新建 |
+| C1.c | **action效果评估** | 无 | 统计每个action type的执行成功率/失败率/平均耗时→动态调整on_failure策略 | `lto-core/core/action-effectiveness-tracker.js` 新建 |
 | C1.d | **跨规则依赖图谱** | 无 | 构建规则→事件→规则的有向图，识别关键路径和单点故障 | `isc-core/services/rule-dependency-graph.js` 新建 |
-| C1.e | **订阅过期检测** | DTO有82个subscription文件 | 与ISC规则对比，无对应规则的subscription→标记orphan | `dto-core/core/subscription-reconciler.js` 新建 |
+| C1.e | **订阅过期检测** | DTO有82个subscription文件 | 与ISC规则对比，无对应规则的subscription→标记orphan | `lto-core/core/subscription-reconciler.js` 新建 |
 
 ### C2: 对齐对账引擎 (Alignment & Reconciliation Engine)
 
@@ -1901,7 +1901,7 @@ class RuleConflictDetector {
 
 **设计方案**：
 
-**落地文件**: `skills/dto-core/core/alignment-engine.js` (新建，整合现有`isc-dto-aligner.js`)
+**落地文件**: `skills/lto-core/core/alignment-engine.js` (新建，整合现有`isc-dto-aligner.js`)
 
 ```javascript
 /**
@@ -2040,7 +2040,7 @@ class AlignmentEngine {
 
 #### E1.1 执行增强：重试+降级+超时
 
-**落地文件**: `skills/dto-core/core/task-executor.js` (增强现有文件)
+**落地文件**: `skills/lto-core/core/task-executor.js` (增强现有文件)
 
 ```javascript
 /**
@@ -2077,7 +2077,7 @@ class ExecutionPolicy {
 
 #### E1.2 自动修复引擎 (Auto-Remediation)
 
-**落地文件**: `skills/dto-core/core/auto-remediation.js` (新建)
+**落地文件**: `skills/lto-core/core/auto-remediation.js` (新建)
 
 ```javascript
 /**
@@ -2150,7 +2150,7 @@ class AutoRemediation {
 
 #### E1.3 级联触发引擎
 
-**落地文件**: `skills/dto-core/core/cascade-trigger.js` (新建)
+**落地文件**: `skills/lto-core/core/cascade-trigger.js` (新建)
 
 ```javascript
 /**
@@ -2199,17 +2199,17 @@ class CascadeTrigger {
 
 | # | 断裂闭环 | 当前状态 | 自主方案 | 落地位置 |
 |---|---------|---------|---------|---------|
-| E1.a | **执行结果→ISC规则状态回写** | 规则执行后不更新规则自身状态 | 执行完成后在规则JSON中写入`last_execution`、`execution_count`、`success_rate` | `dto-core/core/runtime-binder.js` 增强 |
-| E1.b | **失败→自动降级→人工审核队列** | 失败只写日志 | 失败3次以上→进入human-review队列→飞书通知 | `dto-core/core/human-review-queue.js` 新建 |
+| E1.a | **执行结果→ISC规则状态回写** | 规则执行后不更新规则自身状态 | 执行完成后在规则JSON中写入`last_execution`、`execution_count`、`success_rate` | `lto-core/core/runtime-binder.js` 增强 |
+| E1.b | **失败→自动降级→人工审核队列** | 失败只写日志 | 失败3次以上→进入human-review队列→飞书通知 | `lto-core/core/human-review-queue.js` 新建 |
 | E1.c | **Cron任务执行结果→ISC合规检查** | cron执行完毕后无合规回检 | cron任务完成→发布事件→ISC规则校验其输出是否符合标准 | `isc-core/services/cron-compliance-checker.js` 新建 |
-| E1.d | **版本管理→变更通知** | global-auto-decision做了Git commit但无通知 | 重大版本变更(semver major)→飞书通知用户 | `dto-core/core/global-auto-decision-pipeline.js` 增强 |
+| E1.d | **版本管理→变更通知** | global-auto-decision做了Git commit但无通知 | 重大版本变更(semver major)→飞书通知用户 | `lto-core/core/global-auto-decision-pipeline.js` 增强 |
 | E1.e | **规则自进化** | 规则创建后永不变 | 基于execution_count和success_rate，自动调整on_failure策略和priority | `isc-core/services/rule-self-evolution.js` 新建 |
 
 ### E2: 闭环反馈引擎 (Closed-Loop Feedback Engine)
 
 **设计方案**：
 
-**落地文件**: `skills/dto-core/core/feedback-engine.js` (新建)
+**落地文件**: `skills/lto-core/core/feedback-engine.js` (新建)
 
 ```javascript
 /**
@@ -2316,10 +2316,10 @@ class FeedbackEngine {
 
 ### 执行步骤
 1. 运行三角对齐引擎：
-   node /root/.openclaw/workspace/skills/dto-core/core/alignment-engine.js
+   node /root/.openclaw/workspace/skills/lto-core/core/alignment-engine.js
 
 2. 读取输出报告：
-   cat /root/.openclaw/workspace/skills/dto-core/logs/alignment-report.json
+   cat /root/.openclaw/workspace/skills/lto-core/logs/alignment-report.json
 
 3. 分析结果，重点关注：
    - 健康分低于70分 → 发飞书告警
@@ -2332,7 +2332,7 @@ class FeedbackEngine {
 
 ### 9.5.2 健康报告维度与格式
 
-**报告文件**: `skills/dto-core/logs/alignment-report.json` (每次对账自动生成)
+**报告文件**: `skills/lto-core/logs/alignment-report.json` (每次对账自动生成)
 
 ```json
 {
@@ -2469,7 +2469,7 @@ class FeedbackEngine {
 | 任务 | 描述 | 落地文件 | 优先级 |
 |------|------|---------|--------|
 | T-C1 | 实现SkeletonCompleter | `isc-core/services/skeleton-completer.js` | P0 |
-| T-C2 | 实现AlignmentEngine | `dto-core/core/alignment-engine.js` | P0 |
+| T-C2 | 实现AlignmentEngine | `lto-core/core/alignment-engine.js` | P0 |
 | T-C3 | 实现RuleConflictDetector | `isc-core/services/rule-conflict-detector.js` | P1 |
 | T-C4 | 实现RuleLifecycleManager | `isc-core/services/rule-lifecycle-manager.js` | P1 |
 | T-C5 | 实现TriggerCoverageAnalyzer | `isc-core/services/trigger-coverage-analyzer.js` | P2 |
@@ -2478,19 +2478,19 @@ class FeedbackEngine {
 
 | 任务 | 描述 | 落地文件 | 优先级 |
 |------|------|---------|--------|
-| T-E1 | TaskExecutor v2（重试+降级+超时） | `dto-core/core/task-executor.js` 增强 | P0 |
-| T-E2 | 实现AutoRemediation | `dto-core/core/auto-remediation.js` | P1 |
-| T-E3 | 实现FeedbackEngine | `dto-core/core/feedback-engine.js` | P0 |
-| T-E4 | 实现CascadeTrigger | `dto-core/core/cascade-trigger.js` | P2 |
-| T-E5 | 实现HumanReviewQueue | `dto-core/core/human-review-queue.js` | P1 |
+| T-E1 | TaskExecutor v2（重试+降级+超时） | `lto-core/core/task-executor.js` 增强 | P0 |
+| T-E2 | 实现AutoRemediation | `lto-core/core/auto-remediation.js` | P1 |
+| T-E3 | 实现FeedbackEngine | `lto-core/core/feedback-engine.js` | P0 |
+| T-E4 | 实现CascadeTrigger | `lto-core/core/cascade-trigger.js` | P2 |
+| T-E5 | 实现HumanReviewQueue | `lto-core/core/human-review-queue.js` | P1 |
 
 ### Phase 5: 监控与对账（新增，1天）
 
 | 任务 | 描述 | 落地文件 | 优先级 |
 |------|------|---------|--------|
 | T-M1 | 改造merged-isc-quality-daily cron | cron prompt更新 | P0 |
-| T-M2 | 健康报告格式实现 | `dto-core/core/alignment-engine.js` | P0 |
-| T-M3 | 飞书告警集成 | `dto-core/core/alignment-engine.js` | P1 |
+| T-M2 | 健康报告格式实现 | `lto-core/core/alignment-engine.js` | P0 |
+| T-M3 | 飞书告警集成 | `lto-core/core/alignment-engine.js` | P1 |
 
 ### Phase 6: 规则标准化迁移（原Phase 3，3-5天）
 *不变，见第六部分*
@@ -2523,18 +2523,18 @@ class FeedbackEngine {
 | `isc-core/services/rule-lifecycle-manager.js` | 规则生命周期管理 |
 | `isc-core/services/trigger-coverage-analyzer.js` | Trigger覆盖率分析 |
 | `isc-core/services/rule-dependency-graph.js` | 跨规则依赖图谱 |
-| `dto-core/core/alignment-engine.js` | 三角对齐引擎 |
-| `dto-core/core/subscription-reconciler.js` | 订阅对账 |
-| `dto-core/core/action-effectiveness-tracker.js` | Action效果追踪 |
+| `lto-core/core/alignment-engine.js` | 三角对齐引擎 |
+| `lto-core/core/subscription-reconciler.js` | 订阅对账 |
+| `lto-core/core/action-effectiveness-tracker.js` | Action效果追踪 |
 
 ### 执行层新文件
 
 | 文件 | 职责 |
 |------|------|
-| `dto-core/core/auto-remediation.js` | 自动修复引擎 |
-| `dto-core/core/cascade-trigger.js` | 级联触发引擎 |
-| `dto-core/core/feedback-engine.js` | 闭环反馈引擎 |
-| `dto-core/core/human-review-queue.js` | 人工审核队列 |
+| `lto-core/core/auto-remediation.js` | 自动修复引擎 |
+| `lto-core/core/cascade-trigger.js` | 级联触发引擎 |
+| `lto-core/core/feedback-engine.js` | 闭环反馈引擎 |
+| `lto-core/core/human-review-queue.js` | 人工审核队列 |
 | `isc-core/services/cron-compliance-checker.js` | Cron合规检查 |
 | `isc-core/services/rule-self-evolution.js` | 规则自进化 |
 
@@ -2543,9 +2543,9 @@ class FeedbackEngine {
 | 文件 | 增强内容 |
 |------|---------|
 | `isc-core/event-bridge.js` | +cron监视 +skill-dir监视 +依赖变更监视 |
-| `dto-core/core/task-executor.js` | +ExecutionPolicy +重试 +降级 +超时 |
-| `dto-core/core/runtime-binder.js` | +trace_id +执行结果回写ISC |
-| `dto-core/core/global-auto-decision-pipeline.js` | +breaking change识别 +飞书通知 |
+| `lto-core/core/task-executor.js` | +ExecutionPolicy +重试 +降级 +超时 |
+| `lto-core/core/runtime-binder.js` | +trace_id +执行结果回写ISC |
+| `lto-core/core/global-auto-decision-pipeline.js` | +breaking change识别 +飞书通知 |
 
 ---
 

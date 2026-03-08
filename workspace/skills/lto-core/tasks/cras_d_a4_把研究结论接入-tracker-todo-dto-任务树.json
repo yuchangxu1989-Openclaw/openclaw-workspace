@@ -1,0 +1,58 @@
+{
+  "id": "dto-cras_d_a4_把研究结论接入-tracker-todo-dto-任务树",
+  "intent": "CRAS-D研究策略落地 / 把研究结论接入 Tracker / todo / 本地任务编排 任务树",
+  "version": "1.0.0",
+  "status": "open",
+  "source": "cras-d-action-card-materializer",
+  "priority": "P0",
+  "parent_task": "task-cras_d_strategy_execution",
+  "triggers": [
+    {
+      "type": "report_generated",
+      "report": "cras-d-research-strategy-summary"
+    },
+    {
+      "type": "manual",
+      "reason": "high-confidence action card"
+    }
+  ],
+  "constraints": [
+    {
+      "standard": "knowledge.must_be_executable",
+      "operator": "required",
+      "severity": "error"
+    },
+    {
+      "standard": "tracker.sync.required",
+      "operator": "required",
+      "severity": "error"
+    }
+  ],
+  "actions": [
+    {
+      "type": "materialize",
+      "module": "cras-d",
+      "action": "deliver-action-card",
+      "params": {
+        "action_id": "A4",
+        "report": "reports/cras-d-research-strategy-summary.json",
+        "memory_task": "memory/tasks/cras_d_a4_把研究结论接入-tracker-todo-dto-任务树.json"
+      }
+    },
+    {
+      "type": "verify",
+      "module": "project-mgmt",
+      "action": "validate-governance-artifacts",
+      "params": {
+        "tracker": "PROJECT-TRACKER.md",
+        "report": "reports/cras-d-action-cards.json"
+      }
+    }
+  ],
+  "metadata": {
+    "author": "system/subagent",
+    "category": "strategy_execution",
+    "owner": "project-mgmt/dto",
+    "action_card_id": "A4"
+  }
+}

@@ -295,7 +295,7 @@ Layer 4: 子Agent个性化配置 (最高优先级)
   → skills/{agent-name}/mras-preference.json
 
 Layer 3: 任务类型默认配置
-  → skills/dto-core/subscriptions/isc-*-mras.json
+  → skills/lto-core/subscriptions/isc-*-mras.json
 
 Layer 2: 全局默认配置
   → infrastructure/mras/global-config.json

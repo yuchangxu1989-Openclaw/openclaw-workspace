@@ -91,7 +91,7 @@ echo ""
 echo "🧠 检查核心能力..."
 
 CORE_SKILLS=(
-  "dto-core:全局决策流水线"
+  "lto-core:全局决策流水线"
   "isc-core:智能标准中心"
   "cras:认知进化"
   "evomap-a2a:EvoMap同步"

@@ -6,7 +6,7 @@ const path = require('path');
 const { IntentScanner } = require('../infrastructure/intent-engine/intent-scanner');
 const dispatcher = require('../infrastructure/dispatcher/dispatcher');
 const EventBus = require('../infrastructure/event-bus/bus-adapter');
-const { processEvents: processDTOEvents } = require('../skills/dto-core/event-bridge');
+const { processEvents: processDTOEvents } = require('../skills/lto-core/event-bridge');
 const crasBridge = require('../skills/cras/event-bridge');
 const runAeo = require('../skills/aeo');
 let initLEP = null;
@@ -71,7 +71,7 @@ async function main() {
   };
   const directiveDispatch = await dispatcher.dispatch({ action: 'intent.directive' }, intentDirectiveEvent, { timeoutMs: 5000 });
 
-  const latestTaskFile = listFilesSafe(path.join(ROOT, 'skills', 'dto-core', 'tasks'), f => f.endsWith('.json'))[0] || null;
+  const latestTaskFile = listFilesSafe(path.join(ROOT, 'skills', 'lto-core', 'tasks'), f => f.endsWith('.json'))[0] || null;
   const latestTask = latestTaskFile ? readJsonSafe(latestTaskFile) : null;
 
   // 3) EVENT -> CRAS by dispatcher intent.reflect

@@ -218,7 +218,7 @@
 **证据**: events.jsonl 中仅存在以下事件类型：
 - `isc.rule.created/updated/deleted` (来自 isc-core event-bridge)
 - `git.commit.completed / git.pre_commit.detected` (来自 git-sensor)
-- `dto.task.created` (来自 dto-core)
+- `dto.task.created` (来自 lto-core)
 
 大量声明的事件类型如 `architecture.*`, `quality.*`, `intent.*`, `project.*`, `skill.lifecycle.*` 等在运行时从未出现过。
 

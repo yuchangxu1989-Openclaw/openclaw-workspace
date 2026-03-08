@@ -33,7 +33,7 @@ function findTaskFile(tasksDir, payload = {}) {
 
 module.exports = async function cronTaskModelRequirement(event, rule, context = {}) {
   const workspace = context.workspace || '/root/.openclaw/workspace';
-  const tasksDir = path.join(workspace, 'skills', 'dto-core', 'tasks');
+  const tasksDir = path.join(workspace, 'skills', 'lto-core', 'tasks');
   const reportFile = path.join(workspace, 'infrastructure', 'logs', 'cron-task-model-enforcement.jsonl');
   const payload = event.payload || {};
 

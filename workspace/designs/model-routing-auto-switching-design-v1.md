@@ -676,7 +676,7 @@ const result = await lep.execute({
 │    示例: agent_code_reviewer偏好GLM-5，agent_doc_writer偏好Kimi           │
 │                                                                         │
 │  Layer 3: 任务类型默认配置                                               │
-│    路径: skills/dto-core/subscriptions/isc-*-mras.json                   │
+│    路径: skills/lto-core/subscriptions/isc-*-mras.json                   │
 │    内容: 按任务类型(代码/文档/多模态)的默认模型映射                        │
 │    示例: code_review任务默认优先GLM-5                                    │
 │                                                                         │
@@ -889,7 +889,7 @@ class MRASConfigManager {
 ### 附录B: 参考文档
 
 - parallel-subagent v3.0.1 SKILL.md
-- dto-core v3.0.6 SKILL.md  
+- lto-core v3.0.6 SKILL.md  
 - infrastructure/lep-core/
 - CAPABILITY-ANCHOR.md
 - isc-N019.json / isc-N020.json

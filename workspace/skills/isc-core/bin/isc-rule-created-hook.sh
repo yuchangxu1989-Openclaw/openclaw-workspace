@@ -9,7 +9,7 @@ ISC_CORE_DIR="$SKILLS_DIR/isc-core"
 
 RULES_DIR="$ISC_CORE_DIR/rules"
 STANDARDS_DIR="$ISC_CORE_DIR/standards"
-DTO_EVENT_PATH="$SKILLS_DIR/dto-core/events/isc-rule-created.jsonl"
+DTO_EVENT_PATH="$SKILLS_DIR/lto-core/events/isc-rule-created.jsonl"
 
 # 检查参数
 if [ $# -lt 1 ]; then

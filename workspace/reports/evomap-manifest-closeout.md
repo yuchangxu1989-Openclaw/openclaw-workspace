@@ -90,7 +90,7 @@
 
 ## 当前 allowed_skills
 
-- `dto-core`
+- `lto-core`
 - `isc-core`
 - `evomap-a2a`
 - `evomap-publisher`

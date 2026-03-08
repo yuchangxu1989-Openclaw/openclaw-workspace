@@ -7,7 +7,7 @@ WORKSPACE="${WORKSPACE:-/root/.openclaw/workspace}"
 cd "$WORKSPACE"
 
 # 检查是否有未推送的核心文件变更
-SCOPE_PATHS=("skills/isc-core" "skills/dto-core" "skills/cras" "skills/seef" "AGENTS.md" "HEARTBEAT.md" "CAPABILITY-ANCHOR.md")
+SCOPE_PATHS=("skills/isc-core" "skills/lto-core" "skills/cras" "skills/seef" "AGENTS.md" "HEARTBEAT.md" "CAPABILITY-ANCHOR.md")
 UNPUSHED=0
 for p in "${SCOPE_PATHS[@]}"; do
   if [ -e "$p" ]; then

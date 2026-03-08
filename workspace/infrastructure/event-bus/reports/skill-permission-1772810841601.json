@@ -723,14 +723,14 @@
       ]
     },
     {
-      "file": "skills/dto-core/core/auto-response-controller.js",
+      "file": "skills/lto-core/core/auto-response-controller.js",
       "permissions": [
         "credential"
       ],
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/cron-error-notifier.js",
+      "file": "skills/lto-core/core/cron-error-notifier.js",
       "permissions": [
         "shell",
         "credential"
@@ -743,14 +743,14 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/cron-output-interceptor.js",
+      "file": "skills/lto-core/core/cron-output-interceptor.js",
       "permissions": [
         "credential"
       ],
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/declarative-orchestrator.js",
+      "file": "skills/lto-core/core/declarative-orchestrator.js",
       "permissions": [
         "filesystem",
         "shell",
@@ -771,7 +771,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/declarative-parallel-orchestrator.js",
+      "file": "skills/lto-core/core/declarative-parallel-orchestrator.js",
       "permissions": [
         "credential"
       ],
@@ -780,7 +780,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/core/dto-auto-handshake-responder.js",
+      "file": "skills/lto-core/core/dto-auto-handshake-responder.js",
       "permissions": [
         "filesystem",
         "credential"
@@ -795,7 +795,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/event-consumer.js",
+      "file": "skills/lto-core/core/event-consumer.js",
       "permissions": [
         "filesystem",
         "shell",
@@ -819,7 +819,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/core/event-publisher.js",
+      "file": "skills/lto-core/core/event-publisher.js",
       "permissions": [
         "filesystem",
         "network",
@@ -841,7 +841,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/core/global-auto-decision-pipeline.js",
+      "file": "skills/lto-core/core/global-auto-decision-pipeline.js",
       "permissions": [
         "filesystem",
         "shell",
@@ -862,7 +862,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/isc-dto-aligner.js",
+      "file": "skills/lto-core/core/isc-dto-aligner.js",
       "permissions": [
         "filesystem",
         "shell",
@@ -883,7 +883,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/isc-dto-rca.js",
+      "file": "skills/lto-core/core/isc-dto-rca.js",
       "permissions": [
         "filesystem",
         "credential"
@@ -898,7 +898,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/isc-rule-created-listener.js",
+      "file": "skills/lto-core/core/isc-rule-created-listener.js",
       "permissions": [
         "filesystem",
         "credential"
@@ -913,7 +913,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/core/pipeline-auto-recovery.js",
+      "file": "skills/lto-core/core/pipeline-auto-recovery.js",
       "permissions": [
         "filesystem",
         "shell",
@@ -934,7 +934,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/event-bridge.js",
+      "file": "skills/lto-core/event-bridge.js",
       "permissions": [
         "filesystem"
       ],
@@ -947,14 +947,14 @@
       ]
     },
     {
-      "file": "skills/dto-core/examples/event-publisher-usage.js",
+      "file": "skills/lto-core/examples/event-publisher-usage.js",
       "permissions": [
         "credential"
       ],
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/index.js",
+      "file": "skills/lto-core/index.js",
       "permissions": [
         "filesystem",
         "credential"
@@ -969,7 +969,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/lib/adp-selfcheck-system.js",
+      "file": "skills/lto-core/lib/adp-selfcheck-system.js",
       "permissions": [
         "filesystem"
       ],
@@ -981,7 +981,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/lib/adp-validation-framework.js",
+      "file": "skills/lto-core/lib/adp-validation-framework.js",
       "permissions": [
         "filesystem"
       ],
@@ -993,7 +993,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/lib/executor.js",
+      "file": "skills/lto-core/lib/executor.js",
       "permissions": [
         "network",
         "shell",
@@ -1013,7 +1013,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/lib/intent-parser.js",
+      "file": "skills/lto-core/lib/intent-parser.js",
       "permissions": [
         "filesystem",
         "credential"
@@ -1028,7 +1028,7 @@
       "credential_evidence": []
     },
     {
-      "file": "skills/dto-core/lib/offline-manager.js",
+      "file": "skills/lto-core/lib/offline-manager.js",
       "permissions": [
         "filesystem"
       ],
@@ -1041,7 +1041,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/lib/root-cause-analyzer.js",
+      "file": "skills/lto-core/lib/root-cause-analyzer.js",
       "permissions": [
         "filesystem",
         "shell",
@@ -1061,7 +1061,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/lib/script-validator.js",
+      "file": "skills/lto-core/lib/script-validator.js",
       "permissions": [
         "filesystem",
         "shell",
@@ -1082,7 +1082,7 @@
       ]
     },
     {
-      "file": "skills/dto-core/tests/test-event-publisher.js",
+      "file": "skills/lto-core/tests/test-event-publisher.js",
       "permissions": [
         "credential"
       ],

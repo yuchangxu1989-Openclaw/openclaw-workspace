@@ -13,7 +13,7 @@ const { shouldSkip, markCronExecuted } = require('../cron-check-skip');
 
 const TASK_ID = 'dto-aeo';
 const MAX_AGE_MS = 2 * 60 * 60 * 1000; // 2小时（cron周期1小时 * 2）
-const DTO_BRIDGE_PATH = path.join(__dirname, '../../../skills/dto-core/event-bridge');
+const DTO_BRIDGE_PATH = path.join(__dirname, '../../../skills/lto-core/event-bridge');
 const SIGNALS_DIR = path.join(__dirname, '../../../.dto-signals');
 
 /**

@@ -10,7 +10,7 @@ cd /root/.openclaw/workspace
 mkdir -p "$EVOMAP_DIR"
 
 # 需要处理的技能列表（排除已处理的 aeo, capability-anchor, council-of-seven）
-SKILLS="cras cras-generated-1771827136412 cras-generated-1771827197478 dto-core elite-longterm-memory feishu-chat-backup isc-core isc-document-quality parallel-subagent paths-center pdca-engine seef zhipu-router"
+SKILLS="cras cras-generated-1771827136412 cras-generated-1771827197478 lto-core elite-longterm-memory feishu-chat-backup isc-core isc-document-quality parallel-subagent paths-center pdca-engine seef zhipu-router"
 
 for skill in $SKILLS; do
     SKILL_MD="$SKILLS_DIR/$skill/SKILL.md"

@@ -83,12 +83,12 @@ function trend(skillName, limit = 10) {
 // CLI
 if (require.main === module) {
   // 存储一些测试数据
-  store({ skill_name: 'dto-core', track: 'quality', score: 0.88, passed: true, issues: [] });
+  store({ skill_name: 'lto-core', track: 'quality', score: 0.88, passed: true, issues: [] });
   store({ skill_name: 'aeo', track: 'effect', score: 0.95, passed: true, issues: [] });
   store({ skill_name: 'cras', track: 'quality', score: 0.45, passed: false, issues: ['模拟数据'] });
   
   console.log('\n查询所有失败:', query({ passed: false }));
-  console.log('\n查询dto-core趋势:', trend('dto-core'));
+  console.log('\n查询lto-core趋势:', trend('lto-core'));
 }
 
 module.exports = { store, query, trend };

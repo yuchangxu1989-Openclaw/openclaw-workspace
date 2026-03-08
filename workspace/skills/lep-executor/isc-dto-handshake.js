@@ -44,8 +44,8 @@ class ISCDTOHandshakeExecutor extends EventEmitter {
     this.options = {
       // ISC规则目录路径，默认指向isc-core/rules
       iscRulesPath: options.iscRulesPath || path.join(__dirname, '../isc-core/rules'),
-      // DTO订阅目录路径，默认指向dto-core/subscriptions
-      dtoSubscriptionsPath: options.dtoSubscriptionsPath || path.join(__dirname, '../dto-core/subscriptions'),
+      // DTO订阅目录路径，默认指向lto-core/subscriptions
+      dtoSubscriptionsPath: options.dtoSubscriptionsPath || path.join(__dirname, '../lto-core/subscriptions'),
       // 重试策略配置
       retryAttempts: options.retryAttempts || 3,
       retryDelay: options.retryDelay || 1000,

@@ -23,10 +23,10 @@ const HARDCODED_PATH_PATTERNS = [
 
 const INTERNAL_DEPS = [
   /require\(['"].*isc-core/,
-  /require\(['"].*dto-core/,
+  /require\(['"].*lto-core/,
   /require\(['"].*cras/,
   /from\s+['"].*isc-core/,
-  /from\s+['"].*dto-core/,
+  /from\s+['"].*lto-core/,
   /from\s+['"].*cras/,
 ];
 

@@ -69,7 +69,7 @@
 | 9 | `rule.auto-github-sync-trigger-001` |
 | 10 | `rule.auto-skillization-trigger-001` |
 | 11 | `rule.capability-anchor-auto-register-001` |
-| 12 | `rule.council-lingxiaoge-trigger-001` |
+| 12 | `rule.council-caijuedian-trigger-001` |
 | 13 | `rule.cras-dual-channel-001` |
 | 14 | `rule.cron-task-model-requirement-001` |
 | 15 | `R006` |
@@ -93,7 +93,7 @@
 | 33 | `rule.knowledge-must-be-executable-001` |
 | 34 | `rule.layered-decoupling-architecture-001` |
 | 35 | `rule.layered-end-to-end-principle-001` |
-| 36 | `rule.lingxiaoge-is-generic-skill-001` |
+| 36 | `rule.caijuedian-is-generic-skill-001` |
 | 37 | `rule.memory-digest-must-verify-001` |
 | 38 | `rule.meta-enforcement-gate-001` |
 | 39 | `rule.multi-agent-communication-priority-001` |

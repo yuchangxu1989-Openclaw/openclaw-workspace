@@ -563,7 +563,7 @@ class N018GlobalAlignmentExecutor extends BaseExecutor {
 
   async checkDTOSubscriptions() {
     try {
-      const subscriptionsDir = path.join(process.cwd(), 'skills/dto-core/subscriptions');
+      const subscriptionsDir = path.join(process.cwd(), 'skills/lto-core/subscriptions');
       if (!fs.existsSync(subscriptionsDir)) {
         return { passed: true, note: 'No subscriptions dir found' };
       }

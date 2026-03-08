@@ -62,10 +62,10 @@ mkdir -p /root/.openclaw/workspace/skills/seef/evolution-pipeline
 
 ```bash
 # 1. 创建DTO配置目录
-mkdir -p /root/.openclaw/workspace/skills/dto-core/config
+mkdir -p /root/.openclaw/workspace/skills/lto-core/config
 
 # 2. 创建事件总线配置
-cat > /root/.openclaw/workspace/skills/dto-core/config/event-bus.json << 'EOF'
+cat > /root/.openclaw/workspace/skills/lto-core/config/event-bus.json << 'EOF'
 {
   "enabled": true,
   "persistence": {
@@ -399,7 +399,7 @@ echo ""
 echo "5. 事件总线测试"
 echo "---------------"
 run_test "events目录可写" "test -d events && touch events/.test && rm events/.test"
-run_test "DTO配置存在" "test -f /root/.openclaw/workspace/skills/dto-core/config/event-bus.json"
+run_test "DTO配置存在" "test -f /root/.openclaw/workspace/skills/lto-core/config/event-bus.json"
 
 echo ""
 echo "========================================="

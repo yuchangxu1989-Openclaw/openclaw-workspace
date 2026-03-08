@@ -24,7 +24,7 @@
 import { createPipeline } from './index.js';
 const pipeline = createPipeline({ pipelineId: 'my-pipeline' });
 await pipeline.start();
-await pipeline.execute({ skillId: 'dto-core', triggerType: 'manual' });
+await pipeline.execute({ skillId: 'lto-core', triggerType: 'manual' });
 ```
 
 ---
@@ -163,7 +163,7 @@ node index.js start
 
 ### 执行单次进化流程
 ```bash
-node index.js run dto-core
+node index.js run lto-core
 ```
 
 ### 编程方式使用

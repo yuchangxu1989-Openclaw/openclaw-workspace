@@ -18,7 +18,7 @@ const glob = require('path'); // no external deps
 
 const WS = path.resolve(__dirname, '..');
 const RULES_DIR = path.join(WS, 'skills/isc-core/rules');
-const DTO_DIR = path.join(WS, 'skills/dto-core');
+const DTO_DIR = path.join(WS, 'skills/lto-core');
 
 const WARN_ONLY = process.argv.includes('--warn-only');
 

@@ -965,7 +965,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 | `ES02` event-bridge | 被动 | `isc-core/event-bridge.js` | ✅已有 | `isc.rule.created/updated/deleted` |
 | `ES03` event-bus | 基础设施 | `infrastructure/event-bus/bus.js` | ✅已有 | 持久化层（JSONL），支持emit/consume/matchType |
 | `ES04` dispatcher | 路由 | `infrastructure/dispatcher/dispatcher.js` | ⚠️残缺 | 路由事件到handler，但不执行（写文件） |
-| `ES05` dto-event-bus | 内存 | `dto-core/core/event-bus.js` | ⚠️孤岛 | 进程内EventEmitter，不持久化 |
+| `ES05` dto-event-bus | 内存 | `lto-core/core/event-bus.js` | ⚠️孤岛 | 进程内EventEmitter，不持久化 |
 
 ### 4.2 需要新建的事件源
 

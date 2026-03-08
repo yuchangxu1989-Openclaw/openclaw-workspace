@@ -98,7 +98,7 @@
 | `capability.changed` | `skill.general.modified` |
 | `code.module.core.modified` | `skill.module_core.modified` |
 | `complex_task.detected` | `orchestration.general.detected` |
-| `council.lingxiaoge.convene` | `system.lingxiaoge.requested` |
+| `council.caijuedian.convene` | `system.caijuedian.requested` |
 | `cras.channel.validate` | `cras.channel.requested` |
 | `cron.task.created` | `dto.task.created` |
 | `cron.task.updated` | `dto.task.updated` |

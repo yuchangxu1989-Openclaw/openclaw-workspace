@@ -13,7 +13,7 @@ const { SKILLS_DIR } = require('../../shared/paths');
 class ISC_DTO_AlignmentEngine {
     constructor() {
         this.iscRulesDir = path.join(__dirname, '..', 'rules/decision');
-        this.dtoSubscriptionsDir = path.join(SKILLS_DIR, 'dto-core/subscriptions');
+        this.dtoSubscriptionsDir = path.join(SKILLS_DIR, 'lto-core/subscriptions');
         this.alignmentLog = path.join(SKILLS_DIR, '.isc-dto-alignment.log');
         this.subscribedRules = this.loadSubscribedRules();
     }
@@ -167,7 +167,7 @@ class ISC_DTO_AlignmentEngine {
      */
     notifyDTO(subscription) {
         // 写入事件队列，本地任务编排 定时读取
-        const eventQueue = path.join(SKILLS_DIR, 'dto-core/events/isc-rule-subscriptions.jsonl');
+        const eventQueue = path.join(SKILLS_DIR, 'lto-core/events/isc-rule-subscriptions.jsonl');
         fs.mkdirSync(path.dirname(eventQueue), { recursive: true });
         
         const event = {

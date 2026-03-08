@@ -1,0 +1,35 @@
+{
+  "id": "task_1772841913437_oh6f",
+  "name": "飞书任务队列卡片",
+  "description": "用户明确要求使用当前可用的聊天通道发送真正的进行中任务队列卡片到飞书对话",
+  "source_event": "evt_mmfk7ckl_3yf5if",
+  "source_type": "intent.directive",
+  "status": "pending",
+  "created_at": "2026-03-07T00:05:13.437Z",
+  "payload": {
+    "intent_type": "DIRECTIVE",
+    "target": "飞书任务队列卡片",
+    "summary": "用户明确要求使用当前可用的聊天通道发送真正的进行中任务队列卡片到飞书对话",
+    "confidence": 0.88,
+    "evidence": "The right next step is to use the current working chat/message channel to send actual in-progress task-queue cards into Feishu conversation; desired deliverable is a real Feishu chat card showing an in-progress task queue",
+    "sentiment": "neutral",
+    "source_file": "2026-03-07.md",
+    "extraction_path": "slow",
+    "extracted_at": 1772841749349,
+    "extractor_version": "1.0.0",
+    "_metadata": {
+      "layer": "l3",
+      "trace_id": "intent_1772841749349_17yw",
+      "chain_depth": 1,
+      "emitted_at": 1772841749349,
+      "event_type": "intent.directive"
+    },
+    "source_event_id": "evt_mmfk7ckl_3yf5if",
+    "source_event_type": "intent.directive",
+    "task_name": "飞书任务队列卡片",
+    "description": "用户明确要求使用当前可用的聊天通道发送真正的进行中任务队列卡片到飞书对话",
+    "model": "zhipu/glm-5"
+  },
+  "model": "zhipu/glm-5",
+  "updated_at": "2026-03-07T00:10:03.185Z"
+}

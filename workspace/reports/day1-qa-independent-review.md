@@ -1,4 +1,4 @@
-# Day 1 凌霄阁 — 独立质量仲裁报告
+# Day 1 裁决殿 — 独立质量仲裁报告
 
 **仲裁官**: 独立QA子代理  
 **时间**: 2026-03-05 06:53 GMT+8  
@@ -97,7 +97,7 @@ Cases: 38 | Passed: 38 | Failed: 0
 
 **判定: ✅ 通过**
 
-**验证命令**: `ls skills/dto-core/subscriptions/ | grep -v '^isc-'`
+**验证命令**: `ls skills/lto-core/subscriptions/ | grep -v '^isc-'`
 
 **实际结果**: 95个订阅文件，其中:
 - 86个 `isc-*` 前缀（ISC规则驱动的订阅）
@@ -135,7 +135,7 @@ Cases: 38 | Passed: 38 | Failed: 0
 444 reports/snapshots/day1-closure-conditions_2026-03-04T19-15-38.md
 444 reports/snapshots/day1-closure-summary_2026-03-04T19-14-05.md
 444 reports/snapshots/day1-intent-benchmark_2026-03-04T19-14-05.md
-444 reports/snapshots/day1-lingxiaoge-verdict_2026-03-04T19-14-05.md
+444 reports/snapshots/day1-caijuedian-verdict_2026-03-04T19-14-05.md
 444 reports/snapshots/day1-pipeline-benchmark_2026-03-04T19-14-05.md
 444 reports/snapshots/day1-scenario-benchmark_2026-03-04T19-14-05.md
 ... (共20个快照文件，全部444)

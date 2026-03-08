@@ -6,7 +6,7 @@ const assert = require('assert');
 
 const WORKSPACE = '/root/.openclaw/workspace';
 const handlerPath = path.join(WORKSPACE, 'infrastructure', 'dispatcher', 'handlers', 'intent-event-handler.js');
-const dtoBridgePath = path.join(WORKSPACE, 'skills', 'dto-core', 'event-bridge.js');
+const dtoBridgePath = path.join(WORKSPACE, 'skills', 'lto-core', 'event-bridge.js');
 const crasBridgePath = path.join(WORKSPACE, 'skills', 'cras', 'event-bridge.js');
 const busPath = path.join(WORKSPACE, 'infrastructure', 'event-bus', 'bus-adapter.js');
 

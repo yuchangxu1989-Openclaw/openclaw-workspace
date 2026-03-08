@@ -36,7 +36,7 @@
 - `skills/isc-core/rules/rule.isc-rule-modified-dedup-scan-001.json` → `dedup-scan` → `infrastructure/event-bus/handlers/dedup-scan.js`
 - `skills/isc-core/rules/rule.isc-standard-format-001.json` → `document-structure-check` → `infrastructure/event-bus/handlers/document-structure-check.js`
 - `skills/isc-core/rules/rule.layered-decoupling-architecture-001.json` → `layered-architecture-checker` → `skills/cogview/index.js` ⚠️(未检测到标准导出签名)
-- `skills/isc-core/rules/rule.lingxiaoge-tribunal-001.json` → `notify-alert` → `infrastructure/event-bus/handlers/notify-alert.js`
+- `skills/isc-core/rules/rule.caijuedian-tribunal-001.json` → `notify-alert` → `infrastructure/event-bus/handlers/notify-alert.js`
 - `skills/isc-core/rules/rule.memory-digest-must-verify-001.json` → `log-action` → `infrastructure/event-bus/handlers/log-action.js`
 - `skills/isc-core/rules/rule.n016-decision-auto-repair-loop-post-pipeline-016.json` → `auto-fix` → `infrastructure/event-bus/handlers/auto-fix.js`
 - `skills/isc-core/rules/rule.n017-detection-cras-recurring-pattern-auto-resolve-017.json` → `auto-fix` → `infrastructure/event-bus/handlers/auto-fix.js`

@@ -13,7 +13,7 @@ const { EvoMapUploader } = require('../../evomap-uploader/lib/uploader');
 class VersionChangePublisher {
     constructor() {
         this.watchList = [
-            { name: 'dto-core', path: path.join(SKILLS_DIR, 'dto-core') },
+            { name: 'lto-core', path: path.join(SKILLS_DIR, 'lto-core') },
             { name: 'isc-core', path: path.join(SKILLS_DIR, 'isc-core') }
         ];
         this.versionCache = this.loadVersionCache();

@@ -43,7 +43,7 @@ LEP（Local Execution Protocol）韧性执行中心是一个**统一韧性任务
 | 组件 | 位置 | 能力 | 触发方式 | 状态 |
 |:---|:---|:---|:---|:---:|
 | **parallel-subagent** | `evolver/src/ops/` | 重试/熔断/连接池 | 子Agent内部 | 🟢 成熟 |
-| **全局自主决策流水线** | `dto-core/global-auto-decision-pipeline.js` | 5分钟周期修复 | 定时触发 | 🟢 运行中 |
+| **全局自主决策流水线** | `lto-core/global-auto-decision-pipeline.js` | 5分钟周期修复 | 定时触发 | 🟢 运行中 |
 | **ISC-DTO握手** | `isc-core/handshake.js` | 30分钟对齐检查 | 定时触发 | 🟢 运行中 |
 | **CRAS-B洞察** | `cras/index.js --insight` | 每2小时分析 | 定时触发 | 🟢 运行中 |
 | **N016修复循环** | `isc-core/rules/` | 规则定义 | ❌ 未实现 | 🔴 待实现 |
@@ -390,7 +390,7 @@ class N018GlobalAlignmentExecutor {
 
 class AutoDecisionPipelineBridge {
   async triggerAutoFix(context) {
-    const pipeline = require('../dto-core/global-auto-decision-pipeline');
+    const pipeline = require('../lto-core/global-auto-decision-pipeline');
     await pipeline.triggerAutoFix({
       taskType: context.taskType,
       error: context.error,
@@ -625,7 +625,7 @@ class ParallelSubagent {
 ### 5.3 全局自主决策流水线集成
 
 ```javascript
-// skills/dto-core/global-auto-decision-pipeline.js - 增强
+// skills/lto-core/global-auto-decision-pipeline.js - 增强
 
 const { LEPExecutor } = require('../lep-executor');
 
@@ -1510,7 +1510,7 @@ class N018GlobalAlignmentExecutor extends BaseExecutor {
   async checkDTOSubscriptions() {
     // 检查DTO订阅是否正确
     try {
-      const subscriptions = require('../../dto-core/subscriptions');
+      const subscriptions = require('../../lto-core/subscriptions');
       const result = await subscriptions.validateAll();
       return { passed: result.valid, error: result.error };
     } catch (error) {

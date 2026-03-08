@@ -7,7 +7,7 @@ const path = require('path');
 const WORKSPACE = path.resolve(__dirname, '..');
 const REPORT_PATH = path.join(WORKSPACE, 'reports', 'cras-d-research-strategy-summary.json');
 const TASKS_DIR = path.join(WORKSPACE, 'memory', 'tasks');
-const DTO_TASKS_DIR = path.join(WORKSPACE, 'skills', 'dto-core', 'tasks');
+const DTO_TASKS_DIR = path.join(WORKSPACE, 'skills', 'lto-core', 'tasks');
 const REPORTS_DIR = path.join(WORKSPACE, 'reports');
 const TRACKER_PATH = path.join(WORKSPACE, 'PROJECT-TRACKER.md');
 const CLOSE_LOOP_DIR = path.join(WORKSPACE, 'infrastructure', 'close-loop-tasks');
@@ -184,7 +184,7 @@ function closeLoopFor(action, memoryTask) {
     links: {
       report: 'reports/cras-d-action-cards.json',
       memoryTask: `memory/tasks/${memoryTask.key}.json`,
-      dtoTask: `skills/dto-core/tasks/${memoryTask.key}.json`
+      dtoTask: `skills/lto-core/tasks/${memoryTask.key}.json`
     }
   };
 }
@@ -230,7 +230,7 @@ function main() {
       id: 'task-cras_d_strategy_execution',
       title: 'CRAS-D研究策略执行化闭环',
       priority: 'P0',
-      governance: ['memory/tasks', 'skills/dto-core/tasks', 'PROJECT-TRACKER.md', 'infrastructure/close-loop-tasks']
+      governance: ['memory/tasks', 'skills/lto-core/tasks', 'PROJECT-TRACKER.md', 'infrastructure/close-loop-tasks']
     },
     cards: actionCards.map(({ action, memoryTask, dtoTask, closeLoop }) => ({
       id: action.id,
@@ -238,7 +238,7 @@ function main() {
       priority: memoryTask.priority,
       owner: memoryTask.owner,
       memory_task: `memory/tasks/${memoryTask.key}.json`,
-      dto_task: `skills/dto-core/tasks/${memoryTask.key}.json`,
+      dto_task: `skills/lto-core/tasks/${memoryTask.key}.json`,
       close_loop: `infrastructure/close-loop-tasks/${closeLoop.id}.json`,
       validation_commands: memoryTask.validation_commands,
       local_gap: action.localGap,

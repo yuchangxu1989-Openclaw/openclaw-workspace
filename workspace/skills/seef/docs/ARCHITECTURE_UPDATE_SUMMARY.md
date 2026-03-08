@@ -102,7 +102,7 @@ CRAS洞察 → 信号发射 → DTO事件队列 → DTO调度 → SEEF执行 →
 | 配置文件 | 路径 | 说明 |
 |:--------|:-----|:-----|
 | EvoMap上传清单 | `/skills/isc-core/config/evomap-upload-manifest.json` | 11个核心技能自动同步 |
-| DTO订阅目录 | `/skills/dto-core/subscriptions/*.json` | 20+条ISC规则订阅 |
+| DTO订阅目录 | `/skills/lto-core/subscriptions/*.json` | 20+条ISC规则订阅 |
 | ISC规则目录 | `/skills/isc-core/rules/*.json` | 65+条自动化规则 |
 | SEEF订阅映射 | 待创建 `seef-subscriptions.yaml` | 七步骤事件订阅配置 |
 
@@ -110,7 +110,7 @@ CRAS洞察 → 信号发射 → DTO事件队列 → DTO调度 → SEEF执行 →
 
 - [ ] `/skills/seef/config/seef-subscriptions.yaml` - 七步骤事件订阅映射
 - [ ] `/skills/seef/config/pdca-state-machine.json` - PDCA状态机配置
-- [ ] `/skills/dto-core/config/seef-pipeline-tasks.yaml` - SEEF流水线任务定义
+- [ ] `/skills/lto-core/config/seef-pipeline-tasks.yaml` - SEEF流水线任务定义
 
 ---
 
@@ -152,8 +152,8 @@ CRAS洞察 → 信号发射 → DTO事件队列 → DTO调度 → SEEF执行 →
 ### 7.2 代码实现验证
 
 - [x] ISC规则发现: `/skills/isc-core/rules/` (65+规则)
-- [x] DTO握手响应: `/skills/dto-core/core/dto-auto-handshake-responder.js`
-- [x] DTO事件总线: `/skills/dto-core/core/event-bus.js`
+- [x] DTO握手响应: `/skills/lto-core/core/dto-auto-handshake-responder.js`
+- [x] DTO事件总线: `/skills/lto-core/core/event-bus.js`
 - [x] SEEF PDCA状态机: `/skills/seef/seef.py` (class PDCAStateMachine)
 - [x] SEEF七步骤: `/skills/seef/subskills/*.py`
 - [x] EvoMap A2A: `/skills/evomap-a2a/index.js`
@@ -207,7 +207,7 @@ CRAS洞察 → 信号发射 → DTO事件队列 → DTO调度 → SEEF执行 →
 - [SEEF全局架构](/skills/seef/docs/ARCHITECTURE.md) - 本文档
 - [SEEF技能定义](/skills/seef/SKILL.md)
 - [SEEF子技能定义](/skills/seef/SUBSKILLS.md)
-- [DTO调度中心](/skills/dto-core/SKILL.md)
+- [DTO调度中心](/skills/lto-core/SKILL.md)
 - [ISC标准中心](/skills/isc-core/SKILL.md)
 - [EvoMap A2A](/skills/evomap-a2a/SKILL.md)
 - [CRAS认知伙伴](/skills/cras/SKILL.md)

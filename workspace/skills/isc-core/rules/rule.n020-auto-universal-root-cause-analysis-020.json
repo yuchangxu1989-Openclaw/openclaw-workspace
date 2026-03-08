@@ -111,7 +111,7 @@
         "order": 5,
         "action": "dto_close_loop",
         "description": "DTO驱动闭环执行",
-        "executor": "dto-core/declarative-orchestrator",
+        "executor": "lto-core/declarative-orchestrator",
         "method": "executeSolution",
         "input": "{{solution_proposal}}",
         "steps": [

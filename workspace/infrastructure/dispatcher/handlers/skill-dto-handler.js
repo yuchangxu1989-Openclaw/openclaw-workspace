@@ -15,7 +15,7 @@ function getDTOBridge() {
   if (!_dtoEventBridge) {
     try {
       _dtoEventBridge = require(path.join(
-        __dirname, '..', '..', '..', 'skills', 'dto-core', 'event-bridge.js'
+        __dirname, '..', '..', '..', 'skills', 'lto-core', 'event-bridge.js'
       ));
     } catch (err) {
       console.error('[skill-dto-handler] Failed to load 本地任务编排 event-bridge:', err.message);

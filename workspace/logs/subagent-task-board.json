@@ -214,7 +214,7 @@
   },
   {
     "taskId": "lxg-rename",
-    "label": "lingxiaoge-rename-to-caijuedian",
+    "label": "caijuedian-rename-to-caijuedian",
     "agentId": "writer",
     "model": "opus-4-6-thinking",
     "status": "running"
@@ -226,5 +226,21 @@
     "model": "opus-4-6-thinking",
     "status": "running",
     "spawnTime": "2026-03-08T10:37:18.886Z"
+  },
+  {
+    "taskId": "dto-dirname",
+    "label": "lto-core-dirname-rename",
+    "agentId": "coder",
+    "model": "opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T10:39:26.414Z"
+  },
+  {
+    "taskId": "dto-qa",
+    "label": "dto-rename-qa-review",
+    "agentId": "reviewer",
+    "model": "opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T10:39:46.338Z"
   }
 ]

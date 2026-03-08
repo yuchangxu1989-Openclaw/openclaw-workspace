@@ -126,7 +126,7 @@
 - `infrastructure/enforcement/*.jsonl` — enforcement 日志
 - `infrastructure/event-bus/signals/` — 事件信号文件
 - `infrastructure/dispatcher/state/` — 调度状态
-- `skills/dto-core/tasks/` — 本地任务编排 任务文件
+- `skills/lto-core/tasks/` — 本地任务编排 任务文件
 - `scripts/.probe-state.json` / `scripts/logs/` — 探针状态
 - `.pipeline-*.json*` — 管道运行时
 - `tmp-*.json` / `.entropy-archive/` — 临时文件

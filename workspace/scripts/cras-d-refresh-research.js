@@ -6,7 +6,7 @@ const { search } = require('../skills/public/tavily-search/index.js');
 const WORKSPACE = path.resolve(__dirname, '..');
 const INSIGHTS_DIR = path.join(WORKSPACE, 'skills', 'cras', 'insights');
 const EVENTS_PATH = path.join(WORKSPACE, 'infrastructure', 'event-bus', 'events.jsonl');
-const TASKS_DIR = path.join(WORKSPACE, 'skills', 'dto-core', 'tasks');
+const TASKS_DIR = path.join(WORKSPACE, 'skills', 'lto-core', 'tasks');
 const TRACKER_PATH = path.join(WORKSPACE, 'PROJECT-TRACKER.md');
 
 function readJsonl(file) {

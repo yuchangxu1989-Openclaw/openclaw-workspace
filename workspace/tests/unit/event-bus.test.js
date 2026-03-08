@@ -320,7 +320,7 @@ async function runTests() {
     // Producer emits events
     const e1 = bus.emit('isc.rule.created', { rule_id: 'N001' }, 'isc-core');
     const e2 = bus.emit('isc.rule.updated', { rule_id: 'N002' }, 'isc-core');
-    const e3 = bus.emit('dto.sync.requested', { target: 'weather' }, 'dto-core');
+    const e3 = bus.emit('dto.sync.requested', { target: 'weather' }, 'lto-core');
     
     // Consumer A wants ISC events
     const iscEvents = bus.consume('dto-sync', { types: ['isc.rule.*'] });

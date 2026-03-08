@@ -13,7 +13,7 @@
 | 技能 | 事件类型 | 文件 | 说明 |
 |------|---------|------|------|
 | CRAS | `cras.knowledge.learned` | `skills/cras/event-bridge.js` | 知识学习完成后发布，包含source/insight_count/topic |
-| 本地任务编排 | `dto.task.completed` | `skills/dto-core/event-bridge.js` | 任务执行完成后发布，包含task_id/execution_id/duration |
+| 本地任务编排 | `dto.task.completed` | `skills/lto-core/event-bridge.js` | 任务执行完成后发布，包含task_id/execution_id/duration |
 | ISC | `isc.rule.changed` | `skills/isc-core/event-bridge.js` | 规则变更汇总事件，聚合多个细粒度变更 |
 | AEO | `aeo.evaluation.completed` | `skills/aeo/event-bridge.js` | 统一评测完成事件（补充已有的assessment级别事件） |
 | SEEF | `seef.skill.published` | `skills/seef/event-bridge.js` | 技能发布到生产环境后发布 |
@@ -125,7 +125,7 @@ skill-xxx-handler.js    ←── 新增3个handler
 
 ### 技能文件修改
 - `skills/cras/event-bridge.js` — 新增 emitKnowledgeLearned + analyzeRequest
-- `skills/dto-core/event-bridge.js` — 新增 emitTaskCompleted + createTaskFromEvent
+- `skills/lto-core/event-bridge.js` — 新增 emitTaskCompleted + createTaskFromEvent
 - `skills/isc-core/event-bridge.js` — 新增 emitRuleChanged + checkRulesFromEvent + publishChangesWithSummary
 - `skills/aeo/event-bridge.js` — 新增 onEvaluationComplete
 - `skills/seef/event-bridge.js` — 新增 emitSkillPublished

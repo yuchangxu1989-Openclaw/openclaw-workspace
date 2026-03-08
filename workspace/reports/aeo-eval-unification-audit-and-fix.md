@@ -102,7 +102,7 @@ unified-evaluation-sets/registry.json:
 | 17 | cras-generated-1772128853925 | 5 | 原有 |
 | 18 | cras-intent | 8 | **新迁入** |
 | 19 | daily-ops-report | 5 | 原有 |
-| 20 | dto-core | 5 | 原有 |
+| 20 | lto-core | 5 | 原有 |
 | 21 | elite-longterm-memory | 5 | 原有 |
 | 22 | etl | 5 | 原有 |
 | 23 | evolver | 5 | 原有 |

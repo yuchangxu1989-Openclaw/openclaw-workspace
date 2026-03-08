@@ -64,7 +64,7 @@ isc-core/event-bridge.js ──emit──► bus.js
     │                                 ▼
     │                        Dispatcher ──► routes.json ──► handlers/
     │
-    ├── dto-core/event-bridge.js (consume isc.rule.* → emit dto.sync.*)
+    ├── lto-core/event-bridge.js (consume isc.rule.* → emit dto.sync.*)
     ├── seef/event-bridge.js    (consume dto.sync.* → emit seef.skill.*)
     ├── aeo/event-bridge.js     (consume seef.skill.* → emit aeo.assessment.*)
     └── cras/event-bridge.js    (consume aeo.assessment.* → emit cras.insight.*)

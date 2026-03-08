@@ -40,7 +40,7 @@ class DTOAdapter extends EventEmitter {
       subscriptionRules: config.subscriptionRules || ['skill.evolution.auto-trigger'],
       eventTypes: config.eventTypes || ['skill.changed', 'skill.created', 'skill.published'],
       autoTrigger: config.autoTrigger !== false,
-      dtoCorePath: config.dtoCorePath || path.join(SKILLS_DIR, 'dto-core'),
+      dtoCorePath: config.dtoCorePath || path.join(SKILLS_DIR, 'lto-core'),
       iscRulesPath: config.iscRulesPath || path.join(SKILLS_DIR, 'isc-core/rules'),
       ...config
     };

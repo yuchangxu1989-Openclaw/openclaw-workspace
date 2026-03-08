@@ -17,7 +17,7 @@ const bus = require('../../event-bus/bus');
 const { markEventTriggered } = require('../cron-check-skip');
 
 const SIGNALS_DIR = path.join(__dirname, '../../../.dto-signals');
-const DTO_BRIDGE_PATH = path.join(__dirname, '../../../skills/dto-core/event-bridge');
+const DTO_BRIDGE_PATH = path.join(__dirname, '../../../skills/lto-core/event-bridge');
 const PID_FILE = path.join(__dirname, '../state/dto-signals-watcher.pid');
 const PROCESSED_DIR = path.join(SIGNALS_DIR, '.processed');
 const DEBOUNCE_MS = 1500;

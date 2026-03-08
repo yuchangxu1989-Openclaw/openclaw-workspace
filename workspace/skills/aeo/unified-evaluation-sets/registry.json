@@ -67,8 +67,8 @@
       "daily-ops-report": [
         "eval.daily-ops-report.001"
       ],
-      "dto-core": [
-        "eval.dto-core.001"
+      "lto-core": [
+        "eval.lto-core.001"
       ],
       "elite-longterm-memory": [
         "eval.elite-longterm-memory.001"
@@ -267,7 +267,7 @@
         "eval.cras-intent.001",
         "eval.cras.001",
         "eval.daily-ops-report.001",
-        "eval.dto-core.001",
+        "eval.lto-core.001",
         "eval.elite-longterm-memory.001",
         "eval.etl.001",
         "eval.evolver.001",
@@ -884,18 +884,18 @@
         "testCaseCount": 5
       }
     },
-    "eval.dto-core.001": {
-      "id": "eval.dto-core.001",
-      "name": "dto-core 评测集",
-      "targetSkill": "dto-core",
+    "eval.lto-core.001": {
+      "id": "eval.lto-core.001",
+      "name": "lto-core 评测集",
+      "targetSkill": "lto-core",
       "track": "functional-quality",
       "standard": "standard",
       "location": {
         "type": "file",
-        "path": "../evaluation-sets/dto-core/test-cases.json"
+        "path": "../evaluation-sets/lto-core/test-cases.json"
       },
       "metadata": {
-        "description": "dto-core 技能评测用例集",
+        "description": "lto-core 技能评测用例集",
         "author": "aeo-auto-index",
         "createdAt": "2026-03-06T23:42:52.216510",
         "version": "1.0.0",

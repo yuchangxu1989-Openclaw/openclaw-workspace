@@ -1,0 +1,44 @@
+# 本地任务编排 系统监控任务定义
+# 每小时自动执行健康检查
+
+# ─── Day3-Gap2 重塑标记 ───
+# 状态: RESHAPED → L3 扩展版
+# 新配置: skills/lto-core/config/cron/system-monitor-health.yaml
+# 新增维度: EventBus吞吐/积压, Pipeline成功率, 熔断触发, DecisionLog异常, FeatureFlag变更
+# 本文件保留为向后兼容参考
+# reshaped_at: 2026-03-06
+
+id: system-monitor-health-check
+name: 系统健康检查
+schedule:
+  kind: cron
+  expr: "0 * * * *"
+  timezone: Asia/Shanghai
+
+trigger:
+  kind: temporal
+  
+actions:
+  - id: health-check
+    type: module
+    module: system-monitor
+    function: systemHealthCheck
+    params:
+      checks: [cpu, memory, disk, load, process]
+      format: json
+    
+  - id: notify-if-warning
+    type: condition
+    condition: "{{health-check.overall}} != 'healthy'"
+    then:
+      - type: notify
+        channel: feishu
+        message: |
+          ⚠️ 系统健康检查异常
+          
+          状态: {{health-check.overall}}
+          CPU: {{health-check.cpu.usage}}% ({{health-check.cpu.status}})
+          内存: {{health-check.memory.usage}}% ({{health-check.memory.status}})
+          磁盘: {{health-check.disk.usage}}% ({{health-check.disk.status}})
+          
+          时间: {{health-check.timestamp}}

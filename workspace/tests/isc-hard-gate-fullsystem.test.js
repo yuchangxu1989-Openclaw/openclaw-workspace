@@ -252,8 +252,8 @@ test('isc-core/index.js: hard gate declaration in executeFullCycle', () => {
 
 // ── 13. 本地任务编排-Core index.js ──
 console.log('\n📦 13. 本地任务编排-Core');
-test('dto-core/index.js: ISC gate in execute method', () => {
-  const src = fs.readFileSync(path.join(WORKSPACE, 'skills/dto-core/index.js'), 'utf8');
+test('lto-core/index.js: ISC gate in execute method', () => {
+  const src = fs.readFileSync(path.join(WORKSPACE, 'skills/lto-core/index.js'), 'utf8');
   assert(src.includes('isc-eval-gates'), 'should import isc-eval-gates');
   assert(src.includes('FAIL-CLOSED'), 'should reference FAIL-CLOSED');
   assert(src.includes('isc_blocked'), 'should emit isc_blocked event');
@@ -330,7 +330,7 @@ const report = {
     'infrastructure/event-bus/handlers/isc-eval-middleware.js',
     'skills/aeo/index.js',
     'skills/isc-core/index.js',
-    'skills/dto-core/index.js',
+    'skills/lto-core/index.js',
     'infrastructure/lep-core/core/LEPExecutor.js',
     'workspace-coder/.openclaw/gate_intent_eval.py',
     'workspace-coder/.openclaw/gate_closed_book_eval.py'

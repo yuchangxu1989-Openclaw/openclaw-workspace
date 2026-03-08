@@ -115,7 +115,7 @@ class ParallelSubagent {
 ### 3.2 集成方案
 
 ```javascript
-// dto-core/global-auto-decision-pipeline.js
+// lto-core/global-auto-decision-pipeline.js
 const { executeRule } = require('../lep-executor');
 
 class GlobalAutoDecisionPipeline {

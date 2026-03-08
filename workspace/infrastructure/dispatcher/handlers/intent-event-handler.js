@@ -22,7 +22,7 @@ let _bus = null;
 
 function getDTOBridge() {
   if (!_dtoBridge) {
-    _dtoBridge = require(path.join(__dirname, '..', '..', '..', 'skills', 'dto-core', 'event-bridge.js'));
+    _dtoBridge = require(path.join(__dirname, '..', '..', '..', 'skills', 'lto-core', 'event-bridge.js'));
   }
   return _dtoBridge;
 }

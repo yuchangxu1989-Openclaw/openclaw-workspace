@@ -186,7 +186,7 @@ draft → active → dormant → deprecated → archived
 | 消费者 | consumerId | 订阅模式 |
 |--------|-----------|---------|
 | SEEF | `seef` | `dto.sync.*`, `aeo.assessment.*`, `cras.insight.*`, `isc.rule.*` |
-| 本地任务编排 | `dto-core` | `isc.rule.*`, `dto.sync.*`, `seef.skill.*`, `aeo.assessment.*` |
+| 本地任务编排 | `lto-core` | `isc.rule.*`, `dto.sync.*`, `seef.skill.*`, `aeo.assessment.*` |
 | CRAS | `cras` | `aeo.assessment.*`, `dto.sync.completed`, `system.error` |
 | Dispatcher | routes.json | 12种路由模式 |
 | L3Pipeline | `l3-pipeline` | 全量消费（通过适配层cursor模式） |

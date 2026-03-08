@@ -11,7 +11,7 @@
 
 **当前配置**：
 - **Allowed Skills (10个)**:
-  - dto-core, isc-core, evomap-a2a
+  - lto-core, isc-core, evomap-a2a
   - lep-executor, lep-subagent
   - cras, parallel-subagent
   - seef, aeo, isc-document-quality

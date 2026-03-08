@@ -200,7 +200,7 @@ class SkillHealthProber {
       }
     };
     
-    const signalPath = path.join(SKILLS_DIR, 'dto-core/events/cras-signals.jsonl');
+    const signalPath = path.join(SKILLS_DIR, 'lto-core/events/cras-signals.jsonl');
     fs.appendFileSync(signalPath, JSON.stringify(signal) + '\n');
     
     console.log('[技能探查] 信号已发射到DTO');

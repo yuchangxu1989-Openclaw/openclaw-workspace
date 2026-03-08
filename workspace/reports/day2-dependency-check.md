@@ -55,7 +55,7 @@
 | `skills/seef/event-bridge.js` | event-bus/bus.js |
 | `skills/cras/event-bridge.js` | event-bus/bus-adapter |
 | `skills/cras/rule-suggester.js` | event-bus/bus-adapter |
-| `skills/dto-core/event-bridge.js` | event-bus/bus.js |
+| `skills/lto-core/event-bridge.js` | event-bus/bus.js |
 | `skills/aeo/event-bridge.js` | event-bus/bus.js |
 
 **修复方案**: 创建 `infrastructure/event-bus/sdk.js` 薄客户端后，将DEP-002升级为error。
@@ -67,7 +67,7 @@
 | `glob` | lep-core (4处) |
 | `node-fetch` | lep-core, lep-executor |
 | `dotenv` | evolver, feishu-evolver-wrapper (4处) |
-| `node-cron` | dto-core |
+| `node-cron` | lto-core |
 | `benchmark` | aeo |
 | `openclaw` | parallel-subagent |
 | `chokidar` | seef |

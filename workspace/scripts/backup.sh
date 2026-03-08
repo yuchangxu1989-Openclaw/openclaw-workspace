@@ -30,7 +30,7 @@ tar czf "${BACKUP_FILE}" \
   workspace/memory/ \
   workspace/skills/isc-core/rules/ \
   workspace/skills/isc-core/config/ \
-  workspace/skills/dto-core/ \
+  workspace/skills/lto-core/ \
   workspace/scripts/ \
   2>/dev/null || true
 

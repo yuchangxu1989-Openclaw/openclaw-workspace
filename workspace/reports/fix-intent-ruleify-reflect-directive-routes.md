@@ -17,7 +17,7 @@
   - 调用 `skills/cras/event-bridge.js#analyzeRequest`
   - 真实落到 CRAS 洞察沉淀路径
 - `intent.directive`
-  - 调用 `skills/dto-core/event-bridge.js#createTaskFromEvent`
+  - 调用 `skills/lto-core/event-bridge.js#createTaskFromEvent`
   - 真实在 本地任务编排 `tasks/` 下创建任务
 
 同时增加了最小 jsonl 落盘：

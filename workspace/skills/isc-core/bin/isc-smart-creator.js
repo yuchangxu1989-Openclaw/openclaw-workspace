@@ -227,7 +227,7 @@ class ISCSmartCreator {
     };
     
     // 写入DTO事件队列
-    const dtoEventPath = path.join(SKILLS_DIR, 'dto-core/events/isc-rule-created.jsonl');
+    const dtoEventPath = path.join(SKILLS_DIR, 'lto-core/events/isc-rule-created.jsonl');
     fs.appendFileSync(dtoEventPath, JSON.stringify(notification) + '\n');
     
     console.log(`  ✅ DTO已通知: ${rule.id}`);

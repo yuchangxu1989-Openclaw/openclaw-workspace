@@ -160,7 +160,7 @@ function scanConfigConsistency() {
   }
 
   // 检查 本地任务编排 订阅中引用的 ISC 规则是否存在
-  const dtoSubDir = path.join(WORKSPACE, 'skills/dto-core/subscriptions');
+  const dtoSubDir = path.join(WORKSPACE, 'skills/lto-core/subscriptions');
   if (fs.existsSync(dtoSubDir)) {
     const subFiles = fs.readdirSync(dtoSubDir).filter(f => f.endsWith('.json'));
     for (const subFile of subFiles) {
@@ -174,7 +174,7 @@ function scanConfigConsistency() {
             if (!fs.existsSync(altRuleFile)) {
               issues.push({
                 type: 'orphan_dto_subscription',
-                config: `skills/dto-core/subscriptions/${subFile}`,
+                config: `skills/lto-core/subscriptions/${subFile}`,
                 ref: sub.rule_id,
                 message: `DTO订阅 "${subFile}" 引用的ISC规则不存在: ${sub.rule_id}`
               });

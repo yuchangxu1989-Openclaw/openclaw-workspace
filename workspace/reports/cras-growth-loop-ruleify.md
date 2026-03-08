@@ -34,7 +34,7 @@
    - 评测检查器：
      - `infrastructure/event-bus/handlers/eval-quality-check.js`
    - 本地任务编排/CRAS 桥接：
-     - `skills/dto-core/event-bridge.js`
+     - `skills/lto-core/event-bridge.js`
      - `skills/cras/event-bridge.js`
 
 5. **当前最大断点**

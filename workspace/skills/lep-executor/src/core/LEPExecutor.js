@@ -794,7 +794,7 @@ class RecoveryBridges {
     this.autoDecisionPipeline = {
       triggerAutoFix: async (context) => {
         // 动态加载避免循环依赖
-        const pipeline = require('../dto-core/global-auto-decision-pipeline');
+        const pipeline = require('../lto-core/global-auto-decision-pipeline');
         await pipeline.triggerAutoFix(context);
       }
     };

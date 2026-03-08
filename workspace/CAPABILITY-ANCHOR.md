@@ -74,7 +74,7 @@
 - ✅ **anti-entropy-checker**: skills/anti-entropy-checker/
 - ✅ **api**: skills/api/
 - ✅ **api-aggregator**: skills/api-aggregator/
-- ✅ **architecture-review-pipeline**: skills/architecture-review-pipeline/ — 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入凌霄阁终审并给出最终裁决。
+- ✅ **architecture-review-pipeline**: skills/architecture-review-pipeline/ — 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入裁决殿终审并给出最终裁决。
 - ✅ **capability-anchor**: skills/capability-anchor/ — 能力锚点系统 - 【占位符】强制读取机制刚建立
 - ✅ **convert-helper**: skills/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
 - ✅ **cras**: skills/cras/ — CRAS认知进化伙伴 - 知识管理与认知进化中枢。实现从数据汲取到技能进化的全闭环，包含主动学习引擎、用户洞察分析、知识治理、战略行研、自主进化五大模块。
@@ -83,7 +83,7 @@
 - ✅ **cras-generated-1772042431830**: skills/cras-generated-1772042431830/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **cras-generated-1772128853925**: skills/cras-generated-1772128853925/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **daily-ops-report**: skills/daily-ops-report/
-- ✅ **dto-core**: skills/dto-core/ — 本地任务编排 (LTO) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
+- ✅ **lto-core**: skills/lto-core/ — 本地任务编排 (LTO) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 - ✅ **etl**: skills/etl/
 - ✅ **evolver**: skills/evolver/ — A self-evolution engine for AI agents. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
 - ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A协议连接器 - 实现与EvoMap Hub的WebSocket连接、自动重连、消息队列管理
@@ -109,7 +109,7 @@
 - ✅ **parallel-subagent**: skills/parallel-subagent/
 - ✅ **paths-center**: skills/paths-center/ — 路径中心 - 【占位符】概念驱动，需求不清
 - ✅ **pdca-engine**: skills/pdca-engine/ — PDCA-C执行引擎 - 每5分钟有实际产出
-- ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理中枢 - 任务编排、Sprint规划、架构评审流水线、凌霄阁裁决
+- ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理中枢 - 任务编排、Sprint规划、架构评审流水线、裁决殿裁决
 - ✅ **file-sender**: skills/public/file-sender/ — 飞书文件发送（发文件/发源文件/发附件），ISC路由: ISC-FILE-SEND-INTENT-001
 - ✅ **public**: skills/public/
 - ✅ **rule-hygiene**: skills/rule-hygiene/ — ISC规则治理——去重、命名统一、三维分析（意图/事件/执行），输出规则-事件-DTO对齐矩阵

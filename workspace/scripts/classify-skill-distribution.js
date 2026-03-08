@@ -13,7 +13,7 @@ const LOCAL_PATTERNS = [
   /MEMORY\.md/,
   /memory\//,
   /skills\/isc-core\//,
-  /skills\/dto-core\//,
+  /skills\/lto-core\//,
   /skills\/cras\//,
   /skills\/aeo\//,
   /cron\/jobs\.json/,

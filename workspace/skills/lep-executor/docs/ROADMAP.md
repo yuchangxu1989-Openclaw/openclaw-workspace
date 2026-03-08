@@ -272,7 +272,7 @@ const result = await subagent.spawnSubagent(task);
 **目标**: Pipeline触发N016
 
 **任务清单**:
-- [ ] 修改 `dto-core/global-auto-decision-pipeline.js`
+- [ ] 修改 `lto-core/global-auto-decision-pipeline.js`
 - [ ] 添加LEP调用逻辑
 - [ ] 验证修复循环闭环
 - [ ] 测试完整流程
@@ -280,7 +280,7 @@ const result = await subagent.spawnSubagent(task);
 **验收标准**:
 ```bash
 # 运行流水线
-node skills/dto-core/global-auto-decision-pipeline.js
+node skills/lto-core/global-auto-decision-pipeline.js
 
 # 应自动触发N016（如果有可修复问题）
 # 查看日志确认

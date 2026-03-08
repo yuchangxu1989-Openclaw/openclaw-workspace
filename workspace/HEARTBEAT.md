@@ -14,7 +14,7 @@ grep -i 'error\|fail\|alert\|异常\|静默\|blocked' /root/.openclaw/workspace/
 tail -50 /root/.openclaw/workspace/infrastructure/event-bus/events.jsonl 2>/dev/null | grep -i 'alert\|error\|fail'
 
 # 3. 扫描流水线健康状态
-node /root/.openclaw/workspace/skills/dto-core/core/pipeline-auto-recovery.js 2>&1 | grep -v '✅'
+node /root/.openclaw/workspace/skills/lto-core/core/pipeline-auto-recovery.js 2>&1 | grep -v '✅'
 ```
 
 **处理规则**：
@@ -53,7 +53,7 @@ bash /root/.openclaw/workspace/scripts/api-key-probe.sh
 `/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json`
 
 **当前允许同步的技能 (9个)**:
-dto-core, isc-core, evomap-a2a, evomap-publisher, cras, parallel-subagent, seef, aeo, isc-document-quality
+lto-core, isc-core, evomap-a2a, evomap-publisher, cras, parallel-subagent, seef, aeo, isc-document-quality
 
 **说明**:
 - 已从 manifest 中移除 lep-executor 和 lep-subagent（LEP已删除）

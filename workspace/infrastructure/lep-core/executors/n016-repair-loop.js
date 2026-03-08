@@ -311,7 +311,7 @@ class N016RepairLoopExecutor extends BaseExecutor {
     
     try {
       // 这里可以调用实际的扫描器
-      // const scanner = require('../../dto-core/global-auto-decision-pipeline');
+      // const scanner = require('../../lto-core/global-auto-decision-pipeline');
       // const result = await scanner.runSingleCheck({ timeout });
       
       // 模拟结果：问题数量减少

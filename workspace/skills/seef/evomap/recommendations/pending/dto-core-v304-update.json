@@ -4,19 +4,19 @@
   "generated_at": "2026-02-24T19:50:00+08:00",
   "update_type": "major_version_update",
   "previous_skill": {
-    "id": "dto-core",
+    "id": "lto-core",
     "name": "本地任务编排",
     "version": "2.x",
     "status": "deprecated"
   },
   "skill": {
-    "id": "dto-core",
+    "id": "lto-core",
     "name": "本地任务编排 声明式任务编排中心",
     "version": "3.0.4",
     "chinese_name": "声明式任务编排中心",
     "abbreviation": "本地任务编排",
     "capsule_id": "bundle_c104ec934066bc8c_v304",
-    "repository": "/root/.openclaw/workspace/skills/dto-core",
+    "repository": "/root/.openclaw/workspace/skills/lto-core",
     "documentation": "SKILL.md",
     "description": "用户描述意图，DTO负责如何执行。支持11条ISC规则全自动执行，文件监控，架构变更检测。"
   },
@@ -54,7 +54,7 @@
   "suggested_gene_tags": ["orchestration", "infrastructure", "automation", "standards", "agent-collaboration"],
   "status": "pending_confirmation",
   "deprecation_notice": {
-    "deprecated_skill": "dto-core",
+    "deprecated_skill": "lto-core",
     "migration_path": "自动迁移，配置兼容",
     "sunset_date": "2026-03-31"
   }

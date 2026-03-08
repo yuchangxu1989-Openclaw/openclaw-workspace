@@ -15,7 +15,7 @@ const WATCHER_CONFIG = {
     path.join(ISC_CORE_DIR, 'rules'),
     path.join(ISC_CORE_DIR, 'standards')
   ],
-  dtoEventPath: path.join(SKILLS_DIR, 'dto-core/events/isc-rule-created.jsonl'),
+  dtoEventPath: path.join(SKILLS_DIR, 'lto-core/events/isc-rule-created.jsonl'),
   statePath: path.join(ISC_CORE_DIR, '.watch-state.json'),
   checkInterval: 30 * 1000 // 30秒检查一次
 };

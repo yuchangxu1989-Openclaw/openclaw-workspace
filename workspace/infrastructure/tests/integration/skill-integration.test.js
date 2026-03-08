@@ -34,7 +34,7 @@ const Dispatcher = require(path.join(INFRA_ROOT, 'dispatcher', 'dispatcher.js'))
 
 // Skill event bridges
 const CRASBridge = require(path.join(SKILLS_ROOT, 'cras', 'event-bridge.js'));
-const DTOBridge = require(path.join(SKILLS_ROOT, 'dto-core', 'event-bridge.js'));
+const DTOBridge = require(path.join(SKILLS_ROOT, 'lto-core', 'event-bridge.js'));
 const ISCBridge = require(path.join(SKILLS_ROOT, 'isc-core', 'event-bridge.js'));
 const AEOBridge = require(path.join(SKILLS_ROOT, 'aeo', 'event-bridge.js'));
 const SEEFBridge = require(path.join(SKILLS_ROOT, 'seef', 'event-bridge.js'));
@@ -153,7 +153,7 @@ function testDTOEventBridge() {
     assert.ok(result.task, 'Should return task object');
 
     // Verify file was actually created
-    const taskFile = path.join(SKILLS_ROOT, 'dto-core', 'tasks', `${result.task_id}.json`);
+    const taskFile = path.join(SKILLS_ROOT, 'lto-core', 'tasks', `${result.task_id}.json`);
     assert.ok(fs.existsSync(taskFile), `Task file should exist: ${taskFile}`);
 
     // Cleanup
@@ -424,7 +424,7 @@ function testReverseIntegration() {
 
     // Cleanup task file
     if (result.task_id) {
-      const taskFile = path.join(SKILLS_ROOT, 'dto-core', 'tasks', `${result.task_id}.json`);
+      const taskFile = path.join(SKILLS_ROOT, 'lto-core', 'tasks', `${result.task_id}.json`);
       try { fs.unlinkSync(taskFile); } catch (_) {}
     }
   });

@@ -1,12 +1,12 @@
 # ISC规则执行绑定审计报告
 
 > 生成时间: 2026-03-05 01:39 CST
-> 扫描范围: isc-core/rules/ (87条), dto-core/subscriptions/ (73条), isc-core/**/*.js
+> 扫描范围: isc-core/rules/ (87条), lto-core/subscriptions/ (73条), isc-core/**/*.js
 
 ## 审计方法
 
 1. 解析 `isc-core/rules/` 全部 87 条规则JSON
-2. 检查 `dto-core/subscriptions/` 是否有 `isc-{ruleId}.json` 订阅文件
+2. 检查 `lto-core/subscriptions/` 是否有 `isc-{ruleId}.json` 订阅文件
 3. 搜索 `isc-core/` 下JS源码是否引用规则ID
 4. 检查规则trigger.actions是否有具体type
 

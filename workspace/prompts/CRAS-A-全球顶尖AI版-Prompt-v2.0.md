@@ -253,7 +253,7 @@ const searchQueries = [
 
 ```bash
 # 采集各模块代码指标
-for module in isc-core seef cras dto-core lep-executor aeo evolver; do
+for module in isc-core seef cras lto-core lep-executor aeo evolver; do
   echo "=== $module ==="
   
   # 代码行数

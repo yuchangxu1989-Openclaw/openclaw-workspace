@@ -3127,7 +3127,7 @@ class KnowledgeDiscoveryProbe {
     const keywords = finding.keywords || [];
     const skillMap = {
       'security': ['isc-core'],
-      'architecture': ['dto-core', 'isc-core'],
+      'architecture': ['lto-core', 'isc-core'],
       'embedding': ['cras'],
       'agent': ['parallel-subagent'],
       'model': ['glm-asr', 'glm-5-coder'],
@@ -4500,7 +4500,7 @@ infrastructure/
 **解决方案：分层条件评估器**
 
 ```javascript
-// dto-core/triggers/event-trigger.js 改造后
+// lto-core/triggers/event-trigger.js 改造后
 
 class ConditionEvaluator {
   /**
@@ -4731,7 +4731,7 @@ const testCases = [
 | ES02 | event-bridge | L1 | `isc-core/event-bridge.js` | ✅已有 | ISC规则CRUD事件 |
 | ES03 | event-bus | 基础设施 | `infrastructure/event-bus/bus.js` | ✅已有 | 统一事件持久化 |
 | ES04 | dispatcher | 路由 | `infrastructure/dispatcher/dispatcher.js` | ✅已有 | 事件路由到handler |
-| ES05 | dto-event-bus | (废弃) | `dto-core/core/event-bus.js` | ⚠️待废弃 | 统一到ES03 |
+| ES05 | dto-event-bus | (废弃) | `lto-core/core/event-bus.js` | ⚠️待废弃 | 统一到ES03 |
 | ES06 | skill-watcher | L1 | `infrastructure/scanners/skill-watcher.js` | 🆕新建 | 技能目录变更事件 |
 | ES07 | naming-scanner | L2 | `infrastructure/scanners/naming-scanner.js` | 🆕新建 | 命名规范扫描 |
 | ES08 | skill-quality-scanner | L2 | `infrastructure/scanners/skill-quality-scanner.js` | 🆕新建 | 技能质量扫描 |
@@ -4853,7 +4853,7 @@ const testCases = [
 
 | 任务 | 产出 | 文件位置 | 估时 |
 |------|------|---------|------|
-| 1.1 统一事件总线 | 废弃DTO内部bus | `dto-core/core/event-bus.js`（废弃） | 2h |
+| 1.1 统一事件总线 | 废弃DTO内部bus | `lto-core/core/event-bus.js`（废弃） | 2h |
 | 1.2 dispatcher真正执行 | handler执行框架 | `infrastructure/dispatcher/dispatcher.js`（改造） | 3h |
 | 1.3 BaseScanner框架 | 扫描器基类 | `infrastructure/scanners/base-scanner.js`（新建） | 2h |
 | 1.4 L1事件源完善 | git hook扩展 | `.git/hooks/post-commit`（改造） | 1h |
@@ -4961,7 +4961,7 @@ const testCases = [
 | `infrastructure/dispatcher/dispatcher.js` | 真正执行handler | P1 |
 | `infrastructure/dispatcher/routes.json` | 新增L3-L5+META路由 | P2-P5 |
 | `.git/hooks/post-commit` | 扩展emit事件类型 | P1 |
-| `dto-core/core/event-bus.js` | 标记废弃，引导到bus.js | P1 |
+| `lto-core/core/event-bus.js` | 标记废弃，引导到bus.js | P1 |
 | `skills/isc-core/rules/*.json` (70个独立规则) | trigger.events格式v4化 | P7 |
 | `openclaw.json` | 注册新Cron任务 | P2 |
 | `skills/cras/event-bridge.js` | 对接新的L3探针 | P2 |
@@ -5731,7 +5731,7 @@ git checkout HEAD~1 -- infrastructure/event-bus/bus.js
 # 因此无需回滚规则文件
 
 # 3. 本地任务编排 EventEmitter回滚 — 恢复event-bridge双向桥接
-git checkout HEAD~1 -- dto-core/core/event-bus.js
+git checkout HEAD~1 -- lto-core/core/event-bus.js
 git checkout HEAD~1 -- isc-core/event-bridge.js
 # Facade层可以直接删除，不影响EventEmitter功能
 ```
@@ -6422,7 +6422,7 @@ function emitDualWrite(type, payload, source) {
   internalEmitter.emit(type, payload);
 }
 
-// dto-core/core/event-bus.js — EventEmitter消费者检查
+// lto-core/core/event-bus.js — EventEmitter消费者检查
 class DTOEventBus {
   on(type, handler) {
     // 包装handler：如果事件来自JSONL双写，跳过
@@ -6439,7 +6439,7 @@ class DTOEventBus {
 
 ### 8.11.2 Subscription JSON → RuntimeBinder迁移
 
-**现状**：`dto-core/subscriptions/`下有40+个静态JSON文件，格式如：
+**现状**：`lto-core/subscriptions/`下有40+个静态JSON文件，格式如：
 
 ```json
 {
@@ -6470,7 +6470,7 @@ Step 3: 验证
 
 Step 4: 清理
   删除subscription JSON文件
-  删除dto-core中的subscription加载逻辑
+  删除lto-core中的subscription加载逻辑
 ```
 
 **迁移脚本**：
@@ -6481,7 +6481,7 @@ Step 4: 清理
 const fs = require('fs');
 const path = require('path');
 
-const SUBS_DIR = '/root/.openclaw/workspace/skills/dto-core/subscriptions/';
+const SUBS_DIR = '/root/.openclaw/workspace/skills/lto-core/subscriptions/';
 const ROUTES_FILE = '/root/.openclaw/workspace/infrastructure/dispatcher/routes.json';
 
 function migrate(dryRun = true) {

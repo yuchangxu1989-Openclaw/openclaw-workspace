@@ -449,14 +449,14 @@ FileSystem Watcher 检测到变更
     ↓
 生成 isc.rule.changed 事件
     ↓
-写入 /skills/dto-core/events/isc-rule-created.jsonl
+写入 /skills/lto-core/events/isc-rule-created.jsonl
 ```
 
 **阶段 2: 本地任务编排 事件总线分发** (5-10秒)
 ```
 本地任务编排 自动握手响应器读取事件
     ↓
-创建订阅配置到 /skills/dto-core/subscriptions/
+创建订阅配置到 /skills/lto-core/subscriptions/
     ↓
 发布 dto.handshake.completed 反馈
     ↓
@@ -881,7 +881,7 @@ class AEOResultHandler:
   "managed_by": "isc-dto",
   "update_policy": "auto_sync",
   "allowed_skills": [
-    "dto-core",
+    "lto-core",
     "isc-core",
     "evomap-a2a",
     "evomap-publisher",
@@ -948,10 +948,10 @@ discoverer:
 0 2 * * * cd /root/.openclaw/workspace/skills/seef && python3 seef.py --mode fixed
 
 # ISC-本地任务编排 握手同步 (每30分钟)
-*/30 * * * * cd /root/.openclaw/workspace/skills/dto-core && node core/dto-auto-handshake-responder.js
+*/30 * * * * cd /root/.openclaw/workspace/skills/lto-core && node core/dto-auto-handshake-responder.js
 
 # 本地任务编排 全局决策流水线 (每10分钟)
-*/10 * * * * cd /root/.openclaw/workspace/skills/dto-core && node core/global-auto-decision-pipeline.js
+*/10 * * * * cd /root/.openclaw/workspace/skills/lto-core && node core/global-auto-decision-pipeline.js
 
 # CRAS 洞察学习 (每日 09:00)
 0 9 * * * cd /root/.openclaw/workspace/skills/cras && node index.js --learn
@@ -1003,6 +1003,6 @@ discoverer:
 
 - `SKILL.md` - SEEF 技能定义
 - `SUBSKILLS.md` - 七步骤子技能详细定义
-- `/skills/dto-core/SKILL.md` - 本地任务编排 调度中心文档
+- `/skills/lto-core/SKILL.md` - 本地任务编排 调度中心文档
 - `/skills/isc-core/SKILL.md` - ISC 标准中心文档
 - `/skills/evomap-a2a/SKILL.md` - EvoMap A2A 连接器文档

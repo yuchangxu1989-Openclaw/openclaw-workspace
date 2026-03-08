@@ -32,7 +32,7 @@
   - 复用 `skills/cras/event-bridge.js#analyzeRequest`
   - 将 reflect 内容送入 CRAS 洞察沉淀路径
 - `intent.directive`
-  - 复用 `skills/dto-core/event-bridge.js#createTaskFromEvent`
+  - 复用 `skills/lto-core/event-bridge.js#createTaskFromEvent`
   - 直接生成 本地任务编排 task 文件与 `dto.task.created` 事件
 
 ### 3) 修复 `aeo_evaluation_required` 的 handler 解析缺口
@@ -59,7 +59,7 @@
 ### handler 存在性验证
 - 新增文件存在：`infrastructure/dispatcher/handlers/intent-event-handler.js`
 - 复用 bridge 已存在：
-  - `skills/dto-core/event-bridge.js` 导出 `createTaskFromEvent`
+  - `skills/lto-core/event-bridge.js` 导出 `createTaskFromEvent`
   - `skills/cras/event-bridge.js` 导出 `analyzeRequest`
   - `skills/isc-core/event-bridge.js` 导出 `checkRulesFromEvent`
 

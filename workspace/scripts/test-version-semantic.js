@@ -72,7 +72,7 @@ const testCases = [
   {
     id: 'T01',
     desc: '代码文件变更（功能新增）',
-    file: 'skills/dto-core/core/global-auto-decision-pipeline.js',
+    file: 'skills/lto-core/core/global-auto-decision-pipeline.js',
     baseVersion: '2.0.0',
     expectedType: 'minor',
     expectedVersion: '2.1.0',

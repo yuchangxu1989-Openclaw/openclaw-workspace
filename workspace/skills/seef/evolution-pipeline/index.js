@@ -1046,7 +1046,7 @@ SEEF EvoMap进化流水线 v1.0.0
 
 示例:
   node index.js start
-  node index.js run dto-core
+  node index.js run lto-core
       `);
   }
 }

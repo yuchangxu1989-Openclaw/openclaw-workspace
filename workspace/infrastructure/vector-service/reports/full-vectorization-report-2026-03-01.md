@@ -28,7 +28,7 @@
 4. ✅ glm-asr
 5. ✅ glm-5-coder
 6. ✅ evolver
-7. ✅ dto-core
+7. ✅ lto-core
 8. ✅ feishu-chat-backup
 9. ✅ pdca-engine
 10. ✅ seef/evolution-pipeline

@@ -24,10 +24,10 @@ const evt = bus.emit('isc.rule.updated', { rule_id: 'N001', action: 'update' }, 
 // => { id: 'evt_xxx', type: 'isc.rule.updated', source: 'isc-core', payload: {...}, timestamp: 1234567890, consumed_by: [] }
 
 // 消费事件（指定消费者 ID，只返回未消费的）
-const events = bus.consume('dto-core', { types: ['isc.rule.*'] });
+const events = bus.consume('lto-core', { types: ['isc.rule.*'] });
 
 // 确认消费
-bus.ack('dto-core', evt.id);
+bus.ack('lto-core', evt.id);
 
 // 查询历史
 const history = bus.history({ type: 'isc.rule.*', since: Date.now() - 3600000 });
@@ -45,7 +45,7 @@ const stats = bus.stats();
   "source": "isc-core",
   "payload": { "rule_id": "N001", "action": "update" },
   "timestamp": 1234567890,
-  "consumed_by": ["dto-core"]
+  "consumed_by": ["lto-core"]
 }
 ```
 

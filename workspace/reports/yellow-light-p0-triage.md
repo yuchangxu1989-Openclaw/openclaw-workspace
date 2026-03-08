@@ -43,7 +43,7 @@
 | `rule.isc-skill-usage-protocol-001` | `skills/isc-core/rules/rule.isc-skill-usage-protocol-001.json` | missing handler | `-` |
 | `rule.isc-standard-format-001` | `skills/isc-core/rules/rule.isc-standard-format-001.json` | missing handler | `-` |
 | `rule.layered-decoupling-architecture-001` | `skills/isc-core/rules/rule.layered-decoupling-architecture-001.json` | missing handler | `-` |
-| `rule.lingxiaoge-tribunal-001` | `skills/isc-core/rules/rule.lingxiaoge-tribunal-001.json` | missing handler | `-` |
+| `rule.caijuedian-tribunal-001` | `skills/isc-core/rules/rule.caijuedian-tribunal-001.json` | missing handler | `-` |
 | `rule.meta-enforcement-gate-001` | `skills/isc-core/rules/rule.meta-enforcement-gate-001.json` | missing handler | `-` |
 | `rule.multi-agent-communication-priority-001` | `skills/isc-core/rules/rule.multi-agent-communication-priority-001.json` | missing handler | `-` |
 | `rule.n016-decision-auto-repair-loop-post-pipeline-016` | `skills/isc-core/rules/rule.n016-decision-auto-repair-loop-post-pipeline-016.json` | missing handler | `-` |
