@@ -211,7 +211,7 @@ scenarios.push({
         const testEvents = [
           { type: 'user.message', id: 'drill-4-1', payload: { text: 'test' } },
           { type: 'system.error', id: 'drill-4-2', payload: { error: 'simulated' } },
-          { type: 'dto.task.created', id: 'drill-4-3', payload: {} },
+          { type: 'lto.task.created', id: 'drill-4-3', payload: {} },
         ];
         
         let allHandled = true;
@@ -466,7 +466,7 @@ function generateReport(drillResults) {
   md += `| L3_HANDLER_INTENT_DISPATCH | intent-dispatch | ✅ 新增 |\n`;
   md += `| L3_HANDLER_ISC_RULE | isc-rule-handler | ✅ 新增 |\n`;
   md += `| L3_HANDLER_SKILL_ISC | skill-isc-handler | ✅ 新增 |\n`;
-  md += `| L3_HANDLER_SKILL_DTO | skill-dto-handler | ✅ 新增 |\n`;
+  md += `| L3_HANDLER_SKILL_DTO | skill-lto-handler | ✅ 新增 |\n`;
   md += `| L3_HANDLER_SKILL_CRAS | skill-cras-handler | ✅ 新增 |\n`;
   md += `| L3_HANDLER_CRAS_FEEDBACK | cras-feedback-handler | ✅ 新增 |\n`;
   md += `| L3_HANDLER_CRAS_KNOWLEDGE | cras-knowledge-handler | ✅ 新增 |\n`;

@@ -17,7 +17,7 @@
  * - 本地任务编排-Core index.js
  * - LEP-Core LEPExecutor.js
  * - enforcement-audit
- * - isc-dto-handshake
+ * - isc-lto-handshake
  * - isc-eval-middleware
  */
 
@@ -184,8 +184,8 @@ test('enforcement-audit: ISC hard gates declared active', async () => {
 
 // ── 5. ISC-本地任务编排 Handshake ──
 console.log('\n📦 5. ISC-本地任务编排 Handshake');
-test('isc-dto-handshake: contains iscHardGates field', () => {
-  const src = fs.readFileSync(path.join(WORKSPACE, 'infrastructure/event-bus/handlers/isc-dto-handshake.js'), 'utf8');
+test('isc-lto-handshake: contains iscHardGates field', () => {
+  const src = fs.readFileSync(path.join(WORKSPACE, 'infrastructure/event-bus/handlers/isc-lto-handshake.js'), 'utf8');
   assert(src.includes('ISC-INTENT-EVAL-001'), 'should reference ISC-INTENT-EVAL-001');
   assert(src.includes('ISC-CLOSED-BOOK-001'), 'should reference ISC-CLOSED-BOOK-001');
   assert(src.includes('iscHardGates'), 'should include iscHardGates field');
@@ -326,7 +326,7 @@ const report = {
     'infrastructure/event-bus/handlers/public-skill-quality-gate.js',
     'infrastructure/event-bus/handlers/subagent-checkpoint-gate.js',
     'infrastructure/event-bus/handlers/enforcement-audit.js',
-    'infrastructure/event-bus/handlers/isc-dto-handshake.js',
+    'infrastructure/event-bus/handlers/isc-lto-handshake.js',
     'infrastructure/event-bus/handlers/isc-eval-middleware.js',
     'skills/aeo/index.js',
     'skills/isc-core/index.js',

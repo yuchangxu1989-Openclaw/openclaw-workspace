@@ -30,7 +30,7 @@
         "architecture.decision.made",
         "isc.rule.created",
         "skill.created",
-        "dto.task.created"
+        "lto.task.created"
       ],
       "description": "\u4efb\u4f55\u8bbe\u8ba1\u4ea7\u51fa\u3001\u67b6\u6784\u51b3\u7b56\u3001\u89c4\u5219\u521b\u5efa\u3001\u6280\u80fd\u521b\u5efa\u3001\u4efb\u52a1\u521b\u5efa\u65f6\u89e6\u53d1"
     },
@@ -44,12 +44,12 @@
     "_fileName": "rule.anti-entropy-design-principle-001.json"
   },
   "route": {
-    "handler": "dto-sync",
+    "handler": "lto-sync",
     "agent": "coder",
     "priority": "high",
     "description": "ISC rule changes trigger DTO alignment sync"
   },
-  "handlerName": "dto-sync",
+  "handlerName": "lto-sync",
   "dispatchedAt": "2026-03-04T16:54:53.976Z",
   "status": "archived",
   "archivedAt": "2026-03-05T01:12:19.309499+00:00",

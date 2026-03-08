@@ -284,7 +284,7 @@ class L3Pipeline {
           what: `Circuit break: event ${event.id || 'unknown'} (type=${event.type}) blocked at ${breakerStage}`,
           why: ingressBreakerTripped
             ? `上游 EventBus ingress breaker 已拒绝该事件: ${breakerReason}`
-            : `防止无限循环(cras→isc→dto→cras): chain_depth=${depth} > max_allowed=${this.maxChainDepth}`,
+            : `防止无限循环(cras→isc→lto→cras): chain_depth=${depth} > max_allowed=${this.maxChainDepth}`,
           confidence: 1.0,
           alternatives_considered: [{ id: '继续处理', reason: breakerReason }],
           input_summary: JSON.stringify({

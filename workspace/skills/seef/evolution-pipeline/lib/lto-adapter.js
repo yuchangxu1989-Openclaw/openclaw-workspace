@@ -1,5 +1,5 @@
 /**
- * @file lib/dto-adapter.js
+ * @file lib/lto-adapter.js
  * @description DTO订阅适配器 - SEEF-DTO集成层
  * @module DTOAdapter
  * @version 1.0.0

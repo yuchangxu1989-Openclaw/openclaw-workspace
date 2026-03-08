@@ -7,7 +7,7 @@
  * 验证事件从技能→EventBus→Pipeline→Dispatcher→技能的完整闭环：
  * 
  * 场景 1: CRAS knowledge.learned → EventBus → Dispatcher → skill-cras-handler
- * 场景 2: 本地任务编排 task.completed → EventBus → Dispatcher → skill-dto-handler
+ * 场景 2: 本地任务编排 task.completed → EventBus → Dispatcher → skill-lto-handler
  * 场景 3: ISC rule.changed → EventBus → Dispatcher → skill-isc-handler
  * 场景 4: AEO evaluation.completed → EventBus → Dispatcher → skill-cras-handler
  * 场景 5: SEEF skill.published → EventBus → Dispatcher → skill-cras-handler
@@ -41,7 +41,7 @@ const SEEFBridge = require(path.join(SKILLS_ROOT, 'seef', 'event-bridge.js'));
 
 // Dispatcher handlers (reverse integration)
 const craHandler = require(path.join(INFRA_ROOT, 'dispatcher', 'handlers', 'skill-cras-handler.js'));
-const dtoHandler = require(path.join(INFRA_ROOT, 'dispatcher', 'handlers', 'skill-dto-handler.js'));
+const dtoHandler = require(path.join(INFRA_ROOT, 'dispatcher', 'handlers', 'skill-lto-handler.js'));
 const iscHandler = require(path.join(INFRA_ROOT, 'dispatcher', 'handlers', 'skill-isc-handler.js'));
 
 // ─── 测试基础设施 ────────────────────────────────────────────────
@@ -141,8 +141,8 @@ function testDTOEventBridge() {
 
   check('createTaskFromEvent creates task file', () => {
     const result = DTOBridge.createTaskFromEvent({
-      id: 'test-event-dto-1',
-      type: 'dto.task.request',
+      id: 'test-event-lto-1',
+      type: 'lto.task.request',
       payload: {
         task_name: 'integration-test-task',
         description: 'Created by integration test'
@@ -276,10 +276,10 @@ async function testFullLoopDispatch() {
     assert.strictEqual(routes['cras.knowledge.learned'].handler, 'skill-cras-handler');
   });
 
-  // Test 2: dto.task.completed → skill-dto-handler
-  check('Route exists for dto.task.completed', () => {
-    assert.ok(routes['dto.task.completed'], 'Should have route for dto.task.completed');
-    assert.strictEqual(routes['dto.task.completed'].handler, 'skill-dto-handler');
+  // Test 2: lto.task.completed → skill-lto-handler
+  check('Route exists for lto.task.completed', () => {
+    assert.ok(routes['lto.task.completed'], 'Should have route for lto.task.completed');
+    assert.strictEqual(routes['lto.task.completed'].handler, 'skill-lto-handler');
   });
 
   // Test 3: isc.rule.changed → skill-isc-handler
@@ -325,18 +325,18 @@ async function testFullLoopDispatch() {
     });
   }
 
-  // Test 7: Actual dispatch of dto.task.completed event
+  // Test 7: Actual dispatch of lto.task.completed event
   try {
     const dispatchResult = await Dispatcher.dispatch(
-      { action: 'dto.task.completed' },
+      { action: 'lto.task.completed' },
       {
         id: 'integration-test-event-2',
-        type: 'dto.task.completed',
+        type: 'lto.task.completed',
         payload: { task_id: 'test-task', duration: 1000 },
         timestamp: Date.now()
       }
     );
-    check('Dispatcher dispatches dto.task.completed successfully', () => {
+    check('Dispatcher dispatches lto.task.completed successfully', () => {
       assert.ok(dispatchResult, 'Should return dispatch result');
       assert.ok(
         dispatchResult.success || dispatchResult.result === 'file_dispatched',
@@ -344,7 +344,7 @@ async function testFullLoopDispatch() {
       );
     });
   } catch (err) {
-    check('Dispatcher dispatches dto.task.completed successfully', () => {
+    check('Dispatcher dispatches lto.task.completed successfully', () => {
       assert.fail(`Dispatch threw: ${err.message}`);
     });
   }
@@ -409,15 +409,15 @@ function testReverseIntegration() {
   });
 
   // 7b: 本地任务编排 handler
-  check('skill-dto-handler createTask works', () => {
+  check('skill-lto-handler createTask works', () => {
     const result = dtoHandler({
       id: 'reverse-test-3',
-      type: 'dto.task.create',
+      type: 'lto.task.create',
       payload: {
         task_name: 'reverse-test-task',
         description: 'Created by reverse integration test'
       }
-    }, { handlerName: 'skill-dto-handler' });
+    }, { handlerName: 'skill-lto-handler' });
     assert.ok(result, 'Should return result');
     assert.strictEqual(result.status, 'ok');
     assert.ok(result.task_id, 'Should have task_id');

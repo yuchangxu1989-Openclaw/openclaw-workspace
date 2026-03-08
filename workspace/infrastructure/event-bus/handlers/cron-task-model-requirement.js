@@ -79,7 +79,7 @@ module.exports = async function cronTaskModelRequirement(event, rule, context = 
   appendJsonl(reportFile, record);
 
   if (verificationPassed && context.bus?.emit) {
-    await context.bus.emit('dto.task.model.enforced', {
+    await context.bus.emit('lto.task.model.enforced', {
       task_id: verified.id,
       model: afterModel,
       action,

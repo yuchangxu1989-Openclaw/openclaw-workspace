@@ -43,7 +43,7 @@ node index.js '{"skillId":"my-skill","skillPath":"skills/my-skill","skillName":"
   "skillPath": "技能相对路径（相对于workspace）",
   "skillName": "技能显示名称",
   "phase": "验证阶段 (admission/checkout)",
-  "trigger": "触发来源 (manual/dto/pipeline)"
+  "trigger": "触发来源 (manual/lto/pipeline)"
 }
 ```
 

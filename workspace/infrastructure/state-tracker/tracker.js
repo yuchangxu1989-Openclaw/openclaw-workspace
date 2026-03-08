@@ -18,7 +18,7 @@ const CURRENT_FILE = path.join(__dirname, 'current.json');
 // 确保目录存在
 if (!fs.existsSync(STATE_DIR)) fs.mkdirSync(STATE_DIR, { recursive: true });
 
-const STAGES = ['isc', 'dto', 'seef', 'aeo', 'cras'];
+const STAGES = ['isc', 'lto', 'seef', 'aeo', 'cras'];
 const STATUS = {
   PENDING: 'pending',
   RUNNING: 'running',
@@ -71,7 +71,7 @@ function createRun(trigger, metadata = {}) {
 /**
  * 更新某阶段的状态
  * @param {string} runId - 运行 ID
- * @param {string} stage - 阶段名 (isc/dto/seef/aeo/cras)
+ * @param {string} stage - 阶段名 (isc/lto/seef/aeo/cras)
  * @param {string} status - 新状态
  * @param {*} [result] - 阶段结果数据
  * @returns {Object} 更新后的运行记录

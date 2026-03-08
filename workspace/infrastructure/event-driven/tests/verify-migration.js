@@ -4,7 +4,7 @@
  * 
  * 验收测试：
  * 1. 手动 emit isc.rule.changed → ISC变更检测立即响应
- * 2. 手动创建 .dto-signals/ 文件 → 本地任务编排-AEO立即响应
+ * 2. 手动创建 .lto-signals/ 文件 → 本地任务编排-AEO立即响应
  * 3. cron 执行时如果事件已处理则跳过
  */
 'use strict';
@@ -123,11 +123,11 @@ test('T2.2: ISC变更检测在事件触发后cron跳过', () => {
 // ═══════════════════════════════════════════════════════════
 console.log('\n── Suite 3: 本地任务编排 Signals 事件发布 ──');
 
-test('T3.1: emit dto.signal.created 事件可被消费', () => {
-  const beforeEvents = bus.consume('test-dto-consumer', { types: ['dto.signal.created'] });
-  beforeEvents.forEach(e => bus.ack('test-dto-consumer', e.id));
+test('T3.1: emit lto.signal.created 事件可被消费', () => {
+  const beforeEvents = bus.consume('test-lto-consumer', { types: ['lto.signal.created'] });
+  beforeEvents.forEach(e => bus.ack('test-lto-consumer', e.id));
   
-  const event = bus.emit('dto.signal.created', {
+  const event = bus.emit('lto.signal.created', {
     trigger: 'verification-test',
     filename: 'test-signal.json',
     content: { task: 'test' }
@@ -135,16 +135,16 @@ test('T3.1: emit dto.signal.created 事件可被消费', () => {
   
   assert.ok(event.id);
   
-  const events = bus.consume('test-dto-consumer', { types: ['dto.signal.created'] });
+  const events = bus.consume('test-lto-consumer', { types: ['lto.signal.created'] });
   const found = events.find(e => e.id === event.id);
-  assert.ok(found, 'Should find dto.signal.created event');
+  assert.ok(found, 'Should find lto.signal.created event');
   
-  bus.ack('test-dto-consumer', event.id);
+  bus.ack('test-lto-consumer', event.id);
 });
 
 test('T3.2: 本地任务编排-AEO在事件触发后cron跳过', () => {
-  markEventTriggered('dto-aeo', { test: true, signals_count: 1 });
-  const result = shouldSkip('dto-aeo', { maxAgeMs: 2 * 60 * 60 * 1000 });
+  markEventTriggered('lto-aeo', { test: true, signals_count: 1 });
+  const result = shouldSkip('lto-aeo', { maxAgeMs: 2 * 60 * 60 * 1000 });
   assert.strictEqual(result.skip, true);
 });
 
@@ -210,7 +210,7 @@ test('T6.1: routes.json 包含新事件路由', () => {
     path.join(__dirname, '../../dispatcher/routes.json'), 'utf8'
   ));
   
-  assert.ok(routes['dto.signal.created'], 'Should have dto.signal.created route');
+  assert.ok(routes['lto.signal.created'], 'Should have lto.signal.created route');
   assert.ok(routes['file.changed'], 'Should have file.changed route');
   assert.ok(routes['file.changed.*'], 'Should have file.changed.* wildcard route');
   assert.ok(routes['isc.rule.changed'], 'Should have isc.rule.changed route');

@@ -1,10 +1,10 @@
 # SEEF-本地任务编排 订阅配置 v1.0
 # DTO事件驱动工作流配置
 
-apiVersion: dto.openclaw.io/v1
+apiVersion: lto.openclaw.io/v1
 kind: EventSubscription
 metadata:
-  name: seef-dto-subscriptions
+  name: seef-lto-subscriptions
   namespace: seef
   version: "1.0.0"
   description: SEEF子技能DTO事件订阅配置

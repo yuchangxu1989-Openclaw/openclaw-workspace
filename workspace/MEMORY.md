@@ -62,7 +62,7 @@
 - 已写入SOUL.md作为灵魂烙印
 - 已创建ISC规则 rule.anti-entropy-design-principle-001.json
 - 4个检查维度：可扩展性(10x)、可泛化性(一类问题)、可生长性(代码化)、熵方向(更有序)
-- 事件绑定：design.document.created/modified, architecture.decision.made, isc.rule.created, skill.created, dto.task.created
+- 事件绑定：design.document.created/modified, architecture.decision.made, isc.rule.created, skill.created, lto.task.created
 - **这是最高优先级的元规则——约束所有其他规则和设计**
 
 ## 第四类事件：语义意图事件（2026-03-04）

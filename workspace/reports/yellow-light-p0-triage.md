@@ -104,7 +104,7 @@
 | `rule.intent-type-convergence-001` | `skills/isc-core/rules/rule.intent-type-convergence-001.json` | missing handler | `-` |
 | `rule.intent-unknown-discovery-001` | `skills/isc-core/rules/rule.intent-unknown-discovery-001.json` | missing handler | `-` |
 | `rule.isc-change-auto-trigger-alignment-001` | `skills/isc-core/rules/rule.isc-change-auto-trigger-alignment-001.json` | missing handler | `-` |
-| `rule.isc-dto-handshake-001` | `skills/isc-core/rules/rule.isc-dto-handshake-001.json` | missing handler | `-` |
+| `rule.isc-lto-handshake-001` | `skills/isc-core/rules/rule.isc-lto-handshake-001.json` | missing handler | `-` |
 | `rule.isc-rule-auto-decompose-001` | `skills/isc-core/rules/rule.isc-rule-auto-decompose-001.json` | missing handler | `-` |
 | `rule.isc-rule-modified-dedup-scan-001` | `skills/isc-core/rules/rule.isc-rule-modified-dedup-scan-001.json` | missing handler | `-` |
 | `rule.isc-skill-index-auto-update-001` | `skills/isc-core/rules/rule.isc-skill-index-auto-update-001.json` | missing handler | `-` |

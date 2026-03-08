@@ -62,12 +62,12 @@
 | R014 | 主动技能化执行 - 检测到候选技能后自动执行完整技能化流程 | 无 | DTO订阅 | DTO订阅存在但规则无trigger.actions定义 |
 | readme_quality | (无描述) | 无 | DTO订阅, JS引用 | DTO订阅存在但规则无trigger.actions定义 |
 | rule_2f7dd6e4 | (无描述) | 无 | DTO订阅 | DTO订阅存在但规则无trigger.actions定义 |
-| rule.anti-entropy-design-principle-001 | 所有设计和决策必须满足反熵增原则：批判性思维、可扩展、可泛化、可生长。违反此原则的设计必须被拦截。 | design.document.created, design.document.modified, architecture.decision.made, isc.rule.created, skill.created, dto.task.created | 仅JSON声明 | 无DTO订阅/JS执行代码 |
+| rule.anti-entropy-design-principle-001 | 所有设计和决策必须满足反熵增原则：批判性思维、可扩展、可泛化、可生长。违反此原则的设计必须被拦截。 | design.document.created, design.document.modified, architecture.decision.made, isc.rule.created, skill.created, lto.task.created | 仅JSON声明 | 无DTO订阅/JS执行代码 |
 | rule.architecture-diagram-visual-output-001 | 任何架构设计输出除了文本/MD格式外，必须额外生成一份直观的可视化图片并发送给用户。使用Mermaid渲染结构化图表，不 | design.architecture.created, design.architecture.updated | 仅JSON声明 | 无DTO订阅/JS执行代码 |
 | rule.architecture-review-pipeline-001 | 任何架构设计方案或模块重构方案，必须经过标准化评审流水线：架构师出方案→工程师验证可落地性→质量分析师验证合理性→循环修 | design.document.created, design.document.modified, architecture.refactor.proposed, module.restructure.proposed, system.failure.refactor_required | 仅JSON声明 | 无DTO订阅/JS执行代码 |
 | rule.capability-anchor-auto-register-001 | 新增通用能力（多模态、大模型、IM交互、工具等）时，必须自动写入CAPABILITY-ANCHOR.md。AI不应忘记自 | skill.created, skill.updated, tool.discovered, provider.added, capability.changed | 仅JSON声明 | 无DTO订阅/JS执行代码 |
 | rule.interactive-card-context-inference-001 | 当收到用户回复引用的消息体为[Interactive Card]时，不得询问用户卡片内容。必须根据最近发出的消息、当前对 | message.reply.received | 仅JSON声明 | 无DTO订阅/JS执行代码 |
-| rule.layered-decoupling-architecture-001 | 所有规则、任务、技能的设计必须明确三层归属：感知层（谁观察/什么探针）、认知层（谁判断/什么引擎）、执行层（谁行动/什么 | design.document.created, design.document.modified, isc.rule.created, skill.created, dto.task.created | 仅JSON声明 | 无DTO订阅/JS执行代码 |
+| rule.layered-decoupling-architecture-001 | 所有规则、任务、技能的设计必须明确三层归属：感知层（谁观察/什么探针）、认知层（谁判断/什么引擎）、执行层（谁行动/什么 | design.document.created, design.document.modified, isc.rule.created, skill.created, lto.task.created | 仅JSON声明 | 无DTO订阅/JS执行代码 |
 | rule.meta-enforcement-gate-001 | ISC元规则：规则必须有强制执行机制，否则视为未制定。写了但没挂执行的规则等于废纸。 | rule.created, rule.updated, delivery.review_requested | trigger.actions | 无DTO订阅/JS执行代码 |
 | rule.parallel-analysis-workflow-001 | 并行分析工作流 - 同时执行多个分析任务提高效率 | analysis.requested | 仅JSON声明 | 无DTO订阅/JS执行代码 |
 | rule.parallel-subagent-orchestration-001 | 并行子Agent编排规则 - DTO调度多Agent并行执行复杂工作流 | workflow.requested, complex_task.detected | 仅JSON声明 | 无DTO订阅/JS执行代码 |
@@ -101,7 +101,7 @@
 | rule.http-skills-suite-001 | HTTP技能套件 - GitHub API、EvoMap A2A、文件下载、API聚合 | rule.http-skills-suite-001.json |
 | rule.isc-change-auto-trigger-alignment-001 | ISC规则变更自动触发对齐检查 - 规则新增/修改/删除时自动执行对齐 | rule.isc-change-auto-trigger-alignment-001.json |
 | rule.isc-creation-gate-001 | ISC规则创建闸门 - 创建时强制验证，拒绝不符合标准的规则 | rule.isc-creation-gate-001.json |
-| rule.isc-dto-handshake-001 | ISC-DTO定期握手机制 - 每30分钟互相扫描对齐 | rule.isc-dto-handshake-001.json |
+| rule.isc-lto-handshake-001 | ISC-DTO定期握手机制 - 每30分钟互相扫描对齐 | rule.isc-lto-handshake-001.json |
 | rule.isc-naming-convention-001 | ISC规则命名公约 - 严格执行R001-R005标准格式 | rule.isc-naming-convention-001.json |
 | rule.isc-skill-index-auto-update-001 | 技能索引自动更新 - 技能创建/修改/删除时自动更新SKILL_INDEX.md | rule.isc-skill-index-auto-update-001.json |
 | rule.isc-skill-usage-protocol-001 | 技能使用协议 - 使用任何技能前必须先读取SKILL.md确认用法，禁止凭猜测调用 | rule.isc-skill-usage-protocol-001.json |

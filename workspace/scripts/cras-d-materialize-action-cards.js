@@ -63,7 +63,7 @@ function ownerFor(actionId) {
   if (actionId === 'A1') return 'cras/research';
   if (actionId === 'A2') return 'ops/governance';
   if (actionId === 'A3') return 'cras/reporting';
-  if (actionId === 'A4') return 'project-mgmt/dto';
+  if (actionId === 'A4') return 'project-mgmt/lto';
   return 'main/unknown';
 }
 
@@ -120,7 +120,7 @@ function validationCommands(actionId) {
 
 function dtoTaskFor(action, memoryTask) {
   return {
-    id: `dto-${memoryTask.key}`,
+    id: `lto-${memoryTask.key}`,
     intent: memoryTask.title,
     version: '1.0.0',
     status: memoryTask.status,
@@ -271,7 +271,7 @@ function main() {
       md.push(`- 本地缺口: ${card.local_gap}`);
       md.push(`- 验证: ${card.verification}`);
       md.push(`- memory/tasks: \`${card.memory_task}\``);
-      md.push(`- dto task: \`${card.dto_task}\``);
+      md.push(`- lto task: \`${card.dto_task}\``);
       md.push(`- close-loop: \`${card.close_loop}\``);
       md.push(`- 验证命令:`);
       for (const cmd of card.validation_commands) md.push(`  - \`${cmd}\``);

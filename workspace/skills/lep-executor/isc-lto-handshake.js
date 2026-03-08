@@ -2,7 +2,7 @@
  * ISC-本地任务编排 握手执行器 (ISCDTOHandshakeExecutor)
  * 
  * 实现 ISC-本地任务编排 定期握手机制，每30分钟执行双向扫描对齐
- * 规则定义: rule.isc-dto-handshake-001.json
+ * 规则定义: rule.isc-lto-handshake-001.json
  * 
  * 功能概述:
  * 1. 定期扫描ISC规则目录，收集所有规则信息
@@ -72,7 +72,7 @@ class ISCDTOHandshakeExecutor extends EventEmitter {
     this.executionCache = new Map();
     
     // WAL日志目录
-    this.walPath = path.join(__dirname, '.isc-dto-wal');
+    this.walPath = path.join(__dirname, '.isc-lto-wal');
     this._initWAL();
     
     // 确保报告目录存在
@@ -532,7 +532,7 @@ class ISCDTOHandshakeExecutor extends EventEmitter {
    */
   async _generateReport(data) {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const reportFileName = `isc-dto-handshake-report-${timestamp}.json`;
+    const reportFileName = `isc-lto-handshake-report-${timestamp}.json`;
     const reportFilePath = path.join(this.options.reportPath, reportFileName);
     
     // 构建报告内容
@@ -799,7 +799,7 @@ class ISCDTOHandshakeExecutor extends EventEmitter {
       created_at: now,
       updated_at: now,
       auto_created: true,
-      created_by: 'isc-dto-handshake'
+      created_by: 'isc-lto-handshake'
     };
   }
 
@@ -878,7 +878,7 @@ class ISCDTOHandshakeExecutor extends EventEmitter {
   _generateExecutionId() {
     const timestamp = Date.now().toString(36);
     const random = Math.random().toString(36).substr(2, 5);
-    return `isc-dto-${timestamp}-${random}`;
+    return `isc-lto-${timestamp}-${random}`;
   }
 
   /**

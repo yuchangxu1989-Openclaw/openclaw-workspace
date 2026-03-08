@@ -4,7 +4,7 @@
  * 
  * 验收条件（来自 day2-scope-and-plan.md D2-07）：
  *   1. 4个核心cron任务改为事件触发 + cron兜底双模式
- *   2. EventBus 路由完整（dto.signal.created / file.changed / file.changed.* / isc.rule.changed）
+ *   2. EventBus 路由完整（lto.signal.created / file.changed / file.changed.* / isc.rule.changed）
  *   3. Check-and-skip 状态持久化正常
  *   4. 4个 Watcher 文件存在且可加载
  *   5. 4个 Cron Adapter 存在且可执行
@@ -57,7 +57,7 @@ test('event-watcher-daemon.js 存在', () => {
 // 4个 Watcher
 const watchers = [
   'isc-rules-watcher.js',
-  'dto-signals-watcher.js',
+  'lto-signals-watcher.js',
   'eventbus-file-watcher.js',
   'git-change-watcher.js',
 ];
@@ -72,7 +72,7 @@ const adapters = [
   'event-dispatcher-adapter.js',
   'isc-detect-adapter.js',
   'global-pipeline-adapter.js',
-  'dto-aeo-adapter.js',
+  'lto-aeo-adapter.js',
 ];
 for (const a of adapters) {
   test(`Cron Adapter ${a} 存在`, () => {
@@ -95,7 +95,7 @@ test('routes.json 可加载', () => {
 
 const requiredRoutes = [
   'isc.rule.changed',
-  'dto.signal.created',
+  'lto.signal.created',
   'file.changed',
   'file.changed.*',
 ];
@@ -208,13 +208,13 @@ test('E2E: ISC事件触发后 isc-detect cron 跳过', () => {
   markCronExecuted(taskId, 'skipped');
 });
 
-test('E2E: DTO信号事件触发后 dto-aeo cron 跳过', () => {
+test('E2E: DTO信号事件触发后 lto-aeo cron 跳过', () => {
   const { markEventTriggered, shouldSkip, markCronExecuted } = checkSkip;
-  const taskId = 'dto-aeo';
+  const taskId = 'lto-aeo';
   
   markEventTriggered(taskId);
   const skipResult = shouldSkip(taskId, { maxAgeMs: 2 * 60 * 60 * 1000 });
-  assert.ok(skipResult.skip, 'dto-aeo cron should skip after event trigger');
+  assert.ok(skipResult.skip, 'lto-aeo cron should skip after event trigger');
   
   markCronExecuted(taskId, 'skipped');
 });

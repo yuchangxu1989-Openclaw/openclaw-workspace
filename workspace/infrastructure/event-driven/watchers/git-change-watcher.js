@@ -56,7 +56,7 @@ const CHANGE_CLASSIFIERS = [
     category: 'data',
     label: '数据变更',
     patterns: [/\.jsonl$/, /\.csv$/],
-    dirs: ['memory/', 'reports/', '.dto-signals/'],
+    dirs: ['memory/', 'reports/', '.lto-signals/'],
     actions: ['data-archive']
   },
   {
@@ -266,7 +266,7 @@ const WATCH_DIRS = [
   'infrastructure/config',
   'infrastructure/event-bus',
   'scripts',
-  '.dto-signals'
+  '.lto-signals'
 ].map(d => path.join(WORKSPACE, d));
 
 function start() {

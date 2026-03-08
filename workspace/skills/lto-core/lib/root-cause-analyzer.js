@@ -10,7 +10,7 @@ const { OPENCLAW_HOME, WORKSPACE, SKILLS_DIR } = require('../../shared/paths');
 
 class RootCauseAnalyzer {
   constructor(options = {}) {
-    this.dto = options.dto;
+    this.lto = options.lto;
     this.isc = options.isc;
     this.cras = options.cras;
     this.eventBus = options.eventBus;
@@ -230,7 +230,7 @@ class RootCauseAnalyzer {
    */
   async gatherSystemStatus() {
     return {
-      dto: this.dto?.getStatus(),
+      lto: this.lto?.getStatus(),
       isc: this.isc?.getRegistryStatus?.(),
       disk: this.checkDiskSpace(),
       memory: process.memoryUsage(),

@@ -35,7 +35,7 @@ function saveState(state) {
 
 /**
  * 标记某任务被事件触发执行了
- * @param {string} taskId - 任务标识（如 'isc-detect', 'dto-aeo'）
+ * @param {string} taskId - 任务标识（如 'isc-detect', 'lto-aeo'）
  * @param {object} [meta] - 附加信息
  */
 function markEventTriggered(taskId, meta = {}) {

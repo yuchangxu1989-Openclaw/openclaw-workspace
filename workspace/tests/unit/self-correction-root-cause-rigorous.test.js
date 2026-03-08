@@ -60,7 +60,7 @@ async function test_real_closed_book_handler_missing_semantics_exposes_bug() {
   // 严格期望：该语义应命中 handler_missing/create_handler，而不是 create_rule。
   assert.strictEqual(res.root_cause, 'handler_missing', `BUG: misclassified as ${res.root_cause}`);
   assert.strictEqual(res.fix_type, 'create_handler');
-  assert.ok(emitted.some(e => e.t === 'dto.task.created'));
+  assert.ok(emitted.some(e => e.t === 'lto.task.created'));
   assert.deepStrictEqual(afterRules, beforeRules, 'handler-missing case should not create new rule');
 }
 

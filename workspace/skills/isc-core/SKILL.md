@@ -294,7 +294,7 @@ isc-core/
 ├── lineage/                    # 血缘数据
 │   └── {standard-id}.json
 └── adapters/                   # 目标系统适配器
-    ├── dto-adapter.js
+    ├── lto-adapter.js
     ├── seef-adapter.js
     └── cras-adapter.js
 ```

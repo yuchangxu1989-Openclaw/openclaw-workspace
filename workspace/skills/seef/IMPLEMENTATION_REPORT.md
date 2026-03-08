@@ -203,7 +203,7 @@ skills/seef/subskills/
 skills/seef/
 ├── seef.py              (620+ 行，DTO集成版)
 ├── config/
-│   └── dto-subscriptions.yaml  (280+ 行)
+│   └── lto-subscriptions.yaml  (280+ 行)
 └── DEPLOYMENT_GUIDE.md  (380+ 行)
 ```
 

@@ -1,6 +1,6 @@
 /**
  * 本地任务编排 Event Consumer
- * 文件系统监视器 — 监听 .dto-signals/ 目录中的事件文件，
+ * 文件系统监视器 — 监听 .lto-signals/ 目录中的事件文件，
  * 自动解析并触发对应处理器（包括 SEEF Evaluator）。
  *
  * 解决的问题: 之前事件只写 JSON 文件，没有消费者进程监听。
@@ -15,7 +15,7 @@ const { EventEmitter } = require('events');
 const { WORKSPACE } = require('../../shared/paths');
 
 // ── 常量 ───────────────────────────────────────────────
-const SIGNALS_DIR   = path.join(WORKSPACE, '.dto-signals');
+const SIGNALS_DIR   = path.join(WORKSPACE, '.lto-signals');
 const ARCHIVE_DIR   = path.join(SIGNALS_DIR, '.archive');
 const LOG_FILE      = path.join(WORKSPACE, 'skills/lto-core/logs/event-consumer.jsonl');
 const POLL_INTERVAL = 2000;   // ms – 轮询间隔（fs.watch 的后备）
@@ -239,7 +239,7 @@ class EventConsumer extends EventEmitter {
           type:      eventType,
           payload:   evt,
           timestamp: evt.timestamp || new Date().toISOString(),
-          source:    'dto-signal-file',
+          source:    'lto-signal-file',
           file:      filename,
         };
 

@@ -42,9 +42,9 @@
 | `aeo.evaluation.completed` | AEO event-bridge | 手动调用 |
 | `cras.insight.generated` | CRAS event-bridge | 手动调用 |
 | `cras.knowledge.learned` | CRAS event-bridge | 手动调用 |
-| `dto.task.created/completed` | 本地任务编排 EventPublisher | 任务注册时 |
-| `dto.sync.completed` | 本地任务编排 | 同步完成时 |
-| `dto.signal.created` | dto-signals-watcher | 信号文件创建 |
+| `lto.task.created/completed` | 本地任务编排 EventPublisher | 任务注册时 |
+| `lto.sync.completed` | 本地任务编排 | 同步完成时 |
+| `lto.signal.created` | lto-signals-watcher | 信号文件创建 |
 | `seef.skill.evaluated/optimized/published` | SEEF模块 | 手动调用 |
 | `knowledge.discovery.actionable` | knowledge-discovery-probe | 主动扫描时 |
 | `skill.lifecycle.created/modified` | git-scanner | git变更触发 |
@@ -92,7 +92,7 @@
 | git-scanner.js | ✅ 代码完整 | 监听git diff，emit 4类事件（isc.rule.*, skill.lifecycle.*, system.infrastructure.*, test.suite.*） |
 | isc-rules-watcher.js | ✅ 代码完整 | fs.watch监听rules/目录，即时emit `isc.rule.changed` |
 | git-change-watcher.js | ✅ 代码完整 | 监听6个目录的文件变更，分类emit `file.changed.*` |
-| dto-signals-watcher.js | ✅ 代码完整 | 监听.dto-signals/目录，emit `dto.signal.created` |
+| lto-signals-watcher.js | ✅ 代码完整 | 监听.lto-signals/目录，emit `lto.signal.created` |
 
 **关键缺失**：
 - ❌ **运行时对象创建**无监控（如技能实例化、任务队列变更）
@@ -238,7 +238,7 @@ AEO完成 → event-bridge发布事件 → EventBus → RuleMatcher → Dispatch
 
 CRAS event-bridge.js使用bus-adapter.consume()消费事件，这是**唯一一个真正实现了事件消费模式的模块**。它可以处理：
 - `aeo.assessment.*` → 评测分析
-- `dto.sync.completed` → 同步跟踪  
+- `lto.sync.completed` → 同步跟踪  
 - `system.error` → 错误模式分析
 
 生成洞察后发布`cras.insight.generated`到事件总线。
@@ -262,7 +262,7 @@ LEP复用了parallel-subagent的CircuitBreaker和RetryPolicy，**韧性机制本
 事件总线(bus) ──→ ISCRuleMatcher ──→ Dispatcher v2 ──→ Handlers
      │                                                      │
      │                                                      ├─→ skill-cras-handler (调用CRAS)
-     │                                                      ├─→ skill-dto-handler (调用DTO) 
+     │                                                      ├─→ skill-lto-handler (调用DTO) 
      │                                                      ├─→ skill-isc-handler (调用ISC)
      │                                                      └─→ intent-dispatch (路由意图)
      │
@@ -377,7 +377,7 @@ LEP ──(断点7: 未连接事件总线)
 
 **目标**：让action能执行，不只是log。
 
-1. **Dispatcher handler增加DTO trigger** — `skill-dto-handler`收到事件后，查找matching subscription并调用DTO.execute()
+1. **Dispatcher handler增加DTO trigger** — `skill-lto-handler`收到事件后，查找matching subscription并调用DTO.execute()
 2. **LEP注册为handler** — 在routes.json中增加LEP路由，让resilience-related action走LEP
 3. **CRAS调度器** — 创建一个简单的setInterval(processAssessments, 5*60*1000)
 4. **Handler执行后emit result事件** — 每个handler返回结果后，bus.emit('handler.result.*')

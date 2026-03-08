@@ -14,7 +14,7 @@
       "priority": "CRITICAL",
       "action": {
         "type": "immediate_execution",
-        "command": "node /root/.openclaw/workspace/skills/isc-core/bin/isc-dto-alignment-checker.js",
+        "command": "node /root/.openclaw/workspace/skills/isc-core/bin/isc-lto-alignment-checker.js",
         "timeout": 30,
         "blocking": false,
         "async": true

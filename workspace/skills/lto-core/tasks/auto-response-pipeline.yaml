@@ -35,7 +35,7 @@ workflow:
         scope: "{{classify-issue.output.scope}}"
       
     - id: council-check
-      action: dto.internal.checkEscalation
+      action: lto.internal.checkEscalation
       dependsOn: [assess-impact]
       params:
         impact: "{{assess-impact.output.impact}}"

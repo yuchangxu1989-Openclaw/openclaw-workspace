@@ -5,7 +5,7 @@
 
 class DTOAutoResponseController {
   constructor(ctoPlatform) {
-    this.dto = ctoPlatform;
+    this.lto = ctoPlatform;
     this.eventBus = ctoPlatform.eventBus;
     this.activeResponses = new Map();
     
@@ -128,7 +128,7 @@ class DTOAutoResponseController {
     
     try {
       // 执行自动响应管道
-      const result = await this.dto.execute('auto-response-pipeline', {
+      const result = await this.lto.execute('auto-response-pipeline', {
         trigger: type,
         input: data
       });

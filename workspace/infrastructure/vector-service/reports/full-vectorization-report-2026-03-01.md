@@ -54,7 +54,7 @@
 ## 处理的记忆列表 (22个)
 
 1. ✅ 2026-02-27.md
-2. ✅ aeo-dto-logs.md
+2. ✅ aeo-lto-logs.md
 3. ✅ 2026-02-23.md
 4. ✅ lessons-openclaw-14b-tokens.md
 5. ✅ 2026-03-01-global-pipeline-run.md

@@ -80,7 +80,7 @@
 |---------|------|------|
 | knowledge-executable.js | L12 | `context.logger || console` |
 | isc-creation-gate.js | L12 | `context.logger || console` |
-| isc-dto-handshake.js | L12 | `context.logger || console` |
+| isc-lto-handshake.js | L12 | `context.logger || console` |
 | isc-rule-decompose.js | L12 | `context.logger || console` |
 | isc-skill-index-update.js | L12 | `context.logger || console` |
 | isc-skill-permission.js | L12 | `context.logger || console` |

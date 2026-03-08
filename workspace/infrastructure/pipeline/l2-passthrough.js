@@ -32,7 +32,7 @@ const L2_ROUTES = {
     action: 'log-and-skip',
     description: 'ISC rule changes logged but not processed in L2 mode',
   },
-  'dto.task.*': {
+  'lto.task.*': {
     action: 'log-and-skip',
     description: '本地任务编排 tasks logged but not dispatched in L2 mode',
   },
@@ -383,8 +383,8 @@ if (require.main === module) {
     const r1 = matchL2Route('isc.rule.changed');
     assert(r1.action === 'log-and-skip', 'T3.1: isc.rule.* matches isc.rule.changed');
     
-    const r2 = matchL2Route('dto.task.completed');
-    assert(r2.action === 'log-and-skip', 'T3.2: dto.task.* matches dto.task.completed');
+    const r2 = matchL2Route('lto.task.completed');
+    assert(r2.action === 'log-and-skip', 'T3.2: lto.task.* matches lto.task.completed');
     
     const r3 = matchL2Route('system.error');
     assert(r3.action === 'log-alert', 'T3.3: system.error → log-alert');

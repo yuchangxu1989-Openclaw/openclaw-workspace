@@ -39,7 +39,7 @@
 | L3_HANDLER_INTENT_DISPATCH | intent-dispatch | ✅ 新增 |
 | L3_HANDLER_ISC_RULE | isc-rule-handler | ✅ 新增 |
 | L3_HANDLER_SKILL_ISC | skill-isc-handler | ✅ 新增 |
-| L3_HANDLER_SKILL_DTO | skill-dto-handler | ✅ 新增 |
+| L3_HANDLER_SKILL_DTO | skill-lto-handler | ✅ 新增 |
 | L3_HANDLER_SKILL_CRAS | skill-cras-handler | ✅ 新增 |
 | L3_HANDLER_CRAS_FEEDBACK | cras-feedback-handler | ✅ 新增 |
 | L3_HANDLER_CRAS_KNOWLEDGE | cras-knowledge-handler | ✅ 新增 |

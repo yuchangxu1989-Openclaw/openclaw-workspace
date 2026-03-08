@@ -45,7 +45,7 @@
 - `architecture.decision.made`
 - `isc.rule.created`
 - `skill.created`
-- `dto.task.created`
+- `lto.task.created`
 
 可由事件总线直接调用 `skills/anti-entropy-checker/index.js` 导出的 `handler(event)`。
 

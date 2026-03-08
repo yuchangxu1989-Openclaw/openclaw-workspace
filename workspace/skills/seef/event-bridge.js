@@ -38,8 +38,8 @@ const SUB_SKILLS = {
 // 事件 → 子技能 路由表
 const ROUTES = {
   // 本地任务编排 同步相关
-  'dto.sync.completed':        'evaluator',   // DTO同步完成 → 评估器评估受影响技能
-  'dto.sync.failed':           'recorder',    // DTO同步失败 → 记录器记录异常
+  'lto.sync.completed':        'evaluator',   // DTO同步完成 → 评估器评估受影响技能
+  'lto.sync.failed':           'recorder',    // DTO同步失败 → 记录器记录异常
 
   // AEO 评测相关
   'aeo.assessment.failed':     'optimizer',   // 评测失败 → 优化器生成修复方案
@@ -72,7 +72,7 @@ const ROUTES = {
  */
 function processEvents() {
   const events = bus.consume(CONSUMER_ID, {
-    types: ['dto.sync.*', 'aeo.assessment.*', 'cras.insight.*', 'isc.rule.*', 'seef.skill.*']
+    types: ['lto.sync.*', 'aeo.assessment.*', 'cras.insight.*', 'isc.rule.*', 'seef.skill.*']
   });
 
   if (events.length === 0) {
@@ -323,7 +323,7 @@ function getStatus() {
     active_sub_skills: Object.values(subSkillStatus).filter(s => s.active).length,
     event_routes: Object.keys(ROUTES).length,
     routed_sub_skills: routedSkills.size,
-    subscribed_patterns: ['dto.sync.*', 'aeo.assessment.*', 'cras.insight.*', 'isc.rule.*', 'seef.skill.*'],
+    subscribed_patterns: ['lto.sync.*', 'aeo.assessment.*', 'cras.insight.*', 'isc.rule.*', 'seef.skill.*'],
   };
 }
 

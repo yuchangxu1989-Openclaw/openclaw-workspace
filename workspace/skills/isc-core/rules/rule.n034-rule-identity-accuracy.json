@@ -29,10 +29,10 @@
     ],
     "logic": "OR",
     "events": [
-      "dto.rule.statistics_requested",
+      "lto.rule.statistics_requested",
       "isc.rule.created",
       "isc.rule.deleted",
-      "dto.general.rule_count_validation"
+      "lto.general.rule_count_validation"
     ],
     "actions": [
       {
@@ -46,7 +46,7 @@
         "behavior": "auto_sync_on_mismatch"
       }
     ],
-    "event": "dto.rule.statistics_requested"
+    "event": "lto.rule.statistics_requested"
   },
   "validation_rules": {
     "filesystem_scan": {

@@ -21,7 +21,7 @@
 
 - **Auto-discover**: true（自动发现新技能）
 - **Policy**: auto_sync（自动同步）
-- **Managed by**: isc-dto（ISC-DTO管控）
+- **Managed by**: isc-lto（ISC-DTO管控）
 
 **何时检查**：
 - 技能发布前

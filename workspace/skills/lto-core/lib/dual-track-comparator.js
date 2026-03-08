@@ -23,26 +23,26 @@ class DualTrackComparator {
       taskId,
       timestamp: new Date().toISOString(),
       cron: this.normalizeOutput(cronOutput),
-      dto: this.normalizeOutput(ctoOutput),
+      lto: this.normalizeOutput(ctoOutput),
       metrics: {}
     };
     
     // 1. 结构对比
     comparison.metrics.structural = this.compareStructure(
       comparison.cron, 
-      comparison.dto
+      comparison.lto
     );
     
     // 2. 内容对比
     comparison.metrics.content = this.compareContent(
       comparison.cron, 
-      comparison.dto
+      comparison.lto
     );
     
     // 3. 语义对比（关键字段）
     comparison.metrics.semantic = this.compareSemantic(
       comparison.cron, 
-      comparison.dto
+      comparison.lto
     );
     
     // 4. 综合评估
@@ -76,9 +76,9 @@ class DualTrackComparator {
   /**
    * 结构对比
    */
-  compareStructure(cron, dto) {
+  compareStructure(cron, lto) {
     const cronKeys = this.getAllKeys(cron).sort();
-    const ctoKeys = this.getAllKeys(dto).sort();
+    const ctoKeys = this.getAllKeys(lto).sort();
     
     const common = cronKeys.filter(k => ctoKeys.includes(k));
     const onlyInCron = cronKeys.filter(k => !ctoKeys.includes(k));
@@ -116,9 +116,9 @@ class DualTrackComparator {
   /**
    * 内容对比
    */
-  compareContent(cron, dto) {
+  compareContent(cron, lto) {
     const cronStr = JSON.stringify(cron);
-    const ctoStr = JSON.stringify(dto);
+    const ctoStr = JSON.stringify(lto);
     
     // 编辑距离相似度
     const distance = this.levenshteinDistance(cronStr, ctoStr);
@@ -167,7 +167,7 @@ class DualTrackComparator {
   /**
    * 语义对比（关键字段）
    */
-  compareSemantic(cron, dto) {
+  compareSemantic(cron, lto) {
     const criticalFields = [
       'status',
       'result',
@@ -181,7 +181,7 @@ class DualTrackComparator {
     
     for (const field of criticalFields) {
       const cronVal = this.getNestedValue(cron, field);
-      const ctoVal = this.getNestedValue(dto, field);
+      const ctoVal = this.getNestedValue(lto, field);
       
       if (cronVal === ctoVal) {
         matches.push(field);
@@ -189,7 +189,7 @@ class DualTrackComparator {
         mismatches.push({
           field,
           cron: cronVal,
-          dto: ctoVal
+          lto: ctoVal
         });
       }
     }

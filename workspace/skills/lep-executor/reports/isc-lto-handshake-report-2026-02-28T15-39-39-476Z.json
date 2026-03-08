@@ -3,7 +3,7 @@
     "reportType": "ISC-本地任务编排-Handshake",
     "version": "1.0.0",
     "generatedAt": "2026-02-28T15:39:39.476Z",
-    "executionId": "isc-dto-mm6hllc3-lzwvj"
+    "executionId": "isc-lto-mm6hllc3-lzwvj"
   },
   "summary": {
     "duration": 4,
@@ -284,7 +284,7 @@
           "type": "detection-standard"
         },
         {
-          "id": "rule.isc-dto-handshake-001",
+          "id": "rule.isc-lto-handshake-001",
           "name": "isc_dto_periodic_handshake",
           "domain": "process",
           "type": "rule"
@@ -724,8 +724,8 @@
           "status": "active"
         },
         {
-          "id": "sub_isc_rule_isc-dto-handshake-001",
-          "ruleId": "rule.isc-dto-handshake-001",
+          "id": "sub_isc_rule_isc-lto-handshake-001",
+          "ruleId": "rule.isc-lto-handshake-001",
           "status": "active"
         },
         {
@@ -994,8 +994,8 @@
           "subscriptionId": "sub_isc_isc-detect-repeated-error"
         },
         {
-          "ruleId": "rule.isc-dto-handshake-001",
-          "subscriptionId": "sub_isc_rule_isc-dto-handshake-001"
+          "ruleId": "rule.isc-lto-handshake-001",
+          "subscriptionId": "sub_isc_rule_isc-lto-handshake-001"
         },
         {
           "ruleId": "isc-naming-constants",
@@ -1177,7 +1177,7 @@
     }
   },
   "raw": {
-    "executionId": "isc-dto-mm6hllc3-lzwvj",
+    "executionId": "isc-lto-mm6hllc3-lzwvj",
     "startTime": 1772293179459,
     "iscScanResult": {
       "count": 74,
@@ -1668,15 +1668,15 @@
           "normalizedId": "isc-detect-repeated-error"
         },
         {
-          "id": "rule.isc-dto-handshake-001",
-          "file": "rule.isc-dto-handshake-001.json",
-          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-dto-handshake-001.json",
+          "id": "rule.isc-lto-handshake-001",
+          "file": "rule.isc-lto-handshake-001.json",
+          "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-lto-handshake-001.json",
           "name": "isc_dto_periodic_handshake",
           "domain": "process",
           "type": "rule",
           "version": "1.0.0",
           "requiresSubscription": true,
-          "normalizedId": "rule-isc-dto-handshake-001"
+          "normalizedId": "rule-isc-lto-handshake-001"
         },
         {
           "id": "isc-naming-constants",
@@ -2610,16 +2610,16 @@
           "normalizedRuleId": "rule-isc-creation-gate-001"
         },
         {
-          "id": "sub_isc_rule_isc-dto-handshake-001",
-          "file": "isc-rule-isc-dto-handshake-001.json",
-          "path": "/root/.openclaw/workspace/skills/lto-core/subscriptions/isc-rule-isc-dto-handshake-001.json",
-          "ruleId": "rule.isc-dto-handshake-001",
+          "id": "sub_isc_rule_isc-lto-handshake-001",
+          "file": "isc-rule-isc-lto-handshake-001.json",
+          "path": "/root/.openclaw/workspace/skills/lto-core/subscriptions/isc-rule-isc-lto-handshake-001.json",
+          "ruleId": "rule.isc-lto-handshake-001",
           "ruleIds": [],
           "status": "active",
           "trigger": null,
           "createdAt": null,
           "updatedAt": null,
-          "normalizedRuleId": "rule-isc-dto-handshake-001"
+          "normalizedRuleId": "rule-isc-lto-handshake-001"
         },
         {
           "id": "sub_isc_rule_isc-naming-convention-001",
@@ -3913,27 +3913,27 @@
         },
         {
           "rule": {
-            "id": "rule.isc-dto-handshake-001",
-            "file": "rule.isc-dto-handshake-001.json",
-            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-dto-handshake-001.json",
+            "id": "rule.isc-lto-handshake-001",
+            "file": "rule.isc-lto-handshake-001.json",
+            "path": "/root/.openclaw/workspace/skills/isc-core/rules/rule.isc-lto-handshake-001.json",
             "name": "isc_dto_periodic_handshake",
             "domain": "process",
             "type": "rule",
             "version": "1.0.0",
             "requiresSubscription": true,
-            "normalizedId": "rule-isc-dto-handshake-001"
+            "normalizedId": "rule-isc-lto-handshake-001"
           },
           "subscription": {
-            "id": "sub_isc_rule_isc-dto-handshake-001",
-            "file": "isc-rule-isc-dto-handshake-001.json",
-            "path": "/root/.openclaw/workspace/skills/lto-core/subscriptions/isc-rule-isc-dto-handshake-001.json",
-            "ruleId": "rule.isc-dto-handshake-001",
+            "id": "sub_isc_rule_isc-lto-handshake-001",
+            "file": "isc-rule-isc-lto-handshake-001.json",
+            "path": "/root/.openclaw/workspace/skills/lto-core/subscriptions/isc-rule-isc-lto-handshake-001.json",
+            "ruleId": "rule.isc-lto-handshake-001",
             "ruleIds": [],
             "status": "active",
             "trigger": null,
             "createdAt": null,
             "updatedAt": null,
-            "normalizedRuleId": "rule-isc-dto-handshake-001"
+            "normalizedRuleId": "rule-isc-lto-handshake-001"
           },
           "status": "aligned"
         },

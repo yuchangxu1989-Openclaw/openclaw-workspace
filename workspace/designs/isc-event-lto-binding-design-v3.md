@@ -92,7 +92,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 | `infra` | 基础设施（config/key/memory） |
 | `interaction` | 用户交互 |
 | `orchestration` | 编排调度 |
-| `dto` | DTO自身生命周期 |
+| `lto` | DTO自身生命周期 |
 | `system` | 系统级事件 |
 
 **Object枚举（二级分类，按domain）**：
@@ -129,8 +129,8 @@ v2系统存在5种trigger格式，v3统一为1种：
 | `interaction.report` | 报告输出 |
 | `orchestration.pipeline` | 流水线 |
 | `orchestration.subagent` | 子Agent |
-| `dto.task` | DTO任务 |
-| `dto.subscription` | DTO订阅 |
+| `lto.task` | DTO任务 |
+| `lto.subscription` | DTO订阅 |
 | `system.error` | 系统错误 |
 | `system.sweep` | 全量扫描 |
 
@@ -232,16 +232,16 @@ v2系统存在5种trigger格式，v3统一为1种：
 | **被动事件** | `isc.rule.created` / `isc.rule.updated` / `isc.rule.deleted` |
 | **查缺补漏** | `system.sweep.isc_dto_alignment` — 每30分钟扫描ISC-DTO订阅对齐状态 |
 | **事件源/锚点** | 被动：`isc-core/event-bridge.js`（已有） |
-| | 扫描：`scanners/isc-dto-alignment-scanner.js`（新建） |
+| | 扫描：`scanners/isc-lto-alignment-scanner.js`（新建） |
 | **校验动作** | 规则变更后 → 自动检查DTO订阅是否同步 → 不同步则触发对齐修复 |
 
-#### R04: `rule.isc-dto-handshake-001.json` — ISC-DTO定期握手
+#### R04: `rule.isc-lto-handshake-001.json` — ISC-DTO定期握手
 
 | 维度 | 定义 |
 |------|------|
 | **主动事件** | `isc.alignment.drifted` — 每30分钟扫描，发现ISC规则数与DTO订阅数不匹配 |
 | **查缺补漏** | `system.sweep.isc_dto_handshake` — 定期全量比对 |
-| **事件源/锚点** | `scanners/isc-dto-alignment-scanner.js`（与R03共用） |
+| **事件源/锚点** | `scanners/isc-lto-alignment-scanner.js`（与R03共用） |
 | **校验动作** | 比对规则清单vs订阅清单 → 识别遗漏/多余 → 自动修复或报警 |
 
 #### R05: `rule.isc-naming-convention-001.json` — ISC规则命名公约
@@ -278,7 +278,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 
 | 维度 | 定义 |
 |------|------|
-| **被动事件** | `dto.task.failed` 且 error_type = timeout |
+| **被动事件** | `lto.task.failed` 且 error_type = timeout |
 | **事件源/锚点** | 本地任务编排 task-executor执行超时时emit |
 | **校验动作** | 检查retry_count < 3 → 重试 → 超过3次则escalate |
 
@@ -301,7 +301,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 
 | 维度 | 定义 |
 |------|------|
-| **被动事件** | `dto.task.completed` — 每轮DTO执行后检查 |
+| **被动事件** | `lto.task.completed` — 每轮DTO执行后检查 |
 | **主动事件** | `isc.trigger.gap_found` — 扫描发现无trigger的规则数 ≥ 1 |
 | **查缺补漏** | `system.sweep.trigger_completeness` — 每小时全量扫描 |
 | **事件源/锚点** | `scanners/trigger-completeness-scanner.js`（新建） |
@@ -702,7 +702,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 
 | 维度 | 定义 |
 |------|------|
-| **被动事件** | `dto.task.failed` 且 error_type = timeout |
+| **被动事件** | `lto.task.failed` 且 error_type = timeout |
 | **事件源/锚点** | 本地任务编排 task-executor |
 | **校验动作** | 检查retry_count < 3 → 自动重试 |
 
@@ -728,7 +728,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 
 | 维度 | 定义 |
 |------|------|
-| **被动事件** | `dto.task.failed` / `orchestration.pipeline.failed` / `sync.*.failed` / `system.error.occurred` |
+| **被动事件** | `lto.task.failed` / `orchestration.pipeline.failed` / `sync.*.failed` / `system.error.occurred` |
 | **事件源/锚点** | 所有执行器的失败回调 |
 | **校验动作** | 收集错误上下文 → 多维根因分析 → 输出修复建议 → 触发auto-fix（若可自动修复） |
 
@@ -965,7 +965,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 | `ES02` event-bridge | 被动 | `isc-core/event-bridge.js` | ✅已有 | `isc.rule.created/updated/deleted` |
 | `ES03` event-bus | 基础设施 | `infrastructure/event-bus/bus.js` | ✅已有 | 持久化层（JSONL），支持emit/consume/matchType |
 | `ES04` dispatcher | 路由 | `infrastructure/dispatcher/dispatcher.js` | ⚠️残缺 | 路由事件到handler，但不执行（写文件） |
-| `ES05` dto-event-bus | 内存 | `lto-core/core/event-bus.js` | ⚠️孤岛 | 进程内EventEmitter，不持久化 |
+| `ES05` lto-event-bus | 内存 | `lto-core/core/event-bus.js` | ⚠️孤岛 | 进程内EventEmitter，不持久化 |
 
 ### 4.2 需要新建的事件源
 
@@ -976,7 +976,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 | `ES08` skill-quality-scanner | 主动 | `scanners/skill-quality-scanner.js` | `quality.placeholder.detected`, `quality.skillmd.*` |
 | `ES09` vectorization-scanner | 主动 | `scanners/vectorization-scanner.js` | `vectorization.*.gap_found` |
 | `ES10` rule-format-scanner | 主动 | `scanners/rule-format-scanner.js` | `quality.rule_format.violated` |
-| `ES11` isc-dto-alignment-scanner | 主动 | `scanners/isc-dto-alignment-scanner.js` | `isc.alignment.drifted` |
+| `ES11` isc-lto-alignment-scanner | 主动 | `scanners/isc-lto-alignment-scanner.js` | `isc.alignment.drifted` |
 | `ES12` capability-anchor-scanner | 主动 | `scanners/capability-anchor-scanner.js` | `quality.capability_anchor.*` |
 | `ES13` error-frequency-scanner | 主动 | `scanners/error-frequency-scanner.js` | `system.error.recurring.*` |
 | `ES14` config-watcher | 被动 | `scanners/config-watcher.js` | `security.config.updated` |
@@ -1001,7 +1001,7 @@ ES07 (naming-scanner)    → R05,R22,R23,R24,R25
 ES08 (skill-quality)     → R14,R15,R17,R18,R19,R20,R29
 ES09 (vectorization)     → R30,R36,R37,R40,R41,R42,R44
 ES10 (rule-format)       → R01,R05
-ES11 (isc-dto-alignment) → R03,R04
+ES11 (isc-lto-alignment) → R03,R04
 ES12 (capability-anchor) → R31,R34,R35
 ES13 (error-frequency)   → R06,R55,R59
 ES14 (config-watcher)    → R45
@@ -1104,7 +1104,7 @@ ES24 (global-sweep)      → ALL (兜底)
 
 改造：
 - DTO的runtime-binder直接调用`bus.consume(cursor, typePattern)`
-- 废弃`.dto-signals/`目录监视
+- 废弃`.lto-signals/`目录监视
 - 废弃DTO内部EventEmitter
 
 ### 5.3 Scanner框架
@@ -1173,7 +1173,7 @@ async function dispatch(event) {
   
   // 执行结果回写事件总线
   bus.emit(
-    result.success ? 'dto.task.completed' : 'dto.task.failed',
+    result.success ? 'lto.task.completed' : 'lto.task.failed',
     'dispatcher',
     { event_id: event.id, handler: route.handler, result }
   );
@@ -1764,9 +1764,9 @@ function deriveNoun(rule) {
     {"type": "orchestration.analysis.requested", "source": ["ES23"], "description": "分析任务请求"},
     {"type": "orchestration.plan.created", "source": ["ES23"], "description": "计划创建"},
     
-    {"type": "dto.task.created", "source": ["ES04"], "description": "DTO任务创建"},
-    {"type": "dto.task.completed", "source": ["ES04"], "description": "DTO任务完成"},
-    {"type": "dto.task.failed", "source": ["ES04"], "description": "DTO任务失败"},
+    {"type": "lto.task.created", "source": ["ES04"], "description": "DTO任务创建"},
+    {"type": "lto.task.completed", "source": ["ES04"], "description": "DTO任务完成"},
+    {"type": "lto.task.failed", "source": ["ES04"], "description": "DTO任务失败"},
     
     {"type": "system.file.changed", "source": ["ES01"], "description": "文件变更（git commit）"},
     {"type": "system.error.occurred", "source": ["ES13"], "description": "系统错误"},
@@ -1791,14 +1791,14 @@ function deriveNoun(rule) {
 | 1 | rule.isc-standard-format-001 | ISC格式统一 | 被动+主动 | isc.rule.created/updated + quality.rule_format.violated | ES02,ES10 |
 | 2 | rule.isc-creation-gate-001 | ISC创建闸门 | 被动 | isc.rule.created | ES02 |
 | 3 | rule.isc-change-auto-trigger-alignment-001 | ISC变更对齐 | 被动+sweep | isc.rule.*/system.sweep.isc_dto_alignment | ES02,ES11 |
-| 4 | rule.isc-dto-handshake-001 | ISC-DTO握手 | 主动+sweep | isc.alignment.drifted | ES11 |
+| 4 | rule.isc-lto-handshake-001 | ISC-DTO握手 | 主动+sweep | isc.alignment.drifted | ES11 |
 | 5 | rule.isc-naming-convention-001 | ISC命名公约 | 被动+主动 | isc.rule.created + quality.naming.violated | ES02,ES07 |
 | 6 | rule.isc-detect-repeated-error-001 | 重复错误检测 | 被动+主动 | system.error.occurred + recurring.threshold_crossed | ES04,ES13 |
 | 7 | rule.isc-rule-missing-resource-001 | 规则缺失资源 | 主动 | isc.rule.resource.gap_found | ES10 |
-| 8 | rule.isc-rule-timeout-retry-001 | 超时重试 | 被动 | dto.task.failed (timeout) | ES04 |
+| 8 | rule.isc-rule-timeout-retry-001 | 超时重试 | 被动 | lto.task.failed (timeout) | ES04 |
 | 9 | N034-rule-identity-accuracy | 规则识别准确率 | 主动+sweep | isc.rule.identity.gap_found | ES10 |
 | 10 | rule-recognition-accuracy-N034 | (R09副本) | — | — | — |
-| 11 | N035-rule-trigger-completeness | 触发器完整性 | 被动+主动+sweep | dto.task.completed + isc.trigger.gap_found | ES04,ES10 |
+| 11 | N035-rule-trigger-completeness | 触发器完整性 | 被动+主动+sweep | lto.task.completed + isc.trigger.gap_found | ES04,ES10 |
 | 12 | rule-trigger-integrity-N035 | (R11副本) | — | — | — |
 | 13 | rule.isc-skill-usage-protocol-001 | 技能使用协议 | 被动+主动 | skill.lifecycle.invoked + quality.skill_usage.violated | ES23,ES08 |
 | 14 | rule.skill-mandatory-skill-md-001 | 强制SKILL.md | 被动+主动+sweep | skill.lifecycle.created + quality.skillmd.gap_found | ES01,ES06,ES08 |
@@ -1841,9 +1841,9 @@ function deriveNoun(rule) {
 | 51 | aeo-insight-to-action-026 | AEO洞察转行动 | 被动+主动 | aeo.insight.generated + aeo.insight.threshold_crossed | ES16 |
 | 52 | auto-aeo-evaluation-standard-generation-023 | AEO标准生成 | 被动 | skill.lifecycle.created/updated + aeo.feedback.collected | ES06,ES22 |
 | 53 | rule.decision-council-seven-required-001 | 七人议会 | 被动+主动 | orchestration.decision.requested + threshold_crossed | ES23 |
-| 54 | rule.decision-custom-2f7dd6e4 | 自定义决策 | 被动 | dto.task.failed (timeout) | ES04 |
+| 54 | rule.decision-custom-2f7dd6e4 | 自定义决策 | 被动 | lto.task.failed (timeout) | ES04 |
 | 55 | decision-auto-repair-loop-post-pipeline-016 | 流水线后修复 | 被动 | orchestration.pipeline.completed | ES06 |
-| 56 | auto-universal-root-cause-analysis-020 | 根因分析 | 被动 | dto.task.failed / pipeline.failed / sync.*.failed | ES04,ES06,ES19 |
+| 56 | auto-universal-root-cause-analysis-020 | 根因分析 | 被动 | lto.task.failed / pipeline.failed / sync.*.failed | ES04,ES06,ES19 |
 | 57 | detection-architecture-design-isc-compliance-audit-022 | 架构合规 | 被动 | system.design.created/updated | ES01 |
 | 58 | detection-cras-recurring-pattern-auto-resolve-017 | CRAS模式解决 | 主动+sweep | aeo.insight.threshold_crossed + system.sweep.cras_patterns | ES16,ES24 |
 | 59 | detection-skill-rename-global-alignment-018 | 重命名对齐 | 被动 | skill.lifecycle.renamed/moved | ES01,ES06 |
@@ -1917,7 +1917,7 @@ function deriveNoun(rule) {
 
 ## 📋 架构评审清单 (自动生成)
 
-**文档**: isc-event-dto-binding-design-v3
+**文档**: isc-event-lto-binding-design-v3
 **生成时间**: 2026-03-06T13:01:12.503Z
 **状态**: 待评审
 

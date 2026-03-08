@@ -35,7 +35,7 @@
 | 8 | rule.failure-pattern-alert-001 | 2 | notify-alert |
 | 9 | rule.isc-change-auto-trigger-alignment-001 | 12 | isc-change-alignment, log |
 | 10 | rule.isc-creation-gate-001 | 12 | isc-creation-gate, log |
-| 11 | rule.isc-dto-handshake-001 | 12 | isc-dto-handshake, log |
+| 11 | rule.isc-lto-handshake-001 | 12 | isc-lto-handshake, log |
 | 12 | rule.isc-naming-convention-001 | 39 | naming-convention-check, log |
 | 13 | rule.isc-rule-modified-dedup-scan-001 | 2 | dedup-scan |
 | 14 | rule.isc-skill-permission-classification-031 | 12 | isc-skill-permission, log |
@@ -69,7 +69,7 @@
 | 3 | rule.arch-rule-equals-code-002 | 217 | (auto_trigger已修) | 同上 |
 | 4 | rule.design-document-structure-001 | 2 | quality.document.structure_check | 类域名风格handler不存在 |
 | 5 | rule.git-commit-dispatch-001 | 66 | git.commit.quality_check 等3个 | 类域名风格handler不存在 |
-| 6 | rule.isc-rule-auto-decompose-001 | 48 | isc.rule.triggered, dto.task.triggered | 域名handler不存在 |
+| 6 | rule.isc-rule-auto-decompose-001 | 48 | isc.rule.triggered, lto.task.triggered | 域名handler不存在 |
 | 7 | rule.knowledge-must-be-executable-001 | 12 | knowledge.executable.* (3个) | 域名handler不存在 |
 | 8 | rule.n023-auto-aeo-evaluation... | 2 | (auto_trigger已修) | meta action已补 |
 | 9 | rule.n029-model-api-key-pool... | 2 | health_check | 无实际健康检查handler |
@@ -218,7 +218,7 @@
 **证据**: events.jsonl 中仅存在以下事件类型：
 - `isc.rule.created/updated/deleted` (来自 isc-core event-bridge)
 - `git.commit.completed / git.pre_commit.detected` (来自 git-sensor)
-- `dto.task.created` (来自 lto-core)
+- `lto.task.created` (来自 lto-core)
 
 大量声明的事件类型如 `architecture.*`, `quality.*`, `intent.*`, `project.*`, `skill.lifecycle.*` 等在运行时从未出现过。
 

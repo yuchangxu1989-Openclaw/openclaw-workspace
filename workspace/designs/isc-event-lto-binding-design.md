@@ -55,7 +55,7 @@
 |------|------|------|------|
 | `infrastructure/event-bus/bus.js` | 基础设施层 | JSONL文件+文件锁 | 完整的持久化实现，但只被dispatcher消费 |
 | `lto-core/core/event-bus.js` | DTO内部 | 内存EventEmitter | 进程内有效，不持久化，重启丢失 |
-| `lto-core/core/event-consumer.js` | DTO内部 | `.dto-signals/`目录监视 | 第三条路径，与前两者独立 |
+| `lto-core/core/event-consumer.js` | DTO内部 | `.lto-signals/`目录监视 | 第三条路径，与前两者独立 |
 
 **三条事件通道互不通信。**
 
@@ -186,7 +186,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
         │
 6. task-executor 通过引擎执行任务
         │
-7. 执行结果 → bus.emit('dto.task.completed', result)
+7. 执行结果 → bus.emit('lto.task.completed', result)
         │
 8. 下游消费者（SEEF/CRAS/其他）接收结果事件
 ```
@@ -394,7 +394,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
       "consumers": ["isc-core"]
     },
     
-    "dto.task.completed": {
+    "lto.task.completed": {
       "source": "lto-core",
       "description": "DTO任务执行完成",
       "payload_schema": {
@@ -405,7 +405,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
       },
       "consumers": ["seef", "cras"]
     },
-    "dto.task.failed": {
+    "lto.task.failed": {
       "source": "lto-core",
       "description": "DTO任务执行失败",
       "payload_schema": {
@@ -563,7 +563,7 @@ const fs = require('fs');
 const path = require('path');
 const bus = require('../../../infrastructure/event-bus/bus.js');
 
-const CONSUMER_ID = 'dto-runtime-binder';
+const CONSUMER_ID = 'lto-runtime-binder';
 const ISC_RULES_DIR = path.join(__dirname, '../../isc-core/rules');
 const EVENT_REGISTRY = path.join(__dirname, '../../isc-core/config/event-registry.json');
 const BINDINGS_CACHE = path.join(__dirname, '../.bindings-cache.json');
@@ -794,7 +794,7 @@ class RuntimeBinder {
           // 检查governance
           if (handler.governance.councilRequired) {
             // 需要council审批，发起审批流程
-            bus.emit('dto.task.pending_approval', {
+            bus.emit('lto.task.pending_approval', {
               rule_id: handler.ruleId,
               event_id: event.id,
               reason: 'council_required'
@@ -810,7 +810,7 @@ class RuntimeBinder {
           });
           
           // 发布执行结果
-          bus.emit('dto.task.completed', {
+          bus.emit('lto.task.completed', {
             task_id: handler.action.task_id || handler.ruleId,
             rule_id: handler.ruleId,
             event_id: event.id,
@@ -825,7 +825,7 @@ class RuntimeBinder {
           failed++;
           this.stats.failed++;
           
-          bus.emit('dto.task.failed', {
+          bus.emit('lto.task.failed', {
             task_id: handler.action.task_id || handler.ruleId,
             rule_id: handler.ruleId,
             event_id: event.id,
@@ -1003,11 +1003,11 @@ class TaskExecutor {
 module.exports = TaskExecutor;
 ```
 
-### 4.6 消除.dto-signals目录（合并到统一bus）
+### 4.6 消除.lto-signals目录（合并到统一bus）
 
 **改造**: `skills/lto-core/core/event-consumer.js`
 
-当前event-consumer监视`.dto-signals/`目录中的JSON文件。这是第三条事件通道，必须消除。
+当前event-consumer监视`.lto-signals/`目录中的JSON文件。这是第三条事件通道，必须消除。
 
 **方案**：event-consumer不再监视文件系统，改为从infrastructure bus消费事件。它变成RuntimeBinder的一个子组件，不再独立运行。
 
@@ -1144,7 +1144,7 @@ cursor.json 记录每个consumer的消费位置
 
 {
   "dispatcher": { "offset": 142, "last_consumed": "2026-03-04T10:00:00Z" },
-  "dto-runtime-binder": { "offset": 142, "last_consumed": "2026-03-04T10:00:00Z" },
+  "lto-runtime-binder": { "offset": 142, "last_consumed": "2026-03-04T10:00:00Z" },
   "memory-archiver": { "offset": 140, "last_consumed": "2026-03-04T09:55:00Z" }
 }
 
@@ -1167,14 +1167,14 @@ T+5min  Cron触发 → ISC event-bridge.js 检测到新文件
          ↓
 T+5min  同一Cron周期 → 本地任务编排 runtime-binder 消费事件
          ↓
-         匹配到绑定: isc.rule.created → dto-sync handler
+         匹配到绑定: isc.rule.created → lto-sync handler
          ↓
          TaskExecutor 执行:
            1. 读取新规则的trigger/action
            2. 创建对应的subscription文件
            3. 在当前bindings中注册
          ↓
-         bus.emit('dto.task.completed', { task_id: 'dto-sync', ... })
+         bus.emit('lto.task.completed', { task_id: 'lto-sync', ... })
          ↓
 T+10min 下一周期 → SEEF消费dto.task.completed事件
          → 评测新规则的质量
@@ -1234,7 +1234,7 @@ T+5min  本地任务编排 runtime-binder消费事件
 
 | 任务 | 描述 | 风险 |
 |------|------|------|
-| T4.1 | 废弃 `.dto-signals/` 目录机制 | 低 |
+| T4.1 | 废弃 `.lto-signals/` 目录机制 | 低 |
 | T4.2 | 废弃 本地任务编排 内存EventBus的直接使用 | 低 |
 | T4.3 | 更新 dispatcher.js 使用新的消费机制 | 中 |
 | T4.4 | 更新 cron job 配置 | 低 |
@@ -1901,7 +1901,7 @@ class RuleConflictDetector {
 
 **设计方案**：
 
-**落地文件**: `skills/lto-core/core/alignment-engine.js` (新建，整合现有`isc-dto-aligner.js`)
+**落地文件**: `skills/lto-core/core/alignment-engine.js` (新建，整合现有`isc-lto-aligner.js`)
 
 ```javascript
 /**
@@ -2160,8 +2160,8 @@ class AutoRemediation {
  * 避免硬编码级联逻辑，通过event-bus的完成事件自动路由
  * 
  * 示例：
- *   skill.created → [quality-check] → dto.task.completed 
- *     → [auto-vectorization] → dto.task.completed 
+ *   skill.created → [quality-check] → lto.task.completed 
+ *     → [auto-vectorization] → lto.task.completed 
  *     → [evomap-sync]
  */
 
@@ -2586,7 +2586,7 @@ class FeedbackEngine {
 
 ## 📋 架构评审清单 (自动生成)
 
-**文档**: isc-event-dto-binding-design
+**文档**: isc-event-lto-binding-design
 **生成时间**: 2026-03-06T13:01:12.507Z
 **状态**: 待评审
 

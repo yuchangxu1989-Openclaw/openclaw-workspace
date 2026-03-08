@@ -217,7 +217,7 @@ function classifyEvent(event) {
   }
   
   // DTO事件
-  if (type.startsWith('dto.')) {
+  if (type.startsWith('lto.')) {
     return { layer: 'L2', category: 'dto_orchestration', migrateable: true };
   }
   

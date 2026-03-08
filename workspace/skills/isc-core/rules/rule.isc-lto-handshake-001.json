@@ -1,5 +1,5 @@
 {
-  "id": "rule.isc-dto-handshake-001",
+  "id": "rule.isc-lto-handshake-001",
   "name": "isc_dto_periodic_handshake",
   "domain": "process",
   "type": "rule",
@@ -44,9 +44,9 @@
   },
   "enforcement_tier": "P1_process",
   "action": {
-    "handler": "isc-dto-handshake",
+    "handler": "isc-lto-handshake",
     "type": "script",
-    "script": "scripts/isc-hooks/rule.isc-dto-handshake-001.sh"
+    "script": "scripts/isc-hooks/rule.isc-lto-handshake-001.sh"
   },
   "enforcement": "programmatic"
 }

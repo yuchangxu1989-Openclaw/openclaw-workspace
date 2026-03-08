@@ -48,7 +48,7 @@
        ▼           ▼           ▼           ▼          │
   ┌─────────────────────────────────────────────┐     │
   │              EventBus (bus.js)               │     │
-  │  isc.rule.changed | dto.signal.created |    │     │
+  │  isc.rule.changed | lto.signal.created |    │     │
   │  file.changed.* events                      │     │
   └──────────────────────┬──────────────────────┘     │
                          │                            │
@@ -73,13 +73,13 @@
 | `infrastructure/event-driven/cron-check-skip.js` | 共享check-and-skip逻辑，状态持久化 |
 | `infrastructure/event-driven/event-watcher-daemon.js` | 统一守护进程，管理所有watcher |
 | `infrastructure/event-driven/watchers/isc-rules-watcher.js` | ISC rules/目录 fs.watch |
-| `infrastructure/event-driven/watchers/dto-signals-watcher.js` | .dto-signals/目录 fs.watch |
+| `infrastructure/event-driven/watchers/lto-signals-watcher.js` | .lto-signals/目录 fs.watch |
 | `infrastructure/event-driven/watchers/eventbus-file-watcher.js` | events.jsonl文件变更 → 触发dispatcher |
 | `infrastructure/event-driven/watchers/git-change-watcher.js` | 工作区多目录监听 + 变更分类 |
 | `infrastructure/event-driven/cron-adapters/event-dispatcher-adapter.js` | event-dispatcher cron适配器 |
 | `infrastructure/event-driven/cron-adapters/isc-detect-adapter.js` | ISC变更检测 cron适配器 |
 | `infrastructure/event-driven/cron-adapters/global-pipeline-adapter.js` | 全局决策流水线 cron适配器 |
-| `infrastructure/event-driven/cron-adapters/dto-aeo-adapter.js` | 本地任务编排-AEO cron适配器 |
+| `infrastructure/event-driven/cron-adapters/lto-aeo-adapter.js` | 本地任务编排-AEO cron适配器 |
 | `infrastructure/event-driven/tests/verify-migration.js` | 验收测试 (15 cases) |
 | `infrastructure/event-driven/state/` | 运行时状态目录 |
 
@@ -87,7 +87,7 @@
 
 | 文件 | 变更 |
 |------|------|
-| `infrastructure/dispatcher/routes.json` | 新增 dto.signal.created / file.changed / file.changed.* 路由 |
+| `infrastructure/dispatcher/routes.json` | 新增 lto.signal.created / file.changed / file.changed.* 路由 |
 
 ---
 
@@ -160,7 +160,7 @@
       "severity": "high"
     }
   ],
-  "recommended_actions": ["integration-test", "dto-sync"]
+  "recommended_actions": ["integration-test", "lto-sync"]
 }
 ```
 
@@ -171,7 +171,7 @@
 | code (代码) | `.js/.ts/.py/.sh` in `skills/`, `infrastructure/`, `scripts/` | version-bump, lint-check |
 | config (配置) | `.json/.yaml/.yml` in `rules/`, `config/`, `dispatcher/` | config-sync, validation |
 | log (日志) | `.log/.jsonl` in `logs/`, `event-bus/data/` | log-rotate, alert-check |
-| data (数据) | `.jsonl/.csv` in `memory/`, `reports/`, `.dto-signals/` | data-archive |
+| data (数据) | `.jsonl/.csv` in `memory/`, `reports/`, `.lto-signals/` | data-archive |
 | doc (文档) | `.md` in `skills/`, `designs/` | doc-index |
 
 **事件类型**：
@@ -186,16 +186,16 @@
 
 | 维度 | 迁移前 | 迁移后 |
 |------|--------|--------|
-| **触发方式** | 每小时无条件执行event-bridge.js | .dto-signals/目录新文件→fs.watch→立即emit dto.signal.created |
+| **触发方式** | 每小时无条件执行event-bridge.js | .lto-signals/目录新文件→fs.watch→立即emit lto.signal.created |
 | **延迟** | 0~60分钟 | ~1.5秒（debounce） |
 | **cron角色** | 唯一执行路径 | 兜底：2小时内有事件触发且无新信号则跳过 |
 | **信号文件** | 无生命周期管理 | 处理后移入 .processed/ 子目录 |
 
-**实现**：`dto-signals-watcher.js` 监听 `.dto-signals/` 目录。检测到新文件后：
+**实现**：`lto-signals-watcher.js` 监听 `.lto-signals/` 目录。检测到新文件后：
 1. 读取信号文件内容
-2. emit `dto.signal.created` 事件
+2. emit `lto.signal.created` 事件
 3. 调用 `lto-core/event-bridge.processEvents()` 消费事件队列
-4. 将已处理信号文件移入 `.dto-signals/.processed/`
+4. 将已处理信号文件移入 `.lto-signals/.processed/`
 5. 标记事件触发
 
 ---
@@ -216,7 +216,7 @@
   ✅ T2.2: ISC变更检测在事件触发后cron跳过
 
 ── Suite 3: 本地任务编排 Signals 事件发布 ──
-  ✅ T3.1: emit dto.signal.created 事件可被消费
+  ✅ T3.1: emit lto.signal.created 事件可被消费
   ✅ T3.2: 本地任务编排-AEO在事件触发后cron跳过
 
 ── Suite 4: File Change 分类 ──
@@ -260,7 +260,7 @@ node infrastructure/event-driven/event-watcher-daemon.js --status
 | `node fast-check.js && ...` | `node infrastructure/event-driven/cron-adapters/event-dispatcher-adapter.js` |
 | `node isc-core/event-bridge.js` | `node infrastructure/event-driven/cron-adapters/isc-detect-adapter.js` |
 | 全局决策流水线脚本 | `node infrastructure/event-driven/cron-adapters/global-pipeline-adapter.js` |
-| `node lto-core/event-bridge.js` | `node infrastructure/event-driven/cron-adapters/dto-aeo-adapter.js` |
+| `node lto-core/event-bridge.js` | `node infrastructure/event-driven/cron-adapters/lto-aeo-adapter.js` |
 
 ### Phase 3: 验证
 
@@ -270,7 +270,7 @@ echo '{"id":"test","name":"test rule"}' > skills/isc-core/rules/test-verify.json
 # 查看 watcher 日志确认立即处理
 
 # 手动创建 本地任务编排 信号 → 应立即响应
-echo '{"task":"verify"}' > .dto-signals/test-verify.json
+echo '{"task":"verify"}' > .lto-signals/test-verify.json
 # 查看 watcher 日志确认立即处理
 
 # 执行 cron → 应跳过（事件已处理）

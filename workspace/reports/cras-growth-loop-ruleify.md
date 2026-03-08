@@ -27,7 +27,7 @@
    - `intent.ruleify` → `handleRuleify()` → 自动生成 ISC 规则草案文件，并发出：
      - `isc.rule.created`
    - `intent.directive` → `handleDirective()` → 自动创建 本地任务编排 任务，并发出：
-     - `dto.task.created`
+     - `lto.task.created`
 
 4. **评测沉淀链路已存在**
    - 规则：`skills/isc-core/rules/rule.eval-driven-development-loop-001.json`
@@ -49,7 +49,7 @@
 
 ### R1. 复盘不是文档，复盘必须产出动作对象
 凡进入 `intent.reflect` / CRAS 复盘链路的内容，不允许只停留在 insight；必须最少产出以下四类对象中的一类，优先全产出：
-- `dto task`
+- `lto task`
 - `isc rule`
 - `eval case / eval report`
 - `next-day verification task`
@@ -210,7 +210,7 @@
 ### 03:00 任务输入
 - 前一天全部 `intent.reflect`
 - 前一天全部 `cras.insight.generated`
-- 前一天全部 `dto.task.created`（由复盘派生）
+- 前一天全部 `lto.task.created`（由复盘派生）
 - 前一天 closure records
 
 ### 03:00 任务输出

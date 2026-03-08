@@ -6,7 +6,7 @@
   "description": "每周执行一次未知意图发现：(1)用智谱embedding对近期对话做向量聚类，(2)LLM对聚类结果做意图分类，(3)MECE原则识别增量且高频的意图类型，(4)主动溯源未解决问题是否因意图类型缺失导致。发现候选新意图→提交用户确认→注册。",
   "trigger": {
     "events": [
-      "dto.general.weekly",
+      "lto.general.weekly",
       "system.unresolved.detected"
     ],
     "actions": [
@@ -15,7 +15,7 @@
         "description": "执行向量聚类→意图分类→MECE增量识别→用户确认→注册"
       }
     ],
-    "event": "dto.general.weekly"
+    "event": "lto.general.weekly"
   },
   "action": {
     "type": "script",

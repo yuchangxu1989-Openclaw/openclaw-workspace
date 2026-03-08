@@ -2,10 +2,10 @@
 /**
  * 本地任务编排 Signals Directory Watcher
  * 
- * 用 fs.watch 监听 .dto-signals/ 目录。
- * 检测到新信号文件后立即 emit dto.signal.created → 触发 本地任务编排-AEO 流水线。
+ * 用 fs.watch 监听 .lto-signals/ 目录。
+ * 检测到新信号文件后立即 emit lto.signal.created → 触发 本地任务编排-AEO 流水线。
  * 
- * 启动方式：node dto-signals-watcher.js
+ * 启动方式：node lto-signals-watcher.js
  * 停止方式：kill PID 或 Ctrl+C
  */
 'use strict';
@@ -16,9 +16,9 @@ const path = require('path');
 const bus = require('../../event-bus/bus');
 const { markEventTriggered } = require('../cron-check-skip');
 
-const SIGNALS_DIR = path.join(__dirname, '../../../.dto-signals');
+const SIGNALS_DIR = path.join(__dirname, '../../../.lto-signals');
 const DTO_BRIDGE_PATH = path.join(__dirname, '../../../skills/lto-core/event-bridge');
-const PID_FILE = path.join(__dirname, '../state/dto-signals-watcher.pid');
+const PID_FILE = path.join(__dirname, '../state/lto-signals-watcher.pid');
 const PROCESSED_DIR = path.join(SIGNALS_DIR, '.processed');
 const DEBOUNCE_MS = 1500;
 
@@ -94,15 +94,15 @@ async function handleSignalChange(eventType, filename) {
           signalContent = { raw_filename: signal };
         }
         
-        // emit dto.signal.created 事件
-        bus.emit('dto.signal.created', {
+        // emit lto.signal.created 事件
+        bus.emit('lto.signal.created', {
           trigger: 'fs-watch',
           filename: signal,
           content: signalContent,
           detected_at: Date.now()
-        }, 'dto-signals-watcher');
+        }, 'lto-signals-watcher');
         
-        console.log(`[本地任务编排-Watcher] 发布事件: dto.signal.created (${signal})`);
+        console.log(`[本地任务编排-Watcher] 发布事件: lto.signal.created (${signal})`);
         
         // 标记为已处理
         markSignalProcessed(signal);
@@ -118,7 +118,7 @@ async function handleSignalChange(eventType, filename) {
       }
       
       // 3. 标记事件触发
-      markEventTriggered('dto-aeo', { signals_count: signals.length, filenames: signals });
+      markEventTriggered('lto-aeo', { signals_count: signals.length, filenames: signals });
       
       console.log(`[本地任务编排-Watcher] ✅ ${signals.length} 个信号处理完成`);
     } catch (err) {

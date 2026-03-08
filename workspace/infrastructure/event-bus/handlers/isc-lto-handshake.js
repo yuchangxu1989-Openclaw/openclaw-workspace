@@ -12,11 +12,11 @@ module.exports = async function(event, rule, context) {
   const logger = context.logger || console;
   const bus = context.bus;
 
-  logger.info('[isc-dto-handshake] 启动ISC-DTO双向握手');
+  logger.info('[isc-lto-handshake] 启动ISC-DTO双向握手');
 
   try {
     const rulesDir = path.join(workspace, 'infrastructure', 'isc', 'rules');
-    const dtoDir = path.join(workspace, 'infrastructure', 'dto');
+    const dtoDir = path.join(workspace, 'infrastructure', 'lto');
     const reportsDir = path.join(workspace, 'infrastructure', 'event-bus', 'reports');
 
     // 确保reports目录存在
@@ -39,7 +39,7 @@ module.exports = async function(event, rule, context) {
           }
         }
       } catch (e) {
-        logger.warn(`[isc-dto-handshake] 解析规则失败: ${file}`, e.message);
+        logger.warn(`[isc-lto-handshake] 解析规则失败: ${file}`, e.message);
       }
     }
 
@@ -55,12 +55,12 @@ module.exports = async function(event, rule, context) {
           const eventList = Array.isArray(events) ? events : [events];
           for (const evt of eventList) {
             if (typeof evt === 'string') {
-              dtoSubscriptions.set(evt, { dto: path.basename(file), file });
+              dtoSubscriptions.set(evt, { lto: path.basename(file), file });
             }
           }
         }
       } catch (e) {
-        logger.warn(`[isc-dto-handshake] 解析DTO失败: ${file}`, e.message);
+        logger.warn(`[isc-lto-handshake] 解析DTO失败: ${file}`, e.message);
       }
     }
 
@@ -71,7 +71,7 @@ module.exports = async function(event, rule, context) {
 
     for (const [evt, info] of iscEvents) {
       if (dtoSubscriptions.has(evt)) {
-        aligned.push({ event: evt, isc: info.rule, dto: dtoSubscriptions.get(evt).dto });
+        aligned.push({ event: evt, isc: info.rule, lto: dtoSubscriptions.get(evt).lto });
       } else {
         iscOnly.push({ event: evt, rule: info.rule });
       }
@@ -79,7 +79,7 @@ module.exports = async function(event, rule, context) {
 
     for (const [evt, info] of dtoSubscriptions) {
       if (!iscEvents.has(evt)) {
-        dtoOnly.push({ event: evt, dto: info.dto });
+        dtoOnly.push({ event: evt, lto: info.lto });
       }
     }
 
@@ -90,11 +90,11 @@ module.exports = async function(event, rule, context) {
     const autoFixes = [];
     // 对于ISC有但DTO没有的，记录（DTO需要手动创建或自动生成骨架）
     for (const item of iscOnly) {
-      logger.warn(`[isc-dto-handshake] ISC事件无DTO映射: ${item.event} (来自 ${item.rule})`);
+      logger.warn(`[isc-lto-handshake] ISC事件无DTO映射: ${item.event} (来自 ${item.rule})`);
       autoFixes.push({ type: 'isc_without_dto', event: item.event, action: 'needs_dto_mapping' });
     }
     for (const item of dtoOnly) {
-      logger.warn(`[isc-dto-handshake] DTO订阅无ISC规则: ${item.event} (来自 ${item.dto})`);
+      logger.warn(`[isc-lto-handshake] DTO订阅无ISC规则: ${item.event} (来自 ${item.lto})`);
       autoFixes.push({ type: 'dto_without_isc', event: item.event, action: 'orphan_subscription' });
     }
 
@@ -122,20 +122,20 @@ module.exports = async function(event, rule, context) {
       }
     };
 
-    const reportPath = path.join(reportsDir, `isc-dto-handshake-${Date.now()}.json`);
+    const reportPath = path.join(reportsDir, `isc-lto-handshake-${Date.now()}.json`);
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), 'utf-8');
-    logger.info(`[isc-dto-handshake] 对齐报告已写入: ${reportPath}`);
+    logger.info(`[isc-lto-handshake] 对齐报告已写入: ${reportPath}`);
 
     // 6. 对齐率<90%则告警
     if (alignmentRate < 90) {
       const alertMsg = `⚠️ ISC-DTO对齐率低: ${alignmentRate}% (阈值90%)，${iscOnly.length}个ISC无DTO，${dtoOnly.length}个DTO无ISC`;
-      logger.warn('[isc-dto-handshake]', alertMsg);
-      bus.emit('isc.dto.alignment.warning', { alignmentRate, report });
+      logger.warn('[isc-lto-handshake]', alertMsg);
+      bus.emit('isc.lto.alignment.warning', { alignmentRate, report });
       if (context.notify) context.notify(alertMsg);
     }
 
-    bus.emit('isc.dto.handshake.completed', { alignmentRate, reportPath, summary: report.summary });
-    logger.info('[isc-dto-handshake] 握手完成', report.summary);
+    bus.emit('isc.lto.handshake.completed', { alignmentRate, reportPath, summary: report.summary });
+    logger.info('[isc-lto-handshake] 握手完成', report.summary);
 
     return {
       status: 'completed',
@@ -144,8 +144,8 @@ module.exports = async function(event, rule, context) {
       summary: report.summary
     };
   } catch (err) {
-    logger.error('[isc-dto-handshake] 执行失败:', err.message);
-    bus.emit('isc.dto.handshake.failed', { error: err.message });
+    logger.error('[isc-lto-handshake] 执行失败:', err.message);
+    bus.emit('isc.lto.handshake.failed', { error: err.message });
     throw err;
   }
 };

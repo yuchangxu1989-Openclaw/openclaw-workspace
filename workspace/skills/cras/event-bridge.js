@@ -33,7 +33,7 @@ function processAssessments() {
     type_filter: 'aeo.assessment.*'
   }).concat(bus.consume({
     consumerId: CONSUMER_ID,
-    type_filter: 'dto.sync.completed'
+    type_filter: 'lto.sync.completed'
   })).concat(bus.consume({
     consumerId: CONSUMER_ID,
     type_filter: 'system.error'
@@ -120,13 +120,13 @@ function analyzeEvent(event) {
   }
 
   // 本地任务编排 同步事件
-  if (event.type === 'dto.sync.completed') {
+  if (event.type === 'lto.sync.completed') {
     const p = event.payload || {};
     return {
       id,
       type: 'sync_tracking',
       source_event: event.id,
-      skill: 'dto',
+      skill: 'lto',
       finding: `DTO完成同步: 规则 ${p.rule_id || 'N/A'}`,
       severity: 'info',
       recommendation: null,

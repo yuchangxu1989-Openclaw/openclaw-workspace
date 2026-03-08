@@ -19,7 +19,7 @@ module.exports = async function(event, rule, context) {
     const payload = event.payload || {};
 
     // === 感知：尝试使用专用对齐检查器 ===
-    const checkerPath = path.join(workspace, 'skills/isc-core/bin/isc-dto-alignment-checker.js');
+    const checkerPath = path.join(workspace, 'skills/isc-core/bin/isc-lto-alignment-checker.js');
     let alignmentResult = null;
 
     if (await exists(checkerPath)) {
@@ -56,7 +56,7 @@ module.exports = async function(event, rule, context) {
 
     // === 闭环：emit完成事件 ===
     if (bus) {
-      await bus.emit('isc.dto.alignment.completed', {
+      await bus.emit('isc.lto.alignment.completed', {
         source: 'isc-change-alignment',
         ...alignmentResult,
         trigger: event.type,
@@ -80,7 +80,7 @@ module.exports = async function(event, rule, context) {
  */
 async function performBuiltInAlignmentCheck(workspace, logger) {
   const rulesDir = path.join(workspace, 'rules');
-  const dtoDir = path.join(workspace, 'dto');
+  const dtoDir = path.join(workspace, 'lto');
   const bindingsDir = path.join(workspace, 'infrastructure/event-bus/bindings');
   const handlersDir = path.join(workspace, 'infrastructure/event-bus/handlers');
 

@@ -33,7 +33,7 @@
 | **CRAS Event Bridge** | `skills/cras/event-bridge.js` | 旧bus.js | `cras.insight.generated` |
 | **CRAS Rule Suggester** | `skills/cras/rule-suggester.js` | 旧bus.js | （消费为主，可能emit反馈事件） |
 | **SEEF Event Bridge** | `skills/seef/event-bridge.js` | 旧bus.js | `seef.skill.evaluated`, `seef.skill.discovered`, `seef.skill.created`, `seef.skill.optimized`, `seef.skill.validated`, `seef.skill.aligned`, `seef.skill.recorded`, `seef.skill.deprecated` |
-| **本地任务编排 Event Bridge** | `skills/lto-core/event-bridge.js` | 旧bus.js | `dto.sync.completed`, `dto.sync.failed` |
+| **本地任务编排 Event Bridge** | `skills/lto-core/event-bridge.js` | 旧bus.js | `lto.sync.completed`, `lto.sync.failed` |
 | **Memory Archiver** | `infrastructure/event-bus/handlers/memory-archiver.js` | 旧bus.js | （纯消费者，不产生事件） |
 | **Observability Dashboard** | `infrastructure/observability/dashboard.js` | 旧bus.js | （纯消费者） |
 | **L3Pipeline** | `infrastructure/pipeline/l3-pipeline.js` | **新event-bus.js** | `user.intent.*.inferred`（闭环回写） |
@@ -42,17 +42,17 @@
 
 | 消费者 | consumerId | 使用总线 | 订阅的事件模式 |
 |--------|-----------|----------|----------------|
-| **SEEF Event Bridge** | `seef` | 旧bus.js | `dto.sync.*`, `aeo.assessment.*`, `cras.insight.*`, `isc.rule.*`, `seef.skill.*` |
-| **本地任务编排 Event Bridge** | `lto-core` | 旧bus.js | `isc.rule.*`, `dto.sync.*`, `seef.skill.*`, `aeo.assessment.*`, `cras.insight.*`, `system.*` |
-| **CRAS Event Bridge** | `cras` | 旧bus.js | `aeo.assessment.*`, `dto.sync.completed`, `system.error` |
+| **SEEF Event Bridge** | `seef` | 旧bus.js | `lto.sync.*`, `aeo.assessment.*`, `cras.insight.*`, `isc.rule.*`, `seef.skill.*` |
+| **本地任务编排 Event Bridge** | `lto-core` | 旧bus.js | `isc.rule.*`, `lto.sync.*`, `seef.skill.*`, `aeo.assessment.*`, `cras.insight.*`, `system.*` |
+| **CRAS Event Bridge** | `cras` | 旧bus.js | `aeo.assessment.*`, `lto.sync.completed`, `system.error` |
 | **Dispatcher** | （通过routes.json路由） | 旧bus.js | 见routes.json 12种模式 |
 | **L3Pipeline** | （无consumerId，时间窗消费） | **新event-bus.js** | 全量consume（since时间窗） |
 
 ### 1.3 Dispatcher路由表（routes.json）
 
 ```
-isc.rule.*              → dto-sync handler
-dto.sync.*              → dto-orchestrate handler
+isc.rule.*              → lto-sync handler
+lto.sync.*              → lto-orchestrate handler
 seef.skill.evaluated    → seef-optimize handler
 seef.skill.optimized    → cras-ingest handler
 aeo.assessment.completed → cras-ingest handler

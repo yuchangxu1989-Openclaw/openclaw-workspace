@@ -123,7 +123,7 @@ module.exports = async function(event, rule, context) {
         escalate: true,
       });
       if (context?.bus?.emit) {
-        context.bus.emit('dto.task.created', {
+        context.bus.emit('lto.task.created', {
           type: fixType,
           defect,
           root_cause: rootCause,

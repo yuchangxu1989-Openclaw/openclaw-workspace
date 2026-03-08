@@ -97,7 +97,7 @@ function generateSemanticReport(changes) {
         switch (i.type) {
           case 'skill-evolution': return ['skill-quality-check'];
           case 'infrastructure-change': return ['integration-test'];
-          case 'isc-rule-change': return ['dto-sync', 'isc-validate'];
+          case 'isc-rule-change': return ['lto-sync', 'isc-validate'];
           case 'dispatcher-route-change': return ['route-validate'];
           default: return [];
         }

@@ -7,14 +7,14 @@
   "trigger": {
     "type": "event",
     "patterns": [
-      "dto.general.create",
-      "dto.general.update",
-      "dto.general.requested"
+      "lto.general.create",
+      "lto.general.update",
+      "lto.general.requested"
     ],
     "events": [
-      "dto.task.created",
-      "dto.task.updated",
-      "dto.task.validated"
+      "lto.task.created",
+      "lto.task.updated",
+      "lto.task.validated"
     ],
     "actions": [
       {
@@ -28,7 +28,7 @@
         "behavior": "apply_default_model"
       }
     ],
-    "event": "dto.task.created"
+    "event": "lto.task.created"
   },
   "condition": {
     "payload": {

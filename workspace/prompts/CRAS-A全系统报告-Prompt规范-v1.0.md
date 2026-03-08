@@ -159,7 +159,7 @@ exec wc -l /root/.openclaw/workspace/skills/lep-executor/src/*.js
 #### 2.6 AEO（智能体效果运营）
 ```bash
 exec ls /root/.openclaw/workspace/skills/aeo/src/core/
-read /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs limit=100
+read /root/.openclaw/workspace/skills/aeo/src/core/aeo-lto-bridge.cjs limit=100
 ```
 
 **评估维度**:

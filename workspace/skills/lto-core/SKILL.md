@@ -165,23 +165,23 @@ telemetry:
 
 ```javascript
 // 注册任务
-dto.registerTask(definition);
+lto.registerTask(definition);
 
 // 触发执行
-dto.execute(taskId, { trigger: 'manual', context: {} });
+lto.execute(taskId, { trigger: 'manual', context: {} });
 
 // 查询状态
-dto.getStatus(taskId);
+lto.getStatus(taskId);
 
 // 动态更新
-dto.patchTask(taskId, { workflow: { ... } });
+lto.patchTask(taskId, { workflow: { ... } });
 ```
 
 ### 工作流编排
 
 ```javascript
 // 构建 DAG
-const dag = dto.dag()
+const dag = lto.dag()
   .node('A', actionA)
   .node('B', actionB, { dependsOn: ['A'] })
   .node('C', actionC, { dependsOn: ['A'] })
@@ -195,12 +195,12 @@ await dag.execute();
 
 ```javascript
 // 订阅任务事件
-dto.subscribe('task.completed', (event) => {
+lto.subscribe('task.completed', (event) => {
   // 触发下游任务
 });
 
 // 订阅资源事件
-dto.subscribe('resource.threshold_exceeded', (event) => {
+lto.subscribe('resource.threshold_exceeded', (event) => {
   // 动态扩缩容
 });
 ```

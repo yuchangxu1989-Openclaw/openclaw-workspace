@@ -62,6 +62,6 @@ lto-core, isc-core, evomap-a2a, evomap-publisher, cras, parallel-subagent, seef,
 **配置**:
 - auto_discover: true
 - update_policy: auto_sync
-- managed_by: isc-dto
+- managed_by: isc-lto
 
 **如果遗忘此清单，询问用户是否需要查看或更新。**

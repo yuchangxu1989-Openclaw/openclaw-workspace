@@ -35,7 +35,7 @@
 | ***/15** | ISC变更检测 | 运行isc-core/event-bridge.js | ✅ 核心生产者 | 🟢 低 |
 | ***/30** | 全局自主决策流水线 | Git跟踪+版本bump+同步 | ❌ 独立运行 | 🟡 中 |
 | **0 \*** | 系统监控-综合 | system-monitor + gateway-monitor | ❌ 独立运行 | 🟡 中 |
-| **0 \*** | 本地任务编排-AEO流水线 | DTO编排器 + AEO桥接 | ⚠️ 检查.dto-signals | 🟡 中 |
+| **0 \*** | 本地任务编排-AEO流水线 | DTO编排器 + AEO桥接 | ⚠️ 检查.lto-signals | 🟡 中 |
 | **5 \*/4** | 能力同步与PDCA | PDCA引擎 | ❌ 独立运行 | 🟡 中 |
 | **10 \*/4** | 系统状态与流水线监控 | 流水线状态检查 | ❌ 独立运行 | 🟡 中 |
 | **0 \*/6** | 记忆摘要 | 聚合daily notes → MEMORY.md | ❌ 独立运行 | 🔴 高 |
@@ -64,8 +64,8 @@ isc-core/event-bridge.js ──emit──► bus.js
     │                                 ▼
     │                        Dispatcher ──► routes.json ──► handlers/
     │
-    ├── lto-core/event-bridge.js (consume isc.rule.* → emit dto.sync.*)
-    ├── seef/event-bridge.js    (consume dto.sync.* → emit seef.skill.*)
+    ├── lto-core/event-bridge.js (consume isc.rule.* → emit lto.sync.*)
+    ├── seef/event-bridge.js    (consume lto.sync.* → emit seef.skill.*)
     ├── aeo/event-bridge.js     (consume seef.skill.* → emit aeo.assessment.*)
     └── cras/event-bridge.js    (consume aeo.assessment.* → emit cras.insight.*)
 ```

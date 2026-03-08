@@ -26,18 +26,18 @@
     "priority": "high",
     "description": "ISC enforcement rate threshold crossed — alert and log"
   },
-  "dto.task.completed": {
-    "handler": "skill-dto-handler",
+  "lto.task.completed": {
+    "handler": "skill-lto-handler",
     "priority": "normal",
     "description": "本地任务编排 task completed — process downstream via 本地任务编排 skill handler"
   },
-  "dto.task.created": {
-    "handler": "skill-dto-handler",
+  "lto.task.created": {
+    "handler": "skill-lto-handler",
     "priority": "normal",
     "description": "本地任务编排 task created — acknowledged by 本地任务编排 skill handler"
   },
-  "dto.sync.*": {
-    "handler": "skill-dto-handler",
+  "lto.sync.*": {
+    "handler": "skill-lto-handler",
     "agent": "coder",
     "priority": "high",
     "description": "本地任务编排 sync lifecycle events — handled by 本地任务编排 skill handler"
@@ -240,8 +240,8 @@
     "priority": "low",
     "description": "[Day2-closeout] Derived rule/code pairing action is logged instead of queueing as missing handler"
   },
-  "dto.signal.created": {
-    "handler": "skill-dto-handler",
+  "lto.signal.created": {
+    "handler": "skill-lto-handler",
     "priority": "high",
     "description": "本地任务编排 signal created — event-driven trigger for 本地任务编排-AEO pipeline (Day2-Gap1)"
   },
@@ -329,7 +329,7 @@
     "description": "[Gap4] Evomap sync request → log for now, full evomap integration P2"
   },
   "workflow.requested": {
-    "handler": "skill-dto-handler",
+    "handler": "skill-lto-handler",
     "agent": "coder",
     "priority": "normal",
     "description": "[Gap4] Workflow requested → 本地任务编排 task creation"

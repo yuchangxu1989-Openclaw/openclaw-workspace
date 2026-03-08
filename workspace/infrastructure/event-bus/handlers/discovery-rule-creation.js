@@ -78,13 +78,13 @@ module.exports = async function(event, rule, context) {
     logger.info(`[discovery-rule-creation] Rule created: ${rulePath}`);
 
     // === 执行2：创建DTO执行链定义 ===
-    const dtoDir = path.join(workspace, 'dto');
+    const dtoDir = path.join(workspace, 'lto');
     if (!fs.existsSync(dtoDir)) {
       fs.mkdirSync(dtoDir, { recursive: true });
     }
 
     const dtoDefinition = {
-      id: `dto-${ruleName}`,
+      id: `lto-${ruleName}`,
       name: `本地任务编排 Execution Chain for ${ruleName}`,
       description: `Execution chain for discovered issue: ${issueDesc}`,
       created_at: new Date().toISOString(),
@@ -124,7 +124,7 @@ module.exports = async function(event, rule, context) {
       }
     };
 
-    const dtoPath = path.join(dtoDir, `${ruleName}.dto.json`);
+    const dtoPath = path.join(dtoDir, `${ruleName}.lto.json`);
     fs.writeFileSync(dtoPath, JSON.stringify(dtoDefinition, null, 2), 'utf-8');
     logger.info(`[discovery-rule-creation] 本地任务编排 created: ${dtoPath}`);
 
@@ -137,7 +137,7 @@ module.exports = async function(event, rule, context) {
     const bindingDefinition = {
       id: `binding-${ruleName}`,
       rule_id: ruleName,
-      dto_id: `dto-${ruleName}`,
+      dto_id: `lto-${ruleName}`,
       created_at: new Date().toISOString(),
       auto_generated: true,
       events: determineTriggerEvents(category, event.type),
@@ -156,11 +156,11 @@ module.exports = async function(event, rule, context) {
     // === 验证：三件套完整性检查 ===
     const tripleCheck = {
       rule: await exists(rulePath),
-      dto: await exists(dtoPath),
+      lto: await exists(dtoPath),
       binding: await exists(bindingPath)
     };
 
-    const allComplete = tripleCheck.rule && tripleCheck.dto && tripleCheck.binding;
+    const allComplete = tripleCheck.rule && tripleCheck.lto && tripleCheck.binding;
     logger.info(`[discovery-rule-creation] Triple check: ${JSON.stringify(tripleCheck)}, complete: ${allComplete}`);
 
     // === 闭环：emit结果 ===
@@ -173,7 +173,7 @@ module.exports = async function(event, rule, context) {
         complete: allComplete,
         files: {
           rule: path.relative(workspace, rulePath),
-          dto: path.relative(workspace, dtoPath),
+          lto: path.relative(workspace, dtoPath),
           binding: path.relative(workspace, bindingPath)
         },
         trigger: event.type,
@@ -188,7 +188,7 @@ module.exports = async function(event, rule, context) {
       tripleCheck,
       files: {
         rule: path.relative(workspace, rulePath),
-        dto: path.relative(workspace, dtoPath),
+        lto: path.relative(workspace, dtoPath),
         binding: path.relative(workspace, bindingPath)
       },
       timestamp: new Date().toISOString()

@@ -1510,7 +1510,7 @@ v5.0新增Part 0.1, 14-22, 附录G-I。继承v4.3全部内容(Part 0-12, 附录A
 
 ## 📋 架构评审清单 (自动生成)
 
-**文档**: isc-event-dto-binding-design-v5
+**文档**: isc-event-lto-binding-design-v5
 **生成时间**: 2026-03-06T13:01:12.506Z
 **状态**: 待评审
 

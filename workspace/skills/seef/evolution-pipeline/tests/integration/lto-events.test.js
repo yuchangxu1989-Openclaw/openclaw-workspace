@@ -279,7 +279,7 @@ describe('DTO事件触发集成测试', () => {
   beforeEach(() => {
     eventBus = new DTOEventBus();
     
-    tempDir = path.join(__dirname, '../fixtures/temp-dto-test');
+    tempDir = path.join(__dirname, '../fixtures/temp-lto-test');
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }

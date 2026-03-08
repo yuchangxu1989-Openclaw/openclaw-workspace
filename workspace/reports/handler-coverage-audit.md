@@ -100,7 +100,7 @@
 - `skills/isc-core/rules/rule.intent-ic4-ic5-boundary-001.json`
 - `skills/isc-core/rules/rule.isc-change-auto-trigger-alignment-001.json`
 - `skills/isc-core/rules/rule.isc-creation-gate-001.json`
-- `skills/isc-core/rules/rule.isc-dto-handshake-001.json`
+- `skills/isc-core/rules/rule.isc-lto-handshake-001.json`
 - `skills/isc-core/rules/rule.isc-rule-auto-decompose-001.json`
 - `skills/isc-core/rules/rule.isc-skill-index-auto-update-001.json`
 - `skills/isc-core/rules/rule.isc-skill-permission-classification-031.json`

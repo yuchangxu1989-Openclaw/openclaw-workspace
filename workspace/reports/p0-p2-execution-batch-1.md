@@ -99,7 +99,7 @@ Rules JSON validation: 114 OK, 0 FAIL
 ### ✅ U-04: 11 个 handler 的 context.logger 兜底 — 确认已修
 
 **当前状态**: 所有 11 个 handler 均已有 `context.logger || console` 兜底：
-- isc-creation-gate, isc-dto-handshake, isc-rule-decompose, isc-skill-index-update
+- isc-creation-gate, isc-lto-handshake, isc-rule-decompose, isc-skill-index-update
 - isc-skill-permission, isc-skill-security, knowledge-executable, meta-enforcement
 - multi-agent-priority, verify-config-before-code, eval-quality-check
 

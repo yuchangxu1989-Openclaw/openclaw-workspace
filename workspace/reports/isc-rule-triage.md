@@ -94,7 +94,7 @@
 - **`S005`** — 报告输出格式标准 - 飞书卡片
 - **`rule.glm-vision-priority-001`** — 图像视频需求优先调用GLM-4V-Plus规则 - 根治遗忘
 - **`rule.isc-change-auto-trigger-alignment-001`** — ISC规则变更自动触发对齐检查 - 规则新增/修改/删除时自动执行对齐
-- **`rule.isc-dto-handshake-001`** — ISC-DTO定期握手机制 - 每30分钟互相扫描对齐
+- **`rule.isc-lto-handshake-001`** — ISC-DTO定期握手机制 - 每30分钟互相扫描对齐
 - **`rule.isc-skill-index-auto-update-001`** — 技能索引自动更新 - 技能创建/修改/删除时自动更新SKILL_INDEX.md
 - **`rule.multi-agent-communication-priority-001`** — 多Agent并行与用户沟通优先规则 - 所有任务使用多Agent并行，主Agent沟通始终畅通
 - **`N006`** — 技能名称双语展示标准 - 所有汇报涉及skill英文名时必须同时展示中文名

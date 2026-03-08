@@ -3,7 +3,7 @@
  * @description 阶段3快速验证脚本
  */
 
-import { createDTOAdapter } from '../lib/dto-adapter.js';
+import { createDTOAdapter } from '../lib/lto-adapter.js';
 import { createEvoMapClient } from '../lib/evomap-client.js';
 import { createPipeline } from '../index.js';
 import fs from 'fs';
@@ -113,7 +113,7 @@ This is a test skill.
     const pipeline = createPipeline({
       pipelineId: 'test-pipeline-001',
       integration: {
-        dto: { enabled: false },
+        lto: { enabled: false },
         evomap: { enabled: false },
         cras: { enabled: false }
       }
@@ -148,7 +148,7 @@ This is a test skill.
     console.log('  ✓ 配置文件加载成功');
     console.log('  ✓ 技能ID:', config.isc.skillId);
     console.log('  ✓ 缩写:', config.isc.abbreviation);
-    console.log('  ✓ DTO集成:', config.integration.dto.enabled ? '启用' : '禁用');
+    console.log('  ✓ DTO集成:', config.integration.lto.enabled ? '启用' : '禁用');
     console.log('  ✓ EvoMap集成:', config.integration.evomap.enabled ? '启用' : '禁用');
     console.log('  ✓ 自动触发:', config.pipeline.autoTrigger ? '启用' : '禁用');
     console.log('  ✓ 最大并发:', config.pipeline.maxConcurrent);

@@ -27,11 +27,11 @@ async function example1() {
 async function example2() {
   const DTOPlatform = require('./index');
   
-  const dto = new DTOPlatform();
-  await dto.initialize();
+  const lto = new DTOPlatform();
+  await lto.initialize();
 
   // 注册任务时自动触发事件
-  dto.registerTask({
+  lto.registerTask({
     id: 'my-task',
     intent: '执行某个任务',
     version: '1.0.0',

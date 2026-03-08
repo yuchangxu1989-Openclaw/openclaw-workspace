@@ -179,15 +179,15 @@ draft → active → dormant → deprecated → archived
 | AEO Event Bridge | 旧bus.js | `aeo.assessment.completed/failed/batch` |
 | CRAS Event Bridge | 旧bus.js | `cras.insight.generated` |
 | SEEF Event Bridge | 旧bus.js | `seef.skill.*` (8种) |
-| 本地任务编排 Event Bridge | 旧bus.js | `dto.sync.completed/failed` |
+| 本地任务编排 Event Bridge | 旧bus.js | `lto.sync.completed/failed` |
 | L3Pipeline | 适配层(→旧bus) | `user.intent.*.inferred` |
 
 **事件消费者**（5个旧 + 1个新）：
 | 消费者 | consumerId | 订阅模式 |
 |--------|-----------|---------|
-| SEEF | `seef` | `dto.sync.*`, `aeo.assessment.*`, `cras.insight.*`, `isc.rule.*` |
-| 本地任务编排 | `lto-core` | `isc.rule.*`, `dto.sync.*`, `seef.skill.*`, `aeo.assessment.*` |
-| CRAS | `cras` | `aeo.assessment.*`, `dto.sync.completed`, `system.error` |
+| SEEF | `seef` | `lto.sync.*`, `aeo.assessment.*`, `cras.insight.*`, `isc.rule.*` |
+| 本地任务编排 | `lto-core` | `isc.rule.*`, `lto.sync.*`, `seef.skill.*`, `aeo.assessment.*` |
+| CRAS | `cras` | `aeo.assessment.*`, `lto.sync.completed`, `system.error` |
 | Dispatcher | routes.json | 12种路由模式 |
 | L3Pipeline | `l3-pipeline` | 全量消费（通过适配层cursor模式） |
 

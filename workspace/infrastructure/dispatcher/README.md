@@ -87,7 +87,7 @@ module.exports = { handle: function(event, ctx) { ... } };
 ```json
 {
   "isc.rule.*": {
-    "handler": "dto-sync",
+    "handler": "lto-sync",
     "agent": "coder",
     "priority": "high",
     "description": "ISC rule changes trigger 本地任务编排 alignment sync"

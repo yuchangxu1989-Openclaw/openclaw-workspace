@@ -15,7 +15,7 @@
 | 1 | **git hooks 根本不存在**（.git/hooks 目录为空）| 断点①不是"空壳"而是"无" | ❌ 假设hooks已存在 |
 | 2 | **handler签名不统一**：`day-transition.js`导出`{name, events, handle}`对象，dispatcher期望`module.exports = async function` | handler会静默失败 | ❌ 未识别 |
 | 3 | **双总线分裂**：bus.js vs bus-adapter.js API不同，consume签名不兼容 | 事件可能被重复消费或漏消费 | ❌ 未识别 |
-| 4 | **循环事件链**：本地任务编排 bridge中 isc.rule→dto.sync→seef.evaluated→aeo.completed→cras.insight→isc.rule.updated 形成环 | 事件雪崩，maxDepth仅控制单次dispatch | ❌ 未识别 |
+| 4 | **循环事件链**：本地任务编排 bridge中 isc.rule→lto.sync→seef.evaluated→aeo.completed→cras.insight→isc.rule.updated 形成环 | 事件雪崩，maxDepth仅控制单次dispatch | ❌ 未识别 |
 | 5 | **Rules引用的handler不存在**：104条ISC规则引用`enforcement-audit`/`event-health-monitor`/`anti-entropy-check`等handler，但不在dispatcher的handlers/目录下 | 规则匹配后handler静默跳过 | ❌ 未识别 |
 | 6 | **条件评估是摆设**：dispatcher._evaluateConditions只做payload字段精确相等比较，无法处理`enforcement_rate < 100%`这类表达式 | 所有非简单条件的规则条件直接pass | ❌ 未识别 |
 | 7 | **L3/L4/L5事件无生产者**：总线里15条intent.detected是手动写入的，没有自动化的LLM意图提取链路 | 五层事件模型后三层悬空 | ⚠️ 标注了"预留接口"但无方案 |
@@ -2712,9 +2712,9 @@ isc.rule.created             # ISC规则创建
 isc.rule.updated             # ISC规则更新
 isc.rule.deleted             # ISC规则删除
 isc.rule.files_changed       # ISC规则文件变更（git层面）
-dto.task.created             # DTO任务创建
-dto.task.completed           # DTO任务完成
-dto.sync.completed           # DTO同步完成
+lto.task.created             # DTO任务创建
+lto.task.completed           # DTO任务完成
+lto.sync.completed           # DTO同步完成
 aeo.assessment.completed     # AEO评测完成
 aeo.assessment.failed        # AEO评测失败
 seef.skill.evaluated         # SEEF评估完成

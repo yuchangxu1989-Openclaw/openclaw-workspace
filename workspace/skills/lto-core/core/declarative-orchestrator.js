@@ -11,7 +11,7 @@ const { execSync } = require('child_process');
 const { SKILLS_DIR, WORKSPACE } = require('../../shared/paths');
 
 const PATHS = {
-  dto: path.join(SKILLS_DIR, 'lto-core'),
+  lto: path.join(SKILLS_DIR, 'lto-core'),
   isc: path.join(SKILLS_DIR, 'isc-core'),
   council: path.join(SKILLS_DIR, 'council-of-seven'),
   cras: path.join(SKILLS_DIR, 'cras')
@@ -22,9 +22,9 @@ const PATHS = {
  */
 class DTODeclarativeOrchestrator {
   constructor() {
-    this.eventQueuePath = path.join(PATHS.dto, 'events/cras-signals.jsonl');
-    this.taskQueuePath = path.join(PATHS.dto, 'tasks/dto-task-queue.json');
-    this.processedSignalsPath = path.join(PATHS.dto, 'logs/processed-signals.jsonl');
+    this.eventQueuePath = path.join(PATHS.lto, 'events/cras-signals.jsonl');
+    this.taskQueuePath = path.join(PATHS.lto, 'tasks/lto-task-queue.json');
+    this.processedSignalsPath = path.join(PATHS.lto, 'logs/processed-signals.jsonl');
     this.fileWatchers = new Map(); // 文件监控器
     this.lastFileMtimes = new Map(); // 文件修改时间记录
   }
@@ -131,7 +131,7 @@ class DTODeclarativeOrchestrator {
     console.log('[本地任务编排] 调用 ISC-本地任务编排 对齐检查器...');
     let alignmentReport = null;
     try {
-      const Aligner = require(path.join(PATHS.isc, 'bin/isc-dto-alignment-checker.js'));
+      const Aligner = require(path.join(PATHS.isc, 'bin/isc-lto-alignment-checker.js'));
       const aligner = new Aligner();
       alignmentReport = await aligner.run();
     } catch (e) {
@@ -160,7 +160,7 @@ class DTODeclarativeOrchestrator {
     if (ruleCount === 0) {
       console.log('[本地任务编排] ⚠️ 未扫描到任何ISC规则，启动自对齐修复...');
       try {
-        const Aligner = require('./isc-dto-aligner');
+        const Aligner = require('./isc-lto-aligner');
         const aligner = new Aligner();
         const result = await aligner.run();
         
@@ -560,7 +560,7 @@ cp -r ${skillId} ${SKILLS_DIR}/
     console.log(`[本地任务编排-R003] 技能版本更新: ${skillId} ${oldVersion} -> ${newVersion}`);
     
     // 检查技能是否已发布到EvoMap
-    const evoMapRegistryPath = path.join(PATHS.dto, '../.evomap-registry.json');
+    const evoMapRegistryPath = path.join(PATHS.lto, '../.evomap-registry.json');
     let publishedSkills = [];
     
     if (fs.existsSync(evoMapRegistryPath)) {
@@ -728,7 +728,7 @@ module.exports = {
 };
 `;
     
-    const wrapperPath = path.join(PATHS.dto, 'lib/auto-generated/monitor-wrapper.js');
+    const wrapperPath = path.join(PATHS.lto, 'lib/auto-generated/monitor-wrapper.js');
     fs.mkdirSync(path.dirname(wrapperPath), { recursive: true });
     fs.writeFileSync(wrapperPath, wrapperCode);
     
@@ -1009,7 +1009,7 @@ module.exports = {
    * 生成架构报告
    */
   async generateArchitectureReport(scanResults, validationResults) {
-    const reportPath = path.join(PATHS.dto, 'logs/architecture-validation-report.json');
+    const reportPath = path.join(PATHS.lto, 'logs/architecture-validation-report.json');
     
     const report = {
       timestamp: new Date().toISOString(),
@@ -1061,7 +1061,7 @@ module.exports = {
   }
 
   ensureDirectories() {
-    [PATHS.dto + '/events', PATHS.dto + '/tasks', PATHS.dto + '/logs', PATHS.dto + '/triggers'].forEach(dir => {
+    [PATHS.lto + '/events', PATHS.lto + '/tasks', PATHS.lto + '/logs', PATHS.lto + '/triggers'].forEach(dir => {
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     });
   }
@@ -1156,7 +1156,7 @@ module.exports = {
         steps: [
           { module: 'council', action: 'review', required: true },
           { module: 'isc', action: 'createStandard', required: true, condition: 'council.approved' },
-          { module: 'dto', action: 'globalAlignment', required: true },
+          { module: 'lto', action: 'globalAlignment', required: true },
           { module: 'notification', action: 'sendCard', required: true }
         ]
       };
@@ -1191,7 +1191,7 @@ module.exports = {
           return await this.executeCouncilStep(step, signal);
         case 'isc':
           return await this.executeISCStep(step, signal);
-        case 'dto':
+        case 'lto':
           return await this.executeDTOStep(step, signal);
         case 'notification':
           return await this.executeNotificationStep(step, signal);
@@ -1292,7 +1292,7 @@ module.exports = {
       type: 'global_alignment',
       standardId: signal.createdStandard?.id,
       standardName: signal.createdStandard?.name,
-      targetSystems: ['cras', 'seef', 'dto', 'isc', 'cars'],
+      targetSystems: ['cras', 'seef', 'lto', 'isc', 'cars'],
       triggeredAt: new Date().toISOString(),
       priority: signal.data.severity === 'critical' ? 'P0' : 'P1'
     };
@@ -1386,7 +1386,7 @@ module.exports = {
     console.log(`      📱 发送飞书卡片通知...`);
     
     // 简化实现：保存报告供后续发送
-    const reportPath = path.join(PATHS.cras, 'knowledge/dto-generated-report.json');
+    const reportPath = path.join(PATHS.cras, 'knowledge/lto-generated-report.json');
     fs.writeFileSync(reportPath, JSON.stringify(reportData, null, 2));
     
     console.log(`      ✅ 报告已生成: ${reportPath}`);

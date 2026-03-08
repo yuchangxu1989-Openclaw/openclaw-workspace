@@ -9,7 +9,7 @@ const path = require('path');
 const { SKILLS_DIR } = require('../../shared/paths');
 
 const RCA_CONFIG = {
-  logPath: path.join(SKILLS_DIR, 'isc-core/logs/isc-dto-rca-log.jsonl')
+  logPath: path.join(SKILLS_DIR, 'isc-core/logs/isc-lto-rca-log.jsonl')
 };
 
 class ISCDTORootCauseAnalyzer {

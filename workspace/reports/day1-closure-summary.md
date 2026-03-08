@@ -138,4 +138,4 @@ dbf18e8 [AUTO] scripts v1.0.8
 
 ---
 
-*报告引用源: day1-aeo-assessment.md, day1-intent-benchmark.md, day1-pipeline-benchmark.md, day1-scenario-benchmark.md, isc-enforcement-audit.md, isc-rule-triage.md, isc-dto-alignment.md*
+*报告引用源: day1-aeo-assessment.md, day1-intent-benchmark.md, day1-pipeline-benchmark.md, day1-scenario-benchmark.md, isc-enforcement-audit.md, isc-rule-triage.md, isc-lto-alignment.md*

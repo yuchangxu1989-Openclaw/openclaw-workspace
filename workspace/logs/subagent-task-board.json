@@ -206,8 +206,8 @@
     "status": "done"
   },
   {
-    "taskId": "dto-rename",
-    "label": "dto-rename-global-alignment",
+    "taskId": "lto-rename",
+    "label": "lto-rename-global-alignment",
     "agentId": "researcher",
     "model": "opus-4-6-thinking",
     "status": "running"
@@ -228,7 +228,7 @@
     "spawnTime": "2026-03-08T10:37:18.886Z"
   },
   {
-    "taskId": "dto-dirname",
+    "taskId": "lto-dirname",
     "label": "lto-core-dirname-rename",
     "agentId": "coder",
     "model": "opus-4-6-thinking",
@@ -236,11 +236,19 @@
     "spawnTime": "2026-03-08T10:39:26.414Z"
   },
   {
-    "taskId": "dto-qa",
-    "label": "dto-rename-qa-review",
+    "taskId": "lto-qa",
+    "label": "lto-rename-qa-review",
     "agentId": "reviewer",
     "model": "opus-4-6-thinking",
     "status": "running",
     "spawnTime": "2026-03-08T10:39:46.338Z"
+  },
+  {
+    "taskId": "deep-audit",
+    "label": "isc-deep-quality-audit-opus",
+    "agentId": "analyst",
+    "model": "opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T10:40:38.403Z"
   }
 ]

@@ -78,7 +78,7 @@ const CONFIG = {
       'node_modules', '.git', '.clawhub',
       'logs', 'output',
       'feishu_send_queue', 'feishu_sent_cards', 'feishu_sent_reports',
-      '.dto-signals', '.isc',
+      '.lto-signals', '.isc',
       'root-cause-analysis', 'using-superpowers', 'wal',
       'aeo-vector-system',  // 向量化系统生成的数据
       'knowledge',          // cras/knowledge/ — cron自动采集的数据

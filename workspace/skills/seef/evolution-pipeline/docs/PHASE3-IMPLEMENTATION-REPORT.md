@@ -72,7 +72,7 @@ await pipeline.execute({ skillId: 'lto-core', triggerType: 'manual' });
 ---
 
 ### 4. DTO订阅适配器
-**路径**: `/root/.openclaw/workspace/skills/seef/evolution-pipeline/lib/dto-adapter.js`
+**路径**: `/root/.openclaw/workspace/skills/seef/evolution-pipeline/lib/lto-adapter.js`
 
 **功能**:
 - ISC规则创建与管理
@@ -173,7 +173,7 @@ import { createPipeline } from './index.js';
 const pipeline = createPipeline({
   pipelineId: 'my-pipeline',
   integration: {
-    dto: { enabled: true },
+    lto: { enabled: true },
     evomap: { enabled: true }
   }
 });

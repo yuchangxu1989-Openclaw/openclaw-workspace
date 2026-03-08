@@ -22,7 +22,7 @@ const path = require('path');
 // ─── 路径常量 ───
 const WORKSPACE = path.resolve(__dirname, '../..');
 const REPORTS_DIR = path.join(WORKSPACE, 'reports');
-const SIGNALS_DIR = path.join(WORKSPACE, '.dto-signals');
+const SIGNALS_DIR = path.join(WORKSPACE, '.lto-signals');
 const LOGS_DIR = path.join(__dirname, 'logs');
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 
@@ -41,7 +41,7 @@ function ensureDir(dir) {
  * 判定逻辑(任一满足即视为完成):
  *   1. reports/dayN-closure-conditions.md 存在且包含"全部.*满足"或"全部.*通过"
  *   2. reports/dayN-closure-summary.md 存在
- *   3. .dto-signals/day-N-completed.signal 存在(手动标记)
+ *   3. .lto-signals/day-N-completed.signal 存在(手动标记)
  * 
  * @param {number} dayNum - Day编号
  * @returns {{ completed: boolean, source: string, conditions: string|null, summary: string|null }}

@@ -4,7 +4,7 @@
  * Skill 本地任务编排 Handler — Dispatcher反向调用DTO任务创建接口
  * 
  * 当规则匹配到DTO相关事件时，调用DTO event-bridge的createTaskFromEvent
- * 事件类型: dto.task.completed, dto.task.created, dto.sync.*
+ * 事件类型: lto.task.completed, lto.task.created, lto.sync.*
  */
 
 const path = require('path');
@@ -18,7 +18,7 @@ function getDTOBridge() {
         __dirname, '..', '..', '..', 'skills', 'lto-core', 'event-bridge.js'
       ));
     } catch (err) {
-      console.error('[skill-dto-handler] Failed to load 本地任务编排 event-bridge:', err.message);
+      console.error('[skill-lto-handler] Failed to load 本地任务编排 event-bridge:', err.message);
       return null;
     }
   }
@@ -36,7 +36,7 @@ function handle(event, context) {
   if (!bridge) {
     return {
       status: 'error',
-      handler: 'skill-dto-handler',
+      handler: 'skill-lto-handler',
       error: '本地任务编排 event-bridge not available',
     };
   }
@@ -51,7 +51,7 @@ function handle(event, context) {
       } catch (err) {
         return {
           status: 'error',
-          handler: 'skill-dto-handler',
+          handler: 'skill-lto-handler',
           action: 'createTask',
           error: err.message,
         };
@@ -67,27 +67,27 @@ function handle(event, context) {
       if (result && typeof result.then === 'function') {
         // Async — fire and forget with logging
         result.then(r => {
-          console.log(`[skill-dto-handler] processEvents completed: ${JSON.stringify(r)}`);
+          console.log(`[skill-lto-handler] processEvents completed: ${JSON.stringify(r)}`);
         }).catch(err => {
-          console.error(`[skill-dto-handler] processEvents error: ${err.message}`);
+          console.error(`[skill-lto-handler] processEvents error: ${err.message}`);
         });
         return {
           status: 'ok',
-          handler: 'skill-dto-handler',
+          handler: 'skill-lto-handler',
           action: 'processEvents',
           async: true,
         };
       }
       return {
         status: 'ok',
-        handler: 'skill-dto-handler',
+        handler: 'skill-lto-handler',
         action: 'processEvents',
         result,
       };
     } catch (err) {
       return {
         status: 'error',
-        handler: 'skill-dto-handler',
+        handler: 'skill-lto-handler',
         action: 'processEvents',
         error: err.message,
       };
@@ -101,7 +101,7 @@ function handle(event, context) {
     } catch (err) {
       return {
         status: 'error',
-        handler: 'skill-dto-handler',
+        handler: 'skill-lto-handler',
         action: 'createTask',
         error: err.message,
       };
@@ -110,7 +110,7 @@ function handle(event, context) {
 
   return {
     status: 'ok',
-    handler: 'skill-dto-handler',
+    handler: 'skill-lto-handler',
     action: 'noop',
     reason: 'No matching 本地任务编排 action for: ' + eventType,
   };

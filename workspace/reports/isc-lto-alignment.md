@@ -59,7 +59,7 @@
 - `ISC-SKILL-QUALITY-001` ← 订阅 `isc-ISC-SKILL-QUALITY-001.json`
 - `isc-detect-repeated-error` ← 订阅 `isc-isc-detect-repeated-error.json`
 - `R014` ← 订阅 `isc-R014.json`
-- `rule.isc-dto-handshake-001` ← 订阅 `isc-rule-isc-dto-handshake-001.json`
+- `rule.isc-lto-handshake-001` ← 订阅 `isc-rule-isc-lto-handshake-001.json`
 - `rule.vectorization.memory-auto-001` ← 订阅 `isc-rule-vectorization-memory-auto-001.json`
 - `rule.auto-fix-high-severity-001` ← 订阅 `isc-rule-auto-fix-high-severity-001.json`
 - `rule.vectorization.skill-lifecycle-002` ← 订阅 `isc-rule-vectorization-skill-lifecycle-002.json`

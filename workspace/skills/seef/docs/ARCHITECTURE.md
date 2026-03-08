@@ -163,7 +163,7 @@ class ISCRuleDiscovery {
 **本地任务编排 → ISC (订阅确认反馈)**:
 ```json
 {
-  "source": "dto-auto-handshake",
+  "source": "lto-auto-handshake",
   "event": "handshake_completed",
   "timestamp": "2026-03-01T01:30:05Z",
   "data": {
@@ -257,7 +257,7 @@ class ISCRuleChangeListener {
 │   isc.rule.changed                     seef.pdca.state_changed         │
 │   isc.standard.updated                 seef.phase.completed            │
 │   cras.insight.detected                evomap.gene.published           │
-│   aeo.evaluation.completed             dto.task.completed              │
+│   aeo.evaluation.completed             lto.task.completed              │
 │   seef.signal.emitted                  isc.alignment.feedback          │
 │                                                                         │
 ├─────────────────────────────────────────────────────────────────────────┤
@@ -289,7 +289,7 @@ class ISCRuleChangeListener {
 
 每个 SEEF 子技能拥有独立的 本地任务编排 订阅配置：
 
-**evaluator 订阅配置** (`/skills/seef/subscriptions/dto-evaluator.json`):
+**evaluator 订阅配置** (`/skills/seef/subscriptions/lto-evaluator.json`):
 ```json
 {
   "skill_name": "seef-evaluator",
@@ -314,7 +314,7 @@ class ISCRuleChangeListener {
 }
 ```
 
-**aligner 订阅配置** (`/skills/seef/subscriptions/dto-aligner.json`):
+**aligner 订阅配置** (`/skills/seef/subscriptions/lto-aligner.json`):
 ```json
 {
   "skill_name": "seef-aligner",
@@ -458,7 +458,7 @@ FileSystem Watcher 检测到变更
     ↓
 创建订阅配置到 /skills/lto-core/subscriptions/
     ↓
-发布 dto.handshake.completed 反馈
+发布 lto.handshake.completed 反馈
     ↓
 触发 SEEF 重新评估任务
 ```
@@ -769,7 +769,7 @@ class AEOResultHandler:
 │  │  │                                                                              │  │   │
 │  │  │   isc.rule.changed ──────┐                       ┌────→ evomap.gene.pub   │  │   │
 │  │  │   isc.standard.updated ──┤                       ├────→ seef.pdca.state   │  │   │
-│  │  │   cras.insight.detected ─┼→ 路由/过滤/分发 ──────┼────→ dto.task.status   │  │   │
+│  │  │   cras.insight.detected ─┼→ 路由/过滤/分发 ──────┼────→ lto.task.status   │  │   │
 │  │  │   aeo.evaluation.done ───┤                       ├────→ isc.alignment.fb  │  │   │
 │  │  │   seef.signal.emitted ───┘                       └────→ [其他系统]         │  │   │
 │  │  │                                                                              │  │   │
@@ -800,7 +800,7 @@ class AEOResultHandler:
 │  │  │                                                              │                 │   │
 │  │  │   1. 规则变更 → 写入 events/isc-rule-created.jsonl          │                 │   │
 │  │  │   2. DTO监听 → 自动订阅到 subscriptions/                    │                 │   │
-│  │  │   3. 状态反馈 → 写入 events/dto-handshake-feedback.jsonl    │                 │   │
+│  │  │   3. 状态反馈 → 写入 events/lto-handshake-feedback.jsonl    │                 │   │
 │  │  │   4. 定期同步 → 每30分钟全量对齐检查                        │                 │   │
 │  │  │                                                              │                 │   │
 │  │  │   控制流: ISC ──[事件]──→ 本地任务编排 ──[订阅]──→ SEEF ──[执行]      │                 │   │
@@ -834,7 +834,7 @@ class AEOResultHandler:
 │                                                                             │
 │   事件驱动控制流:                                                            │
 │                                                                             │
-│   isc.rule.changed ──→ dto.eventBus.route() ──→ seef.pdca.transition()    │
+│   isc.rule.changed ──→ lto.eventBus.route() ──→ seef.pdca.transition()    │
 │        │                      │                      │                     │
 │        ↓                      ↓                      ↓                     │
 │   [规则变更检测]        [任务调度决策]          [状态机转换]                │
@@ -878,7 +878,7 @@ class AEOResultHandler:
 {
   "version": "1.0.2",
   "description": "EvoMap Gene上传清单 - 清单内技能同步到EvoMap",
-  "managed_by": "isc-dto",
+  "managed_by": "isc-lto",
   "update_policy": "auto_sync",
   "allowed_skills": [
     "lto-core",
@@ -948,7 +948,7 @@ discoverer:
 0 2 * * * cd /root/.openclaw/workspace/skills/seef && python3 seef.py --mode fixed
 
 # ISC-本地任务编排 握手同步 (每30分钟)
-*/30 * * * * cd /root/.openclaw/workspace/skills/lto-core && node core/dto-auto-handshake-responder.js
+*/30 * * * * cd /root/.openclaw/workspace/skills/lto-core && node core/lto-auto-handshake-responder.js
 
 # 本地任务编排 全局决策流水线 (每10分钟)
 */10 * * * * cd /root/.openclaw/workspace/skills/lto-core && node core/global-auto-decision-pipeline.js

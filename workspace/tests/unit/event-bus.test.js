@@ -135,13 +135,13 @@ async function runTests() {
   await test('consume: filters by type pattern', (bus) => {
     bus.emit('isc.rule.created', {}, 'isc');
     bus.emit('isc.rule.updated', {}, 'isc');
-    bus.emit('dto.sync.requested', {}, 'dto');
+    bus.emit('lto.sync.requested', {}, 'lto');
     bus.emit('seef.skill.evaluated', {}, 'seef');
     
     const iscEvents = bus.consume('c1', { types: ['isc.rule.*'] });
     assertEqual(iscEvents.length, 2, 'should match 2 ISC events');
     
-    const dtoEvents = bus.consume('c2', { types: ['dto.sync.*'] });
+    const dtoEvents = bus.consume('c2', { types: ['lto.sync.*'] });
     assertEqual(dtoEvents.length, 1, 'should match 1 本地任务编排 event');
   });
 
@@ -240,7 +240,7 @@ async function runTests() {
 
   await test('history: filters by type pattern', (bus) => {
     bus.emit('isc.rule.created', {}, 'isc');
-    bus.emit('dto.sync.requested', {}, 'dto');
+    bus.emit('lto.sync.requested', {}, 'lto');
     
     const filtered = bus.history({ type: 'isc.rule.*' });
     assertEqual(filtered.length, 1, 'should match 1');
@@ -278,7 +278,7 @@ async function runTests() {
   await test('matchType: wildcard match', (bus) => {
     assert(bus._matchType('isc.rule.created', 'isc.rule.*'), 'wildcard match');
     assert(bus._matchType('isc.rule.updated', 'isc.rule.*'), 'wildcard match 2');
-    assert(!bus._matchType('dto.sync.requested', 'isc.rule.*'), 'no cross-match');
+    assert(!bus._matchType('lto.sync.requested', 'isc.rule.*'), 'no cross-match');
   });
 
   await test('matchType: star matches everything', (bus) => {
@@ -320,26 +320,26 @@ async function runTests() {
     // Producer emits events
     const e1 = bus.emit('isc.rule.created', { rule_id: 'N001' }, 'isc-core');
     const e2 = bus.emit('isc.rule.updated', { rule_id: 'N002' }, 'isc-core');
-    const e3 = bus.emit('dto.sync.requested', { target: 'weather' }, 'lto-core');
+    const e3 = bus.emit('lto.sync.requested', { target: 'weather' }, 'lto-core');
     
     // Consumer A wants ISC events
-    const iscEvents = bus.consume('dto-sync', { types: ['isc.rule.*'] });
-    assertEqual(iscEvents.length, 2, 'dto-sync gets 2 ISC events');
+    const iscEvents = bus.consume('lto-sync', { types: ['isc.rule.*'] });
+    assertEqual(iscEvents.length, 2, 'lto-sync gets 2 ISC events');
     
     // Consumer B wants 本地任务编排 events
-    const dtoEvents = bus.consume('orchestrator', { types: ['dto.sync.*'] });
+    const dtoEvents = bus.consume('orchestrator', { types: ['lto.sync.*'] });
     assertEqual(dtoEvents.length, 1, 'orchestrator gets 1 本地任务编排 event');
     
     // Ack one event for consumer A
-    bus.ack('dto-sync', e1.id);
+    bus.ack('lto-sync', e1.id);
     
     // Consumer A should now only see 1 event
-    const remaining = bus.consume('dto-sync', { types: ['isc.rule.*'] });
-    assertEqual(remaining.length, 1, 'dto-sync sees 1 remaining');
+    const remaining = bus.consume('lto-sync', { types: ['isc.rule.*'] });
+    assertEqual(remaining.length, 1, 'lto-sync sees 1 remaining');
     assertEqual(remaining[0].id, e2.id, 'correct remaining event');
     
     // Consumer B still sees their event
-    const stillThere = bus.consume('orchestrator', { types: ['dto.sync.*'] });
+    const stillThere = bus.consume('orchestrator', { types: ['lto.sync.*'] });
     assertEqual(stillThere.length, 1, 'orchestrator still sees 1');
     
     // History shows all events regardless of consumption

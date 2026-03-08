@@ -136,7 +136,7 @@ async function main() {
 
   const recentEvents = EventBus.consume({ since: Date.now() - 60_000, limit: 200 });
   lepEvent = recentEvents.find(e => e.type === 'lep.task.completed' && (e.payload?.execution_id === lepResult.executionId || e.id === lepFallback?.id)) || recentEvents.find(e => e.type === 'lep.task.completed') || null;
-  const dtoSyncEvent = recentEvents.find(e => e.type === 'dto.sync.completed') || null;
+  const dtoSyncEvent = recentEvents.find(e => e.type === 'lto.sync.completed') || null;
   const crasEvent = recentEvents.find(e => e.type === 'cras.insight.generated') || null;
   const aeoEvent = recentEvents.find(e => e.type === 'aeo.assessment.completed') || null;
 

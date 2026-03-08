@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-RULE_ID="rule.isc-dto-handshake-001"
+RULE_ID="rule.isc-lto-handshake-001"
 WORKSPACE="/root/.openclaw/workspace"
 
 # 检测: DTO握手配置是否存在且有效
-DTO_FILES=$(find "$WORKSPACE" -name '*.dto.json' -o -name 'dto-*.json' 2>/dev/null | head -5)
+DTO_FILES=$(find "$WORKSPACE" -name '*.lto.json' -o -name 'lto-*.json' 2>/dev/null | head -5)
 if [ -z "$DTO_FILES" ]; then
   echo '{"rule_id":"'$RULE_ID'","status":"pass","detail":"No 本地任务编排 files to validate (informational)"}'
 else

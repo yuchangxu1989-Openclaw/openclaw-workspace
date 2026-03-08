@@ -13,7 +13,7 @@
 | 技能 | 事件类型 | 文件 | 说明 |
 |------|---------|------|------|
 | CRAS | `cras.knowledge.learned` | `skills/cras/event-bridge.js` | 知识学习完成后发布，包含source/insight_count/topic |
-| 本地任务编排 | `dto.task.completed` | `skills/lto-core/event-bridge.js` | 任务执行完成后发布，包含task_id/execution_id/duration |
+| 本地任务编排 | `lto.task.completed` | `skills/lto-core/event-bridge.js` | 任务执行完成后发布，包含task_id/execution_id/duration |
 | ISC | `isc.rule.changed` | `skills/isc-core/event-bridge.js` | 规则变更汇总事件，聚合多个细粒度变更 |
 | AEO | `aeo.evaluation.completed` | `skills/aeo/event-bridge.js` | 统一评测完成事件（补充已有的assessment级别事件） |
 | SEEF | `seef.skill.published` | `skills/seef/event-bridge.js` | 技能发布到生产环境后发布 |
@@ -26,7 +26,7 @@
 | AEO | `aeo.assessment.completed/failed` | ✅ 已有 |
 | CRAS | `cras.insight.generated` | ✅ 已有 |
 | SEEF | `seef.skill.evaluated/optimized/created` | ✅ 已有 |
-| 本地任务编排 | `dto.sync.completed` | ✅ 已有 |
+| 本地任务编排 | `lto.sync.completed` | ✅ 已有 |
 
 ---
 
@@ -37,7 +37,7 @@
 | Handler | 文件 | 调用技能 | 功能 |
 |---------|------|---------|------|
 | `skill-cras-handler` | `dispatcher/handlers/skill-cras-handler.js` | CRAS event-bridge | processAssessments / analyzeRequest |
-| `skill-dto-handler` | `dispatcher/handlers/skill-dto-handler.js` | 本地任务编排 event-bridge | createTaskFromEvent / processEvents |
+| `skill-lto-handler` | `dispatcher/handlers/skill-lto-handler.js` | 本地任务编排 event-bridge | createTaskFromEvent / processEvents |
 | `skill-isc-handler` | `dispatcher/handlers/skill-isc-handler.js` | ISC event-bridge | checkRulesFromEvent / publishChangesWithSummary |
 
 ### 新增技能反向接口
@@ -56,8 +56,8 @@
 ```
 cras.knowledge.learned  → skill-cras-handler
 cras.insight.generated  → skill-cras-handler
-dto.task.completed      → skill-dto-handler
-dto.task.created        → skill-dto-handler
+lto.task.completed      → skill-lto-handler
+lto.task.created        → skill-lto-handler
 isc.rule.changed        → skill-isc-handler
 aeo.evaluation.completed → skill-cras-handler
 seef.skill.published    → skill-cras-handler
@@ -132,7 +132,7 @@ skill-xxx-handler.js    ←── 新增3个handler
 
 ### 基础设施文件新增
 - `infrastructure/dispatcher/handlers/skill-cras-handler.js` — CRAS反向调用handler
-- `infrastructure/dispatcher/handlers/skill-dto-handler.js` — DTO反向调用handler
+- `infrastructure/dispatcher/handlers/skill-lto-handler.js` — DTO反向调用handler
 - `infrastructure/dispatcher/handlers/skill-isc-handler.js` — ISC反向调用handler
 - `infrastructure/dispatcher/routes.json` — 更新路由配置
 - `infrastructure/tests/integration/skill-integration.test.js` — 集成测试

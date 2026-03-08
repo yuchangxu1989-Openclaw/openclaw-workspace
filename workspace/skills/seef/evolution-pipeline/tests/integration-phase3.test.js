@@ -11,7 +11,7 @@ import path from 'path';
 // 导入被测模块
 import { SEEFEvolutionPipeline, createPipeline } from '../index.js';
 import { EvoMapClient, createEvoMapClient } from '../lib/evomap-client.js';
-import { DTOAdapter, createDTOAdapter } from '../lib/dto-adapter.js';
+import { DTOAdapter, createDTOAdapter } from '../lib/lto-adapter.js';
 
 describe('阶段3集成层测试', () => {
   describe('DTO适配器', () => {
@@ -147,7 +147,7 @@ author: OpenClaw
     beforeAll(() => {
       pipeline = createPipeline({
         pipelineId: 'test-pipeline',
-        dto: { enabled: false }, // 禁用DTO避免依赖
+        lto: { enabled: false }, // 禁用DTO避免依赖
         evomap: { enabled: false } // 禁用EvoMap避免依赖
       });
     });
@@ -228,7 +228,7 @@ author: OpenClaw
       expect(config.isc.skillId).toBe('seef.evolution-pipeline');
       
       // 集成配置
-      expect(config.integration.dto.enabled).toBe(true);
+      expect(config.integration.lto.enabled).toBe(true);
       expect(config.integration.evomap.enabled).toBe(true);
       expect(config.integration.cras.enabled).toBe(true);
       

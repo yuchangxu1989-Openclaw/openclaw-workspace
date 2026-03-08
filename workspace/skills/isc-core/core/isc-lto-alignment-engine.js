@@ -14,7 +14,7 @@ class ISC_DTO_AlignmentEngine {
     constructor() {
         this.iscRulesDir = path.join(__dirname, '..', 'rules/decision');
         this.dtoSubscriptionsDir = path.join(SKILLS_DIR, 'lto-core/subscriptions');
-        this.alignmentLog = path.join(SKILLS_DIR, '.isc-dto-alignment.log');
+        this.alignmentLog = path.join(SKILLS_DIR, '.isc-lto-alignment.log');
         this.subscribedRules = this.loadSubscribedRules();
     }
 

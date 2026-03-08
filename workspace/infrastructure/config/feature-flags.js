@@ -83,7 +83,7 @@ const HANDLER_FLAG_MAP = Object.freeze({
   'intent-dispatch':       'L3_HANDLER_INTENT_DISPATCH',
   'isc-rule-handler':      'L3_HANDLER_ISC_RULE',
   'skill-isc-handler':     'L3_HANDLER_SKILL_ISC',
-  'skill-dto-handler':     'L3_HANDLER_SKILL_DTO',
+  'skill-lto-handler':     'L3_HANDLER_SKILL_DTO',
   'skill-cras-handler':    'L3_HANDLER_SKILL_CRAS',
   'cras-feedback-handler': 'L3_HANDLER_CRAS_FEEDBACK',
   'cras-knowledge-handler':'L3_HANDLER_CRAS_KNOWLEDGE',

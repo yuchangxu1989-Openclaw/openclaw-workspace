@@ -22,7 +22,7 @@ const { SKILLS_DIR } = require('../../shared/paths');
 
 // 导入集成层模块
 import { EvoMapClient } from './lib/evomap-client.js';
-import { DTOAdapter } from './lib/dto-adapter.js';
+import { DTOAdapter } from './lib/lto-adapter.js';
 
 // 导入流水线核心
 import { 
@@ -195,15 +195,15 @@ class SEEFEvolutionPipeline extends EventEmitter {
    * @async
    */
   async _initDTOAdapter() {
-    if (!this.options.integration?.dto?.enabled) {
+    if (!this.options.integration?.lto?.enabled) {
       this._log('info', 'DTO集成已禁用');
       return;
     }
 
     try {
       this.dtoAdapter = new DTOAdapter({
-        subscriptionRules: this.options.integration.dto.subscriptionRules,
-        eventTypes: this.options.integration.dto.eventTypes,
+        subscriptionRules: this.options.integration.lto.subscriptionRules,
+        eventTypes: this.options.integration.lto.eventTypes,
         autoTrigger: this.options.pipeline?.autoTrigger
       });
 
@@ -354,7 +354,7 @@ class SEEFEvolutionPipeline extends EventEmitter {
    * @async
    * @param {Object} context - 执行上下文
    * @param {string} context.skillId - 技能ID
-   * @param {string} context.triggerType - 触发类型 (dto/manual/schedule)
+   * @param {string} context.triggerType - 触发类型 (lto/manual/schedule)
    * @param {Object} context.eventData - 事件数据
    * @returns {Promise<Object>} 执行结果
    */
@@ -735,7 +735,7 @@ class SEEFEvolutionPipeline extends EventEmitter {
     try {
       await this.execute({
         skillId: event.skillId,
-        triggerType: 'dto',
+        triggerType: 'lto',
         eventData: event
       });
     } catch (error) {

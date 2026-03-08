@@ -123,7 +123,7 @@ CRAS洞察 → 信号发射 → DTO事件队列 → DTO调度 → SEEF执行 →
 0 2 * * * python3 seef.py --mode fixed
 
 # ISC-本地任务编排 握手同步 (每30分钟)
-*/30 * * * * node core/dto-auto-handshake-responder.js
+*/30 * * * * node core/lto-auto-handshake-responder.js
 
 # 本地任务编排 全局决策流水线 (每10分钟)
 */10 * * * * node core/global-auto-decision-pipeline.js
@@ -152,7 +152,7 @@ CRAS洞察 → 信号发射 → DTO事件队列 → DTO调度 → SEEF执行 →
 ### 7.2 代码实现验证
 
 - [x] ISC规则发现: `/skills/isc-core/rules/` (65+规则)
-- [x] DTO握手响应: `/skills/lto-core/core/dto-auto-handshake-responder.js`
+- [x] DTO握手响应: `/skills/lto-core/core/lto-auto-handshake-responder.js`
 - [x] DTO事件总线: `/skills/lto-core/core/event-bus.js`
 - [x] SEEF PDCA状态机: `/skills/seef/seef.py` (class PDCAStateMachine)
 - [x] SEEF七步骤: `/skills/seef/subskills/*.py`

@@ -23,7 +23,7 @@ Day 1 完成后4小时空转，无自动推进Day 2。每次都等用户催。
 │  感知层: detectDayCompletion(N)          │
 │  - reports/dayN-closure-conditions.md    │
 │  - reports/dayN-closure-summary.md       │
-│  - .dto-signals/day-N-completed.signal   │
+│  - .lto-signals/day-N-completed.signal   │
 └──────────────────┬───────────────────────┘
                    ▼
 ┌──────────────────────────────────────────┐
@@ -37,8 +37,8 @@ Day 1 完成后4小时空转，无自动推进Day 2。每次都等用户催。
 ┌──────────────────────────────────────────┐
 │  执行层: 文件写入 + 信号发射             │
 │  - reports/dayN+1-scope.md               │
-│  - .dto-signals/day-N+1-started.signal   │
-│  - .dto-signals/dayN+1-task-*.signal     │
+│  - .lto-signals/day-N+1-started.signal   │
+│  - .lto-signals/dayN+1-task-*.signal     │
 │  - EventBus: day.started 事件            │
 │  - logs/day-transition.log               │
 └──────────────────────────────────────────┘
@@ -139,7 +139,7 @@ Simulated result: {"success":true,"nextDay":2,"issueCount":0}
 **可扩展性**: 
 - 新增完成检测源：只需在 `detectDayCompletion()` 加条件
 - 自定义scope模板：修改 `generateDayScope()` 
-- 新增信号消费者：在 `.dto-signals/` 目录监听即可
+- 新增信号消费者：在 `.lto-signals/` 目录监听即可
 
 ---
 

@@ -33,14 +33,14 @@
   - 将 reflect 内容送入 CRAS 洞察沉淀路径
 - `intent.directive`
   - 复用 `skills/lto-core/event-bridge.js#createTaskFromEvent`
-  - 直接生成 本地任务编排 task 文件与 `dto.task.created` 事件
+  - 直接生成 本地任务编排 task 文件与 `lto.task.created` 事件
 
 ### 3) 修复 `aeo_evaluation_required` 的 handler 解析缺口
 文件：`infrastructure/event-bus/dispatcher.js`
 
 最小增强 `_resolveHandlerPath()`：
 - 现有逻辑只会在 `infrastructure/event-bus/handlers/` 下找 handler
-- 规则里像 `skill-isc-handler` / `skill-cras-handler` / `skill-dto-handler` 这类真实 handler 实际位于 `infrastructure/dispatcher/handlers/`
+- 规则里像 `skill-isc-handler` / `skill-cras-handler` / `skill-lto-handler` 这类真实 handler 实际位于 `infrastructure/dispatcher/handlers/`
 - 新增 fallback：若 event-bus handlers 未命中，再去 `infrastructure/dispatcher/handlers/` 查找
 
 效果：

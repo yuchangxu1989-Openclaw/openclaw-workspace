@@ -372,7 +372,7 @@ console.log('\n═══ Test 7: L3Pipeline — circuit breaker reasoning ══
     event_id: 'evt_deep_001',
     decision: '熔断: 事件 evt_deep_001 深度7超限',
     what: 'Circuit break: event evt_deep_001 depth=7 exceeds max=5',
-    why: '防止无限循环(cras→isc→dto→cras): chain_depth=7 > max_allowed=5',
+    why: '防止无限循环(cras→isc→lto→cras): chain_depth=7 > max_allowed=5',
     confidence: 1.0,
     alternatives_considered: [{ id: '继续处理', reason: '深度7超过阈值5,有循环风险' }],
   });

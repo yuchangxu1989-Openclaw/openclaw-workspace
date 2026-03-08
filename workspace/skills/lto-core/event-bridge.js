@@ -16,7 +16,7 @@ const EVENT_HANDLERS = {
   'isc.rule.deleted':  handleIscRule,
 
   // 4: 本地任务编排 同步完成 → 通知下游 SEEF/AEO
-  'dto.sync.completed': handleDtoSyncCompleted,
+  'lto.sync.completed': handleDtoSyncCompleted,
 
   // 5: SEEF 评测完成 → 触发优化流程
   'seef.skill.evaluated': handleSeefEvaluated,
@@ -41,7 +41,7 @@ const EVENT_HANDLERS = {
 // 构建消费的事件类型通配符列表
 const CONSUME_TYPES = [
   'isc.rule.*',
-  'dto.sync.*',
+  'lto.sync.*',
   'seef.skill.*',
   'aeo.assessment.*',
   'cras.insight.*',
@@ -102,7 +102,7 @@ async function handleIscRule(event) {
   }
 
   // 发布同步完成事件 → 链式传递到 SEEF/AEO
-  bus.emit('dto.sync.completed', {
+  bus.emit('lto.sync.completed', {
     source_event: event.id,
     rule_id,
     action,
@@ -118,7 +118,7 @@ async function handleDtoSyncCompleted(event) {
   bus.emit('seef.skill.evaluated', {
     source_event: event.id,
     rule_id,
-    trigger: 'dto-sync',
+    trigger: 'lto-sync',
     evaluation_type: 'post-sync',
   }, 'lto-core');
 }
@@ -278,14 +278,14 @@ if (require.main === module) {
  * @returns {object} 发布的事件
  */
 function emitTaskCompleted(result) {
-  const event = bus.emit('dto.task.completed', {
+  const event = bus.emit('lto.task.completed', {
     task_id: result.taskId || result.task_id || 'unknown',
     execution_id: result.executionId || result.execution_id || null,
     status: result.status || 'completed',
     duration: result.duration || 0,
     timestamp: Date.now()
   }, 'lto-core');
-  console.log(`[本地任务编排-Bridge] 发布事件: dto.task.completed (task=${result.taskId})`);
+  console.log(`[本地任务编排-Bridge] 发布事件: lto.task.completed (task=${result.taskId})`);
   return event;
 }
 
@@ -320,7 +320,7 @@ function createTaskFromEvent(event) {
   );
   
   // Emit task created event
-  bus.emit('dto.task.created', {
+  bus.emit('lto.task.created', {
     task_id: taskId,
     name: taskDef.name,
     source_event: event.id || null
@@ -330,7 +330,7 @@ function createTaskFromEvent(event) {
   
   return {
     status: 'ok',
-    handler: 'dto-task-create',
+    handler: 'lto-task-create',
     task_id: taskId,
     task: taskDef,
     timestamp: new Date().toISOString()

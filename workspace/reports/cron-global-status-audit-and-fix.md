@@ -53,7 +53,7 @@
 | 2 | new-isc-change-detector | ISC变更检测 | */15 | ✅ ok | 0 | 11m ago |
 | 3 | merged-system-monitor-hourly | 系统监控-综合 | hourly | ✅ ok | 0 | 40m ago |
 | 4 | memory-summary-6h | 记忆摘要 | */6h | ✅ ok | 0 | 6h ago |
-| 5 | merged-dto-aeo-hourly | 本地任务编排-AEO智能流水线 | hourly | ✅ ok | 0 | 39m ago |
+| 5 | merged-lto-aeo-hourly | 本地任务编排-AEO智能流水线 | hourly | ✅ ok | 0 | 39m ago |
 | 6 | merged-capability-pdca-4h | 能力同步与PDCA | */4h | ✅ ok | 0 | 4h ago |
 | 7 | merged-system-pipeline-4h | 系统状态与流水线 | */4h | ✅ ok | 0 | 4h ago |
 | 8 | merged-ops-maintenance | 运维辅助-清理与向量化 | */6h | ✅ ok | 0 | 5h ago |

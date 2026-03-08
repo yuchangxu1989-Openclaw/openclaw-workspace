@@ -84,7 +84,7 @@
 | 24 | `rule.interactive-card-context-inference-001` |
 | 25 | `rule.isc-change-auto-trigger-alignment-001` |
 | 26 | `rule.isc-creation-gate-001` |
-| 27 | `rule.isc-dto-handshake-001` |
+| 27 | `rule.isc-lto-handshake-001` |
 | 28 | `rule.isc-rule-auto-decompose-001` |
 | 29 | `rule.isc-skill-index-auto-update-001` |
 | 30 | `rule.isc-skill-permission-classification-031` |

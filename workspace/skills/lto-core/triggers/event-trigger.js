@@ -6,13 +6,13 @@ class EventTrigger {
     this.subscriptions = new Map();
   }
 
-  async start(dto) {
+  async start(lto) {
     // 订阅 本地任务编排 事件总线
-    dto.eventBus.subscribe('*', async (data) => {
+    lto.eventBus.subscribe('*', async (data) => {
       const eventType = data.event;
       
       // 查找匹配的事件触发任务
-      const tasks = dto.taskRegistry.findByTrigger('event', eventType);
+      const tasks = lto.taskRegistry.findByTrigger('event', eventType);
       
       for (const task of tasks) {
         const trigger = task.triggers.find(t => 
@@ -28,7 +28,7 @@ class EventTrigger {
         console.log(`[EventTrigger] 触发任务: ${task.id}`);
         
         try {
-          await dto.execute(task.id, { 
+          await lto.execute(task.id, { 
             trigger: 'event',
             input: data 
           });

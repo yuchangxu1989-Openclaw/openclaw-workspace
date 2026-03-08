@@ -365,7 +365,7 @@ run_test "validator.py存在" "test -f subskills/validator.py"
 run_test "recorder.py存在" "test -f subskills/recorder.py"
 run_test "seef.py存在" "test -f seef.py"
 run_test "evomap-a2a存在" "test -f /root/.openclaw/workspace/skills/evomap-a2a/index.js"
-run_test "dto-subscriptions.yaml存在" "test -f config/dto-subscriptions.yaml"
+run_test "lto-subscriptions.yaml存在" "test -f config/lto-subscriptions.yaml"
 
 echo ""
 echo "2. 语法检查"

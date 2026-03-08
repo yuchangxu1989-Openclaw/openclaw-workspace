@@ -107,7 +107,7 @@ skills/aeo/
 ├── config/
 │   ├── aeo-config.json             # 系统配置
 │   ├── checklist.json              # 准入检查清单
-│   └── dto-subscriptions.json      # DTO订阅
+│   └── lto-subscriptions.json      # DTO订阅
 ├── src/evaluation/
 │   ├── selector.cjs                # ✅ 轨道选择器
 │   ├── ai-effect-evaluator.cjs     # ✅ AI效果评测器

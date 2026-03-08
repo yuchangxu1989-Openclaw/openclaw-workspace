@@ -11,7 +11,7 @@ const { SKILLS_DIR } = require('../../shared/paths');
 const HANDSHAKE_CONFIG = {
   eventPath: path.join(SKILLS_DIR, 'lto-core/events/isc-rule-created.jsonl'),
   subscriptionsPath: path.join(SKILLS_DIR, 'lto-core/subscriptions'),
-  feedbackPath: path.join(SKILLS_DIR, 'lto-core/events/dto-handshake-feedback.jsonl'),
+  feedbackPath: path.join(SKILLS_DIR, 'lto-core/events/lto-handshake-feedback.jsonl'),
   checkInterval: 10 * 1000 // 10秒检查一次
 };
 
@@ -117,7 +117,7 @@ class DTOAutoHandshakeResponder {
    */
   async feedbackToISC(results) {
     const feedback = {
-      source: 'dto-auto-handshake',
+      source: 'lto-auto-handshake',
       timestamp: new Date().toISOString(),
       event: 'handshake_completed',
       data: {

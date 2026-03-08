@@ -8,12 +8,12 @@ class CronTrigger {
     this.jobs = new Map();
   }
 
-  async start(dto) {
+  async start(lto) {
     try {
       const cron = require('node-cron');
       
       // 获取所有带 cron 触发的任务
-      const tasks = dto.taskRegistry.getAll().filter(t => 
+      const tasks = lto.taskRegistry.getAll().filter(t => 
         t.triggers.some(tr => tr.type === 'cron')
       );
       
@@ -23,7 +23,7 @@ class CronTrigger {
             const job = cron.schedule(trigger.spec, async () => {
               console.log(`[CronTrigger] 触发任务: ${task.id}`);
               try {
-                await dto.execute(task.id, { trigger: 'cron' });
+                await lto.execute(task.id, { trigger: 'cron' });
               } catch (e) {
                 console.error(`[CronTrigger] 执行失败: ${task.id}`, e.message);
               }

@@ -22,7 +22,7 @@
 | architecture | 13 |
 | cras | 7 |
 | document | 9 |
-| dto | 11 |
+| lto | 11 |
 | event | 8 |
 | evomap | 2 |
 | isc | 14 |
@@ -45,7 +45,7 @@
 - `code` → `skill`
 - `complex_task` → `orchestration`
 - `council` → `system`
-- `cron` → `dto`
+- `cron` → `lto`
 - `decision` → `system`
 - `delivery` → `orchestration`
 - `design` → `document`
@@ -65,8 +65,8 @@
 - `problem` → `system`
 - `provider` → `system`
 - `rule` → `isc`
-- `schedule` → `dto`
-- `scheduled` → `dto`
+- `schedule` → `lto`
+- `scheduled` → `lto`
 - `subagent` → `orchestration`
 - `test` → `quality`
 - `tool` → `system`
@@ -100,12 +100,12 @@
 | `complex_task.detected` | `orchestration.general.detected` |
 | `council.caijuedian.convene` | `system.caijuedian.requested` |
 | `cras.channel.validate` | `cras.channel.requested` |
-| `cron.task.created` | `dto.task.created` |
-| `cron.task.updated` | `dto.task.updated` |
-| `cron.task.validated` | `dto.task.validated` |
-| `cron:create` | `dto.general.create` |
-| `cron:update` | `dto.general.update` |
-| `cron:validate` | `dto.general.requested` |
+| `cron.task.created` | `lto.task.created` |
+| `cron.task.updated` | `lto.task.updated` |
+| `cron.task.validated` | `lto.task.validated` |
+| `cron:create` | `lto.general.create` |
+| `cron:update` | `lto.general.update` |
+| `cron:validate` | `lto.general.requested` |
 | `decision.repair.needed` | `system.repair.needed` |
 | `delivery.review_requested` | `orchestration.general.review_requested` |
 | `design.architecture.created` | `document.architecture.created` |
@@ -116,7 +116,7 @@
 | `detection.recurring.threshold_exceeded` | `system.recurring.threshold_exceeded` |
 | `document.design.delivery_requested` | `document.design.requested` |
 | `document.design.pdf_generated` | `document.design.created` |
-| `dto.task.auto_bind` | `dto.task.triggered` |
+| `lto.task.auto_bind` | `lto.task.triggered` |
 | `evaluation.submitted` | `aeo.general.completed` |
 | `event.emitted` | `event.general.emitted` |
 | `event.layer_classification_check` | `event.general.layer_classification_check` |
@@ -183,9 +183,9 @@
 | `provider.added` | `system.general.added` |
 | `rule.created` | `isc.general.created` |
 | `rule.updated` | `isc.general.updated` |
-| `schedule.monthly` | `dto.general.monthly` |
-| `schedule.weekly` | `dto.general.weekly` |
-| `scheduled.rule_count_validation` | `dto.general.rule_count_validation` |
+| `schedule.monthly` | `lto.general.monthly` |
+| `schedule.weekly` | `lto.general.weekly` |
+| `scheduled.rule_count_validation` | `lto.general.rule_count_validation` |
 | `session.ended` | `session.general.completed` |
 | `session.started` | `session.general.started` |
 | `skill.changed` | `skill.general.modified` |
