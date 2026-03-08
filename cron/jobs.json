@@ -517,7 +517,7 @@
       "id": "merged-backup-daily",
       "agentId": "cron-worker",
       "name": "OpenClaw-自动备份-每日两次",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1772509885336,
       "updatedAtMs": 1772924415409,
       "schedule": {
@@ -537,7 +537,6 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772967600000,
         "lastRunAtMs": 1772924400005,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
@@ -654,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772961300012,
+      "updatedAtMs": 1772961600013,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -671,11 +670,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772961600000,
-        "lastRunAtMs": 1772961300012,
+        "nextRunAtMs": 1772961900000,
+        "lastRunAtMs": 1772961600012,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 0,
+        "lastDurationMs": 1,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "lastError": "isolated job requires payload.kind=agentTurn"

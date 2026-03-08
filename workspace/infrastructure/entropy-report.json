@@ -1,19 +1,45 @@
 {
-  "timestamp": "2026-03-08T09:10:10.320Z",
+  "timestamp": "2026-03-08T09:20:56.599Z",
   "scanned": {
-    "files": 94076,
+    "files": 94091,
     "dirs": 497
   },
-  "issues": 1,
-  "fixes": 0,
+  "issues": 4,
+  "fixes": 2,
   "details": {
     "issues": [
       {
+        "type": "duplicate",
+        "files": [
+          "skills/public/multi-agent-dispatch/state/engine-state.json.lock",
+          "skills/public/multi-agent-dispatch/state/live-board.json.lock"
+        ]
+      },
+      {
+        "type": "empty_file",
+        "file": "skills/public/multi-agent-dispatch/state/engine-state.json.lock"
+      },
+      {
+        "type": "empty_file",
+        "file": "skills/public/multi-agent-dispatch/state/live-board.json.lock"
+      },
+      {
         "type": "oversized_log",
         "file": "infrastructure/logs/auto-repair-executions.jsonl",
-        "size": 1280811584
+        "size": 1280815644
       }
     ],
-    "fixes": []
+    "fixes": [
+      {
+        "type": "dedup",
+        "from": "skills/public/multi-agent-dispatch/state/engine-state.json.lock",
+        "to": ".entropy-archive/duplicates/engine-state.json.lock.1772961652484",
+        "kept": "skills/public/multi-agent-dispatch/state/live-board.json.lock"
+      },
+      {
+        "type": "empty_cleanup",
+        "from": "skills/public/multi-agent-dispatch/state/live-board.json.lock"
+      }
+    ]
   }
 }
