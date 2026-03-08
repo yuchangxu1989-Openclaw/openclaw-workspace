@@ -110,6 +110,7 @@
 - ✅ **paths-center**: skills/paths-center/ — 路径中心 - 【占位符】概念驱动，需求不清
 - ✅ **pdca-engine**: skills/pdca-engine/ — PDCA-C执行引擎 - 每5分钟有实际产出
 - ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理中枢 - 任务编排、Sprint规划、架构评审流水线、凌霄阁裁决
+- ✅ **file-sender**: skills/public/file-sender/ — 飞书文件发送（发文件/发源文件/发附件），ISC路由: ISC-FILE-SEND-INTENT-001
 - ✅ **public**: skills/public/
 - ✅ **rule-hygiene**: skills/rule-hygiene/ — ISC规则治理——去重、命名统一、三维分析（意图/事件/执行），输出规则-事件-DTO对齐矩阵
 - ✅ **ruleify**: skills/ruleify/ — |

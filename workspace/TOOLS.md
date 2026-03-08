@@ -39,14 +39,19 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 Add whatever helps you do your job. This is your cheat sheet.
 
-### 飞书发送源文件（任何文件类型）
+### 飞书发送文件（file-sender技能）
 
-用户说"发源文件"/"发文件"时，用file-sender技能：
+用户说"发文件"/"发源文件"/"把XX发给我"/"发附件"/"文件发我"等任何发送文件意图时，**自动调用**：
 ```bash
-cd /root/.openclaw/workspace/skills/public/file-sender && node index.js <文件路径> <receive_id> <receive_id_type> [显示文件名]
+node /root/.openclaw/workspace/skills/public/file-sender/index.js <文件路径> <receive_id> [receive_id_type] [显示文件名]
 ```
-**禁止**用message工具的filePath——那只发路径字符串，不发文件本体。
-不要问、不要提醒、不要等确认，直接发。
+
+**关键规则：**
+- **receive_id**：从 inbound context 的 `sender_id`（`ou_xxx`）自动获取，无需询问用户
+- **receive_id_type**：默认 `open_id`，可省略
+- **禁止**用 `message` 工具的 `filePath` 参数——那只发路径字符串，不发文件本体！
+- 不要问、不要提醒、不要等确认，识别到发文件意图就直接发
+- ISC规则：`ISC-FILE-SEND-INTENT-001`
 
 ---
 

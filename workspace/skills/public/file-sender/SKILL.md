@@ -1,9 +1,11 @@
 ---
 name: file-sender
 description: |
-  通过飞书API发送本地文件到聊天对话。用于：用户说"发文件"/"发源文件"/"把XX发给我"时自动触发。
-  支持任意文件类型（json/md/pdf/doc/xls/ppt等），30MB以内。
+  通过飞书API发送本地文件到聊天对话。
+  触发词：发文件、发源文件、把XX发给我、发附件、发送文件、把报告发我、把这个文件给我、源文件发一下、发一下文件、文件发我、给我发文件、把XX文件给我、发个文件、传文件、传一下、把XX传给我。
+  支持任意文件类型（json/md/pdf/doc/xls/ppt/zip/tar等），30MB以内。
   NOT for: 发送文本消息、发送图片（用message工具）、发送链接。
+  关键：receive_id从会话上下文sender_id获取，receive_id_type默认open_id。禁止用message工具的filePath（只发路径字符串）。
 ---
 
 # file-sender — 飞书文件发送
