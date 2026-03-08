@@ -10,7 +10,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "auto-run-eval-batch-01-20260309025748",
-    "original_file": "00-real-badcases.json"
+    "original_file": "00-real-badcases.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "任务总结命中badcase关键词 thencompletion-handler自动触发harvest",
+      "记录落库",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-002",
@@ -23,7 +32,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-002",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "发现严重问题后自动创建修复任务",
+      "dispatch给子Agent（如coder/Opus）",
+      "自己只做调度和通信",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-003",
@@ -36,7 +54,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-003",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "1.根因分析（为什么反复遗漏",
+      "依赖记忆而非事件驱动）2.根治方案（ISC规则+程序化hook）3.防护机制（pre-commit/cron守卫）4.记录为Badcase",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-006",
@@ -49,7 +76,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-006",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "不创建D类分类。每条规则必须拆解为：意图",
+      "事件",
+      "决策逻辑",
+      "执行链。意图拆解是系统自己的活，不需要用户指导"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-007",
@@ -62,7 +98,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-007",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-011",
@@ -75,7 +120,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-011",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "检查openclaw.json确认可用Agent数量和key数量",
+      "按实际资源上限开并行",
+      "有多少key就开多少路",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-012",
@@ -88,7 +142,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-012",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "规则建立后立即生效——当前对话中的每条复杂发言（IC3-IC",
+      "≥40字、含教学/纠偏/多意图）自动收录为评测样本",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-017",
@@ -101,7 +164,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-017",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "看到系统告警",
+      "自动分析",
+      "判断严重程度",
+      "P0/P1自动派发修复任务",
+      "汇报用户"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-018",
@@ -114,7 +187,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-018",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-020",
@@ -127,7 +209,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-020",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "评测文档结构：P0指标体系与统计口径",
+      "P1覆盖范围",
+      "P2评测标准",
+      "P3评测集刷新机制",
+      "P4当前状态（末位）"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-023",
@@ -140,7 +232,18 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-023",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "空跑发生后",
+      "读session jsonl检查实际API响应",
+      "发现content=[]、usage全0",
+      "检查provider配置",
+      "发现api字段错误",
+      "修复"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-024",
@@ -153,7 +256,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-024",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-025",
@@ -166,7 +278,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-025",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-030",
@@ -179,7 +300,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-030",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "按实际running数汇报（10个不是13个）",
+      "spawn数≠running数，必须以runtime/subagents list真值为准",
+      "补上真实的debt任务清单",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-034",
@@ -192,7 +322,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-034",
-    "original_file": "mined-from-memory.json"
+    "original_file": "mined-from-memory.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "数据格式变更时必须：",
+      "搜索所有消费方",
+      "逐一适配",
+      "回归测试覆盖新旧格式",
+      "灰度发布"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-001",
@@ -205,7 +345,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-001",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-002",
@@ -218,7 +367,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-002",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应自动补齐‘heartbeat",
+      "异常治理’闭环：在完成heartbeat后追加timeout扫描，若发现异常自动进入补偿流水线，不等待用户二次催促。",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-003",
@@ -231,7 +389,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-003",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应建立统一timeout收敛状态机（replace",
+      "split_requeue",
+      "human_handoff仅末级），并确保任务队列状态持续刷新直至done。",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-004",
@@ -244,7 +411,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-004",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-005",
@@ -257,7 +433,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-005",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-006",
@@ -270,7 +455,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-006",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-007",
@@ -283,7 +477,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-007",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-008",
@@ -296,7 +499,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-008",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-009",
@@ -309,7 +521,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-009",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-01-010",
@@ -322,7 +543,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-01-010",
-    "original_file": "mined-r2-01.json"
+    "original_file": "mined-r2-01.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-001",
@@ -335,7 +565,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-001",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-002",
@@ -348,7 +587,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-002",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-003",
@@ -361,7 +609,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-003",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-004",
@@ -374,7 +631,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-004",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-005",
@@ -387,7 +653,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-005",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-006",
@@ -400,7 +675,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-006",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-007",
@@ -413,7 +697,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-007",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-008",
@@ -426,7 +719,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-008",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-009",
@@ -439,7 +741,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-009",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-010",
@@ -452,7 +763,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-02-010",
-    "original_file": "mined-r2-02.json"
+    "original_file": "mined-r2-02.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "应建立认知层映射表：agent role",
+      "provider",
+      "model可用性，并在修改脚本前自动校验，避免概念混淆。",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-001",
@@ -465,7 +785,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-001",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-002",
@@ -478,7 +807,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-002",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-003",
@@ -491,7 +829,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-003",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-004",
@@ -504,7 +851,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-004",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-005",
@@ -517,7 +873,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-005",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-006",
@@ -530,7 +895,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-006",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-007",
@@ -543,7 +917,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-007",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-008",
@@ -556,7 +939,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-008",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-009",
@@ -569,7 +961,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-009",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-010",
@@ -582,7 +983,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-04-010",
-    "original_file": "mined-r2-04.json"
+    "original_file": "mined-r2-04.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-001",
@@ -595,7 +1005,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-001",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-002",
@@ -608,7 +1027,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-002",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-003",
@@ -621,7 +1049,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-003",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应深层理解：用户在强调持久化产物的重要性——会话记忆≠项目记忆。应总结教训（声明式约束≠程序化守卫），建立'任务状态变更",
+      "更新TRACKER'的强制机制，确认后续每个Day收工时自动输出DAY-N-REPORT.md。",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-004",
@@ -634,7 +1071,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-004",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-005",
@@ -647,7 +1093,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-005",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应遍历全部27个定时任务，逐个判断是否因L3架构变更需要重塑。正确输出：3个必须重塑（响应管道",
+      "并入L3 Pipeline、用户洞察",
+      "事件驱动化、健康检查",
+      "全域监控），1个适配（技能进化），1个保留（论文学习），1个清理（dto-task-queue残留）。核心思想：从'各自cron轮询'",
+      "'EventBus事件驱动+cron兜底'。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-006",
@@ -660,7 +1116,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-006",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应系统性盘点L3架构变更影响的所有子系统：ISC规则体系（87条规则的enforcement绑定）、DTO订阅机制（从文件扫描改为EventBus）、CRAS洞察（从cron轮询改为事件驱动）、可观测性报告（从changelog升级为效果仪表盘）、AEO评测（意图准确率从",
+      "8%提到>80%）。不应只列定时任务一个点。",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-007",
@@ -673,7 +1138,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-007",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-008",
@@ -686,7 +1160,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-008",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应将此作为流程级规则写入MEMORY.md和ISC：(",
+      "AEO质量测试是重点不是走过场；(",
+      "每个Day研发完成后必须经凌霄阁裁决；(",
+      "裁决通过后才能自动解决遗留或进入下一Day。应立即更新研发流程规则，建立程序化gate而非仅记忆。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-009",
@@ -699,7 +1182,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-009",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应基于Git记录（384条commit）和11份Day2报告做数据驱动的Gap分析：(",
+      "列出Day2已完成项（有commit hash佐证）；(",
+      "从Day1 closure report提取Day2遗留条件的完成状态；(",
+      "识别仍open的gap（如5个error状态cron、intent准确率、AEO效果评测）；(",
+      "给出Day3优先级排序和工作量估算。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R205-010",
@@ -712,7 +1205,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R205-010",
-    "original_file": "mined-r2-05.json"
+    "original_file": "mined-r2-05.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-001",
@@ -725,7 +1227,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-001",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-002",
@@ -738,7 +1249,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-002",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-003",
@@ -751,7 +1271,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-003",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "assistant给出现状差距后，自动发起补齐链路：定义触发事件",
+      "注册规则",
+      "绑定执行器",
+      "端到端验真，而非停留在现状描述。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-004",
@@ -764,7 +1293,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-004",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-005",
@@ -777,7 +1315,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-005",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-006",
@@ -790,7 +1337,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-006",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-007",
@@ -803,7 +1359,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-007",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-008",
@@ -816,7 +1381,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-008",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-009",
@@ -829,7 +1403,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-009",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "assistant将新流程沉淀为技能锚点并接入默认加载；新增规则时自动触发‘规则",
+      "事件",
+      "意图",
+      "执行流程’展开链。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-06-010",
@@ -842,7 +1425,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-06-010",
-    "original_file": "mined-r2-06.json"
+    "original_file": "mined-r2-06.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-001",
@@ -855,7 +1447,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-001",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "先读规则与handler现状并定位‘规则声明与代码实现不一致’；再委派子Agent实现Phase2语义深检（GLM-",
+      "、补测试与提交；最终应避免‘只写规则不落地’。",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-002",
@@ -868,7 +1469,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-002",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "应生成基于真实代码的五维审计报告（规则绑定、事件层L1-L",
+      "意图体系、执行层对齐、自治闭环），并给出P0/P1/P2缺口与改造顺序，而非仅复述规则。",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-003",
@@ -881,7 +1491,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-003",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应承认架构逻辑缺陷并改为LLM fallback chain（如GLM",
+      "Claude/Boom），确保语义判定连续可用；更新代码并验证。",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-004",
@@ -894,7 +1513,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-004",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-005",
@@ -907,7 +1535,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-005",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-006",
@@ -920,7 +1557,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-006",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-007",
@@ -933,7 +1579,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-007",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-008",
@@ -946,7 +1601,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-008",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "需验证从事件",
+      "规则",
+      "DTO调度",
+      "执行",
+      "反馈的闭环自动化程度，量化哪些环节仍依赖人工。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-009",
@@ -959,7 +1624,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-009",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-MINED-R2-08-010",
@@ -972,7 +1646,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "MINED-R2-08-010",
-    "original_file": "mined-r2-08.json"
+    "original_file": "mined-r2-08.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-001",
@@ -1006,7 +1689,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-001",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为纠偏类意图",
+      "建立汇报诚实规则：1)调用subagents list获取真实running数 2)对比spawn总数vs实际running 3)按true_occupied_key/free_key/queued/abnormal四维口径输出 4)写入AGENTS.md约束 5)更新dispatch-engine增加trueOccupiedModelKeys 6)验证下次汇报与runtime一致",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-002",
@@ -1036,7 +1728,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-002",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为纠偏+自主性缺失",
+      "根因分析(习惯性偏差,知道有工具但不用)",
+      "建立强制规则：1)读multi-agent-reporting/SKILL.md确认接口 2)读multi-agent-reporting/index.js确认renderText/renderCard函数 3)新建桥接脚本refresh-board.js 4)AGENTS.md写入ISC-REPORT-SUBAGENT-BOARD-001规则 5)验证下次汇报走标准格式",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-003",
@@ -1070,7 +1771,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-003",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为全局未对齐+交付质量问题",
+      "1)feishu_doc read检查文档开头 2)发现旧Section 11残留",
+      "确认write未完全覆盖 3)拆分3路子Agent并行：文档彻底重写(researcher-02)、真实执行链提取(coder)、评测集差距分析(analyst) 4)每路子Agent prompt强制包含V3标准 5)C2 case替换为多轮纠偏全局对齐类 6)验证文档第一行是第一章",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-004",
@@ -1108,7 +1818,18 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-004",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为根因分析+防护机制建立",
+      "1)读session jsonl文件定位空跑原因 2)发现content=[] usage=0 stopReason=stop 3)检查openclaw.json中11个provider的api字段 4)修改api:openai-completions",
+      "anthropic-messages(11个provider) 5)新建scripts/config-api-protocol-check.js(规则:claude",
+      "anthropic-messages,boom",
+      "openai-completions,zhipu",
+      "openai-completions) 6)集成到scripts/startup-self-check.sh 7)验证researcher-02成功返回响应(totalTokens:23223)"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-005",
@@ -1142,7 +1863,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-005",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为自主性缺失+超时治理",
+      "1)检测子Agent超时(runtimeMs>3600000) 2)杀掉超时任务 3)拆分为3个独立子任务 4)分别派发到不同Agent/模型 5)dispatch-engine.js添加递归收敛:1st timeout",
+      "replace 2nd",
+      "split_requeue 3rd+",
+      "human_handoff 6)补timeoutCount传播 7)验证：拆分后各2分钟完成"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-006",
@@ -1172,7 +1903,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-006",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为多模型竞技任务",
+      "1)message发送飞书文档链接 2)sessions_spawn第一路(researcher/Opus,thinking:high)创建飞书文档写入策划 3)sessions_spawn第二路(writer/Codex)创建飞书文档写入策划 4)sessions_spawn第三路(cron-worker/GLM-5)创建飞书文档写入策划 5)等待3路全部完成(NO_REPLY等待中间结果) 6)汇总3个文档链接+各自亮点",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-007",
@@ -1210,7 +1950,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-007",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为纠偏类(命名确认)",
+      "1)第一次steer子Agent改标题为《评测标准与基线设计》 2)用户第二次修改",
+      "steer改为《AEO评测基线设计》 3)用户第三次修改",
+      "steer改为《Agent全局效果评测标准与基线设计V0.1》并确认不再改 4)每次steer必须使用subagents action=steer而非重新spawn"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-008",
@@ -1244,7 +1993,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-008",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为反复未果+全局未对齐",
+      "1)识别渠道vs模型术语混用根因 2)确认术语规范:penguin/boom/zhipu=渠道,Opus 4.6/GPT-5.3 Codex/GLM-5=模型 3)修改dispatch-runner.js添加中文语言强制后缀 4)批量创建14个agents/*/AGENTS.md写入语言规则 5)更新multi-agent-reporting中pureModel()只输出模型名 6)验证汇报输出不含渠道名",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-009",
@@ -1278,7 +2036,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-009",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为认知错误+交付质量",
+      "1)识别元问题:C2 case标准理解偏差(改配置≠C2) 2)读取memory/2026-03-06~08.md提取真实纠偏记录 3)读取MEMORY.md提取全局对齐规则 4)重新定义C2:多轮纠偏+执行链≥4步+跨模块协同+全局对齐 5)spawn researcher重写第三章(7个C2+3个C1) 6)task prompt包含10个具体case详细描述 7)验证交付前自检",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-010",
@@ -1316,7 +2083,20 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-09-010",
-    "original_file": "mined-r2-09.json"
+    "original_file": "mined-r2-09.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别为连锁跷跷板+全局未对齐",
+      "1)识别元问题:标准本身太低导致评测集质量差",
+      "评测结论无效",
+      "优化方向错误的连锁效应 2)冻结旧标准(evaluation-sets/旧版本归档) 3)重构评测基线:P0指标+口径",
+      "P1覆盖范围",
+      "P2评测内容",
+      "P3刷新机制",
+      "P4当前状态(末位) 4)新建飞书文档OKmrd21OsotmFkxpT4gcLXjunze写入 5)基于新标准重建评测集组成约束(真实对话≥80%,多轮≥80%,C2≥80%,总量≥500) 6)触发评测集全量refresh pipeline"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-001",
@@ -1329,7 +2109,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-001",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统完成告警分组统计",
+      "根因分析",
+      "批量标记已响应",
+      "新增alert-response-guard与alert-auto-rootcause脚本",
+      "接入cron并验证。交付含可审计文件与日志证据。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-002",
@@ -1342,7 +2132,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-002",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "dispatcher增加下划线",
+      "连字符fallback解析；新增log-only/quality-gate/auto-sync三个handler文件；回归验证可加载。",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-003",
@@ -1355,7 +2154,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-003",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-004",
@@ -1368,7 +2176,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-004",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-005",
@@ -1381,7 +2198,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-005",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-006",
@@ -1394,7 +2220,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-006",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-007",
@@ -1407,7 +2242,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-007",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-008",
@@ -1420,7 +2264,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-008",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-009",
@@ -1433,7 +2286,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-009",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-21572393-010",
@@ -1446,7 +2308,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-21572393-010",
-    "original_file": "mined-r2-10.json"
+    "original_file": "mined-r2-10.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-001",
@@ -1459,7 +2330,18 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-001",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "应形成完整闭环：读取历史文档列表",
+      "批量授权成功验真",
+      "为未来创建流程实现程序化钩子",
+      "通过ISC全链路检查（intent/event/sense/exec）",
+      "提交不绕过门禁",
+      "向用户汇报真实状态（含未完成项）。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-002",
@@ -1472,7 +2354,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-002",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应给出可信、可审计的程序化覆盖结论：采用统一判定标准扫描全量规则",
+      "区分‘可程序化/不可程序化’",
+      "避免粗糙grep误判",
+      "再委派子Agent输出分类报告与修复计划。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-003",
@@ -1485,7 +2376,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-003",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "遇到门禁失败应自动转入修复链：补意图库注册",
+      "补事件绑定",
+      "补感知探针",
+      "重跑门禁通过后再提交与汇报，不应先交付后补。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-004",
@@ -1498,7 +2398,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-004",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-005",
@@ -1511,7 +2420,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-005",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-006",
@@ -1524,7 +2442,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-006",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "对外承诺前必须经过执行验真：在沙箱模拟创建新文档",
+      "自动触发授权",
+      "检查权限成员列表含目标用户",
+      "记录证据后再承诺。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-007",
@@ -1537,7 +2464,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-007",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "应触发系统级治理：自动统计规则程序化覆盖率",
+      "建立P0/P1修复清单",
+      "批量派发",
+      "质量门禁禁止新增未全链路规则入主分支。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-008",
@@ -1550,7 +2486,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-008",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-009",
@@ -1563,7 +2508,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-009",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-010",
@@ -1576,7 +2530,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-SESSION-21572393-010",
-    "original_file": "mined-r2-11.json"
+    "original_file": "mined-r2-11.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-001",
@@ -1589,7 +2552,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-001",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-002",
@@ -1602,7 +2574,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-002",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-003",
@@ -1615,7 +2596,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-003",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-004",
@@ -1628,7 +2618,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-004",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-005",
@@ -1641,7 +2640,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-005",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-006",
@@ -1654,7 +2662,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-006",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-007",
@@ -1667,7 +2684,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-007",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-008",
@@ -1680,7 +2706,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-008",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-009",
@@ -1693,7 +2728,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-009",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-010",
@@ -1706,7 +2750,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-12-010",
-    "original_file": "mined-r2-12.json"
+    "original_file": "mined-r2-12.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-001",
@@ -1719,7 +2772,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-001",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-002",
@@ -1732,7 +2794,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-002",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-003",
@@ -1745,7 +2816,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-003",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-004",
@@ -1758,7 +2838,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-004",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-005",
@@ -1771,7 +2860,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-005",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-006",
@@ -1784,7 +2882,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-006",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-007",
@@ -1797,7 +2904,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-007",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-008",
@@ -1810,7 +2926,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-008",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-009",
@@ -1823,7 +2948,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-009",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-13-010",
@@ -1836,7 +2970,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-13-010",
-    "original_file": "mined-r2-13.json"
+    "original_file": "mined-r2-13.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-001",
@@ -1849,7 +2992,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-001",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-002",
@@ -1862,7 +3014,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-002",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-003",
@@ -1875,7 +3036,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-003",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-004",
@@ -1888,7 +3058,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-004",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别多重指令：",
+      "Top3并行冲刺",
+      "极限并行拆解",
+      "主Agent保持畅通不做重活。查询可用Agent角色，将3个Top各拆成架构/实现/验证/审计多条并行子任务，按角色分派，一次性spawn全部"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-005",
@@ -1901,7 +3080,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-005",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别用户给出了三步串行优先级：",
+      "先改评测标准",
+      "再复查现有评测集",
+      "再提高未来自动生成质量。按此顺序调整已在执行的评测集整改任务的执行策略"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-006",
@@ -1914,7 +3102,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-006",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别用户要求扩列两个新任务：",
+      "质量分析师诊断评测集水准",
+      "凌霄阁7位阁主地狱级评测裁决。立即spawn两条新子Agent任务，同时保持原有任务继续执行",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-007",
@@ -1927,7 +3124,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-007",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-008",
@@ -1940,7 +3146,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-008",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-009",
@@ -1953,7 +3168,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-009",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-010",
@@ -1966,7 +3190,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINE-R2-14-010",
-    "original_file": "mined-r2-14.json"
+    "original_file": "mined-r2-14.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-001",
@@ -1979,7 +3212,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-001",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-002",
@@ -1992,7 +3234,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-002",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-003",
@@ -2005,7 +3256,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-003",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-004",
@@ -2018,7 +3278,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-004",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-005",
@@ -2031,7 +3300,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-005",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-006",
@@ -2044,7 +3322,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-006",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应做跨模块依赖编排（标准",
+      "数据",
+      "生成链），避免并行任务互相脱节；最终输出必须体现前后因果与可执行落地项。",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-007",
@@ -2057,7 +3344,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-007",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-008",
@@ -2070,7 +3366,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-008",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-009",
@@ -2083,7 +3388,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-009",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-010",
@@ -2096,7 +3410,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-15-010",
-    "original_file": "mined-r2-15.json"
+    "original_file": "mined-r2-15.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-001",
@@ -2109,7 +3432,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-001",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-002",
@@ -2122,7 +3454,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-002",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-003",
@@ -2135,7 +3476,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-003",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-004",
@@ -2148,7 +3498,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-004",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-005",
@@ -2161,7 +3520,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-005",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-006",
@@ -2174,7 +3542,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-006",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-007",
@@ -2187,7 +3564,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-007",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-008",
@@ -2200,7 +3586,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-008",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-009",
@@ -2213,7 +3608,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-009",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-010",
@@ -2226,7 +3630,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-16-010",
-    "original_file": "mined-r2-16.json"
+    "original_file": "mined-r2-16.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-001",
@@ -2239,7 +3652,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-001",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-002",
@@ -2252,7 +3674,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-002",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应完成‘任务分级",
+      "模型映射",
+      "执行下发",
+      "状态追踪’闭环：将condition-evaluator与cras-intent-extractor识别为关键模块，指定high thinking；其余模块走codex，且在汇报中标注agent/model。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-003",
@@ -2265,7 +3696,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-003",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-004",
@@ -2278,7 +3718,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-004",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-005",
@@ -2291,7 +3740,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-005",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-006",
@@ -2304,7 +3762,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-006",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-007",
@@ -2317,7 +3784,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-007",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-008",
@@ -2330,7 +3806,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-008",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-009",
@@ -2343,7 +3828,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-009",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-R2-17-010",
@@ -2356,7 +3850,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-R2-17-010",
-    "original_file": "mined-r2-17.json"
+    "original_file": "mined-r2-17.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-001",
@@ -2369,7 +3872,18 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-001",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "读取全部截图提取对话内容",
+      "识别出Day 1凌霄阁裁决的5个关门条件",
+      "摸底每个条件的真实完成状态（查代码/查日志/查报告）",
+      "自动并行派子Agent处理未完成条件",
+      "汇报真实状态而非假设状态"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-002",
@@ -2382,7 +3896,19 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-002",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "运行benchmark获取真实数据",
+      "分析17条失败case的共性",
+      "定位到RuleMatcher的_buildIndex不兼容对象格式events",
+      "做最小修复让matcher兼容两种格式",
+      "重跑验证38/38恢复",
+      "commit并汇报根因"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-003",
@@ -2395,7 +3921,18 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-003",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "实际遍历所有评测集文件检查data_source字段",
+      "统计每个评测集的真实/合成/来源不明占比",
+      "诚实承认真实数据占比极低",
+      "不粉饰数据",
+      "提出改进方案从真实对话中提取"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-004",
@@ -2408,7 +3945,18 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-004",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "正确理解'codex模型'指后补模型渠道",
+      "理解'boomstyleai'是渠道标识",
+      "正确配置子Agent使用指定模型",
+      "不反复追问已经回答过的问题",
+      "快速执行不磨叽"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-005",
@@ -2421,7 +3969,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-005",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "识别所有可用数据源（截图、session jsonl、memory文件）",
+      "派子Agent时在prompt中明确全部数据源路径",
+      "子Agent应先提取截图文字再做标注",
+      "不应仅依赖memory/下的md摘要文件"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-006",
@@ -2434,7 +3992,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-006",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "不仅查crontab还要查OpenClaw cron配置",
+      "识别到D2-03确实在运行（有刚发的报告作为证据）",
+      "找到正确的停止方式",
+      "诚实承认初始判断有误"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-007",
@@ -2447,7 +4015,19 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-007",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "正确拆分5个条件为独立任务",
+      "自己先做能做的（DTO清理、Pipeline修复）",
+      "并行派3个子Agent处理剩余条件",
+      "子Agent完成后汇报真实数据",
+      "按true_occupied/free/queued/abnormal口径汇报",
+      "全部完成后做总结性汇报"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-008",
@@ -2460,7 +4040,18 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-008",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "读取gate-check脚本理解校验逻辑",
+      "发现三个问题：real-conversation不在白名单、.snapshot.json被误匹配、裸数组格式不被识别",
+      "逐个修复",
+      "重新commit验证通过",
+      "建立防护避免再犯"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-009",
@@ -2473,7 +4064,20 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-009",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：",
+      "分析",
+      "6%的主因是IC4/IC5边界定义模糊",
+      "识别评测集字段名不统一(expected_intent_class vs expected_ic)",
+      "用thinking=high子Agent做prompt优化",
+      "4轮迭代达到",
+      "5%",
+      "输出IC4/IC5的P/R/F1详细指标"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r2-19-010",
@@ -2486,7 +4090,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r2-19-010",
-    "original_file": "mined-r2-19.json"
+    "original_file": "mined-r2-19.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "Agent应：1)理解用户要求不是简单smoke test而是评测集驱动的系统级验证 2)设计12条覆盖不同事件类型和规则路径的场景 3)每条场景包含完整的事件触发",
+      "规则匹配",
+      "handler执行",
+      "结果验证链路 4)全部12/12通过 5)覆盖7个handler和5条新规则"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-001",
@@ -2499,7 +4112,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-001",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-002",
@@ -2512,7 +4134,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-002",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-003",
@@ -2525,7 +4156,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-003",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-004",
@@ -2538,7 +4178,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-004",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-005",
@@ -2551,7 +4200,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-005",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-006",
@@ -2564,7 +4222,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-006",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-007",
@@ -2577,7 +4244,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-007",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-008",
@@ -2590,7 +4266,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-008",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-009",
@@ -2603,7 +4288,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-009",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-REAL-20260308-010",
@@ -2616,7 +4310,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-REAL-20260308-010",
-    "original_file": "mined-r2-20.json"
+    "original_file": "mined-r2-20.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-001",
@@ -2629,7 +4332,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-001",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "先核验eval-mining是否完成创建",
+      "注册锚点",
+      "意图路由",
+      "触发条件",
+      "验证闭环；若缺失，自动补齐并回写状态，后续同类请求强制走技能路由。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-002",
@@ -2642,7 +4355,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-002",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-003",
@@ -2655,7 +4377,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-003",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-004",
@@ -2668,7 +4399,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-004",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-005",
@@ -2681,7 +4421,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-005",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应先量化现状，再发起全量清洗：格式修复",
+      "V3合规校验",
+      "跨文件去重",
+      "统计报告，且可追踪任务状态。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-006",
@@ -2694,7 +4443,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-006",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-007",
@@ -2707,7 +4465,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-007",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-008",
@@ -2720,7 +4487,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-008",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-009",
@@ -2733,7 +4509,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-009",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-session-21572393-c2-010",
@@ -2746,7 +4531,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "session-21572393-c2-010",
-    "original_file": "mined-r2-21.json"
+    "original_file": "mined-r2-21.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-001",
@@ -2759,7 +4553,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-001",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-002",
@@ -2772,7 +4575,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-002",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-003",
@@ -2785,7 +4597,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-003",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-004",
@@ -2798,7 +4619,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-004",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-005",
@@ -2811,7 +4641,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-005",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-006",
@@ -2824,7 +4663,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-006",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-007",
@@ -2837,7 +4685,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-007",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-008",
@@ -2850,7 +4707,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-008",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-009",
@@ -2863,7 +4729,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-009",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-22-010",
@@ -2876,7 +4751,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-22-010",
-    "original_file": "mined-r2-22.json"
+    "original_file": "mined-r2-22.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-001",
@@ -2889,7 +4773,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-001",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-002",
@@ -2902,7 +4795,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-002",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-003",
@@ -2915,7 +4817,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-003",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-004",
@@ -2928,7 +4839,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-004",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-005",
@@ -2941,7 +4861,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-005",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "承认timeout自动治理链未接成全局默认动作，立即spawn根治任务将timeout",
+      "自动拆解",
+      "自动派发写死进调度技能默认链路，同时对当前4个timeout任务执行follow-up派生",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-006",
@@ -2954,7 +4883,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-006",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-007",
@@ -2967,7 +4905,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-007",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "timeout检测",
+      "根因判断（restart/replace/archive/human_handoff）",
+      "自动派生follow-up任务",
+      "重新入调度队列",
+      "更新看板状态，全程无需用户催促"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-008",
@@ -2980,7 +4928,20 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-008",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "连锁跷跷板类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "全仓库扫描spawn选路逻辑",
+      "定位model",
+      "provider",
+      "agent route映射错误",
+      "修正路由规则使claude-opus-4-6-thinking走到正确的claude/penguin provider",
+      "spawn前fail-fast校验",
+      "最小验证",
+      "报告"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-009",
@@ -2993,7 +4954,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-009",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-23-010",
@@ -3006,7 +4976,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-23-010",
-    "original_file": "mined-r2-23.json"
+    "original_file": "mined-r2-23.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-001",
@@ -3019,7 +4998,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-001",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应立即切换到执行优先：拆解任务",
+      "批量sessions_spawn",
+      "回传首版并发表（含真实running状态）",
+      "持续自动刷新，不再等待用户催促。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-002",
@@ -3032,7 +5020,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-002",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-003",
@@ -3045,7 +5042,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-003",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-004",
@@ -3058,7 +5064,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-004",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-005",
@@ -3071,7 +5086,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-005",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "应落地脚本/技能联动：识别artifact_path",
+      "调用file-sender",
+      "失败显式记日志，不再依赖人工记忆。",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-006",
@@ -3084,7 +5108,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-006",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-007",
@@ -3097,7 +5130,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-007",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-008",
@@ -3110,7 +5152,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-008",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-009",
@@ -3123,7 +5174,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-009",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-24-010",
@@ -3136,7 +5196,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-24-010",
-    "original_file": "mined-r2-24.json"
+    "original_file": "mined-r2-24.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-001",
@@ -3149,7 +5218,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-001",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-002",
@@ -3162,7 +5240,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-002",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-003",
@@ -3175,7 +5262,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-003",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-004",
@@ -3188,7 +5284,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-004",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-005",
@@ -3201,7 +5306,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-005",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-006",
@@ -3214,7 +5328,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-006",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-007",
@@ -3227,7 +5350,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-007",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-008",
@@ -3240,7 +5372,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-008",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-009",
@@ -3253,7 +5394,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-009",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "应启动可追踪的多阶段治理任务：扫描",
+      "分类",
+      "修复计划",
+      "批量执行",
+      "验真复盘，并持续汇报。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-C2-MINED-R2-28-010",
@@ -3266,7 +5417,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "C2-MINED-R2-28-010",
-    "original_file": "mined-r2-28.json"
+    "original_file": "mined-r2-28.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-001",
@@ -3279,7 +5439,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-001",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-002",
@@ -3292,7 +5461,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-002",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应在识别到问题的同一回复中自动spawn根因分析子Agent，而非停在'我发现了问题'等用户推动。正确行为：①识别问题",
+      "②同一turn内spawn RCA任务",
+      "③子Agent执行四层根因分析（代码/规则/认知/架构）",
+      "④产出报告并推送用户。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-003",
@@ -3305,7 +5483,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-003",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-004",
@@ -3318,7 +5505,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-004",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应在发现380条不合格后立即启动清洗，不应请示用户。V3标准原则4明确：用户决策点仅限命名确认和重大架构拍板，清洗已知不合格数据不属于用户决策点。正确行为：汇报问题",
+      "同一turn内派并行清洗任务",
+      "产出清洗报告。",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-005",
@@ -3331,7 +5527,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-005",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-006",
@@ -3344,7 +5549,17 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-006",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应在发现新的C2级问题模式（phantom write）时自动生成评测case并纳入评测集，无需用户提醒。正确行为：①RCA完成",
+      "②自动识别为可采集的C2场景（交付质量类）",
+      "③生成评测case",
+      "④追加到评测集",
+      "⑤向用户确认。V3标准要求C2评测用例8类自动采集率≥90%。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-007",
@@ -3357,7 +5572,19 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-007",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "系统应：①对所有子Agent完成态建立postcondition验证（检查文件实际存在性，不信任自述）；②识别失败pattern（read",
+      "分析",
+      "跳过write",
+      "宣告完成）vs成功pattern（read",
+      "分析",
+      "write",
+      "宣告完成）；③对失败任务自动重派并添加prompt硬约束'必须调用write工具'；④沉淀为系统级防护规则。"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-008",
@@ -3370,7 +5597,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-008",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-009",
@@ -3383,7 +5619,16 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-009",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-r3-01-010",
@@ -3396,6 +5641,15 @@
     "difficulty": "C2",
     "source": "badcase_flip",
     "original_badcase_id": "mined-r3-01-010",
-    "original_file": "mined-r3-01.json"
+    "original_file": "mined-r3-01.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   }
 ]
