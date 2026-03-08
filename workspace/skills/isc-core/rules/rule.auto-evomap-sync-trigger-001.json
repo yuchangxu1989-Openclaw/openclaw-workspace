@@ -18,7 +18,8 @@
         "type": "auto_trigger",
         "description": "技能生命周期变更时自动触发EvoMap同步，确保网络中的技能信息一致"
       }
-    ]
+    ],
+    "event": "skill.general.published"
   },
   "priority": 7,
   "action": {

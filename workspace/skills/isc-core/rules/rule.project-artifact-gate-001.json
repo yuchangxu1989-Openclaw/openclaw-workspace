@@ -21,7 +21,8 @@
         "type": "gate",
         "description": "阻止无产物的完成标记"
       }
-    ]
+    ],
+    "event": "task.status.completed"
   },
   "conditions": {
     "required_checks": [

@@ -24,7 +24,8 @@
         "description": "任一层归属不清晰时标注设计缺陷，打回补充后方可通过",
         "behavior": "block_incomplete_layering"
       }
-    ]
+    ],
+    "event": "document.document.created"
   },
   "check": {
     "perception_layer": "是否明确了谁在观察、用什么探针？",

@@ -20,10 +20,12 @@
         "type": "auto_trigger",
         "description": "Auto-created from intent.ruleify: ISC Runtime Enforcement Engine & pre-commit hook"
       }
-    ]
+    ],
+    "event": "intent.ruleify"
   },
   "action": {
-    "handler": "skill-isc-handler"
+    "handler": "skill-isc-handler",
+    "type": "handler"
   },
   "governance": {
     "auto_execute": false,

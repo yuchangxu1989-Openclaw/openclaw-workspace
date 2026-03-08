@@ -38,7 +38,8 @@
         "type": "auto_trigger",
         "description": "规则创建/更新时验证trigger字段完整性，缺失则标记为unenforced"
       }
-    ]
+    ],
+    "event": "isc.rule.created"
   },
   "monitoring_config": {
     "data_sources": {

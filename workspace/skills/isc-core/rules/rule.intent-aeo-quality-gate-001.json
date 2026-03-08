@@ -14,7 +14,8 @@
         "type": "auto_trigger",
         "description": "触发AEO自动化评测 → 生成报告 → Badcase根因分析 → 通过后方可生效"
       }
-    ]
+    ],
+    "event": "event.system.modified"
   },
   "action": {
     "type": "check",

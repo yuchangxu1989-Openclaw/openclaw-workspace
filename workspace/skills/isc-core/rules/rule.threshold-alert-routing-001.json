@@ -15,7 +15,8 @@
     "actions": [
       "threshold.alert.notify",
       "threshold.alert.log"
-    ]
+    ],
+    "event": "isc.yellow_light.threshold_crossed"
   },
   "conditions": {
     "source": "threshold-scanner",

@@ -17,7 +17,8 @@
         "type": "auto_trigger",
         "description": "工作区文件变更时自动触发GitHub同步，保持远程仓库与本地一致"
       }
-    ]
+    ],
+    "event": "system.general.modified"
   },
   "scope_definition": {
     "include": [

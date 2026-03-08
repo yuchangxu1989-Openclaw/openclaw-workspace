@@ -15,7 +15,8 @@
         "handler": "cron-job-requested",
         "description": "accept or fallback execute bridged cron job"
       }
-    ]
+    ],
+    "event": "cron.job.requested"
   },
   "condition": {},
   "governance": {
@@ -24,5 +25,9 @@
     "priority": 30
   },
   "created_at": "2026-03-07T03:43:06.204Z",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "action": {
+    "type": "enforce",
+    "method": "gate-check"
+  }
 }

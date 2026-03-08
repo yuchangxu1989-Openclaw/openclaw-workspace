@@ -11,7 +11,8 @@
         "type": "auto_trigger",
         "description": "防止同类缺陷重复: 规则存在但handler缺失"
       }
-    ]
+    ],
+    "event": "isc.rule.handler_missing"
   },
   "action": {
     "type": "handler",

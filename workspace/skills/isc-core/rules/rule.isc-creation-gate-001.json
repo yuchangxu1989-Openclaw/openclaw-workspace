@@ -65,10 +65,12 @@
         "type": "log",
         "level": "info"
       }
-    ]
+    ],
+    "event": "isc.rule.matched"
   },
   "enforcement_tier": "P0_gate",
   "action": {
-    "handler": "isc-creation-gate"
+    "handler": "isc-creation-gate",
+    "type": "handler"
   }
 }

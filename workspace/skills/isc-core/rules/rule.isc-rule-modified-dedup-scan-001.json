@@ -4,7 +4,10 @@
   "description": "ISC规则修改后触发去重扫描，检测是否与其他规则产生重复",
   "version": "1.0.0",
   "trigger": {
-    "events": ["isc.rule.modified"]
+    "events": [
+      "isc.rule.modified"
+    ],
+    "event": "isc.rule.modified"
   },
   "action": {
     "type": "scan",

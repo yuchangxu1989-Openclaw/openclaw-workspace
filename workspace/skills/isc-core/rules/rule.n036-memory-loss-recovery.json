@@ -47,7 +47,8 @@
         "type": "auto_trigger",
         "description": "检测到记忆丢失时自动触发恢复流程，从文件系统重建关键上下文"
       }
-    ]
+    ],
+    "event": "session.general.started"
   },
   "recovery_phases": {
     "phase_1_discovery": {

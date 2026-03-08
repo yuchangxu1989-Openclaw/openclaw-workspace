@@ -45,7 +45,8 @@
         "description": "发现计数不匹配时，自动同步注册表（差异≤5条时）",
         "behavior": "auto_sync_on_mismatch"
       }
-    ]
+    ],
+    "event": "dto.rule.statistics_requested"
   },
   "validation_rules": {
     "filesystem_scan": {

@@ -66,10 +66,12 @@
         "type": "log",
         "level": "info"
       }
-    ]
+    ],
+    "event": "isc.rule.matched"
   },
   "enforcement_tier": "P1_process",
   "action": {
-    "handler": "isc-change-alignment"
+    "handler": "isc-change-alignment",
+    "type": "handler"
   }
 }

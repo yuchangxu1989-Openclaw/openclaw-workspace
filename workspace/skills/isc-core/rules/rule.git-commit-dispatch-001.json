@@ -13,7 +13,8 @@
       "git.commit.quality_check",
       "git.commit.architecture_review",
       "git.commit.rule_code_pairing"
-    ]
+    ],
+    "event": "git.commit.completed"
   },
   "conditions": {
     "source": "git-sensor",

@@ -14,7 +14,8 @@
         "type": "auto_trigger",
         "description": "可视化输出时自动应用个性化设计风格，拒绝通用AI审美"
       }
-    ]
+    ],
+    "event": "document.diagram.created"
   },
   "action": {
     "type": "handler",

@@ -22,7 +22,8 @@
         "type": "auto_collect",
         "description": "自动收集为评测样本"
       }
-    ]
+    ],
+    "event": "event.general.classified"
   },
   "enforcement": {
     "on_violation": "warn_and_log",

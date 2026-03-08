@@ -5,7 +5,10 @@
   "version": "1.0.0",
   "severity": "critical",
   "trigger": {
-    "events": ["system.failure.pattern_detected"]
+    "events": [
+      "system.failure.pattern_detected"
+    ],
+    "event": "system.failure.pattern_detected"
   },
   "action": {
     "type": "alert",

@@ -14,7 +14,8 @@
         "type": "auto_trigger",
         "description": "执行向量聚类→意图分类→MECE增量识别→用户确认→注册"
       }
-    ]
+    ],
+    "event": "dto.general.weekly"
   },
   "action": {
     "type": "handler",

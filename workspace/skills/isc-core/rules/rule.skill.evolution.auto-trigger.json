@@ -21,7 +21,8 @@
         "type": "auto_trigger",
         "description": "技能使用模式变化或性能下降时自动触发技能进化流程"
       }
-    ]
+    ],
+    "event": "skill.usage.pattern_detected"
   },
   "condition": {
     "autoTrigger": true,

@@ -20,10 +20,12 @@
         "type": "auto_trigger",
         "description": "Auto-created from intent.ruleify: PDF输出标准"
       }
-    ]
+    ],
+    "event": "intent.ruleify"
   },
   "action": {
-    "handler": "skill-isc-handler"
+    "handler": "skill-isc-handler",
+    "type": "handler"
   },
   "governance": {
     "auto_execute": false,

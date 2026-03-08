@@ -23,7 +23,8 @@
         "type": "block-on-fail",
         "description": "检测到安全威胁时阻断技能发布并记录日志"
       }
-    ]
+    ],
+    "event": "skill.general.publish"
   },
   "conditions": {
     "all": [
@@ -150,6 +151,7 @@
   "updatePolicy": "auto_sync",
   "enforcement_tier": "P0_gate",
   "action": {
-    "handler": "isc-skill-security"
+    "handler": "isc-skill-security",
+    "type": "handler"
   }
 }

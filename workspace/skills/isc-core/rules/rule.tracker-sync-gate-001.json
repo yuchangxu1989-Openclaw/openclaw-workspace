@@ -23,7 +23,8 @@
         "type": "auto_trigger",
         "description": "自动同步状态到PROJECT-TRACKER.md"
       }
-    ]
+    ],
+    "event": "task.status.changed"
   },
   "conditions": {
     "sync_rules": [

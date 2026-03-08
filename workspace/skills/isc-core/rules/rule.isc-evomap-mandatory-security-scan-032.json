@@ -22,7 +22,8 @@
         "type": "block-on-fail",
         "description": "安全扫描未通过时阻断EvoMap同步并隔离技能"
       }
-    ]
+    ],
+    "event": "evomap.sync.requested"
   },
   "conditions": {
     "all": [

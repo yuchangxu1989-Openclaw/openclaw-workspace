@@ -10,7 +10,8 @@
     "events": [
       "cron.evalset.daily"
     ],
-    "schedule": "0 5 * * *"
+    "schedule": "0 5 * * *",
+    "event": "cron.evalset.daily"
   },
   "conditions": {
     "data_source": "real_conversation",
@@ -24,18 +25,33 @@
     "type": "execute",
     "handler": "evalset-cron-daily",
     "script": "skills/aeo/bin/generate-real-conv-evalset.cjs",
-    "args": ["--source", "cron"]
+    "args": [
+      "--source",
+      "cron"
+    ]
   },
   "constraints": {
     "closed_book_safety": {
       "no_hardcoded_evalset": true,
       "no_reference_reads": true,
-      "forbidden_paths": ["memory/", "labels/", "annotations/", "answers/", "ground_truth/"]
+      "forbidden_paths": [
+        "memory/",
+        "labels/",
+        "annotations/",
+        "answers/",
+        "ground_truth/"
+      ]
     },
     "dedup_unified": {
-      "algorithm": ["sha256_content_hash", "jaccard_fuzzy_0.85"],
+      "algorithm": [
+        "sha256_content_hash",
+        "jaccard_fuzzy_0.85"
+      ],
       "fingerprint_db": "skills/aeo/evalset-cron-output/.dedup-fingerprints.json",
-      "scope": ["all_evaluation_sets", "unified_evaluation_sets"]
+      "scope": [
+        "all_evaluation_sets",
+        "unified_evaluation_sets"
+      ]
     },
     "versioning": {
       "generator_version_field": "generatorVersion",

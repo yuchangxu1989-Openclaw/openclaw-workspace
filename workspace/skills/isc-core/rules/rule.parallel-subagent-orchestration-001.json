@@ -15,7 +15,8 @@
         "type": "auto_trigger",
         "description": "复杂任务自动拆分为并行子Agent执行，协调结果汇总并处理冲突"
       }
-    ]
+    ],
+    "event": "orchestration.general.requested"
   },
   "workflow": {
     "stages": [

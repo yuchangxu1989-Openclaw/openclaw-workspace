@@ -33,7 +33,8 @@
         "description": "纠偏规则必须泛化——解决一类问题而非单个case，不通过则要求重写",
         "behavior": "require_generalized_rule"
       }
-    ]
+    ],
+    "event": "system.behavior.defect_acknowledged"
   },
   "action": {
     "steps": [

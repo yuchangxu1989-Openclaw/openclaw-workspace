@@ -13,7 +13,8 @@
     "actions": [
       "aeo.evaluation.multi_turn_check",
       "aeo.benchmark.auto_rerun"
-    ]
+    ],
+    "event": "aeo.evaluation.dataset_created"
   },
   "conditions": {
     "multi_turn_ratio": "多轮样本占比>=40%",

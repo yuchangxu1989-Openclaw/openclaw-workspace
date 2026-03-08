@@ -76,6 +76,11 @@
   "created_at": "2026-03-06",
   "author": "lingxiaoge-v4.3",
   "action": {
-    "handler": "intent-boundary"
+    "handler": "intent-boundary",
+    "type": "handler"
+  },
+  "trigger": {
+    "event": "isc.rule.matched",
+    "condition": "always"
   }
 }

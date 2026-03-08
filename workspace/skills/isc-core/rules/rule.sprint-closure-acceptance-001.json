@@ -20,7 +20,8 @@
         "type": "gate",
         "description": "执行四重验收门禁"
       }
-    ]
+    ],
+    "event": "sprint.closure.requested"
   },
   "conditions": {
     "four_gates": [
@@ -34,14 +35,26 @@
         "id": "metrics_collected",
         "name": "指标采集",
         "description": "Sprint指标必须写入 skills/project-mgmt/metrics/YYYY-MM.json",
-        "required_fields": ["planned_days", "actual_days", "tasks_total", "tasks_completed", "review_rejections", "parallel_ratio"],
+        "required_fields": [
+          "planned_days",
+          "actual_days",
+          "tasks_total",
+          "tasks_completed",
+          "review_rejections",
+          "parallel_ratio"
+        ],
         "fail_action": "block"
       },
       {
         "id": "lessons_captured",
         "name": "经验沉淀",
         "description": "经验教训必须写入 skills/project-mgmt/lessons/YYYY-MM-DD-{sprint}.md",
-        "required_sections": ["目标vs实际", "做对了什么", "做错了什么", "流程改进点"],
+        "required_sections": [
+          "目标vs实际",
+          "做对了什么",
+          "做错了什么",
+          "流程改进点"
+        ],
         "fail_action": "block"
       },
       {

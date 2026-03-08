@@ -178,10 +178,12 @@
         "type": "log",
         "level": "info"
       }
-    ]
+    ],
+    "event": "isc.rule.matched"
   },
   "enforcement_tier": "P0_gate",
   "action": {
-    "handler": "isc-skill-permission"
+    "handler": "isc-skill-permission",
+    "type": "handler"
   }
 }

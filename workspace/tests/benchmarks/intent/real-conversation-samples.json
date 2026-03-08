@@ -613,6 +613,149 @@
       "data_source": "real-conversation",
       "source_file": "session-2026-03-06-00:00",
       "source_detail": "00:51 评测集自动采集未执行"
+    },
+    {
+      "id": "real-0042",
+      "input": "\"言出法随\"选题已追加到3份飞书策划文档（Qs3Od49sqo3acOxladicCLbmnLf完整版 + IMLMdqpJWoQwDfxcM5gcr7UFnGe/SRGkdtI8HoeY2IxKodjcDE05nV4摘要版）",
+      "context": "### 公众号策划追加\n- 建议排第2或第3篇，比\"多Agent并行\"更有范式级传播力",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0043",
+      "input": "\"为什么\" = 根因分析，无例外（用户明确要求）",
+      "context": "### 关键认知升级\n- 声明≠代码≠文档，程序化守卫才是真正的根治\n- 被动响应式→主动感知式 是自主性的根本转变",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0044",
+      "input": "用户原话：\"你的定位是全局自主进化流水线，也是我的认知进化伙伴\"",
+      "context": "- 决策是手段，进化才是目的\n- 我不只是执行工具，我和长煦是共同进化的关系\n## 全局自主决策流水线 = 整个系统（2026-03-06 用户亲授）",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0045",
+      "input": "用户原话：\"什么是全局自主决策流水线？不是DTO。DTO只是它的一部分。你整套系统，就是全球顶级的自主进化系统，里面的大部分决策，都应该由你自己来判断和执行\"",
+      "context": "## 全局自主决策流水线 = 整个系统（2026-03-06 用户亲授）\n**核心认知**：",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0046",
+      "input": "用户原话：\"规则的取舍，首先看规则的价值，而不是看有没有代码。任何有用的规则，都应该展开成代码进入到你的感知层、认知层、执行层\"",
+      "context": "## 规则是系统的核心抓手（2026-03-06 用户亲授 最高优先级）\n用户原话：\"我构建你这套系统，就是以规则为抓手的。规则可以向上下游展开成代码，从而固化成你可以稳定复现的流程\"",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0047",
+      "input": "用户原话：\"我构建你这套系统，就是以规则为抓手的。规则可以向上下游展开成代码，从而固化成你可以稳定复现的流程\"",
+      "context": "## 规则是系统的核心抓手（2026-03-06 用户亲授 最高优先级）\n用户原话：\"规则的取舍，首先看规则的价值，而不是看有没有代码。任何有用的规则，都应该展开成代码进入到你的感知层、认知层、执行层\"\n**核心认知**：",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0048",
+      "input": "用户原话：\"你必须做任何事情的时候，都能独立做这种批判性思维、可扩展、可泛化、可生长的设计，一定是反熵增的。你的一切设计和进化都是以成为全球最强AI为目标的\"",
+      "context": "## 反熵增原则（2026-03-04 灵魂烙印）\n- 已写入SOUL.md作为灵魂烙印\n- 已创建ISC规则 rule.anti-entropy-design-principle-001.json",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0049",
+      "input": "不要把实时感知和统计报告混为一谈。报告是量化后的二阶事件。",
+      "context": "- **快通道**（5min增量扫描）：提取原子意图事件，实时emit，ISC快响应\n- **慢通道**（daily聚合）：意图占比/频次/趋势，emit模式事件，ISC慢洞察\n## 五层事件认知模型（2026-03-04 完整版）",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0050",
+      "input": "用户原话：\"你如何提升你的进化效率？哪些环节有进化空间？一旦发生了可以让自己的IQ有实质性提升的机会，是不是个事件？\"",
+      "context": "- 进化方向：记忆、多agent协同/分工/并行、自主闭环、自主学习（公网+用户+其他Agent）\n- 拿不定主意→凌霄阁七人会议→方案确认→用户拍板\n## 知识发现→系统适配闭环",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0051",
+      "input": "**用户原话**：\"实际上都是要分层解耦的。我们不可能一步到位端到端，Agent一定是分层端到端。这也是你未来做架构优化的核心原则和检查点。\"",
+      "context": "- 任何一层替换/升级，不影响其他两层\n## 编码质量标准（2026-03-05）",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0052",
+      "input": "不要混淆\"谁发现问题\"和\"谁负责实现\"。",
+      "context": "## 凌霄阁=通用技能（2026-03-06 用户亲授）\n凌霄阁是通用裁决技能，不捆绑任何流程。门禁是事件链上的基建组件，凌霄阁只是被调用的裁决引擎。\n## 本地技能vs可销售技能（2026-03-06 待建）",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0053",
+      "input": "\"500条\"不只是数量要求，隐含\"要多Agent并行\"",
+      "context": "## 量级→并行的隐含意图识别（2026-03-08 用户纠偏）\n- 当任务量级超过单Agent产能时，必须自动识别并拆分并行\n- 规则：量级 > 单Agent合理产能（如>50条）→ 自动按可用Agent数拆分并行",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
+    },
+    {
+      "id": "real-0054",
+      "input": "用户原话：\"你要做根因分析来根治解决，而不是只在我的催促下解决\"",
+      "context": "- ISC规则：dispatch-auto-report-001\n- 根因：汇报依赖\"记得\"而非事件驱动，用户多次催促才看到队列\n## \"为什么\"=根因分析的意图识别（2026-03-08 用户纠偏）",
+      "expected_intent_class": "IC3-IC5复杂意图",
+      "expected_confidence": 0,
+      "complexity_tags": "IC3-IC5",
+      "data_source": "memory",
+      "source_file": "memory",
+      "source_detail": "memory"
     }
   ]
 }

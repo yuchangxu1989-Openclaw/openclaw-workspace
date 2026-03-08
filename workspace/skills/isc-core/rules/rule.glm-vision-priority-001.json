@@ -24,7 +24,8 @@
         "type": "auto_trigger",
         "description": "图像分析任务优先使用GLM视觉模型，不可用时降级到备选模型"
       }
-    ]
+    ],
+    "event": "system.analysis.requested"
   },
   "action": {
     "type": "model_switch",

@@ -4,7 +4,10 @@
   "description": "skills不得直接引用infrastructure目录，依赖方向必须自顶向下",
   "version": "1.0.0",
   "trigger": {
-    "events": ["system.infrastructure.modified"]
+    "events": [
+      "system.infrastructure.modified"
+    ],
+    "event": "system.infrastructure.modified"
   },
   "action": {
     "type": "check",

@@ -20,7 +20,8 @@
         "description": "禁止只返回文件路径或使用飞书文件上传工具，必须直接传输",
         "behavior": "block_path_only_response"
       }
-    ]
+    ],
+    "event": "user.request.source_file"
   },
   "correct_method_primary": {
     "tool": "message",

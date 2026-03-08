@@ -24,7 +24,8 @@
         "type": "block-on-fail",
         "description": "任一检查项失败则阻断发布"
       }
-    ]
+    ],
+    "event": "skill.general.publish_requested"
   },
   "conditions": {
     "all": [

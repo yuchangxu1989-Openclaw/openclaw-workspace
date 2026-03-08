@@ -5,13 +5,16 @@
   "severity": "high",
   "description": "当意图分析器识别出 directive 类意图时，路由到 intent-event-handler 创建 DTO 任务。确保 intent.directive 事件在 event-bus 链路中被正确匹配和执行。",
   "trigger": {
-    "events": ["intent.directive"],
+    "events": [
+      "intent.directive"
+    ],
     "actions": [
       {
         "type": "auto_trigger",
         "description": "路由 intent.directive 到 intent-event-handler 创建 DTO 任务"
       }
-    ]
+    ],
+    "event": "intent.directive"
   },
   "action": {
     "type": "handler",

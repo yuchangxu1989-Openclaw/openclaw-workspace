@@ -16,7 +16,8 @@
       "knowledge.executable.create_rule",
       "knowledge.executable.create_skill",
       "knowledge.executable.update_code"
-    ]
+    ],
+    "event": "knowledge.general.created"
   },
   "conditions": {
     "must": "新知识不能仅写入MEMORY.md，必须至少产出以下之一：ISC规则、技能代码、基础设施代码、pre-commit hook",
@@ -26,6 +27,7 @@
   "anti_pattern": "看完电影写观后感——只增加记忆不改变行为",
   "created_at": "2026-03-06T00:22:00+08:00",
   "action": {
-    "handler": "knowledge-executable"
+    "handler": "knowledge-executable",
+    "type": "handler"
   }
 }

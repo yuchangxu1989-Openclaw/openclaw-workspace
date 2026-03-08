@@ -4,7 +4,10 @@
   "description": "评测完成后锁定报告快照，防止数据被篡改",
   "version": "1.0.0",
   "trigger": {
-    "events": ["evaluation.benchmark.completed"]
+    "events": [
+      "evaluation.benchmark.completed"
+    ],
+    "event": "evaluation.benchmark.completed"
   },
   "action": {
     "type": "snapshot",

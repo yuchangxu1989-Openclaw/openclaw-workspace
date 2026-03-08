@@ -14,7 +14,8 @@
         "type": "auto_trigger",
         "description": "扫描意图注册表→检测重叠/长尾→生成治理报告→执行合并/降级/废弃"
       }
-    ]
+    ],
+    "event": "event.type.created"
   },
   "action": {
     "type": "check",

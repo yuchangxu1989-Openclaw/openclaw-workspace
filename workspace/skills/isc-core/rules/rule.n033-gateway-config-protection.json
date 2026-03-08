@@ -44,7 +44,8 @@
         "description": "配置修改前自动创建带时间戳的备份文件",
         "behavior": "create_timestamped_backup"
       }
-    ]
+    ],
+    "event": "system.config.modified"
   },
   "condition": {
     "check_type": "sensitive_config",

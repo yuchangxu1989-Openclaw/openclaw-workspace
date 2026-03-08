@@ -26,7 +26,8 @@
         "description": "不通过任一反熵增检查项时，阻塞交付并要求重新设计",
         "behavior": "block_and_redesign"
       }
-    ]
+    ],
+    "event": "document.document.created"
   },
   "action": {
     "type": "gate",

@@ -15,7 +15,8 @@
         "type": "auto_trigger",
         "description": "架构文档产出时自动检查视觉标准合规性"
       }
-    ]
+    ],
+    "event": "document.architecture.created"
   },
   "action": {
     "method": "mermaid_render",

@@ -5,13 +5,16 @@
   "severity": "high",
   "description": "当意图分析器识别出 ruleify 类意图时，路由到 intent-event-handler 创建 ISC 规则草案。确保 intent.ruleify 事件在 event-bus 链路中被正确匹配和执行。",
   "trigger": {
-    "events": ["intent.ruleify"],
+    "events": [
+      "intent.ruleify"
+    ],
     "actions": [
       {
         "type": "auto_trigger",
         "description": "路由 intent.ruleify 到 intent-event-handler 进行规则草案创建"
       }
-    ]
+    ],
+    "event": "intent.ruleify"
   },
   "action": {
     "type": "handler",

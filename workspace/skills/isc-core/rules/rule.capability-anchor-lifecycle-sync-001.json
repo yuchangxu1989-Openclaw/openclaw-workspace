@@ -4,7 +4,11 @@
   "description": "技能修改时触发能力锚点同步",
   "version": "1.0.0",
   "trigger": {
-    "events": ["skill.lifecycle.modified", "skill.lifecycle.created"]
+    "events": [
+      "skill.lifecycle.modified",
+      "skill.lifecycle.created"
+    ],
+    "event": "skill.lifecycle.modified"
   },
   "action": {
     "type": "sync",

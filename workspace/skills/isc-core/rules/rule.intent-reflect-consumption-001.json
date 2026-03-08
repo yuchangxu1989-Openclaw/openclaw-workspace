@@ -5,13 +5,16 @@
   "severity": "medium",
   "description": "当意图分析器识别出 reflect 类意图时，路由到 intent-event-handler 进入 CRAS 分析/知识沉淀路径。确保 intent.reflect 事件在 event-bus 链路中被正确匹配和执行。",
   "trigger": {
-    "events": ["intent.reflect"],
+    "events": [
+      "intent.reflect"
+    ],
     "actions": [
       {
         "type": "auto_trigger",
         "description": "路由 intent.reflect 到 intent-event-handler 进行反思分析"
       }
-    ]
+    ],
+    "event": "intent.reflect"
   },
   "action": {
     "type": "handler",

@@ -13,7 +13,8 @@
         "type": "auto_trigger",
         "description": "验证新意图类型归属，不属于5类则拒绝注册并要求MECE重分类"
       }
-    ]
+    ],
+    "event": "event.type.registration_requested"
   },
   "action": {
     "type": "handler",

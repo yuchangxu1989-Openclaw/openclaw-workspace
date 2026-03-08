@@ -24,7 +24,8 @@
         "description": "跳过任何评审阶段的架构方案不得进入实施阶段",
         "behavior": "block_unreviewed_architecture"
       }
-    ]
+    ],
+    "event": "document.document.created"
   },
   "action": {
     "type": "pipeline",
