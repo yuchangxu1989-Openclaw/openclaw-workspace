@@ -1,174 +1,19 @@
 {
-  "timestamp": "2026-03-08T17:20:05.690Z",
+  "timestamp": "2026-03-08T17:20:10.442Z",
   "scanned": {
-    "files": 94624,
-    "dirs": 521
+    "files": 94612,
+    "dirs": 519
   },
-  "issues": 7,
-  "fixes": 19,
+  "issues": 1,
+  "fixes": 0,
   "details": {
     "issues": [
-      {
-        "type": "duplicate",
-        "files": [
-          "skills/project-mgmt/lessons/2026-03-07-artifact-governance-closure.md",
-          "skills/project-mgmt/lessons/2026-03-08-artifact-governance-closure.md"
-        ]
-      },
-      {
-        "type": "duplicate",
-        "files": [
-          "tests/benchmarks/intent/c2-golden/mined-glm-01.json",
-          "tests/benchmarks/intent/c2-golden/mined-glm-02.json",
-          "tests/benchmarks/intent/c2-golden/mined-glm-03.json",
-          "tests/benchmarks/intent/c2-golden/mined-glm-04.json",
-          "tests/benchmarks/intent/c2-golden/mined-glm-06.json",
-          "tests/benchmarks/intent/c2-golden/mined-session-01.json",
-          "tests/benchmarks/intent/c2-golden/mined-session-05.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-07.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-09.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-10.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-11.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-12.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-13.json"
-        ]
-      },
-      {
-        "type": "duplicate",
-        "files": [
-          "tests/benchmarks/intent/c2-golden/mined-v2-01.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-03.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-05.json",
-          "tests/benchmarks/intent/c2-golden/mined-v2-06.json"
-        ]
-      },
-      {
-        "type": "empty_file",
-        "file": "infrastructure/intent-engine/unknown-candidates.jsonl"
-      },
       {
         "type": "oversized_log",
         "file": "infrastructure/logs/auto-repair-executions.jsonl",
         "size": 1280936802
-      },
-      {
-        "type": "empty_dir",
-        "dir": "infrastructure/vector-service/backup/orphan-vectors"
-      },
-      {
-        "type": "empty_dir",
-        "dir": "infrastructure/vector-service/backup/deleted-skills"
       }
     ],
-    "fixes": [
-      {
-        "type": "dedup",
-        "from": "skills/project-mgmt/lessons/2026-03-08-artifact-governance-closure.md",
-        "to": ".entropy-archive/duplicates/2026-03-08-artifact-governance-closure.md.1772990404036",
-        "kept": "skills/project-mgmt/lessons/2026-03-07-artifact-governance-closure.md"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-v2-09.json",
-        "to": ".entropy-archive/duplicates/mined-v2-09.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-v2-10.json",
-        "to": ".entropy-archive/duplicates/mined-v2-10.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-v2-11.json",
-        "to": ".entropy-archive/duplicates/mined-v2-11.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-v2-12.json",
-        "to": ".entropy-archive/duplicates/mined-v2-12.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-v2-13.json",
-        "to": ".entropy-archive/duplicates/mined-v2-13.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-glm-01.json",
-        "to": ".entropy-archive/duplicates/mined-glm-01.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-glm-02.json",
-        "to": ".entropy-archive/duplicates/mined-glm-02.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-glm-03.json",
-        "to": ".entropy-archive/duplicates/mined-glm-03.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-glm-04.json",
-        "to": ".entropy-archive/duplicates/mined-glm-04.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-glm-06.json",
-        "to": ".entropy-archive/duplicates/mined-glm-06.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-session-01.json",
-        "to": ".entropy-archive/duplicates/mined-session-01.json.1772990404036",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-session-05.json",
-        "to": ".entropy-archive/duplicates/mined-session-05.json.1772990404037",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-07.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-v2-03.json",
-        "to": ".entropy-archive/duplicates/mined-v2-03.json.1772990404037",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-01.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-v2-05.json",
-        "to": ".entropy-archive/duplicates/mined-v2-05.json.1772990404037",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-01.json"
-      },
-      {
-        "type": "dedup",
-        "from": "tests/benchmarks/intent/c2-golden/mined-v2-06.json",
-        "to": ".entropy-archive/duplicates/mined-v2-06.json.1772990404037",
-        "kept": "tests/benchmarks/intent/c2-golden/mined-v2-01.json"
-      },
-      {
-        "type": "empty_cleanup",
-        "from": "infrastructure/intent-engine/unknown-candidates.jsonl"
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "infrastructure/vector-service/backup/orphan-vectors"
-      },
-      {
-        "type": "empty_dir_removed",
-        "dir": "infrastructure/vector-service/backup/deleted-skills"
-      }
-    ]
+    "fixes": []
   }
 }
