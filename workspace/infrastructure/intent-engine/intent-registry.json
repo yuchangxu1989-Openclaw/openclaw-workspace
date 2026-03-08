@@ -3,13 +3,28 @@
   "schema_version": "1",
   "description": "Intent Registry v4.3 - 5类意图收敛分类（IC1-IC5），MECE互斥穷尽",
   "created_at": "2026-03-05T00:07:00+08:00",
-  "updated_at": "2026-03-05T00:07:00+08:00",
+  "updated_at": "2026-03-08T15:49:00+08:00",
   "categories": {
-    "IC1": { "name": "情绪意图", "description": "用户正/负向情绪表达，包含挫败感等细分情绪" },
-    "IC2": { "name": "规则触发意图", "description": "可直接映射到ISC规则trigger的确定性意图" },
-    "IC3": { "name": "复杂意图", "description": "需5轮以上上下文推理才能确定的战略/架构级意图" },
-    "IC4": { "name": "隐含意图", "description": "用户未明确表达，需从语境、语气、行为模式推理的意图" },
-    "IC5": { "name": "多意图（复合）", "description": "单句包含2个以上独立意图，需拆分后分别路由" }
+    "IC1": {
+      "name": "情绪意图",
+      "description": "用户正/负向情绪表达，包含挫败感等细分情绪"
+    },
+    "IC2": {
+      "name": "规则触发意图",
+      "description": "可直接映射到ISC规则trigger的确定性意图"
+    },
+    "IC3": {
+      "name": "复杂意图",
+      "description": "需5轮以上上下文推理才能确定的战略/架构级意图"
+    },
+    "IC4": {
+      "name": "隐含意图",
+      "description": "用户未明确表达，需从语境、语气、行为模式推理的意图"
+    },
+    "IC5": {
+      "name": "多意图（复合）",
+      "description": "单句包含2个以上独立意图，需拆分后分别路由"
+    }
   },
   "intents": [
     {
@@ -292,7 +307,10 @@
       "category": "IC5",
       "name": "反馈+方向调整（复合）",
       "description": "用户同时给出对当前工作的评价，并要求转向新方向",
-      "composite_intents": ["user.emotion.negative", "user.intent.strategic_direction"],
+      "composite_intents": [
+        "user.emotion.negative",
+        "user.intent.strategic_direction"
+      ],
       "examples": [
         "这个方案太复杂了，我们换个更轻量的思路，你觉得直接用JSON文件行不行",
         "做的不错但方向错了，应该先解决用户留存再考虑拉新",
@@ -311,7 +329,10 @@
       "category": "IC5",
       "name": "认可+扩展需求（复合）",
       "description": "用户认可当前成果的同时追加新需求或扩展范围",
-      "composite_intents": ["user.intent.implicit_approval", "user.intent.architecture_decision"],
+      "composite_intents": [
+        "user.intent.implicit_approval",
+        "user.intent.architecture_decision"
+      ],
       "examples": [
         "这个可以，顺便把日志模块也加上吧",
         "不错，按这个方向走，另外性能测试也安排一下",
@@ -324,6 +345,43 @@
       "confidence_threshold": 0.6,
       "status": "active",
       "created_at": "2026-03-05T00:07:00+08:00"
+    },
+    {
+      "id": "user.query.why_not_done",
+      "category": "IC4",
+      "name": "为什么没做-根因分析请求",
+      "description": "用户问\"为什么不XX\"，隐含意图是要求根因分析+根治方案，不是只补做",
+      "examples": [
+        "为什么不调用汇报技能？",
+        "为什么不自动汇报队列？",
+        "为什么没识别到这个意图？",
+        "为什么没有自动并行？"
+      ],
+      "anti_examples": [
+        "为什么这个方案更好？（纯信息查询）",
+        "为什么选这个模型？（决策解释）"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "created_at": "2026-03-08T15:49:00+08:00",
+      "source": "用户纠偏：一切问为什么的都要做根因分析"
+    },
+    {
+      "id": "system.dispatch.batch_completed",
+      "category": "IC2",
+      "name": "批量派发后自动汇报触发",
+      "description": "批量spawn子Agent(>=2个)完成后，自动触发汇报流程",
+      "examples": [
+        "（系统内部）6路GLM-5子Agent已派出",
+        "（系统内部）3路PPT素材任务已spawn"
+      ],
+      "anti_examples": [
+        "单个子Agent派出（不触发批量汇报）"
+      ],
+      "confidence_threshold": 0.95,
+      "status": "active",
+      "created_at": "2026-03-08T15:49:00+08:00",
+      "source": "ISC rule dispatch-auto-report-001"
     }
   ],
   "metadata": {

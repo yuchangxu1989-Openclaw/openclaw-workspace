@@ -108,6 +108,19 @@ for entry in "${CORE_SKILLS[@]}"; do
   fi
 done
 
+# ========== API 协议一致性校验 ==========
+echo ""
+echo "🔌 检查 API 协议一致性..."
+PROTO_CHECK=$(node /root/.openclaw/workspace/scripts/config-api-protocol-check.js 2>&1)
+if echo "$PROTO_CHECK" | grep -q "全部 PASS"; then
+  echo "  ✅ 三渠道 API 协议全部自洽"
+else
+  echo "  ❌ API 协议不一致："
+  echo "$PROTO_CHECK" | head -10
+  echo "  运行 node scripts/config-api-protocol-check.js --fix 自动修复"
+  ERRORS=$((ERRORS + 1))
+fi
+
 # ========== 检查结果汇总 ==========
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

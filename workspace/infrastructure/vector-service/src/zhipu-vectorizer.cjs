@@ -88,7 +88,7 @@ class ZhipuVectorizer {
 
       const options = {
         hostname: this.apiUrl,
-        path: '/api/coding/paas/v4/embeddings',
+        path: '/api/paas/v4/embeddings',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

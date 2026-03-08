@@ -1,0 +1,20 @@
+{
+  "id": "dispatch-auto-report-001",
+  "name": "批量派发后自动汇报",
+  "description": "每次批量spawn子Agent(>=2个)后，必须立即调用multi-agent-reporting技能输出标准格式队列状态给用户",
+  "priority": "P0",
+  "category": "execution-governance",
+  "trigger": {
+    "event": "dispatch.batch.completed",
+    "condition": "spawned_count >= 2"
+  },
+  "action": {
+    "type": "auto_report",
+    "method": "调用subagents(action=list)获取实时状态，按multi-agent-reporting标准格式输出",
+    "timing": "派发完成后立即执行，不等用户催促",
+    "format": "Agent并行总数 + 任务/模型/状态表 + done/timeout/blocked汇总"
+  },
+  "badcase_if_violated": "用户需要主动询问才能看到队列状态 = Badcase",
+  "created": "2026-03-08",
+  "source": "用户纠偏：'为什么不调用汇报技能？我根本没看到12个队列'"
+}
