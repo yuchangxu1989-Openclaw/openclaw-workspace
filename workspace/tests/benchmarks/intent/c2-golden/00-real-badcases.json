@@ -9,7 +9,10 @@
     "root_cause": "无程序化守卫，委派规则仅存在于MEMORY.md",
     "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
     "data_source": "real-conversation",
-    "complexity_tags": ["delegation_violation", "coding_by_main_agent"]
+    "complexity_tags": [
+      "delegation_violation",
+      "coding_by_main_agent"
+    ]
   },
   {
     "id": "BADCASE-DELEGATION-002",
@@ -21,7 +24,10 @@
     "root_cause": "认为写文档是'通信'而非'实现工作'，未正确分类",
     "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
     "data_source": "real-conversation",
-    "complexity_tags": ["delegation_violation", "doc_writing_by_main_agent"]
+    "complexity_tags": [
+      "delegation_violation",
+      "doc_writing_by_main_agent"
+    ]
   },
   {
     "id": "BADCASE-DELEGATION-003",
@@ -33,7 +39,10 @@
     "root_cause": "认为'分析'是判断工作不是实现工作，边界模糊",
     "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
     "data_source": "real-conversation",
-    "complexity_tags": ["delegation_violation", "analysis_by_main_agent"]
+    "complexity_tags": [
+      "delegation_violation",
+      "analysis_by_main_agent"
+    ]
   },
   {
     "id": "BADCASE-DELEGATION-004",
@@ -45,7 +54,10 @@
     "root_cause": "认为创建规则文件是'规则管理'属于主Agent职责，实际上写JSON文件是实现工作",
     "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
     "data_source": "real-conversation",
-    "complexity_tags": ["delegation_violation", "rule_creation_by_main_agent"]
+    "complexity_tags": [
+      "delegation_violation",
+      "rule_creation_by_main_agent"
+    ]
   },
   {
     "id": "BADCASE-DELEGATION-005",
@@ -57,6 +69,77 @@
     "root_cause": "认知规则≠程序化守卫，声明式约束无法阻止行为，这是根本设计缺陷",
     "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
     "data_source": "real-conversation",
-    "complexity_tags": ["delegation_violation", "cognitive_rule_insufficient", "meta_problem"]
+    "complexity_tags": [
+      "delegation_violation",
+      "cognitive_rule_insufficient",
+      "meta_problem"
+    ]
+  },
+  {
+    "id": "session-2026-03-08-001",
+    "category": "规则展开质量不足",
+    "trigger": "AEO文档 OKmrd21OsotmFkxpT4gcLXjunze 结构修复：第2轮 writer 执行了write+read验证，声称完成；reviewer审查不通过，v2残留和重复拼接仍在。",
+    "expected_chain": "writer(read→结构分析→write全量覆盖→read回读校验) → reviewer(独立审查结构/残留/重复) → 不通过则自动换agent重写 → 复审通过",
+    "actual_chain": "writer多轮写入但未清理历史残留 → reviewer发现问题 → 流程未一次闭环",
+    "root_cause": "质量门禁仅检查是否执行步骤，缺少对“净化完成度（无旧版本残留/无重复拼接/章节起始正确）”的硬性判定。",
+    "severity": "C2",
+    "data_source": "real-conversation"
+  },
+  {
+    "id": "session-2026-03-08-002",
+    "category": "子Agent空转",
+    "trigger": "第3轮 analyst：只说'将执行'就结束了，7秒没做任何事。",
+    "expected_chain": "agent接单后必须发生工具调用（read/write/feishu_doc）并产出可验证结果；若无工具调用自动判失败并重派",
+    "actual_chain": "agent文本承诺执行 → 无任何工具调用 → 任务被误认为进行中/已响应",
+    "root_cause": "评测标准缺少“承诺-执行一致性”与“最小工具调用证据”门槛，导致‘说了不做’未被即时拦截。",
+    "severity": "C2",
+    "data_source": "real-conversation"
+  },
+  {
+    "id": "session-2026-03-08-003",
+    "category": "惯性覆盖新规则",
+    "trigger": "调度技能重构完了但主Agent没用新流程（惯性）。",
+    "expected_chain": "流程重构发布 → 路由切换到新流程（默认） → 旧流程禁用或降级为显式fallback → 运行期抽样验真",
+    "actual_chain": "新流程已实现但执行时仍沿用旧习惯/旧路径",
+    "root_cause": "缺少“发布后强制切换+旧路径熔断”机制，评测只看‘是否有新流程’不看‘是否实际被调用为主路径’。",
+    "severity": "C2",
+    "data_source": "real-conversation"
+  },
+  {
+    "id": "session-2026-03-08-004",
+    "category": "流程半闭环",
+    "trigger": "register-task.sh做好了但没做update-task.sh（半闭环）。",
+    "expected_chain": "需求拆解时识别完整生命周期（register/update/query/close）→ 成套交付 → 集成测试验证闭环",
+    "actual_chain": "只交付register入口，后续状态更新链路缺失",
+    "root_cause": "评测标准对‘闭环完整性’定义粗糙，未把关键后继动作列为必选检查项（mandatory follow-up actions）。",
+    "severity": "C2",
+    "data_source": "real-conversation"
+  },
+  {
+    "id": "session-2026-03-08-005",
+    "category": "规则展开质量不足",
+    "trigger": "质量门禁规则落地了但文档质量仍不过关。",
+    "expected_chain": "规则落地 → 绑定可执行检查器（结构/重复/残留）→ 不通过自动阻断交付并重试 → 达标后放行",
+    "actual_chain": "规则存在但检查粒度不足，放行了低质量结果",
+    "root_cause": "‘规则存在’被当成通过信号，缺少‘规则有效性/命中率/拦截率’评测维度。",
+    "severity": "C2",
+    "data_source": "real-conversation"
+  },
+  {
+    "id": "BADCASE-TASKBOARD-UPDATE-001",
+    "input": "子Agent完成任务，主Agent收到completion event",
+    "context": "update-task.sh已创建，AGENTS.md已写明规则，但主Agent收到completion event后直接处理结果，忘记调用update-task.sh回写看板",
+    "expected_behavior": "收到completion event → 第一件事调用update-task.sh → 然后才处理结果和回复用户",
+    "actual_behavior": "主Agent跳过update-task.sh，直接读取结果并回复用户，看板数据永远停在running",
+    "badcase_category": "流程遗漏-completion回写",
+    "root_cause": "认知规则≠程序化守卫。register-task.sh在spawn同一turn中执行所以不忘；completion event在异步新turn中到达，缺少同等强度的触发提醒，100%遗忘",
+    "isc_rule": "ISC-SPAWN-TASKBOARD-HOOK-001",
+    "data_source": "real-conversation",
+    "fix_applied": "三层强化: AGENTS.md加执行顺序铁律+SOUL.md加自检问+CAPABILITY-ANCHOR.md白名单显式列出",
+    "complexity_tags": [
+      "completion_event_miss",
+      "cognitive_rule_insufficient",
+      "async_turn_forgetting"
+    ]
   }
 ]

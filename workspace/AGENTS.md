@@ -53,12 +53,25 @@ fi
 exec: bash /root/.openclaw/workspace/scripts/register-task.sh <runId> <label> <agentId> <model>
 不登记 = Badcase。
 
-### completion event必须回写（ISC-SPAWN-TASKBOARD-HOOK-001补充）
-收到子Agent completion event后，立即执行：
-exec: bash /root/.openclaw/workspace/scripts/update-task.sh <taskId或label> <done|failed> "简要结果"
-不回写 = 看板数据不准 = Badcase。
+### completion event必须回写（ISC-SPAWN-TASKBOARD-HOOK-001，与register同级铁律）
 
-完整流程：spawn → register-task.sh → 等completion → update-task.sh
+⚠️ **这是最容易遗忘的环节！收到completion event ≠ 处理完成，必须先回写看板！**
+
+**触发条件**：消息中包含 "completed" / "子Agent完成" / "subagent completed" / completion event
+**第一个动作**（在读取结果、回复用户之前）：
+```
+exec: bash /root/.openclaw/workspace/scripts/update-task.sh <label> <done|failed> "简要结果"
+```
+
+**执行顺序铁律**：
+1. 收到completion event
+2. **立即** `update-task.sh` ← 第一件事，不可跳过
+3. 然后才读取子Agent产出
+4. 然后才回复用户
+
+不回写 = 看板数据不准 = Badcase（已有真实badcase: BADCASE-TASKBOARD-UPDATE-001）。
+
+完整生命周期：spawn → register-task.sh → 等completion → **update-task.sh** → 验收 → 回复用户
 
 ## 重要报告写作钢印（长期生效）
 

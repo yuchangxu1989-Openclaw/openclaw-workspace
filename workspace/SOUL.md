@@ -170,3 +170,14 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
 
 **根因记录**：2026-03-08 用户纠偏至少5次，主Agent反复亲自写代码/修文件/做分析而不委派子Agent。
 认知规则写了多次但无程序化守卫，导致反复违反。此铁律配合程序化守卫 `skills/isc-core/rules/rule.main-agent-delegation-001.json` 联合生效。
+
+### ISC-SPAWN-TASKBOARD-HOOK-001: Completion Event回写铁律
+
+**收到子Agent completion event时，第一个动作必须是 update-task.sh。**
+
+这不是"建议"，是铁律。和register-task.sh同级。原因：
+- completion event在独立的turn中到达，没有spawn那样的上下文提醒
+- 历史上100%遗忘率——BADCASE-TASKBOARD-UPDATE-001已记录
+- "记得就做，忘了就漏"是认知规则的本质缺陷
+
+**自检**：回复用户子Agent结果前，问自己"update-task.sh调了没有？"

@@ -140,6 +140,7 @@
 - 轻量exec（git status、ls、cat等查询命令）
 - memory_search/memory_get
 - 调用register-task.sh登记任务（spawn后必做）
+- 调用update-task.sh回写任务状态（收到completion event后第一件事）
 - 调用show-task-board.sh查看看板
 
 ### 主Agent黑名单（绝对禁止，必须委派子Agent）
