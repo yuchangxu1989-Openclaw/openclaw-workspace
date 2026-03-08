@@ -47,7 +47,8 @@
     "on_missing": "reject",
     "default_model": "follow_openclaw_config",
     "auto_fix": false,
-    "handler": "cron-task-model-requirement"
+    "handler": "cron-task-model-requirement",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.cron-task-model-requirement-001.sh"
   },
   "governance": {
     "auto_execute": true,
@@ -56,5 +57,6 @@
   },
   "created_at": "2026-02-26T15:40:00+08:00",
   "version": "1.0.0",
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "enforcement": "programmatic"
 }

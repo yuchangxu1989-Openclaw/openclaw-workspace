@@ -17,7 +17,11 @@
       "type": "update_task_board",
       "path": "/root/.openclaw/workspace/logs/subagent-task-board.json",
       "match_key": "taskId",
-      "update_fields": ["status", "completeTime", "result_summary"]
+      "update_fields": [
+        "status",
+        "completeTime",
+        "result_summary"
+      ]
     },
     {
       "type": "aggregate_check",
@@ -37,5 +41,9 @@
         "report_script": "/root/.openclaw/workspace/scripts/subagent-report.sh"
       }
     }
-  ]
+  ],
+  "enforcement": "programmatic",
+  "action": {
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.subagent-report-queue-001.sh"
+  }
 }

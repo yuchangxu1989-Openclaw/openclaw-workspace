@@ -124,8 +124,10 @@
   "action": {
     "type": "monitor",
     "handler": "vectorization-standard-enforcement",
-    "on_failure": "warn"
+    "on_failure": "warn",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.vectorization-standard-enforcement-001.sh"
   },
   "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+  "migrated_at": "2026-03-05T08:01:40+08:00",
+  "enforcement": "programmatic"
 }

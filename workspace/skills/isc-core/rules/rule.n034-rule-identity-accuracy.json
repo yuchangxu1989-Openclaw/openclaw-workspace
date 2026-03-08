@@ -168,6 +168,8 @@
   "action": {
     "type": "handler",
     "handler": "naming-convention-check",
-    "description": ""
-  }
+    "description": "",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n034-rule-identity-accuracy.sh"
+  },
+  "enforcement": "programmatic"
 }

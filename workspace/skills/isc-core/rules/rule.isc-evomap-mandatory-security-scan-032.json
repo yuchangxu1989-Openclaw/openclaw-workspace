@@ -112,6 +112,8 @@
   "enforcement_tier": "P0_gate",
   "action": {
     "type": "check",
-    "handler": "completeness-check"
-  }
+    "handler": "completeness-check",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-evomap-mandatory-security-scan-032.sh"
+  },
+  "enforcement": "programmatic"
 }

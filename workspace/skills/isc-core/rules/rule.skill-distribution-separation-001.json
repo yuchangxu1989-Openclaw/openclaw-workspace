@@ -147,6 +147,8 @@
   ],
   "action": {
     "handler": "skill-distribution-separation",
-    "type": "handler"
-  }
+    "type": "handler",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/isc-skill-distribution-separation-001.sh"
+  },
+  "enforcement": "programmatic"
 }

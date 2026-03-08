@@ -152,6 +152,8 @@
   "enforcement_tier": "P0_gate",
   "action": {
     "handler": "isc-skill-security",
-    "type": "handler"
-  }
+    "type": "handler",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-skill-security-gate-030.sh"
+  },
+  "enforcement": "programmatic"
 }

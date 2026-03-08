@@ -78,7 +78,8 @@
       "requires": "justification字段写入规则JSON",
       "audit_log": true
     },
-    "on_failure": "allow_with_warning"
+    "on_failure": "allow_with_warning",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-rule-creation-dedup-gate-001.sh"
   },
   "metadata": {
     "category": "meta-governance",
@@ -169,5 +170,6 @@
     "note": "同步门禁，必须在写入前完成，不异步派发DTO任务"
   },
   "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:04:00+08:00"
+  "migrated_at": "2026-03-05T08:04:00+08:00",
+  "enforcement": "programmatic"
 }

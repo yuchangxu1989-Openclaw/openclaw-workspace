@@ -42,6 +42,8 @@
   "enforcement_tier": "P0_gate",
   "action": {
     "type": "check",
-    "handler": "eval-quality-check"
-  }
+    "handler": "eval-quality-check",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-SKILL-QUALITY-001.sh"
+  },
+  "enforcement": "programmatic"
 }

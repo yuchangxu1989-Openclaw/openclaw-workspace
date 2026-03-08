@@ -114,6 +114,8 @@
   "action": {
     "type": "handler",
     "handler": "document-structure-check",
-    "description": ""
-  }
+    "description": "",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-standard-format-001.sh"
+  },
+  "enforcement": "programmatic"
 }

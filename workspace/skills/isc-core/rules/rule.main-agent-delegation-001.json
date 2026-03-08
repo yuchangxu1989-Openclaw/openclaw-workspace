@@ -32,7 +32,10 @@
         },
         {
           "tool": "feishu_doc",
-          "action_in": ["write", "append"]
+          "action_in": [
+            "write",
+            "append"
+          ]
         }
       ]
     }
@@ -41,18 +44,41 @@
     "type": "block_and_alert",
     "message": "🚫 ISC-MAIN-AGENT-DELEGATION-001 违反：主Agent不得亲自做实现工作。请使用 sessions_spawn 委派子Agent。",
     "log_as_badcase": true,
-    "badcase_category": "主Agent亲力亲为"
+    "badcase_category": "主Agent亲力亲为",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-MAIN-AGENT-DELEGATION-001.sh"
   },
   "whitelist": {
     "description": "主Agent允许直接执行的操作",
     "allowed_tools": [
-      { "tool": "read", "any_file": true },
-      { "tool": "exec", "max_lines": 3, "purpose": "快速验证" },
-      { "tool": "edit", "file_pattern": "(MEMORY\\.md|memory/.*\\.md|AGENTS\\.md|SOUL\\.md|TOOLS\\.md|USER\\.md|HEARTBEAT\\.md)$" },
-      { "tool": "write", "file_pattern": "(MEMORY\\.md|memory/.*\\.md|HEARTBEAT\\.md)$" },
-      { "tool": "message", "any": true },
-      { "tool": "sessions_spawn", "any": true },
-      { "tool": "subagents", "any": true }
+      {
+        "tool": "read",
+        "any_file": true
+      },
+      {
+        "tool": "exec",
+        "max_lines": 3,
+        "purpose": "快速验证"
+      },
+      {
+        "tool": "edit",
+        "file_pattern": "(MEMORY\\.md|memory/.*\\.md|AGENTS\\.md|SOUL\\.md|TOOLS\\.md|USER\\.md|HEARTBEAT\\.md)$"
+      },
+      {
+        "tool": "write",
+        "file_pattern": "(MEMORY\\.md|memory/.*\\.md|HEARTBEAT\\.md)$"
+      },
+      {
+        "tool": "message",
+        "any": true
+      },
+      {
+        "tool": "sessions_spawn",
+        "any": true
+      },
+      {
+        "tool": "subagents",
+        "any": true
+      }
     ]
   },
   "fullchain": {
@@ -67,5 +93,6 @@
       "event": "用户第6次纠偏后创建程序化守卫",
       "detail": "之前5次纠偏均只写入MEMORY.md/SOUL.md认知规则，未建立程序化拦截，导致反复违反"
     }
-  ]
+  ],
+  "enforcement": "programmatic"
 }

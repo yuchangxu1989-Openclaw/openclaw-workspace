@@ -201,6 +201,8 @@
   "enforcement_tier": "P1_process",
   "action": {
     "type": "check",
-    "handler": "completeness-check"
-  }
+    "handler": "completeness-check",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n035-rule-trigger-completeness.sh"
+  },
+  "enforcement": "programmatic"
 }

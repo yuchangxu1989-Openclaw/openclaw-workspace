@@ -84,6 +84,8 @@
   "source": "用户教学：固化重要报告的通用写作钢印",
   "action": {
     "type": "check",
-    "handler": "document-structure-check"
-  }
+    "handler": "document-structure-check",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.report-readability-001.sh"
+  },
+  "enforcement": "programmatic"
 }

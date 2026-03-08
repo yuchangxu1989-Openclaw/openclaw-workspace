@@ -89,6 +89,8 @@
   "source": "用户教学：9步交付流水线",
   "action": {
     "type": "check",
-    "handler": "document-structure-check"
-  }
+    "handler": "document-structure-check",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.design-document-delivery-pipeline-001.sh"
+  },
+  "enforcement": "programmatic"
 }
