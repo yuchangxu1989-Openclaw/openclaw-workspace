@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772961600013,
+      "updatedAtMs": 1772962500005,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,11 +670,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772961900000,
-        "lastRunAtMs": 1772961600012,
+        "nextRunAtMs": 1772962800000,
+        "lastRunAtMs": 1772962500005,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 1,
+        "lastDurationMs": 0,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "lastError": "isolated job requires payload.kind=agentTurn"
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772961338261,
+      "updatedAtMs": 1772962231460,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,11 +703,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772962200000,
-        "lastRunAtMs": 1772961300012,
+        "nextRunAtMs": 1772963100000,
+        "lastRunAtMs": 1772962200007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 38249,
+        "lastDurationMs": 31453,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false

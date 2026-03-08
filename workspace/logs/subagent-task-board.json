@@ -24,7 +24,25 @@
     "label": "add-update-task-script",
     "agentId": "coder",
     "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T09:32:32.581Z",
+    "completeTime": "2026-03-08T09:34:12.410Z",
+    "result_summary": "update-task.sh创建完成，AGENTS.md和SKILL.md已更新"
+  },
+  {
+    "taskId": "02d7860e",
+    "label": "harvest-eval-cases-from-session",
+    "agentId": "analyst",
+    "model": "boom-analyst/gpt-5.3-codex",
     "status": "running",
-    "spawnTime": "2026-03-08T09:32:32.581Z"
+    "spawnTime": "2026-03-08T09:34:54.027Z"
+  },
+  {
+    "taskId": "1cf2d1b1",
+    "label": "rca-taskboard-update-miss",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T09:34:54.054Z"
   }
 ]
