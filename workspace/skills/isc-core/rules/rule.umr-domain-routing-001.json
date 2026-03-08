@@ -55,8 +55,8 @@
     "priority": 90
   },
   "action": {
-    "type": "handler",
-    "handler": "umr-domain-routing",
-    "description": ""
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.umr-domain-routing-001.sh"
+  },
+  "enforcement": "programmatic"
 }

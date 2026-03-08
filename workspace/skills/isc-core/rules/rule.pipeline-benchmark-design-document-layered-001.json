@@ -15,7 +15,8 @@
   "priority": "P1",
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "check",
-    "handler": "layered-architecture-checker"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-layered-001.sh"
+  },
+  "enforcement": "programmatic"
 }

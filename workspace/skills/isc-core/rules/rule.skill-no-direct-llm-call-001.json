@@ -28,7 +28,8 @@
   "rationale": "用户原话：'即便没有路由层，不也可以由默认模型来调度技能么？技能为什么一定要写指定的模型呢？'",
   "created_at": "2026-03-06T02:07:00+08:00",
   "action": {
-    "handler": "skill-no-direct-llm",
-    "type": "handler"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.skill-no-direct-llm-call-001.sh"
+  },
+  "enforcement": "programmatic"
 }

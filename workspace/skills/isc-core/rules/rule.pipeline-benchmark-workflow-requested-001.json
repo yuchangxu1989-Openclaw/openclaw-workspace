@@ -14,7 +14,8 @@
   "priority": "P1",
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "handler",
-    "handler": "parallel-subagent-orchestration"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-workflow-requested-001.sh"
+  },
+  "enforcement": "programmatic"
 }

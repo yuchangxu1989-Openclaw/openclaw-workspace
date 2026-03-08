@@ -18,15 +18,14 @@
     ]
   },
   "action": {
-    "type": "skill",
-    "skill": "seef",
-    "subskill": "evaluator",
-    "handler": "seef-skill-registered"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.seef-skill-registered-001.sh"
   },
   "governance": {
     "auto_execute": true
   },
   "enforcement_tier": "P1_process",
   "created_at": "2026-03-05T03:00:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "enforcement": "programmatic"
 }

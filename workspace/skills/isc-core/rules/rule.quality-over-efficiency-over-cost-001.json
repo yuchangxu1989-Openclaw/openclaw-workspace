@@ -30,33 +30,8 @@
     ]
   },
   "action": {
-    "type": "gate",
-    "handler": "eval-quality-check",
-    "checks": [
-      {
-        "id": "importance_match",
-        "description": "方案强度是否匹配任务重要性：P0任务必须用最强方案，P1可适度权衡效率，P2才考虑成本",
-        "fail_action": "reject"
-      },
-      {
-        "id": "no_critical_downgrade",
-        "description": "关键环节禁止降级：ISC规则治理、语义判断、架构决策、验收测试等不允许用弱模型/简单方案",
-        "fail_action": "reject"
-      },
-      {
-        "id": "cost_only_for_batch",
-        "description": "成本优化仅适用于高频批量定时任务（如GLM-5用于定时跑批），其他场景成本不作为选型因素",
-        "fail_action": "warn"
-      }
-    ],
-    "on_failure": "reject",
-    "quality_analyst_report_fields": [
-      "选型决策描述",
-      "任务重要性级别(P0/P1/P2)",
-      "可选方案对比",
-      "选中方案及理由",
-      "是否符合质量>效率>成本"
-    ]
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.quality-over-efficiency-over-cost-001.sh"
   },
   "examples": [
     {
@@ -95,5 +70,6 @@
     "source": "用户亲授选型原则",
     "anti_entropy": true,
     "priority": "highest"
-  }
+  },
+  "enforcement": "programmatic"
 }

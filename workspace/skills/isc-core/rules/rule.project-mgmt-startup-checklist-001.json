@@ -37,8 +37,8 @@
     "principle": "不读历史经验就开工 = 注定重复犯错"
   },
   "action": {
-    "type": "handler",
-    "handler": "document-structure-check",
-    "description": ""
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.project-mgmt-startup-checklist-001.sh"
+  },
+  "enforcement": "programmatic"
 }

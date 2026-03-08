@@ -79,7 +79,8 @@
   },
   "enforcement_tier": "P1_process",
   "action": {
-    "handler": "seef-subskill-orchestration",
-    "type": "handler"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.seef-subskill-orchestration-001.sh"
+  },
+  "enforcement": "programmatic"
 }

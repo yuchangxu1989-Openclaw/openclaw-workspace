@@ -14,7 +14,8 @@
   "priority": "P1",
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "check",
-    "handler": "capability-anchor-sync"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-skill-created-alignment-001.sh"
+  },
+  "enforcement": "programmatic"
 }

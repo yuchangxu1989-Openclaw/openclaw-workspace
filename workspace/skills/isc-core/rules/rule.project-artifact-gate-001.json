@@ -66,12 +66,13 @@
     ]
   },
   "action": {
-    "type": "handler",
-    "handler": "artifact-gate-check"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.project-artifact-gate-001.sh"
   },
   "metadata": {
     "created": "2026-03-07",
     "source": "Day2 Gap5 closure",
     "anti_entropy": true
-  }
+  },
+  "enforcement": "programmatic"
 }

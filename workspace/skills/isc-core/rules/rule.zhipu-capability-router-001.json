@@ -119,8 +119,8 @@
   },
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "handler",
-    "handler": "log-action",
-    "description": ""
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.zhipu-capability-router-001.sh"
+  },
+  "enforcement": "programmatic"
 }

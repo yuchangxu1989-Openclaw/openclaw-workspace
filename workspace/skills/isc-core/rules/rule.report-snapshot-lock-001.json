@@ -10,8 +10,9 @@
     "event": "evaluation.benchmark.completed"
   },
   "action": {
-    "type": "snapshot",
-    "handler": "report-snapshot"
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.report-snapshot-lock-001.sh"
   },
-  "created_at": "2026-03-06"
+  "created_at": "2026-03-06",
+  "enforcement": "programmatic"
 }

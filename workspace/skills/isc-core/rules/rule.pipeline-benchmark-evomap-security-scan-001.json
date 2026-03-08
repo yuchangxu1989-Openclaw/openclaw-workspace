@@ -14,7 +14,8 @@
   "priority": "P1",
   "enforcement_tier": "P0_gate",
   "action": {
-    "type": "check",
-    "handler": "evomap-security-scan"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-evomap-security-scan-001.sh"
+  },
+  "enforcement": "programmatic"
 }
