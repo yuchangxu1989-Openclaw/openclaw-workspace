@@ -1,0 +1,23 @@
+{
+  "id": "ISC-EVAL-ROLE-SEPARATION-001",
+  "name": "评测角色分离铁律",
+  "description": "评测用例必须由独立的质量分析Agent评测，执行Agent不能自评",
+  "trigger": {"event": "eval.case.execution.completed"},
+  "action": {
+    "type": "mandatory_followup",
+    "rule": "执行Agent完成后，必须派不同Agent做质量评测",
+    "violation": "badcase",
+    "forbidden": "执行Agent自评"
+  },
+  "enforcement": {
+    "check": "evaluator.agentId !== executor.agentId",
+    "on_violation": "auto_badcase",
+    "anti_cheat": [
+      "同一Agent换label不算分离",
+      "必须是不同agentId"
+    ]
+  },
+  "priority": "P0",
+  "created": "2026-03-08",
+  "category": "eval-quality"
+}

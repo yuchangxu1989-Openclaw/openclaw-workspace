@@ -143,6 +143,7 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
    - 主Agent派writer写 → 自动派reviewer审 → 不通过自动换Agent重写
    - 最多重试2次，仍不通过升级主Agent
    - 主Agent绝不亲自写文档（参见ISC-MAIN-AGENT-DELEGATION-001）
+8. **评测角色分离铁律（ISC-EVAL-ROLE-SEPARATION-001）**：执行者≠评测者。任何Agent的执行结果必须由不同Agent评测，自评=Badcase。
 
 ## 主Agent委派铁律（最高优先级，永久生效）
 

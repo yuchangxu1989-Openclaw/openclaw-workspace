@@ -143,6 +143,11 @@
 - 调用update-task.sh回写任务状态（收到completion event后第一件事）
 - 调用show-task-board.sh查看看板
 
+### 评测引擎脚本白名单
+- scripts/eval-engine.sh — 评测用例角色分离引擎主脚本
+- scripts/eval-case-runner.js — 评测单个用例的标准流程
+- scripts/eval-task-template.md — 评测任务模板（执行/评测Agent）
+
 ### 主Agent黑名单（绝对禁止，必须委派子Agent）
 - 写飞书文档（feishu_doc write/append/insert）
 - 写代码文件（.js/.ts/.py/.sh/.json，超过20行）
