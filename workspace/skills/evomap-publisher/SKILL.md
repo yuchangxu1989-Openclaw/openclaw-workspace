@@ -4,7 +4,7 @@ abbreviation: EP
 full_name: EvoMap Publisher
 chinese_name: EvoMap极简发布器
 description: EvoMap极简发布器 - 只负责一件事：将SEEF+DTO生成的技能发布到EvoMap网络
-version: "1.0.9"
+version: "1.0.10"
 status: active
 layer: core
 tags: [evomap, publisher, seef, lto, a2a]
