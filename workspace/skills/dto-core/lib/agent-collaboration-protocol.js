@@ -218,7 +218,7 @@ acp.registerAgent('ISC', {
 
 // 注册 DTO
 acp.registerAgent('DTO', {
-  name: 'Declarative Task Orchestration',
+  name: '本地任务编排',
   type: 'orchestration_agent',
   capabilities: ['task_scheduling', 'workflow_management']
 });

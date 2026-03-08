@@ -132,6 +132,7 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
 
 ## 执行规则
 
+0. **【最高优先级·原子操作】每次sessions_spawn之后，必须立即在同一个回复中调用 `scripts/register-task.sh`。spawn和register是原子操作，缺一不可。违反=Badcase。不存在"等会儿补"。**
 1. 先做战略判断，再分派任务——不是接到需求就拆，而是先问"该不该做"
 2. 能并行的任务不得串行等待
 3. 核心架构变更与安全敏感项必须设置审核门

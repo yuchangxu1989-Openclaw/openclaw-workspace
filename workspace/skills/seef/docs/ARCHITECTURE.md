@@ -991,7 +991,7 @@ discoverer:
 | 术语 | 全称 | 说明 |
 |:-----|:-----|:-----|
 | ISC | Intelligent Standards Center | 智能标准中心 |
-| DTO | Declarative Task Orchestration | 声明式任务编排 |
+| DTO | 本地任务编排 | 声明式任务编排 |
 | SEEF | Skill Ecosystem Evolution Foundry | 技能生态进化工厂 |
 | EvoMap | Evolution Map | 技能进化网络 |
 | CRAS | Cognitive Reflection & Autonomous System | 认知进化伙伴 |

@@ -881,7 +881,7 @@ class MRASConfigManager {
 | MRAS | Model Routing Auto-Switching | 模型路由自动切换机制 |
 | LEP | Lightweight Execution Platform | 轻量级执行平台 (韧性基础设施) |
 | ISC | Intelligent Standard Center | 智能标准中心 |
-| DTO | Declarative Task Orchestration | 声明式任务编排 |
+| DTO | 本地任务编排 | 声明式任务编排 |
 | CapabilityAnchor | 能力锚点 | 系统能力矩阵文档 |
 | Intent | 意图 | 任务的结构化描述 |
 | Fallback | 降级 | 主模型失败时切换到备用模型 |

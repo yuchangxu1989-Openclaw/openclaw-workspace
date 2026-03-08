@@ -162,5 +162,61 @@
     "model": "claude-opus-4-6-thinking",
     "status": "running",
     "startTime": "2026-03-08T18:03:00+08:00"
+  },
+  {
+    "taskId": "rem-a",
+    "label": "isc-fix-remaining-batch-a",
+    "agentId": "coder",
+    "model": "opus-4-6-thinking",
+    "status": "done"
+  },
+  {
+    "taskId": "rem-b",
+    "label": "isc-fix-remaining-batch-b",
+    "agentId": "writer",
+    "model": "opus-4-6-thinking",
+    "status": "done"
+  },
+  {
+    "taskId": "rem-c",
+    "label": "isc-fix-remaining-batch-c",
+    "agentId": "researcher",
+    "model": "opus-4-6-thinking",
+    "status": "running"
+  },
+  {
+    "taskId": "rem-d",
+    "label": "isc-fix-remaining-batch-d",
+    "agentId": "reviewer",
+    "model": "opus-4-6-thinking",
+    "status": "done"
+  },
+  {
+    "taskId": "audit-1",
+    "label": "isc-programmatic-quality-audit",
+    "agentId": "analyst",
+    "model": "opus-4-6-thinking",
+    "status": "running"
+  },
+  {
+    "taskId": "cras-rpt",
+    "label": "cras-daily-report-cron-setup",
+    "agentId": "coder",
+    "model": "opus-4-6-thinking",
+    "status": "done"
+  },
+  {
+    "taskId": "dto-rename",
+    "label": "dto-rename-global-alignment",
+    "agentId": "researcher",
+    "model": "opus-4-6-thinking",
+    "status": "running"
+  },
+  {
+    "taskId": "lxg-rename",
+    "label": "lingxiaoge-rename-to-caijuedian",
+    "agentId": "writer",
+    "model": "opus-4-6-thinking",
+    "status": "running"
   }
 ]

@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772965200007,
+      "updatedAtMs": 1772965500008,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,8 +670,8 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772965500000,
-        "lastRunAtMs": 1772965200007,
+        "nextRunAtMs": 1772965800000,
+        "lastRunAtMs": 1772965500008,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
         "lastDurationMs": 0,
@@ -835,7 +835,8 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "consecutiveErrors": 0
+        "consecutiveErrors": 0,
+        "nextRunAtMs": 1772967600000
       }
     }
   ]
