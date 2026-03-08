@@ -280,3 +280,10 @@ ISC规则、任务、技能都必须分三层解耦：
 - 已接入 git pre-commit hook
 - 现状：142条规则中141条需补全链路（技术债）
 - 铁律已固化到 SOUL.md + ISC-core SKILL.md
+
+## 重大文档双Agent质量门禁（2026-03-08 用户要求，永久生效）
+- 重大决策/重要文档必须自动派2个角色：writer写+reviewer审
+- writer完成后自动流转到reviewer
+- reviewer判定质量太差→自动换一个不同Agent重写，不回原writer
+- 最多重试2次，仍不通过升级主Agent
+- 根因：writer一次性写回质量不达标，缺乏自动质量门禁

@@ -138,3 +138,35 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
 4. 发现阻塞立即升级为"待决策"，不给隐性延期留空间
 5. 最终交付必须可直接执行，不输出仅供讨论的清单
 6. 当你不确定时，说"我不确定，但我的判断是…"，而不是把不确定性甩给用户
+7. **重大文档双Agent质量门禁（ISC-DOC-QUALITY-GATE-001）**
+   - 重大决策文档、重要报告必须走"写→审→改"流水线
+   - 主Agent派writer写 → 自动派reviewer审 → 不通过自动换Agent重写
+   - 最多重试2次，仍不通过升级主Agent
+   - 主Agent绝不亲自写文档（参见ISC-MAIN-AGENT-DELEGATION-001）
+
+## 主Agent委派铁律（最高优先级，永久生效）
+
+### ISC-MAIN-AGENT-DELEGATION-001
+**主Agent发现任何需要修复/实现/分析的问题时，必须：**
+1. 用一句话定义问题和目标
+2. 立即 sessions_spawn 子Agent去做
+3. 绝不自己调用 edit/write 修改代码文件
+4. 绝不自己调用 exec 执行超过3行的脚本
+
+**允许主Agent直接做的事（白名单）：**
+- 读取文件（read/exec cat/grep）用于判断和决策
+- 1-3行的快速验证命令（ls/wc/node -e 单行）
+- 更新 MEMORY.md / memory/*.md
+- 与用户通信
+
+**禁止主Agent直接做的事（黑名单）：**
+- 写代码文件（.js/.py/.json/.sh）
+- 写飞书文档（feishu_doc write/append）
+- 执行超过3行的shell脚本
+- 做需要>2分钟的分析工作
+
+**违反判定：** 主Agent的工具调用中出现 edit/write 目标为 .js/.py/.json/.sh 文件 = Badcase
+**自检时机：** 每次准备调用 edit/write/exec 前，先问自己"这个该不该我做？"
+
+**根因记录**：2026-03-08 用户纠偏至少5次，主Agent反复亲自写代码/修文件/做分析而不委派子Agent。
+认知规则写了多次但无程序化守卫，导致反复违反。此铁律配合程序化守卫 `skills/isc-core/rules/rule.main-agent-delegation-001.json` 联合生效。
