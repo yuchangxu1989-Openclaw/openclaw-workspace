@@ -25,7 +25,7 @@ ISC 不管理"标准数量"，而管理"标准生成与演进的机制"。
 
 1. **语义化标识** - 标准 ID 为 `<域>.<类别>.<描述>`，如 `naming.skill.display`
 2. **机制优先** - 关注标准如何生成、演进、失效，而非标准本身
-3. **边界清晰** - ISC 提供规范与检查点，DTO 拥有执行权与调度权
+3. **边界清晰** - ISC 提供规范与检查点，本地任务编排 拥有执行权与调度权
 4. **血缘追踪** - 每条标准记录完整进化链，支持影响分析
 
 ### 架构定位
@@ -39,7 +39,7 @@ ISC 不管理"标准数量"，而管理"标准生成与演进的机制"。
         ┌────────────┼────────────┐
         ▼            ▼            ▼
    ┌─────────┐  ┌─────────┐  ┌─────────┐
-   │  DTO    │  │  SEEF   │  │  CRAS   │
+   │  本地任务编排    │  │  SEEF   │  │  CRAS   │
    │ 编排器  │  │ 进化器  │  │ 认知层  │
    └─────────┘  └─────────┘  └─────────┘
 ```
@@ -94,7 +94,7 @@ if (draft.confidence > 0.85) {
 }
 ```
 
-### 三、ISC-DTO 边界
+### 三、ISC-本地任务编排 边界
 
 ISC 只提供规范，不拥有执行权。
 
@@ -108,11 +108,11 @@ isc.registerCheckpoints([
   'naming.skill.display'
 ]);
 
-// DTO 自由组合检查序列
+// 本地任务编排 自由组合检查序列
 const checkpoints = isc.getCheckpointsForPhase('verify');
 for (const cp of checkpoints) {
   const result = await isc.check(cp.id, skill);
-  // DTO 自行决定如何处理结果
+  // 本地任务编排 自行决定如何处理结果
 }
 ```
 
@@ -383,10 +383,10 @@ isc.registerStandard(draft);
 
 ---
 
-### DTO 集成
+### 本地任务编排 集成
 
 ```javascript
-// DTO 在 Verify 阶段调用
+// 本地任务编排 在 Verify 阶段调用
 async function verifyPhase(skill) {
   const checkpoints = isc.getCheckpointsForPhase('verify');
   

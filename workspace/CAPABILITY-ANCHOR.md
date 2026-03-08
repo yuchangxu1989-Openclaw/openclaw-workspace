@@ -83,7 +83,7 @@
 - ✅ **cras-generated-1772042431830**: skills/cras-generated-1772042431830/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **cras-generated-1772128853925**: skills/cras-generated-1772128853925/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **daily-ops-report**: skills/daily-ops-report/
-- ✅ **dto-core**: skills/dto-core/ — DTO (本地任务编排) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
+- ✅ **dto-core**: skills/dto-core/ — 本地任务编排 (LTO) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 - ✅ **etl**: skills/etl/
 - ✅ **evolver**: skills/evolver/ — A self-evolution engine for AI agents. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
 - ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A协议连接器 - 实现与EvoMap Hub的WebSocket连接、自动重连、消息队列管理

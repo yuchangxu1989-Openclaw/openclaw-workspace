@@ -5,7 +5,7 @@ version: "1.0.1"
 status: active
 layer: method
 category: visualization
-purpose: 面向 OpenClaw / ISC / DTO / CRAS / SEEF 体系的专业系统图绘制规范与产出技能。
+purpose: 面向 OpenClaw / ISC / 本地任务编排 / CRAS / SEEF 体系的专业系统图绘制规范与产出技能。
 inputs:
   - openclaw.json
   - cron/jobs.json
@@ -30,7 +30,7 @@ distribution: internal
 - OpenClaw 全局架构盘点
 - Day2 完成度 / 缺口分析
 - Day3 路线图 / 收尾计划
-- ISC / DTO / CRAS / SEEF / EventBus 关系图
+- ISC / 本地任务编排 / CRAS / SEEF / EventBus 关系图
 - 面向评审会、日报、复盘、架构审计的高可读图件
 
 ---
@@ -83,7 +83,7 @@ distribution: internal
 
 ### 标准结构
 - 顶部：外部输入 / 用户 / 定时器 / 配置源
-- 中部：治理编排核心（ISC / DTO / Dispatcher / EventBus）
+- 中部：治理编排核心（ISC / 本地任务编排 / Dispatcher / EventBus）
 - 下部：执行技能、反馈、报告、发布
 - 右侧：证据与门禁（AEO、凌霄阁、审计）
 
@@ -167,7 +167,7 @@ distribution: internal
 
 | 语义 | 颜色 | 用途 |
 |---|---|---|
-| 核心控制面 | `#DCEBFF` | ISC / DTO / Dispatcher / 总控层 |
+| 核心控制面 | `#DCEBFF` | ISC / 本地任务编排 / Dispatcher / 总控层 |
 | 能力执行面 | `#E8F5E9` | 技能、执行器、处理器 |
 | 事实证据面 | `#EEF2F7` | 配置、报告、日志、Anchor |
 | 反馈闭环面 | `#FFF3D6` | AEO、评测、复盘、告警 |

@@ -132,7 +132,7 @@ const recommendation = {
 |:-----|:-----|:-----|
 | **enhancement** | 现有模块增强 | 升级 CRAS-C 向量化模型 |
 | **feature** | 新功能添加 | 增加论文自动摘要功能 |
-| **integration** | 系统集成 | SEEF 与 DTO 对接 |
+| **integration** | 系统集成 | SEEF 与 本地任务编排 对接 |
 | **optimization** | 性能优化 | 降低知识检索延迟 |
 
 ### 建议输出格式

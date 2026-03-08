@@ -1,26 +1,26 @@
 ---
 name: dto-core
-description: DTO (本地任务编排) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
+description: 本地任务编排 (LTO) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 version: "2.1.4"
 status: active
 layer: core
-abbreviation: DTO
+abbreviation: LTO
 full_name: 本地任务编排
-chinese_name: 声明式任务编排中心
-tags: [dto, orchestration, scheduling, dag, adaptive, event-driven, declarative, isc-subscription, auto-execution, git-tracking]
-author: OpenClaw DTO
+chinese_name: 本地任务编排中心
+tags: [lto, orchestration, scheduling, dag, adaptive, event-driven, declarative, isc-subscription, auto-execution, git-tracking]
+author: OpenClaw LTO
 created_at: 2026-02-23
 updated_at: 2026-02-28
 ---
 
-# DTO 声明式任务编排中心 v3.0.3
+# 本地任务编排中心 (LTO) v3.0.3
 
 distribution: both
 
 
 ## 定位
 
-**声明式任务编排中心** — 用户描述"意图"，DTO 负责"如何执行"。
+**声明式任务编排中心** — 用户描述"意图"，本地任务编排 负责"如何执行"。
 
 **ISC规则全自动订阅执行** — DTO自动扫描并订阅所有ISC规则（R001-R007及独立规则），100%全自动执行，无需人工干预。
 

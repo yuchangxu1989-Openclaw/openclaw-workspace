@@ -86,7 +86,7 @@
    - 每个Day研发完成后必须经凌霄阁裁决
 
 4. ✅ **L3架构变化后的全系统重塑盘点**（Gap4 — 2026-03-07已完成）
-   - 全系统盘点完成：ISC/DTO/CRAS/AEO/SEEF/LEP/Anti-entropy全部检查
+   - 全系统盘点完成：ISC/LTO/CRAS/AEO/SEEF/LEP/Anti-entropy全部检查
    - 集成改造落地：dispatcher路由44→65条，4个event-bridge升级，LEP L3桥接新建，anti-entropy接入L3
    - 遗留P2项：5条（lep-executor旧引用、SEEF Python直接API、历史积压428条消化、evolver集成、pdca事件）
    - 详见报告: `reports/day2-gap4-l3-remodel-inventory.md`
@@ -117,7 +117,7 @@
 | ✅ ok | event-dispatcher-每5分钟 | 5min |
 | ✅ ok | ISC变更检测-每15分钟 | 15min |
 | ✅ ok | 系统监控-综合-每小时 | 1h |
-| ✅ ok | DTO-AEO-智能流水线-每小时 | 1h |
+| ✅ ok | LTO-AEO-智能流水线-每小时 | 1h |
 | 🔴 error | 能力同步与PDCA-每4小时 | 4h |
 | ✅ ok | 系统状态与流水线监控-每4小时 | 4h |
 | 🔴 error | LEP-韧性日报-每日0900 | daily |
@@ -175,7 +175,7 @@
 - 📋 P1 CRAS-D研究策略落地 / 把研究源从二手社区文扩展到学术/官方优先采样 [parent=task-cras_d_strategy_execution]
 - ⏳ P0 CRAS-D研究策略落地 / 将研究结论绑定本地执行压力与积压 [parent=task-cras_d_strategy_execution]
 - 📋 P1 CRAS-D研究策略落地 / 生成 Feishu Doc 友好的结构化材料 [parent=task-cras_d_strategy_execution]
-- 📋 P0 CRAS-D研究策略落地 / 把研究结论接入 Tracker / todo / DTO 任务树 [parent=task-cras_d_strategy_execution]
+- 📋 P0 CRAS-D研究策略落地 / 把研究结论接入 Tracker / todo / LTO 任务树 [parent=task-cras_d_strategy_execution]
 - 📋 P1 Day2遗留项逐桩打透 / 主实现 [parent=task-day2_closure]
 - 📋 P1 Day2遗留项逐桩打透 / 汇报与验收 [parent=task-day2_closure]
 - 📋 P1 Day2遗留项逐桩打透 / 集成改造 [parent=task-day2_closure]
@@ -207,4 +207,4 @@
 - 📋 P1 CRAS-D研究策略落地 / 把研究源从二手社区文扩展到学术/官方优先采样 [parent=task-cras_d_strategy_execution]
 - 📋 P0 CRAS-D研究策略落地 / 将研究结论绑定本地执行压力与积压 [parent=task-cras_d_strategy_execution]
 - 📋 P1 CRAS-D研究策略落地 / 生成 Feishu Doc 友好的结构化材料 [parent=task-cras_d_strategy_execution]
-- 📋 P0 CRAS-D研究策略落地 / 把研究结论接入 Tracker / todo / DTO 任务树 [parent=task-cras_d_strategy_execution]
+- 📋 P0 CRAS-D研究策略落地 / 把研究结论接入 Tracker / todo / LTO 任务树 [parent=task-cras_d_strategy_execution]

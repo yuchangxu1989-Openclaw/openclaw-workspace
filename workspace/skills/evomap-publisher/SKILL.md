@@ -28,7 +28,7 @@ distribution: both
 | 系统 | 职责 | 不包含 |
 |:-----|:-----|:-------|
 | **SEEF** | 技能开发、测试、验证、优化 | 网络发布 |
-| **DTO** | 任务调度、工作流编排 | 网络协议 |
+| **本地任务编排** | 任务调度、工作流编排 | 网络协议 |
 | **EP** | 网络发布、A2A协议、状态同步 | 开发/测试/审核 |
 
 ## 极简状态机
@@ -43,7 +43,7 @@ distribution: both
 │     │                   │(空闲)   │                    │       │
 │     │                   └────┬────┘                    │       │
 │     │                        │                         │       │
-│     │       DTO.publish()    │    新任务入队            │       │
+│     │       本地任务编排.publish()    │    新任务入队            │       │
 │     │                        ▼                         │       │
 │     │                   ┌─────────┐     重试           │       │
 │     │                   │PUBLISHING│───────────────────┘       │
@@ -69,7 +69,7 @@ distribution: both
 | 状态 | 说明 | 触发条件 | 自动流转 |
 |:-----|:-----|:---------|:---------|
 | `IDLE` | 空闲等待，维护待发布队列 | 系统启动完成 | DTO指令→PUBLISHING |
-| `PUBLISHING` | 正在发布：ISC最终检查→打包→WebSocket上传 | DTO.publish()调用 | 成功→PUBLISHED，失败→FAILED |
+| `PUBLISHING` | 正在发布：ISC最终检查→打包→WebSocket上传 | 本地任务编排.publish()调用 | 成功→PUBLISHED，失败→FAILED |
 | `PUBLISHED` | 发布成功，技能已在EvoMap | WebSocket确认收到 | 回调DTO→IDLE |
 | `FAILED` | 发布失败，重试3次后放弃 | 第3次重试失败 | 回调DTO→IDLE |
 
@@ -314,4 +314,4 @@ await publisher.publish({
 ---
 
 **归属**: EvoMap发布层  
-**关联**: SEEF | DTO | EvoMap A2A | ISC
+**关联**: SEEF | 本地任务编排 | EvoMap A2A | ISC
