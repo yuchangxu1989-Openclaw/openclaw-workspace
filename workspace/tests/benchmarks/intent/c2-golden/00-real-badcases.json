@@ -167,5 +167,31 @@
     "data_source": "real_conversation",
     "date": "2026-03-08",
     "context": "用户三次问'为什么没看到任务看板更新'，根因相同"
+  },
+  {
+    "id": "C2-GIT-PUSH-BLIND-001",
+    "category": "执行验真缺失",
+    "severity": "C2",
+    "title": "git push失败未检测，盲目宣称成功",
+    "description": "git push因100MB大文件被GitHub拒绝，主Agent未检查返回码，继续告诉用户已推送成功。用户发截图指出GitHub无更新后才发现。",
+    "root_cause": "push命令执行后未验证返回码和输出内容，盲目认为成功。缺少push后自动验真环节。",
+    "error_chain": [
+      "git push被拒绝(100MB限制)",
+      "主Agent未检查返回码",
+      "告诉用户已推送",
+      "用户发截图指出无更新",
+      "才发现push失败"
+    ],
+    "correct_chain": [
+      "git push执行",
+      "检查返回码!=0",
+      "解析错误信息(大文件)",
+      "自动处理(filter-repo清理)",
+      "重新push",
+      "验证成功后才告诉用户"
+    ],
+    "lesson": "任何外部操作(push/API调用/文件发送)执行后必须验真返回结果，不能盲目宣称成功",
+    "data_source": "real_conversation",
+    "date": "2026-03-08"
   }
 ]
