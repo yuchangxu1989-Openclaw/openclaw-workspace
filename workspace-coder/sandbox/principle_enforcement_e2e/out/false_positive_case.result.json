@@ -1,0 +1,221 @@
+{
+  "runner": "principle_to_enforcement_e2e",
+  "version": "1.1",
+  "mode": "sandbox_only",
+  "source": "/root/.openclaw/workspace-coder/sandbox/principle_enforcement_e2e/tests/false_positive_case.json",
+  "summary": "只提到了准出 gate，但没有原则/裁决/约束样本，不应被识别为 principle_to_enforcement_e2e。",
+  "recognized_intent": {
+    "label": "unknown",
+    "confidence": 0.35,
+    "llm_intent_recognition_primary": true,
+    "basis": [
+      "insufficient joint evidence for both principle/ruling/constraint and enforcement/gate semantics"
+    ]
+  },
+  "intent_basis": {
+    "llm_as_primary": true,
+    "evidence": [
+      "generic llm routing"
+    ]
+  },
+  "accepted_sample_types": [
+    "principle",
+    "ruling",
+    "constraint"
+  ],
+  "autonomy_chain": [
+    {
+      "step": "intent",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "intent classified"
+      ],
+      "owner": "llm-router"
+    },
+    {
+      "step": "event",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "event obligations derived"
+      ],
+      "owner": "event-expander"
+    },
+    {
+      "step": "isc",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "ISC guard bound"
+      ],
+      "owner": "isc-policy"
+    },
+    {
+      "step": "dto",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "DTO contract mapped"
+      ],
+      "owner": "dto-mapper"
+    },
+    {
+      "step": "cras",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "CRAS actions resolved"
+      ],
+      "owner": "cras-engine"
+    },
+    {
+      "step": "aeo",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "AEO obligations emitted"
+      ],
+      "owner": "aeo-compiler"
+    },
+    {
+      "step": "lep",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "LEP enforcement bound"
+      ],
+      "owner": "lep-policy"
+    },
+    {
+      "step": "test",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "sandbox e2e verified"
+      ],
+      "owner": "test-runner"
+    },
+    {
+      "step": "gate",
+      "present": true,
+      "status": "PASS",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "gate passed"
+      ],
+      "owner": "gate"
+    },
+    {
+      "step": "release",
+      "present": true,
+      "status": "READY",
+      "ok": true,
+      "blocked_by_previous": false,
+      "evidence": [
+        "ready for sandbox-only signoff"
+      ],
+      "owner": "release-control"
+    }
+  ],
+  "checks": [
+    {
+      "name": "llm_primary_basis",
+      "passed": true,
+      "detail": "intent_basis.llm_as_primary must be true"
+    },
+    {
+      "name": "llm_evidence_present",
+      "passed": true,
+      "detail": "intent_basis.evidence must be non-empty"
+    },
+    {
+      "name": "recognized_intent_supported",
+      "passed": false,
+      "detail": "recognized_intent.label=unknown"
+    },
+    {
+      "name": "chain_intent",
+      "passed": true,
+      "detail": "intent: status=PASS"
+    },
+    {
+      "name": "chain_event",
+      "passed": true,
+      "detail": "event: status=PASS"
+    },
+    {
+      "name": "chain_isc",
+      "passed": true,
+      "detail": "isc: status=PASS"
+    },
+    {
+      "name": "chain_dto",
+      "passed": true,
+      "detail": "dto: status=PASS"
+    },
+    {
+      "name": "chain_cras",
+      "passed": true,
+      "detail": "cras: status=PASS"
+    },
+    {
+      "name": "chain_aeo",
+      "passed": true,
+      "detail": "aeo: status=PASS"
+    },
+    {
+      "name": "chain_lep",
+      "passed": true,
+      "detail": "lep: status=PASS"
+    },
+    {
+      "name": "chain_test",
+      "passed": true,
+      "detail": "test: status=PASS"
+    },
+    {
+      "name": "chain_gate",
+      "passed": true,
+      "detail": "gate: status=PASS"
+    },
+    {
+      "name": "chain_release",
+      "passed": true,
+      "detail": "release: status=READY"
+    },
+    {
+      "name": "gate_status",
+      "passed": true,
+      "detail": "gate_status=PASS"
+    },
+    {
+      "name": "positive_recommendation_alignment",
+      "passed": true,
+      "detail": "positive recommendation wording is required only when final verdict is positive"
+    }
+  ],
+  "gate_status": "PASS",
+  "final_status": "FAIL",
+  "release_decision": "BLOCK",
+  "report_recommendation": "通过，允许沙盒准出。",
+  "failure_text": "FAIL-CLOSED: no LLM intent-recognition foundation, cannot report pass.",
+  "markdown_report": "# Principle-to-Enforcement E2E Report\n\n- Source: `/root/.openclaw/workspace-coder/sandbox/principle_enforcement_e2e/tests/false_positive_case.json`\n- Intent: `unknown` (0.35)\n- Final Status: **FAIL**\n- Release Decision: **BLOCK**\n\n## Intent Basis\n- LLM as primary: `True`\n- insufficient joint evidence for both principle/ruling/constraint and enforcement/gate semantics\n\n## Autonomy Expansion Chain\n- ✅ `intent` status=`PASS` present=`True`\n- ✅ `event` status=`PASS` present=`True`\n- ✅ `isc` status=`PASS` present=`True`\n- ✅ `dto` status=`PASS` present=`True`\n- ✅ `cras` status=`PASS` present=`True`\n- ✅ `aeo` status=`PASS` present=`True`\n- ✅ `lep` status=`PASS` present=`True`\n- ✅ `test` status=`PASS` present=`True`\n- ✅ `gate` status=`PASS` present=`True`\n- ✅ `release` status=`READY` present=`True`\n\n## Gate\n- Recommendation: 通过，允许沙盒准出。\n- Failure: FAIL-CLOSED: no LLM intent-recognition foundation, cannot report pass."
+}

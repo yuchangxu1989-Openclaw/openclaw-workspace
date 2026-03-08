@@ -1,0 +1,143 @@
+[EvaluationExecutor] Executing 1 test cases in batches of 5
+[EvaluationExecutor] Processing batch 1/1
+{
+  "ok": true,
+  "architectureVersion": "2026-03-07.llm-primary-intent-gate",
+  "result": {
+    "testCaseId": "intent-llm-primary-001",
+    "status": "passed",
+    "testCase": {
+      "id": "intent-llm-primary-001",
+      "type": "prompt",
+      "intentEvaluation": true,
+      "chunk": "用户：把 event-bus 的日志级别调成 debug，然后重启 gateway。",
+      "prompt": "分析以下消息的意图",
+      "expected": [
+        {
+          "type": "DIRECTIVE",
+          "target": "event-bus日志级别"
+        }
+      ]
+    },
+    "actualOutput": {
+      "predictedIntents": [
+        {
+          "type": "DIRECTIVE",
+          "target": "event-bus日志级别",
+          "confidence": 0.95,
+          "summary": "用户要求调整日志并执行操作"
+        }
+      ],
+      "judgment": {
+        "passed": true,
+        "score": 1,
+        "llmPrimary": {
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "exactSetMatch": true,
+          "matchedExpected": [
+            {
+              "expected": {
+                "type": "DIRECTIVE",
+                "target": "event-bus日志级别"
+              },
+              "predicted": {
+                "type": "DIRECTIVE",
+                "target": "event-bus日志级别",
+                "confidence": 0.95,
+                "summary": "用户要求调整日志并执行操作"
+              },
+              "targetScore": 1
+            }
+          ],
+          "missingExpected": [],
+          "unexpectedPredicted": []
+        },
+        "auxiliaryCrossCheck": {
+          "usedForFinalDecision": false,
+          "signals": [
+            {
+              "type": "DIRECTIVE",
+              "matched": true,
+              "matches": [
+                "/把.+(调成|改成|重启|执行)/"
+              ]
+            }
+          ],
+          "note": "Keyword/regex signals are auxiliary only and never override the LLM primary judgment."
+        },
+        "architecture": {
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "version": "2026-03-07.llm-primary-intent-gate"
+        }
+      }
+    },
+    "expectedOutput": [
+      {
+        "type": "DIRECTIVE",
+        "target": "event-bus日志级别"
+      }
+    ],
+    "evaluation": {
+      "passed": true,
+      "score": 1,
+      "dimension": "accuracy",
+      "policy": "llm_primary_keyword_regex_auxiliary",
+      "architectureVersion": "2026-03-07.llm-primary-intent-gate",
+      "llmPrimary": {
+        "truePositives": 1,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "exactSetMatch": true,
+        "matchedExpected": [
+          {
+            "expected": {
+              "type": "DIRECTIVE",
+              "target": "event-bus日志级别"
+            },
+            "predicted": {
+              "type": "DIRECTIVE",
+              "target": "event-bus日志级别",
+              "confidence": 0.95,
+              "summary": "用户要求调整日志并执行操作"
+            },
+            "targetScore": 1
+          }
+        ],
+        "missingExpected": [],
+        "unexpectedPredicted": []
+      },
+      "auxiliaryCrossCheck": {
+        "usedForFinalDecision": false,
+        "signals": [
+          {
+            "type": "DIRECTIVE",
+            "matched": true,
+            "matches": [
+              "/把.+(调成|改成|重启|执行)/"
+            ]
+          }
+        ],
+        "note": "Keyword/regex signals are auxiliary only and never override the LLM primary judgment."
+      }
+    },
+    "duration": 1,
+    "timestamp": "2026-03-07T06:48:11.835Z",
+    "metadata": {
+      "batchNumber": 1,
+      "totalBatches": 1,
+      "type": "prompt",
+      "promptLength": 9,
+      "evaluationPolicy": "llm_primary_keyword_regex_auxiliary",
+      "architectureVersion": "2026-03-07.llm-primary-intent-gate",
+      "sandboxSafe": true
+    }
+  }
+}

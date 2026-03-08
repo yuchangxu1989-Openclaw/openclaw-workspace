@@ -1,0 +1,30 @@
+{
+  "date": "2026-03-07",
+  "target_score": 0.9,
+  "events": [
+    {
+      "title": "回答项目进度是否乐观",
+      "channel": "team-sync",
+      "claim": "当前看起来本周大概率能完成，但仍缺少最终联调证据。",
+      "evidence": ["核心功能已自测通过", "联调尚未完成"],
+      "risks": ["容易把主观乐观当成确定性判断"],
+      "self_check": {
+        "admit_unknown": true,
+        "separate_fact_opinion": true,
+        "used_evidence": true
+      }
+    },
+    {
+      "title": "解释线上问题原因",
+      "channel": "incident-review",
+      "claim": "初步怀疑是缓存失效策略问题，尚未完全确认。",
+      "evidence": ["日志显示命中率异常下降"],
+      "risks": ["根因未完全确认前表述可能过强"],
+      "self_check": {
+        "admit_unknown": true,
+        "separate_fact_opinion": true,
+        "used_evidence": true
+      }
+    }
+  ]
+}

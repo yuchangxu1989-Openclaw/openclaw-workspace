@@ -1,0 +1,1030 @@
+{
+  "handler": "eval-quality-check",
+  "timestamp": "2026-03-07T06:48:11.856Z",
+  "checks": [
+    {
+      "check": "eval-set-quality",
+      "violations": [
+        {
+          "file": "skills/aeo/evaluation-sets/.meta.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/aeo/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/agent-mode-enforcer/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/agent-mode-enforcer/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/agent-mode-enforcer/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/agent-mode-enforcer/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/agent-mode-enforcer/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/agent-mode-enforcer/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/anti-entropy-checker/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/anti-entropy-checker/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/anti-entropy-checker/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/anti-entropy-checker/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/anti-entropy-checker/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/anti-entropy-checker/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/api/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/api-aggregator/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/api-aggregator/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/api-aggregator/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/api-aggregator/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/api-aggregator/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/api-aggregator/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/architecture-review-pipeline/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/architecture-review-pipeline/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/architecture-review-pipeline/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/architecture-review-pipeline/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/architecture-review-pipeline/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/architecture-review-pipeline/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/capability-anchor/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogvideo/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogvideo/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogvideo/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogvideo/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogvideo/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogvideo/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogview/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogview/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogview/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogview/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogview/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cogview/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/convert-helper/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/council-of-seven/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cras/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cras-generated-1771827136412/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cras-generated-1771827197478/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cras-generated-1772042431830/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/cras-generated-1772128853925/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/daily-ops-report/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/daily-ops-report/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/daily-ops-report/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/daily-ops-report/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/daily-ops-report/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/daily-ops-report/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/dto-core/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/elite-longterm-memory/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/etl/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/eval_1772046931828_g4oqgl7io.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/eval_1772046981635_n2nakzo12.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evolver/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evomap-a2a/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evomap-publisher/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evomap-uploader/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evomap-uploader/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evomap-uploader/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evomap-uploader/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evomap-uploader/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/evomap-uploader/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/feishu-chat-backup/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/feishu-evolver-wrapper/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/feishu-report-sender/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/file-downloader/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/file-downloader/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/file-downloader/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/file-downloader/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/file-downloader/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/file-downloader/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/file-sender/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/five-layer-event-model/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/five-layer-event-model/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/five-layer-event-model/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/five-layer-event-model/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/five-layer-event-model/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/five-layer-event-model/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/github-api/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/github-api/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/github-api/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/github-api/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/github-api/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/github-api/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-4v/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-4v/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-4v/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-4v/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-4v/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-4v/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-5-coder/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-asr/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-image/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-image/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-image/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-image/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-image/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-image/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-ocr/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-ocr/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-ocr/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-ocr/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-ocr/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-ocr/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-tts/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-tts/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-tts/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-tts/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-tts/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-tts/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-video/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-video/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-video/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-video/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-video/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-video/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-vision/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-vision/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-vision/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-vision/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-vision/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/glm-vision/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/intent-design-principles/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/intent-design-principles/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/intent-design-principles/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/intent-design-principles/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/intent-design-principles/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/intent-design-principles/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/isc-capability-anchor-sync/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/isc-core/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/isc-document-quality/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/layered-architecture-checker/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/layered-architecture-checker/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/layered-architecture-checker/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/layered-architecture-checker/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/layered-architecture-checker/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/layered-architecture-checker/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/lep-executor/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/mr-router/test-cases.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/new-skill/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/new-skill-v2/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/parallel-subagent/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/paths-center/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/pdca-engine/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/project-mgmt/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/project-mgmt/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/project-mgmt/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/project-mgmt/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/project-mgmt/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/project-mgmt/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/public/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/public/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/public/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/public/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/public/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/public/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/real-conv-2026-03-06/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/rule-hygiene/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/rule-hygiene/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/rule-hygiene/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/rule-hygiene/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/rule-hygiene/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/rule-hygiene/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/ruleify/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/ruleify/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/ruleify/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/ruleify/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/ruleify/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/ruleify/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/seef/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/shared/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/shared/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/shared/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/shared/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/shared/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/shared/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/system-mapping-visualizer/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/system-mapping-visualizer/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/system-mapping-visualizer/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/system-mapping-visualizer/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/system-mapping-visualizer/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/system-mapping-visualizer/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/system-monitor/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/tavily-search/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/tavily-search/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/tavily-search/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/tavily-search/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/tavily-search/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/tavily-search/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/test-skill-for-seef/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/verify-test-skill/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-image-gen/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-image-gen/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-image-gen/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-image-gen/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-image-gen/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-image-gen/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-keys/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-keys/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-keys/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-keys/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-keys/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-keys/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-router/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-vision/standard.json",
+          "issue": "No eval items found"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-vision/test-cases.json",
+          "item": 0,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-vision/test-cases.json",
+          "item": 1,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-vision/test-cases.json",
+          "item": 2,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-vision/test-cases.json",
+          "item": 3,
+          "issue": "Missing input/query/chunk field"
+        },
+        {
+          "file": "skills/aeo/evaluation-sets/zhipu-vision/test-cases.json",
+          "item": 4,
+          "issue": "Missing input/query/chunk field"
+        }
+      ],
+      "passed": false
+    },
+    {
+      "check": "intent-architecture-alignment",
+      "policy": "llm_primary_keyword_regex_auxiliary",
+      "sandbox_safe": true,
+      "violations": [],
+      "passed": true
+    },
+    {
+      "check": "test-coverage",
+      "violations": [],
+      "passed": true
+    }
+  ],
+  "status": "FAIL"
+}

@@ -91,9 +91,9 @@
    - 遗留P2项：5条（lep-executor旧引用、SEEF Python直接API、历史积压428条消化、evolver集成、pdca事件）
    - 详见报告: `reports/day2-gap4-l3-remodel-inventory.md`
 
-5. 🔴 **项目管理产物沉淀机制**（本次会话刚建立）
+5. ✅ **项目管理产物沉淀机制**（本次会话已完成）
    - PROJECT-TRACKER.md已创建
-   - ISC规则待补
+   - ISC规则已补：`rule.project-tracker-hygiene-001.json`、`rule.project-artifact-settlement-001.json`
 
 ---
 
@@ -137,19 +137,56 @@
 ## 归档
 旧Sprint移至 `memory/sprint-archive/`
 
+### Timeout治理（2026-03-07 补充）
+
+- ✅ 已将 **timeout 默认策略** 明确收敛为：**优先拆解扩列后重跑**，不再仅做同任务 replacement 链式重试
+- ✅ 已处理当前 2 个最新 timeout，并同步生成其拆解后新子任务清单（见下）
+- ✅ 主表状态同步规则补充：原 timeout 任务保留为 `failed/auto-reaped: spawn_timeout` 终态；新拆解子任务作为当前执行入口进入 `queued/spawning`
+
+**当前已处理的 2 个 timeout：**
+1. `t_1772889901426_8minup` — 让同类请求自动命中扩列执行 `[3/4]` → 已拆解并重跑
+2. `t_1772889901358_iiv93m` — 接入 ISC / 意图 / 事件 / 执行链 `[2/4]` → 已拆解并重跑
+
+**已拆解的新子任务清单：**
+- `t_1772890202157_n6dryv` — 让同类请求自动命中扩列执行 `[3/4]`（timeout 后拆解重跑入口，当前 queued）
+- `t_1772890202043_ehcriq` — 接入 ISC / 意图 / 事件 / 执行链 `[2/4]`（timeout 后拆解重跑入口，当前 spawning）
+- `t_1772890201901_dno7jo` — 补正式钢印/规则 `[1/4]`（同批 timeout 扩列链当前 spawning）
+- `t_1772889901492_b0crjt` — 补最小验证 `[4/4]`（同批 timeout 扩列链当前 spawning）
+
+**全局默认行为（Timeout → 拆解扩列 → 重跑）**
+- timeout 发生后，默认先把任务还原/收敛到可执行子块，再进入扩列重跑
+- 禁止无限给同一条 title 机械追加 `[replacement]` 形成链式空转
+- 主表仅保留原 taskId 的唯一终态；拆出的新 taskId 进入当前执行态并承接后续结果
+- 汇报/看板需同时展示：`原 timeout taskId` → `拆解后新 taskId`
+
 
 ### 自主扩列任务（自动生成）
 
+- ⏳ P1 Benchmark timeout 收口 / Case 分片A（PB-001~PB-013） [parent=task-benchmark_timeout]
+- ⏳ P1 Benchmark timeout 收口 / Case 分片B（PB-014~PB-026） [parent=task-benchmark_timeout]
+- ⏳ P1 Benchmark timeout 收口 / Case 分片C（PB-027~PB-038） [parent=task-benchmark_timeout]
+- ⏳ P1 Benchmark timeout 收口 / 汇总复跑与最终裁决 [parent=task-benchmark_timeout]
+- ⏳ P1 Benchmark timeout 收口 / 运行器与超时根因治理 [parent=task-benchmark_timeout]
 - 📋 P0 CRAS-E持续进化中枢改造 / 主实现 [parent=task-cras_e_rebuild]
 - 📋 P0 CRAS-E持续进化中枢改造 / 汇报与验收 [parent=task-cras_e_rebuild]
 - 📋 P0 CRAS-E持续进化中枢改造 / 集成改造 [parent=task-cras_e_rebuild]
 - 📋 P0 CRAS-E持续进化中枢改造 / 风险治理 [parent=task-cras_e_rebuild]
 - 📋 P0 CRAS-E持续进化中枢改造 / 验证测试 [parent=task-cras_e_rebuild]
+- 📋 P1 CRAS-D研究策略落地 / 把研究源从二手社区文扩展到学术/官方优先采样 [parent=task-cras_d_strategy_execution]
+- ⏳ P0 CRAS-D研究策略落地 / 将研究结论绑定本地执行压力与积压 [parent=task-cras_d_strategy_execution]
+- 📋 P1 CRAS-D研究策略落地 / 生成 Feishu Doc 友好的结构化材料 [parent=task-cras_d_strategy_execution]
+- 📋 P0 CRAS-D研究策略落地 / 把研究结论接入 Tracker / todo / DTO 任务树 [parent=task-cras_d_strategy_execution]
 - 📋 P1 Day2遗留项逐桩打透 / 主实现 [parent=task-day2_closure]
 - 📋 P1 Day2遗留项逐桩打透 / 汇报与验收 [parent=task-day2_closure]
 - 📋 P1 Day2遗留项逐桩打透 / 集成改造 [parent=task-day2_closure]
 - 📋 P1 Day2遗留项逐桩打透 / 风险治理 [parent=task-day2_closure]
 - 📋 P1 Day2遗留项逐桩打透 / 验证测试 [parent=task-day2_closure]
+- 📋 P0 全局自主性缺口整改 / 基建：badcase自动沉淀库与复盘索引 [parent=task-global-autonomy-5s-gap-remediation]
+- 📋 P0 全局自主性缺口整改 / 决策层：缺库即纳入or badcase策略硬规则化 [parent=task-global-autonomy-5s-gap-remediation]
+- 📋 P0 全局自主性缺口整改 / 调度层：自动扩列入队与5秒超时回补 [parent=task-global-autonomy-5s-gap-remediation]
+- 📋 P0 全局自主性缺口整改 / 执行层：纳入动作落地校验与失败即badcase闭环 [parent=task-global-autonomy-5s-gap-remediation]
+- 📋 P0 全局自主性缺口整改 / 汇报：5秒纳入SLA仪表盘与告警 [parent=task-global-autonomy-5s-gap-remediation]
+- 📋 P0 全局自主性缺口整改 / 感知层：新增请求未入库5秒SLA检测与触发 [parent=task-global-autonomy-5s-gap-remediation]
 - 📋 P0 失忆后可持续进化保障 / 主实现 [parent=task-memoryless_evolution]
 - 📋 P0 失忆后可持续进化保障 / 汇报与验收 [parent=task-memoryless_evolution]
 - 📋 P0 失忆后可持续进化保障 / 集成改造 [parent=task-memoryless_evolution]
@@ -165,3 +202,9 @@
 - 📋 P0 禁止空架子产物治理 / 集成改造 [parent=task-no_empty_shell]
 - 📋 P0 禁止空架子产物治理 / 风险治理 [parent=task-no_empty_shell]
 - 📋 P0 禁止空架子产物治理 / 验证测试 [parent=task-no_empty_shell]
+### CRAS-D 研究策略执行卡（自动生成）
+
+- 📋 P1 CRAS-D研究策略落地 / 把研究源从二手社区文扩展到学术/官方优先采样 [parent=task-cras_d_strategy_execution]
+- 📋 P0 CRAS-D研究策略落地 / 将研究结论绑定本地执行压力与积压 [parent=task-cras_d_strategy_execution]
+- 📋 P1 CRAS-D研究策略落地 / 生成 Feishu Doc 友好的结构化材料 [parent=task-cras_d_strategy_execution]
+- 📋 P0 CRAS-D研究策略落地 / 把研究结论接入 Tracker / todo / DTO 任务树 [parent=task-cras_d_strategy_execution]

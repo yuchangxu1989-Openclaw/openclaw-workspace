@@ -1,0 +1,815 @@
+{
+  "id": "batch-b-11",
+  "slug": "gap3-final-rerun-blocked-with-stale-gate",
+  "source_session": "d3831f69-5742-40b2-abef-90b181fc7c07",
+  "source_agent": "researcher",
+  "transcript_path": "/root/.openclaw/agents/researcher/sessions/d3831f69-5742-40b2-abef-90b181fc7c07.jsonl",
+  "time_range": {
+    "first_timestamp_ms": null,
+    "last_timestamp_ms": null,
+    "first_iso": null,
+    "last_iso": null
+  },
+  "preview": "None:  | None:  | None:  | None: ",
+  "messages": [
+    {
+      "type": "session",
+      "version": 3,
+      "id": "d3831f69-5742-40b2-abef-90b181fc7c07",
+      "timestamp": "2026-03-07T04:54:15.373Z",
+      "cwd": "/root/.openclaw/workspace-researcher"
+    },
+    {
+      "type": "model_change",
+      "id": "8e70635c",
+      "parentId": null,
+      "timestamp": "2026-03-07T04:54:15.374Z",
+      "provider": "boom-researcher",
+      "modelId": "gpt-5.4"
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "f5c2f337",
+      "parentId": "8e70635c",
+      "timestamp": "2026-03-07T04:54:15.374Z",
+      "thinkingLevel": "off"
+    },
+    {
+      "type": "custom",
+      "customType": "model-snapshot",
+      "data": {
+        "timestamp": 1772859255374,
+        "provider": "boom-researcher",
+        "modelApi": "openai-completions",
+        "modelId": "gpt-5.4"
+      },
+      "id": "7fbbd66f",
+      "parentId": "f5c2f337",
+      "timestamp": "2026-03-07T04:54:15.374Z"
+    },
+    {
+      "type": "message",
+      "id": "95f76755",
+      "parentId": "7fbbd66f",
+      "timestamp": "2026-03-07T04:54:15.394Z",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "[Sat 2026-03-07 12:54 GMT+8] [Subagent Context] You are running as a subagent (depth 1/2). Results auto-announce to your requester; do not busy-poll for status.\n\n[Subagent Task]: 执行任务：Gap3 最终 gate 收口复跑。等待/基于本轮 benchmark 与 Gap3 修复结果，在 /workspace 重跑 AEO 闭环与 gate 判定链，给出最新最终裁决。要求：1) 直接执行脚本与 handler；2) 输出最新报告路径；3) 明确 PASS / BLOCKED；4) 如果仍 blocked，指出是 benchmark 还是其他新阻塞。"
+          }
+        ],
+        "timestamp": 1772859255389
+      }
+    },
+    {
+      "type": "message",
+      "id": "5b05d5cb",
+      "parentId": "95f76755",
+      "timestamp": "2026-03-07T04:54:18.287Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_gjGrVNMG0R4YtuWx2JDm7j0m",
+            "name": "exec",
+            "arguments": {
+              "command": "ls -la /workspace && find /workspace -maxdepth 3 -type f | sed 's#^#/##' | head -300",
+              "workdir": "/workspace",
+              "timeout": 20
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": -4933,
+          "output": 56,
+          "cacheRead": 5248,
+          "cacheWrite": 0,
+          "totalTokens": 371,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859255394
+      }
+    },
+    {
+      "type": "message",
+      "id": "75ec91fd",
+      "parentId": "5b05d5cb",
+      "timestamp": "2026-03-07T04:54:18.310Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_gjGrVNMG0R4YtuWx2JDm7j0m",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "Warning: workdir \"/workspace\" is unavailable; using \"/root/.openclaw/workspace-researcher\".\n\nls: cannot access '/workspace': No such file or directory\n\n(Command exited with code 2)"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 2,
+          "durationMs": 13,
+          "aggregated": "ls: cannot access '/workspace': No such file or directory\n\n(Command exited with code 2)",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859258305
+      }
+    },
+    {
+      "type": "message",
+      "id": "1f9339c7",
+      "parentId": "75ec91fd",
+      "timestamp": "2026-03-07T04:54:21.671Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_lZjxC2ey9vnuwdkWCikcUGBE",
+            "name": "exec",
+            "arguments": {
+              "command": "pwd && ls -la && find . -maxdepth 4 -type f | head -400",
+              "timeout": 20,
+              "workdir": "/root/.openclaw/workspace-researcher"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": -4824,
+          "output": 55,
+          "cacheRead": 5248,
+          "cacheWrite": 0,
+          "totalTokens": 479,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859258310
+      }
+    },
+    {
+      "type": "message",
+      "id": "3bb04028",
+      "parentId": "1f9339c7",
+      "timestamp": "2026-03-07T04:54:21.695Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_lZjxC2ey9vnuwdkWCikcUGBE",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "/root/.openclaw/workspace-researcher\ntotal 60\ndrwxr-xr-x  4 root root  4096 Mar  5 21:19 .\ndrwxr-xr-x 31 root root  4096 Mar  7 00:28 ..\n-rw-r--r--  1 root root  7869 Mar  5 21:19 AGENTS.md\n-rw-r--r--  1 root root  1470 Mar  5 21:19 BOOTSTRAP.md\n-rw-r--r--  1 root root   168 Mar  5 21:19 HEARTBEAT.md\n-rw-r--r--  1 root root   636 Mar  5 21:19 IDENTITY.md\ndrwxr-xr-x  2 root root  4096 Mar  5 21:19 .openclaw\ndrwxr-xr-x  2 root root  4096 Mar  5 21:19 reports\n-rw-r--r--  1 root root   710 Mar  5 21:19 SOUL.md\n-rw-r--r--  1 root root   860 Mar  5 21:19 TOOLS.md\n-rw-r--r--  1 root root   477 Mar  5 21:19 USER.md\n-rw-r--r--  1 root root     0 Mar  5 21:19 小米手机购买策略指南 2026.md\n-rw-r--r--  1 root root 11610 Mar  5 21:19 小红书运营攻略.md\n./BOOTSTRAP.md\n./SOUL.md\n./AGENTS.md\n./IDENTITY.md\n./TOOLS.md\n./USER.md\n./小米手机购买策略指南 2026.md\n./小红书运营攻略.md\n./reports/openclaw-phone-manufacturers-opportunity-analysis.md\n./reports/录音设备市场机遇分析报告.md\n./reports/README-录音设备研究.md\n./reports/手机大厂 AI 机遇分析报告.md\n./reports/录音设备市场机遇 - 执行摘要.md\n./reports/合作模式对比矩阵.md\n./HEARTBEAT.md\n./.openclaw/workspace-state.json"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 15,
+          "aggregated": "/root/.openclaw/workspace-researcher\ntotal 60\ndrwxr-xr-x  4 root root  4096 Mar  5 21:19 .\ndrwxr-xr-x 31 root root  4096 Mar  7 00:28 ..\n-rw-r--r--  1 root root  7869 Mar  5 21:19 AGENTS.md\n-rw-r--r--  1 root root  1470 Mar  5 21:19 BOOTSTRAP.md\n-rw-r--r--  1 root root   168 Mar  5 21:19 HEARTBEAT.md\n-rw-r--r--  1 root root   636 Mar  5 21:19 IDENTITY.md\ndrwxr-xr-x  2 root root  4096 Mar  5 21:19 .openclaw\ndrwxr-xr-x  2 root root  4096 Mar  5 21:19 reports\n-rw-r--r--  1 root root   710 Mar  5 21:19 SOUL.md\n-rw-r--r--  1 root root   860 Mar  5 21:19 TOOLS.md\n-rw-r--r--  1 root root   477 Mar  5 21:19 USER.md\n-rw-r--r--  1 root root     0 Mar  5 21:19 小米手机购买策略指南 2026.md\n-rw-r--r--  1 root root 11610 Mar  5 21:19 小红书运营攻略.md\n./BOOTSTRAP.md\n./SOUL.md\n./AGENTS.md\n./IDENTITY.md\n./TOOLS.md\n./USER.md\n./小米手机购买策略指南 2026.md\n./小红书运营攻略.md\n./reports/openclaw-phone-manufacturers-opportunity-analysis.md\n./reports/录音设备市场机遇分析报告.md\n./reports/README-录音设备研究.md\n./reports/手机大厂 AI 机遇分析报告.md\n./reports/录音设备市场机遇 - 执行摘要.md\n./reports/合作模式对比矩阵.md\n./HEARTBEAT.md\n./.openclaw/workspace-state.json",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859261691
+      }
+    },
+    {
+      "type": "message",
+      "id": "ddbde43a",
+      "parentId": "3bb04028",
+      "timestamp": "2026-03-07T04:54:25.065Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_ljTLd59ymiOxo6LesdVEUsIK",
+            "name": "exec",
+            "arguments": {
+              "command": "find /root -maxdepth 4 \\( -type f -o -type d \\) | grep -E 'AEO|gap3|benchmark|gate|handler|report|闭环|judge|判定' | head -500",
+              "timeout": 30
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": -4253,
+          "output": 71,
+          "cacheRead": 5248,
+          "cacheWrite": 0,
+          "totalTokens": 1066,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859261695
+      }
+    },
+    {
+      "type": "message",
+      "id": "9599ad93",
+      "parentId": "ddbde43a",
+      "timestamp": "2026-03-07T04:54:25.118Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_ljTLd59ymiOxo6LesdVEUsIK",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "/root/.config/systemd/user/openclaw-gateway.service\n/root/.openclaw/skills/aeo/reports\n/root/.openclaw/workspace-researcher/reports\n/root/.openclaw/workspace-researcher/reports/openclaw-phone-manufacturers-opportunity-analysis.md\n/root/.openclaw/workspace-researcher/reports/录音设备市场机遇分析报告.md\n/root/.openclaw/workspace-researcher/reports/README-录音设备研究.md\n/root/.openclaw/workspace-researcher/reports/手机大厂 AI 机遇分析报告.md\n/root/.openclaw/workspace-researcher/reports/录音设备市场机遇 - 执行摘要.md\n/root/.openclaw/workspace-researcher/reports/合作模式对比矩阵.md\n/root/.openclaw/workspace-analyst/reports\n/root/.openclaw/workspace-analyst/reports/openclaw-vs-manus-impact-analysis.md\n/root/.openclaw/workspace-analyst/reports/openclaw-vs-manus-analysis.md\n/root/.openclaw/workspace-analyst/reports/openclaw-meta-impact-recording-industry-opportunity-analysis.md\n/root/.openclaw/workspace-writer/gateway-config-example.yaml\n/root/.openclaw/workspace/skills/feishu-report-sender\n/root/.openclaw/workspace/skills/daily-ops-report\n/root/.openclaw/workspace/node_modules/istanbul-reports\n/root/.openclaw/workspace/node_modules/istanbul-lib-report\n/root/.openclaw/workspace/evolver/reports\n/root/.openclaw/workspace/scripts/day2-gap3-aeo-close-loop.js\n/root/.openclaw/workspace/scripts/task-queue-report.js\n/root/.openclaw/workspace/scripts/gateway-memory-governor.sh\n/root/.openclaw/workspace/scripts/gates\n/root/.openclaw/workspace/scripts/daily-ops-report.js\n/root/.openclaw/workspace/scripts/report-counter.js\n/root/.openclaw/workspace/scripts/gateway-monitor-v2.sh\n/root/.openclaw/workspace/scripts/live-task-queue-report.js\n/root/.openclaw/workspace/scripts/verify-report-snapshot.js\n/root/.openclaw/workspace/scripts/report-snapshot.js\n/root/.openclaw/workspace/scripts/gateway-monitor.sh\n/root/.openclaw/workspace/scripts/runtime-active-queue-report.js\n/root/.openclaw/workspace/scripts/report-with-auto-send.js\n/root/.openclaw/workspace/scripts/scenario-benchmark\n/root/.openclaw/workspace/feishu_sent_reports\n/root/.openclaw/workspace/feishu_sent_reports/lep-daily-1772485649485.json\n/root/.openclaw/workspace/feishu_sent_reports/insight_1772542867073.json\n/root/.openclaw/workspace/feishu_sent_reports/insight_1772485820149.json\n/root/.openclaw/workspace/feishu_sent_reports/insight_1772445620314.json\n/root/.openclaw/workspace/feishu_sent_reports/insight_1772380873908.json\n/root/.openclaw/workspace/infrastructure/gate-blocked.json\n/root/.openclaw/workspace/infrastructure/entropy-report.json\n/root/.openclaw/workspace/infrastructure/report-snapshot.js\n/root/.openclaw/workspace/infrastructure/reports\n/root/.openclaw/workspace/reports\n/root/.openclaw/workspace/reports/day2-gap4-l3-reshape-audit.md\n/root/.openclaw/workspace/reports/summary-trigger-thresholds.md\n/root/.openclaw/workspace/reports/version-integrity-audit.md\n/root/.openclaw/workspace/reports/diagram-redo-premium-brief.md\n/root/.openclaw/workspace/reports/task-queue\n/root/.openclaw/workspace/reports/day2-deliberation.md\n/root/.openclaw/workspace/reports/day1-llm-smoke-test.md\n/root/.openclaw/workspace/reports/DAY2-GAP-CLOSURE-20260307.md\n/root/.openclaw/workspace/reports/dispatch-auto-backfill-hardening.md\n/root/.openclaw/workspace/reports/day2-observability.md\n/root/.openclaw/workspace/reports/top-ai-roadmap-agent-quality.md\n/root/.openclaw/workspace/reports/cras-e\n/root/.openclaw/workspace/reports/boom-18-lane-key-audit.md\n/root/.openclaw/workspace/reports/day2-final-open-gaps-only.md\n/root/.openclaw/workspace/reports/multi-turn-benchmark-2026-03-06.json\n/root/.openclaw/workspace/reports/day1-enforcement-poc.md\n/root/.openclaw/workspace/reports/complex-task-split-rule.md\n/root/.openclaw/workspace/reports/rule-naming-migration.md\n/root/.openclaw/workspace/reports/diagrams\n/root/.openclaw/workspace/reports/artifact-gate\n/root/.openclaw/workspace/reports/project-artifact-governance.md\n/root/.openclaw/workspace/reports/reporting-skill-cutover-rebuild.md\n/root/.openclaw/workspace/reports/day3-cron-fix-report.md\n/root/.openclaw/workspace/reports/day2-final-risk-review.md\n/root/.openclaw/workspace/reports/intent-benchmark-90-target-2026-03-06.json\n/root/.openclaw/workspace/reports/model-budget-routing-governance.md\n/root/.openclaw/workspace/reports/long-horizon-autonomy-cron-backlog.md\n/root/.openclaw/workspace/reports/artifact-auto-send-ruleify.md\n/root/.openclaw/workspace/reports/cron-global-status-audit-and-fix.md\n/root/.openclaw/workspace/reports/day2-qa-report.md\n/root/.openclaw/workspace/reports/day3-failover-drill-plan.md\n/root/.openclaw/workspace/reports/d2-08-l3-mainline.md\n/root/.openclaw/workspace/reports/task-tool-budget-table.md\n/root/.openclaw/workspace/reports/isc-rule-triage.md\n/root/.openclaw/workspace/reports/real-conversation-benchmark.md\n/root/.openclaw/workspace/reports/self-bootstrap-eval.json\n/root/.openclaw/workspace/reports/rule-chain-runtime-audit.md\n/root/.openclaw/workspace/reports/day1-pipeline-benchmark.md.snapshot.json\n/root/.openclaw/workspace/reports/first-live-e2e-run.md\n/root/.openclaw/workspace/reports/day2-gap4-l3-reshape-validation-supplement-20260307.md\n/root/.openclaw/workspace/reports/failure-recovery-tree.md\n/root/.openclaw/workspace/reports/session-file-volume-governance.md\n/root/.openclaw/workspace/reports/day2-error-recovery.md\n/root/.openclaw/workspace/reports/day2-degradation-drill.md\n/root/.openclaw/workspace/reports/cron-model-policy.md\n/root/.openclaw/workspace/reports/isc-dto-alignment.md\n/root/.openclaw/workspace/reports/mass-expand-evalset-from-todays-conversations.md\n/root/.openclaw/workspace/reports/real-eval-extraction-report.md\n/root/.openclaw/workspace/reports/business-e2e-suite.md\n/root/.openclaw/workspace/reports/day2-remaining-gap-scan-final.md\n/root/.openclaw/workspace/reports/capability-anchor-session-load-hardening.md\n/root/.openclaw/workspace/reports/cron-diagnostic.md\n/root/.openclaw/workspace/reports/day3-plan.md\n/root/.openclaw/workspace/reports/evomap-manifest-closeout.md\n/root/.openclaw/workspace/reports/diagram-redo-no-garbled-text.md\n/root/.openclaw/workspace/reports/activate-and-validate-dispatch-reporting.md\n/root/.openclaw/workspace/reports/multimodal-forgetfulness-hardening.md\n/root/.openclaw/workspace/reports/rebuild-dispatch-skill-opus-thinking.md\n/root/.openclaw/workspace/reports/lep-daily-report-2026-03-05.txt\n/root/.openclaw/workspace/reports/day2-contract-tests.md\n/root/.openclaw/workspace/reports/fix-system-error-handler-failure-retry.md\n/root/.openclaw/workspace/reports/diagram-final-quality-redo.md\n/root/.openclaw/workspace/reports/key-event-routing-audit.md\n/root/.openclaw/workspace/reports/summary-regression-check-template.md\n/root/.openclaw/workspace/reports/dispatch-layer-program-solidify.md\n/root/.openclaw/workspace/reports/daily\n/root/.openclaw/workspace/reports/aeo-eval-unification-audit-and-fix.md\n/root/.openclaw/workspace/reports/day2-gap-scoreboard.md\n/root/.openclaw/workspace/reports/aeo-golden-eval-rebuild.md\n/root/.openclaw/workspace/reports/fix-event-dispatch-runner-timeout.md\n/root/.openclaw/workspace/reports/weekly\n/root/.openclaw/workspace/reports/intent-online-eval.md\n/root/.openclaw/workspace/reports/e2e-dispatch-suite-result.md\n/root/.openclaw/workspace/reports/day2-blocker-pending-report.md\n/root/.openclaw/workspace/reports/day3-test-runner-report.md\n/root/.openclaw/workspace/reports/CRAS-E-持续进化改造方案-20260307.md\n/root/.openclaw/workspace/reports/skill-distribution-classification.json\n/root/.openclaw/workspace/reports/event-routing-closeout-review.md\n/root/.openclaw/workspace/reports/snapshots\n/root/.openclaw/workspace/reports/day3-cron-reshape-report.md\n/root/.openclaw/workspace/reports/event-routing-p0-fix-priority.md\n/root/.openclaw/workspace/reports/cron-model-governance-eval.md\n/root/.openclaw/workspace/reports/d2-06-task-flow.md\n/root/.openclaw/workspace/reports/e2e-test-report.md\n/root/.openclaw/workspace/reports/file-sender-hardening.md\n/root/.openclaw/workspace/reports/d2-05-pipeline-standalone.md\n/root/.openclaw/workspace/reports/rework-analysis-2026-03-07.md\n/root/.openclaw/workspace/reports/diagram-redo-execution.md\n/root/.openclaw/workspace/reports/pdca-timeout-fix-plan.md\n/root/.openclaw/workspace/reports/.card-queue\n/root/.openclaw/workspace/reports/yellow-light-isc-review.md\n/root/.openclaw/workspace/reports/pipeline-dashboard-card-2026-03-07.json\n/root/.openclaw/workspace/reports/day3-ops-dashboard-v1.md\n/root/.openclaw/workspace/reports/ops-dashboard-2026-03-07.md\n/root/.openclaw/workspace/reports/multi-turn-benchmark-2026-03-06.md\n/root/.openclaw/workspace/reports/memory-layering-policy.md\n/root/.openclaw/workspace/reports/top-ai-system-map.md\n/root/.openclaw/workspace/reports/correction-harvest-2026-03-06.md\n/root/.openclaw/workspace/reports/day1-snapshot-mechanism.md\n/root/.openclaw/workspace/reports/day1-pipeline-benchmark.md\n/root/.openclaw/workspace/reports/day1-qa-independent-review.md\n/root/.openclaw/workspace/reports/d2-03-self-healing.md\n/root/.openclaw/workspace/reports/day2-architecture-design-v2.md\n/root/.openclaw/workspace/reports/d2-07-cron-migration.md\n/root/.openclaw/workspace/reports/yellow-light-p0-triage.md\n/root/.openclaw/workspace/reports/day2-architecture-design.md\n/root/.openclaw/workspace/reports/d2-intent-analysis.md\n/root/.openclaw/workspace/reports/tracker-sync\n/root/.openclaw/workspace/reports/fix-intent-ruleify-reflect-directive-routes.md\n/root/.openclaw/workspace/reports/intent-benchmark-90-target-2026-03-06.md\n/root/.openclaw/workspace/reports/day2-skill-integration.md\n/root/.openclaw/workspace/reports/cras-growth-loop-ruleify.md\n/root/.openclaw/workspace/reports/rebuild-reporting-skill-opus-thinking.md\n/root/.openclaw/workspace/reports/zhipu-multimodal-test-2026-03-04.md\n/root/.openclaw/workspace/reports/day1-lingxiaoge-verdict.md\n/root/.openclaw/workspace/reports/day2-gap1-verification-report-20260307.md\n/root/.openclaw/workspace/reports/lep-daily-report-2026-03-07.txt\n/root/.openclaw/workspace/reports/autonomy\n/root/.openclaw/workspace/reports/tribunal\n/root/.openclaw/workspace/reports/architect-full-audit-2026-03-06.md\n/root/.openclaw/workspace/reports/p0-p2-execution-batch-3.md\n/root/.openclaw/workspace/reports/day2-eval-collection.md\n/root/.openclaw/workspace/reports/day2-real-scenario-mining.md\n/root/.openclaw/workspace/reports/rule-dedup-scan-result.md\n/root/.openclaw/workspace/reports/d2-01-enforcement-engine.md\n/root/.openclaw/workspace/reports/md-report-auto-send-hardening.md\n/root/.openclaw/workspace/reports/pipeline-dashboard-2026-03-07.md\n/root/.openclaw/workspace/reports/gap5-closure-report.md\n/root/.openclaw/workspace/reports/debt-l3-enable-report.md\n/root/.openclaw/workspace/reports/e2e-real-dialog-metrics-audit.md\n/root/.openclaw/workspace/reports/day2-gap-closeout-execution.md\n/root/.openclaw/workspace/reports/open-gaps-to-task-map.md\n/root/.openclaw/workspace/reports/intent-90-error-analysis-2026-03-06.md\n/root/.openclaw/workspace/reports/self-bootstrap-rca-cases.json\n/root/.openclaw/workspace/reports/fix-aeo-evaluation-required-retry.md\n/root/.openclaw/workspace/reports/day2-dependency-check.md\n/root/.openclaw/workspace/reports/day2-gap3-aeo-validation-acceptance.md\n/root/.openclaw/workspace/reports/self-bootstrap-kernel-program.md\n/root/.openclaw/workspace/reports/over-budget-degrade-playbook.md\n/root/.openclaw/workspace/reports/enforcement-rate-2026-03-06.md\n/root/.openclaw/workspace/reports/isc-enforcement-audit.md\n/root/.openclaw/workspace/reports/day2-gap5-validation-acceptance.md\n/root/.openclaw/workspace/reports/day2-aeo-assessment.md\n/root/.openclaw/workspace/reports/day2-test-registry.md\n/root/.openclaw/workspace/reports/p0-p2-execution-batch-1.md\n/root/.openclaw/workspace/reports/pre-finish-acceptance-gate.md\n/root/.openclaw/workspace/reports/feishu-card-parallel-board-sample.md\n/root/.openclaw/workspace/reports/day2-gap4-l3-remodel-inventory.md\n/root/.openclaw/workspace/reports/rework-analysis-2026-03-06.md\n/root/.openclaw/workspace/reports/day1-scenario-benchmark.md\n/root/.openclaw/workspace/reports/n-series-autonomy-loop-closeout.md\n/root/.openclaw/workspace/reports/dispatch-skill-cutover-safe-rollout.md\n/root/.openclaw/workspace/reports/dispatch-cutover-gap-risk-review.md\n/root/.openclaw/workspace/reports/handler-execution-grading.md\n/root/.openclaw/workspace/reports/event-type-cleanup-report.md\n/root/.openclaw/workspace/reports/day1-intent-benchmark.md\n/root/.openclaw/workspace/reports/boom-key-reprobe-plus-2.md\n/root/.openclaw/workspace/reports/monitor-alert-auto-rootcause-and-repair.md\n/root/.openclaw/workspace/reports/acp-setup-guide.md\n/root/.openclaw/workspace/reports/pdca-timeout-root-cause.md\n/root/.openclaw/workspace/reports/parallel-reporting-upgrade.md\n/root/.openclaw/workspace/reports/new-event-dispatcher-nonok-fix.md\n/root/.openclaw/workspace/reports/p0-p2-execution-batch-2.md\n/root/.openclaw/workspace/reports/lep-daily-report-2026-03-07.json\n/root/.openclaw/workspace/reports/meta-cognition-research-program.md\n/root/.openclaw/workspace/reports/dispatch-skill-max-efficiency-optimization.md\n/root/.openclaw/workspace/reports/intent-routing-gap-closeout.md\n/root/.openclaw/workspace/reports/handler-coverage-audit.md\n/root/.openclaw/workspace/reports/multi-turn-benchmark-2026-03-07.json\n/root/.openclaw/workspace/reports/capability-anchor-audit.md\n/root/.openclaw/workspace/reports/restart-copy-feishu-style.md\n/root/.openclaw/workspace/reports/feishu-file-api.md\n/root/.openclaw/workspace/reports/lep-daily-report-2026-03-05.json\n/root/.openclaw/workspace/reports/aeo\n/root/.openclaw/workspace/reports/day1-closure-summary.md\n/root/.openclaw/workspace/output/test-report.html\n/root/.openclaw/workspace/output/test-report-1.json\n/root/.openclaw/workspace/output/trend-report.html\n/root/.openclaw/workspace/output/trend-report-demo-evaluation-latest.html\n/root/.openclaw/workspace/output/test-report-0.json\n/root/.openclaw/workspace/output/test-report-2.json\n/root/.openclaw/workspace/tests/benchmarks\n/root/.openclaw/workspace/logs/gateway-memory-governor.log\n/root/.openclaw/workspace/aeo-vector-system/test-report.json\n/root/.openclaw/workspace-scout/memory/global-progress-report-validation.md\n/root/.openclaw/workspace-scout/memory/interactive-card-fix-report.md\n/root/.openclaw/workspace-scout/global-progress-report-test.js"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 33,
+          "aggregated": "/root/.config/systemd/user/openclaw-gateway.service\n/root/.openclaw/skills/aeo/reports\n/root/.openclaw/workspace-researcher/reports\n/root/.openclaw/workspace-researcher/reports/openclaw-phone-manufacturers-opportunity-analysis.md\n/root/.openclaw/workspace-researcher/reports/录音设备市场机遇分析报告.md\n/root/.openclaw/workspace-researcher/reports/README-录音设备研究.md\n/root/.openclaw/workspace-researcher/reports/手机大厂 AI 机遇分析报告.md\n/root/.openclaw/workspace-researcher/reports/录音设备市场机遇 - 执行摘要.md\n/root/.openclaw/workspace-researcher/reports/合作模式对比矩阵.md\n/root/.openclaw/workspace-analyst/reports\n/root/.openclaw/workspace-analyst/reports/openclaw-vs-manus-impact-analysis.md\n/root/.openclaw/workspace-analyst/reports/openclaw-vs-manus-analysis.md\n/root/.openclaw/workspace-analyst/reports/openclaw-meta-impact-recording-industry-opportunity-analysis.md\n/root/.openclaw/workspace-writer/gateway-config-example.yaml\n/root/.openclaw/workspace/skills/feishu-report-sender\n/root/.openclaw/workspace/skills/daily-ops-report\n/root/.openclaw/workspace/node_modules/istanbul-reports\n/root/.openclaw/workspace/node_modules/istanbul-lib-report\n/root/.openclaw/workspace/evolver/reports\n/root/.openclaw/workspace/scripts/day2-gap3-aeo-close-loop.js\n/root/.openclaw/workspace/scripts/task-queue-report.js\n/root/.openclaw/workspace/scripts/gateway-memory-governor.sh\n/root/.openclaw/workspace/scripts/gates\n/root/.openclaw/workspace/scripts/daily-ops-report.js\n/root/.openclaw/workspace/scripts/report-counter.js\n/root/.openclaw/workspace/scripts/gateway-monitor-v2.sh\n/root/.openclaw/workspace/scripts/live-task-queue-report.js\n/root/.openclaw/workspace/scripts/verify-report-snapshot.js\n/root/.openclaw/workspace/scripts/report-snapshot.js\n/root/.openclaw/workspace/scripts/gateway-monitor.sh\n/root/.openclaw/workspace/scripts/runtime-active-queue-report.js\n/root/.openclaw/workspace/scripts/report-with-auto-send.js\n/root/.openclaw/workspace/scripts/scenario-benchmark\n/root/.openclaw/workspace/feishu_sent_reports\n/root/.openclaw/workspace/feishu_sent_reports/lep-daily-1772485649485.json\n/root/.openclaw/workspace/feishu_sent_reports/insight_1772542867073.json\n/root/.openclaw/workspace/feishu_sent_reports/insight_1772485820149.json\n/root/.openclaw/workspace/feishu_sent_reports/insight_1772445620314.json\n/root/.openclaw/workspace/feishu_sent_reports/insight_1772380873908.json\n/root/.openclaw/workspace/infrastructure/gate-blocked.json\n/root/.openclaw/workspace/infrastructure/entropy-report.json\n/root/.openclaw/workspace/infrastructure/report-snapshot.js\n/root/.openclaw/workspace/infrastructure/reports\n/root/.openclaw/workspace/reports\n/root/.openclaw/workspace/reports/day2-gap4-l3-reshape-audit.md\n/root/.openclaw/workspace/reports/summary-trigger-thresholds.md\n/root/.openclaw/workspace/reports/version-integrity-audit.md\n/root/.openclaw/workspace/reports/diagram-redo-premium-brief.md\n/root/.openclaw/workspace/reports/task-queue\n/root/.openclaw/workspace/reports/day2-deliberation.md\n/root/.openclaw/workspace/reports/day1-llm-smoke-test.md\n/root/.openclaw/workspace/reports/DAY2-GAP-CLOSURE-20260307.md\n/root/.openclaw/workspace/reports/dispatch-auto-backfill-hardening.md\n/root/.openclaw/workspace/reports/day2-observability.md\n/root/.openclaw/workspace/reports/top-ai-roadmap-agent-quality.md\n/root/.openclaw/workspace/reports/cras-e\n/root/.openclaw/workspace/reports/boom-18-lane-key-audit.md\n/root/.openclaw/workspace/reports/day2-final-open-gaps-only.md\n/root/.openclaw/workspace/reports/multi-turn-benchmark-2026-03-06.json\n/root/.openclaw/workspace/reports/day1-enforcement-poc.md\n/root/.openclaw/workspace/reports/complex-task-split-rule.md\n/root/.openclaw/workspace/reports/rule-naming-migration.md\n/root/.openclaw/workspace/reports/diagrams\n/root/.openclaw/workspace/reports/artifact-gate\n/root/.openclaw/workspace/reports/project-artifact-governance.md\n/root/.openclaw/workspace/reports/reporting-skill-cutover-rebuild.md\n/root/.openclaw/workspace/reports/day3-cron-fix-report.md\n/root/.openclaw/workspace/reports/day2-final-risk-review.md\n/root/.openclaw/workspace/reports/intent-benchmark-90-target-2026-03-06.json\n/root/.openclaw/workspace/reports/model-budget-routing-governance.md\n/root/.openclaw/workspace/reports/long-horizon-autonomy-cron-backlog.md\n/root/.openclaw/workspace/reports/artifact-auto-send-ruleify.md\n/root/.openclaw/workspace/reports/cron-global-status-audit-and-fix.md\n/root/.openclaw/workspace/reports/day2-qa-report.md\n/root/.openclaw/workspace/reports/day3-failover-drill-plan.md\n/root/.openclaw/workspace/reports/d2-08-l3-mainline.md\n/root/.openclaw/workspace/reports/task-tool-budget-table.md\n/root/.openclaw/workspace/reports/isc-rule-triage.md\n/root/.openclaw/workspace/reports/real-conversation-benchmark.md\n/root/.openclaw/workspace/reports/self-bootstrap-eval.json\n/root/.openclaw/workspace/reports/rule-chain-runtime-audit.md\n/root/.openclaw/workspace/reports/day1-pipeline-benchmark.md.snapshot.json\n/root/.openclaw/workspace/reports/first-live-e2e-run.md\n/root/.openclaw/workspace/reports/day2-gap4-l3-reshape-validation-supplement-20260307.md\n/root/.openclaw/workspace/reports/failure-recovery-tree.md\n/root/.openclaw/workspace/reports/session-file-volume-governance.md\n/root/.openclaw/workspace/reports/day2-error-recovery.md\n/root/.openclaw/workspace/reports/day2-degradation-drill.md\n/root/.openclaw/workspace/reports/cron-model-policy.md\n/root/.openclaw/workspace/reports/isc-dto-alignment.md\n/root/.openclaw/workspace/reports/mass-expand-evalset-from-todays-conversations.md\n/root/.openclaw/workspace/reports/real-eval-extraction-report.md\n/root/.openclaw/workspace/reports/business-e2e-suite.md\n/root/.openclaw/workspace/reports/day2-remaining-gap-scan-final.md\n/root/.openclaw/workspace/reports/capability-anchor-session-load-hardening.md\n/root/.openclaw/workspace/reports/cron-diagnostic.md\n/root/.openclaw/workspace/reports/day3-plan.md\n/root/.openclaw/workspace/reports/evomap-manifest-closeout.md\n/root/.openclaw/workspace/reports/diagram-redo-no-garbled-text.md\n/root/.openclaw/workspace/reports/activate-and-validate-dispatch-reporting.md\n/root/.openclaw/workspace/reports/multimodal-forgetfulness-hardening.md\n/root/.openclaw/workspace/reports/rebuild-dispatch-skill-opus-thinking.md\n/root/.openclaw/workspace/reports/lep-daily-report-2026-03-05.txt\n/root/.openclaw/workspace/reports/day2-contract-tests.md\n/root/.openclaw/workspace/reports/fix-system-error-handler-failure-retry.md\n/root/.openclaw/workspace/reports/diagram-final-quality-redo.md\n/root/.openclaw/workspace/reports/key-event-routing-audit.md\n/root/.openclaw/workspace/reports/summary-regression-check-template.md\n/root/.openclaw/workspace/reports/dispatch-layer-program-solidify.md\n/root/.openclaw/workspace/reports/daily\n/root/.openclaw/workspace/reports/aeo-eval-unification-audit-and-fix.md\n/root/.openclaw/workspace/reports/day2-gap-scoreboard.md\n/root/.openclaw/workspace/reports/aeo-golden-eval-rebuild.md\n/root/.openclaw/workspace/reports/fix-event-dispatch-runner-timeout.md\n/root/.openclaw/workspace/reports/weekly\n/root/.openclaw/workspace/reports/intent-online-eval.md\n/root/.openclaw/workspace/reports/e2e-dispatch-suite-result.md\n/root/.openclaw/workspace/reports/day2-blocker-pending-report.md\n/root/.openclaw/workspace/reports/day3-test-runner-report.md\n/root/.openclaw/workspace/reports/CRAS-E-持续进化改造方案-20260307.md\n/root/.openclaw/workspace/reports/skill-distribution-classification.json\n/root/.openclaw/workspace/reports/event-routing-closeout-review.md\n/root/.openclaw/workspace/reports/snapshots\n/root/.openclaw/workspace/reports/day3-cron-reshape-report.md\n/root/.openclaw/workspace/reports/event-routing-p0-fix-priority.md\n/root/.openclaw/workspace/reports/cron-model-governance-eval.md\n/root/.openclaw/workspace/reports/d2-06-task-flow.md\n/root/.openclaw/workspace/reports/e2e-test-report.md\n/root/.openclaw/workspace/reports/file-sender-hardening.md\n/root/.openclaw/workspace/reports/d2-05-pipeline-standalone.md\n/root/.openclaw/workspace/reports/rework-analysis-2026-03-07.md\n/root/.openclaw/workspace/reports/diagram-redo-execution.md\n/root/.openclaw/workspace/reports/pdca-timeout-fix-plan.md\n/root/.openclaw/workspace/reports/.card-queue\n/root/.openclaw/workspace/reports/yellow-light-isc-review.md\n/root/.openclaw/workspace/reports/pipeline-dashboard-card-2026-03-07.json\n/root/.openclaw/workspace/reports/day3-ops-dashboard-v1.md\n/root/.openclaw/workspace/reports/ops-dashboard-2026-03-07.md\n/root/.openclaw/workspace/reports/multi-turn-benchmark-2026-03-06.md\n/root/.openclaw/workspace/reports/memory-layering-policy.md\n/root/.openclaw/workspace/reports/top-ai-system-map.md\n/root/.openclaw/workspace/reports/correction-harvest-2026-03-06.md\n/root/.openclaw/workspace/reports/day1-snapshot-mechanism.md\n/root/.openclaw/workspace/reports/day1-pipeline-benchmark.md\n/root/.openclaw/workspace/reports/day1-qa-independent-review.md\n/root/.openclaw/workspace/reports/d2-03-self-healing.md\n/root/.openclaw/workspace/reports/day2-architecture-design-v2.md\n/root/.openclaw/workspace/reports/d2-07-cron-migration.md\n/root/.openclaw/workspace/reports/yellow-light-p0-triage.md\n/root/.openclaw/workspace/reports/day2-architecture-design.md\n/root/.openclaw/workspace/reports/d2-intent-analysis.md\n/root/.openclaw/workspace/reports/tracker-sync\n/root/.openclaw/workspace/reports/fix-intent-ruleify-reflect-directive-routes.md\n/root/.openclaw/workspace/reports/intent-benchmark-90-target-2026-03-06.md\n/root/.openclaw/workspace/reports/day2-skill-integration.md\n/root/.openclaw/workspace/reports/cras-growth-loop-ruleify.md\n/root/.openclaw/workspace/reports/rebuild-reporting-skill-opus-thinking.md\n/root/.openclaw/workspace/reports/zhipu-multimodal-test-2026-03-04.md\n/root/.openclaw/workspace/reports/day1-lingxiaoge-verdict.md\n/root/.openclaw/workspace/reports/day2-gap1-verification-report-20260307.md\n/root/.openclaw/workspace/reports/lep-daily-report-2026-03-07.txt\n/root/.openclaw/workspace/reports/autonomy\n/root/.openclaw/workspace/reports/tribunal\n/root/.openclaw/workspace/reports/architect-full-audit-2026-03-06.md\n/root/.openclaw/workspace/reports/p0-p2-execution-batch-3.md\n/root/.openclaw/workspace/reports/day2-eval-collection.md\n/root/.openclaw/workspace/reports/day2-real-scenario-mining.md\n/root/.openclaw/workspace/reports/rule-dedup-scan-result.md\n/root/.openclaw/workspace/reports/d2-01-enforcement-engine.md\n/root/.openclaw/workspace/reports/md-report-auto-send-hardening.md\n/root/.openclaw/workspace/reports/pipeline-dashboard-2026-03-07.md\n/root/.openclaw/workspace/reports/gap5-closure-report.md\n/root/.openclaw/workspace/reports/debt-l3-enable-report.md\n/root/.openclaw/workspace/reports/e2e-real-dialog-metrics-audit.md\n/root/.openclaw/workspace/reports/day2-gap-closeout-execution.md\n/root/.openclaw/workspace/reports/open-gaps-to-task-map.md\n/root/.openclaw/workspace/reports/intent-90-error-analysis-2026-03-06.md\n/root/.openclaw/workspace/reports/self-bootstrap-rca-cases.json\n/root/.openclaw/workspace/reports/fix-aeo-evaluation-required-retry.md\n/root/.openclaw/workspace/reports/day2-dependency-check.md\n/root/.openclaw/workspace/reports/day2-gap3-aeo-validation-acceptance.md\n/root/.openclaw/workspace/reports/self-bootstrap-kernel-program.md\n/root/.openclaw/workspace/reports/over-budget-degrade-playbook.md\n/root/.openclaw/workspace/reports/enforcement-rate-2026-03-06.md\n/root/.openclaw/workspace/reports/isc-enforcement-audit.md\n/root/.openclaw/workspace/reports/day2-gap5-validation-acceptance.md\n/root/.openclaw/workspace/reports/day2-aeo-assessment.md\n/root/.openclaw/workspace/reports/day2-test-registry.md\n/root/.openclaw/workspace/reports/p0-p2-execution-batch-1.md\n/root/.openclaw/workspace/reports/pre-finish-acceptance-gate.md\n/root/.openclaw/workspace/reports/feishu-card-parallel-board-sample.md\n/root/.openclaw/workspace/reports/day2-gap4-l3-remodel-inventory.md\n/root/.openclaw/workspace/reports/rework-analysis-2026-03-06.md\n/root/.openclaw/workspace/reports/day1-scenario-benchmark.md\n/root/.openclaw/workspace/reports/n-series-autonomy-loop-closeout.md\n/root/.openclaw/workspace/reports/dispatch-skill-cutover-safe-rollout.md\n/root/.openclaw/workspace/reports/dispatch-cutover-gap-risk-review.md\n/root/.openclaw/workspace/reports/handler-execution-grading.md\n/root/.openclaw/workspace/reports/event-type-cleanup-report.md\n/root/.openclaw/workspace/reports/day1-intent-benchmark.md\n/root/.openclaw/workspace/reports/boom-key-reprobe-plus-2.md\n/root/.openclaw/workspace/reports/monitor-alert-auto-rootcause-and-repair.md\n/root/.openclaw/workspace/reports/acp-setup-guide.md\n/root/.openclaw/workspace/reports/pdca-timeout-root-cause.md\n/root/.openclaw/workspace/reports/parallel-reporting-upgrade.md\n/root/.openclaw/workspace/reports/new-event-dispatcher-nonok-fix.md\n/root/.openclaw/workspace/reports/p0-p2-execution-batch-2.md\n/root/.openclaw/workspace/reports/lep-daily-report-2026-03-07.json\n/root/.openclaw/workspace/reports/meta-cognition-research-program.md\n/root/.openclaw/workspace/reports/dispatch-skill-max-efficiency-optimization.md\n/root/.openclaw/workspace/reports/intent-routing-gap-closeout.md\n/root/.openclaw/workspace/reports/handler-coverage-audit.md\n/root/.openclaw/workspace/reports/multi-turn-benchmark-2026-03-07.json\n/root/.openclaw/workspace/reports/capability-anchor-audit.md\n/root/.openclaw/workspace/reports/restart-copy-feishu-style.md\n/root/.openclaw/workspace/reports/feishu-file-api.md\n/root/.openclaw/workspace/reports/lep-daily-report-2026-03-05.json\n/root/.openclaw/workspace/reports/aeo\n/root/.openclaw/workspace/reports/day1-closure-summary.md\n/root/.openclaw/workspace/output/test-report.html\n/root/.openclaw/workspace/output/test-report-1.json\n/root/.openclaw/workspace/output/trend-report.html\n/root/.openclaw/workspace/output/trend-report-demo-evaluation-latest.html\n/root/.openclaw/workspace/output/test-report-0.json\n/root/.openclaw/workspace/output/test-report-2.json\n/root/.openclaw/workspace/tests/benchmarks\n/root/.openclaw/workspace/logs/gateway-memory-governor.log\n/root/.openclaw/workspace/aeo-vector-system/test-report.json\n/root/.openclaw/workspace-scout/memory/global-progress-report-validation.md\n/root/.openclaw/workspace-scout/memory/interactive-card-fix-report.md\n/root/.openclaw/workspace-scout/global-progress-report-test.js",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859265108
+      }
+    },
+    {
+      "type": "message",
+      "id": "ee47bdad",
+      "parentId": "9599ad93",
+      "timestamp": "2026-03-07T04:54:28.614Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_ULS8EksqZZEdkXxUXKVx2v00",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && sed -n '1,220p' scripts/day2-gap3-aeo-close-loop.js && printf '\\n--- gates ---\\n' && find scripts/gates -maxdepth 2 -type f | sort | sed -n '1,120p'",
+              "timeout": 30
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 6850,
+          "output": 84,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 8726,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859265119
+      }
+    },
+    {
+      "type": "message",
+      "id": "ed362cb7",
+      "parentId": "ee47bdad",
+      "timestamp": "2026-03-07T04:54:28.638Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_ULS8EksqZZEdkXxUXKVx2v00",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "#!/usr/bin/env node\n'use strict';\n\nconst fs = require('fs');\nconst path = require('path');\nconst { spawnSync } = require('child_process');\n\nconst ROOT = path.resolve(__dirname, '..');\nconst REPORT_DIR = path.join(ROOT, 'reports');\nconst AEO_REPORT_DIR = path.join(REPORT_DIR, 'aeo');\nconst TRIBUNAL_DIR = path.join(REPORT_DIR, 'tribunal');\n\nfunction ensureDir(dir) {\n  fs.mkdirSync(dir, { recursive: true });\n}\n\nfunction timestampId() {\n  return new Date().toISOString().replace(/[:.]/g, '-');\n}\n\nfunction runNodeScript(relPath) {\n  const absPath = path.join(ROOT, relPath);\n  const startedAt = new Date().toISOString();\n  const result = spawnSync(process.execPath, [absPath], {\n    cwd: ROOT,\n    encoding: 'utf8',\n    timeout: 120000,\n    env: { ...process.env }\n  });\n  const endedAt = new Date().toISOString();\n  return {\n    script: relPath,\n    command: `node ${relPath}`,\n    startedAt,\n    endedAt,\n    durationMs: new Date(endedAt) - new Date(startedAt),\n    exitCode: result.status,\n    stdout: result.stdout || '',\n    stderr: result.stderr || '',\n    success: result.status === 0\n  };\n}\n\nfunction extractBenchmarkSummary(runResult) {\n  const text = `${runResult.stdout}\\n${runResult.stderr}`;\n  const summary = {};\n  const patterns = {\n    endToEndPassRate: /端到端正确率:\\s*(\\d+)\\/(\\d+)\\s*\\(([^)]+)\\)/,\n    ruleMatchRate: /规则匹配准确率:\\s*(\\d+)\\/(\\d+)\\s*\\(([^)]+)\\)/,\n    circuitBreakRate: /熔断有效率:\\s*(\\d+)\\/(\\d+)\\s*\\(([^)]+)\\)/,\n    degradeRate: /降级正确率:\\s*(\\d+)\\/(\\d+)\\s*\\(([^)]+)\\)/,\n    avgLatency: /平均延迟:\\s*([\\d.]+)ms/\n  };\n  for (const [key, regex] of Object.entries(patterns)) {\n    const m = text.match(regex);\n    if (!m) continue;\n    if (key === 'avgLatency') summary[key] = Number(m[1]);\n    else summary[key] = { passed: Number(m[1]), total: Number(m[2]), rate: m[3] };\n  }\n  return summary;\n}\n\nfunction safeRead(file) {\n  try { return fs.readFileSync(file, 'utf8'); } catch { return ''; }\n}\n\nfunction summarizeFailures(mdText) {\n  const lines = mdText.split(/\\r?\\n/);\n  const start = lines.findIndex(line => line.trim() === '## Failed Cases');\n  if (start === -1) return [];\n  const items = [];\n  for (let i = start + 1; i < lines.length; i++) {\n    const line = lines[i];\n    if (line.startsWith('## ')) break;\n    if (line.trim().startsWith('- **')) items.push(line.trim());\n  }\n  return items;\n}\n\nfunction buildBadcaseAnalysis(failures) {\n  if (!failures.length) {\n    return [{\n      category: 'none',\n      rootCause: '无失败 badcase，当前评测通过',\n      action: '维持回归测试与门禁接入，继续监控新增变更'\n    }];\n  }\n\n  return failures.map((item) => {\n    let category = 'unknown';\n    let rootCause = '需要进一步定位';\n    let action = '补充定向修复与回归用例';\n\n    if (/Expected pipeline skip|pipeline skipped/i.test(item)) {\n      category = 'feature-flag-gating';\n      rootCause = '降级/feature flag 分支行为与门禁预期不一致';\n      action = '校准 flag 关闭时的跳过逻辑与报告产出';\n    } else if (/Rules:/i.test(item)) {\n      category = 'rule-matching';\n      rootCause = '规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致';\n      action = '核对规则集、修正条件表达式，并把真实 case 回灌黄金集';\n    } else if (/Dispatches:/i.test(item)) {\n      category = 'dispatch';\n      rootCause = '分发层存在过度触发/错误触发';\n      action = '增加 handler 侧断言与幂等保护';\n    } else if (/circuit break/i.test(item)) {\n      category = 'resilience';\n      rootCause = '熔断门限或 chain depth 保护未达到预期';\n      action = '补充链深度极值 case 并复核阈值配置';\n    }\n\n    return { category, evidence: item, rootCause, action };\n  });\n}\n\nfunction buildTribunalDecision(report) {\n  const score = report.summary?.functionalQuality?.passRate || 0;\n  const blocked = score < 0.8 || !report.summary?.gateReady;\n  return {\n    decision: blocked ? 'CONDITIONAL_PASS' : 'PASS',\n    score,\n    reason: blocked\n      ? 'AEO 主链已形成，但部分脚本路径与门禁自动发现仍需补强，需带条件放行进入集成/验证。'\n      : 'AEO 功能质量测试、badcase 根因、门禁报告均齐备，可进入下一阶段。',\n    conditions: blocked\n      ? [\n          '集成改造需把 benchmark 运行脚本路径修正为 infrastructure 真实目录',\n          '验证测试需补一轮 gate handler 自动发现验证',\n          '新增真实报告应持续写入 reports/aeo 供门禁消费'\n        ]\n      : []\n  };\n}\n\nfunction main() {\n  ensureDir(REPORT_DIR);\n  ensureDir(AEO_REPORT_DIR);\n  ensureDir(TRIBUNAL_DIR);\n\n  const runId = `day2-gap3-${timestampId()}`;\n\n  const pipelineRun = runNodeScript('tests/benchmarks/pipeline/run-pipeline-benchmark.js');\n  const e2eRun = runNodeScript('tests/e2e/run-e2e-suite.js');\n\n  const pipelineMdPath = path.join(REPORT_DIR, 'day1-pipeline-benchmark.md');\n  const e2eMdPath = path.join(REPORT_DIR, 'e2e-dispatch-suite-result.md');\n  const pipelineMd = safeRead(pipelineMdPath);\n  const e2eMd = safeRead(e2eMdPath);\n  const benchmarkSummary = extractBenchmarkSummary(pipelineRun);\n  const failures = summarizeFailures(pipelineMd);\n  const badcases = buildBadcaseAnalysis(failures);\n\n  const report = {\n    reportId: runId,\n    generatedAt: new Date().toISOString(),\n    day: 'Day2',\n    gap: 'Gap3',\n    scope: 'AEO功能质量测试与数据评测闭环',\n    dataSource: 'real_workspace_execution',\n    dataSourceDetails: {\n      basis: [\n        'tests/benchmarks/pipeline/pipeline-benchmark-dataset.json',\n        'tests/e2e/event-dispatch-e2e-suite.json'\n      ],\n      execution: 'real node scripts executed in workspace',\n      note: '评测使用仓内真实 runner 执行；结果为真实运行数据而非手填模拟'\n    },\n    runs: {\n      pipelineBenchmark: pipelineRun,\n      eventDispatchE2E: e2eRun\n    },\n    artifacts: {\n      pipelineReport: path.relative(ROOT, pipelineMdPath),\n      e2eReport: path.relative(ROOT, e2eMdPath)\n    },\n    summary: {\n      gateReady: pipelineRun.success && e2eRun.success,\n      functionalQuality: {\n        pipelineBenchmarkPassed: pipelineRun.success,\n        eventDispatchE2EPassed: e2eRun.success,\n        benchmark: benchmarkSummary,\n        e2eSignal: e2eRun.success ? 'pass' : 'fail',\n        passRate: pipelineRun.success && e2eRun.success ? 1 : 0.5\n      },\n      badcaseCount: badcases.filter(x => x.category !== 'none').length,\n      closedLoop: [\n        '真实数据集执行',\n        '自动化报告生成',\n        'badcase根因分析',\n        '凌霄阁裁决材料生成'\n      ]\n    },\n    badcases,\n    tribunal: {\n      ...buildTribunalDecision({ summary: { functionalQuality: { passRate: pipelineRun.success && e2eRun.success ? 1 : 0.5 }, gateReady: pipelineRun.success && e2eRun.success } }),\n      artifact: null\n    },\n    nextActions: [\n      '将 reports/aeo 下报告纳入 aeo-e2e-test handler 自动扫描链路',\n      '修复 benchmark runner 对旧路径的依赖，避免脚本层假失败',\n      '为 Day2 关键交付物补充更多真实事件 case，提升黄金集覆盖度'\n    ]\n  };\n\n  const reportJsonPath = path.join(AEO_REPORT_DIR, `${runId}.json`);\n  fs.writeFileSync(reportJsonPath, JSON.stringify(report, null, 2));\n\n  const tribunalMdPath = path.join(TRIBUNAL_DIR, `${runId}-tribunal.md`);\n  ensureDir(path.dirname(tribunalMdPath));\n  const tribunalMd = `# Day2 Gap3 凌霄阁裁决记录\\n\\n- 议题: Day2 Gap3：AEO功能质量测试与数据评测闭环\\n- 生成时间: ${report.generatedAt}\\n- 数据来源: 真实 workspace 脚本执行\\n\\n## 裁决结论\\n- 结论: ${report.tribunal.decision}\\n- 理由: ${report.tribunal.reason}\\n- 条件:\\n${report.tribunal.conditions.map(c => `  - ${c}`).join('\\n') || '  - 无'}\\n\\n## AEO评测摘要\\n- Pipeline Benchmark: ${pipelineRun.success ? 'PASS' : 'FAIL'}\\n- Event Dispatch E2E: ${e2eRun.success ? 'PASS' : 'FAIL'}\\n- Gate Ready: ${report.summary.gateReady ? 'YES' : 'NO'}\\n- Badcase数: ${report.summary.badcaseCount}\\n\\n## Badcase根因\\n${badcases.map(x => `- [${x.category}] ${x.rootCause}｜行动: ${x.action}${x.evidence ? `｜证据: ${x.evidence}` : ''}`).join('\\n')}\\n\\n## 产物\\n- JSON报告: ${path.relative(ROOT, reportJsonPath)}\\n- Pipeline明细: ${report.artifacts.pipelineReport}\\n- E2E明细: ${report.artifacts.e2eReport}\\n`;\n  fs.writeFileSync(tribunalMdPath, tribunalMd);\n  report.tribunal.artifact = path.relative(ROOT, tribunalMdPath);\n  fs.writeFileSync(reportJsonPath, JSON.stringify(report, null, 2));\n\n  console.log(JSON.stringify({ ok: true, reportJsonPath: path.relative(ROOT, reportJsonPath), tribunalMdPath: path.relative(ROOT, tribunalMdPath) }, null, 2));\n}\n\nmain();\n\n--- gates ---\nscripts/gates/data-source-gate.js\nscripts/gates/entry-point-smoke-gate.js\nscripts/gates/feature-flag-audit-gate.js\nscripts/gates/independent-qa-gate.js\nscripts/gates/isc-compliance-gate.js\nscripts/gates/report-integrity-gate.js\nscripts/gates/run-all-gates.js"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 14,
+          "aggregated": "#!/usr/bin/env node\n'use strict';\n\nconst fs = require('fs');\nconst path = require('path');\nconst { spawnSync } = require('child_process');\n\nconst ROOT = path.resolve(__dirname, '..');\nconst REPORT_DIR = path.join(ROOT, 'reports');\nconst AEO_REPORT_DIR = path.join(REPORT_DIR, 'aeo');\nconst TRIBUNAL_DIR = path.join(REPORT_DIR, 'tribunal');\n\nfunction ensureDir(dir) {\n  fs.mkdirSync(dir, { recursive: true });\n}\n\nfunction timestampId() {\n  return new Date().toISOString().replace(/[:.]/g, '-');\n}\n\nfunction runNodeScript(relPath) {\n  const absPath = path.join(ROOT, relPath);\n  const startedAt = new Date().toISOString();\n  const result = spawnSync(process.execPath, [absPath], {\n    cwd: ROOT,\n    encoding: 'utf8',\n    timeout: 120000,\n    env: { ...process.env }\n  });\n  const endedAt = new Date().toISOString();\n  return {\n    script: relPath,\n    command: `node ${relPath}`,\n    startedAt,\n    endedAt,\n    durationMs: new Date(endedAt) - new Date(startedAt),\n    exitCode: result.status,\n    stdout: result.stdout || '',\n    stderr: result.stderr || '',\n    success: result.status === 0\n  };\n}\n\nfunction extractBenchmarkSummary(runResult) {\n  const text = `${runResult.stdout}\\n${runResult.stderr}`;\n  const summary = {};\n  const patterns = {\n    endToEndPassRate: /端到端正确率:\\s*(\\d+)\\/(\\d+)\\s*\\(([^)]+)\\)/,\n    ruleMatchRate: /规则匹配准确率:\\s*(\\d+)\\/(\\d+)\\s*\\(([^)]+)\\)/,\n    circuitBreakRate: /熔断有效率:\\s*(\\d+)\\/(\\d+)\\s*\\(([^)]+)\\)/,\n    degradeRate: /降级正确率:\\s*(\\d+)\\/(\\d+)\\s*\\(([^)]+)\\)/,\n    avgLatency: /平均延迟:\\s*([\\d.]+)ms/\n  };\n  for (const [key, regex] of Object.entries(patterns)) {\n    const m = text.match(regex);\n    if (!m) continue;\n    if (key === 'avgLatency') summary[key] = Number(m[1]);\n    else summary[key] = { passed: Number(m[1]), total: Number(m[2]), rate: m[3] };\n  }\n  return summary;\n}\n\nfunction safeRead(file) {\n  try { return fs.readFileSync(file, 'utf8'); } catch { return ''; }\n}\n\nfunction summarizeFailures(mdText) {\n  const lines = mdText.split(/\\r?\\n/);\n  const start = lines.findIndex(line => line.trim() === '## Failed Cases');\n  if (start === -1) return [];\n  const items = [];\n  for (let i = start + 1; i < lines.length; i++) {\n    const line = lines[i];\n    if (line.startsWith('## ')) break;\n    if (line.trim().startsWith('- **')) items.push(line.trim());\n  }\n  return items;\n}\n\nfunction buildBadcaseAnalysis(failures) {\n  if (!failures.length) {\n    return [{\n      category: 'none',\n      rootCause: '无失败 badcase，当前评测通过',\n      action: '维持回归测试与门禁接入，继续监控新增变更'\n    }];\n  }\n\n  return failures.map((item) => {\n    let category = 'unknown';\n    let rootCause = '需要进一步定位';\n    let action = '补充定向修复与回归用例';\n\n    if (/Expected pipeline skip|pipeline skipped/i.test(item)) {\n      category = 'feature-flag-gating';\n      rootCause = '降级/feature flag 分支行为与门禁预期不一致';\n      action = '校准 flag 关闭时的跳过逻辑与报告产出';\n    } else if (/Rules:/i.test(item)) {\n      category = 'rule-matching';\n      rootCause = '规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致';\n      action = '核对规则集、修正条件表达式，并把真实 case 回灌黄金集';\n    } else if (/Dispatches:/i.test(item)) {\n      category = 'dispatch';\n      rootCause = '分发层存在过度触发/错误触发';\n      action = '增加 handler 侧断言与幂等保护';\n    } else if (/circuit break/i.test(item)) {\n      category = 'resilience';\n      rootCause = '熔断门限或 chain depth 保护未达到预期';\n      action = '补充链深度极值 case 并复核阈值配置';\n    }\n\n    return { category, evidence: item, rootCause, action };\n  });\n}\n\nfunction buildTribunalDecision(report) {\n  const score = report.summary?.functionalQuality?.passRate || 0;\n  const blocked = score < 0.8 || !report.summary?.gateReady;\n  return {\n    decision: blocked ? 'CONDITIONAL_PASS' : 'PASS',\n    score,\n    reason: blocked\n      ? 'AEO 主链已形成，但部分脚本路径与门禁自动发现仍需补强，需带条件放行进入集成/验证。'\n      : 'AEO 功能质量测试、badcase 根因、门禁报告均齐备，可进入下一阶段。',\n    conditions: blocked\n      ? [\n          '集成改造需把 benchmark 运行脚本路径修正为 infrastructure 真实目录',\n          '验证测试需补一轮 gate handler 自动发现验证',\n          '新增真实报告应持续写入 reports/aeo 供门禁消费'\n        ]\n      : []\n  };\n}\n\nfunction main() {\n  ensureDir(REPORT_DIR);\n  ensureDir(AEO_REPORT_DIR);\n  ensureDir(TRIBUNAL_DIR);\n\n  const runId = `day2-gap3-${timestampId()}`;\n\n  const pipelineRun = runNodeScript('tests/benchmarks/pipeline/run-pipeline-benchmark.js');\n  const e2eRun = runNodeScript('tests/e2e/run-e2e-suite.js');\n\n  const pipelineMdPath = path.join(REPORT_DIR, 'day1-pipeline-benchmark.md');\n  const e2eMdPath = path.join(REPORT_DIR, 'e2e-dispatch-suite-result.md');\n  const pipelineMd = safeRead(pipelineMdPath);\n  const e2eMd = safeRead(e2eMdPath);\n  const benchmarkSummary = extractBenchmarkSummary(pipelineRun);\n  const failures = summarizeFailures(pipelineMd);\n  const badcases = buildBadcaseAnalysis(failures);\n\n  const report = {\n    reportId: runId,\n    generatedAt: new Date().toISOString(),\n    day: 'Day2',\n    gap: 'Gap3',\n    scope: 'AEO功能质量测试与数据评测闭环',\n    dataSource: 'real_workspace_execution',\n    dataSourceDetails: {\n      basis: [\n        'tests/benchmarks/pipeline/pipeline-benchmark-dataset.json',\n        'tests/e2e/event-dispatch-e2e-suite.json'\n      ],\n      execution: 'real node scripts executed in workspace',\n      note: '评测使用仓内真实 runner 执行；结果为真实运行数据而非手填模拟'\n    },\n    runs: {\n      pipelineBenchmark: pipelineRun,\n      eventDispatchE2E: e2eRun\n    },\n    artifacts: {\n      pipelineReport: path.relative(ROOT, pipelineMdPath),\n      e2eReport: path.relative(ROOT, e2eMdPath)\n    },\n    summary: {\n      gateReady: pipelineRun.success && e2eRun.success,\n      functionalQuality: {\n        pipelineBenchmarkPassed: pipelineRun.success,\n        eventDispatchE2EPassed: e2eRun.success,\n        benchmark: benchmarkSummary,\n        e2eSignal: e2eRun.success ? 'pass' : 'fail',\n        passRate: pipelineRun.success && e2eRun.success ? 1 : 0.5\n      },\n      badcaseCount: badcases.filter(x => x.category !== 'none').length,\n      closedLoop: [\n        '真实数据集执行',\n        '自动化报告生成',\n        'badcase根因分析',\n        '凌霄阁裁决材料生成'\n      ]\n    },\n    badcases,\n    tribunal: {\n      ...buildTribunalDecision({ summary: { functionalQuality: { passRate: pipelineRun.success && e2eRun.success ? 1 : 0.5 }, gateReady: pipelineRun.success && e2eRun.success } }),\n      artifact: null\n    },\n    nextActions: [\n      '将 reports/aeo 下报告纳入 aeo-e2e-test handler 自动扫描链路',\n      '修复 benchmark runner 对旧路径的依赖，避免脚本层假失败',\n      '为 Day2 关键交付物补充更多真实事件 case，提升黄金集覆盖度'\n    ]\n  };\n\n  const reportJsonPath = path.join(AEO_REPORT_DIR, `${runId}.json`);\n  fs.writeFileSync(reportJsonPath, JSON.stringify(report, null, 2));\n\n  const tribunalMdPath = path.join(TRIBUNAL_DIR, `${runId}-tribunal.md`);\n  ensureDir(path.dirname(tribunalMdPath));\n  const tribunalMd = `# Day2 Gap3 凌霄阁裁决记录\\n\\n- 议题: Day2 Gap3：AEO功能质量测试与数据评测闭环\\n- 生成时间: ${report.generatedAt}\\n- 数据来源: 真实 workspace 脚本执行\\n\\n## 裁决结论\\n- 结论: ${report.tribunal.decision}\\n- 理由: ${report.tribunal.reason}\\n- 条件:\\n${report.tribunal.conditions.map(c => `  - ${c}`).join('\\n') || '  - 无'}\\n\\n## AEO评测摘要\\n- Pipeline Benchmark: ${pipelineRun.success ? 'PASS' : 'FAIL'}\\n- Event Dispatch E2E: ${e2eRun.success ? 'PASS' : 'FAIL'}\\n- Gate Ready: ${report.summary.gateReady ? 'YES' : 'NO'}\\n- Badcase数: ${report.summary.badcaseCount}\\n\\n## Badcase根因\\n${badcases.map(x => `- [${x.category}] ${x.rootCause}｜行动: ${x.action}${x.evidence ? `｜证据: ${x.evidence}` : ''}`).join('\\n')}\\n\\n## 产物\\n- JSON报告: ${path.relative(ROOT, reportJsonPath)}\\n- Pipeline明细: ${report.artifacts.pipelineReport}\\n- E2E明细: ${report.artifacts.e2eReport}\\n`;\n  fs.writeFileSync(tribunalMdPath, tribunalMd);\n  report.tribunal.artifact = path.relative(ROOT, tribunalMdPath);\n  fs.writeFileSync(reportJsonPath, JSON.stringify(report, null, 2));\n\n  console.log(JSON.stringify({ ok: true, reportJsonPath: path.relative(ROOT, reportJsonPath), tribunalMdPath: path.relative(ROOT, tribunalMdPath) }, null, 2));\n}\n\nmain();\n\n--- gates ---\nscripts/gates/data-source-gate.js\nscripts/gates/entry-point-smoke-gate.js\nscripts/gates/feature-flag-audit-gate.js\nscripts/gates/independent-qa-gate.js\nscripts/gates/isc-compliance-gate.js\nscripts/gates/report-integrity-gate.js\nscripts/gates/run-all-gates.js",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859268633
+      }
+    },
+    {
+      "type": "message",
+      "id": "cdd5a11f",
+      "parentId": "ed362cb7",
+      "timestamp": "2026-03-07T04:54:34.106Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_dbSDP1LQNVXegJOQZYlhw6qx",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && sed -n '1,260p' scripts/gates/run-all-gates.js && printf '\\n--- handler refs ---\\n' && grep -R \"aeo-e2e-test\\|handler\" -n . | head -120",
+              "timeout": 30
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 13052,
+          "output": 80,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 13132,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859268638
+      }
+    },
+    {
+      "type": "message",
+      "id": "6ea095b5",
+      "parentId": "cdd5a11f",
+      "timestamp": "2026-03-07T04:54:34.136Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_dbSDP1LQNVXegJOQZYlhw6qx",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "#!/usr/bin/env node\n/**\n * Unified Gate Runner — runs all 6 validation gates\n * Usage: node run-all-gates.js [--gate N]\n */\nconst path = require('path');\n\nconst gates = [\n  require('./data-source-gate'),\n  require('./isc-compliance-gate'),\n  require('./entry-point-smoke-gate'),\n  require('./feature-flag-audit-gate'),\n  require('./report-integrity-gate'),\n  require('./independent-qa-gate'),\n];\n\nfunction main() {\n  const args = process.argv.slice(2);\n  const gateIdx = args.indexOf('--gate');\n  const singleGate = gateIdx >= 0 ? parseInt(args[gateIdx + 1], 10) : null;\n\n  const results = [];\n  let allPassed = true;\n\n  const toRun = singleGate ? [{ idx: singleGate, gate: gates[singleGate - 1] }]\n    : gates.map((gate, i) => ({ idx: i + 1, gate }));\n\n  for (const { idx, gate } of toRun) {\n    if (!gate) {\n      console.error(`Gate ${idx} not found`);\n      process.exit(1);\n    }\n    const result = gate.run();\n    results.push(result);\n    const icon = result.passed ? '✅' : '❌';\n    console.log(`${icon} Gate ${idx}: ${result.name} — ${result.passed ? 'PASSED' : 'FAILED'}`);\n    if (!result.passed) {\n      allPassed = false;\n      for (const e of result.errors) {\n        console.log(`   → ${e.message || JSON.stringify(e)}`);\n      }\n    }\n  }\n\n  console.log(`\\n${allPassed ? '✅ All gates passed' : '❌ Some gates failed'}`);\n  process.exit(allPassed ? 0 : 1);\n}\n\nmain();\n\n--- handler refs ---\n./skills/feishu-report-sender/index.js:34:    handler: 'feishu-report-sender',\n./skills/public/system-monitor/index.js:23:    dispatcherHandlerState: path.join(WORKSPACE, 'infrastructure/resilience/handler-state.json'),\n./skills/public/system-monitor/index.js:105:      for (const [handler, health] of Object.entries(state || {})) {\n./skills/public/system-monitor/index.js:110:            handler,\n./skills/public/system-monitor/index.js:111:            message: `Handler ${handler} 已被熔断禁用`,\n./skills/public/system-monitor/index.js:112:            rootCause: 'handler_circuit_breaker_open',\n./skills/public/system-monitor/index.js:118:      this.issues.push({ type: 'dispatcher', severity: 'warning', message: `无法检查dispatcher handler状态: ${e.message}` });\n./skills/public/multi-agent-reporting/SKILL.md:50:  highlights: ['Gap3 主闭环脚本与 gate handler 已落地'],\n./skills/public/multi-agent-reporting/SKILL.md:71:- Gap3 主闭环脚本与 gate handler 已落地\n./skills/public/file-sender/artifact-auto-send.js:25:    handler: 'artifact-auto-send',\n./skills/isc-core/rules/rule.anti-entropy-design-principle-001.json:55:    \"handler\": \"anti-entropy-check\"\n./skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json:30:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json:31:    \"handler\": \"naming-convention-check\",\n./skills/isc-core/rules/rule.intent-ic4-ic5-boundary-001.json:79:    \"handler\": \"intent-boundary\"\n./skills/isc-core/rules/rule.coding-quality-thinking-001.json:27:    \"handler\": \"eval-quality-check\"\n./skills/isc-core/rules/rule.n024-aeo-dual-track-orchestration-024.json:17:        \"handler\": \"aeo-evaluation-required\",\n./skills/isc-core/rules/rule.n024-aeo-dual-track-orchestration-024.json:74:    \"handler\": \"eval-quality-check\"\n./skills/isc-core/rules/rule.public-skill-classification-001.json:34:    \"handler\": \"public-skill-classification\",\n./skills/isc-core/rules/rule.public-skill-classification-001.json:35:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.intent-pdf输出标准-fyhznt.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-pdf输出标准-fyhznt.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.planning-time-granularity-037.json:65:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.planning-time-granularity-037.json:66:    \"handler\": \"planning-time-granularity\",\n./skills/isc-core/rules/rule.auto-evomap-sync-trigger-001.json:26:    \"handler\": \"evomap-sync-trigger\"\n./skills/isc-core/rules/rule.arch-machine-over-human-004.json:24:    \"handler\": \"automation-gap-scanner\",\n./skills/isc-core/rules/rule.isc-rule-creation-dedup-gate-001.json:29:    \"handler\": \"dedup-scan\",\n./skills/isc-core/rules/rule.isc-rule-creation-dedup-gate-001.json:42:        \"prompt_input\": \"两条规则的event列表 + condition描述 + action类型/handler/效果\",\n./skills/isc-core/rules/rule.n034-rule-identity-accuracy.json:168:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.n034-rule-identity-accuracy.json:169:    \"handler\": \"naming-convention-check\",\n./skills/isc-core/rules/rule.aeo-e2e-decision-pipeline-test-001.json:5:  \"description\": \"任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止模拟数据\",\n./skills/isc-core/rules/rule.aeo-e2e-decision-pipeline-test-001.json:11:      \"event_bus.handler.modified\",\n./skills/isc-core/rules/rule.aeo-e2e-decision-pipeline-test-001.json:34:    \"handler\": \"aeo-e2e-test\"\n./skills/isc-core/rules/rule.design-document-delivery-pipeline-001.json:91:    \"handler\": \"document-structure-check\"\n./skills/isc-core/rules/rule.n018-detection-skill-rename-global-alignment-018.json:124:    \"handler\": \"naming-convention-check\"\n./skills/isc-core/rules/rule.capability-anchor-auto-register-001.json:32:    \"handler\": \"capability-anchor-register\"\n./skills/isc-core/rules/rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.self-correction-to-rule-001.json:6:  \"description\": \"检测到行为缺陷/纠偏信号时，必须：1)追究根因（规则缺失？handler缺失？逻辑错误？认知偏差？架构缺陷？）2)基于根因找解决方案（不是基于表象找补丁）3)根据根因类型选择修复路径并执行。根因决定方案，方案决定行动。\",\n./skills/isc-core/rules/rule.self-correction-to-rule-001.json:47:    \"handler\": \"self-correction-root-cause\",\n./skills/isc-core/rules/rule.self-correction-to-rule-001.json:48:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.task-orchestration-quality-001.json:30:    \"handler\": \"eval-quality-check\",\n./skills/isc-core/rules/rule.dependency-direction-check-001.json:11:    \"handler\": \"check-dependency-direction\"\n./skills/isc-core/rules/rule.quality-over-efficiency-over-cost-001.json:34:    \"handler\": \"eval-quality-check\",\n./skills/isc-core/rules/rule.arch-gate-before-action-001.json:33:    \"handler\": \"enforcement-engine\",\n./skills/isc-core/rules/rule.auto-github-sync-trigger-001.json:41:    \"handler\": \"github-sync-trigger\"\n./skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json:91:    \"handler\": \"parallel-subagent-orchestration\",\n./skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json:92:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.meta-enforcement-gate-001.json:74:    \"handler\": \"meta-enforcement\"\n./skills/isc-core/rules/rule.intent-ruleify-consumption-001.json:6:  \"description\": \"当意图分析器识别出 ruleify 类意图时，路由到 intent-event-handler 创建 ISC 规则草案。确保 intent.ruleify 事件在 event-bus 链路中被正确匹配和执行。\",\n./skills/isc-core/rules/rule.intent-ruleify-consumption-001.json:12:        \"description\": \"路由 intent.ruleify 到 intent-event-handler 进行规则草案创建\"\n./skills/isc-core/rules/rule.intent-ruleify-consumption-001.json:17:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-ruleify-consumption-001.json:18:    \"handler\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.n035-rule-trigger-completeness.json:203:    \"handler\": \"completeness-check\"\n./skills/isc-core/rules/rule.project-mgmt-lesson-capture-001.json:66:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.project-mgmt-lesson-capture-001.json:67:    \"handler\": \"report-snapshot\",\n./skills/isc-core/rules/rule.intent-directive-consumption-001.json:6:  \"description\": \"当意图分析器识别出 directive 类意图时，路由到 intent-event-handler 创建 DTO 任务。确保 intent.directive 事件在 event-bus 链路中被正确匹配和执行。\",\n./skills/isc-core/rules/rule.intent-directive-consumption-001.json:12:        \"description\": \"路由 intent.directive 到 intent-event-handler 创建 DTO 任务\"\n./skills/isc-core/rules/rule.intent-directive-consumption-001.json:17:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-directive-consumption-001.json:18:    \"handler\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.tracker-sync-gate-001.json:63:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.tracker-sync-gate-001.json:64:    \"handler\": \"tracker-sync-handler\"\n./skills/isc-core/rules/rule.pipeline-report-filter-001.json:70:    \"handler\": \"pipeline-report-filter\",\n./skills/isc-core/rules/rule.pipeline-report-filter-001.json:71:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.intent-会话记忆机制-f2lei.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-会话记忆机制-f2lei.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.intent-ruleify-dispatch-001.json:4:  \"description\": \"当意图被分类为 ruleify 时，路由到 intent-event-handler 创建 ISC 规则草案\",\n./skills/isc-core/rules/rule.intent-ruleify-dispatch-001.json:13:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-ruleify-dispatch-001.json:14:    \"handler\": \"intent-event-handler\"\n./skills/isc-core/rules/rule.memory-digest-must-verify-001.json:33:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.memory-digest-must-verify-001.json:34:    \"handler\": \"memory-digest-must-verify\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:27:        \"handler\": \"cras-feedback-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:33:        \"handler\": \"isc-rule-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:39:        \"handler\": \"cras-knowledge-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:45:        \"handler\": \"dev-task-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:51:        \"handler\": \"analysis-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:56:      \"handler\": \"default-message-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:67:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:68:    \"handler\": \"umr-intent-routing\",\n./skills/isc-core/rules/rule.intent-directive-dispatch-001.json:4:  \"description\": \"当意图被分类为 directive 时，路由到 intent-event-handler 创建 DTO 任务消费路径\",\n./skills/isc-core/rules/rule.intent-directive-dispatch-001.json:13:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-directive-dispatch-001.json:14:    \"handler\": \"intent-event-handler\"\n./skills/isc-core/rules/rule.capability-anchor-lifecycle-sync-001.json:11:    \"handler\": \"capability-anchor-sync\"\n./skills/isc-core/rules/rule.n029-model-api-key-pool-management-029.json:112:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.n029-model-api-key-pool-management-029.json:113:    \"handler\": \"notify-alert\",\n./skills/isc-core/rules/rule.isc-evomap-mandatory-security-scan-032.json:114:    \"handler\": \"completeness-check\"\n./skills/isc-core/rules/rule.architecture-review-pipeline-001.json:69:    \"handler\": \"architecture-review\"\n./skills/isc-core/rules/rule.cras-dual-channel-001.json:36:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.cras-dual-channel-001.json:37:    \"handler\": \"cras-dual-channel\",\n./skills/isc-core/rules/rule.multi-agent-communication-priority-001.json:128:    \"handler\": \"multi-agent-priority\"\n./skills/isc-core/rules/rule.arch-rule-equals-code-002.json:28:    \"handler\": \"enforcement-audit\",\n./skills/isc-core/rules/rule.arch-real-data-gate-005.json:24:    \"handler\": \"eval-quality-check\",\n./skills/isc-core/rules/rule.n025-aeo-feedback-auto-collection-025.json:82:    \"handler\": \"eval-quality-check\"\n./skills/isc-core/rules/rule.intent-p0-regression-tracking-qmsnw4.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-p0-regression-tracking-qmsnw4.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.arch-feedback-must-close-003.json:25:    \"handler\": \"event-health-monitor\",\n./skills/isc-core/rules/rule.design-document-structure-001.json:77:    \"handler\": \"document-structure-check\"\n./skills/isc-core/rules/rule.isc-skill-index-auto-update-001.json:27:    \"handler\": \"isc-skill-index-update\"\n./skills/isc-core/rules/rule.architecture-diagram-visual-output-001.json:28:    \"handler\": \"document-structure-check\"\n./skills/isc-core/rules/rule.detection-report-feishu-card-001.json:41:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.detection-report-feishu-card-001.json:42:    \"handler\": \"report-snapshot\",\n./skills/isc-core/rules/rule.intent-unknown-discovery-001.json:20:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-unknown-discovery-001.json:21:    \"handler\": \"intent-unknown-discovery\",\n./skills/isc-core/rules/rule.cron-task-model-requirement-001.json:49:    \"handler\": \"cron-task-model-requirement\"\n./skills/isc-core/rules/rule.zhipu-capability-router-001.json:121:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.zhipu-capability-router-001.json:122:    \"handler\": \"log-action\",\n./skills/isc-core/rules/rule.scenario-acceptance-gate-001.json:35:    \"handler\": \"scenario-acceptance-gate\",\n./skills/isc-core/rules/rule.scenario-acceptance-gate-001.json:36:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.interactive-card-context-inference-001.json:33:    \"handler\": \"interactive-card-context-inference\"\n./skills/isc-core/rules/rule.n017-detection-cras-recurring-pattern-auto-resolve-017.json:93:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.n017-detection-cras-recurring-pattern-auto-resolve-017.json:94:    \"handler\": \"auto-fix\",\n./skills/isc-core/rules/rule.intent-cras-e系统架构与交付约束-21ztnb.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-cras-e系统架构与交付约束-21ztnb.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.git-commit-dispatch-001.json:20:    \"filter\": \"所有提交均触发，handler 内部按 categories 字段做 fanout 分发\"\n./skills/isc-core/rules/rule.git-commit-dispatch-001.json:26:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.git-commit-dispatch-001.json:27:    \"handler\": \"completeness-check\",\n./skills/isc-core/rules/rule.seef-subskill-orchestration-001.json:81:    \"handler\": \"seef-subskill-orchestration\",\n./skills/isc-core/rules/rule.seef-subskill-orchestration-001.json:82:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.must-verify-config-before-coding-001.json:23:    \"handler\": \"verify-config-before-code\"\n./skills/isc-core/rules/rule.vectorization-standard-enforcement-001.json:32:    \"handler\": \"/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh\",\n./skills/isc-core/rules/rule.vectorization-standard-enforcement-001.json:81:    \"handler\": \"/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh\","
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 20,
+          "aggregated": "#!/usr/bin/env node\n/**\n * Unified Gate Runner — runs all 6 validation gates\n * Usage: node run-all-gates.js [--gate N]\n */\nconst path = require('path');\n\nconst gates = [\n  require('./data-source-gate'),\n  require('./isc-compliance-gate'),\n  require('./entry-point-smoke-gate'),\n  require('./feature-flag-audit-gate'),\n  require('./report-integrity-gate'),\n  require('./independent-qa-gate'),\n];\n\nfunction main() {\n  const args = process.argv.slice(2);\n  const gateIdx = args.indexOf('--gate');\n  const singleGate = gateIdx >= 0 ? parseInt(args[gateIdx + 1], 10) : null;\n\n  const results = [];\n  let allPassed = true;\n\n  const toRun = singleGate ? [{ idx: singleGate, gate: gates[singleGate - 1] }]\n    : gates.map((gate, i) => ({ idx: i + 1, gate }));\n\n  for (const { idx, gate } of toRun) {\n    if (!gate) {\n      console.error(`Gate ${idx} not found`);\n      process.exit(1);\n    }\n    const result = gate.run();\n    results.push(result);\n    const icon = result.passed ? '✅' : '❌';\n    console.log(`${icon} Gate ${idx}: ${result.name} — ${result.passed ? 'PASSED' : 'FAILED'}`);\n    if (!result.passed) {\n      allPassed = false;\n      for (const e of result.errors) {\n        console.log(`   → ${e.message || JSON.stringify(e)}`);\n      }\n    }\n  }\n\n  console.log(`\\n${allPassed ? '✅ All gates passed' : '❌ Some gates failed'}`);\n  process.exit(allPassed ? 0 : 1);\n}\n\nmain();\n\n--- handler refs ---\n./skills/feishu-report-sender/index.js:34:    handler: 'feishu-report-sender',\n./skills/public/system-monitor/index.js:23:    dispatcherHandlerState: path.join(WORKSPACE, 'infrastructure/resilience/handler-state.json'),\n./skills/public/system-monitor/index.js:105:      for (const [handler, health] of Object.entries(state || {})) {\n./skills/public/system-monitor/index.js:110:            handler,\n./skills/public/system-monitor/index.js:111:            message: `Handler ${handler} 已被熔断禁用`,\n./skills/public/system-monitor/index.js:112:            rootCause: 'handler_circuit_breaker_open',\n./skills/public/system-monitor/index.js:118:      this.issues.push({ type: 'dispatcher', severity: 'warning', message: `无法检查dispatcher handler状态: ${e.message}` });\n./skills/public/multi-agent-reporting/SKILL.md:50:  highlights: ['Gap3 主闭环脚本与 gate handler 已落地'],\n./skills/public/multi-agent-reporting/SKILL.md:71:- Gap3 主闭环脚本与 gate handler 已落地\n./skills/public/file-sender/artifact-auto-send.js:25:    handler: 'artifact-auto-send',\n./skills/isc-core/rules/rule.anti-entropy-design-principle-001.json:55:    \"handler\": \"anti-entropy-check\"\n./skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json:30:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json:31:    \"handler\": \"naming-convention-check\",\n./skills/isc-core/rules/rule.intent-ic4-ic5-boundary-001.json:79:    \"handler\": \"intent-boundary\"\n./skills/isc-core/rules/rule.coding-quality-thinking-001.json:27:    \"handler\": \"eval-quality-check\"\n./skills/isc-core/rules/rule.n024-aeo-dual-track-orchestration-024.json:17:        \"handler\": \"aeo-evaluation-required\",\n./skills/isc-core/rules/rule.n024-aeo-dual-track-orchestration-024.json:74:    \"handler\": \"eval-quality-check\"\n./skills/isc-core/rules/rule.public-skill-classification-001.json:34:    \"handler\": \"public-skill-classification\",\n./skills/isc-core/rules/rule.public-skill-classification-001.json:35:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.intent-pdf输出标准-fyhznt.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-pdf输出标准-fyhznt.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.planning-time-granularity-037.json:65:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.planning-time-granularity-037.json:66:    \"handler\": \"planning-time-granularity\",\n./skills/isc-core/rules/rule.auto-evomap-sync-trigger-001.json:26:    \"handler\": \"evomap-sync-trigger\"\n./skills/isc-core/rules/rule.arch-machine-over-human-004.json:24:    \"handler\": \"automation-gap-scanner\",\n./skills/isc-core/rules/rule.isc-rule-creation-dedup-gate-001.json:29:    \"handler\": \"dedup-scan\",\n./skills/isc-core/rules/rule.isc-rule-creation-dedup-gate-001.json:42:        \"prompt_input\": \"两条规则的event列表 + condition描述 + action类型/handler/效果\",\n./skills/isc-core/rules/rule.n034-rule-identity-accuracy.json:168:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.n034-rule-identity-accuracy.json:169:    \"handler\": \"naming-convention-check\",\n./skills/isc-core/rules/rule.aeo-e2e-decision-pipeline-test-001.json:5:  \"description\": \"任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止模拟数据\",\n./skills/isc-core/rules/rule.aeo-e2e-decision-pipeline-test-001.json:11:      \"event_bus.handler.modified\",\n./skills/isc-core/rules/rule.aeo-e2e-decision-pipeline-test-001.json:34:    \"handler\": \"aeo-e2e-test\"\n./skills/isc-core/rules/rule.design-document-delivery-pipeline-001.json:91:    \"handler\": \"document-structure-check\"\n./skills/isc-core/rules/rule.n018-detection-skill-rename-global-alignment-018.json:124:    \"handler\": \"naming-convention-check\"\n./skills/isc-core/rules/rule.capability-anchor-auto-register-001.json:32:    \"handler\": \"capability-anchor-register\"\n./skills/isc-core/rules/rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.self-correction-to-rule-001.json:6:  \"description\": \"检测到行为缺陷/纠偏信号时，必须：1)追究根因（规则缺失？handler缺失？逻辑错误？认知偏差？架构缺陷？）2)基于根因找解决方案（不是基于表象找补丁）3)根据根因类型选择修复路径并执行。根因决定方案，方案决定行动。\",\n./skills/isc-core/rules/rule.self-correction-to-rule-001.json:47:    \"handler\": \"self-correction-root-cause\",\n./skills/isc-core/rules/rule.self-correction-to-rule-001.json:48:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.task-orchestration-quality-001.json:30:    \"handler\": \"eval-quality-check\",\n./skills/isc-core/rules/rule.dependency-direction-check-001.json:11:    \"handler\": \"check-dependency-direction\"\n./skills/isc-core/rules/rule.quality-over-efficiency-over-cost-001.json:34:    \"handler\": \"eval-quality-check\",\n./skills/isc-core/rules/rule.arch-gate-before-action-001.json:33:    \"handler\": \"enforcement-engine\",\n./skills/isc-core/rules/rule.auto-github-sync-trigger-001.json:41:    \"handler\": \"github-sync-trigger\"\n./skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json:91:    \"handler\": \"parallel-subagent-orchestration\",\n./skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json:92:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.meta-enforcement-gate-001.json:74:    \"handler\": \"meta-enforcement\"\n./skills/isc-core/rules/rule.intent-ruleify-consumption-001.json:6:  \"description\": \"当意图分析器识别出 ruleify 类意图时，路由到 intent-event-handler 创建 ISC 规则草案。确保 intent.ruleify 事件在 event-bus 链路中被正确匹配和执行。\",\n./skills/isc-core/rules/rule.intent-ruleify-consumption-001.json:12:        \"description\": \"路由 intent.ruleify 到 intent-event-handler 进行规则草案创建\"\n./skills/isc-core/rules/rule.intent-ruleify-consumption-001.json:17:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-ruleify-consumption-001.json:18:    \"handler\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.n035-rule-trigger-completeness.json:203:    \"handler\": \"completeness-check\"\n./skills/isc-core/rules/rule.project-mgmt-lesson-capture-001.json:66:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.project-mgmt-lesson-capture-001.json:67:    \"handler\": \"report-snapshot\",\n./skills/isc-core/rules/rule.intent-directive-consumption-001.json:6:  \"description\": \"当意图分析器识别出 directive 类意图时，路由到 intent-event-handler 创建 DTO 任务。确保 intent.directive 事件在 event-bus 链路中被正确匹配和执行。\",\n./skills/isc-core/rules/rule.intent-directive-consumption-001.json:12:        \"description\": \"路由 intent.directive 到 intent-event-handler 创建 DTO 任务\"\n./skills/isc-core/rules/rule.intent-directive-consumption-001.json:17:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-directive-consumption-001.json:18:    \"handler\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.tracker-sync-gate-001.json:63:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.tracker-sync-gate-001.json:64:    \"handler\": \"tracker-sync-handler\"\n./skills/isc-core/rules/rule.pipeline-report-filter-001.json:70:    \"handler\": \"pipeline-report-filter\",\n./skills/isc-core/rules/rule.pipeline-report-filter-001.json:71:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.intent-会话记忆机制-f2lei.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-会话记忆机制-f2lei.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.intent-ruleify-dispatch-001.json:4:  \"description\": \"当意图被分类为 ruleify 时，路由到 intent-event-handler 创建 ISC 规则草案\",\n./skills/isc-core/rules/rule.intent-ruleify-dispatch-001.json:13:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-ruleify-dispatch-001.json:14:    \"handler\": \"intent-event-handler\"\n./skills/isc-core/rules/rule.memory-digest-must-verify-001.json:33:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.memory-digest-must-verify-001.json:34:    \"handler\": \"memory-digest-must-verify\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:27:        \"handler\": \"cras-feedback-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:33:        \"handler\": \"isc-rule-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:39:        \"handler\": \"cras-knowledge-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:45:        \"handler\": \"dev-task-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:51:        \"handler\": \"analysis-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:56:      \"handler\": \"default-message-handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:67:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.umr-intent-routing-001.json:68:    \"handler\": \"umr-intent-routing\",\n./skills/isc-core/rules/rule.intent-directive-dispatch-001.json:4:  \"description\": \"当意图被分类为 directive 时，路由到 intent-event-handler 创建 DTO 任务消费路径\",\n./skills/isc-core/rules/rule.intent-directive-dispatch-001.json:13:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-directive-dispatch-001.json:14:    \"handler\": \"intent-event-handler\"\n./skills/isc-core/rules/rule.capability-anchor-lifecycle-sync-001.json:11:    \"handler\": \"capability-anchor-sync\"\n./skills/isc-core/rules/rule.n029-model-api-key-pool-management-029.json:112:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.n029-model-api-key-pool-management-029.json:113:    \"handler\": \"notify-alert\",\n./skills/isc-core/rules/rule.isc-evomap-mandatory-security-scan-032.json:114:    \"handler\": \"completeness-check\"\n./skills/isc-core/rules/rule.architecture-review-pipeline-001.json:69:    \"handler\": \"architecture-review\"\n./skills/isc-core/rules/rule.cras-dual-channel-001.json:36:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.cras-dual-channel-001.json:37:    \"handler\": \"cras-dual-channel\",\n./skills/isc-core/rules/rule.multi-agent-communication-priority-001.json:128:    \"handler\": \"multi-agent-priority\"\n./skills/isc-core/rules/rule.arch-rule-equals-code-002.json:28:    \"handler\": \"enforcement-audit\",\n./skills/isc-core/rules/rule.arch-real-data-gate-005.json:24:    \"handler\": \"eval-quality-check\",\n./skills/isc-core/rules/rule.n025-aeo-feedback-auto-collection-025.json:82:    \"handler\": \"eval-quality-check\"\n./skills/isc-core/rules/rule.intent-p0-regression-tracking-qmsnw4.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-p0-regression-tracking-qmsnw4.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.arch-feedback-must-close-003.json:25:    \"handler\": \"event-health-monitor\",\n./skills/isc-core/rules/rule.design-document-structure-001.json:77:    \"handler\": \"document-structure-check\"\n./skills/isc-core/rules/rule.isc-skill-index-auto-update-001.json:27:    \"handler\": \"isc-skill-index-update\"\n./skills/isc-core/rules/rule.architecture-diagram-visual-output-001.json:28:    \"handler\": \"document-structure-check\"\n./skills/isc-core/rules/rule.detection-report-feishu-card-001.json:41:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.detection-report-feishu-card-001.json:42:    \"handler\": \"report-snapshot\",\n./skills/isc-core/rules/rule.intent-unknown-discovery-001.json:20:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.intent-unknown-discovery-001.json:21:    \"handler\": \"intent-unknown-discovery\",\n./skills/isc-core/rules/rule.cron-task-model-requirement-001.json:49:    \"handler\": \"cron-task-model-requirement\"\n./skills/isc-core/rules/rule.zhipu-capability-router-001.json:121:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.zhipu-capability-router-001.json:122:    \"handler\": \"log-action\",\n./skills/isc-core/rules/rule.scenario-acceptance-gate-001.json:35:    \"handler\": \"scenario-acceptance-gate\",\n./skills/isc-core/rules/rule.scenario-acceptance-gate-001.json:36:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.interactive-card-context-inference-001.json:33:    \"handler\": \"interactive-card-context-inference\"\n./skills/isc-core/rules/rule.n017-detection-cras-recurring-pattern-auto-resolve-017.json:93:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.n017-detection-cras-recurring-pattern-auto-resolve-017.json:94:    \"handler\": \"auto-fix\",\n./skills/isc-core/rules/rule.intent-cras-e系统架构与交付约束-21ztnb.json:26:    \"handler\": \"skill-isc-handler\"\n./skills/isc-core/rules/rule.intent-cras-e系统架构与交付约束-21ztnb.json:30:    \"source\": \"intent-event-handler\",\n./skills/isc-core/rules/rule.git-commit-dispatch-001.json:20:    \"filter\": \"所有提交均触发，handler 内部按 categories 字段做 fanout 分发\"\n./skills/isc-core/rules/rule.git-commit-dispatch-001.json:26:    \"type\": \"handler\",\n./skills/isc-core/rules/rule.git-commit-dispatch-001.json:27:    \"handler\": \"completeness-check\",\n./skills/isc-core/rules/rule.seef-subskill-orchestration-001.json:81:    \"handler\": \"seef-subskill-orchestration\",\n./skills/isc-core/rules/rule.seef-subskill-orchestration-001.json:82:    \"type\": \"handler\"\n./skills/isc-core/rules/rule.must-verify-config-before-coding-001.json:23:    \"handler\": \"verify-config-before-code\"\n./skills/isc-core/rules/rule.vectorization-standard-enforcement-001.json:32:    \"handler\": \"/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh\",\n./skills/isc-core/rules/rule.vectorization-standard-enforcement-001.json:81:    \"handler\": \"/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh\",",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859274131
+      }
+    },
+    {
+      "type": "message",
+      "id": "ce3b22e7",
+      "parentId": "6ea095b5",
+      "timestamp": "2026-03-07T04:54:38.369Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_JQCR7HotGWS6nf1PChEaZeLI",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && find . -type f | grep 'aeo-e2e-test' && sed -n '1,240p' skills/isc-core/rules/rule.aeo-e2e-decision-pipeline-test-001.json",
+              "timeout": 30
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 13904,
+          "output": 76,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 15772,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859274137
+      }
+    },
+    {
+      "type": "message",
+      "id": "25a4c97a",
+      "parentId": "ce3b22e7",
+      "timestamp": "2026-03-07T04:54:38.408Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_JQCR7HotGWS6nf1PChEaZeLI",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "./infrastructure/event-bus/handlers/aeo-e2e-test.js\n{\n  \"id\": \"rule.aeo-e2e-decision-pipeline-test-001\",\n  \"version\": \"1.0.0\",\n  \"name\": \"全局决策流水线端到端AEO测试门禁\",\n  \"description\": \"任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止模拟数据\",\n  \"priority\": \"P0_gate\",\n  \"domain\": \"quality\",\n  \"category\": \"aeo\",\n  \"trigger\": {\n    \"events\": [\n      \"event_bus.handler.modified\",\n      \"event_bus.dispatcher.modified\",\n      \"isc.rule.created\",\n      \"isc.rule.modified\",\n      \"skill.public.pre_publish\",\n      \"sprint.day.completion\"\n    ]\n  },\n  \"conditions\": {\n    \"test_requirements\": [\n      \"测试数据为真实场景数据，非模拟/合成\",\n      \"覆盖完整链路：事件触发→事件总线→Dispatcher匹配→Handler执行→实际结果\",\n      \"五层事件模型中已实现的每一层至少1条测试用例\",\n      \"测试用例纳入AEO黄金评测集可回归\"\n    ]\n  },\n  \"action\": {\n    \"perception\": \"sprint.day.completion事件 或 决策流水线相关代码变更\",\n    \"cognition\": \"检查AEO测试报告是否存在、是否全部通过、数据源是否真实\",\n    \"execution\": [\n      \"未通过 → 阻断Day完成状态，标记为blocked\",\n      \"通过 → 允许进入凌霄阁裁决\"\n    ],\n    \"handler\": \"aeo-e2e-test\"\n  },\n  \"created_at\": \"2026-03-06T02:59:00Z\",\n  \"created_by\": \"ruleify\"\n}"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 29,
+          "aggregated": "./infrastructure/event-bus/handlers/aeo-e2e-test.js\n{\n  \"id\": \"rule.aeo-e2e-decision-pipeline-test-001\",\n  \"version\": \"1.0.0\",\n  \"name\": \"全局决策流水线端到端AEO测试门禁\",\n  \"description\": \"任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止模拟数据\",\n  \"priority\": \"P0_gate\",\n  \"domain\": \"quality\",\n  \"category\": \"aeo\",\n  \"trigger\": {\n    \"events\": [\n      \"event_bus.handler.modified\",\n      \"event_bus.dispatcher.modified\",\n      \"isc.rule.created\",\n      \"isc.rule.modified\",\n      \"skill.public.pre_publish\",\n      \"sprint.day.completion\"\n    ]\n  },\n  \"conditions\": {\n    \"test_requirements\": [\n      \"测试数据为真实场景数据，非模拟/合成\",\n      \"覆盖完整链路：事件触发→事件总线→Dispatcher匹配→Handler执行→实际结果\",\n      \"五层事件模型中已实现的每一层至少1条测试用例\",\n      \"测试用例纳入AEO黄金评测集可回归\"\n    ]\n  },\n  \"action\": {\n    \"perception\": \"sprint.day.completion事件 或 决策流水线相关代码变更\",\n    \"cognition\": \"检查AEO测试报告是否存在、是否全部通过、数据源是否真实\",\n    \"execution\": [\n      \"未通过 → 阻断Day完成状态，标记为blocked\",\n      \"通过 → 允许进入凌霄阁裁决\"\n    ],\n    \"handler\": \"aeo-e2e-test\"\n  },\n  \"created_at\": \"2026-03-06T02:59:00Z\",\n  \"created_by\": \"ruleify\"\n}",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859278404
+      }
+    },
+    {
+      "type": "message",
+      "id": "9d8cdeca",
+      "parentId": "25a4c97a",
+      "timestamp": "2026-03-07T04:54:41.563Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_tnXqc11N7dNTIshCGzo8BmfR",
+            "name": "read",
+            "arguments": {
+              "file_path": "/root/.openclaw/workspace/infrastructure/event-bus/handlers/aeo-e2e-test.js",
+              "limit": 260,
+              "offset": 1,
+              "path": "/root/.openclaw/workspace/infrastructure/event-bus/handlers/aeo-e2e-test.js"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 17996,
+          "output": 74,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 18070,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859278408
+      }
+    },
+    {
+      "type": "message",
+      "id": "be053d64",
+      "parentId": "9d8cdeca",
+      "timestamp": "2026-03-07T04:54:41.573Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_tnXqc11N7dNTIshCGzo8BmfR",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "const fs = require('fs');\nconst path = require('path');\n\nfunction ensureDir(dir) {\n  fs.mkdirSync(dir, { recursive: true });\n}\n\nfunction readJson(file) {\n  return JSON.parse(fs.readFileSync(file, 'utf8'));\n}\n\nfunction writeJson(file, data) {\n  ensureDir(path.dirname(file));\n  fs.writeFileSync(file, JSON.stringify(data, null, 2));\n}\n\nfunction findLatestJsonReport(dir) {\n  if (!fs.existsSync(dir)) return null;\n  const files = fs.readdirSync(dir)\n    .filter(name => name.endsWith('.json') && name !== 'latest-day2-gap3-gate.json')\n    .map(name => {\n      const full = path.join(dir, name);\n      const stat = fs.statSync(full);\n      return { full, mtimeMs: stat.mtimeMs };\n    })\n    .sort((a, b) => b.mtimeMs - a.mtimeMs);\n  return files[0]?.full || null;\n}\n\nmodule.exports = async function(event, rule, context = {}) {\n  const workspace = context.workspace || process.cwd();\n  const reportsDir = path.join(workspace, 'reports', 'aeo');\n  ensureDir(reportsDir);\n\n  const reportPath = findLatestJsonReport(reportsDir);\n  if (!reportPath) {\n    throw new Error(`AEO E2E Gate Blocked: no AEO report found under ${reportsDir}`);\n  }\n\n  const report = readJson(reportPath);\n  const passed = !!report.summary?.gateReady;\n\n  const gateResult = {\n    status: passed ? 'PASSED' : 'BLOCKED',\n    report: path.relative(workspace, reportPath),\n    tribunal: report.tribunal?.artifact || null,\n    trigger: event.type,\n    timestamp: new Date().toISOString(),\n    summary: report.summary,\n    badcases: report.badcases\n  };\n\n  const latestPath = path.join(reportsDir, 'latest-day2-gap3-gate.json');\n  writeJson(latestPath, gateResult);\n\n  if (!passed) {\n    throw new Error(`AEO E2E Gate Blocked: ${report.tribunal?.reason || 'gateReady=false'}`);\n  }\n\n  return gateResult;\n};\n\n"
+          }
+        ],
+        "isError": false,
+        "timestamp": 1772859281569
+      }
+    },
+    {
+      "type": "message",
+      "id": "70c213d7",
+      "parentId": "be053d64",
+      "timestamp": "2026-03-07T04:54:44.716Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_3TnSYZ9T1yDGcp4mZIMhEsIL",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && node scripts/day2-gap3-aeo-close-loop.js",
+              "timeout": 240,
+              "yieldMs": 240000
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 7285,
+          "output": 47,
+          "cacheRead": 5632,
+          "cacheWrite": 0,
+          "totalTokens": 12964,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859281573
+      }
+    },
+    {
+      "type": "message",
+      "id": "fb76497b",
+      "parentId": "70c213d7",
+      "timestamp": "2026-03-07T04:55:28.947Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_3TnSYZ9T1yDGcp4mZIMhEsIL",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"ok\": true,\n  \"reportJsonPath\": \"reports/aeo/day2-gap3-2026-03-07T04-54-44-750Z.json\",\n  \"tribunalMdPath\": \"reports/tribunal/day2-gap3-2026-03-07T04-54-44-750Z-tribunal.md\"\n}"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 44219,
+          "aggregated": "{\n  \"ok\": true,\n  \"reportJsonPath\": \"reports/aeo/day2-gap3-2026-03-07T04-54-44-750Z.json\",\n  \"tribunalMdPath\": \"reports/tribunal/day2-gap3-2026-03-07T04-54-44-750Z-tribunal.md\"\n}",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859328939
+      }
+    },
+    {
+      "type": "message",
+      "id": "7667fbe4",
+      "parentId": "fb76497b",
+      "timestamp": "2026-03-07T04:55:35.587Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_fsQafQvoy8bTe1CFXwM5E2cT",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && node - <<'NODE'\nconst handler = require('./infrastructure/event-bus/handlers/aeo-e2e-test');\n(async () => {\n  try {\n    const result = await handler({type:'sprint.day.completion'}, {}, {workspace: process.cwd()});\n    console.log(JSON.stringify({ok:true,result}, null, 2));\n  } catch (err) {\n    console.log(JSON.stringify({ok:false,error: err.message}, null, 2));\n    process.exit(1);\n  }\n})();\nNODE",
+              "timeout": 120
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 8188,
+          "output": 152,
+          "cacheRead": 5248,
+          "cacheWrite": 0,
+          "totalTokens": 13588,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859328947
+      }
+    },
+    {
+      "type": "message",
+      "id": "ea3330be",
+      "parentId": "7667fbe4",
+      "timestamp": "2026-03-07T04:55:35.635Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_fsQafQvoy8bTe1CFXwM5E2cT",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"ok\": false,\n  \"error\": \"AEO E2E Gate Blocked: AEO 主链已形成，但部分脚本路径与门禁自动发现仍需补强，需带条件放行进入集成/验证。\"\n}\n\n(Command exited with code 1)"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 1,
+          "durationMs": 38,
+          "aggregated": "{\n  \"ok\": false,\n  \"error\": \"AEO E2E Gate Blocked: AEO 主链已形成，但部分脚本路径与门禁自动发现仍需补强，需带条件放行进入集成/验证。\"\n}\n\n(Command exited with code 1)",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859335630
+      }
+    },
+    {
+      "type": "message",
+      "id": "2905bb93",
+      "parentId": "ea3330be",
+      "timestamp": "2026-03-07T04:55:40.394Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_Qt6psgQoqh3ogEpoxpreT8h8",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && jq '.summary,.tribunal,.runs.pipelineBenchmark.exitCode,.runs.eventDispatchE2E.exitCode,.runs.pipelineBenchmark.stderr,.runs.pipelineBenchmark.stdout,.runs.eventDispatchE2E.stderr,.runs.eventDispatchE2E.stdout' reports/aeo/day2-gap3-2026-03-07T04-54-44-750Z.json",
+              "timeout": 60
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": -15908,
+          "output": 103,
+          "cacheRead": 17408,
+          "cacheWrite": 0,
+          "totalTokens": 1603,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859335635
+      }
+    },
+    {
+      "type": "message",
+      "id": "c0c7f290",
+      "parentId": "2905bb93",
+      "timestamp": "2026-03-07T04:55:40.418Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_Qt6psgQoqh3ogEpoxpreT8h8",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"gateReady\": false,\n  \"functionalQuality\": {\n    \"pipelineBenchmarkPassed\": false,\n    \"eventDispatchE2EPassed\": true,\n    \"benchmark\": {\n      \"endToEndPassRate\": {\n        \"passed\": 19,\n        \"total\": 38,\n        \"rate\": \"50.0%\"\n      },\n      \"ruleMatchRate\": {\n        \"passed\": 21,\n        \"total\": 38,\n        \"rate\": \"55.3%\"\n      },\n      \"circuitBreakRate\": {\n        \"passed\": 0,\n        \"total\": 6,\n        \"rate\": \"0.0%\"\n      },\n      \"degradeRate\": {\n        \"passed\": 4,\n        \"total\": 4,\n        \"rate\": \"100.0%\"\n      },\n      \"avgLatency\": 1123.7\n    },\n    \"e2eSignal\": \"pass\",\n    \"passRate\": 0.5\n  },\n  \"badcaseCount\": 19,\n  \"closedLoop\": [\n    \"真实数据集执行\",\n    \"自动化报告生成\",\n    \"badcase根因分析\",\n    \"凌霄阁裁决材料生成\"\n  ]\n}\n{\n  \"decision\": \"CONDITIONAL_PASS\",\n  \"score\": 0.5,\n  \"reason\": \"AEO 主链已形成，但部分脚本路径与门禁自动发现仍需补强，需带条件放行进入集成/验证。\",\n  \"conditions\": [\n    \"集成改造需把 benchmark 运行脚本路径修正为 infrastructure 真实目录\",\n    \"验证测试需补一轮 gate handler 自动发现验证\",\n    \"新增真实报告应持续写入 reports/aeo 供门禁消费\"\n  ],\n  \"artifact\": \"reports/tribunal/day2-gap3-2026-03-07T04-54-44-750Z-tribunal.md\"\n}\n1\n0\n\"\"\n\"═══ L3 Pipeline E2E Benchmark ═══\\n\\n38 cases loaded\\n\\n  ❌ PB-001: Rules: expected >=2, got 1\\n  ✅ PB-002\\n  ✅ PB-003\\n  ❌ PB-004: Rules: expected >=3, got 1\\n  ✅ PB-005\\n  ❌ PB-006: Rules: expected >=1, got 0\\n  ✅ PB-007\\n  ❌ PB-008: Rules: expected >=1, got 0\\n  ❌ PB-009: Rules: expected >=1, got 0\\n  ❌ PB-010: Rules: expected >=1, got 0\\n  ✅ PB-011\\n  ✅ PB-012\\n  ✅ PB-013\\n  ❌ PB-014: Expected circuit break, got 0; Rules: expected <=0, got 1\\n  ❌ PB-015: Expected circuit break, got 0\\n  ❌ PB-016: Expected circuit break, got 0; Rules: expected <=0, got 1\\n  ❌ PB-017: Rules: expected >=2, got 1\\n  ❌ PB-018: Rules: expected >=2, got 1\\n  ❌ PB-019: Rules: expected >=6, got 2\\n  ✅ PB-020\\n  ❌ PB-021: Rules: expected >=3, got 1\\n  ❌ PB-022: Expected circuit break, got 0; Rules: expected >=3, got 2\\n  ✅ PB-023\\n  ✅ PB-024\\n  ✅ PB-025\\n  ✅ PB-026\\n  ❌ PB-027: Rules: expected >=3, got 1\\n  ✅ PB-028\\n  ❌ PB-029: Rules: expected >=1, got 0\\n  ✅ PB-030\\n  ❌ PB-031: Rules: expected >=7, got 2\\n  ❌ PB-032: Expected circuit break, got 0; Rules: expected <=0, got 2\\n  ❌ PB-033: Expected circuit break, got 0\\n  ✅ PB-034\\n  ✅ PB-035\\n  ✅ PB-036\\n  ✅ PB-037\\n  ✅ PB-038\\n\\n════════════════════════════════════════════════════════════\\n  端到端正确率:       19/38 (50.0%)\\n  规则匹配准确率:     21/38 (55.3%)\\n  熔断有效率:         0/6 (0.0%)\\n  降级正确率:         4/4 (100.0%)\\n  平均延迟:           1123.7ms\\n════════════════════════════════════════════════════════════\\n\\nReport → /root/.openclaw/workspace/reports/day1-pipeline-benchmark.md\\n\"\n\"error: 'workspace-auditor/' does not have a commit checked out\\nfatal: adding files failed\\n[isc-rule-decompose] 规则文件不存在: undefined\\n[isc-rule-decompose] 规则文件不存在: undefined\\n\"\n\"\\n🔬 E2E Event Dispatch Suite\\n============================================================\\nCases: 12\\n\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-001 | 技能创建-版本合理-通过 (17ms)\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-002 | 技能创建-版本虚标-拦截 (11ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-003 | 技能修改-能力锚点同步 (7ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.aeo-e2e-decision-pipeline-test-001\\\",\\\"depth\\\":0}\\n[anti-entropy] 扫描了 4371 个文件, 421 个目录\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.anti-entropy-design-principle-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.arch-rule-equals-code-002\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.isc-naming-convention-001\\\",\\\"depth\\\":0}\\n[isc-rule-decompose] 启动规则拆解分析\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.isc-rule-auto-decompose-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.layered-decoupling-architecture-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.n034-rule-identity-accuracy\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.n035-rule-trigger-completeness\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.naming-mece-consistency-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-004 | ISC规则创建-命名错误-不通过 (1130ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.aeo-e2e-decision-pipeline-test-001\\\",\\\"depth\\\":0}\\n[anti-entropy] 扫描了 4371 个文件, 420 个目录\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.anti-entropy-design-principle-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.arch-rule-equals-code-002\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.isc-naming-convention-001\\\",\\\"depth\\\":0}\\n[isc-rule-decompose] 启动规则拆解分析\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.isc-rule-auto-decompose-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.layered-decoupling-architecture-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.n034-rule-identity-accuracy\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.n035-rule-trigger-completeness\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.naming-mece-consistency-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-005 | ISC规则创建-命名正确-通过 (155ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"system.infrastructure.modified\\\",\\\"ruleId\\\":\\\"rule.dependency-direction-check-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-006 | 基础设施修改-依赖方向违规-拦截 (1ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"design.document.created\\\",\\\"ruleId\\\":\\\"rule.design-document-structure-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-007 | 设计文档创建-结构合格-通过 (1ms)\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-008 | 技能创建-分类检测-local (9ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-009 | 技能修改-版本跳级-拦截 (3ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.modified\\\",\\\"ruleId\\\":\\\"rule.aeo-e2e-decision-pipeline-test-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.modified\\\",\\\"ruleId\\\":\\\"rule.isc-naming-convention-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.modified\\\",\\\"ruleId\\\":\\\"rule.isc-rule-modified-dedup-scan-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-010 | ISC规则修改-去重扫描触发 (3ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"evaluation.benchmark.completed\\\",\\\"ruleId\\\":\\\"rule.report-snapshot-lock-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-011 | 评测完成-报告快照锁定 (1ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"system.failure.pattern_detected\\\",\\\"ruleId\\\":\\\"rule.failure-pattern-alert-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-012 | 故障模式检测-告警通知 (1ms)\\n\\n============================================================\\n📊 结果: 12/12 通过 (100.0%) | 耗时 1389ms\\n============================================================\\n\\n📄 报告已写入: /root/.openclaw/workspace/reports/e2e-dispatch-suite-result.md\\n\""
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 14,
+          "aggregated": "{\n  \"gateReady\": false,\n  \"functionalQuality\": {\n    \"pipelineBenchmarkPassed\": false,\n    \"eventDispatchE2EPassed\": true,\n    \"benchmark\": {\n      \"endToEndPassRate\": {\n        \"passed\": 19,\n        \"total\": 38,\n        \"rate\": \"50.0%\"\n      },\n      \"ruleMatchRate\": {\n        \"passed\": 21,\n        \"total\": 38,\n        \"rate\": \"55.3%\"\n      },\n      \"circuitBreakRate\": {\n        \"passed\": 0,\n        \"total\": 6,\n        \"rate\": \"0.0%\"\n      },\n      \"degradeRate\": {\n        \"passed\": 4,\n        \"total\": 4,\n        \"rate\": \"100.0%\"\n      },\n      \"avgLatency\": 1123.7\n    },\n    \"e2eSignal\": \"pass\",\n    \"passRate\": 0.5\n  },\n  \"badcaseCount\": 19,\n  \"closedLoop\": [\n    \"真实数据集执行\",\n    \"自动化报告生成\",\n    \"badcase根因分析\",\n    \"凌霄阁裁决材料生成\"\n  ]\n}\n{\n  \"decision\": \"CONDITIONAL_PASS\",\n  \"score\": 0.5,\n  \"reason\": \"AEO 主链已形成，但部分脚本路径与门禁自动发现仍需补强，需带条件放行进入集成/验证。\",\n  \"conditions\": [\n    \"集成改造需把 benchmark 运行脚本路径修正为 infrastructure 真实目录\",\n    \"验证测试需补一轮 gate handler 自动发现验证\",\n    \"新增真实报告应持续写入 reports/aeo 供门禁消费\"\n  ],\n  \"artifact\": \"reports/tribunal/day2-gap3-2026-03-07T04-54-44-750Z-tribunal.md\"\n}\n1\n0\n\"\"\n\"═══ L3 Pipeline E2E Benchmark ═══\\n\\n38 cases loaded\\n\\n  ❌ PB-001: Rules: expected >=2, got 1\\n  ✅ PB-002\\n  ✅ PB-003\\n  ❌ PB-004: Rules: expected >=3, got 1\\n  ✅ PB-005\\n  ❌ PB-006: Rules: expected >=1, got 0\\n  ✅ PB-007\\n  ❌ PB-008: Rules: expected >=1, got 0\\n  ❌ PB-009: Rules: expected >=1, got 0\\n  ❌ PB-010: Rules: expected >=1, got 0\\n  ✅ PB-011\\n  ✅ PB-012\\n  ✅ PB-013\\n  ❌ PB-014: Expected circuit break, got 0; Rules: expected <=0, got 1\\n  ❌ PB-015: Expected circuit break, got 0\\n  ❌ PB-016: Expected circuit break, got 0; Rules: expected <=0, got 1\\n  ❌ PB-017: Rules: expected >=2, got 1\\n  ❌ PB-018: Rules: expected >=2, got 1\\n  ❌ PB-019: Rules: expected >=6, got 2\\n  ✅ PB-020\\n  ❌ PB-021: Rules: expected >=3, got 1\\n  ❌ PB-022: Expected circuit break, got 0; Rules: expected >=3, got 2\\n  ✅ PB-023\\n  ✅ PB-024\\n  ✅ PB-025\\n  ✅ PB-026\\n  ❌ PB-027: Rules: expected >=3, got 1\\n  ✅ PB-028\\n  ❌ PB-029: Rules: expected >=1, got 0\\n  ✅ PB-030\\n  ❌ PB-031: Rules: expected >=7, got 2\\n  ❌ PB-032: Expected circuit break, got 0; Rules: expected <=0, got 2\\n  ❌ PB-033: Expected circuit break, got 0\\n  ✅ PB-034\\n  ✅ PB-035\\n  ✅ PB-036\\n  ✅ PB-037\\n  ✅ PB-038\\n\\n════════════════════════════════════════════════════════════\\n  端到端正确率:       19/38 (50.0%)\\n  规则匹配准确率:     21/38 (55.3%)\\n  熔断有效率:         0/6 (0.0%)\\n  降级正确率:         4/4 (100.0%)\\n  平均延迟:           1123.7ms\\n════════════════════════════════════════════════════════════\\n\\nReport → /root/.openclaw/workspace/reports/day1-pipeline-benchmark.md\\n\"\n\"error: 'workspace-auditor/' does not have a commit checked out\\nfatal: adding files failed\\n[isc-rule-decompose] 规则文件不存在: undefined\\n[isc-rule-decompose] 规则文件不存在: undefined\\n\"\n\"\\n🔬 E2E Event Dispatch Suite\\n============================================================\\nCases: 12\\n\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-001 | 技能创建-版本合理-通过 (17ms)\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-002 | 技能创建-版本虚标-拦截 (11ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-003 | 技能修改-能力锚点同步 (7ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.aeo-e2e-decision-pipeline-test-001\\\",\\\"depth\\\":0}\\n[anti-entropy] 扫描了 4371 个文件, 421 个目录\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.anti-entropy-design-principle-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.arch-rule-equals-code-002\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.isc-naming-convention-001\\\",\\\"depth\\\":0}\\n[isc-rule-decompose] 启动规则拆解分析\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.isc-rule-auto-decompose-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.layered-decoupling-architecture-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.n034-rule-identity-accuracy\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.n035-rule-trigger-completeness\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.naming-mece-consistency-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-004 | ISC规则创建-命名错误-不通过 (1130ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.aeo-e2e-decision-pipeline-test-001\\\",\\\"depth\\\":0}\\n[anti-entropy] 扫描了 4371 个文件, 420 个目录\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.anti-entropy-design-principle-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.arch-rule-equals-code-002\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.isc-naming-convention-001\\\",\\\"depth\\\":0}\\n[isc-rule-decompose] 启动规则拆解分析\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.isc-rule-auto-decompose-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.layered-decoupling-architecture-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.n034-rule-identity-accuracy\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.n035-rule-trigger-completeness\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.created\\\",\\\"ruleId\\\":\\\"rule.naming-mece-consistency-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-005 | ISC规则创建-命名正确-通过 (155ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"system.infrastructure.modified\\\",\\\"ruleId\\\":\\\"rule.dependency-direction-check-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-006 | 基础设施修改-依赖方向违规-拦截 (1ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"design.document.created\\\",\\\"ruleId\\\":\\\"rule.design-document-structure-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-007 | 设计文档创建-结构合格-通过 (1ms)\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"reason\\\":\\\"unparseable condition: \\\\\\\"gate-check_required\\\\\\\", deferred to LLM\\\",\\\"conditions\\\":\\\"gate-check_required\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.arch-gate-before-action-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.created\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-008 | 技能创建-分类检测-local (9ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.capability-anchor-lifecycle-sync-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.skill-distribution-auto-classify-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"needs_llm\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"reason\\\":\\\"all 2 field conditions satisfied\\\",\\\"conditions\\\":\\\"{\\\\\\\"forbidden_patterns\\\\\\\":[\\\\\\\"fetch.*chat/completions\\\\\\\",\\\\\\\"axios.*chat/completions\\\\\\\",\\\\\\\"https.request.*bigmodel\\\\\\\",\\\\\\\"https.request.*anthropic\\\\\\\",\\\\\\\"https.request.*openai\\\\\\\"],\\\\\\\"allowed\\\\\\\":\\\\\\\"用户显式在配置中指定技能-模型绑定关系\\\\\\\"}\\\"}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.skill-no-direct-llm-call-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"skill.lifecycle.modified\\\",\\\"ruleId\\\":\\\"rule.version-integrity-gate-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-009 | 技能修改-版本跳级-拦截 (3ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.modified\\\",\\\"ruleId\\\":\\\"rule.aeo-e2e-decision-pipeline-test-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.modified\\\",\\\"ruleId\\\":\\\"rule.isc-naming-convention-001\\\",\\\"depth\\\":0}\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"isc.rule.modified\\\",\\\"ruleId\\\":\\\"rule.isc-rule-modified-dedup-scan-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-010 | ISC规则修改-去重扫描触发 (3ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"evaluation.benchmark.completed\\\",\\\"ruleId\\\":\\\"rule.report-snapshot-lock-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-011 | 评测完成-报告快照锁定 (1ms)\\n[Dispatcher] {\\\"status\\\":\\\"executed\\\",\\\"eventType\\\":\\\"system.failure.pattern_detected\\\",\\\"ruleId\\\":\\\"rule.failure-pattern-alert-001\\\",\\\"depth\\\":0}\\n✅ PASS | e2e-012 | 故障模式检测-告警通知 (1ms)\\n\\n============================================================\\n📊 结果: 12/12 通过 (100.0%) | 耗时 1389ms\\n============================================================\\n\\n📄 报告已写入: /root/.openclaw/workspace/reports/e2e-dispatch-suite-result.md\\n\"",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859340413
+      }
+    },
+    {
+      "type": "message",
+      "id": "df34034b",
+      "parentId": "c0c7f290",
+      "timestamp": "2026-03-07T04:55:44.640Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_nFvHls8f9QFTSW3tSy4aeKMN",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && node scripts/gates/run-all-gates.js",
+              "timeout": 240,
+              "yieldMs": 240000
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 23134,
+          "output": 45,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 23179,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772859340418
+      }
+    },
+    {
+      "type": "message",
+      "id": "e731d76b",
+      "parentId": "df34034b",
+      "timestamp": "2026-03-07T04:55:44.786Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_nFvHls8f9QFTSW3tSy4aeKMN",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "✅ Gate 1: Data Source Gate — PASSED\n✅ Gate 2: ISC Compliance Gate — PASSED\n✅ Gate 3: Entry Point Smoke Gate — PASSED\n✅ Gate 4: Feature Flag Audit Gate — PASSED\n❌ Gate 5: Report Integrity Gate — FAILED\n   → {\"snapshot\":\"/root/.openclaw/workspace/reports/day1-pipeline-benchmark.md.snapshot.json\",\"status\":\"STALE\",\"changes\":[{\"file\":\"/root/.openclaw/workspace/reports/day1-pipeline-benchmark.md\",\"reason\":\"REPORT_MODIFIED\",\"expected\":\"933bd1bb68fd1ae85de2ca5d5e38fbef088cbcdc3f4f9c3d5346eba3c0abce5f\",\"actual\":\"87a701a9a1d8597e0648f6f2f73496815d902e0d2c8498768ba56a18ca1595d9\"}]}\n✅ Gate 6: Independent QA Gate — PASSED\n\n❌ Some gates failed\n\n(Command exited with code 1)"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 1,
+          "durationMs": 136,
+          "aggregated": "✅ Gate 1: Data Source Gate — PASSED\n✅ Gate 2: ISC Compliance Gate — PASSED\n✅ Gate 3: Entry Point Smoke Gate — PASSED\n✅ Gate 4: Feature Flag Audit Gate — PASSED\n❌ Gate 5: Report Integrity Gate — FAILED\n   → {\"snapshot\":\"/root/.openclaw/workspace/reports/day1-pipeline-benchmark.md.snapshot.json\",\"status\":\"STALE\",\"changes\":[{\"file\":\"/root/.openclaw/workspace/reports/day1-pipeline-benchmark.md\",\"reason\":\"REPORT_MODIFIED\",\"expected\":\"933bd1bb68fd1ae85de2ca5d5e38fbef088cbcdc3f4f9c3d5346eba3c0abce5f\",\"actual\":\"87a701a9a1d8597e0648f6f2f73496815d902e0d2c8498768ba56a18ca1595d9\"}]}\n✅ Gate 6: Independent QA Gate — PASSED\n\n❌ Some gates failed\n\n(Command exited with code 1)",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772859344781
+      }
+    },
+    {
+      "type": "message",
+      "id": "b81d8cb8",
+      "parentId": "e731d76b",
+      "timestamp": "2026-03-07T04:56:00.127Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "已执行 Gap3 最终收口复跑，结论如下。\n\n**执行内容**\n1. 运行闭环脚本  \n   `node scripts/day2-gap3-aeo-close-loop.js`\n2. 直接调用 gate handler  \n   `infrastructure/event-bus/handlers/aeo-e2e-test.js`\n3. 额外复跑统一 gate 链  \n   `node scripts/gates/run-all-gates.js`\n\n**最新报告路径**\n- AEO JSON 报告：`/root/.openclaw/workspace/reports/aeo/day2-gap3-2026-03-07T04-54-44-750Z.json`\n- Tribunal 裁决报告：`/root/.openclaw/workspace/reports/tribunal/day2-gap3-2026-03-07T04-54-44-750Z-tribunal.md`\n- Gate 最新结果落点：`/root/.openclaw/workspace/reports/aeo/latest-day2-gap3-gate.json`  \n  （本次 handler 调用为 BLOCKED，因此未成功返回通过态）\n\n**最终裁决**\n- **BLOCKED**\n\n**判定依据**\n- Gap3 主闭环脚本执行成功产出报告，但报告内：\n  - `gateReady = false`\n  - `pipelineBenchmarkPassed = false`\n  - `eventDispatchE2EPassed = true`\n- 直接调用 `aeo-e2e-test` handler 返回：\n  - `AEO E2E Gate Blocked: AEO 主链已形成，但部分脚本路径与门禁自动发现仍需补强，需带条件放行进入集成/验证。`\n\n**本轮 benchmark / 闭环结果**\n- Pipeline Benchmark：**FAIL**\n  - 端到端正确率：`19/38 (50.0%)`\n  - 规则匹配准确率：`21/38 (55.3%)`\n  - 熔断有效率：`0/6 (0.0%)`\n  - 降级正确率：`4/4 (100.0%)`\n  - 平均延迟：`1123.7ms`\n- Event Dispatch E2E：**PASS**\n  - `12/12 (100.0%)`\n\n**如果仍 blocked，阻塞来源是什么？**\n- **主阻塞仍然是 benchmark，不是新的主阻塞。**\n- 具体来说：\n  1. **benchmark 本体未过**：规则匹配和熔断能力明显未达标，直接导致 `gateReady=false`\n  2. **另有一个附加阻塞/一致性问题**：统一 gate 链复跑时，`Gate 5 Report Integrity Gate` 失败  \n     - 原因：`reports/day1-pipeline-benchmark.md` 已变更，但 snapshot 仍旧，状态为 `STALE`\n     - 这说明即使后续 benchmark 修好，报告快照链也还需要刷新，否则总 gate 仍会挂\n\n**一句话结论**\n- **Gap3 最新最终状态：BLOCKED**\n- **首要阻塞：benchmark**\n- **次要新增阻塞：report integrity snapshot stale，不是 Gap3 功能主因，但会卡统一 gate 收口**"
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": -12418,
+          "output": 702,
+          "cacheRead": 17920,
+          "cacheWrite": 0,
+          "totalTokens": 6204,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1772859344786
+      }
+    }
+  ]
+}

@@ -1,0 +1,277 @@
+{
+  "routesFile": "/root/.openclaw/workspace/infrastructure/dispatcher/routes.json",
+  "routeRulePresent": true,
+  "sandbox": true,
+  "dispatcher": {
+    "rulesLoaded": 1,
+    "stats": {
+      "dispatched": 0,
+      "matched": 0,
+      "executed": 0,
+      "skipped": 0,
+      "failed": 0
+    }
+  },
+  "directClosedLoopResults": [
+    {
+      "eventType": "event-bus.health.failed",
+      "result": {
+        "success": true,
+        "taskId": "repair_f882eb153fb5",
+        "reviewId": "review_ad7d1eb4b0cc",
+        "sandbox": true,
+        "status": "verified"
+      }
+    },
+    {
+      "eventType": "health.check.failed",
+      "result": {
+        "success": true,
+        "taskId": "repair_763c7cbbdbe2",
+        "reviewId": "review_8ff97e429acb",
+        "sandbox": true,
+        "status": "verified"
+      }
+    },
+    {
+      "eventType": "system.eventbus.backlog_threshold_crossed",
+      "result": {
+        "success": true,
+        "taskId": "repair_9666e56faf24",
+        "reviewId": "review_b3a2c7510ccc",
+        "sandbox": true,
+        "status": "verified"
+      }
+    }
+  ],
+  "thresholdScanSummary": {
+    "scanned": 1,
+    "triggered": 1,
+    "details": [
+      {
+        "id": "sandbox-unconsumed-event-backlog",
+        "status": "triggered",
+        "value": 0
+      }
+    ]
+  },
+  "simulatedThresholdResults": [
+    {
+      "eventType": "system.eventbus.backlog_threshold_crossed",
+      "thresholdId": "sandbox-unconsumed-event-backlog",
+      "result": {
+        "success": true,
+        "taskId": "repair_26aa46fad18a",
+        "reviewId": "review_2926f532d80e",
+        "sandbox": true,
+        "status": "verified"
+      }
+    }
+  ],
+  "verification": {
+    "newTaskCount": 4,
+    "newReviewCount": 4,
+    "newAlertCount": 4,
+    "newReportCount": 4,
+    "newExecutionCount": 4,
+    "matchedClosedLoopTasks": [
+      {
+        "id": "repair_f882eb153fb5",
+        "title": "[GlobalIncident] event-bus.health.failed:event-bus-sandbox-health-1772881073181",
+        "subsystem": "event-bus",
+        "kind": "event-bus.health.failed",
+        "severity": "error",
+        "entityId": "event-bus-sandbox-health-1772881073181",
+        "verification": {
+          "status": "passed",
+          "mode": "sandbox",
+          "checkedAt": "2026-03-07T10:57:53.200Z"
+        },
+        "closure": {
+          "dispatched": true,
+          "repaired": true,
+          "verified": true,
+          "reviewed": true,
+          "mode": "sandbox"
+        },
+        "tags": [
+          "event-bus",
+          "error",
+          "sandbox",
+          "closed-loop",
+          "generic-anomaly"
+        ]
+      },
+      {
+        "id": "repair_763c7cbbdbe2",
+        "title": "[GlobalIncident] health.check.failed:health-sandbox-check-1772881073181",
+        "subsystem": "health",
+        "kind": "health.check.failed",
+        "severity": "error",
+        "entityId": "health-sandbox-check-1772881073181",
+        "verification": {
+          "status": "passed",
+          "mode": "sandbox",
+          "checkedAt": "2026-03-07T10:57:53.218Z"
+        },
+        "closure": {
+          "dispatched": true,
+          "repaired": true,
+          "verified": true,
+          "reviewed": true,
+          "mode": "sandbox"
+        },
+        "tags": [
+          "health",
+          "error",
+          "sandbox",
+          "closed-loop",
+          "generic-anomaly"
+        ]
+      },
+      {
+        "id": "repair_9666e56faf24",
+        "title": "[GlobalIncident] system.eventbus.backlog_threshold_crossed:sandbox-backlog-threshold-1772881073181",
+        "subsystem": "event-bus",
+        "kind": "system.eventbus.backlog_threshold_crossed",
+        "severity": "warning",
+        "entityId": "sandbox-backlog-threshold-1772881073181",
+        "verification": {
+          "status": "passed",
+          "mode": "sandbox",
+          "checkedAt": "2026-03-07T10:57:53.236Z"
+        },
+        "closure": {
+          "dispatched": true,
+          "repaired": true,
+          "verified": true,
+          "reviewed": true,
+          "mode": "sandbox"
+        },
+        "tags": [
+          "event-bus",
+          "warning",
+          "sandbox",
+          "closed-loop",
+          "generic-anomaly"
+        ]
+      },
+      {
+        "id": "repair_26aa46fad18a",
+        "title": "[GlobalIncident] system.eventbus.backlog_threshold_crossed:threshold-scanner-sandbox-unconsumed-event-backlog-1772881073260",
+        "subsystem": "event-bus",
+        "kind": "system.eventbus.backlog_threshold_crossed",
+        "severity": "warning",
+        "entityId": "threshold-scanner-sandbox-unconsumed-event-backlog-1772881073260",
+        "verification": {
+          "status": "passed",
+          "mode": "sandbox",
+          "checkedAt": "2026-03-07T10:57:53.260Z"
+        },
+        "closure": {
+          "dispatched": true,
+          "repaired": true,
+          "verified": true,
+          "reviewed": true,
+          "mode": "sandbox"
+        },
+        "tags": [
+          "event-bus",
+          "warning",
+          "sandbox",
+          "closed-loop",
+          "generic-anomaly"
+        ]
+      }
+    ],
+    "matchedReviews": [
+      {
+        "id": "review_ad7d1eb4b0cc",
+        "taskId": "repair_f882eb153fb5",
+        "status": "approved",
+        "eventType": "event-bus.health.failed",
+        "sandbox": true
+      },
+      {
+        "id": "review_8ff97e429acb",
+        "taskId": "repair_763c7cbbdbe2",
+        "status": "approved",
+        "eventType": "health.check.failed",
+        "sandbox": true
+      },
+      {
+        "id": "review_b3a2c7510ccc",
+        "taskId": "repair_9666e56faf24",
+        "status": "approved",
+        "eventType": "system.eventbus.backlog_threshold_crossed",
+        "sandbox": true
+      },
+      {
+        "id": "review_2926f532d80e",
+        "taskId": "repair_26aa46fad18a",
+        "status": "approved",
+        "eventType": "system.eventbus.backlog_threshold_crossed",
+        "sandbox": true
+      }
+    ],
+    "latestTasks": [
+      {
+        "id": "repair_9ca2ea8f45c3",
+        "kind": "manual-queue.item.stale",
+        "entityId": "evt_mmes1y6c_6bxnf5",
+        "source": "global-event-escalation",
+        "sandbox": true
+      },
+      {
+        "id": "repair_6baf83969b3a",
+        "kind": "manual-queue.item.stale",
+        "entityId": "evt_mmes2ny3_6br5ep",
+        "source": "global-event-escalation",
+        "sandbox": true
+      },
+      {
+        "id": "repair_a4666995ce50",
+        "kind": "manual-queue.item.stale",
+        "entityId": "evt_mmes2ny4_5ah0ry",
+        "source": "global-event-escalation",
+        "sandbox": true
+      },
+      {
+        "id": "repair_dc945430e0be",
+        "kind": "manual-queue.item.stale",
+        "entityId": "old-evt",
+        "source": "global-event-escalation",
+        "sandbox": true
+      },
+      {
+        "id": "repair_f882eb153fb5",
+        "kind": "event-bus.health.failed",
+        "entityId": "event-bus-sandbox-health-1772881073181",
+        "source": "global-event-escalation",
+        "sandbox": true
+      },
+      {
+        "id": "repair_763c7cbbdbe2",
+        "kind": "health.check.failed",
+        "entityId": "health-sandbox-check-1772881073181",
+        "source": "global-event-escalation",
+        "sandbox": true
+      },
+      {
+        "id": "repair_9666e56faf24",
+        "kind": "system.eventbus.backlog_threshold_crossed",
+        "entityId": "sandbox-backlog-threshold-1772881073181",
+        "source": "global-event-escalation",
+        "sandbox": true
+      },
+      {
+        "id": "repair_26aa46fad18a",
+        "kind": "system.eventbus.backlog_threshold_crossed",
+        "entityId": "threshold-scanner-sandbox-unconsumed-event-backlog-1772881073260",
+        "source": "global-event-escalation",
+        "sandbox": true
+      }
+    ],
+    "pass": true
+  }
+}

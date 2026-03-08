@@ -212,7 +212,14 @@ async function drainAndRun(opts = {}) {
   const republished = republishStrandedSpawning(engine, opts);
 
   const pending = getPendingTasks().slice(0, opts.maxDispatchPerTick || DEFAULTS.maxDispatchPerTick);
-  for (const task of pending) {
+
+  // cron环境下没有sessions_spawn API，跳过spawn步骤只做reap+drain+republish
+  const canSpawn = typeof globalThis.sessions_spawn === 'function';
+  if (!canSpawn && pending.length > 0) {
+    console.log(`[dispatch-cron] skip spawn: ${pending.length} pending tasks (sessions_spawn not available in cron env, spawn deferred to runtime)`);
+  }
+
+  for (const task of (canSpawn ? pending : [])) {
     try {
       const result = await spawnOne(task, engine);
       runnerState.dispatchedTaskIds[task.taskId] = new Date().toISOString();

@@ -1,5 +1,5 @@
-# 会话文件治理 - 每2小时执行
-*/10 * * * * /root/.openclaw/workspace/scripts/session-cleanup-governor.sh
+# 会话文件治理 - 每10分钟执行
+*/10 * * * * ARCHIVE_DIR= CRON_KEEP_COUNT=120 MAIN_KEEP_COUNT=20 DELETED_RETENTION_HOURS=6 /root/.openclaw/workspace/scripts/session-cleanup-governor.sh
 
 # Gateway内存监控 - 每5分钟执行
 */5 * * * * /root/.openclaw/workspace/scripts/gateway-memory-governor.sh

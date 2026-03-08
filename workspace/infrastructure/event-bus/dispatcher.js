@@ -205,6 +205,13 @@ class Dispatcher {
     const fallback = path.join(__dirname, 'handlers', `${shortName}.js`);
     if (fs.existsSync(fallback)) return fallback;
 
+    // 下划线 → 连字符 兼容（规则里用auto_trigger，文件名是auto-trigger.js）
+    const hyphenated = shortName.replace(/_/g, '-');
+    if (hyphenated !== shortName) {
+      const hyphenFallback = path.join(__dirname, 'handlers', `${hyphenated}.js`);
+      if (fs.existsSync(hyphenFallback)) return hyphenFallback;
+    }
+
     const dispatcherFallback = path.resolve(__dirname, '../dispatcher/handlers', `${shortName}.js`);
     if (fs.existsSync(dispatcherFallback)) return dispatcherFallback;
 

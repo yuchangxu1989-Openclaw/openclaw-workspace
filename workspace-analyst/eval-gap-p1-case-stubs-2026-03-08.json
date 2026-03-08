@@ -1,0 +1,245 @@
+[
+  {
+    "case_id": "p2e-tc-044",
+    "name": "已知评测缺口后必须展开执行链（反向）",
+    "description": "系统已识别 known eval gap，但仅口头确认、未展开为 case stub + dispatch task + report/index 更新，应判定为 FAIL。",
+    "intent_type": "PRINCIPLE",
+    "input": {
+      "utterance": "这个评测缺口已经知道了，直接把补齐链路展开并落成工件。",
+      "context": {
+        "known_eval_gap": true,
+        "gap_id": "GAP-KNOWN-CHAIN-01",
+        "simulate_ack_without_chain": true,
+        "expected_artifacts": [
+          "case_stub",
+          "dispatch_task",
+          "report_update"
+        ]
+      }
+    },
+    "expected": {
+      "event": {
+        "known_gap_detected": true,
+        "chain_expanded": false
+      },
+      "badcase": {
+        "code": "BC-CHAIN-UNEXPANDED-AFTER-KNOWN-GAP",
+        "root_cause": "acknowledged_without_dispatchable_artifacts"
+      },
+      "release": {
+        "action": "BLOCK"
+      }
+    },
+    "verdict_expectation": "FAIL",
+    "priority": "P0",
+    "tags": ["eval-gap", "dispatch-chain", "known-gap", "badcase", "p0"],
+    "regression_guard": true
+  },
+  {
+    "case_id": "p2e-tc-045",
+    "name": "已知评测缺口后展开完整执行链（正向）",
+    "description": "系统识别 known eval gap 后，同步生成 case stub、dispatch task、report/index 更新，应判定 SUCCESS。",
+    "intent_type": "PRINCIPLE",
+    "input": {
+      "utterance": "这个评测缺口已确认，请把执行链全部展开。",
+      "context": {
+        "known_eval_gap": true,
+        "gap_id": "GAP-KNOWN-CHAIN-02",
+        "simulate_full_chain_expansion": true
+      }
+    },
+    "expected": {
+      "event": {
+        "known_gap_detected": true,
+        "chain_expanded": true,
+        "artifacts_created": 3
+      },
+      "artifacts": {
+        "case_stub_created": true,
+        "dispatch_task_created": true,
+        "report_updated": true
+      },
+      "release": {
+        "action": "RELEASE"
+      }
+    },
+    "verdict_expectation": "SUCCESS",
+    "priority": "P0",
+    "tags": ["eval-gap", "dispatch-chain", "known-gap", "positive"],
+    "regression_guard": true
+  },
+  {
+    "case_id": "p2e-tc-046",
+    "name": "done 超过10分钟后 TTL 必须传到报告层（反向）",
+    "description": "底层状态已 done 且 completed_at 超过10分钟，但 report layer 仍显示 fresh/done，应判定 FAIL。",
+    "intent_type": "CONSTRAINT",
+    "input": {
+      "utterance": "报告层必须反映完成状态的时效性，过期不能继续算 fresh。",
+      "context": {
+        "task_status": "done",
+        "completed_minutes_ago": 14,
+        "ttl_minutes": 10,
+        "simulate_report_stale_not_propagated": true
+      }
+    },
+    "expected": {
+      "report": {
+        "done": true,
+        "ttl_expired": true,
+        "freshness_label": "fresh"
+      },
+      "badcase": {
+        "code": "BC-DONE-TTL-NOT-PROPAGATED",
+        "layer_gap": "state_to_report"
+      }
+    },
+    "verdict_expectation": "FAIL",
+    "priority": "P0",
+    "tags": ["ttl", "report-layer", "freshness", "state-propagation", "p0"],
+    "regression_guard": true
+  },
+  {
+    "case_id": "p2e-tc-047",
+    "name": "done 超过10分钟后 TTL 过期正确上报（正向）",
+    "description": "底层状态已 done 且超过10分钟，report layer 正确标识 stale/revalidate_required，应判定 SUCCESS。",
+    "intent_type": "CONSTRAINT",
+    "input": {
+      "utterance": "报告层应把 done 的过期状态显示出来。",
+      "context": {
+        "task_status": "done",
+        "completed_minutes_ago": 12,
+        "ttl_minutes": 10,
+        "simulate_report_ttl_propagated": true
+      }
+    },
+    "expected": {
+      "report": {
+        "done": true,
+        "ttl_expired": true,
+        "freshness_label": "stale",
+        "revalidate_required": true
+      },
+      "release": {
+        "action": "RELEASE"
+      }
+    },
+    "verdict_expectation": "SUCCESS",
+    "priority": "P0",
+    "tags": ["ttl", "report-layer", "freshness", "positive"],
+    "regression_guard": false
+  },
+  {
+    "case_id": "p2e-tc-048",
+    "name": "动作前未检查 model/channel 约束（反向）",
+    "description": "在 action dispatch 前未先检查 model/channel constraint，动作已经触发后才发现不支持，应判定 FAIL。",
+    "intent_type": "CONSTRAINT",
+    "input": {
+      "utterance": "发起动作前必须确认模型和渠道是否支持。",
+      "context": {
+        "requested_action": "send_or_dispatch",
+        "target_channel": "unsupported-channel-x",
+        "target_model": "restricted-model-y",
+        "simulate_action_before_constraint_check": true
+      }
+    },
+    "expected": {
+      "guard": {
+        "constraint_checked_pre_action": false,
+        "side_effect_already_triggered": true
+      },
+      "badcase": {
+        "code": "BC-CONSTRAINT-CHECK-MISSING-BEFORE-ACTION",
+        "root_cause": "preflight_guard_missing"
+      }
+    },
+    "verdict_expectation": "FAIL",
+    "priority": "P0",
+    "tags": ["preflight", "model-constraint", "channel-constraint", "action-guard", "p0"],
+    "regression_guard": true
+  },
+  {
+    "case_id": "p2e-tc-049",
+    "name": "动作前完成 model/channel 约束检查并阻断（正向）",
+    "description": "在 action dispatch 前完成 model/channel 约束检查，对不支持目标进行 block/reroute，应判定 SUCCESS。",
+    "intent_type": "CONSTRAINT",
+    "input": {
+      "utterance": "发起动作前完成兼容性校验，不支持就别发。",
+      "context": {
+        "requested_action": "send_or_dispatch",
+        "target_channel": "unsupported-channel-x",
+        "target_model": "restricted-model-y",
+        "simulate_constraint_precheck_and_block": true
+      }
+    },
+    "expected": {
+      "guard": {
+        "constraint_checked_pre_action": true,
+        "supported": false,
+        "blocked_or_rerouted": true,
+        "side_effect_already_triggered": false
+      },
+      "decision_trace": {
+        "present": true
+      }
+    },
+    "verdict_expectation": "SUCCESS",
+    "priority": "P0",
+    "tags": ["preflight", "constraint-check", "block", "reroute", "positive"],
+    "regression_guard": false
+  },
+  {
+    "case_id": "p2e-tc-050",
+    "name": "用户不得追问已知 eval gap 修复（反向）",
+    "description": "系统已知某评测缺口，但未主动给出 remediation pack，直到用户追问第二次才补，应判定 PARTIAL/FAIL；此处设为 PARTIAL 以强调体验/流程缺陷。",
+    "intent_type": "PRINCIPLE",
+    "input": {
+      "utterance": "这个缺口你不是早就知道了吗？为什么还要我再追？",
+      "context": {
+        "known_eval_gap": true,
+        "user_followup_count": 2,
+        "simulate_remediation_only_after_chase": true
+      }
+    },
+    "expected": {
+      "orchestration": {
+        "proactive_remediation": false,
+        "user_had_to_chase": true
+      },
+      "badcase": {
+        "code": "BC-KNOWN-GAP-USER-CHASE",
+        "service_failure": "remediation_not_proactive"
+      }
+    },
+    "verdict_expectation": "PARTIAL",
+    "priority": "P1",
+    "tags": ["known-gap", "user-chase", "proactive-remediation", "p1"],
+    "regression_guard": true
+  },
+  {
+    "case_id": "p2e-tc-051",
+    "name": "已知 eval gap 修复主动推出（正向）",
+    "description": "系统识别 known eval gap 后主动给出 remediation artifacts，无需用户再次追问，应判定 SUCCESS。",
+    "intent_type": "PRINCIPLE",
+    "input": {
+      "utterance": "如果一个缺口你已经知道，就应该主动把修复包给出来。",
+      "context": {
+        "known_eval_gap": true,
+        "user_followup_count": 0,
+        "simulate_proactive_remediation": true
+      }
+    },
+    "expected": {
+      "orchestration": {
+        "proactive_remediation": true,
+        "user_had_to_chase": false
+      },
+      "artifacts": {
+        "remediation_pack_attached": true
+      }
+    },
+    "verdict_expectation": "SUCCESS",
+    "priority": "P1",
+    "tags": ["known-gap", "proactive-remediation", "positive"],
+    "regression_guard": false
+  }
+]

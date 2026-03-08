@@ -85,7 +85,7 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
-          "maxTokens": 16384,
+          "maxTokens": 128000,
           "input": [
             "text"
           ],
@@ -101,41 +101,7 @@
           "id": "claude-opus-4-6",
           "name": "Claude Opus 4-6",
           "contextWindow": 200000,
-          "maxTokens": 8192,
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6-thinking",
-          "name": "Claude Sonnet 4-6 Thinking",
-          "reasoning": true,
-          "contextWindow": 200000,
-          "maxTokens": 16384,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4-6",
-          "contextWindow": 200000,
-          "maxTokens": 8192,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -171,23 +137,6 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
-        },
-        {
-          "id": "gpt-5.4",
-          "name": "GPT-5.4",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
         }
       ]
     },
@@ -201,7 +150,7 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
-          "maxTokens": 16384,
+          "maxTokens": 128000,
           "input": [
             "text"
           ],
@@ -217,41 +166,7 @@
           "id": "claude-opus-4-6",
           "name": "Claude Opus 4-6",
           "contextWindow": 200000,
-          "maxTokens": 8192,
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6-thinking",
-          "name": "Claude Sonnet 4-6 Thinking",
-          "reasoning": true,
-          "contextWindow": 200000,
-          "maxTokens": 16384,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4-6",
-          "contextWindow": 200000,
-          "maxTokens": 8192,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -287,23 +202,6 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
-        },
-        {
-          "id": "gpt-5.4",
-          "name": "GPT-5.4",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
         }
       ]
     },
@@ -317,7 +215,7 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
-          "maxTokens": 16384,
+          "maxTokens": 128000,
           "input": [
             "text"
           ],
@@ -333,41 +231,7 @@
           "id": "claude-opus-4-6",
           "name": "Claude Opus 4-6",
           "contextWindow": 200000,
-          "maxTokens": 8192,
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6-thinking",
-          "name": "Claude Sonnet 4-6 Thinking",
-          "reasoning": true,
-          "contextWindow": 200000,
-          "maxTokens": 16384,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4-6",
-          "contextWindow": 200000,
-          "maxTokens": 8192,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -403,23 +267,6 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
-        },
-        {
-          "id": "gpt-5.4",
-          "name": "GPT-5.4",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
         }
       ]
     },
@@ -433,7 +280,7 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
-          "maxTokens": 16384,
+          "maxTokens": 128000,
           "input": [
             "text"
           ],
@@ -449,41 +296,7 @@
           "id": "claude-opus-4-6",
           "name": "Claude Opus 4-6",
           "contextWindow": 200000,
-          "maxTokens": 8192,
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6-thinking",
-          "name": "Claude Sonnet 4-6 Thinking",
-          "reasoning": true,
-          "contextWindow": 200000,
-          "maxTokens": 16384,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4-6",
-          "contextWindow": 200000,
-          "maxTokens": 8192,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -519,23 +332,6 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
-        },
-        {
-          "id": "gpt-5.4",
-          "name": "GPT-5.4",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
         }
       ]
     },
@@ -549,7 +345,7 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
-          "maxTokens": 16384,
+          "maxTokens": 128000,
           "input": [
             "text"
           ],
@@ -565,41 +361,7 @@
           "id": "claude-opus-4-6",
           "name": "Claude Opus 4-6",
           "contextWindow": 200000,
-          "maxTokens": 8192,
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6-thinking",
-          "name": "Claude Sonnet 4-6 Thinking",
-          "reasoning": true,
-          "contextWindow": 200000,
-          "maxTokens": 16384,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4-6",
-          "contextWindow": 200000,
-          "maxTokens": 8192,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -635,23 +397,6 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
-        },
-        {
-          "id": "gpt-5.4",
-          "name": "GPT-5.4",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
         }
       ]
     },
@@ -665,7 +410,7 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
-          "maxTokens": 16384,
+          "maxTokens": 128000,
           "input": [
             "text"
           ],
@@ -681,41 +426,7 @@
           "id": "claude-opus-4-6",
           "name": "Claude Opus 4-6",
           "contextWindow": 200000,
-          "maxTokens": 8192,
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6-thinking",
-          "name": "Claude Sonnet 4-6 Thinking",
-          "reasoning": true,
-          "contextWindow": 200000,
-          "maxTokens": 16384,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4-6",
-          "contextWindow": 200000,
-          "maxTokens": 8192,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -751,23 +462,6 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
-        },
-        {
-          "id": "gpt-5.4",
-          "name": "GPT-5.4",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
         }
       ]
     },
@@ -781,7 +475,7 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
-          "maxTokens": 16384,
+          "maxTokens": 128000,
           "input": [
             "text"
           ],
@@ -797,41 +491,7 @@
           "id": "claude-opus-4-6",
           "name": "Claude Opus 4-6",
           "contextWindow": 200000,
-          "maxTokens": 8192,
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6-thinking",
-          "name": "Claude Sonnet 4-6 Thinking",
-          "reasoning": true,
-          "contextWindow": 200000,
-          "maxTokens": 16384,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4-6",
-          "contextWindow": 200000,
-          "maxTokens": 8192,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -867,23 +527,6 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
-        },
-        {
-          "id": "gpt-5.4",
-          "name": "GPT-5.4",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
         }
       ]
     },
@@ -897,7 +540,7 @@
           "name": "Claude Opus 4-6 Thinking",
           "reasoning": true,
           "contextWindow": 200000,
-          "maxTokens": 16384,
+          "maxTokens": 128000,
           "input": [
             "text"
           ],
@@ -913,41 +556,7 @@
           "id": "claude-opus-4-6",
           "name": "Claude Opus 4-6",
           "contextWindow": 200000,
-          "maxTokens": 8192,
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6-thinking",
-          "name": "Claude Sonnet 4-6 Thinking",
-          "reasoning": true,
-          "contextWindow": 200000,
-          "maxTokens": 16384,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "api": "anthropic-messages"
-        },
-        {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4-6",
-          "contextWindow": 200000,
-          "maxTokens": 8192,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -983,23 +592,6 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
-        },
-        {
-          "id": "gpt-5.4",
-          "name": "GPT-5.4",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
         }
       ]
     },
@@ -1013,6 +605,23 @@
           "name": "Embedding-3",
           "contextWindow": 8192,
           "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        },
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"
@@ -1048,6 +657,23 @@
             "cacheWrite": 0
           },
           "api": "openai-completions"
+        },
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
         }
       ]
     },
@@ -1060,7 +686,1202 @@
           "id": "glm-5",
           "name": "GLM-5",
           "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-main-02": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-lJjXVq3bzWiZuIxrxPWI5TvuoRlIpIPX6wkmngevYzFrZqQF",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
           "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-researcher-02": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-nujdyQQA4tnCutxJxMFLiFIEXpKTsWEuoya7clVDLwkdViUw",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-coder-02": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-VYZJT4lCaNhCAVNylJbxzZd2ZgguGwO9spp5w0UIsFi2UdDM",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-reviewer-02": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-C4Ty4Xu476dlSnpWZmJa9ykageori5cveuUpSqmOXlW9OFZo",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-analyst-02": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-oPWsb1oavPDPrjux9Jo5bQC980e729kavQ1Bii0sSMByXxAy",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-scout-02": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-mAooBYOLaGt65v3c9XljM3YSEOUSDKgOJRFFVYstE1nk5uwX",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-writer-02": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-BzaHVu2HYXnncf2d5ra3k3TiqkYZ4YxmkkzQeza9cj4M4QjE",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-cron-worker-02": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-DcVq4BUIPKJRQipr3iMHtxvqdiG10XA2guu00wMfSyagzniH",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-main-03": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-bTXE33oJiXMyuzNJuVJAAxwdSFdvZ94Y0oYk6ryC0pCDqzzS",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-main-04": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-HcnowuziNTkhbhKqSTi9KdZ10bicae8B6zyMZeTTG5QK9QMn",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "boom-main-05": {
+      "baseUrl": "https://boom.aihuige.com/v1",
+      "apiKey": "sk-QDKiS3g9WIfgGaEnewU1UtoPeTaXc28wsCtXsQYiCRnat0pV",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "gpt-5.3-codex",
+          "name": "GPT-5.3 Codex",
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "claude-researcher-02": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-dVvJG2FOBJKXjVvBkV7DTBYXZGGYsB2YDNxNGJAytzqOA5zY",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-coder-02": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-Jd1hiqXKKQe4B1r0iq5MZFEEUMtDwmhayaC5kqNQuZjero6a",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-reviewer-02": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-DipE6ZAfe4ylE1nUgq7eGW5L7XDMyG7jWn60M4q0yWkL6XIo",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-writer-02": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-oKT1ix8MCPd7o19f0YHD8aEj2x2KuUd4RUOlCMQ4cFxlgbuT",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-analyst-02": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-psZCBtNJXvlHUG20dfgKc3GFT3Sxy1KiZO7AqzMLp42gAuNJ",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-scout-02": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-9PeZDKQUgFHUcGzoqXVBAWSu45kB37ZleRFHIPW8xFGsM64w",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-cron-worker-02": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-wsFHXjlfc6ZnjdyR4bWCX9EuYzkUEft0rCozvrRu4oi8pIUy",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-worker-03": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-mCopYqPYmoAHzVcTUW4AXNFSPCgj2p037QrZcY0hLYINcMQi",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-worker-04": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-MNqJlXUz07bnAsN7JUuxNpvtsf8ItvWvpR0N9H8hlOWv40Pf",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-worker-05": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-F6PVPxn4FcI2PYarVAKhPg2vHyfj4AQoSL77tVf0E1vEvJNK",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "claude-worker-06": {
+      "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+      "apiKey": "sk-JhAa597byO2pdx8xODr2tYMoQdOrL5Ds0cclytAHqf5WoyWN",
+      "api": "anthropic-messages",
+      "models": [
+        {
+          "id": "claude-opus-4-6-thinking",
+          "name": "Claude Opus 4.6 Thinking",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "contextWindow": 200000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "anthropic-messages"
+        }
+      ]
+    },
+    "zhipu-main": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "d6338644b2f141ad88f2cfebb6b48b34.ssIkoiAmxSYTUXst",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-core": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "ce9cf29352c9401d8eb57388e5db318b.y2sVHHkjtVmXJKkz",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-researcher": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "a474ebc9588a46498513e4d6867dd0ac.VFMTRb6hz89NN8JC",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-coder": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "ce9cf29352c9401d8eb57388e5db318b.y2sVHHkjtVmXJKkz",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-researcher-02": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "03d1f574934e4fec806eb89f6da86007.1ZH3PpxfUIgMLEE1",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-coder-02": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "a4afaeccddff4ee899006e563c31ecfd.h52UxK6sTLw6prBs",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-reviewer": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "d2da4b236a0d4a118a963a273f8e56f7.D5MEWBSaSJt3ijCJ",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-writer": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "9c38194765ba426cba3ea964e1f7b81e.W0bRPBAwEpRwcMnr",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-analyst": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "4f505c9e10244de49822f908307231e4.jtgtxgsuTo5EK3MT",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-scout": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "dbd5910ee83e468199eeaa49a25cb168.uFKy5m11scJBKypl",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-cron-worker": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "61abcaf0fe94440485e36a49f8c83897.aCHts4dGjjZ3Rk9R",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-reviewer-02": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "9560d66f603347e4b0b59cb15724be3f.35hl24youaspOj9T",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-writer-02": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "c803b620fc894d8891e9d7022ec23a42.dQdj3du7LtUSsFoq",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-analyst-02": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "9183dba9638444d48aa2f6b184563246.3x8S6igvOc3ZG5AE",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-scout-02": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "938112a262e84615b130c4e389cb605f.s63N6EyVnnIdYFGb",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-cron-worker-02": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "2255ff700827489fa754012e0e581fe0.kViLL5GFMTEr4pal",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-worker-03": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "afe940bd947e4a03b682fd0c545f8a45.4X1sQKI4uBp3crfi",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-worker-04": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "1c08f2e92f8f4c3c86c5ba70fac0b587.92q1dtmEc8nDsARX",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-worker-05": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "c81d7193b17a48338c5237cd84f75375.simzManE4QoqHWj0",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "api": "openai-completions"
+        }
+      ]
+    },
+    "zhipu-worker-06": {
+      "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiKey": "a05e19de12e74192bfd492c55f38362f.4LptuNvGFXPyIJhi",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "GLM-5",
+          "contextWindow": 128000,
+          "maxTokens": 128000,
           "reasoning": false,
           "input": [
             "text"

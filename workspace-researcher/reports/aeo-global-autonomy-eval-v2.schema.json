@@ -1,0 +1,340 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "aeo-global-autonomy-eval-v2.schema.json",
+  "title": "AEO Global Autonomy Evaluation Verdict v2.0",
+  "description": "Machine-readable verdict schema for the 7-dimension quantitative evaluation standard. Produced by eval runners, consumed by gates and reports.",
+  "version": "2.0.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "timestamp",
+    "corpus",
+    "dimensions",
+    "composite",
+    "verdict",
+    "case_results"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^run-[0-9]{8}-[0-9]{3,}$",
+      "description": "Unique evaluation run identifier"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "environment": {
+      "type": "string",
+      "enum": ["dev", "staging", "prod"]
+    },
+    "corpus": {
+      "$ref": "#/definitions/Corpus"
+    },
+    "dimensions": {
+      "type": "object",
+      "required": [
+        "D1_intent_fidelity",
+        "D2_execution_closure",
+        "D3_governance_enforcement",
+        "D4_proactive_completion",
+        "D5_eval_infrastructure",
+        "D6_coverage_breadth",
+        "D7_resilience_recovery"
+      ],
+      "properties": {
+        "D1_intent_fidelity": { "$ref": "#/definitions/DimensionResult" },
+        "D2_execution_closure": { "$ref": "#/definitions/DimensionResult" },
+        "D3_governance_enforcement": { "$ref": "#/definitions/DimensionResult" },
+        "D4_proactive_completion": { "$ref": "#/definitions/DimensionResult" },
+        "D5_eval_infrastructure": { "$ref": "#/definitions/DimensionResult" },
+        "D6_coverage_breadth": { "$ref": "#/definitions/DimensionResult" },
+        "D7_resilience_recovery": { "$ref": "#/definitions/DimensionResult" }
+      },
+      "additionalProperties": false
+    },
+    "composite": {
+      "$ref": "#/definitions/CompositeResult"
+    },
+    "verdict": {
+      "$ref": "#/definitions/Verdict"
+    },
+    "case_results": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/CaseResult" },
+      "minItems": 1
+    },
+    "heatmap": {
+      "type": "string",
+      "pattern": "^[ABCDF]{7}$",
+      "description": "7-character grade string for D1-D7"
+    },
+    "gaps": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Gap" }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "runner_version": { "type": "string" },
+        "evaluator": { "type": "string", "enum": ["auto", "human", "hybrid"] },
+        "human_review_required": { "type": "boolean" },
+        "report_artifacts": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "previous_run_id": {
+          "type": "string",
+          "description": "For delta comparison"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Corpus": {
+      "type": "object",
+      "required": [
+        "total_cases",
+        "real_dialog_cases",
+        "synthetic_cases",
+        "complexity_distribution",
+        "intent_type_distribution",
+        "corpus_eccs",
+        "richness_index",
+        "confidence"
+      ],
+      "properties": {
+        "total_cases": { "type": "integer", "minimum": 1 },
+        "real_dialog_cases": { "type": "integer", "minimum": 0 },
+        "synthetic_cases": { "type": "integer", "minimum": 0 },
+        "complexity_distribution": {
+          "type": "object",
+          "required": ["L1_trivial", "L2_standard", "L3_complex", "L4_extreme"],
+          "properties": {
+            "L1_trivial": { "type": "integer", "minimum": 0 },
+            "L2_standard": { "type": "integer", "minimum": 0 },
+            "L3_complex": { "type": "integer", "minimum": 0 },
+            "L4_extreme": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "intent_type_distribution": {
+          "type": "object",
+          "required": ["PRINCIPLE", "VERDICT", "CONSTRAINT", "GOAL", "DIRECTIVE"],
+          "properties": {
+            "PRINCIPLE": { "type": "integer", "minimum": 0 },
+            "VERDICT": { "type": "integer", "minimum": 0 },
+            "CONSTRAINT": { "type": "integer", "minimum": 0 },
+            "GOAL": { "type": "integer", "minimum": 0 },
+            "DIRECTIVE": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "corpus_eccs": { "type": "number", "minimum": 0, "maximum": 1 },
+        "richness_index": { "type": "number", "minimum": 0, "maximum": 1 },
+        "confidence": {
+          "type": "string",
+          "enum": ["HIGH", "MEDIUM", "LOW", "INSUFFICIENT"]
+        }
+      }
+    },
+    "DimensionResult": {
+      "type": "object",
+      "required": ["score", "floor", "floor_violated", "grade", "metrics"],
+      "properties": {
+        "score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "floor": { "type": "number", "minimum": 0, "maximum": 100 },
+        "floor_violated": { "type": "boolean" },
+        "grade": { "type": "string", "enum": ["A", "B", "C", "D", "F"] },
+        "weight": { "type": "number", "minimum": 0, "maximum": 1 },
+        "weighted_contribution": {
+          "type": "number",
+          "description": "score × weight"
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/MetricResult" }
+        },
+        "hard_zero_triggered": {
+          "type": "boolean",
+          "description": "True if a hard-zero rule capped this dimension"
+        },
+        "hard_zero_reason": {
+          "type": "string"
+        }
+      }
+    },
+    "MetricResult": {
+      "type": "object",
+      "required": ["value", "pass"],
+      "properties": {
+        "value": { "type": "number" },
+        "target": { "type": "number" },
+        "target_max": {
+          "type": "number",
+          "description": "For lower-is-better metrics"
+        },
+        "pass": { "type": "boolean" },
+        "n": {
+          "type": "integer",
+          "description": "Sample size for this metric"
+        },
+        "weight_within_dimension": { "type": "number" },
+        "details": { "type": "string" }
+      }
+    },
+    "CompositeResult": {
+      "type": "object",
+      "required": ["score", "floor_violations", "corpus_eccs", "richness_index"],
+      "properties": {
+        "score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "floor_violations": { "type": "integer", "minimum": 0 },
+        "floor_violation_dimensions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "corpus_eccs": { "type": "number", "minimum": 0, "maximum": 1 },
+        "richness_index": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "Verdict": {
+      "type": "object",
+      "required": ["code", "label", "confidence"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": ["FP", "SP", "CP", "WC", "FL"]
+        },
+        "label": {
+          "type": "string",
+          "enum": ["FULL PASS", "STRONG PASS", "CONDITIONAL", "WEAK / CONTESTED", "FAIL"]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["HIGH", "MEDIUM", "LOW", "INSUFFICIENT"]
+        },
+        "force_fail_triggered": { "type": "boolean" },
+        "force_fail_reason": { "type": ["string", "null"] },
+        "allowed_claims": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "forbidden_claims": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "CaseResult": {
+      "type": "object",
+      "required": ["case_id", "complexity_level", "eccs", "verdict"],
+      "properties": {
+        "case_id": { "type": "string" },
+        "intent_type": {
+          "type": "string",
+          "enum": ["PRINCIPLE", "VERDICT", "CONSTRAINT", "GOAL", "DIRECTIVE", "UNKNOWN"]
+        },
+        "complexity_level": {
+          "type": "string",
+          "enum": ["L1", "L2", "L3", "L4"]
+        },
+        "eccs": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 7.0,
+          "description": "Execution-Chain Complexity Score"
+        },
+        "source": {
+          "type": "string",
+          "enum": ["real_dialog", "synthetic"]
+        },
+        "verdict": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "PARTIAL", "SKIP"]
+        },
+        "stage_results": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "score": { "type": "number", "minimum": 0, "maximum": 1 },
+              "verdict": { "type": "string", "enum": ["PASS", "FAIL", "PARTIAL", "SKIP"] }
+            }
+          }
+        },
+        "evidence": {
+          "$ref": "#/definitions/CaseEvidence"
+        },
+        "duration_ms": { "type": "integer", "minimum": 0 },
+        "badcase_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "CaseEvidence": {
+      "type": "object",
+      "description": "Required evidence fields for each case. Null values with reason are acceptable; missing fields are not.",
+      "required": [
+        "request_observed_at",
+        "closure_type",
+        "manual_patch_flag"
+      ],
+      "properties": {
+        "request_observed_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "request_admitted_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "plan_materialized_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "execution_started_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "execution_completed_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "effect_verified_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "manual_patch_flag": { "type": "boolean" },
+        "closure_type": {
+          "type": "string",
+          "enum": ["autonomous", "assisted", "failed", "abandoned"]
+        },
+        "audit_trace_id": { "type": "string" },
+        "null_reasons": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "Gap": {
+      "type": "object",
+      "required": ["dimension", "metric", "current", "target", "gap", "priority"],
+      "properties": {
+        "dimension": { "type": "string" },
+        "metric": { "type": "string" },
+        "current": { "type": "number" },
+        "target": { "type": "number" },
+        "gap": { "type": "number" },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3"]
+        },
+        "suggested_action": { "type": "string" }
+      }
+    }
+  }
+}

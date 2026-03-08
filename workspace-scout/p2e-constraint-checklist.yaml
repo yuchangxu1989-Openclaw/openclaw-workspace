@@ -1,0 +1,172 @@
+# P2E Memory-Loss Proof — 约束沉淀检查清单
+# 用于验证所有关键约束已正确沉淀到持久层
+# 使用方法: 逐项检查，确保每条约束都有 L0-L4 层的持久保障
+
+name: p2e-constraint-settlement-checklist
+version: "1.0.0"
+date: "2026-03-07"
+
+# ═══════════════════════════════════════════════════════════
+# L0: INFRA 层 — 代码级强制，不依赖 Agent 任何行为
+# ═══════════════════════════════════════════════════════════
+layer_0_infra:
+  - id: L0-001
+    constraint: "工具白名单/黑名单"
+    location: "Gateway config / tool policy"
+    memory_immune: true
+    check: "工具调用在 Gateway 层被过滤，Agent 无法绕过"
+    status: existing  # 已有 OpenClaw 平台能力
+
+  - id: L0-002
+    constraint: "安全边界（不可外泄私有数据）"
+    location: "Gateway config + AGENTS.md"
+    memory_immune: true
+    check: "外发消息需权限检查"
+    status: existing
+
+# ═══════════════════════════════════════════════════════════
+# L1: AGENTS.md — 每次会话注入 system prompt
+# ═══════════════════════════════════════════════════════════
+layer_1_agents_md:
+  - id: L1-001
+    constraint: "启动自检"
+    location: "AGENTS.md > 启动自检 section"
+    memory_immune: true  # system prompt 每次会话都注入
+    check: "grep '启动自检' AGENTS.md"
+    status: existing
+    
+  - id: L1-002
+    constraint: "子 Agent 产出必须写文件"
+    location: "AGENTS.md > 防失忆规则 section"
+    memory_immune: true
+    check: "grep '子Agent任务必须将结果写入文件' AGENTS.md"
+    status: existing
+
+  - id: L1-003
+    constraint: "CAPABILITY-ANCHOR 必读"
+    location: "AGENTS.md > Every Session"
+    memory_immune: true
+    check: "grep 'CAPABILITY-ANCHOR' AGENTS.md"
+    status: existing
+
+  - id: L1-004
+    constraint: "失忆免疫约束声明"
+    location: "AGENTS.md > 失忆免疫约束 section"
+    memory_immune: true
+    check: "grep '失忆免疫' AGENTS.md"
+    status: pending  # 需要在 AGENTS.md 中增加此段
+
+# ═══════════════════════════════════════════════════════════
+# L2: ISC Rules — 机器可读 JSON 规则
+# ═══════════════════════════════════════════════════════════
+layer_2_isc_rules:
+  - id: L2-001
+    constraint: "反熵增设计原则"
+    location: "isc-core/rules/rule.anti-entropy-design-principle-001.json"
+    memory_immune: true
+    check: "文件存在且 JSON 可解析"
+    status: existing
+
+  - id: L2-002
+    constraint: "ISC 规则命名去重 Gate"
+    location: "isc-core/rules/rule.isc-rule-creation-dedup-gate-001.json"
+    memory_immune: true
+    check: "文件存在且 JSON 可解析"
+    status: existing
+
+  - id: L2-003
+    constraint: "失忆免疫门禁规则"
+    location: "isc-core/rules/rule.memory-loss-proof-gate-001.json"
+    memory_immune: true
+    check: "文件存在且 JSON 可解析"
+    status: pending  # 本次设计产出
+
+  - id: L2-004
+    constraint: "P2E 回归哨兵规则"
+    location: "isc-core/rules/rule.p2e-regression-sentinel-001.json"
+    memory_immune: true
+    check: "文件存在且 JSON 可解析"
+    status: pending  # 本次设计产出
+
+# ═══════════════════════════════════════════════════════════
+# L3: Skills — SKILL.md + 校验脚本
+# ═══════════════════════════════════════════════════════════
+layer_3_skills:
+  - id: L3-001
+    constraint: "ISC 标准注册机制"
+    location: "skills/isc-core/SKILL.md"
+    memory_immune: true
+    check: "SKILL.md 描述了标准注册、生成、校验流程"
+    status: existing
+
+  - id: L3-002
+    constraint: "P2E 评测规范"
+    location: "principle-e2e-spec/"
+    memory_immune: true
+    check: "01-evaluation-model.md 存在且内容完整"
+    status: existing
+
+  - id: L3-003
+    constraint: "每个 Skill 有输入输出 schema"
+    location: "各 skill 目录"
+    memory_immune: partial  # 部分 skill 缺少 schema
+    check: "遍历 skills/ 检查 schema 文件"
+    status: partial
+
+# ═══════════════════════════════════════════════════════════
+# L4: CI / Automated Tests — 自动、无人值守
+# ═══════════════════════════════════════════════════════════
+layer_4_ci:
+  - id: L4-001
+    constraint: "冷启动测试"
+    location: "scripts/p2e-cold-boot-test.sh"
+    memory_immune: true
+    check: "脚本存在且可执行"
+    status: pending  # 本次设计产出
+
+  - id: L4-002
+    constraint: "约束文件完整性检查"
+    location: "scripts/constraint-file-integrity.sh"
+    memory_immune: true
+    check: "脚本存在且可执行"
+    status: pending  # 本次设计产出
+
+  - id: L4-003
+    constraint: "ISC 规则 Lint"
+    location: "scripts/isc-rule-lint.sh"
+    memory_immune: true
+    check: "脚本存在且可执行"
+    status: pending  # 需要创建
+
+  - id: L4-004
+    constraint: "记忆依赖审计"
+    location: "scripts/memory-dependency-audit.sh"
+    memory_immune: true
+    check: "脚本存在且可执行"
+    status: pending  # 本次设计产出
+
+  - id: L4-005
+    constraint: "回归测试套件"
+    location: "scripts/regression-suite.sh"
+    memory_immune: true
+    check: "脚本存在且可执行"
+    status: pending  # 需要创建
+
+# ═══════════════════════════════════════════════════════════
+# 统计
+# ═══════════════════════════════════════════════════════════
+summary:
+  total_constraints: 18
+  existing: 9
+  pending: 8
+  partial: 1
+  memory_immune_rate: "94%"  # 17/18 (L3-003 是 partial)
+  action_required:
+    - "在 AGENTS.md 增加失忆免疫约束段落 (L1-004)"
+    - "部署 ISC 规则 memory-loss-proof-gate-001 (L2-003)"
+    - "部署 ISC 规则 p2e-regression-sentinel-001 (L2-004)"
+    - "创建并部署 p2e-cold-boot-test.sh (L4-001)"
+    - "创建并部署 constraint-file-integrity.sh (L4-002)"
+    - "创建并部署 isc-rule-lint.sh (L4-003)"
+    - "创建并部署 memory-dependency-audit.sh (L4-004)"
+    - "创建并部署 regression-suite.sh (L4-005)"

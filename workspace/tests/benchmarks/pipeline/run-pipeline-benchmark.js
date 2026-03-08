@@ -15,10 +15,10 @@ const DATASET_FILE = path.join(__dirname, 'pipeline-benchmark-dataset.json');
 const WORKSPACE = path.resolve(__dirname, '../../..');
 const REPORT_DIR = path.join(WORKSPACE, 'reports');
 
-const EventBus = require('../../event-bus/bus-adapter');
-const bus = require('../../event-bus/bus');
-const Dispatcher = require('../../dispatcher/dispatcher');
-const { L3Pipeline } = require('../../pipeline/l3-pipeline');
+const EventBus = require('../../../infrastructure/event-bus/bus-adapter');
+const bus = require('../../../infrastructure/event-bus/bus');
+const Dispatcher = require('../../../infrastructure/dispatcher/dispatcher');
+const { L3Pipeline } = require('../../../infrastructure/pipeline/l3-pipeline');
 
 function clearState() {
   try { bus.purge(); } catch (_) {}

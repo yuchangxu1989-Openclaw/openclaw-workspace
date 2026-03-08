@@ -1,0 +1,94 @@
+{
+  "generated_at": "2026-03-08T00:57:15.728626+00:00",
+  "window": {
+    "lookback_hours": 24,
+    "start_at": "2026-03-07T00:57:15.728626+00:00",
+    "end_at": "2026-03-08T00:57:15.728626+00:00"
+  },
+  "purpose": "Seed contract for external or future real-conversation ingestion into evalset coverage accounting.",
+  "input_contract": {
+    "records": [
+      {
+        "conversation_id": "string",
+        "source": "session|message|export|plugin",
+        "started_at": "ISO-8601",
+        "ended_at": "ISO-8601",
+        "message_count": 0,
+        "language": "optional",
+        "user_problem_summary": "string",
+        "observed_failure_modes": [
+          "memory_loss",
+          "handoff_gap"
+        ],
+        "selected_for_eval": false,
+        "selection_reason": "string",
+        "drop_reason": "string"
+      }
+    ]
+  },
+  "expected_outputs": {
+    "coverage_kpis": [
+      "candidate_count",
+      "selected_count",
+      "dropped_count",
+      "freshest_conversation_at"
+    ],
+    "mapping": "conversation_id -> eval_case_id[]"
+  },
+  "current_repo_assessment": {
+    "last24h_real_conversation_sedimentation_confidence": "high",
+    "summary": "Ledger active: 7 candidates, 4 selected, 3 dropped. Freshest: 2026-03-08T08:00:00+08:00. Confidence: high.",
+    "gaps": [
+      "All identified gaps are now addressed by the ledger."
+    ],
+    "ledger_kpi": {
+      "window_start": "2026-03-07T00:55:47.821414+00:00",
+      "window_end": "2026-03-08T00:55:47.821414+00:00",
+      "candidate_count": 7,
+      "selected_count": 4,
+      "dropped_count": 3,
+      "dropped_reasons": {
+        "no eval case matched (failure modes or problem summary had no overlap)": 3
+      },
+      "freshest_conversation_at": "2026-03-08T08:00:00+08:00",
+      "conversation_eval_mappings": {
+        "feishu-sess-20260307-0914": [
+          "p2e-ext-005",
+          "p2e-ext-007",
+          "p2e-ext-006"
+        ],
+        "feishu-sess-20260307-1042": [
+          "p2e-ext-006",
+          "pb-010b",
+          "p2e-ext-005",
+          "p2e-ext-007"
+        ],
+        "feishu-sess-20260307-1605": [
+          "p2e-ext-005",
+          "p2e-ext-007",
+          "p2e-ext-006",
+          "pb-010b"
+        ],
+        "feishu-sess-20260308-0215": [
+          "p2e-ext-006",
+          "pb-010b",
+          "p2e-ext-002",
+          "p2e-ext-005",
+          "p2e-ext-007"
+        ]
+      },
+      "schema_version": "1.0.0",
+      "computed_at": "2026-03-08T00:55:47.824101+00:00"
+    },
+    "safe_fix": {
+      "type": "observability-active",
+      "artifacts": [
+        "/root/.openclaw/workspace-coder/reports/real-conv-evalset-coverage-report.json",
+        "/root/.openclaw/workspace-coder/reports/real-conv-evalset-coverage-report.md",
+        "/root/.openclaw/workspace-coder/skills/aeo/generated/real-conv-last24h-eval-seed.json",
+        "/root/.openclaw/workspace-coder/skills/aeo/generated/last24h-kpi.json"
+      ],
+      "description": "Ledger is active and emitting KPIs. Wire production conversation sources into skills/aeo/last24h_ledger.py ingest for continuous coverage."
+    }
+  }
+}

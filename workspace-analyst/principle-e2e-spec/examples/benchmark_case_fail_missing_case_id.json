@@ -1,0 +1,16 @@
+{
+  "name": "benchmark runner dual gate fail-closed",
+  "intent_type": "CONSTRAINT",
+  "input": {
+    "utterance": "LLM调用失败率超10%必须告警"
+  },
+  "expected": {
+    "intent": {
+      "type": "CONSTRAINT"
+    }
+  },
+  "verdict_expectation": "FAIL",
+  "priority": "P0",
+  "tags": ["benchmark", "gate", "fail-closed"],
+  "regression_guard": true
+}

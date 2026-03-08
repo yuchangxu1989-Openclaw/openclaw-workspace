@@ -1,0 +1,37 @@
+{
+  "benchmark": "SWE-bench Lite",
+  "dataset_name": "princeton-nlp/SWE-bench_Lite",
+  "split": "test",
+  "run_id": "smoke-20260307",
+  "created_at_utc": "2026-03-07T14:43:31+00:00",
+  "runner_version": "0.1.0",
+  "mode": "dry_run",
+  "method": {
+    "llm_primary": true,
+    "model_name": "claude-opus-placeholder",
+    "provider": "anthropic",
+    "closed_book": true,
+    "sandbox": "docker",
+    "network_access": "disabled_during_solve"
+  },
+  "environment": {
+    "docker_available": false,
+    "python_executable": "/usr/bin/python3",
+    "python_ok": true
+  },
+  "artifacts": {
+    "predictions": "preds.json",
+    "metadata": "metadata.json",
+    "readme": "README.md",
+    "trajs": "trajs",
+    "logs": "logs"
+  },
+  "instances": [
+    "sympy__sympy-20590"
+  ],
+  "constraints_check": {
+    "closed_book_enforced": true,
+    "llm_primary_declared": true,
+    "sandbox_declared": true
+  }
+}

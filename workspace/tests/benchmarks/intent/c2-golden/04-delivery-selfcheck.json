@@ -1,0 +1,731 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-03-08",
+  "description": "C2评测用例集 04 - 交付质量自检 + 执行链根因分析。50条用例覆盖不同交付物（飞书文档/代码文件/报告/配置变更）、不同缺陷类型（残留内容/格式错误/需求遗漏/数据不实）、不同根因层（代码/规则/认知/上下文）、不同修复路径。执行链9步级别。",
+  "theme": "delivery-selfcheck",
+  "dimensions": {
+    "deliverable_types": ["feishu_doc", "code_file", "report", "config_change"],
+    "defect_types": ["residual_content", "format_error", "requirement_miss", "data_fabrication"],
+    "root_cause_layers": ["code", "rule", "cognition", "context"],
+    "repair_paths": ["rollback_and_redo", "patch_in_place", "escalate_to_human", "add_guard_rule"]
+  },
+  "execution_chain_schema": {
+    "steps": 9,
+    "labels": ["S1_receive_task", "S2_parse_requirements", "S3_plan_execution", "S4_gather_context", "S5_generate_draft", "S6_self_review", "S7_apply_fix", "S8_final_validate", "S9_deliver"]
+  },
+  "samples": [
+    {
+      "id": "DS-001",
+      "description": "飞书文档交付后发现残留模板占位符，根因：生成阶段跳过变量替换",
+      "deliverable": "feishu_doc",
+      "defect_type": "residual_content",
+      "root_cause_layer": "code",
+      "difficulty": "easy",
+      "input": {
+        "task": "帮我写一份Q1季度总结飞书文档",
+        "delivered_artifact": "飞书文档已创建，标题《Q1季度总结》",
+        "defect_signal": "文档中多处出现 {{部门名称}}、{{数据来源}} 等未替换的模板占位符"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "残留内容-模板占位符未替换",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到写Q1季度总结飞书文档的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "识别出需要包含部门信息和数据来源"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划使用模板生成+变量填充的方式"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取到部门和数据背景信息"},
+          {"step": "S5_generate_draft", "status": "fault_origin", "detail": "使用模板生成文档，但变量替换逻辑未执行，占位符原样保留"},
+          {"step": "S6_self_review", "status": "missed", "detail": "未检查模板变量是否全部替换完毕"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现问题，跳过修复"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "最终验证未包含占位符扫描"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "含未替换占位符的文档被交付"}
+        ],
+        "root_cause_step": "S5_generate_draft",
+        "root_cause_analysis": "生成阶段调用模板引擎时未触发变量替换流程，属于代码层执行缺陷",
+        "contributing_factors": ["S6自检未覆盖占位符检测", "S8验证缺少正则扫描"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["在S5追加变量替换步骤", "在S6增加占位符正则扫描规则", "重新生成并替换所有变量后交付"]
+      }
+    },
+    {
+      "id": "DS-002",
+      "description": "代码文件交付后发现调试日志未清理，根因：自检规则缺少debug语句检测",
+      "deliverable": "code_file",
+      "defect_type": "residual_content",
+      "root_cause_layer": "rule",
+      "difficulty": "easy",
+      "input": {
+        "task": "帮我写一个用户鉴权中间件",
+        "delivered_artifact": "auth-middleware.js 已生成并写入",
+        "defect_signal": "代码中残留 console.log('DEBUG: token =', token) 等调试语句共5处"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "残留内容-调试代码未清理",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到编写用户鉴权中间件的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "解析出JWT验证、角色检查等需求"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "规划中间件结构和错误处理"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "确认项目使用Express + jsonwebtoken"},
+          {"step": "S5_generate_draft", "status": "ok", "detail": "生成包含完整功能的中间件代码，开发过程中插入调试语句"},
+          {"step": "S6_self_review", "status": "fault_origin", "detail": "自检规则集中不包含console.log/debug语句检测规则"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "自检未发现调试语句，无修复动作"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "最终验证仅检查语法和功能，未检查代码卫生"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "含调试语句的代码被交付"}
+        ],
+        "root_cause_step": "S6_self_review",
+        "root_cause_analysis": "自检规则集缺少对调试语句（console.log、debugger）的检测规则，属于规则层缺陷",
+        "contributing_factors": ["S8验证未覆盖代码卫生检查"],
+        "repair_path": "add_guard_rule",
+        "repair_actions": ["新增自检规则：扫描console.log/debugger/TODO等调试残留", "清除当前文件中的5处调试语句", "重新交付清洁代码"]
+      }
+    },
+    {
+      "id": "DS-003",
+      "description": "飞书报告中引用的数据与实际不符，根因：认知层对数据来源理解错误",
+      "deliverable": "report",
+      "defect_type": "data_fabrication",
+      "root_cause_layer": "cognition",
+      "difficulty": "hard",
+      "input": {
+        "task": "帮我写一份用户增长分析报告，基于上周的数据",
+        "delivered_artifact": "报告已生成，包含DAU、WAU、留存率等指标",
+        "defect_signal": "报告中称'上周DAU峰值达12万'，但实际数据源中上周DAU峰值仅为7.8万"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "数据不实-数值与数据源不符",
+        "severity": "critical"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到撰写用户增长分析报告的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "识别需要DAU/WAU/留存率等指标"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划从数据源读取后生成报告"},
+          {"step": "S4_gather_context", "status": "fault_origin", "detail": "读取数据源时混淆了月度数据和周度数据，将月DAU当作周DAU引用"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "基于错误数据生成报告，写入12万DAU"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未包含数据交叉验证环节，未回查原始数据源"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现数据异常"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "验证仅检查格式完整性，未校验数值合理性"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "含虚假数据的报告被交付"}
+        ],
+        "root_cause_step": "S4_gather_context",
+        "root_cause_analysis": "在获取上下文阶段，对数据源的时间维度理解错误（月/周混淆），属于认知层缺陷",
+        "contributing_factors": ["S6未做数据回查交叉验证", "S8未做数值合理性校验"],
+        "repair_path": "rollback_and_redo",
+        "repair_actions": ["回溯数据源确认正确的周度DAU数据", "重新生成报告中所有数值", "增加自检规则：报告中关键数值必须附注数据源引用"]
+      }
+    },
+    {
+      "id": "DS-004",
+      "description": "配置变更遗漏了关联服务的端口同步，根因：上下文中缺少服务依赖关系图",
+      "deliverable": "config_change",
+      "defect_type": "requirement_miss",
+      "root_cause_layer": "context",
+      "difficulty": "medium",
+      "input": {
+        "task": "把API网关的端口从3000改成8080",
+        "delivered_artifact": "已修改 gateway.config.json 中 port: 8080",
+        "defect_signal": "修改后下游 auth-service 和 user-service 的配置仍指向 localhost:3000，导致服务不可达"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "需求遗漏-关联配置未同步变更",
+        "severity": "critical"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到修改API网关端口的任务"},
+          {"step": "S2_parse_requirements", "status": "partial", "detail": "识别出需修改gateway端口，但未识别关联依赖"},
+          {"step": "S3_plan_execution", "status": "partial", "detail": "计划仅修改gateway.config.json，未规划关联配置变更"},
+          {"step": "S4_gather_context", "status": "fault_origin", "detail": "未获取服务依赖关系图，不知道auth-service和user-service依赖gateway端口"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "仅修改了gateway配置文件"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未包含依赖影响分析"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "无修复动作"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "验证仅检查gateway配置语法，未做端到端连通性检查"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "不完整的配置变更被交付"}
+        ],
+        "root_cause_step": "S4_gather_context",
+        "root_cause_analysis": "上下文收集阶段未获取服务依赖拓扑，导致无法识别端口变更的影响范围，属于上下文层缺陷",
+        "contributing_factors": ["S2需求解析未做影响面分析", "S3计划缺少变更影响评估步骤"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["扫描所有配置文件中对localhost:3000的引用", "同步修改auth-service和user-service的上游地址", "新增自检规则：端口/地址变更必须触发全局grep检查"]
+      }
+    },
+    {
+      "id": "DS-005",
+      "description": "飞书文档格式混乱，标题层级错误+列表缩进不一致，根因：Markdown转飞书格式映射规则缺陷",
+      "deliverable": "feishu_doc",
+      "defect_type": "format_error",
+      "root_cause_layer": "code",
+      "difficulty": "medium",
+      "input": {
+        "task": "帮我把这份技术方案整理成飞书文档，要层级清晰",
+        "delivered_artifact": "飞书文档已创建，标题《技术方案 v2》",
+        "defect_signal": "一级标题和二级标题大小一样，无序列表缩进全部顶格，看不出层次结构"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "格式错误-标题层级和列表缩进失效",
+        "severity": "medium"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到整理技术方案飞书文档的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "识别出需要层级清晰的格式化文档"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划先生成Markdown再转飞书文档格式"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取源文档内容"},
+          {"step": "S5_generate_draft", "status": "fault_origin", "detail": "Markdown到飞书block格式映射时heading level属性未正确传递，list indent层级被扁平化"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检仅验证内容完整性，未检查渲染后的格式层级"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现格式问题"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未做视觉层面格式验证"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "格式混乱的文档被交付"}
+        ],
+        "root_cause_step": "S5_generate_draft",
+        "root_cause_analysis": "Markdown到飞书文档格式转换代码中heading level和list indent映射逻辑有缺陷，属于代码层问题",
+        "contributing_factors": ["S6缺少格式层级验证", "S8缺少渲染预览检查"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["修复heading level映射逻辑确保h1-h4层级正确", "修复list indent传递保留嵌套结构", "重新生成并替换文档内容"]
+      }
+    },
+    {
+      "id": "DS-006",
+      "description": "代码文件缺少需求中明确要求的错误处理逻辑，根因：需求解析阶段遗漏非功能性需求",
+      "deliverable": "code_file",
+      "defect_type": "requirement_miss",
+      "root_cause_layer": "cognition",
+      "difficulty": "medium",
+      "input": {
+        "task": "写一个文件上传接口，要求：支持多文件、限制大小10MB、上传失败要有重试机制",
+        "delivered_artifact": "upload.js 已生成",
+        "defect_signal": "代码支持多文件上传和大小限制，但没有任何重试逻辑，上传失败直接抛错"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "需求遗漏-重试机制未实现",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到编写文件上传接口的任务"},
+          {"step": "S2_parse_requirements", "status": "fault_origin", "detail": "解析出'多文件'和'限制大小'两个功能需求，但遗漏了'重试机制'这一非功能性需求"},
+          {"step": "S3_plan_execution", "status": "propagated_fault", "detail": "计划中无重试模块设计"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "确认技术栈和依赖"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "生成的代码不含重试逻辑"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检基于已解析需求做checklist比对，checklist本身就缺少重试项"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "自检通过，无需修复"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "验证基于不完整的需求列表，遗漏重试"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "缺少重试机制的代码被交付"}
+        ],
+        "root_cause_step": "S2_parse_requirements",
+        "root_cause_analysis": "需求解析阶段对非功能性需求（重试机制）的识别不足，认知层面将其归类为'可选'而非'必须'",
+        "contributing_factors": ["S6自检基于已解析需求，无法发现源头遗漏"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["重新解析原始需求确认重试要求", "在upload.js中增加指数退避重试逻辑", "增加自检规则：交付前将代码功能点与原始需求逐条比对"]
+      }
+    },
+    {
+      "id": "DS-007",
+      "description": "报告中的竞品分析段落是上次报告的残留内容，根因：上下文中残留前次任务内容",
+      "deliverable": "report",
+      "defect_type": "residual_content",
+      "root_cause_layer": "context",
+      "difficulty": "medium",
+      "input": {
+        "task": "帮我写一份本月技术债清理进展报告",
+        "delivered_artifact": "报告已生成，共6个章节",
+        "defect_signal": "第4章竞品分析完全是上次市场调研报告的内容，与技术债清理毫无关系"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "残留内容-上一次报告内容混入",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到写技术债清理进展报告的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "解析出需要技术债清理相关内容"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "规划报告结构和章节"},
+          {"step": "S4_gather_context", "status": "fault_origin", "detail": "上下文窗口中残留了上次市场调研报告的内容，被错误地作为参考素材纳入"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "第4章直接引用了上下文中残留的竞品分析内容"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未做内容主题相关性检查"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现不相关内容"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "验证仅检查章节数量完整性"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "含不相关残留内容的报告被交付"}
+        ],
+        "root_cause_step": "S4_gather_context",
+        "root_cause_analysis": "上下文窗口中残留了前次任务的内容，未做上下文清洗/过滤，属于上下文层缺陷",
+        "contributing_factors": ["S6缺少章节-主题相关性验证"],
+        "repair_path": "rollback_and_redo",
+        "repair_actions": ["清理上下文中不相关的历史内容", "删除第4章竞品分析", "基于技术债清理主题重新生成替代章节"]
+      }
+    },
+    {
+      "id": "DS-008",
+      "description": "配置变更引入了YAML语法错误，根因：生成阶段缩进处理逻辑bug",
+      "deliverable": "config_change",
+      "defect_type": "format_error",
+      "root_cause_layer": "code",
+      "difficulty": "easy",
+      "input": {
+        "task": "在docker-compose.yml里加一个Redis服务",
+        "delivered_artifact": "已更新docker-compose.yml，添加redis服务配置",
+        "defect_signal": "docker-compose up报错：YAML解析失败，redis服务的ports字段缩进不正确"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "格式错误-YAML语法缩进错误",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到添加Redis服务配置的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "解析出需要在docker-compose中添加Redis服务"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划在services下添加redis配置块"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "读取现有docker-compose.yml结构"},
+          {"step": "S5_generate_draft", "status": "fault_origin", "detail": "生成Redis配置时ports字段使用了tab混合空格缩进，导致YAML解析失败"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未对修改后的YAML做语法校验"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现语法错误"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未执行yaml lint验证"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "含YAML语法错误的配置被交付"}
+        ],
+        "root_cause_step": "S5_generate_draft",
+        "root_cause_analysis": "代码生成阶段的YAML缩进处理逻辑存在tab/空格混用bug，属于代码层缺陷",
+        "contributing_factors": ["S6缺少YAML语法校验", "S8未做配置文件格式验证"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["修复ports字段缩进为统一2空格", "执行yaml lint验证通过", "增加自检规则：YAML/JSON配置变更后必须做语法校验"]
+      }
+    },
+    {
+      "id": "DS-009",
+      "description": "飞书文档中数据表格的汇总行计算错误，根因：认知层对求和范围理解错误",
+      "deliverable": "feishu_doc",
+      "defect_type": "data_fabrication",
+      "root_cause_layer": "cognition",
+      "difficulty": "hard",
+      "input": {
+        "task": "整理一个各团队本月工时统计表，放到飞书文档里",
+        "delivered_artifact": "飞书文档已创建，含5个团队的工时统计表和汇总行",
+        "defect_signal": "汇总行'总工时'为3200小时，但手动加总各团队数据只有2680小时，多出520小时"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "数据不实-汇总计算结果与明细不一致",
+        "severity": "critical"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到整理工时统计表的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "需包含各团队工时明细和汇总"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划创建表格+汇总计算"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取各团队工时原始数据"},
+          {"step": "S5_generate_draft", "status": "fault_origin", "detail": "计算汇总时错误地将加班工时列也纳入求和范围，导致重复计算"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未做明细-汇总一致性校验"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现计算错误"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未验证数值逻辑一致性"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "含错误汇总的文档被交付"}
+        ],
+        "root_cause_step": "S5_generate_draft",
+        "root_cause_analysis": "生成阶段对'总工时'的统计口径理解错误，误将加班工时列纳入求和，属于认知层缺陷（业务逻辑理解错误）",
+        "contributing_factors": ["S6缺少数据自洽性校验"],
+        "repair_path": "rollback_and_redo",
+        "repair_actions": ["确认正确的统计口径", "重新计算汇总行", "增加自检规则：表格汇总值必须可由明细行复算验证"]
+      }
+    },
+    {
+      "id": "DS-010",
+      "description": "代码文件交付的函数签名与需求文档定义的接口不一致，根因：获取的接口文档版本过期",
+      "deliverable": "code_file",
+      "defect_type": "requirement_miss",
+      "root_cause_layer": "context",
+      "difficulty": "medium",
+      "input": {
+        "task": "按照接口文档实现 createOrder 函数",
+        "delivered_artifact": "order-service.js 已生成，包含createOrder函数",
+        "defect_signal": "实现的createOrder(userId, items)与最新接口文档的createOrder(userId, items, couponCode, addressId)不匹配，缺少couponCode和addressId参数"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "需求遗漏-接口签名不匹配",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到按接口文档实现createOrder的任务"},
+          {"step": "S2_parse_requirements", "status": "propagated_fault", "detail": "基于过期的接口文档版本解析需求"},
+          {"step": "S3_plan_execution", "status": "propagated_fault", "detail": "按2参数签名规划实现"},
+          {"step": "S4_gather_context", "status": "fault_origin", "detail": "获取到的接口文档是旧版本v1.2而非最新v1.5"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "按旧版接口生成代码"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检对照的也是旧版文档，无法发现差异"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "自检通过"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未做接口签名与最新文档的差异比对"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "接口不匹配的代码被交付"}
+        ],
+        "root_cause_step": "S4_gather_context",
+        "root_cause_analysis": "获取上下文时未验证接口文档的版本时效性，使用了过期版本，属于上下文层缺陷",
+        "contributing_factors": ["S6自检参照物本身有误"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["获取最新接口文档v1.5", "补充couponCode和addressId参数及相关逻辑", "增加自检规则：引用文档时验证版本号"]
+      }
+    },
+    {
+      "id": "DS-011",
+      "description": "报告中的图表描述与实际趋势相反，根因：认知层对负增长的表述倒置",
+      "deliverable": "report",
+      "defect_type": "data_fabrication",
+      "root_cause_layer": "cognition",
+      "difficulty": "hard",
+      "input": {
+        "task": "写一份上月营收趋势分析报告",
+        "delivered_artifact": "报告已生成，含折线图描述和趋势分析",
+        "defect_signal": "报告写'营收呈稳定上升趋势，环比增长5.2%'，但实际数据显示营收环比下降3.8%"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "数据不实-趋势方向描述与实际相反",
+        "severity": "critical"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到营收趋势分析报告任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "需分析营收趋势"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划对比上月/本月数据并描述趋势"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取到正确的营收数据"},
+          {"step": "S5_generate_draft", "status": "fault_origin", "detail": "在描述趋势时将负增长错误表述为正增长，数值和方向均不正确"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未校验文字描述与源数据的一致性"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现描述错误"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "验证未包含数据-文本一致性检查"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "趋势描述颠倒的报告被交付"}
+        ],
+        "root_cause_step": "S5_generate_draft",
+        "root_cause_analysis": "生成文本时认知层面对数据趋势理解和表述出现系统性偏差——倾向于正面表述，属于认知层偏见缺陷",
+        "contributing_factors": ["S6缺少数据-描述一致性验证"],
+        "repair_path": "rollback_and_redo",
+        "repair_actions": ["重新核实营收数据趋势方向", "修正报告为'营收环比下降3.8%'", "增加自检规则：涉及增长/下降趋势时必须回查数据验证方向"]
+      }
+    },
+    {
+      "id": "DS-012",
+      "description": "飞书文档中的代码块语言标记全部丢失，根因：飞书API调用时未传language属性",
+      "deliverable": "feishu_doc",
+      "defect_type": "format_error",
+      "root_cause_layer": "code",
+      "difficulty": "easy",
+      "input": {
+        "task": "把这份API使用指南整理到飞书文档里，代码高亮要清楚",
+        "delivered_artifact": "飞书文档已创建，包含多个代码示例",
+        "defect_signal": "所有代码块都没有语法高亮，显示为纯文本"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "格式错误-代码块缺少语言标记",
+        "severity": "medium"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到整理API指南到飞书文档的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "识别出需要代码高亮"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划创建飞书文档并插入代码块"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取API指南内容"},
+          {"step": "S5_generate_draft", "status": "fault_origin", "detail": "调用飞书API创建code block时未传入language属性"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未验证代码块的语言标记是否设置"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现问题"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未做飞书文档渲染效果检查"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "代码块无高亮的文档被交付"}
+        ],
+        "root_cause_step": "S5_generate_draft",
+        "root_cause_analysis": "调用飞书文档API时code block的language字段未赋值，属于代码层API调用参数缺失",
+        "contributing_factors": ["S6未检查代码块属性完整性"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["逐个更新代码块添加对应language属性", "增加自检规则：代码块必须携带language标记"]
+      }
+    },
+    {
+      "id": "DS-013",
+      "description": "配置变更过程中敏感信息泄露到决策日志，根因：自检规则未覆盖敏感信息脱敏",
+      "deliverable": "config_change",
+      "defect_type": "residual_content",
+      "root_cause_layer": "rule",
+      "difficulty": "hard",
+      "input": {
+        "task": "配置新的数据库连接信息到.env文件",
+        "delivered_artifact": "已更新.env文件的数据库连接配置",
+        "defect_signal": "在决策日志中明文记录了数据库密码 DB_PASSWORD=Pr0d@2026"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "残留内容-敏感信息泄露到日志",
+        "severity": "critical"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到配置数据库连接信息的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "识别出需要配置DB连接字符串"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划写入.env文件"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取数据库连接凭据"},
+          {"step": "S5_generate_draft", "status": "ok", "detail": "正确写入.env文件"},
+          {"step": "S6_self_review", "status": "fault_origin", "detail": "自检过程将操作详情含密码明文写入决策日志，规则集不含敏感信息检测"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现信息泄露"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未检查日志中的敏感信息"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "配置完成但密码已泄露到日志"}
+        ],
+        "root_cause_step": "S6_self_review",
+        "root_cause_analysis": "自检规则集中不包含敏感信息检测规则，导致日志脱敏未执行，属于规则层缺陷",
+        "contributing_factors": ["决策日志未做自动脱敏处理"],
+        "repair_path": "add_guard_rule",
+        "repair_actions": ["清除决策日志中的密码明文", "新增自检规则：所有日志输出必须对PASSWORD/KEY/TOKEN/SECRET类字段脱敏"]
+      }
+    },
+    {
+      "id": "DS-014",
+      "description": "代码文件中硬编码了测试环境API地址，根因：上下文中未区分环境配置",
+      "deliverable": "code_file",
+      "defect_type": "residual_content",
+      "root_cause_layer": "context",
+      "difficulty": "medium",
+      "input": {
+        "task": "写一个调用支付网关的SDK封装",
+        "delivered_artifact": "payment-sdk.js 已生成",
+        "defect_signal": "代码中 API_BASE_URL 硬编码为 http://test-pay.internal:9090，是测试环境地址"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "残留内容-测试环境地址硬编码",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到封装支付网关SDK的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "解析出SDK需要支持多环境"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划使用配置化方式管理API地址"},
+          {"step": "S4_gather_context", "status": "fault_origin", "detail": "上下文中仅包含测试环境信息，未获取到环境配置规范"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "基于上下文中唯一的API地址硬编码为常量"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未包含硬编码URL检测"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现硬编码问题"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未做环境配置合规检查"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "含硬编码测试地址的SDK被交付"}
+        ],
+        "root_cause_step": "S4_gather_context",
+        "root_cause_analysis": "上下文收集阶段未获取完整的环境配置信息，仅有测试环境数据，属于上下文层缺陷",
+        "contributing_factors": ["S6缺少硬编码检测规则"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["将硬编码URL替换为环境变量读取", "增加自检规则：检测代码中的硬编码URL/IP地址"]
+      }
+    },
+    {
+      "id": "DS-015",
+      "description": "报告中表格列顺序与需求描述不一致，根因：格式规范规则中缺少列顺序校验",
+      "deliverable": "report",
+      "defect_type": "format_error",
+      "root_cause_layer": "rule",
+      "difficulty": "easy",
+      "input": {
+        "task": "生成一份功能验收报告，表格按'功能点-状态-负责人-备注'的列顺序",
+        "delivered_artifact": "验收报告已生成，含功能清单表格",
+        "defect_signal": "表格列顺序为'负责人-功能点-备注-状态'，与要求的顺序不一致"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "格式错误-表格列顺序不匹配需求",
+        "severity": "medium"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到生成功能验收报告的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "解析出表格列顺序要求"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划生成符合指定列顺序的表格"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取功能清单和验收数据"},
+          {"step": "S5_generate_draft", "status": "ok", "detail": "生成表格内容，数据正确"},
+          {"step": "S6_self_review", "status": "fault_origin", "detail": "自检规则中不含列顺序校验逻辑，仅检查列名是否存在"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "自检未发现列顺序问题"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "验证未对比列顺序与需求描述"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "列顺序错误的报告被交付"}
+        ],
+        "root_cause_step": "S6_self_review",
+        "root_cause_analysis": "自检规则仅校验列名存在性，不校验列顺序，属于规则层缺陷——规则粒度不足",
+        "contributing_factors": ["S8验证同样缺少结构化格式比对"],
+        "repair_path": "add_guard_rule",
+        "repair_actions": ["调整表格列顺序为需求指定的顺序", "新增自检规则：当需求指定列顺序时验证匹配"]
+      }
+    },
+    {
+      "id": "DS-016",
+      "description": "飞书文档交付后发现内容是英文而用户需要中文",
+      "deliverable": "feishu_doc",
+      "defect_type": "requirement_miss",
+      "root_cause_layer": "cognition",
+      "difficulty": "easy",
+      "input": {
+        "task": "帮我写一份项目启动会的会议纪要",
+        "delivered_artifact": "飞书文档《Project Kickoff Meeting Minutes》已创建",
+        "defect_signal": "整篇文档都是英文，但用户全程用中文交流"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "需求遗漏-语言不匹配",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到写会议纪要的任务"},
+          {"step": "S2_parse_requirements", "status": "fault_origin", "detail": "解析需求时未识别出语言偏好应为中文"},
+          {"step": "S3_plan_execution", "status": "propagated_fault", "detail": "计划生成英文文档"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取会议内容"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "全文生成为英文"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未包含语言一致性校验"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现语言问题"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未校验输出语言与用户交互语言的一致性"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "英文文档被交付给中文用户"}
+        ],
+        "root_cause_step": "S2_parse_requirements",
+        "root_cause_analysis": "需求解析阶段未将用户交互语言作为隐含需求纳入，认知层面缺乏语言偏好推断能力",
+        "contributing_factors": ["S6缺少语言一致性校验"],
+        "repair_path": "rollback_and_redo",
+        "repair_actions": ["以中文重新生成整份文档", "增加自检规则：输出语言须与用户交互语言一致"]
+      }
+    },
+    {
+      "id": "DS-017",
+      "description": "代码文件缺少TypeScript类型定义，但项目是TS项目",
+      "deliverable": "code_file",
+      "defect_type": "format_error",
+      "root_cause_layer": "context",
+      "difficulty": "medium",
+      "input": {
+        "task": "帮我写一个数据校验工具函数",
+        "delivered_artifact": "validator.js 已生成",
+        "defect_signal": "项目tsconfig.json配置了strict模式，但交付的是.js文件而非.ts文件"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "格式错误-文件类型与项目技术栈不匹配",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到编写数据校验工具函数的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "解析出功能需求"},
+          {"step": "S3_plan_execution", "status": "propagated_fault", "detail": "计划生成JS文件"},
+          {"step": "S4_gather_context", "status": "fault_origin", "detail": "未检测到项目使用TypeScript"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "生成纯JavaScript代码"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未做项目技术栈一致性检查"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现技术栈不匹配"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未验证文件扩展名和项目配置的一致性"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": ".js文件被交付给TS项目"}
+        ],
+        "root_cause_step": "S4_gather_context",
+        "root_cause_analysis": "上下文收集未分析项目技术栈配置（tsconfig.json），属于上下文层缺陷",
+        "contributing_factors": ["S3计划未基于项目技术栈选择输出格式"],
+        "repair_path": "rollback_and_redo",
+        "repair_actions": ["将validator.js重写为validator.ts并添加完整类型定义", "增加自检规则：代码交付前检查项目技术栈"]
+      }
+    },
+    {
+      "id": "DS-018",
+      "description": "配置变更中SSL证书路径指向不存在的文件，根因：认知层假设默认路径存在",
+      "deliverable": "config_change",
+      "defect_type": "data_fabrication",
+      "root_cause_layer": "cognition",
+      "difficulty": "medium",
+      "input": {
+        "task": "给Nginx配置HTTPS，加上SSL证书",
+        "delivered_artifact": "已更新nginx.conf，添加ssl_certificate配置",
+        "defect_signal": "ssl_certificate指向/etc/nginx/ssl/server.crt，但该路径不存在任何文件"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "数据不实-引用了不存在的文件路径",
+        "severity": "critical"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到配置Nginx HTTPS的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "需要配置SSL证书路径"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划修改nginx.conf添加SSL配置"},
+          {"step": "S4_gather_context", "status": "partial", "detail": "获取到nginx.conf但未检查SSL证书文件的实际位置"},
+          {"step": "S5_generate_draft", "status": "fault_origin", "detail": "假设SSL证书在默认路径/etc/nginx/ssl/，但该路径实际不存在"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未验证配置中引用的文件路径是否存在"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现路径问题"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未做文件存在性检查"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "引用不存在路径的配置被交付"}
+        ],
+        "root_cause_step": "S5_generate_draft",
+        "root_cause_analysis": "认知层面假设常见默认路径一定存在，未验证实际文件系统状态，属于认知偏见",
+        "contributing_factors": ["S4未获取完整文件系统信息", "S6缺少路径存在性验证"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["检查实际SSL证书文件位置", "更新nginx.conf中的路径", "增加自检规则：配置中引用的所有路径必须做存在性验证"]
+      }
+    },
+    {
+      "id": "DS-019",
+      "description": "报告中引用了已删除的Jira工单号，链接点击后404",
+      "deliverable": "report",
+      "defect_type": "residual_content",
+      "root_cause_layer": "context",
+      "difficulty": "medium",
+      "input": {
+        "task": "写一份本迭代的Bug修复总结报告",
+        "delivered_artifact": "报告已生成，包含12个已修复Bug的列表和链接",
+        "defect_signal": "其中3个Jira链接（PROJ-1234、PROJ-1256、PROJ-1289）点击后404"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "残留内容-引用失效的外部链接",
+        "severity": "medium"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到Bug修复总结报告任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "需要列出已修复Bug和链接"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划从历史记录中收集Bug信息"},
+          {"step": "S4_gather_context", "status": "fault_origin", "detail": "上下文中包含过期的Bug列表，部分工单已被删除或合并"},
+          {"step": "S5_generate_draft", "status": "propagated_fault", "detail": "直接引用上下文中的工单号生成链接"},
+          {"step": "S6_self_review", "status": "missed", "detail": "自检未做外部链接有效性验证"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现失效链接"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "未做链接可达性检查"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "含失效链接的报告被交付"}
+        ],
+        "root_cause_step": "S4_gather_context",
+        "root_cause_analysis": "上下文中的Bug列表信息已过时，未实时验证工单状态，属于上下文层缺陷",
+        "contributing_factors": ["S6缺少链接有效性验证"],
+        "repair_path": "patch_in_place",
+        "repair_actions": ["验证所有Jira链接的可达性", "移除或更新3个失效链接", "增加自检规则：外部链接必须做可达性检查"]
+      }
+    },
+    {
+      "id": "DS-020",
+      "description": "飞书文档权限设置遗漏，交付后用户无法编辑",
+      "deliverable": "feishu_doc",
+      "defect_type": "requirement_miss",
+      "root_cause_layer": "rule",
+      "difficulty": "easy",
+      "input": {
+        "task": "帮我创建一个项目排期飞书文档，我需要编辑它",
+        "delivered_artifact": "飞书文档《项目排期表》已创建",
+        "defect_signal": "用户点开文档发现只有查看权限，无法编辑"
+      },
+      "expected_selfcheck": {
+        "defect_detected": true,
+        "defect_category": "需求遗漏-文档权限未授予编辑权",
+        "severity": "high"
+      },
+      "expected_execution_chain": {
+        "chain": [
+          {"step": "S1_receive_task", "status": "ok", "detail": "接收到创建项目排期飞书文档的任务"},
+          {"step": "S2_parse_requirements", "status": "ok", "detail": "识别出用户需要编辑权限"},
+          {"step": "S3_plan_execution", "status": "ok", "detail": "计划创建文档并设置权限"},
+          {"step": "S4_gather_context", "status": "ok", "detail": "获取用户信息"},
+          {"step": "S5_generate_draft", "status": "ok", "detail": "文档内容创建成功"},
+          {"step": "S6_self_review", "status": "fault_origin", "detail": "自检规则集中不含权限验证步骤，未检查是否已授予编辑权"},
+          {"step": "S7_apply_fix", "status": "skipped", "detail": "未发现权限问题"},
+          {"step": "S8_final_validate", "status": "missed", "detail": "验证仅检查文档内容，未检查权限设置"},
+          {"step": "S9_deliver", "status": "delivered_with_defect", "detail": "用户无编辑权的文档被交付"}
+        ],
+        "root_cause_step": "S6_self_review",
+        "root_cause_analysis": "自检规则集不含飞书文档权限验证步骤，属于规则

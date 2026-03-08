@@ -1,0 +1,24 @@
+{
+  "workspace": "/root/.openclaw/workspace",
+  "commands": [
+    {
+      "cmd": "cd /root/.openclaw/workspace/skills/aeo/src/evaluation && node test-intent-llm-primary.cjs",
+      "exit_code": 0
+    },
+    {
+      "cmd": "cd /root/.openclaw/workspace && node skills/isc-core/handlers/eval-quality-check.js",
+      "exit_code": 1
+    }
+  ],
+  "validation": {
+    "llm_primary_only_final_judgment": true,
+    "keyword_regex_aux_only": true,
+    "e2e_success_rate_output_available": true,
+    "production_path_not_interfered": true
+  },
+  "blockers": [
+    "统一 eval-quality-check 当前会扫描全量 evaluation-sets，存在大量历史数据结构不兼容（standard.json 无 items、test-cases 缺少 input/query/chunk），导致总状态 FAIL。",
+    "当前已验证 intent-architecture-alignment 通过，但尚未看到一个专门面向“LLM主基座评测”统一入口的全量 benchmark runner 汇总成功率输出；现有可复跑的是定向验证脚本 test-intent-llm-primary.cjs。",
+    "test-intent-llm-primary.cjs 为单case E2E验证，可证明 runner 能输出通过/失败，但端到端成功率目前只能从该脚本样本层面得到 1/1=100%，缺少多case聚合 runner 的现成输出。"
+  ]
+}

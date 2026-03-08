@@ -1,0 +1,39 @@
+{
+  "skill": "api",
+  "generatedAt": "2026-03-06T13:41:37.006Z",
+  "cases": [
+    {
+      "id": "tc_001",
+      "track": "function_quality_track",
+      "dimension": "availability",
+      "input": {
+        "action": "验证 api 在 availability 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
+    },
+    {
+      "id": "tc_002",
+      "track": "function_quality_track",
+      "dimension": "performance",
+      "input": {
+        "action": "验证 api 在 performance 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
+    },
+    {
+      "id": "tc_003",
+      "track": "function_quality_track",
+      "dimension": "correctness",
+      "input": {
+        "action": "验证 api 在 correctness 维度的功能表现"
+      },
+      "expected": {
+        "quality": "pass"
+      }
+    }
+  ]
+}

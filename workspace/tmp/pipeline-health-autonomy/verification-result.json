@@ -1,0 +1,275 @@
+{
+  "routeRulePresent": true,
+  "routePatterns": [
+    "dispatcher.manual_queue.enqueued",
+    "dispatcher.handler.failed",
+    "dispatcher.route.failed",
+    "system.warning",
+    "system.error",
+    "system.risk",
+    "system.check.failed",
+    "warning.*",
+    "error.*",
+    "risk.*",
+    "*.warning",
+    "*.error",
+    "*.risk",
+    "*.check.failed",
+    "*.system.check.failed"
+  ],
+  "inventory": [
+    {
+      "type": "event-bus.health.failed",
+      "coveredByGlobalP1Route": false,
+      "rationale": "not matched by existing global P1 route patterns"
+    },
+    {
+      "type": "health.check.failed",
+      "coveredByGlobalP1Route": true,
+      "rationale": "matched by existing wildcard/explicit route patterns"
+    },
+    {
+      "type": "system.eventbus.backlog_threshold_crossed",
+      "coveredByGlobalP1Route": false,
+      "rationale": "not matched by existing global P1 route patterns"
+    },
+    {
+      "type": "pipeline.health.failed",
+      "coveredByGlobalP1Route": false,
+      "rationale": "not matched by existing global P1 route patterns"
+    },
+    {
+      "type": "pipeline.stage.failed",
+      "coveredByGlobalP1Route": false,
+      "rationale": "not matched by existing global P1 route patterns"
+    },
+    {
+      "type": "pipeline.queue.backlog.warning",
+      "coveredByGlobalP1Route": true,
+      "rationale": "matched by existing wildcard/explicit route patterns"
+    }
+  ],
+  "gapAnalysis": {
+    "missingStandardEvents": [
+      "event-bus.health.failed",
+      "system.eventbus.backlog_threshold_crossed",
+      "pipeline.health.failed",
+      "pipeline.stage.failed"
+    ],
+    "recommendation": "应将缺失的 pipeline/health 标准事件加入 global-p1-system-signals 路由，确保异常自动进 auto-repair task queue"
+  },
+  "directResults": [
+    {
+      "eventType": "pipeline.health.failed",
+      "result": {
+        "success": true,
+        "taskId": "repair_4cea47c79b61",
+        "reviewId": "review_dbdd0af4eee1",
+        "sandbox": true,
+        "status": "verified"
+      }
+    },
+    {
+      "eventType": "pipeline.queue.backlog.warning",
+      "result": {
+        "success": true,
+        "taskId": "repair_3c73c1efb20e",
+        "reviewId": "review_3f6e26233190",
+        "sandbox": true,
+        "status": "verified"
+      }
+    }
+  ],
+  "thresholdReplay": {
+    "scan": {
+      "scanned": 1,
+      "triggered": 1,
+      "details": [
+        {
+          "id": "sandbox-pipeline-backlog-check",
+          "status": "triggered",
+          "value": 0
+        }
+      ]
+    },
+    "replayed": [
+      {
+        "eventType": "system.eventbus.backlog_threshold_crossed",
+        "thresholdId": "sandbox-pipeline-backlog-check",
+        "result": {
+          "success": true,
+          "taskId": "repair_966dc8d9eafe",
+          "reviewId": "review_6a8bdd758cec",
+          "sandbox": true,
+          "status": "verified"
+        }
+      }
+    ]
+  },
+  "proof": {
+    "generatedTaskQueue": [
+      {
+        "id": "repair_4cea47c79b61",
+        "title": "[GlobalIncident] pipeline.health.failed:pipeline-run-176...",
+        "kind": "pipeline.health.failed",
+        "severity": "error",
+        "entityId": "pipeline-run-generated-via-direct-result",
+        "source": "global-event-escalation",
+        "status": "verified",
+        "closure": {
+          "dispatched": true,
+          "repaired": true,
+          "verified": true,
+          "reviewed": true,
+          "mode": "sandbox"
+        }
+      },
+      {
+        "id": "repair_3c73c1efb20e",
+        "title": "[GlobalIncident] pipeline.queue.backlog.warning:pipeline-queue",
+        "kind": "pipeline.queue.backlog.warning",
+        "severity": "error",
+        "entityId": "pipeline-queue",
+        "source": "global-event-escalation",
+        "status": "verified",
+        "closure": {
+          "dispatched": true,
+          "repaired": true,
+          "verified": true,
+          "reviewed": true,
+          "mode": "sandbox"
+        }
+      },
+      {
+        "id": "repair_966dc8d9eafe",
+        "title": "[GlobalIncident] system.eventbus.backlog_threshold_crossed:threshold-sandbox-pipeline-backlog-check",
+        "kind": "system.eventbus.backlog_threshold_crossed",
+        "severity": "warning",
+        "entityId": "threshold-sandbox-pipeline-backlog-check",
+        "source": "global-event-escalation",
+        "status": "verified",
+        "closure": {
+          "dispatched": true,
+          "repaired": true,
+          "verified": true,
+          "reviewed": true,
+          "mode": "sandbox"
+        }
+      }
+    ],
+    "generatedReviews": [
+      {
+        "id": "review_dbdd0af4eee1",
+        "taskId": "repair_4cea47c79b61",
+        "status": "approved",
+        "eventType": "pipeline.health.failed"
+      },
+      {
+        "id": "review_6a8bdd758cec",
+        "taskId": "repair_966dc8d9eafe",
+        "status": "approved",
+        "eventType": "system.eventbus.backlog_threshold_crossed"
+      }
+    ],
+    "counters": {
+      "newTaskCount": 0,
+      "newReviewCount": 2,
+      "newAlertCount": 176,
+      "newReportCount": 199,
+      "newExecutionCount": 221
+    },
+    "pass": false
+  },
+  "latestTasks": [
+    {
+      "id": "repair_1027db27f1b5",
+      "kind": "manual-queue.item.stale",
+      "entityId": "evt_mmeeoemt_keh1dx",
+      "source": "global-event-escalation"
+    },
+    {
+      "id": "repair_c91f441cdb9c",
+      "kind": "manual-queue.item.stale",
+      "entityId": "evt_mmees9n2_tdkqlf",
+      "source": "global-event-escalation"
+    },
+    {
+      "id": "repair_62aab2e5e9bc",
+      "kind": "manual-queue.item.stale",
+      "entityId": "evt_mmefsh2s_ndv0iv",
+      "source": "global-event-escalation"
+    },
+    {
+      "id": "repair_648fc0bf7d76",
+      "kind": "manual-queue.item.stale",
+      "entityId": "evt_mmefsh2t_gk8bp0",
+      "source": "global-event-escalation"
+    },
+    {
+      "id": "repair_40c420df6068",
+      "kind": "manual-queue.item.stale",
+      "entityId": "evt_mmefsh2u_6ue74u",
+      "source": "global-event-escalation"
+    },
+    {
+      "id": "repair_3f7fcb85332f",
+      "kind": "manual-queue.item.stale",
+      "entityId": "evt_mmeftkgg_aajioe",
+      "source": "global-event-escalation"
+    },
+    {
+      "id": "repair_21df7adfa8e8",
+      "kind": "manual-queue.item.stale",
+      "entityId": "evt_mmefxfg7_4whnt1",
+      "source": "global-event-escalation"
+    },
+    {
+      "id": "repair_32d3710491d4",
+      "kind": "manual-queue.item.stale",
+      "entityId": "evt_mmefzzeo_3hcmbi",
+      "source": "global-event-escalation"
+    }
+  ],
+  "latestReviews": [
+    {
+      "id": "review_107b1a87700b",
+      "taskId": "repair_a7d8028e5a86",
+      "eventType": "manual.queue.item.created"
+    },
+    {
+      "id": "review_24c18b79621a",
+      "taskId": "repair_8d558ec7eddd",
+      "eventType": "manual.queue.item.created"
+    },
+    {
+      "id": "review_8c1ac7c43aab",
+      "taskId": "repair_3b45706b1720",
+      "eventType": "manual.queue.item.created"
+    },
+    {
+      "id": "review_ef94439a5e82",
+      "taskId": "repair_c5d1b94330ea",
+      "eventType": "manual.queue.item.created"
+    },
+    {
+      "id": "review_c9b41ab4a23b",
+      "taskId": "repair_25727bc8f386",
+      "eventType": "manual.queue.item.created"
+    },
+    {
+      "id": "review_a9b4a408306d",
+      "taskId": "repair_794a835a2c89",
+      "eventType": "manual.queue.item.created"
+    },
+    {
+      "id": "review_dbdd0af4eee1",
+      "taskId": "repair_4cea47c79b61",
+      "eventType": "pipeline.health.failed"
+    },
+    {
+      "id": "review_6a8bdd758cec",
+      "taskId": "repair_966dc8d9eafe",
+      "eventType": "system.eventbus.backlog_threshold_crossed"
+    }
+  ]
+}

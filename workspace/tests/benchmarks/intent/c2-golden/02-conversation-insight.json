@@ -1,0 +1,739 @@
+[
+  {
+    "id": "conversation-insight-001",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：每次让你改CSS你都用!important，我说过不要用这个\nAgent：好的，我会注意\n用户：你上次也这么说的，这次又用了\n用户：能不能彻底记住这个规则？",
+    "expected_execution_chain": [
+      "1. 检测到用户重复纠偏信号：'每次'+'上次也这么说'模式匹配",
+      "2. 自动提取纠偏主题：CSS编写规范→禁止使用!important",
+      "3. 回溯历史对话验证：搜索近期对话中!important相关修改记录",
+      "4. 确认重复违规次数≥2，触发长效固化流程",
+      "5. 生成ISC规则草稿：{scope: 'css', rule: 'never-use-important', severity: 'block'}",
+      "6. 读取现有ISC规则文件，检查是否已有CSS相关约束",
+      "7. 合并去重：与现有CSS规则集进行冲突检测",
+      "8. 写入ISC规则文件，附带来源对话ID和时间戳",
+      "9. 自动验证：对当前项目CSS文件扫描!important用法",
+      "10. 生成修复建议列表（如有现存违规）",
+      "11. 向用户确认规则已固化，展示规则内容和生效范围",
+      "12. 记录固化事件到MEMORY日志，标注触发源为重复纠偏"
+    ],
+    "badcase_conditions": [
+      "仅口头回复'好的我记住了'但未写入任何持久化文件",
+      "写入MEMORY但未生成可执行的ISC拦截规则",
+      "未回溯历史对话验证重复次数，直接固化"
+    ],
+    "pass_criteria": "成功将禁止!important规则写入ISC文件，且后续CSS修改自动触发拦截检查",
+    "required_capabilities": ["多轮对话模式识别", "ISC规则生成", "历史对话回溯", "文件读写"]
+  },
+  {
+    "id": "conversation-insight-002",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：我注意到你最近回复越来越长了，我之前说过我喜欢简洁的回复\n用户：三句话能说清的事情你写了两段\n用户：把这个偏好固化下来",
+    "expected_execution_chain": [
+      "1. 识别情绪信号：用户语气含不满（'越来越长了'+'之前说过'）",
+      "2. 提取偏好主题：回复风格→简洁优先",
+      "3. 回溯历史对话搜索用户关于回复长度的历史表达",
+      "4. 量化分析：对比近期回复平均长度与早期回复长度",
+      "5. 确认偏好漂移：Agent回复确实逐渐变长",
+      "6. 读取SOUL.md当前内容",
+      "7. 生成SOUL.md修改草稿：添加'回复风格：简洁优先，三句话原则'",
+      "8. 检查SOUL.md中是否有矛盾的风格指令",
+      "9. 写入SOUL.md，保留原有人格特征",
+      "10. 生成自检规则：回复超过150字时触发精简提示",
+      "11. 向用户展示修改diff和新规则",
+      "12. 记录到MEMORY：偏好固化事件+触发原因+生效时间"
+    ],
+    "badcase_conditions": [
+      "仅修改MEMORY而未修改SOUL.md中的风格指令",
+      "覆盖了SOUL.md中其他人格特征",
+      "未进行量化分析直接固化，缺乏证据支撑"
+    ],
+    "pass_criteria": "SOUL.md中新增简洁回复偏好，且后续回复自动遵循三句话原则",
+    "required_capabilities": ["情绪信号检测", "SOUL.md读写", "回复风格量化分析", "diff展示"]
+  },
+  {
+    "id": "conversation-insight-003",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你帮我改的那个函数又出bug了\nAgent：哪个函数？\n用户：就是上周改的processOrder，你把错误处理去掉了\n用户：你每次重构都会丢错误处理，这是第三次了",
+    "expected_execution_chain": [
+      "1. 检测重复纠偏信号：'每次重构都会'+'第三次'",
+      "2. 提取架构原则：重构时必须保留错误处理逻辑",
+      "3. 回溯git log搜索processOrder相关commit",
+      "4. 对比diff确认错误处理代码确实被删除",
+      "5. 搜索历史对话中类似'丢错误处理'的投诉记录",
+      "6. 确认重复模式：≥3次同类问题",
+      "7. 生成ISC规则：{scope: 'refactor', rule: 'preserve-error-handling', check: 'diff-based'}",
+      "8. 读取现有ISC规则，检查refactor类别下的现有规则",
+      "9. 写入ISC规则文件，设置优先级为high",
+      "10. 生成pre-commit hook逻辑：检测重构时try-catch/error块是否被移除",
+      "11. 修复当前processOrder函数，恢复错误处理",
+      "12. 向用户报告：规则已固化+当前bug已修复+展示防护机制"
+    ],
+    "badcase_conditions": [
+      "只修复了当前bug但未建立长效防护机制",
+      "ISC规则过于宽泛（如'重构时注意'），缺乏可执行的检查逻辑",
+      "未通过git log验证历史重复性"
+    ],
+    "pass_criteria": "ISC规则生成并包含diff检查逻辑，后续重构自动检测错误处理代码是否被移除",
+    "required_capabilities": ["git历史分析", "ISC规则生成", "代码diff分析", "pre-commit逻辑设计"]
+  },
+  {
+    "id": "conversation-insight-004",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：这个API设计不对，我们项目用RESTful不用GraphQL\n用户：上个月你也建议过GraphQL，我当时就否了\n用户：记住我们的技术栈选型",
+    "expected_execution_chain": [
+      "1. 识别技术栈偏好信号：明确否定GraphQL，确认RESTful",
+      "2. 回溯历史对话搜索GraphQL相关讨论",
+      "3. 确认历史否定记录存在（上个月）",
+      "4. 读取项目README.md和技术栈文档",
+      "5. 提取完整技术栈清单：API风格=RESTful",
+      "6. 生成MEMORY条目：{project_tech_stack: {api: 'restful', rejected: ['graphql']}}",
+      "7. 生成ISC规则：{scope: 'api-design', rule: 'restful-only', block: ['graphql']}",
+      "8. 检查MEMORY中是否已有技术栈记录，执行合并",
+      "9. 写入MEMORY和ISC文件",
+      "10. 扫描当前项目中是否有GraphQL相关依赖或代码",
+      "11. 如有则生成清理建议",
+      "12. 向用户确认固化内容：技术栈=RESTful，GraphQL已加入拒绝列表"
+    ],
+    "badcase_conditions": [
+      "仅记住'不用GraphQL'但未记录'用RESTful'（只记否定不记肯定）",
+      "未检查项目中现有GraphQL残留",
+      "固化到SOUL.md而非项目级MEMORY（技术栈是项目级非人格级）"
+    ],
+    "pass_criteria": "技术栈偏好写入项目级MEMORY和ISC，后续API设计建议自动过滤GraphQL",
+    "required_capabilities": ["技术栈识别", "项目文档读取", "MEMORY写入", "ISC规则生成"]
+  },
+  {
+    "id": "conversation-insight-005",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：算了，我自己来吧\n用户：你给的方案太复杂了，我只是想加个简单的缓存\n用户：你总是过度设计",
+    "expected_execution_chain": [
+      "1. 检测强情绪信号：'算了我自己来吧'=放弃+不满",
+      "2. 提取根因：方案过度设计，复杂度超出需求",
+      "3. 回溯当前对话上下文：找到Agent给出的方案",
+      "4. 分析方案复杂度：识别不必要的抽象层/设计模式",
+      "5. 搜索历史对话中'过度设计'/'太复杂'相关反馈",
+      "6. 统计过度设计投诉频率",
+      "7. 生成SOUL.md修改草稿：添加'方案设计原则：KISS优先，简单方案>优雅方案'",
+      "8. 生成ISC规则：{scope: 'solution-design', rule: 'simplicity-first', trigger: 'complexity-threshold'}",
+      "9. 读取现有SOUL.md检查冲突",
+      "10. 写入SOUL.md和ISC规则",
+      "11. 重新生成简化版缓存方案作为补救",
+      "12. 向用户展示：已固化简洁原则+提供简化方案+道歉"
+    ],
+    "badcase_conditions": [
+      "只道歉不固化",
+      "固化内容过于模糊（'注意简洁'而非可检查的规则）",
+      "未重新提供简化方案就结束对话"
+    ],
+    "pass_criteria": "SOUL.md新增KISS原则，ISC包含复杂度阈值检查，且提供了简化替代方案",
+    "required_capabilities": ["情绪信号检测", "方案复杂度评估", "SOUL.md修改", "补救方案生成"]
+  },
+  {
+    "id": "conversation-insight-006",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你能分析下最近几次对话，看看你有什么反复犯的错误吗\n用户：主动做个自检报告",
+    "expected_execution_chain": [
+      "1. 识别元指令：用户要求主动自检而非具体任务",
+      "2. 扫描近30天对话历史记录",
+      "3. 提取所有用户纠偏/否定/不满表达",
+      "4. 聚类分析：按主题归类重复问题",
+      "5. 排序：按频率和严重性排列",
+      "6. 读取现有ISC规则和MEMORY，标注哪些已固化",
+      "7. 识别未固化的重复问题（固化缺口）",
+      "8. 为每个未固化问题生成规则草稿",
+      "9. 生成自检报告markdown文档",
+      "10. 批量写入新ISC规则（用户确认后）",
+      "11. 更新MEMORY：添加自检报告摘要和时间戳",
+      "12. 向用户呈现报告：已固化/未固化/建议新增规则清单"
+    ],
+    "badcase_conditions": [
+      "编造不存在的错误模式（无中生有）",
+      "只列出问题不生成可执行的固化规则",
+      "未区分已固化和未固化的问题"
+    ],
+    "pass_criteria": "输出结构化自检报告，包含问题分类、频率、现有固化状态、新增规则建议",
+    "required_capabilities": ["大规模对话回溯", "模式聚类", "ISC规则批量生成", "报告生成"]
+  },
+  {
+    "id": "conversation-insight-007",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：我发现你回复代码时从来不加注释\n用户：我们团队规范要求关键逻辑必须有注释\n用户：以后所有代码都要加",
+    "expected_execution_chain": [
+      "1. 检测编码规范需求信号：'团队规范'+'所有代码都要'",
+      "2. 提取规范要求：代码注释→关键逻辑必须添加",
+      "3. 搜索项目中的.editorconfig/.eslintrc等规范文件",
+      "4. 检查是否已有注释相关lint规则",
+      "5. 回溯近期代码输出验证：确认确实缺少注释",
+      "6. 生成ISC规则：{scope: 'code-output', rule: 'require-comments', target: 'critical-logic'}",
+      "7. 定义'关键逻辑'判定标准（条件分支/错误处理/算法核心）",
+      "8. 读取现有ISC规则检查冲突",
+      "9. 写入ISC规则文件",
+      "10. 回溯修复：对最近一次代码输出补充注释作为示例",
+      "11. 更新MEMORY：团队编码规范→注释要求",
+      "12. 向用户确认规则内容和'关键逻辑'定义标准"
+    ],
+    "badcase_conditions": [
+      "给所有代码行都加注释（过度响应）",
+      "规则中未定义'关键逻辑'的具体判定标准",
+      "未检查项目现有lint配置导致规则冲突"
+    ],
+    "pass_criteria": "ISC规则包含注释要求和关键逻辑判定标准，后续代码输出自动在关键位置添加注释",
+    "required_capabilities": ["编码规范识别", "ISC规则生成", "项目配置检查", "代码注释生成"]
+  },
+  {
+    "id": "conversation-insight-008",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：\nAgent：好的，我来帮你处理\n用户：你在回复什么？我还没说完\n用户：你不要抢答，等我说完再回",
+    "expected_execution_chain": [
+      "1. 检测对话异常：用户第一条消息为空或不完整",
+      "2. 识别纠偏信号：'抢答'+'等我说完'",
+      "3. 分析根因：Agent对空/不完整消息过早响应",
+      "4. 回溯检查：是否有类似的提前响应记录",
+      "5. 生成SOUL.md修改：添加'对话原则：不对空消息或不完整输入做实质性响应'",
+      "6. 生成ISC规则：{scope: 'response-timing', rule: 'wait-for-complete-input', check: 'message-completeness'}",
+      "7. 定义不完整输入的判定标准（空消息/末尾未结束/明显截断）",
+      "8. 读取SOUL.md检查已有对话原则",
+      "9. 合并写入SOUL.md和ISC",
+      "10. 生成适当的等待提示模板：'看起来您还在输入，我等您说完~'",
+      "11. 更新MEMORY记录此次纠偏事件",
+      "12. 向用户道歉并确认规则已固化"
+    ],
+    "badcase_conditions": [
+      "对空消息正常处理而非识别为异常输入",
+      "固化规则但未定义不完整输入的判定标准",
+      "过度修正：对所有短消息都要求确认是否说完"
+    ],
+    "pass_criteria": "空消息/不完整输入触发等待而非直接响应，SOUL.md包含对话节奏原则",
+    "required_capabilities": ["对话异常检测", "输入完整性判定", "SOUL.md修改", "响应模板生成"]
+  },
+  {
+    "id": "conversation-insight-009",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你推荐的lodash方法已经deprecated了\n用户：上周你也推荐了一个过时的API\n用户：能不能在推荐之前先查一下最新文档？",
+    "expected_execution_chain": [
+      "1. 检测知识过时信号：'deprecated'+'过时的API'",
+      "2. 识别重复模式：'上周你也'表示非首次",
+      "3. 回溯历史查找上周的过时API推荐记录",
+      "4. 分析根因：训练数据截止导致的知识滞后",
+      "5. 生成ISC规则：{scope: 'api-recommendation', rule: 'verify-before-recommend', action: 'check-docs'}",
+      "6. 定义验证流程：推荐API/方法前自动web_search检查当前状态",
+      "7. 建立常用库的版本跟踪列表（lodash/react/node等）",
+      "8. 写入ISC规则文件",
+      "9. 更新MEMORY：标注已知过时API列表",
+      "10. 查询lodash当前最新文档，找到替代方法",
+      "11. 向用户提供正确的替代方案",
+      "12. 确认固化内容：推荐前验证机制+已知过时API列表"
+    ],
+    "badcase_conditions": [
+      "承认错误但未建立验证机制",
+      "验证机制不包含具体的检查动作（如web_search）",
+      "未提供当前问题的正确替代方案"
+    ],
+    "pass_criteria": "ISC包含推荐前验证规则，后续API推荐自动触发文档检查流程",
+    "required_capabilities": ["知识时效性检测", "web搜索验证", "ISC规则生成", "API文档查询"]
+  },
+  {
+    "id": "conversation-insight-010",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：我看了你写的MEMORY，里面记了一堆没用的信息\n用户：什么'用户今天心情不错'这种不要记\n用户：只记技术决策和项目偏好",
+    "expected_execution_chain": [
+      "1. 检测MEMORY管理元指令：用户对记忆策略不满",
+      "2. 提取规则：MEMORY只记录技术决策和项目偏好",
+      "3. 读取当前MEMORY.md全文",
+      "4. 识别并标记不符合新标准的条目（情绪/闲聊/非技术）",
+      "5. 生成清理方案：列出待删除条目",
+      "6. 修改SOUL.md：添加'记忆策略：仅记录技术决策、项目偏好、编码规范'",
+      "7. 生成ISC规则：{scope: 'memory-write', rule: 'technical-only', filter: ['emotion', 'casual']}",
+      "8. 读取现有SOUL.md检查记忆相关指令",
+      "9. 写入SOUL.md和ISC规则",
+      "10. 执行MEMORY清理：移除标记条目",
+      "11. 生成清理报告：删除了N条，保留了M条",
+      "12. 向用户确认新记忆策略和清理结果"
+    ],
+    "badcase_conditions": [
+      "删除了所有MEMORY内容而非选择性清理",
+      "新策略未写入SOUL.md（下次还会记录无用信息）",
+      "未给用户看清理方案就直接删除"
+    ],
+    "pass_criteria": "MEMORY清理完成，SOUL.md包含记忆策略，后续自动过滤非技术内容",
+    "required_capabilities": ["MEMORY内容分析", "分类过滤", "SOUL.md修改", "批量清理"]
+  },
+  {
+    "id": "conversation-insight-011",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你给我的SQL总是没有加索引建议\n用户：在生产环境大表上跑全表扫描很危险\n用户：以后给SQL方案时必须附带索引分析",
+    "expected_execution_chain": [
+      "1. 检测需求缺口信号：'总是没有'+'必须附带'",
+      "2. 提取需求：SQL方案输出→必须包含索引分析",
+      "3. 回溯近期SQL相关对话，验证确实缺少索引建议",
+      "4. 分析缺口原因：默认输出模板未包含性能分析部分",
+      "5. 生成ISC规则：{scope: 'sql-output', rule: 'require-index-analysis', severity: 'block'}",
+      "6. 定义索引分析模板：包含EXPLAIN计划、建议索引、大表警告",
+      "7. 生成SQL输出检查清单：查询→索引→性能评估→风险提示",
+      "8. 读取现有ISC规则检查SQL相关规则",
+      "9. 写入ISC规则和输出模板",
+      "10. 更新MEMORY：数据库操作安全规范",
+      "11. 对当前对话中的SQL补充索引分析作为示例",
+      "12. 向用户确认规则和模板内容"
+    ],
+    "badcase_conditions": [
+      "只记住'加索引'但未生成结构化的分析模板",
+      "ISC规则未设为blocking级别（安全相关应阻断）",
+      "未回溯验证历史SQL输出的问题"
+    ],
+    "pass_criteria": "后续SQL输出自动包含索引分析部分，缺少时ISC阻断并提示",
+    "required_capabilities": ["SQL分析", "ISC规则生成", "输出模板设计", "性能评估"]
+  },
+  {
+    "id": "conversation-insight-012",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：这个部署脚本你用了root用户\n用户：我们线上禁止用root，这是安全红线\n用户：上次你写的docker-compose也是root\n用户：把这个安全约束永久记住",
+    "expected_execution_chain": [
+      "1. 检测安全红线信号：'安全红线'+'禁止'+'永久记住'",
+      "2. 提取安全规则：部署/容器环境禁止使用root用户",
+      "3. 回溯验证：搜索上次docker-compose文件确认root问题",
+      "4. 评估影响范围：所有部署脚本、Dockerfile、docker-compose、K8s配置",
+      "5. 生成ISC规则：{scope: 'deployment', rule: 'no-root', severity: 'critical', block: true}",
+      "6. 定义检测模式：USER root/--privileged/securityContext.runAsRoot等",
+      "7. 读取现有安全类ISC规则",
+      "8. 写入ISC规则，设置最高优先级",
+      "9. 扫描当前项目所有部署相关文件查找root用法",
+      "10. 生成修复方案：替换为非特权用户配置",
+      "11. 更新MEMORY：安全红线清单",
+      "12. 向用户报告：规则固化+现有违规扫描结果+修复建议"
+    ],
+    "badcase_conditions": [
+      "规则severity未设为critical（安全红线应最高级）",
+      "检测范围仅覆盖shell脚本未覆盖Dockerfile/K8s",
+      "未扫描项目现有文件查找已有违规"
+    ],
+    "pass_criteria": "ISC安全红线规则（critical级）写入，覆盖所有部署配置类型，现有违规被扫描并报告",
+    "required_capabilities": ["安全规则识别", "多文件类型扫描", "ISC critical规则", "部署配置分析"]
+  },
+  {
+    "id": "conversation-insight-013",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你把我的函数改成了class，我不喜欢OOP风格\n用户：我们这个项目全部用函数式\n用户：以后写代码保持FP风格",
+    "expected_execution_chain": [
+      "1. 检测代码风格偏好信号：'不喜欢OOP'+'全部用函数式'",
+      "2. 提取架构原则：项目采用FP（函数式编程）风格",
+      "3. 扫描项目代码验证：统计class vs function使用比例",
+      "4. 确认项目确实以FP为主",
+      "5. 生成ISC规则：{scope: 'code-style', rule: 'fp-only', block: ['class', 'OOP-patterns']}",
+      "6. 定义FP风格检查清单：纯函数/不可变/无class/组合优先",
+      "7. 读取项目eslint配置检查是否有FP相关插件",
+      "8. 写入ISC规则",
+      "9. 更新MEMORY：项目架构风格=函数式",
+      "10. 修复当前代码：将class改回函数式实现",
+      "11. 建议添加eslint-plugin-fp到项目配置",
+      "12. 向用户确认修复结果和规则内容"
+    ],
+    "badcase_conditions": [
+      "仅记住'不用class'但未理解完整FP原则（不可变/纯函数等）",
+      "将所有文件的class都改了（可能有些依赖需要class）",
+      "未区分项目代码和第三方依赖的class使用"
+    ],
+    "pass_criteria": "ISC包含FP风格规则和检查清单，后续代码输出自动采用函数式风格",
+    "required_capabilities": ["代码风格分析", "FP/OOP判定", "ISC规则生成", "代码重构"]
+  },
+  {
+    "id": "conversation-insight-014",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你帮我发的那条消息措辞不对\n用户：我对客户说话要正式一些\n用户：以后帮我写对外消息用书面语",
+    "expected_execution_chain": [
+      "1. 检测沟通风格需求：'对客户'+'正式'+'书面语'",
+      "2. 区分场景：对外沟通=正式书面语，非全局风格",
+      "3. 回溯查找刚发送的消息内容",
+      "4. 分析措辞问题：哪些表达过于口语化",
+      "5. 生成SOUL.md修改：添加场景化风格规则（对外=正式，对内=按现有风格）",
+      "6. 生成ISC规则：{scope: 'external-communication', rule: 'formal-tone', trigger: 'message-send'}",
+      "7. 定义'正式书面语'特征：无口语缩写/无emoji/敬语/完整句式",
+      "8. 读取SOUL.md现有风格描述",
+      "9. 合并写入SOUL.md（注意不覆盖对内风格）",
+      "10. 写入ISC规则",
+      "11. 重新生成一版正式措辞的消息供用户审核",
+      "12. 更新MEMORY：场景化沟通风格偏好"
+    ],
+    "badcase_conditions": [
+      "将全部回复都改为正式风格（未区分对内对外）",
+      "未重新提供修正版消息",
+      "正式书面语标准缺乏可判定的具体特征"
+    ],
+    "pass_criteria": "SOUL.md包含场景化风格规则，对外消息自动切换正式语气，对内对话不受影响",
+    "required_capabilities": ["场景化风格识别", "SOUL.md条件化修改", "消息重写", "语气分析"]
+  },
+  {
+    "id": "conversation-insight-015",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你上次给的方案用了AWS Lambda\n用户：我们公司用的是阿里云，不是AWS\n用户：把我们的云服务商信息记好",
+    "expected_execution_chain": [
+      "1. 检测环境信息错误：推荐了错误的云服务商",
+      "2. 提取项目环境：云服务商=阿里云",
+      "3. 回溯上次方案确认Lambda推荐记录",
+      "4. 映射等价服务：Lambda→阿里云函数计算FC",
+      "5. 生成MEMORY条目：{infra: {cloud: 'aliyun', services: {}}}",
+      "6. 生成ISC规则：{scope: 'cloud-services', rule: 'aliyun-only', block: ['aws', 'gcp', 'azure']}",
+      "7. 建立云服务映射表：AWS→阿里云对照关系",
+      "8. 读取项目配置文件确认阿里云相关配置",
+      "9. 写入MEMORY和ISC规则",
+      "10. 重新生成使用阿里云FC的方案",
+      "11. 将映射表附加到MEMORY供未来参考",
+      "12. 向用户确认环境信息固化+新方案"
+    ],
+    "badcase_conditions": [
+      "只记住'不用AWS'但未建立阿里云服务映射",
+      "MEMORY条目不够结构化，后续难以检索",
+      "未重新提供阿里云版本的方案"
+    ],
+    "pass_criteria": "MEMORY包含完整云服务商信息和映射表，后续方案自动使用阿里云服务",
+    "required_capabilities": ["云服务商识别", "服务映射", "MEMORY结构化写入", "方案重生成"]
+  },
+  {
+    "id": "conversation-insight-016",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你回复的测试用例只有happy path\n用户：从来不写edge case\n用户：以后测试必须包含边界条件和异常路径",
+    "expected_execution_chain": [
+      "1. 检测测试质量需求缺口：'只有happy path'+'从来不写edge case'",
+      "2. 提取需求：测试用例必须包含边界条件和异常路径",
+      "3. 回溯近期测试代码验证缺口",
+      "4. 分析常见边界条件类型：null/空/极值/并发/超时/权限",
+      "5. 生成ISC规则：{scope: 'test-output', rule: 'require-edge-cases', minimum: 3}",
+      "6. 定义测试输出模板：happy path + edge cases + error paths + boundary",
+      "7. 生成测试覆盖检查清单",
+      "8. 读取现有ISC规则检查测试相关规则",
+      "9. 写入ISC规则和模板",
+      "10. 对最近的测试代码补充edge case作为示例",
+      "11. 更新MEMORY：测试质量标准",
+      "12. 向用户展示新模板和补充的edge case"
+    ],
+    "badcase_conditions": [
+      "规则中minimum edge case数量未明确",
+      "模板只列了分类但未给出具体的检查逻辑",
+      "未对现有测试代码补充示例"
+    ],
+    "pass_criteria": "ISC包含测试覆盖规则和最低edge case数量，后续测试输出自动包含多种路径",
+    "required_capabilities": ["测试策略分析", "边界条件设计", "ISC规则生成", "测试模板设计"]
+  },
+  {
+    "id": "conversation-insight-017",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：（对话记录为空，MEMORY中有'用户偏好简洁回复'记录）\n系统触发：定期固化检查",
+    "expected_execution_chain": [
+      "1. 检测触发源：定期固化检查（非用户主动触发）",
+      "2. 读取当前MEMORY全量内容",
+      "3. 读取当前ISC规则全量内容",
+      "4. 读取当前SOUL.md全量内容",
+      "5. 对比三者之间的一致性：MEMORY中的规则是否都有ISC对应",
+      "6. 识别孤立记忆：MEMORY中有但ISC中无的规则",
+      "7. 识别过期规则：ISC中有但近期对话无相关纠偏的规则",
+      "8. 识别矛盾规则：SOUL和ISC之间的冲突",
+      "9. 生成一致性报告",
+      "10. 为孤立记忆生成ISC规则候选",
+      "11. 标记过期规则供用户审核",
+      "12. 输出固化健康检查报告（无需用户交互）"
+    ],
+    "badcase_conditions": [
+      "对话为空时直接跳过不执行检查",
+      "一致性检查只对比两个文件而非三个",
+      "自动删除了过期规则未经用户确认"
+    ],
+    "pass_criteria": "输出完整的固化健康检查报告，包含一致性分析和改进建议",
+    "required_capabilities": ["三文件一致性分析", "规则孤立检测", "冲突检测", "报告生成"]
+  },
+  {
+    "id": "conversation-insight-018",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你今天给的回复语气太冷了\n用户：我希望你热情一点\nAgent：好的！我会更热情的！😊\n用户：也别过头了，自然就好",
+    "expected_execution_chain": [
+      "1. 检测多次连续纠偏：'太冷'→'热情'→'别过头'",
+      "2. 识别钟摆效应：Agent从一个极端跳到另一个极端",
+      "3. 提取精确需求：语气=自然、热情但不过头",
+      "4. 分析'自然'的量化特征：适度语气词/无过多emoji/非正式但非亢奋",
+      "5. 读取SOUL.md当前语气描述",
+      "6. 生成SOUL.md修改：精确描述目标语气区间（不冷不热）",
+      "7. 生成ISC规则：{scope: 'tone', rule: 'natural-warmth', range: {min: 'friendly', max: 'enthusiastic'}}",
+      "8. 定义语气检测指标：emoji密度、感叹号频率、语气词比例",
+      "9. 写入SOUL.md和ISC",
+      "10. 生成几条不同语气的回复示例供参考",
+      "11. 更新MEMORY：语气偏好精确校准记录",
+      "12. 用'自然'语气向用户确认固化结果"
+    ],
+    "badcase_conditions": [
+      "直接取最后一次反馈忽略前面的（只记住'别过头'忘了'热情一点'）",
+      "语气描述只用定性词（'自然'）无可检测的量化指标",
+      "确认消息本身的语气不符合新规则"
+    ],
+    "pass_criteria": "SOUL.md包含精确的语气区间定义和量化指标，确认回复本身符合新语气标准",
+    "required_capabilities": ["多轮纠偏合成", "语气量化分析", "SOUL.md精准修改", "一致性自检"]
+  },
+  {
+    "id": "conversation-insight-019",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你给的方案里用了try-catch来处理业务逻辑\n用户：try-catch只应该处理真正的异常\n用户：业务逻辑分支用if-else或Result类型\n用户：这是我们的架构原则",
+    "expected_execution_chain": [
+      "1. 检测架构原则声明：'架构原则'=高优先级",
+      "2. 提取原则：try-catch仅限异常处理，业务逻辑用if-else/Result",
+      "3. 回溯代码查找违规使用模式",
+      "4. 分析违规代码：区分异常处理和业务逻辑滥用",
+      "5. 生成ISC规则：{scope: 'error-handling', rule: 'exception-for-exception-only', priority: 'architecture'}",
+      "6. 定义判定标准：什么算'真正的异常'vs'业务逻辑'",
+      "7. 如项目使用TypeScript/Rust等，推荐具体的Result类型实现",
+      "8. 读取现有架构类ISC规则",
+      "9. 写入ISC规则，标注为architecture级别",
+      "10. 修复当前违规代码",
+      "11. 更新MEMORY：架构原则清单",
+      "12. 向用户确认修复+规则+判定标准"
+    ],
+    "badcase_conditions": [
+      "将所有try-catch都移除（连真正的异常处理也去掉了）",
+      "规则中未区分异常处理和业务逻辑的边界",
+      "未根据项目语言推荐具体的替代方案"
+    ],
+    "pass_criteria": "ISC包含错误处理架构原则和判定标准，后续代码正确区分异常和业务逻辑",
+    "required_capabilities": ["架构原则理解", "代码模式分析", "ISC architecture规则", "语言特定方案"]
+  },
+  {
+    "id": "conversation-insight-020",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：我刚说的需求你理解错了\n用户：我说的'用户'是指后台管理员不是终端用户\n用户：我们项目里'用户'特指管理员",
+    "expected_execution_chain": [
+      "1. 检测领域术语歧义：'用户'在此项目有特殊含义",
+      "2. 提取术语映射：用户=后台管理员（非终端用户）",
+      "3. 搜索项目文档中的术语定义（如README、wiki）",
+      "4. 检查是否有现有的术语表/glossary",
+      "5. 回溯因误解导致的错误实现",
+      "6. 生成MEMORY条目：{glossary: {用户: '后台管理员', 终端用户: '最终使用者'}}",
+      "7. 生成ISC规则：{scope: 'domain-terms', rule: 'glossary-check', terms: {}}",
+      "8. 如无术语表文件则创建GLOSSARY.md",
+      "9. 写入MEMORY、ISC和术语表",
+      "10. 修复当前被误解的实现",
+      "11. 扫描现有代码/文档中'用户'相关的上下文",
+      "12. 向用户确认术语映射和修复结果"
+    ],
+    "badcase_conditions": [
+      "仅在当次对话理解正确但未持久化术语映射",
+      "术语表不支持扩展（后续新术语难以添加）",
+      "未修复因误解导致的实现错误"
+    ],
+    "pass_criteria": "术语表创建并包含'用户'映射，后续对话自动按项目术语理解",
+    "required_capabilities": ["领域术语识别", "术语表管理", "MEMORY结构化", "误解修复"]
+  },
+  {
+    "id": "conversation-insight-021",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：我让你改一个文件你把其他文件也改了\n用户：没让你动的文件不要动\n用户：改动范围要最小化",
+    "expected_execution_chain": [
+      "1. 检测改动范围纠偏：'没让你动的不要动'",
+      "2. 提取原则：修改范围最小化，只改指定文件",
+      "3. 回溯查看刚才的修改diff",
+      "4. 识别超范围修改：列出用户未要求但被修改的文件",
+      "5. 分析超范围原因：连带重构/自动格式化/依赖更新",
+      "6. 生成ISC规则：{scope: 'file-modification', rule: 'minimal-change', require: 'explicit-scope'}",
+      "7. 定义范围确认流程：修改非指定文件前需用户确认",
+      "8. 读取现有ISC规则",
+      "9. 写入ISC规则",
+      "10. 撤销超范围修改（git checkout相关文件）",
+      "11. 更新SOUL.md：添加'改动原则：最小变更，不扩散'",
+      "12. 向用户确认撤销结果和新规则"
+    ],
+    "badcase_conditions": [
+      "撤销时把正确的修改也撤销了",
+      "规则过于死板（有时连带修改是必要的，如接口变更）",
+      "未定义何时可以例外（如编译错误必须连带修改）"
+    ],
+    "pass_criteria": "ISC包含最小变更规则和例外条件，超范围修改需用户确认",
+    "required_capabilities": ["改动范围分析", "git操作", "ISC规则生成", "SOUL.md修改"]
+  },
+  {
+    "id": "conversation-insight-022",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：这段代码的变量命名不好\n用户：我们用驼峰命名法不用下划线\n用户：而且业务变量要用中文拼音不要用英文缩写\n用户：固化为编码规范",
+    "expected_execution_chain": [
+      "1. 检测编码规范需求：'固化为编码规范'=显式固化指令",
+      "2. 提取规范：1)驼峰命名法 2)业务变量用中文拼音",
+      "3. 验证项目现有代码的命名风格",
+      "4. 检查项目eslint/prettier配置中的命名规则",
+      "5. 生成ISC规则：{scope: 'naming', rules: [{style: 'camelCase'}, {business_vars: 'pinyin'}]}",
+      "6. 定义'业务变量'vs'技术变量'的区分标准",
+      "7. 生成命名示例表：{订单号: 'dingDanHao', 用户名: 'yongHuMing', id: 'id', index: 'index'}",
+      "8. 读取现有ISC规则",
+      "9. 写入ISC规则和命名示例表",
+      "10. 修复当前代码的命名问题",
+      "11. 更新MEMORY：编码规范-命名约定",
+      "12. 向用户确认规范内容和示例"
+    ],
+    "badcase_conditions": [
+      "把所有变量都改成拼音（技术变量不需要）",
+      "拼音命名与驼峰规则冲突时未定义优先级",
+      "未给出具体的命名示例供参照"
+    ],
+    "pass_criteria": "ISC包含分类命名规则和示例，后续代码自动遵循驼峰+拼音规范",
+    "required_capabilities": ["命名规范分析", "拼音转换", "ISC规则生成", "示例表设计"]
+  },
+  {
+    "id": "conversation-insight-023",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你给的方案为什么不考虑向后兼容？\n用户：我们的API有外部调用方，不能随便改接口\n用户：以后所有API变更必须保持向后兼容",
+    "expected_execution_chain": [
+      "1. 检测架构原则：API向后兼容性要求",
+      "2. 提取约束：外部API不能breaking change",
+      "3. 回溯当前方案分析breaking change点",
+      "4. 分类变更类型：新增（安全）/修改（需评估）/删除（forbidden）",
+      "5. 生成ISC规则：{scope: 'api-change', rule: 'backward-compatible', block: 'breaking-changes'}",
+      "6. 定义breaking change检测清单：字段删除/类型变更/必填新增/路径变更",
+      "7. 推荐版本化策略：/v1/ /v2/并存",
+      "8. 读取项目API定义文件（swagger/openapi）",
+      "9. 写入ISC规则",
+      "10. 修复当前方案为兼容版本",
+      "11. 更新MEMORY：API治理原则",
+      "12. 向用户确认修复方案和规则"
+    ],
+    "badcase_conditions": [
+      "规则中未列出具体的breaking change检测项",
+      "未提供版本化迁移策略",
+      "未修复当前方案的兼容性问题"
+    ],
+    "pass_criteria": "ISC包含API兼容性规则和检测清单，后续API变更自动检查向后兼容性",
+    "required_capabilities": ["API兼容性分析", "breaking change检测", "版本化策略", "ISC规则生成"]
+  },
+  {
+    "id": "conversation-insight-024",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：这个问题我已经问过三次了\n用户：你每次给的答案都不一样\n用户：到底哪个是对的？给我一个确定性的答案并记住",
+    "expected_execution_chain": [
+      "1. 检测一致性缺失信号：'问过三次'+'答案都不一样'",
+      "2. 搜索历史对话找到三次相同问题",
+      "3. 提取三次不同答案进行对比",
+      "4. 分析差异原因：上下文不同/随机性/知识冲突",
+      "5. 评估三个答案的正确性（查文档/查代码）",
+      "6. 确定最佳答案并给出依据",
+      "7. 生成MEMORY条目：{qa_pinned: {question: '...', answer: '...', verified: true}}",
+      "8. 生成ISC规则：{scope: 'qa-consistency', rule: 'pinned-answer', key: '...'}",
+      "9. 写入MEMORY和ISC",
+      "10. 向用户展示三次答案对比和最终确定答案",
+      "11. 说明为什么选这个答案（证据链）",
+      "12. 确认已固化，后续同一问题将给出一致答案"
+    ],
+    "badcase_conditions": [
+      "随便选了一个答案没有验证",
+      "固化了错误的答案",
+      "未向用户展示三次答案对比和选择依据"
+    ],
+    "pass_criteria": "确定性答案经验证后固化，后续同一问题100%给出一致答案",
+    "required_capabilities": ["历史答案追溯", "答案正确性验证", "MEMORY固定答案", "证据链呈现"]
+  },
+  {
+    "id": "conversation-insight-025",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：我发现你写的组件都没有TypeScript类型\n用户：这个项目是strict模式的TS项目\n用户：any类型也不允许\n用户：把这些约束加到规则里",
+    "expected_execution_chain": [
+      "1. 检测类型安全需求：strict TS + 禁止any",
+      "2. 提取规则组：1)必须有类型标注 2)禁止any 3)strict模式",
+      "3. 读取tsconfig.json验证strict配置",
+      "4. 回溯近期代码输出检查类型缺失情况",
+      "5. 生成ISC规则组：{scope: 'typescript', rules: ['strict-types', 'no-any', 'explicit-return']}",
+      "6. 定义检查逻辑：扫描输出代码中的any/类型缺失/隐式any",
+      "7. 读取现有ISC规则检查TS相关规则",
+      "8. 写入ISC规则",
+      "9. 更新MEMORY：项目技术栈→TypeScript strict",
+      "10. 修复当前组件代码添加完整类型",
+      "11. 建议tsconfig.json优化项（如noImplicitAny）",
+      "12. 向用户展示修复后的代码和规则"
+    ],
+    "badcase_conditions": [
+      "添加了类型但使用了大量as断言（变相的any）",
+      "规则中未覆盖隐式any情况",
+      "未检查项目tsconfig确认strict配置"
+    ],
+    "pass_criteria": "ISC包含完整TS类型安全规则，后续代码输出100%有类型标注且无any",
+    "required_capabilities": ["TypeScript类型分析", "tsconfig读取", "ISC规则组生成", "类型补全"]
+  },
+  {
+    "id": "conversation-insight-026",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你帮我写的commit message太简单了\n用户：我们团队用conventional commits规范\n用户：要有type、scope、description、body\n用户：以后自动按规范写",
+    "expected_execution_chain": [
+      "1. 检测团队规范需求：conventional commits",
+      "2. 提取规范要素：type/scope/description/body",
+      "3. 查找项目中commitlint配置文件",
+      "4. 回溯最近的commit message分析不合规之处",
+      "5. 生成ISC规则：{scope: 'git-commit', rule: 'conventional-commits', template: '...'}",
+      "6. 定义完整模板：type(scope): description\\n\\nbody\\n\\nfooter",
+      "7. 列举type枚举：feat/fix/refactor/docs/test/chore等",
+      "8. 读取现有ISC和.commitlintrc配置",
+      "9. 写入ISC规则",
+      "10. 对最近的commit重写message作为示例",
+      "11. 更新MEMORY：团队git规范",
+      "12. 向用户展示模板和示例"
+    ],
+    "badcase_conditions": [
+      "模板中缺少body或footer部分",
+      "type枚举不完整或与项目commitlint配置冲突",
+      "未检查项目现有commitlint配置"
+    ],
+    "pass_criteria": "ISC包含完整conventional commits模板，后续commit message自动符合规范",
+    "required_capabilities": ["git规范识别", "commitlint配置读取", "ISC模板生成", "示例生成"]
+  },
+  {
+    "id": "conversation-insight-027",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你推荐方案时从来不考虑成本\n用户：我们是创业公司，预算很紧\n用户：以后方案必须包含成本评估",
+    "expected_execution_chain": [
+      "1. 检测需求缺口：方案输出缺少成本维度",
+      "2. 提取约束：创业公司+预算紧张→成本敏感",
+      "3. 回溯近期方案分析成本相关内容的缺失",
+      "4. 定义成本评估模板：基础设施/人力/维护/扩展成本",
+      "5. 生成SOUL.md修改：添加'方案设计原则：成本意识，预算优先'",
+      "6. 生成ISC规则：{scope: 'solution-design', rule: 'require-cost-analysis', sections: ['infra', 'labor', 'maintenance']}",
+      "7. 建立免费/低成本替代方案知识库链接",
+      "8. 读取SOUL.md和ISC",
+      "9. 写入SOUL.md和ISC",
+      "10. 更新MEMORY：公司规模=创业/预算=紧张",
+      "11. 对最近方案补充成本分析作为示例",
+      "12. 向用户确认规则和成本评估模板"
+    ],
+    "badcase_conditions": [
+      "记住了成本约束但评估模板太粗糙",
+      "SOUL.md只加了'注意成本'缺乏可执行的检查项",
+      "未考虑人力成本只考虑基础设施成本"
+    ],
+    "pass_criteria": "后续方案自动包含多维度成本评估，SOUL.md和ISC均含成本原则",
+    "required_capabilities": ["成本分析框架", "SOUL.md修改", "ISC规则生成", "方案模板设计"]
+  },
+  {
+    "id": "conversation-insight-028",
+    "level": "C2",
+    "category": "对话洞察→长效固化",
+    "trigger": "用户：你解释技术概念时太啰嗦了\n用户：直接给我结论和代码就行\n用户：我是高级工程师不需要科普\n用户：调整你的回复风格",
+    "expected_execution_chain": [
+      "1. 检测用户画像信号：'高级工程师'+'不需要科普'",
+      "2. 提取用户画像：技术水平=高级，偏好=结论+代码优先",
+      "3. 读取USER.md当前

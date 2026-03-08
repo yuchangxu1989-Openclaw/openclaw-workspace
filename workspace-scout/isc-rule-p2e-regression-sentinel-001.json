@@ -1,0 +1,59 @@
+{
+  "id": "rule.p2e-regression-sentinel-001",
+  "rule_name": "P2E 回归哨兵",
+  "version": "1.0.0",
+  "severity": "high",
+  "description": "定期验证 P2E 全链路能力不因系统演进而退化。检查评测规范存在性、ISC 规则健康度、Gate 可执行性、约束覆盖率基线。",
+  "source": "言出法随 E2E 失忆验证机制 v1.0.0",
+  "created_at": "2026-03-07",
+  "trigger": {
+    "events": [
+      "cron.scheduled.4h",
+      "git.push.received",
+      "skill.general.modified"
+    ],
+    "description": "每4小时定期触发、Git push 后触发、技能修改后触发"
+  },
+  "action": {
+    "type": "audit",
+    "checks": [
+      {
+        "id": "p2e-spec-exists",
+        "description": "P2E 评测规范（principle-e2e-spec/）存在且包含核心文件",
+        "required_files": [
+          "principle-e2e-spec/README.md",
+          "principle-e2e-spec/01-evaluation-model.md"
+        ],
+        "fail_action": "alert"
+      },
+      {
+        "id": "isc-rule-count-baseline",
+        "description": "ISC 规则数量不低于基线 (≥10)",
+        "metric": "isc_rule_count",
+        "threshold_min": 10,
+        "fail_action": "alert"
+      },
+      {
+        "id": "gate-dry-run",
+        "description": "所有 Gate 脚本 dry-run 通过",
+        "fail_action": "alert"
+      },
+      {
+        "id": "agents-md-keyword-coverage",
+        "description": "AGENTS.md 包含所有 P2E 必要关键词",
+        "keywords": [
+          "防失忆",
+          "启动自检",
+          "写入文件",
+          "CAPABILITY-ANCHOR"
+        ],
+        "fail_action": "alert"
+      }
+    ]
+  },
+  "metadata": {
+    "layer": "L2-ISC",
+    "memory_immune": true,
+    "schedule_hint": "建议接入 cron 或 heartbeat 定期执行"
+  }
+}

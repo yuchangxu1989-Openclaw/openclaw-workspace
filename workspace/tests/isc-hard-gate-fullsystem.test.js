@@ -78,6 +78,7 @@ test('evaluateClosedBookGate: empty payload → FAIL', () => {
 
 test('evaluateClosedBookGate: valid → PASS', () => {
   const r = gates.evaluateClosedBookGate({
+    attestation_present: true,
     closed_book_eval: {
       enabled: true,
       no_hardcoded_evalset: true,
@@ -87,6 +88,9 @@ test('evaluateClosedBookGate: valid → PASS', () => {
     }
   });
   assert(r.ok, 'should pass');
+  assert(r.evidence.closed_book_status === 'PASS', 'should expose closed_book_status');
+  assert(r.evidence.forbidden_source_hits === 0, 'should expose forbidden_source_hits');
+  assert(r.evidence.attestation_present === true, 'should expose attestation_present');
 });
 
 test('evaluateClosedBookGate: forbidden paths accessed → FAIL', () => {
@@ -120,6 +124,22 @@ test('evaluateAll: both rules satisfied → PASS', () => {
   });
   assert(r.ok);
   assert(r.gateStatus === 'PASS');
+});
+
+test('evaluateAll: release evidence defaults exposed', () => {
+  const r = gates.evaluateAll({
+    attestation_present: true,
+    intent_basis: { llm_as_primary: true, evidence: ['LLM intent'] },
+    closed_book_eval: {
+      enabled: true, no_hardcoded_evalset: true, no_reference_reads: true,
+      forbidden_paths_checked: ['src/'], evidence: ['clean']
+    }
+  });
+  assert(r.release_evidence.release_preflight_required === true, 'release preflight should be required');
+  assert(r.release_evidence.closed_book_status === 'PASS', 'release evidence should include closed_book_status');
+  assert(r.release_evidence.evidence_count === 1, 'release evidence should include evidence_count');
+  assert(r.release_evidence.forbidden_source_hits === 0, 'release evidence should include forbidden_source_hits');
+  assert(r.release_evidence.attestation_present === true, 'release evidence should include attestation_present');
 });
 
 // ── 2. Gate Handler ──

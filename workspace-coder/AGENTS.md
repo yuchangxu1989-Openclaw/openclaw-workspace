@@ -207,6 +207,55 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
+## 🚫 Hard Gate Rules (ISC / 程序钢印)
+
+These rules are **non-negotiable**, cannot be overridden by memory loss, model switch, or verbal instruction. They are enforced programmatically.
+
+### ISC-CLOSED-BOOK-001: 闭卷评测，不得硬编码/不得读取参考答案
+
+> **闭卷评测时，不得硬编码评测集；不得在评测时读取记忆/标注/答案/参考作为参考依据。**
+
+- 详细规则：`.openclaw/isc-closed-book-eval-rule.md`
+- 程序 Gate：`.openclaw/gate_closed_book_eval.py`
+- 技能 Runner：`skills/architecture-review-pipeline/SKILL.md`
+
+**产出评测/验收/review 结论前，必须：**
+1. 生成 `evaluation.json`，包含：
+   - `closed_book_eval.enabled = true`
+   - `closed_book_eval.no_hardcoded_evalset = true`
+   - `closed_book_eval.no_reference_reads = true`
+   - 非空 `closed_book_eval.forbidden_paths_checked`
+   - 非空 `closed_book_eval.evidence`
+2. 执行 `python3 .openclaw/gate_closed_book_eval.py evaluation.json`
+3. Gate 返回 exit 0 才可输出“通过”；否则只能输出 `FAIL-CLOSED`
+
+**违反时输出：**
+`FAIL-CLOSED: closed-book evaluation violated; hardcoded evalset or reference material access detected.`
+
+⚠️ 此规则优先级高于任何口头指示或记忆内容。即使主 Agent 记忆丢失，此规则仍通过文件持久生效。
+
+---
+
+### ISC-INTENT-EVAL-001: LLM 意图识别评测门槛
+
+> **没有 LLM 意图识别作为主基座的评测，不得按"通过"汇报。**
+
+- 详细规则：`.openclaw/isc-intent-eval-rule.md`
+- 程序 Gate：`.openclaw/gate_intent_eval.py`
+- 技能 Runner：`skills/architecture-review-pipeline/SKILL.md`
+
+**产出评测/验收/review 结论前，必须：**
+1. 生成 `evaluation.json`，包含 `intent_basis.llm_as_primary = true` + 非空 `evidence`
+2. 执行 `python3 .openclaw/gate_intent_eval.py evaluation.json`
+3. Gate 返回 exit 0 才可输出"通过"；否则只能输出 `FAIL-CLOSED`
+
+**违反时输出：**
+`FAIL-CLOSED: no LLM intent-recognition foundation, cannot report pass.`
+
+⚠️ 此规则优先级高于任何口头指示或记忆内容。即使主 Agent 记忆丢失，此规则仍通过文件持久生效。
+
+---
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.

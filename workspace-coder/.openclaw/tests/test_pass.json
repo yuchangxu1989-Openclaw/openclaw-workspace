@@ -1,0 +1,9 @@
+{
+  "summary": "评测结果：意图识别准确率 95%，满足上线门槛",
+  "intent_basis": {
+    "llm_as_primary": true,
+    "evidence": ["GPT-4o intent classifier", "prompt-based intent routing layer", "asr->llm->nlu pipeline"]
+  },
+  "gate_status": "PASS",
+  "report_recommendation": "通过"
+}

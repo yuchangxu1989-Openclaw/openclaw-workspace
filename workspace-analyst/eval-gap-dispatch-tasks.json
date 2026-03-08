@@ -1,0 +1,354 @@
+{
+  "artifact_type": "eval_gap_dispatch_tasks",
+  "version": "1.0.0",
+  "generated_at": "2026-03-08",
+  "source_matrix": "eval-corpus-coverage-matrix.md",
+  "description": "P2E评测集覆盖度矩阵生成的可调度补充任务清单。每项任务对应一个未覆盖的高优先级盲区，可直接作为子Agent任务派发或作为sprint卡片使用。",
+  "total_gaps": 18,
+  "p0_tasks": 7,
+  "p1_tasks": 11,
+  "tasks": [
+    {
+      "task_id": "EVAL-GAP-01",
+      "priority": "P0",
+      "title": "AEO阶段：补充测试用例（全段零覆盖）",
+      "gap_ids": ["GAP-01"],
+      "affected_gates": ["HG-004", "SG-004", "BC-AEO"],
+      "gate_types": ["HARD", "SOFT"],
+      "description": "AEO（智能体效果运营）阶段在当前15个测试用例中完全没有覆盖，但 HG-004（AEO轨道选择）是HARD Gate，任何失败直接导致FAIL。需要补充至少4个专项用例。",
+      "deliverables": [
+        "p2e-tc-016: P2E类意图使用AI效果轨道（SUCCESS，验证 HG-004 正向）",
+        "p2e-tc-017: 非P2E类使用错误轨道（FAIL，验证 HG-004 反向）",
+        "p2e-tc-018: 子规则评测覆盖率≥90%（SUCCESS，验证 SG-004）",
+        "p2e-tc-019: 子规则评测缺失（PARTIAL，验证 SG-004 软门控降级）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": ["p2e-tc-016", "p2e-tc-017"],
+      "estimated_effort": "2h",
+      "acceptance_criteria": "4个新用例写入05-test-cases.json，intent_type覆盖 CONSTRAINT/PRINCIPLE 各至少1个，HG-004在正反两个方向均有覆盖"
+    },
+    {
+      "task_id": "EVAL-GAP-02",
+      "priority": "P0",
+      "title": "边界安全测试：补充用例（HG-006 零覆盖）",
+      "gap_ids": ["GAP-02"],
+      "affected_gates": ["HG-006"],
+      "gate_types": ["HARD"],
+      "description": "HG-006（边界安全：输入不崩溃）是HARD Gate但完全无测试用例覆盖。需补充异常输入、超长输入、空输入、特殊字符等边界场景。",
+      "deliverables": [
+        "p2e-tc-020: 空utterance输入（FAIL，系统不崩溃但正确拒绝）",
+        "p2e-tc-021: 超长utterance（>10000字符）降级安全处理（PARTIAL）",
+        "p2e-tc-022: 含注入攻击的utterance（FAIL，安全拒绝）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": ["p2e-tc-020", "p2e-tc-021"],
+      "estimated_effort": "1.5h",
+      "acceptance_criteria": "3个边界用例写入，至少1个 verdict_expectation=FAIL、1个PARTIAL，测试用例标注 tags: [boundary, safety]"
+    },
+    {
+      "task_id": "EVAL-GAP-03",
+      "priority": "P0",
+      "title": "发布版本追踪：补充用例（HG-009 零覆盖）",
+      "gap_ids": ["GAP-03", "GAP-07"],
+      "affected_gates": ["HG-009", "release.version_tracked"],
+      "gate_types": ["HARD"],
+      "description": "HG-009（版本追踪）是HARD Gate但完全无覆盖。且L9（规则版本回滚）也是零覆盖。需补充正常发布含版本、发布失败回滚两个场景。",
+      "deliverables": [
+        "p2e-tc-023: 规则发布后版本被记录（SUCCESS，验证 HG-009 正向）",
+        "p2e-tc-024: 发布失败自动回滚到前一版本（PARTIAL，验证 L9 回滚能力）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": ["p2e-tc-023"],
+      "estimated_effort": "1h",
+      "acceptance_criteria": "2个用例写入，p2e-tc-023含 release.version_tracked=true 的 expected 字段，p2e-tc-024含 release.rollback_triggered 验证"
+    },
+    {
+      "task_id": "EVAL-GAP-04",
+      "priority": "P0",
+      "title": "静默失败检测：补充用例（SR-001 零覆盖）",
+      "gap_ids": ["GAP-04"],
+      "affected_gates": ["SR-001", "BC-SILENT"],
+      "gate_types": ["SPECIAL_RULE"],
+      "description": "SR-001（静默失败零容忍）是特殊规则，触发后强制 FORCE_FAIL，但当前0个测试用例能触发或检验此逻辑。BC-SILENT 也是最危险的 Badcase 类别，完全无覆盖。",
+      "deliverables": [
+        "p2e-tc-025: 模拟无错误日志但ISC未生成规则的静默失败（FAIL，SR-001触发）",
+        "p2e-tc-026: 正常执行不触发静默失败检测（SUCCESS，对照组）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": ["p2e-tc-025"],
+      "estimated_effort": "2h",
+      "acceptance_criteria": "2个用例写入，p2e-tc-025的context含 simulate_silent_failure=true，expected含 special_rule.sr001_triggered=true"
+    },
+    {
+      "task_id": "EVAL-GAP-05",
+      "priority": "P0",
+      "title": "Event幂等性：补充测试用例（EVENT阶段零覆盖关键场景）",
+      "gap_ids": ["GAP-05"],
+      "affected_gates": ["event.idempotency", "SG-001"],
+      "gate_types": ["SOFT"],
+      "description": "EVENT 阶段当前仅 tc-003 有1个间接覆盖，事件幂等性（相同意图不产生重复事件）完全无专项用例，是 P0 风险。",
+      "deliverables": [
+        "p2e-tc-027: 同一意图重复提交两次，验证EVENT幂等性（SUCCESS，第二次被去重）",
+        "p2e-tc-028: 多用户并发提交相同原则，验证无重复规则生成（SUCCESS）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": ["p2e-tc-027"],
+      "estimated_effort": "1.5h",
+      "acceptance_criteria": "2个用例写入，含 event.idempotency 期望字段，tags含 [event, idempotency]"
+    },
+    {
+      "task_id": "EVAL-GAP-06",
+      "priority": "P0",
+      "title": "VERDICT规则撤销：补充用例（重要VERDICT子场景缺失）",
+      "gap_ids": ["GAP-06"],
+      "affected_gates": ["HG-001", "HG-002", "isc.updates_existing"],
+      "gate_types": ["HARD"],
+      "description": "当前VERDICT只有2个用例（全自动执行变更、安全拒绝），缺少规则撤销/废除场景。此场景涉及ISC规则删除，是高风险操作。",
+      "deliverables": [
+        "p2e-tc-029: 议会裁决废除某ISC规则（PARTIAL，需人工确认后执行）",
+        "p2e-tc-030: VERDICT扩大现有规则的执行范围（SUCCESS，更新已有规则scope）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": ["p2e-tc-029"],
+      "estimated_effort": "1.5h",
+      "acceptance_criteria": "2个用例写入，tc-029的expected含 isc_rule.action=DELETE 和 human_approval_required=true"
+    },
+    {
+      "task_id": "EVAL-GAP-07",
+      "priority": "P0",
+      "title": "补充 benchmark_runner.py 的 MIXED 类型支持",
+      "gap_ids": ["GAP-05"],
+      "affected_gates": ["ISC-INTENT-EVAL-001"],
+      "gate_types": ["HARD"],
+      "description": "benchmark_runner.py 的 ISC-INTENT-EVAL-001 gate 当前仅允许 {PRINCIPLE, VERDICT, CONSTRAINT, GOAL, DIRECTIVE} 5种类型。MIXED类型（tc-006）会导致 intent_type 验证失败。需要扩展支持MIXED或在case中拆分为多个单意图。",
+      "deliverables": [
+        "修改 benchmark_runner.py 第57行，将 MIXED 加入 allowed intent_types 集合，或明确注释 MIXED case 如何预处理"
+      ],
+      "target_file": "principle-e2e-spec/scripts/benchmark_runner.py",
+      "regression_guard_candidates": [],
+      "estimated_effort": "0.5h",
+      "acceptance_criteria": "benchmark_runner.py 能正确处理 tc-006（MIXED类型），不报 INVALID_INPUT"
+    },
+    {
+      "task_id": "EVAL-GAP-08",
+      "priority": "P1",
+      "title": "DTO fallback策略：补充用例（SG-003 零覆盖）",
+      "gap_ids": ["GAP-08"],
+      "affected_gates": ["SG-003", "dto.fallback_exists"],
+      "gate_types": ["SOFT"],
+      "description": "SG-003（DTO降级策略覆盖）完全无测试用例。当前5个触及DTO的用例均未验证 fallback 是否存在。",
+      "deliverables": [
+        "p2e-tc-031: DTO任务含fallback策略（SUCCESS，SG-003正向）",
+        "p2e-tc-032: DTO任务缺少fallback策略（PARTIAL，SG-003触发降级）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "1h",
+      "acceptance_criteria": "2个用例，expected.dto_task含 fallback_strategy 字段"
+    },
+    {
+      "task_id": "EVAL-GAP-09",
+      "priority": "P1",
+      "title": "LEP exec_id唯一性+WAL：补充用例（SG-005 零覆盖）",
+      "gap_ids": ["GAP-09"],
+      "affected_gates": ["SG-005", "SG-006", "lep.exec_id_uniqueness"],
+      "gate_types": ["SOFT"],
+      "description": "SG-005（LEP执行ID唯一性）完全无覆盖。tc-014虽触及LEP重试，但未验证exec_id唯一性和WAL记录完整性。",
+      "deliverables": [
+        "p2e-tc-033: LEP执行ID在全链路唯一且WAL记录完整（SUCCESS）",
+        "p2e-tc-034: 并发执行两个任务，验证exec_id不冲突（SUCCESS）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "1h",
+      "acceptance_criteria": "expected.lep含 exec_id_unique=true 和 wal_record_exists=true"
+    },
+    {
+      "task_id": "EVAL-GAP-10",
+      "priority": "P1",
+      "title": "发布变更通知：补充用例（SG-008 零覆盖）",
+      "gap_ids": ["GAP-10"],
+      "affected_gates": ["SG-008", "release.notification_sent"],
+      "gate_types": ["SOFT"],
+      "description": "SG-008（变更通知发送率）完全无测试用例。发布后应通知相关订阅者，但当前无任何验证。",
+      "deliverables": [
+        "p2e-tc-035: 规则发布后变更通知成功发送至飞书频道（SUCCESS）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "0.5h",
+      "acceptance_criteria": "expected.release含 notification_delivered=true 和 notified_channels 字段"
+    },
+    {
+      "task_id": "EVAL-GAP-11",
+      "priority": "P1",
+      "title": "LEP→DTO故障修复联动：补充用例（AG-004 零覆盖）",
+      "gap_ids": ["GAP-11"],
+      "affected_gates": ["AG-004", "lep.dto_failure_linkage"],
+      "gate_types": ["ADVISORY"],
+      "description": "AG-004（LEP执行失败时DTO修复流程触发率≥85%）完全无测试用例。需要模拟LEP执行失败并验证DTO修复是否被触发。",
+      "deliverables": [
+        "p2e-tc-036: LEP执行失败后自动触发DTO修复流程（SUCCESS，AG-004正向）",
+        "p2e-tc-037: LEP失败超阈值后熔断（PARTIAL，熔断触发正确）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "1.5h",
+      "acceptance_criteria": "context含 simulate_lep_failure=true，expected.lep含 repair_triggered=true"
+    },
+    {
+      "task_id": "EVAL-GAP-12",
+      "priority": "P1",
+      "title": "Event优先级排序：补充用例（AG-005 零覆盖）",
+      "gap_ids": ["GAP-12"],
+      "affected_gates": ["AG-005", "event.priority_ordering"],
+      "gate_types": ["ADVISORY"],
+      "description": "AG-005（事件优先级：VERDICT>CONSTRAINT>PRINCIPLE>GOAL）完全无测试用例。需要多类型意图并发时验证排序。",
+      "deliverables": [
+        "p2e-tc-038: 同时提交VERDICT和PRINCIPLE，验证VERDICT先被处理（SUCCESS）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "1h",
+      "acceptance_criteria": "expected.event含 priority_ordering_correct=true，tags含 [event, priority]"
+    },
+    {
+      "task_id": "EVAL-GAP-13",
+      "priority": "P1",
+      "title": "Cron场景：补充调度验证和失败重试用例",
+      "gap_ids": ["GAP-13"],
+      "affected_gates": ["dto.trigger_correctness", "lep.retry_on_failure"],
+      "gate_types": ["HARD", "SOFT"],
+      "description": "Cron触发器场景几乎无专项覆盖。ISC生成的Cron类规则无端到端验证，也没有Cron失败重试场景。",
+      "deliverables": [
+        "p2e-tc-039: CONSTRAINT生成每日定时巡检任务（SUCCESS，cron触发器正确）",
+        "p2e-tc-040: 定时任务失败后LEP重试（SUCCESS，retry_count=3）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "1.5h",
+      "acceptance_criteria": "expected.dto_task含 trigger_type=cron 和 cron_expression 字段"
+    },
+    {
+      "task_id": "EVAL-GAP-14",
+      "priority": "P1",
+      "title": "向量化域：补充ISC规则用例（业务域零覆盖）",
+      "gap_ids": ["GAP-14"],
+      "affected_gates": ["HG-002", "isc.draft_generation"],
+      "gate_types": ["HARD"],
+      "description": "向量化相关有9条ISC规则，是规则库最大单一功能组，但测试用例完全无覆盖。",
+      "deliverables": [
+        "p2e-tc-041: PRINCIPLE: 所有技能必须在发布后自动向量化（SUCCESS，生成vectorization规则）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "0.5h",
+      "acceptance_criteria": "expected.isc_rule含 domain=vectorization，tags含 [principle, vectorization]"
+    },
+    {
+      "task_id": "EVAL-GAP-15",
+      "priority": "P1",
+      "title": "隐含意图识别：补充无关键词意图用例（HG-001薄弱）",
+      "gap_ids": ["GAP-16"],
+      "affected_gates": ["HG-001", "intent.type_classification"],
+      "gate_types": ["HARD"],
+      "description": "当前所有测试用例的utterance都含明显关键词（'必须'、'不能'、'决定'等）。隐含意图场景（无明显关键词）完全无覆盖，是意图识别准确率≥90%目标的软肋。",
+      "deliverables": [
+        "p2e-tc-042: 隐含CONSTRAINT（'我们的API响应速度最近让用户等很久了'）→识别为性能约束（PARTIAL or SUCCESS）",
+        "p2e-tc-043: 伪装成DIRECTIVE的PRINCIPLE（'你去把所有技能的lint都跑一遍'）→正确识别为PRINCIPLE触发自动化而非一次性执行（PARTIAL）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "1h",
+      "acceptance_criteria": "2个用例的utterance不含'必须/不能/决定/让'等强意图词，intent仍能正确分类"
+    },
+    {
+      "task_id": "EVAL-GAP-16",
+      "priority": "P1",
+      "title": "三意图叠加MIXED场景：补充用例",
+      "gap_ids": ["GAP-18"],
+      "affected_gates": ["SG-001", "intent.multi_intent_coverage"],
+      "gate_types": ["SOFT"],
+      "description": "当前MIXED仅1例（2意图）。三意图叠加是SG-001（多意图覆盖率≥80%）的极端挑战，缺乏测试。",
+      "deliverables": [
+        "p2e-tc-044: FEEDBACK+CONSTRAINT+PRINCIPLE三意图叠加，验证全部提取（SUCCESS）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "0.5h",
+      "acceptance_criteria": "expected.intents数组含3个元素，p2e_intents_count=2"
+    },
+    {
+      "task_id": "EVAL-GAP-17",
+      "priority": "P1",
+      "title": "跨域规则传播：补充L8自治维度用例",
+      "gap_ids": ["GAP-15"],
+      "affected_gates": ["isc.scope", "dto.auto_subscription"],
+      "gate_types": ["HARD"],
+      "description": "L8（跨域规则传播）完全无覆盖。当一个PRINCIPLE影响多个系统域时，系统需要在ISC中为每个域生成规则并在DTO中串联任务。",
+      "deliverables": [
+        "p2e-tc-045: PRINCIPLE: 所有服务必须接入统一链路追踪（影响API/数据库/缓存3个域）→ 生成3条ISC规则（SUCCESS）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "1h",
+      "acceptance_criteria": "expected.isc_rule含 multi_domain=true，rule_count=3"
+    },
+    {
+      "task_id": "EVAL-GAP-18",
+      "priority": "P1",
+      "title": "补充ISC血缘字段完整性专项用例",
+      "gap_ids": [],
+      "affected_gates": ["isc.lineage_completeness"],
+      "gate_types": ["SOFT"],
+      "description": "isc.lineage_completeness（血缘追踪：source_intent_id / created_from / created_at）是SG约束，但无专项验证用例。",
+      "deliverables": [
+        "p2e-tc-046: 生成规则草案后验证血缘字段完整（SUCCESS）",
+        "p2e-tc-047: 血缘字段缺失触发SG降级（PARTIAL）"
+      ],
+      "target_file": "principle-e2e-spec/05-test-cases.json",
+      "regression_guard_candidates": [],
+      "estimated_effort": "1h",
+      "acceptance_criteria": "expected.isc_rule含 lineage.source_intent_id, lineage.created_from, lineage.created_at"
+    }
+  ],
+  "runner_fix_tasks": [
+    {
+      "task_id": "RUNNER-FIX-01",
+      "priority": "P0",
+      "title": "benchmark_runner.py: 支持 MIXED 意图类型",
+      "target_file": "principle-e2e-spec/scripts/benchmark_runner.py",
+      "line_ref": "约57行: intent_type not in {PRINCIPLE, VERDICT, CONSTRAINT, GOAL, DIRECTIVE}",
+      "fix": "将 MIXED 加入 allowed set，或在 pre-processing 中将 MIXED case 拆分为多个意图分别验证",
+      "estimated_effort": "0.5h"
+    },
+    {
+      "task_id": "RUNNER-FIX-02",
+      "priority": "P1",
+      "title": "补充 05-test-cases.json schema 验证脚本",
+      "target_file": "principle-e2e-spec/scripts/validate_cases.py",
+      "fix": "创建 validate_cases.py：读取 05-test-cases.json，验证每个 case 是否有 case_id/intent_type/expected.intent/tags/priority/regression_guard，统计各优先级分布并打印覆盖摘要",
+      "estimated_effort": "1h"
+    },
+    {
+      "task_id": "RUNNER-FIX-03",
+      "priority": "P1",
+      "title": "补充 gate coverage report 生成脚本",
+      "target_file": "principle-e2e-spec/scripts/gate_coverage_report.py",
+      "fix": "创建 gate_coverage_report.py：遍历 05-test-cases.json，统计每个 Gate 检查项（HG/SG/AG/SR）被哪些用例覆盖，输出覆盖矩阵 markdown 报告",
+      "estimated_effort": "2h"
+    }
+  ],
+  "summary": {
+    "p0_blocking_gaps": ["EVAL-GAP-01", "EVAL-GAP-02", "EVAL-GAP-03", "EVAL-GAP-04", "EVAL-GAP-05", "EVAL-GAP-06", "EVAL-GAP-07"],
+    "zero_coverage_hard_gates": ["HG-004", "HG-006", "HG-009"],
+    "zero_coverage_special_rules": ["SR-001"],
+    "zero_coverage_badcase_categories": ["BC-AEO", "BC-SILENT"],
+    "zero_coverage_pipeline_stages": ["AEO"],
+    "current_case_count": 15,
+    "target_case_count_minimum": 59,
+    "cases_to_add": 44,
+    "regression_guard_current": 8,
+    "regression_guard_target": 16
+  }
+}

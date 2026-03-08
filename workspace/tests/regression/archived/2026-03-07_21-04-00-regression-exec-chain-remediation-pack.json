@@ -1,0 +1,50 @@
+{
+  "id": "regression-exec-chain-remediation-pack-2026-03-07",
+  "test_id": "exec-chain-remediation-pack-2026-03-07",
+  "test_name": "执行链路整改用户纠偏回归包",
+  "source": "regression",
+  "archived_at": "2026-03-07T21:04:00+08:00",
+  "input": {
+    "user_message": "严肃整改评测集：围绕用户刚才连续指出的真实问题，重构执行链路相关评测样本。重点覆盖：意图扩充能力、事件补全能力、任务扩列能力、timeout重派、有效输出改状态、少分析先执行、听懂人话、纠偏即入队。要求：输出真实预期执行链，并落到正式评测集/候选集与回归样本中。"
+  },
+  "expected": {
+    "artifacts": [
+      "formal_evalset_updated",
+      "candidate_pool_updated",
+      "regression_sample_archived",
+      "unified_registry_updated"
+    ],
+    "failure_modes_to_prevent": [
+      "analysis_only_no_write",
+      "single_destination_only",
+      "no_timeout_redispatch_expectation",
+      "artifact_written_but_status_not_updated",
+      "correction_ack_without_enqueue"
+    ]
+  },
+  "actual": {
+    "before_fix_symptoms": [
+      "执行链路样本缺少真实预期执行链",
+      "对用户纠偏响应停留在理解层",
+      "未系统覆盖 timeout重派/状态更新/纠偏入队"
+    ],
+    "after_fix_targets": [
+      "8个正式样本覆盖核心缺口",
+      "候选池同步入队",
+      "回归包归档",
+      "注册表收录"
+    ]
+  },
+  "context": {
+    "source": "same-session remediation",
+    "formal_evalset": "skills/aeo/evaluation-sets/real-conv-2026-03-07-exec-chain-remediation/test-cases.json",
+    "candidate_pool": "infrastructure/aeo/golden-testset/pending-exec-chain-remediation-cases.json"
+  },
+  "metadata": {
+    "source": "regression",
+    "auto_archived": false,
+    "status": "active",
+    "theme": "execution-chain-remediation",
+    "derived_from_user_correction": true
+  }
+}

@@ -4,6 +4,8 @@
 **时间跨度**: ~12小时密集交付  
 **Git commits**: 20+ (含架构、修复、治理、benchmark全链路)
 
+> **AEO 高标准对齐说明（后补）**：本文中的 **“AEO综合评分: 83.1/100，有条件通过”** 仅表示当时的阶段性混合结果，**不等价于最终验收通过**。按更新后的高标准口径，应至少拆分为：`infra-pass`、`function-pass`、`global-autonomy-pass` 三个维度分别判断；除非三者同时为 PASS，否则不应把本文单独解读为 “done / fully accepted / gate-ready”。
+
 ---
 
 ## 1. 交付物清单

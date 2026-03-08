@@ -1,0 +1,27 @@
+{
+  "summary": "closed-book compliant evaluation",
+  "closed_book_eval": {
+    "enabled": true,
+    "no_hardcoded_evalset": true,
+    "no_reference_reads": true,
+    "forbidden_paths_checked": [
+      "src/",
+      "configs/eval.yaml",
+      "tmp/runtime_inputs/"
+    ],
+    "forbidden_paths_accessed": [],
+    "evidence": [
+      "verified eval inputs come from runtime dataset mount, not literals",
+      "confirmed no memory/labels/answers/references mounted into eval context"
+    ]
+  },
+  "intent_basis": {
+    "llm_as_primary": true,
+    "evidence": [
+      "llm intent classifier run log",
+      "prompt-based intent routing config"
+    ]
+  },
+  "gate_status": "PASS",
+  "report_recommendation": "通过"
+}

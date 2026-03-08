@@ -1,0 +1,1122 @@
+{
+  "id": "batch-b-04",
+  "slug": "gap2-reconfirm-acceptance-verdict",
+  "source_session": "764e7afb-bff3-4bf2-86c8-62863f637e04",
+  "source_agent": "researcher",
+  "transcript_path": "/root/.openclaw/agents/researcher/sessions/764e7afb-bff3-4bf2-86c8-62863f637e04.jsonl",
+  "time_range": {
+    "first_timestamp_ms": null,
+    "last_timestamp_ms": null,
+    "first_iso": null,
+    "last_iso": null
+  },
+  "preview": "None:  | None:  | None:  | None: ",
+  "messages": [
+    {
+      "type": "session",
+      "version": 3,
+      "id": "764e7afb-bff3-4bf2-86c8-62863f637e04",
+      "timestamp": "2026-03-07T04:39:49.282Z",
+      "cwd": "/root/.openclaw/workspace-researcher"
+    },
+    {
+      "type": "model_change",
+      "id": "4ef1172c",
+      "parentId": null,
+      "timestamp": "2026-03-07T04:39:49.282Z",
+      "provider": "boom-researcher",
+      "modelId": "gpt-5.4"
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "d5007a2e",
+      "parentId": "4ef1172c",
+      "timestamp": "2026-03-07T04:39:49.282Z",
+      "thinkingLevel": "off"
+    },
+    {
+      "type": "custom",
+      "customType": "model-snapshot",
+      "data": {
+        "timestamp": 1772858389282,
+        "provider": "boom-researcher",
+        "modelApi": "openai-completions",
+        "modelId": "gpt-5.4"
+      },
+      "id": "98d2fb92",
+      "parentId": "d5007a2e",
+      "timestamp": "2026-03-07T04:39:49.282Z"
+    },
+    {
+      "type": "message",
+      "id": "c29f7387",
+      "parentId": "98d2fb92",
+      "timestamp": "2026-03-07T04:39:49.303Z",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "[Sat 2026-03-07 12:39 GMT+8] [Subagent Context] You are running as a subagent (depth 1/2). Results auto-announce to your requester; do not busy-poll for status.\n\n[Subagent Task]: 执行任务：Gap2 主实现超时遗留复核与收口。检查此前 `day2-gap2-main` timeout 后，当前仓内 Gap2 的真实完成状态。要求：1) 直接验证主实现结果，而不是只读日志；2) 能补收口就直接补；3) 运行最相关验证；4) 最终给出结论：Gap2 是否可视为完成、是否仍有遗留阻塞。"
+          }
+        ],
+        "timestamp": 1772858389298
+      }
+    },
+    {
+      "type": "message",
+      "id": "f9ef423f",
+      "parentId": "c29f7387",
+      "timestamp": "2026-03-07T04:39:53.079Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_uBjvDE00inavc9A9jTxbqZXU",
+            "name": "exec",
+            "arguments": {
+              "command": "pwd && ls -la && find .. -maxdepth 3 -type f | sed 's#^../##' | sort | head -400",
+              "workdir": ".",
+              "yieldMs": 10000,
+              "timeout": 20
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 1984,
+          "output": 62,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 3838,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858389302
+      }
+    },
+    {
+      "type": "message",
+      "id": "fe0de7c0",
+      "parentId": "f9ef423f",
+      "timestamp": "2026-03-07T04:39:53.110Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_uBjvDE00inavc9A9jTxbqZXU",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "/root/.openclaw/workspace-researcher\ntotal 60\ndrwxr-xr-x  4 root root  4096 Mar  5 21:19 .\ndrwxr-xr-x 31 root root  4096 Mar  7 00:28 ..\n-rw-r--r--  1 root root  7869 Mar  5 21:19 AGENTS.md\n-rw-r--r--  1 root root  1470 Mar  5 21:19 BOOTSTRAP.md\n-rw-r--r--  1 root root   168 Mar  5 21:19 HEARTBEAT.md\n-rw-r--r--  1 root root   636 Mar  5 21:19 IDENTITY.md\ndrwxr-xr-x  2 root root  4096 Mar  5 21:19 .openclaw\ndrwxr-xr-x  2 root root  4096 Mar  5 21:19 reports\n-rw-r--r--  1 root root   710 Mar  5 21:19 SOUL.md\n-rw-r--r--  1 root root   860 Mar  5 21:19 TOOLS.md\n-rw-r--r--  1 root root   477 Mar  5 21:19 USER.md\n-rw-r--r--  1 root root     0 Mar  5 21:19 小米手机购买策略指南 2026.md\n-rw-r--r--  1 root root 11610 Mar  5 21:19 小红书运营攻略.md\nagents/cron-worker/models.json\nagents/cron-worker/models.json.bak-pre-sonnet\nbackups/workspace-20260303_190018.bundle\nbackups/workspace-20260304_114745.bundle\nbackups/workspace-20260304_190026.bundle\nbackups/workspace-20260305_070019.bundle\nbackups/workspace-20260306_070005.bundle\nbackups/workspace-20260306_070005.tar.gz\nbackups/workspace-20260306_190005.bundle\nbackups/workspace-20260306_190005.tar.gz\nbackups/workspace-20260307_070004.bundle\nbackups/workspace-20260307_070004.tar.gz\ncanvas/index.html\ncredentials/feishu-default-allowFrom.json\ncredentials/feishu-pairing.json\ncron/jobs.json\ncron/jobs.json.backup\ncron/jobs.json.bak\ncron/jobs.json.bak-pre-cronworker-glm5\ncron/jobs.json.bak-pre-model\ncron/jobs.json.fix2-backup\ncron/jobs.json.fix3-backup\ncron/jobs.json.fix-userid-backup\ncron/jobs.json.p0-backup\ncron/jobs.json.p2-backup\ncron/runs/504ace91-50f2-404c-985b-6723fafa5b44.jsonl\ncron/runs/b76c9b20-d206-4d2d-9d26-815804cd22fd.jsonl\ncron/runs/d2-03-cron-healer.jsonl\ncron/runs/d9d8123d-e14e-408d-b72c-04b273530943.jsonl\ncron/runs/e4b2a1cb-41a3-4dbb-b6a7-4971ef2bb5d8.jsonl\ncron/runs/event-dispatch-runner.jsonl\ncron/runs/f6f0ba02-eab9-4ab1-87cb-c1a9e648b5aa.jsonl\ncron/runs/memory-summary-6h.jsonl\ncron/runs/merged-backup-daily.jsonl\ncron/runs/merged-capability-pdca-4h.jsonl\ncron/runs/merged-dto-aeo-hourly.jsonl\ncron/runs/merged-isc-quality-daily.jsonl\ncron/runs/merged-ops-maintenance.jsonl\ncron/runs/merged-system-monitor-hourly.jsonl\ncron/runs/merged-system-pipeline-4h.jsonl\ncron/runs/new-event-dispatcher.jsonl\ncron/runs/new-isc-change-detector.jsonl\ndelivery-queue/fd742e55-2a66-44e6-8db7-449eab05cdfc.json\ndevices/paired.json\ndevices/pending.json\nfeishu/dedup/default.json\n.git-backup-workspace/logs/HEAD\n.git/COMMIT_EDITMSG\n.git/config\n.git/description\n.git/FETCH_HEAD\n.git/filter-repo/already_ran\n.git/filter-repo/changed-refs\n.git/filter-repo/commit-map\n.git/filter-repo/first-changed-commits\n.git/filter-repo/ref-map\n.git/filter-repo/suboptimal-issues\n.git/HEAD\n.git/hooks/applypatch-msg.sample\n.git/hooks/commit-msg.sample\n.git/hooks/fsmonitor-watchman.sample\n.git/hooks/post-checkout\n.git/hooks/post-commit\n.git/hooks/post-merge\n.git/hooks/post-update.sample\n.git/hooks/pre-applypatch.sample\n.git/hooks/pre-commit\n.git/hooks/pre-commit.sample\n.git/hooks/pre-merge-commit.sample\n.git/hooks/prepare-commit-msg.sample\n.git/hooks/pre-push\n.git/hooks/pre-push.sample\n.git/hooks/pre-rebase.sample\n.git/hooks/pre-receive.sample\n.git/hooks/push-to-checkout.sample\n.git/hooks/sendemail-validate.sample\n.git/hooks/update.sample\n.gitignore\n.git/index\n.git/info/exclude\n.git/info/refs\n.git/logs/HEAD\n.git/ORIG_HEAD\n.git/packed-refs\nidentity/device-auth.json\nidentity/device.json\nlogs/config-audit.jsonl\nmedia/inbound/0657bc43-dbe4-4879-940e-3af550cd4f9c.jpg\nmedia/inbound/06dcfb31-89a8-4875-8d37-00dcd457e778.jpg\nmedia/inbound/0a17a178-dcb1-4d3a-8669-07ed4988bc8d.jpg\nmedia/inbound/0f92fb30-39a3-48e8-aa0f-2f3cb4ca8a29.jpg\nmedia/inbound/12cda35d-2820-4b59-afa0-49a178b84e7b.jpg\nmedia/inbound/146c6e85-42d2-44b1-be23-abcba0dfa13e.jpg\nmedia/inbound/17807530-f60e-420f-8638-4aa27208d36b.jpg\nmedia/inbound/1a07f228-79aa-4f7d-b15f-108180cc3f46.jpg\nmedia/inbound/23371d79-089d-4db4-a4b2-b03f0882d292.jpg\nmedia/inbound/25802c0f-ae61-4db0-824a-c50f8c03f136.jpg\nmedia/inbound/29a1b127-a716-47aa-bdf2-685ac637320b.jpg\nmedia/inbound/2cb2430c-4df2-4bfb-913c-4720e153d0d2.jpg\nmedia/inbound/2cf8a61c-5164-469c-a8ac-d87fca9cba5f.jpg\nmedia/inbound/2eedde1e-eea3-4f99-8ecd-ec31f098c634.jpg\nmedia/inbound/33661439-7677-4d13-9afb-c17862804d56.jpg\nmedia/inbound/355b022f-13c6-435a-a665-b601e433175c.jpg\nmedia/inbound/35dee78c-3537-4674-a357-59cdb2b1df22.jpg\nmedia/inbound/3fa8fcaf-a600-400e-a5da-4388a93cf75a.jpg\nmedia/inbound/444cdfb8-f026-459a-89be-4e641f303c0e.jpg\nmedia/inbound/45370aa9-b852-4c41-84f1-ea5546cfad47.jpg\nmedia/inbound/46436d10-1ec3-4385-8cb5-6f9e656e2128.jpg\nmedia/inbound/4647eeff-8caf-4466-9ceb-ebd7a8c95544.jpg\nmedia/inbound/4a1ca24a-561d-4ad9-8dd6-54c091caa82b.jpg\nmedia/inbound/4d895a59-390c-4a6e-896e-e73a076db3ab.jpg\nmedia/inbound/4dd757e5-1972-4e65-9fef-ce10100f411c.jpg\nmedia/inbound/510b5f7b-c331-4be7-947e-98434c0284aa.jpg\nmedia/inbound/595bc37f-57a5-4cfc-a418-9df4d192b4f4.jpg\nmedia/inbound/59fac6bb-0924-463b-af3e-55ee669dc418.jpg\nmedia/inbound/649bd44f-4f29-4f8b-855a-6bc6374d16fd.jpg\nmedia/inbound/6e3ae713-8c44-4b35-92a1-849b1480bc09.jpg\nmedia/inbound/70b32311-b3e6-49e2-a9b3-13829cbe5f31.jpg\nmedia/inbound/71d7864f-238e-4e5b-9b32-31c304ae9d96.jpg\nmedia/inbound/7847059d-be4c-4d3f-8a69-5fcd041e6430.jpg\nmedia/inbound/7902049a-84ba-4a95-9357-299570cfeca2.jpg\nmedia/inbound/7a4704b3-6122-47dc-8b3c-fc8055d2efad.jpg\nmedia/inbound/7d1d3f23-2e30-4a1a-a1bf-559066b7c763.jpg\nmedia/inbound/7e8c5ba4-2e23-4450-8348-f651129ae06f.jpg\nmedia/inbound/808886d5-ed55-4ca2-b67b-e05f3a20ca13.jpg\nmedia/inbound/80f8e568-6cc7-42d5-812c-e774c3217e51.jpg\nmedia/inbound/853a9fcc-8903-4166-9e46-1711649670d6.jpg\nmedia/inbound/90b94e6e-65e4-4c5f-9ab1-8c2371b48019.jpg\nmedia/inbound/9c6e3add-cc65-472f-8317-5fdfcc55caa8.jpg\nmedia/inbound/9f4e17fd-7717-44ee-8f21-3bd5c5fa7341.jpg\nmedia/inbound/a04b1819-f925-4cdc-8b07-b65f84744151.jpg\nmedia/inbound/a6b6cedd-670a-4fde-bdfc-7095d61b6576.jpg\nmedia/inbound/a9132b11-b26b-4155-9b89-0e62ff6c868c.jpg\nmedia/inbound/aa4e4ec6-856d-44f2-8094-c36b4cbfbfec.jpg\nmedia/inbound/ab930059-7940-4e36-9ddd-7943530243fe.jpg\nmedia/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg\nmedia/inbound/af3d6d57-bf14-45bb-b947-25d4c92baade.jpg\nmedia/inbound/af5afcd0-74ab-4d64-a46d-6fb73a68bdd6.jpg\nmedia/inbound/b13adaf4-02fe-417f-96c8-5ad44b87be26.jpg\nmedia/inbound/b2b2099a-6264-4cb2-b53a-2afb33e04838.jpg\nmedia/inbound/b3c6f8c3-daf9-48ff-b122-fb858e0246d5.jpg\nmedia/inbound/b3fb2bbb-acd8-4ae8-b063-753d841c6cd0.jpg\nmedia/inbound/b4ef4b07-183a-458e-a7d4-f8c1493b57dc.jpg\nmedia/inbound/b90bd0b8-7177-4ade-a4e2-4658c68b7903.jpg\nmedia/inbound/c0146f06-6980-4f80-8187-ab9b970ce2b8.jpg\nmedia/inbound/c585c55c-6771-40df-be05-f228010ee933.jpg\nmedia/inbound/c682a1b9-2742-442f-be90-c6ffabc9a8af.jpg\nmedia/inbound/cb62b128-242b-4a94-9dad-384e2f704a87.jpg\nmedia/inbound/cea32ff5-3e07-4a71-b8c9-2ad88260c39a.jpg\nmedia/inbound/cf057ca6-7b4e-4c50-a6f1-8881aec45567.jpg\nmedia/inbound/d07664e0-8c53-4d92-ac7c-8f4028dc8cfd.jpg\nmedia/inbound/d0a67823-d650-4605-9ff0-5e0d57d18f8a.jpg\nmedia/inbound/d2c203b1-9f6b-4e8e-b4e7-db75119f982e.jpg\nmedia/inbound/d391616b-f77a-4126-a900-512279e55db1.jpg\nmedia/inbound/db50eef4-bf32-4f41-a26c-6e68e2053ec6.jpg\nmedia/inbound/dd691991-9809-4be5-9506-d1b3e23938df.jpg\nmedia/inbound/dfd86846-27f4-484b-b184-3a568a10351b.jpg\nmedia/inbound/e7b5e40f-c086-478b-b380-4f95bfc12d0b.jpg\nmedia/inbound/e9ccf99e-200b-4865-8486-42b1c480b8da.jpg\nmedia/inbound/ec2de129-d016-4978-9dd5-90818f35d802.jpg\nmedia/inbound/f073219f-141a-4132-9427-93b7b9571c53.jpg\nmedia/inbound/f7ccc248-b7da-4f6d-9ded-e86cdf369cf9.jpg\nmedia/inbound/fee45cea-eccd-4fff-930b-55e1a71ae6dc.jpg\nmedia/inbound/ff7f01cb-76a2-4161-9658-6da7e6803f10.jpg\nmedia/inbound/how-to-customize---813325e2-805f-48e9-86f5-c720133f53af\nmedia/inbound/how-to-customize---d9a31489-29bf-4e03-a3c1-c69724b3573c\nmedia/inbound/isc-event-dto-binding-design-v5-final_3---8c801479-646f-478b-a967-96a3f2569127.pdf\nmedia/inbound/seef-rebuild-analysis---fd31c993-8c32-49f0-9eef-75ac6d95364b\nmedia/inbound/seef-rebuild-engine-roadmap---6b0831aa-5841-4e7b-8f9b-0be9ca2ccd4f\nmedia/outbound/system-loop-engineering-plan.md\nmemory/cron-worker.sqlite\nmemory/main.sqlite\nopenclaw.json\nopenclaw.json.backup-20260305-220319\nopenclaw.json.bailian-backup\nopenclaw.json.bailian-backup-202603030357\nopenclaw.json.bak\nopenclaw.json.bak2\nopenclaw.json.bak-pre-cronworker-glm5\nopenclaw.json.cron-backup\nopenclaw.json.current-clean\nopenclaw.json.key-backup-202603030344\nopenclaw.json.pre-fallback-step1\nopenclaw.json.pre-fallback-step2\nopenclaw.json.pre-fallback-v2-step1\nopenclaw.json.pre-fallback-v2-step2\nopenclaw.json.rename-backup-202603030247\nopenclaw.json.safe-backup\nscripts/sync-architecture-changelog.sh\n.secrets/github.env\n.secrets/tavily.env\nsubagents/runs.json\nupdate-check.json\nworkspace/aeo-vector-system/case-indexer.cjs\nworkspace/aeo-vector-system/history-matcher.cjs\nworkspace/aeo-vector-system/README.md\nworkspace/aeo-vector-system/similarity-search.cjs\nworkspace/aeo-vector-system/test-integration.cjs\nworkspace/aeo-vector-system/test-report.json\nworkspace/aeo-vector-system/vector-core.cjs\nworkspace/AGENTS.md\nworkspace-analyst/AGENTS.md\nworkspace-analyst/BOOTSTRAP.md\nworkspace-analyst/HEARTBEAT.md\nworkspace-analyst/IDENTITY.md\nworkspace-analyst/isc-rules-overlap-analysis.md\nworkspace-analyst/.openclaw/workspace-state.json\nworkspace-analyst/reports/openclaw-meta-impact-recording-industry-opportunity-analysis.md\nworkspace-analyst/reports/openclaw-vs-manus-analysis.md\nworkspace-analyst/reports/openclaw-vs-manus-impact-analysis.md\nworkspace-analyst/SOUL.md\nworkspace-analyst/TOOLS.md\nworkspace-analyst/USER.md\nworkspace-auditor/AGENTS.md\nworkspace-auditor/BOOTSTRAP.md\nworkspace-auditor/.git/config\nworkspace-auditor/.git/description\nworkspace-auditor/.git/HEAD\nworkspace-auditor/HEARTBEAT.md\nworkspace-auditor/IDENTITY.md\nworkspace-auditor/.openclaw/workspace-state.json\nworkspace-auditor/SOUL.md\nworkspace-auditor/TOOLS.md\nworkspace-auditor/USER.md\nworkspace/batch-update-skills.sh\nworkspace/BOOTSTRAP.md\nworkspace/CAPABILITY-ANCHOR.md\nworkspace-coder/AGENTS.md\nworkspace-coder/BOOTSTRAP.md\nworkspace-coder/HEARTBEAT.md\nworkspace-coder/IDENTITY.md\nworkspace-coder/.openclaw/workspace-state.json\nworkspace-coder/SOUL.md\nworkspace-coder/TOOLS.md\nworkspace-coder/USER.md\nworkspace/config/mcporter.json\nworkspace/config/openclaw-glm5-only.json\nworkspace/config/openclaw-glm5-only.json.bak.20260228183411\nworkspace/config/openclaw-glm5-proposal.json\nworkspace/config/openclaw-glm5-proposal.json.bak.20260228183411\nworkspace/config/routing-rules.json\nworkspace/config/routing-rules.json.bak.20260228183411\nworkspace/config/system-prompt-routing.md\nworkspace/council-decision-20260225.md\nworkspace/council-inputs/elite-memory-evaluation.md\nworkspace/CRAS-A-优化报告-v2.0.md\nworkspace/cras/cras-learning-engine.cjs\nworkspace/cras/cron_entry.py\nworkspace/cras/README.md\nworkspace/CRITICAL_ENFORCEMENT_RULES.md\nworkspace/CRITICAL-MEMORY.md\nworkspace/cron/session-governance.cron\nworkspace/DELIVERY-PHASE3-1.md\nworkspace/designs/aeo-analysis.md\nworkspace/designs/day1-2-design-debt-review.md\nworkspace/designs/day2-scope-and-plan.md\nworkspace/designs/day3-detailed-design.md\nworkspace/designs/isc-event-dto-binding-design.md\nworkspace/designs/isc-event-dto-binding-design-v3.md\nworkspace/designs/isc-event-dto-binding-design-v4.md\nworkspace/designs/isc-event-dto-binding-design-v5-final.pdf\nworkspace/designs/isc-event-dto-binding-design-v5.md\nworkspace/designs/l3-integration-map-v1.md\nworkspace/designs/l3-interface-contract-v1.md\nworkspace/designs/l3-migration-plan.md\nworkspace/designs/model-routing-auto-switching-design-v1.md\nworkspace/designs/MRAS-执行摘要.md\nworkspace/designs/skill-separation-design.md\nworkspace-engineer/AGENTS.md\nworkspace-engineer/BOOTSTRAP.md\nworkspace-engineer/.git/config\nworkspace-engineer/.git/description\nworkspace-engineer/.git/HEAD\nworkspace-engineer/HEARTBEAT.md\nworkspace-engineer/IDENTITY.md\nworkspace-engineer/.openclaw/workspace-state.json\nworkspace-engineer/SOUL.md\nworkspace-engineer/TOOLS.md\nworkspace-engineer/USER.md\nworkspace/feishu_sent_cards/18-agent-runtime-1772840917026.json\nworkspace/feishu_sent_cards/doing-card-1772841046100.json\nworkspace/feishu_sent_cards/queue-card-1772841161034.json\nworkspace/feishu_sent_cards/real-running-card-1772840987597.json\nworkspace/feishu_sent_cards/send_1772481802432_insight_1772380873908.json\nworkspace/feishu_sent_cards/send_1772481803936_insight_1772445620314.json\nworkspace/feishu_sent_cards/send_1772542888304_evolver_cycle_0002_1772481823.json\nworkspace/feishu_sent_cards/send_1772542888806_lep-daily-1772485649485.json\nworkspace/feishu_sent_cards/send_1772542889308_insight_1772485820149.json\nworkspace/feishu_sent_cards/send_1772542890310_insight_1772542867073.json\nworkspace/feishu_sent_reports/insight_1772380873908.json\nworkspace/feishu_sent_reports/insight_1772445620314.json\nworkspace/feishu_sent_reports/insight_1772485820149.json\nworkspace/feishu_sent_reports/insight_1772542867073.json\nworkspace/feishu_sent_reports/lep-daily-1772485649485.json\nworkspace/.gitattributes\nworkspace/.gitignore\nworkspace/HEARTBEAT.md\nworkspace/IDENTITY.md\nworkspace/infrastructure/entropy-report.json\nworkspace/infrastructure/event-type-mapping.json\nworkspace/infrastructure/gate-blocked.json\nworkspace/infrastructure/intent-processing-log.jsonl\nworkspace/infrastructure/report-snapshot.js\nworkspace/infrastructure/self-bootstrap-kernel.js\nworkspace/infrastructure/session-anchor-bootstrap.js\nworkspace/infrastructure/system-bootstrap.js\nworkspace/lep-design-refined.md\nworkspace/lep-subagent/lep.config.example.js\nworkspace/lep-subagent/package.json\nworkspace/lep-subagent/phase3-summary.json\nworkspace/lep-subagent/README.md\nworkspace/lep-subagent/SKILL.md\nworkspace/lep-subagent/task-aeo-phase3-2-效果趋势图.json\nworkspace/lep-subagent/task-aeo-phase3-3-实时监控仪表盘.json\nworkspace/lep-subagent/task-aeo-phase3-4-告警通知系统.json\nworkspace/lep-subagent/tsconfig.json\nworkspace/logs/gateway-memory-governor.log\nworkspace/logs/session-cleanup.log\nworkspace/logs/system-maintenance.log\nworkspace/memory/2026-03-05.md\nworkspace/memory/2026-03-06.md\nworkspace/memory/2026-03-07.md\nworkspace/memory/bootstrap-memory-digest.json\nworkspace/memory/cras-e-signals.jsonl\nworkspace/memory/heartbeat-state.json\nworkspace/MEMORY.md\nworkspace/memory/pdca-execution-log.jsonl\nworkspace/memory/project-artifact-governance-state.json\nworkspace/node_modules/.package-lock.json\nworkspace/.openclaw/workspace-state.json\nworkspace/output/eval-history-0.json\nworkspace/output/eval-history-1.json\nworkspace/output/eval-history-2.json\nworkspace/output/eval-history-3.json\nworkspace/output/eval-history-4.json\nworkspace/output/test-chart.svg\nworkspace/output/test-data.json\nworkspace/output/test-report-0.json\nworkspace/output/test-report-1.json\nworkspace/output/test-report-2.json\nworkspace/output/test-report.html\nworkspace/output/trend-chart.svg\nworkspace/output/trend-data-demo-evaluation-latest.json\nworkspace/output/trend-data.json\nworkspace/output/trend-demo-evaluation-latest-1772048233222.svg\nworkspace/output/trend-report-demo-evaluation-latest.html\nworkspace/output/trend-report.html\nworkspace/package.json\nworkspace/package-lock.json\nworkspace/.pipeline-feedback.jsonl\nworkspace/.pipeline-monitor.json\nworkspace/.pipeline-states.json\nworkspace/PROJECT-TRACKER.md\nworkspace/prompts/CRAS-A-全球顶尖AI版-Prompt-v2.0.md\nworkspace/prompts/CRAS-A全系统报告-Prompt规范-v1.0.md\nworkspace/reports/acp-setup-guide.md\nworkspace/reports/activate-and-validate-dispatch-reporting.md\nworkspace/reports/aeo-eval-unification-audit-and-fix.md\nworkspace/reports/aeo-golden-eval-rebuild.md\nworkspace/reports/architect-full-audit-2026-03-06.md\nworkspace/reports/artifact-auto-send-ruleify.md\nworkspace/reports/boom-18-lane-key-audit.md\nworkspace/reports/boom-key-reprobe-plus-2.md\nworkspace/reports/business-e2e-suite.md\nworkspace/reports/capability-anchor-audit.md\nworkspace/reports/capability-anchor-session-load-hardening.md\nworkspace/reports/complex-task-split-rule.md\nworkspace/reports/correction-harvest-2026-03-06.md\nworkspace/reports/CRAS-E-持续进化改造方案-20260307.md\nworkspace/reports/cras-growth-loop-ruleify.md\nworkspace/reports/cron-diagnostic.md\nworkspace/reports/cron-global-status-audit-and-fix.md\nworkspace/reports/cron-model-governance-eval.md\nworkspace/reports/cron-model-policy.md\nworkspace/reports/d2-01-enforcement-engine.md\nworkspace/reports/d2-03-self-healing.md\nworkspace/reports/d2-05-pipeline-standalone.md\nworkspace/reports/d2-06-task-flow.md\nworkspace/reports/d2-07-cron-migration.md\nworkspace/reports/d2-08-l3-mainline.md\nworkspace/reports/d2-intent-analysis.md\nworkspace/reports/day1-closure-summary.md\nworkspace/reports/day1-enforcement-poc.md\nworkspace/reports/day1-intent-benchmark.md\nworkspace/reports/day1-lingxiaoge-verdict.md\nworkspace/reports/day1-llm-smoke-test.md\nworkspace/reports/day1-pipeline-benchmark.md\nworkspace/reports/day1-pipeline-benchmark.md.snapshot.json\nworkspace/reports/day1-qa-independent-review.md\nworkspace/reports/day1-scenario-benchmark.md\nworkspace/reports/day1-snapshot-mechanism.md\nworkspace/reports/day2-aeo-assessment.md\nworkspace/reports/day2-architecture-design.md\nworkspace/reports/day2-architecture-design-v2.md\nworkspace/reports/day2-blocker-pending-report.md\nworkspace/reports/day2-contract-tests.md\nworkspace/reports/day2-degradation-drill.md\nworkspace/reports/day2-deliberation.md\nworkspace/reports/day2-dependency-check.md\nworkspace/reports/day2-error-recovery.md"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 21,
+          "aggregated": "/root/.openclaw/workspace-researcher\ntotal 60\ndrwxr-xr-x  4 root root  4096 Mar  5 21:19 .\ndrwxr-xr-x 31 root root  4096 Mar  7 00:28 ..\n-rw-r--r--  1 root root  7869 Mar  5 21:19 AGENTS.md\n-rw-r--r--  1 root root  1470 Mar  5 21:19 BOOTSTRAP.md\n-rw-r--r--  1 root root   168 Mar  5 21:19 HEARTBEAT.md\n-rw-r--r--  1 root root   636 Mar  5 21:19 IDENTITY.md\ndrwxr-xr-x  2 root root  4096 Mar  5 21:19 .openclaw\ndrwxr-xr-x  2 root root  4096 Mar  5 21:19 reports\n-rw-r--r--  1 root root   710 Mar  5 21:19 SOUL.md\n-rw-r--r--  1 root root   860 Mar  5 21:19 TOOLS.md\n-rw-r--r--  1 root root   477 Mar  5 21:19 USER.md\n-rw-r--r--  1 root root     0 Mar  5 21:19 小米手机购买策略指南 2026.md\n-rw-r--r--  1 root root 11610 Mar  5 21:19 小红书运营攻略.md\nagents/cron-worker/models.json\nagents/cron-worker/models.json.bak-pre-sonnet\nbackups/workspace-20260303_190018.bundle\nbackups/workspace-20260304_114745.bundle\nbackups/workspace-20260304_190026.bundle\nbackups/workspace-20260305_070019.bundle\nbackups/workspace-20260306_070005.bundle\nbackups/workspace-20260306_070005.tar.gz\nbackups/workspace-20260306_190005.bundle\nbackups/workspace-20260306_190005.tar.gz\nbackups/workspace-20260307_070004.bundle\nbackups/workspace-20260307_070004.tar.gz\ncanvas/index.html\ncredentials/feishu-default-allowFrom.json\ncredentials/feishu-pairing.json\ncron/jobs.json\ncron/jobs.json.backup\ncron/jobs.json.bak\ncron/jobs.json.bak-pre-cronworker-glm5\ncron/jobs.json.bak-pre-model\ncron/jobs.json.fix2-backup\ncron/jobs.json.fix3-backup\ncron/jobs.json.fix-userid-backup\ncron/jobs.json.p0-backup\ncron/jobs.json.p2-backup\ncron/runs/504ace91-50f2-404c-985b-6723fafa5b44.jsonl\ncron/runs/b76c9b20-d206-4d2d-9d26-815804cd22fd.jsonl\ncron/runs/d2-03-cron-healer.jsonl\ncron/runs/d9d8123d-e14e-408d-b72c-04b273530943.jsonl\ncron/runs/e4b2a1cb-41a3-4dbb-b6a7-4971ef2bb5d8.jsonl\ncron/runs/event-dispatch-runner.jsonl\ncron/runs/f6f0ba02-eab9-4ab1-87cb-c1a9e648b5aa.jsonl\ncron/runs/memory-summary-6h.jsonl\ncron/runs/merged-backup-daily.jsonl\ncron/runs/merged-capability-pdca-4h.jsonl\ncron/runs/merged-dto-aeo-hourly.jsonl\ncron/runs/merged-isc-quality-daily.jsonl\ncron/runs/merged-ops-maintenance.jsonl\ncron/runs/merged-system-monitor-hourly.jsonl\ncron/runs/merged-system-pipeline-4h.jsonl\ncron/runs/new-event-dispatcher.jsonl\ncron/runs/new-isc-change-detector.jsonl\ndelivery-queue/fd742e55-2a66-44e6-8db7-449eab05cdfc.json\ndevices/paired.json\ndevices/pending.json\nfeishu/dedup/default.json\n.git-backup-workspace/logs/HEAD\n.git/COMMIT_EDITMSG\n.git/config\n.git/description\n.git/FETCH_HEAD\n.git/filter-repo/already_ran\n.git/filter-repo/changed-refs\n.git/filter-repo/commit-map\n.git/filter-repo/first-changed-commits\n.git/filter-repo/ref-map\n.git/filter-repo/suboptimal-issues\n.git/HEAD\n.git/hooks/applypatch-msg.sample\n.git/hooks/commit-msg.sample\n.git/hooks/fsmonitor-watchman.sample\n.git/hooks/post-checkout\n.git/hooks/post-commit\n.git/hooks/post-merge\n.git/hooks/post-update.sample\n.git/hooks/pre-applypatch.sample\n.git/hooks/pre-commit\n.git/hooks/pre-commit.sample\n.git/hooks/pre-merge-commit.sample\n.git/hooks/prepare-commit-msg.sample\n.git/hooks/pre-push\n.git/hooks/pre-push.sample\n.git/hooks/pre-rebase.sample\n.git/hooks/pre-receive.sample\n.git/hooks/push-to-checkout.sample\n.git/hooks/sendemail-validate.sample\n.git/hooks/update.sample\n.gitignore\n.git/index\n.git/info/exclude\n.git/info/refs\n.git/logs/HEAD\n.git/ORIG_HEAD\n.git/packed-refs\nidentity/device-auth.json\nidentity/device.json\nlogs/config-audit.jsonl\nmedia/inbound/0657bc43-dbe4-4879-940e-3af550cd4f9c.jpg\nmedia/inbound/06dcfb31-89a8-4875-8d37-00dcd457e778.jpg\nmedia/inbound/0a17a178-dcb1-4d3a-8669-07ed4988bc8d.jpg\nmedia/inbound/0f92fb30-39a3-48e8-aa0f-2f3cb4ca8a29.jpg\nmedia/inbound/12cda35d-2820-4b59-afa0-49a178b84e7b.jpg\nmedia/inbound/146c6e85-42d2-44b1-be23-abcba0dfa13e.jpg\nmedia/inbound/17807530-f60e-420f-8638-4aa27208d36b.jpg\nmedia/inbound/1a07f228-79aa-4f7d-b15f-108180cc3f46.jpg\nmedia/inbound/23371d79-089d-4db4-a4b2-b03f0882d292.jpg\nmedia/inbound/25802c0f-ae61-4db0-824a-c50f8c03f136.jpg\nmedia/inbound/29a1b127-a716-47aa-bdf2-685ac637320b.jpg\nmedia/inbound/2cb2430c-4df2-4bfb-913c-4720e153d0d2.jpg\nmedia/inbound/2cf8a61c-5164-469c-a8ac-d87fca9cba5f.jpg\nmedia/inbound/2eedde1e-eea3-4f99-8ecd-ec31f098c634.jpg\nmedia/inbound/33661439-7677-4d13-9afb-c17862804d56.jpg\nmedia/inbound/355b022f-13c6-435a-a665-b601e433175c.jpg\nmedia/inbound/35dee78c-3537-4674-a357-59cdb2b1df22.jpg\nmedia/inbound/3fa8fcaf-a600-400e-a5da-4388a93cf75a.jpg\nmedia/inbound/444cdfb8-f026-459a-89be-4e641f303c0e.jpg\nmedia/inbound/45370aa9-b852-4c41-84f1-ea5546cfad47.jpg\nmedia/inbound/46436d10-1ec3-4385-8cb5-6f9e656e2128.jpg\nmedia/inbound/4647eeff-8caf-4466-9ceb-ebd7a8c95544.jpg\nmedia/inbound/4a1ca24a-561d-4ad9-8dd6-54c091caa82b.jpg\nmedia/inbound/4d895a59-390c-4a6e-896e-e73a076db3ab.jpg\nmedia/inbound/4dd757e5-1972-4e65-9fef-ce10100f411c.jpg\nmedia/inbound/510b5f7b-c331-4be7-947e-98434c0284aa.jpg\nmedia/inbound/595bc37f-57a5-4cfc-a418-9df4d192b4f4.jpg\nmedia/inbound/59fac6bb-0924-463b-af3e-55ee669dc418.jpg\nmedia/inbound/649bd44f-4f29-4f8b-855a-6bc6374d16fd.jpg\nmedia/inbound/6e3ae713-8c44-4b35-92a1-849b1480bc09.jpg\nmedia/inbound/70b32311-b3e6-49e2-a9b3-13829cbe5f31.jpg\nmedia/inbound/71d7864f-238e-4e5b-9b32-31c304ae9d96.jpg\nmedia/inbound/7847059d-be4c-4d3f-8a69-5fcd041e6430.jpg\nmedia/inbound/7902049a-84ba-4a95-9357-299570cfeca2.jpg\nmedia/inbound/7a4704b3-6122-47dc-8b3c-fc8055d2efad.jpg\nmedia/inbound/7d1d3f23-2e30-4a1a-a1bf-559066b7c763.jpg\nmedia/inbound/7e8c5ba4-2e23-4450-8348-f651129ae06f.jpg\nmedia/inbound/808886d5-ed55-4ca2-b67b-e05f3a20ca13.jpg\nmedia/inbound/80f8e568-6cc7-42d5-812c-e774c3217e51.jpg\nmedia/inbound/853a9fcc-8903-4166-9e46-1711649670d6.jpg\nmedia/inbound/90b94e6e-65e4-4c5f-9ab1-8c2371b48019.jpg\nmedia/inbound/9c6e3add-cc65-472f-8317-5fdfcc55caa8.jpg\nmedia/inbound/9f4e17fd-7717-44ee-8f21-3bd5c5fa7341.jpg\nmedia/inbound/a04b1819-f925-4cdc-8b07-b65f84744151.jpg\nmedia/inbound/a6b6cedd-670a-4fde-bdfc-7095d61b6576.jpg\nmedia/inbound/a9132b11-b26b-4155-9b89-0e62ff6c868c.jpg\nmedia/inbound/aa4e4ec6-856d-44f2-8094-c36b4cbfbfec.jpg\nmedia/inbound/ab930059-7940-4e36-9ddd-7943530243fe.jpg\nmedia/inbound/ac0dedc1-6b9b-4f34-862a-daa6a67c01e4.jpg\nmedia/inbound/af3d6d57-bf14-45bb-b947-25d4c92baade.jpg\nmedia/inbound/af5afcd0-74ab-4d64-a46d-6fb73a68bdd6.jpg\nmedia/inbound/b13adaf4-02fe-417f-96c8-5ad44b87be26.jpg\nmedia/inbound/b2b2099a-6264-4cb2-b53a-2afb33e04838.jpg\nmedia/inbound/b3c6f8c3-daf9-48ff-b122-fb858e0246d5.jpg\nmedia/inbound/b3fb2bbb-acd8-4ae8-b063-753d841c6cd0.jpg\nmedia/inbound/b4ef4b07-183a-458e-a7d4-f8c1493b57dc.jpg\nmedia/inbound/b90bd0b8-7177-4ade-a4e2-4658c68b7903.jpg\nmedia/inbound/c0146f06-6980-4f80-8187-ab9b970ce2b8.jpg\nmedia/inbound/c585c55c-6771-40df-be05-f228010ee933.jpg\nmedia/inbound/c682a1b9-2742-442f-be90-c6ffabc9a8af.jpg\nmedia/inbound/cb62b128-242b-4a94-9dad-384e2f704a87.jpg\nmedia/inbound/cea32ff5-3e07-4a71-b8c9-2ad88260c39a.jpg\nmedia/inbound/cf057ca6-7b4e-4c50-a6f1-8881aec45567.jpg\nmedia/inbound/d07664e0-8c53-4d92-ac7c-8f4028dc8cfd.jpg\nmedia/inbound/d0a67823-d650-4605-9ff0-5e0d57d18f8a.jpg\nmedia/inbound/d2c203b1-9f6b-4e8e-b4e7-db75119f982e.jpg\nmedia/inbound/d391616b-f77a-4126-a900-512279e55db1.jpg\nmedia/inbound/db50eef4-bf32-4f41-a26c-6e68e2053ec6.jpg\nmedia/inbound/dd691991-9809-4be5-9506-d1b3e23938df.jpg\nmedia/inbound/dfd86846-27f4-484b-b184-3a568a10351b.jpg\nmedia/inbound/e7b5e40f-c086-478b-b380-4f95bfc12d0b.jpg\nmedia/inbound/e9ccf99e-200b-4865-8486-42b1c480b8da.jpg\nmedia/inbound/ec2de129-d016-4978-9dd5-90818f35d802.jpg\nmedia/inbound/f073219f-141a-4132-9427-93b7b9571c53.jpg\nmedia/inbound/f7ccc248-b7da-4f6d-9ded-e86cdf369cf9.jpg\nmedia/inbound/fee45cea-eccd-4fff-930b-55e1a71ae6dc.jpg\nmedia/inbound/ff7f01cb-76a2-4161-9658-6da7e6803f10.jpg\nmedia/inbound/how-to-customize---813325e2-805f-48e9-86f5-c720133f53af\nmedia/inbound/how-to-customize---d9a31489-29bf-4e03-a3c1-c69724b3573c\nmedia/inbound/isc-event-dto-binding-design-v5-final_3---8c801479-646f-478b-a967-96a3f2569127.pdf\nmedia/inbound/seef-rebuild-analysis---fd31c993-8c32-49f0-9eef-75ac6d95364b\nmedia/inbound/seef-rebuild-engine-roadmap---6b0831aa-5841-4e7b-8f9b-0be9ca2ccd4f\nmedia/outbound/system-loop-engineering-plan.md\nmemory/cron-worker.sqlite\nmemory/main.sqlite\nopenclaw.json\nopenclaw.json.backup-20260305-220319\nopenclaw.json.bailian-backup\nopenclaw.json.bailian-backup-202603030357\nopenclaw.json.bak\nopenclaw.json.bak2\nopenclaw.json.bak-pre-cronworker-glm5\nopenclaw.json.cron-backup\nopenclaw.json.current-clean\nopenclaw.json.key-backup-202603030344\nopenclaw.json.pre-fallback-step1\nopenclaw.json.pre-fallback-step2\nopenclaw.json.pre-fallback-v2-step1\nopenclaw.json.pre-fallback-v2-step2\nopenclaw.json.rename-backup-202603030247\nopenclaw.json.safe-backup\nscripts/sync-architecture-changelog.sh\n.secrets/github.env\n.secrets/tavily.env\nsubagents/runs.json\nupdate-check.json\nworkspace/aeo-vector-system/case-indexer.cjs\nworkspace/aeo-vector-system/history-matcher.cjs\nworkspace/aeo-vector-system/README.md\nworkspace/aeo-vector-system/similarity-search.cjs\nworkspace/aeo-vector-system/test-integration.cjs\nworkspace/aeo-vector-system/test-report.json\nworkspace/aeo-vector-system/vector-core.cjs\nworkspace/AGENTS.md\nworkspace-analyst/AGENTS.md\nworkspace-analyst/BOOTSTRAP.md\nworkspace-analyst/HEARTBEAT.md\nworkspace-analyst/IDENTITY.md\nworkspace-analyst/isc-rules-overlap-analysis.md\nworkspace-analyst/.openclaw/workspace-state.json\nworkspace-analyst/reports/openclaw-meta-impact-recording-industry-opportunity-analysis.md\nworkspace-analyst/reports/openclaw-vs-manus-analysis.md\nworkspace-analyst/reports/openclaw-vs-manus-impact-analysis.md\nworkspace-analyst/SOUL.md\nworkspace-analyst/TOOLS.md\nworkspace-analyst/USER.md\nworkspace-auditor/AGENTS.md\nworkspace-auditor/BOOTSTRAP.md\nworkspace-auditor/.git/config\nworkspace-auditor/.git/description\nworkspace-auditor/.git/HEAD\nworkspace-auditor/HEARTBEAT.md\nworkspace-auditor/IDENTITY.md\nworkspace-auditor/.openclaw/workspace-state.json\nworkspace-auditor/SOUL.md\nworkspace-auditor/TOOLS.md\nworkspace-auditor/USER.md\nworkspace/batch-update-skills.sh\nworkspace/BOOTSTRAP.md\nworkspace/CAPABILITY-ANCHOR.md\nworkspace-coder/AGENTS.md\nworkspace-coder/BOOTSTRAP.md\nworkspace-coder/HEARTBEAT.md\nworkspace-coder/IDENTITY.md\nworkspace-coder/.openclaw/workspace-state.json\nworkspace-coder/SOUL.md\nworkspace-coder/TOOLS.md\nworkspace-coder/USER.md\nworkspace/config/mcporter.json\nworkspace/config/openclaw-glm5-only.json\nworkspace/config/openclaw-glm5-only.json.bak.20260228183411\nworkspace/config/openclaw-glm5-proposal.json\nworkspace/config/openclaw-glm5-proposal.json.bak.20260228183411\nworkspace/config/routing-rules.json\nworkspace/config/routing-rules.json.bak.20260228183411\nworkspace/config/system-prompt-routing.md\nworkspace/council-decision-20260225.md\nworkspace/council-inputs/elite-memory-evaluation.md\nworkspace/CRAS-A-优化报告-v2.0.md\nworkspace/cras/cras-learning-engine.cjs\nworkspace/cras/cron_entry.py\nworkspace/cras/README.md\nworkspace/CRITICAL_ENFORCEMENT_RULES.md\nworkspace/CRITICAL-MEMORY.md\nworkspace/cron/session-governance.cron\nworkspace/DELIVERY-PHASE3-1.md\nworkspace/designs/aeo-analysis.md\nworkspace/designs/day1-2-design-debt-review.md\nworkspace/designs/day2-scope-and-plan.md\nworkspace/designs/day3-detailed-design.md\nworkspace/designs/isc-event-dto-binding-design.md\nworkspace/designs/isc-event-dto-binding-design-v3.md\nworkspace/designs/isc-event-dto-binding-design-v4.md\nworkspace/designs/isc-event-dto-binding-design-v5-final.pdf\nworkspace/designs/isc-event-dto-binding-design-v5.md\nworkspace/designs/l3-integration-map-v1.md\nworkspace/designs/l3-interface-contract-v1.md\nworkspace/designs/l3-migration-plan.md\nworkspace/designs/model-routing-auto-switching-design-v1.md\nworkspace/designs/MRAS-执行摘要.md\nworkspace/designs/skill-separation-design.md\nworkspace-engineer/AGENTS.md\nworkspace-engineer/BOOTSTRAP.md\nworkspace-engineer/.git/config\nworkspace-engineer/.git/description\nworkspace-engineer/.git/HEAD\nworkspace-engineer/HEARTBEAT.md\nworkspace-engineer/IDENTITY.md\nworkspace-engineer/.openclaw/workspace-state.json\nworkspace-engineer/SOUL.md\nworkspace-engineer/TOOLS.md\nworkspace-engineer/USER.md\nworkspace/feishu_sent_cards/18-agent-runtime-1772840917026.json\nworkspace/feishu_sent_cards/doing-card-1772841046100.json\nworkspace/feishu_sent_cards/queue-card-1772841161034.json\nworkspace/feishu_sent_cards/real-running-card-1772840987597.json\nworkspace/feishu_sent_cards/send_1772481802432_insight_1772380873908.json\nworkspace/feishu_sent_cards/send_1772481803936_insight_1772445620314.json\nworkspace/feishu_sent_cards/send_1772542888304_evolver_cycle_0002_1772481823.json\nworkspace/feishu_sent_cards/send_1772542888806_lep-daily-1772485649485.json\nworkspace/feishu_sent_cards/send_1772542889308_insight_1772485820149.json\nworkspace/feishu_sent_cards/send_1772542890310_insight_1772542867073.json\nworkspace/feishu_sent_reports/insight_1772380873908.json\nworkspace/feishu_sent_reports/insight_1772445620314.json\nworkspace/feishu_sent_reports/insight_1772485820149.json\nworkspace/feishu_sent_reports/insight_1772542867073.json\nworkspace/feishu_sent_reports/lep-daily-1772485649485.json\nworkspace/.gitattributes\nworkspace/.gitignore\nworkspace/HEARTBEAT.md\nworkspace/IDENTITY.md\nworkspace/infrastructure/entropy-report.json\nworkspace/infrastructure/event-type-mapping.json\nworkspace/infrastructure/gate-blocked.json\nworkspace/infrastructure/intent-processing-log.jsonl\nworkspace/infrastructure/report-snapshot.js\nworkspace/infrastructure/self-bootstrap-kernel.js\nworkspace/infrastructure/session-anchor-bootstrap.js\nworkspace/infrastructure/system-bootstrap.js\nworkspace/lep-design-refined.md\nworkspace/lep-subagent/lep.config.example.js\nworkspace/lep-subagent/package.json\nworkspace/lep-subagent/phase3-summary.json\nworkspace/lep-subagent/README.md\nworkspace/lep-subagent/SKILL.md\nworkspace/lep-subagent/task-aeo-phase3-2-效果趋势图.json\nworkspace/lep-subagent/task-aeo-phase3-3-实时监控仪表盘.json\nworkspace/lep-subagent/task-aeo-phase3-4-告警通知系统.json\nworkspace/lep-subagent/tsconfig.json\nworkspace/logs/gateway-memory-governor.log\nworkspace/logs/session-cleanup.log\nworkspace/logs/system-maintenance.log\nworkspace/memory/2026-03-05.md\nworkspace/memory/2026-03-06.md\nworkspace/memory/2026-03-07.md\nworkspace/memory/bootstrap-memory-digest.json\nworkspace/memory/cras-e-signals.jsonl\nworkspace/memory/heartbeat-state.json\nworkspace/MEMORY.md\nworkspace/memory/pdca-execution-log.jsonl\nworkspace/memory/project-artifact-governance-state.json\nworkspace/node_modules/.package-lock.json\nworkspace/.openclaw/workspace-state.json\nworkspace/output/eval-history-0.json\nworkspace/output/eval-history-1.json\nworkspace/output/eval-history-2.json\nworkspace/output/eval-history-3.json\nworkspace/output/eval-history-4.json\nworkspace/output/test-chart.svg\nworkspace/output/test-data.json\nworkspace/output/test-report-0.json\nworkspace/output/test-report-1.json\nworkspace/output/test-report-2.json\nworkspace/output/test-report.html\nworkspace/output/trend-chart.svg\nworkspace/output/trend-data-demo-evaluation-latest.json\nworkspace/output/trend-data.json\nworkspace/output/trend-demo-evaluation-latest-1772048233222.svg\nworkspace/output/trend-report-demo-evaluation-latest.html\nworkspace/output/trend-report.html\nworkspace/package.json\nworkspace/package-lock.json\nworkspace/.pipeline-feedback.jsonl\nworkspace/.pipeline-monitor.json\nworkspace/.pipeline-states.json\nworkspace/PROJECT-TRACKER.md\nworkspace/prompts/CRAS-A-全球顶尖AI版-Prompt-v2.0.md\nworkspace/prompts/CRAS-A全系统报告-Prompt规范-v1.0.md\nworkspace/reports/acp-setup-guide.md\nworkspace/reports/activate-and-validate-dispatch-reporting.md\nworkspace/reports/aeo-eval-unification-audit-and-fix.md\nworkspace/reports/aeo-golden-eval-rebuild.md\nworkspace/reports/architect-full-audit-2026-03-06.md\nworkspace/reports/artifact-auto-send-ruleify.md\nworkspace/reports/boom-18-lane-key-audit.md\nworkspace/reports/boom-key-reprobe-plus-2.md\nworkspace/reports/business-e2e-suite.md\nworkspace/reports/capability-anchor-audit.md\nworkspace/reports/capability-anchor-session-load-hardening.md\nworkspace/reports/complex-task-split-rule.md\nworkspace/reports/correction-harvest-2026-03-06.md\nworkspace/reports/CRAS-E-持续进化改造方案-20260307.md\nworkspace/reports/cras-growth-loop-ruleify.md\nworkspace/reports/cron-diagnostic.md\nworkspace/reports/cron-global-status-audit-and-fix.md\nworkspace/reports/cron-model-governance-eval.md\nworkspace/reports/cron-model-policy.md\nworkspace/reports/d2-01-enforcement-engine.md\nworkspace/reports/d2-03-self-healing.md\nworkspace/reports/d2-05-pipeline-standalone.md\nworkspace/reports/d2-06-task-flow.md\nworkspace/reports/d2-07-cron-migration.md\nworkspace/reports/d2-08-l3-mainline.md\nworkspace/reports/d2-intent-analysis.md\nworkspace/reports/day1-closure-summary.md\nworkspace/reports/day1-enforcement-poc.md\nworkspace/reports/day1-intent-benchmark.md\nworkspace/reports/day1-lingxiaoge-verdict.md\nworkspace/reports/day1-llm-smoke-test.md\nworkspace/reports/day1-pipeline-benchmark.md\nworkspace/reports/day1-pipeline-benchmark.md.snapshot.json\nworkspace/reports/day1-qa-independent-review.md\nworkspace/reports/day1-scenario-benchmark.md\nworkspace/reports/day1-snapshot-mechanism.md\nworkspace/reports/day2-aeo-assessment.md\nworkspace/reports/day2-architecture-design.md\nworkspace/reports/day2-architecture-design-v2.md\nworkspace/reports/day2-blocker-pending-report.md\nworkspace/reports/day2-contract-tests.md\nworkspace/reports/day2-degradation-drill.md\nworkspace/reports/day2-deliberation.md\nworkspace/reports/day2-dependency-check.md\nworkspace/reports/day2-error-recovery.md",
+          "cwd": "."
+        },
+        "isError": false,
+        "timestamp": 1772858393106
+      }
+    },
+    {
+      "type": "message",
+      "id": "892abed7",
+      "parentId": "fe0de7c0",
+      "timestamp": "2026-03-07T04:39:57.274Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_I9J8bKdAuny8vRd4PlvvYTka",
+            "name": "exec",
+            "arguments": {
+              "command": "grep -RIn \"day2-gap2-main\\|Gap2\\|gap2\" workspace | head -200",
+              "timeout": 20,
+              "workdir": "/root/.openclaw/workspace-researcher"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 8193,
+          "output": 59,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 10044,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858393111
+      }
+    },
+    {
+      "type": "message",
+      "id": "9c19331e",
+      "parentId": "892abed7",
+      "timestamp": "2026-03-07T04:39:57.298Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_I9J8bKdAuny8vRd4PlvvYTka",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "grep: workspace: No such file or directory"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 13,
+          "aggregated": "grep: workspace: No such file or directory",
+          "cwd": "/root/.openclaw/workspace-researcher"
+        },
+        "isError": false,
+        "timestamp": 1772858397294
+      }
+    },
+    {
+      "type": "message",
+      "id": "dc50601d",
+      "parentId": "9c19331e",
+      "timestamp": "2026-03-07T04:40:01.057Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_WzVHFtPYyAMv8WibChCyoeiJ",
+            "name": "exec",
+            "arguments": {
+              "command": "grep -RIn \"day2-gap2-main\\|Gap2\\|gap2\" . | head -200",
+              "timeout": 20,
+              "workdir": "/root/.openclaw/workspace-researcher/workspace"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 8271,
+          "output": 61,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 10124,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858397298
+      }
+    },
+    {
+      "type": "message",
+      "id": "9a7f4db2",
+      "parentId": "dc50601d",
+      "timestamp": "2026-03-07T04:40:04.971Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_WzVHFtPYyAMv8WibChCyoeiJ",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "Warning: workdir \"/root/.openclaw/workspace-researcher/workspace\" is unavailable; using \"/root/.openclaw/workspace\".\n\n./skills/public/multi-agent-reporting/SKILL.md:43:    task: 'Day2 Gap2：全局自主决策流水线监控升级 / 主实现',\n./skills/public/multi-agent-reporting/SKILL.md:64:| Day2 Gap2：全局自主决策流水线监控升级 / 主实现 | gpt-5.4 | timeout |\n./skills/dto-core/tasks/auto-response-pipeline.yaml:5:# ─── Day3-Gap2 重塑标记 ───\n./skills/dto-core/tasks/cras-b-user-insight.json:7:    \"note\": \"Day3-Gap2: 主路径迁移到 EventBus 事件驱动 (cras.insight.request → Dispatcher → skill-cras-handler)。本文件保留为向后兼容参考。新配置: skills/dto-core/config/cron/cras-b-user-insight.json\",\n./skills/dto-core/tasks/system-monitor-health.yaml:4:# ─── Day3-Gap2 重塑标记 ───\n./memory/2026-03-07.md:6:  - Gap2: integration refactor complete.\n./infrastructure/event-bus/events.jsonl:9:{\"id\":\"evt_mmfs20t4_w3chdz\",\"type\":\"cron.job.requested\",\"source\":\"cron-event-bridge-runner\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854937751,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854937751_6j01\",\"chain_depth\":0,\"emitted_at\":1772854937751,\"event_type\":\"cron.job.requested\"}},\"timestamp\":1772854937752,\"consumed_by\":[\"dispatcher\"]}\n./infrastructure/event-bus/events.jsonl:10:{\"id\":\"evt_mmfs21np_b5vc0i\",\"type\":\"cron.job.requested\",\"source\":\"cron-event-bridge-runner\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854938852,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854938852_vigw\",\"chain_depth\":0,\"emitted_at\":1772854938852,\"event_type\":\"cron.job.requested\"}},\"timestamp\":1772854938853,\"consumed_by\":[\"dispatcher\"]}\n./infrastructure/event-bus/events.jsonl:13:{\"id\":\"evt_mmfs38o1_q5ajaj\",\"type\":\"cron.job.requested\",\"source\":\"cron-event-bridge-runner\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854994592,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854994592_gd96\",\"chain_depth\":0,\"emitted_at\":1772854994592,\"event_type\":\"cron.job.requested\"}},\"timestamp\":1772854994593,\"consumed_by\":[\"dispatcher\"]}\n./infrastructure/event-bus/events.jsonl:14:{\"id\":\"evt_mmfs3v4t_8udouh\",\"type\":\"cron.job.requested\",\"source\":\"cron-event-bridge-runner\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772855023708,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772855023709_byhb\",\"chain_depth\":0,\"emitted_at\":1772855023709,\"event_type\":\"cron.job.requested\"}},\"timestamp\":1772855023709,\"consumed_by\":[\"dispatcher\"]}\n./infrastructure/event-bus/bus-adapter.js:341:// Day3-Gap2: 事件驱动便捷 Emit 点\n./infrastructure/event-bus/bus-adapter.js:346: * [Day3-Gap2] 替代旧 Cron 直接调用模式\n./infrastructure/event-bus/bus-adapter.js:371: * [Day3-Gap2] 事件驱动触发入口\n./infrastructure/event-bus/bus-adapter.js:392: * [Day3-Gap2] 事件驱动触发入口\n./infrastructure/event-bus/bus-adapter.js:424:  // Day3-Gap2: 事件驱动便捷 emit 点\n./infrastructure/cron/jobs.json:104:      \"description\": \"[Day3-Gap2] 自动响应管道兜底补扫 — 检查EventBus中遗漏的evolver/cras事件\",\n./infrastructure/cron/jobs.json:126:        \"day3-gap2\"\n./infrastructure/cron/jobs.json:136:      \"description\": \"[Day3-Gap2] CRAS用户洞察兜底补扫 — 检查30分钟内是否有洞察输出\",\n./infrastructure/cron/jobs.json:159:        \"day3-gap2\"\n./infrastructure/cron/jobs.json:169:      \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/cron/jobs.json:196:        \"day3-gap2\"\n./infrastructure/cron/jobs.json:206:      \"description\": \"[Day2-Gap2] 五层闭环运营仪表盘 — 采集认知-决策-执行-效果-系统全链路指标，生成Agent运营视角报告\",\n./infrastructure/cron/jobs.json:227:        \"day2-gap2\"\n./infrastructure/cron/jobs.json:237:      \"description\": \"[Day2-Gap2] 五层闭环快速健康检查 — 1h窗口，状态恶化时自动推送卡片\",\n./infrastructure/cron/jobs.json:257:        \"day2-gap2\"\n./infrastructure/cron/fallback-sweep.js:6: * [Day3-Gap2] 兜底补扫执行器。\n./infrastructure/observability/autonomous-pipeline-monitor.js:7: * Day2 Gap2 集成改造：\n./infrastructure/observability/autonomous-pipeline-monitor.js:329:  lines.push(`*Generated by autonomous-pipeline-monitor.js | Day2 Gap2 五层闭环监控*`);\n./infrastructure/observability/pipeline-dashboard-cron.js:7: * Day2 Gap2: 全局自主决策流水线监控升级 / 集成改造\n./infrastructure/observability/pipeline-dashboard-collector.js:7: * Day2 Gap2 核心产物：从 \"监控代码流水线\" → \"监控认知-决策-执行闭环\"\n./infrastructure/observability/ops-daily-report.js:9: * [Day2 Gap2 升级] 现在委托给 pipeline-dashboard-collector + autonomous-pipeline-monitor\n./infrastructure/observability/pipeline-dashboard-bus-adapter.js:7: * Day2 Gap2 — 让五层仪表盘也支持事件驱动触发\n./infrastructure/observability/global-decision-dashboard.js:6: * Day2 Gap2 主实现：打通认知-决策-执行-效果-系统健康五层监控汇总。\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41089:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41095:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41133:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41139:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41198:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41204:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41242:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41248:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41433:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41439:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41477:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41483:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41542:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41548:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41586:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41592:                \"day3-gap2\"\n./infrastructure/dispatcher/routes.json:158:        \"description\": \"[Day3-Gap2] Evolver洞察 → 自动响应管道 (事件驱动主路径，取代独立Cron触发)\"\n./infrastructure/dispatcher/routes.json:164:        \"description\": \"[Day3-Gap2] CRAS关键洞察 → 自动响应管道 (事件驱动主路径)\"\n./infrastructure/dispatcher/routes.json:170:        \"description\": \"[Day3-Gap2] 系统指标越界 → 自动响应管道 (事件驱动主路径)\"\n./infrastructure/dispatcher/routes.json:176:        \"description\": \"[Day3-Gap2] CRAS洞察请求 → 事件驱动触发用户洞察分析 (取代30分钟Cron直接调用)\"\n./infrastructure/dispatcher/routes.json:182:        \"description\": \"[Day3-Gap2] 系统健康检查请求 → 事件驱动触发 (Cron仅做兜底)\"\n./infrastructure/dispatcher/handlers/auto-response-handler.js:6: * [Day3-Gap2] 事件驱动的自动响应管道 handler。\n./infrastructure/dispatcher/dispatched/evt_mmfs20t4_w3chdz.json:9:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs20t4_w3chdz.json:15:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs20t4_w3chdz.json:53:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs20t4_w3chdz.json:59:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs3v4t_8udouh.json:9:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs3v4t_8udouh.json:15:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs3v4t_8udouh.json:53:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs3v4t_8udouh.json:59:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs38o1_q5ajaj.json:9:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs38o1_q5ajaj.json:15:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs38o1_q5ajaj.json:53:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs38o1_q5ajaj.json:59:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs21np_b5vc0i.json:9:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs21np_b5vc0i.json:15:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs21np_b5vc0i.json:53:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs21np_b5vc0i.json:59:          \"day3-gap2\"\n./infrastructure/tests/pipeline-dashboard-test.js:7: * Day2 Gap2 验证: 五层闭环监控是否真正采集到数据并生成可用报告\n./infrastructure/tests/pipeline-dashboard-test.js:251:  assert(fullJob.tags.includes('day2-gap2'), 'missing day2-gap2 tag');\n./infrastructure/logs/handler-actions.jsonl:11880:{\"timestamp\":\"2026-03-07T03:45:08.244Z\",\"handler\":\"log-action\",\"eventType\":\"cron.job.requested\",\"eventId\":\"evt_1772855108244\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854937751,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854937751_6j01\",\"chain_depth\":0,\"emitted_at\":1772854937751,\"event_type\":\"cron.job.requested\"}},\"source\":\"dispatcher\"}\n./infrastructure/logs/handler-actions.jsonl:11881:{\"timestamp\":\"2026-03-07T03:45:08.244Z\",\"handler\":\"log-action\",\"eventType\":\"cron.job.requested\",\"eventId\":\"evt_1772855108244\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854938852,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854938852_vigw\",\"chain_depth\":0,\"emitted_at\":1772854938852,\"event_type\":\"cron.job.requested\"}},\"source\":\"dispatcher\"}\n./infrastructure/logs/handler-actions.jsonl:11884:{\"timestamp\":\"2026-03-07T03:45:08.246Z\",\"handler\":\"log-action\",\"eventType\":\"cron.job.requested\",\"eventId\":\"evt_1772855108246\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854994592,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854994592_gd96\",\"chain_depth\":0,\"emitted_at\":1772854994592,\"event_type\":\"cron.job.requested\"}},\"source\":\"dispatcher\"}\n./infrastructure/logs/handler-actions.jsonl:11885:{\"timestamp\":\"2026-03-07T03:45:08.246Z\",\"handler\":\"log-action\",\"eventType\":\"cron.job.requested\",\"eventId\":\"evt_1772855108246\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772855023708,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772855023709_byhb\",\"chain_depth\":0,\"emitted_at\":1772855023709,\"event_type\":\"cron.job.requested\"}},\"source\":\"dispatcher\"}\n./infrastructure/logs/dispatcher-actions.jsonl:867:{\"timestamp\":\"2026-03-07T03:45:08.243Z\",\"eventType\":\"cron.job.requested\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"action\":{\"type\":\"cron-job-requested\",\"handler\":\"cron-job-requested\",\"description\":\"accept or fallback execute bridged cron job\"},\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854937751,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854937751_6j01\",\"chain_depth\":0,\"emitted_at\":1772854937751,\"event_type\":\"cron.job.requested\"}},\"depth\":0}\n./infrastructure/logs/dispatcher-actions.jsonl:868:{\"timestamp\":\"2026-03-07T03:45:08.244Z\",\"eventType\":\"cron.job.requested\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"action\":{\"type\":\"cron-job-requested\",\"handler\":\"cron-job-requested\",\"description\":\"accept or fallback execute bridged cron job\"},\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854938852,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854938852_vigw\",\"chain_depth\":0,\"emitted_at\":1772854938852,\"event_type\":\"cron.job.requested\"}},\"depth\":0}\n./infrastructure/logs/dispatcher-actions.jsonl:871:{\"timestamp\":\"2026-03-07T03:45:08.245Z\",\"eventType\":\"cron.job.requested\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"action\":{\"type\":\"cron-job-requested\",\"handler\":\"cron-job-requested\",\"description\":\"accept or fallback execute bridged cron job\"},\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854994592,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854994592_gd96\",\"chain_depth\":0,\"emitted_at\":1772854994592,\"event_type\":\"cron.job.requested\"}},\"depth\":0}\n./infrastructure/logs/dispatcher-actions.jsonl:872:{\"timestamp\":\"2026-03-07T03:45:08.246Z\",\"eventType\":\"cron.job.requested\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"action\":{\"type\":\"cron-job-requested\",\"handler\":\"cron-job-requested\",\"description\":\"accept or fallback execute bridged cron job\"},\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772855023708,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772855023709_byhb\",\"chain_depth\":0,\"emitted_at\":1772855023709,\"event_type\":\"cron.job.requested\"}},\"depth\":0}\n./reports/task-queue/day2-19lane-queue.json:28:      \"gap\": \"gap2\",\n./reports/task-queue/day2-19lane-queue.json:29:      \"title\": \"Day2 Gap2：全局自主决策流水线监控升级 / 主实现\",\n./reports/task-queue/day2-19lane-queue.json:35:      \"gap\": \"gap2\",\n./reports/task-queue/day2-19lane-queue.json:36:      \"title\": \"Day2 Gap2：全局自主决策流水线监控升级 / 集成改造\",\n./reports/task-queue/day2-19lane-queue.json:42:      \"gap\": \"gap2\",\n./reports/task-queue/day2-19lane-queue.json:43:      \"title\": \"Day2 Gap2：全局自主决策流水线监控升级 / 验证测试\",\n./reports/ops-dashboard-2026-03-07.md:130:*Generated by autonomous-pipeline-monitor.js | Day2 Gap2 五层闭环监控*\n./reports/pipeline-dashboard-2026-03-07.md:128:*Generated by autonomous-pipeline-monitor.js | Day2 Gap2 五层闭环监控*"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 3904,
+          "aggregated": "./skills/public/multi-agent-reporting/SKILL.md:43:    task: 'Day2 Gap2：全局自主决策流水线监控升级 / 主实现',\n./skills/public/multi-agent-reporting/SKILL.md:64:| Day2 Gap2：全局自主决策流水线监控升级 / 主实现 | gpt-5.4 | timeout |\n./skills/dto-core/tasks/auto-response-pipeline.yaml:5:# ─── Day3-Gap2 重塑标记 ───\n./skills/dto-core/tasks/cras-b-user-insight.json:7:    \"note\": \"Day3-Gap2: 主路径迁移到 EventBus 事件驱动 (cras.insight.request → Dispatcher → skill-cras-handler)。本文件保留为向后兼容参考。新配置: skills/dto-core/config/cron/cras-b-user-insight.json\",\n./skills/dto-core/tasks/system-monitor-health.yaml:4:# ─── Day3-Gap2 重塑标记 ───\n./memory/2026-03-07.md:6:  - Gap2: integration refactor complete.\n./infrastructure/event-bus/events.jsonl:9:{\"id\":\"evt_mmfs20t4_w3chdz\",\"type\":\"cron.job.requested\",\"source\":\"cron-event-bridge-runner\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854937751,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854937751_6j01\",\"chain_depth\":0,\"emitted_at\":1772854937751,\"event_type\":\"cron.job.requested\"}},\"timestamp\":1772854937752,\"consumed_by\":[\"dispatcher\"]}\n./infrastructure/event-bus/events.jsonl:10:{\"id\":\"evt_mmfs21np_b5vc0i\",\"type\":\"cron.job.requested\",\"source\":\"cron-event-bridge-runner\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854938852,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854938852_vigw\",\"chain_depth\":0,\"emitted_at\":1772854938852,\"event_type\":\"cron.job.requested\"}},\"timestamp\":1772854938853,\"consumed_by\":[\"dispatcher\"]}\n./infrastructure/event-bus/events.jsonl:13:{\"id\":\"evt_mmfs38o1_q5ajaj\",\"type\":\"cron.job.requested\",\"source\":\"cron-event-bridge-runner\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854994592,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854994592_gd96\",\"chain_depth\":0,\"emitted_at\":1772854994592,\"event_type\":\"cron.job.requested\"}},\"timestamp\":1772854994593,\"consumed_by\":[\"dispatcher\"]}\n./infrastructure/event-bus/events.jsonl:14:{\"id\":\"evt_mmfs3v4t_8udouh\",\"type\":\"cron.job.requested\",\"source\":\"cron-event-bridge-runner\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772855023708,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772855023709_byhb\",\"chain_depth\":0,\"emitted_at\":1772855023709,\"event_type\":\"cron.job.requested\"}},\"timestamp\":1772855023709,\"consumed_by\":[\"dispatcher\"]}\n./infrastructure/event-bus/bus-adapter.js:341:// Day3-Gap2: 事件驱动便捷 Emit 点\n./infrastructure/event-bus/bus-adapter.js:346: * [Day3-Gap2] 替代旧 Cron 直接调用模式\n./infrastructure/event-bus/bus-adapter.js:371: * [Day3-Gap2] 事件驱动触发入口\n./infrastructure/event-bus/bus-adapter.js:392: * [Day3-Gap2] 事件驱动触发入口\n./infrastructure/event-bus/bus-adapter.js:424:  // Day3-Gap2: 事件驱动便捷 emit 点\n./infrastructure/cron/jobs.json:104:      \"description\": \"[Day3-Gap2] 自动响应管道兜底补扫 — 检查EventBus中遗漏的evolver/cras事件\",\n./infrastructure/cron/jobs.json:126:        \"day3-gap2\"\n./infrastructure/cron/jobs.json:136:      \"description\": \"[Day3-Gap2] CRAS用户洞察兜底补扫 — 检查30分钟内是否有洞察输出\",\n./infrastructure/cron/jobs.json:159:        \"day3-gap2\"\n./infrastructure/cron/jobs.json:169:      \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/cron/jobs.json:196:        \"day3-gap2\"\n./infrastructure/cron/jobs.json:206:      \"description\": \"[Day2-Gap2] 五层闭环运营仪表盘 — 采集认知-决策-执行-效果-系统全链路指标，生成Agent运营视角报告\",\n./infrastructure/cron/jobs.json:227:        \"day2-gap2\"\n./infrastructure/cron/jobs.json:237:      \"description\": \"[Day2-Gap2] 五层闭环快速健康检查 — 1h窗口，状态恶化时自动推送卡片\",\n./infrastructure/cron/jobs.json:257:        \"day2-gap2\"\n./infrastructure/cron/fallback-sweep.js:6: * [Day3-Gap2] 兜底补扫执行器。\n./infrastructure/observability/autonomous-pipeline-monitor.js:7: * Day2 Gap2 集成改造：\n./infrastructure/observability/autonomous-pipeline-monitor.js:329:  lines.push(`*Generated by autonomous-pipeline-monitor.js | Day2 Gap2 五层闭环监控*`);\n./infrastructure/observability/pipeline-dashboard-cron.js:7: * Day2 Gap2: 全局自主决策流水线监控升级 / 集成改造\n./infrastructure/observability/pipeline-dashboard-collector.js:7: * Day2 Gap2 核心产物：从 \"监控代码流水线\" → \"监控认知-决策-执行闭环\"\n./infrastructure/observability/ops-daily-report.js:9: * [Day2 Gap2 升级] 现在委托给 pipeline-dashboard-collector + autonomous-pipeline-monitor\n./infrastructure/observability/pipeline-dashboard-bus-adapter.js:7: * Day2 Gap2 — 让五层仪表盘也支持事件驱动触发\n./infrastructure/observability/global-decision-dashboard.js:6: * Day2 Gap2 主实现：打通认知-决策-执行-效果-系统健康五层监控汇总。\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41089:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41095:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41133:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41139:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41198:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41204:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41242:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41248:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41433:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41439:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41477:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41483:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41542:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41548:                \"day3-gap2\"\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41586:              \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/state/dispatch-layer-state.json:41592:                \"day3-gap2\"\n./infrastructure/dispatcher/routes.json:158:        \"description\": \"[Day3-Gap2] Evolver洞察 → 自动响应管道 (事件驱动主路径，取代独立Cron触发)\"\n./infrastructure/dispatcher/routes.json:164:        \"description\": \"[Day3-Gap2] CRAS关键洞察 → 自动响应管道 (事件驱动主路径)\"\n./infrastructure/dispatcher/routes.json:170:        \"description\": \"[Day3-Gap2] 系统指标越界 → 自动响应管道 (事件驱动主路径)\"\n./infrastructure/dispatcher/routes.json:176:        \"description\": \"[Day3-Gap2] CRAS洞察请求 → 事件驱动触发用户洞察分析 (取代30分钟Cron直接调用)\"\n./infrastructure/dispatcher/routes.json:182:        \"description\": \"[Day3-Gap2] 系统健康检查请求 → 事件驱动触发 (Cron仅做兜底)\"\n./infrastructure/dispatcher/handlers/auto-response-handler.js:6: * [Day3-Gap2] 事件驱动的自动响应管道 handler。\n./infrastructure/dispatcher/dispatched/evt_mmfs20t4_w3chdz.json:9:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs20t4_w3chdz.json:15:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs20t4_w3chdz.json:53:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs20t4_w3chdz.json:59:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs3v4t_8udouh.json:9:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs3v4t_8udouh.json:15:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs3v4t_8udouh.json:53:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs3v4t_8udouh.json:59:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs38o1_q5ajaj.json:9:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs38o1_q5ajaj.json:15:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs38o1_q5ajaj.json:53:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs38o1_q5ajaj.json:59:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs21np_b5vc0i.json:9:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs21np_b5vc0i.json:15:          \"day3-gap2\"\n./infrastructure/dispatcher/dispatched/evt_mmfs21np_b5vc0i.json:53:        \"description\": \"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\n./infrastructure/dispatcher/dispatched/evt_mmfs21np_b5vc0i.json:59:          \"day3-gap2\"\n./infrastructure/tests/pipeline-dashboard-test.js:7: * Day2 Gap2 验证: 五层闭环监控是否真正采集到数据并生成可用报告\n./infrastructure/tests/pipeline-dashboard-test.js:251:  assert(fullJob.tags.includes('day2-gap2'), 'missing day2-gap2 tag');\n./infrastructure/logs/handler-actions.jsonl:11880:{\"timestamp\":\"2026-03-07T03:45:08.244Z\",\"handler\":\"log-action\",\"eventType\":\"cron.job.requested\",\"eventId\":\"evt_1772855108244\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854937751,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854937751_6j01\",\"chain_depth\":0,\"emitted_at\":1772854937751,\"event_type\":\"cron.job.requested\"}},\"source\":\"dispatcher\"}\n./infrastructure/logs/handler-actions.jsonl:11881:{\"timestamp\":\"2026-03-07T03:45:08.244Z\",\"handler\":\"log-action\",\"eventType\":\"cron.job.requested\",\"eventId\":\"evt_1772855108244\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854938852,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854938852_vigw\",\"chain_depth\":0,\"emitted_at\":1772854938852,\"event_type\":\"cron.job.requested\"}},\"source\":\"dispatcher\"}\n./infrastructure/logs/handler-actions.jsonl:11884:{\"timestamp\":\"2026-03-07T03:45:08.246Z\",\"handler\":\"log-action\",\"eventType\":\"cron.job.requested\",\"eventId\":\"evt_1772855108246\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854994592,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854994592_gd96\",\"chain_depth\":0,\"emitted_at\":1772854994592,\"event_type\":\"cron.job.requested\"}},\"source\":\"dispatcher\"}\n./infrastructure/logs/handler-actions.jsonl:11885:{\"timestamp\":\"2026-03-07T03:45:08.246Z\",\"handler\":\"log-action\",\"eventType\":\"cron.job.requested\",\"eventId\":\"evt_1772855108246\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772855023708,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772855023709_byhb\",\"chain_depth\":0,\"emitted_at\":1772855023709,\"event_type\":\"cron.job.requested\"}},\"source\":\"dispatcher\"}\n./infrastructure/logs/dispatcher-actions.jsonl:867:{\"timestamp\":\"2026-03-07T03:45:08.243Z\",\"eventType\":\"cron.job.requested\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"action\":{\"type\":\"cron-job-requested\",\"handler\":\"cron-job-requested\",\"description\":\"accept or fallback execute bridged cron job\"},\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854937751,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854937751_6j01\",\"chain_depth\":0,\"emitted_at\":1772854937751,\"event_type\":\"cron.job.requested\"}},\"depth\":0}\n./infrastructure/logs/dispatcher-actions.jsonl:868:{\"timestamp\":\"2026-03-07T03:45:08.244Z\",\"eventType\":\"cron.job.requested\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"action\":{\"type\":\"cron-job-requested\",\"handler\":\"cron-job-requested\",\"description\":\"accept or fallback execute bridged cron job\"},\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854938852,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854938852_vigw\",\"chain_depth\":0,\"emitted_at\":1772854938852,\"event_type\":\"cron.job.requested\"}},\"depth\":0}\n./infrastructure/logs/dispatcher-actions.jsonl:871:{\"timestamp\":\"2026-03-07T03:45:08.245Z\",\"eventType\":\"cron.job.requested\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"action\":{\"type\":\"cron-job-requested\",\"handler\":\"cron-job-requested\",\"description\":\"accept or fallback execute bridged cron job\"},\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772854994592,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772854994592_gd96\",\"chain_depth\":0,\"emitted_at\":1772854994592,\"event_type\":\"cron.job.requested\"}},\"depth\":0}\n./infrastructure/logs/dispatcher-actions.jsonl:872:{\"timestamp\":\"2026-03-07T03:45:08.246Z\",\"eventType\":\"cron.job.requested\",\"ruleId\":\"rule.day2-gap1-cron-event-bridge\",\"action\":{\"type\":\"cron-job-requested\",\"handler\":\"cron-job-requested\",\"description\":\"accept or fallback execute bridged cron job\"},\"payload\":{\"job\":{\"name\":\"system-health-l3\",\"description\":\"[Day3-Gap2] 系统健康检查L3扩展版 — 含EventBus/Pipeline/Decision/FeatureFlag指标\",\"schedule\":\"0 * * * *\",\"tags\":[\"event-driven\",\"health-check\",\"l3-metrics\",\"day3-gap2\"],\"mode\":\"event_driven_with_fallback\",\"primary_channel\":\"eventbus\",\"primary_event\":\"system.health.request\",\"model\":\"zhipu/glm-5\",\"timeout_seconds\":60},\"requested_at\":1772855023708,\"requested_by\":\"cron-event-bridge-runner\",\"trigger\":\"cron-bridge\",\"fallback\":false,\"command\":{\"script\":\"infrastructure/cron/fallback-sweep.js\",\"args\":[\"health\",\"--auto-rootcause-repair\"]},\"_metadata\":{\"layer\":\"META\",\"trace_id\":\"trace_1772855023709_byhb\",\"chain_depth\":0,\"emitted_at\":1772855023709,\"event_type\":\"cron.job.requested\"}},\"depth\":0}\n./reports/task-queue/day2-19lane-queue.json:28:      \"gap\": \"gap2\",\n./reports/task-queue/day2-19lane-queue.json:29:      \"title\": \"Day2 Gap2：全局自主决策流水线监控升级 / 主实现\",\n./reports/task-queue/day2-19lane-queue.json:35:      \"gap\": \"gap2\",\n./reports/task-queue/day2-19lane-queue.json:36:      \"title\": \"Day2 Gap2：全局自主决策流水线监控升级 / 集成改造\",\n./reports/task-queue/day2-19lane-queue.json:42:      \"gap\": \"gap2\",\n./reports/task-queue/day2-19lane-queue.json:43:      \"title\": \"Day2 Gap2：全局自主决策流水线监控升级 / 验证测试\",\n./reports/ops-dashboard-2026-03-07.md:130:*Generated by autonomous-pipeline-monitor.js | Day2 Gap2 五层闭环监控*\n./reports/pipeline-dashboard-2026-03-07.md:128:*Generated by autonomous-pipeline-monitor.js | Day2 Gap2 五层闭环监控*",
+          "cwd": "/root/.openclaw/workspace"
+        },
+        "isError": false,
+        "timestamp": 1772858404966
+      }
+    },
+    {
+      "type": "message",
+      "id": "ec37422f",
+      "parentId": "9a7f4db2",
+      "timestamp": "2026-03-07T04:40:09.510Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_W8RLaDdBMDUkOtinaIWP530T",
+            "name": "read",
+            "arguments": {
+              "file_path": "/root/.openclaw/workspace/infrastructure/observability/global-decision-dashboard.js",
+              "limit": 260,
+              "offset": 1,
+              "path": "/root/.openclaw/workspace/infrastructure/observability/global-decision-dashboard.js"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 18158,
+          "output": 64,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 18222,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858404971
+      }
+    },
+    {
+      "type": "message",
+      "id": "6b733c8d",
+      "parentId": "ec37422f",
+      "timestamp": "2026-03-07T04:40:09.521Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_W8RLaDdBMDUkOtinaIWP530T",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "'use strict';\n\n/**\n * Global Autonomous Decision Pipeline Dashboard\n *\n * Day2 Gap2 主实现：打通认知-决策-执行-效果-系统健康五层监控汇总。\n * 聚合来源：\n *   - infrastructure/decision-log/decisions.jsonl\n *   - infrastructure/observability/metrics.js\n *   - infrastructure/cron/fallback-sweep.js (L3 health)\n *   - infrastructure/logs/auto-response.jsonl\n *   - infrastructure/logs/health.jsonl\n *\n * 输出：\n *   - JSON summary\n *   - Markdown dashboard\n *\n * @module infrastructure/observability/global-decision-dashboard\n */\n\nconst fs = require('fs');\nconst path = require('path');\n\nconst WORKSPACE = path.resolve(__dirname, '..', '..');\nconst REPORTS_DIR = path.join(WORKSPACE, 'reports', 'autonomy');\nconst JSON_REPORT = path.join(REPORTS_DIR, 'global-decision-dashboard.json');\nconst MD_REPORT = path.join(REPORTS_DIR, 'global-decision-dashboard.md');\nconst AUTO_RESPONSE_LOG = path.join(WORKSPACE, 'infrastructure', 'logs', 'auto-response.jsonl');\nconst SYSTEM_HEALTH_LOG = path.join(WORKSPACE, 'infrastructure', 'logs', 'health.jsonl');\n\nfunction ensureDir(dir) {\n  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });\n}\n\nfunction readJsonl(file) {\n  if (!fs.existsSync(file)) return [];\n  const text = fs.readFileSync(file, 'utf8').trim();\n  if (!text) return [];\n  return text\n    .split('\\n')\n    .map(line => line.trim())\n    .filter(Boolean)\n    .map(line => {\n      try {\n        return JSON.parse(line);\n      } catch (_) {\n        return null;\n      }\n    })\n    .filter(Boolean);\n}\n\nfunction withinHours(recordTime, hours) {\n  const ts = new Date(recordTime).getTime();\n  if (!Number.isFinite(ts)) return false;\n  return ts >= Date.now() - hours * 3600_000;\n}\n\nfunction loadDecisionLogger() {\n  try {\n    return require('../decision-log/decision-logger');\n  } catch (_) {\n    return null;\n  }\n}\n\nfunction loadMetrics() {\n  try {\n    return require('./metrics');\n  } catch (_) {\n    return null;\n  }\n}\n\nfunction loadFallbackSweep() {\n  try {\n    return require('../cron/fallback-sweep');\n  } catch (_) {\n    return null;\n  }\n}\n\nfunction rate(numerator, denominator) {\n  if (!denominator) return 0;\n  return Math.round((numerator / denominator) * 10000) / 100;\n}\n\nfunction phaseStatus({ total = 0, successRate = null, avgConfidence = null, degradationRate = null, unhealthy = 0, warnings = 0 }) {\n  if (unhealthy > 0) return 'critical';\n  if (successRate !== null && successRate < 70) return 'critical';\n  if (avgConfidence !== null && avgConfidence < 0.5) return 'critical';\n  if (degradationRate !== null && degradationRate > 20) return 'critical';\n  if (warnings > 0) return 'warning';\n  if (successRate !== null && successRate < 90) return 'warning';\n  if (avgConfidence !== null && avgConfidence < 0.7) return 'warning';\n  if (degradationRate !== null && degradationRate > 10) return 'warning';\n  if (total === 0) return 'unknown';\n  return 'healthy';\n}\n\nfunction buildDashboard(options = {}) {\n  const hours = Number(options.hours || 24);\n  const since = new Date(Date.now() - hours * 3600_000).toISOString();\n\n  const decisionLogger = loadDecisionLogger();\n  const metrics = loadMetrics();\n  const fallbackSweep = loadFallbackSweep();\n\n  const decisionSummary = decisionLogger && typeof decisionLogger.summarize === 'function'\n    ? decisionLogger.summarize({ since })\n    : { total: 0, by_phase: {}, avg_confidence: null, degradation_count: 0, by_component: {}, by_method: {} };\n\n  const runtimeMetrics = metrics && typeof metrics.getMetrics === 'function'\n    ? metrics.getMetrics()\n    : null;\n\n  const l3Health = fallbackSweep && typeof fallbackSweep.checkSystemHealthL3 === 'function'\n    ? fallbackSweep.checkSystemHealthL3()\n    : null;\n\n  const autoResponses = readJsonl(AUTO_RESPONSE_LOG).filter(item => withinHours(item.ts || item.timestamp, hours));\n  const healthLogs = readJsonl(SYSTEM_HEALTH_LOG).filter(item => withinHours(item.ts || item.timestamp, hours));\n\n  const cognitionCount = decisionSummary.by_phase?.sensing?.count || 0;\n  const decisionCount = decisionSummary.by_phase?.cognition?.count || 0;\n  const executionCount = decisionSummary.by_phase?.execution?.count || 0;\n\n  const executionSuccess = runtimeMetrics ? runtimeMetrics.dispatch_success : 0;\n  const executionTotal = runtimeMetrics ? runtimeMetrics.dispatch_total : 0;\n  const executionFailed = runtimeMetrics ? (runtimeMetrics.dispatch_failed || 0) + (runtimeMetrics.dispatch_timeout || 0) : 0;\n\n  const effectEscalations = autoResponses.filter(r => r.action === 'escalate').length;\n  const effectAutoFixCandidates = autoResponses.filter(r => r.action === 'auto_fix_candidate').length;\n  const effectObserved = autoResponses.length;\n\n  const latestHealth = healthLogs.length ? healthLogs[healthLogs.length - 1] : null;\n  const unhealthyHealthLogs = healthLogs.filter(r => String(r.status).toLowerCase() !== 'healthy').length;\n\n  const degradationRate = rate(decisionSummary.degradation_count || 0, decisionSummary.total || 0);\n  const executionSuccessRate = rate(executionSuccess, executionTotal);\n\n  const layers = {\n    cognition: {\n      total: cognitionCount,\n      avg_confidence: decisionSummary.by_phase?.sensing?.avg_confidence ?? null,\n      degradation_rate: degradationRate,\n      top_components: Object.entries(decisionSummary.by_component || {}).sort((a, b) => b[1] - a[1]).slice(0, 5),\n    },\n    decision: {\n      total: decisionCount,\n      avg_confidence: decisionSummary.by_phase?.cognition?.avg_confidence ?? decisionSummary.avg_confidence ?? null,\n      degradation_rate: degradationRate,\n      methods: decisionSummary.by_method || {},\n    },\n    execution: {\n      total: executionTotal,\n      success: executionSuccess,\n      failed: executionFailed,\n      success_rate: executionSuccessRate,\n      avg_latency_ms: runtimeMetrics ? runtimeMetrics.dispatch_latency_avg_ms : 0,\n      retry: runtimeMetrics ? runtimeMetrics.dispatch_retry : 0,\n    },\n    effect: {\n      observed: effectObserved,\n      escalations: effectEscalations,\n      auto_fix_candidates: effectAutoFixCandidates,\n      log_and_monitor: autoResponses.filter(r => r.action === 'log_and_monitor').length,\n      categories: autoResponses.reduce((acc, item) => {\n        const key = item.category || 'unknown';\n        acc[key] = (acc[key] || 0) + 1;\n        return acc;\n      }, {}),\n    },\n    system_health: {\n      status: l3Health?.overall || (latestHealth?.status || 'unknown'),\n      warnings: l3Health?.warnings || [],\n      errors: l3Health?.errors || [],\n      latest: latestHealth,\n      unhealthy_samples: unhealthyHealthLogs,\n      l3: l3Health?.l3 || null,\n    },\n  };\n\n  layers.cognition.status = phaseStatus({\n    total: layers.cognition.total,\n    avgConfidence: layers.cognition.avg_confidence,\n    degradationRate: layers.cognition.degradation_rate,\n  });\n  layers.decision.status = phaseStatus({\n    total: layers.decision.total,\n    avgConfidence: layers.decision.avg_confidence,\n    degradationRate: layers.decision.degradation_rate,\n  });\n  layers.execution.status = phaseStatus({\n    total: layers.execution.total,\n    successRate: layers.execution.success_rate,\n    warnings: layers.execution.retry > 0 ? 1 : 0,\n  });\n  layers.effect.status = phaseStatus({\n    total: layers.effect.observed,\n    warnings: layers.effect.escalations > 0 ? 1 : 0,\n  });\n  layers.system_health.status = String(layers.system_health.status || 'unknown').toLowerCase() === 'critical'\n    ? 'critical'\n    : (layers.system_health.errors.length > 0\n      ? 'critical'\n      : (layers.system_health.warnings.length > 0 || layers.system_health.unhealthy_samples > 0 ? 'warning' : (layers.system_health.status || 'unknown')));\n\n  const statusOrder = { critical: 4, unhealthy: 4, warning: 3, degraded: 3, healthy: 2, up: 2, info: 1, unknown: 0 };\n  const overallStatus = Object.values(layers)\n    .map(layer => layer.status || 'unknown')\n    .sort((a, b) => (statusOrder[b] || 0) - (statusOrder[a] || 0))[0] || 'unknown';\n\n  return {\n    generated_at: new Date().toISOString(),\n    window_hours: hours,\n    since,\n    overall_status: overallStatus,\n    summary: {\n      total_decisions: decisionSummary.total || 0,\n      total_dispatch: executionTotal,\n      total_effect_observations: effectObserved,\n      total_health_samples: healthLogs.length,\n    },\n    layers,\n  };\n}\n\nfunction statusEmoji(status) {\n  if (['critical', 'unhealthy'].includes(status)) return '🔴';\n  if (['warning', 'degraded'].includes(status)) return '🟡';\n  if (['healthy', 'up'].includes(status)) return '🟢';\n  return '⚪';\n}\n\nfunction toMarkdown(dashboard) {\n  const lines = [];\n  lines.push('# 全局自主决策流水线监控总仪表盘');\n  lines.push(`- 生成时间: ${dashboard.generated_at}`);\n  lines.push(`- 观察窗口: 最近 ${dashboard.window_hours} 小时`);\n  lines.push(`- 总状态: ${statusEmoji(dashboard.overall_status)} ${String(dashboard.overall_status).toUpperCase()}`);\n  lines.push('');\n  lines.push('## 总览');\n  lines.push(`- 决策记录: ${dashboard.summary.total_decisions}`);\n  lines.push(`- 执行分发: ${dashboard.summary.total_dispatch}`);\n  lines.push(`- 效果观测: ${dashboard.summary.total_effect_observations}`);\n  lines.push(`- 健康样本: ${dashboard.summary.total_health_samples}`);\n  lines.push('');\n\n  for (const [name, layer] of Object.entries(dashboard.layers)) {\n    lines.push(`## ${statusEmoji(layer.status)} ${name}`);\n    lines.push(`- 状态: ${layer.status}`);\n    for (const [key, value] of Object.entries(layer)) {\n      if (key === 'status') continue;\n      if (Array.isArray(value)) {\n        lines.push(`- ${key}: ${value.length ? JSON.stringify(value) : '[]'}`);\n      } else if (value && typeof value === 'object') {\n        lines.push(`- ${key}: ${JSON.stringify(value)}`);\n      } else {\n        lines.push(`- ${key}: ${value}`);\n\n[47 more lines in file. Use offset=261 to continue.]"
+          }
+        ],
+        "isError": false,
+        "timestamp": 1772858409516
+      }
+    },
+    {
+      "type": "message",
+      "id": "f73d9300",
+      "parentId": "6b733c8d",
+      "timestamp": "2026-03-07T04:40:12.590Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_SWpZIVBsCTQDbC4ZOh0u78T4",
+            "name": "read",
+            "arguments": {
+              "file_path": "/root/.openclaw/workspace/infrastructure/observability/global-decision-dashboard.js",
+              "limit": 120,
+              "offset": 261,
+              "path": "/root/.openclaw/workspace/infrastructure/observability/global-decision-dashboard.js"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 9923,
+          "output": 64,
+          "cacheRead": 5376,
+          "cacheWrite": 0,
+          "totalTokens": 15363,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858409521
+      }
+    },
+    {
+      "type": "message",
+      "id": "32b0ff04",
+      "parentId": "f73d9300",
+      "timestamp": "2026-03-07T04:40:12.602Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_SWpZIVBsCTQDbC4ZOh0u78T4",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "      }\n    }\n    lines.push('');\n  }\n\n  return lines.join('\\n');\n}\n\nfunction writeReports(dashboard) {\n  ensureDir(REPORTS_DIR);\n  fs.writeFileSync(JSON_REPORT, JSON.stringify(dashboard, null, 2));\n  fs.writeFileSync(MD_REPORT, toMarkdown(dashboard));\n  return { json: JSON_REPORT, markdown: MD_REPORT };\n}\n\nfunction main() {\n  const args = process.argv.slice(2);\n  const jsonOnly = args.includes('--json');\n  const write = args.includes('--write');\n  const hoursArg = args.find(arg => arg.startsWith('--hours='));\n  const hours = hoursArg ? Number(hoursArg.split('=')[1]) : 24;\n\n  const dashboard = buildDashboard({ hours });\n  if (write) writeReports(dashboard);\n\n  if (jsonOnly) {\n    console.log(JSON.stringify(dashboard, null, 2));\n  } else {\n    console.log(toMarkdown(dashboard));\n  }\n\n  return dashboard;\n}\n\nmodule.exports = {\n  buildDashboard,\n  toMarkdown,\n  writeReports,\n  main,\n  JSON_REPORT,\n  MD_REPORT,\n};\n\nif (require.main === module) {\n  main();\n}\n"
+          }
+        ],
+        "isError": false,
+        "timestamp": 1772858412598
+      }
+    },
+    {
+      "type": "message",
+      "id": "726ce219",
+      "parentId": "32b0ff04",
+      "timestamp": "2026-03-07T04:40:18.005Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_FOIeDjYNl7fEr7Gh2LaNKxMw",
+            "name": "read",
+            "arguments": {
+              "file_path": "/root/.openclaw/workspace/infrastructure/tests/pipeline-dashboard-test.js",
+              "limit": 340,
+              "offset": 1,
+              "path": "/root/.openclaw/workspace/infrastructure/tests/pipeline-dashboard-test.js"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 17411,
+          "output": 60,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 19263,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858412603
+      }
+    },
+    {
+      "type": "message",
+      "id": "902da740",
+      "parentId": "726ce219",
+      "timestamp": "2026-03-07T04:40:18.015Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_FOIeDjYNl7fEr7Gh2LaNKxMw",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "#!/usr/bin/env node\n'use strict';\n\n/**\n * Pipeline Dashboard Integration Test Suite\n * \n * Day2 Gap2 验证: 五层闭环监控是否真正采集到数据并生成可用报告\n * \n * 测试:\n *   1. Collector 五层数据完整性\n *   2. Monitor 报告生成\n *   3. Feishu 卡片生成\n *   4. Delta 计算\n *   5. Cron entry point\n *   6. History 持久化\n *   7. EventBus adapter\n */\n\nconst fs = require('fs');\nconst path = require('path');\nconst { execSync } = require('child_process');\n\nconst WORKSPACE = '/root/.openclaw/workspace';\nlet passed = 0;\nlet failed = 0;\nconst results = [];\n\nfunction test(name, fn) {\n  try {\n    fn();\n    passed++;\n    results.push({ name, status: 'PASS' });\n    console.log(`  ✅ ${name}`);\n  } catch (err) {\n    failed++;\n    results.push({ name, status: 'FAIL', error: err.message });\n    console.log(`  ❌ ${name}: ${err.message}`);\n  }\n}\n\nfunction assert(cond, msg) {\n  if (!cond) throw new Error(msg || 'Assertion failed');\n}\n\nconsole.log('\\n🧪 Pipeline Dashboard Integration Tests\\n');\nconsole.log('────────────────────────────────────────\\n');\n\n// ── 1. Collector tests ──\n\nconsole.log('📦 Collector Tests:');\n\nlet snapshot;\ntest('collectAll returns valid snapshot', () => {\n  const collector = require(path.join(WORKSPACE, 'infrastructure/observability/pipeline-dashboard-collector'));\n  snapshot = collector.collectAll({ windowHours: 24 });\n  assert(snapshot, 'snapshot should exist');\n  assert(snapshot.schema === 'pipeline-dashboard-v1', 'schema mismatch');\n  assert(snapshot.generated_at, 'missing generated_at');\n});\n\ntest('snapshot has all 5 layers', () => {\n  assert(snapshot.layers.L1, 'missing L1');\n  assert(snapshot.layers.L2, 'missing L2');\n  assert(snapshot.layers.L3, 'missing L3');\n  assert(snapshot.layers.L4, 'missing L4');\n  assert(snapshot.layers.L5, 'missing L5');\n});\n\ntest('each layer has required fields', () => {\n  for (const [key, layer] of Object.entries(snapshot.layers)) {\n    assert(layer.layer, `${key} missing layer field`);\n    assert(layer.status, `${key} missing status`);\n    assert(layer.data, `${key} missing data`);\n    assert(Array.isArray(layer.alerts), `${key} missing alerts array`);\n    assert(['healthy', 'warning', 'critical', 'no_data', 'unknown'].includes(layer.status),\n      `${key} invalid status: ${layer.status}`);\n  }\n});\n\ntest('L1 has intent registry data', () => {\n  const l1 = snapshot.layers.L1;\n  assert(l1.data.registered_intents > 0, 'should have registered intents');\n  assert(l1.data.categories, 'should have categories');\n});\n\ntest('L2 has decision log data', () => {\n  const l2 = snapshot.layers.L2;\n  // Decision log has 2946 entries, should have data\n  assert(l2.data.decisions_total > 0 || l2.data.rules_evaluated != null, 'should have decision/rule data');\n});\n\ntest('L3 has pipeline run data', () => {\n  const l3 = snapshot.layers.L3;\n  assert(l3.data.pipeline_total_runs > 0, 'should have pipeline runs');\n});\n\ntest('L4 has AEO data', () => {\n  const l4 = snapshot.layers.L4;\n  assert(l4.data.aeo_total_assessments > 0, 'should have AEO assessments');\n  assert(l4.data.eval_sets_count > 0, 'should have eval sets');\n});\n\ntest('L5 has system health data', () => {\n  const l5 = snapshot.layers.L5;\n  assert(l5.data.components, 'should have components');\n  assert(l5.data.mem_pct != null, 'should have memory data');\n  assert(l5.data.disk_pct != null, 'should have disk data');\n  assert(l5.data.events_24h_count != null, 'should have event count');\n});\n\ntest('overall status is computed', () => {\n  assert(snapshot.overall, 'missing overall');\n  assert(snapshot.overall.status, 'missing overall status');\n  assert(snapshot.overall.status_icon, 'missing status icon');\n});\n\ntest('all_alerts aggregated from all layers', () => {\n  assert(Array.isArray(snapshot.all_alerts), 'all_alerts should be array');\n  let total = 0;\n  for (const layer of Object.values(snapshot.layers)) total += layer.alerts.length;\n  assert(snapshot.all_alerts.length === total, `all_alerts count ${snapshot.all_alerts.length} !== sum ${total}`);\n});\n\n// ── 2. Persistence tests ──\n\nconsole.log('\\n💾 Persistence Tests:');\n\ntest('persist writes snapshot and history', () => {\n  const collector = require(path.join(WORKSPACE, 'infrastructure/observability/pipeline-dashboard-collector'));\n  collector.persist(snapshot);\n  assert(fs.existsSync(path.join(WORKSPACE, 'infrastructure/observability/.dashboard-snapshot.json')), 'snapshot file');\n  assert(fs.existsSync(path.join(WORKSPACE, 'infrastructure/observability/.dashboard-history.jsonl')), 'history file');\n});\n\ntest('loadLastSnapshot returns valid data', () => {\n  const collector = require(path.join(WORKSPACE, 'infrastructure/observability/pipeline-dashboard-collector'));\n  const loaded = collector.loadLastSnapshot();\n  assert(loaded, 'should load snapshot');\n  assert(loaded.schema === 'pipeline-dashboard-v1', 'schema');\n  assert(loaded.layers.L1, 'should have L1');\n});\n\ntest('loadHistory returns entries', () => {\n  const collector = require(path.join(WORKSPACE, 'infrastructure/observability/pipeline-dashboard-collector'));\n  const history = collector.loadHistory(10);\n  assert(history.length > 0, 'should have history entries');\n  assert(history[0].ts, 'entry should have ts');\n  assert(history[0].status, 'entry should have status');\n});\n\n// ── 3. Monitor tests ──\n\nconsole.log('\\n📊 Monitor Tests:');\n\ntest('generateMarkdownReport produces valid markdown', () => {\n  const monitor = require(path.join(WORKSPACE, 'infrastructure/observability/autonomous-pipeline-monitor'));\n  const report = monitor.generateMarkdownReport(snapshot, null);\n  assert(report.length > 500, 'report too short');\n  assert(report.includes('L1 意图层'), 'missing L1 section');\n  assert(report.includes('L2 决策层'), 'missing L2 section');\n  assert(report.includes('L3 执行层'), 'missing L3 section');\n  assert(report.includes('L4 效果层'), 'missing L4 section');\n  assert(report.includes('L5 系统健康'), 'missing L5 section');\n  assert(report.includes('五层闭环监控'), 'missing footer tag');\n});\n\ntest('generateFeishuCard returns valid card structure', () => {\n  const monitor = require(path.join(WORKSPACE, 'infrastructure/observability/autonomous-pipeline-monitor'));\n  const card = monitor.generateFeishuCard(snapshot, null);\n  assert(card.config, 'missing config');\n  assert(card.header, 'missing header');\n  assert(card.header.title, 'missing title');\n  assert(card.header.template, 'missing template');\n  assert(Array.isArray(card.elements), 'elements should be array');\n  assert(card.elements.length >= 4, 'too few elements');\n  \n  // Check card can be serialized\n  const json = JSON.stringify(card);\n  assert(json.length > 100, 'card JSON too short');\n});\n\ntest('computeDelta handles null previous', () => {\n  const monitor = require(path.join(WORKSPACE, 'infrastructure/observability/autonomous-pipeline-monitor'));\n  const delta = monitor.computeDelta(snapshot, null);\n  assert(delta === null, 'delta with null previous should be null');\n});\n\ntest('computeDelta detects changes', () => {\n  const monitor = require(path.join(WORKSPACE, 'infrastructure/observability/autonomous-pipeline-monitor'));\n  const modified = JSON.parse(JSON.stringify(snapshot));\n  modified.overall.composite_score = 50;\n  modified.layers.L1.status = 'critical';\n  \n  const delta = monitor.computeDelta(snapshot, modified);\n  assert(delta, 'delta should exist');\n  assert(delta.score_change != null, 'should have score_change');\n});\n\n// ── 4. Cron tests ──\n\nconsole.log('\\n⏱️ Cron Tests:');\n\ntest('cron full mode returns OK JSON', () => {\n  const output = execSync(\n    `cd ${WORKSPACE} && node infrastructure/observability/pipeline-dashboard-cron.js 2>&1`,\n    { encoding: 'utf8', timeout: 30000 }\n  ).trim();\n  // First line is the main output JSON\n  const firstLine = output.split('\\n')[0];\n  const parsed = JSON.parse(firstLine);\n  assert(parsed.status === 'OK', `status: ${parsed.status}`);\n  assert(parsed.mode === 'full', `mode: ${parsed.mode}`);\n  assert(parsed.overall, 'missing overall');\n  assert(parsed.score != null, 'missing score');\n  assert(typeof parsed.elapsed_ms === 'number', 'missing elapsed_ms');\n});\n\ntest('cron quick mode returns OK JSON', () => {\n  const output = execSync(\n    `cd ${WORKSPACE} && node infrastructure/observability/pipeline-dashboard-cron.js --quick 2>&1`,\n    { encoding: 'utf8', timeout: 30000 }\n  ).trim();\n  const firstLine = output.split('\\n')[0];\n  const parsed = JSON.parse(firstLine);\n  assert(parsed.status === 'OK', `status: ${parsed.status}`);\n  assert(parsed.mode === 'quick', `mode: ${parsed.mode}`);\n});\n\n// ── 5. Integration tests ──\n\nconsole.log('\\n🔗 Integration Tests:');\n\ntest('report file exists after cron run', () => {\n  const dateTag = new Date().toISOString().slice(0, 10);\n  const reportFile = path.join(WORKSPACE, 'reports', `pipeline-dashboard-${dateTag}.md`);\n  assert(fs.existsSync(reportFile), `report file missing: ${reportFile}`);\n  const content = fs.readFileSync(reportFile, 'utf8');\n  assert(content.includes('Agent 运营五层仪表盘'), 'report title missing');\n});\n\ntest('cron job registered in jobs.json', () => {\n  const jobsJson = JSON.parse(fs.readFileSync(\n    path.join(WORKSPACE, 'infrastructure/cron/jobs.json'), 'utf8'\n  ));\n  const fullJob = jobsJson.jobs.find(j => j.name === 'pipeline-dashboard-full');\n  const quickJob = jobsJson.jobs.find(j => j.name === 'pipeline-dashboard-quick');\n  assert(fullJob, 'pipeline-dashboard-full job not found');\n  assert(quickJob, 'pipeline-dashboard-quick job not found');\n  assert(fullJob.enabled === true, 'full job not enabled');\n  assert(quickJob.enabled === true, 'quick job not enabled');\n  assert(fullJob.tags.includes('day2-gap2'), 'missing day2-gap2 tag');\n});\n\ntest('bus adapter module loads without error', () => {\n  const adapter = require(path.join(WORKSPACE, 'infrastructure/observability/pipeline-dashboard-bus-adapter'));\n  assert(typeof adapter.register === 'function', 'register should be a function');\n});\n\ntest('snapshot history has trend data', () => {\n  const collector = require(path.join(WORKSPACE, 'infrastructure/observability/pipeline-dashboard-collector'));\n  const history = collector.loadHistory(50);\n  assert(history.length >= 2, 'should have at least 2 history entries after multiple runs');\n});\n\ntest('collector 1h window returns different results', () => {\n  const collector = require(path.join(WORKSPACE, 'infrastructure/observability/pipeline-dashboard-collector'));\n  const snap1h = collector.collectAll({ windowHours: 1 });\n  // 1h window should have equal or fewer events\n  assert(snap1h.window_hours === 1, 'window should be 1');\n  assert(snap1h.layers.L5.data.events_24h_count != null, 'should still have event count');\n});\n\n// ── Results ──\n\nconsole.log('\\n────────────────────────────────────────');\nconsole.log(`\\n📊 Results: ${passed} passed, ${failed} failed, ${passed + failed} total\\n`);\n\nif (failed > 0) {\n  console.log('❌ FAILED tests:');\n  for (const r of results.filter(r => r.status === 'FAIL')) {\n    console.log(`  - ${r.name}: ${r.error}`);\n  }\n  process.exit(1);\n} else {\n  console.log('✅ All tests passed!');\n  process.exit(0);\n}\n"
+          }
+        ],
+        "isError": false,
+        "timestamp": 1772858418010
+      }
+    },
+    {
+      "type": "message",
+      "id": "7b295ddc",
+      "parentId": "902da740",
+      "timestamp": "2026-03-07T04:40:22.267Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_AS6l2huHgVu3LfA383hoxUX5",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && node infrastructure/tests/pipeline-dashboard-test.js",
+              "timeout": 120,
+              "yieldMs": 120000,
+              "workdir": "/root/.openclaw/workspace"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 20239,
+          "output": 56,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 22087,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858418015
+      }
+    },
+    {
+      "type": "message",
+      "id": "e4608bb3",
+      "parentId": "7b295ddc",
+      "timestamp": "2026-03-07T04:40:22.644Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_AS6l2huHgVu3LfA383hoxUX5",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "🧪 Pipeline Dashboard Integration Tests\n\n────────────────────────────────────────\n\n📦 Collector Tests:\n  ✅ collectAll returns valid snapshot\n  ✅ snapshot has all 5 layers\n  ✅ each layer has required fields\n  ✅ L1 has intent registry data\n  ✅ L2 has decision log data\n  ✅ L3 has pipeline run data\n  ✅ L4 has AEO data\n  ✅ L5 has system health data\n  ✅ overall status is computed\n  ✅ all_alerts aggregated from all layers\n\n💾 Persistence Tests:\n  ✅ persist writes snapshot and history\n  ✅ loadLastSnapshot returns valid data\n  ✅ loadHistory returns entries\n\n📊 Monitor Tests:\n  ✅ generateMarkdownReport produces valid markdown\n  ✅ generateFeishuCard returns valid card structure\n  ✅ computeDelta handles null previous\n  ✅ computeDelta detects changes\n\n⏱️ Cron Tests:\n  ✅ cron full mode returns OK JSON\n  ✅ cron quick mode returns OK JSON\n\n🔗 Integration Tests:\n  ✅ report file exists after cron run\n  ✅ cron job registered in jobs.json\n  ✅ bus adapter module loads without error\n  ✅ snapshot history has trend data\n  ✅ collector 1h window returns different results\n\n────────────────────────────────────────\n\n📊 Results: 24 passed, 0 failed, 24 total\n\n✅ All tests passed!"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 367,
+          "aggregated": "🧪 Pipeline Dashboard Integration Tests\n\n────────────────────────────────────────\n\n📦 Collector Tests:\n  ✅ collectAll returns valid snapshot\n  ✅ snapshot has all 5 layers\n  ✅ each layer has required fields\n  ✅ L1 has intent registry data\n  ✅ L2 has decision log data\n  ✅ L3 has pipeline run data\n  ✅ L4 has AEO data\n  ✅ L5 has system health data\n  ✅ overall status is computed\n  ✅ all_alerts aggregated from all layers\n\n💾 Persistence Tests:\n  ✅ persist writes snapshot and history\n  ✅ loadLastSnapshot returns valid data\n  ✅ loadHistory returns entries\n\n📊 Monitor Tests:\n  ✅ generateMarkdownReport produces valid markdown\n  ✅ generateFeishuCard returns valid card structure\n  ✅ computeDelta handles null previous\n  ✅ computeDelta detects changes\n\n⏱️ Cron Tests:\n  ✅ cron full mode returns OK JSON\n  ✅ cron quick mode returns OK JSON\n\n🔗 Integration Tests:\n  ✅ report file exists after cron run\n  ✅ cron job registered in jobs.json\n  ✅ bus adapter module loads without error\n  ✅ snapshot history has trend data\n  ✅ collector 1h window returns different results\n\n────────────────────────────────────────\n\n📊 Results: 24 passed, 0 failed, 24 total\n\n✅ All tests passed!",
+          "cwd": "/root/.openclaw/workspace"
+        },
+        "isError": false,
+        "timestamp": 1772858422639
+      }
+    },
+    {
+      "type": "message",
+      "id": "a626a7d9",
+      "parentId": "e4608bb3",
+      "timestamp": "2026-03-07T04:40:28.080Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_JoiYf65Cf8qOCMRfbHQP70O0",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && node infrastructure/observability/global-decision-dashboard.js --json --write | tee /tmp/gap2-global-dashboard.json && echo '---FILES---' && ls -l reports/autonomy/global-decision-dashboard.* && echo '---HEAD JSON---' && sed -n '1,120p' /tmp/gap2-global-dashboard.json",
+              "timeout": 60,
+              "workdir": "/root/.openclaw/workspace",
+              "yieldMs": 60000
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 20579,
+          "output": 117,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 22488,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858422644
+      }
+    },
+    {
+      "type": "message",
+      "id": "b21360c9",
+      "parentId": "a626a7d9",
+      "timestamp": "2026-03-07T04:40:28.190Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_JoiYf65Cf8qOCMRfbHQP70O0",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"generated_at\": \"2026-03-07T04:40:28.172Z\",\n  \"window_hours\": 24,\n  \"since\": \"2026-03-06T04:40:28.113Z\",\n  \"overall_status\": \"critical\",\n  \"summary\": {\n    \"total_decisions\": 1559,\n    \"total_dispatch\": 0,\n    \"total_effect_observations\": 0,\n    \"total_health_samples\": 0\n  },\n  \"layers\": {\n    \"cognition\": {\n      \"total\": 2,\n      \"avg_confidence\": 0.95,\n      \"degradation_rate\": 0,\n      \"top_components\": [\n        [\n          \"Dispatcher\",\n          1526\n        ],\n        [\n          \"ISCRuleMatcher\",\n          14\n        ],\n        [\n          \"L3Gateway\",\n          10\n        ],\n        [\n          \"l3-pipeline\",\n          6\n        ],\n        [\n          \"IntentScanner\",\n          2\n        ]\n      ],\n      \"status\": \"healthy\"\n    },\n    \"decision\": {\n      \"total\": 14,\n      \"avg_confidence\": 1,\n      \"degradation_rate\": 0,\n      \"methods\": {\n        \"rule_match\": 1540,\n        \"manual\": 17,\n        \"llm\": 2\n      },\n      \"status\": \"healthy\"\n    },\n    \"execution\": {\n      \"total\": 0,\n      \"success\": 0,\n      \"failed\": 0,\n      \"success_rate\": 0,\n      \"avg_latency_ms\": 0,\n      \"retry\": 0,\n      \"status\": \"critical\"\n    },\n    \"effect\": {\n      \"observed\": 0,\n      \"escalations\": 0,\n      \"auto_fix_candidates\": 0,\n      \"log_and_monitor\": 0,\n      \"categories\": {},\n      \"status\": \"unknown\"\n    },\n    \"system_health\": {\n      \"status\": \"healthy\",\n      \"warnings\": [],\n      \"errors\": [],\n      \"latest\": null,\n      \"unhealthy_samples\": 0,\n      \"l3\": {\n        \"eventbus\": {\n          \"emitted\": 0,\n          \"processed\": 0,\n          \"dropped\": 0,\n          \"drop_rate\": 0,\n          \"status\": \"healthy\"\n        },\n        \"eventbus_backlog\": {\n          \"total_events\": 66,\n          \"consumers\": 4,\n          \"status\": \"healthy\"\n        },\n        \"pipeline\": {\n          \"total\": 0,\n          \"success\": 0,\n          \"failed\": 0,\n          \"timeout\": 0,\n          \"retry\": 0,\n          \"success_rate\": 100,\n          \"avg_latency_ms\": 0,\n          \"p95_latency_ms\": 0,\n          \"status\": \"healthy\"\n        },\n        \"breaker\": {\n          \"trips\": 0,\n          \"status\": \"healthy\"\n        },\n        \"decision\": {\n          \"total\": 70,\n          \"avg_confidence\": 1,\n          \"degradation_count\": 0,\n          \"degradation_rate\": 0,\n          \"by_phase\": {\n            \"execution\": {\n              \"count\": 67,\n              \"avg_confidence\": 1\n            },\n            \"cognition\": {\n              \"count\": 3,\n              \"avg_confidence\": 1\n            }\n          },\n          \"status\": \"healthy\"\n        },\n        \"flags\": {\n          \"total_flags\": 22,\n          \"changes_from_default\": 0,\n          \"changed_flags\": [],\n          \"status\": \"info\"\n        }\n      }\n    }\n  }\n}\n---FILES---\n-rw-r--r-- 1 root root 2734 Mar  7 12:40 reports/autonomy/global-decision-dashboard.json\n-rw-r--r-- 1 root root 1584 Mar  7 12:40 reports/autonomy/global-decision-dashboard.md\n---HEAD JSON---\n{\n  \"generated_at\": \"2026-03-07T04:40:28.172Z\",\n  \"window_hours\": 24,\n  \"since\": \"2026-03-06T04:40:28.113Z\",\n  \"overall_status\": \"critical\",\n  \"summary\": {\n    \"total_decisions\": 1559,\n    \"total_dispatch\": 0,\n    \"total_effect_observations\": 0,\n    \"total_health_samples\": 0\n  },\n  \"layers\": {\n    \"cognition\": {\n      \"total\": 2,\n      \"avg_confidence\": 0.95,\n      \"degradation_rate\": 0,\n      \"top_components\": [\n        [\n          \"Dispatcher\",\n          1526\n        ],\n        [\n          \"ISCRuleMatcher\",\n          14\n        ],\n        [\n          \"L3Gateway\",\n          10\n        ],\n        [\n          \"l3-pipeline\",\n          6\n        ],\n        [\n          \"IntentScanner\",\n          2\n        ]\n      ],\n      \"status\": \"healthy\"\n    },\n    \"decision\": {\n      \"total\": 14,\n      \"avg_confidence\": 1,\n      \"degradation_rate\": 0,\n      \"methods\": {\n        \"rule_match\": 1540,\n        \"manual\": 17,\n        \"llm\": 2\n      },\n      \"status\": \"healthy\"\n    },\n    \"execution\": {\n      \"total\": 0,\n      \"success\": 0,\n      \"failed\": 0,\n      \"success_rate\": 0,\n      \"avg_latency_ms\": 0,\n      \"retry\": 0,\n      \"status\": \"critical\"\n    },\n    \"effect\": {\n      \"observed\": 0,\n      \"escalations\": 0,\n      \"auto_fix_candidates\": 0,\n      \"log_and_monitor\": 0,\n      \"categories\": {},\n      \"status\": \"unknown\"\n    },\n    \"system_health\": {\n      \"status\": \"healthy\",\n      \"warnings\": [],\n      \"errors\": [],\n      \"latest\": null,\n      \"unhealthy_samples\": 0,\n      \"l3\": {\n        \"eventbus\": {\n          \"emitted\": 0,\n          \"processed\": 0,\n          \"dropped\": 0,\n          \"drop_rate\": 0,\n          \"status\": \"healthy\"\n        },\n        \"eventbus_backlog\": {\n          \"total_events\": 66,\n          \"consumers\": 4,\n          \"status\": \"healthy\"\n        },\n        \"pipeline\": {\n          \"total\": 0,\n          \"success\": 0,\n          \"failed\": 0,\n          \"timeout\": 0,\n          \"retry\": 0,\n          \"success_rate\": 100,\n          \"avg_latency_ms\": 0,\n          \"p95_latency_ms\": 0,\n          \"status\": \"healthy\"\n        },\n        \"breaker\": {\n          \"trips\": 0,\n          \"status\": \"healthy\"\n        },\n        \"decision\": {\n          \"total\": 70,\n          \"avg_confidence\": 1,\n          \"degradation_count\": 0,\n          \"degradation_rate\": 0,\n          \"by_phase\": {\n            \"execution\": {\n              \"count\": 67,\n              \"avg_confidence\": 1\n            },\n            \"cognition\": {\n              \"count\": 3,\n              \"avg_confidence\": 1\n            }\n          },\n          \"status\": \"healthy\"\n        },\n        \"flags\": {"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 101,
+          "aggregated": "{\n  \"generated_at\": \"2026-03-07T04:40:28.172Z\",\n  \"window_hours\": 24,\n  \"since\": \"2026-03-06T04:40:28.113Z\",\n  \"overall_status\": \"critical\",\n  \"summary\": {\n    \"total_decisions\": 1559,\n    \"total_dispatch\": 0,\n    \"total_effect_observations\": 0,\n    \"total_health_samples\": 0\n  },\n  \"layers\": {\n    \"cognition\": {\n      \"total\": 2,\n      \"avg_confidence\": 0.95,\n      \"degradation_rate\": 0,\n      \"top_components\": [\n        [\n          \"Dispatcher\",\n          1526\n        ],\n        [\n          \"ISCRuleMatcher\",\n          14\n        ],\n        [\n          \"L3Gateway\",\n          10\n        ],\n        [\n          \"l3-pipeline\",\n          6\n        ],\n        [\n          \"IntentScanner\",\n          2\n        ]\n      ],\n      \"status\": \"healthy\"\n    },\n    \"decision\": {\n      \"total\": 14,\n      \"avg_confidence\": 1,\n      \"degradation_rate\": 0,\n      \"methods\": {\n        \"rule_match\": 1540,\n        \"manual\": 17,\n        \"llm\": 2\n      },\n      \"status\": \"healthy\"\n    },\n    \"execution\": {\n      \"total\": 0,\n      \"success\": 0,\n      \"failed\": 0,\n      \"success_rate\": 0,\n      \"avg_latency_ms\": 0,\n      \"retry\": 0,\n      \"status\": \"critical\"\n    },\n    \"effect\": {\n      \"observed\": 0,\n      \"escalations\": 0,\n      \"auto_fix_candidates\": 0,\n      \"log_and_monitor\": 0,\n      \"categories\": {},\n      \"status\": \"unknown\"\n    },\n    \"system_health\": {\n      \"status\": \"healthy\",\n      \"warnings\": [],\n      \"errors\": [],\n      \"latest\": null,\n      \"unhealthy_samples\": 0,\n      \"l3\": {\n        \"eventbus\": {\n          \"emitted\": 0,\n          \"processed\": 0,\n          \"dropped\": 0,\n          \"drop_rate\": 0,\n          \"status\": \"healthy\"\n        },\n        \"eventbus_backlog\": {\n          \"total_events\": 66,\n          \"consumers\": 4,\n          \"status\": \"healthy\"\n        },\n        \"pipeline\": {\n          \"total\": 0,\n          \"success\": 0,\n          \"failed\": 0,\n          \"timeout\": 0,\n          \"retry\": 0,\n          \"success_rate\": 100,\n          \"avg_latency_ms\": 0,\n          \"p95_latency_ms\": 0,\n          \"status\": \"healthy\"\n        },\n        \"breaker\": {\n          \"trips\": 0,\n          \"status\": \"healthy\"\n        },\n        \"decision\": {\n          \"total\": 70,\n          \"avg_confidence\": 1,\n          \"degradation_count\": 0,\n          \"degradation_rate\": 0,\n          \"by_phase\": {\n            \"execution\": {\n              \"count\": 67,\n              \"avg_confidence\": 1\n            },\n            \"cognition\": {\n              \"count\": 3,\n              \"avg_confidence\": 1\n            }\n          },\n          \"status\": \"healthy\"\n        },\n        \"flags\": {\n          \"total_flags\": 22,\n          \"changes_from_default\": 0,\n          \"changed_flags\": [],\n          \"status\": \"info\"\n        }\n      }\n    }\n  }\n}\n---FILES---\n-rw-r--r-- 1 root root 2734 Mar  7 12:40 reports/autonomy/global-decision-dashboard.json\n-rw-r--r-- 1 root root 1584 Mar  7 12:40 reports/autonomy/global-decision-dashboard.md\n---HEAD JSON---\n{\n  \"generated_at\": \"2026-03-07T04:40:28.172Z\",\n  \"window_hours\": 24,\n  \"since\": \"2026-03-06T04:40:28.113Z\",\n  \"overall_status\": \"critical\",\n  \"summary\": {\n    \"total_decisions\": 1559,\n    \"total_dispatch\": 0,\n    \"total_effect_observations\": 0,\n    \"total_health_samples\": 0\n  },\n  \"layers\": {\n    \"cognition\": {\n      \"total\": 2,\n      \"avg_confidence\": 0.95,\n      \"degradation_rate\": 0,\n      \"top_components\": [\n        [\n          \"Dispatcher\",\n          1526\n        ],\n        [\n          \"ISCRuleMatcher\",\n          14\n        ],\n        [\n          \"L3Gateway\",\n          10\n        ],\n        [\n          \"l3-pipeline\",\n          6\n        ],\n        [\n          \"IntentScanner\",\n          2\n        ]\n      ],\n      \"status\": \"healthy\"\n    },\n    \"decision\": {\n      \"total\": 14,\n      \"avg_confidence\": 1,\n      \"degradation_rate\": 0,\n      \"methods\": {\n        \"rule_match\": 1540,\n        \"manual\": 17,\n        \"llm\": 2\n      },\n      \"status\": \"healthy\"\n    },\n    \"execution\": {\n      \"total\": 0,\n      \"success\": 0,\n      \"failed\": 0,\n      \"success_rate\": 0,\n      \"avg_latency_ms\": 0,\n      \"retry\": 0,\n      \"status\": \"critical\"\n    },\n    \"effect\": {\n      \"observed\": 0,\n      \"escalations\": 0,\n      \"auto_fix_candidates\": 0,\n      \"log_and_monitor\": 0,\n      \"categories\": {},\n      \"status\": \"unknown\"\n    },\n    \"system_health\": {\n      \"status\": \"healthy\",\n      \"warnings\": [],\n      \"errors\": [],\n      \"latest\": null,\n      \"unhealthy_samples\": 0,\n      \"l3\": {\n        \"eventbus\": {\n          \"emitted\": 0,\n          \"processed\": 0,\n          \"dropped\": 0,\n          \"drop_rate\": 0,\n          \"status\": \"healthy\"\n        },\n        \"eventbus_backlog\": {\n          \"total_events\": 66,\n          \"consumers\": 4,\n          \"status\": \"healthy\"\n        },\n        \"pipeline\": {\n          \"total\": 0,\n          \"success\": 0,\n          \"failed\": 0,\n          \"timeout\": 0,\n          \"retry\": 0,\n          \"success_rate\": 100,\n          \"avg_latency_ms\": 0,\n          \"p95_latency_ms\": 0,\n          \"status\": \"healthy\"\n        },\n        \"breaker\": {\n          \"trips\": 0,\n          \"status\": \"healthy\"\n        },\n        \"decision\": {\n          \"total\": 70,\n          \"avg_confidence\": 1,\n          \"degradation_count\": 0,\n          \"degradation_rate\": 0,\n          \"by_phase\": {\n            \"execution\": {\n              \"count\": 67,\n              \"avg_confidence\": 1\n            },\n            \"cognition\": {\n              \"count\": 3,\n              \"avg_confidence\": 1\n            }\n          },\n          \"status\": \"healthy\"\n        },\n        \"flags\": {",
+          "cwd": "/root/.openclaw/workspace"
+        },
+        "isError": false,
+        "timestamp": 1772858428186
+      }
+    },
+    {
+      "type": "message",
+      "id": "10ad877c",
+      "parentId": "b21360c9",
+      "timestamp": "2026-03-07T04:40:33.983Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_VqVs6zhuXHRDiZ6JZuimWBvN",
+            "name": "read",
+            "arguments": {
+              "file_path": "/root/.openclaw/workspace/infrastructure/observability/pipeline-dashboard-collector.js",
+              "limit": 260,
+              "offset": 1,
+              "path": "/root/.openclaw/workspace/infrastructure/observability/pipeline-dashboard-collector.js"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 25880,
+          "output": 66,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 25946,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858428191
+      }
+    },
+    {
+      "type": "message",
+      "id": "25fb9c06",
+      "parentId": "10ad877c",
+      "timestamp": "2026-03-07T04:40:33.994Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_VqVs6zhuXHRDiZ6JZuimWBvN",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "#!/usr/bin/env node\n'use strict';\n\n/**\n * Pipeline Dashboard Collector — 五层闭环数据采集器\n * \n * Day2 Gap2 核心产物：从 \"监控代码流水线\" → \"监控认知-决策-执行闭环\"\n * \n * 采集五层真实数据:\n *   L1 意图层 — intent-registry + intent-scanner 运行时指标\n *   L2 决策层 — decision-log + rule-matcher + 熔断器\n *   L3 执行层 — dispatcher + pipeline run-log + cron stats\n *   L4 效果层 — AEO评估 + 纠偏信号 + 能力覆盖\n *   L5 系统层 — 组件健康 + EventBus + 内存/磁盘\n * \n * 输出: 结构化 JSON snapshot，供 dashboard 渲染和卡片生成使用\n * \n * @module infrastructure/observability/pipeline-dashboard-collector\n */\n\nconst fs = require('fs');\nconst path = require('path');\nconst os = require('os');\nconst { execSync } = require('child_process');\n\nconst WORKSPACE = '/root/.openclaw/workspace';\nconst INFRA = path.join(WORKSPACE, 'infrastructure');\nconst OPENCLAW_ROOT = '/root/.openclaw';\nconst SNAPSHOT_FILE = path.join(INFRA, 'observability', '.dashboard-snapshot.json');\nconst HISTORY_FILE = path.join(INFRA, 'observability', '.dashboard-history.jsonl');\n\n// ─── Helpers ─────────────────────────────────────────────\n\nfunction readJsonl(fp, opts = {}) {\n  if (!fs.existsSync(fp)) return [];\n  try {\n    const c = fs.readFileSync(fp, 'utf8').trim();\n    if (!c) return [];\n    let entries = c.split('\\n').filter(Boolean).map(l => {\n      try { return JSON.parse(l); } catch { return null; }\n    }).filter(Boolean);\n    if (opts.since) {\n      const cutoff = typeof opts.since === 'number' ? opts.since : new Date(opts.since).getTime();\n      entries = entries.filter(e => {\n        const ts = e.timestamp\n          ? (typeof e.timestamp === 'number' ? e.timestamp : new Date(e.timestamp).getTime())\n          : (e.ts || 0);\n        return ts >= cutoff;\n      });\n    }\n    return entries;\n  } catch { return []; }\n}\n\nfunction readJson(fp) {\n  try { return JSON.parse(fs.readFileSync(fp, 'utf8')); } catch { return null; }\n}\n\nfunction run(cmd) {\n  try { return execSync(cmd, { encoding: 'utf8', timeout: 10000 }).trim(); }\n  catch { return ''; }\n}\n\nfunction pct(n, d) { return d > 0 ? +(n / d * 100).toFixed(1) : 0; }\n\n// ─── L1: Intent Layer ────────────────────────────────────\n\nfunction collectL1Intent(since24h) {\n  const result = {\n    layer: 'L1_INTENT',\n    status: 'unknown',\n    data: {},\n    alerts: [],\n  };\n\n  // 1. Runtime metrics\n  let metrics = null;\n  try { metrics = require('./metrics').getMetrics(); } catch {}\n\n  if (metrics) {\n    result.data.requests_total = metrics.intent_requests_total || 0;\n    result.data.no_match_total = metrics.intent_no_match_total || 0;\n    result.data.no_match_rate = +(metrics.intent_no_match_rate || 0).toFixed(1);\n    result.data.hit_rate = result.data.requests_total > 0\n      ? pct(result.data.requests_total - result.data.no_match_total, result.data.requests_total)\n      : 0;\n    result.data.latency_avg_ms = metrics.intent_latency_avg_ms || 0;\n    result.data.latency_p95_ms = metrics.intent_latency_p95_ms || 0;\n    result.data.hits_by_category = metrics.intent_hits_by_category || {};\n  }\n\n  // 2. Intent registry stats\n  const registry = readJson(path.join(INFRA, 'intent-engine', 'intent-registry.json'));\n  if (registry) {\n    result.data.registered_intents = (registry.intents || []).length;\n    result.data.categories = Object.keys(registry.categories || {});\n    const activeIntents = (registry.intents || []).filter(i => i.status === 'active').length;\n    result.data.active_intents = activeIntents;\n  }\n\n  // 3. Intent events from EventBus\n  const events = readJsonl(path.join(INFRA, 'event-bus', 'events.jsonl'), { since: since24h });\n  const intentEvents = events.filter(e => e.type && (\n    e.type.includes('intent') || e.type === 'user.message.received'\n  ));\n  result.data.intent_events_24h = intentEvents.length;\n\n  // Category distribution from events\n  const catDist = {};\n  for (const e of intentEvents) {\n    const cat = e.payload?.category || e.type || 'unknown';\n    catDist[cat] = (catDist[cat] || 0) + 1;\n  }\n  result.data.event_category_dist = catDist;\n\n  // 4. Status determination\n  if (!metrics || result.data.requests_total === 0) {\n    result.status = 'no_data';\n    result.alerts.push({ level: 'info', msg: '意图识别模块无运行时数据' });\n  } else if (result.data.no_match_rate > 40) {\n    result.status = 'warning';\n    result.alerts.push({ level: 'warn', msg: `意图未识别率 ${result.data.no_match_rate}% 偏高` });\n  } else {\n    result.status = 'healthy';\n  }\n\n  return result;\n}\n\n// ─── L2: Decision Layer ──────────────────────────────────\n\nfunction collectL2Decision(since24h) {\n  const result = {\n    layer: 'L2_DECISION',\n    status: 'unknown',\n    data: {},\n    alerts: [],\n  };\n\n  // 1. Decision log\n  let decLogger = null;\n  try { decLogger = require('../decision-log/decision-logger'); } catch {}\n\n  if (decLogger && typeof decLogger.summarize === 'function') {\n    const summary = decLogger.summarize({ since: new Date(since24h).toISOString() });\n    result.data.decisions_total = summary.total;\n    result.data.avg_confidence = summary.avg_confidence;\n    result.data.degradation_count = summary.degradation_count;\n    result.data.by_phase = summary.by_phase || {};\n    result.data.by_component = summary.by_component || {};\n    result.data.by_method = summary.by_method || {};\n\n    if (summary.degradation_count > 0 && summary.total > 0) {\n      const degRate = pct(summary.degradation_count, summary.total);\n      if (degRate > 30) {\n        result.alerts.push({ level: 'critical', msg: `决策降级率 ${degRate}%，置信度<0.5` });\n      } else if (degRate > 10) {\n        result.alerts.push({ level: 'warn', msg: `决策降级率 ${degRate}%` });\n      }\n    }\n  }\n\n  // 2. Rule matching metrics\n  let metrics = null;\n  try { metrics = require('./metrics').getMetrics(); } catch {}\n\n  if (metrics) {\n    result.data.rules_evaluated = metrics.rules_evaluated_total || 0;\n    result.data.rules_matched = metrics.rules_matched_total || 0;\n    result.data.rules_no_match = metrics.rules_no_match_total || 0;\n    result.data.rules_match_rate = +(metrics.rules_match_rate || 0).toFixed(1);\n\n    if (metrics.rules_no_match_total > 0 && metrics.rules_evaluated_total > 0) {\n      const nmRate = pct(metrics.rules_no_match_total, metrics.rules_evaluated_total);\n      if (nmRate > 50) {\n        result.alerts.push({ level: 'warn', msg: `规则未覆盖率 ${nmRate}%，存在裸奔场景` });\n      }\n    }\n  }\n\n  // 3. Circuit breaker\n  if (metrics) {\n    result.data.breaker_trips = metrics.pipeline_breaker_trips || 0;\n    if (result.data.breaker_trips > 0) {\n      result.alerts.push({ level: 'warn', msg: `熔断器触发 ${result.data.breaker_trips} 次` });\n    }\n  }\n\n  // 4. Status\n  const hasData = (result.data.decisions_total || 0) > 0 || (result.data.rules_evaluated || 0) > 0;\n  if (!hasData) {\n    result.status = 'no_data';\n  } else if (result.alerts.some(a => a.level === 'critical')) {\n    result.status = 'critical';\n  } else if (result.alerts.some(a => a.level === 'warn')) {\n    result.status = 'warning';\n  } else {\n    result.status = 'healthy';\n  }\n\n  return result;\n}\n\n// ─── L3: Execution Layer ─────────────────────────────────\n\nfunction collectL3Execution(since24h) {\n  const result = {\n    layer: 'L3_EXECUTION',\n    status: 'unknown',\n    data: {},\n    alerts: [],\n  };\n\n  // 1. Dispatch metrics\n  let metrics = null;\n  try { metrics = require('./metrics').getMetrics(); } catch {}\n\n  if (metrics) {\n    result.data.dispatch_total = metrics.dispatch_total || 0;\n    result.data.dispatch_success = metrics.dispatch_success || 0;\n    result.data.dispatch_failed = metrics.dispatch_failed || 0;\n    result.data.dispatch_timeout = metrics.dispatch_timeout || 0;\n    result.data.dispatch_retry = metrics.dispatch_retry || 0;\n    result.data.dispatch_success_rate = metrics.dispatch_total > 0\n      ? pct(metrics.dispatch_success, metrics.dispatch_total) : 0;\n    result.data.dispatch_latency_avg = metrics.dispatch_latency_avg_ms || 0;\n    result.data.dispatch_latency_p95 = metrics.dispatch_latency_p95_ms || 0;\n    result.data.pipeline_latency_avg = metrics.pipeline_avg_latency_ms || 0;\n    result.data.pipeline_latency_p95 = metrics.pipeline_p95_latency_ms || 0;\n\n    if (metrics.dispatch_timeout > 0) {\n      result.alerts.push({ level: 'warn', msg: `分发超时 ${metrics.dispatch_timeout} 次` });\n    }\n    if ((metrics.dispatch_failed || 0) > 0) {\n      result.alerts.push({ level: 'critical', msg: `分发失败 ${metrics.dispatch_failed} 次` });\n    }\n  }\n\n  // 2. Pipeline runs\n  const pipelineRuns = readJsonl(path.join(INFRA, 'pipeline', 'run-log.jsonl'));\n  result.data.pipeline_total_runs = pipelineRuns.length;\n  if (pipelineRuns.length > 0) {\n    const last = pipelineRuns[pipelineRuns.length - 1];\n    result.data.last_run = {\n      id: last.run_id,\n      timestamp: last.timestamp,\n      events: last.consumed_events,\n      rules: last.matched_rules,\n      intents: last.intents_detected,\n      dispatched: last.dispatched_actions,\n      errors: (last.errors || []).length,\n      duration_ms: last.duration_ms,\n    };\n\n    // Recent error rate\n    const recentRuns = pipelineRuns.slice(-20);\n    const errorRuns = recentRuns.filter(r => (r.errors || []).length > 0);\n    result.data.recent_error_rate = pct(errorRuns.length, recentRuns.length);\n  }\n\n\n[413 more lines in file. Use offset=261 to continue.]"
+          }
+        ],
+        "isError": false,
+        "timestamp": 1772858433989
+      }
+    },
+    {
+      "type": "message",
+      "id": "43ae0e57",
+      "parentId": "25fb9c06",
+      "timestamp": "2026-03-07T04:40:44.134Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_IlV5woQZBQSmsux21LoebnZq",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && ls -l infrastructure/decision-log decisions* infrastructure/pipeline/run-log.jsonl infrastructure/logs/auto-response.jsonl infrastructure/logs/health.jsonl 2>/dev/null; echo '---run-log tail---'; tail -5 infrastructure/pipeline/run-log.jsonl 2>/dev/null; echo '---auto-response tail---'; tail -5 infrastructure/logs/auto-response.jsonl 2>/dev/null; echo '---health tail---'; tail -5 infrastructure/logs/health.jsonl 2>/dev/null",
+              "timeout": 30,
+              "workdir": "/root/.openclaw/workspace",
+              "yieldMs": 30000
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 28450,
+          "output": 156,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 28606,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858433994
+      }
+    },
+    {
+      "type": "message",
+      "id": "48c95a5d",
+      "parentId": "43ae0e57",
+      "timestamp": "2026-03-07T04:40:44.160Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_IlV5woQZBQSmsux21LoebnZq",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "-rw-r--r-- 1 root root   1568 Mar  6 07:35 infrastructure/logs/auto-response.jsonl\n-rw-r--r-- 1 root root    233 Mar  6 07:25 infrastructure/logs/health.jsonl\n-rw-r--r-- 1 root root 161004 Mar  7 11:47 infrastructure/pipeline/run-log.jsonl\n\ninfrastructure/decision-log:\ntotal 2556\n-rw-r--r-- 1 root root   10346 Mar  5 21:19 decision-logger.js\n-rw-r--r-- 1 root root 2560667 Mar  7 12:40 decisions.jsonl\n-rw-r--r-- 1 root root    5628 Mar  5 21:19 emotion-log.jsonl\n-rw-r--r-- 1 root root    2687 Mar  5 21:19 SKILL.md\n-rw-r--r-- 1 root root   22226 Mar  5 21:19 test-deliberation.js\n---run-log tail---\n{\"run_id\":\"run_1772752872310_8421x3\",\"timestamp\":\"2026-03-05T23:21:12.310Z\",\"consumed_events\":0,\"matched_rules\":0,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[],\"duration_ms\":0,\"feature_flags\":{\"pipeline\":true,\"eventbus\":false,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":false}}\n{\"run_id\":\"run_1772752872310_t3x848\",\"timestamp\":\"2026-03-05T23:21:12.310Z\",\"consumed_events\":1,\"matched_rules\":0,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[],\"duration_ms\":1,\"feature_flags\":{\"pipeline\":true,\"eventbus\":true,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":false}}\n{\"run_id\":\"run_1772855197087_zu8u0d\",\"timestamp\":\"2026-03-07T03:46:37.087Z\",\"consumed_events\":0,\"matched_rules\":0,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[],\"duration_ms\":2,\"feature_flags\":{\"pipeline\":true,\"eventbus\":true,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":true}}\n{\"run_id\":\"run_1772855222071_onn8p1\",\"timestamp\":\"2026-03-07T03:47:02.071Z\",\"consumed_events\":3,\"matched_rules\":1,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[{\"stage\":\"dispatch\",\"rule_id\":\"rule.git-commit-dispatch-001\",\"event_id\":\"evt_mmfs83gu_2ic2ug\",\"error\":\"eventAction.startsWith is not a function\"}],\"duration_ms\":11,\"feature_flags\":{\"pipeline\":true,\"eventbus\":true,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":true}}\n{\"run_id\":\"run_1772855229169_p3mf1f\",\"timestamp\":\"2026-03-07T03:47:09.169Z\",\"consumed_events\":0,\"matched_rules\":0,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[],\"duration_ms\":2,\"feature_flags\":{\"pipeline\":true,\"eventbus\":true,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":true}}\n---auto-response tail---\n{\"ts\":\"2026-03-05T23:24:39.202Z\",\"eventId\":\"evt_test_001\",\"eventType\":\"evolver.insight.detected\",\"source\":\"evolver\",\"category\":\"security\",\"impact\":{\"category\":\"security\",\"severity\":\"critical\",\"autoFixable\":false,\"blastRadius\":10,\"needsEscalation\":true,\"confidence\":0.8},\"action\":\"escalate\",\"duration_ms\":0}\n{\"ts\":\"2026-03-05T23:24:39.207Z\",\"eventId\":\"evt_test_002\",\"eventType\":\"cras.insight.critical\",\"source\":\"cras\",\"category\":\"critical_insight\",\"impact\":{\"category\":\"critical_insight\",\"severity\":\"critical\",\"autoFixable\":false,\"blastRadius\":10,\"needsEscalation\":true,\"confidence\":0.8},\"action\":\"escalate\",\"duration_ms\":0}\n{\"ts\":\"2026-03-05T23:24:39.207Z\",\"eventId\":\"evt_test_003\",\"eventType\":\"evolver.insight.detected\",\"source\":\"evolver\",\"category\":\"quality\",\"impact\":{\"category\":\"quality\",\"severity\":\"medium\",\"autoFixable\":true,\"blastRadius\":3,\"needsEscalation\":false,\"confidence\":0.8},\"action\":\"auto_fix_candidate\",\"duration_ms\":0}\n{\"ts\":\"2026-03-05T23:25:09.061Z\",\"eventId\":\"evt_mme3f0ks_p759zz\",\"eventType\":\"evolver.insight.detected\",\"source\":\"test\",\"category\":\"unknown\",\"impact\":{\"category\":\"unknown\",\"severity\":\"low\",\"autoFixable\":false,\"blastRadius\":1,\"needsEscalation\":false,\"confidence\":0.3},\"action\":\"log_and_monitor\",\"duration_ms\":0}\n{\"ts\":\"2026-03-05T23:35:07.452Z\",\"eventId\":\"evt_mme3m9dc_k3soso\",\"eventType\":\"evolver.insight.detected\",\"source\":\"fallback-sweep\",\"category\":\"security\",\"impact\":{\"category\":\"security\",\"severity\":\"critical\",\"autoFixable\":false,\"blastRadius\":10,\"needsEscalation\":true,\"confidence\":0.8},\"action\":\"escalate\",\"duration_ms\":0}\n---health tail---\n{\"ts\":\"2026-03-05T23:25:09.060Z\",\"eventId\":\"evt_mme3f0kr_fsv45q\",\"type\":\"system.health.request\",\"source\":\"test\",\"status\":\"unknown\",\"checks\":[\"cpu\",\"memory\",\"disk\",\"load\",\"process\",\"eventbus\",\"pipeline\",\"breaker\",\"decision\",\"flags\"]}"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 16,
+          "aggregated": "-rw-r--r-- 1 root root   1568 Mar  6 07:35 infrastructure/logs/auto-response.jsonl\n-rw-r--r-- 1 root root    233 Mar  6 07:25 infrastructure/logs/health.jsonl\n-rw-r--r-- 1 root root 161004 Mar  7 11:47 infrastructure/pipeline/run-log.jsonl\n\ninfrastructure/decision-log:\ntotal 2556\n-rw-r--r-- 1 root root   10346 Mar  5 21:19 decision-logger.js\n-rw-r--r-- 1 root root 2560667 Mar  7 12:40 decisions.jsonl\n-rw-r--r-- 1 root root    5628 Mar  5 21:19 emotion-log.jsonl\n-rw-r--r-- 1 root root    2687 Mar  5 21:19 SKILL.md\n-rw-r--r-- 1 root root   22226 Mar  5 21:19 test-deliberation.js\n---run-log tail---\n{\"run_id\":\"run_1772752872310_8421x3\",\"timestamp\":\"2026-03-05T23:21:12.310Z\",\"consumed_events\":0,\"matched_rules\":0,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[],\"duration_ms\":0,\"feature_flags\":{\"pipeline\":true,\"eventbus\":false,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":false}}\n{\"run_id\":\"run_1772752872310_t3x848\",\"timestamp\":\"2026-03-05T23:21:12.310Z\",\"consumed_events\":1,\"matched_rules\":0,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[],\"duration_ms\":1,\"feature_flags\":{\"pipeline\":true,\"eventbus\":true,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":false}}\n{\"run_id\":\"run_1772855197087_zu8u0d\",\"timestamp\":\"2026-03-07T03:46:37.087Z\",\"consumed_events\":0,\"matched_rules\":0,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[],\"duration_ms\":2,\"feature_flags\":{\"pipeline\":true,\"eventbus\":true,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":true}}\n{\"run_id\":\"run_1772855222071_onn8p1\",\"timestamp\":\"2026-03-07T03:47:02.071Z\",\"consumed_events\":3,\"matched_rules\":1,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[{\"stage\":\"dispatch\",\"rule_id\":\"rule.git-commit-dispatch-001\",\"event_id\":\"evt_mmfs83gu_2ic2ug\",\"error\":\"eventAction.startsWith is not a function\"}],\"duration_ms\":11,\"feature_flags\":{\"pipeline\":true,\"eventbus\":true,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":true}}\n{\"run_id\":\"run_1772855229169_p3mf1f\",\"timestamp\":\"2026-03-07T03:47:09.169Z\",\"consumed_events\":0,\"matched_rules\":0,\"intents_detected\":0,\"dispatched_actions\":0,\"circuit_breaks\":0,\"errors\":[],\"duration_ms\":2,\"feature_flags\":{\"pipeline\":true,\"eventbus\":true,\"rulematcher\":true,\"intentscanner\":true,\"dispatcher\":true,\"decisionlog\":true}}\n---auto-response tail---\n{\"ts\":\"2026-03-05T23:24:39.202Z\",\"eventId\":\"evt_test_001\",\"eventType\":\"evolver.insight.detected\",\"source\":\"evolver\",\"category\":\"security\",\"impact\":{\"category\":\"security\",\"severity\":\"critical\",\"autoFixable\":false,\"blastRadius\":10,\"needsEscalation\":true,\"confidence\":0.8},\"action\":\"escalate\",\"duration_ms\":0}\n{\"ts\":\"2026-03-05T23:24:39.207Z\",\"eventId\":\"evt_test_002\",\"eventType\":\"cras.insight.critical\",\"source\":\"cras\",\"category\":\"critical_insight\",\"impact\":{\"category\":\"critical_insight\",\"severity\":\"critical\",\"autoFixable\":false,\"blastRadius\":10,\"needsEscalation\":true,\"confidence\":0.8},\"action\":\"escalate\",\"duration_ms\":0}\n{\"ts\":\"2026-03-05T23:24:39.207Z\",\"eventId\":\"evt_test_003\",\"eventType\":\"evolver.insight.detected\",\"source\":\"evolver\",\"category\":\"quality\",\"impact\":{\"category\":\"quality\",\"severity\":\"medium\",\"autoFixable\":true,\"blastRadius\":3,\"needsEscalation\":false,\"confidence\":0.8},\"action\":\"auto_fix_candidate\",\"duration_ms\":0}\n{\"ts\":\"2026-03-05T23:25:09.061Z\",\"eventId\":\"evt_mme3f0ks_p759zz\",\"eventType\":\"evolver.insight.detected\",\"source\":\"test\",\"category\":\"unknown\",\"impact\":{\"category\":\"unknown\",\"severity\":\"low\",\"autoFixable\":false,\"blastRadius\":1,\"needsEscalation\":false,\"confidence\":0.3},\"action\":\"log_and_monitor\",\"duration_ms\":0}\n{\"ts\":\"2026-03-05T23:35:07.452Z\",\"eventId\":\"evt_mme3m9dc_k3soso\",\"eventType\":\"evolver.insight.detected\",\"source\":\"fallback-sweep\",\"category\":\"security\",\"impact\":{\"category\":\"security\",\"severity\":\"critical\",\"autoFixable\":false,\"blastRadius\":10,\"needsEscalation\":true,\"confidence\":0.8},\"action\":\"escalate\",\"duration_ms\":0}\n---health tail---\n{\"ts\":\"2026-03-05T23:25:09.060Z\",\"eventId\":\"evt_mme3f0kr_fsv45q\",\"type\":\"system.health.request\",\"source\":\"test\",\"status\":\"unknown\",\"checks\":[\"cpu\",\"memory\",\"disk\",\"load\",\"process\",\"eventbus\",\"pipeline\",\"breaker\",\"decision\",\"flags\"]}",
+          "cwd": "/root/.openclaw/workspace"
+        },
+        "isError": false,
+        "timestamp": 1772858444155
+      }
+    },
+    {
+      "type": "message",
+      "id": "ea9593d6",
+      "parentId": "48c95a5d",
+      "timestamp": "2026-03-07T04:40:48.660Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_9bkGY1wbRlj6nAvZfA6UWMVO",
+            "name": "read",
+            "arguments": {
+              "file_path": "/root/.openclaw/workspace/infrastructure/observability/metrics.js",
+              "limit": 260,
+              "offset": 1,
+              "path": "/root/.openclaw/workspace/infrastructure/observability/metrics.js"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 26396,
+          "output": 60,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 28248,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858444160
+      }
+    },
+    {
+      "type": "message",
+      "id": "9e46bfe4",
+      "parentId": "ea9593d6",
+      "timestamp": "2026-03-07T04:40:48.670Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_9bkGY1wbRlj6nAvZfA6UWMVO",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "'use strict';\n\n/**\n * L3 Runtime Metrics Collector\n * \n * Collects, persists, and exposes runtime metrics for the L3 pipeline:\n *   - Event counts (emitted, processed, dropped)\n *   - Intent recognition (requests, hits by category, latency)\n *   - Rule matching (evaluated, matched, no-match)\n *   - Dispatch (total, success, timeout, retry)\n *   - Pipeline (runs, breaker trips, avg latency)\n * \n * All metrics persist to metrics.jsonl for historical analysis.\n * Provides getMetrics() and resetMetrics() interfaces.\n * \n * @module infrastructure/observability/metrics\n */\n\nconst fs = require('fs');\nconst path = require('path');\n\n// ─── Constants ───────────────────────────────────────────────────\nconst METRICS_FILE = path.join(__dirname, 'metrics.jsonl');\nconst SNAPSHOT_INTERVAL_MS = 60_000; // Persist snapshot every 60s\nconst LATENCY_WINDOW = 100; // Keep last N latency samples for avg calculation\n\n// ─── Metric Definitions ─────────────────────────────────────────\n\nfunction createCounters() {\n  return {\n    // Event Bus\n    events_emitted_total: 0,\n    events_processed_total: 0,\n    events_dropped_total: 0,\n\n    // Intent Scanner\n    intent_requests_total: 0,\n    intent_hits_by_category: {},   // { IC1: 5, IC2: 3, ... }\n    intent_no_match_total: 0,\n\n    // Rule Matcher\n    rules_evaluated_total: 0,\n    rules_matched_total: 0,\n    rules_no_match_total: 0,\n\n    // Dispatcher\n    dispatch_total: 0,\n    dispatch_success: 0,\n    dispatch_timeout: 0,\n    dispatch_retry: 0,\n    dispatch_failed: 0,\n\n    // Pipeline\n    pipeline_runs_total: 0,\n    pipeline_breaker_trips: 0,\n  };\n}\n\n// ─── State ───────────────────────────────────────────────────────\n\nlet _counters = createCounters();\nlet _intentLatencies = [];    // recent intent scan latencies (ms)\nlet _pipelineLatencies = [];  // recent pipeline run latencies (ms)\nlet _dispatchLatencies = [];  // recent dispatch latencies (ms)\nlet _startTime = Date.now();\nlet _lastPersist = 0;\nlet _persistTimer = null;\n\n// ─── Core API ────────────────────────────────────────────────────\n\n/**\n * Increment a counter metric.\n * @param {string} name - Metric name (e.g. 'events_emitted_total')\n * @param {number} [delta=1] - Amount to increment\n */\nfunction inc(name, delta = 1) {\n  if (typeof _counters[name] === 'number') {\n    _counters[name] += delta;\n  }\n}\n\n/**\n * Increment a category counter within a map metric.\n * @param {string} name - Map metric name (e.g. 'intent_hits_by_category')\n * @param {string} category - Category key (e.g. 'IC1')\n * @param {number} [delta=1]\n */\nfunction incCategory(name, category, delta = 1) {\n  if (_counters[name] && typeof _counters[name] === 'object') {\n    _counters[name][category] = (_counters[name][category] || 0) + delta;\n  }\n}\n\n/**\n * Record a latency sample.\n * @param {'intent'|'pipeline'|'dispatch'} type - Latency bucket\n * @param {number} ms - Latency in milliseconds\n */\nfunction recordLatency(type, ms) {\n  const bucket = type === 'intent' ? _intentLatencies\n    : type === 'pipeline' ? _pipelineLatencies\n    : type === 'dispatch' ? _dispatchLatencies\n    : null;\n  if (bucket) {\n    bucket.push(ms);\n    if (bucket.length > LATENCY_WINDOW) {\n      bucket.splice(0, bucket.length - LATENCY_WINDOW);\n    }\n  }\n}\n\n/**\n * Compute average from a latency bucket.\n * @param {number[]} arr\n * @returns {number} Average in ms, or 0 if empty\n */\nfunction _avg(arr) {\n  if (!arr || arr.length === 0) return 0;\n  return Math.round(arr.reduce((a, b) => a + b, 0) / arr.length * 100) / 100;\n}\n\n/**\n * Compute P95 from a latency bucket.\n * @param {number[]} arr\n * @returns {number}\n */\nfunction _p95(arr) {\n  if (!arr || arr.length === 0) return 0;\n  const sorted = [...arr].sort((a, b) => a - b);\n  const idx = Math.floor(sorted.length * 0.95);\n  return sorted[Math.min(idx, sorted.length - 1)];\n}\n\n/**\n * Get current metrics snapshot.\n * @returns {object} Full metrics object with counters + computed gauges\n */\nfunction getMetrics() {\n  const uptimeMs = Date.now() - _startTime;\n  \n  return {\n    // Counters (raw)\n    ..._counters,\n\n    // Computed gauges\n    intent_latency_avg_ms: _avg(_intentLatencies),\n    intent_latency_p95_ms: _p95(_intentLatencies),\n    intent_latency_samples: _intentLatencies.length,\n\n    pipeline_avg_latency_ms: _avg(_pipelineLatencies),\n    pipeline_p95_latency_ms: _p95(_pipelineLatencies),\n    pipeline_latency_samples: _pipelineLatencies.length,\n\n    dispatch_latency_avg_ms: _avg(_dispatchLatencies),\n    dispatch_latency_p95_ms: _p95(_dispatchLatencies),\n    dispatch_latency_samples: _dispatchLatencies.length,\n\n    // Rates (derived)\n    dispatch_timeout_rate: _counters.dispatch_total > 0\n      ? Math.round(_counters.dispatch_timeout / _counters.dispatch_total * 10000) / 100\n      : 0,\n    intent_no_match_rate: _counters.intent_requests_total > 0\n      ? Math.round(_counters.intent_no_match_total / _counters.intent_requests_total * 10000) / 100\n      : 0,\n    rules_match_rate: _counters.rules_evaluated_total > 0\n      ? Math.round(_counters.rules_matched_total / _counters.rules_evaluated_total * 10000) / 100\n      : 0,\n\n    // Meta\n    uptime_ms: uptimeMs,\n    uptime_human: _formatDuration(uptimeMs),\n    collected_at: new Date().toISOString(),\n  };\n}\n\n/**\n * Reset all metrics to zero.\n * Persists the pre-reset snapshot before clearing.\n */\nfunction resetMetrics() {\n  // Persist current state before reset\n  _persistSnapshot('reset');\n\n  _counters = createCounters();\n  _intentLatencies = [];\n  _pipelineLatencies = [];\n  _dispatchLatencies = [];\n  _startTime = Date.now();\n}\n\n// ─── Persistence ─────────────────────────────────────────────────\n\n/**\n * Persist a metrics snapshot to metrics.jsonl.\n * @param {string} [reason='periodic'] - Reason for snapshot\n */\nfunction _persistSnapshot(reason = 'periodic') {\n  const snapshot = {\n    ...getMetrics(),\n    snapshot_reason: reason,\n    timestamp: Date.now(),\n  };\n\n  try {\n    const dir = path.dirname(METRICS_FILE);\n    if (!fs.existsSync(dir)) {\n      fs.mkdirSync(dir, { recursive: true });\n    }\n    fs.appendFileSync(METRICS_FILE, JSON.stringify(snapshot) + '\\n', 'utf8');\n    _lastPersist = Date.now();\n  } catch (err) {\n    // Non-fatal: metrics persistence failure shouldn't break the pipeline\n    process.stderr.write(`[Metrics] Persist failed: ${err.message}\\n`);\n  }\n}\n\n/**\n * Start periodic persistence timer.\n */\nfunction startPersistence() {\n  if (_persistTimer) return;\n  _persistTimer = setInterval(() => {\n    _persistSnapshot('periodic');\n  }, SNAPSHOT_INTERVAL_MS);\n  if (_persistTimer.unref) _persistTimer.unref();\n}\n\n/**\n * Stop periodic persistence and flush final snapshot.\n */\nfunction stopPersistence() {\n  if (_persistTimer) {\n    clearInterval(_persistTimer);\n    _persistTimer = null;\n  }\n  _persistSnapshot('shutdown');\n}\n\n/**\n * Force an immediate persist.\n */\nfunction flush() {\n  _persistSnapshot('manual_flush');\n}\n\n// ─── History ─────────────────────────────────────────────────────\n\n/**\n * Read historical metrics snapshots from metrics.jsonl.\n * @param {object} [options]\n * @param {number} [options.since] - Timestamp filter (ms)\n * @param {number} [options.limit=50] - Max entries to return\n * @returns {Array<object>}\n */\nfunction getHistory(options = {}) {\n  const { since, limit = 50 } = options;\n\n  if (!fs.existsSync(METRICS_FILE)) return [];\n\n  try {\n\n[99 more lines in file. Use offset=261 to continue.]"
+          }
+        ],
+        "isError": false,
+        "timestamp": 1772858448666
+      }
+    },
+    {
+      "type": "message",
+      "id": "d9c3d3f6",
+      "parentId": "9e46bfe4",
+      "timestamp": "2026-03-07T04:40:54.259Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_YqoZXMwg3gJSMD4U6BO53VOd",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && wc -l infrastructure/observability/metrics.jsonl 2>/dev/null && tail -5 infrastructure/observability/metrics.jsonl 2>/dev/null",
+              "timeout": 20,
+              "workdir": "/root/.openclaw/workspace",
+              "yieldMs": 20000
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 28370,
+          "output": 81,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 30243,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858448671
+      }
+    },
+    {
+      "type": "message",
+      "id": "4b829209",
+      "parentId": "d9c3d3f6",
+      "timestamp": "2026-03-07T04:40:54.287Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_YqoZXMwg3gJSMD4U6BO53VOd",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "2 infrastructure/observability/metrics.jsonl\n{\"events_emitted_total\":10,\"events_processed_total\":8,\"events_dropped_total\":2,\"intent_requests_total\":3,\"intent_hits_by_category\":{\"IC1\":2},\"intent_no_match_total\":1,\"rules_evaluated_total\":0,\"rules_matched_total\":0,\"rules_no_match_total\":0,\"dispatch_total\":5,\"dispatch_success\":4,\"dispatch_timeout\":1,\"dispatch_retry\":0,\"dispatch_failed\":0,\"pipeline_runs_total\":0,\"pipeline_breaker_trips\":0,\"intent_latency_avg_ms\":50,\"intent_latency_p95_ms\":50,\"intent_latency_samples\":1,\"pipeline_avg_latency_ms\":135,\"pipeline_p95_latency_ms\":150,\"pipeline_latency_samples\":2,\"dispatch_latency_avg_ms\":0,\"dispatch_latency_p95_ms\":0,\"dispatch_latency_samples\":0,\"dispatch_timeout_rate\":20,\"intent_no_match_rate\":33.33,\"rules_match_rate\":0,\"uptime_ms\":5,\"uptime_human\":\"0s\",\"collected_at\":\"2026-03-04T18:30:04.355Z\",\"snapshot_reason\":\"manual_flush\",\"timestamp\":1772649004355}\n{\"events_emitted_total\":10,\"events_processed_total\":8,\"events_dropped_total\":2,\"intent_requests_total\":3,\"intent_hits_by_category\":{\"IC1\":2},\"intent_no_match_total\":1,\"rules_evaluated_total\":0,\"rules_matched_total\":0,\"rules_no_match_total\":0,\"dispatch_total\":5,\"dispatch_success\":4,\"dispatch_timeout\":1,\"dispatch_retry\":0,\"dispatch_failed\":0,\"pipeline_runs_total\":0,\"pipeline_breaker_trips\":0,\"intent_latency_avg_ms\":50,\"intent_latency_p95_ms\":50,\"intent_latency_samples\":1,\"pipeline_avg_latency_ms\":135,\"pipeline_p95_latency_ms\":150,\"pipeline_latency_samples\":2,\"dispatch_latency_avg_ms\":0,\"dispatch_latency_p95_ms\":0,\"dispatch_latency_samples\":0,\"dispatch_timeout_rate\":20,\"intent_no_match_rate\":33.33,\"rules_match_rate\":0,\"uptime_ms\":6,\"uptime_human\":\"0s\",\"collected_at\":\"2026-03-04T18:30:04.356Z\",\"snapshot_reason\":\"reset\",\"timestamp\":1772649004356}"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 15,
+          "aggregated": "2 infrastructure/observability/metrics.jsonl\n{\"events_emitted_total\":10,\"events_processed_total\":8,\"events_dropped_total\":2,\"intent_requests_total\":3,\"intent_hits_by_category\":{\"IC1\":2},\"intent_no_match_total\":1,\"rules_evaluated_total\":0,\"rules_matched_total\":0,\"rules_no_match_total\":0,\"dispatch_total\":5,\"dispatch_success\":4,\"dispatch_timeout\":1,\"dispatch_retry\":0,\"dispatch_failed\":0,\"pipeline_runs_total\":0,\"pipeline_breaker_trips\":0,\"intent_latency_avg_ms\":50,\"intent_latency_p95_ms\":50,\"intent_latency_samples\":1,\"pipeline_avg_latency_ms\":135,\"pipeline_p95_latency_ms\":150,\"pipeline_latency_samples\":2,\"dispatch_latency_avg_ms\":0,\"dispatch_latency_p95_ms\":0,\"dispatch_latency_samples\":0,\"dispatch_timeout_rate\":20,\"intent_no_match_rate\":33.33,\"rules_match_rate\":0,\"uptime_ms\":5,\"uptime_human\":\"0s\",\"collected_at\":\"2026-03-04T18:30:04.355Z\",\"snapshot_reason\":\"manual_flush\",\"timestamp\":1772649004355}\n{\"events_emitted_total\":10,\"events_processed_total\":8,\"events_dropped_total\":2,\"intent_requests_total\":3,\"intent_hits_by_category\":{\"IC1\":2},\"intent_no_match_total\":1,\"rules_evaluated_total\":0,\"rules_matched_total\":0,\"rules_no_match_total\":0,\"dispatch_total\":5,\"dispatch_success\":4,\"dispatch_timeout\":1,\"dispatch_retry\":0,\"dispatch_failed\":0,\"pipeline_runs_total\":0,\"pipeline_breaker_trips\":0,\"intent_latency_avg_ms\":50,\"intent_latency_p95_ms\":50,\"intent_latency_samples\":1,\"pipeline_avg_latency_ms\":135,\"pipeline_p95_latency_ms\":150,\"pipeline_latency_samples\":2,\"dispatch_latency_avg_ms\":0,\"dispatch_latency_p95_ms\":0,\"dispatch_latency_samples\":0,\"dispatch_timeout_rate\":20,\"intent_no_match_rate\":33.33,\"rules_match_rate\":0,\"uptime_ms\":6,\"uptime_human\":\"0s\",\"collected_at\":\"2026-03-04T18:30:04.356Z\",\"snapshot_reason\":\"reset\",\"timestamp\":1772649004356}",
+          "cwd": "/root/.openclaw/workspace"
+        },
+        "isError": false,
+        "timestamp": 1772858454282
+      }
+    },
+    {
+      "type": "message",
+      "id": "e1e64671",
+      "parentId": "4b829209",
+      "timestamp": "2026-03-07T04:41:01.237Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_MNynbJZ1pwCnoNE9ZErfgiHu",
+            "name": "read",
+            "arguments": {
+              "file_path": "/root/.openclaw/workspace/infrastructure/observability/pipeline-dashboard-cron.js",
+              "limit": 260,
+              "offset": 1,
+              "path": "/root/.openclaw/workspace/infrastructure/observability/pipeline-dashboard-cron.js"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 32528,
+          "output": 66,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 32594,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858454287
+      }
+    },
+    {
+      "type": "message",
+      "id": "6240a246",
+      "parentId": "e1e64671",
+      "timestamp": "2026-03-07T04:41:01.248Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_MNynbJZ1pwCnoNE9ZErfgiHu",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "#!/usr/bin/env node\n'use strict';\n\n/**\n * Pipeline Dashboard Cron Entry — 自主决策流水线定时监控\n * \n * Day2 Gap2: 全局自主决策流水线监控升级 / 集成改造\n * \n * 功能:\n *   - 每4小时执行完整24h窗口仪表盘采集\n *   - 每小时执行1h窗口快速健康检查\n *   - 自动判定是否需要推送告警（仅当状态恶化或有critical告警时推送）\n *   - 生成报告 + 持久化快照 + 可选飞书卡片推送\n * \n * 调度建议:\n *   完整报告: 0 *\\/4 * * *  (每4小时)\n *   快速检查: 0 * * * *    (每小时，--quick 模式)\n * \n * 用法:\n *   node pipeline-dashboard-cron.js                # 完整24h报告\n *   node pipeline-dashboard-cron.js --quick        # 1h快速检查\n *   node pipeline-dashboard-cron.js --force-send   # 强制推送卡片\n * \n * 退出码: 0=正常 1=异常 2=超时\n */\n\nconst TIMEOUT_MS = 90_000;\nconst timer = setTimeout(() => {\n  console.error(JSON.stringify({\n    status: 'TIMEOUT',\n    message: `Pipeline dashboard exceeded ${TIMEOUT_MS / 1000}s`,\n    timestamp: new Date().toISOString(),\n  }));\n  process.exit(2);\n}, TIMEOUT_MS);\ntimer.unref();\n\nasync function main() {\n  const start = Date.now();\n  const args = process.argv.slice(2);\n  const isQuick = args.includes('--quick');\n  const forceSend = args.includes('--force-send');\n\n  try {\n    // 1. Collect\n    const collector = require('./pipeline-dashboard-collector');\n    const monitor = require('./autonomous-pipeline-monitor');\n    const windowHours = isQuick ? 1 : 24;\n    const snapshot = collector.collectAll({ windowHours });\n\n    // 2. Delta\n    const previous = collector.loadLastSnapshot();\n    const delta = monitor.computeDelta(snapshot, previous);\n\n    // 3. Persist\n    collector.persist(snapshot);\n\n    // 4. Generate report (full mode only)\n    if (!isQuick) {\n      const fs = require('fs');\n      const path = require('path');\n      const REPORTS_DIR = '/root/.openclaw/workspace/reports';\n      if (!fs.existsSync(REPORTS_DIR)) fs.mkdirSync(REPORTS_DIR, { recursive: true });\n      const dateTag = new Date().toISOString().slice(0, 10);\n      const report = monitor.generateMarkdownReport(snapshot, delta);\n      fs.writeFileSync(path.join(REPORTS_DIR, `pipeline-dashboard-${dateTag}.md`), report);\n    }\n\n    // 5. Determine if we need to push notification\n    const shouldPush = forceSend\n      || snapshot.overall.status === 'critical'\n      || (previous && previous.overall?.status !== 'critical' && snapshot.overall.status === 'critical')\n      || (delta && delta.score_change != null && delta.score_change <= -10);\n\n    // 6. Output structured summary\n    const elapsed = Date.now() - start;\n    const output = {\n      status: 'OK',\n      mode: isQuick ? 'quick' : 'full',\n      overall: snapshot.overall.status,\n      score: snapshot.overall.composite_score,\n      alerts: snapshot.all_alerts.length,\n      layers: {},\n      push_triggered: shouldPush,\n      elapsed_ms: elapsed,\n      timestamp: new Date().toISOString(),\n    };\n\n    for (const [key, layer] of Object.entries(snapshot.layers)) {\n      output.layers[key] = { status: layer.status, alerts: layer.alerts.length };\n    }\n\n    console.log(JSON.stringify(output));\n\n    // 7. Push if needed (best-effort, don't fail the cron)\n    if (shouldPush) {\n      try {\n        const card = monitor.generateFeishuCard(snapshot, delta);\n        // Write card for later pickup by feishu-report-sender\n        const fs = require('fs');\n        const path = require('path');\n        const cardQueue = '/root/.openclaw/workspace/reports/.card-queue';\n        if (!fs.existsSync(cardQueue)) fs.mkdirSync(cardQueue, { recursive: true });\n        fs.writeFileSync(\n          path.join(cardQueue, `pipeline-dashboard-${Date.now()}.json`),\n          JSON.stringify({ type: 'pipeline-dashboard', card, snapshot_status: snapshot.overall.status }, null, 2)\n        );\n        console.log(JSON.stringify({ push: 'queued', reason: shouldPush === true ? 'forced' : snapshot.overall.status }));\n      } catch (e) {\n        console.error(JSON.stringify({ push: 'failed', error: e.message }));\n      }\n    }\n\n    process.exit(0);\n  } catch (err) {\n    console.error(JSON.stringify({\n      status: 'ERROR',\n      message: err.message,\n      stack: (err.stack || '').split('\\n').slice(0, 5),\n      elapsed_ms: Date.now() - start,\n      timestamp: new Date().toISOString(),\n    }));\n    process.exit(1);\n  }\n}\n\nprocess.on('uncaughtException', (err) => {\n  console.error(JSON.stringify({ status: 'FATAL', reason: 'uncaught', message: err.message }));\n  process.exit(1);\n});\n\nmain();\n"
+          }
+        ],
+        "isError": false,
+        "timestamp": 1772858461243
+      }
+    },
+    {
+      "type": "message",
+      "id": "3b973c35",
+      "parentId": "6240a246",
+      "timestamp": "2026-03-07T04:41:08.422Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_TosBvSopRvobKDWKLJZ8gqn1",
+            "name": "read",
+            "arguments": {
+              "file_path": "/root/.openclaw/workspace/infrastructure/observability/pipeline-dashboard-bus-adapter.js",
+              "limit": 220,
+              "offset": 1,
+              "path": "/root/.openclaw/workspace/infrastructure/observability/pipeline-dashboard-bus-adapter.js"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": -17940,
+          "output": 70,
+          "cacheRead": 25856,
+          "cacheWrite": 0,
+          "totalTokens": 7986,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858461248
+      }
+    },
+    {
+      "type": "message",
+      "id": "b4656a7b",
+      "parentId": "3b973c35",
+      "timestamp": "2026-03-07T04:41:08.433Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_TosBvSopRvobKDWKLJZ8gqn1",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "#!/usr/bin/env node\n'use strict';\n\n/**\n * Pipeline Dashboard EventBus Adapter\n * \n * Day2 Gap2 — 让五层仪表盘也支持事件驱动触发\n * \n * 监听事件:\n *   - system.health.request       → 触发快速检查\n *   - pipeline.dashboard.request  → 触发完整采集\n *   - system.alert.triggered      → 触发快速检查+推送\n * \n * 发射事件:\n *   - pipeline.dashboard.collected  → 采集完成\n *   - pipeline.dashboard.alert      → 状态恶化告警\n * \n * @module infrastructure/observability/pipeline-dashboard-bus-adapter\n */\n\nconst path = require('path');\n\nfunction register(bus) {\n  if (!bus || typeof bus.on !== 'function') {\n    console.warn('[pipeline-dashboard-bus-adapter] No valid bus provided');\n    return;\n  }\n\n  const collector = require('./pipeline-dashboard-collector');\n  const monitor = require('./autonomous-pipeline-monitor');\n\n  // ─── Handler: Full collection ───\n  function handleFullCollection(event) {\n    try {\n      const snapshot = collector.collectAll({ windowHours: 24 });\n      const previous = collector.loadLastSnapshot();\n      const delta = monitor.computeDelta(snapshot, previous);\n      collector.persist(snapshot);\n\n      bus.emit('pipeline.dashboard.collected', {\n        source: 'pipeline-dashboard-bus-adapter',\n        status: snapshot.overall.status,\n        score: snapshot.overall.composite_score,\n        alerts: snapshot.all_alerts.length,\n        trigger_event: event?.type || 'manual',\n      });\n\n      // Auto-alert on degradation\n      if (previous && snapshot.overall.status === 'critical' && previous.overall?.status !== 'critical') {\n        bus.emit('pipeline.dashboard.alert', {\n          source: 'pipeline-dashboard-bus-adapter',\n          type: 'status_degradation',\n          from: previous.overall?.status,\n          to: snapshot.overall.status,\n          score: snapshot.overall.composite_score,\n          alerts: snapshot.all_alerts,\n        });\n      }\n\n      return { status: 'ok', overall: snapshot.overall.status, score: snapshot.overall.composite_score };\n    } catch (err) {\n      return { status: 'error', error: err.message };\n    }\n  }\n\n  // ─── Handler: Quick check ───\n  function handleQuickCheck(event) {\n    try {\n      const snapshot = collector.collectAll({ windowHours: 1 });\n      const previous = collector.loadLastSnapshot();\n      collector.persist(snapshot);\n\n      if (snapshot.overall.status === 'critical') {\n        bus.emit('pipeline.dashboard.alert', {\n          source: 'pipeline-dashboard-bus-adapter',\n          type: 'critical_status',\n          status: snapshot.overall.status,\n          score: snapshot.overall.composite_score,\n          alerts: snapshot.all_alerts,\n          trigger: event?.type || 'manual',\n        });\n      }\n\n      return { status: 'ok', overall: snapshot.overall.status };\n    } catch (err) {\n      return { status: 'error', error: err.message };\n    }\n  }\n\n  // ─── Register listeners ───\n  bus.on('pipeline.dashboard.request', handleFullCollection);\n  bus.on('system.health.request', handleQuickCheck);\n  bus.on('system.alert.triggered', handleQuickCheck);\n\n  return {\n    handleFullCollection,\n    handleQuickCheck,\n  };\n}\n\nmodule.exports = { register };\n"
+          }
+        ],
+        "isError": false,
+        "timestamp": 1772858468428
+      }
+    },
+    {
+      "type": "message",
+      "id": "b76a9335",
+      "parentId": "b4656a7b",
+      "timestamp": "2026-03-07T04:41:17.647Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_xieZAHMQUN0d5S9P6A0NWvvX",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && node - <<'NODE'\nconst adapter = require('./infrastructure/observability/pipeline-dashboard-bus-adapter');\nconst events=[];\nconst handlers={};\nconst bus={on:(t,fn)=>handlers[t]=fn, emit:(t,p)=>events.push({t,p})};\nconst reg=adapter.register(bus);\nconsole.log('listeners', Object.keys(handlers));\nconsole.log('quick', JSON.stringify(reg.handleQuickCheck({type:'system.health.request'})));\nconsole.log('full', JSON.stringify(reg.handleFullCollection({type:'pipeline.dashboard.request'})));\nconsole.log('emitted', JSON.stringify(events,null,2));\nNODE",
+              "timeout": 60,
+              "workdir": "/root/.openclaw/workspace",
+              "yieldMs": 60000
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 34579,
+          "output": 192,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 34771,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858468433
+      }
+    },
+    {
+      "type": "message",
+      "id": "f8e23995",
+      "parentId": "b76a9335",
+      "timestamp": "2026-03-07T04:41:17.809Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_xieZAHMQUN0d5S9P6A0NWvvX",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "listeners [\n  'pipeline.dashboard.request',\n  'system.health.request',\n  'system.alert.triggered'\n]\nquick {\"status\":\"ok\",\"overall\":\"warning\"}\nfull {\"status\":\"ok\",\"overall\":\"warning\",\"score\":88}\nemitted [\n  {\n    \"t\": \"pipeline.dashboard.collected\",\n    \"p\": {\n      \"source\": \"pipeline-dashboard-bus-adapter\",\n      \"status\": \"warning\",\n      \"score\": 88,\n      \"alerts\": 2,\n      \"trigger_event\": \"pipeline.dashboard.request\"\n    }\n  }\n]"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 152,
+          "aggregated": "listeners [\n  'pipeline.dashboard.request',\n  'system.health.request',\n  'system.alert.triggered'\n]\nquick {\"status\":\"ok\",\"overall\":\"warning\"}\nfull {\"status\":\"ok\",\"overall\":\"warning\",\"score\":88}\nemitted [\n  {\n    \"t\": \"pipeline.dashboard.collected\",\n    \"p\": {\n      \"source\": \"pipeline-dashboard-bus-adapter\",\n      \"status\": \"warning\",\n      \"score\": 88,\n      \"alerts\": 2,\n      \"trigger_event\": \"pipeline.dashboard.request\"\n    }\n  }\n]",
+          "cwd": "/root/.openclaw/workspace"
+        },
+        "isError": false,
+        "timestamp": 1772858477804
+      }
+    },
+    {
+      "type": "message",
+      "id": "aa910c0f",
+      "parentId": "f8e23995",
+      "timestamp": "2026-03-07T04:41:24.376Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_zFdsQfhf0QpqoljjGtGWghKg",
+            "name": "exec",
+            "arguments": {
+              "command": "cd /root/.openclaw/workspace && jq '.jobs[] | select(.name==\"pipeline-dashboard-full\" or .name==\"pipeline-dashboard-quick\")' infrastructure/cron/jobs.json",
+              "timeout": 20,
+              "workdir": "/root/.openclaw/workspace",
+              "yieldMs": 20000
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 34895,
+          "output": 78,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "totalTokens": 34973,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1772858477809
+      }
+    },
+    {
+      "type": "message",
+      "id": "d400228b",
+      "parentId": "aa910c0f",
+      "timestamp": "2026-03-07T04:41:24.408Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_zFdsQfhf0QpqoljjGtGWghKg",
+        "toolName": "exec",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"name\": \"pipeline-dashboard-full\",\n  \"description\": \"[Day2-Gap2] 五层闭环运营仪表盘 — 采集认知-决策-执行-效果-系统全链路指标，生成Agent运营视角报告\",\n  \"script\": \"infrastructure/observability/pipeline-dashboard-cron.js\",\n  \"args\": [],\n  \"schedule\": \"0 */4 * * *\",\n  \"schedule_human\": \"每4小时\",\n  \"model\": \"zhipu/glm-5\",\n  \"enabled\": true,\n  \"trigger\": \"event_bridge\",\n  \"trigger_condition\": \"定时采集：L1意图/L2决策/L3执行/L4效果/L5系统全层指标\",\n  \"mode\": \"standalone\",\n  \"outputs\": [\n    \"reports/pipeline-dashboard-YYYY-MM-DD.md\",\n    \"infrastructure/observability/.dashboard-snapshot.json\",\n    \"infrastructure/observability/.dashboard-history.jsonl\"\n  ],\n  \"timeout_seconds\": 90,\n  \"on_failure\": \"log_and_continue\",\n  \"tags\": [\n    \"pipeline-dashboard\",\n    \"five-layer-monitoring\",\n    \"agent-ops\",\n    \"day2-gap2\"\n  ],\n  \"created\": \"2026-03-07\",\n  \"bridge_event\": \"cron.job.requested\",\n  \"bridge_runner\": \"infrastructure/event-bus/cron-event-bridge-runner.js\",\n  \"execution_mode\": \"event_requested\",\n  \"time_schedule\": \"0 */4 * * *\"\n}\n{\n  \"name\": \"pipeline-dashboard-quick\",\n  \"description\": \"[Day2-Gap2] 五层闭环快速健康检查 — 1h窗口，状态恶化时自动推送卡片\",\n  \"script\": \"infrastructure/observability/pipeline-dashboard-cron.js\",\n  \"args\": [\n    \"--quick\"\n  ],\n  \"schedule\": \"15 * * * *\",\n  \"schedule_human\": \"每小时第15分\",\n  \"model\": \"zhipu/glm-5\",\n  \"enabled\": true,\n  \"trigger\": \"event_bridge\",\n  \"trigger_condition\": \"定时快检：1h窗口，仅在critical时触发推送\",\n  \"mode\": \"standalone\",\n  \"outputs\": [\n    \"infrastructure/observability/.dashboard-snapshot.json\"\n  ],\n  \"timeout_seconds\": 60,\n  \"on_failure\": \"log_and_continue\",\n  \"tags\": [\n    \"pipeline-dashboard\",\n    \"quick-check\",\n    \"day2-gap2\"\n  ],\n  \"created\": \"2026-03-07\",\n  \"bridge_event\": \"cron.job.requested\",\n  \"bridge_runner\": \"infrastructure/event-bus/cron-event-bridge-runner.js\",\n  \"execution_mode\": \"event_requested\",\n  \"time_schedule\": \"15 * * * *\"\n}"
+          }
+        ],
+        "details": {
+          "status": "completed",
+          "exitCode": 0,
+          "durationMs": 22,
+          "aggregated": "{\n  \"name\": \"pipeline-dashboard-full\",\n  \"description\": \"[Day2-Gap2] 五层闭环运营仪表盘 — 采集认知-决策-执行-效果-系统全链路指标，生成Agent运营视角报告\",\n  \"script\": \"infrastructure/observability/pipeline-dashboard-cron.js\",\n  \"args\": [],\n  \"schedule\": \"0 */4 * * *\",\n  \"schedule_human\": \"每4小时\",\n  \"model\": \"zhipu/glm-5\",\n  \"enabled\": true,\n  \"trigger\": \"event_bridge\",\n  \"trigger_condition\": \"定时采集：L1意图/L2决策/L3执行/L4效果/L5系统全层指标\",\n  \"mode\": \"standalone\",\n  \"outputs\": [\n    \"reports/pipeline-dashboard-YYYY-MM-DD.md\",\n    \"infrastructure/observability/.dashboard-snapshot.json\",\n    \"infrastructure/observability/.dashboard-history.jsonl\"\n  ],\n  \"timeout_seconds\": 90,\n  \"on_failure\": \"log_and_continue\",\n  \"tags\": [\n    \"pipeline-dashboard\",\n    \"five-layer-monitoring\",\n    \"agent-ops\",\n    \"day2-gap2\"\n  ],\n  \"created\": \"2026-03-07\",\n  \"bridge_event\": \"cron.job.requested\",\n  \"bridge_runner\": \"infrastructure/event-bus/cron-event-bridge-runner.js\",\n  \"execution_mode\": \"event_requested\",\n  \"time_schedule\": \"0 */4 * * *\"\n}\n{\n  \"name\": \"pipeline-dashboard-quick\",\n  \"description\": \"[Day2-Gap2] 五层闭环快速健康检查 — 1h窗口，状态恶化时自动推送卡片\",\n  \"script\": \"infrastructure/observability/pipeline-dashboard-cron.js\",\n  \"args\": [\n    \"--quick\"\n  ],\n  \"schedule\": \"15 * * * *\",\n  \"schedule_human\": \"每小时第15分\",\n  \"model\": \"zhipu/glm-5\",\n  \"enabled\": true,\n  \"trigger\": \"event_bridge\",\n  \"trigger_condition\": \"定时快检：1h窗口，仅在critical时触发推送\",\n  \"mode\": \"standalone\",\n  \"outputs\": [\n    \"infrastructure/observability/.dashboard-snapshot.json\"\n  ],\n  \"timeout_seconds\": 60,\n  \"on_failure\": \"log_and_continue\",\n  \"tags\": [\n    \"pipeline-dashboard\",\n    \"quick-check\",\n    \"day2-gap2\"\n  ],\n  \"created\": \"2026-03-07\",\n  \"bridge_event\": \"cron.job.requested\",\n  \"bridge_runner\": \"infrastructure/event-bus/cron-event-bridge-runner.js\",\n  \"execution_mode\": \"event_requested\",\n  \"time_schedule\": \"15 * * * *\"\n}",
+          "cwd": "/root/.openclaw/workspace"
+        },
+        "isError": false,
+        "timestamp": 1772858484404
+      }
+    },
+    {
+      "type": "message",
+      "id": "b327d2e2",
+      "parentId": "d400228b",
+      "timestamp": "2026-03-07T04:41:47.440Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "Gap2 复核结论如下：\n\n1. 主实现代码已落地，不只是日志层面  \n   - 核心主实现存在：`infrastructure/observability/global-decision-dashboard.js`\n   - 集成采集器存在：`infrastructure/observability/pipeline-dashboard-collector.js`\n   - 定时入口存在：`infrastructure/observability/pipeline-dashboard-cron.js`\n   - EventBus 适配器存在：`infrastructure/observability/pipeline-dashboard-bus-adapter.js`\n   - Cron 注册存在且启用：`pipeline-dashboard-full` / `pipeline-dashboard-quick`\n\n2. 我直接跑了最相关验证，结果通过  \n   - 执行：`node infrastructure/tests/pipeline-dashboard-test.js`\n   - 结果：24/24 全通过  \n   - 覆盖内容包括：\n     - 五层采集完整性\n     - 快照/历史持久化\n     - Markdown / Feishu 卡片生成\n     - cron full / quick 模式\n     - jobs.json 注册\n     - bus adapter 模块加载\n     - 历史趋势数据\n\n3. 我也直接验证了主实现可执行性  \n   - 执行：`node infrastructure/observability/global-decision-dashboard.js --json --write`\n   - 成功生成：\n     - `reports/autonomy/global-decision-dashboard.json`\n     - `reports/autonomy/global-decision-dashboard.md`\n\n4. 但复核发现一个真实遗留阻塞：主实现结果“可运行”，但当前状态不能视为完全闭环完成  \n   关键现象：\n   - `global-decision-dashboard.js` 输出：\n     - `overall_status: \"critical\"`\n     - `execution.total: 0`\n     - `effect.observed: 0`\n   - 而仓内真实数据并非完全没有：\n     - `infrastructure/pipeline/run-log.jsonl` 有近期运行记录\n     - 其中甚至有真实 dispatch error：\n       `eventAction.startsWith is not a function`\n     - `auto-response.jsonl` / `health.jsonl` 也有历史样本\n   - 问题根因更像是主实现读取的是“进程内 runtime metrics + 部分日志”，当前默认路径下没有把已有历史执行数据充分汇总进 `global-decision-dashboard.js`，导致它把执行层判成 `critical`、效果层判成 `unknown`。\n\n5. 是否已补收口  \n   - 本次未直接改代码收口。原因：  \n     - Gap2 的“集成实现”本身已有一套更完整、已通过测试的五层采集链路（`pipeline-dashboard-collector.js` + cron + monitor）  \n     - 真正遗留不是“文件缺失/跑不起来”，而是“主实现 global dashboard 的统计口径与集成链路不一致”，这属于语义收口，不宜盲改  \n   - 但已经明确定位到阻塞点：  \n     - `global-decision-dashboard.js` 过度依赖 `metrics.getMetrics()` 的当前进程内计数，未回放 `metrics.jsonl` / `pipeline run-log` / auto-response 历史，导致结果失真  \n     - 因而它不能单独作为“Gap2 已完成”的最终验收依据\n\n最终结论：\n- Gap2 不能完全视为“无遗留地完成”。\n- 更准确地说：\n  - “集成改造 + 验证测试”可视为完成，证据是 24/24 测试通过、cron/报告/adapter 均可运行。\n  - “主实现结果”仍有遗留阻塞：`global-decision-dashboard.js` 的真实观测口径未完全打通，当前会把已有执行链路误判为 `execution=0 / critical`，因此验收上不能算彻底收口。\n\n一句话判断：\n- Gap2：部分完成、主体可用，但仍有一个明确遗留阻塞，不能按“完全完成”关闭。"
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "boom-researcher",
+        "model": "gpt-5.4",
+        "usage": {
+          "input": 32010,
+          "output": 881,
+          "cacheRead": 1792,
+          "cacheWrite": 0,
+          "totalTokens": 34683,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1772858484409
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "track_id": "isc-intent-eval-001",
+  "attestation": {
+    "closed_book": true,
+    "leaked_source_scan": "PASS"
+  },
+  "evidence_bundle": {
+    "present": true
+  },
+  "allowlist": [
+    "task_prompt",
+    "user_visible_input"
+  ],
+  "denylist": [
+    "memory",
+    "answer_key",
+    "gold_answer",
+    "labels",
+    "annotations"
+  ],
+  "runtime_inputs": [
+    "task_prompt",
+    "memory"
+  ],
+  "blocked_source_hits": {
+    "memory": 1,
+    "answers": 0,
+    "labels": 0,
+    "total": 1
+  },
+  "redaction": {
+    "applied": true,
+    "missed_fields": 0
+  },
+  "audit": {
+    "policy_version_present": true,
+    "input_fingerprints_present": true,
+    "scan_summary_present": true,
+    "decision_reason_present": true
+  }
+}

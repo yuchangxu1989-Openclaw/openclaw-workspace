@@ -3,15 +3,15 @@
   "created": "2026-03-05",
   "description": "Unified test registry — indexes all test cases across the workspace",
   "stats": {
-    "total_entries": 27,
+    "total_entries": 31,
     "by_category": {
       "unit": 10,
       "integration": 2,
       "e2e": 1,
       "benchmark/intent": 3,
       "benchmark/pipeline": 2,
-      "benchmark/scenarios": 10,
-      "regression": 1
+      "benchmark/scenarios": 11,
+      "regression": 2
     },
     "by_module": {
       "event-bus": 1,
@@ -20,11 +20,12 @@
       "dispatcher": 2,
       "rule-engine": 1,
       "decision-log": 1,
-      "mr": 4,
-      "pipeline": 2,
+      "mr": 5,
       "e2e-integration": 1,
-      "scenario-benchmark": 10,
-      "regression-infra": 1
+      "pipeline": 2,
+      "scenario-benchmark": 11,
+      "regression-infra": 1,
+      "execution-chain": 1
     }
   },
   "entries": [
@@ -629,6 +630,27 @@
         "regression",
         "auto-archive",
         "infrastructure"
+      ]
+    },
+    {
+      "id": "regression-exec-chain-remediation-pack-2026-03-07",
+      "category": "regression",
+      "source": "real-correction",
+      "created": "2026-03-07",
+      "module": "execution-chain",
+      "difficulty": "hard",
+      "file": "regression/archived/2026-03-07_21-04-00-regression-exec-chain-remediation-pack.json",
+      "original": "same-session user corrections",
+      "runner": "artifact-review",
+      "last_run": null,
+      "last_result": null,
+      "tags": [
+        "regression",
+        "execution-chain",
+        "intent-expansion",
+        "timeout-redispatch",
+        "state-transition",
+        "correction-enqueue"
       ]
     }
   ]
