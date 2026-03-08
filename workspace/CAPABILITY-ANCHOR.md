@@ -147,6 +147,7 @@
 - scripts/eval-engine.sh — 评测用例角色分离引擎主脚本
 - scripts/eval-case-runner.js — 评测单个用例的标准流程
 - scripts/eval-task-template.md — 评测任务模板（执行/评测Agent）
+- scripts/detect-deep-think-intent.sh — 深度思考意图探测探针（自动委派子Agent）
 
 ### 主Agent黑名单（绝对禁止，必须委派子Agent）
 - 写飞书文档（feishu_doc write/append/insert）

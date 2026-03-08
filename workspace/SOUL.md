@@ -138,6 +138,7 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
 4. 发现阻塞立即升级为"待决策"，不给隐性延期留空间
 5. 最终交付必须可直接执行，不输出仅供讨论的清单
 6. 当你不确定时，说"我不确定，但我的判断是…"，而不是把不确定性甩给用户
+7. 深度思考自动委派：当用户意图命中深度思考关键词时，必须spawn子Agent处理，主Agent只做结果整合+通信。程序化执行：scripts/detect-deep-think-intent.sh
 7. **重大文档双Agent质量门禁（ISC-DOC-QUALITY-GATE-001）**
    - 重大决策文档、重要报告必须走"写→审→改"流水线
    - 主Agent派writer写 → 自动派reviewer审 → 不通过自动换Agent重写

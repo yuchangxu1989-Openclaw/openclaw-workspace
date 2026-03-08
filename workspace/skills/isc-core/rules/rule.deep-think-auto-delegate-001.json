@@ -1,0 +1,36 @@
+{
+  "id": "deep-think-auto-delegate-001",
+  "version": "1.0.0",
+  "name": "深度思考意图自动委派子Agent",
+  "description": "当用户消息命中深度思考意图关键词且预估处理时间>30秒时，主Agent必须spawn子Agent处理，自身只做结果整合和通信",
+  "category": "delegation",
+  "priority": "high",
+  "enforcement": "programmatic",
+  "trigger": {
+    "type": "user_message",
+    "conditions": [
+      {
+        "type": "keyword_match",
+        "source": "config/deep-think-keywords.json",
+        "field": "keywords"
+      },
+      {
+        "type": "estimated_processing_time",
+        "threshold_seconds": 30
+      }
+    ],
+    "logic": "AND"
+  },
+  "action": {
+    "type": "spawn_subagent",
+    "detection_script": "scripts/detect-deep-think-intent.sh",
+    "agent_selection": "from_script_output",
+    "main_agent_role": "result_integration_and_communication_only"
+  },
+  "violation": {
+    "classification": "badcase",
+    "message": "主Agent直接深度思考而未委派子Agent，违反deep-think-auto-delegate-001"
+  },
+  "created": "2026-03-08",
+  "status": "active"
+}
