@@ -30,7 +30,9 @@
       "基于推断内容直接响应",
       "禁止向用户反问卡片内容"
     ],
-    "handler": "interactive-card-context-inference"
+    "handler": "interactive-card-context-inference",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.interactive-card-context-inference-001.sh"
   },
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "enforcement": "programmatic"
 }

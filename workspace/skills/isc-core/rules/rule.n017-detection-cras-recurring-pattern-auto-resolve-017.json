@@ -92,6 +92,8 @@
   "action": {
     "type": "handler",
     "handler": "auto-fix",
-    "description": ""
-  }
+    "description": "",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n017-detection-cras-recurring-pattern-auto-resolve-017.sh"
+  },
+  "enforcement": "programmatic"
 }

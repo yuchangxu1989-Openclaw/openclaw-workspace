@@ -79,6 +79,8 @@
   "enforcement_tier": "P1_process",
   "action": {
     "type": "check",
-    "handler": "eval-quality-check"
-  }
+    "handler": "eval-quality-check",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n025-aeo-feedback-auto-collection-025.sh"
+  },
+  "enforcement": "programmatic"
 }

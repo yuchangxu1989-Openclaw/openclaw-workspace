@@ -30,6 +30,8 @@
   "action": {
     "type": "handler",
     "handler": "naming-convention-check",
-    "description": ""
-  }
+    "description": "",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/N006.sh"
+  },
+  "enforcement": "programmatic"
 }

@@ -75,6 +75,8 @@
   "source": "用户教学：设计文档结构7项标准",
   "action": {
     "type": "check",
-    "handler": "document-structure-check"
-  }
+    "handler": "document-structure-check",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.design-document-structure-001.sh"
+  },
+  "enforcement": "programmatic"
 }

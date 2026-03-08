@@ -41,8 +41,10 @@
     "type": "gate",
     "handler": "subagent-checkpoint-gate",
     "on_failure": "reject",
-    "description": "创建子Agent时检查任务复杂度，超标则要求拆分"
+    "description": "创建子Agent时检查任务复杂度，超标则要求拆分",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.subagent-checkpoint-gate-001.sh"
   },
   "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:01:40+08:00"
+  "migrated_at": "2026-03-05T08:01:40+08:00",
+  "enforcement": "programmatic"
 }
