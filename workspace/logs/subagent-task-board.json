@@ -104,5 +104,63 @@
     "model": "claude-coder/claude-opus-4-6-thinking",
     "status": "running",
     "spawnTime": "2026-03-08T09:44:17.208Z"
+  },
+  {
+    "taskId": "gap-analysis-01",
+    "label": "isc-programmatic-gap-analysis",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "startTime": "2026-03-08T17:58:00+08:00",
+    "endTime": "2026-03-08T17:59:00+08:00"
+  },
+  {
+    "taskId": "deep-think-01",
+    "label": "deep-think-auto-delegate-engine",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "startTime": "2026-03-08T18:00:00+08:00",
+    "endTime": "2026-03-08T18:02:00+08:00"
+  },
+  {
+    "taskId": "meta-rule-01",
+    "label": "isc-meta-rule-auto-programmatic",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "startTime": "2026-03-08T18:03:00+08:00"
+  },
+  {
+    "taskId": "batch1-p0",
+    "label": "isc-fix-batch1-githook-p0",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "startTime": "2026-03-08T18:03:00+08:00"
+  },
+  {
+    "taskId": "batch2-p1",
+    "label": "isc-fix-batch2-event-p1",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "startTime": "2026-03-08T18:03:00+08:00"
+  },
+  {
+    "taskId": "batch3-p2",
+    "label": "isc-fix-batch3-cron-p2",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "startTime": "2026-03-08T18:03:00+08:00"
+  },
+  {
+    "taskId": "batch4-p3",
+    "label": "isc-fix-batch4-other-p3",
+    "agentId": "reviewer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "startTime": "2026-03-08T18:03:00+08:00"
   }
 ]
