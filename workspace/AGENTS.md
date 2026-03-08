@@ -448,3 +448,15 @@ This is a starting point. Add your own conventions, style, and rules as you figu
 - 最低字段：`taskId, label, agentId, status(running/done/failed), spawnTime, completeTime, result_summary`。
 - 建议附加：`model`（用于看板展示）。
 - 子Agent完成事件触发后，必须更新同一 taskId 记录；当累计完成（done+failed）>=3，触发 `scripts/subagent-report.sh` 做批量汇总。
+
+### 看板必须推给用户（ISC-TASKBOARD-PUSH-001）
+show-task-board.sh只是自己看，用户看不到 = 没做。
+标准流程：
+1. bash show-task-board-feishu.sh > 获得格式化文本
+2. 将文本作为回复发给用户
+
+触发时机：
+- 用户问任务状态
+- 批量任务完成（≥3个）
+- 任何失败发生
+- 每波新任务派出后

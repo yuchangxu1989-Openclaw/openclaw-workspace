@@ -1,0 +1,22 @@
+{
+  "id": "ISC-TASKBOARD-PUSH-001",
+  "name": "看板必须推给用户",
+  "description": "show-task-board.sh只是自己看，用户看不到=没做。必须用show-task-board-feishu.sh生成格式化文本并发送给用户。",
+  "trigger": {
+    "events": [
+      "user_asks_task_status",
+      "batch_tasks_completed_gte_3",
+      "any_task_failed",
+      "new_task_wave_dispatched"
+    ]
+  },
+  "action": {
+    "type": "script",
+    "command": "bash /root/.openclaw/workspace/scripts/show-task-board-feishu.sh",
+    "deliver_to": "user_channel"
+  },
+  "severity": "high",
+  "enforcement": "mandatory",
+  "created": "2026-03-08",
+  "rationale": "用户在飞书端看不到任何本地exec的输出，看板必须通过消息推送才能让用户可见。自己exec看=口嗨。"
+}

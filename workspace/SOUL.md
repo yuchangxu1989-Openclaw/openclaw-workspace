@@ -182,3 +182,10 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
 - "记得就做，忘了就漏"是认知规则的本质缺陷
 
 **自检**：回复用户子Agent结果前，问自己"update-task.sh调了没有？"
+
+### ISC-TASKBOARD-PUSH-001: 看板推送铁律
+
+**用户看到的才算数，自己exec看 = 口嗨。**
+
+看板必须推给用户：`bash scripts/show-task-board-feishu.sh` 获取格式化文本，直接作为回复发给用户。
+触发时机：用户问状态 / 批量完成≥3 / 任何失败 / 每波新任务派出后。
