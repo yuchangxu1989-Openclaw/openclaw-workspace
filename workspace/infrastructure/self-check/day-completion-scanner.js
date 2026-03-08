@@ -159,7 +159,7 @@ function scanConfigConsistency() {
     }
   }
 
-  // 检查 DTO 订阅中引用的 ISC 规则是否存在
+  // 检查 本地任务编排 订阅中引用的 ISC 规则是否存在
   const dtoSubDir = path.join(WORKSPACE, 'skills/dto-core/subscriptions');
   if (fs.existsSync(dtoSubDir)) {
     const subFiles = fs.readdirSync(dtoSubDir).filter(f => f.endsWith('.json'));

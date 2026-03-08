@@ -1,5 +1,5 @@
 /**
- * DTO 事件桥接 - 完整路由，覆盖 9 种事件类型
+ * 本地任务编排 事件桥接 - 完整路由，覆盖 9 种事件类型
  * 由 Cron dispatcher 或手动触发
  */
 const path = require('path');
@@ -10,12 +10,12 @@ const CONSUMER_ID = 'dto-core';
 
 // 所有支持的事件类型及其处理器
 const EVENT_HANDLERS = {
-  // 1-3: ISC 规则事件 → 触发 DTO 同步
+  // 1-3: ISC 规则事件 → 触发 本地任务编排 同步
   'isc.rule.created':  handleIscRule,
   'isc.rule.updated':  handleIscRule,
   'isc.rule.deleted':  handleIscRule,
 
-  // 4: DTO 同步完成 → 通知下游 SEEF/AEO
+  // 4: 本地任务编排 同步完成 → 通知下游 SEEF/AEO
   'dto.sync.completed': handleDtoSyncCompleted,
 
   // 5: SEEF 评测完成 → 触发优化流程
@@ -52,27 +52,27 @@ async function processEvents() {
   const events = bus.consume(CONSUMER_ID, { types: CONSUME_TYPES });
 
   if (events.length === 0) {
-    console.log('[DTO-Bridge] 无待处理事件');
+    console.log('[本地任务编排-Bridge] 无待处理事件');
     return { processed: 0 };
   }
 
-  console.log(`[DTO-Bridge] 发现 ${events.length} 个事件`);
+  console.log(`[本地任务编排-Bridge] 发现 ${events.length} 个事件`);
 
   const results = [];
   for (const event of events) {
     try {
       const handler = EVENT_HANDLERS[event.type];
       if (handler) {
-        console.log(`[DTO-Bridge] 处理: ${event.type}`);
+        console.log(`[本地任务编排-Bridge] 处理: ${event.type}`);
         await handler(event);
       } else {
-        console.log(`[DTO-Bridge] 未注册处理器: ${event.type}, 跳过`);
+        console.log(`[本地任务编排-Bridge] 未注册处理器: ${event.type}, 跳过`);
       }
 
       bus.ack(CONSUMER_ID, event.id);
       results.push({ event: event.id, type: event.type, status: 'ok' });
     } catch (err) {
-      console.error(`[DTO-Bridge] 处理失败: ${event.type} ${event.id}`, err.message);
+      console.error(`[本地任务编排-Bridge] 处理失败: ${event.type} ${event.id}`, err.message);
       results.push({ event: event.id, type: event.type, status: 'error', error: err.message });
 
       bus.emit('system.error', {
@@ -97,7 +97,7 @@ async function handleIscRule(event) {
   if (fs.existsSync(subsDir)) {
     const files = fs.readdirSync(subsDir).filter(f => f.endsWith('.json'));
     for (const file of files) {
-      console.log(`[DTO-Sync] 通知订阅者: ${file} -> rule ${rule_id}`);
+      console.log(`[本地任务编排-Sync] 通知订阅者: ${file} -> rule ${rule_id}`);
     }
   }
 
@@ -109,10 +109,10 @@ async function handleIscRule(event) {
   }, 'dto-core');
 }
 
-// ── DTO 同步完成 → 通知下游 SEEF/AEO ─────────────────────
+// ── 本地任务编排 同步完成 → 通知下游 SEEF/AEO ─────────────────────
 async function handleDtoSyncCompleted(event) {
   const { rule_id, action } = event.payload || {};
-  console.log(`[DTO-Bridge] 同步完成: rule=${rule_id} action=${action}, 通知 SEEF/AEO`);
+  console.log(`[本地任务编排-Bridge] 同步完成: rule=${rule_id} action=${action}, 通知 SEEF/AEO`);
 
   // 发布评测请求事件给 SEEF
   bus.emit('seef.skill.evaluated', {
@@ -126,12 +126,12 @@ async function handleDtoSyncCompleted(event) {
 // ── SEEF 评测完成 → 触发优化流程 ──────────────────────────
 async function handleSeefEvaluated(event) {
   const { skill_name, score, track } = event.payload || {};
-  console.log(`[DTO-Bridge] SEEF评测完成: skill=${skill_name} score=${score} track=${track}`);
+  console.log(`[本地任务编排-Bridge] SEEF评测完成: skill=${skill_name} score=${score} track=${track}`);
 
   // 如果评分低于阈值，触发优化
   const threshold = 0.8;
   if (score !== undefined && score < threshold) {
-    console.log(`[DTO-Bridge] 评分 ${score} < ${threshold}, 触发优化`);
+    console.log(`[本地任务编排-Bridge] 评分 ${score} < ${threshold}, 触发优化`);
     bus.emit('seef.skill.optimized', {
       source_event: event.id,
       skill_name,
@@ -139,7 +139,7 @@ async function handleSeefEvaluated(event) {
       optimization: 'auto-triggered',
     }, 'dto-core');
   } else {
-    console.log(`[DTO-Bridge] 评分合格, 通知 AEO 进行正式评测`);
+    console.log(`[本地任务编排-Bridge] 评分合格, 通知 AEO 进行正式评测`);
     bus.emit('aeo.assessment.completed', {
       source_event: event.id,
       skill_name,
@@ -153,7 +153,7 @@ async function handleSeefEvaluated(event) {
 // ── SEEF 优化完成 → 触发重新评测 ──────────────────────────
 async function handleSeefOptimized(event) {
   const { skill_name } = event.payload || {};
-  console.log(`[DTO-Bridge] SEEF优化完成: skill=${skill_name}, 触发重新评测`);
+  console.log(`[本地任务编排-Bridge] SEEF优化完成: skill=${skill_name}, 触发重新评测`);
 
   bus.emit('seef.skill.evaluated', {
     source_event: event.id,
@@ -166,7 +166,7 @@ async function handleSeefOptimized(event) {
 // ── AEO 评测完成 → 通知 CRAS 入库 ────────────────────────
 async function handleAeoCompleted(event) {
   const { skill_name, score, passed, track } = event.payload || {};
-  console.log(`[DTO-Bridge] AEO评测完成: skill=${skill_name} passed=${passed} score=${score}`);
+  console.log(`[本地任务编排-Bridge] AEO评测完成: skill=${skill_name} passed=${passed} score=${score}`);
 
   bus.emit('cras.insight.generated', {
     source_event: event.id,
@@ -182,7 +182,7 @@ async function handleAeoCompleted(event) {
 // ── AEO 评测失败 → 告警 + CRAS ───────────────────────────
 async function handleAeoFailed(event) {
   const { skill_name, error, track } = event.payload || {};
-  console.log(`[DTO-Bridge] AEO评测失败: skill=${skill_name} error=${error}`);
+  console.log(`[本地任务编排-Bridge] AEO评测失败: skill=${skill_name} error=${error}`);
 
   // 发布告警
   bus.emit('system.error', {
@@ -205,11 +205,11 @@ async function handleAeoFailed(event) {
 // ── CRAS 洞察生成 → 检查是否需要更新 ISC 规则 ────────────
 async function handleCrasInsight(event) {
   const { type, skill_name, score, passed } = event.payload || {};
-  console.log(`[DTO-Bridge] CRAS洞察: type=${type} skill=${skill_name}`);
+  console.log(`[本地任务编排-Bridge] CRAS洞察: type=${type} skill=${skill_name}`);
 
   // 如果洞察建议更新规则，发布 ISC 更新事件
   if (type === 'rule-suggestion' || (type === 'assessment-failure')) {
-    console.log(`[DTO-Bridge] CRAS建议更新ISC规则`);
+    console.log(`[本地任务编排-Bridge] CRAS建议更新ISC规则`);
     bus.emit('isc.rule.updated', {
       source: 'cras-feedback',
       source_event: event.id,
@@ -223,7 +223,7 @@ async function handleCrasInsight(event) {
 async function handleSystemError(event) {
   const { source, error, message: msg, severity } = event.payload || {};
   const logLine = `[${new Date().toISOString()}] ERROR [${source}] ${severity || 'error'}: ${error || msg}`;
-  console.log(`[DTO-Bridge] 系统错误: ${logLine}`);
+  console.log(`[本地任务编排-Bridge] 系统错误: ${logLine}`);
 
   // 写入错误日志
   const logDir = path.join(__dirname, '..', '..', 'infrastructure', 'logs');
@@ -234,7 +234,7 @@ async function handleSystemError(event) {
 // ── 系统健康 → 更新健康状态 ──────────────────────────────
 async function handleSystemHealth(event) {
   const { component, status, metrics } = event.payload || {};
-  console.log(`[DTO-Bridge] 健康检查: component=${component} status=${status}`);
+  console.log(`[本地任务编排-Bridge] 健康检查: component=${component} status=${status}`);
 
   // 写入健康状态
   const statusDir = path.join(__dirname, '..', '..', 'infrastructure', 'logs');
@@ -259,11 +259,11 @@ async function handleSystemHealth(event) {
 if (require.main === module) {
   processEvents()
     .then(r => {
-      console.log(`[DTO-Bridge] 完成: ${JSON.stringify(r)}`);
+      console.log(`[本地任务编排-Bridge] 完成: ${JSON.stringify(r)}`);
       process.exit(0);
     })
     .catch(err => {
-      console.error('[DTO-Bridge] 致命错误:', err);
+      console.error('[本地任务编排-Bridge] 致命错误:', err);
       process.exit(1);
     });
 }
@@ -285,7 +285,7 @@ function emitTaskCompleted(result) {
     duration: result.duration || 0,
     timestamp: Date.now()
   }, 'dto-core');
-  console.log(`[DTO-Bridge] 发布事件: dto.task.completed (task=${result.taskId})`);
+  console.log(`[本地任务编排-Bridge] 发布事件: dto.task.completed (task=${result.taskId})`);
   return event;
 }
 
@@ -326,7 +326,7 @@ function createTaskFromEvent(event) {
     source_event: event.id || null
   }, 'dto-core');
   
-  console.log(`[DTO-Bridge] 创建任务: ${taskId} (${taskDef.name})`);
+  console.log(`[本地任务编排-Bridge] 创建任务: ${taskId} (${taskDef.name})`);
   
   return {
     status: 'ok',

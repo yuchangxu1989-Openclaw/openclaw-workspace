@@ -119,14 +119,14 @@
 
 ### Fix-07 [P1] N-03: .gitignore 从 1 行扩展到 42 行
 
-**问题**: `.gitignore` 仅含 1 行，导致 100+ 运行时产物（JSONL 日志、signal 文件、DTO task 文件、状态 JSON）持续污染 Git。
+**问题**: `.gitignore` 仅含 1 行，导致 100+ 运行时产物（JSONL 日志、signal 文件、本地任务编排 task 文件、状态 JSON）持续污染 Git。
 
 **修复**: 扩展 `.gitignore` 覆盖：
 - `infrastructure/logs/*.jsonl` — 运行日志
 - `infrastructure/enforcement/*.jsonl` — enforcement 日志
 - `infrastructure/event-bus/signals/` — 事件信号文件
 - `infrastructure/dispatcher/state/` — 调度状态
-- `skills/dto-core/tasks/` — DTO 任务文件
+- `skills/dto-core/tasks/` — 本地任务编排 任务文件
 - `scripts/.probe-state.json` / `scripts/logs/` — 探针状态
 - `.pipeline-*.json*` — 管道运行时
 - `tmp-*.json` / `.entropy-archive/` — 临时文件

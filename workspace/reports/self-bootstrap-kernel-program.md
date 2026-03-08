@@ -247,7 +247,7 @@
 ### P2
 7. 为“没有用户输入能否持续自治”增加 time-based continuation eval
 8. 对自治任务建立 budget / retry / dead-letter 机制
-9. 将最小核输出接入更高层 CRAS / DTO / AEO 闭环
+9. 将最小核输出接入更高层 CRAS / 本地任务编排 / AEO 闭环
 
 ---
 

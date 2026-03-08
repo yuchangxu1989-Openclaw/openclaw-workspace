@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * DTO ISC规则创建监听器
+ * 本地任务编排 ISC规则创建监听器
  * 监听ISC规则创建事件，自动订阅新规则
  */
 
@@ -22,7 +22,7 @@ class ISCRuleCreatedListener {
    * 监听并处理ISC规则创建事件
    */
   async listen() {
-    console.log('[DTO-ISC监听] 检查ISC规则创建事件...');
+    console.log('[本地任务编排-ISC监听] 检查ISC规则创建事件...');
     
     if (!fs.existsSync(LISTENER_CONFIG.eventPath)) {
       console.log('  无新事件');
@@ -67,7 +67,7 @@ class ISCRuleCreatedListener {
     
     const subscription = {
       subscription_id: `sub_isc_${ruleData.ruleId.replace(/\./g, '_')}`,
-      subscriber: 'DTO-Declarative-Orchestrator',
+      subscriber: '本地任务编排-Declarative-Orchestrator',
       rule_id: ruleData.ruleId,
       rule_name: ruleData.ruleName,
       file_path: ruleData.filePath,
@@ -94,7 +94,7 @@ class ISCRuleCreatedListener {
    */
   async run() {
     console.log('╔════════════════════════════════════════════════════════════╗');
-    console.log('║     DTO-ISC规则创建监听器 - ISC创建→DTO自动订阅           ║');
+    console.log('║     本地任务编排-ISC规则创建监听器 - ISC创建→DTO自动订阅           ║');
     console.log('╚════════════════════════════════════════════════════════════╝');
     
     const subscriptions = await this.listen();

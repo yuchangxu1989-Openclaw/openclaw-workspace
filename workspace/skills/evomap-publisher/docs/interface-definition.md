@@ -1,6 +1,6 @@
 # 接口定义 - EvoMap极简发布器
 
-## 1. DTO → EP 接口
+## 1. 本地任务编排 → EP 接口
 
 ### publish(request)
 
@@ -75,7 +75,7 @@ interface ValidationResult {
 
 ---
 
-## 3. EP → DTO 回调接口
+## 3. EP → 本地任务编排 回调接口
 
 ### onPublishComplete(result)
 

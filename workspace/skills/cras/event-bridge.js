@@ -2,7 +2,7 @@
 /**
  * CRAS Event Bridge - 真正的学习引擎
  * 
- * 从事件总线消费 AEO 评测结果、DTO 同步事件、系统错误，
+ * 从事件总线消费 AEO 评测结果、本地任务编排 同步事件、系统错误，
  * 生成洞察报告并写入事件总线。
  * 
  * 替代原有模拟数据流程，实现 CRAS 认知闭环。
@@ -24,7 +24,7 @@ const REPORTS_DIR = path.join(__dirname, 'reports');
 });
 
 /**
- * 消费事件总线中的 AEO 评测结果、DTO 同步事件和系统错误，
+ * 消费事件总线中的 AEO 评测结果、本地任务编排 同步事件和系统错误，
  * 分析后生成洞察和报告。
  */
 function processAssessments() {
@@ -119,7 +119,7 @@ function analyzeEvent(event) {
     };
   }
 
-  // DTO 同步事件
+  // 本地任务编排 同步事件
   if (event.type === 'dto.sync.completed') {
     const p = event.payload || {};
     return {

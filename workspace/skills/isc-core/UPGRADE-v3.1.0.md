@@ -2,7 +2,7 @@
 
 ## 升级目标
 
-从"标准管理者"演进为"标准生成与演进机制管理者"，明确 ISC-DTO 边界，实现语义化标准体系。
+从"标准管理者"演进为"标准生成与演进机制管理者"，明确 ISC-本地任务编排 边界，实现语义化标准体系。
 
 ---
 
@@ -31,7 +31,7 @@
 - R001 → rule.auto_skillization
 - S001 → quality.md.length
 
-### 2. ISC-DTO 边界重构（关键架构修正）
+### 2. ISC-本地任务编排 边界重构（关键架构修正）
 
 **现有问题**：ISC 主动分发到 PDCA 流水线（越界）
 
@@ -41,7 +41,7 @@
 │                      职责边界                            │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
-│   ISC (规范提供者)              DTO (编排执行者)         │
+│   ISC (规范提供者)              本地任务编排 (编排执行者)         │
 │   ┌─────────────┐              ┌─────────────┐         │
 │   │ 标准定义    │─────────────→│ 检查点注册  │         │
 │   │ 检查点规范  │              │ 执行编排    │         │
@@ -67,12 +67,12 @@ isc.registerCheckpoints(['quality.md.length', 'naming.skill.display']);
 isc.check('quality.md.length', target);
 isc.getCheckpointsForPhase('verify');
 
-// DTO 调用方式
+// 本地任务编排 调用方式
 const checkpoints = isc.getCheckpointsForPhase('verify');
 for (const cp of checkpoints) {
   const result = await isc.check(cp.id, skill);
   if (result.status !== 'pass') {
-    // DTO 自行决定如何处理
+    // 本地任务编排 自行决定如何处理
   }
 }
 ```
@@ -150,10 +150,10 @@ isc.detectSkillToStandardDrift();
 - [ ] 更新标准注册接口
 - [ ] 保留 legacyId 兼容
 
-### Phase 2: ISC-DTO 边界重构（2天）
+### Phase 2: ISC-本地任务编排 边界重构（2天）
 - [ ] 删除 distributeTo 方法
 - [ ] 新增 registerCheckpoints / check 接口
-- [ ] 更新 DTO 调用方式
+- [ ] 更新 本地任务编排 调用方式
 
 ### Phase 3: 血缘与检测增强（2天）
 - [ ] 实现 lineage 字段
@@ -182,7 +182,7 @@ isc.detectSkillToStandardDrift();
 | 风险 | 缓解措施 |
 |:-----|:---------|
 | 语义化 ID 冲突 | 系统校验唯一性，冲突时拒绝注册 |
-| DTO 边界变更影响大 | 保留旧接口 wrapper，渐进式迁移 |
+| 本地任务编排 边界变更影响大 | 保留旧接口 wrapper，渐进式迁移 |
 | 血缘追踪性能开销 | 异步生成，缓存影响分析结果 |
 
 ---

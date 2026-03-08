@@ -26,14 +26,14 @@
 3. **规则/任务可自动生成**
    - `intent.ruleify` → `handleRuleify()` → 自动生成 ISC 规则草案文件，并发出：
      - `isc.rule.created`
-   - `intent.directive` → `handleDirective()` → 自动创建 DTO 任务，并发出：
+   - `intent.directive` → `handleDirective()` → 自动创建 本地任务编排 任务，并发出：
      - `dto.task.created`
 
 4. **评测沉淀链路已存在**
    - 规则：`skills/isc-core/rules/rule.eval-driven-development-loop-001.json`
    - 评测检查器：
      - `infrastructure/event-bus/handlers/eval-quality-check.js`
-   - DTO/CRAS 桥接：
+   - 本地任务编排/CRAS 桥接：
      - `skills/dto-core/event-bridge.js`
      - `skills/cras/event-bridge.js`
 
@@ -62,7 +62,7 @@
 - `verify_next_day`：需要次日回看验证是否生效
 
 ### R3. 次日验证是强制项
-只要复盘产出 `task` / `rule` / `eval` 中任一项，就必须自动生成至少 1 个 `verify_next_day` DTO 任务。
+只要复盘产出 `task` / `rule` / `eval` 中任一项，就必须自动生成至少 1 个 `verify_next_day` 本地任务编排 任务。
 
 ### R4. 03:00 成长复盘必须作为闭环触发器
 后续每日 03:00 成长复盘任务，不应只写报告；它必须同时承担：
@@ -121,7 +121,7 @@
 ### 路径 A：复盘产物 → 自动任务
 - 输入：`intent.reflect`
 - 执行器：`intent-event-handler.js`
-- 动作：生成 DTO task
+- 动作：生成 本地任务编排 task
 
 ### 路径 B：复盘产物 → 自动规则
 - 输入：高置信复盘 + 含长期约束语义
@@ -133,7 +133,7 @@
 
 ### 路径 D：复盘产物 → 次日验证
 - 输入：任何 task/rule/eval
-- 动作：自动创建 DTO 次日验证任务
+- 动作：自动创建 本地任务编排 次日验证任务
 
 ---
 
@@ -149,7 +149,7 @@
 应改成：
 - `handleReflect()` 在 insight 生成后，继续做 `reflect -> closure decomposition`
 - 自动生成：
-  - 1个 DTO task
+  - 1个 本地任务编排 task
   - 可选 1个 ISC rule draft
   - 1个 eval backlog对象
   - 1个 next-day verification task
@@ -215,7 +215,7 @@
 
 ### 03:00 任务输出
 - `昨日成长复盘闭环日报`
-- 自动补齐的 DTO tasks
+- 自动补齐的 本地任务编排 tasks
 - 自动补齐的 ISC rule drafts
 - 自动补齐的 eval backlog
 - 当天要执行的次日验证任务

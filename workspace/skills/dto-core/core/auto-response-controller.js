@@ -1,5 +1,5 @@
 /**
- * DTO 主动响应控制器
+ * 本地任务编排 主动响应控制器
  * 监听Evolver/CRAS等信号，触发自动响应管道
  */
 
@@ -22,7 +22,7 @@ class DTOAutoResponseController {
    * 初始化监听
    */
   async initialize() {
-    console.log('[DTO-AutoResponse] 初始化主动响应控制器');
+    console.log('[本地任务编排-AutoResponse] 初始化主动响应控制器');
     
     // 监听Evolver信号
     this.eventBus.subscribe('evolver.insight.detected', (data) => {
@@ -39,14 +39,14 @@ class DTOAutoResponseController {
       this.handleSystemAlert(data);
     });
     
-    console.log('[DTO-AutoResponse] 监听已启动');
+    console.log('[本地任务编排-AutoResponse] 监听已启动');
   }
 
   /**
    * 处理Evolver信号
    */
   async handleEvolverSignal(data) {
-    console.log('[DTO-AutoResponse] 收到Evolver信号:', data.type);
+    console.log('[本地任务编排-AutoResponse] 收到Evolver信号:', data.type);
     
     // 分类检查
     if (this.isSecurityIssue(data)) {
@@ -54,7 +54,7 @@ class DTOAutoResponseController {
     } else if (this.isQualityIssue(data)) {
       await this.triggerResponse('quality', data);
     } else {
-      console.log('[DTO-AutoResponse] 信号类型不匹配自动响应规则');
+      console.log('[本地任务编排-AutoResponse] 信号类型不匹配自动响应规则');
     }
   }
 
@@ -62,7 +62,7 @@ class DTOAutoResponseController {
    * 处理CRAS信号
    */
   async handleCRASSignal(data) {
-    console.log('[DTO-AutoResponse] 收到CRAS关键洞察');
+    console.log('[本地任务编排-AutoResponse] 收到CRAS关键洞察');
     
     if (data.impact >= this.config.escalationThreshold) {
       await this.triggerResponse('critical_insight', data);
@@ -73,7 +73,7 @@ class DTOAutoResponseController {
    * 处理系统告警
    */
   async handleSystemAlert(data) {
-    console.log('[DTO-AutoResponse] 收到系统告警:', data.metric);
+    console.log('[本地任务编排-AutoResponse] 收到系统告警:', data.metric);
     await this.triggerResponse('system_alert', data);
   }
 
@@ -109,14 +109,14 @@ class DTOAutoResponseController {
   async triggerResponse(type, data) {
     // 检查并发限制
     if (this.activeResponses.size >= this.config.maxConcurrent) {
-      console.log('[DTO-AutoResponse] 并发限制，排队等待');
+      console.log('[本地任务编排-AutoResponse] 并发限制，排队等待');
       // 可以加入队列
       return;
     }
     
     const responseId = `resp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
-    console.log(`[DTO-AutoResponse] 触发响应: ${responseId} [${type}]`);
+    console.log(`[本地任务编排-AutoResponse] 触发响应: ${responseId} [${type}]`);
     
     this.activeResponses.set(responseId, {
       id: responseId,
@@ -140,7 +140,7 @@ class DTOAutoResponseController {
         completedAt: Date.now()
       });
       
-      console.log(`[DTO-AutoResponse] ✓ 响应完成: ${responseId}`);
+      console.log(`[本地任务编排-AutoResponse] ✓ 响应完成: ${responseId}`);
       
     } catch (e) {
       this.activeResponses.set(responseId, {
@@ -150,7 +150,7 @@ class DTOAutoResponseController {
         failedAt: Date.now()
       });
       
-      console.error(`[DTO-AutoResponse] ✗ 响应失败: ${responseId}`, e.message);
+      console.error(`[本地任务编排-AutoResponse] ✗ 响应失败: ${responseId}`, e.message);
     }
   }
 

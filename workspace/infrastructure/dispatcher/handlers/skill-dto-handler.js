@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Skill DTO Handler — Dispatcher反向调用DTO任务创建接口
+ * Skill 本地任务编排 Handler — Dispatcher反向调用DTO任务创建接口
  * 
  * 当规则匹配到DTO相关事件时，调用DTO event-bridge的createTaskFromEvent
  * 事件类型: dto.task.completed, dto.task.created, dto.sync.*
@@ -18,7 +18,7 @@ function getDTOBridge() {
         __dirname, '..', '..', '..', 'skills', 'dto-core', 'event-bridge.js'
       ));
     } catch (err) {
-      console.error('[skill-dto-handler] Failed to load DTO event-bridge:', err.message);
+      console.error('[skill-dto-handler] Failed to load 本地任务编排 event-bridge:', err.message);
       return null;
     }
   }
@@ -26,7 +26,7 @@ function getDTOBridge() {
 }
 
 /**
- * Handle DTO-related events by invoking DTO task creation or processing
+ * Handle 本地任务编排-related events by invoking 本地任务编排 task creation or processing
  * @param {object} event - The event to process
  * @param {object} context - Dispatcher context
  * @returns {object} Handler result
@@ -37,7 +37,7 @@ function handle(event, context) {
     return {
       status: 'error',
       handler: 'skill-dto-handler',
-      error: 'DTO event-bridge not available',
+      error: '本地任务编排 event-bridge not available',
     };
   }
 
@@ -62,7 +62,7 @@ function handle(event, context) {
   // Task completed — process downstream events
   if (eventType.includes('task.completed')) {
     try {
-      // Let the DTO bridge process events to trigger downstream reactions
+      // Let the 本地任务编排 bridge process events to trigger downstream reactions
       const result = bridge.processEvents();
       if (result && typeof result.then === 'function') {
         // Async — fire and forget with logging
@@ -112,7 +112,7 @@ function handle(event, context) {
     status: 'ok',
     handler: 'skill-dto-handler',
     action: 'noop',
-    reason: 'No matching DTO action for: ' + eventType,
+    reason: 'No matching 本地任务编排 action for: ' + eventType,
   };
 }
 

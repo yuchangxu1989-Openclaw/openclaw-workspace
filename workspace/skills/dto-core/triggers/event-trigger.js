@@ -7,7 +7,7 @@ class EventTrigger {
   }
 
   async start(dto) {
-    // 订阅 DTO 事件总线
+    // 订阅 本地任务编排 事件总线
     dto.eventBus.subscribe('*', async (data) => {
       const eventType = data.event;
       

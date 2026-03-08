@@ -13,7 +13,7 @@
 | 技能 | 事件类型 | 文件 | 说明 |
 |------|---------|------|------|
 | CRAS | `cras.knowledge.learned` | `skills/cras/event-bridge.js` | 知识学习完成后发布，包含source/insight_count/topic |
-| DTO | `dto.task.completed` | `skills/dto-core/event-bridge.js` | 任务执行完成后发布，包含task_id/execution_id/duration |
+| 本地任务编排 | `dto.task.completed` | `skills/dto-core/event-bridge.js` | 任务执行完成后发布，包含task_id/execution_id/duration |
 | ISC | `isc.rule.changed` | `skills/isc-core/event-bridge.js` | 规则变更汇总事件，聚合多个细粒度变更 |
 | AEO | `aeo.evaluation.completed` | `skills/aeo/event-bridge.js` | 统一评测完成事件（补充已有的assessment级别事件） |
 | SEEF | `seef.skill.published` | `skills/seef/event-bridge.js` | 技能发布到生产环境后发布 |
@@ -26,7 +26,7 @@
 | AEO | `aeo.assessment.completed/failed` | ✅ 已有 |
 | CRAS | `cras.insight.generated` | ✅ 已有 |
 | SEEF | `seef.skill.evaluated/optimized/created` | ✅ 已有 |
-| DTO | `dto.sync.completed` | ✅ 已有 |
+| 本地任务编排 | `dto.sync.completed` | ✅ 已有 |
 
 ---
 
@@ -37,7 +37,7 @@
 | Handler | 文件 | 调用技能 | 功能 |
 |---------|------|---------|------|
 | `skill-cras-handler` | `dispatcher/handlers/skill-cras-handler.js` | CRAS event-bridge | processAssessments / analyzeRequest |
-| `skill-dto-handler` | `dispatcher/handlers/skill-dto-handler.js` | DTO event-bridge | createTaskFromEvent / processEvents |
+| `skill-dto-handler` | `dispatcher/handlers/skill-dto-handler.js` | 本地任务编排 event-bridge | createTaskFromEvent / processEvents |
 | `skill-isc-handler` | `dispatcher/handlers/skill-isc-handler.js` | ISC event-bridge | checkRulesFromEvent / publishChangesWithSummary |
 
 ### 新增技能反向接口
@@ -45,7 +45,7 @@
 | 技能 | 接口函数 | 说明 |
 |------|---------|------|
 | CRAS | `analyzeRequest(event)` | 接收事件，生成洞察分析并保存 |
-| DTO | `createTaskFromEvent(event)` | 接收事件，在tasks/目录创建任务声明文件 |
+| 本地任务编排 | `createTaskFromEvent(event)` | 接收事件，在tasks/目录创建任务声明文件 |
 | ISC | `checkRulesFromEvent(event)` | 接收事件，检查规则存在性和有效性 |
 | ISC | `publishChangesWithSummary()` | 发布细粒度+汇总两级事件 |
 
@@ -111,7 +111,7 @@ skill-xxx-handler.js    ←── 新增3个handler
 | 场景 | 断言数 | 说明 |
 |------|--------|------|
 | 1 | 4 | CRAS knowledge.learned → EventBus 发布 + analyzeRequest |
-| 2 | 4 | DTO task.completed → EventBus 发布 + createTaskFromEvent |
+| 2 | 4 | 本地任务编排 task.completed → EventBus 发布 + createTaskFromEvent |
 | 3 | 5 | ISC rule.changed → EventBus 发布 + checkRulesFromEvent |
 | 4 | 3 | AEO evaluation.completed → EventBus 发布 |
 | 5 | 2 | SEEF skill.published → EventBus 发布 |

@@ -34,7 +34,7 @@ const L2_ROUTES = {
   },
   'dto.task.*': {
     action: 'log-and-skip',
-    description: 'DTO tasks logged but not dispatched in L2 mode',
+    description: '本地任务编排 tasks logged but not dispatched in L2 mode',
   },
   'cras.*': {
     action: 'log-and-skip',

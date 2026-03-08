@@ -90,7 +90,7 @@ test('intent.reflect routes into CRAS analysis bridge', () => {
   assert.strictEqual(result.result.insight.id, 'insight_test_reflect');
 });
 
-test('intent.directive routes into DTO task creation bridge', () => {
+test('intent.directive routes into 本地任务编排 task creation bridge', () => {
   const result = handler(makeEvent('intent.directive', {
     target: '修复事件路由',
     summary: '补齐 no-route 的消费链路'

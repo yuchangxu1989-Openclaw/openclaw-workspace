@@ -142,7 +142,7 @@ async function runTests() {
     assertEqual(iscEvents.length, 2, 'should match 2 ISC events');
     
     const dtoEvents = bus.consume('c2', { types: ['dto.sync.*'] });
-    assertEqual(dtoEvents.length, 1, 'should match 1 DTO event');
+    assertEqual(dtoEvents.length, 1, 'should match 1 本地任务编排 event');
   });
 
   await test('consume: respects limit', (bus) => {
@@ -326,9 +326,9 @@ async function runTests() {
     const iscEvents = bus.consume('dto-sync', { types: ['isc.rule.*'] });
     assertEqual(iscEvents.length, 2, 'dto-sync gets 2 ISC events');
     
-    // Consumer B wants DTO events
+    // Consumer B wants 本地任务编排 events
     const dtoEvents = bus.consume('orchestrator', { types: ['dto.sync.*'] });
-    assertEqual(dtoEvents.length, 1, 'orchestrator gets 1 DTO event');
+    assertEqual(dtoEvents.length, 1, 'orchestrator gets 1 本地任务编排 event');
     
     // Ack one event for consumer A
     bus.ack('dto-sync', e1.id);

@@ -27,7 +27,7 @@ LEP（Local Execution Protocol）韧性执行中心是一个**统一韧性任务
 │    └── N016/N017/N018 规则作为声明式配置被执行                   │
 │                                                                 │
 │ 4. 深度集成 - 而非独立运行                                       │
-│    └── 与ISC-DTO、CRAS、流水线形成闭环                          │
+│    └── 与ISC-本地任务编排、CRAS、流水线形成闭环                          │
 │                                                                 │
 │ 5. 可观测性 - 一切皆追踪                                         │
 │    └── WAL + 指标 + 追踪三位一体的可观测体系                     │
@@ -140,7 +140,7 @@ LEP（Local Execution Protocol）韧性执行中心是一个**统一韧性任务
 │  │                     Recovery Layer (恢复层)                                  │   │
 │  │                                                                             │   │
 │  │   ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐         │   │
-│  │   │ Auto-Decision    │  │ ISC-DTO          │  │ CRAS Insight     │         │   │
+│  │   │ Auto-Decision    │  │ ISC-本地任务编排          │  │ CRAS Insight     │         │   │
 │  │   │ Pipeline Bridge  │  │ Handshake Bridge │  │ Action Bridge    │         │   │
 │  │   │ (全局流水线桥接) │  │ (对齐检查桥接)   │  │ (洞察触发桥接)   │         │   │
 │  │   └──────────────────┘  └──────────────────┘  └──────────────────┘         │   │
@@ -545,7 +545,7 @@ class DistributedTracer {
      │                │                │───────────────►│ [CRAS]
      │                │                │                │
      │                │                │ 4c. N018触发  │
-     │                │                │───────────────►│ [ISC-DTO]
+     │                │                │───────────────►│ [ISC-本地任务编排]
      │                │                │                │
      │                │ 5. 恢复结果    │                │
      │                │◄───────────────│                │
@@ -584,7 +584,7 @@ class DistributedTracer {
 |:---|:---|:---|:---|
 | **parallel-subagent** | 复用韧性核心 | 消费者 | LEP → parallel-subagent |
 | **全局自主决策流水线** | 桥接触发 | 触发器 | LEP → Pipeline |
-| **ISC-DTO握手** | 桥接检查 | 协调器 | LEP ↔ ISC-DTO |
+| **ISC-DTO握手** | 桥接检查 | 协调器 | LEP ↔ ISC-本地任务编排 |
 | **CRAS-B洞察** | 事件订阅 | 执行器 | CRAS → LEP |
 | **N016/N017/N018** | 规则引擎 | 执行器 | LEP → 规则 → 执行 |
 
@@ -1641,7 +1641,7 @@ module.exports = { N018GlobalAlignmentExecutor };
 |:---|:---|:---|:---|
 | M1 | Week 1 结束 | LEP核心基础设施 | `lep.execute()` 可正常执行，WAL记录完整 |
 | M2 | Week 2 结束 | N016/N017/N018 完整实现 | 三个规则均可通过LEP执行，测试通过 |
-| M3 | Week 3 结束 | 系统集成完成 | parallel-subagent/DTO/CRAS 均使用LEP |
+| M3 | Week 3 结束 | 系统集成完成 | parallel-subagent/本地任务编排/CRAS 均使用LEP |
 | M4 | Week 4 结束 | 生产就绪 | 监控看板上线，文档完善，无P0问题 |
 
 ### 7.3 风险与缓解
@@ -1664,7 +1664,7 @@ LEP（Local Execution Protocol）韧性执行中心是一个**基于现有架构
 1. **不重复造轮子** - 复用 parallel-subagent 成熟的重试/熔断/连接池实现
 2. **统一入口** - 所有韧性任务通过 `LEP.execute()` 执行，形成单一真相来源
 3. **声明式规则** - N016/N017/N018 作为ISC规则声明，LEP提供执行引擎
-4. **深度集成** - 与ISC-DTO、CRAS、流水线形成闭环，而非独立运行
+4. **深度集成** - 与ISC-本地任务编排、CRAS、流水线形成闭环，而非独立运行
 5. **可观测性** - WAL + 指标 + 追踪三位一体的可观测体系
 
 ### 预期收益

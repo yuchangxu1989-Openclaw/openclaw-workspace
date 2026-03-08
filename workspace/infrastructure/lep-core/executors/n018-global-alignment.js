@@ -611,7 +611,7 @@ class N018GlobalAlignmentExecutor extends BaseExecutor {
       if (!result.success) {
         return {
           passed: false,
-          error: `ISC-DTO handshake failed: ${result.error}`
+          error: `ISC-本地任务编排 handshake failed: ${result.error}`
         };
       }
       

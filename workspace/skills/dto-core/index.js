@@ -1,5 +1,5 @@
 /**
- * DTO v3.0 - 可扩展任务调度平台
+ * 本地任务编排 v3.0 - 可扩展任务调度平台
  * 核心设计原则：
  * 1. 声明式任务定义（与执行解耦）
  * 2. DAG为默认执行模式
@@ -24,7 +24,7 @@ const EventPublisher = require('./core/event-publisher');
 class DTOPlatform {
   constructor(options = {}) {
     this.version = '3.0.0';
-    this.name = 'DTO-Platform';
+    this.name = '本地任务编排-Platform';
     
     // 核心配置
     this.config = {
@@ -72,7 +72,7 @@ class DTOPlatform {
     // 启动触发器监听
     await this.startTriggerListeners();
     
-    console.log(`[DTO] 初始化完成`);
+    console.log(`[本地任务编排] 初始化完成`);
     console.log(`  - 注册任务: ${this.taskRegistry.size}`);
     console.log(`  - 执行引擎: ${Array.from(this.engines.keys()).join(', ')}`);
     console.log(`  - 触发机制: Temporal, Eventual, Manual, Conditional`);
@@ -129,7 +129,7 @@ class DTOPlatform {
       this.triggerRegistry.register(task.id, trigger);
     }
     
-    console.log(`[DTO] 注册任务: ${task.id} [${task.executionMode}]`);
+    console.log(`[本地任务编排] 注册任务: ${task.id} [${task.executionMode}]`);
     
     // 发布技能注册事件
     this.eventPublisher.publishEvent('skill.registered', {
@@ -141,7 +141,7 @@ class DTOPlatform {
       executionMode: task.executionMode,
       metadata: task.metadata
     }).catch(err => {
-      console.error(`[DTO] 发布skill.registered事件失败:`, err.message);
+      console.error(`[本地任务编排] 发布skill.registered事件失败:`, err.message);
     });
     
     return task;
@@ -288,12 +288,12 @@ class DTOPlatform {
     
     const executionId = `exec-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
-    console.log(`\n[DTO] 执行任务: ${taskId}`);
+    console.log(`\n[本地任务编排] 执行任务: ${taskId}`);
     console.log(`       执行ID: ${executionId}`);
     console.log(`       模式: ${task.executionMode}`);
 
     // ── ISC-INTENT-EVAL-001 + ISC-CLOSED-BOOK-001 fail-closed enforcement ──
-    // All DTO executions that carry evaluation/gate/release semantics must pass ISC gates
+    // All 本地任务编排 executions that carry evaluation/gate/release semantics must pass ISC gates
     const taskMeta = JSON.stringify({ taskId, ...task, ...options }).toLowerCase();
     const isEvalRelated = /eval|gate|review|verdict|benchmark|audit|release|report.*pass|sign.?off/i.test(taskMeta);
     let iscGateResult = null;
@@ -302,7 +302,7 @@ class DTOPlatform {
         const { evaluateAll } = require(path.join(__dirname, '../../infrastructure/enforcement/isc-eval-gates'));
         iscGateResult = evaluateAll(options.input || {});
         if (!iscGateResult.ok) {
-          console.error(`[DTO] 🚫 ISC FAIL-CLOSED for ${taskId}: ${iscGateResult.summary}`);
+          console.error(`[本地任务编排] 🚫 ISC FAIL-CLOSED for ${taskId}: ${iscGateResult.summary}`);
           this.eventBus.publish('execution.isc_blocked', { executionId, taskId, iscGateResult });
           return {
             executionId,
@@ -313,10 +313,10 @@ class DTOPlatform {
             iscGateResult
           };
         }
-        console.log(`[DTO] ✓ ISC gates passed for eval-task ${taskId}`);
+        console.log(`[本地任务编排] ✓ ISC gates passed for eval-task ${taskId}`);
       } catch (e) {
         // Module not loadable — fail-closed by default
-        console.warn(`[DTO] ⚠️ ISC gates module not loadable, fail-closed: ${e.message}`);
+        console.warn(`[本地任务编排] ⚠️ ISC gates module not loadable, fail-closed: ${e.message}`);
         iscGateResult = { ok: false, gateStatus: 'FAIL-CLOSED', summary: 'isc-eval-gates module not loadable' };
       }
     }
@@ -380,7 +380,7 @@ class DTOPlatform {
         duration: Date.now() - context.telemetry.startTime
       });
       
-      console.log(`[DTO] ✓ 执行完成: ${executionId}`);
+      console.log(`[本地任务编排] ✓ 执行完成: ${executionId}`);
       
       return {
         executionId,
@@ -405,7 +405,7 @@ class DTOPlatform {
         error: e.message 
       });
       
-      console.error(`[DTO] ✗ 执行失败: ${executionId}`, e.message);
+      console.error(`[本地任务编排] ✗ 执行失败: ${executionId}`, e.message);
       
       throw e;
       
@@ -437,7 +437,7 @@ class DTOPlatform {
   async startTriggerListeners() {
     for (const [type, handler] of this.triggerHandlers) {
       await handler.start(this);
-      console.log(`[DTO] 触发器已启动: ${type}`);
+      console.log(`[本地任务编排] 触发器已启动: ${type}`);
     }
   }
 
@@ -461,7 +461,7 @@ class DTOPlatform {
           
           this.registerTask(definition);
         } catch (e) {
-          console.error(`[DTO] 加载任务失败: ${file}`, e.message);
+          console.error(`[本地任务编排] 加载任务失败: ${file}`, e.message);
         }
       }
     }

@@ -126,7 +126,7 @@ skill.publish_requested 事件
 ### 3.2 持续合规检查
 
 - **Git 提交时**：pre-commit hook 检查 distribution 变更
-- **定期扫描**：DTO 每日任务扫描已发布技能合规状态
+- **定期扫描**：本地任务编排 每日任务扫描已发布技能合规状态
 - **EvoMap 同步前**：强制触发完整检查
 
 ---

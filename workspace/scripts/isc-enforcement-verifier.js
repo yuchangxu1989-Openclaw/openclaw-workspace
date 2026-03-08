@@ -47,7 +47,7 @@ function hasEnforcement(rule, ruleFile) {
   // Check 1: trigger.actions exists and non-empty
   if (!rule.trigger || !rule.trigger.actions || !rule.trigger.actions.length) return false;
 
-  // Check 2: look for DTO subscription or hook reference (best-effort)
+  // Check 2: look for 本地任务编排 subscription or hook reference (best-effort)
   // We consider having trigger.actions as the minimum enforcement binding
   return true;
 }

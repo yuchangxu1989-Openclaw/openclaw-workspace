@@ -214,7 +214,7 @@ AEO自动收录:
 
 ---
 
-## 3. CRAS/DTO/SEEF深度闭环设计
+## 3. CRAS/本地任务编排/SEEF深度闭环设计
 
 ### 3.1 CRAS联动（知识沉淀→评测标准）
 
@@ -366,7 +366,7 @@ class SEEFOrchestrator:
 | **N024** | aeo-dual-track-orchestration | AEO双轨运营编排 | 每次评测时自动选择轨道 |
 | **N025** | aeo-feedback-auto-collection | 用户反馈自动收录 | 检测到质疑/澄清/重复修改 |
 | **N026** | aeo-insight-to-action | 洞察到整改闭环 | 问题频率达到阈值 |
-| **N027** | aeo-cross-system-sync | CRAS/DTO/SEEF同步 | 规则变更或问题发现 |
+| **N027** | aeo-cross-system-sync | CRAS/本地任务编排/SEEF同步 | 规则变更或问题发现 |
 
 ---
 
@@ -378,10 +378,10 @@ class SEEFOrchestrator:
 - 功能质量轨道：关注系统质量（可用性、性能）
 - 评测标准、报告格式、改进方向完全不同
 
-### Q2: CRAS/DTO/SEEF深度闭环？
+### Q2: CRAS/本地任务编排/SEEF深度闭环？
 **A**: ✅ 已设计具体联动机制
 - CRAS: 失败模式自动转化为测试用例
-- DTO: 规则变更自动同步评测标准
+- 本地任务编排: 规则变更自动同步评测标准
 - SEEF: 技能编排嵌入AEO准入检查
 
 ### Q3: 用户质疑主动收录和整改？

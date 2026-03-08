@@ -1,4 +1,4 @@
-# 架构师全面审计报告：ISC-事件-DTO-意图-执行链 端到端体检
+# 架构师全面审计报告：ISC-事件-本地任务编排-意图-执行链 端到端体检
 
 **日期**: 2026-03-06  
 **审计人**: 系统架构师（自动化审计）  
@@ -42,8 +42,8 @@
 | `aeo.evaluation.completed` | AEO event-bridge | 手动调用 |
 | `cras.insight.generated` | CRAS event-bridge | 手动调用 |
 | `cras.knowledge.learned` | CRAS event-bridge | 手动调用 |
-| `dto.task.created/completed` | DTO EventPublisher | 任务注册时 |
-| `dto.sync.completed` | DTO | 同步完成时 |
+| `dto.task.created/completed` | 本地任务编排 EventPublisher | 任务注册时 |
+| `dto.sync.completed` | 本地任务编排 | 同步完成时 |
 | `dto.signal.created` | dto-signals-watcher | 信号文件创建 |
 | `seef.skill.evaluated/optimized/published` | SEEF模块 | 手动调用 |
 | `knowledge.discovery.actionable` | knowledge-discovery-probe | 主动扫描时 |
@@ -215,7 +215,7 @@ KnowledgeDiscoveryProbe存在，但能力极其有限：
 
 **但这个88%是虚假的。** 95个subscription文件只是声明`"auto_execute": true`的JSON，**没有任何代码读取这些subscription并在规则触发时自动执行DTO任务**。
 
-DTO Platform有完整的TaskRegistry、DAGEngine、LinearEngine、AdaptiveEngine，但它的`initialize()`从不被自动调用。6个任务定义中：
+本地任务编排 Platform有完整的TaskRegistry、DAGEngine、LinearEngine、AdaptiveEngine，但它的`initialize()`从不被自动调用。6个任务定义中：
 - `auto-response-pipeline.yaml` — 依赖`evolver.insight.detected`事件，无人emit
 - `skill-evolution.yaml` — 依赖cron `0 2 * * *`和`isc.standard.verified`事件，无cron执行
 - `system-monitor-health.yaml` — 依赖cron `0 * * * *`，无cron执行
@@ -268,7 +268,7 @@ LEP复用了parallel-subagent的CircuitBreaker和RetryPolicy，**韧性机制本
      │
      └── 断点1: 无人启动daemon/pipeline
      
-DTO Platform ──(断点2: subscription不触发执行)──→ TaskRegistry ──→ DAGEngine
+本地任务编排 Platform ──(断点2: subscription不触发执行)──→ TaskRegistry ──→ DAGEngine
                                                                         │
                                                                    断点3: 无skill执行器
                                                                         │

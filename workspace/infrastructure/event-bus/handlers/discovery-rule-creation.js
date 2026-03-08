@@ -85,7 +85,7 @@ module.exports = async function(event, rule, context) {
 
     const dtoDefinition = {
       id: `dto-${ruleName}`,
-      name: `DTO Execution Chain for ${ruleName}`,
+      name: `本地任务编排 Execution Chain for ${ruleName}`,
       description: `Execution chain for discovered issue: ${issueDesc}`,
       created_at: new Date().toISOString(),
       auto_generated: true,
@@ -126,7 +126,7 @@ module.exports = async function(event, rule, context) {
 
     const dtoPath = path.join(dtoDir, `${ruleName}.dto.json`);
     fs.writeFileSync(dtoPath, JSON.stringify(dtoDefinition, null, 2), 'utf-8');
-    logger.info(`[discovery-rule-creation] DTO created: ${dtoPath}`);
+    logger.info(`[discovery-rule-creation] 本地任务编排 created: ${dtoPath}`);
 
     // === 执行3：创建事件绑定 ===
     const bindingsDir = path.join(workspace, 'infrastructure/event-bus/bindings');

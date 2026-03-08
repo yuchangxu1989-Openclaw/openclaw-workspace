@@ -147,7 +147,7 @@ class ISCFileWatcher {
     // 追加到事件队列
     fs.appendFileSync(WATCHER_CONFIG.dtoEventPath, JSON.stringify(notification) + '\n');
     
-    console.log(`[ISC→DTO] 文件监听通知: ${rule.id}`);
+    console.log(`[ISC→本地任务编排] 文件监听通知: ${rule.id}`);
     console.log(`  📍 位置: ${relativePath}`);
   }
 

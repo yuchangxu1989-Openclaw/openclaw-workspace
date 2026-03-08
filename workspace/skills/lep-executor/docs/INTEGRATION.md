@@ -29,7 +29,7 @@
 │           │                           │                           │              │
 │           │                           ▼                           │              │
 │           │                  ┌─────────────────┐                  │              │
-│           │                  │   ISC-DTO       │                  │              │
+│           │                  │   ISC-本地任务编排       │                  │              │
 │           │                  │   握手          │◄─────────────────┘              │
 │           │                  │ (触发N018)      │                                 │
 │           │                  └─────────────────┘                                 │
@@ -263,7 +263,7 @@ class ISCDTOHandshake {
     );
     
     for (const issue of alignmentIssues) {
-      console.log(`[ISC-DTO] Alignment issue: ${issue.oldName} → ${issue.newName}`);
+      console.log(`[ISC-本地任务编排] Alignment issue: ${issue.oldName} → ${issue.newName}`);
       
       // 3. 通过LEP执行N018全局对齐
       const alignResult = await executeRule('N018', {

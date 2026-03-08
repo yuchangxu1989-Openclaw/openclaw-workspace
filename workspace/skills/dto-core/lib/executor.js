@@ -1,5 +1,5 @@
 /**
- * DTO - 执行器
+ * 本地任务编排 - 执行器
  * 调用模块 API，捕获结果
  */
 
@@ -22,7 +22,7 @@ class Executor {
    * @returns {Object} 执行结果
    */
   async execute(action, context = {}) {
-    console.log(`[DTO-Execute] 执行动作: ${action.type}`);
+    console.log(`[本地任务编排-Execute] 执行动作: ${action.type}`);
 
     const startTime = Date.now();
 
@@ -203,7 +203,7 @@ class Executor {
 
       // 如果失败且不是最后一个动作，停止执行
       if (result.status === 'failed' && action !== actions[actions.length - 1]) {
-        console.log('[DTO-Execute] 动作失败，停止序列');
+        console.log('[本地任务编排-Execute] 动作失败，停止序列');
         break;
       }
     }

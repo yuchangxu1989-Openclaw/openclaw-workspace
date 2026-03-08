@@ -1,7 +1,7 @@
 /**
- * ISC-DTO 握手执行器 (ISCDTOHandshakeExecutor)
+ * ISC-本地任务编排 握手执行器 (ISCDTOHandshakeExecutor)
  * 
- * 实现 ISC-DTO 定期握手机制，每30分钟执行双向扫描对齐
+ * 实现 ISC-本地任务编排 定期握手机制，每30分钟执行双向扫描对齐
  * 规则定义: rule.isc-dto-handshake-001.json
  * 
  * 功能概述:
@@ -538,7 +538,7 @@ class ISCDTOHandshakeExecutor extends EventEmitter {
     // 构建报告内容
     const report = {
       metadata: {
-        reportType: 'ISC-DTO-Handshake',
+        reportType: 'ISC-本地任务编排-Handshake',
         version: '1.0.0',
         generatedAt: new Date().toISOString(),
         executionId: data.executionId
@@ -933,7 +933,7 @@ class ISCDTOHandshakeExecutor extends EventEmitter {
     
     if (levels[level] >= levels[this.options.logLevel]) {
       const timestamp = new Date().toISOString();
-      const prefix = `[ISC-DTO][${level.toUpperCase()}]`;
+      const prefix = `[ISC-本地任务编排][${level.toUpperCase()}]`;
       console.log(`${timestamp} ${prefix} ${message}`);
     }
   }
@@ -1007,7 +1007,7 @@ class ISCDTOHandshakeExecutor extends EventEmitter {
  */
 async function main() {
   console.log('========================================');
-  console.log('  ISC-DTO 握手执行器 v1.0.0');
+  console.log('  ISC-本地任务编排 握手执行器 v1.0.0');
   console.log('========================================\n');
   
   const executor = new ISCDTOHandshakeExecutor({

@@ -1,5 +1,5 @@
 /**
- * DTO Event Publisher - 使用示例
+ * 本地任务编排 Event Publisher - 使用示例
  */
 
 const EventPublisher = require('./core/event-publisher');
@@ -23,7 +23,7 @@ async function example1() {
   });
 }
 
-// 示例 2: 在 DTO Platform 中使用
+// 示例 2: 在 本地任务编排 Platform 中使用
 async function example2() {
   const DTOPlatform = require('./index');
   

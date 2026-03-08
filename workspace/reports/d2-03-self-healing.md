@@ -2,7 +2,7 @@
 
 ## 背景
 
-cron任务"DTO-AEO-智能流水线-每小时"连续报错9次，根因是`delivery.target`字段应为`delivery.to`。系统仅发报告，无自动修复能力。
+cron任务"本地任务编排-AEO-智能流水线-每小时"连续报错9次，根因是`delivery.target`字段应为`delivery.to`。系统仅发报告，无自动修复能力。
 
 ## 实现
 
@@ -35,13 +35,13 @@ JSONL格式，按日存储：`infrastructure/self-healing/logs/heal-YYYY-MM-DD.j
 ### 执行结果
 ```
 [cron-healer] Found 2 job(s) with consecutiveErrors >= 3
-✅ DTO-AEO: delivery.target→delivery.to, errors 5→0
+✅ 本地任务编排-AEO: delivery.target→delivery.to, errors 5→0
 ✅ PDCA: 补充delivery.to, errors 3→0
 Healed: 2, Escalated: 0
 ```
 
 ### 修复后验证
-- DTO-AEO: `delivery.to` 正确，`consecutiveErrors=0` ✅
+- 本地任务编排-AEO: `delivery.to` 正确，`consecutiveErrors=0` ✅
 - PDCA: `delivery.to` 已补充，`consecutiveErrors=0` ✅
 - 日志完整记录修复详情 ✅
 

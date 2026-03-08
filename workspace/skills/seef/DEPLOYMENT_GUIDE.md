@@ -1,4 +1,4 @@
-# SEEF-DTO 自主决策自动化部署与验证指南
+# SEEF-本地任务编排 自主决策自动化部署与验证指南
 
 ## 1. 系统要求
 
@@ -321,7 +321,7 @@ cat > /root/.openclaw/workspace/skills/seef/scripts/verify-deployment.sh << 'VER
 set -e
 
 echo "========================================="
-echo "SEEF-DTO 部署验证脚本"
+echo "SEEF-本地任务编排 部署验证脚本"
 echo "========================================="
 
 SEEF_DIR="/root/.openclaw/workspace/skills/seef"
@@ -502,4 +502,4 @@ du -h /root/.openclaw/workspace/skills/seef/evolution.db 2>/dev/null || echo "N/
 
 **文档版本**: 1.0.0  
 **最后更新**: 2026-03-01  
-**维护者**: SEEF-DTO Team
+**维护者**: SEEF-本地任务编排 Team

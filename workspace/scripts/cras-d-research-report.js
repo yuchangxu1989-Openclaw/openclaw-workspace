@@ -211,7 +211,7 @@ function main() {
     {
       id: 'A2',
       title: '将研究结论绑定本地执行压力与积压',
-      basis: `manual-queue backlog=${manualQueueBacklog}, stale=${staleWarningCount}, recent DTO tasks=${taskSummary.total}`,
+      basis: `manual-queue backlog=${manualQueueBacklog}, stale=${staleWarningCount}, recent 本地任务编排 tasks=${taskSummary.total}`,
       localGap: '现有洞察文件偏外部趋势总结，缺少对 manual-queue、DTO任务、tracker 遗留的直接映射。',
       execution: '生成 insight-action-map，把每条洞察映射到 backlog 清理、路由补齐、监控口径修复或 roadmap 任务。',
       verification: '报告中每条建议必须含本地缺口字段与验证命令。'
@@ -226,10 +226,10 @@ function main() {
     },
     {
       id: 'A4',
-      title: '把研究结论接入 Tracker / todo / DTO 任务树',
+      title: '把研究结论接入 Tracker / todo / 本地任务编排 任务树',
       basis: `todo_items=${extractTodoItems(todoText).length}, tracker_open_signals=${summary.local.trackerOpenSignals}`,
       localGap: '研究模块未持续把战略建议沉淀成项目管理对象。',
-      execution: '从报告中输出 action cards，明确 owner、目标文件、验证命令，供 project-mgmt / DTO 直接消费。',
+      execution: '从报告中输出 action cards，明确 owner、目标文件、验证命令，供 project-mgmt / 本地任务编排 直接消费。',
       verification: 'summary.json 中 actions 数组可被脚本化读取。'
     }
   ];

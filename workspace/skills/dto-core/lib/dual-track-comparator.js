@@ -1,6 +1,6 @@
 /**
- * DTO v2.0 - 双轨对比器 (P1)
- * 自动对比原 cron 与 DTO 输出一致性
+ * 本地任务编排 v2.0 - 双轨对比器 (P1)
+ * 自动对比原 cron 与 本地任务编排 输出一致性
  */
 
 class DualTrackComparator {
@@ -11,9 +11,9 @@ class DualTrackComparator {
   }
 
   /**
-   * 对比 cron 与 DTO 输出
+   * 对比 cron 与 本地任务编排 输出
    * @param {Object} cronOutput - 原 cron 输出
-   * @param {Object} ctoOutput - DTO 输出
+   * @param {Object} ctoOutput - 本地任务编排 输出
    * @param {string} taskId - 任务ID
    */
   async compare(cronOutput, ctoOutput, taskId) {

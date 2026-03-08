@@ -90,7 +90,7 @@ module.exports = { handle: function(event, ctx) { ... } };
     "handler": "dto-sync",
     "agent": "coder",
     "priority": "high",
-    "description": "ISC rule changes trigger DTO alignment sync"
+    "description": "ISC rule changes trigger 本地任务编排 alignment sync"
   }
 }
 ```

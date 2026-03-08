@@ -113,11 +113,11 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
 │ 事件感知/发布  │ ISC  (event-bridge.js → bus.emit)      │
 │ 事件持久化     │ infrastructure/event-bus (JSONL)       │
 │ 事件路由       │ infrastructure/event-bus (matchType)   │
-│ 任务定义       │ DTO  (tasks/*.yaml)                    │
-│ 订阅管理       │ DTO  (subscriptions/*.json)            │
-│ 运行时绑定     │ DTO  (runtime-binder.js) ← 新建        │
-│ 任务调度执行   │ DTO  (engines/*)                       │
-│ 结果反馈       │ DTO  (事件回写到bus)                    │
+│ 任务定义       │ 本地任务编排  (tasks/*.yaml)                    │
+│ 订阅管理       │ 本地任务编排  (subscriptions/*.json)            │
+│ 运行时绑定     │ 本地任务编排  (runtime-binder.js) ← 新建        │
+│ 任务调度执行   │ 本地任务编排  (engines/*)                       │
+│ 结果反馈       │ 本地任务编排  (事件回写到bus)                    │
 └────────────────┴───────────────────────────────────────┘
 ```
 
@@ -149,7 +149,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
            │                  │    └────────────┼─────────────┘
            │                  │                 │
  ┌─────────┼──────────────────┼─────────────────┼─────────────┐
- │         │            DTO (调度层)             │             │
+ │         │            本地任务编排 (调度层)             │             │
  │         │                  │                 │             │
  │  ┌──────▼───────┐   ┌─────▼──────┐   ┌─────▼──────────┐  │
  │  │ rule-schema  │   │ runtime-   │   │ event-         │  │
@@ -180,7 +180,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
         │
 3. bus.emit('isc.rule.updated', payload)  → 写入 events.jsonl
         │
-4. DTO runtime-binder 消费事件（从JSONL读取未消费事件）
+4. 本地任务编排 runtime-binder 消费事件（从JSONL读取未消费事件）
         │
 5. 匹配 subscriptions → 找到对应 task 定义
         │
@@ -468,7 +468,7 @@ ISC event-bridge.js  ──(hash对比)──> 检测规则变更
 理由：
 - infrastructure bus有持久化、文件锁、游标追踪、事件回溯
 - DTO内存bus重启即丢，不满足可靠性要求
-- 统一到一个bus后，所有组件（ISC/DTO/SEEF/CRAS）使用同一条通道
+- 统一到一个bus后，所有组件（ISC/本地任务编排/SEEF/CRAS）使用同一条通道
 
 **改造方案：**
 
@@ -545,7 +545,7 @@ function query(eventType, limit = 100) {
 
 ```javascript
 /**
- * DTO Runtime Binder v1.0
+ * 本地任务编排 Runtime Binder v1.0
  * 
  * 职责：
  * 1. 启动时加载所有ISC规则，解析标准化trigger
@@ -891,7 +891,7 @@ module.exports = RuntimeBinder;
 
 ```javascript
 /**
- * DTO Task Executor v2.0
+ * 本地任务编排 Task Executor v2.0
  * 
  * 统一任务执行入口。接收RuntimeBinder分派的action，
  * 根据action.type选择执行策略。
@@ -1077,10 +1077,10 @@ function validateEventType(eventType) {
 │  Job 1: ISC event-bridge               │
 │    → 检测规则变更 → 发布事件到bus         │
 │                                         │
-│  Job 2: DTO runtime-binder             │
+│  Job 2: 本地任务编排 runtime-binder             │
 │    → 消费bus事件 → 匹配规则 → 执行任务    │
 │                                         │
-│  Job 3: DTO global-auto-decision       │
+│  Job 3: 本地任务编排 global-auto-decision       │
 │    → Git变更检测 → 版本管理              │
 │                                         │
 │  (Job 1和Job 2可以合并为一次调用)         │
@@ -1128,10 +1128,10 @@ async function runCycle() {
 }
 
 runCycle().then(r => {
-  console.log(`[DTO Cycle] 完成:`, JSON.stringify(r));
+  console.log(`[本地任务编排 Cycle] 完成:`, JSON.stringify(r));
   process.exit(0);
 }).catch(err => {
-  console.error(`[DTO Cycle] 失败:`, err);
+  console.error(`[本地任务编排 Cycle] 失败:`, err);
   process.exit(1);
 });
 ```
@@ -1165,7 +1165,7 @@ T+5min  Cron触发 → ISC event-bridge.js 检测到新文件
          bus.emit('isc.rule.created', { rule_id: 'rule.new-feature-001' })
          → 写入 events.jsonl
          ↓
-T+5min  同一Cron周期 → DTO runtime-binder 消费事件
+T+5min  同一Cron周期 → 本地任务编排 runtime-binder 消费事件
          ↓
          匹配到绑定: isc.rule.created → dto-sync handler
          ↓
@@ -1188,7 +1188,7 @@ T+0s   某进程尝试修改 /root/.openclaw/openclaw.json
 T+5min  ISC event-bridge检测文件变更
          → bus.emit('file.sensitive.modified', { file_path: '...', operation: 'modify' })
          ↓
-T+5min  DTO runtime-binder消费事件
+T+5min  本地任务编排 runtime-binder消费事件
          → 匹配规则 gateway-config-protection-N033
          → action.type = 'block_and_notify'
          → TaskExecutor.executeBlockAndNotify()
@@ -1208,7 +1208,7 @@ T+5min  DTO runtime-binder消费事件
 | T1.1 | infrastructure/event-bus/bus.js 添加 `consumeUnread()` 方法 | 低 |
 | T1.2 | 创建 `isc-core/config/event-registry.json` | 低 |
 | T1.3 | 创建 `isc-core/schemas/rule-trigger-action.schema.json` | 低 |
-| T1.4 | DTO event-bus.js 改为proxy模式 | 中 - 需要测试现有consumer |
+| T1.4 | 本地任务编排 event-bus.js 改为proxy模式 | 中 - 需要测试现有consumer |
 
 ### 6.2 阶段二：Runtime Binder（2-3天）
 
@@ -1235,7 +1235,7 @@ T+5min  DTO runtime-binder消费事件
 | 任务 | 描述 | 风险 |
 |------|------|------|
 | T4.1 | 废弃 `.dto-signals/` 目录机制 | 低 |
-| T4.2 | 废弃 DTO 内存EventBus的直接使用 | 低 |
+| T4.2 | 废弃 本地任务编排 内存EventBus的直接使用 | 低 |
 | T4.3 | 更新 dispatcher.js 使用新的消费机制 | 中 |
 | T4.4 | 更新 cron job 配置 | 低 |
 
@@ -1262,9 +1262,9 @@ T+5min  DTO runtime-binder消费事件
 |------|------|------|
 | `isc-core/config/event-registry.json` | ISC | 事件类型注册表 |
 | `isc-core/schemas/rule-trigger-action.schema.json` | ISC | 规则trigger/action标准schema |
-| `dto-core/core/runtime-binder.js` | DTO | 运行时绑定引擎 |
-| `dto-core/core/task-executor.js` | DTO | 统一任务执行器 |
-| `dto-core/bin/run-cycle.js` | DTO | cron入口脚本 |
+| `dto-core/core/runtime-binder.js` | 本地任务编排 | 运行时绑定引擎 |
+| `dto-core/core/task-executor.js` | 本地任务编排 | 统一任务执行器 |
+| `dto-core/bin/run-cycle.js` | 本地任务编排 | cron入口脚本 |
 
 ### 改造文件
 
@@ -1340,7 +1340,7 @@ other:         3条 (cron模型、时间粒度、记忆恢复)
 
 ## 附录B：与现有DTO v3.0的兼容性
 
-DTO v3.0设计了三层抽象：TaskRegistry, TriggerRegistry, ExecutionEngines。
+本地任务编排 v3.0设计了三层抽象：TaskRegistry, TriggerRegistry, ExecutionEngines。
 
 本方案**不替换这三层**，而是在它们之上增加RuntimeBinder作为ISC→DTO的桥接层：
 
@@ -1895,7 +1895,7 @@ class RuleConflictDetector {
 ### C2: 对齐对账引擎 (Alignment & Reconciliation Engine)
 
 **现状缺口**：
-- ISC 77条规则 vs DTO 82个订阅 vs Event Registry（尚未部署），三者互不对账
+- ISC 77条规则 vs 本地任务编排 82个订阅 vs Event Registry（尚未部署），三者互不对账
 - 不知道哪些规则绑定了但从没触发过
 - 不知道哪些事件频繁触发但处理全失败
 
@@ -1905,10 +1905,10 @@ class RuleConflictDetector {
 
 ```javascript
 /**
- * ISC-Event-DTO 三角对齐引擎 v1.0
+ * ISC-Event-本地任务编排 三角对齐引擎 v1.0
  * 
  * 三角对账模型：
- *   ISC Rules ←──→ Event Registry ←──→ DTO Subscriptions
+ *   ISC Rules ←──→ Event Registry ←──→ 本地任务编排 Subscriptions
  *        ↑_________________________________↑
  * 
  * 每对边都需要双向对齐检查。
@@ -1936,14 +1936,14 @@ class AlignmentEngine {
         skeleton_rules: [],            // 无trigger的规则
       },
       
-      // 边2: Event Registry ↔ DTO Subscriptions
+      // 边2: Event Registry ↔ 本地任务编排 Subscriptions
       event_dto: {
         events_without_subscriptions: [], // 事件在注册表但DTO无订阅
         subscriptions_without_events: [], // DTO有订阅但注册表没事件
         stale_subscriptions: [],          // 订阅存在但对应规则已删除
       },
       
-      // 边3: ISC ↔ DTO
+      // 边3: ISC ↔ 本地任务编排
       isc_dto: {
         rules_without_subscriptions: [], // 有规则但DTO没订阅
         subscriptions_without_rules: [], // DTO有订阅但ISC没规则
@@ -1987,7 +1987,7 @@ class AlignmentEngine {
    */
   formatReport(report) {
     const lines = [
-      `# ISC-Event-DTO 对齐健康报告`,
+      `# ISC-Event-本地任务编排 对齐健康报告`,
       ``,
       `⏰ ${report.timestamp}`,
       `📊 健康分: ${report.health_score}/100`,
@@ -1997,12 +1997,12 @@ class AlignmentEngine {
       `- 引用不存在事件: ${report.isc_event.rules_without_events.length}条`,
       `- 无规则引用的事件: ${report.isc_event.events_without_rules.length}个`,
       ``,
-      `## 🔺 Event ↔ DTO Subscriptions`,
+      `## 🔺 Event ↔ 本地任务编排 Subscriptions`,
       `- 无订阅的事件: ${report.event_dto.events_without_subscriptions.length}个`,
       `- 无事件的订阅: ${report.event_dto.subscriptions_without_events.length}个`,
       `- 过期订阅: ${report.event_dto.stale_subscriptions.length}个`,
       ``,
-      `## 🔺 ISC ↔ DTO 直接对齐`,
+      `## 🔺 ISC ↔ 本地任务编排 直接对齐`,
       `- 无订阅的规则: ${report.isc_dto.rules_without_subscriptions.length}条`,
       `- 无规则的订阅: ${report.isc_dto.subscriptions_without_rules.length}个`,
       ``,

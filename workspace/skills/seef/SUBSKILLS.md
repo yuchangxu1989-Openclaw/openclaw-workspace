@@ -1,6 +1,6 @@
 # SEEF 七大子技能详细定义
 
-> 每个子技能均为自治单元，拥有唯一功能边界、明确定义的输入输出契约、以及与 ISC 和 DTO 的标准化交互协议。
+> 每个子技能均为自治单元，拥有唯一功能边界、明确定义的输入输出契约、以及与 ISC 和 本地任务编排 的标准化交互协议。
 
 ---
 
@@ -21,14 +21,14 @@
 ### 准入与准出机制
 
 **✅ 准入条件**
-- 由 DTO 显式触发（定时任务/事件告警）
+- 由 本地任务编排 显式触发（定时任务/事件告警）
 - 输入技能文件通过 ISC 的 `file_integrity_check`（哈希校验 + 必填字段检查）
 - 若 CRAS 报告缺失，则降级为纯内部分析，但需标记"缺乏用户侧依据"
 
 **✅ 准出规则**
 - 输出问题清单中 ≥1 项偏差超过 ISC `detection_thresholds` 中定义的阈值时，自动标记为"需介入"
 - 否则视为"健康"，准出状态为 `status: ready_for_next` 或 `status: skip`
-- 结果实时推送至 DTO 的 `evolution_queue` 供后续决策
+- 结果实时推送至 本地任务编排 的 `evolution_queue` 供后续决策
 
 ---
 
@@ -53,12 +53,12 @@
 **✅ 准入条件**（需同时满足）
 1. 上游 skill-evaluator 输出 `status: need_investigation` 或 `status: gap_detected`
 2. ISC 确认当前标准版本支持缺口识别（`standard_version.compatibility = true`）
-3. DTO 未禁止该类发现（`dto_policy.allow_discovery = true`）
+3. 本地任务编排 未禁止该类发现（`dto_policy.allow_discovery = true`）
 
 **✅ 准出规则**
 - 生成 ≥1 条含业务影响评级（L/M/H）的可操作建议即视为通过
 - 否则返回 `status: insufficient_evidence`，并建议补充分析
-- 准出结果附带 `priority_score`，供 DTO 排序调度
+- 准出结果附带 `priority_score`，供 本地任务编排 排序调度
 
 ---
 
@@ -80,13 +80,13 @@
 **✅ 准入条件**
 - 问题清单中标记 `autofixable = true`
 - ISC 的 `risk_assessment_matrix` 评定风险等级 R ≤ 2（低风险）
-- DTO 未锁定该技能为"只读"
+- 本地任务编排 未锁定该技能为"只读"
 
 **✅ 准出规则**
 - 修复提案必须通过 ISC 的 `diff_safety_check`（禁止跨模块副作用、禁止破坏契约接口）
 - 通过后状态为 `status: ready_for_apply`
 - 否则转交人工复核
-- DTO 可配置自动执行阈值（如 R ≤ 1 时直接提交 Git PR）
+- 本地任务编排 可配置自动执行阈值（如 R ≤ 1 时直接提交 Git PR）
 
 ---
 
@@ -108,14 +108,14 @@
 
 **✅ 准入条件**
 - 收到 skill-discoverer 的高优先级创新建议（`priority_score ≥ 8`）
-- 或 DTO 下达专项创建指令
+- 或 本地任务编排 下达专项创建指令
 - ISC 的 `standard_status` 为 `published`（标准已生效）
 
 **✅ 准出规则**
 - 生成的 SKILL.md 必须通过 ISC 的 `schema_validation`（JSON Schema 校验）
 - 通过 `gene_lineage_check`（血缘链完整）
 - 通过后状态为 `status: draft`，等待 skill-validator 接管
-- DTO 可设定"草稿自动入库"策略（如每周汇总提交一次）
+- 本地任务编排 可设定"草稿自动入库"策略（如每周汇总提交一次）
 
 ---
 
@@ -135,9 +135,9 @@
 ### 准入与准出机制
 
 **✅ 准入条件**
-- 任一技能发生 create / modify / delete / merge 操作（由 DTO 或其他子技能触发事件）
+- 任一技能发生 create / modify / delete / merge 操作（由 本地任务编排 或其他子技能触发事件）
 - ISC 的 `standard_version` 有更新或本技能未完成上次对齐
-- DTO 未启用"对齐冻结"策略
+- 本地任务编排 未启用"对齐冻结"策略
 
 **✅ 准出规则**
 完成对齐后，生成 `alignment_receipt`，包含：
@@ -148,8 +148,8 @@
 仅当签名有效且无警告项（`warnings: []`）时，状态为 `status: aligned`
 否则标记 `status: partial_clean` 并告警
 
-**📡 与 DTO 协同**
-DTO 可强制触发"全量对齐巡检"，并接收对齐覆盖率报告（% of skills aligned）
+**📡 与 本地任务编排 协同**
+本地任务编排 可强制触发"全量对齐巡检"，并接收对齐覆盖率报告（% of skills aligned）
 
 ---
 
@@ -172,14 +172,14 @@ DTO 可强制触发"全量对齐巡检"，并接收对齐覆盖率报告（% of 
 **✅ 准入条件**
 - 输入技能处于 `status: draft` 或 `status: modified`
 - ISC 的 `admission_window` 开放（默认工作日 9:00–18:00，可配置）
-- DTO 未开启"紧急跳过"模式
+- 本地任务编排 未开启"紧急跳过"模式
 
 **✅ 准出规则**
 - **准入通过**：100% 满足 mandatory 条款 + ≥95% optional 条款
 - **准出通过**：集成测试通过率 ≥98%，且无 critical 级缺陷
 
-任一失败则返回 `rework_recommendation`，状态为 `status: rejected`，并通知 DTO
-DTO 可配置豁免白名单（如 P0 故障修复场景降低阈值）
+任一失败则返回 `rework_recommendation`，状态为 `status: rejected`，并通知 本地任务编排
+本地任务编排 可配置豁免白名单（如 P0 故障修复场景降低阈值）
 
 ---
 
@@ -200,7 +200,7 @@ DTO 可配置豁免白名单（如 P0 故障修复场景降低阈值）
 
 **✅ 准入条件**
 - 任一子技能完成准出（无论成功/失败），即触发记录
-- DTO 未关闭日志采集
+- 本地任务编排 未关闭日志采集
 
 **✅ 准出规则**
 - 生成结构化日志条目后，向 ISC 提交 `evolution_hash` 进行存证

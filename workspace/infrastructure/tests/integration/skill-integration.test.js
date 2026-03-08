@@ -7,7 +7,7 @@
  * 验证事件从技能→EventBus→Pipeline→Dispatcher→技能的完整闭环：
  * 
  * 场景 1: CRAS knowledge.learned → EventBus → Dispatcher → skill-cras-handler
- * 场景 2: DTO task.completed → EventBus → Dispatcher → skill-dto-handler
+ * 场景 2: 本地任务编排 task.completed → EventBus → Dispatcher → skill-dto-handler
  * 场景 3: ISC rule.changed → EventBus → Dispatcher → skill-isc-handler
  * 场景 4: AEO evaluation.completed → EventBus → Dispatcher → skill-cras-handler
  * 场景 5: SEEF skill.published → EventBus → Dispatcher → skill-cras-handler
@@ -114,11 +114,11 @@ function testCRASEventBridge() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 场景 2: DTO Event Bridge → EventBus
+// 场景 2: 本地任务编排 Event Bridge → EventBus
 // ═══════════════════════════════════════════════════════════
 
 function testDTOEventBridge() {
-  section('场景 2: DTO task.completed → EventBus');
+  section('场景 2: 本地任务编排 task.completed → EventBus');
 
   check('DTOBridge.emitTaskCompleted is a function', () => {
     assert.strictEqual(typeof DTOBridge.emitTaskCompleted, 'function');
@@ -408,7 +408,7 @@ function testReverseIntegration() {
     assert.strictEqual(result.status, 'ok');
   });
 
-  // 7b: DTO handler
+  // 7b: 本地任务编排 handler
   check('skill-dto-handler createTask works', () => {
     const result = dtoHandler({
       id: 'reverse-test-3',
@@ -471,14 +471,14 @@ function testBridgeAPICompleteness() {
     assert.strictEqual(typeof CRASBridge.analyzeRequest, 'function');
   });
 
-  // DTO
-  check('DTO bridge has processEvents', () => {
+  // 本地任务编排
+  check('本地任务编排 bridge has processEvents', () => {
     assert.strictEqual(typeof DTOBridge.processEvents, 'function');
   });
-  check('DTO bridge has emitTaskCompleted', () => {
+  check('本地任务编排 bridge has emitTaskCompleted', () => {
     assert.strictEqual(typeof DTOBridge.emitTaskCompleted, 'function');
   });
-  check('DTO bridge has createTaskFromEvent', () => {
+  check('本地任务编排 bridge has createTaskFromEvent', () => {
     assert.strictEqual(typeof DTOBridge.createTaskFromEvent, 'function');
   });
 

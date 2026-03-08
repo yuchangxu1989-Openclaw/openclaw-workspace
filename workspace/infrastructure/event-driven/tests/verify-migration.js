@@ -4,7 +4,7 @@
  * 
  * 验收测试：
  * 1. 手动 emit isc.rule.changed → ISC变更检测立即响应
- * 2. 手动创建 .dto-signals/ 文件 → DTO-AEO立即响应
+ * 2. 手动创建 .dto-signals/ 文件 → 本地任务编排-AEO立即响应
  * 3. cron 执行时如果事件已处理则跳过
  */
 'use strict';
@@ -119,9 +119,9 @@ test('T2.2: ISC变更检测在事件触发后cron跳过', () => {
 });
 
 // ═══════════════════════════════════════════════════════════
-// Test Suite 3: DTO Signals 事件发布
+// Test Suite 3: 本地任务编排 Signals 事件发布
 // ═══════════════════════════════════════════════════════════
-console.log('\n── Suite 3: DTO Signals 事件发布 ──');
+console.log('\n── Suite 3: 本地任务编排 Signals 事件发布 ──');
 
 test('T3.1: emit dto.signal.created 事件可被消费', () => {
   const beforeEvents = bus.consume('test-dto-consumer', { types: ['dto.signal.created'] });
@@ -142,7 +142,7 @@ test('T3.1: emit dto.signal.created 事件可被消费', () => {
   bus.ack('test-dto-consumer', event.id);
 });
 
-test('T3.2: DTO-AEO在事件触发后cron跳过', () => {
+test('T3.2: 本地任务编排-AEO在事件触发后cron跳过', () => {
   markEventTriggered('dto-aeo', { test: true, signals_count: 1 });
   const result = shouldSkip('dto-aeo', { maxAgeMs: 2 * 60 * 60 * 1000 });
   assert.strictEqual(result.skip, true);

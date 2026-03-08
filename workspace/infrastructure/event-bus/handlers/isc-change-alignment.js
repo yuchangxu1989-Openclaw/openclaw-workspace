@@ -123,13 +123,13 @@ async function performBuiltInAlignmentCheck(workspace, logger) {
             steps: (dtoData.steps || []).length
           });
         } catch (e) {
-          logger.warn(`[isc-change-alignment] Failed to parse DTO: ${f}`);
+          logger.warn(`[isc-change-alignment] Failed to parse 本地任务编排: ${f}`);
         }
       }
     }
   }
 
-  logger.info(`[isc-change-alignment] Found ${dtos.length} DTO(s)`);
+  logger.info(`[isc-change-alignment] Found ${dtos.length} 本地任务编排(s)`);
 
   // === 收集所有bindings ===
   const bindings = [];
@@ -222,7 +222,7 @@ async function performBuiltInAlignmentCheck(workspace, logger) {
   }
 
   // === 计算对齐率 ===
-  const totalChecks = rules.length * 3; // 每个规则检查3项：DTO、binding、handler
+  const totalChecks = rules.length * 3; // 每个规则检查3项：本地任务编排、binding、handler
   const passedChecks = alignment.rulesWithDTO + alignment.rulesWithBinding + alignment.rulesWithHandler;
   const alignmentRate = totalChecks > 0
     ? Math.round((passedChecks / totalChecks) * 100)
@@ -246,10 +246,10 @@ async function performBuiltInAlignmentCheck(workspace, logger) {
       handlers: handlers.length
     },
     issues: [
-      ...alignment.rulesWithoutDTO.map(id => `Rule "${id}" has no DTO`),
+      ...alignment.rulesWithoutDTO.map(id => `Rule "${id}" has no 本地任务编排`),
       ...alignment.rulesWithoutBinding.map(id => `Rule "${id}" has no binding`),
       ...alignment.rulesWithoutHandler.map(id => `Rule "${id}" has no handler`),
-      ...alignment.orphanDTOs.map(id => `Orphan DTO "${id}" references missing rule`),
+      ...alignment.orphanDTOs.map(id => `Orphan 本地任务编排 "${id}" references missing rule`),
       ...alignment.orphanBindings.map(id => `Orphan binding "${id}" references missing rule`)
     ]
   };

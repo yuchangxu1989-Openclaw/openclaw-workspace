@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * DTO 声明式任务编排中心 - 工作流调度器
+ * 本地任务编排 声明式任务编排中心 - 工作流调度器
  * 基于ISC标准，编排声明式工作流，调度各模块执行
  */
 
@@ -18,7 +18,7 @@ const PATHS = {
 };
 
 /**
- * DTO 声明式任务编排平台 - 工作流调度器
+ * 本地任务编排 声明式任务编排平台 - 工作流调度器
  */
 class DTODeclarativeOrchestrator {
   constructor() {
@@ -34,7 +34,7 @@ class DTODeclarativeOrchestrator {
    */
   async start() {
     console.log('='.repeat(70));
-    console.log('🎯 DTO 声明式任务编排中心 v3.0.2 - 自动对齐ISC规则');
+    console.log('🎯 本地任务编排 声明式任务编排中心 v3.0.2 - 自动对齐ISC规则');
     console.log('='.repeat(70));
     
     // 初始化ISC规则订阅
@@ -60,7 +60,7 @@ class DTODeclarativeOrchestrator {
    * 自动扫描ISC standards目录，订阅所有规则（包括独立规则文件）
    */
   async initializeISCSubscriptions() {
-    console.log('[DTO] 自动对齐ISC规则订阅...');
+    console.log('[本地任务编排] 自动对齐ISC规则订阅...');
     
     this.iscSubscriptions = [];
     
@@ -97,7 +97,7 @@ class DTODeclarativeOrchestrator {
                            standard.governance?.councilRequired !== true
             };
             this.iscSubscriptions.push(subscription);
-            console.log(`[DTO] 自动订阅规则: ${standard.id} [autoExecute: ${subscription.autoExecute}]`);
+            console.log(`[本地任务编排] 自动订阅规则: ${standard.id} [autoExecute: ${subscription.autoExecute}]`);
             continue;
           }
           
@@ -113,12 +113,12 @@ class DTODeclarativeOrchestrator {
                 autoExecute: true
               };
               this.iscSubscriptions.push(subscription);
-              console.log(`[DTO] 自动订阅嵌套规则: ${rule.id}`);
+              console.log(`[本地任务编排] 自动订阅嵌套规则: ${rule.id}`);
             }
           }
           
         } catch (e) {
-          console.error(`[DTO] 解析失败 ${file}: ${e.message}`);
+          console.error(`[本地任务编排] 解析失败 ${file}: ${e.message}`);
         }
       }
     }
@@ -127,20 +127,20 @@ class DTODeclarativeOrchestrator {
     const ruleCount = this.iscSubscriptions.length;
     const autoExecuteCount = this.iscSubscriptions.filter(s => s.autoExecute).length;
     
-    // ===== 调用 ISC-DTO 对齐检查器 =====
-    console.log('[DTO] 调用 ISC-DTO 对齐检查器...');
+    // ===== 调用 ISC-本地任务编排 对齐检查器 =====
+    console.log('[本地任务编排] 调用 ISC-本地任务编排 对齐检查器...');
     let alignmentReport = null;
     try {
       const Aligner = require(path.join(PATHS.isc, 'bin/isc-dto-alignment-checker.js'));
       const aligner = new Aligner();
       alignmentReport = await aligner.run();
     } catch (e) {
-      console.error('[DTO] 对齐检查器调用失败:', e.message);
+      console.error('[本地任务编排] 对齐检查器调用失败:', e.message);
     }
     
     // 输出完整的对齐报告
     console.log('\n' + '='.repeat(60));
-    console.log('📊 ISC-DTO 双向对齐检查报告');
+    console.log('📊 ISC-本地任务编排 双向对齐检查报告');
     console.log('='.repeat(60));
     if (alignmentReport) {
       console.log(`  ISC规则总数: ${alignmentReport.isc_rules || 'N/A'}`);
@@ -158,19 +158,19 @@ class DTODeclarativeOrchestrator {
     
     // ===== 根治：如果扫不到规则，自动调用ISC-DTO对齐修复器 =====
     if (ruleCount === 0) {
-      console.log('[DTO] ⚠️ 未扫描到任何ISC规则，启动自对齐修复...');
+      console.log('[本地任务编排] ⚠️ 未扫描到任何ISC规则，启动自对齐修复...');
       try {
         const Aligner = require('./isc-dto-aligner');
         const aligner = new Aligner();
         const result = await aligner.run();
         
         if (result.fixes > 0) {
-          console.log('[DTO] ✅ 自对齐修复完成，重新扫描...');
+          console.log('[本地任务编排] ✅ 自对齐修复完成，重新扫描...');
           // 重新扫描
           return await this.initializeISCSubscriptions();
         }
       } catch (e) {
-        console.error('[DTO] 自对齐修复失败:', e.message);
+        console.error('[本地任务编排] 自对齐修复失败:', e.message);
       }
     }
   }
@@ -223,7 +223,7 @@ class DTODeclarativeOrchestrator {
           handler: this.createRuleHandler(rule.id).bind(this),
           autoExecute: true
         });
-        console.log(`[DTO] 从标准提取规则: ${rule.id} (${rule.name})`);
+        console.log(`[本地任务编排] 从标准提取规则: ${rule.id} (${rule.name})`);
       }
     }
   }
@@ -233,7 +233,7 @@ class DTODeclarativeOrchestrator {
    */
   createRuleHandler(ruleId) {
     return async (event) => {
-      console.log(`[DTO-${ruleId}] 执行规则处理...`);
+      console.log(`[本地任务编排-${ruleId}] 执行规则处理...`);
       // 默认处理器，具体逻辑可扩展
       await this.executeRuleAction(ruleId, event);
     };
@@ -254,7 +254,7 @@ class DTODeclarativeOrchestrator {
       case 'R007': await this.handleHighFreqExecReplace(event); break; // 高频exec自动替换
       case 'R009': await this.handleArchitectureValidation(event); break; // 架构完整性验证
       default:
-        console.log(`[DTO-${ruleId}] 使用默认处理器`);
+        console.log(`[本地任务编排-${ruleId}] 使用默认处理器`);
         // 尝试动态加载规则定义并执行
         await this.executeDynamicRule(ruleId, event);
     }
@@ -282,31 +282,31 @@ class DTODeclarativeOrchestrator {
       }
       
       if (!rulePath) {
-        console.log(`[DTO-${ruleId}] 规则定义文件不存在`);
+        console.log(`[本地任务编排-${ruleId}] 规则定义文件不存在`);
         return;
       }
       
       const ruleDef = JSON.parse(fs.readFileSync(rulePath, 'utf8'));
-      console.log(`[DTO-${ruleId}] 动态加载规则: ${ruleDef.name || ruleDef.id}`);
+      console.log(`[本地任务编排-${ruleId}] 动态加载规则: ${ruleDef.name || ruleDef.id}`);
       
       // 检查是否允许自动执行
       const autoExecute = ruleDef.governance?.auto_execute !== false && 
                          ruleDef.governance?.councilRequired !== true;
       
       if (!autoExecute) {
-        console.log(`[DTO-${ruleId}] 规则禁止自动执行或需要议会审议，跳过`);
+        console.log(`[本地任务编排-${ruleId}] 规则禁止自动执行或需要议会审议，跳过`);
         return;
       }
       
       // 执行规则定义的动作
       if (ruleDef.action?.workflow || ruleDef.response?.steps) {
         const workflow = ruleDef.action?.workflow || ruleDef.response?.steps;
-        console.log(`[DTO-${ruleId}] 执行工作流 (${workflow.length} 步骤)...`);
+        console.log(`[本地任务编排-${ruleId}] 执行工作流 (${workflow.length} 步骤)...`);
         
         // 检查是否有并行执行标记
         if (ruleDef.orchestration?.parallel === true) {
           // 并行执行所有步骤
-          console.log(`[DTO-${ruleId}] 并行模式执行...`);
+          console.log(`[本地任务编排-${ruleId}] 并行模式执行...`);
           const stepPromises = workflow.map(step => 
             this.executeWorkflowStep(ruleId, step, event).catch(e => ({
               step: step.step || step.id,
@@ -316,23 +316,23 @@ class DTODeclarativeOrchestrator {
           );
           const results = await Promise.allSettled(stepPromises);
           const successCount = results.filter(r => r.status === 'fulfilled' && !r.value?.error).length;
-          console.log(`[DTO-${ruleId}] ✅ 并行工作流完成: ${successCount}/${workflow.length} 成功`);
+          console.log(`[本地任务编排-${ruleId}] ✅ 并行工作流完成: ${successCount}/${workflow.length} 成功`);
         } else {
           // 顺序执行
           for (const step of workflow) {
-            console.log(`[DTO-${ruleId}] 步骤 ${step.step || step.id}: ${step.name || step.action}`);
+            console.log(`[本地任务编排-${ruleId}] 步骤 ${step.step || step.id}: ${step.name || step.action}`);
             await this.executeWorkflowStep(ruleId, step, event);
           }
-          console.log(`[DTO-${ruleId}] ✅ 工作流执行完成`);
+          console.log(`[本地任务编排-${ruleId}] ✅ 工作流执行完成`);
         }
       } else if (ruleDef.response?.immediate) {
         // 立即响应类型（如通知规则）
-        console.log(`[DTO-${ruleId}] 执行立即响应...`);
+        console.log(`[本地任务编排-${ruleId}] 执行立即响应...`);
         await this.executeImmediateResponse(ruleId, ruleDef, event);
       }
       
     } catch (e) {
-      console.error(`[DTO-${ruleId}] 动态执行失败: ${e.message}`);
+      console.error(`[本地任务编排-${ruleId}] 动态执行失败: ${e.message}`);
     }
   }
   
@@ -344,18 +344,18 @@ class DTODeclarativeOrchestrator {
     
     switch(stepType) {
       case 'seef':
-        console.log(`[DTO-${ruleId}]   调用 SEEF 子技能: ${step.skill}.${step.action}`);
+        console.log(`[本地任务编排-${ruleId}]   调用 SEEF 子技能: ${step.skill}.${step.action}`);
         // 实际调用 SEEF 子技能
         break;
       case 'notify':
-        console.log(`[DTO-${ruleId}]   发送通知: ${step.channel || 'default'}`);
+        console.log(`[本地任务编排-${ruleId}]   发送通知: ${step.channel || 'default'}`);
         // 实际发送通知
         break;
       case 'isc':
-        console.log(`[DTO-${ruleId}]   ISC 操作: ${step.action}`);
+        console.log(`[本地任务编排-${ruleId}]   ISC 操作: ${step.action}`);
         break;
       default:
-        console.log(`[DTO-${ruleId}]   执行步骤: ${step.action || step.name}`);
+        console.log(`[本地任务编排-${ruleId}]   执行步骤: ${step.action || step.name}`);
     }
   }
   
@@ -364,12 +364,12 @@ class DTODeclarativeOrchestrator {
    */
   async executeImmediateResponse(ruleId, ruleDef, event) {
     const response = ruleDef.response;
-    console.log(`[DTO-${ruleId}]   渠道: ${response.channels?.join(', ') || 'default'}`);
-    console.log(`[DTO-${ruleId}]   格式: ${response.format || 'text'}`);
+    console.log(`[本地任务编排-${ruleId}]   渠道: ${response.channels?.join(', ') || 'default'}`);
+    console.log(`[本地任务编排-${ruleId}]   格式: ${response.format || 'text'}`);
     
     // 实际发送通知
     if (response.channels?.includes('feishu')) {
-      console.log(`[DTO-${ruleId}]   📱 发送飞书通知...`);
+      console.log(`[本地任务编排-${ruleId}]   📱 发送飞书通知...`);
     }
   }
 
@@ -380,7 +380,7 @@ class DTODeclarativeOrchestrator {
   async handleSkillMdSync(event) {
     if (event.type !== 'code_change') return;
     
-    console.log('[DTO-R005] 🔄 代码变更 detected，启动 SKILL.md 自动同步...');
+    console.log('[本地任务编排-R005] 🔄 代码变更 detected，启动 SKILL.md 自动同步...');
     
     const { skillId, changedFiles } = event.data;
     const isCritical = changedFiles.some(f => 
@@ -390,30 +390,30 @@ class DTODeclarativeOrchestrator {
     );
     
     if (!isCritical) {
-      console.log('[DTO-R005] ⏭️ 非关键变更，跳过同步');
+      console.log('[本地任务编排-R005] ⏭️ 非关键变更，跳过同步');
       return;
     }
     
-    console.log(`[DTO-R005] 关键变更文件: ${changedFiles.join(', ')}`);
+    console.log(`[本地任务编排-R005] 关键变更文件: ${changedFiles.join(', ')}`);
     
     // 自动更新 SKILL.md
     const skillPath = path.join(SKILLS_DIR, skillId);
     const skillMdPath = path.join(skillPath, 'SKILL.md');
     
     if (!fs.existsSync(skillMdPath)) {
-      console.log(`[DTO-R005] ⚠️ SKILL.md 不存在，创建新文件...`);
+      console.log(`[本地任务编排-R005] ⚠️ SKILL.md 不存在，创建新文件...`);
       // 自动生成基础 SKILL.md
       await this.generateSkillMd(skillId, skillPath);
     } else {
-      console.log(`[DTO-R005] 📝 更新 SKILL.md...`);
+      console.log(`[本地任务编排-R005] 📝 更新 SKILL.md...`);
       await this.updateSkillMd(skillId, skillPath, changedFiles);
     }
     
     // 触发 ISC 全局对齐
-    console.log('[DTO-R005] 🔄 触发 ISC 全局对齐...');
+    console.log('[本地任务编排-R005] 🔄 触发 ISC 全局对齐...');
     await this.triggerGlobalAlignment(skillId, 'skill_md_updated');
     
-    console.log(`[DTO-R005] ✅ SKILL.md 同步完成: ${skillId}`);
+    console.log(`[本地任务编排-R005] ✅ SKILL.md 同步完成: ${skillId}`);
   }
   
   /**
@@ -480,7 +480,7 @@ cp -r ${skillId} ${SKILLS_DIR}/
 `;
     
     fs.writeFileSync(path.join(skillPath, 'SKILL.md'), skillMdContent);
-    console.log(`[DTO-R005] ✅ SKILL.md 已生成: ${skillId}`);
+    console.log(`[本地任务编排-R005] ✅ SKILL.md 已生成: ${skillId}`);
   }
   
   /**
@@ -498,7 +498,7 @@ cp -r ${skillId} ${SKILLS_DIR}/
       parts[2] = parseInt(parts[2] || 0) + 1;
       const newVersion = parts.join('.');
       content = content.replace(oldVersion, newVersion);
-      console.log(`[DTO-R005]   版本更新: ${oldVersion} -> ${newVersion}`);
+      console.log(`[本地任务编排-R005]   版本更新: ${oldVersion} -> ${newVersion}`);
     }
     
     // 更新更新日志
@@ -540,12 +540,12 @@ cp -r ${skillId} ${SKILLS_DIR}/
 
   // 其他规则处理器（占位 - 需要实现）
   async handleAutoSkillization(event) { 
-    console.log('[DTO-R001] 🔄 自动技能化流程...');
+    console.log('[本地任务编排-R001] 🔄 自动技能化流程...');
     // TODO: 实现自动技能化
   }
   
   async handleAutoVectorization(event) { 
-    console.log('[DTO-R002] 🔄 自动向量化流程...');
+    console.log('[本地任务编排-R002] 🔄 自动向量化流程...');
     // TODO: 实现自动向量化
   }
   
@@ -557,7 +557,7 @@ cp -r ${skillId} ${SKILLS_DIR}/
     
     const { skillId, oldVersion, newVersion } = event.data;
     
-    console.log(`[DTO-R003] 技能版本更新: ${skillId} ${oldVersion} -> ${newVersion}`);
+    console.log(`[本地任务编排-R003] 技能版本更新: ${skillId} ${oldVersion} -> ${newVersion}`);
     
     // 检查技能是否已发布到EvoMap
     const evoMapRegistryPath = path.join(PATHS.dto, '../.evomap-registry.json');
@@ -570,11 +570,11 @@ cp -r ${skillId} ${SKILLS_DIR}/
     const isPublished = publishedSkills.some(s => s.skillId === skillId);
     
     if (!isPublished) {
-      console.log(`[DTO-R003] ⏭️ ${skillId} 未发布到EvoMap，跳过同步`);
+      console.log(`[本地任务编排-R003] ⏭️ ${skillId} 未发布到EvoMap，跳过同步`);
       return;
     }
     
-    console.log(`[DTO-R003] 🔄 同步到EvoMap: ${skillId} v${newVersion}`);
+    console.log(`[本地任务编排-R003] 🔄 同步到EvoMap: ${skillId} v${newVersion}`);
     
     // 创建EvoMap同步任务
     const syncTask = {
@@ -593,7 +593,7 @@ cp -r ${skillId} ${SKILLS_DIR}/
     queue.push(syncTask);
     fs.writeFileSync(this.taskQueuePath, JSON.stringify(queue, null, 2));
     
-    console.log(`[DTO-R003] ✅ EvoMap同步任务已创建: ${skillId} v${newVersion}`);
+    console.log(`[本地任务编排-R003] ✅ EvoMap同步任务已创建: ${skillId} v${newVersion}`);
   }
   
   async handleAutoFix(event) { }
@@ -610,44 +610,44 @@ cp -r ${skillId} ${SKILLS_DIR}/
     if (event.type !== 'pattern_detected') return;
     if (event.pattern !== 'high_freq_exec') return;
     
-    console.log('[DTO-R007] 🔄 高频 Exec 调用自动替换流程启动...');
-    console.log(`[DTO-R007] 检测详情: ${JSON.stringify(event.data)}`);
+    console.log('[本地任务编排-R007] 🔄 高频 Exec 调用自动替换流程启动...');
+    console.log(`[本地任务编排-R007] 检测详情: ${JSON.stringify(event.data)}`);
     
     const { execCount, affectedFiles, callPatterns } = event.data;
     
     // Step 1: 模式分析
-    console.log('[DTO-R007:1/5] 分析 Exec 调用模式...');
+    console.log('[本地任务编排-R007:1/5] 分析 Exec 调用模式...');
     const analysis = await this.analyzeExecPatterns(callPatterns);
-    console.log(`[DTO-R007:1/5] ✅ 分析完成: ${analysis.replaceableCount} 个可替换调用`);
+    console.log(`[本地任务编排-R007:1/5] ✅ 分析完成: ${analysis.replaceableCount} 个可替换调用`);
     
     // Step 2: 生成封装接口
-    console.log('[DTO-R007:2/5] 生成 system-monitor 封装接口...');
+    console.log('[本地任务编排-R007:2/5] 生成 system-monitor 封装接口...');
     await this.generateMonitorWrapper(analysis);
-    console.log('[DTO-R007:2/5] ✅ 封装接口已生成');
+    console.log('[本地任务编排-R007:2/5] ✅ 封装接口已生成');
     
     // Step 3: 批量替换
-    console.log('[DTO-R007:3/5] 批量替换现有代码...');
+    console.log('[本地任务编排-R007:3/5] 批量替换现有代码...');
     const replaceResult = await this.batchReplaceExec(analysis.affectedFiles);
-    console.log(`[DTO-R007:3/5] ✅ 替换完成: ${replaceResult.replaced}/${replaceResult.total}`);
+    console.log(`[本地任务编排-R007:3/5] ✅ 替换完成: ${replaceResult.replaced}/${replaceResult.total}`);
     
     // Step 4: 测试验证
-    console.log('[DTO-R007:4/5] 执行测试验证...');
+    console.log('[本地任务编排-R007:4/5] 执行测试验证...');
     const testResult = await this.validateReplacement();
     if (!testResult.success) {
-      console.error('[DTO-R007:4/5] ❌ 测试失败，回滚更改...');
+      console.error('[本地任务编排-R007:4/5] ❌ 测试失败，回滚更改...');
       await this.rollbackReplacement();
       return;
     }
-    console.log('[DTO-R007:4/5] ✅ 测试通过');
+    console.log('[本地任务编排-R007:4/5] ✅ 测试通过');
     
     // Step 5: 部署投入使用
-    console.log('[DTO-R007:5/5] 部署并投入使用...');
+    console.log('[本地任务编排-R007:5/5] 部署并投入使用...');
     await this.deployMonitorSkill();
-    console.log('[DTO-R007:5/5] ✅ 部署完成');
+    console.log('[本地任务编排-R007:5/5] ✅ 部署完成');
     
     // 发送通知
-    console.log('[DTO-R007] 🎉 全自动替换流程完成！');
-    console.log(`[DTO-R007] 统计: ${replaceResult.replaced} 个文件, ${analysis.replaceableCount} 次调用已优化`);
+    console.log('[本地任务编排-R007] 🎉 全自动替换流程完成！');
+    console.log(`[本地任务编排-R007] 统计: ${replaceResult.replaced} 个文件, ${analysis.replaceableCount} 次调用已优化`);
     
     // 创建完成记录
     const completionRecord = {
@@ -714,7 +714,7 @@ cp -r ${skillId} ${SKILLS_DIR}/
     
     // 生成 wrapper 代码
     const wrapperCode = `
-// Auto-generated by DTO-R007
+// Auto-generated by 本地任务编排-R007
 const monitor = require('${monitorPath}/lib/monitor');
 
 module.exports = {
@@ -775,7 +775,7 @@ module.exports = {
           replaced++;
         }
       } catch (e) {
-        console.error(`[DTO-R007] 替换失败 ${file}: ${e.message}`);
+        console.error(`[本地任务编排-R007] 替换失败 ${file}: ${e.message}`);
       }
     }
     
@@ -808,7 +808,7 @@ module.exports = {
    * 回滚替换
    */
   async rollbackReplacement() {
-    console.log('[DTO-R007] 执行回滚...');
+    console.log('[本地任务编排-R007] 执行回滚...');
     // 实际实现需要备份机制
   }
   
@@ -826,7 +826,7 @@ module.exports = {
       fs.cpSync(workspaceSkill, targetSkill, { recursive: true });
     }
     
-    console.log('[DTO-R007] ✅ system-monitor 已部署到 skills 目录');
+    console.log('[本地任务编排-R007] ✅ system-monitor 已部署到 skills 目录');
   }
   
   /**
@@ -835,21 +835,21 @@ module.exports = {
   async handleGlobalSync(event) {
     if (event.type !== 'standard_update') return;
     
-    console.log('[DTO-R006] ISC标准更新，触发存量数据全局同步...');
+    console.log('[本地任务编排-R006] ISC标准更新，触发存量数据全局同步...');
     
     const { standardId, changeType, affectedFields } = event.data;
     
     // 加载ISC-NAMING-CORE标准
     const namingStandardPath = path.join(PATHS.isc, 'standards/ISC-NAMING-CORE.json');
     if (!fs.existsSync(namingStandardPath)) {
-      console.log('[DTO-R006] ⚠️ ISC-NAMING-CORE不存在');
+      console.log('[本地任务编排-R006] ⚠️ ISC-NAMING-CORE不存在');
       return;
     }
     
     const namingStandard = JSON.parse(fs.readFileSync(namingStandardPath, 'utf8'));
     
     // 同步所有存量报告格式
-    console.log('[DTO-R006] 同步存量报告格式为: 英文缩写(中文名)');
+    console.log('[本地任务编排-R006] 同步存量报告格式为: 英文缩写(中文名)');
     
     for (const entry of namingStandard.entries) {
       if (entry.chinese_name && entry.chinese_name !== '待补充') {
@@ -875,7 +875,7 @@ module.exports = {
     queue.push(syncTask);
     fs.writeFileSync(this.taskQueuePath, JSON.stringify(queue, null, 2));
     
-    console.log(`[DTO-R006] ✅ 全局同步任务已创建: ${namingStandard.entries.length} 个条目`);
+    console.log(`[本地任务编排-R006] ✅ 全局同步任务已创建: ${namingStandard.entries.length} 个条目`);
   }
 
   /**
@@ -885,38 +885,38 @@ module.exports = {
   async handleArchitectureValidation(event) {
     if (event.type !== 'architecture_change') return;
     
-    console.log('[DTO-R009] 🏗️ 架构完整性强制验证启动...');
-    console.log(`[DTO-R009] 触发事件: ${event.data?.changeType || 'unknown'}`);
+    console.log('[本地任务编排-R009] 🏗️ 架构完整性强制验证启动...');
+    console.log(`[本地任务编排-R009] 触发事件: ${event.data?.changeType || 'unknown'}`);
     
     // Step 1: 全局扫描
-    console.log('[DTO-R009:1/4] 全局扫描所有模块...');
+    console.log('[本地任务编排-R009:1/4] 全局扫描所有模块...');
     const scanResults = await this.performGlobalArchitectureScan();
-    console.log(`[DTO-R009:1/4] ✅ 扫描完成: ${scanResults.totalSkills} 个技能, ${scanResults.issues.length} 个问题`);
+    console.log(`[本地任务编排-R009:1/4] ✅ 扫描完成: ${scanResults.totalSkills} 个技能, ${scanResults.issues.length} 个问题`);
     
     // Step 2: 五层架构验证
-    console.log('[DTO-R009:2/4] 执行五层架构验证...');
+    console.log('[本地任务编排-R009:2/4] 执行五层架构验证...');
     const validationResults = await this.validateFiveLayers(scanResults);
-    console.log(`[DTO-R009:2/4] ✅ 验证完成: ${validationResults.passed} 通过, ${validationResults.failed} 失败`);
+    console.log(`[本地任务编排-R009:2/4] ✅ 验证完成: ${validationResults.passed} 通过, ${validationResults.failed} 失败`);
     
     // Step 3: 生成报告
     if (validationResults.failed > 0) {
-      console.log('[DTO-R009:3/4] 生成验证报告...');
+      console.log('[本地任务编排-R009:3/4] 生成验证报告...');
       await this.generateArchitectureReport(scanResults, validationResults);
-      console.log('[DTO-R009:3/4] ⚠️ 发现架构问题，禁止部署！');
+      console.log('[本地任务编排-R009:3/4] ⚠️ 发现架构问题，禁止部署！');
     } else {
-      console.log('[DTO-R009:3/4] ✅ 架构验证通过');
+      console.log('[本地任务编排-R009:3/4] ✅ 架构验证通过');
     }
     
     // Step 4: 尝试自动修复
     if (validationResults.autoFixable > 0) {
-      console.log(`[DTO-R009:4/4] 尝试自动修复 ${validationResults.autoFixable} 个问题...`);
+      console.log(`[本地任务编排-R009:4/4] 尝试自动修复 ${validationResults.autoFixable} 个问题...`);
       const fixResults = await this.attemptAutoFix(scanResults.issues);
-      console.log(`[DTO-R009:4/4] ✅ 自动修复完成: ${fixResults.fixed} 成功, ${fixResults.failed} 失败`);
+      console.log(`[本地任务编排-R009:4/4] ✅ 自动修复完成: ${fixResults.fixed} 成功, ${fixResults.failed} 失败`);
     } else {
-      console.log('[DTO-R009:4/4] ℹ️ 无需自动修复');
+      console.log('[本地任务编排-R009:4/4] ℹ️ 无需自动修复');
     }
     
-    console.log('[DTO-R009] 🏁 架构完整性验证完成');
+    console.log('[本地任务编排-R009] 🏁 架构完整性验证完成');
   }
   
   /**
@@ -1028,7 +1028,7 @@ module.exports = {
     };
     
     fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
-    console.log(`[DTO-R009] 📄 报告已生成: ${reportPath}`);
+    console.log(`[本地任务编排-R009] 📄 报告已生成: ${reportPath}`);
   }
   
   /**
@@ -1043,15 +1043,15 @@ module.exports = {
         try {
           if (issueType === 'error_handling') {
             // 自动添加异常处理模板
-            console.log(`[DTO-R009]   尝试为 ${issue.skill} 添加异常处理...`);
+            console.log(`[本地任务编排-R009]   尝试为 ${issue.skill} 添加异常处理...`);
             // 实际修复逻辑...
             fixed++;
           } else {
-            console.log(`[DTO-R009]   ${issue.skill} 的 ${issueType} 需要人工修复`);
+            console.log(`[本地任务编排-R009]   ${issue.skill} 的 ${issueType} 需要人工修复`);
             failed++;
           }
         } catch (e) {
-          console.error(`[DTO-R009]   修复失败 ${issue.skill}: ${e.message}`);
+          console.error(`[本地任务编排-R009]   修复失败 ${issue.skill}: ${e.message}`);
           failed++;
         }
       }
@@ -1304,7 +1304,7 @@ module.exports = {
     queue.push(task);
     fs.writeFileSync(this.taskQueuePath, JSON.stringify(queue, null, 2));
     
-    console.log(`      ✅ DTO(声明式任务编排中心)对齐任务已创建: ${task.standardName} (${task.priority})`);
+    console.log(`      ✅ 本地任务编排(声明式任务编排中心)对齐任务已创建: ${task.standardName} (${task.priority})`);
     
     return task;
   }
@@ -1415,7 +1415,7 @@ module.exports = {
    * 监控所有技能目录的关键文件变更
    */
   startFileWatcher() {
-    console.log('[DTO] 🔄 启动文件监控（R005自动触发）...');
+    console.log('[本地任务编排] 🔄 启动文件监控（R005自动触发）...');
     
     const skillsPath = SKILLS_DIR;
     const criticalPatterns = [
@@ -1432,7 +1432,7 @@ module.exports = {
       this.checkFileChanges(skillsPath, criticalPatterns);
     }, 30000);
     
-    console.log('[DTO] ✅ 文件监控已启动（30秒检查周期）');
+    console.log('[本地任务编排] ✅ 文件监控已启动（30秒检查周期）');
   }
   
   /**
@@ -1455,9 +1455,9 @@ module.exports = {
         }
       }
       
-      console.log(`[DTO] 📁 已记录 ${this.lastFileMtimes.size} 个关键文件`);
+      console.log(`[本地任务编排] 📁 已记录 ${this.lastFileMtimes.size} 个关键文件`);
     } catch (e) {
-      console.error('[DTO] 文件扫描失败:', e.message);
+      console.error('[本地任务编排] 文件扫描失败:', e.message);
     }
   }
   
@@ -1493,18 +1493,18 @@ module.exports = {
       this.lastFileMtimes = currentFiles;
       
     } catch (e) {
-      console.error('[DTO] 文件检查失败:', e.message);
+      console.error('[本地任务编排] 文件检查失败:', e.message);
       return;
     }
     
     // 如果有变更，触发 R005 和 R009
     if (changedFiles.length > 0) {
-      console.log(`[DTO] 🔥 检测到 ${changedFiles.length} 个文件变更`);
+      console.log(`[本地任务编排] 🔥 检测到 ${changedFiles.length} 个文件变更`);
       
       // 检测架构变更
       const architectureChanges = this.detectArchitectureChanges(changedFiles);
       if (architectureChanges.hasArchitectureChange) {
-        console.log(`[DTO] 🏗️ 检测到架构变更: ${architectureChanges.details.length} 项`);
+        console.log(`[本地任务编排] 🏗️ 检测到架构变更: ${architectureChanges.details.length} 项`);
         
         // 触发 R009 架构完整性验证
         const r009Event = {
@@ -1523,7 +1523,7 @@ module.exports = {
       const skillChanges = this.groupChangesBySkill(changedFiles);
       
       for (const [skillId, files] of skillChanges) {
-        console.log(`[DTO] 📦 技能: ${skillId} (${files.length} 个文件)`);
+        console.log(`[本地任务编排] 📦 技能: ${skillId} (${files.length} 个文件)`);
         
         // 构造 R005 事件
         const event = {
@@ -1642,15 +1642,15 @@ module.exports = {
    * 每小时检查是否有新规则文件或新技能
    */
   startISCRescanTimer() {
-    console.log('[DTO] 🔄 启动ISC规则定时重新扫描（每小时）...');
+    console.log('[本地任务编排] 🔄 启动ISC规则定时重新扫描（每小时）...');
     
     // 每小时重新扫描一次
     setInterval(async () => {
-      console.log('[DTO] ⏰ 定时重新扫描ISC规则...');
+      console.log('[本地任务编排] ⏰ 定时重新扫描ISC规则...');
       await this.rescanISCAndSkills();
     }, 3600000); // 1小时 = 3600000ms
     
-    console.log('[DTO] ✅ ISC规则重新扫描已启动（1小时周期）');
+    console.log('[本地任务编排] ✅ ISC规则重新扫描已启动（1小时周期）');
   }
   
   /**
@@ -1661,11 +1661,11 @@ module.exports = {
     const beforeFiles = this.lastFileMtimes.size;
     
     // 1. 重新扫描ISC规则
-    console.log('[DTO] 重新扫描ISC standards目录...');
+    console.log('[本地任务编排] 重新扫描ISC standards目录...');
     await this.initializeISCSubscriptions();
     
     // 2. 重新扫描技能文件
-    console.log('[DTO] 重新扫描技能目录...');
+    console.log('[本地任务编排] 重新扫描技能目录...');
     this.scanAndRecordFiles(SKILLS_DIR, []);
     
     const afterCount = this.iscSubscriptions.length;
@@ -1674,30 +1674,30 @@ module.exports = {
     // 报告变化
     if (afterCount > beforeCount) {
       const newRules = afterCount - beforeCount;
-      console.log(`[DTO] 🎉 发现 ${newRules} 条新规则！`);
+      console.log(`[本地任务编排] 🎉 发现 ${newRules} 条新规则！`);
       
       // 自动触发新规则的同步
       for (let i = beforeCount; i < afterCount; i++) {
         const sub = this.iscSubscriptions[i];
-        console.log(`[DTO]   新规则: ${sub.ruleId} (${sub.name})`);
+        console.log(`[本地任务编排]   新规则: ${sub.ruleId} (${sub.name})`);
         
         // 如果新规则需要立即执行
         if (sub.autoExecute) {
-          console.log(`[DTO]   ✅ 已自动启用: ${sub.ruleId}`);
+          console.log(`[本地任务编排]   ✅ 已自动启用: ${sub.ruleId}`);
         }
       }
     }
     
     if (afterFiles > beforeFiles) {
       const newFiles = afterFiles - beforeFiles;
-      console.log(`[DTO] 🎉 发现 ${newFiles} 个新技能文件！`);
+      console.log(`[本地任务编排] 🎉 发现 ${newFiles} 个新技能文件！`);
     }
     
     if (afterCount === beforeCount && afterFiles === beforeFiles) {
-      console.log('[DTO] ℹ️ 无新变化');
+      console.log('[本地任务编排] ℹ️ 无新变化');
     }
     
-    console.log(`[DTO] 📊 当前状态: ${afterCount} 条规则, ${afterFiles} 个技能文件`);
+    console.log(`[本地任务编排] 📊 当前状态: ${afterCount} 条规则, ${afterFiles} 个技能文件`);
   }
 }
 

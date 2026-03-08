@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * ISC-DTO 双向对齐检查器 v1.0
+ * ISC-本地任务编排 双向对齐检查器 v1.0
  * ISC主动分发，DTO主动订阅，双向对齐
  */
 
@@ -240,7 +240,7 @@ class ISCDTOAlignmentChecker {
     
     const subscription = {
       subscription_id: `sub_isc_${rule.id.replace(/\./g, '_')}`,
-      subscriber: 'DTO-Declarative-Orchestrator',
+      subscriber: '本地任务编排-Declarative-Orchestrator',
       rule_id: rule.id,
       rule_name: rule.name,
       domain: rule.domain,
@@ -285,7 +285,7 @@ class ISCDTOAlignmentChecker {
    */
   async run() {
     console.log('╔════════════════════════════════════════════════════════════╗');
-    console.log('║     ISC-DTO 双向对齐检查器 - 各自主动，双向对齐            ║');
+    console.log('║     ISC-本地任务编排 双向对齐检查器 - 各自主动，双向对齐            ║');
     console.log('╚════════════════════════════════════════════════════════════╝');
     
     // ISC主动性

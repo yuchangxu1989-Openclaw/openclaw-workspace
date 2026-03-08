@@ -23,7 +23,7 @@
 │  */5  → event-dispatcher（全量扫描）      │
 │  */15 → ISC变更检测（hash比对）           │
 │  */30 → 全局决策流水线（git status扫描）   │
-│  0 *  → DTO-AEO（无条件执行）             │
+│  0 *  → 本地任务编排-AEO（无条件执行）             │
 └─────────────────────────────────────────┘
 ```
 
@@ -41,7 +41,7 @@
         │          │           │           │          │
         ▼          ▼           ▼           ▼          │
   ┌─────────┐┌─────────┐┌──────────┐┌──────────┐     │
-  │ISC Rules ││DTO Sigs ││EventBus  ││Git Change│     │
+  │ISC Rules ││本地任务编排 Sigs ││EventBus  ││Git Change│     │
   │fs.watch  ││fs.watch  ││fs.watch  ││fs.watch  │     │
   └────┬─────┘└────┬─────┘└────┬─────┘└────┬─────┘     │
        │           │           │           │          │
@@ -79,7 +79,7 @@
 | `infrastructure/event-driven/cron-adapters/event-dispatcher-adapter.js` | event-dispatcher cron适配器 |
 | `infrastructure/event-driven/cron-adapters/isc-detect-adapter.js` | ISC变更检测 cron适配器 |
 | `infrastructure/event-driven/cron-adapters/global-pipeline-adapter.js` | 全局决策流水线 cron适配器 |
-| `infrastructure/event-driven/cron-adapters/dto-aeo-adapter.js` | DTO-AEO cron适配器 |
+| `infrastructure/event-driven/cron-adapters/dto-aeo-adapter.js` | 本地任务编排-AEO cron适配器 |
 | `infrastructure/event-driven/tests/verify-migration.js` | 验收测试 (15 cases) |
 | `infrastructure/event-driven/state/` | 运行时状态目录 |
 
@@ -182,7 +182,7 @@
 - `file.changed.data` — 数据变更
 - `file.changed.doc` — 文档变更
 
-### 4. DTO-AEO流水线 (每小时)
+### 4. 本地任务编排-AEO流水线 (每小时)
 
 | 维度 | 迁移前 | 迁移后 |
 |------|--------|--------|
@@ -215,9 +215,9 @@
   ✅ T2.1: emit isc.rule.changed 事件可被消费
   ✅ T2.2: ISC变更检测在事件触发后cron跳过
 
-── Suite 3: DTO Signals 事件发布 ──
+── Suite 3: 本地任务编排 Signals 事件发布 ──
   ✅ T3.1: emit dto.signal.created 事件可被消费
-  ✅ T3.2: DTO-AEO在事件触发后cron跳过
+  ✅ T3.2: 本地任务编排-AEO在事件触发后cron跳过
 
 ── Suite 4: File Change 分类 ──
   ✅ T4.1: classifyChange 正确分类代码文件
@@ -269,7 +269,7 @@ node infrastructure/event-driven/event-watcher-daemon.js --status
 echo '{"id":"test","name":"test rule"}' > skills/isc-core/rules/test-verify.json
 # 查看 watcher 日志确认立即处理
 
-# 手动创建 DTO 信号 → 应立即响应
+# 手动创建 本地任务编排 信号 → 应立即响应
 echo '{"task":"verify"}' > .dto-signals/test-verify.json
 # 查看 watcher 日志确认立即处理
 

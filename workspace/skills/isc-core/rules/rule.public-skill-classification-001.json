@@ -18,7 +18,7 @@
     "is_public_skill": {
       "all_of": [
         "无硬编码路径（绝对路径/用户ID/机器特定配置）",
-        "零外部业务依赖（不依赖ISC/DTO/CRAS等内部系统）",
+        "零外部业务依赖（不依赖ISC/本地任务编排/CRAS等内部系统）",
         "有标准SKILL.md（含name+description frontmatter）",
         "凭据从openclaw.json或环境变量读取，不写死"
       ]

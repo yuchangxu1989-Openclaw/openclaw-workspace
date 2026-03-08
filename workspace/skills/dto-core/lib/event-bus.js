@@ -1,5 +1,5 @@
 /**
- * DTO - 事件总线
+ * 本地任务编排 - 事件总线
  * Pub/Sub 机制，支持模块间通信
  */
 
@@ -20,7 +20,7 @@ class EventBus extends EventEmitter {
    * @param {Object} options - 选项
    */
   subscribe(event, handler, options = {}) {
-    console.log(`[DTO-EventBus] 订阅事件: ${event}`);
+    console.log(`[本地任务编排-EventBus] 订阅事件: ${event}`);
 
     if (!this.subscribers.has(event)) {
       this.subscribers.set(event, []);
@@ -44,7 +44,7 @@ class EventBus extends EventEmitter {
    * 取消订阅
    */
   unsubscribe(event, subscriptionId) {
-    console.log(`[DTO-EventBus] 取消订阅: ${event}`);
+    console.log(`[本地任务编排-EventBus] 取消订阅: ${event}`);
 
     const subs = this.subscribers.get(event);
     if (subs) {
@@ -66,7 +66,7 @@ class EventBus extends EventEmitter {
    * @param {Object} data - 事件数据
    */
   publish(event, data) {
-    console.log(`[DTO-EventBus] 发布事件: ${event}`);
+    console.log(`[本地任务编排-EventBus] 发布事件: ${event}`);
 
     const eventRecord = {
       event,

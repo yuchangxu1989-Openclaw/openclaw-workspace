@@ -128,14 +128,14 @@ if (checker.prototype && checker.prototype.constructor === checker) {
 
 ### ✅ N-03: .gitignore 扩展
 
-**问题**: `.gitignore` 仅 1 行，运行时产物（JSONL 日志、signal 文件、DTO task 文件等）持续污染 Git。
+**问题**: `.gitignore` 仅 1 行，运行时产物（JSONL 日志、signal 文件、本地任务编排 task 文件等）持续污染 Git。
 
 **修复**: 扩展为完整的 .gitignore，覆盖：
 - `infrastructure/logs/*.jsonl` — 运行时日志
 - `infrastructure/enforcement/*.jsonl` — 执行记录
 - `infrastructure/event-bus/signals/` — 信号文件
 - `infrastructure/dispatcher/state/` — 调度器状态
-- `skills/dto-core/tasks/` — DTO 任务文件
+- `skills/dto-core/tasks/` — 本地任务编排 任务文件
 - `scripts/logs/` — 脚本日志
 - `.pipeline-*.json*` — Pipeline 状态
 - `feishu_sent_*/` — 飞书发送记录

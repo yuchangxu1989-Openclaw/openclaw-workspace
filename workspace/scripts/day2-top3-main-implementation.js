@@ -56,14 +56,14 @@ async function main() {
   });
   const intentResult = await scanner.scan(convo);
 
-  // 2) EVENT -> DTO by dispatcher intent.directive
+  // 2) EVENT -> 本地任务编排 by dispatcher intent.directive
   const intentDirectiveEvent = {
     id: `evt_directive_${Date.now()}`,
     type: 'intent.directive',
     source: 'day2-top3-driver',
     payload: {
       target: 'day2-top3-p2e-chain',
-      summary: '从意图驱动创建 DTO 执行任务，进入真链路验证',
+      summary: '从意图驱动创建 本地任务编排 执行任务，进入真链路验证',
       evidence: '全系统 P2E / CRAS / AEO / LEP 打通',
       confidence: 0.98,
       trace_id: traceId,
@@ -92,11 +92,11 @@ async function main() {
   const latestInsightFile = listFilesSafe(path.join(ROOT, 'skills', 'cras', 'insights'), f => f.endsWith('.json'))[0] || null;
   const latestInsight = latestInsightFile ? readJsonSafe(latestInsightFile) : null;
 
-  // 4) ISC -> DTO sync -> downstream event evidence
+  // 4) ISC -> 本地任务编排 sync -> downstream event evidence
   const iscEvent = EventBus.emit('isc.rule.created', {
     rule_id: `DAY2-TOP3-${Date.now()}`,
     rule_name: 'day2-top3-p2e-chain-rule',
-    description: '验证 isc.rule.created 进入 DTO 真消费路径',
+    description: '验证 isc.rule.created 进入 本地任务编排 真消费路径',
     trace_id: traceId,
   }, 'day2-top3-driver', { trace_id: traceId });
   const dtoBridgeResult = await processDTOEvents();

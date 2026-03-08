@@ -1,5 +1,5 @@
 /**
- * DTO - Controllable Task Orchestrator
+ * 本地任务编排 - Controllable Task Orchestrator
  * 可控任务调度中心 - 意图解析器
  * 
  * 将 YAML/JSON 任务意图解析为可执行对象
@@ -184,7 +184,7 @@ class IntentParser {
           const task = this.parseFile(filePath);
           tasks.push(task);
         } catch (e) {
-          console.error(`[DTO] 解析任务失败: ${file}`, e.message);
+          console.error(`[本地任务编排] 解析任务失败: ${file}`, e.message);
         }
       }
     }

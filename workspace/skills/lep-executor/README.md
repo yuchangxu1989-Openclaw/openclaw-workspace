@@ -26,7 +26,7 @@ node index.js stats
 - ✅ **统一执行入口** - 所有韧性任务通过 `execute()` 执行
 - ✅ **声明式规则** - N016/N017/N018 规则声明式配置
 - ✅ **韧性保障** - 复用 parallel-subagent 成熟实现
-- ✅ **深度集成** - 与ISC-DTO、CRAS、流水线形成闭环
+- ✅ **深度集成** - 与ISC-本地任务编排、CRAS、流水线形成闭环
 - ✅ **可观测性** - WAL + 指标 + 追踪三位一体
 
 ## 文档
@@ -47,7 +47,7 @@ node index.js stats
 ├───────────────────┼─────────────────────────────────────────────┤
 │  Execution        │  Resilience Core, N-Rule Executor           │
 ├───────────────────┼─────────────────────────────────────────────┤
-│  Recovery         │  Pipeline Bridge, ISC-DTO Bridge            │
+│  Recovery         │  Pipeline Bridge, ISC-本地任务编排 Bridge            │
 ├───────────────────┼─────────────────────────────────────────────┤
 │  Observability    │  WAL Log, Metrics, Tracing                  │
 └───────────────────┴─────────────────────────────────────────────┘

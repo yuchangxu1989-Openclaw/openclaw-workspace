@@ -534,7 +534,7 @@ function transition(dayNum, opts = {}) {
   
   // 发射DTO信号
   emitDTOSignals(nextDay, issues);
-  log('info', `Emitted DTO signals for Day ${nextDay}`);
+  log('info', `Emitted 本地任务编排 signals for Day ${nextDay}`);
   
   // 发射EventBus事件
   emitBusEvent(nextDay, dayNum);

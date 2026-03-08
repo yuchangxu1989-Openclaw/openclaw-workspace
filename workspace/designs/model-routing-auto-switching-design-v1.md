@@ -276,7 +276,7 @@
 实现策略:
   1. 轻量级本地嵌入模型 (如bge-small) 计算任务向量
   2. 与预设意图模板计算余弦相似度
-  3. 使用ISC-DTO 43规则作为意图库基础
+  3. 使用ISC-本地任务编排 43规则作为意图库基础
   4. 历史任务反馈优化识别准确度
 
 示例:
@@ -881,7 +881,7 @@ class MRASConfigManager {
 | MRAS | Model Routing Auto-Switching | 模型路由自动切换机制 |
 | LEP | Lightweight Execution Platform | 轻量级执行平台 (韧性基础设施) |
 | ISC | Intelligent Standard Center | 智能标准中心 |
-| DTO | 本地任务编排 | 声明式任务编排 |
+| 本地任务编排 | 本地任务编排 | 声明式任务编排 |
 | CapabilityAnchor | 能力锚点 | 系统能力矩阵文档 |
 | Intent | 意图 | 任务的结构化描述 |
 | Fallback | 降级 | 主模型失败时切换到备用模型 |

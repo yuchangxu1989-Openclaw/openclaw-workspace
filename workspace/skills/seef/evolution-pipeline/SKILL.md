@@ -168,4 +168,4 @@ skills/seef/evolution-pipeline/
 ---
 
 **归属**: SEEF (技能生态进化工厂)  
-**关联**: ISC | EvoMap A2A | DTO | LEP
+**关联**: ISC | EvoMap A2A | 本地任务编排 | LEP

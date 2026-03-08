@@ -1,5 +1,5 @@
 /**
- * @fileoverview DTO事件触发测试 - DTO Events Integration Test
+ * @fileoverview DTO事件触发测试 - 本地任务编排 Events Integration Test
  * @description 测试DTO事件触发机制
  * @module DTOEventsTests
  * @version 1.0.0

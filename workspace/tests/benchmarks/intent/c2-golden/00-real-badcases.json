@@ -141,5 +141,31 @@
       "cognitive_rule_insufficient",
       "async_turn_forgetting"
     ]
+  },
+  {
+    "id": "C2-SPAWN-REGISTER-ATOMIC-001",
+    "category": "执行闭环缺失",
+    "severity": "C2",
+    "title": "spawn与register未原子绑定导致任务看板反复缺失",
+    "description": "主Agent多次spawn子Agent后未调用register-task.sh，导致用户反复看不到任务看板更新。用户三次纠偏仍未根治。",
+    "root_cause": "spawn和register是两个独立动作，依赖主Agent记忆执行第二步。MD规则无法100%约束LLM行为，需要程序化hook但框架不支持post-spawn hook。",
+    "error_chain": [
+      "spawn子Agent成功",
+      "主Agent未调用register-task.sh",
+      "任务看板无记录",
+      "用户看不到任务状态",
+      "用户纠偏→主Agent手动补注册",
+      "下次又忘记→循环"
+    ],
+    "correct_chain": [
+      "spawn子Agent",
+      "同一回复中立即调用register-task.sh",
+      "任务看板自动更新",
+      "推送飞书看板给用户"
+    ],
+    "lesson": "凡是两步操作必须原子绑定的场景，MD约束不够，必须程序化。框架不支持hook时，至少要在SOUL.md最高优先级位置强制约束",
+    "data_source": "real_conversation",
+    "date": "2026-03-08",
+    "context": "用户三次问'为什么没看到任务看板更新'，根因相同"
   }
 ]

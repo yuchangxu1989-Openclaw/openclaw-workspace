@@ -12,7 +12,7 @@
 | 文件 | 路径 | 描述 |
 |:---|:---|:---|
 | 架构设计文档 | `docs/ARCHITECTURE.md` | 完整的LEP架构设计，包含组件图、数据流、核心设计决策 |
-| 集成方案 | `docs/INTEGRATION.md` | 与现有系统（parallel-subagent、DTO、CRAS、ISC）的集成方案 |
+| 集成方案 | `docs/INTEGRATION.md` | 与现有系统（parallel-subagent、本地任务编排、CRAS、ISC）的集成方案 |
 | 实施路线图 | `docs/ROADMAP.md` | 分阶段实施计划，包含详细任务清单和时间线 |
 | 数据流设计 | `docs/DATAFLOW.md` | 标准执行、失败恢复、定时调度、可观测性数据流 |
 
@@ -45,7 +45,7 @@
 │ 1. 不重复造轮子 - 复用 parallel-subagent v3.0.1 的成熟实现       │
 │ 2. 统一入口 - 所有韧性任务通过 LEP.execute() 执行                │
 │ 3. 声明式规则 - N016/N017/N018 规则作为声明式配置被执行          │
-│ 4. 深度集成 - 与ISC-DTO、CRAS、流水线形成闭环                    │
+│ 4. 深度集成 - 与ISC-本地任务编排、CRAS、流水线形成闭环                    │
 │ 5. 可观测性 - WAL + 指标 + 追踪三位一体的可观测体系              │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -144,7 +144,7 @@ const result = await executeRule('N018', {
 |:---|:---|:---|:---|
 | M1 | Week 1 结束 | LEP核心基础设施 | `lep.execute()` 可正常执行 |
 | M2 | Week 2 结束 | N016/N017/N018 完整实现 | 三个规则均可通过LEP执行 |
-| M3 | Week 3 结束 | 系统集成完成 | parallel-subagent/DTO/CRAS 均使用LEP |
+| M3 | Week 3 结束 | 系统集成完成 | parallel-subagent/本地任务编排/CRAS 均使用LEP |
 | M4 | Week 4 结束 | 生产就绪 | 监控看板上线，无P0问题 |
 
 ---

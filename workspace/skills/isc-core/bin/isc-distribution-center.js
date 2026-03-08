@@ -12,7 +12,7 @@ const { SKILLS_DIR } = require('../../shared/paths');
 const DISTRIBUTION_CONFIG = {
   standardsPath: path.join(__dirname, '..', 'standards'),
   distributionTargets: [
-    { name: 'DTO', path: path.join(SKILLS_DIR, 'dto-core'), type: 'orchestrator' },
+    { name: '本地任务编排', path: path.join(SKILLS_DIR, 'dto-core'), type: 'orchestrator' },
     { name: 'CRAS', path: path.join(SKILLS_DIR, 'cras'), type: 'cognition' },
     { name: 'SEEF', path: path.join(SKILLS_DIR, 'seef'), type: 'evolution' }
   ],

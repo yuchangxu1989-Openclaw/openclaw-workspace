@@ -48,8 +48,8 @@ IDLE ──publish()──▶ PUBLISHING ──success──▶ PUBLISHED
 | 技能开发 | SEP内嵌 | **SEEF** |
 | 质量测试 | SEP内嵌 | **SEEF** |
 | ISC验证 | SEP内嵌 | **SEEF** |
-| 版本管理 | SEP内嵌 | **DTO/SEEF** |
-| 任务调度 | SEP部分 | **DTO** |
+| 版本管理 | SEP内嵌 | **本地任务编排/SEEF** |
+| 任务调度 | SEP部分 | **本地任务编排** |
 | 网络发布 | SEP | **EP（本组件）** |
 
 ### 输入输出对比
@@ -62,7 +62,7 @@ IDLE ──publish()──▶ PUBLISHING ──success──▶ PUBLISHED
 - 状态变更事件
 
 #### 新设计输入
-- DTO.publish() 指令
+- 本地任务编排.publish() 指令
 - SEEF验证结果引用
 
 #### 旧设计输出
@@ -126,7 +126,7 @@ ISC检查 → 打包 → 上传
          │ 验证通过
          ▼
 ┌─────────────────┐
-│      DTO        │ ──▶ 调度、编排
+│      本地任务编排        │ ──▶ 调度、编排
 │   (调度中心)     │
 └────────┬────────┘
          │ publish()

@@ -6,7 +6,7 @@
  *
  * - intent.ruleify   → 生成 ISC 规则草案（最小可执行骨架）+ 发出 isc.rule.created
  * - intent.reflect   → 触发 CRAS 分析并沉淀洞察
- * - intent.directive → 在 DTO 中创建任务
+ * - intent.directive → 在 本地任务编排 中创建任务
  */
 
 const fs = require('fs');

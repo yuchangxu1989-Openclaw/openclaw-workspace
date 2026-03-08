@@ -1,5 +1,5 @@
 /**
- * DTO Event Consumer
+ * 本地任务编排 Event Consumer
  * 文件系统监视器 — 监听 .dto-signals/ 目录中的事件文件，
  * 自动解析并触发对应处理器（包括 SEEF Evaluator）。
  *
@@ -600,7 +600,7 @@ if (require.main === module) {
     const consumer = new EventConsumer();
 
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('  DTO Event Consumer v1.0.0');
+    console.log('  本地任务编排 Event Consumer v1.0.0');
     console.log(`  Watching: ${SIGNALS_DIR}`);
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 

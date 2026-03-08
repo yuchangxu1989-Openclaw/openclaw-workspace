@@ -1,4 +1,4 @@
-# ISC-事件-DTO 闭环方案 v3.0
+# ISC-事件-本地任务编排 闭环方案 v3.0
 
 > **版本**: v3.0.0
 > **作者**: 系统架构师
@@ -261,7 +261,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 |------|------|
 | **被动事件** | `system.error.occurred` — 任何执行失败时 |
 | **主动事件** | `system.error.recurring.threshold_crossed` — 同类错误次数 ≥ N |
-| **事件源/锚点** | 被动：DTO task-executor执行失败时emit |
+| **事件源/锚点** | 被动：本地任务编排 task-executor执行失败时emit |
 | | 主动：`scanners/error-frequency-scanner.js`（新建） |
 | **校验动作** | 统计错误类型频率 → 超阈值则触发根因分析 + 自动修复 |
 
@@ -279,7 +279,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 | 维度 | 定义 |
 |------|------|
 | **被动事件** | `dto.task.failed` 且 error_type = timeout |
-| **事件源/锚点** | DTO task-executor执行超时时emit |
+| **事件源/锚点** | 本地任务编排 task-executor执行超时时emit |
 | **校验动作** | 检查retry_count < 3 → 重试 → 超过3次则escalate |
 
 #### R09: `N034-rule-identity-accuracy.json` — 规则识别准确率
@@ -703,7 +703,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 | 维度 | 定义 |
 |------|------|
 | **被动事件** | `dto.task.failed` 且 error_type = timeout |
-| **事件源/锚点** | DTO task-executor |
+| **事件源/锚点** | 本地任务编排 task-executor |
 | **校验动作** | 检查retry_count < 3 → 自动重试 |
 
 #### R56: `decision-auto-repair-loop-post-pipeline-016.json` — 流水线后自动修复
@@ -711,7 +711,7 @@ v2系统存在5种trigger格式，v3统一为1种：
 | 维度 | 定义 |
 |------|------|
 | **被动事件** | `orchestration.pipeline.completed` — 全局自动决策流水线完成 |
-| **事件源/锚点** | DTO pipeline执行完成时emit |
+| **事件源/锚点** | 本地任务编排 pipeline执行完成时emit |
 | **校验动作** | 检查findings中fixable_issues → 有则自动修复 → 修复后re-validate |
 
 #### R57: `rule.decision-capability-anchor-013.json` — 能力锚点自动识别
@@ -1199,7 +1199,7 @@ async function sweep() {
     rules: await sweepRules(),      // ISC规则完整性
     skills: await sweepSkills(),    // 技能结构完整性
     vectors: await sweepVectors(),  // 向量化覆盖率
-    alignment: await sweepAlignment(), // ISC-DTO-Event三角对齐
+    alignment: await sweepAlignment(), // ISC-本地任务编排-Event三角对齐
     naming: await sweepNaming(),    // 命名规范合规率
     security: await sweepSecurity() // 安全扫描覆盖率
   };
@@ -1227,7 +1227,7 @@ async function sweep() {
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  ISC Rules   │     │   Events    │     │ DTO Tasks   │
+│  ISC Rules   │     │   Events    │     │ 本地任务编排 Tasks   │
 │  (78条)      │◄───►│   (注册表)   │◄───►│  (订阅+执行) │
 │              │     │             │     │             │
 └──────┬──────┘     └──────┬──────┘     └──────┬──────┘

@@ -132,7 +132,7 @@ exec ls /root/.openclaw/workspace/cras/ 2>/dev/null || echo "检查cras目录"
 - 成熟度：初阶/中阶/高阶
 - 主要缺口：____
 
-#### 2.4 DTO-Core（声明式任务编排）
+#### 2.4 本地任务编排-Core（声明式任务编排）
 ```bash
 exec ls /root/.openclaw/workspace/skills/dto-core/core/
 read /root/.openclaw/workspace/skills/dto-core/core/global-auto-decision-pipeline.js limit=100
@@ -190,7 +190,7 @@ read /root/.openclaw/workspace/evolver/run.sh limit=50
 | ISC-Core | ⭐⭐⭐ | ____ | ____ | ____ | P__ |
 | SEEF | ⭐⭐⭐ | ____ | ____ | ____ | P__ |
 | CRAS | ⭐⭐ | ____ | ____ | ____ | P__ |
-| DTO-Core | ⭐⭐⭐ | ____ | ____ | ____ | P__ |
+| 本地任务编排-Core | ⭐⭐⭐ | ____ | ____ | ____ | P__ |
 | LEP | ⭐⭐⭐ | ____ | ____ | ____ | P__ |
 | AEO | ⭐⭐ | ____ | ____ | ____ | P__ |
 | EvoMap | ⭐⭐ | ____ | ____ | ____ | P__ |
@@ -239,7 +239,7 @@ read /root/.openclaw/workspace/evolver/run.sh limit=50
 - 知识治理自动化
 - 用户画像维度扩展
 
-#### DTO-Core
+#### 本地任务编排-Core
 - 声明式编排语言扩展
 - 工作流可视化
 - 与LangGraph对比差距分析

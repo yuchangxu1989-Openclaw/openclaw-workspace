@@ -209,7 +209,7 @@ class ISCSmartCreator {
    * 通知DTO新规则位置
    */
   notifyDTO(filePath, rule) {
-    console.log('[ISC→DTO] 通知DTO新规则...');
+    console.log('[ISC→本地任务编排] 通知DTO新规则...');
     
     const notification = {
       source: 'isc-core',

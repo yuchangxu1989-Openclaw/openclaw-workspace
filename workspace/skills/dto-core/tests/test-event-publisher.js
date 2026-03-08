@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * DTO Event Publisher - 测试脚本
+ * 本地任务编排 Event Publisher - 测试脚本
  * 验证事件发布机制是否正常工作
  */
 
@@ -11,7 +11,7 @@ const EventBus = require('../core/event-bus');
 
 async function testEventPublisher() {
   console.log('='.repeat(60));
-  console.log('DTO Event Publisher - 测试');
+  console.log('本地任务编排 Event Publisher - 测试');
   console.log('='.repeat(60));
   console.log('');
 

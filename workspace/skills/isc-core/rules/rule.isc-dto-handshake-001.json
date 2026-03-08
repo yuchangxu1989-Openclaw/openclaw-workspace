@@ -14,7 +14,7 @@
     "frequency": "30分钟",
     "cron": "*/30 * * * *",
     "initiator": "ISC",
-    "responder": "DTO",
+    "responder": "本地任务编排",
     "steps": [
       "ISC扫描所有规则",
       "DTO扫描所有订阅",

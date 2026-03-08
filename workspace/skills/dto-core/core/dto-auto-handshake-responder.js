@@ -68,7 +68,7 @@ class DTOAutoHandshakeResponder {
     // 创建订阅
     const subscription = {
       subscription_id: `sub_isc_${data.ruleId.replace(/\./g, '_')}`,
-      subscriber: 'DTO-Declarative-Orchestrator',
+      subscriber: '本地任务编排-Declarative-Orchestrator',
       rule_id: data.ruleId,
       rule_name: data.ruleName,
       file_path: data.filePath,
@@ -136,7 +136,7 @@ class DTOAutoHandshakeResponder {
     
     fs.appendFileSync(HANDSHAKE_CONFIG.feedbackPath, JSON.stringify(feedback) + '\n');
     
-    console.log(`[DTO→ISC] 握手反馈: ${feedback.data.subscribed} 个新订阅`);
+    console.log(`[本地任务编排→ISC] 握手反馈: ${feedback.data.subscribed} 个新订阅`);
   }
 
   /**

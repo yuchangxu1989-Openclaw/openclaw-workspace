@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * DTO-AEO流水线 — Cron Adapter (Check-and-Skip Mode)
+ * 本地任务编排-AEO流水线 — Cron Adapter (Check-and-Skip Mode)
  * 
  * 替代原来每小时无条件执行。
- * 检查 DTO Signals Watcher 是否已处理信号，如果是则跳过。
+ * 检查 本地任务编排 Signals Watcher 是否已处理信号，如果是则跳过。
  */
 'use strict';
 
@@ -41,14 +41,14 @@ async function main() {
       status: 'SKIPPED',
       task: TASK_ID,
       reason: skipResult.reason,
-      message: `DTO Signals Watcher 已处理信号，cron跳过`,
+      message: `本地任务编排 Signals Watcher 已处理信号，cron跳过`,
       timestamp: new Date().toISOString()
     }));
     markCronExecuted(TASK_ID, 'skipped');
     process.exit(0);
   }
   
-  // 2. 执行 DTO event-bridge（cron兜底）
+  // 2. 执行 本地任务编排 event-bridge（cron兜底）
   console.log(`[cron-adapter] ${TASK_ID}: 执行cron兜底`);
   
   try {

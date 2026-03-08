@@ -37,7 +37,7 @@ const SUB_SKILLS = {
 
 // 事件 → 子技能 路由表
 const ROUTES = {
-  // DTO 同步相关
+  // 本地任务编排 同步相关
   'dto.sync.completed':        'evaluator',   // DTO同步完成 → 评估器评估受影响技能
   'dto.sync.failed':           'recorder',    // DTO同步失败 → 记录器记录异常
 

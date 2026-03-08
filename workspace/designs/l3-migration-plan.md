@@ -23,7 +23,7 @@
 | **WF2** | Cron任务（高频） | openclaw cron（5-30min） | cron-worker → isolated session → 脚本 | ⚠️ 部分（event-bridge产生事件） | 3 |
 | **WF3** | Cron任务（低频） | openclaw cron（1h-每日） | cron-worker → isolated session → 脚本 | ❌ 无 | 13 |
 | **WF4** | 手动技能调用 | 用户飞书消息 | 主Agent → 读SKILL.md → 调用工具 | ❌ 无 | N/A |
-| **WF5** | DTO声明式编排 | 事件/cron/手动触发 | DTO engine → DAG执行 → 回调 | ✅ 旧bus.js | 1套 |
+| **WF5** | DTO声明式编排 | 事件/cron/手动触发 | 本地任务编排 engine → DAG执行 → 回调 | ✅ 旧bus.js | 1套 |
 | **WF6** | ISC规则触发 | 事件桥接 + cron检测 | ISC bridge → 旧bus.js → Dispatcher路由 | ✅ 旧bus.js | 30+规则 |
 | **WF7** | 事件驱动链 | bus.js事件 | 5个event-bridge → Dispatcher → handlers | ✅ 旧bus.js | 12条路由 |
 
@@ -35,7 +35,7 @@
 | ***/15** | ISC变更检测 | 运行isc-core/event-bridge.js | ✅ 核心生产者 | 🟢 低 |
 | ***/30** | 全局自主决策流水线 | Git跟踪+版本bump+同步 | ❌ 独立运行 | 🟡 中 |
 | **0 \*** | 系统监控-综合 | system-monitor + gateway-monitor | ❌ 独立运行 | 🟡 中 |
-| **0 \*** | DTO-AEO流水线 | DTO编排器 + AEO桥接 | ⚠️ 检查.dto-signals | 🟡 中 |
+| **0 \*** | 本地任务编排-AEO流水线 | DTO编排器 + AEO桥接 | ⚠️ 检查.dto-signals | 🟡 中 |
 | **5 \*/4** | 能力同步与PDCA | PDCA引擎 | ❌ 独立运行 | 🟡 中 |
 | **10 \*/4** | 系统状态与流水线监控 | 流水线状态检查 | ❌ 独立运行 | 🟡 中 |
 | **0 \*/6** | 记忆摘要 | 聚合daily notes → MEMORY.md | ❌ 独立运行 | 🔴 高 |
@@ -183,7 +183,7 @@ bus-adapter.js (Day 1已建) ──consume──► L3Pipeline (每5min cron)
 
 | 阶段 | 动作 | 风险 |
 |------|------|------|
-| **Phase 1** | DTO event-bridge 已集成旧bus.js，L3通过bus-adapter.js旁路消费DTO事件 | 🟢 零 |
+| **Phase 1** | 本地任务编排 event-bridge 已集成旧bus.js，L3通过bus-adapter.js旁路消费DTO事件 | 🟢 零 |
 | **Phase 2** | L3分析DTO任务链执行效率，提供优化建议 | 🟢 低 |
 | **Phase 3** | L3 IntentScanner 解析用户意图后直接触发DTO任务定义 | 🟡 中 |
 | **Phase 4** | DTO成为L3的执行后端，L3做意图→任务映射 | 🟡 中 |

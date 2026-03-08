@@ -80,15 +80,15 @@ class AgentCollaborationProtocol {
   }
 
   /**
-   * 处理洞察信号（CRAS → DTO → SEEF）
+   * 处理洞察信号（CRAS → 本地任务编排 → SEEF）
    */
   async handleInsightSignal(signal) {
     console.log(`[ACP] 处理洞察: ${signal.payload.title}`);
     
-    // 1. DTO 编排任务
+    // 1. 本地任务编排 编排任务
     if (signal.payload.type === 'architecture') {
       // 架构洞察触发 SEEF 评估
-      await this.emitSignal('DTO', 'SEEF', 'skill.evaluation.requested', {
+      await this.emitSignal('本地任务编排', 'SEEF', 'skill.evaluation.requested', {
         reason: 'architecture_change',
         context: signal.payload
       });
@@ -96,13 +96,13 @@ class AgentCollaborationProtocol {
   }
 
   /**
-   * 处理技能信号（SEEF → DTO → CRAS）
+   * 处理技能信号（SEEF → 本地任务编排 → CRAS）
    */
   async handleSkillSignal(signal) {
     console.log(`[ACP] 处理技能: ${signal.payload.skillId}`);
     
     // SEEF 发现技能问题，通知 CRAS 学习
-    await this.emitSignal('DTO', 'CRAS', 'learning.opportunity', {
+    await this.emitSignal('本地任务编排', 'CRAS', 'learning.opportunity', {
       type: 'skill_pattern',
       data: signal.payload
     });
@@ -115,7 +115,7 @@ class AgentCollaborationProtocol {
     console.log(`[ACP] 处理标准提案: ${signal.payload.standardId}`);
     
     // 转发到 ISC
-    await this.emitSignal('DTO', 'ISC', 'standard.review.requested', {
+    await this.emitSignal('本地任务编排', 'ISC', 'standard.review.requested', {
       proposal: signal.payload
     });
   }
@@ -127,7 +127,7 @@ class AgentCollaborationProtocol {
     console.log(`[ACP] 任务完成: ${signal.payload.taskId}`);
     
     // 通知 AEO 评估
-    await this.emitSignal('DTO', 'AEO', 'effectiveness.evaluation', {
+    await this.emitSignal('本地任务编排', 'AEO', 'effectiveness.evaluation', {
       task: signal.payload
     });
   }
@@ -216,8 +216,8 @@ acp.registerAgent('ISC', {
   capabilities: ['standard_management', 'compliance_check']
 });
 
-// 注册 DTO
-acp.registerAgent('DTO', {
+// 注册 本地任务编排
+acp.registerAgent('本地任务编排', {
   name: '本地任务编排',
   type: 'orchestration_agent',
   capabilities: ['task_scheduling', 'workflow_management']

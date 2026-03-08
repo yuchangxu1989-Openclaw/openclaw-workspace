@@ -233,7 +233,7 @@ assert(['completed', 'skipped'].includes(result.status));
 - [ ] 实现备份机制
 - [ ] 实现回滚机制
 - [ ] 实现完整性检查
-- [ ] 集成ISC-DTO
+- [ ] 集成ISC-本地任务编排
 - [ ] 编写测试
 
 **验收标准**:
@@ -367,7 +367,7 @@ node scripts/benchmark.js
 |:---|:---|:---|:---|
 | **M1** | Week 1 结束 | LEP核心基础设施 | `lep.execute()` 可正常执行，WAL记录完整 |
 | **M2** | Week 2 结束 | N016/N017/N018 完整实现 | 三个规则均可通过LEP执行，测试通过 |
-| **M3** | Week 3 结束 | 系统集成完成 | parallel-subagent/DTO/CRAS 均使用LEP |
+| **M3** | Week 3 结束 | 系统集成完成 | parallel-subagent/本地任务编排/CRAS 均使用LEP |
 | **M4** | Week 4 结束 | 生产就绪 | 监控看板上线，文档完善，无P0问题 |
 
 ---

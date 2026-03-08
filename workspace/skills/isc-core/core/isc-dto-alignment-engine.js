@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * ISC-DTO 自动对齐引擎
- * 核心机制：ISC 任何新增规则，DTO 立即订阅并调度
+ * ISC-本地任务编排 自动对齐引擎
+ * 核心机制：ISC 任何新增规则，本地任务编排 立即订阅并调度
  * 第一性原理：全局对齐的关键中枢
  */
 
@@ -66,7 +66,7 @@ class ISC_DTO_AlignmentEngine {
     }
 
     /**
-     * 生成 DTO 订阅配置
+     * 生成 本地任务编排 订阅配置
      */
     generateSubscription(rule) {
         const workflowMap = {
@@ -84,7 +84,7 @@ class ISC_DTO_AlignmentEngine {
         
         return {
             subscription_id: `sub_isc_${rule.id}`,
-            subscriber: 'DTO-Declarative-Orchestrator',
+            subscriber: '本地任务编排-Declarative-Orchestrator',
             rule_id: rule.id,
             rule_name: rule.name,
             trigger_conditions: {
@@ -130,7 +130,7 @@ class ISC_DTO_AlignmentEngine {
      * 执行对齐
      */
     align() {
-        console.log('[ISC-DTO-Alignment] 执行全局对齐...');
+        console.log('[ISC-本地任务编排-Alignment] 执行全局对齐...');
         
         const iscRules = this.scanISCRules();
         console.log(`  发现 ${iscRules.length} 个 ISC 规则`);
@@ -148,7 +148,7 @@ class ISC_DTO_AlignmentEngine {
                 this.subscribedRules.add(rule.id);
                 newSubscriptions++;
                 
-                // 立即触发 DTO 调度器重新加载
+                // 立即触发 本地任务编排 调度器重新加载
                 this.notifyDTO(subscription);
             }
         }
@@ -163,10 +163,10 @@ class ISC_DTO_AlignmentEngine {
     }
 
     /**
-     * 通知 DTO 重新加载订阅
+     * 通知 本地任务编排 重新加载订阅
      */
     notifyDTO(subscription) {
-        // 写入事件队列，DTO 定时读取
+        // 写入事件队列，本地任务编排 定时读取
         const eventQueue = path.join(SKILLS_DIR, 'dto-core/events/isc-rule-subscriptions.jsonl');
         fs.mkdirSync(path.dirname(eventQueue), { recursive: true });
         
@@ -183,7 +183,7 @@ class ISC_DTO_AlignmentEngine {
      * 持续监控（文件监听）
      */
     watch() {
-        console.log('[ISC-DTO-Alignment] 启动文件监听...');
+        console.log('[ISC-本地任务编排-Alignment] 启动文件监听...');
         
         // 使用 inotifywait 或轮询
         setInterval(() => {

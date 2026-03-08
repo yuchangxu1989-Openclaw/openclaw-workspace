@@ -13,7 +13,7 @@
 
 | 总线 | 文件 | 消费模型 | 使用者 |
 |------|------|----------|--------|
-| **旧bus.js** | `infrastructure/event-bus/bus.js` | cursor + consumerId + ack | ISC、DTO、CRAS、SEEF、AEO、Dispatcher、Observability |
+| **旧bus.js** | `infrastructure/event-bus/bus.js` | cursor + consumerId + ack | ISC、本地任务编排、CRAS、SEEF、AEO、Dispatcher、Observability |
 | **新event-bus.js** | `infrastructure/event-bus/event-bus.js` | since时间窗 + type_filter通配 | L3Pipeline、L3 E2E测试 |
 
 **6个新L3模块**（EventBus、RuleMatcher、IntentScanner、RegistryManager、Dispatcher v2、DecisionLogger）全部使用新event-bus.js，**与现有7个事件桥接模块零对接**。
@@ -33,7 +33,7 @@
 | **CRAS Event Bridge** | `skills/cras/event-bridge.js` | 旧bus.js | `cras.insight.generated` |
 | **CRAS Rule Suggester** | `skills/cras/rule-suggester.js` | 旧bus.js | （消费为主，可能emit反馈事件） |
 | **SEEF Event Bridge** | `skills/seef/event-bridge.js` | 旧bus.js | `seef.skill.evaluated`, `seef.skill.discovered`, `seef.skill.created`, `seef.skill.optimized`, `seef.skill.validated`, `seef.skill.aligned`, `seef.skill.recorded`, `seef.skill.deprecated` |
-| **DTO Event Bridge** | `skills/dto-core/event-bridge.js` | 旧bus.js | `dto.sync.completed`, `dto.sync.failed` |
+| **本地任务编排 Event Bridge** | `skills/dto-core/event-bridge.js` | 旧bus.js | `dto.sync.completed`, `dto.sync.failed` |
 | **Memory Archiver** | `infrastructure/event-bus/handlers/memory-archiver.js` | 旧bus.js | （纯消费者，不产生事件） |
 | **Observability Dashboard** | `infrastructure/observability/dashboard.js` | 旧bus.js | （纯消费者） |
 | **L3Pipeline** | `infrastructure/pipeline/l3-pipeline.js` | **新event-bus.js** | `user.intent.*.inferred`（闭环回写） |
@@ -43,7 +43,7 @@
 | 消费者 | consumerId | 使用总线 | 订阅的事件模式 |
 |--------|-----------|----------|----------------|
 | **SEEF Event Bridge** | `seef` | 旧bus.js | `dto.sync.*`, `aeo.assessment.*`, `cras.insight.*`, `isc.rule.*`, `seef.skill.*` |
-| **DTO Event Bridge** | `dto-core` | 旧bus.js | `isc.rule.*`, `dto.sync.*`, `seef.skill.*`, `aeo.assessment.*`, `cras.insight.*`, `system.*` |
+| **本地任务编排 Event Bridge** | `dto-core` | 旧bus.js | `isc.rule.*`, `dto.sync.*`, `seef.skill.*`, `aeo.assessment.*`, `cras.insight.*`, `system.*` |
 | **CRAS Event Bridge** | `cras` | 旧bus.js | `aeo.assessment.*`, `dto.sync.completed`, `system.error` |
 | **Dispatcher** | （通过routes.json路由） | 旧bus.js | 见routes.json 12种模式 |
 | **L3Pipeline** | （无consumerId，时间窗消费） | **新event-bus.js** | 全量consume（since时间窗） |
@@ -321,7 +321,7 @@ const EventBus = require('../event-bus/bus-adapter.js');
 
 **现状**：`EventBus.emit('user.intent.*.inferred', ...)` 写入新event-bus
 
-**改动**：通过适配层emit，实际写入旧bus.js管理的events.jsonl。这样Dispatcher的routes.json可以新增 `user.intent.*` 路由，DTO/CRAS等consumer可以消费。
+**改动**：通过适配层emit，实际写入旧bus.js管理的events.jsonl。这样Dispatcher的routes.json可以新增 `user.intent.*` 路由，本地任务编排/CRAS等consumer可以消费。
 
 #### 改动2.3：Dispatcher routes.json新增L3意图路由
 
@@ -474,7 +474,7 @@ node -e "const bus=require('./infrastructure/event-bus/bus.js'); bus.emit('isc.r
           ▼                          ▼                          ▼
   ┌───────────────┐      ┌──────────────────┐      ┌───────────────────┐
   │ 旧event-bridge │      │   L3Pipeline     │      │   Dispatcher      │
-  │ (ISC/DTO/CRAS │      │ (RuleMatcher +   │      │ (routes.json +    │
+  │ (ISC/本地任务编排/CRAS │      │ (RuleMatcher +   │      │ (routes.json +    │
   │  SEEF/AEO)    │      │  IntentScanner)  │      │  handlers/)       │
   └───────┬───────┘      └────────┬─────────┘      └─────────┬─────────┘
           │                       │                           │

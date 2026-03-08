@@ -53,7 +53,7 @@
 | 2 | new-isc-change-detector | ISC变更检测 | */15 | ✅ ok | 0 | 11m ago |
 | 3 | merged-system-monitor-hourly | 系统监控-综合 | hourly | ✅ ok | 0 | 40m ago |
 | 4 | memory-summary-6h | 记忆摘要 | */6h | ✅ ok | 0 | 6h ago |
-| 5 | merged-dto-aeo-hourly | DTO-AEO智能流水线 | hourly | ✅ ok | 0 | 39m ago |
+| 5 | merged-dto-aeo-hourly | 本地任务编排-AEO智能流水线 | hourly | ✅ ok | 0 | 39m ago |
 | 6 | merged-capability-pdca-4h | 能力同步与PDCA | */4h | ✅ ok | 0 | 4h ago |
 | 7 | merged-system-pipeline-4h | 系统状态与流水线 | */4h | ✅ ok | 0 | 4h ago |
 | 8 | merged-ops-maintenance | 运维辅助-清理与向量化 | */6h | ✅ ok | 0 | 5h ago |
@@ -128,7 +128,7 @@
              api-probe, intent-extractor, cron-dispatch-runner, dispatch-reap
 每10分钟(×2): session-cleanup, threshold-scanner
 每15分钟(×2): ISC变更检测, (系统cron内无)
-每小时(×4):  day-completion-scanner, system-monitor, DTO-AEO, (OC event-dispatcher)
+每小时(×4):  day-completion-scanner, system-monitor, 本地任务编排-AEO, (OC event-dispatcher)
 每4小时(×3): capability-pdca, system-pipeline, (已禁用:evolver)
 每6小时(×3): memory-summary, ops-maintenance, (已禁用:cras-knowledge)
 每日(×7):    backup-rotate(03:00), CRAS-E(02:00), 系统维护(02:00),

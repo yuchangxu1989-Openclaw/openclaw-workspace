@@ -56,8 +56,8 @@ const stats = bus.stats();
 | `isc.rule.created` | ISC 规则创建 |
 | `isc.rule.updated` | ISC 规则更新 |
 | `isc.rule.deleted` | ISC 规则删除 |
-| `dto.sync.requested` | DTO 同步请求 |
-| `dto.sync.completed` | DTO 同步完成 |
+| `dto.sync.requested` | 本地任务编排 同步请求 |
+| `dto.sync.completed` | 本地任务编排 同步完成 |
 | `seef.skill.evaluated` | SEEF 技能评估完成 |
 | `seef.skill.optimized` | SEEF 技能优化完成 |
 | `aeo.assessment.completed` | AEO 评测完成 |

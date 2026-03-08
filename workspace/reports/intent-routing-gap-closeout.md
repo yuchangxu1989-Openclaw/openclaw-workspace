@@ -33,7 +33,7 @@
   - 将 reflect 内容送入 CRAS 洞察沉淀路径
 - `intent.directive`
   - 复用 `skills/dto-core/event-bridge.js#createTaskFromEvent`
-  - 直接生成 DTO task 文件与 `dto.task.created` 事件
+  - 直接生成 本地任务编排 task 文件与 `dto.task.created` 事件
 
 ### 3) 修复 `aeo_evaluation_required` 的 handler 解析缺口
 文件：`infrastructure/event-bus/dispatcher.js`
@@ -71,7 +71,7 @@
 ## 风险与边界
 - `intent.ruleify` 当前生成的是“最小规则草案”，不是全自动高质量规则工程化；但它已是**真实消费路径**，不再停留在报告或人工队列。
 - `intent.reflect` 当前通过 CRAS `analyzeRequest()` 进入洞察沉淀，属于最小闭环。
-- `intent.directive` 当前落 DTO task，后续是否执行由 DTO 体系负责。
+- `intent.directive` 当前落 本地任务编排 task，后续是否执行由 本地任务编排 体系负责。
 
 ## 提交说明
 已按要求直接修改；如工作区允许，建议提交信息：

@@ -1,5 +1,5 @@
 /**
- * DTO v2.0 - 响应式调度器 (P1)
+ * 本地任务编排 v2.0 - 响应式调度器 (P1)
  * 预定义白名单 + LLM 动态组合
  */
 
@@ -251,7 +251,7 @@ class AdaptiveScheduler {
       timestamp: new Date().toISOString()
     });
     
-    // 返回计划供 DTO 主类执行
+    // 返回计划供 本地任务编排 主类执行
     return {
       status: 'ready',
       plan,

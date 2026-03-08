@@ -1,4 +1,4 @@
-# ISC-事件-DTO 闭环方案 v4.3 — 五层事件认知模型（意图识别体系 + 三阻断项修复版）
+# ISC-事件-本地任务编排 闭环方案 v4.3 — 五层事件认知模型（意图识别体系 + 三阻断项修复版）
 
 > **版本**: v4.3.0
 > **作者**: 系统架构师
@@ -100,7 +100,7 @@
 
 | 子系统 | 感知层 | 认知层 | 执行层 |
 |--------|--------|--------|--------|
-| **ISC规则治理** | event-bridge（规则CRUD事件）+ scanners（规则质量扫描） | ISC-core校验逻辑（格式/命名/完整性）+ 条件评估器 | auto_fix（自动修复）/ notify（通知）/ escalate（升级）→ DTO |
+| **ISC规则治理** | event-bridge（规则CRUD事件）+ scanners（规则质量扫描） | ISC-core校验逻辑（格式/命名/完整性）+ 条件评估器 | auto_fix（自动修复）/ notify（通知）/ escalate（升级）→ 本地任务编排 |
 | **DTO任务调度** | event-trigger（事件订阅匹配）+ runtime-binder（订阅绑定） | 条件评估器（事件是否满足trigger条件） | task-executor（任务执行）+ result-emitter（结果事件） |
 | **CRAS对话分析** | 消息钩子（interaction.message.received）→ 事件总线消费 | 快通道：LLM意图识别 / 慢通道：趋势聚合分析 | emit L3事件（意图/情绪/模式）→ 由Dispatcher路由到handler |
 | **AEO效果运营** | 用户反馈事件 + 意图触发计数 + 评测结果事件 | AEO评测框架（黄金集+准确率+Badcase根因） | 飞书报告推送 / 规则调优 / 意图注册表更新 |
@@ -4665,8 +4665,8 @@ async classifyWithLLM(message) {
   内部事件 → 内部EventEmitter → (丢失，不持久化)
 
 新架构:
-  外部事件 → JSONL bus → dispatcher → DTO handler
-  内部事件 → JSONL bus → dispatcher → DTO handler  ← 统一了！
+  外部事件 → JSONL bus → dispatcher → 本地任务编排 handler
+  内部事件 → JSONL bus → dispatcher → 本地任务编排 handler  ← 统一了！
   同步回调 → 内部EventEmitter（仅用于进程内同步通知，如"任务开始"通知UI）
 ```
 
@@ -4904,7 +4904,7 @@ const testCases = [
 | 6.2 执行迁移 | 70条独立规则JSON更新 | `skills/isc-core/rules/*.json`（更新） | 2h |
 | 6.3 事件推导验证 | derive-events-v4.js | `skills/isc-core/bin/derive-events-v4.js`（新建） | 3h |
 | 6.4 端到端测试 | L1-L5全链路验证 | `tests/e2e-event-flow.js`（新建） | 4h |
-| 6.5 三角对齐监控 | ISC-Event-DTO | `monitors/alignment-monitor.js`（新建） | 2h |
+| 6.5 三角对齐监控 | ISC-Event-本地任务编排 | `monitors/alignment-monitor.js`（新建） | 2h |
 
 ### 总估时
 
@@ -5730,7 +5730,7 @@ git checkout HEAD~1 -- infrastructure/event-bus/bus.js
 #   如果是数组 → v3兼容处理
 # 因此无需回滚规则文件
 
-# 3. DTO EventEmitter回滚 — 恢复event-bridge双向桥接
+# 3. 本地任务编排 EventEmitter回滚 — 恢复event-bridge双向桥接
 git checkout HEAD~1 -- dto-core/core/event-bus.js
 git checkout HEAD~1 -- isc-core/event-bridge.js
 # Facade层可以直接删除，不影响EventEmitter功能

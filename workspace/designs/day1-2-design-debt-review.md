@@ -72,8 +72,8 @@ Day 1/2 暴露的 15+ 个设计缺陷归结为 **4 个系统性根因**：
 |------|------|
 | **严重度** | 🟡 P1 High — 制造虚假进展感，掩盖实际问题 |
 | **根因** | auto-commit机制无条件递增版本号。Git log中出现`[AUTO] infrastructure v1.0.34` ~ `v1.0.41` 连续7个自动提交，内容可能只是日志文件变更 |
-| **应在哪个阶段发现** | DTO v3.0设计阶段。自动提交机制应设计"变更分类→语义判断→版本决策"流程 |
-| **为什么没发现** | DTO auto-commit设计时追求"全覆盖"(commit一切变更)，没考虑"变更是否有意义" |
+| **应在哪个阶段发现** | 本地任务编排 v3.0设计阶段。自动提交机制应设计"变更分类→语义判断→版本决策"流程 |
+| **为什么没发现** | 本地任务编排 auto-commit设计时追求"全覆盖"(commit一切变更)，没考虑"变更是否有意义" |
 | **证据** | `git log --oneline` 前30条中有10条`[AUTO]`提交，版本号从v1.0.34到v1.0.41单调递增。Day 2新增`5a62072 fix version inflation`说明问题已被识别但修复较晚 |
 
 ---
@@ -134,7 +134,7 @@ Day 1/2 暴露的 15+ 个设计缺陷归结为 **4 个系统性根因**：
 | **根因** | `infrastructure/event-bus/`目录下存在3个总线实现：`bus.js`(旧·cursor模型)、`event-bus.js`(新·时间窗模型)、`bus-adapter.js`(适配层)。它们共享同一个`events.jsonl`文件。架构设计文档承认"两套总线API完全不兼容" |
 | **应在哪个阶段发现** | L3模块设计阶段。应一开始就决定用哪套总线 |
 | **为什么没发现** | L3模块在独立开发时使用了新event-bus.js，而现有7个event-bridge模块使用旧bus.js。直到集成时才发现不兼容 |
-| **证据** | `designs/l3-architecture/DESIGN.md`明确记录"两套总线"问题。5个skills各有独立`event-bridge.js`(ISC/DTO/CRAS/SEEF/AEO) |
+| **证据** | `designs/l3-architecture/DESIGN.md`明确记录"两套总线"问题。5个skills各有独立`event-bridge.js`(ISC/本地任务编排/CRAS/SEEF/AEO) |
 
 ---
 
@@ -179,7 +179,7 @@ Day 1/2 暴露的 15+ 个设计缺陷归结为 **4 个系统性根因**：
 | 维度 | 详情 |
 |------|------|
 | **严重度** | 🟢 P2 Medium — 事件路由逻辑碎片化 |
-| **根因** | ISC/DTO/CRAS/SEEF/AEO各自维护独立的`event-bridge.js`，加上`infrastructure/event-bus/bus-adapter.js`和L3 Dispatcher，事件路由逻辑分散在7+个文件中。没有统一的事件路由拓扑图 |
+| **根因** | ISC/本地任务编排/CRAS/SEEF/AEO各自维护独立的`event-bridge.js`，加上`infrastructure/event-bus/bus-adapter.js`和L3 Dispatcher，事件路由逻辑分散在7+个文件中。没有统一的事件路由拓扑图 |
 | **应在哪个阶段发现** | 事件架构设计阶段。应有统一的事件路由注册中心 |
 | **为什么没发现** | 各子系统独立开发，事件桥接按需添加，缺少全局视角 |
 | **证据** | 5个`event-bridge.js` + `bus-adapter.js` + `dispatcher` + `routes.json` = 事件路由碎片化 |

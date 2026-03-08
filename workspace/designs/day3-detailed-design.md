@@ -1180,7 +1180,7 @@ exit $FAIL
 │  L1 Preselector        超快预筛，<5ms判断消息信号强度          │
 │  L2 RegexEngine        11+7条pattern，IC1-IC5全覆盖           │
 │  git-change-watcher    代码变更检测 → 触发AEO评测             │
-│  event-watcher-daemon  4个fs.watch监听ISC/DTO/EventBus/Git   │
+│  event-watcher-daemon  4个fs.watch监听ISC/本地任务编排/EventBus/Git   │
 │  eval-collector.js     真实消息自动采集到样本池                │
 │  cron.task.error事件   感知cron连续失败                       │
 └──────────────────────────┬──────────────────────────────────┘

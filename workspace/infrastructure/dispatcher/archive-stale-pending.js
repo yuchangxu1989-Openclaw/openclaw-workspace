@@ -12,7 +12,7 @@
  *   node archive-stale-pending.js [--max-age-hours=24] [--dry-run]
  * 
  * Intended to be called by dispatcher.js at the start of each run,
- * or by a periodic cron / DTO task.
+ * or by a periodic cron / 本地任务编排 task.
  * 
  * CommonJS, pure Node.js, zero external dependencies.
  */

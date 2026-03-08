@@ -1,5 +1,5 @@
 /**
- * DTO - 决策引擎
+ * 本地任务编排 - 决策引擎
  * 根据 ISC 标准决定是否执行任务
  */
 
@@ -15,7 +15,7 @@ class DecisionEngine {
    * @returns {Object} 决策结果
    */
   async evaluate(task) {
-    console.log(`[DTO-Decision] 评估任务: ${task.id}`);
+    console.log(`[本地任务编排-Decision] 评估任务: ${task.id}`);
     
     const results = {
       taskId: task.id,
@@ -47,7 +47,7 @@ class DecisionEngine {
     // 3. 记录决策
     this.decisions.set(task.id, results);
 
-    console.log(`[DTO-Decision] 结果: ${results.overall}`);
+    console.log(`[本地任务编排-Decision] 结果: ${results.overall}`);
     return results;
   }
 

@@ -1,5 +1,5 @@
 /**
- * DTO Event Publisher
+ * 本地任务编排 Event Publisher
  * 事件发布机制 - 配合SEEF Evaluator订阅
  */
 

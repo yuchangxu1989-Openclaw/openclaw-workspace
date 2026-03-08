@@ -15,7 +15,7 @@
 
 | 总线 | 文件 | 消费模型 | 使用者 |
 |------|------|----------|--------|
-| **旧bus.js** | `infrastructure/event-bus/bus.js` | cursor + consumerId + ack | ISC、DTO、CRAS、SEEF、AEO、Dispatcher、Observability |
+| **旧bus.js** | `infrastructure/event-bus/bus.js` | cursor + consumerId + ack | ISC、本地任务编排、CRAS、SEEF、AEO、Dispatcher、Observability |
 | **新event-bus.js** | `infrastructure/event-bus/event-bus.js` | since时间窗 + type_filter通配 | L3Pipeline、L3 E2E测试 |
 
 ### 1.2 架构决策：适配层方案（方案A）
@@ -41,7 +41,7 @@
           ▼                          ▼                          ▼
   ┌───────────────┐      ┌──────────────────┐      ┌───────────────────┐
   │ 旧event-bridge │      │   L3Pipeline     │      │   Dispatcher      │
-  │ (ISC/DTO/CRAS │      │ (RuleMatcher +   │      │ (routes.json +    │
+  │ (ISC/本地任务编排/CRAS │      │ (RuleMatcher +   │      │ (routes.json +    │
   │  SEEF/AEO)    │      │  IntentScanner)  │      │  handlers/)       │
   └───────┬───────┘      └────────┬─────────┘      └─────────┬─────────┘
           │                       │                           │
@@ -179,14 +179,14 @@ draft → active → dormant → deprecated → archived
 | AEO Event Bridge | 旧bus.js | `aeo.assessment.completed/failed/batch` |
 | CRAS Event Bridge | 旧bus.js | `cras.insight.generated` |
 | SEEF Event Bridge | 旧bus.js | `seef.skill.*` (8种) |
-| DTO Event Bridge | 旧bus.js | `dto.sync.completed/failed` |
+| 本地任务编排 Event Bridge | 旧bus.js | `dto.sync.completed/failed` |
 | L3Pipeline | 适配层(→旧bus) | `user.intent.*.inferred` |
 
 **事件消费者**（5个旧 + 1个新）：
 | 消费者 | consumerId | 订阅模式 |
 |--------|-----------|---------|
 | SEEF | `seef` | `dto.sync.*`, `aeo.assessment.*`, `cras.insight.*`, `isc.rule.*` |
-| DTO | `dto-core` | `isc.rule.*`, `dto.sync.*`, `seef.skill.*`, `aeo.assessment.*` |
+| 本地任务编排 | `dto-core` | `isc.rule.*`, `dto.sync.*`, `seef.skill.*`, `aeo.assessment.*` |
 | CRAS | `cras` | `aeo.assessment.*`, `dto.sync.completed`, `system.error` |
 | Dispatcher | routes.json | 12种路由模式 |
 | L3Pipeline | `l3-pipeline` | 全量消费（通过适配层cursor模式） |

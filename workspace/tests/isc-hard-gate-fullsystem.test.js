@@ -14,7 +14,7 @@
  * - subagent-checkpoint-gate
  * - AEO index.js
  * - ISC-Core index.js
- * - DTO-Core index.js
+ * - 本地任务编排-Core index.js
  * - LEP-Core LEPExecutor.js
  * - enforcement-audit
  * - isc-dto-handshake
@@ -182,8 +182,8 @@ test('enforcement-audit: ISC hard gates declared active', async () => {
   assert(r.iscHardGates['ISC-CLOSED-BOOK-001'] === 'active');
 });
 
-// ── 5. ISC-DTO Handshake ──
-console.log('\n📦 5. ISC-DTO Handshake');
+// ── 5. ISC-本地任务编排 Handshake ──
+console.log('\n📦 5. ISC-本地任务编排 Handshake');
 test('isc-dto-handshake: contains iscHardGates field', () => {
   const src = fs.readFileSync(path.join(WORKSPACE, 'infrastructure/event-bus/handlers/isc-dto-handshake.js'), 'utf8');
   assert(src.includes('ISC-INTENT-EVAL-001'), 'should reference ISC-INTENT-EVAL-001');
@@ -250,8 +250,8 @@ test('isc-core/index.js: hard gate declaration in executeFullCycle', () => {
   assert(src.includes('isc-eval-gates'), 'should try to load enforcement module');
 });
 
-// ── 13. DTO-Core index.js ──
-console.log('\n📦 13. DTO-Core');
+// ── 13. 本地任务编排-Core index.js ──
+console.log('\n📦 13. 本地任务编排-Core');
 test('dto-core/index.js: ISC gate in execute method', () => {
   const src = fs.readFileSync(path.join(WORKSPACE, 'skills/dto-core/index.js'), 'utf8');
   assert(src.includes('isc-eval-gates'), 'should import isc-eval-gates');

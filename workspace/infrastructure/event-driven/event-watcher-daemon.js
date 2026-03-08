@@ -11,7 +11,7 @@
  * 
  * 注册的 Watcher：
  *   1. ISC Rules Watcher  — 监听 rules/ 目录
- *   2. DTO Signals Watcher — 监听 .dto-signals/ 目录
+ *   2. 本地任务编排 Signals Watcher — 监听 .dto-signals/ 目录
  *   3. EventBus File Watcher — 监听 events.jsonl 变更
  *   4. Git Change Watcher — 监听工作区变更
  */
@@ -33,7 +33,7 @@ const WATCHERS = [
   },
   {
     id: 'dto-signals',
-    name: 'DTO Signals Watcher',
+    name: '本地任务编排 Signals Watcher',
     module: './watchers/dto-signals-watcher',
     critical: true
   },

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * DTO Signals Directory Watcher
+ * 本地任务编排 Signals Directory Watcher
  * 
  * 用 fs.watch 监听 .dto-signals/ 目录。
- * 检测到新信号文件后立即 emit dto.signal.created → 触发 DTO-AEO 流水线。
+ * 检测到新信号文件后立即 emit dto.signal.created → 触发 本地任务编排-AEO 流水线。
  * 
  * 启动方式：node dto-signals-watcher.js
  * 停止方式：kill PID 或 Ctrl+C
@@ -78,7 +78,7 @@ async function handleSignalChange(eventType, filename) {
       }
       
       const timestamp = new Date().toISOString();
-      console.log(`[DTO-Watcher] ${timestamp} 检测到 ${signals.length} 个信号文件`);
+      console.log(`[本地任务编排-Watcher] ${timestamp} 检测到 ${signals.length} 个信号文件`);
       
       // 1. 读取每个信号文件并 emit 事件
       for (const signal of signals) {
@@ -102,27 +102,27 @@ async function handleSignalChange(eventType, filename) {
           detected_at: Date.now()
         }, 'dto-signals-watcher');
         
-        console.log(`[DTO-Watcher] 发布事件: dto.signal.created (${signal})`);
+        console.log(`[本地任务编排-Watcher] 发布事件: dto.signal.created (${signal})`);
         
         // 标记为已处理
         markSignalProcessed(signal);
       }
       
-      // 2. 触发 DTO event-bridge 处理事件队列
+      // 2. 触发 本地任务编排 event-bridge 处理事件队列
       try {
         const bridge = require(DTO_BRIDGE_PATH);
         const result = await bridge.processEvents();
-        console.log(`[DTO-Watcher] Bridge结果: ${JSON.stringify(result)}`);
+        console.log(`[本地任务编排-Watcher] Bridge结果: ${JSON.stringify(result)}`);
       } catch (bridgeErr) {
-        console.error(`[DTO-Watcher] Bridge执行失败: ${bridgeErr.message}`);
+        console.error(`[本地任务编排-Watcher] Bridge执行失败: ${bridgeErr.message}`);
       }
       
       // 3. 标记事件触发
       markEventTriggered('dto-aeo', { signals_count: signals.length, filenames: signals });
       
-      console.log(`[DTO-Watcher] ✅ ${signals.length} 个信号处理完成`);
+      console.log(`[本地任务编排-Watcher] ✅ ${signals.length} 个信号处理完成`);
     } catch (err) {
-      console.error(`[DTO-Watcher] ❌ 处理失败: ${err.message}`);
+      console.error(`[本地任务编排-Watcher] ❌ 处理失败: ${err.message}`);
     } finally {
       _processing = false;
     }
@@ -143,24 +143,24 @@ function start() {
   if (!fs.existsSync(stateDir)) fs.mkdirSync(stateDir, { recursive: true });
   fs.writeFileSync(PID_FILE, String(process.pid));
   
-  console.log(`[DTO-Watcher] 启动 (PID: ${process.pid})`);
-  console.log(`[DTO-Watcher] 监听目录: ${SIGNALS_DIR}`);
+  console.log(`[本地任务编排-Watcher] 启动 (PID: ${process.pid})`);
+  console.log(`[本地任务编排-Watcher] 监听目录: ${SIGNALS_DIR}`);
   
   // 先处理现有的未处理信号
   const pending = getPendingSignals();
   if (pending.length > 0) {
-    console.log(`[DTO-Watcher] 发现 ${pending.length} 个待处理信号，立即处理`);
+    console.log(`[本地任务编排-Watcher] 发现 ${pending.length} 个待处理信号，立即处理`);
     handleSignalChange('rename', pending[0]);
   }
   
   const watcher = fs.watch(SIGNALS_DIR, { persistent: true }, handleSignalChange);
   
   watcher.on('error', (err) => {
-    console.error(`[DTO-Watcher] fs.watch错误: ${err.message}`);
+    console.error(`[本地任务编排-Watcher] fs.watch错误: ${err.message}`);
   });
   
   function cleanup() {
-    console.log('[DTO-Watcher] 停止监听');
+    console.log('[本地任务编排-Watcher] 停止监听');
     watcher.close();
     try { fs.unlinkSync(PID_FILE); } catch (_) {}
     process.exit(0);

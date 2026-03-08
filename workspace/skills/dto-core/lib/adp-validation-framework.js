@@ -63,7 +63,7 @@ class ADPValidationFramework {
   }
 }
 
-// DTO 验证项
+// 本地任务编排 验证项
 const dtoValidations = new ADPValidationFramework();
 
 // 1. ISC规则自动加载验证

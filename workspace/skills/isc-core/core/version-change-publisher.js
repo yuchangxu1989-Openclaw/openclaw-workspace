@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * 版本变更自动发布引擎
- * 监听 DTO/ISC 版本变更，自动发布到 GitHub 和 EvoMap
+ * 监听 本地任务编排/ISC 版本变更，自动发布到 GitHub 和 EvoMap
  */
 
 const fs = require('fs');
