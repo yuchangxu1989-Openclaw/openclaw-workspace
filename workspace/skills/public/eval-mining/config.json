@@ -1,0 +1,10 @@
+{
+  "batch_size": 10,
+  "lines_per_batch": 500,
+  "v3_standard_doc": "OKmrd21OsotmFkxpT4gcLXjunze",
+  "output_dir": "tests/benchmarks/intent/c2-golden/",
+  "max_concurrent": 16,
+  "golden_case_reference": "tests/benchmarks/intent/c2-golden/00-real-badcases.json",
+  "auto_sync_on_standard_change": true,
+  "standard_version_cache": "skills/public/eval-mining/.v3-version-hash"
+}

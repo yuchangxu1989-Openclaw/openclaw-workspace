@@ -80,7 +80,7 @@ def call_glm5(message):
 
     t0 = time.monotonic()
     try:
-        with urllib.request.urlopen(req, timeout=60) as resp:
+        with urllib.request.urlopen(req, timeout=120) as resp:
             body = json.loads(resp.read())
     except Exception as e:
         return {"error": str(e)}, (time.monotonic() - t0) * 1000

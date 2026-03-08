@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# sync-v3-standard.sh - 检测V3评测标准是否变更
+# 用法: bash scripts/sync-v3-standard.sh
+# 
+# 工作原理:
+#   1. 通过 openclaw 调用 feishu_doc read 拉取最新V3标准
+#   2. 计算内容 sha256 hash
+#   3. 与 .v3-version-hash 缓存对比
+#   4. 变更则更新缓存 + 写信号文件；未变更则输出提示
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SKILL_DIR="$(dirname "$SCRIPT_DIR")"
+REPO_ROOT="$(cd "$SKILL_DIR/../../.." && pwd)"
+
+V3_DOC_TOKEN="OKmrd21OsotmFkxpT4gcLXjunze"
+HASH_FILE="$SKILL_DIR/.v3-version-hash"
+SIGNAL_DIR="$REPO_ROOT/.eval-mining-signals"
+SIGNAL_FILE="$SIGNAL_DIR/standard-updated"
+V3_CACHE_FILE="$SKILL_DIR/.v3-standard-cache.md"
+
+echo "=== V3 评测标准同步检测 ==="
+echo "文档 Token: $V3_DOC_TOKEN"
+
+# 拉取最新V3标准内容（由调用方Agent通过feishu_doc read完成，内容写入缓存文件）
+# 此脚本假设调用方已将最新内容写入 .v3-standard-cache.md
+if [ ! -f "$V3_CACHE_FILE" ]; then
+  echo "ERROR: 未找到V3标准缓存文件 $V3_CACHE_FILE"
+  echo "请先通过 feishu_doc read (token=$V3_DOC_TOKEN) 获取内容并写入该文件"
+  exit 1
+fi
+
+# 计算新hash
+NEW_HASH=$(sha256sum "$V3_CACHE_FILE" | awk '{print $1}')
+echo "当前内容 hash: $NEW_HASH"
+
+# 读取旧hash
+OLD_HASH=""
+if [ -f "$HASH_FILE" ]; then
+  OLD_HASH=$(cat "$HASH_FILE" 2>/dev/null || echo "")
+fi
+echo "缓存 hash: ${OLD_HASH:-<无缓存>}"
+
+# 对比
+if [ "$NEW_HASH" = "$OLD_HASH" ]; then
+  echo ""
+  echo "✅ 标准未变化，无需刷新评测集"
+  exit 0
+fi
+
+# 标准已变更
+echo ""
+echo "⚠️  标准已变更！"
+echo "  旧 hash: ${OLD_HASH:-<首次同步>}"
+echo "  新 hash: $NEW_HASH"
+
+# 更新hash缓存
+echo "$NEW_HASH" > "$HASH_FILE"
+echo "✅ hash 缓存已更新: $HASH_FILE"
+
+# 写信号文件
+mkdir -p "$SIGNAL_DIR"
+cat > "$SIGNAL_FILE" <<EOF
+{
+  "event": "eval.standard.version.changed",
+  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "old_hash": "${OLD_HASH:-null}",
+  "new_hash": "$NEW_HASH",
+  "doc_token": "$V3_DOC_TOKEN"
+}
+EOF
+echo "✅ 变更信号已写入: $SIGNAL_FILE"
+
+# 输出变更摘要
+echo ""
+echo "=== 变更摘要 ==="
+echo "V3评测标准文档已更新，需要刷新评测集以对齐最新口径。"
+echo "请运行: bash scripts/refresh-evalset.sh"

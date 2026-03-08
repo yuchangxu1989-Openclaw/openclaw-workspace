@@ -380,7 +380,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772982366712,
+      "updatedAtMs": 1772989220565,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -399,11 +399,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772985607906,
-        "lastRunAtMs": 1772982346241,
+        "nextRunAtMs": 1772992807906,
+        "lastRunAtMs": 1772989211472,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 20471,
+        "lastDurationMs": 9093,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -415,7 +415,7 @@
       "name": "系统状态与流水线监控-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772971843285,
+      "updatedAtMs": 1772986215799,
       "schedule": {
         "expr": "10 */4 * * *",
         "kind": "cron",
@@ -433,14 +433,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772986200000,
-        "lastRunAtMs": 1772971800007,
+        "nextRunAtMs": 1773000600000,
+        "lastRunAtMs": 1772986200006,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 43278,
-        "lastDeliveryStatus": "delivered",
+        "lastDurationMs": 15793,
+        "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": true
+        "lastDelivered": false
       }
     },
     {
@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772982374719,
+      "updatedAtMs": 1772989285140,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -503,11 +503,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772985678795,
-        "lastRunAtMs": 1772982366712,
+        "nextRunAtMs": 1772992878795,
+        "lastRunAtMs": 1772989278800,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8007,
+        "lastDurationMs": 6340,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -552,7 +552,7 @@
       "name": "能力同步与PDCA-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772971513465,
+      "updatedAtMs": 1772985927579,
       "schedule": {
         "expr": "5 */4 * * *",
         "kind": "cron",
@@ -562,7 +562,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行能力锚点同步与PDCA循环：\n1. 能力锚点自动同步：node /root/.openclaw/workspace/skills/isc-capability-anchor-sync/index.js\n2. PDCA-C执行引擎（计划-执行-检查-行动循环）：node /root/.openclaw/workspace/skills/pdca-engine/index.js\n报告执行结果。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
+        "message": "执行能力锚点同步与PDCA循环：\n1. 能力锚点自动同步：node /root/.openclaw/workspace/skills/isc-capability-anchor-sync/index.js\n2. PDCA-C执行引擎（计划-执行-检查-行动循环）：node /root/.openclaw/workspace/skills/pdca-engine/index.js\n3. 评测集V3实时统计：bash /root/.openclaw/workspace/scripts/eval-stats.sh\n将以上3项结果合并为一份报告输出。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
         "timeoutSeconds": 180
       },
       "delivery": {
@@ -570,14 +570,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772985900000,
-        "lastRunAtMs": 1772971500008,
+        "nextRunAtMs": 1773000300000,
+        "lastRunAtMs": 1772985900008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 13457,
-        "lastDeliveryStatus": "not-delivered",
+        "lastDurationMs": 27571,
+        "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
-        "lastDelivered": false
+        "lastDelivered": true
       }
     },
     {
@@ -620,7 +620,7 @@
       "name": "运维辅助-清理与向量化-综合",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772966121217,
+      "updatedAtMs": 1772987723426,
       "schedule": {
         "expr": "35 */6 * * *",
         "kind": "cron",
@@ -637,11 +637,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772987700000,
-        "lastRunAtMs": 1772966100007,
+        "nextRunAtMs": 1773009300000,
+        "lastRunAtMs": 1772987700007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 21210,
+        "lastDurationMs": 23419,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772985000008,
+      "updatedAtMs": 1772990400006,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,11 +670,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772985300000,
-        "lastRunAtMs": 1772985000008,
+        "nextRunAtMs": 1772990700000,
+        "lastRunAtMs": 1772990400005,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 0,
+        "lastDurationMs": 1,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "lastError": "isolated job requires payload.kind=agentTurn"
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772984760090,
+      "updatedAtMs": 1772990123893,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,14 +703,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772985600000,
-        "lastRunAtMs": 1772984700011,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 60079,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 1,
-        "lastError": "cron: job execution timed out"
+        "nextRunAtMs": 1772991000000,
+        "lastRunAtMs": 1772990100007,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 23886,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": false
       }
     },
     {
@@ -719,7 +719,7 @@
       "name": "记忆摘要-每6小时",
       "enabled": true,
       "createdAtMs": 1772607350016,
-      "updatedAtMs": 1772964097062,
+      "updatedAtMs": 1772985664029,
       "schedule": {
         "expr": "0 */6 * * *",
         "kind": "cron",
@@ -737,11 +737,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772985610278,
-        "lastRunAtMs": 1772964055731,
+        "nextRunAtMs": 1773007210278,
+        "lastRunAtMs": 1772985640182,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 41331,
+        "lastDurationMs": 23847,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false

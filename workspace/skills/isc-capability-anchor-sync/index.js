@@ -63,16 +63,29 @@ class CapabilityAnchorSync {
    */
   scanAllSkills() {
     if (!fs.existsSync(CONFIG.skillsDir)) return;
-    
-    const dirs = fs.readdirSync(CONFIG.skillsDir)
-      .filter(d => {
-        const full = path.join(CONFIG.skillsDir, d);
-        return fs.statSync(full).isDirectory() && !d.startsWith('_');
-      })
-      .sort();
 
-    for (const skill of dirs) {
-      const skillDir = path.join(CONFIG.skillsDir, skill);
+    // 递归查找所有含 SKILL.md 的目录（不限深度）
+    const findSkillDirs = (base) => {
+      const results = [];
+      const walk = (dir) => {
+        let entries;
+        try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+        const hasSkillMd = entries.some(e => e.isFile() && e.name === 'SKILL.md');
+        if (hasSkillMd) results.push(dir);
+        for (const e of entries) {
+          if (e.isDirectory() && !e.name.startsWith('_') && !e.name.startsWith('.') && e.name !== 'node_modules') {
+            walk(path.join(dir, e.name));
+          }
+        }
+      };
+      walk(base);
+      return results.sort();
+    };
+
+    const skillDirs = findSkillDirs(CONFIG.skillsDir);
+
+    for (const skillDir of skillDirs) {
+      const skill = path.relative(CONFIG.skillsDir, skillDir);
       const skillMd = path.join(skillDir, 'SKILL.md');
       const indexJs = path.join(skillDir, 'index.js');
       const indexCjs = path.join(skillDir, 'index.cjs');
