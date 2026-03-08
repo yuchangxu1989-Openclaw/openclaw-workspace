@@ -121,6 +121,7 @@
 - 📄 **public/caijuedian-tribunal**: skills/public/caijuedian-tribunal/ — LLM驱动的7视角三轮对抗式深度决策引擎。完整可运行，支持CLI和模块调用。
 - ✅ **public/convert-helper**: skills/public/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
 - ✅ **public/eval-mining**: skills/public/eval-mining/ — 评测集小批量挖掘（自动分片、并行派发、去重、V3标准自动同步）。触发场景：评测集挖掘、评测数据补充、C2 case生成、评测集刷新
+- ✅ **public/eval-runner**: skills/public/eval-runner/ — V3标准意图理解质量评测（角色分离：执行者≠评测者）。5维评测：意图分类准确性、执行链完整性、跨模块协同、隐含意图捕获、上下文利用
 - 📄 **public/daily-gongzhonghao**: skills/public/daily-gongzhonghao/
 - 📄 **public/detect-deep-think-intent**: skills/public/detect-deep-think-intent/ — 检测用户输入中的深度思考意图关键词，触发子Agent委派
 - 📄 **public/feishu-doc-verify**: skills/public/feishu-doc-verify/ — 飞书文档create/write后验证block_count>1，防止空文档推送
