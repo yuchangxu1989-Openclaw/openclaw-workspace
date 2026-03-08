@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/9 00:28:46
-> **技能总数**: 77
+> **生成时间**: 2026/3/9 04:05:05
+> **技能总数**: 81
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -87,6 +87,7 @@
 - ✅ **cras-generated-1772042431830**: skills/cras-generated-1772042431830/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **cras-generated-1772128853925**: skills/cras-generated-1772128853925/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **daily-ops-report**: skills/daily-ops-report/
+- ✅ **dto-core**: skills/dto-core/
 - ✅ **etl**: skills/etl/
 - ✅ **evolver**: skills/evolver/ — A self-evolution engine for AI agents. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
 - ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A协议连接器 - 实现与EvoMap Hub的WebSocket连接、自动重连、消息队列管理
@@ -120,10 +121,10 @@
 - 📄 **public/badcase-to-goodcase**: skills/public/badcase-to-goodcase/ — 扫描badcase文件，自动翻转生成goodcase评测集
 - 📄 **public/caijuedian-tribunal**: skills/public/caijuedian-tribunal/ — LLM驱动的7视角三轮对抗式深度决策引擎。完整可运行，支持CLI和模块调用。
 - ✅ **public/convert-helper**: skills/public/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
-- ✅ **public/eval-mining**: skills/public/eval-mining/ — 评测集小批量挖掘（自动分片、并行派发、去重、V3标准自动同步）。触发场景：评测集挖掘、评测数据补充、C2 case生成、评测集刷新
-- ✅ **public/eval-runner**: skills/public/eval-runner/ — V3标准意图理解质量评测（角色分离：执行者≠评测者）。5维评测：意图分类准确性、执行链完整性、跨模块协同、隐含意图捕获、上下文利用
 - 📄 **public/daily-gongzhonghao**: skills/public/daily-gongzhonghao/
 - 📄 **public/detect-deep-think-intent**: skills/public/detect-deep-think-intent/ — 检测用户输入中的深度思考意图关键词，触发子Agent委派
+- 📄 **public/eval-mining**: skills/public/eval-mining/
+- 📄 **public/eval-runner**: skills/public/eval-runner/
 - 📄 **public/feishu-doc-verify**: skills/public/feishu-doc-verify/ — 飞书文档create/write后验证block_count>1，防止空文档推送
 - ✅ **public/file-sender**: skills/public/file-sender/ — |
 - ✅ **public/glm-asr**: skills/public/glm-asr/ — GLM-ASR 语音转文本 - 使用智谱 GLM-ASR-2512 模型，支持多语言语音转录
@@ -131,6 +132,7 @@
 - 📄 **public/multi-agent-dispatch**: skills/public/multi-agent-dispatch/ — >
 - ✅ **public/multi-agent-reporting**: skills/public/multi-agent-reporting/ — >
 - 📄 **public/pdf-generator**: skills/public/pdf-generator/
+- 📄 **public/skill-creator-addon**: skills/public/skill-creator-addon/
 - ✅ **public/system-monitor**: skills/public/system-monitor/ — 技能健康度评估仪表盘 - 自动化扫描所有技能，评估完整性、活跃度、依赖健康度，生成可视化报告
 - ✅ **rule-hygiene**: skills/rule-hygiene/ — ISC规则治理——去重、命名统一、三维分析（意图/事件/执行），输出规则-事件-DTO对齐矩阵
 - ✅ **ruleify**: skills/ruleify/ — |
