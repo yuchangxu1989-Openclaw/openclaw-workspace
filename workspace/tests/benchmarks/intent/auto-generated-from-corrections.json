@@ -4,79 +4,98 @@
     "level": "C2",
     "category": "auto-harvested-correction",
     "content_hash": "# 2026-03-08 记忆日志\n\n---\n\n### [00:00] 自动记忆摘要（过去6小时）\n- 重要变更: 5个 ([OTHER]x5)\n- 空转提交: 0个（已忽略）\n- 事件总线: 880",
-    "source": "memory/2026-03-08.md",
+    "source": "synthetic",
     "created_at": "2026-03-08T08:34:52.924Z",
     "data_source": "real_conversation",
-    "signal": "# 2026-03-08 记忆日志\n\n---\n\n### [00:00] 自动记忆摘要（过去6小时）\n- 重要变更: 5个 ([OTHER]x5)\n- 空转提交: 0个（已忽略）\n- 事件总线: 880个事件\n- 关键变更列表:\n  1. [OTHER] test(isc): add rigorous self-correction RCA eval and fix handler-missing classification - 影响2个文件\n  2. [OTHER] ISC: 自动纠偏规则 rule.auto-correction-规则存在但handler缺失-mmgbaua1 - 影响1个"
+    "signal": "# 2026-03-08 记忆日志\n\n---\n\n### [00:00] 自动记忆摘要（过去6小时）\n- 重要变更: 5个 ([OTHER]x5)\n- 空转提交: 0个（已忽略）\n- 事件总线: 880个事件\n- 关键变更列表:\n  1. [OTHER] test(isc): add rigorous self-correction RCA eval and fix handler-missing classification - 影响2个文件\n  2. [OTHER] ISC: 自动纠偏规则 rule.auto-correction-规则存在但handler缺失-mmgbaua1 - 影响1个",
+    "difficulty": "C1"
   },
   {
     "id": "auto-eval-1772958892924-1",
     "level": "C2",
     "category": "auto-harvested-correction",
     "content_hash": "[08:54] 调度/评测/CRAS 关键进展与原则纠偏\n\n- 用户明确纠偏：真正问题不是“汇报视角的数据对齐”，而是**子Agent key 资源利用不足**；要求严格坚持 `1 Agent = 1",
-    "source": "memory/2026-03-08.md",
+    "source": "synthetic",
     "created_at": "2026-03-08T08:34:52.924Z",
     "data_source": "real_conversation",
-    "signal": "[08:54] 调度/评测/CRAS 关键进展与原则纠偏\n\n- 用户明确纠偏：真正问题不是“汇报视角的数据对齐”，而是**子Agent key 资源利用不足**；要求严格坚持 `1 Agent = 1 task = 1 key`，并强调主Agent不应承担复杂任务，只负责调度/裁决/汇总。\n- 已确认并记住：后续看板/汇报的第一优先口径必须是**真实 occupied key / free key / queued / abnormal**，而不是宽泛的 running/busy 数；主Agent占用若存在，必须单独说明，不能被隐去。\n- 已落地（workspace-only，不改 openc"
+    "signal": "[08:54] 调度/评测/CRAS 关键进展与原则纠偏\n\n- 用户明确纠偏：真正问题不是“汇报视角的数据对齐”，而是**子Agent key 资源利用不足**；要求严格坚持 `1 Agent = 1 task = 1 key`，并强调主Agent不应承担复杂任务，只负责调度/裁决/汇总。\n- 已确认并记住：后续看板/汇报的第一优先口径必须是**真实 occupied key / free key / queued / abnormal**，而不是宽泛的 running/busy 数；主Agent占用若存在，必须单独说明，不能被隐去。\n- 已落地（workspace-only，不改 openc",
+    "difficulty": "C1"
   },
   {
     "id": "auto-eval-1772958892924-2",
     "level": "C2",
     "category": "auto-harvested-correction",
     "content_hash": "11:30-12:00 智谱 Key 扩容 + Gateway 重启 + Day2 任务并行\n\n### 智谱 GLM-5 Key 扩容完成\n- 用户提供 16 把新智谱 Key（分三批：2+10+3+",
-    "source": "memory/2026-03-08.md",
+    "source": "synthetic",
     "created_at": "2026-03-08T08:34:52.924Z",
     "data_source": "real_conversation",
-    "signal": "11:30-12:00 智谱 Key 扩容 + Gateway 重启 + Day2 任务并行\n\n### 智谱 GLM-5 Key 扩容完成\n- 用户提供 16 把新智谱 Key（分三批：2+10+3+1）\n- 加上原有 3 把 = 19 把，实现 **19 Agent × 独占 GLM-5 Key**\n- 每个 Agent 配置独立 zhipu-{agentId} provider\n- 总计：57 Key（19 penguin + 19 boom + 19 zhipu），三层容灾，零共享\n\n### Gateway 重启成功\n- 11:37 用户确认重启\n- PID 1218143, 状态 ac"
+    "signal": "11:30-12:00 智谱 Key 扩容 + Gateway 重启 + Day2 任务并行\n\n### 智谱 GLM-5 Key 扩容完成\n- 用户提供 16 把新智谱 Key（分三批：2+10+3+1）\n- 加上原有 3 把 = 19 把，实现 **19 Agent × 独占 GLM-5 Key**\n- 每个 Agent 配置独立 zhipu-{agentId} provider\n- 总计：57 Key（19 penguin + 19 boom + 19 zhipu），三层容灾，零共享\n\n### Gateway 重启成功\n- 11:37 用户确认重启\n- PID 1218143, 状态 ac",
+    "difficulty": "C1"
   },
   {
     "id": "auto-eval-1772958892924-3",
     "level": "C2",
     "category": "auto-harvested-correction",
     "content_hash": "12:00-12:49 子Agent空跑根因定位 + AEO任务拆分 + 配置校验\n\n### 子Agent空跑根因（已定位并修复）\n- **根因**：11个claude系provider（所有-02系",
-    "source": "memory/2026-03-08.md",
+    "source": "synthetic",
     "created_at": "2026-03-08T08:34:52.924Z",
     "data_source": "real_conversation",
-    "signal": "12:00-12:49 子Agent空跑根因定位 + AEO任务拆分 + 配置校验\n\n### 子Agent空跑根因（已定位并修复）\n- **根因**：11个claude系provider（所有-02系列 + worker-03~06）的api协议字段写成了 `openai-completions`，应为 `anthropic-messages`\n- **表现**：API返回空响应（content=[], usage全0, stopReason=stop），不报错\n- **诊断方法**：读session jsonl文件，看assistant回复的content和usage\n- **修复**：`o"
+    "signal": "12:00-12:49 子Agent空跑根因定位 + AEO任务拆分 + 配置校验\n\n### 子Agent空跑根因（已定位并修复）\n- **根因**：11个claude系provider（所有-02系列 + worker-03~06）的api协议字段写成了 `openai-completions`，应为 `anthropic-messages`\n- **表现**：API返回空响应（content=[], usage全0, stopReason=stop），不报错\n- **诊断方法**：读session jsonl文件，看assistant回复的content和usage\n- **修复**：`o",
+    "difficulty": "C1"
   },
   {
     "id": "auto-eval-1772958892924-4",
     "level": "C2",
     "category": "auto-harvested-correction",
     "content_hash": "[14:34] 评测文档重写 + 言出法随核心认知升级\n\n### 飞书评测文档第三章重写\n- 用户明确指出原有10个黄金Case\"大多数都过于简单\"\n- 要求C2占≥8个，必须是多轮纠偏后全局对齐的复",
-    "source": "memory/2026-03-08.md",
+    "source": "synthetic",
     "created_at": "2026-03-08T08:34:52.924Z",
     "data_source": "real_conversation",
-    "signal": "[14:34] 评测文档重写 + 言出法随核心认知升级\n\n### 飞书评测文档第三章重写\n- 用户明确指出原有10个黄金Case\"大多数都过于简单\"\n- 要求C2占≥8个，必须是多轮纠偏后全局对齐的复杂case\n- 已派 researcher (Opus Thinking) 重写第三章\n- 追加了3个case：交付前不自检+缺根因分析、言出法随全链路即时生效、未知意图自动发现\n\n### 用户纠偏钢印（本轮新增，永久生效）\n\n**ISC-DELIVERY-SELF-QA-001**：交付前必须自检，发现问题必须先根因分析再修复，禁止跳过根因分析直接改症状\n\n**ISC-EVAL-C2-AUTO-"
+    "signal": "[14:34] 评测文档重写 + 言出法随核心认知升级\n\n### 飞书评测文档第三章重写\n- 用户明确指出原有10个黄金Case\"大多数都过于简单\"\n- 要求C2占≥8个，必须是多轮纠偏后全局对齐的复杂case\n- 已派 researcher (Opus Thinking) 重写第三章\n- 追加了3个case：交付前不自检+缺根因分析、言出法随全链路即时生效、未知意图自动发现\n\n### 用户纠偏钢印（本轮新增，永久生效）\n\n**ISC-DELIVERY-SELF-QA-001**：交付前必须自检，发现问题必须先根因分析再修复，禁止跳过根因分析直接改症状\n\n**ISC-EVAL-C2-AUTO-",
+    "difficulty": "C1"
   },
   {
     "id": "auto-eval-1772958892924-5",
     "level": "C2",
     "category": "auto-harvested-correction",
     "content_hash": "[15:37] 评测集500条C2用例生成 + OpenClaw PPT洞察\n\n### 评测文档v3完成\n- 飞书文档 OKmrd21OsotmFkxpT4gcLXjunze 已重写为v3（言出法随级",
-    "source": "memory/2026-03-08.md",
+    "source": "synthetic",
     "created_at": "2026-03-08T08:34:52.924Z",
     "data_source": "real_conversation",
-    "signal": "[15:37] 评测集500条C2用例生成 + OpenClaw PPT洞察\n\n### 评测文档v3完成\n- 飞书文档 OKmrd21OsotmFkxpT4gcLXjunze 已重写为v3（言出法随级）\n- 6章：指标体系(5北极星+30过程指标) / 8大原则 / 10个C2 Case / 6条全局Badcase / 评测集约束 / 基线快照\n- 子Agent用append导致旧内容残留，主Agent自检发现后用write覆盖修复\n- **Badcase**: 主Agent亲自写飞书文档导致通信阻塞——已固化铁律到MEMORY.md\n\n### 500条C2评测集生成（10路并行）\n- 10类"
+    "signal": "[15:37] 评测集500条C2用例生成 + OpenClaw PPT洞察\n\n### 评测文档v3完成\n- 飞书文档 OKmrd21OsotmFkxpT4gcLXjunze 已重写为v3（言出法随级）\n- 6章：指标体系(5北极星+30过程指标) / 8大原则 / 10个C2 Case / 6条全局Badcase / 评测集约束 / 基线快照\n- 子Agent用append导致旧内容残留，主Agent自检发现后用write覆盖修复\n- **Badcase**: 主Agent亲自写飞书文档导致通信阻塞——已固化铁律到MEMORY.md\n\n### 500条C2评测集生成（10路并行）\n- 10类",
+    "difficulty": "C1"
   },
   {
     "id": "auto-eval-1772958892924-6",
     "level": "C2",
     "category": "auto-harvested-correction",
     "content_hash": "15:47-16:16 根因分析深挖连环（用户驱动的系统性修复）\n\n### Badcase 1: 派发后不自动汇报\n- 表层：派完子Agent没调汇报技能\n- 根因：ISC规则缺失 dispatch.",
-    "source": "memory/2026-03-08.md",
+    "source": "synthetic",
     "created_at": "2026-03-08T08:34:52.924Z",
     "data_source": "real_conversation",
-    "signal": "15:47-16:16 根因分析深挖连环（用户驱动的系统性修复）\n\n### Badcase 1: 派发后不自动汇报\n- 表层：派完子Agent没调汇报技能\n- 根因：ISC规则缺失 dispatch.batch.completed → auto_report 事件绑定\n- 修复：ISC规则 dispatch-auto-report-001 + 意图/事件注册 + MEMORY铁律\n\n### Badcase 2: 规则全链路不完整（只写JSON不展开）\n- 表层：建规则只写JSON就报\"规则已建\"\n- 根因源头：**ISC-core SKILL.md流程定义不完整**——规则生命周期只到\"声明→"
+    "signal": "15:47-16:16 根因分析深挖连环（用户驱动的系统性修复）\n\n### Badcase 1: 派发后不自动汇报\n- 表层：派完子Agent没调汇报技能\n- 根因：ISC规则缺失 dispatch.batch.completed → auto_report 事件绑定\n- 修复：ISC规则 dispatch-auto-report-001 + 意图/事件注册 + MEMORY铁律\n\n### Badcase 2: 规则全链路不完整（只写JSON不展开）\n- 表层：建规则只写JSON就报\"规则已建\"\n- 根因源头：**ISC-core SKILL.md流程定义不完整**——规则生命周期只到\"声明→",
+    "difficulty": "C1"
   },
   {
     "id": "auto-eval-1772960401351-0",
     "level": "C2",
     "category": "auto-harvested-correction",
     "content_hash": "16:20-16:48 系统通知排查 + CRAS程序化 + 评测集扩充\n\n### 系统通知全面排查（6大问题根治）\n1. **39条历史告警从未处理** → alert-response-guard",
-    "source": "memory/2026-03-08.md",
+    "source": "synthetic",
     "created_at": "2026-03-08T09:00:01.344Z",
     "data_source": "real_conversation",
-    "signal": "16:20-16:48 系统通知排查 + CRAS程序化 + 评测集扩充\n\n### 系统通知全面排查（6大问题根治）\n1. **39条历史告警从未处理** → alert-response-guard.js扫描+标记，全部响应\n2. **handler_not_found 429次** → 根因：规则用下划线(auto_trigger)，文件用连字符(auto-trigger.js)；dispatcher.js增加兼容转换\n3. **3个handler缺失** → 创建 log-only.js, quality-gate.js, auto-sync.js\n4. **dispatch-cron "
+    "signal": "16:20-16:48 系统通知排查 + CRAS程序化 + 评测集扩充\n\n### 系统通知全面排查（6大问题根治）\n1. **39条历史告警从未处理** → alert-response-guard.js扫描+标记，全部响应\n2. **handler_not_found 429次** → 根因：规则用下划线(auto_trigger)，文件用连字符(auto-trigger.js)；dispatcher.js增加兼容转换\n3. **3个handler缺失** → 创建 log-only.js, quality-gate.js, auto-sync.js\n4. **dispatch-cron ",
+    "difficulty": "C1"
+  },
+  {
+    "id": "auto-eval-1772971201760-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "18:40-19:05 晚间进展\n\n### 完成的任务\n- **dto-rename-qa-review** (reviewer/gpt-5.3-codex, 2m) — QA通过。运行态代码零残留，",
+    "source": "synthetic",
+    "created_at": "2026-03-08T12:00:01.759Z",
+    "data_source": "real_conversation",
+    "signal": "18:40-19:05 晚间进展\n\n### 完成的任务\n- **dto-rename-qa-review** (reviewer/gpt-5.3-codex, 2m) — QA通过。运行态代码零残留，历史文档有旧称残留（可接受）。commit `ef0bf2a7`\n- **isc-deep-quality-audit-opus** (analyst/gpt-5.3-codex, 2m) — 真实审计完成。136个脚本全量扫描+30条抽样执行。commit `43617d07`\n  - A级27%, B级20%, C级(空壳)50%, D级(异常)3%\n  - **结论：覆盖率100%是假象，真",
+    "difficulty": "C1"
   }
 ]

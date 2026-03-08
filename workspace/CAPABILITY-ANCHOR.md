@@ -1,7 +1,7 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/8 16:05:05
+> **生成时间**: 2026/3/8 20:05:05
 > **技能总数**: 60
 > **ISC路由**: 6
 
@@ -83,7 +83,6 @@
 - ✅ **cras-generated-1772042431830**: skills/cras-generated-1772042431830/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **cras-generated-1772128853925**: skills/cras-generated-1772128853925/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **daily-ops-report**: skills/daily-ops-report/
-- ✅ **lto-core**: skills/lto-core/ — 本地任务编排 (LTO) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 - ✅ **etl**: skills/etl/
 - ✅ **evolver**: skills/evolver/ — A self-evolution engine for AI agents. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
 - ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A协议连接器 - 实现与EvoMap Hub的WebSocket连接、自动重连、消息队列管理
@@ -104,13 +103,13 @@
 - ✅ **isc-report-readability**: skills/isc-report-readability/
 - ✅ **layered-architecture-checker**: skills/layered-architecture-checker/
 - ✅ **lep-executor**: skills/lep-executor/ — LEP韧性执行中心 (Local Execution Protocol) - 全局统一韧性任务执行引擎，整合现有分散的韧性能力
+- ✅ **lto-core**: skills/lto-core/ — 本地任务编排 (LTO) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 - ✅ **new-skill**: skills/new-skill/
 - ✅ **new-skill-v2**: skills/new-skill-v2/
 - ✅ **parallel-subagent**: skills/parallel-subagent/
 - ✅ **paths-center**: skills/paths-center/ — 路径中心 - 【占位符】概念驱动，需求不清
 - ✅ **pdca-engine**: skills/pdca-engine/ — PDCA-C执行引擎 - 每5分钟有实际产出
 - ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理中枢 - 任务编排、Sprint规划、架构评审流水线、裁决殿裁决
-- ✅ **file-sender**: skills/public/file-sender/ — 飞书文件发送（发文件/发源文件/发附件），ISC路由: ISC-FILE-SEND-INTENT-001
 - ✅ **public**: skills/public/
 - ✅ **rule-hygiene**: skills/rule-hygiene/ — ISC规则治理——去重、命名统一、三维分析（意图/事件/执行），输出规则-事件-DTO对齐矩阵
 - ✅ **ruleify**: skills/ruleify/ — |
@@ -129,36 +128,3 @@
 3. **搜索首选**: tavily-search（AI优化），web_search为备选
 4. **能力来源**: 本文档由 isc-capability-anchor-sync 全量扫描自动生成
 5. **同步频率**: 每小时自动 + 技能变更时触发
-
-## 主Agent行为边界（ISC-MAIN-AGENT-DELEGATION-001，永久生效）
-
-### 主Agent白名单（仅限这些操作）
-- 接收/回复用户消息
-- 调度子Agent（sessions_spawn）
-- 读取文件确认子Agent产出质量（read/feishu_doc read）
-- 更新MEMORY.md、HEARTBEAT.md等元数据文件
-- 轻量exec（git status、ls、cat等查询命令）
-- memory_search/memory_get
-- 调用register-task.sh登记任务（spawn后必做）
-- 调用update-task.sh回写任务状态（收到completion event后第一件事）
-- 调用show-task-board.sh查看看板
-
-### 评测引擎脚本白名单
-- scripts/eval-engine.sh — 评测用例角色分离引擎主脚本
-- scripts/eval-case-runner.js — 评测单个用例的标准流程
-- scripts/eval-task-template.md — 评测任务模板（执行/评测Agent）
-- scripts/detect-deep-think-intent.sh — 深度思考意图探测探针（自动委派子Agent）
-
-### 主Agent黑名单（绝对禁止，必须委派子Agent）
-- 写飞书文档（feishu_doc write/append/insert）
-- 写代码文件（.js/.ts/.py/.sh/.json，超过20行）
-- 执行重型脚本（node/python/bash脚本执行）
-- 大批量文件操作（>3个文件的创建/修改）
-- 数据分析/报告生成
-- 架构设计文档撰写
-
-### 违反判定
-主Agent执行黑名单操作 = Badcase，自动采集到评测集
-
-### 兜底条件
-仅当所有可用子Agent（最多19个）均失败/不可用时，主Agent才可临时执行黑名单操作，且必须在MEMORY.md记录原因

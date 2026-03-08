@@ -1,7 +1,7 @@
 ---
 name: rule-hygiene
 description: ISC规则治理——去重、命名统一、三维分析（意图/事件/执行），输出规则-事件-DTO对齐矩阵
-version: "0.0.2"
+version: "0.0.3"
 status: active
 tags: [isc, governance, quality, rules]
 author: OpenClaw

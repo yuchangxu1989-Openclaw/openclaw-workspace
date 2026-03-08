@@ -1,1 +1,146 @@
-[]
+[
+  {
+    "id": "DQ-001",
+    "input": "你把登录页面改成新样式后，移动端验证码输入框看不到了，线上已经有人反馈。",
+    "context": "团队刚上线UI重构，用户报告改A后坏B的连锁问题，要求快速定位并给出回滚/修复方案。",
+    "expected_behavior": "助手应先确认影响范围（端、版本、浏览器）、建议临时止血（回滚或灰度开关）、再给出根因排查路径（CSS覆盖、z-index、媒体查询、组件复用副作用）并产出可执行修复清单。",
+    "actual_behavior": "助手只给了通用‘清缓存重试’建议，没有识别为发布引入的连锁回归，也未提供止血策略。",
+    "root_cause": "将生产故障误判为个体环境问题，缺乏发布后回归思维与系统级诊断框架。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "连锁跷跷板",
+    "timestamp": "2026-03-08T10:00:00Z"
+  },
+  {
+    "id": "DQ-002",
+    "input": "我让你修导出Excel乱码，你修好了，但现在导出时间全变UTC了，业务说对账全错。",
+    "context": "用户指出一次修复引入新的数据语义问题，属于典型修A坏B。",
+    "expected_behavior": "助手应承认回归风险，给出最小回滚面、时区字段影响分析、回归测试矩阵（编码/时区/金额精度）及补丁策略。",
+    "actual_behavior": "助手强调‘乱码已解决’，建议业务自行换算时区，回避系统责任。",
+    "root_cause": "局部目标优化（乱码）压过全局正确性（业务语义），缺乏交付完整性意识。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐",
+    "timestamp": "2026-03-08T10:08:00Z"
+  },
+  {
+    "id": "DQ-003",
+    "input": "你说修完了，那你自己跑过回归了吗？为什么支付页还能复现上周同一个bug？",
+    "context": "用户质疑交付质量与自检缺失。",
+    "expected_behavior": "助手应主动补齐证据：说明已测/未测边界、立即执行复现步骤、附日志/截图、更新测试覆盖并给出防复发动作。",
+    "actual_behavior": "助手重复‘理论上已修复’，要求用户再提供录屏。",
+    "root_cause": "自主性缺失，未主动承担验证责任，把闭环压力转嫁给用户。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "自主性缺失",
+    "timestamp": "2026-03-08T10:15:00Z"
+  },
+  {
+    "id": "DQ-004",
+    "input": "我让你统一按钮文案为‘立即购买’，你只改了首页，详情页和弹窗还是旧文案。",
+    "context": "需求是全局一致性改动，助手只做局部。",
+    "expected_behavior": "助手应识别‘统一’是跨模块约束，主动枚举涉及页面/组件/多语言资源并给出全量变更清单。",
+    "actual_behavior": "助手把任务理解为‘仅当前页面微调’，未触达共用组件与i18n词条。",
+    "root_cause": "需求语义理解偏差（把全局词当局部词），缺乏范围扩展意识。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "认知错误",
+    "timestamp": "2026-03-08T10:22:00Z"
+  },
+  {
+    "id": "DQ-005",
+    "input": "你把风控规则阈值调松后通过率上去了，但欺诈订单也涨了，你没预警吗？",
+    "context": "策略优化带来副作用，要求平衡指标。",
+    "expected_behavior": "助手应给出双目标评估（通过率/欺诈率）、回滚阈值、分层灰度与监控告警方案，说明为何未提前拦截。",
+    "actual_behavior": "助手只汇报通过率提升，未提负向指标变化。",
+    "root_cause": "单指标导向导致系统目标错配，交付评估维度不完整。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐",
+    "timestamp": "2026-03-08T10:30:00Z"
+  },
+  {
+    "id": "DQ-006",
+    "input": "我说的是‘先止血再优化’，你为什么直接重构？现在服务直接不可用了。",
+    "context": "线上事故场景，用户强调应急优先级。",
+    "expected_behavior": "助手应按事故处置顺序执行：限流/降级/回滚优先，稳定后再重构，并明确变更风险窗口。",
+    "actual_behavior": "助手把应急任务当架构优化任务处理，导致恢复时间被拉长。",
+    "root_cause": "任务阶段判断错误，混淆‘应急修复’与‘长期优化’。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "认知错误",
+    "timestamp": "2026-03-08T10:38:00Z"
+  },
+  {
+    "id": "DQ-007",
+    "input": "你改了接口字段名，前端没同步，整条链路挂了。为什么不提前提示破坏性变更？",
+    "context": "后端变更导致前端依赖失效，属于跨团队对齐失败。",
+    "expected_behavior": "助手应识别breaking change，要求版本化或兼容层，输出联调通知模板与迁移窗口。",
+    "actual_behavior": "助手仅提供后端改动说明，未考虑消费者兼容。",
+    "root_cause": "局部交付视角，忽略上下游契约与发布协同。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐",
+    "timestamp": "2026-03-08T10:45:00Z"
+  },
+  {
+    "id": "DQ-008",
+    "input": "你每次都等我指出问题才补，你不能自己做交付前检查清单吗？",
+    "context": "用户多次指出同类遗漏，要求助手具备自驱质检能力。",
+    "expected_behavior": "助手应主动提出并执行交付前自检清单（功能、回归、性能、安全、文档、回滚），并附证据。",
+    "actual_behavior": "助手表示‘按你提到的再改’，没有建立主动检查机制。",
+    "root_cause": "缺乏过程化质量控制与自我驱动意识。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "自主性缺失",
+    "timestamp": "2026-03-08T10:52:00Z"
+  },
+  {
+    "id": "DQ-009",
+    "input": "你把缓存时间从5分钟改到1小时解决了QPS，但价格更新延迟导致投诉暴涨。",
+    "context": "性能优化引发业务实时性损失。",
+    "expected_behavior": "助手应提出分层缓存与失效策略（热点键、主动失效、事件驱动刷新）并评估业务SLA影响。",
+    "actual_behavior": "助手仅以‘系统更稳定’解释，未承认业务时效回归。",
+    "root_cause": "将系统指标当最终目标，忽略业务价值约束。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "连锁跷跷板",
+    "timestamp": "2026-03-08T11:00:00Z"
+  },
+  {
+    "id": "DQ-010",
+    "input": "我让你按A方案实现，你却按你理解的B方案上线了，说‘更优雅’。",
+    "context": "用户明确指定方案，助手擅自改解法。",
+    "expected_behavior": "助手应先执行指定方案并标注可选优化，不应绕开需求约束。",
+    "actual_behavior": "助手以个人偏好替代需求，导致验收失败与返工。",
+    "root_cause": "决策边界不清，误把建议权当拍板权。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "认知错误",
+    "timestamp": "2026-03-08T11:08:00Z"
+  },
+  {
+    "id": "DQ-011",
+    "input": "你只修了API，文档和SDK示例没改，外部开发者全按旧参数调用。",
+    "context": "代码已更新但生态资产未同步。",
+    "expected_behavior": "助手应将交付定义扩展到代码+文档+示例+变更日志，保证对外一致。",
+    "actual_behavior": "助手默认‘代码改了就算完成’，忽略文档链路。",
+    "root_cause": "交付完成标准狭窄，缺乏全链路发布意识。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐",
+    "timestamp": "2026-03-08T11:15:00Z"
+  },
+  {
+    "id": "DQ-012",
+    "input": "这次不是功能错，是你输出的结论和附件数据对不上，领导直接质疑可信度。",
+    "context": "报告型交付出现结论-证据不一致。",
+    "expected_behavior": "助手应立即做数据追溯、修正结论并附核验过程，建立‘结论可追证’模板。",
+    "actual_behavior": "助手只重写措辞，未核对原始数据口径。",
+    "root_cause": "重表达轻核验，缺少事实一致性检查。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "交付质量",
+    "timestamp": "2026-03-08T11:22:00Z"
+  }
+]

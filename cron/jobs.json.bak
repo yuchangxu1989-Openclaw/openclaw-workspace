@@ -187,7 +187,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行全局自主决策流水线：检查所有技能变更，更新版本号，同步GitHub和EvoMap。使用 node /root/.openclaw/workspace/skills/dto-core/core/global-auto-decision-pipeline.js"
+        "message": "执行全局自主决策流水线：检查所有技能变更，更新版本号，同步GitHub和EvoMap。使用 node /root/.openclaw/workspace/skills/lto-core/core/global-auto-decision-pipeline.js"
       },
       "delivery": {
         "mode": "announce",
@@ -380,7 +380,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772964055731,
+      "updatedAtMs": 1772971237281,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -399,11 +399,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772967607906,
-        "lastRunAtMs": 1772964042253,
+        "nextRunAtMs": 1772974807906,
+        "lastRunAtMs": 1772971226937,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 13478,
+        "lastDurationMs": 10344,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -415,7 +415,7 @@
       "name": "系统状态与流水线监控-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772957431556,
+      "updatedAtMs": 1772971843285,
       "schedule": {
         "expr": "10 */4 * * *",
         "kind": "cron",
@@ -425,7 +425,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行系统状态快照与流水线健康检查：\n1. 系统资源峰值记录：bash /root/.openclaw/workspace/skills/public/system-monitor/log-peaks.sh\n2. 流水线健康监控（超10分钟无反馈则自动重启）：node /root/.openclaw/workspace/skills/dto-core/core/pipeline-auto-recovery.js\n报告异常情况。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
+        "message": "执行系统状态快照与流水线健康检查：\n1. 系统资源峰值记录：bash /root/.openclaw/workspace/skills/public/system-monitor/log-peaks.sh\n2. 流水线健康监控（超10分钟无反馈则自动重启）：node /root/.openclaw/workspace/skills/lto-core/core/pipeline-auto-recovery.js\n报告异常情况。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
         "timeoutSeconds": 300
       },
       "delivery": {
@@ -433,11 +433,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772971800000,
-        "lastRunAtMs": 1772957400010,
+        "nextRunAtMs": 1772986200000,
+        "lastRunAtMs": 1772971800007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 31546,
+        "lastDurationMs": 43278,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
         "lastDelivered": true
@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772964106909,
+      "updatedAtMs": 1772971287979,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -495,7 +495,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "先检查是否有待处理的DTO信号：ls /root/.openclaw/workspace/.dto-signals/ 2>/dev/null | head -5\n如果目录不存在或为空，回复 HEARTBEAT_OK（不要回复其他内容）。\n否则执行DTO声明式编排与AEO闭环衔接：\n1. DTO声明式编排器：node /root/.openclaw/workspace/skills/dto-core/core/declarative-orchestrator.js\n2. AEO-DTO闭环：node /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs\n执行完毕后汇报结果。",
+        "message": "先检查是否有待处理的DTO信号：ls /root/.openclaw/workspace/.dto-signals/ 2>/dev/null | head -5\n如果目录不存在或为空，回复 HEARTBEAT_OK（不要回复其他内容）。\n否则执行DTO声明式编排与AEO闭环衔接：\n1. DTO声明式编排器：node /root/.openclaw/workspace/skills/lto-core/core/declarative-orchestrator.js\n2. AEO-DTO闭环：node /root/.openclaw/workspace/skills/aeo/src/core/aeo-dto-bridge.cjs\n执行完毕后汇报结果。",
         "timeoutSeconds": 120
       },
       "delivery": {
@@ -503,11 +503,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772967678795,
-        "lastRunAtMs": 1772964099089,
+        "nextRunAtMs": 1772974878795,
+        "lastRunAtMs": 1772971278802,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7820,
+        "lastDurationMs": 9177,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -552,7 +552,7 @@
       "name": "能力同步与PDCA-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772957114291,
+      "updatedAtMs": 1772971513465,
       "schedule": {
         "expr": "5 */4 * * *",
         "kind": "cron",
@@ -570,11 +570,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772971500000,
-        "lastRunAtMs": 1772957100011,
+        "nextRunAtMs": 1772985900000,
+        "lastRunAtMs": 1772971500008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 14280,
+        "lastDurationMs": 13457,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -586,7 +586,7 @@
       "name": "ISC-技能质量管理-每日",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772884825350,
+      "updatedAtMs": 1772971216372,
       "schedule": {
         "expr": "0 20 * * *",
         "kind": "cron",
@@ -604,11 +604,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772971200000,
-        "lastRunAtMs": 1772884800012,
+        "nextRunAtMs": 1773057600000,
+        "lastRunAtMs": 1772971200006,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 25338,
+        "lastDurationMs": 16366,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772966121218,
+      "updatedAtMs": 1772972100006,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,14 +670,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772966400000,
-        "lastRunAtMs": 1772966121217,
+        "nextRunAtMs": 1772972400000,
+        "lastRunAtMs": 1772972100005,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
         "lastDurationMs": 1,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
-        "runningAtMs": 1772966400004
+        "runningAtMs": 1772972400005
       }
     },
     {
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772965819042,
+      "updatedAtMs": 1772972121161,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,11 +703,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772966700000,
-        "lastRunAtMs": 1772965800009,
+        "nextRunAtMs": 1772973000000,
+        "lastRunAtMs": 1772972100006,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 19033,
+        "lastDurationMs": 21155,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -816,7 +816,7 @@
       "name": "CRAS-每日洞察报告",
       "enabled": true,
       "createdAtMs": 1772931600000,
-      "updatedAtMs": 1772931600000,
+      "updatedAtMs": 1772967619251,
       "schedule": {
         "expr": "0 19 * * *",
         "kind": "cron",
@@ -836,7 +836,13 @@
       },
       "state": {
         "consecutiveErrors": 0,
-        "nextRunAtMs": 1772967600000
+        "nextRunAtMs": 1773054000000,
+        "lastRunAtMs": 1772967608221,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 11030,
+        "lastDelivered": true,
+        "lastDeliveryStatus": "delivered"
       }
     }
   ]

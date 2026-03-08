@@ -1,875 +1,194 @@
 [
   {
-    "id": "global-rename-001",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "把技能名 weather 全局改为 climate，所有引用都要同步更新",
-    "expected_execution_chain": [
-      "1. 解析改名目标：技能目录名 skills/weather → skills/climate",
-      "2. 全仓库 grep 扫描所有引用 weather 的位置（代码/配置/文档/测试）",
-      "3. 分类引用：目录路径引用、import/require 引用、字符串常量引用、事件名引用、文档引用",
-      "4. 重命名技能目录 skills/weather → skills/climate",
-      "5. 批量替换代码中 import/require 路径",
-      "6. 更新配置文件中的技能注册名",
-      "7. 更新事件前缀（weather:* → climate:*）",
-      "8. 更新文档和注释中的技能名引用",
-      "9. 运行全量测试验证无断链、无残留、无回归"
-    ],
-    "badcase_conditions": [
-      "未扫描测试目录导致测试用例中残留旧名",
-      "仅替换目录名未更新内部 require 路径",
-      "遗漏事件前缀导致事件监听断链",
-      "误替换了不相关的 weather 单词（如注释中的天气描述）"
-    ],
-    "pass_criteria": [
-      "全仓库 grep weather 仅剩语义无关条目",
-      "所有测试通过",
-      "事件订阅和发布链路验证通畅",
-      "技能可正常加载和调用"
-    ],
-    "required_capabilities": ["全局搜索", "目录重命名", "批量替换", "事件链路分析", "测试执行"]
+    "id": "GR-001",
+    "input": "把所有地方的'dispatcher'改成'router'",
+    "context": "用户前2轮讨论了代码架构重构，决定将dispatcher模块重命名为router以更准确反映其职责。代码库中dispatcher出现在：文件名、变量名、注释、文档、配置文件、日志输出中。",
+    "expected_behavior": "全局扫描所有出现dispatcher的位置（代码、文档、配置、日志、测试），按依赖关系排序修改（先定义后引用），确保所有引用一致更新，修改后运行测试验证无遗漏",
+    "actual_behavior": "只修改了主代码文件中的变量名和函数名，遗漏了配置文件中的dispatcher字段、README中的引用、测试文件中的mock名、以及日志输出中的硬编码字符串",
+    "root_cause": "全局重命名时Agent的扫描范围不完整——只关注了.js/.ts代码文件，没有覆盖.json/.yaml配置、.md文档、测试fixture和日志模板。缺少'重命名影响范围全量扫描'清单",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-范围遗漏",
+    "timestamp": "2026-03-08T20:02:00+08:00"
   },
   {
-    "id": "global-rename-002",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将模块名 message-router 改为 msg-dispatcher，影响约20个文件",
-    "expected_execution_chain": [
-      "1. 识别模块边界：message-router 目录、导出接口、依赖该模块的所有消费方",
-      "2. 全仓库扫描 message-router 的所有引用（import/配置/package.json/文档）",
-      "3. 生成影响清单并按文件类型分组（源码/配置/文档/测试）",
-      "4. 重命名模块目录及 package.json 中的 name 字段",
-      "5. 更新所有 import/require 语句中的模块路径",
-      "6. 更新 monorepo workspace 配置（如 pnpm-workspace.yaml）",
-      "7. 更新 CI/CD 配置中的构建路径和依赖声明",
-      "8. 更新所有文档中对该模块的引用",
-      "9. 执行 lint + 构建 + 测试三件套验证改名完整性"
-    ],
-    "badcase_conditions": [
-      "未更新 monorepo workspace 配置导致依赖解析失败",
-      "package.json 的 name 字段未同步更新",
-      "CI/CD 中硬编码路径未修改导致构建失败",
-      "lock 文件未重新生成导致依赖幽灵残留"
-    ],
-    "pass_criteria": [
-      "pnpm install / npm install 无报错",
-      "全量构建通过",
-      "全量测试通过",
-      "grep message-router 仅剩 git 历史和 CHANGELOG"
-    ],
-    "required_capabilities": ["monorepo管理", "依赖分析", "批量替换", "CI/CD配置更新", "构建验证"]
+    "id": "GR-002",
+    "input": "ISC规则名字太乱了，统一改成kebab-case格式",
+    "context": "用户发现ISC规则文件命名不一致：有的用camelCase、有的用snake_case、有的用PascalCase。前2轮列出了所有规则文件。要求统一为kebab-case。",
+    "expected_behavior": "1)列出所有不符合kebab-case的文件名 2)检查哪些地方引用了这些文件名(代码、文档、配置) 3)统一修改文件名 4)同步更新所有引用 5)验证修改后系统正常运行",
+    "actual_behavior": "只重命名了文件，没有更新代码中require/import的路径引用和文档中的文件名引用，导致运行时报错找不到文件",
+    "root_cause": "文件重命名和引用更新是原子操作但Agent分成了两步只执行了第一步。缺少'重命名→grep所有引用→同步更新→验证'的完整流程",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-引用断裂",
+    "timestamp": "2026-03-08T20:02:01+08:00"
   },
   {
-    "id": "global-rename-003",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "把事件前缀 user: 全部改为 account:，涉及事件订阅和发布的全链路",
-    "expected_execution_chain": [
-      "1. 扫描所有事件发布点（emit/publish/dispatch）中以 user: 开头的事件名",
-      "2. 扫描所有事件订阅点（on/subscribe/listen）中以 user: 开头的事件名",
-      "3. 建立事件发布-订阅映射表，确认每个事件的生产者和消费者",
-      "4. 检查是否有动态拼接事件名的场景（如 `user:${action}`）",
-      "5. 批量替换静态事件名 user:* → account:*",
-      "6. 更新动态拼接处的前缀变量或常量",
-      "7. 更新事件相关的 TypeScript 类型定义和枚举",
-      "8. 更新事件文档和 API 文档中的事件名引用",
-      "9. 运行事件集成测试验证所有发布-订阅链路正常"
-    ],
-    "badcase_conditions": [
-      "遗漏动态拼接的事件名导致运行时事件断链",
-      "仅改了发布端未改订阅端，或反之",
-      "TypeScript 类型定义未更新导致编译错误",
-      "误替换了 user: 开头但非事件名的字符串"
-    ],
-    "pass_criteria": [
-      "事件发布-订阅对账：每个 emit 都有对应的 on",
-      "集成测试中所有事件流转正常",
-      "TypeScript 编译无错误",
-      "grep 'user:' 在事件上下文中无残留"
-    ],
-    "required_capabilities": ["事件链路分析", "正则匹配", "动态代码分析", "类型系统更新", "集成测试"]
+    "id": "GR-003",
+    "input": "DTO这个名字容易和Java的DTO混淆，换个名字",
+    "context": "用户团队中有Java背景的工程师，DTO(Dispatch Task Orchestrator)与Java的Data Transfer Object重名。前3轮讨论了候选名字，用户选定了'TaskOrchestrator'。",
+    "expected_behavior": "在所有代码、文档、配置、对话记忆、SOUL.md、AGENTS.md、ISC规则中将DTO替换为TaskOrchestrator，同时保留一处说明'原名DTO'以便历史追溯",
+    "actual_behavior": "只修改了代码中的类名和函数名，SOUL.md仍然写着DTO，ISC规则的描述中仍然用DTO，memory文件中的DTO引用没有更新。新老名字混用导致后续对话混乱",
+    "root_cause": "Agent的重命名认知仅限于代码层面，忽略了系统的'元文档'层——SOUL.md、AGENTS.md、memory、ISC规则这些对Agent行为有约束力的文件中的术语也必须同步更新",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-元文档遗漏",
+    "timestamp": "2026-03-08T20:02:02+08:00"
   },
   {
-    "id": "global-rename-004",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "把全局变量名 MAX_RETRY_COUNT 改为 MAX_ATTEMPTS，散布在约200个文件中",
-    "expected_execution_chain": [
-      "1. 全仓库 grep MAX_RETRY_COUNT 定位所有出现位置",
-      "2. 区分变量定义位置和引用位置",
-      "3. 检查是否有环境变量或配置文件中使用该名称",
-      "4. 检查是否有 .env 文件、Docker 配置、K8s ConfigMap 中引用",
-      "5. 批量替换源码中的变量名",
-      "6. 更新环境变量名（.env/.env.example/docker-compose.yml）",
-      "7. 更新文档中对该变量的说明",
-      "8. 更新测试用例中对该变量的断言和 mock",
-      "9. 运行全量测试 + 环境变量校验脚本确认无遗漏"
-    ],
-    "badcase_conditions": [
-      "未更新 .env.example 导致新环境部署时变量缺失",
-      "Docker/K8s 配置中残留旧变量名导致运行时取不到值",
-      "测试 mock 中残留旧名导致测试看似通过但实际绕过了验证",
-      "200个文件中有部分文件被 .gitignore 忽略未扫描到"
-    ],
-    "pass_criteria": [
-      "grep MAX_RETRY_COUNT 全仓库零命中",
-      "所有环境配置文件已同步更新",
-      "全量测试通过",
-      "应用启动时该配置项可正常读取"
-    ],
-    "required_capabilities": ["全局搜索", "环境变量管理", "容器配置更新", "批量替换", "启动验证"]
+    "id": "GR-004",
+    "input": "把文档里所有的'主Agent'改成'调度中枢'",
+    "context": "用户决定在面向外部的文档中不使用'主Agent'这种内部术语，改用'调度中枢'更易理解。前1轮确认了修改范围：所有.md和飞书文档。",
+    "expected_behavior": "区分需要修改的文档范围：1)本地.md文件全量替换 2)飞书文档需要逐一read→替换→write 3)注意区分'主Agent'（需替换）和'子Agent'（不需替换）4)保留代码注释中的技术术语不改",
+    "actual_behavior": "对所有文件做了盲目的全局替换，把代码注释中的'主Agent'也改了，把'子Agent负责向主Agent汇报'改成了'子Agent负责向调度中枢汇报'（代码注释应保持技术术语）",
+    "root_cause": "Agent做全局替换时没有区分不同文件类型的替换策略——面向外部的文档改术语，内部代码注释保持技术术语。缺少'按文件类型差异化替换'的能力",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-差异化替换缺失",
+    "timestamp": "2026-03-08T20:02:03+08:00"
   },
   {
-    "id": "global-rename-005",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将 API 路径 /api/v2/users 全局改为 /api/v2/members，保持向后兼容",
-    "expected_execution_chain": [
-      "1. 扫描所有路由定义中 /api/v2/users 的注册点",
-      "2. 扫描所有前端/客户端代码中对该路径的请求调用",
-      "3. 扫描测试用例中对该路径的 mock 和断言",
-      "4. 添加新路由 /api/v2/members 指向相同 handler",
-      "5. 在旧路由 /api/v2/users 上添加 deprecation 标记和重定向",
-      "6. 更新前端/客户端代码使用新路径",
-      "7. 更新 OpenAPI/Swagger 文档中的路径定义",
-      "8. 更新测试用例使用新路径，同时保留旧路径的兼容性测试",
-      "9. 运行 API 集成测试验证新旧路径均可正常工作"
-    ],
-    "badcase_conditions": [
-      "直接删除旧路由导致已发布客户端断裂",
-      "OpenAPI 文档未更新导致第三方集成方使用错误路径",
-      "未添加 deprecation 警告导致旧路径长期残留",
-      "重定向逻辑有 bug 导致 POST/PUT 请求丢失 body"
-    ],
-    "pass_criteria": [
-      "新路径 /api/v2/members 全部 HTTP 方法正常",
-      "旧路径 /api/v2/users 返回 301 重定向或带 deprecation header",
-      "OpenAPI 文档已更新",
-      "API 集成测试全部通过"
-    ],
-    "required_capabilities": ["路由分析", "向后兼容设计", "API文档更新", "重定向配置", "集成测试"]
+    "id": "GR-005",
+    "input": "agent这个词在代码里有时指子Agent有时指模型调用，先统一概念再改名",
+    "context": "代码库中'agent'一词有3种语义：1)子Agent实例 2)LLM模型调用 3)用户代理(user-agent)。用户要求先做语义消歧再统一命名。",
+    "expected_behavior": "先全量扫描所有'agent'出现位置，按语义分类标注，然后为3种语义分别制定命名规范（如：subAgent/llmClient/userAgent），最后按分类执行差异化重命名",
+    "actual_behavior": "直接把所有'agent'替换成'subAgent'，导致LLM调用代码中出现'subAgent.chat()'这种语义错误的命名",
+    "root_cause": "Agent对需要语义消歧的重命名任务使用了简单的全局替换策略，没有先做词义分析（Word Sense Disambiguation）就开始替换，是'先开枪后瞄准'",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-语义消歧缺失",
+    "timestamp": "2026-03-08T20:02:04+08:00"
   },
   {
-    "id": "global-rename-006",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将技能名 tts-engine 改为 voice-synthesis，涉及技能注册、事件绑定和配置引用",
-    "expected_execution_chain": [
-      "1. 定位技能目录 skills/tts-engine 及其 SKILL.md、manifest.json",
-      "2. 全仓库扫描 tts-engine 的所有引用位置",
-      "3. 重命名目录 skills/tts-engine → skills/voice-synthesis",
-      "4. 更新 manifest.json 中的 name 和 id 字段",
-      "5. 更新技能注册表/加载器中的技能标识",
-      "6. 更新事件名 tts-engine:* → voice-synthesis:*",
-      "7. 更新配置文件中的技能引用（YAML/JSON/TOML）",
-      "8. 更新 SKILL.md 和其他文档中的技能名",
-      "9. 运行技能加载测试和事件链路测试验证改名完整"
-    ],
-    "badcase_conditions": [
-      "manifest.json 中 id 未更新导致技能加载失败",
-      "事件前缀未同步导致语音合成功能失效",
-      "配置文件中残留旧名导致运行时找不到技能",
-      "其他技能依赖 tts-engine 的 require 路径未更新"
-    ],
-    "pass_criteria": [
-      "技能可正常加载并通过健康检查",
-      "事件链路全部通畅",
-      "grep tts-engine 仅剩 CHANGELOG/git 历史",
-      "所有依赖该技能的功能正常工作"
-    ],
-    "required_capabilities": ["技能系统理解", "目录重命名", "事件链路更新", "配置更新", "功能测试"]
+    "id": "GR-006",
+    "input": "版本号从v2升到v3，所有相关的地方都要改",
+    "context": "用户决定发布v3版本，前3轮讨论了v3的主要变更。version号出现在：package.json、README badge、CHANGELOG、API endpoint(/v2/xxx)、Docker tag、文档标题。",
+    "expected_behavior": "系统化更新所有版本号位置：1)package.json version字段 2)README中的版本badge 3)CHANGELOG添加v3条目 4)API endpoint中的/v2/改为/v3/ 5)Dockerfile中的tag 6)文档标题中的版本号 7)运行测试确认无v2残留",
+    "actual_behavior": "只改了package.json的version字段和README的第一处版本提及，API endpoint仍然是/v2/，Docker tag没改，CHANGELOG没更新",
+    "root_cause": "版本号散布在多种文件类型和配置层中，Agent缺少'版本号出现位置清单'，导致更新不完整。版本升级应该有标准化检查清单（checklist driven）而非凭记忆",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-版本号散落遗漏",
+    "timestamp": "2026-03-08T20:02:05+08:00"
   },
   {
-    "id": "global-rename-007",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将模块名 db-connector 改为 data-access-layer，这是一次架构语义升级",
-    "expected_execution_chain": [
-      "1. 分析 db-connector 的当前职责边界和对外暴露的 API",
-      "2. 全仓库扫描所有 import/require('db-connector') 的位置",
-      "3. 检查该模块是否在 npm registry 发布过（需同步更新包名）",
-      "4. 重命名目录并更新 package.json 中的 name",
-      "5. 更新所有消费方的 import 路径",
-      "6. 更新模块导出的类名/函数名以匹配新语义（如 DbConnector → DataAccessLayer）",
-      "7. 更新所有消费方使用新的类名/函数名",
-      "8. 更新 README 和架构文档中的模块描述",
-      "9. 执行全量构建 + 测试 + 类型检查验证"
-    ],
-    "badcase_conditions": [
-      "仅改了目录名未更新导出的类名，语义不一致",
-      "npm publish 时包名冲突或未更新",
-      "消费方代码中 destructure 的旧类名未更新导致 runtime error",
-      "架构文档中模块关系图未同步更新"
-    ],
-    "pass_criteria": [
-      "目录名、包名、类名、函数名语义一致",
-      "TypeScript 编译零错误",
-      "全量测试通过",
-      "架构文档中模块名准确"
-    ],
-    "required_capabilities": ["语义分析", "包管理", "类型重构", "架构文档更新", "全量验证"]
+    "id": "GR-007",
+    "input": "用户ID从user_id改成userId，全部统一驼峰",
+    "context": "代码库混用了user_id和userId两种命名风格，用户要求统一为驼峰。但数据库字段名是user_id，API协议也用user_id。",
+    "expected_behavior": "识别重命名的边界：代码内部变量统一为userId，但数据库字段名和API协议的user_id不应修改（会破坏兼容性）。在ORM层做映射(user_id→userId)而不是改数据库",
+    "actual_behavior": "全部改成了userId，包括SQL查询中的字段名，导致数据库查询报错'column userId does not exist'",
+    "root_cause": "Agent没有识别重命名的技术边界——代码命名规范和外部接口/存储层命名是不同的关注点，前者可以自由改，后者改了会破坏兼容性。缺少对跨层边界的感知",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-跨层边界未识别",
+    "timestamp": "2026-03-08T20:02:06+08:00"
   },
   {
-    "id": "global-rename-008",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "把事件前缀 task: 改为 job:，影响3个微服务间的事件通信",
-    "expected_execution_chain": [
-      "1. 扫描所有微服务仓库中 task: 前缀的事件定义",
-      "2. 建立跨服务事件拓扑图：哪个服务发布、哪个服务订阅",
-      "3. 评估是否需要灰度发布（同时支持新旧事件名过渡期）",
-      "4. 在事件总线/消息队列层定义新的 topic/queue（job:*）",
-      "5. 更新各服务的事件发布代码",
-      "6. 更新各服务的事件订阅代码",
-      "7. 添加临时的事件转发层（task:* → job:*）保证过渡期兼容",
-      "8. 更新所有服务的集成测试和契约测试",
-      "9. 部署并验证跨服务事件流转正常后移除转发层"
-    ],
-    "badcase_conditions": [
-      "未灰度直接切换导致正在处理的消息丢失",
-      "跨仓库未同步更新导致某个服务仍发旧事件",
-      "消息队列中残留旧 topic 的消息未消费",
-      "转发层在过渡期后未移除成为永久技术债"
-    ],
-    "pass_criteria": [
-      "所有服务的事件发布和订阅均使用 job: 前缀",
-      "跨服务集成测试全部通过",
-      "消息队列中无 task: 前缀的残留消息",
-      "转发层已清理"
-    ],
-    "required_capabilities": ["跨服务分析", "事件拓扑", "灰度策略", "消息队列管理", "契约测试"]
+    "id": "GR-008",
+    "input": "把所有中文注释翻译成英文",
+    "context": "项目要开源，需要将中文注释全部翻译为英文。代码库有约200个文件，注释包括函数说明、TODO标记、业务逻辑解释。",
+    "expected_behavior": "系统化处理：1)全量扫描含中文注释的文件 2)逐文件翻译，保持技术术语准确 3)注意不要翻译字符串常量中的中文（如UI文案） 4)保持注释的技术深度不丢失 5)翻译完后检查是否有遗漏的中文",
+    "actual_behavior": "翻译了前20个文件后声称'已完成'，实际还有180个文件未处理。且把一些中文字符串常量（如error message）也翻译了，改变了程序行为",
+    "root_cause": "大规模重命名/翻译任务中Agent的完成度跟踪不准确——没有建立进度跟踪机制（已处理文件列表vs总文件列表），导致提前声称完成。同时缺少'注释vs字符串'的区分能力",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-大规模任务完成度虚报",
+    "timestamp": "2026-03-08T20:02:07+08:00"
   },
   {
-    "id": "global-rename-009",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将变量名 isEnabled 全局改为 isActive，涉及组件 props、store state 和 API 响应",
-    "expected_execution_chain": [
-      "1. 全仓库扫描 isEnabled 的所有出现位置并分类",
-      "2. 识别 API 响应中的 isEnabled 字段（需考虑向后兼容）",
-      "3. 识别前端组件 props 中的 isEnabled（需更新 PropTypes/TS 接口）",
-      "4. 识别 store/state 中的 isEnabled（需更新 reducer/action）",
-      "5. 更新后端 API 响应字段名并保留旧字段做兼容",
-      "6. 更新前端组件 props 定义和传递",
-      "7. 更新 store 中的 state 字段和相关 selector",
-      "8. 更新所有测试中的断言和 mock 数据",
-      "9. 端到端测试验证数据流从 API → store → 组件正常"
-    ],
-    "badcase_conditions": [
-      "API 响应直接移除旧字段导致旧版客户端崩溃",
-      "store selector 未更新导致组件拿到 undefined",
-      "组件 props 改了但父组件传参未改导致 prop 丢失",
-      "mock 数据中残留旧名导致测试通过但线上异常"
-    ],
-    "pass_criteria": [
-      "API 同时返回 isEnabled 和 isActive（过渡期）",
-      "前端代码统一使用 isActive",
-      "端到端测试通过",
-      "TypeScript 编译零错误"
-    ],
-    "required_capabilities": ["全栈分析", "向后兼容", "状态管理更新", "组件重构", "端到端测试"]
+    "id": "GR-009",
+    "input": "文档里的截图太旧了，里面还是旧的界面和旧名字，也要更新",
+    "context": "前5轮完成了代码和文档文本的重命名（从OldName到NewName），用户指出文档中的截图里还显示着OldName的界面。",
+    "expected_behavior": "识别截图中的旧名字需要重新截图或标注说明，列出所有文档中的截图位置，标记哪些截图包含旧名字需要更新，提出更新方案（重新截图或加注释说明）",
+    "actual_behavior": "回答'截图中的文字无法直接修改，建议手动重新截图'，没有主动定位哪些截图需要更新，也没有尝试用标注方式临时解决",
+    "root_cause": "Agent的重命名一致性检查只覆盖文本内容，不覆盖图片中的文字。缺少多模态一致性检查——文档中的文字、代码、配置、图片都需要保持一致",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-多模态一致性遗漏",
+    "timestamp": "2026-03-08T20:02:08+08:00"
   },
   {
-    "id": "global-rename-010",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将 API 路径前缀 /api/v1/notifications 改为 /api/v2/alerts，同时升级版本号",
-    "expected_execution_chain": [
-      "1. 梳理 /api/v1/notifications 下所有子路由和 handler",
-      "2. 扫描前端和 SDK 中所有调用该路径的代码",
-      "3. 设计 v2 的路由结构（可能有字段名变更等破坏性变更）",
-      "4. 创建 /api/v2/alerts 路由并复用或重写 handler",
-      "5. 在 v1 路由上标记 deprecated 并添加迁移指引响应头",
-      "6. 更新前端/SDK 调用路径和请求/响应类型",
-      "7. 更新 OpenAPI 文档和 SDK 文档",
-      "8. 更新测试用例：新增 v2 测试、保留 v1 兼容测试",
-      "9. 运行全量 API 测试 + 前端集成测试验证"
-    ],
-    "badcase_conditions": [
-      "v1 路由直接删除导致依赖方服务中断",
-      "v2 字段名变更但 DTO 映射遗漏导致数据丢失",
-      "前端部分页面仍调用 v1 未迁移",
-      "SDK 版本未升级导致第三方集成失败"
-    ],
-    "pass_criteria": [
-      "v2 路由全功能可用",
-      "v1 路由返回 deprecated 警告但仍可用",
-      "OpenAPI 文档完整覆盖 v2",
-      "前端和 SDK 全部迁移到 v2"
-    ],
-    "required_capabilities": ["API版本管理", "路由设计", "向后兼容", "文档生成", "集成测试"]
+    "id": "GR-010",
+    "input": "环境变量名也统一一下，OPENCLAW_DISPATCHER_PORT改成OPENCLAW_ROUTER_PORT",
+    "context": "前2轮已经把代码中的dispatcher改成了router，现在用户发现环境变量名没有同步修改。环境变量在.env文件、docker-compose.yaml、Kubernetes deployment.yaml、CI/CD pipeline中都有。",
+    "expected_behavior": "更新所有环境变量出现的位置：.env、docker-compose.yaml、k8s yaml、CI配置、代码中读取环境变量的地方(process.env.OPENCLAW_DISPATCHER_PORT)，并考虑向后兼容（同时支持新旧环境变量名一段时间）",
+    "actual_behavior": "只改了.env文件中的变量名，没有更新docker-compose和k8s yaml中的引用，也没有更新代码中process.env的读取位置，部署时环境变量找不到",
+    "root_cause": "环境变量是跨多个配置层（本地开发→容器→编排→CI）的全局引用，Agent只改了源头（.env）没有追踪到所有引用层。缺少环境变量引用链路的全量追踪",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-环境变量引用链断裂",
+    "timestamp": "2026-03-08T20:02:09+08:00"
   },
   {
-    "id": "global-rename-011",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将技能名 browser-control 改为 web-automation，仅涉及2个配置文件和1个源码文件",
-    "expected_execution_chain": [
-      "1. 定位技能目录 skills/browser-control",
-      "2. 确认影响范围：SKILL.md、manifest.json、loader.ts 共3处引用",
-      "3. 重命名目录 skills/browser-control → skills/web-automation",
-      "4. 更新 manifest.json 中的 name/id",
-      "5. 更新 loader.ts 中的 require 路径",
-      "6. 更新 SKILL.md 中的标题和描述",
-      "7. 检查是否有其他隐藏引用（如 available_skills 列表）",
-      "8. 更新 available_skills 或技能发现配置中的条目",
-      "9. 运行技能加载测试验证改名正确"
-    ],
-    "badcase_conditions": [
-      "遗漏 available_skills 列表导致技能不可发现",
-      "影响范围评估过窄，实际还有测试文件引用",
-      "SKILL.md 内部引用了旧目录名的相对路径",
-      "技能缓存未清理导致仍加载旧名技能"
-    ],
-    "pass_criteria": [
-      "技能以新名称正常加载",
-      "技能发现机制能找到 web-automation",
-      "grep browser-control 仅剩 git 历史",
-      "技能功能测试通过"
-    ],
-    "required_capabilities": ["技能系统理解", "影响范围评估", "配置更新", "缓存清理", "功能验证"]
+    "id": "GR-011",
+    "input": "把'评测集'统一改成'黄金评测集'，要强调是经过验证的",
+    "context": "用户决定在所有文档和代码中区分'评测集'（泛指）和'黄金评测集'（经过人工验证的高质量集合），要求将特指已验证评测集的地方改成'黄金评测集'。",
+    "expected_behavior": "不是简单的全局替换，而是需要逐一判断每处'评测集'的语义：1)指代已验证集合的→改为'黄金评测集' 2)泛指所有评测集的→保持不变 3)指代未验证草稿集的→保持不变或改为'候选评测集'",
+    "actual_behavior": "做了全局替换，把所有'评测集'都改成了'黄金评测集'，包括'评测集构建流程'变成了'黄金评测集构建流程'（不合理，构建流程是通用的不只针对黄金集）",
+    "root_cause": "Agent对需要语义判断的重命名任务使用了机械替换策略，没有根据每处的上下文语义决定是否替换。需要'条件式重命名'而非'全量重命名'",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-条件式替换退化为全量",
+    "timestamp": "2026-03-08T20:02:10+08:00"
   },
   {
-    "id": "global-rename-012",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将模块名 auth-middleware 改为 identity-guard，涉及约20个路由文件的中间件引用",
-    "expected_execution_chain": [
-      "1. 定位 auth-middleware 模块目录和导出接口",
-      "2. 全仓库扫描所有 import { ... } from 'auth-middleware' 的位置",
-      "3. 分析导出的中间件函数名是否也需要语义更新",
-      "4. 重命名目录 auth-middleware → identity-guard",
-      "5. 更新 package.json name 字段",
-      "6. 批量更新20个路由文件的 import 路径",
-      "7. 更新中间件函数名（如 authCheck → identityVerify）",
-      "8. 更新路由文件中的中间件调用",
-      "9. 运行路由级别的单元测试和集成测试验证"
-    ],
-    "badcase_conditions": [
-      "仅改了目录名但函数名未更新导致语义不一致",
-      "部分路由文件使用动态 import 未被 grep 捕获",
-      "中间件注册顺序意外变更导致鉴权失败",
-      "测试 mock 中硬编码旧模块名导致测试假绿"
-    ],
-    "pass_criteria": [
-      "所有路由文件引用更新完毕",
-      "中间件函数名语义一致",
-      "鉴权功能正常",
-      "全量测试通过"
-    ],
-    "required_capabilities": ["中间件分析", "批量重构", "函数重命名", "路由测试", "语义一致性检查"]
+    "id": "GR-012",
+    "input": "git commit message里的旧名字也要注意，新的commit不要再用旧名字了",
+    "context": "全局重命名完成后，用户提醒未来的commit message也要用新名字。但Agent在提交本次重命名的commit时，message中写了'rename dispatcher to router in all files'。",
+    "expected_behavior": "理解这是一个前瞻性要求——未来的commit message用新术语。本次commit用旧名字是合理的（因为是在描述重命名操作本身），但后续commit中应该使用新名字",
+    "actual_behavior": "回去修改了本次commit的message把'dispatcher'改掉了，但改成了'rename old module to router'反而更不清晰",
+    "root_cause": "Agent对时间维度的要求理解不精确——'以后'不包括当前这次记录历史操作的commit。缺少对重命名commit本身的特殊处理认知（描述重命名操作可以使用旧名字）",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-时间边界误判",
+    "timestamp": "2026-03-08T20:02:11+08:00"
   },
   {
-    "id": "global-rename-013",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "把事件名 session:expired 改为 session:timeout，涉及前后端共10处引用",
-    "expected_execution_chain": [
-      "1. 全仓库搜索 session:expired 的所有出现位置",
-      "2. 区分后端发布点和前端订阅点",
-      "3. 检查是否有 WebSocket 消息中使用该事件名",
-      "4. 更新后端事件发布代码",
-      "5. 更新前端事件监听代码",
-      "6. 更新 WebSocket 消息类型定义",
-      "7. 更新事件常量定义文件（如 events.ts）",
-      "8. 更新相关的错误提示文案（如 session expired → session timed out）",
-      "9. 运行会话超时场景的端到端测试验证"
-    ],
-    "badcase_conditions": [
-      "WebSocket 消息中的事件名未更新导致前端收不到通知",
-      "错误提示文案未同步更新导致用户体验不一致",
-      "常量文件更新但枚举值未更新导致序列化问题",
-      "前端监听了新事件名但旧版后端仍发旧事件"
-    ],
-    "pass_criteria": [
-      "前后端事件名完全一致",
-      "会话超时场景端到端测试通过",
-      "WebSocket 消息类型定义已更新",
-      "用户看到的错误提示使用新措辞"
-    ],
-    "required_capabilities": ["前后端联调", "WebSocket分析", "事件常量管理", "文案更新", "端到端测试"]
+    "id": "GR-013",
+    "input": "API返回的JSON里字段名也要从snake_case改成camelCase",
+    "context": "前端团队要求API响应统一用camelCase。但API已经有外部调用方在使用snake_case字段名。",
+    "expected_behavior": "识别这是一个破坏性变更，提出向后兼容方案：1)新版API用camelCase 2)旧版API继续支持snake_case 3)通过版本号或Accept header区分 4)给出迁移timeline和通知计划",
+    "actual_behavior": "直接修改了API的JSON字段名为camelCase，没有考虑向后兼容性，导致所有外部调用方解析报错",
+    "root_cause": "Agent在执行重命名时没有评估变更的影响范围——内部代码可以自由改名，但API是外部契约(contract)，修改需要版本化和兼容策略。缺少内外边界意识",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-外部契约破坏",
+    "timestamp": "2026-03-08T20:02:12+08:00"
   },
   {
-    "id": "global-rename-014",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将全局配置变量 DATABASE_URL 改为 PRIMARY_DB_URL，涉及多环境配置文件",
-    "expected_execution_chain": [
-      "1. 扫描所有环境配置文件：.env, .env.development, .env.production, .env.test",
-      "2. 扫描 Docker 配置：docker-compose.yml, Dockerfile 中的 ENV",
-      "3. 扫描 K8s 配置：ConfigMap, Secret, deployment.yaml",
-      "4. 扫描 CI/CD 配置中的环境变量引用",
-      "5. 更新源码中 process.env.DATABASE_URL 的所有引用",
-      "6. 更新所有环境配置文件中的变量名",
-      "7. 更新容器和编排配置中的变量名",
-      "8. 更新 CI/CD pipeline 中的变量注入",
-      "9. 在各环境验证数据库连接正常（dev/staging/prod）"
-    ],
-    "badcase_conditions": [
-      "生产环境 K8s Secret 未更新导致数据库连接失败",
-      "CI/CD 中环境变量未更新导致自动化部署失败",
-      ".env.example 未更新导致新开发者配置困难",
-      "ORM 配置文件中硬编码旧变量名"
-    ],
-    "pass_criteria": [
-      "所有环境的数据库连接正常",
-      "grep DATABASE_URL 全仓库零命中（排除迁移说明）",
-      ".env.example 已更新",
-      "CI/CD pipeline 执行正常"
-    ],
-    "required_capabilities": ["多环境管理", "容器配置", "K8s管理", "CI/CD配置", "连接验证"]
+    "id": "GR-014",
+    "input": "你改了这些名字之后，跑一下测试看看有没有遗漏",
+    "context": "完成了一轮全局重命名（约50个文件），用户要求运行测试验证。测试套件中有3个测试用例因为旧名字的fixture数据没有更新而失败。",
+    "expected_behavior": "运行测试，发现3个失败，分析失败原因（fixture数据中的旧名字未更新），修复fixture后重新运行直到全绿，然后报告'修复了3处遗漏'",
+    "actual_behavior": "运行测试后报告'3个测试失败'，等待用户指示如何处理，没有自主分析失败原因和修复",
+    "root_cause": "Agent将'跑一下测试'理解为'执行测试并报告结果'，但用户的隐含意图是'验证重命名的完整性并修复遗漏'。测试失败在重命名语境下几乎一定是遗漏，应该自动分析修复",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-验证后不自修复",
+    "timestamp": "2026-03-08T20:02:13+08:00"
   },
   {
-    "id": "global-rename-015",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将 API 路由前缀从 /internal/ 改为 /private/，涉及网关层和各微服务",
-    "expected_execution_chain": [
-      "1. 扫描 API 网关配置中所有 /internal/ 前缀的路由规则",
-      "2. 扫描各微服务中注册的 /internal/ 路由",
-      "3. 检查网关的访问控制策略是否基于路径前缀过滤",
-      "4. 更新网关路由配置中的前缀",
-      "5. 更新各微服务的路由注册",
-      "6. 更新网关的 ACL/防火墙规则以匹配新前缀",
-      "7. 更新服务间调用代码中的路径",
-      "8. 更新 API 文档和内部调用约定文档",
-      "9. 部署网关和服务后运行内部 API 集成测试"
-    ],
-    "badcase_conditions": [
-      "网关 ACL 未更新导致内部 API 被公开访问（安全漏洞）",
-      "部分微服务未同步更新导致网关路由失效",
-      "服务间调用硬编码旧前缀导致调用失败",
-      "健康检查路径 /internal/health 未更新导致监控告警"
-    ],
-    "pass_criteria": [
-      "所有 /private/ 路由仅内部可访问",
-      "外部无法访问 /private/ 前缀路由",
-      "服务间调用全部正常",
-      "监控和健康检查恢复正常"
-    ],
-    "required_capabilities": ["网关配置", "ACL管理", "微服务协调", "安全审计", "健康检查验证"]
+    "id": "GR-015",
+    "input": "MEMORY.md里用的术语和代码里不一致，同步一下",
+    "context": "代码重构后，代码中用的是新术语（TaskOrchestrator），但MEMORY.md中大量使用旧术语（DTO）。MEMORY.md有200+行引用了DTO。",
+    "expected_behavior": "扫描MEMORY.md中所有DTO出现位置，但不做盲目全量替换——因为MEMORY.md记录的是历史事件，历史对话中的DTO引用应该保留原样（加注释说明现已更名），只有描述当前系统架构的段落才需要更新为新名字",
+    "actual_behavior": "全量替换了MEMORY.md中的所有DTO为TaskOrchestrator，导致历史记录失真——'2026-03-04用户亲授TaskOrchestrator架构'（当时用户说的是DTO）",
+    "root_cause": "Agent对记忆/历史文件的重命名策略不当——历史记录的真实性优先于术语一致性。正确做法是在引用旧术语处加括号标注'（现更名为X）'，而非直接改写历史",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-历史记录改写",
+    "timestamp": "2026-03-08T20:02:14+08:00"
   },
   {
-    "id": "global-rename-016",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将技能名 camera-snap 改为 photo-capture，该技能被3个其他技能依赖",
-    "expected_execution_chain": [
-      "1. 定位 skills/camera-snap 目录及 manifest.json",
-      "2. 分析依赖图：哪3个技能依赖 camera-snap",
-      "3. 检查依赖方式：直接 require、事件依赖还是配置引用",
-      "4. 重命名目录 skills/camera-snap → skills/photo-capture",
-      "5. 更新 manifest.json 中的技能标识",
-      "6. 更新3个依赖技能中的引用路径和依赖声明",
-      "7. 更新事件名 camera-snap:* → photo-capture:*",
-      "8. 更新技能间的依赖拓扑配置",
-      "9. 运行依赖链路的集成测试验证所有技能协作正常"
-    ],
-    "badcase_conditions": [
-      "依赖技能的 manifest.json 中 dependencies 未更新",
-      "技能加载顺序依赖旧名排序导致加载失败",
-      "事件名更新不完整导致技能间消息丢失",
-      "技能描述中引用旧名导致用户混淆"
-    ],
-    "pass_criteria": [
-      "4个技能（本体+3个依赖方）全部正常加载",
-      "技能间事件通信正常",
-      "依赖拓扑图正确反映新名称",
-      "所有相关测试通过"
-    ],
-    "required_capabilities": ["依赖分析", "技能拓扑", "事件更新", "级联重命名", "集成测试"]
-  },
-  {
-    "id": "global-rename-017",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将核心模块 event-bus 重构为 message-broker，伴随架构语义从广播模式变为队列模式",
-    "expected_execution_chain": [
-      "1. 分析 event-bus 的当前 API：emit/on/off/once 等方法签名",
-      "2. 设计 message-broker 的新 API：publish/subscribe/unsubscribe/ack",
-      "3. 全仓库扫描 event-bus 的所有调用点（约50处）",
-      "4. 创建 message-broker 模块，实现新 API",
-      "5. 创建适配层：将旧 API 调用映射到新 API",
-      "6. 逐步迁移各消费方使用新 API",
-      "7. 更新所有类型定义和接口声明",
-      "8. 更新架构文档说明语义变更",
-      "9. 运行全量测试 + 消息可靠性测试验证"
-    ],
-    "badcase_conditions": [
-      "适配层有 bug 导致消息丢失",
-      "新的 ack 机制未被消费方正确实现导致消息重复",
-      "广播语义的调用方未意识到变为队列语义",
-      "部分调用方仍使用 emit/on 旧 API 未被发现"
-    ],
-    "pass_criteria": [
-      "所有消费方迁移到新 API",
-      "消息可靠性测试通过（无丢失、无重复）",
-      "适配层已移除或标记废弃",
-      "架构文档准确描述新的消息模型"
-    ],
-    "required_capabilities": ["架构重构", "API设计", "适配器模式", "消息可靠性测试", "渐进式迁移"]
-  },
-  {
-    "id": "global-rename-018",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "把所有以 handle 开头的事件处理函数改为以 on 开头，如 handleClick → onClick",
-    "expected_execution_chain": [
-      "1. 全仓库搜索 handle[A-Z] 模式的函数定义",
-      "2. 分类：React 组件方法、工具函数、事件回调、Express handler",
-      "3. 排除不应改名的（如 Express route handler 通常不改）",
-      "4. 生成改名映射表（handleClick→onClick, handleSubmit→onSubmit...）",
-      "5. 批量更新函数定义处的函数名",
-      "6. 批量更新所有调用处的函数名",
-      "7. 更新 JSX 中的事件绑定（如 onClick={handleClick} → onClick={onClick}）",
-      "8. 更新测试中的函数引用和 spy/mock",
-      "9. 运行 lint + 测试验证无命名冲突和功能回归"
-    ],
-    "badcase_conditions": [
-      "误改了 Express handler 导致路由绑定断裂",
-      "新函数名与已有 prop 名冲突（如组件已有 onClick prop）",
-      "JSX 中 onClick={onClick} 造成自引用循环",
-      "测试中 spy(component, 'handleClick') 未更新导致测试假绿"
-    ],
-    "pass_criteria": [
-      "React 组件中的事件处理函数统一使用 on 前缀",
-      "无命名冲突",
-      "lint 零警告",
-      "全量测试通过"
-    ],
-    "required_capabilities": ["AST分析", "批量重命名", "命名冲突检测", "React组件理解", "测试验证"]
-  },
-  {
-    "id": "global-rename-019",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将事件前缀 plugin: 改为 extension:，涉及插件系统的加载、通信和卸载全流程",
-    "expected_execution_chain": [
-      "1. 扫描插件系统核心代码中所有 plugin: 前缀的事件定义",
-      "2. 建立事件清单：plugin:loaded, plugin:error, plugin:unloaded 等",
-      "3. 扫描所有插件中对这些事件的监听和发布",
-      "4. 更新核心代码中的事件前缀",
-      "5. 更新所有内置插件中的事件引用",
-      "6. 更新第三方插件开发文档和模板",
-      "7. 在事件常量文件中添加兼容映射（plugin:* → extension:*）",
-      "8. 更新插件生命周期测试",
-      "9. 运行插件加载→执行→卸载全流程测试"
-    ],
-    "badcase_conditions": [
-      "第三方插件仍发 plugin: 事件导致核心系统不响应",
-      "兼容映射遗漏某些事件类型",
-      "插件卸载事件断链导致资源泄漏",
-      "插件模板未更新导致新开发的插件使用旧前缀"
-    ],
-    "pass_criteria": [
-      "内置插件全部使用 extension: 前缀",
-      "兼容层可转发旧前缀事件",
-      "插件全生命周期测试通过",
-      "开发文档和模板已更新"
-    ],
-    "required_capabilities": ["插件系统理解", "事件映射", "生命周期测试", "兼容层设计", "文档更新"]
-  },
-  {
-    "id": "global-rename-020",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将变量名 TIMEOUT_MS 改为 REQUEST_TIMEOUT_MS 以增加语义清晰度，涉及约200处引用",
-    "expected_execution_chain": [
-      "1. 全仓库 grep TIMEOUT_MS 定位所有出现位置",
-      "2. 区分同名但不同作用域的 TIMEOUT_MS（可能有多个不相关的）",
-      "3. 确定只改全局/共享的 TIMEOUT_MS，不改局部变量",
-      "4. 标记需要更新的200处引用",
-      "5. 更新常量定义文件中的变量名",
-      "6. 批量更新源码引用",
-      "7. 更新环境变量名（如 TIMEOUT_MS=5000 → REQUEST_TIMEOUT_MS=5000）",
-      "8. 更新文档中对该配置项的说明",
-      "9. 运行全量测试 + 手动验证超时行为正确"
-    ],
-    "badcase_conditions": [
-      "误改了局部作用域的同名变量导致功能异常",
-      "部分引用是字符串形式（如配置 key）未被简单替换覆盖",
-      "环境变量在部署平台（如 Vercel/Heroku）上未同步更新",
-      "200处替换中有遗漏导致运行时 undefined"
-    ],
-    "pass_criteria": [
-      "全局常量统一为 REQUEST_TIMEOUT_MS",
-      "局部同名变量未被误改",
-      "全量测试通过",
-      "所有环境的超时行为正确"
-    ],
-    "required_capabilities": ["作用域分析", "精确匹配", "批量替换", "环境变量同步", "行为验证"]
-  },
-  {
-    "id": "global-rename-021",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将 API 资源名 /api/orders/{id}/items 改为 /api/orders/{id}/line-items，涉及前后端和移动端",
-    "expected_execution_chain": [
-      "1. 扫描后端路由定义中该路径的注册",
-      "2. 扫描 Web 前端代码中的 API 调用",
-      "3. 扫描移动端（iOS/Android）代码中的 API 调用",
-      "4. 更新后端路由定义并保留旧路由做重定向",
-      "5. 更新 Web 前端 API 调用路径",
-      "6. 通知移动端团队更新（或提供 SDK 新版本）",
-      "7. 更新 OpenAPI 文档和 SDK 生成配置",
-      "8. 更新所有端的测试用例",
-      "9. 部署后运行跨端集成测试验证"
-    ],
-    "badcase_conditions": [
-      "移动端已发布版本无法强制更新导致旧路径必须长期保留",
-      "SDK 自动生成的客户端代码未重新生成",
-      "旧路由重定向丢失查询参数或请求体",
-      "移动端缓存了旧路径的响应导致数据不一致"
-    ],
-    "pass_criteria": [
-      "新路径全端可用",
-      "旧路径重定向正常且不丢数据",
-      "OpenAPI 文档已更新",
-      "跨端集成测试通过"
-    ],
-    "required_capabilities": ["多端协调", "路由重定向", "SDK生成", "API版本管理", "跨端测试"]
-  },
-  {
-    "id": "global-rename-022",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将技能名 healthcheck 改为 system-diagnostics，这是一次功能范围扩展后的改名",
-    "expected_execution_chain": [
-      "1. 审查 healthcheck 技能当前的功能范围",
-      "2. 全仓库扫描 healthcheck 的所有引用",
-      "3. 重命名目录 skills/healthcheck → skills/system-diagnostics",
-      "4. 更新 SKILL.md 中的描述以反映扩展后的功能范围",
-      "5. 更新 manifest.json 中的 name/id/description",
-      "6. 更新 available_skills 列表中的条目和 description",
-      "7. 更新定时任务/cron 中引用该技能的配置",
-      "8. 更新用户文档和帮助信息中的技能名",
-      "9. 运行技能功能测试和集成测试"
-    ],
-    "badcase_conditions": [
-      "cron 任务中残留旧技能名导致定时检查失效",
-      "available_skills 中 description 未更新，用户仍看到旧描述",
-      "技能路径解析逻辑依赖旧目录名导致加载失败",
-      "帮助命令中展示旧技能名导致用户困惑"
-    ],
-    "pass_criteria": [
-      "技能以 system-diagnostics 名称加载并运行",
-      "定时任务正常触发",
-      "帮助信息和文档一致",
-      "全部测试通过"
-    ],
-    "required_capabilities": ["技能重命名", "cron配置", "用户文档更新", "技能发现更新", "集成测试"]
-  },
-  {
-    "id": "global-rename-023",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将模块名 utils 改为 shared-helpers，这是一个被几乎所有模块依赖的基础模块",
-    "expected_execution_chain": [
-      "1. 分析 utils 模块的导出清单和被依赖方数量",
-      "2. 全仓库扫描 from 'utils' / require('utils') 的所有位置（可能200+）",
-      "3. 评估 TypeScript path alias 是否指向 utils（如 @/utils）",
-      "4. 重命名目录并更新 package.json",
-      "5. 更新 TypeScript tsconfig paths 别名",
-      "6. 批量更新所有 import 路径",
-      "7. 更新 jest/vitest 的 moduleNameMapper 配置",
-      "8. 更新文档中对 utils 模块的引用",
-      "9. 运行 TypeScript 编译 + 全量测试验证"
-    ],
-    "badcase_conditions": [
-      "tsconfig paths 未更新导致 IDE 报错但编译时通过（隐患）",
-      "jest moduleNameMapper 未更新导致测试全部失败",
-      "某些文件使用相对路径引用而非别名未被全局替换覆盖",
-      "子包的 tsconfig 继承了父级配置但自身未更新"
-    ],
-    "pass_criteria": [
-      "TypeScript 编译零错误",
-      "全量测试通过",
-      "IDE 无路径解析警告",
-      "所有子包的 tsconfig 正确"
-    ],
-    "required_capabilities": ["TypeScript配置", "路径别名管理", "测试配置", "依赖分析", "IDE兼容验证"]
-  },
-  {
-    "id": "global-rename-024",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将事件前缀 ws: 改为 realtime:，涉及 WebSocket 服务端和客户端 SDK",
-    "expected_execution_chain": [
-      "1. 扫描 WebSocket 服务端代码中所有 ws: 前缀的消息类型",
-      "2. 扫描客户端 SDK 中对应的消息类型定义",
-      "3. 建立消息类型的上下游对应关系",
-      "4. 更新服务端消息类型定义和处理逻辑",
-      "5. 更新客户端 SDK 中的消息类型和解析逻辑",
-      "6. 添加消息类型兼容层（接受旧前缀的消息）",
-      "7. 更新 WebSocket 协议文档",
-      "8. 更新 SDK 版本号和 CHANGELOG",
-      "9. 运行 WebSocket 连接测试和消息收发测试"
-    ],
-    "badcase_conditions": [
-      "旧版 SDK 用户无法升级导致消息类型不匹配",
-      "兼容层的消息转发引入额外延迟",
-      "SDK CHANGELOG 未记录破坏性变更导致用户升级踩坑",
-      "心跳消息的类型未更新导致连接被误断"
-    ],
-    "pass_criteria": [
-      "新 SDK 使用 realtime: 前缀正常通信",
-      "旧 SDK 通过兼容层仍可通信",
-      "心跳和重连机制正常",
-      "协议文档和 CHANGELOG 已更新"
-    ],
-    "required_capabilities": ["WebSocket协议", "SDK管理", "消息兼容", "版本管理", "连接测试"]
-  },
-  {
-    "id": "global-rename-025",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将配置变量 LOG_LEVEL 改为 APP_LOG_LEVEL 以避免与第三方库的同名变量冲突",
-    "expected_execution_chain": [
-      "1. 确认冲突场景：哪个第三方库也使用 LOG_LEVEL",
-      "2. 全仓库扫描 LOG_LEVEL 的所有出现位置",
-      "3. 区分应用自有的 LOG_LEVEL 和第三方库的 LOG_LEVEL",
-      "4. 更新应用代码中的变量引用",
-      "5. 更新所有环境配置文件",
-      "6. 更新日志初始化代码以读取新变量名",
-      "7. 更新部署文档和运维手册",
-      "8. 确保第三方库的 LOG_LEVEL 不受影响",
-      "9. 在各环境验证日志级别设置正确"
-    ],
-    "badcase_conditions": [
-      "误改了第三方库的 LOG_LEVEL 引用",
-      "日志初始化优先级变更导致生产环境日志过多或过少",
-      "运维人员不知道变量名变更导致排障时设错变量",
-      "Docker entrypoint 脚本中硬编码旧变量名"
-    ],
-    "pass_criteria": [
-      "应用日志级别可通过 APP_LOG_LEVEL 正确控制",
-      "第三方库的 LOG_LEVEL 不受影响",
-      "运维文档已更新",
-      "各环境日志行为正确"
-    ],
-    "required_capabilities": ["变量冲突分析", "精确替换", "环境配置", "日志系统", "运维文档"]
-  },
-  {
-    "id": "global-rename-026",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将 API 前缀 /api/v3/projects 改为 /api/v3/workspaces，同时将数据库表名 projects 也改为 workspaces",
-    "expected_execution_chain": [
-      "1. 扫描路由定义中 /api/v3/projects 的所有注册",
-      "2. 扫描 ORM/Model 中 projects 表的所有引用",
-      "3. 生成数据库迁移脚本：ALTER TABLE projects RENAME TO workspaces",
-      "4. 更新 ORM Model 的 tableName 和类名",
-      "5. 更新 API 路由定义",
-      "6. 更新前端 API 调用路径",
-      "7. 更新 API 文档和数据库 ER 图",
-      "8. 在旧路由添加重定向兼容",
-      "9. 执行数据库迁移 + API 测试 + 前端测试验证"
-    ],
-    "badcase_conditions": [
-      "数据库迁移失败导致数据丢失",
-      "ORM 缓存中仍使用旧表名导致查询失败",
-      "数据库迁移未回滚方案导致线上事故无法恢复",
-      "外键关联表未同步更新 foreign key"
-    ],
-    "pass_criteria": [
-      "数据库迁移成功且数据完整",
-      "API 路由和数据库表名一致使用 workspaces",
-      "ORM 查询正常",
-      "全量测试通过"
-    ],
-    "required_capabilities": ["数据库迁移", "ORM更新", "路由重构", "数据完整性验证", "回滚方案"]
-  },
-  {
-    "id": "global-rename-027",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将技能名 tmux 改为 terminal-session，同时更新其命令前缀和快捷键绑定",
-    "expected_execution_chain": [
-      "1. 定位 skills/tmux 目录和相关配置",
-      "2. 全仓库扫描 tmux 技能名的所有引用",
-      "3. 重命名目录 skills/tmux → skills/terminal-session",
-      "4. 更新 manifest.json 和 SKILL.md",
-      "5. 更新命令前缀（如 /tmux → /terminal）",
-      "6. 更新快捷键绑定配置中的技能引用",
-      "7. 更新命令帮助文档和 autocomplete 配置",
-      "8. 更新技能注册和发现配置",
-      "9. 运行技能命令测试和快捷键测试"
-    ],
-    "badcase_conditions": [
-      "用户已习惯 /tmux 命令，未添加别名导致体验断裂",
-      "快捷键绑定文件格式特殊未被正则匹配到",
-      "autocomplete 缓存未刷新导致仍提示旧命令",
-      "技能内部 shell 命令引用了 tmux 二进制未改（不该改）"
-    ],
-    "pass_criteria": [
-      "新命令 /terminal 正常工作",
-      "旧命令 /tmux 有别名或提示已更名",
-      "快捷键绑定正常",
-      "技能加载和发现正常"
-    ],
-    "required_capabilities": ["命令系统更新", "快捷键配置", "别名管理", "autocomplete更新", "用户体验"]
-  },
-  {
-    "id": "global-rename-028",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将模块名 logger 拆分重命名为 log-core 和 log-transports，这是一次拆分重构",
-    "expected_execution_chain": [
-      "1. 分析 logger 模块的功能：核心日志 API 和传输层（console/file/remote）",
-      "2. 全仓库扫描 import from 'logger' 的所有位置",
-      "3. 按引用的具体功能分类：使用核心 API 的和使用传输配置的",
-      "4. 创建 log-core 模块（日志 API）和 log-transports 模块（传输层）",
-      "5. 迁移代码到两个新模块",
-      "6. 更新引用核心 API 的文件改为 import from 'log-core'",
-      "7. 更新引用传输配置的文件改为 import from 'log-transports'",
-      "8. 删除旧 logger 模块或保留为 facade 模块",
-      "9. 运行全量测试验证日志功能正常"
-    ],
-    "badcase_conditions": [
-      "拆分边界不清导致循环依赖",
-      "某些文件同时需要两个模块但只引用了一个",
-      "传输层初始化顺序变更导致启动时日志丢失",
-      "旧 logger 模块未处理导致 import 仍可解析但功能不全"
-    ],
-    "pass_criteria": [
-      "两个新模块无循环依赖",
-      "所有日志功能正常（写入、格式化、传输）",
-      "全量测试通过",
-      "旧 import 路径编译报错（或 facade 重导出正确）"
-    ],
-    "required_capabilities": ["模块拆分", "依赖分析", "循环依赖检测", "渐进式迁移", "日志系统验证"]
-  },
-  {
-    "id": "global-rename-029",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐",
-    "trigger": "将所有 callback 风格的异步函数名从 xxxCb 改为 xxxAsync 并更新签名为 Promise",
-    "expected_execution_chain": [
-      "1. 全仓库搜索以 Cb 结尾的函数定义",
-      "2. 分类：哪些确实是 callback 风格需要改，哪些不是",
-      "3. 生成改名映射表（readFileCb→readFileAsync, connectCb→connectAsync...）",
-      "4. 将函数实现从 callback 改为 async/await 或返回 Promise",
-      "5. 更新函数名",
-      "6. 更新所有调用点：从 callback 调用改为 await 调用",
-      "7. 更新类型定义中的函数签名",
-      "8. 更新错误处理：从 err-first callback 改为 try/catch",
-      "9. 运行全量测试验证异步行为正确"
-    ],
-    "badcase_conditions": [
-      "callback 转 Promise 时错误传播路径变更导致异常未捕获",
-      "调用方未 await 导致 race condition",
-      "某些 callback 是 event-style 多次调用的不适合改为 Promise",
-      "错误处理从 if(err) 改为 try/catch 时遗漏某些错误分支"
-    ],
-    "pass_criteria": [
-      "所有 xxxAsync 函数返回 Promise",
-      "无未处理的 Promise rejection",
-      "全量测试通过",
-      "lint 无 async 相关警告"
-    ],
-    "required_capabilities": ["异步模式转换", "函数签名更新", "错误处理重构", "Promise分析", "并发测试"]
-  },
-  {
-    "id": "global-rename-030",
-    "level": "C2",
-    "category": "全仓库改名/重构——全链路对齐
+    "id": "GR-016",
+    "input": "日志输出里的模块名也要统一，用户看日志时不应该看到旧名字",
+    "context": "代码中的logger.info('dispatcher: processing task')这类日志输出字符串中还包含旧名字。前3轮已经改了变量名和函数名。",
+    "expected_behavior": "grep搜索所有日志输出中的旧名字字符串，逐一更新。注意区分：1)日志模板中的模块标识符要改 2)日志中引用的变量名（已改的变量自动会变）3)错误消息中的描述性文字也要同步",
+    "actual_behavior": "只修改了变量名引用的日志(自动变了)，但硬编码字符串如'dispatcher: processing task'没有修改，用户在线上日志中仍然看到旧名字",
+    "root_cause": "Agent的重命名搜索只用了语法级工具（IDE rename/AST rename），没有覆盖字符串常量级的文本搜索。硬编码在字符串中的名字不是语法引用，需要文本搜索(grep)来发现",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局重命名-字符串常量遗漏",
+    "timestamp": "2026-03-08T20:02:15+08:00"
+  }
+]

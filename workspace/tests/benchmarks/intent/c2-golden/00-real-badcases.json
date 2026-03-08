@@ -12,7 +12,9 @@
     "complexity_tags": [
       "delegation_violation",
       "coding_by_main_agent"
-    ]
+    ],
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "BADCASE-DELEGATION-002",
@@ -27,7 +29,9 @@
     "complexity_tags": [
       "delegation_violation",
       "doc_writing_by_main_agent"
-    ]
+    ],
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "BADCASE-DELEGATION-003",
@@ -42,7 +46,9 @@
     "complexity_tags": [
       "delegation_violation",
       "analysis_by_main_agent"
-    ]
+    ],
+    "difficulty": "C3",
+    "source": "synthetic"
   },
   {
     "id": "BADCASE-DELEGATION-004",
@@ -57,7 +63,9 @@
     "complexity_tags": [
       "delegation_violation",
       "rule_creation_by_main_agent"
-    ]
+    ],
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "BADCASE-DELEGATION-005",
@@ -73,7 +81,9 @@
       "delegation_violation",
       "cognitive_rule_insufficient",
       "meta_problem"
-    ]
+    ],
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "session-2026-03-08-001",
@@ -83,7 +93,9 @@
     "actual_chain": "writer多轮写入但未清理历史残留 → reviewer发现问题 → 流程未一次闭环",
     "root_cause": "质量门禁仅检查是否执行步骤，缺少对“净化完成度（无旧版本残留/无重复拼接/章节起始正确）”的硬性判定。",
     "severity": "C2",
-    "data_source": "real-conversation"
+    "data_source": "real-conversation",
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "session-2026-03-08-002",
@@ -93,7 +105,9 @@
     "actual_chain": "agent文本承诺执行 → 无任何工具调用 → 任务被误认为进行中/已响应",
     "root_cause": "评测标准缺少“承诺-执行一致性”与“最小工具调用证据”门槛，导致‘说了不做’未被即时拦截。",
     "severity": "C2",
-    "data_source": "real-conversation"
+    "data_source": "real-conversation",
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "session-2026-03-08-003",
@@ -103,7 +117,9 @@
     "actual_chain": "新流程已实现但执行时仍沿用旧习惯/旧路径",
     "root_cause": "缺少“发布后强制切换+旧路径熔断”机制，评测只看‘是否有新流程’不看‘是否实际被调用为主路径’。",
     "severity": "C2",
-    "data_source": "real-conversation"
+    "data_source": "real-conversation",
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "session-2026-03-08-004",
@@ -113,7 +129,9 @@
     "actual_chain": "只交付register入口，后续状态更新链路缺失",
     "root_cause": "评测标准对‘闭环完整性’定义粗糙，未把关键后继动作列为必选检查项（mandatory follow-up actions）。",
     "severity": "C2",
-    "data_source": "real-conversation"
+    "data_source": "real-conversation",
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "session-2026-03-08-005",
@@ -123,7 +141,9 @@
     "actual_chain": "规则存在但检查粒度不足，放行了低质量结果",
     "root_cause": "‘规则存在’被当成通过信号，缺少‘规则有效性/命中率/拦截率’评测维度。",
     "severity": "C2",
-    "data_source": "real-conversation"
+    "data_source": "real-conversation",
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "BADCASE-TASKBOARD-UPDATE-001",
@@ -140,7 +160,9 @@
       "completion_event_miss",
       "cognitive_rule_insufficient",
       "async_turn_forgetting"
-    ]
+    ],
+    "difficulty": "C1",
+    "source": "synthetic"
   },
   {
     "id": "C2-SPAWN-REGISTER-ATOMIC-001",
@@ -166,7 +188,9 @@
     "lesson": "凡是两步操作必须原子绑定的场景，MD约束不够，必须程序化。框架不支持hook时，至少要在SOUL.md最高优先级位置强制约束",
     "data_source": "real_conversation",
     "date": "2026-03-08",
-    "context": "用户三次问'为什么没看到任务看板更新'，根因相同"
+    "context": "用户三次问'为什么没看到任务看板更新'，根因相同",
+    "difficulty": "C2",
+    "source": "synthetic"
   },
   {
     "id": "C2-GIT-PUSH-BLIND-001",
@@ -192,6 +216,116 @@
     ],
     "lesson": "任何外部操作(push/API调用/文件发送)执行后必须验真返回结果，不能盲目宣称成功",
     "data_source": "real_conversation",
-    "date": "2026-03-08"
+    "date": "2026-03-08",
+    "difficulty": "C1",
+    "source": "synthetic"
+  },
+  {
+    "id": "badcase-spawn-no-board-push-repeated",
+    "input": "派发子Agent任务后不刷新任务看板推送给用户",
+    "context": "用户多次纠偏'你更新了任务队列但没给我看汇报列表'、'这个问题反复出现无数次了'。每次spawn后都忘记推送状态看板",
+    "expected_behavior": "每次spawn后立即刷新任务看板并推送给用户",
+    "actual_behavior": "spawn后直接进入下一步或等待，不推送看板",
+    "root_cause": "跨异步Turn记忆断裂——spawn后推送看板靠记忆而非程序化hook",
+    "difficulty": "C1",
+    "source": "real_conversation",
+    "category": "反复未果类",
+    "timestamp": "2026-03-08T18:41:00+08:00"
+  },
+  {
+    "id": "badcase-subagent-empty-run-writer",
+    "input": "子Agent声称'我将写入'但实际未调用任何工具",
+    "context": "writer子Agent(strategy-report-B)收到任务后只输出了计划描述，没有真正read素材文件或write产出文件。tokens仅2.4k",
+    "expected_behavior": "子Agent必须真正调用read/write工具完成任务",
+    "actual_behavior": "输出计划文字后就结束，未执行任何工具调用",
+    "root_cause": "任务描述中虽写了'必须真正调用工具'但对gpt-5.3-codex模型约束力不足；低token消耗是空转信号",
+    "difficulty": "C1",
+    "source": "real_conversation",
+    "category": "自主性缺失类",
+    "timestamp": "2026-03-08T19:35:00+08:00"
+  },
+  {
+    "id": "badcase-subagent-sandbox-isolation",
+    "input": "子Agent在独立sandbox中无法访问主workspace文件",
+    "context": "analyst子Agent(eval-set-mining)需要读取tests/benchmarks/下的评测文件，但sandbox环境中不存在这些文件。子Agent报告'没有你要求的目录/文件'",
+    "expected_behavior": "派发需要访问主workspace文件的任务时，使用sandbox=inherit参数",
+    "actual_behavior": "未设置sandbox=inherit，子Agent在隔离环境中找不到文件",
+    "root_cause": "spawn时未考虑任务对主workspace文件的依赖性，遗漏sandbox=inherit参数",
+    "difficulty": "C1",
+    "source": "real_conversation",
+    "category": "全局未对齐类",
+    "timestamp": "2026-03-08T19:34:00+08:00"
+  },
+  {
+    "id": "badcase-feishu-doc-create-empty",
+    "input": "创建飞书文档后直接推给用户，未验证内容是否实际写入",
+    "context": "调用feishu_doc(action=create)创建文档，API返回成功(document_id)，但实际内容为空。直接把链接推给用户，用户打开看到空白文档",
+    "expected_behavior": "创建文档后必须read验证block_count>1，确认内容写入后才推送",
+    "actual_behavior": "API返回success就直接推送链接",
+    "root_cause": "feishu_doc create返回值无内容校验字段，交付前自检流程未覆盖飞书文档验证",
+    "difficulty": "C1",
+    "source": "real_conversation",
+    "category": "交付质量类",
+    "timestamp": "2026-03-08T19:44:00+08:00"
+  },
+  {
+    "id": "badcase-quality-audit-shell",
+    "input": "质量审计子Agent仅消耗2.5k tokens——空壳审计",
+    "context": "首次派analyst/gpt-5.3-codex做ISC hook脚本深度审计（要求抽样30条+全量扫描），子Agent仅消耗2.5k tokens就完成，明显未执行真实审计",
+    "expected_behavior": "深度审计应有大量read/exec工具调用，token消耗应在20k+",
+    "actual_behavior": "极低token消耗，产出为空壳报告",
+    "root_cause": "gpt-5.3-codex模型对复杂多步任务执行力不足；未设置token消耗下限作为质量信号",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "交付质量类",
+    "timestamp": "2026-03-08T18:30:00+08:00"
+  },
+  {
+    "id": "badcase-report-as-md-not-feishu",
+    "input": "用户要求飞书文档交付，但子Agent产出写入本地md文件",
+    "context": "用户明确说'做成飞书文档给我'，但子Agent(strategy-report-A/B)只写入本地reports/目录的md文件。用户两次纠偏'这是Badcase，要飞书文档'",
+    "expected_behavior": "用户要求飞书文档时，必须调用feishu_doc工具创建文档",
+    "actual_behavior": "写入本地md文件后汇报完成",
+    "root_cause": "任务描述中未明确要求使用feishu_doc工具；子Agent默认输出到本地文件",
+    "difficulty": "C1",
+    "source": "real_conversation",
+    "category": "认知错误类",
+    "timestamp": "2026-03-08T19:40:00+08:00"
+  },
+  {
+    "id": "badcase-eval-set-excuse",
+    "input": "声称真实评测集难获取，实际每次对话都在产生badcase",
+    "context": "用户问评测集状态时，回答'真实对话样本不够，C2高难度case不够'并派Agent去'挖历史记录'。用户指出'你还觉得真实评测集难获取么？不要找理由'",
+    "expected_behavior": "每个badcase发生时立即采集入库，不需要专门'挖掘'",
+    "actual_behavior": "把评测集采集当成独立任务去做，忽略了正在发生的真实badcase",
+    "root_cause": "没有建立实时采集机制——badcase发生时应自动触发入库，而非事后批量挖掘",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "自主性缺失类",
+    "timestamp": "2026-03-08T19:44:00+08:00"
+  },
+  {
+    "id": "badcase-eval-task-no-standard-reference",
+    "input": "派评测集生成/标注任务时，不要求子Agent先读评测标准文档",
+    "context": "连续派出3路评测集任务（analyst标注/researcher挖掘/writer生成），prompt中均未要求先读《AEO评测标准与基线V3》和复杂黄金case做质量基线对齐。用户两次纠偏",
+    "expected_behavior": "任何评测集相关任务，prompt必须包含：1.先读评测标准文档 2.先读黄金case范例 3.质量对齐约束",
+    "actual_behavior": "三路任务都按子Agent自己理解执行，产出质量无保证",
+    "root_cause": "任务prompt模板化缺失——评测集任务没有强制前置约束（读标准+读范例），每次靠记忆临时写prompt",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐类",
+    "timestamp": "2026-03-08T20:02:00+08:00"
+  },
+  {
+    "id": "badcase-badcase-to-goodcase-not-programmatic",
+    "input": "badcase→goodcase翻转说要做但依赖记忆而非程序化",
+    "context": "用户确认badcase→goodcase闭环后，AI说\"我在reviewer审计完后加一步翻转\"——这是靠记忆的承诺，不是程序化的自动流程",
+    "expected_behavior": "badcase入库时自动触发goodcase生成（程序化hook），不依赖任何人记住要做这件事",
+    "actual_behavior": "说\"我会在之后加一步\"——典型的记忆依赖，跨Turn必丢",
+    "root_cause": "MD化而非程序化的老问题。说了\"要程序化\"但承诺本身不是程序化的",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "反复未果类",
+    "timestamp": "2026-03-08T20:05:00+08:00"
   }
 ]

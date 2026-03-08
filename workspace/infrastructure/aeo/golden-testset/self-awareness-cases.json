@@ -250,6 +250,28 @@
       "auto_generated": true,
       "source_signal": "4. **用户要求：任务应该默认扩列子Agent，不是自己上** — \"我需要的不是你自己做，是你把任务调度做好，默认任务扩列，子Agent去完成任务！\"",
       "context_sample": "1. **主Agent又亲自写代码** — 发现19.7%规则全链路问题后自己动手修，没有派子Agent。违反通信阻塞铁律\n2. **发现严重问题不自动扩列** — 盲区扫描发现高风险后只写报告，没触发自动修复任务\n3. **飞书文档结构错误** — OKmrd21OsotmFkxpT4gcLXjunze v2和v3被拼接，开头从第二章开始，用户要求4章结构\n4. **用户要求：任务应该默认扩列子"
+    },
+    {
+      "id": "RW-RESTART-MMHNHNRH",
+      "category": "resilience",
+      "input": "返工事件: restart (触发 2 次, score: 1.8)",
+      "expected_behavior": "子Agent重启前保存状态，重启后自动分析失败原因",
+      "failure_mode": "Agent未能自主避免 \"restart\" 类型的返工",
+      "source_date": "2026-03-08",
+      "auto_generated": true,
+      "source_signal": "**待完成：** gateway 重启（等审计子 agent 报告后执行）",
+      "context_sample": "\n**回滚命令：** `cp /root/.openclaw/openclaw.json.backup-20260308-1007 /root/.openclaw/openclaw.json`\n\n**待完成：** gateway 重启（等审计子 agent 报告后执行）\n\n---\n\n## 11:30-12:00 智谱 Key 扩容 + Gateway 重启 + Day2 任务并行"
+    },
+    {
+      "id": "RW-MISALIGN-MMHNHNRH",
+      "category": "delivery_quality",
+      "input": "返工事件: misaligned (触发 2 次, score: 1.6)",
+      "expected_behavior": "交付前对照原始需求做自检，列出\"你要的X，我实现的是Y\"矩阵",
+      "failure_mode": "Agent未能自主避免 \"misaligned\" 类型的返工",
+      "source_date": "2026-03-08",
+      "auto_generated": true,
+      "source_signal": "4. **用户要求：任务应该默认扩列子Agent，不是自己上** — \"我需要的不是你自己做，是你把任务调度做好，默认任务扩列，子Agent去完成任务！\"",
+      "context_sample": "1. **主Agent又亲自写代码** — 发现19.7%规则全链路问题后自己动手修，没有派子Agent。违反通信阻塞铁律\n2. **发现严重问题不自动扩列** — 盲区扫描发现高风险后只写报告，没触发自动修复任务\n3. **飞书文档结构错误** — OKmrd21OsotmFkxpT4gcLXjunze v2和v3被拼接，开头从第二章开始，用户要求4章结构\n4. **用户要求：任务应该默认扩列子"
     }
   ]
 }

@@ -1,0 +1,20 @@
+{
+  "rule_id": "ISC-BADCASE-AUTO-FLIP-001",
+  "version": "1.0.0",
+  "description": "badcase文件变更时自动运行翻转脚本，生成对应goodcase",
+  "trigger": {
+    "type": "file_change",
+    "watch_path": "/root/.openclaw/workspace/tests/benchmarks/intent/c2-golden/00-real-badcases.json",
+    "events": ["modify", "create"]
+  },
+  "action": {
+    "type": "exec",
+    "command": "bash /root/.openclaw/workspace/scripts/badcase-to-goodcase.sh",
+    "timeout_seconds": 30
+  },
+  "metadata": {
+    "created": "2026-03-08",
+    "author": "automation-engineer",
+    "purpose": "程序化保证badcase→goodcase翻转，不依赖记忆"
+  }
+}
