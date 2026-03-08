@@ -1,0 +1,46 @@
+{
+  "schema_version": "2026-03-08.strict-v1",
+  "case_id": "sample-replay-gap3-001",
+  "task_input": {
+    "request_text": "Validate whether a real request closed autonomously end-to-end.",
+    "task_family": "autonomy_evidence_review",
+    "source": "replay"
+  },
+  "verdict": {
+    "status": "insufficient_evidence",
+    "claim_ceiling": "component_only",
+    "reasons": [
+      "No artifact proves externally verified completion for a real request.",
+      "No artifact proves automatic badcase writing on critical failure."
+    ]
+  },
+  "evidence": {
+    "request_observed": { "present": true, "artifacts": ["reports/first-live-e2e-run.md"], "reviewed_by": "subagent", "note": "One live observed request/event path exists." },
+    "admitted": { "present": false, "artifacts": [], "reviewed_by": "subagent", "note": "Admission SLA evidence absent in workspace snapshot." },
+    "plan_materialized": { "present": false, "artifacts": [], "reviewed_by": "subagent", "note": "No strict plan artifact linked to the same real case." },
+    "execution_attempted": { "present": true, "artifacts": ["reports/first-live-e2e-run.md"], "reviewed_by": "subagent" },
+    "external_effect_verified": { "present": false, "artifacts": [], "reviewed_by": "subagent" },
+    "completion_verified": { "present": false, "artifacts": [], "reviewed_by": "subagent" },
+    "on_failure_badcase_written": { "present": false, "artifacts": [], "reviewed_by": "subagent" },
+    "audit_trace_present": { "present": false, "artifacts": [], "reviewed_by": "subagent", "note": "No unified trace artifact covering the whole case." },
+    "no_hidden_manual_patch": { "present": false, "artifacts": [], "reviewed_by": "subagent", "note": "Cannot exclude manual patching from current evidence." }
+  },
+  "review": {
+    "strict_failures": [
+      "missing: admitted",
+      "missing: plan_materialized",
+      "missing: external_effect_verified",
+      "missing: completion_verified",
+      "missing: on_failure_badcase_written",
+      "missing: audit_trace_present",
+      "missing: no_hidden_manual_patch"
+    ],
+    "notes": [
+      "Strict standard forbids inferred pass from component-level reports.",
+      "Any missing field forces fail/insufficient_evidence."
+    ]
+  },
+  "timestamps": {
+    "reviewed_at": "2026-03-08T00:37:00Z"
+  }
+}

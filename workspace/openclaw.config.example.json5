@@ -1,0 +1,680 @@
+// =============================================================================
+// OpenClaw Gateway 完整配置示例 (JSON5 格式)
+// =============================================================================
+// 配置文件位置：~/.openclaw/openclaw.json
+// 格式说明：JSON5 支持注释和尾随逗号，比标准 JSON 更灵活
+// 
+// 快速开始:
+// 1. 复制此配置到 ~/.openclaw/openclaw.json
+// 2. 替换 ${环境变量} 为实际值或使用 .env 文件
+// 3. 运行 openclaw gateway 启动网关
+// 4. 使用 openclaw doctor 检查配置
+// =============================================================================
+
+{
+  // ===========================================================================
+  // 1. 网关基础配置 (Gateway Core)
+  // ===========================================================================
+  
+  "gateway": {
+    "mode": "local",                    // 运行模式：local | remote
+    "port": 18789,                      // 网关监听端口
+    "bind": "loopback",                 // 绑定地址：loopback | all
+    
+    // 认证配置
+    "auth": {
+      "mode": "token",                  // 认证模式：token | tailscale
+      "token": "${OPENCLAW_GATEWAY_TOKEN}"  // 支持环境变量
+    },
+    
+    // 配置热重载
+    "reload": {
+      "mode": "hybrid",                 // hybrid | hot | restart | off
+      "debounceMs": 300
+    },
+    
+    // 控制 UI
+    "controlUi": {
+      "enabled": true,
+      "basePath": "/openclaw"
+    }
+  },
+  
+  // ===========================================================================
+  // 2. 身份配置 (Identity)
+  // ===========================================================================
+  
+  "identity": {
+    "name": "OpenClaw Assistant",       // 助手名称
+    "theme": "helpful assistant",       // 主题描述
+    "emoji": "🦞"                        // 签名表情
+  },
+  
+  // ===========================================================================
+  // 3. 日志配置 (Logging)
+  // ===========================================================================
+  
+  "logging": {
+    "level": "info",                    // debug | info | warn | error
+    "file": "~/.openclaw/logs/openclaw.log",
+    "consoleLevel": "info",
+    "consoleStyle": "pretty",           // pretty | json
+    "redactSensitive": "tools"          // tools | all | none
+  },
+  
+  // ===========================================================================
+  // 4. 代理配置 (Agent Configuration)
+  // ===========================================================================
+  
+  "agents": {
+    "defaults": {
+      "workspace": "~/.openclaw/workspace",  // 工作目录
+      "userTimezone": "Asia/Shanghai",       // 用户时区
+      "timeFormat": "auto",                  // auto | 12 | 24
+      
+      // 模型配置
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-5",
+        "fallbacks": [
+          "anthropic/claude-opus-4-6",
+          "openai/gpt-5.2"
+        ]
+      },
+      
+      // 图像模型
+      "imageModel": {
+        "primary": "openrouter/anthropic/claude-sonnet-4-5",
+        "fallbacks": [
+          "openrouter/google/gemini-2.0-flash-vision:free"
+        ]
+      },
+      
+      // 模型别名
+      "models": {
+        "anthropic/claude-opus-4-6": { "alias": "opus" },
+        "anthropic/claude-sonnet-4-5": { "alias": "sonnet" },
+        "openai/gpt-5.2": { "alias": "gpt" },
+        "openai/gpt-5-mini": { "alias": "gpt-mini" }
+      },
+      
+      // 默认行为
+      "thinkingDefault": "low",         // off | low | medium | high
+      "verboseDefault": "off",          // on | off
+      "elevatedDefault": "on",          // on | off
+      
+      // 超时和并发
+      "timeoutSeconds": 600,
+      "maxConcurrent": 3,
+      "mediaMaxMb": 5,
+      
+      // 心跳配置
+      "heartbeat": {
+        "every": "30m",                 // 0m 禁用
+        "target": "last",               // last | whatsapp | telegram | discord | none
+        "prompt": "HEARTBEAT",
+        "directPolicy": "allow"
+      },
+      
+      // 沙箱配置
+      "sandbox": {
+        "mode": "non-main",             // off | non-main | all
+        "scope": "agent",
+        "docker": {
+          "image": "openclaw-sandbox:bookworm-slim",
+          "network": "none",
+          "readOnlyRoot": true
+        }
+      }
+    }
+  },
+  
+  // ===========================================================================
+  // 5. 通道配置 (Channels)
+  // ===========================================================================
+  
+  "channels": {
+    // 通道默认设置
+    "defaults": {
+      "groupPolicy": "allowlist",
+      "heartbeat": {
+        "showOk": false,
+        "showAlerts": true,
+        "useIndicator": true
+      }
+    },
+    
+    // -----------------------------------------------------------------------
+    // 5.1 Feishu (飞书) 配置
+    // -----------------------------------------------------------------------
+    "feishu": {
+      "enabled": true,
+      "domain": "feishu",               // feishu (国内) | lark (国际)
+      "connectionMode": "websocket",
+      
+      "accounts": {
+        "main": {
+          "appId": "cli_xxxxxxxxxxxxxx",
+          "appSecret": "${FEISHU_APP_SECRET}",
+          "botName": "OpenClaw Assistant",
+          "typingIndicator": true,
+          "resolveSenderNames": true
+        }
+      },
+      
+      // DM 策略：pairing | allowlist | open | disabled
+      "dmPolicy": "pairing",
+      "allowFrom": [                    // 飞书 open_id (格式：ou_xxx)
+        "ou_xxxxxxxxxxxxxx"
+      ],
+      
+      // 群组配置
+      "groupPolicy": "allowlist",
+      "groupAllowFrom": [               // 飞书 chat_id (格式：oc_xxx)
+        "oc_xxxxxxxxxxxxxx"
+      ],
+      
+      "groups": {
+        "oc_xxxxxxxxxxxxxx": {
+          "requireMention": true,
+          "allowFrom": [
+            "ou_user1xxxxxxxxxxxx",
+            "ou_user2xxxxxxxxxxxx"
+          ]
+        }
+      },
+      
+      "textChunkLimit": 2000,
+      "mediaMaxMb": 30,
+      "streaming": true,
+      "blockStreaming": true
+    },
+    
+    // -----------------------------------------------------------------------
+    // 5.2 Telegram 配置
+    // -----------------------------------------------------------------------
+    "telegram": {
+      "enabled": true,
+      "botToken": "${TELEGRAM_BOT_TOKEN}",
+      
+      "dmPolicy": "pairing",
+      "allowFrom": [
+        "tg:123456789",
+        "1234567890"
+      ],
+      
+      "groupPolicy": "allowlist",
+      "groupAllowFrom": [
+        "-1001234567890"
+      ],
+      
+      "groups": {
+        "-1001234567890": {
+          "requireMention": true,
+          "allowFrom": [
+            "@admin",
+            "123456789"
+          ],
+          "systemPrompt": "保持回答简洁"
+        }
+      },
+      
+      "customCommands": [
+        { "command": "backup", "description": "执行 Git 备份" },
+        { "command": "generate", "description": "生成图像" }
+      ],
+      
+      "historyLimit": 50,
+      "replyToMode": "first",
+      "streaming": "partial",
+      "mediaMaxMb": 5,
+      "proxy": "socks5://localhost:9050"
+    },
+    
+    // -----------------------------------------------------------------------
+    // 5.3 WhatsApp 配置
+    // -----------------------------------------------------------------------
+    "whatsapp": {
+      "dmPolicy": "pairing",
+      "allowFrom": [
+        "+8613800138000",
+        "+15555550123"
+      ],
+      
+      "groupPolicy": "allowlist",
+      "groupAllowFrom": [
+        "+8613800138000"
+      ],
+      
+      "groups": {
+        "*": {
+          "requireMention": true
+        }
+      },
+      
+      "textChunkLimit": 4000,
+      "chunkMode": "length",
+      "mediaMaxMb": 50,
+      "sendReadReceipts": true
+    },
+    
+    // -----------------------------------------------------------------------
+    // 5.4 Discord 配置
+    // -----------------------------------------------------------------------
+    "discord": {
+      "enabled": true,
+      "token": "${DISCORD_BOT_TOKEN}",
+      
+      "dmPolicy": "pairing",
+      "dm": {
+        "enabled": true,
+        "allowFrom": [
+          "123456789012345678"
+        ]
+      },
+      
+      "guilds": {
+        "123456789012345678": {
+          "slug": "my-server",
+          "requireMention": false,
+          "users": [
+            "987654321098765432"
+          ],
+          "channels": {
+            "general": {
+              "allow": true,
+              "requireMention": true,
+              "systemPrompt": "仅简短回答"
+            },
+            "help": {
+              "allow": true,
+              "skills": ["docs"]
+            }
+          }
+        }
+      },
+      
+      "allowBots": false,
+      "historyLimit": 20,
+      "mediaMaxMb": 8,
+      "streaming": "off"
+    },
+    
+    // -----------------------------------------------------------------------
+    // 5.5 Slack 配置
+    // -----------------------------------------------------------------------
+    "slack": {
+      "enabled": true,
+      "botToken": "xoxb-xxxxxxxxxxxx",
+      "appToken": "xapp-xxxxxxxxxxxx",
+      
+      "dmPolicy": "pairing",
+      "dm": {
+        "enabled": true,
+        "allowFrom": ["U123456789"]
+      },
+      
+      "channels": {
+        "#general": {
+          "allow": true,
+          "requireMention": true,
+          "allowBots": false
+        },
+        "#engineering": {
+          "allow": true,
+          "requireMention": true,
+          "users": ["U123456789"],
+          "systemPrompt": "保持技术讨论简洁"
+        }
+      },
+      
+      "slashCommand": {
+        "enabled": true,
+        "name": "openclaw",
+        "ephemeral": true
+      },
+      
+      "historyLimit": 50,
+      "streaming": "partial",
+      "mediaMaxMb": 20
+    },
+    
+    // -----------------------------------------------------------------------
+    // 5.6 Signal 配置
+    // -----------------------------------------------------------------------
+    "signal": {
+      "enabled": true,
+      "account": "+8613800138000",
+      
+      "dmPolicy": "pairing",
+      "allowFrom": [
+        "+8613800138000",
+        "uuid:123e4567-e89b-12d3-a456-426614174000"
+      ],
+      
+      "historyLimit": 50,
+      "reactionNotifications": "own"
+    },
+    
+    // -----------------------------------------------------------------------
+    // 5.7 Google Chat 配置
+    // -----------------------------------------------------------------------
+    "googlechat": {
+      "enabled": true,
+      "serviceAccountFile": "/path/to/service-account.json",
+      "audienceType": "app-url",
+      "audience": "https://gateway.example.com/googlechat",
+      
+      "dm": {
+        "enabled": true,
+        "policy": "pairing",
+        "allowFrom": ["users/1234567890"]
+      },
+      
+      "groupPolicy": "allowlist",
+      "groups": {
+        "spaces/AAAA": {
+          "allow": true,
+          "requireMention": true
+        }
+      },
+      
+      "mediaMaxMb": 20
+    }
+  },
+  
+  // ===========================================================================
+  // 6. 安全设置 (Security)
+  // ===========================================================================
+  
+  // 工具权限
+  "tools": {
+    "allow": [
+      "exec", "process", "read", "write", "edit", "apply_patch",
+      "web_search", "web_fetch"
+    ],
+    "deny": [
+      "browser", "canvas"
+    ],
+    "exec": {
+      "backgroundMs": 10000,
+      "timeoutSec": 1800,
+      "cleanupMs": 1800000
+    },
+    "elevated": {
+      "enabled": true,
+      "allowFrom": {
+        "whatsapp": ["+8613800138000"],
+        "telegram": ["123456789"],
+        "discord": ["123456789012345678"],
+        "slack": ["U123456789"],
+        "signal": ["+8613800138000"]
+      }
+    },
+    "media": {
+      "audio": {
+        "enabled": true,
+        "maxBytes": 20971520,
+        "models": [
+          { "provider": "openai", "model": "gpt-4o-mini-transcribe" }
+        ],
+        "timeoutSeconds": 120
+      },
+      "video": {
+        "enabled": true,
+        "maxBytes": 52428800,
+        "models": [
+          { "provider": "google", "model": "gemini-3-flash-preview" }
+        ]
+      }
+    }
+  },
+  
+  // 命令控制
+  "commands": {
+    "native": "auto",
+    "text": true,
+    "bash": false,
+    "bashForegroundMs": 2000,
+    "config": false,
+    "debug": false,
+    "restart": false,
+    "allowFrom": {
+      "*": ["admin_user_id"],
+      "discord": ["user:123456789012345678"]
+    },
+    "useAccessGroups": true
+  },
+  
+  // 会话管理
+  "session": {
+    "dmScope": "per-channel-peer",
+    "threadBindings": {
+      "enabled": true,
+      "idleHours": 24,
+      "maxAgeHours": 0
+    },
+    "reset": {
+      "mode": "daily",
+      "atHour": 4,
+      "idleMinutes": 120
+    },
+    "resetTriggers": ["/new", "/reset"],
+    "maintenance": {
+      "mode": "warn",
+      "pruneAfter": "30d",
+      "maxEntries": 500,
+      "rotateBytes": "10mb"
+    }
+  },
+  
+  // 消息格式
+  "messages": {
+    "messagePrefix": "[OpenClaw]",
+    "responsePrefix": ">",
+    "ackReaction": "👀",
+    "ackReactionScope": "group-mentions",
+    "groupChat": {
+      "historyLimit": 50,
+      "mentionPatterns": ["@openclaw", "openclaw"]
+    }
+  },
+  
+  // 路由和队列
+  "routing": {
+    "groupChat": {
+      "mentionPatterns": ["@openclaw", "openclaw"],
+      "historyLimit": 50
+    },
+    "queue": {
+      "mode": "collect",
+      "debounceMs": 1000,
+      "cap": 20,
+      "drop": "summarize"
+    }
+  },
+  
+  // ===========================================================================
+  // 7. 认证配置 (Authentication)
+  // ===========================================================================
+  
+  "auth": {
+    "profiles": {
+      "anthropic:default": {
+        "provider": "anthropic",
+        "mode": "api_key"
+      },
+      "anthropic:work": {
+        "provider": "anthropic",
+        "mode": "api_key"
+      },
+      "openai:default": {
+        "provider": "openai",
+        "mode": "api_key"
+      }
+    },
+    "order": {
+      "anthropic": ["anthropic:default", "anthropic:work"],
+      "openai": ["openai:default"]
+    }
+  },
+  
+  // ===========================================================================
+  // 8. 模型提供商 (Model Providers)
+  // ===========================================================================
+  
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "custom-proxy": {
+        "baseUrl": "http://localhost:4000/v1",
+        "apiKey": "${CUSTOM_API_KEY}",
+        "api": "openai-responses",
+        "authHeader": true,
+        "headers": {
+          "X-Proxy-Region": "us-west"
+        },
+        "models": [
+          {
+            "id": "llama-3.1-8b",
+            "name": "Llama 3.1 8B",
+            "api": "openai-responses",
+            "reasoning": false,
+            "input": ["text"],
+            "cost": { "input": 0, "output": 0 },
+            "contextWindow": 128000,
+            "maxTokens": 32000
+          }
+        ]
+      }
+    }
+  },
+  
+  // ===========================================================================
+  // 9. 自动化 (Automation)
+  // ===========================================================================
+  
+  "cron": {
+    "enabled": true,
+    "store": "~/.openclaw/cron/cron.json",
+    "maxConcurrentRuns": 2,
+    "sessionRetention": "24h",
+    "runLog": {
+      "maxBytes": "2mb",
+      "keepLines": 2000
+    }
+  },
+  
+  "hooks": {
+    "enabled": true,
+    "path": "/hooks",
+    "token": "${HOOKS_SHARED_SECRET}",
+    "defaultSessionKey": "hook:ingress",
+    "allowRequestSessionKey": false,
+    "allowedSessionKeyPrefixes": ["hook:"],
+    "mappings": [
+      {
+        "id": "gmail-hook",
+        "match": { "path": "gmail" },
+        "action": "agent",
+        "agentId": "main",
+        "deliver": true,
+        "channel": "last",
+        "to": "+8613800138000"
+      }
+    ]
+  },
+  
+  // ===========================================================================
+  // 10. 技能配置 (Skills)
+  // ===========================================================================
+  
+  "skills": {
+    "allowBundled": ["gemini", "peekaboo", "weather", "healthcheck"],
+    "load": {
+      "extraDirs": ["~/Projects/agent-scripts/skills"]
+    },
+    "install": {
+      "preferBrew": true,
+      "nodeManager": "npm"
+    },
+    "entries": {
+      "nano-banana-pro": {
+        "enabled": true,
+        "apiKey": "${GEMINI_API_KEY}"
+      },
+      "peekaboo": {
+        "enabled": true
+      }
+    }
+  },
+  
+  // ===========================================================================
+  // 11. 环境变量 (Environment Variables)
+  // ===========================================================================
+  
+  "env": {
+    "OPENROUTER_API_KEY": "sk-or-xxxxxxxxxxxxx",
+    "vars": {
+      "GROQ_API_KEY": "gsk-xxxxxxxxxxxxx",
+      "GEMINI_API_KEY": "xxxxxxxxxxxxx",
+      "FEISHU_APP_SECRET": "xxxxxxxxxxxxx",
+      "TELEGRAM_BOT_TOKEN": "xxxxxxxxxxxxx",
+      "DISCORD_BOT_TOKEN": "xxxxxxxxxxxxx"
+    },
+    "shellEnv": {
+      "enabled": true,
+      "timeoutMs": 15000
+    }
+  }
+  
+  // ===========================================================================
+  // 12. 多代理路由 (Multi-Agent Routing) - 可选
+  // ===========================================================================
+  
+  // "bindings": [
+  //   {
+  //     "agentId": "main",
+  //     "match": {
+  //       "channel": "feishu",
+  //       "peer": { "kind": "direct", "id": "ou_xxxxxxxxxxxxxx" }
+  //     }
+  //   },
+  //   {
+  //     "agentId": "work",
+  //     "match": {
+  //       "channel": "telegram",
+  //       "peer": { "kind": "group", "id": "-1001234567890" }
+  //     }
+  //   }
+  // ]
+}
+
+// =============================================================================
+// 配置说明
+// =============================================================================
+// 
+// 使用步骤:
+// 1. 复制此配置到 ~/.openclaw/openclaw.json
+// 2. 替换所有 ${环境变量} 为实际值
+// 3. 或创建 ~/.openclaw/.env 文件存放敏感信息
+// 4. 运行 openclaw gateway 启动
+// 5. 使用 openclaw doctor 检查配置
+// 
+// 常用命令:
+// - openclaw gateway status     # 查看状态
+// - openclaw gateway restart    # 重启网关
+// - openclaw logs --follow      # 查看日志
+// - openclaw pairing list       # 查看配对请求
+// - openclaw pairing approve    # 批准配对
+// - openclaw doctor             # 诊断问题
+// 
+// 配对码批准:
+// - 首次使用时，机器人会发送配对码
+// - 运行 openclaw pairing list <channel> 查看
+// - 运行 openclaw pairing approve <channel> <CODE> 批准
+// 
+// 安全提示:
+// - 不要将包含真实密钥的配置文件提交到版本控制
+// - 使用环境变量或 .env 文件管理敏感信息
+// - 定期更新配对码和 API 密钥
+// =============================================================================

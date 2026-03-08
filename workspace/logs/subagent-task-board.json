@@ -2317,8 +2317,94 @@
     "label": "fix-54-eval-cases",
     "agentId": "coder",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T18:35:59.000Z",
-    "description": "修复54条:steps类型+category映射"
+    "description": "修复54条:steps类型+category映射",
+    "completeTime": "2026-03-08T18:38:38.737Z",
+    "result_summary": "R2 220条100%合格!"
+  },
+  {
+    "taskId": "f57edca2-2627-4cfc-8d8c-eb2d99a59bf3",
+    "label": "workspace-arch-fix",
+    "agentId": "researcher",
+    "model": "opus-thinking-high",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:40:09.491Z",
+    "description": "workspace架构分析+sandbox修复+直接实施",
+    "completeTime": "2026-03-08T18:53:53.908Z",
+    "result_summary": "sandbox是假问题!真因=workspace碎片化,49个stranded文件已抢救,symlink已建"
+  },
+  {
+    "taskId": "c5236d37-7046-4352-bb42-f85f333a530e",
+    "label": "eval-mine-r3-01",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:53:34.095Z",
+    "description": "挖掘10条C2,offset=2501",
+    "completeTime": "2026-03-08T18:56:51.396Z",
+    "result_summary": "10条C2全合格,0flag"
+  },
+  {
+    "taskId": "199d162a-89a6-40e2-a268-fcfcfe1d6b65",
+    "label": "eval-mine-r3-02",
+    "agentId": "analyst",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:53:35.013Z",
+    "description": "挖掘10条C2,offset=3001",
+    "completeTime": "2026-03-08T18:56:38.193Z",
+    "result_summary": "analyst空转,未写文件"
+  },
+  {
+    "taskId": "c1af15d1-fb11-4f65-83d8-2d532c6c7051",
+    "label": "eval-mine-r3-03",
+    "agentId": "scout",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:53:35.911Z",
+    "description": "挖掘10条C2,offset=3501",
+    "completeTime": "2026-03-08T18:56:26.254Z",
+    "result_summary": "scout空转,文件不存在"
+  },
+  {
+    "taskId": "50b2782d-ba30-4247-837c-6137bae426ac",
+    "label": "eval-mine-r3-04",
+    "agentId": "writer",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:53:36.757Z",
+    "description": "挖掘10条C2,offset=4001",
+    "completeTime": "2026-03-08T18:55:16.396Z",
+    "result_summary": "writer空转,文件未写入"
+  },
+  {
+    "taskId": "8c4f60ef-ca5d-4896-ba87-d2d1e5080607",
+    "label": "run-eval-batch-01",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:54:51.103Z",
+    "description": "首批10条评测执行",
+    "completeTime": "2026-03-08T18:57:48.004Z",
+    "result_summary": "Pass6/Partial4/Badcase0,通过率60%"
+  },
+  {
+    "taskId": "c2f1a67a-8ad4-4c16-b7cd-376bd04adfb5",
+    "label": "build-eval-runner-skill",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "running",
+    "spawnTime": "2026-03-08T18:56:01.810Z",
+    "description": "评测执行技能化:SKILL.md+index.sh+V3五维评测"
+  },
+  {
+    "taskId": "15b32c91-5628-49ed-8677-957133082c70",
+    "label": "merge-all-workspace",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "running",
+    "spawnTime": "2026-03-08T18:57:34.005Z",
+    "description": "合并所有agent workspace到主workspace"
   }
 ]

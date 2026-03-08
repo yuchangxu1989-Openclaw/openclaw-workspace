@@ -1,0 +1,72 @@
+[
+  {
+    "conversation_id": "feishu-sess-20260307-0914",
+    "source": "session",
+    "started_at": "2026-03-07T09:14:00+08:00",
+    "ended_at": "2026-03-07T09:38:00+08:00",
+    "message_count": 12,
+    "language": "zh",
+    "user_problem_summary": "agent记忆丢失后无法恢复上下文，导致意图扩充链断裂",
+    "observed_failure_modes": ["memory_loss", "intent_drift"]
+  },
+  {
+    "conversation_id": "feishu-sess-20260307-1042",
+    "source": "session",
+    "started_at": "2026-03-07T10:42:00+08:00",
+    "ended_at": "2026-03-07T11:05:00+08:00",
+    "message_count": 8,
+    "language": "zh",
+    "user_problem_summary": "session重启后handoff上下文丢失，任务未能正确恢复",
+    "observed_failure_modes": ["handoff_gap"]
+  },
+  {
+    "conversation_id": "feishu-sess-20260307-1430",
+    "source": "session",
+    "started_at": "2026-03-07T14:30:00+08:00",
+    "ended_at": "2026-03-07T14:45:00+08:00",
+    "message_count": 4,
+    "language": "zh",
+    "user_problem_summary": "简单天气查询，无异常",
+    "observed_failure_modes": []
+  },
+  {
+    "conversation_id": "feishu-sess-20260307-1605",
+    "source": "session",
+    "started_at": "2026-03-07T16:05:00+08:00",
+    "ended_at": "2026-03-07T16:52:00+08:00",
+    "message_count": 22,
+    "language": "zh",
+    "user_problem_summary": "评测脚本运行后记忆丢失，agent重建状态后完成任务扩列但验证步骤缺失",
+    "observed_failure_modes": ["memory_loss", "verification_gap"]
+  },
+  {
+    "conversation_id": "feishu-sess-20260307-2130",
+    "source": "session",
+    "started_at": "2026-03-07T21:30:00+08:00",
+    "ended_at": "2026-03-07T22:10:00+08:00",
+    "message_count": 15,
+    "language": "zh",
+    "user_problem_summary": "代码生成任务，agent正常完成",
+    "observed_failure_modes": []
+  },
+  {
+    "conversation_id": "feishu-sess-20260308-0215",
+    "source": "session",
+    "started_at": "2026-03-08T02:15:00+08:00",
+    "ended_at": "2026-03-08T02:40:00+08:00",
+    "message_count": 9,
+    "language": "en",
+    "user_problem_summary": "event completion failed after handoff — source_event not recovered from context",
+    "observed_failure_modes": ["handoff_gap", "event_completion_failure"]
+  },
+  {
+    "conversation_id": "feishu-sess-20260308-0730",
+    "source": "session",
+    "started_at": "2026-03-08T07:30:00+08:00",
+    "ended_at": "2026-03-08T08:00:00+08:00",
+    "message_count": 6,
+    "language": "zh",
+    "user_problem_summary": "日报生成任务正常完成，无特殊故障",
+    "observed_failure_modes": []
+  }
+]

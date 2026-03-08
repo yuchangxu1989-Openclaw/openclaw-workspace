@@ -1028,7 +1028,8 @@
         "maxChildrenPerAgent": 20,
         "archiveAfterMinutes": 120,
         "runTimeoutSeconds": 0
-      }
+      },
+      "workspace": "/root/.openclaw/workspace"
     },
     "list": [
       {
@@ -1058,7 +1059,6 @@
       {
         "id": "researcher",
         "name": "researcher",
-        "workspace": "/root/.openclaw/workspace-researcher",
         "agentDir": "/root/.openclaw/agents/researcher/agent",
         "model": {
           "primary": "claude-researcher/claude-opus-4-6-thinking",
@@ -1075,7 +1075,6 @@
       {
         "id": "coder",
         "name": "coder",
-        "workspace": "/root/.openclaw/workspace-coder",
         "agentDir": "/root/.openclaw/agents/coder/agent",
         "model": {
           "primary": "claude-coder/claude-opus-4-6-thinking",
@@ -1092,7 +1091,6 @@
       {
         "id": "reviewer",
         "name": "reviewer",
-        "workspace": "/root/.openclaw/workspace-reviewer",
         "agentDir": "/root/.openclaw/agents/reviewer/agent",
         "model": {
           "primary": "boom-reviewer/gpt-5.3-codex",
@@ -1109,7 +1107,6 @@
       {
         "id": "writer",
         "name": "writer",
-        "workspace": "/root/.openclaw/workspace-writer",
         "agentDir": "/root/.openclaw/agents/writer/agent",
         "model": {
           "primary": "boom-writer/gpt-5.3-codex",
@@ -1126,7 +1123,6 @@
       {
         "id": "analyst",
         "name": "analyst",
-        "workspace": "/root/.openclaw/workspace-analyst",
         "agentDir": "/root/.openclaw/agents/analyst/agent",
         "model": {
           "primary": "boom-analyst/gpt-5.3-codex",
@@ -1143,7 +1139,6 @@
       {
         "id": "scout",
         "name": "scout",
-        "workspace": "/root/.openclaw/workspace-scout",
         "agentDir": "/root/.openclaw/agents/scout/agent",
         "model": {
           "primary": "boom-scout/gpt-5.3-codex",
@@ -1160,7 +1155,6 @@
       {
         "id": "cron-worker",
         "name": "cron-worker",
-        "workspace": "/root/.openclaw/workspace",
         "agentDir": "/root/.openclaw/agents/cron-worker",
         "model": {
           "primary": "zhipu-cron-worker/glm-5",
@@ -1177,7 +1171,6 @@
       {
         "id": "researcher-02",
         "name": "researcher-02",
-        "workspace": "/root/.openclaw/workspace-researcher-02",
         "agentDir": "/root/.openclaw/agents/researcher-02/agent",
         "model": {
           "primary": "claude-researcher-02/claude-opus-4-6-thinking",
@@ -1194,7 +1187,6 @@
       {
         "id": "coder-02",
         "name": "coder-02",
-        "workspace": "/root/.openclaw/workspace-coder-02",
         "agentDir": "/root/.openclaw/agents/coder-02/agent",
         "model": {
           "primary": "claude-coder-02/claude-opus-4-6-thinking",
@@ -1211,7 +1203,6 @@
       {
         "id": "reviewer-02",
         "name": "reviewer-02",
-        "workspace": "/root/.openclaw/workspace-reviewer-02",
         "agentDir": "/root/.openclaw/agents/reviewer-02/agent",
         "model": {
           "primary": "boom-reviewer-02/gpt-5.3-codex",
@@ -1228,7 +1219,6 @@
       {
         "id": "writer-02",
         "name": "writer-02",
-        "workspace": "/root/.openclaw/workspace-writer-02",
         "agentDir": "/root/.openclaw/agents/writer-02/agent",
         "model": {
           "primary": "boom-writer-02/gpt-5.3-codex",
@@ -1245,7 +1235,6 @@
       {
         "id": "analyst-02",
         "name": "analyst-02",
-        "workspace": "/root/.openclaw/workspace-analyst-02",
         "agentDir": "/root/.openclaw/agents/analyst-02/agent",
         "model": {
           "primary": "boom-analyst-02/gpt-5.3-codex",
@@ -1262,7 +1251,6 @@
       {
         "id": "scout-02",
         "name": "scout-02",
-        "workspace": "/root/.openclaw/workspace-scout-02",
         "agentDir": "/root/.openclaw/agents/scout-02/agent",
         "model": {
           "primary": "boom-scout-02/gpt-5.3-codex",
@@ -1279,7 +1267,6 @@
       {
         "id": "cron-worker-02",
         "name": "cron-worker-02",
-        "workspace": "/root/.openclaw/workspace-cron-worker-02",
         "agentDir": "/root/.openclaw/agents/cron-worker-02/agent",
         "model": {
           "primary": "boom-cron-worker-02/gpt-5.3-codex",
@@ -1296,7 +1283,6 @@
       {
         "id": "worker-03",
         "name": "worker-03",
-        "workspace": "/root/.openclaw/workspace-worker-03",
         "agentDir": "/root/.openclaw/agents/worker-03/agent",
         "model": {
           "primary": "boom-main-02/gpt-5.3-codex",
@@ -1313,7 +1299,6 @@
       {
         "id": "worker-04",
         "name": "worker-04",
-        "workspace": "/root/.openclaw/workspace-worker-04",
         "agentDir": "/root/.openclaw/agents/worker-04/agent",
         "model": {
           "primary": "boom-main-03/gpt-5.3-codex",
@@ -1330,7 +1315,6 @@
       {
         "id": "worker-05",
         "name": "worker-05",
-        "workspace": "/root/.openclaw/workspace-worker-05",
         "agentDir": "/root/.openclaw/agents/worker-05/agent",
         "model": {
           "primary": "boom-main-04/gpt-5.3-codex",
@@ -1347,7 +1331,6 @@
       {
         "id": "worker-06",
         "name": "worker-06",
-        "workspace": "/root/.openclaw/workspace-worker-06",
         "agentDir": "/root/.openclaw/agents/worker-06/agent",
         "model": {
           "primary": "boom-main-05/gpt-5.3-codex",

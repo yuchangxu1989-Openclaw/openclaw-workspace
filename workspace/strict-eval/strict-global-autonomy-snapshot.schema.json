@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/strict-global-autonomy-snapshot.schema.json",
+  "title": "Strict Global Autonomy Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "task_input",
+    "verdict",
+    "evidence",
+    "review",
+    "timestamps"
+  ],
+  "properties": {
+    "schema_version": { "const": "2026-03-08.strict-v1" },
+    "case_id": { "type": "string", "minLength": 1 },
+    "task_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_text", "task_family", "source"],
+      "properties": {
+        "request_text": { "type": "string", "minLength": 1 },
+        "task_family": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "enum": ["real", "holdout", "synthetic", "replay"] }
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "claim_ceiling", "reasons"],
+      "properties": {
+        "status": { "type": "string", "enum": ["pass", "fail", "insufficient_evidence"] },
+        "claim_ceiling": { "type": "string", "enum": ["component_only", "partial_e2e", "strict_e2e_proven", "no_claim"] },
+        "reasons": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_observed",
+        "admitted",
+        "plan_materialized",
+        "execution_attempted",
+        "external_effect_verified",
+        "completion_verified",
+        "on_failure_badcase_written",
+        "audit_trace_present",
+        "no_hidden_manual_patch"
+      ],
+      "properties": {
+        "request_observed": { "$ref": "#/$defs/evidenceFlag" },
+        "admitted": { "$ref": "#/$defs/evidenceFlag" },
+        "plan_materialized": { "$ref": "#/$defs/evidenceFlag" },
+        "execution_attempted": { "$ref": "#/$defs/evidenceFlag" },
+        "external_effect_verified": { "$ref": "#/$defs/evidenceFlag" },
+        "completion_verified": { "$ref": "#/$defs/evidenceFlag" },
+        "on_failure_badcase_written": { "$ref": "#/$defs/evidenceFlag" },
+        "audit_trace_present": { "$ref": "#/$defs/evidenceFlag" },
+        "no_hidden_manual_patch": { "$ref": "#/$defs/evidenceFlag" }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strict_failures", "notes"],
+      "properties": {
+        "strict_failures": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "timestamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewed_at"],
+      "properties": {
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "$defs": {
+    "evidenceFlag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["present", "artifacts", "reviewed_by"],
+      "properties": {
+        "present": { "type": "boolean" },
+        "artifacts": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "reviewed_by": { "type": "string", "minLength": 1 },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

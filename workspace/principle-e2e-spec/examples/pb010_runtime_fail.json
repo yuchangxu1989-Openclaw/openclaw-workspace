@@ -1,0 +1,44 @@
+{
+  "attestation": {
+    "closed_book": true,
+    "leaked_source_scan": "PASS"
+  },
+  "evidence_bundle": { "present": true },
+  "allowlist": ["utterance", "context", "capability_outputs"],
+  "denylist": ["memory", "answer_key", "labels"],
+  "runtime_inputs": ["utterance", "context", "capability_outputs"],
+  "blocked_source_hits": { "memory": 0, "answers": 0, "labels": 0, "total": 0 },
+  "redaction": { "applied": true, "missed_fields": 0 },
+  "audit": {
+    "policy_version_present": true,
+    "input_fingerprints_present": true,
+    "scan_summary_present": true,
+    "decision_reason_present": true
+  },
+  "capability_outputs": {
+    "rca_analysis": {
+      "root_cause": "",
+      "evidence_chain": [],
+      "severity": "",
+      "blast_radius": ""
+    },
+    "gap_assessment": {
+      "gaps": [
+        { "category": "monitoring", "description": "缺少监控" }
+      ],
+      "coverage_score": null
+    },
+    "fix_proposal": {
+      "fixes": [
+        { "action": "修复配置", "target": "", "rationale": "" }
+      ],
+      "rollback_plan": ""
+    },
+    "dispatch_verification": {
+      "dispatches": [
+        { "target": "oncall-primary", "status": "success", "timestamp": "2026-03-07T14:30:00Z" },
+        { "target": "oncall-backup", "status": "failed", "timestamp": "2026-03-07T14:30:05Z" }
+      ]
+    }
+  }
+}

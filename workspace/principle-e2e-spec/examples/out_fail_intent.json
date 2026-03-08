@@ -1,0 +1,56 @@
+{
+  "verdict_id": "verdict-unknown",
+  "run_id": "benchmark-run-closed_book_pass",
+  "case_id": "unknown",
+  "verdict": "FAIL",
+  "p2e_score": 0.0,
+  "hard_gate_failures": 1,
+  "stage_results": [
+    {
+      "gate_id": "ISC-INTENT-EVAL-001",
+      "stage_id": "intent",
+      "verdict": "FAIL",
+      "fail_closed": true,
+      "hard_gate": true,
+      "details": {
+        "validated_fields": [
+          "case_id",
+          "intent_type",
+          "input",
+          "expected",
+          "verdict_expectation",
+          "priority",
+          "tags",
+          "regression_guard"
+        ],
+        "reasons": [
+          "missing benchmark case fields: case_id"
+        ]
+      }
+    },
+    {
+      "gate_id": "ISC-CLOSED-BOOK-001",
+      "stage_id": "gate",
+      "verdict": "PASS",
+      "fail_closed": true,
+      "hard_gate": true,
+      "details": {
+        "exit_code": 0,
+        "payload": {
+          "verdict": "SUCCESS",
+          "code": "OK",
+          "closed_book": true,
+          "unknown_inputs": 0,
+          "blocked_source_hits": 0
+        }
+      }
+    }
+  ],
+  "created_at": "2026-03-07T10:53:42+00:00",
+  "runner_version": "1.0.0",
+  "gates_applied": [
+    "ISC-INTENT-EVAL-001",
+    "ISC-CLOSED-BOOK-001"
+  ],
+  "default_fail_closed": true
+}

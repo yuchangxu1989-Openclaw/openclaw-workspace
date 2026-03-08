@@ -1,0 +1,337 @@
+{
+  "generatedAt": "2026-03-08T00:33:11.258Z",
+  "agents": [
+    {
+      "id": "main",
+      "label": "Main Agent",
+      "model": "boom-coder/gpt-5.4",
+      "status": "idle",
+      "currentTask": null
+    },
+    {
+      "id": "coder",
+      "label": "Coder Agent",
+      "model": "claude-coder/claude-opus-4-6",
+      "status": "idle",
+      "currentTask": null
+    }
+  ],
+  "tasks": [
+    {
+      "id": "benchmark-final-aggregation-repickup-2026-03-07",
+      "title": "Benchmark timeout 收口复捞汇总（2026-03-07）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T15:04:44.117Z",
+      "updatedAt": "2026-03-07T15:04:44.118Z",
+      "completedAt": "2026-03-07T15:04:44.118Z",
+      "reportFile": "reports/benchmark-final-aggregation-repickup-2026-03-07.md",
+      "tags": [
+        "benchmark"
+      ]
+    },
+    {
+      "id": "benchmark-runner-rootcause-repickup-2026-03-07",
+      "title": "Benchmark Runner / Timeout 根因治理（2026-03-07）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T15:18:14.636Z",
+      "updatedAt": "2026-03-07T15:18:14.636Z",
+      "completedAt": "2026-03-07T15:18:14.636Z",
+      "reportFile": "reports/benchmark-runner-rootcause-repickup-2026-03-07.md",
+      "tags": [
+        "benchmark"
+      ]
+    },
+    {
+      "id": "benchmark-shard-b-repickup-2026-03-07",
+      "title": "Benchmark Shard B Repickup Progress — 2026-03-07",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T15:02:50.946Z",
+      "updatedAt": "2026-03-07T15:02:50.946Z",
+      "completedAt": "2026-03-07T15:02:50.946Z",
+      "reportFile": "reports/benchmark-shard-b-repickup-2026-03-07.md",
+      "tags": [
+        "benchmark"
+      ]
+    },
+    {
+      "id": "benchmark-shard-c-repickup-2026-03-07",
+      "title": "Benchmark timeout 收口 / Case 分片C 回捞进度（2026-03-07）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T15:03:04.502Z",
+      "updatedAt": "2026-03-07T15:03:04.502Z",
+      "completedAt": "2026-03-07T15:03:04.502Z",
+      "reportFile": "reports/benchmark-shard-c-repickup-2026-03-07.md",
+      "tags": [
+        "benchmark"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-01-2026-03-08",
+      "title": "补位扩列 01 执行报告（2026-03-08）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:43:00.511Z",
+      "updatedAt": "2026-03-07T16:43:00.511Z",
+      "completedAt": "2026-03-07T16:43:00.511Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-01-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-02-2026-03-08",
+      "title": "补位扩列 02（2026-03-08）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:45:00.126Z",
+      "updatedAt": "2026-03-07T16:45:00.126Z",
+      "completedAt": "2026-03-07T16:45:00.126Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-02-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-03-2026-03-08",
+      "title": "补位扩列 03：系统债务直执行结果报告",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:43:35.480Z",
+      "updatedAt": "2026-03-07T16:43:35.480Z",
+      "completedAt": "2026-03-07T16:43:35.480Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-03-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-04-2026-03-08",
+      "title": "补位扩列 04：系统债务直执行结果",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:43:25.211Z",
+      "updatedAt": "2026-03-07T16:43:25.214Z",
+      "completedAt": "2026-03-07T16:43:25.214Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-04-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-05-2026-03-08",
+      "title": "补位扩列 05（系统债务直修）- 2026-03-08",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:44:33.024Z",
+      "updatedAt": "2026-03-07T16:44:33.024Z",
+      "completedAt": "2026-03-07T16:44:33.024Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-05-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-06-2026-03-08",
+      "title": "补位扩列 06 — 系统债务执行结果",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:43:24.842Z",
+      "updatedAt": "2026-03-07T16:43:24.842Z",
+      "completedAt": "2026-03-07T16:43:24.842Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-06-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-07-2026-03-08",
+      "title": "补位扩列 07：系统债务处理报告（2026-03-08）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:49:51.617Z",
+      "updatedAt": "2026-03-07T16:49:51.617Z",
+      "completedAt": "2026-03-07T16:49:51.617Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-07-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-08-2026-03-08",
+      "title": "补位扩列 08：系统债务清理执行报告",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:45:36.047Z",
+      "updatedAt": "2026-03-07T16:45:36.047Z",
+      "completedAt": "2026-03-07T16:45:36.047Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-08-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-10-2026-03-08",
+      "title": "补位扩列 10：系统债务处理结果",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:53:32.063Z",
+      "updatedAt": "2026-03-07T16:53:32.064Z",
+      "completedAt": "2026-03-07T16:53:32.064Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-10-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-11-2026-03-08",
+      "title": "补位扩列 11：系统债务执行结果",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:54:12.453Z",
+      "updatedAt": "2026-03-07T16:54:12.453Z",
+      "completedAt": "2026-03-07T16:54:12.453Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-11-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-12-2026-03-08",
+      "title": "Fill Keys with Debt Lane 12 Report",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:49:04.212Z",
+      "updatedAt": "2026-03-07T16:49:04.212Z",
+      "completedAt": "2026-03-07T16:49:04.212Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-12-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-13-2026-03-08",
+      "title": "补位扩列 13：系统债务直执行结果",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:48:54.164Z",
+      "updatedAt": "2026-03-07T16:48:54.164Z",
+      "completedAt": "2026-03-07T16:48:54.164Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-13-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "fill-keys-with-debt-lane-15-2026-03-08",
+      "title": "补位扩列 15 报告（2026-03-08）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:45:48.974Z",
+      "updatedAt": "2026-03-07T16:45:48.974Z",
+      "completedAt": "2026-03-07T16:45:48.974Z",
+      "reportFile": "reports/fill-keys-with-debt-lane-15-2026-03-08.md",
+      "tags": [
+        "debt"
+      ]
+    },
+    {
+      "id": "memory-loss-proof-eval-expansion-2026-03-08",
+      "title": "Memory-loss-proof 评测扩充报告（2026-03-08）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:38:30.083Z",
+      "updatedAt": "2026-03-07T16:38:30.083Z",
+      "completedAt": "2026-03-07T16:38:30.083Z",
+      "reportFile": "reports/memory-loss-proof-eval-expansion-2026-03-08.md",
+      "tags": [
+        "eval",
+        "resilience"
+      ]
+    },
+    {
+      "id": "pb010-benchmark-contract-hardening-2026-03-08",
+      "title": "PB-010 Benchmark Contract Hardening Report",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:31:11.589Z",
+      "updatedAt": "2026-03-07T16:31:11.590Z",
+      "completedAt": "2026-03-07T16:31:11.590Z",
+      "reportFile": "reports/pb010-benchmark-contract-hardening-2026-03-08.md",
+      "tags": [
+        "benchmark",
+        "hardening"
+      ]
+    },
+    {
+      "id": "pb010-subcases-2026-03-08",
+      "title": "PB-010 子场景补债落地说明（2026-03-08）",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:29:32.390Z",
+      "updatedAt": "2026-03-07T16:29:32.390Z",
+      "completedAt": "2026-03-07T16:29:32.390Z",
+      "reportFile": "reports/pb010-subcases-2026-03-08.md",
+      "tags": [
+        "general"
+      ]
+    },
+    {
+      "id": "publish-silence-watchdog-2026-03-08",
+      "title": "发布静默 Watchdog 实施报告",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:21:39.072Z",
+      "updatedAt": "2026-03-07T16:21:39.072Z",
+      "completedAt": "2026-03-07T16:21:39.072Z",
+      "reportFile": "reports/publish-silence-watchdog-2026-03-08.md",
+      "tags": [
+        "watchdog"
+      ]
+    },
+    {
+      "id": "real-conv-evalset-coverage-report",
+      "title": "Real-conv evalset last-24h coverage report",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-08T00:24:50.761Z",
+      "updatedAt": "2026-03-08T00:24:50.761Z",
+      "completedAt": "2026-03-08T00:24:50.761Z",
+      "reportFile": "reports/real-conv-evalset-coverage-report.md",
+      "tags": [
+        "eval",
+        "coverage"
+      ]
+    },
+    {
+      "id": "runtime-model-key-compat-cleanup-2026-03-08",
+      "title": "Runtime Model Key Compat Cleanup Report",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T16:59:59.391Z",
+      "updatedAt": "2026-03-07T16:59:59.392Z",
+      "completedAt": "2026-03-07T16:59:59.392Z",
+      "reportFile": "reports/runtime-model-key-compat-cleanup-2026-03-08.md",
+      "tags": [
+        "cleanup"
+      ]
+    },
+    {
+      "id": "spawn-routing-opus-provider-rootfix-2026-03-08",
+      "title": "Spawn Routing: Opus Provider Root Fix",
+      "agent": "coder",
+      "status": "done",
+      "startedAt": "2026-03-07T17:47:20.244Z",
+      "updatedAt": "2026-03-07T17:47:20.244Z",
+      "completedAt": "2026-03-07T17:47:20.244Z",
+      "reportFile": "reports/spawn-routing-opus-provider-rootfix-2026-03-08.md",
+      "tags": [
+        "fix",
+        "routing"
+      ]
+    }
+  ]
+}

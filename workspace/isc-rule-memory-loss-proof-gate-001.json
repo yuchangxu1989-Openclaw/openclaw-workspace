@@ -1,0 +1,53 @@
+{
+  "id": "rule.memory-loss-proof-gate-001",
+  "rule_name": "失忆免疫门禁",
+  "version": "1.0.0",
+  "severity": "critical",
+  "description": "保障所有 P2E 关键约束沉淀在 L0-L4 层（Gateway / AGENTS.md / ISC Rules / Skills / CI），不依赖 L5 记忆层。约束如果仅存在于 memory/ 或对话历史中，不视为已沉淀。",
+  "source": "言出法随 E2E 失忆验证机制 v1.0.0",
+  "created_at": "2026-03-07",
+  "trigger": {
+    "events": [
+      "isc.rule.created",
+      "isc.rule.modified",
+      "system.session.started",
+      "sprint.closure.requested"
+    ],
+    "description": "新规则创建/修改、会话启动、Sprint 收工时触发"
+  },
+  "action": {
+    "type": "gate",
+    "checks": [
+      {
+        "id": "constraint-file-integrity",
+        "description": "AGENTS.md / SOUL.md / CAPABILITY-ANCHOR.md / ISC SKILL.md 存在且包含关键约束关键词",
+        "script": "scripts/constraint-file-integrity.sh",
+        "fail_action": "block"
+      },
+      {
+        "id": "isc-rules-parseable",
+        "description": "所有 ISC 规则 JSON 可解析且包含必须字段 (id, severity, description, trigger)",
+        "script": "scripts/isc-rule-lint.sh",
+        "fail_action": "block"
+      },
+      {
+        "id": "no-memory-dependency",
+        "description": "ISC 规则和 Gate 脚本不引用 memory/ 文件作为强制约束来源",
+        "script": "scripts/memory-dependency-audit.sh",
+        "fail_action": "warn"
+      },
+      {
+        "id": "cold-boot-passable",
+        "description": "冷启动测试（零记忆 Agent）通过率 ≥ 80%",
+        "script": "scripts/p2e-cold-boot-test.sh",
+        "fail_action": "block_on_critical",
+        "threshold": 0.8
+      }
+    ]
+  },
+  "metadata": {
+    "layer": "L2-ISC",
+    "memory_immune": true,
+    "rationale": "此规则本身是失忆免疫的——它存在于 ISC rules 目录中，被 Git 管理，不依赖任何会话记忆。它的职责是确保其他约束也具有同样的免疫性。"
+  }
+}

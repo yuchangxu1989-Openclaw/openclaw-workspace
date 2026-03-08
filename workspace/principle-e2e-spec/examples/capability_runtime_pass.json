@@ -1,0 +1,112 @@
+{
+  "attestation": {
+    "closed_book": true,
+    "leaked_source_scan": "PASS"
+  },
+  "evidence_bundle": {
+    "present": true
+  },
+  "allowlist": [
+    "utterance",
+    "context",
+    "capability_outputs"
+  ],
+  "denylist": [
+    "memory",
+    "answer_key",
+    "labels"
+  ],
+  "runtime_inputs": [
+    "utterance",
+    "context",
+    "capability_outputs"
+  ],
+  "blocked_source_hits": {
+    "memory": 0,
+    "answers": 0,
+    "labels": 0,
+    "total": 0
+  },
+  "redaction": {
+    "applied": true,
+    "missed_fields": 0
+  },
+  "audit": {
+    "policy_version_present": true,
+    "input_fingerprints_present": true,
+    "scan_summary_present": true,
+    "decision_reason_present": true
+  },
+  "dataset_weighting": {
+    "prioritized_dimensions": [
+      "execution_chain_completeness",
+      "correction",
+      "timely_task_fanout"
+    ]
+  },
+  "capability_outputs": {
+    "intent_expansion": [
+      {
+        "kind": "monitoring_condition",
+        "content": "网关5分钟错误率持续超过3%"
+      },
+      {
+        "kind": "notification_action",
+        "content": "立即通知值班人并触发告警"
+      },
+      {
+        "kind": "state_reconstruction",
+        "content": "记忆丢失时先重新确认现场和当前进度"
+      },
+      {
+        "kind": "resume_action",
+        "content": "在现场确认后继续推进修复与后续动作"
+      },
+      {
+        "kind": "diagnosis_action",
+        "content": "先定位支付网关超时根因并确认是否为路由/依赖异常"
+      }
+    ],
+    "event_completion": {
+      "source_event": "pull_request.merged",
+      "repo": "core/gateway",
+      "run_id": "inc-4821",
+      "recovered_events": {
+        "nightly_regression.missed": {
+          "gap_type": "nightly_regression_coverage_gap",
+          "impacted_scope": "payment-e2e staging suite"
+        },
+        "incident.paused": {
+          "run_id": "inc-4821",
+          "resume_hint": "deploy verify step"
+        }
+      }
+    },
+    "task_expansion": [
+      {
+        "kind": "inventory",
+        "title": "盘点线上慢查询样本与热点SQL"
+      },
+      {
+        "kind": "remediation",
+        "title": "修复索引与SQL执行计划问题"
+      },
+      {
+        "kind": "verification",
+        "title": "验证慢查询下降并回归压测"
+      },
+      {
+        "kind": "state_rebuild",
+        "title": "重建回滚排查现场并确认当前卡点"
+      },
+      {
+        "kind": "execution_resume",
+        "title": "沿已确认卡点继续推进回滚排查并找回节奏"
+      },
+      {
+        "kind": "verification",
+        "title": "确认恢复后的排查结论与后续动作一致"
+      }
+    ]
+  }
+}

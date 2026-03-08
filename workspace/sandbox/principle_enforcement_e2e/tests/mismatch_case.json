@@ -1,0 +1,31 @@
+{
+  "summary": "包含原则/裁决/约束样本，但自治展开链缺失 gate，不应判为通过。",
+  "samples": [
+    {"type": "principle", "text": "任何准出结论必须以 LLM 意图识别为主基座。"},
+    {"type": "ruling", "text": "若自治展开链不完整，则禁止汇报通过。"},
+    {"type": "constraint", "text": "必须输出结构化 JSON 与 Markdown 报告。"}
+  ],
+  "constraints": [
+    "sandbox only",
+    "no production side effects"
+  ],
+  "intent_basis": {
+    "llm_as_primary": true,
+    "evidence": [
+      "prompt-based semantic intent routing"
+    ]
+  },
+  "autonomy_chain": {
+    "intent": {"status": "PASS", "owner": "llm-router", "evidence": ["intent classified as principle_to_enforcement_e2e"]},
+    "event": {"status": "PASS", "owner": "event-expander", "evidence": ["event obligations derived"]},
+    "isc": {"status": "PASS", "owner": "isc-policy", "evidence": ["ISC guard bound"]},
+    "dto": {"status": "PASS", "owner": "dto-mapper", "evidence": ["DTO contract mapped"]},
+    "cras": {"status": "PASS", "owner": "cras-engine", "evidence": ["CRAS actions resolved"]},
+    "aeo": {"status": "PASS", "owner": "aeo-compiler", "evidence": ["AEO obligations emitted"]},
+    "lep": {"status": "PASS", "owner": "lep-policy", "evidence": ["LEP enforcement bound"]},
+    "test": {"status": "PASS", "owner": "test-runner", "evidence": ["sandbox e2e verified"]},
+    "release": {"status": "READY", "owner": "release-control", "evidence": ["ready for sandbox-only signoff"]}
+  },
+  "gate_status": "PASS",
+  "report_recommendation": "通过，允许沙盒准出。"
+}

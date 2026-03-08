@@ -1,0 +1,15 @@
+[
+  {
+    "id": "auto-run-eval-batch-01-20260309025748",
+    "input": "completion-handler自动检测: task=run-eval-batch-01 status=done summary=Pass6/Partial4/Badcase0,通过率60%",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_behavior": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "actual_behavior": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "badcase_category": "自主性缺失类",
+    "root_cause": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-08T18:57:49Z"
+  }
+]
