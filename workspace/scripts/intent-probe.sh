@@ -106,7 +106,7 @@ LLM_RESPONSE=$(curl -s --max-time 10 https://open.bigmodel.cn/api/paas/v4/chat/c
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \
   -d "{
-    \"model\": \"glm-4-flash\",
+    \"model\": \"${INTENT_PROBE_MODEL:-glm-4-plus}\",
     \"messages\": [
       {\"role\": \"system\", \"content\": $SYSTEM_PROMPT_ESCAPED},
       {\"role\": \"user\", \"content\": \"$ESCAPED_MSG\"}

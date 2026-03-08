@@ -380,7 +380,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772978422800,
+      "updatedAtMs": 1772982366712,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -399,11 +399,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772982007906,
-        "lastRunAtMs": 1772978413180,
+        "nextRunAtMs": 1772985607906,
+        "lastRunAtMs": 1772982346241,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 9620,
+        "lastDurationMs": 20471,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772978486816,
+      "updatedAtMs": 1772982374719,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -503,11 +503,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772982078795,
-        "lastRunAtMs": 1772978478801,
+        "nextRunAtMs": 1772985678795,
+        "lastRunAtMs": 1772982366712,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8015,
+        "lastDurationMs": 8007,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772981400007,
+      "updatedAtMs": 1772985000008,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,8 +670,8 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772981700000,
-        "lastRunAtMs": 1772981400007,
+        "nextRunAtMs": 1772985300000,
+        "lastRunAtMs": 1772985000008,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
         "lastDurationMs": 0,
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772981151469,
+      "updatedAtMs": 1772984760090,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,14 +703,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772982000000,
-        "lastRunAtMs": 1772981100008,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 51461,
-        "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0,
-        "lastDelivered": false
+        "nextRunAtMs": 1772985600000,
+        "lastRunAtMs": 1772984700011,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 60079,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 1,
+        "lastError": "cron: job execution timed out"
       }
     },
     {
@@ -849,9 +849,9 @@
       "id": "daily-gongzhonghao-review",
       "agentId": "cron-worker",
       "name": "每日公众号复盘文章",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1772976515517,
-      "updatedAtMs": 1772976515517,
+      "updatedAtMs": 1772982343915,
       "schedule": {
         "expr": "0 23 * * *",
         "kind": "cron",
@@ -869,7 +869,15 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772982000000
+        "lastRunAtMs": 1772982010843,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 333072,
+        "lastError": "cron announce delivery failed",
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
+        "lastDeliveryError": "cron announce delivery failed",
+        "consecutiveErrors": 0
       }
     }
   ]

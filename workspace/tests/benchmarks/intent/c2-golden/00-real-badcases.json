@@ -519,5 +519,54 @@
     "difficulty": "C2",
     "source": "auto-harvest-engine",
     "harvested_at": "2026-03-08T14:34:30Z"
+  },
+  {
+    "id": "badcase-cancel-vs-disable-intent-miss",
+    "input": "用户说取消定时任务，理解为禁用cron而非取消已触发的运行中任务",
+    "context": "用户说取消定时任务then禁用cron配置then未取消已运行实例",
+    "expected_behavior": "用户说取消定时任务then取消已运行实例+禁用cron",
+    "actual_behavior": "用户说取消定时任务then禁用cron配置then未取消已运行实例",
+    "badcase_category": "认知错误类",
+    "root_cause": "意图理解偏差：取消≠禁用，取消=停止正在执行的，禁用=阻止未来执行的",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-08T15:08:22Z"
+  },
+  {
+    "id": "badcase-timeout-no-auto-retry",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "timestamp": "2026-03-08T23:32:00+08:00",
+    "input": "超时为什么不自动重跑？",
+    "expected_output": "超时/失败任务应自动入重试队列并重派，不依赖人工发现和手动重跑",
+    "actual_behavior": "completion-handler.sh只记录timeout状态，不触发任何重试机制，23条超时任务全部静默丢弃",
+    "root_cause": "程序化缺口：超时处理只有状态记录（MD化），没有自动重试（程序化）。符合系统性pattern：该程序化但没程序化",
+    "fix_applied": "completion-handler.sh新增Step7超时自动入队+process-retry-queue.sh+ISC规则timeout-auto-retry-001"
+  },
+  {
+    "id": "badcase-no-auto-badcase-harvest-on-programmatic-gap",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "timestamp": "2026-03-08T23:39:00+08:00",
+    "input": "该程序化没程序化，有自动记录Badcase么？",
+    "expected_output": "发现程序化缺口时自动触发badcase采集，不等用户指出",
+    "actual_behavior": "超时不自动重跑这个明显的程序化缺口，没有自动触发badcase记录，等用户问才手动补",
+    "root_cause": "auto-badcase-harvest-engine还没上线，ISC-EVAL-C2-AUTO-HARVEST-001只有规则没有程序化实现",
+    "fix_applied": "badcase #38已补录，auto-badcase-harvest在开发中"
+  },
+  {
+    "id": "badcase-completion-event-blocks-user-response",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "timestamp": "2026-03-08T23:42:00+08:00",
+    "input": "你肯定自己参与任务了，这么久没回我",
+    "expected_output": "completion event处理应极轻量（一行completion-handler.sh），不阻塞用户通信通道",
+    "actual_behavior": "主Agent处理completion event时连续sessions_send推子Agent写回+重派空转任务，阻塞用户消息响应数分钟",
+    "root_cause": "completion event处理未程序化为单行调用，主Agent手动做了推子Agent继续/重派等重型操作，违反主Agent=调度+通信层原则",
+    "fix_applied": "需要将子Agent空转检测+自动重派也程序化到completion-handler.sh中"
   }
 ]

@@ -648,19 +648,19 @@
     "status": "failed",
     "spawnTime": "2026-03-08T13:33:00.299Z",
     "description": "公众号文章-调研视角版",
-    "completeTime": "2026-03-08T13:49:25.747Z",
-    "result_summary": "已kill，换产品思维版"
+    "completeTime": "2026-03-08T15:20:27.065Z",
+    "result_summary": "用户要求取消，已停止"
   },
   {
     "taskId": "c271881a-8e91-49f2-ae41-1b7b9a5ca7a8",
     "label": "gongzhonghao-2026-03-08-coder",
     "agentId": "coder",
     "model": "claude-opus-4-6-thinking",
-    "status": "done",
+    "status": "failed",
     "spawnTime": "2026-03-08T13:33:04.817Z",
     "description": "公众号文章-极客视角版",
-    "completeTime": "2026-03-08T13:38:03.991Z",
-    "result_summary": "极客版完成，标题《我的AI今天招了11个新员工，然后有一半交了白卷》，2800字，飞书J8Xrd7MV8oPKYoxlFVvcGnREnvf"
+    "completeTime": "2026-03-08T15:20:28.123Z",
+    "result_summary": "用户要求取消，已停止"
   },
   {
     "taskId": "37cccc78-35d4-41aa-a9aa-2c406af67e6e",
@@ -810,36 +810,44 @@
     "label": "rca-badcase-口头不入库",
     "agentId": "analyst",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T14:28:15.131Z",
-    "description": "根治：口头说badcase但不入库"
+    "description": "根治：口头说badcase但不入库",
+    "completeTime": "2026-03-08T14:56:22.669Z",
+    "result_summary": "RCA+intent-probe方案已完成"
   },
   {
     "taskId": "aeb43ea3-9edf-4c29-8d80-9743acba604a",
     "label": "fix-goodcase-dedup-incremental",
     "agentId": "coder",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T14:32:05.574Z",
-    "description": "修复goodcase重复入库：改为增量翻转"
+    "description": "修复goodcase重复入库：改为增量翻转",
+    "completeTime": "2026-03-08T14:56:24.658Z",
+    "result_summary": "goodcase去重增量逻辑已修复"
   },
   {
     "taskId": "89cd850a-ad5e-4778-8e3e-cfe841fb3476",
     "label": "intent-probe-implementation",
     "agentId": "coder",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T14:33:21.352Z",
-    "description": "P0:意图探针系统实现(3脚本+ISC+回归测试)"
+    "description": "P0:意图探针系统实现(3脚本+ISC+回归测试)",
+    "completeTime": "2026-03-08T14:56:23.666Z",
+    "result_summary": "v1意图探针3脚本+ISC+8/8回归通过"
   },
   {
     "taskId": "f4c5eeb3-af78-49e4-bf45-f41f3e6b9370",
     "label": "intent-probe-v2-llm",
     "agentId": "coder",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T14:42:45.645Z",
-    "description": "P0:意图探针v2-LLM分类器+16case回归100%"
+    "description": "P0:意图探针v2-LLM分类器+16case回归100%",
+    "completeTime": "2026-03-08T15:16:03.412Z",
+    "result_summary": "v2意图探针+3模型横评完成"
   },
   {
     "taskId": "7a1e34e3-8c16-402e-9156-0fa454eab7a2",
@@ -851,5 +859,186 @@
     "description": "意图探针v2三模型评测审计+总结",
     "completeTime": "2026-03-08T14:48:40.516Z",
     "result_summary": "预审报告已写入，等coder产出后需复审。结论：有条件通过（3模型对比数据缺失）"
+  },
+  {
+    "taskId": "spawn-001",
+    "label": "gongzhonghao-2026-03-08-writer",
+    "agentId": "writer",
+    "model": "claude-opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T15:00:57.008Z",
+    "completeTime": "2026-03-08T15:20:29.083Z",
+    "result_summary": "用户要求取消，已停止"
+  },
+  {
+    "taskId": "spawn-002",
+    "label": "gongzhonghao-2026-03-08-researcher",
+    "agentId": "researcher",
+    "model": "claude-opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T15:00:58.019Z",
+    "result_summary": "用户取消"
+  },
+  {
+    "taskId": "spawn-003",
+    "label": "gongzhonghao-2026-03-08-coder",
+    "agentId": "coder",
+    "model": "claude-opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T15:00:59.102Z",
+    "result_summary": "用户取消"
+  },
+  {
+    "taskId": "deaeccd3-e815-4729-b888-bfcaa0fa12e8",
+    "label": "gongzhonghao-2026-03-08-writer",
+    "agentId": "subagent",
+    "model": "glm-5",
+    "status": "failed",
+    "spawnTime": "2026-03-08T15:01:40.802Z",
+    "result_summary": "用户取消"
+  },
+  {
+    "taskId": "468bfe16-174f-4265-9f4d-13740a0a4a88",
+    "label": "gongzhonghao-2026-03-08-researcher",
+    "agentId": "subagent",
+    "model": "glm-5",
+    "status": "failed",
+    "spawnTime": "2026-03-08T15:01:41.802Z",
+    "result_summary": "用户取消"
+  },
+  {
+    "taskId": "8f6466a7-e1f0-4bc1-9d7e-ecb4589d311c",
+    "label": "gongzhonghao-2026-03-08-coder",
+    "agentId": "subagent",
+    "model": "glm-5",
+    "status": "failed",
+    "spawnTime": "2026-03-08T15:01:42.747Z",
+    "result_summary": "用户取消"
+  },
+  {
+    "taskId": "e311a2f1-786e-4490-8f79-15aa73a7c2f0",
+    "label": "fetch-6-wechat-articles",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T15:17:31.267Z",
+    "description": "抓取6篇爆火公众号文章+写作技巧分析",
+    "completeTime": "2026-03-08T15:22:06.621Z",
+    "result_summary": "4篇完整抓取+写作模式分析完成"
+  },
+  {
+    "taskId": "2c6267b8-0368-4fdc-a1f8-74412e0aad19",
+    "label": "gongzhonghao-v2-writer",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T15:18:46.272Z",
+    "description": "公众号文章v2-writer版",
+    "completeTime": "2026-03-08T15:28:27.254Z",
+    "result_summary": "飞书文档已创建: BEONdUzdYo2bgPxpkpecOHlCnff"
+  },
+  {
+    "taskId": "ac7a44e6-21a1-4ad8-bbb8-d2567389edfd",
+    "label": "gongzhonghao-v2-coder",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T15:18:47.219Z",
+    "description": "公众号文章v2-coder版",
+    "completeTime": "2026-03-08T15:22:36.804Z",
+    "result_summary": "飞书文档已创建: UsbydgYbvo9u6OxtN1NcdSHXnqf"
+  },
+  {
+    "taskId": "90cb5d7a-9623-47b6-bbbf-0724d9e90730",
+    "label": "gongzhonghao-v2-researcher",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T15:18:48.084Z",
+    "description": "公众号文章v2-researcher版",
+    "completeTime": "2026-03-08T15:23:01.460Z",
+    "result_summary": "飞书文档已创建: Vj4pdSsNAo62M9xh1U4cD92ynKe"
+  },
+  {
+    "taskId": "5df12efe-8863-418c-8fe6-bdc215e04767",
+    "label": "intent-probe-glm5-benchmark",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T15:30:23.225Z",
+    "description": "GLM-5意图探针128条评测"
+  },
+  {
+    "taskId": "0af6936b-22f0-4472-8ea3-9cef021ff0e8",
+    "label": "eval-audit-fix-batch-A",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T15:33:46.376Z",
+    "description": "评测集修复A(49条)"
+  },
+  {
+    "taskId": "39eb8be6-c5aa-48ec-92e0-97687d63f8b3",
+    "label": "eval-audit-fix-batch-B",
+    "agentId": "reviewer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-08T15:33:47.227Z",
+    "description": "评测集修复B(130条)",
+    "completeTime": "2026-03-08T15:35:00.863Z",
+    "result_summary": "空转：只说计划不执行"
+  },
+  {
+    "taskId": "9078b2fb-cfc1-452e-8450-b6d24f2d5b8c",
+    "label": "eval-audit-fix-batch-C",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-08T15:33:48.093Z",
+    "description": "评测集修复C(142条)",
+    "completeTime": "2026-03-08T15:36:19.428Z",
+    "result_summary": "空转：只说计划不执行，6秒就结束"
+  },
+  {
+    "taskId": "895a8ebe-7995-4a49-ae40-16b78bae701f",
+    "label": "eval-audit-fix-batch-D",
+    "agentId": "scout",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T15:33:48.939Z",
+    "description": "评测集修复D(301条)"
+  },
+  {
+    "taskId": "f9e35834-c33c-4ac4-b902-da7cba11cebc",
+    "label": "fix-timeout-auto-retry",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T15:34:31.193Z",
+    "description": "超时自动重跑机制：completion-handler+重试队列",
+    "completeTime": "2026-03-08T15:37:18.804Z",
+    "result_summary": "超时自动重试机制完成：completion-handler+process-retry-queue+ISC规则"
+  },
+  {
+    "taskId": "80474396-8bc9-4089-bb1e-e9af8cd9ce40",
+    "label": "eval-audit-fix-batch-B-retry",
+    "agentId": "reviewer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T15:35:28.974Z",
+    "description": "评测集修复B重派(130条)",
+    "completeTime": "2026-03-08T15:43:56.582Z",
+    "result_summary": "3文件修复完成：50条补difficulty/source，35条补expected_output"
+  },
+  {
+    "taskId": "cb252866-c969-42a5-8730-659fce46e163",
+    "label": "eval-audit-fix-batch-C-retry",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T15:36:42.182Z",
+    "description": "评测集修复C重派(142条)",
+    "completeTime": "2026-03-08T15:44:14.761Z",
+    "result_summary": "142条补expected_output完成"
   }
 ]

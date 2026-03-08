@@ -85,6 +85,54 @@ console.log(board.filter(t=>t.status==='running').length);
   # Step 6: 超时扫描
   bash /root/.openclaw/workspace/scripts/task-timeout-check.sh 2>/dev/null || true
 
+  # Step 7: 超时/失败自动重试入队
+  if [ "$STATUS" = "timed_out" ] || [ "$STATUS" = "timeout" ] || [ "$STATUS" = "failed" ]; then
+    # 检查是否为user_cancelled，是则跳过
+    IS_CANCELLED=$(node -e "
+      const b=JSON.parse(require('fs').readFileSync('$BOARD_FILE','utf8'));
+      const t=b.filter(t=>t.label==='$TASK_ID'||t.taskId==='$TASK_ID').pop();
+      console.log(t?.cancel_reason==='user_cancelled'?'yes':'no');
+    " 2>/dev/null || echo "no")
+
+    if [ "$IS_CANCELLED" != "yes" ]; then
+      RETRY_COUNT=$(node -e "
+        const b=JSON.parse(require('fs').readFileSync('$BOARD_FILE','utf8'));
+        const t=b.filter(t=>t.label==='$TASK_ID'||t.taskId==='$TASK_ID').pop();
+        console.log(t?.retry_count||0);
+      " 2>/dev/null || echo "0")
+
+      MAX_RETRY=2
+
+      if [ "$RETRY_COUNT" -lt "$MAX_RETRY" ] 2>/dev/null; then
+        AUTO_RETRY_QUEUE="/root/.openclaw/workspace/logs/auto-retry-queue.json"
+        node -e "
+          const fs=require('fs');
+          const board=JSON.parse(fs.readFileSync('$BOARD_FILE','utf8'));
+          const task=board.filter(t=>t.label==='$TASK_ID'||t.taskId==='$TASK_ID').pop();
+          const queue_path='$AUTO_RETRY_QUEUE';
+          let queue=[];
+          try{queue=JSON.parse(fs.readFileSync(queue_path,'utf8'));}catch(e){}
+          queue.push({
+            label:'$TASK_ID',
+            original_agentId: task?.agentId||'unknown',
+            original_model: task?.model||'unknown',
+            retry_count: (${RETRY_COUNT}||0)+1,
+            reason:'$STATUS',
+            status:'pending',
+            queued_at: new Date().toISOString(),
+            original_task_summary: task?.result_summary||task?.task||''
+          });
+          fs.writeFileSync(queue_path,JSON.stringify(queue,null,2));
+        " 2>/dev/null
+        echo "🔄 自动重试已入队: $TASK_ID (第$((RETRY_COUNT+1))次)"
+      else
+        echo "❌ $TASK_ID 已达最大重试次数($MAX_RETRY)，不再重试"
+      fi
+    else
+      echo "⏭️ $TASK_ID 为用户取消，跳过自动重试"
+    fi
+  fi
+
   echo "=== Handler Complete ==="
 } > "$LOGFILE" 2>&1
 

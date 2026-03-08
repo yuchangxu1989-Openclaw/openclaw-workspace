@@ -1,17 +1,13 @@
 {
-  "timestamp": "2026-03-08T14:50:05.881Z",
+  "timestamp": "2026-03-08T15:50:05.524Z",
   "scanned": {
-    "files": 94519,
-    "dirs": 513
+    "files": 94542,
+    "dirs": 515
   },
-  "issues": 3,
-  "fixes": 2,
+  "issues": 2,
+  "fixes": 1,
   "details": {
     "issues": [
-      {
-        "type": "temp_file",
-        "file": "logs/retry-queue.json.bak"
-      },
       {
         "type": "empty_file",
         "file": "infrastructure/intent-engine/unknown-candidates.jsonl"
@@ -19,14 +15,10 @@
       {
         "type": "oversized_log",
         "file": "infrastructure/logs/auto-repair-executions.jsonl",
-        "size": 1280923525
+        "size": 1280928598
       }
     ],
     "fixes": [
-      {
-        "type": "temp_cleanup",
-        "from": "logs/retry-queue.json.bak"
-      },
       {
         "type": "empty_cleanup",
         "from": "infrastructure/intent-engine/unknown-candidates.jsonl"

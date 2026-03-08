@@ -36,12 +36,14 @@ def load_keys():
                 if line.startswith("ZHIPU_API_KEY_1="):
                     ZHIPU_KEY = line.split("=", 1)[1].strip('"').strip("'")
 
-    # Claude - from openclaw.json
+    # Claude - from openclaw.json (models.providers.*)
     config_file = "/root/.openclaw/openclaw.json"
     if os.path.exists(config_file):
         with open(config_file) as f:
             cfg = json.load(f)
-        providers = cfg.get("providers", {})
+        providers = cfg.get("models", {}).get("providers", {})
+        if not providers:
+            providers = cfg.get("providers", {})
         # Use claude-researcher (less loaded than claude-main/coder)
         for key in ["claude-researcher", "claude-main", "claude-coder"]:
             if key in providers:

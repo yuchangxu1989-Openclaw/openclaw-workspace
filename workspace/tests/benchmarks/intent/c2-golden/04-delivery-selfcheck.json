@@ -9,7 +9,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-渠道不适配",
-    "timestamp": "2026-03-08T20:03:00+08:00"
+    "timestamp": "2026-03-08T20:03:00+08:00",
+    "expected_output": "识别用户在飞书渠道无法直接看本地文件，应该将结果以飞书消息/飞书文档形式发送，而非告诉用户'文件已保存在/path/to/file'"
   },
   {
     "id": "DS-002",
@@ -21,7 +22,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-API盲信",
-    "timestamp": "2026-03-08T20:03:01+08:00"
+    "timestamp": "2026-03-08T20:03:01+08:00",
+    "expected_output": "在推送文档链接给用户前，调用feishu_doc read回读文档验证内容确实写入且格式正确，确认block_count>1后才推送"
   },
   {
     "id": "DS-003",
@@ -33,7 +35,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-未自测交付",
-    "timestamp": "2026-03-08T20:03:02+08:00"
+    "timestamp": "2026-03-08T20:03:02+08:00",
+    "expected_output": "交付脚本前自行执行一次(dry run或在测试环境中运行)，验证脚本可运行、无语法错误、依赖的环境变量存在、错误处理到位"
   },
   {
     "id": "DS-004",
@@ -45,7 +48,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-视觉质量未验",
-    "timestamp": "2026-03-08T20:03:03+08:00"
+    "timestamp": "2026-03-08T20:03:03+08:00",
+    "expected_output": "渲染后自行检查图片质量——分辨率是否足够、文字是否可读、布局是否合理。发现分辨率不足时自动调高参数重新渲染"
   },
   {
     "id": "DS-005",
@@ -57,7 +61,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-执行验真缺失",
-    "timestamp": "2026-03-08T20:03:04+08:00"
+    "timestamp": "2026-03-08T20:03:04+08:00",
+    "expected_output": "检查git push的返回码和输出，发现push被拒后：1)git pull --rebase解决冲突 2)重新push 3)确认push成功后才告诉用户'已提交并推送'"
   },
   {
     "id": "DS-006",
@@ -69,7 +74,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-平台格式不兼容",
-    "timestamp": "2026-03-08T20:03:05+08:00"
+    "timestamp": "2026-03-08T20:03:05+08:00",
+    "expected_output": "知道飞书文档的表格需要使用feishu_doc的create_table/write_table_cells API创建原生表格，而非写入markdown表格语法"
   },
   {
     "id": "DS-007",
@@ -81,7 +87,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-PR描述空洞",
-    "timestamp": "2026-03-08T20:03:06+08:00"
+    "timestamp": "2026-03-08T20:03:06+08:00",
+    "expected_output": "PR描述应包含：变更摘要、修改的文件列表、测试覆盖情况、部署注意事项、关联的issue/任务编号。这是基本的工程规范"
   },
   {
     "id": "DS-008",
@@ -93,7 +100,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-报告粒度不足",
-    "timestamp": "2026-03-08T20:03:07+08:00"
+    "timestamp": "2026-03-08T20:03:07+08:00",
+    "expected_output": "解析测试输出，生成结构化报告：总计X条，通过Y条(Z%)，失败N条(列出具体失败项和原因)，跳过M条，总耗时T秒。按用户习惯的格式推送"
   },
   {
     "id": "DS-009",
@@ -105,7 +113,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-生效步骤遗漏",
-    "timestamp": "2026-03-08T20:03:08+08:00"
+    "timestamp": "2026-03-08T20:03:08+08:00",
+    "expected_output": "修改配置后：1)nginx -t验证配置语法 2)systemctl reload nginx 3)curl测试服务是否正常 4)确认配置已生效后回复"
   },
   {
     "id": "DS-010",
@@ -117,7 +126,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-实验方法论缺陷",
-    "timestamp": "2026-03-08T20:03:09+08:00"
+    "timestamp": "2026-03-08T20:03:09+08:00",
+    "expected_output": "确保对比实验的控制变量一致：同一机器、同一时段、相同负载条件下分别测试v1和v2，或者交替多次运行取平均值消除环境波动"
   },
   {
     "id": "DS-011",
@@ -129,7 +139,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-文档时效性未审",
-    "timestamp": "2026-03-08T20:03:10+08:00"
+    "timestamp": "2026-03-08T20:03:10+08:00",
+    "expected_output": "更新README时不只是'加新内容'，还要检查已有内容的时效性：安装命令是否最新、示例代码是否能运行、链接是否有效、版本号是否正确"
   },
   {
     "id": "DS-012",
@@ -141,7 +152,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-关闭记录信息不足",
-    "timestamp": "2026-03-08T20:03:11+08:00"
+    "timestamp": "2026-03-08T20:03:11+08:00",
+    "expected_output": "关闭issue时提供完整的解决记录：关联commit SHA、修改的文件列表、修复原理说明、验证方法、部署状态。让任何人后续查看这个issue都能完整理解解决方案"
   },
   {
     "id": "DS-013",
@@ -153,7 +165,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-部署后未验证",
-    "timestamp": "2026-03-08T20:03:12+08:00"
+    "timestamp": "2026-03-08T20:03:12+08:00",
+    "expected_output": "部署后执行smoke test：1)健康检查endpoint返回200 2)核心API功能测试 3)检查日志有无error 4)确认新版本号生效 5)全部通过后才报告部署成功"
   },
   {
     "id": "DS-014",
@@ -165,7 +178,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-检查清单不完整",
-    "timestamp": "2026-03-08T20:03:13+08:00"
+    "timestamp": "2026-03-08T20:03:13+08:00",
+    "expected_output": "提交前自检应包括完整清单：lint→格式化→去除debug输出→清理TODO→移除硬编码测试数据→检查敏感信息→运行测试→检查diff是否符合预期"
   },
   {
     "id": "DS-015",
@@ -177,7 +191,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-可行性验证前置缺失",
-    "timestamp": "2026-03-08T20:03:14+08:00"
+    "timestamp": "2026-03-08T20:03:14+08:00",
+    "expected_output": "在开始编码前先做可行性验证：1)确认第三方API是否可用 2)测试API调用是否成功 3)确认返回数据格式符合预期 4)评估性能和限制(rate limit) 5)可行性确认后再开始正式编码"
   },
   {
     "id": "DS-016",
@@ -189,7 +204,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-完整性不达标",
-    "timestamp": "2026-03-08T20:03:15+08:00"
+    "timestamp": "2026-03-08T20:03:15+08:00",
+    "expected_output": "交付完整可运行的demo：包含所有import、完整的main函数/入口、requirements.txt或package.json、运行说明、预期输出示例。用户拿到后直接能跑"
   },
   {
     "id": "DS-017",
@@ -201,7 +217,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付自检-子Agent产出未验证",
-    "timestamp": "2026-03-08T20:03:16+08:00"
+    "timestamp": "2026-03-08T20:03:16+08:00",
+    "expected_output": "收到子Agent completion时，验证产出质量：1)token消耗是否合理（2.5k做数据分析明显过低）2)是否有实际工具调用 3)是否产出了预期的文件/报告 4)不合格则重新派发或升级到更强模型"
   },
   {
     "id": "DS-018",
@@ -213,7 +230,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-异步操作状态未跟踪",
-    "timestamp": "2026-03-08T20:03:17+08:00"
+    "timestamp": "2026-03-08T20:03:17+08:00",
+    "expected_output": "区分API的202 Accepted（已接受但未送达）和200 OK（已送达），异步发送后应轮询送达状态或检查退信记录，确认真正送达后才告诉用户'已发送'"
   },
   {
     "id": "DS-019",
@@ -225,7 +243,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-数据完整性未验证",
-    "timestamp": "2026-03-08T20:03:18+08:00"
+    "timestamp": "2026-03-08T20:03:18+08:00",
+    "expected_output": "导出后验证数据完整性：1)检查文件行数是否与数据库记录数一致 2)检查文件是否正常结束（无截断）3)抽样验证几行数据格式正确 4)确认文件大小合理"
   },
   {
     "id": "DS-020",
@@ -237,7 +256,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-受众适配缺失",
-    "timestamp": "2026-03-08T20:03:19+08:00"
+    "timestamp": "2026-03-08T20:03:19+08:00",
+    "expected_output": "交付给外部客户前做全面审查：1)去除所有内部术语或替换为客户可理解的表述 2)去除内部路径/IP/配置等敏感信息 3)搜索并消除所有TODO/FIXME/TBD占位符 4)确认语言风格适合客户沟通"
   },
   {
     "id": "DS-021",
@@ -249,7 +269,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-引用时效性未验证",
-    "timestamp": "2026-03-08T21:03:00+08:00"
+    "timestamp": "2026-03-08T21:03:00+08:00",
+    "expected_output": "交付前自检：1)验证所有链接可访问 2)确认数据时效性与报告标注的时间一致 3)检查图表是否正确渲染 4)验证结论是否被数据支撑 5)检查格式在目标平台上的兼容性"
   },
   {
     "id": "DS-022",
@@ -261,7 +282,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-方案文档要素缺失",
-    "timestamp": "2026-03-08T21:03:01+08:00"
+    "timestamp": "2026-03-08T21:03:01+08:00",
+    "expected_output": "交付前对照技术方案文档的通用checklist：问题定义、现状分析、方案描述、替代方案对比、风险评估、实施时间线、回滚方案、资源需求。缺哪个补哪个"
   },
   {
     "id": "DS-023",
@@ -273,7 +295,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-讨论过程信息丢失",
-    "timestamp": "2026-03-08T21:03:02+08:00"
+    "timestamp": "2026-03-08T21:03:02+08:00",
+    "expected_output": "整理会议/讨论记录时应包含：1)讨论的完整过程（不只是结论）2)不同观点和分歧 3)决策理由 4)折中方案的权衡 5)待办事项和负责人。交付前对照原始对话记录验证完整性"
   },
   {
     "id": "DS-024",
@@ -285,7 +308,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-环境适配未验证",
-    "timestamp": "2026-03-08T21:03:03+08:00"
+    "timestamp": "2026-03-08T21:03:03+08:00",
+    "expected_output": "部署前自检：1)环境变量/配置是否参数化（不能有硬编码的连接字符串）2)是否有dry-run模式 3)是否有执行日志 4)是否有回滚机制 5)是否考虑了生产数据量级（测试环境100条vs生产100万条）6)权限是否合适"
   },
   {
     "id": "DS-025",
@@ -297,7 +321,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-状态信息失真",
-    "timestamp": "2026-03-08T21:03:04+08:00"
+    "timestamp": "2026-03-08T21:03:04+08:00",
+    "expected_output": "周报交付前：1)对每个任务状态与实际进度做交叉验证 2)检查里程碑日期是否准确 3)确认风险项的当前状态 4)数据来源标注 5)对比上周周报的continuity"
   },
   {
     "id": "DS-026",
@@ -309,7 +334,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-API生产就绪度不足",
-    "timestamp": "2026-03-08T21:03:05+08:00"
+    "timestamp": "2026-03-08T21:03:05+08:00",
+    "expected_output": "API交付checklist：1)输入参数验证 2)错误处理和错误码 3)认证和授权 4)速率限制 5)日志记录 6)API文档同步更新 7)单元测试 8)集成测试 9)向后兼容性确认"
   },
   {
     "id": "DS-027",
@@ -321,7 +347,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-review深度不足",
-    "timestamp": "2026-03-08T21:03:06+08:00"
+    "timestamp": "2026-03-08T21:03:06+08:00",
+    "expected_output": "PR review应分层次：1)正确性（逻辑错误、并发安全、资源泄漏）2)健壮性（错误处理、边界case）3)性能（时间复杂度、内存使用）4)可维护性（代码结构、命名、注释）5)测试覆盖。优先级从上到下"
   },
   {
     "id": "DS-028",
@@ -333,7 +360,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-测试结果粉饰",
-    "timestamp": "2026-03-08T21:03:07+08:00"
+    "timestamp": "2026-03-08T21:03:07+08:00",
+    "expected_output": "测试报告应包含：1)通过数/失败数/跳过数/总数 2)跳过的测试需要说明原因 3)覆盖率数据 4)执行环境信息 5)与上次测试的对比。skip的测试不能算通过"
   },
   {
     "id": "DS-029",
@@ -345,7 +373,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-生产规模未考虑",
-    "timestamp": "2026-03-08T21:03:08+08:00"
+    "timestamp": "2026-03-08T21:03:08+08:00",
+    "expected_output": "数据迁移脚本交付checklist：1)断点续传（中断后不丢数据不重复）2)批量处理（不一次加载全部到内存）3)迁移前后数据校验（count/checksum）4)进度日志 5)dry-run模式 6)回滚方案 7)性能评估（预估生产环境执行时间）"
   },
   {
     "id": "DS-030",
@@ -357,6 +386,7 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "交付自检-配置变更未预检",
-    "timestamp": "2026-03-08T21:03:09+08:00"
+    "timestamp": "2026-03-08T21:03:09+08:00",
+    "expected_output": "配置修改交付流程：1)修改配置 2)语法检查（nginx -t）3)检查通过才reload 4)reload后验证服务正常 5)如果异常立即回滚到修改前的配置"
   }
 ]

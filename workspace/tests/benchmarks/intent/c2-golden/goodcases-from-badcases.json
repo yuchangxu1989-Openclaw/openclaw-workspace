@@ -3261,5 +3261,18 @@
     "source": "badcase_flip",
     "original_badcase_id": "badcase-no-intent-understanding-on-user-msg",
     "original_file": "00-real-badcases.json"
+  },
+  {
+    "id": "goodcase-badcase-cancel-vs-disable-intent-miss",
+    "input": "用户说取消定时任务，理解为禁用cron而非取消已触发的运行中任务",
+    "context": "用户说取消定时任务then禁用cron配置then未取消已运行实例",
+    "expected_output": "用户说取消定时任务then取消已运行实例+禁用cron",
+    "scoring_rubric": "系统应执行: 用户说取消定时任务then取消已运行实例+禁用cron",
+    "negative_example": "用户说取消定时任务then禁用cron配置then未取消已运行实例",
+    "root_cause_to_avoid": "意图理解偏差：取消≠禁用，取消=停止正在执行的，禁用=阻止未来执行的",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "badcase-cancel-vs-disable-intent-miss",
+    "original_file": "00-real-badcases.json"
   }
 ]

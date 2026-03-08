@@ -7,7 +7,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "主Agent在优化汇报格式和数据对齐，用户指出方向错误——真正瓶颈是key没用满",
-    "tags": ["correction", "resource_scheduling", "direction_pivot", "implicit_intent"]
+    "tags": [
+      "correction",
+      "resource_scheduling",
+      "direction_pivot",
+      "implicit_intent"
+    ]
   },
   {
     "id": "SESSION-0308-002",
@@ -17,7 +22,12 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "用户多次发现汇报用running/busy等模糊口径，要求统一为四维精确口径",
-    "tags": ["correction", "reporting_standard", "isc_rule_creation", "fullchain"]
+    "tags": [
+      "correction",
+      "reporting_standard",
+      "isc_rule_creation",
+      "fullchain"
+    ]
   },
   {
     "id": "SESSION-0308-003",
@@ -27,7 +37,11 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "主Agent在自己执行分析/编码等复杂任务，用户要求主Agent只做调度层",
-    "tags": ["delegation_violation", "correction", "architectural_principle"]
+    "tags": [
+      "delegation_violation",
+      "correction",
+      "architectural_principle"
+    ]
   },
   {
     "id": "SESSION-0308-004",
@@ -37,7 +51,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户审查评测标准后发现结构本末倒置，指标定义不清会导致下游评测集全部报废",
-    "tags": ["meta_problem", "correction", "eval_standard", "priority_reorder"]
+    "tags": [
+      "meta_problem",
+      "correction",
+      "eval_standard",
+      "priority_reorder"
+    ]
   },
   {
     "id": "SESSION-0308-005",
@@ -47,7 +66,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "系统倾向于乐观汇报，用户要求严格基于证据判定，不允许粉饰",
-    "tags": ["honesty", "correction", "three_gate_model", "anti_cheating"]
+    "tags": [
+      "honesty",
+      "correction",
+      "three_gate_model",
+      "anti_cheating"
+    ]
   },
   {
     "id": "SESSION-0308-006",
@@ -57,7 +81,12 @@
     "difficulty": "C4",
     "source": "real_conversation",
     "context": "用户一次性下达涉及19个Agent×3层provider的大规模配置重构指令",
-    "tags": ["multi_intent", "config_refactor", "parallel_execution", "verification"]
+    "tags": [
+      "multi_intent",
+      "config_refactor",
+      "parallel_execution",
+      "verification"
+    ]
   },
   {
     "id": "SESSION-0308-007",
@@ -67,7 +96,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "gateway重启后部分Agent空跑，表面配置无异常，需深入到API协议层定位",
-    "tags": ["root_cause_analysis", "agent_empty_run", "config_mismatch", "four_layer_rca"]
+    "tags": [
+      "root_cause_analysis",
+      "agent_empty_run",
+      "config_mismatch",
+      "four_layer_rca"
+    ]
   },
   {
     "id": "SESSION-0308-008",
@@ -77,7 +111,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户通过提问暗示系统缺陷，期望系统主动识别并修复而非仅回答'没有'",
-    "tags": ["implicit_intent", "capability_gap", "auto_refresh", "proactive_fix"]
+    "tags": [
+      "implicit_intent",
+      "capability_gap",
+      "auto_refresh",
+      "proactive_fix"
+    ]
   },
   {
     "id": "SESSION-0308-009",
@@ -87,7 +126,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户审查黄金评测Case后发现C2级别不足，大多为C1简单场景",
-    "tags": ["correction", "eval_quality", "root_cause_required", "c2_standard"]
+    "tags": [
+      "correction",
+      "eval_quality",
+      "root_cause_required",
+      "c2_standard"
+    ]
   },
   {
     "id": "SESSION-0308-010",
@@ -97,7 +141,12 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "用户明确区分战略裁决和代码级QA两个独立环节，要求两者都必须走",
-    "tags": ["architectural_principle", "independent_qa", "isc_rule", "dual_review"]
+    "tags": [
+      "architectural_principle",
+      "independent_qa",
+      "isc_rule",
+      "dual_review"
+    ]
   },
   {
     "id": "SESSION-0308-011",
@@ -107,7 +156,12 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "系统多次仅基于文档摘要做判断而非读真实代码，用户要求铁律级约束",
-    "tags": ["correction", "cognition_layer", "real_code_reading", "anti_cheating"]
+    "tags": [
+      "correction",
+      "cognition_layer",
+      "real_code_reading",
+      "anti_cheating"
+    ]
   },
   {
     "id": "SESSION-0308-012",
@@ -117,7 +171,12 @@
     "difficulty": "C4",
     "source": "real_conversation",
     "context": "142条规则中141条只有JSON声明没有全链路展开，用户要求从根本上修复规则生命周期",
-    "tags": ["architectural_principle", "rule_lifecycle", "fullchain", "programmatic_guard"]
+    "tags": [
+      "architectural_principle",
+      "rule_lifecycle",
+      "fullchain",
+      "programmatic_guard"
+    ]
   },
   {
     "id": "SESSION-0308-013",
@@ -127,7 +186,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户要求生成大量评测用例，数量级本身就是并行信号",
-    "tags": ["implicit_intent", "quantity_implies_parallel", "multi_agent", "eval_generation"]
+    "tags": [
+      "implicit_intent",
+      "quantity_implies_parallel",
+      "multi_agent",
+      "eval_generation"
+    ]
   },
   {
     "id": "SESSION-0308-014",
@@ -137,7 +201,12 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "主Agent违反委派铁律亲自写飞书文档，阻塞了其他通信职责",
-    "tags": ["delegation_violation", "correction", "communication_blocking", "badcase"]
+    "tags": [
+      "delegation_violation",
+      "correction",
+      "communication_blocking",
+      "badcase"
+    ]
   },
   {
     "id": "SESSION-0308-015",
@@ -147,7 +216,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "boom/Codex 6路全空跑，系统只换渠道重试没分析为什么空跑",
-    "tags": ["symptom_fix", "root_cause_missing", "maxTokens", "model_behavior"]
+    "tags": [
+      "symptom_fix",
+      "root_cause_missing",
+      "maxTokens",
+      "model_behavior"
+    ]
   },
   {
     "id": "SESSION-0308-016",
@@ -157,7 +231,11 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "用户要求多视角PPT素材，系统默认全用最强模型忽略了多样性需求",
-    "tags": ["correction", "model_diversity", "multi_perspective"]
+    "tags": [
+      "correction",
+      "model_diversity",
+      "multi_perspective"
+    ]
   },
   {
     "id": "SESSION-0308-017",
@@ -167,7 +245,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户多次纠偏spawn后不推送列表，每次只记在MEMORY下次又忘",
-    "tags": ["repeated_failure", "auto_report", "programmatic_hook", "memory_unreliable"]
+    "tags": [
+      "repeated_failure",
+      "auto_report",
+      "programmatic_hook",
+      "memory_unreliable"
+    ]
   },
   {
     "id": "SESSION-0308-018",
@@ -177,7 +260,12 @@
     "difficulty": "C4",
     "source": "real_conversation",
     "context": "规则创建流程存在系统性缺陷，声明≠生效，用户要求深挖根因",
-    "tags": ["root_cause_analysis", "rule_lifecycle", "cognition_execution_split", "technical_debt"]
+    "tags": [
+      "root_cause_analysis",
+      "rule_lifecycle",
+      "cognition_execution_split",
+      "technical_debt"
+    ]
   },
   {
     "id": "SESSION-0308-019",
@@ -187,7 +275,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "有恢复脚本但无调度=脚本死代码，系统缺少主动感知循环",
-    "tags": ["autonomy_deficit", "root_cause_analysis", "cron_missing", "proactive_sensing"]
+    "tags": [
+      "autonomy_deficit",
+      "root_cause_analysis",
+      "cron_missing",
+      "proactive_sensing"
+    ]
   },
   {
     "id": "SESSION-0308-020",
@@ -197,7 +290,12 @@
     "difficulty": "C4",
     "source": "real_conversation",
     "context": "39条历史告警从未处理，系统把告警当通知而非需要行动的事件",
-    "tags": ["root_cause_analysis", "alert_vs_notification", "passive_vs_active", "architectural_flaw"]
+    "tags": [
+      "root_cause_analysis",
+      "alert_vs_notification",
+      "passive_vs_active",
+      "architectural_flaw"
+    ]
   },
   {
     "id": "SESSION-0308-021",
@@ -207,7 +305,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "大量handler_not_found错误，表面是handler缺失，根因是命名约定不一致",
-    "tags": ["root_cause_analysis", "naming_convention", "handler_discovery", "code_level_fix"]
+    "tags": [
+      "root_cause_analysis",
+      "naming_convention",
+      "handler_discovery",
+      "code_level_fix"
+    ]
   },
   {
     "id": "SESSION-0308-022",
@@ -217,7 +320,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "cron任务反复spawn失败，不是代码bug而是运行环境限制",
-    "tags": ["root_cause_analysis", "environment_constraint", "cron_limitation", "api_availability"]
+    "tags": [
+      "root_cause_analysis",
+      "environment_constraint",
+      "cron_limitation",
+      "api_availability"
+    ]
   },
   {
     "id": "SESSION-0308-023",
@@ -227,7 +335,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "盲区扫描发现严重问题后系统只写报告不自动触发修复，用户纠偏",
-    "tags": ["autonomy_deficit", "auto_expansion", "critical_finding", "proactive_fix"]
+    "tags": [
+      "autonomy_deficit",
+      "auto_expansion",
+      "critical_finding",
+      "proactive_fix"
+    ]
   },
   {
     "id": "SESSION-0308-024",
@@ -237,7 +350,11 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "主Agent发现严重问题后习惯性自己动手，违反委派原则",
-    "tags": ["delegation_violation", "correction", "main_agent_coding"]
+    "tags": [
+      "delegation_violation",
+      "correction",
+      "main_agent_coding"
+    ]
   },
   {
     "id": "SESSION-0308-025",
@@ -247,7 +364,11 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "多次append导致文档版本拼接残留，用户发现结构错误",
-    "tags": ["delivery_quality", "document_structure", "self_qa_missing"]
+    "tags": [
+      "delivery_quality",
+      "document_structure",
+      "self_qa_missing"
+    ]
   },
   {
     "id": "SESSION-0308-026",
@@ -257,7 +378,12 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "analyst子Agent收到任务后只说计划不执行，0 token有效输出",
-    "tags": ["agent_empty_run", "say_not_do", "task_description_quality", "completion_verification"]
+    "tags": [
+      "agent_empty_run",
+      "say_not_do",
+      "task_description_quality",
+      "completion_verification"
+    ]
   },
   {
     "id": "SESSION-0308-027",
@@ -267,7 +393,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户发现主Agent在自己做深度思考而非委派，指出opus子Agent同样强大",
-    "tags": ["cognition_error", "delegation_scope", "thinking_delegation", "architectural_upgrade"]
+    "tags": [
+      "cognition_error",
+      "delegation_scope",
+      "thinking_delegation",
+      "architectural_upgrade"
+    ]
   },
   {
     "id": "SESSION-0308-028",
@@ -277,7 +408,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户质疑系统行为是否依赖记忆而非程序化，暗示需要更多程序化守卫",
-    "tags": ["implicit_intent", "robustness", "memory_dependency", "programmatic_guard"]
+    "tags": [
+      "implicit_intent",
+      "robustness",
+      "memory_dependency",
+      "programmatic_guard"
+    ]
   },
   {
     "id": "SESSION-0308-029",
@@ -287,7 +423,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "136个脚本全量扫描发现一半是空壳，覆盖率数字掩盖了真实质量",
-    "tags": ["root_cause_analysis", "quality_audit", "false_coverage", "empty_shell"]
+    "tags": [
+      "root_cause_analysis",
+      "quality_audit",
+      "false_coverage",
+      "empty_shell"
+    ]
   },
   {
     "id": "SESSION-0308-030",
@@ -297,7 +438,12 @@
     "difficulty": "C4",
     "source": "real_conversation",
     "context": "用户已多次纠偏同一问题，每次修复(写MEMORY)都无效，问题持续复发",
-    "tags": ["repeated_failure", "highest_priority", "programmatic_required", "memory_ineffective"]
+    "tags": [
+      "repeated_failure",
+      "highest_priority",
+      "programmatic_required",
+      "memory_ineffective"
+    ]
   },
   {
     "id": "SESSION-0308-031",
@@ -307,7 +453,12 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "之前的DTO→LTO改名遗漏了cron/jobs.json中3处路径，在workspace外未被grep覆盖",
-    "tags": ["global_misalignment", "rename_incomplete", "out_of_workspace", "cron_config"]
+    "tags": [
+      "global_misalignment",
+      "rename_incomplete",
+      "out_of_workspace",
+      "cron_config"
+    ]
   },
   {
     "id": "SESSION-0308-032",
@@ -317,7 +468,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "系统产出多个脚本后未自动识别技能化机会，用户提醒后才做",
-    "tags": ["correction", "skill_discovery", "proactive_sensing", "programmatic_guard"]
+    "tags": [
+      "correction",
+      "skill_discovery",
+      "proactive_sensing",
+      "programmatic_guard"
+    ]
   },
   {
     "id": "SESSION-0308-033",
@@ -327,7 +483,12 @@
     "difficulty": "C4",
     "source": "real_conversation",
     "context": "用户对主Agent反复亲自执行任务的最终纠偏，明确要求'默认扩列'而非'默认自己做'",
-    "tags": ["correction", "delegation_final", "auto_expansion", "architectural_principle"]
+    "tags": [
+      "correction",
+      "delegation_final",
+      "auto_expansion",
+      "architectural_principle"
+    ]
   },
   {
     "id": "SESSION-0308-034",
@@ -337,7 +498,12 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "看板系统建好了但数据没推送给用户，违反'用户看到的才算数'原则",
-    "tags": ["correction", "user_visibility", "push_not_pull", "kanban"]
+    "tags": [
+      "correction",
+      "user_visibility",
+      "push_not_pull",
+      "kanban"
+    ]
   },
   {
     "id": "SESSION-0308-035",
@@ -347,7 +513,12 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "context": "看板推送飞书后表格显示为原始文本，需要切换到平台原生组件",
-    "tags": ["root_cause_analysis", "feishu_limitation", "table_rendering", "platform_adaptation"]
+    "tags": [
+      "root_cause_analysis",
+      "feishu_limitation",
+      "table_rendering",
+      "platform_adaptation"
+    ]
   },
   {
     "id": "SESSION-0308-036",
@@ -357,7 +528,11 @@
     "difficulty": "C1",
     "source": "real_conversation",
     "context": "汇报中使用boom-coder-02等渠道名，用户要求用模型名更直观",
-    "tags": ["correction", "reporting_format", "model_name_convention"]
+    "tags": [
+      "correction",
+      "reporting_format",
+      "model_name_convention"
+    ]
   },
   {
     "id": "SESSION-0308-037",
@@ -367,7 +542,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "评测集生成任务6路全空跑，根因是maxTokens默认值限制了输出长度",
-    "tags": ["root_cause_analysis", "maxTokens", "model_behavior", "config_fix"]
+    "tags": [
+      "root_cause_analysis",
+      "maxTokens",
+      "model_behavior",
+      "config_fix"
+    ]
   },
   {
     "id": "SESSION-0308-038",
@@ -377,7 +557,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "大任务超时，需要从kill→分析→拆分→重派的完整处理链",
-    "tags": ["timeout_handling", "task_splitting", "parallel_execution", "autonomy"]
+    "tags": [
+      "timeout_handling",
+      "task_splitting",
+      "parallel_execution",
+      "autonomy"
+    ]
   },
   {
     "id": "SESSION-0308-039",
@@ -387,7 +572,12 @@
     "difficulty": "C4",
     "source": "real_conversation",
     "context": "委派守卫深度审计发现主Agent有7种方式绕过委派规则，需要系统性封堵",
-    "tags": ["root_cause_analysis", "escape_path", "delegation_guard", "security_audit"]
+    "tags": [
+      "root_cause_analysis",
+      "escape_path",
+      "delegation_guard",
+      "security_audit"
+    ]
   },
   {
     "id": "SESSION-0308-040",
@@ -397,7 +587,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户总结修复方法论，要求每次修复都是根治性的而非补丁性的",
-    "tags": ["architectural_principle", "fix_methodology", "root_cause_required", "expansion_scan"]
+    "tags": [
+      "architectural_principle",
+      "fix_methodology",
+      "root_cause_required",
+      "expansion_scan"
+    ]
   },
   {
     "id": "SESSION-0308-041",
@@ -407,7 +602,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "AEO文档多次交付不合格（v2/v3拼接、结构错误），用户要求建立双Agent质量门禁",
-    "tags": ["quality_gate", "dual_agent_review", "auto_retry", "isc_rule"]
+    "tags": [
+      "quality_gate",
+      "dual_agent_review",
+      "auto_retry",
+      "isc_rule"
+    ]
   },
   {
     "id": "SESSION-0308-042",
@@ -417,7 +617,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "16个超时任务积压等人处理，系统未自动分诊",
-    "tags": ["autonomy_deficit", "timeout_triage", "three_layer_defense", "auto_recovery"]
+    "tags": [
+      "autonomy_deficit",
+      "timeout_triage",
+      "three_layer_defense",
+      "auto_recovery"
+    ]
   },
   {
     "id": "SESSION-0308-043",
@@ -427,7 +632,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "用户指出系统只处理推送给它的消息，不主动感知系统状态",
-    "tags": ["architectural_principle", "passive_to_active", "proactive_sensing", "autonomy_upgrade"]
+    "tags": [
+      "architectural_principle",
+      "passive_to_active",
+      "proactive_sensing",
+      "autonomy_upgrade"
+    ]
   },
   {
     "id": "SESSION-0308-044",
@@ -437,7 +647,12 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "反复纠偏后用户总结的核心教训——声明式约束无法阻止行为",
-    "tags": ["architectural_principle", "programmatic_guard", "constraint_hierarchy", "design_philosophy"]
+    "tags": [
+      "architectural_principle",
+      "programmatic_guard",
+      "constraint_hierarchy",
+      "design_philosophy"
+    ]
   },
   {
     "id": "SESSION-0308-045",
@@ -447,6 +662,11 @@
     "difficulty": "C3",
     "source": "real_conversation",
     "context": "11个claude系provider空跑的根因是API协议字段写错，需要批量修复+永久防护",
-    "tags": ["root_cause_analysis", "batch_config_error", "auto_validation", "startup_check"]
+    "tags": [
+      "root_cause_analysis",
+      "batch_config_error",
+      "auto_validation",
+      "startup_check"
+    ]
   }
 ]

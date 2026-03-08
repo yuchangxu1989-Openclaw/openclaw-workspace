@@ -1,0 +1,33 @@
+{
+  "rule_id": "ISC-TIMEOUT-AUTO-RETRY-001",
+  "name": "子Agent超时/失败自动重试",
+  "version": "1.0.0",
+  "created": "2026-03-08",
+  "category": "reliability",
+  "priority": "high",
+  "description": "子Agent超时(timed_out/timeout)或失败(failed)时，自动入重试队列，最多重试2次。user_cancelled除外。",
+  "trigger": {
+    "event": "subagent_completion",
+    "conditions": [
+      "status in [timed_out, timeout, failed]",
+      "cancel_reason != user_cancelled",
+      "retry_count < 2"
+    ]
+  },
+  "action": {
+    "type": "enqueue_retry",
+    "queue_file": "logs/auto-retry-queue.json",
+    "max_retry": 2,
+    "processor": "scripts/process-retry-queue.sh"
+  },
+  "enforcement": {
+    "level": "automatic",
+    "implemented_in": "scripts/completion-handler.sh (Step 7)",
+    "check_frequency": "on_completion + heartbeat"
+  },
+  "notes": [
+    "重试队列由heartbeat或cron定期通过process-retry-queue.sh检查",
+    "主Agent根据队列输出重新派发任务",
+    "retry_count记录在看板和队列中，防止无限重试"
+  ]
+}

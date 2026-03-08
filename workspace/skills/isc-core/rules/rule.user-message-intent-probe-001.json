@@ -1,34 +1,56 @@
 {
   "rule_id": "user-message-intent-probe-001",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "title": "用户消息意图探针 — 感知层必须对每条用户消息做意图分类",
-  "description": "主Agent必须对每条用户消息执行意图探针(intent-probe)，识别纠偏/否定/教学/追问等信号。纠偏类信号必须自动触发badcase harvest入库。",
+  "description": "主Agent必须对每条用户消息执行意图探针(intent-probe v2)，基于LLM分类器识别纠偏/否定/反复未果/自主性缺失/教学/根因追问/交付质量/认知错误等信号。纠偏类信号必须自动触发badcase harvest入库。",
   "trigger": {
     "event": "user_message_received",
     "condition": "每条用户消息到达时"
   },
   "action": {
     "type": "script",
-    "command": "echo \"$USER_MESSAGE\" | bash /root/.openclaw/workspace/scripts/intent-harvest-dispatch.sh \"$CONTEXT_SUMMARY\"",
-    "description": "调用意图探针→harvest分发器，自动分类并按需入库"
+    "command": "echo \"$USER_MESSAGE\" | bash /root/.openclaw/workspace/scripts/intent-probe.sh",
+    "description": "v2: LLM意图分类器(GLM-4-flash/plus)为主引擎，v1关键词为fallback"
   },
   "severity": "P0",
   "category": "感知层",
   "enforcement": {
-    "type": "programmatic",
+    "type": "v2-llm",
+    "primary_engine": "glm-4-plus",
+    "fallback_engine": "v1-keyword",
     "gate_script": null,
-    "hook": "completion-handler 兜底检查",
-    "description": "双保险: 前置intent-probe感知 + 后置completion-handler兜底"
+    "hook": "/root/.openclaw/workspace/scripts/intent-probe.sh",
+    "description": "v2架构: 用户消息→LLM意图分类→结构化JSON。LLM不可用时自动降级到v1关键词版。"
   },
+  "intent_types": [
+    {"type": "correction",        "harvest": true,  "category": "纠偏类"},
+    {"type": "negation",          "harvest": true,  "category": "否定类"},
+    {"type": "repeated_failure",  "harvest": true,  "category": "纠偏类"},
+    {"type": "autonomy_lack",     "harvest": true,  "category": "自主性缺失类"},
+    {"type": "teaching",          "harvest": true,  "category": "教学类"},
+    {"type": "root_cause_request","harvest": false,  "category": ""},
+    {"type": "quality_issue",     "harvest": true,  "category": "交付质量类"},
+    {"type": "normal",            "harvest": false,  "category": ""}
+  ],
   "metadata": {
     "created": "2026-03-08",
+    "updated": "2026-03-08",
     "author": "coder-subagent",
+    "v1_to_v2_upgrade": "2026-03-08",
     "related_badcase": "badcase-no-intent-understanding-on-user-msg",
     "related_scripts": [
-      "/root/.openclaw/workspace/scripts/intent-probe.sh",
-      "/root/.openclaw/workspace/scripts/intent-harvest-dispatch.sh"
+      "/root/.openclaw/workspace/scripts/intent-probe.sh"
     ],
     "regression_test": "/root/.openclaw/workspace/scripts/isc-c2-regression.sh",
-    "v2_note": "v1基于关键词快速过滤，v2必须接入LLM分类器做泛化意图理解"
+    "benchmark": {
+      "eval_set": "/root/.openclaw/workspace/tests/benchmarks/intent/intent-probe-regression-100.json",
+      "runner": "/root/.openclaw/workspace/tests/benchmarks/intent/benchmark_runner.py",
+      "report": "/root/.openclaw/workspace/reports/intent-probe-v2-model-comparison.md",
+      "results": {
+        "glm-4-flash": {"f1": 0.884, "accuracy": 0.835, "avg_latency_ms": 1597, "cost_cny": 0.0055},
+        "glm-4-plus":  {"f1": 0.950, "accuracy": 0.938, "avg_latency_ms": 698,  "cost_cny": 2.7822},
+        "claude-opus":  {"f1": 0.960, "accuracy": 0.946, "avg_latency_ms": 2556, "cost_cny": 81.1339}
+      }
+    }
   }
 }

@@ -9,7 +9,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "连锁跷跷板",
-    "timestamp": "2026-03-08T10:00:00Z"
+    "timestamp": "2026-03-08T10:00:00Z",
+    "expected_output": "助手应先确认影响范围（端、版本、浏览器）、建议临时止血（回滚或灰度开关）、再给出根因排查路径（CSS覆盖、z-index、媒体查询、组件复用副作用）并产出可执行修复清单。"
   },
   {
     "id": "DQ-002",
@@ -21,7 +22,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局未对齐",
-    "timestamp": "2026-03-08T10:08:00Z"
+    "timestamp": "2026-03-08T10:08:00Z",
+    "expected_output": "助手应承认回归风险，给出最小回滚面、时区字段影响分析、回归测试矩阵（编码/时区/金额精度）及补丁策略。"
   },
   {
     "id": "DQ-003",
@@ -33,7 +35,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "自主性缺失",
-    "timestamp": "2026-03-08T10:15:00Z"
+    "timestamp": "2026-03-08T10:15:00Z",
+    "expected_output": "助手应主动补齐证据：说明已测/未测边界、立即执行复现步骤、附日志/截图、更新测试覆盖并给出防复发动作。"
   },
   {
     "id": "DQ-004",
@@ -45,7 +48,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "认知错误",
-    "timestamp": "2026-03-08T10:22:00Z"
+    "timestamp": "2026-03-08T10:22:00Z",
+    "expected_output": "助手应识别‘统一’是跨模块约束，主动枚举涉及页面/组件/多语言资源并给出全量变更清单。"
   },
   {
     "id": "DQ-005",
@@ -57,7 +61,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局未对齐",
-    "timestamp": "2026-03-08T10:30:00Z"
+    "timestamp": "2026-03-08T10:30:00Z",
+    "expected_output": "助手应给出双目标评估（通过率/欺诈率）、回滚阈值、分层灰度与监控告警方案，说明为何未提前拦截。"
   },
   {
     "id": "DQ-006",
@@ -69,7 +74,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "认知错误",
-    "timestamp": "2026-03-08T10:38:00Z"
+    "timestamp": "2026-03-08T10:38:00Z",
+    "expected_output": "助手应按事故处置顺序执行：限流/降级/回滚优先，稳定后再重构，并明确变更风险窗口。"
   },
   {
     "id": "DQ-007",
@@ -81,7 +87,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局未对齐",
-    "timestamp": "2026-03-08T10:45:00Z"
+    "timestamp": "2026-03-08T10:45:00Z",
+    "expected_output": "助手应识别breaking change，要求版本化或兼容层，输出联调通知模板与迁移窗口。"
   },
   {
     "id": "DQ-008",
@@ -93,7 +100,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "自主性缺失",
-    "timestamp": "2026-03-08T10:52:00Z"
+    "timestamp": "2026-03-08T10:52:00Z",
+    "expected_output": "助手应主动提出并执行交付前自检清单（功能、回归、性能、安全、文档、回滚），并附证据。"
   },
   {
     "id": "DQ-009",
@@ -105,7 +113,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "连锁跷跷板",
-    "timestamp": "2026-03-08T11:00:00Z"
+    "timestamp": "2026-03-08T11:00:00Z",
+    "expected_output": "助手应提出分层缓存与失效策略（热点键、主动失效、事件驱动刷新）并评估业务SLA影响。"
   },
   {
     "id": "DQ-010",
@@ -117,7 +126,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "认知错误",
-    "timestamp": "2026-03-08T11:08:00Z"
+    "timestamp": "2026-03-08T11:08:00Z",
+    "expected_output": "助手应先执行指定方案并标注可选优化，不应绕开需求约束。"
   },
   {
     "id": "DQ-011",
@@ -129,7 +139,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局未对齐",
-    "timestamp": "2026-03-08T11:15:00Z"
+    "timestamp": "2026-03-08T11:15:00Z",
+    "expected_output": "助手应将交付定义扩展到代码+文档+示例+变更日志，保证对外一致。"
   },
   {
     "id": "DQ-012",
@@ -141,7 +152,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "交付质量",
-    "timestamp": "2026-03-08T11:22:00Z"
+    "timestamp": "2026-03-08T11:22:00Z",
+    "expected_output": "助手应立即做数据追溯、修正结论并附核验过程，建立‘结论可追证’模板。"
   },
   {
     "id": "DQ-013",
@@ -152,7 +164,8 @@
     "root_cause": "缺少写入后自动验证的闭环，以及反复失败后的Agent更换机制",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "交付质量"
+    "category": "交付质量",
+    "expected_output": "1)识别飞书文档的格式限制 2)先在本地验证markdown渲染效果 3)分块写入而非一次性大段落 4)写入后读取验证格式正确 5)如果同一Agent反复失败应换Agent"
   },
   {
     "id": "DQ-014",
@@ -163,7 +176,8 @@
     "root_cause": "承诺->设置->验证->监控的闭环中，验证和监控环节缺失",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "自主性缺失"
+    "category": "自主性缺失",
+    "expected_output": "1)自动化任务设置后应有首次验证 2)连续未执行应有告警 3)应主动向用户报告异常而非等用户发现"
   },
   {
     "id": "DQ-015",
@@ -174,7 +188,8 @@
     "root_cause": "对系统架构中intent层和event层的概念边界认知模糊",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "认知错误"
+    "category": "认知错误",
+    "expected_output": "1)理解'intent分类逻辑'指的是LLM意图识别prompt/模型配置 2)确认修改目标文件 3)修改前与用户确认理解"
   },
   {
     "id": "DQ-016",
@@ -185,7 +200,8 @@
     "root_cause": "修改共享代码时缺少影响面分析，只关注当前任务上下文而非全局依赖关系",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "连锁跷跷板"
+    "category": "连锁跷跷板",
+    "expected_output": "修改共享代码前：1)grep所有调用方 2)评估每个调用方的影响 3)同步修改所有调用方 4)全量跑测试确认无回归"
   },
   {
     "id": "DQ-017",
@@ -196,7 +212,8 @@
     "root_cause": "Agent将功能修改理解为单层操作，缺少全栈视角的影响面分析",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "全局未对齐"
+    "category": "全局未对齐",
+    "expected_output": "识别全栈修改需求：1)前端展示层修改 2)后端API返回格式同步 3)数据库层面是否需要migration 4)缓存是否需要清理"
   },
   {
     "id": "DQ-018",
@@ -207,7 +224,8 @@
     "root_cause": "Agent交付代码时的completeness标准只关注代码本身，缺少运行环境和依赖的交付意识",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "交付质量"
+    "category": "交付质量",
+    "expected_output": "代码交付时应包含：1)依赖清单(requirements.txt/package.json) 2)Python版本要求 3)安装步骤 4)基本运行说明 5)预期输出示例"
   },
   {
     "id": "DQ-019",
@@ -218,7 +236,8 @@
     "root_cause": "汇报未以subagents list为唯一真相源，违反了runtime真值原则",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "交付质量"
+    "category": "交付质量",
+    "expected_output": "看板数据必须来自runtime真实查询，不能基于记忆中的预期状态"
   },
   {
     "id": "DQ-020",
@@ -229,7 +248,8 @@
     "root_cause": "Agent对部署架构缺少感知，修复方案的验证环境与生产环境不匹配",
     "difficulty": "C3",
     "source": "scenario_based",
-    "category": "交付质量"
+    "category": "交付质量",
+    "expected_output": "修复并发问题时应考虑：1)本地单线程测试不够，需要并发测试 2)确认部署架构（单实例vs多实例）3)选择匹配架构的同步机制 4)在接近生产的环境验证"
   },
   {
     "id": "DQ-021",
@@ -240,7 +260,8 @@
     "root_cause": "Agent将'完成任务'和'交付结果'脱耦，完成了执行但遗漏了交付的最后一公里",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "自主性缺失"
+    "category": "自主性缺失",
+    "expected_output": "1)完成任务 2)按用户要求的渠道（飞书）主动推送结果 3)推送后确认用户收到"
   },
   {
     "id": "DQ-022",
@@ -251,6 +272,7 @@
     "root_cause": "修复链中缺少根因分析步骤，直接改症状导致修复不彻底",
     "difficulty": "C2",
     "source": "scenario_based",
-    "category": "连锁跷跷板"
+    "category": "连锁跷跷板",
+    "expected_output": "修复时应做根因分析：1)为什么会有异常输入？是schema缺失 2)修根因=加schema验证层 3)加回归测试覆盖多种异常输入 4)修复后确认不会被绕过"
   }
 ]

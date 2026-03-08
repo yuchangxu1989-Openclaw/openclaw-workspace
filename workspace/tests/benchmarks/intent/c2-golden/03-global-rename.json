@@ -9,7 +9,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-范围遗漏",
-    "timestamp": "2026-03-08T20:02:00+08:00"
+    "timestamp": "2026-03-08T20:02:00+08:00",
+    "expected_output": "全局扫描所有出现dispatcher的位置（代码、文档、配置、日志、测试），按依赖关系排序修改（先定义后引用），确保所有引用一致更新，修改后运行测试验证无遗漏"
   },
   {
     "id": "GR-002",
@@ -21,7 +22,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-引用断裂",
-    "timestamp": "2026-03-08T20:02:01+08:00"
+    "timestamp": "2026-03-08T20:02:01+08:00",
+    "expected_output": "1)列出所有不符合kebab-case的文件名 2)检查哪些地方引用了这些文件名(代码、文档、配置) 3)统一修改文件名 4)同步更新所有引用 5)验证修改后系统正常运行"
   },
   {
     "id": "GR-003",
@@ -33,7 +35,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-元文档遗漏",
-    "timestamp": "2026-03-08T20:02:02+08:00"
+    "timestamp": "2026-03-08T20:02:02+08:00",
+    "expected_output": "在所有代码、文档、配置、对话记忆、SOUL.md、AGENTS.md、ISC规则中将DTO替换为TaskOrchestrator，同时保留一处说明'原名DTO'以便历史追溯"
   },
   {
     "id": "GR-004",
@@ -45,7 +48,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-差异化替换缺失",
-    "timestamp": "2026-03-08T20:02:03+08:00"
+    "timestamp": "2026-03-08T20:02:03+08:00",
+    "expected_output": "区分需要修改的文档范围：1)本地.md文件全量替换 2)飞书文档需要逐一read→替换→write 3)注意区分'主Agent'（需替换）和'子Agent'（不需替换）4)保留代码注释中的技术术语不改"
   },
   {
     "id": "GR-005",
@@ -57,7 +61,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-语义消歧缺失",
-    "timestamp": "2026-03-08T20:02:04+08:00"
+    "timestamp": "2026-03-08T20:02:04+08:00",
+    "expected_output": "先全量扫描所有'agent'出现位置，按语义分类标注，然后为3种语义分别制定命名规范（如：subAgent/llmClient/userAgent），最后按分类执行差异化重命名"
   },
   {
     "id": "GR-006",
@@ -69,7 +74,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-版本号散落遗漏",
-    "timestamp": "2026-03-08T20:02:05+08:00"
+    "timestamp": "2026-03-08T20:02:05+08:00",
+    "expected_output": "系统化更新所有版本号位置：1)package.json version字段 2)README中的版本badge 3)CHANGELOG添加v3条目 4)API endpoint中的/v2/改为/v3/ 5)Dockerfile中的tag 6)文档标题中的版本号 7)运行测试确认无v2残留"
   },
   {
     "id": "GR-007",
@@ -81,7 +87,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-跨层边界未识别",
-    "timestamp": "2026-03-08T20:02:06+08:00"
+    "timestamp": "2026-03-08T20:02:06+08:00",
+    "expected_output": "识别重命名的边界：代码内部变量统一为userId，但数据库字段名和API协议的user_id不应修改（会破坏兼容性）。在ORM层做映射(user_id→userId)而不是改数据库"
   },
   {
     "id": "GR-008",
@@ -93,7 +100,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-大规模任务完成度虚报",
-    "timestamp": "2026-03-08T20:02:07+08:00"
+    "timestamp": "2026-03-08T20:02:07+08:00",
+    "expected_output": "系统化处理：1)全量扫描含中文注释的文件 2)逐文件翻译，保持技术术语准确 3)注意不要翻译字符串常量中的中文（如UI文案） 4)保持注释的技术深度不丢失 5)翻译完后检查是否有遗漏的中文"
   },
   {
     "id": "GR-009",
@@ -105,7 +113,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-多模态一致性遗漏",
-    "timestamp": "2026-03-08T20:02:08+08:00"
+    "timestamp": "2026-03-08T20:02:08+08:00",
+    "expected_output": "识别截图中的旧名字需要重新截图或标注说明，列出所有文档中的截图位置，标记哪些截图包含旧名字需要更新，提出更新方案（重新截图或加注释说明）"
   },
   {
     "id": "GR-010",
@@ -117,7 +126,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-环境变量引用链断裂",
-    "timestamp": "2026-03-08T20:02:09+08:00"
+    "timestamp": "2026-03-08T20:02:09+08:00",
+    "expected_output": "更新所有环境变量出现的位置：.env、docker-compose.yaml、k8s yaml、CI配置、代码中读取环境变量的地方(process.env.OPENCLAW_DISPATCHER_PORT)，并考虑向后兼容（同时支持新旧环境变量名一段时间）"
   },
   {
     "id": "GR-011",
@@ -129,7 +139,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-条件式替换退化为全量",
-    "timestamp": "2026-03-08T20:02:10+08:00"
+    "timestamp": "2026-03-08T20:02:10+08:00",
+    "expected_output": "不是简单的全局替换，而是需要逐一判断每处'评测集'的语义：1)指代已验证集合的→改为'黄金评测集' 2)泛指所有评测集的→保持不变 3)指代未验证草稿集的→保持不变或改为'候选评测集'"
   },
   {
     "id": "GR-012",
@@ -141,7 +152,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-时间边界误判",
-    "timestamp": "2026-03-08T20:02:11+08:00"
+    "timestamp": "2026-03-08T20:02:11+08:00",
+    "expected_output": "理解这是一个前瞻性要求——未来的commit message用新术语。本次commit用旧名字是合理的（因为是在描述重命名操作本身），但后续commit中应该使用新名字"
   },
   {
     "id": "GR-013",
@@ -153,7 +165,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-外部契约破坏",
-    "timestamp": "2026-03-08T20:02:12+08:00"
+    "timestamp": "2026-03-08T20:02:12+08:00",
+    "expected_output": "识别这是一个破坏性变更，提出向后兼容方案：1)新版API用camelCase 2)旧版API继续支持snake_case 3)通过版本号或Accept header区分 4)给出迁移timeline和通知计划"
   },
   {
     "id": "GR-014",
@@ -165,7 +178,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-验证后不自修复",
-    "timestamp": "2026-03-08T20:02:13+08:00"
+    "timestamp": "2026-03-08T20:02:13+08:00",
+    "expected_output": "运行测试，发现3个失败，分析失败原因（fixture数据中的旧名字未更新），修复fixture后重新运行直到全绿，然后报告'修复了3处遗漏'"
   },
   {
     "id": "GR-015",
@@ -177,7 +191,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-历史记录改写",
-    "timestamp": "2026-03-08T20:02:14+08:00"
+    "timestamp": "2026-03-08T20:02:14+08:00",
+    "expected_output": "扫描MEMORY.md中所有DTO出现位置，但不做盲目全量替换——因为MEMORY.md记录的是历史事件，历史对话中的DTO引用应该保留原样（加注释说明现已更名），只有描述当前系统架构的段落才需要更新为新名字"
   },
   {
     "id": "GR-016",
@@ -189,7 +204,8 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "category": "全局重命名-字符串常量遗漏",
-    "timestamp": "2026-03-08T20:02:15+08:00"
+    "timestamp": "2026-03-08T20:02:15+08:00",
+    "expected_output": "grep搜索所有日志输出中的旧名字字符串，逐一更新。注意区分：1)日志模板中的模块标识符要改 2)日志中引用的变量名（已改的变量自动会变）3)错误消息中的描述性文字也要同步"
   },
   {
     "id": "GR-017",
@@ -201,7 +217,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-错误码引用链断裂",
-    "timestamp": "2026-03-08T20:02:16+08:00"
+    "timestamp": "2026-03-08T20:02:16+08:00",
+    "expected_output": "1)扫描所有错误码定义位置 2)追踪每个错误码在前端/监控/文档中的引用 3)制定迁移方案（新旧错误码并存一段时间）4)同步更新所有位置 5)通知前端团队错误码变更"
   },
   {
     "id": "GR-018",
@@ -213,7 +230,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-多语言文件遗漏",
-    "timestamp": "2026-03-08T20:02:17+08:00"
+    "timestamp": "2026-03-08T20:02:17+08:00",
+    "expected_output": "1)扫描所有语言版本的i18n文件 2)统一修改key名 3)确保5个语言文件的key完全一致 4)检查代码中t('dispatcher.title')的调用同步更新为t('router.title') 5)验证各语言版本渲染正常"
   },
   {
     "id": "GR-019",
@@ -225,7 +243,8 @@
     "difficulty": "C3",
     "source": "scenario_based",
     "category": "全局重命名-数据库迁移不安全",
-    "timestamp": "2026-03-08T20:02:18+08:00"
+    "timestamp": "2026-03-08T20:02:18+08:00",
+    "expected_output": "1)生成数据库migration脚本（ALTER TABLE RENAME）2)包含回滚脚本 3)考虑迁移期间的兼容性（ORM映射/视图） 4)在测试数据库先验证migration 5)给出执行步骤和预估停机时间"
   },
   {
     "id": "GR-020",
@@ -237,7 +256,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-外部依赖边界忽视",
-    "timestamp": "2026-03-08T20:02:19+08:00"
+    "timestamp": "2026-03-08T20:02:19+08:00",
+    "expected_output": "识别这是外部不可控的命名——第三方webhook的字段名由对方定义，我方无法单方面修改。正确方案是在接收层加一个字段映射/适配器，将第三方字段名转换为内部新命名，而不是试图改对方的字段"
   },
   {
     "id": "GR-021",
@@ -249,7 +269,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-语义消歧缺失",
-    "timestamp": "2026-03-08T21:02:00+08:00"
+    "timestamp": "2026-03-08T21:02:00+08:00",
+    "expected_output": "全仓库扫描所有master引用，区分需要改的（分支名引用）和不能改的（如git log中的历史记录、'master-slave'术语中的master、第三方URL中的master），按层分类处理，确认远端分支已重命名后再改本地引用"
   },
   {
     "id": "GR-022",
@@ -261,7 +282,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-API版本迁移不完整",
-    "timestamp": "2026-03-08T21:02:01+08:00"
+    "timestamp": "2026-03-08T21:02:01+08:00",
+    "expected_output": "分层处理：1)路由定义层 2)中间件和鉴权层 3)文档层 4)SDK和示例代码层 5)测试层 6)配置和环境变量层 7)识别数据库中的URL不能简单改代码需要迁移脚本 8)保留v1到v2的重定向兼容"
   },
   {
     "id": "GR-023",
@@ -273,7 +295,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-注释与代码边界混淆",
-    "timestamp": "2026-03-08T21:02:02+08:00"
+    "timestamp": "2026-03-08T21:02:02+08:00",
+    "expected_output": "1)区分注释中的中文和代码字符串中的中文（后者不能改）2)区分不同语言的注释语法 3)保持注释的技术准确性而非机械翻译 4)处理含有专有名词的注释 5)分批执行避免一次性修改数百文件导致review困难"
   },
   {
     "id": "GR-024",
@@ -285,7 +308,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-单位转换盲目执行",
-    "timestamp": "2026-03-08T21:02:03+08:00"
+    "timestamp": "2026-03-08T21:02:03+08:00",
+    "expected_output": "1)扫描所有超时相关配置项 2)识别当前单位是秒还是毫秒（有些已经是毫秒不需要改）3)对需要改的值做*1000转换 4)同步修改读取这些配置的代码中的单位假设 5)更新文档中的单位说明 6)修改测试中的期望值"
   },
   {
     "id": "GR-025",
@@ -297,7 +321,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-外部资源边界遗漏",
-    "timestamp": "2026-03-08T21:02:04+08:00"
+    "timestamp": "2026-03-08T21:02:04+08:00",
+    "expected_output": "全面扫描所有引用位置，分为：1)可以直接改的（package.json、README等）2)需要外部操作的（Docker Hub仓库名、GitHub仓库名、域名DNS）3)需要重新生成的（SSL证书）4)需要同步更新的（CI/CD中的镜像推送地址）。提醒用户哪些需要手动操作外部平台"
   },
   {
     "id": "GR-026",
@@ -309,7 +334,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-使用场景未区分",
-    "timestamp": "2026-03-08T21:02:05+08:00"
+    "timestamp": "2026-03-08T21:02:05+08:00",
+    "expected_output": "1)区分业务代码中的console.log（需要改）、CLI输出中的console.log（应保留或改为专门的output方法）、测试中的console.log（可以移除或保留）2)替换时添加合适的日志级别（info/debug/warn）3)确保logger的import正确添加 4)处理console.error/warn等变体"
   },
   {
     "id": "GR-027",
@@ -321,7 +347,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-数据库迁移遗漏",
-    "timestamp": "2026-03-08T21:02:06+08:00"
+    "timestamp": "2026-03-08T21:02:06+08:00",
+    "expected_output": "1)明确这不是简单的文本替换而是数据库迁移 2)生成migration脚本（ALTER TABLE RENAME）3)更新ORM模型定义 4)更新所有raw SQL查询 5)考虑迁移期间的兼容性（旧表名alias/视图）6)制定回滚方案 7)提醒在低峰期执行"
   },
   {
     "id": "GR-028",
@@ -333,7 +360,8 @@
     "difficulty": "C3",
     "source": "scenario_based",
     "category": "全局重命名-运行时配置未同步",
-    "timestamp": "2026-03-08T21:02:07+08:00"
+    "timestamp": "2026-03-08T21:02:07+08:00",
+    "expected_output": "识别Feature Flag的完整生命周期链路：代码→配置中心→数据库→A/B平台→监控→日志分析，全部需要同步修改。制定分批迁移计划，先改配置中心和数据库（向后兼容），再改代码，最后清理旧名称"
   },
   {
     "id": "GR-029",
@@ -345,7 +373,8 @@
     "difficulty": "C2",
     "source": "scenario_based",
     "category": "全局重命名-环境区分缺失",
-    "timestamp": "2026-03-08T21:02:08+08:00"
+    "timestamp": "2026-03-08T21:02:08+08:00",
+    "expected_output": "1)区分内部服务URL（可能在开发环境不支持HTTPS）和外部URL 2)验证外部URL是否确实支持HTTPS 3)开发环境/本地调试的URL可能需要保留HTTP 4)区分localhost引用（通常HTTP）和生产URL 5)注意HSTS和mixed content的影响"
   },
   {
     "id": "GR-030",
@@ -357,6 +386,7 @@
     "difficulty": "C3",
     "source": "scenario_based",
     "category": "全局重命名-跨系统契约破坏",
-    "timestamp": "2026-03-08T21:02:09+08:00"
+    "timestamp": "2026-03-08T21:02:09+08:00",
+    "expected_output": "1)建立数字→字符串的完整映射表 2)修改错误码定义层 3)修改所有错误码引用（throw/catch/比较）4)更新API文档 5)考虑前端的兼容性（旧版前端可能还在用数字码）6)更新监控告警规则 7)保留数字码→字符串码的转换层做过渡 8)更新错误追踪系统的分析规则"
   }
 ]
