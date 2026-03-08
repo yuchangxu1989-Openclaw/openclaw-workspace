@@ -1,0 +1,11 @@
+{
+  "id": "ISC-SPAWN-TASKBOARD-HOOK-001",
+  "name": "Spawn必须登记TaskBoard",
+  "description": "主Agent每次sessions_spawn后必须调用register-task登记到task-board",
+  "trigger": { "event": "agent.task.spawned" },
+  "action": {
+    "type": "mandatory_followup",
+    "command": "register-task.sh",
+    "violation": "badcase"
+  }
+}

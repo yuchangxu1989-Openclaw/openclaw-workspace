@@ -242,3 +242,14 @@ const report = renderBoardReport(board, { highlights: [...], risks: [...] });
 - ❌ "Task completed but I don't know the history" → query `engine.queryHistory()`
 - ❌ Manually tracking completed tasks → the board does it automatically
 - ❌ Polling for task status → listen to events or query the board
+
+## 🚨 强制规则：spawn必须登记
+
+主Agent每次调用sessions_spawn后，必须立即调用task-board登记。
+
+标准流程：
+1. sessions_spawn(agentId, label, task) → 获得sessionKey和runId
+2. 立即执行：将任务信息写入task-board
+   - exec: bash /root/.openclaw/workspace/scripts/register-task.sh <runId> <label> <agentId> <model>
+
+违反此规则 = Badcase（ISC-SPAWN-TASKBOARD-HOOK-001）

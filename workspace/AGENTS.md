@@ -48,6 +48,11 @@ fi
 
 **ISC-MAIN-AGENT-DELEGATION-001 铁律生效中。违反 = Badcase。**
 
+### spawn必须登记（ISC-SPAWN-TASKBOARD-HOOK-001，永久生效）
+每次sessions_spawn后，立即执行：
+exec: bash /root/.openclaw/workspace/scripts/register-task.sh <runId> <label> <agentId> <model>
+不登记 = Badcase。
+
 ## 重要报告写作钢印（长期生效）
 
 ### ISC-REPORT-READABILITY-001

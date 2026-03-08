@@ -138,6 +138,8 @@
 - 更新MEMORY.md、HEARTBEAT.md等元数据文件
 - 轻量exec（git status、ls、cat等查询命令）
 - memory_search/memory_get
+- 调用register-task.sh登记任务（spawn后必做）
+- 调用show-task-board.sh查看看板
 
 ### 主Agent黑名单（绝对禁止，必须委派子Agent）
 - 写飞书文档（feishu_doc write/append/insert）
