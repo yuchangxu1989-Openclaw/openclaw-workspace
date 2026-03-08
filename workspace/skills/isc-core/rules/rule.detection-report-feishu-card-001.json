@@ -41,6 +41,8 @@
   "action": {
     "type": "handler",
     "handler": "report-snapshot",
-    "description": ""
-  }
+    "description": "",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.detection-report-feishu-card-001.sh"
+  },
+  "enforcement": "programmatic"
 }

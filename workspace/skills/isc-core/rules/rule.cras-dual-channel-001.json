@@ -36,6 +36,8 @@
   "action": {
     "type": "handler",
     "handler": "cras-dual-channel",
-    "description": ""
-  }
+    "description": "",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.cras-dual-channel-001.sh"
+  },
+  "enforcement": "programmatic"
 }

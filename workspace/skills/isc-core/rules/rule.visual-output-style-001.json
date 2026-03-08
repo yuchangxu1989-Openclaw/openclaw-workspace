@@ -20,7 +20,9 @@
   "action": {
     "type": "handler",
     "handler": "document-structure-check",
-    "description": "Mermaid渲染时：bgColor=ffffff, theme=default, 所有节点文本中文优先（可附英文）, subgraph用浅色fill"
+    "description": "Mermaid渲染时：bgColor=ffffff, theme=default, 所有节点文本中文优先（可附英文）, subgraph用浅色fill",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.visual-output-style-001.sh"
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

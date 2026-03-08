@@ -33,6 +33,8 @@
   "action": {
     "type": "handler",
     "handler": "notify-alert",
-    "description": "阈值越界 → 写入 alerts.jsonl 供 heartbeat 读取"
-  }
+    "description": "阈值越界 → 写入 alerts.jsonl 供 heartbeat 读取",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.threshold-alert-routing-001.sh"
+  },
+  "enforcement": "programmatic"
 }

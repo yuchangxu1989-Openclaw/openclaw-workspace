@@ -72,7 +72,8 @@
       "if_no_response_30min": "block_operation",
       "if_rejected": "block_and_log"
     },
-    "handler": "gateway-config-protection"
+    "handler": "gateway-config-protection",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n033-gateway-config-protection.sh"
   },
   "exemptions": [],
   "violation_handling": {
@@ -97,5 +98,6 @@
     ]
   },
   "enforcement_tier": "P0_gate",
-  "id": "rule.n033-gateway-config-protection"
+  "id": "rule.n033-gateway-config-protection",
+  "enforcement": "programmatic"
 }

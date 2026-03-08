@@ -26,7 +26,8 @@
       "通过飞书发送给用户（MD文本+PNG双份）"
     ],
     "note": "CogView-4仅用于艺术类图片，技术图表用Mermaid",
-    "handler": "document-structure-check"
+    "handler": "document-structure-check",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.architecture-diagram-visual-output-001.sh"
   },
   "visual_standards": [
     {
@@ -82,5 +83,6 @@
   ],
   "enforcement_tier": "P1_process",
   "created_at": "2026-03-05",
-  "updated_at": "2026-03-05"
+  "updated_at": "2026-03-05",
+  "enforcement": "programmatic"
 }

@@ -115,6 +115,8 @@
   "action": {
     "type": "handler",
     "handler": "gate-check-trigger",
-    "description": ""
-  }
+    "description": "",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n022-detection-architecture-design-isc-compliance-audit-022.sh"
+  },
+  "enforcement": "programmatic"
 }

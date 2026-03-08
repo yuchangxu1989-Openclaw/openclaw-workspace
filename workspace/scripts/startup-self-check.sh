@@ -146,3 +146,8 @@ if [ ! -f "/root/.openclaw/workspace/skills/isc-core/rules/rule.doc-quality-gate
   echo "🚨 CRITICAL: 文档质量门禁规则缺失!"
 fi
 echo "✅ 委派守卫规则文件完整"
+
+# ISC startup self-check hooks
+"/root/.openclaw/workspace/scripts/isc-hooks/rule.n036-memory-loss-recovery.sh" || true
+"/root/.openclaw/workspace/scripts/isc-hooks/rule.task-orchestration-quality-001.sh" || true
+"/root/.openclaw/workspace/scripts/isc-hooks/rule.tracker-sync-gate-001.sh" || true

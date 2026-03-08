@@ -62,11 +62,13 @@
   },
   "action": {
     "type": "handler",
-    "handler": "tracker-sync-handler"
+    "handler": "tracker-sync-handler",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.tracker-sync-gate-001.sh"
   },
   "metadata": {
     "created": "2026-03-07",
     "source": "Day2 Gap5 closure",
     "anti_entropy": true
-  }
+  },
+  "enforcement": "programmatic"
 }

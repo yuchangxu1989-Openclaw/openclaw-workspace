@@ -66,6 +66,8 @@
   "action": {
     "type": "handler",
     "handler": "interaction-source-file-delivery",
-    "description": ""
-  }
+    "description": "",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/N007-v2.sh"
+  },
+  "enforcement": "programmatic"
 }

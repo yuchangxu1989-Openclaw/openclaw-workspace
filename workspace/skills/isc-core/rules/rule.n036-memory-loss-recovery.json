@@ -298,6 +298,8 @@
   "enforcement_tier": "P1_process",
   "action": {
     "handler": "memory-loss-recovery",
-    "type": "handler"
-  }
+    "type": "handler",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n036-memory-loss-recovery.sh"
+  },
+  "enforcement": "programmatic"
 }

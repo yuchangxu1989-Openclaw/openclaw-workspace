@@ -25,7 +25,8 @@
   },
   "action": {
     "handler": "skill-isc-handler",
-    "type": "handler"
+    "type": "handler",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.intent-pdf输出标准-fyhznt.sh"
   },
   "governance": {
     "auto_execute": false,
@@ -39,5 +40,6 @@
     "source_file": "2026-03-05.md",
     "evidence": "## PDF输出标准（用户要求，永久生效）...严格层级目录...设计思想/代码/参考���离...禁止一级目录过多、代码掺杂正文、图片随手糊",
     "created_at": "2026-03-06T17:15:02.337Z"
-  }
+  },
+  "enforcement": "programmatic"
 }

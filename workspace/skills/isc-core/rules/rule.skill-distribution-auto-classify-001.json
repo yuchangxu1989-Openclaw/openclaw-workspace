@@ -19,8 +19,10 @@
   "conditions": {},
   "action": {
     "type": "check",
-    "handler": "classify-skill-distribution"
+    "handler": "classify-skill-distribution",
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.skill-distribution-auto-classify-001.sh"
   },
   "rationale": "用户原话：'需要区分，但只有记忆不够，需要通过事件来识别和区分'",
-  "created_at": "2026-03-06T01:46:00+08:00"
+  "created_at": "2026-03-06T01:46:00+08:00",
+  "enforcement": "programmatic"
 }
