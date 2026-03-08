@@ -50,8 +50,9 @@ if [ "$NEED_QA" = "true" ]; then
   echo "命令模板：sessions_spawn agentId=reviewer label=qa-$TASK_ID task='核查...'"
 fi
 
-# Step 3: 生成看板快照供主Agent发送
-bash /root/.openclaw/workspace/scripts/show-task-board.sh
+# Step 3: 生成看板并直接推送飞书（不依赖主Agent转发）
+bash /root/.openclaw/workspace/scripts/show-task-board-feishu.sh
+bash /root/.openclaw/workspace/scripts/push-feishu-board.sh
 
 # Step 4: 检查是否触发批量汇报（running=0时）
 BOARD_FILE="/root/.openclaw/workspace/logs/subagent-task-board.json"
@@ -65,6 +66,16 @@ console.log(board.filter(t=>t.status==='running').length);
     echo ""
     echo "🎯 所有任务已完成！请向用户推送最终汇总。"
   fi
+fi
+
+# Step 5: Badcase自动检测（ISC-EVAL-C2-AUTO-HARVEST-001）
+BADCASE_KEYWORDS="badcase|违反|纠偏|反复未果|头痛医头|又忘了|第N次|不推看板|手动触发"
+if echo "$SUMMARY" | grep -qiE "$BADCASE_KEYWORDS"; then
+  echo ""
+  echo "⚠️ 检测到潜在Badcase，建议入库！"
+  echo "   匹配内容: $SUMMARY"
+  echo "   入库命令: bash /root/.openclaw/workspace/scripts/auto-badcase-harvest.sh <badcase_id> <category> \"<description>\" \"<wrong_chain>\" \"<correct_chain>\" \"<root_cause>\""
+  echo "   ISC规则: ISC-EVAL-C2-AUTO-HARVEST-001"
 fi
 
 echo "=== Handler Complete ==="

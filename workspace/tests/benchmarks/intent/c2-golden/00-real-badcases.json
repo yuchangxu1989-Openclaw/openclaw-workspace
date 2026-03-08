@@ -327,5 +327,49 @@
     "source": "real_conversation",
     "category": "反复未果类",
     "timestamp": "2026-03-08T20:05:00+08:00"
+  },
+  {
+    "id": "badcase-skill-discovery-insensitivity",
+    "input": "主Agent产出5个独立脚本后继续其他工作",
+    "context": "产出badcase-to-goodcase.sh, auto-grant-feishu-perm.sh, detect-deep-think-intent.sh, isc-auto-align.sh, feishu-doc-verify.sh共5个脚本，均未自动发现技能化需求",
+    "expected_behavior": "脚本产出→pre-commit检测→auto-skill-discovery.sh→输出候选→主Agent决策技能化",
+    "actual_behavior": "5个脚本产出后无任何技能化动作，等用户提醒才批量技能化",
+    "badcase_category": "技能发现不敏感",
+    "root_cause": "SEEF技能发现=空壳，无感知探针，ISC规则纯声明无程序化gate",
+    "isc_rule": "rule.auto-skill-discovery-001",
+    "data_source": "real-conversation",
+    "complexity_tags": [
+      "skill_discovery_failure",
+      "no_probe",
+      "declarative_rule_only"
+    ],
+    "difficulty": "C2",
+    "source": "real-badcase-2026-03-08"
+  },
+  {
+    "id": "badcase-taskboard-push-miss-again-20260308",
+    "input": "spawn后不推看板第N次，直到用户问有哪个程序催你推看板么才意识到无程序化触发",
+    "context": "spawn子Agent后依赖主Agent记忆手动推看板",
+    "expected_behavior": "completion-handler.sh自动推看板，不依赖主Agent记忆",
+    "actual_behavior": "spawn子Agent后依赖主Agent记忆手动推看板",
+    "badcase_category": "反复未果类",
+    "root_cause": "推看板逻辑未内置到completion-handler，全靠记忆",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-08T12:31:24Z"
+  },
+  {
+    "id": "badcase-auto-harvest-not-programmatic",
+    "input": "ISC-EVAL-C2-AUTO-HARVEST-001说自动采集但无程序化实现，badcase入库全靠手动",
+    "context": "主Agent靠记忆手动派子Agent入库badcase",
+    "expected_behavior": "auto-badcase-harvest.sh程序化采集，completion-handler自动检测提示",
+    "actual_behavior": "主Agent靠记忆手动派子Agent入库badcase",
+    "badcase_category": "头痛医头类",
+    "root_cause": "规则写了自动采集但没有任何脚本实现，纯粹头痛医头",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-08T12:31:30Z"
   }
 ]

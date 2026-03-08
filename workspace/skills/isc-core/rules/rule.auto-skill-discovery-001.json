@@ -1,0 +1,36 @@
+{
+  "rule_id": "rule.auto-skill-discovery-001",
+  "name": "自动技能发现",
+  "description": "当新脚本产出时，自动检测是否应该技能化",
+  "version": "1.0.0",
+  "enabled": true,
+  "priority": "P1",
+  "event": {
+    "triggers": ["script.created", "script.modified"],
+    "source": "git-pre-commit-hook + cron-scan"
+  },
+  "perception": {
+    "probe_type": "git-hook + filesystem-scan",
+    "detection_method": "pre-commit hook检测scripts/*.sh新增; cron定期运行auto-skill-discovery.sh",
+    "signal_path": "/root/.openclaw/workspace/.skill-discovery-signals/"
+  },
+  "cognition": {
+    "判断标准": [
+      "脚本>10行",
+      "有独立功能（非辅助脚本）",
+      "尚未在skills/public/下有对应技能"
+    ]
+  },
+  "execution": {
+    "action": "运行auto-skill-discovery.sh扫描候选",
+    "script": "/root/.openclaw/workspace/scripts/auto-skill-discovery.sh",
+    "output": "/root/.openclaw/workspace/reports/skill-discovery-candidates.md"
+  },
+  "verification": {
+    "method": "检查候选列表是否生成且非空",
+    "check_file": "/root/.openclaw/workspace/reports/skill-discovery-candidates.md",
+    "check_signals": "/root/.openclaw/workspace/.skill-discovery-signals/last-scan-result.txt"
+  },
+  "created_at": "2026-03-08",
+  "created_by": "rca-skill-discovery-rootfix"
+}
