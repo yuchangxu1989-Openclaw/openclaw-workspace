@@ -1393,9 +1393,11 @@
     "label": "eval-mine-v2-02",
     "agentId": "reviewer",
     "model": "opus",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T16:50:04.288Z",
-    "description": "挖S1:501-1000,10条"
+    "description": "挖S1:501-1000,10条",
+    "completeTime": "2026-03-08T17:20:12.392Z",
+    "result_summary": "超时自动标记(产出不存在)"
   },
   {
     "taskId": "8369bdfd-cb3a-4315-b3d7-4f3a234d0ff5",
@@ -1457,9 +1459,11 @@
     "label": "eval-mine-v2-08",
     "agentId": "writer",
     "model": "opus",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T16:50:09.782Z",
-    "description": "挖S2:1-500,10条"
+    "description": "挖S2:1-500,10条",
+    "completeTime": "2026-03-08T17:20:12.393Z",
+    "result_summary": "超时自动标记(产出不存在)"
   },
   {
     "taskId": "847f5c1f-0fc7-4f90-9113-18a74be17bb4",
@@ -1654,5 +1658,41 @@
     "description": "格式修复+V3清洗+去重,20文件~200条",
     "completeTime": "2026-03-08T17:18:33.909Z",
     "result_summary": "用户撤回,改拆10路小任务"
+  },
+  {
+    "taskId": "31d8dbe9-6814-41a4-8166-012b1bc97486",
+    "label": "eval-clean-batch-01",
+    "agentId": "analyst",
+    "model": "opus",
+    "status": "running",
+    "spawnTime": "2026-03-08T17:20:12.355Z",
+    "description": "清洗mined-from-memory+glm-01"
+  },
+  {
+    "taskId": "cea930c5-3bde-4aaa-aa72-07bc78b775df",
+    "label": "eval-clean-batch-02",
+    "agentId": "reviewer",
+    "model": "opus",
+    "status": "running",
+    "spawnTime": "2026-03-08T17:20:13.318Z",
+    "description": "清洗glm-02+glm-03"
+  },
+  {
+    "taskId": "41abd0d5-d547-4f66-ad8c-6c7355679ba4",
+    "label": "eval-clean-batch-03",
+    "agentId": "writer",
+    "model": "opus",
+    "status": "running",
+    "spawnTime": "2026-03-08T17:20:14.222Z",
+    "description": "清洗glm-04+glm-06"
+  },
+  {
+    "taskId": "330bd09f-6677-4e51-9023-b3f2e88fabdb",
+    "label": "eval-clean-batch-04",
+    "agentId": "scout",
+    "model": "opus",
+    "status": "running",
+    "spawnTime": "2026-03-08T17:20:15.152Z",
+    "description": "清洗session-01+05"
   }
 ]
