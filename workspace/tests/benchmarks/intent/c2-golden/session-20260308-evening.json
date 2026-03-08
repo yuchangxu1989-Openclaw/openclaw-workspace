@@ -1,0 +1,452 @@
+[
+  {
+    "id": "SESSION-0308-001",
+    "input": "真正问题不是汇报视角的数据对齐，而是子Agent key资源利用不足",
+    "expected_output": "识别为纠偏意图+资源调度优化请求。停止当前汇报优化方向，转向key利用率提升：1)审计当前occupied/free/queued分布 2)建立free-key-driven auto expansion机制 3)持续补位直到高水位",
+    "category": "纠偏类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "主Agent在优化汇报格式和数据对齐，用户指出方向错误——真正瓶颈是key没用满",
+    "tags": ["correction", "resource_scheduling", "direction_pivot", "implicit_intent"]
+  },
+  {
+    "id": "SESSION-0308-002",
+    "input": "后续看板汇报的第一优先口径必须是真实occupied key / free key / queued / abnormal",
+    "expected_output": "识别为汇报规范纠偏+ISC规则创建请求。创建汇报口径ISC规则，四维口径硬编码到所有汇报模板，全链路展开（意图注册+事件绑定+执行绑定+验真）",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "用户多次发现汇报用running/busy等模糊口径，要求统一为四维精确口径",
+    "tags": ["correction", "reporting_standard", "isc_rule_creation", "fullchain"]
+  },
+  {
+    "id": "SESSION-0308-003",
+    "input": "主Agent不应承担复杂任务，只负责调度/裁决/汇总",
+    "expected_output": "识别为委派原则纠偏。立即停止当前执行中的复杂任务，将其委派给子Agent。更新SOUL.md铁律，创建ISC-MAIN-AGENT-DELEGATION规则，建立程序化守卫",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "主Agent在自己执行分析/编码等复杂任务，用户要求主Agent只做调度层",
+    "tags": ["delegation_violation", "correction", "architectural_principle"]
+  },
+  {
+    "id": "SESSION-0308-004",
+    "input": "统计指标与统计口径是最高优先级，必须先于当前状态说明。若标准太low，基于它刷新出的评测集都是垃圾数据",
+    "expected_output": "识别为评测标准元问题纠偏+优先级重排请求。冻结当前标准，按P0指标体系→P1覆盖矩阵→P2评测内容→P3刷新机制→P4状态映射的顺序重写标准文档",
+    "category": "纠偏类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户审查评测标准后发现结构本末倒置，指标定义不清会导致下游评测集全部报废",
+    "tags": ["meta_problem", "correction", "eval_standard", "priority_reorder"]
+  },
+  {
+    "id": "SESSION-0308-005",
+    "input": "Day2不能宣称clean close，当前证据不足以宣称端到端全局自治已达标",
+    "expected_output": "识别为诚实汇报纠偏。停止使用模糊达标表述，按三门裁决模型逐门列出实测值vs阈值，明确标注NOT CLEAN-CLOSABLE及具体未达标项",
+    "category": "纠偏类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "系统倾向于乐观汇报，用户要求严格基于证据判定，不允许粉饰",
+    "tags": ["honesty", "correction", "three_gate_model", "anti_cheating"]
+  },
+  {
+    "id": "SESSION-0308-006",
+    "input": "把主Agent模型从boom/gpt-5.4换成claude/opus-thinking，全面清除gpt-5.4和sonnet，新增11个Agent利用闲置key，配三层容灾",
+    "expected_output": "识别为多意图复合指令（模型对调+清除旧模型+扩容Agent+容灾配置）。拆分为4个并行子任务：1)模型对调 2)清除gpt-5.4/sonnet 3)新增11个Agent+provider 4)三层容灾链配置。每步完成后验真配置自洽性",
+    "category": "多意图复合指令",
+    "difficulty": "C4",
+    "source": "real_conversation",
+    "context": "用户一次性下达涉及19个Agent×3层provider的大规模配置重构指令",
+    "tags": ["multi_intent", "config_refactor", "parallel_execution", "verification"]
+  },
+  {
+    "id": "SESSION-0308-007",
+    "input": "researcher-02和coder-02连续空跑，0 token, 0s runtime，配置检查正常",
+    "expected_output": "识别为根因分析请求。不能止步于'配置看起来正常'，必须四层定位：1)读session jsonl看实际API响应 2)检查provider api协议字段 3)对比正常Agent的配置差异 4)定位到api字段写错(openai-completions vs anthropic-messages)",
+    "category": "根因分析",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "gateway重启后部分Agent空跑，表面配置无异常，需深入到API协议层定位",
+    "tags": ["root_cause_analysis", "agent_empty_run", "config_mismatch", "four_layer_rca"]
+  },
+  {
+    "id": "SESSION-0308-008",
+    "input": "有没有约束必须刷新汇报任务队列？",
+    "expected_output": "识别为隐含意图——不是问有没有约束，而是指出'应该有但没有'。正确响应：1)承认当前没有自动刷新机制 2)识别为能力缺失 3)设计事件驱动刷新+5min定时兜底+关键变化推飞书 4)创建ISC规则+全链路展开",
+    "category": "隐含意图",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户通过提问暗示系统缺陷，期望系统主动识别并修复而非仅回答'没有'",
+    "tags": ["implicit_intent", "capability_gap", "auto_refresh", "proactive_fix"]
+  },
+  {
+    "id": "SESSION-0308-009",
+    "input": "原有10个黄金Case大多数都过于简单",
+    "expected_output": "识别为评测质量纠偏+根因分析请求。不能直接重写Case（头痛医头），必须先分析'为什么会偏简单'——是需求理解偏差？C2标准未量化？编写者能力不足？然后针对根因修复",
+    "category": "纠偏类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户审查黄金评测Case后发现C2级别不足，大多为C1简单场景",
+    "tags": ["correction", "eval_quality", "root_cause_required", "c2_standard"]
+  },
+  {
+    "id": "SESSION-0308-010",
+    "input": "架构/开发产出必须过独立QA Agent，裁决殿是战略裁决QA Agent是代码级验证，两个都要走",
+    "expected_output": "识别为架构原则确立+ISC规则创建。创建ISC规则将独立QA Agent审查纳入执行链必经环节，区分凌霄阁(战略)和QA Agent(代码)两个维度，全链路展开确保后续自动执行",
+    "category": "架构决策",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "用户明确区分战略裁决和代码级QA两个独立环节，要求两者都必须走",
+    "tags": ["architectural_principle", "independent_qa", "isc_rule", "dual_review"]
+  },
+  {
+    "id": "SESSION-0308-011",
+    "input": "认知层必须读真实代码，遍历实际.js/.py/.json文件，不能只看SKILL.md/CAPABILITY-ANCHOR.md/MEMORY.md做判断",
+    "expected_output": "识别为认知层纠偏+ISC规则创建。创建ISC规则要求所有认知映射/差距分析必须grep -rn遍历真实代码，输出精确到文件路径+函数名+行号，全链路展开",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "系统多次仅基于文档摘要做判断而非读真实代码，用户要求铁律级约束",
+    "tags": ["correction", "cognition_layer", "real_code_reading", "anti_cheating"]
+  },
+  {
+    "id": "SESSION-0308-012",
+    "input": "新ISC规则=全链路展开+端到端验真，写JSON只是1%，后面99%是意图注册→事件绑定→探针→匹配→执行→验真",
+    "expected_output": "识别为架构原则确立+规则生命周期重定义。修改ISC-core SKILL.md加入7步全链路流程，创建rule-fullchain-guard.js程序化守卫，接入pre-commit hook，审计所有现存规则的全链路完整性",
+    "category": "架构决策",
+    "difficulty": "C4",
+    "source": "real_conversation",
+    "context": "142条规则中141条只有JSON声明没有全链路展开，用户要求从根本上修复规则生命周期",
+    "tags": ["architectural_principle", "rule_lifecycle", "fullchain", "programmatic_guard"]
+  },
+  {
+    "id": "SESSION-0308-013",
+    "input": "500条C2评测用例",
+    "expected_output": "识别隐含意图：'500条'量级暗示必须多Agent并行生成，不能单Agent串行。正确响应：按场景类型拆分为10路并行（10类×50条），分派给不同Agent，汇总去重后输出",
+    "category": "隐含意图",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户要求生成大量评测用例，数量级本身就是并行信号",
+    "tags": ["implicit_intent", "quantity_implies_parallel", "multi_agent", "eval_generation"]
+  },
+  {
+    "id": "SESSION-0308-014",
+    "input": "用户发现主Agent自己调用feishu_doc write写了整篇评测文档",
+    "expected_output": "识别为委派违反badcase。主Agent写文档=通信阻塞，应该spawn子Agent(writer)去写。记录badcase，更新委派守卫规则，feishu_doc write列入主Agent禁止操作清单",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "主Agent违反委派铁律亲自写飞书文档，阻塞了其他通信职责",
+    "tags": ["delegation_violation", "correction", "communication_blocking", "badcase"]
+  },
+  {
+    "id": "SESSION-0308-015",
+    "input": "boom/Codex空跑了但系统只做症状描述没做根因分析",
+    "expected_output": "识别为头痛医头类badcase。不能只说'boom空跑了换渠道'，必须四层根因分析：1)代码层-maxTokens=8192太小 2)模型行为-知道写不完就只输出确认 3)配置层-默认值不合理 4)架构层-缺少输出长度预估机制",
+    "category": "头痛医头类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "boom/Codex 6路全空跑，系统只换渠道重试没分析为什么空跑",
+    "tags": ["symptom_fix", "root_cause_missing", "maxTokens", "model_behavior"]
+  },
+  {
+    "id": "SESSION-0308-016",
+    "input": "3路PPT策划全用了Opus模型",
+    "expected_output": "识别为多模型策略纠偏。'用三个不同模型'意味着要模型多样性——Opus+Codex+GLM-5各一路，获得不同视角的输出，而非3路同质化",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "用户要求多视角PPT素材，系统默认全用最强模型忽略了多样性需求",
+    "tags": ["correction", "model_diversity", "multi_perspective"]
+  },
+  {
+    "id": "SESSION-0308-017",
+    "input": "派完子Agent后为什么没自动汇报任务列表？",
+    "expected_output": "识别为反复未果类问题（用户说'这个问题反复出现无数次了'）。不能再写MEMORY提醒，必须程序化：spawn后置hook自动推送任务列表，不靠记忆。根因：dispatch→report事件绑定缺失",
+    "category": "反复未果类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户多次纠偏spawn后不推送列表，每次只记在MEMORY下次又忘",
+    "tags": ["repeated_failure", "auto_report", "programmatic_hook", "memory_unreliable"]
+  },
+  {
+    "id": "SESSION-0308-018",
+    "input": "为什么建规则只写了JSON就报'规则已建'？",
+    "expected_output": "识别为根因分析请求（'为什么'=根因分析无例外）。四层定位：1)代码层-ISC-core SKILL.md流程定义不完整 2)规则层-规则生命周期只到声明未到展开 3)认知层-MEMORY有正确认知但SKILL.md没约束=认知-执行分裂 4)架构层-142条规则141条未展开=系统性技术债",
+    "category": "根因分析",
+    "difficulty": "C4",
+    "source": "real_conversation",
+    "context": "规则创建流程存在系统性缺陷，声明≠生效，用户要求深挖根因",
+    "tags": ["root_cause_analysis", "rule_lifecycle", "cognition_execution_split", "technical_debt"]
+  },
+  {
+    "id": "SESSION-0308-019",
+    "input": "流水线静默了240分钟为什么没有主动处理？",
+    "expected_output": "识别为自主性缺失+根因分析。根因：pipeline-auto-recovery.js存在但没有cron调度，只靠偶然触发。修复：加入*/30 cron定时调度，建立主动感知循环",
+    "category": "自主性缺失类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "有恢复脚本但无调度=脚本死代码，系统缺少主动感知循环",
+    "tags": ["autonomy_deficit", "root_cause_analysis", "cron_missing", "proactive_sensing"]
+  },
+  {
+    "id": "SESSION-0308-020",
+    "input": "为什么系统告警只当通知看了一眼没行动？",
+    "expected_output": "识别为根因分析请求+架构缺陷暴露。根因：没有独立于runtime的主动感知循环，只处理runtime推送的消息。三类消息处理不对称：用户消息(强制响应)、子Agent回调(强制响应)、系统告警(看一眼不行动)。修复：告警≠通知=必须行动的事件",
+    "category": "根因分析",
+    "difficulty": "C4",
+    "source": "real_conversation",
+    "context": "39条历史告警从未处理，系统把告警当通知而非需要行动的事件",
+    "tags": ["root_cause_analysis", "alert_vs_notification", "passive_vs_active", "architectural_flaw"]
+  },
+  {
+    "id": "SESSION-0308-021",
+    "input": "handler_not_found出现429次是什么原因？",
+    "expected_output": "识别为根因分析请求。定位到具体代码：规则文件用下划线(auto_trigger)，handler文件用连字符(auto-trigger.js)，dispatcher.js查找时名称不匹配。修复：dispatcher.js增加命名兼容转换(下划线↔连字符)",
+    "category": "根因分析",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "大量handler_not_found错误，表面是handler缺失，根因是命名约定不一致",
+    "tags": ["root_cause_analysis", "naming_convention", "handler_discovery", "code_level_fix"]
+  },
+  {
+    "id": "SESSION-0308-022",
+    "input": "dispatch-cron spawn失败336次",
+    "expected_output": "识别为根因分析请求。定位根因：cron环境没有sessions_spawn API（cron运行在隔离环境），不是spawn逻辑本身的问题。修复：dispatch-runner.js检测环境，cron环境跳过spawn步骤或改用其他调度方式",
+    "category": "根因分析",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "cron任务反复spawn失败，不是代码bug而是运行环境限制",
+    "tags": ["root_cause_analysis", "environment_constraint", "cron_limitation", "api_availability"]
+  },
+  {
+    "id": "SESSION-0308-023",
+    "input": "盲区扫描发现规则全链路完整率19.7%",
+    "expected_output": "识别为高优先级系统风险+自动扩列修复请求。不能只写报告，必须：1)立即spawn子Agent修复 2)根因分析为什么只有19.7% 3)批量修复所有不完整规则 4)建立持续监控防止回退",
+    "category": "自主性缺失类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "盲区扫描发现严重问题后系统只写报告不自动触发修复，用户纠偏",
+    "tags": ["autonomy_deficit", "auto_expansion", "critical_finding", "proactive_fix"]
+  },
+  {
+    "id": "SESSION-0308-024",
+    "input": "发现19.7%规则全链路问题后主Agent自己动手修了",
+    "expected_output": "识别为委派违反badcase。主Agent发现问题后应spawn子Agent(coder)去修复，而非自己执行。违反通信阻塞铁律——主Agent修代码期间无法处理其他消息",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "主Agent发现严重问题后习惯性自己动手，违反委派原则",
+    "tags": ["delegation_violation", "correction", "main_agent_coding"]
+  },
+  {
+    "id": "SESSION-0308-025",
+    "input": "飞书文档v2和v3被拼接，开头从第二章开始，结构混乱",
+    "expected_output": "识别为交付质量badcase。文档交付前缺少结构验证自检。正确流程：writer写→reviewer审查结构完整性→不通过自动重写。根因：缺少文档结构自检环节",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "多次append导致文档版本拼接残留，用户发现结构错误",
+    "tags": ["delivery_quality", "document_structure", "self_qa_missing"]
+  },
+  {
+    "id": "SESSION-0308-026",
+    "input": "子Agent说'将执行'但7秒就结束了，没调任何工具",
+    "expected_output": "识别为子Agent空转badcase。根因：任务描述不够强制，子Agent生成计划文本后就认为完成。修复：任务描述中强制要求'必须真正调用工具'+'必须有工具调用记录'，completion验真检查tool_calls数量",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "analyst子Agent收到任务后只说计划不执行，0 token有效输出",
+    "tags": ["agent_empty_run", "say_not_do", "task_description_quality", "completion_verification"]
+  },
+  {
+    "id": "SESSION-0308-027",
+    "input": "我问你的问题，如果需要深思熟虑，其实你可以分配给子Agent",
+    "expected_output": "识别为架构认知升级——主Agent连思考都可以委派。更新委派规则：不仅编码/写作委派，复杂分析/深度推理也应spawn opus子Agent处理。主Agent是调度+通信层不是计算层",
+    "category": "认知错误类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户发现主Agent在自己做深度思考而非委派，指出opus子Agent同样强大",
+    "tags": ["cognition_error", "delegation_scope", "thinking_delegation", "architectural_upgrade"]
+  },
+  {
+    "id": "SESSION-0308-028",
+    "input": "记忆丢失后还能保持行为一致吗？",
+    "expected_output": "识别为系统鲁棒性评估请求+隐含意图（暗示行为不应依赖会话记忆）。诚实回答：不一定能，因为关键行为(如发送文件)还依赖会话记忆未程序化。识别待做项：completion-handler自动检测报告类产出→自动发送",
+    "category": "隐含意图",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户质疑系统行为是否依赖记忆而非程序化，暗示需要更多程序化守卫",
+    "tags": ["implicit_intent", "robustness", "memory_dependency", "programmatic_guard"]
+  },
+  {
+    "id": "SESSION-0308-029",
+    "input": "ISC审计结果：A级27%, B级20%, C级(空壳)50%, D级(异常)3%。覆盖率100%是假象",
+    "expected_output": "识别为系统审计根因分析。不能止步于统计数据，必须：1)P0处理D级异常规则 2)按优先级批量重写C级空壳 3)分析为什么50%是空壳——是批量生成未验真？是只创建不填充？4)建立规则质量持续监控",
+    "category": "根因分析",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "136个脚本全量扫描发现一半是空壳，覆盖率数字掩盖了真实质量",
+    "tags": ["root_cause_analysis", "quality_audit", "false_coverage", "empty_shell"]
+  },
+  {
+    "id": "SESSION-0308-030",
+    "input": "你更新了任务队列，但没给我看汇报列表。这个问题反复出现无数次了",
+    "expected_output": "识别为反复未果类最高优先级问题。绝对不能再用MEMORY/认知规则修复。必须：1)根因分析为什么反复出现——异步turn断裂导致遗忘 2)程序化强制：spawn后置hook自动推送 3)验真：下一次spawn后自动出现列表",
+    "category": "反复未果类",
+    "difficulty": "C4",
+    "source": "real_conversation",
+    "context": "用户已多次纠偏同一问题，每次修复(写MEMORY)都无效，问题持续复发",
+    "tags": ["repeated_failure", "highest_priority", "programmatic_required", "memory_ineffective"]
+  },
+  {
+    "id": "SESSION-0308-031",
+    "input": "dto-core cron配置还有残留",
+    "expected_output": "识别为rename不完整+根因分析。根因：rename操作只扫描了workspace内文件，没覆盖workspace外的cron配置(/root/.openclaw/cron/)。修复：sed替换残留路径+建立rename操作的全路径检查清单（包括cron/openclaw.json等workspace外配置）",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "之前的DTO→LTO改名遗漏了cron/jobs.json中3处路径，在workspace外未被grep覆盖",
+    "tags": ["global_misalignment", "rename_incomplete", "out_of_workspace", "cron_config"]
+  },
+  {
+    "id": "SESSION-0308-032",
+    "input": "今天产出5个脚本后没有自动发现技能化需求",
+    "expected_output": "识别为技能发现不敏感纠偏。不仅要做技能化，还要：1)根因分析为什么没自动发现 2)扩列扫描所有未技能化脚本 3)程序化防护：auto-skill-discovery.sh+git pre-commit hook+ISC规则闭环",
+    "category": "纠偏类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "系统产出多个脚本后未自动识别技能化机会，用户提醒后才做",
+    "tags": ["correction", "skill_discovery", "proactive_sensing", "programmatic_guard"]
+  },
+  {
+    "id": "SESSION-0308-033",
+    "input": "我需要的不是你自己做，是你把任务调度做好，默认任务扩列，子Agent去完成任务！",
+    "expected_output": "识别为核心架构纠偏（反复出现的委派问题的最终表述）。全面重构主Agent行为模式：1)默认spawn子Agent而非自己执行 2)发现问题→自动扩列子Agent修复 3)SOUL.md铁律+程序化守卫+评测用例覆盖",
+    "category": "纠偏类",
+    "difficulty": "C4",
+    "source": "real_conversation",
+    "context": "用户对主Agent反复亲自执行任务的最终纠偏，明确要求'默认扩列'而非'默认自己做'",
+    "tags": ["correction", "delegation_final", "auto_expansion", "architectural_principle"]
+  },
+  {
+    "id": "SESSION-0308-034",
+    "input": "看板数据存在但只在服务器本地可见，没推送给用户",
+    "expected_output": "识别为用户可见性纠偏。服务器exec看一眼不算交付。正确流程：看板数据→格式化→主动推送到飞书。创建ISC规则：所有看板/报告/状态必须推送到用户可见渠道",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "看板系统建好了但数据没推送给用户，违反'用户看到的才算数'原则",
+    "tags": ["correction", "user_visibility", "push_not_pull", "kanban"]
+  },
+  {
+    "id": "SESSION-0308-035",
+    "input": "飞书卡片里markdown表格不渲染",
+    "expected_output": "识别为技术问题+根因定位。根因：飞书消息卡片不支持markdown表格语法。修复：改用飞书原生table组件（column_set+column）渲染结构化数据",
+    "category": "根因分析",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "context": "看板推送飞书后表格显示为原始文本，需要切换到平台原生组件",
+    "tags": ["root_cause_analysis", "feishu_limitation", "table_rendering", "platform_adaptation"]
+  },
+  {
+    "id": "SESSION-0308-036",
+    "input": "资源占用说模型名（Opus Thinking / Codex / GLM-5），不说渠道名",
+    "expected_output": "识别为汇报规范纠偏。用户关心的是模型能力而非渠道标识，将所有汇报模板中的provider名替换为模型名。更新ISC汇报规则",
+    "category": "纠偏类",
+    "difficulty": "C1",
+    "source": "real_conversation",
+    "context": "汇报中使用boom-coder-02等渠道名，用户要求用模型名更直观",
+    "tags": ["correction", "reporting_format", "model_name_convention"]
+  },
+  {
+    "id": "SESSION-0308-037",
+    "input": "maxTokens=8192导致boom空跑，模型知道写不完就只输出'我理解了'",
+    "expected_output": "识别为根因分析结论+配置修复请求。根因链：50条JSON需25k-40k tokens → maxTokens=8192太小 → 模型预估输出超限 → 只生成确认文本。修复：全局maxTokens调整到128000（GLM-5/Opus/Codex全部），gateway重启加载",
+    "category": "根因分析",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "评测集生成任务6路全空跑，根因是maxTokens默认值限制了输出长度",
+    "tags": ["root_cause_analysis", "maxTokens", "model_behavior", "config_fix"]
+  },
+  {
+    "id": "SESSION-0308-038",
+    "input": "coder/Opus跑了1小时无产出的AEO评测任务怎么办？",
+    "expected_output": "识别为超时任务处理+任务拆分请求。正确流程：1)kill超时任务 2)根因分析为什么1小时无产出——任务范围过大 3)拆分为3路并行子任务（Runner构建/评测集盘点/基线报告）4)分派到不同Agent",
+    "category": "自主性缺失类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "大任务超时，需要从kill→分析→拆分→重派的完整处理链",
+    "tags": ["timeout_handling", "task_splitting", "parallel_execution", "autonomy"]
+  },
+  {
+    "id": "SESSION-0308-039",
+    "input": "委派守卫RCA发现7种逃逸路径（连续exec/修改命令/feishu_doc写/多行exec/脚本实现/browser/大量read）",
+    "expected_output": "识别为安全审计结果+封堵请求。对7种逃逸路径逐一封堵：SOUL.md量化自检+AGENTS.md黑名单+CAPABILITY-ANCHOR.md禁止清单+delegation-guard程序化检测。每种路径都要有具体拦截机制",
+    "category": "根因分析",
+    "difficulty": "C4",
+    "source": "real_conversation",
+    "context": "委派守卫深度审计发现主Agent有7种方式绕过委派规则，需要系统性封堵",
+    "tags": ["root_cause_analysis", "escape_path", "delegation_guard", "security_audit"]
+  },
+  {
+    "id": "SESSION-0308-040",
+    "input": "做了但没根治=治标不治本，每次修复必须同时做根因分析+防护机制+扩列检查",
+    "expected_output": "识别为修复方法论纠偏+ISC规则创建。建立三步修复铁律：1)根因分析(四层定位) 2)防护机制(程序化守卫) 3)扩列检查(同类问题全扫描)。创建ISC规则确保后续所有修复都走完整链路",
+    "category": "架构决策",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户总结修复方法论，要求每次修复都是根治性的而非补丁性的",
+    "tags": ["architectural_principle", "fix_methodology", "root_cause_required", "expansion_scan"]
+  },
+  {
+    "id": "SESSION-0308-041",
+    "input": "重大文档交付前必须双Agent质量门禁：writer写→reviewer审→不通过换Agent重写→最多重试2次",
+    "expected_output": "识别为质量门禁架构决策+ISC规则创建。创建rule.doc-quality-gate-001.json，定义完整流程：writer→reviewer→不通过自动换Agent→重试上限2次→升级。全链路展开+SOUL.md铁律",
+    "category": "架构决策",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "AEO文档多次交付不合格（v2/v3拼接、结构错误），用户要求建立双Agent质量门禁",
+    "tags": ["quality_gate", "dual_agent_review", "auto_retry", "isc_rule"]
+  },
+  {
+    "id": "SESSION-0308-042",
+    "input": "超时分诊不自动化，总是等人来问才处理",
+    "expected_output": "识别为自主性缺失+程序化需求。建立三层超时防线：1)register时设超时阈值 2)completion-handler检测超时 3)cron定时巡检。超时后自动走递归收敛（replace→split→handoff），不等用户催",
+    "category": "自主性缺失类",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "16个超时任务积压等人处理，系统未自动分诊",
+    "tags": ["autonomy_deficit", "timeout_triage", "three_layer_defense", "auto_recovery"]
+  },
+  {
+    "id": "SESSION-0308-043",
+    "input": "被动响应式→主动感知式是自主性的根本转变",
+    "expected_output": "识别为架构认知升级。从被动(等runtime推消息)转变为主动(独立感知循环)：1)HEARTBEAT告警扫描为最高优先级 2)定时巡检任务状态/系统告警/资源利用率 3)主动发现问题而非等推送",
+    "category": "架构决策",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "用户指出系统只处理推送给它的消息，不主动感知系统状态",
+    "tags": ["architectural_principle", "passive_to_active", "proactive_sensing", "autonomy_upgrade"]
+  },
+  {
+    "id": "SESSION-0308-044",
+    "input": "声明≠代码≠文档，程序化守卫才是真正的根治",
+    "expected_output": "识别为系统设计哲学确立。三层约束力递增：MEMORY/文档声明(最弱,依赖记忆)→ISC规则JSON(中等,需要展开)→程序化守卫代码(最强,自动拦截)。所有关键约束必须升级到程序化层",
+    "category": "架构决策",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "反复纠偏后用户总结的核心教训——声明式约束无法阻止行为",
+    "tags": ["architectural_principle", "programmatic_guard", "constraint_hierarchy", "design_philosophy"]
+  },
+  {
+    "id": "SESSION-0308-045",
+    "input": "api协议字段写成了openai-completions应该是anthropic-messages，11个provider全错",
+    "expected_output": "识别为批量配置错误+系统性修复。1)修复11个provider的api字段 2)创建config-api-protocol-check.js自动校验脚本 3)集成到startup-self-check.sh每次启动自动校验 4)支持--fix自动修复",
+    "category": "根因分析",
+    "difficulty": "C3",
+    "source": "real_conversation",
+    "context": "11个claude系provider空跑的根因是API协议字段写错，需要批量修复+永久防护",
+    "tags": ["root_cause_analysis", "batch_config_error", "auto_validation", "startup_check"]
+  }
+]

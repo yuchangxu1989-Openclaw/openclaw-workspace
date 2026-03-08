@@ -97,5 +97,85 @@
     "data_source": "real_conversation",
     "signal": "18:40-19:05 晚间进展\n\n### 完成的任务\n- **dto-rename-qa-review** (reviewer/gpt-5.3-codex, 2m) — QA通过。运行态代码零残留，历史文档有旧称残留（可接受）。commit `ef0bf2a7`\n- **isc-deep-quality-audit-opus** (analyst/gpt-5.3-codex, 2m) — 真实审计完成。136个脚本全量扫描+30条抽样执行。commit `43617d07`\n  - A级27%, B级20%, C级(空壳)50%, D级(异常)3%\n  - **结论：覆盖率100%是假象，真",
     "difficulty": "C1"
+  },
+  {
+    "id": "auto-eval-1772974801366-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "20:16-20:22 dto-core残留修复 + 技能发现根治\n\n### dto-core cron残留修复\n- `/root/.openclaw/cron/jobs.json` 有3处 `ski",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T13:00:01.366Z",
+    "data_source": "real_conversation",
+    "signal": "20:16-20:22 dto-core残留修复 + 技能发现根治\n\n### dto-core cron残留修复\n- `/root/.openclaw/cron/jobs.json` 有3处 `skills/dto-core/` 路径残留（第190/428/498行）\n- 已sed替换为 `skills/lto-core/`，0残留确认\n- 根因：之前rename只改了workspace内文件，没改cron配置（在workspace外的 `/root/.openclaw/cron/`）\n\n### 用户纠偏：技能发现不敏感（Badcase）\n- 今天产出5个脚本后没有自动发现技能化需求，用户提醒"
+  },
+  {
+    "id": "auto-eval-1772978402115-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "20:30-21:03 看板系统全面升级 + PPT策划案 + Badcase自动化\n\n### 看板系统升级（6个子任务，全部完成）\n1. **飞书卡片table组件** — markdown表格不渲",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T14:00:02.112Z",
+    "data_source": "real_conversation",
+    "signal": "20:30-21:03 看板系统全面升级 + PPT策划案 + Badcase自动化\n\n### 看板系统升级（6个子任务，全部完成）\n1. **飞书卡片table组件** — markdown表格不渲染，改用原生table组件\n2. **中文任务名** — register-task.sh新增description参数，39条历史任务补中文名\n3. **最新在前排序** — spawnTime倒序\n4. **只显示running+汇总** — done折叠为数字\"✅完成N | ⏰超时N | ❌失败N\"\n5. **合并到multi-agent-reporting技能** — v5.0，scrip"
+  },
+  {
+    "id": "auto-eval-1772978402115-1",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "21:03-21:04 评测集补齐任务派发\n\n### 评测集现状\n- 总计387条，C2=377(97%)，距500目标差113条\n- goodcase翻转133条是最大贡献源\n\n### 补齐计划（2",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T14:00:02.112Z",
+    "data_source": "real_conversation",
+    "signal": "21:03-21:04 评测集补齐任务派发\n\n### 评测集现状\n- 总计387条，C2=377(97%)，距500目标差113条\n- goodcase翻转133条是最大贡献源\n\n### 补齐计划（2路并行）\n1. researcher: 今日对话挖掘 ≥40条真实C2 → session-20260308-evening.json\n2. writer: 4个场景文件补充 ≥80条(4×20) → 01/02/03/04补到每个≥20条\n\n### 当前running任务（7个）\n- 今日对话挖掘评测用例\n- 4个场景文件补充\n- 《OpenClaw产品洞察》V3重写\n- 主Agent响应卡顿R"
+  },
+  {
+    "id": "auto-eval-1772978402115-2",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "21:04-21:12 评测集补齐+质量问题\n\n### 评测集进展\n- researcher挖掘今日对话：45条C2写入session-20260308-evening.json ✅\n- writer",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T14:00:02.112Z",
+    "data_source": "real_conversation",
+    "signal": "21:04-21:12 评测集补齐+质量问题\n\n### 评测集进展\n- researcher挖掘今日对话：45条C2写入session-20260308-evening.json ✅\n- writer场景补充：空转(badcase #29)，换coder重试中\n- 当前总计：387+45=432条，还差68条到500\n\n### 新Badcase（本轮2条，总计29条，135条goodcase）\n- #28 badcase-eval-gen-no-qa-again（评测生成无质量核查）\n- #29 badcase-writer-empty-run-eval-fill（writer又空转）\n\n##"
+  },
+  {
+    "id": "auto-eval-1772978402115-3",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "21:12-21:13 PPT双轨并行 + 超时检测触发\n\n### PPT双轨\n- writer: V3重写（基于reviewer审核意见）running\n- coder: V3b独立版（全新视角，高",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T14:00:02.112Z",
+    "data_source": "real_conversation",
+    "signal": "21:12-21:13 PPT双轨并行 + 超时检测触发\n\n### PPT双轨\n- writer: V3重写（基于reviewer审核意见）running\n- coder: V3b独立版（全新视角，高推理）running\n- 最终取质量更高的或整合精华\n\n### 超时检测自动触发\n- exec-guard-implementation（7种逃逸路径封堵）跑了30min+自动标timeout，排入重试队列\n- 超时检测三层防线生效\n\n### 当前running（6个）\n- PPT V3b独立版(coder) + PPT V3重写(writer)\n- [重试]场景文件补充(coder)\n- 响应卡"
+  },
+  {
+    "id": "auto-eval-1772978402115-4",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "21:40 卡顿根因深层分析（用户追问）\n用户追问\"根因是输出太多？\"——不是，更深：\n- L1: handler输出400行（已修，精简为摘要）\n- L2: retry队列21条积压不清理\n- L3",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T14:00:02.112Z",
+    "data_source": "real_conversation",
+    "signal": "21:40 卡顿根因深层分析（用户追问）\n用户追问\"根因是输出太多？\"——不是，更深：\n- L1: handler输出400行（已修，精简为摘要）\n- L2: retry队列21条积压不清理\n- L3: 超时只标记不分诊（不判断已完成vs真需重试）\n- L4: 超时检测没有产出验证逻辑\n- L5(架构): exec同步调用→输出全进上下文→输出量=响应速度瓶颈。应该输出写文件，stdout只给摘要\n- L3-L5待根治"
+  },
+  {
+    "id": "auto-eval-1772978402115-5",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "21:43-21:48 卡顿L3-L5根治派发 + 公众号状态\n\n### 卡顿根治（coder running）\n- L3/L4: task-timeout-check.sh增加自动分诊（检查产出文件",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T14:00:02.112Z",
+    "data_source": "real_conversation",
+    "signal": "21:43-21:48 卡顿L3-L5根治派发 + 公众号状态\n\n### 卡顿根治（coder running）\n- L3/L4: task-timeout-check.sh增加自动分诊（检查产出文件→已完成标done不进retry，积压2h→abandoned）\n- L5: completion-handler/register-task/show-task-board输出重定向到log文件，stdout≤10行\n\n### 公众号文章状态\n- ✅ 极客版: J8Xrd7MV8oPKYoxlFVvcGnREnvf\n- ✅ 产品思维版: RnkgdlBKmoGfrixT3L8cQrnrnKb  "
+  },
+  {
+    "id": "auto-eval-1772978402115-6",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "21:48-21:50 看板更新遗漏 + 评测集自主补齐\n\n### Badcase #30: completion-handler不是每个event都跑\n- 多个子Agent完成时漏跑handler，",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T14:00:02.112Z",
+    "data_source": "real_conversation",
+    "signal": "21:48-21:50 看板更新遗漏 + 评测集自主补齐\n\n### Badcase #30: completion-handler不是每个event都跑\n- 多个子Agent完成时漏跑handler，看板不准\n- 根因：handler调用依赖主Agent记忆\n\n### Badcase #31: 评测集缺口不自主补齐\n- 发现差50条，问用户\"要不要补\"而不是直接补\n- 用户：\"这个不应该我来提醒\"\n- 教训：缺口已知→立即行动，不请示\n\n### 评测集补齐\n- 派coder补最后50条（5个文件各+10）\n- 目标450→500\n\n### handler输出精简验证\n- completion-"
   }
 ]

@@ -2,13 +2,15 @@
 # show-task-board-feishu.sh - 生成飞书可读的任务看板
 # ISC-REPORT-SUBAGENT-BOARD-001 标准格式
 # 用法: bash show-task-board-feishu.sh [--all] [--json]
-# --json: 输出JSON对象 {"rows":[...],"running":N,"done":N,"failed":N,"summary":"..."}
+# 默认模式：只显示running任务 + done/timeout/failed汇总数字
+# --all: 显示全部任务
+# --json: 输出JSON对象 {"rows":[...],"running":N,"done":N,"timeout":N,"failed":N,"summary":"..."}
 
 BOARD_FILE="/root/.openclaw/workspace/logs/subagent-task-board.json"
 
 if [ ! -f "$BOARD_FILE" ]; then
   if [[ "$*" == *"--json"* ]]; then
-    echo '{"rows":[],"running":0,"done":0,"failed":0,"summary":"暂无任务记录"}'
+    echo '{"rows":[],"running":0,"done":0,"timeout":0,"failed":0,"summary":"暂无任务记录"}'
   else
     echo "📋 Agent任务看板"
     echo ""
@@ -31,6 +33,7 @@ const now = Date.now();
 
 const running = board.filter(t => t.status === 'running');
 const done = board.filter(t => t.status === 'done');
+const timeout = board.filter(t => t.status === 'timeout');
 const failed = board.filter(t => t.status === 'failed');
 
 function formatDuration(ms) {
@@ -59,6 +62,7 @@ function modelName(t) {
 function statusIcon(s) {
   if (s === 'running') return '🟢运行中';
   if (s === 'done') return '✅完成';
+  if (s === 'timeout') return '⏰超时';
   if (s === 'failed') return '❌失败';
   return s;
 }
@@ -66,28 +70,17 @@ function statusIcon(s) {
 const showAll = $SHOW_ALL;
 const jsonMode = $JSON_MODE;
 
-// 所有任务按 spawnTime 倒序（最新在前）
+// 按 spawnTime 倒序
 const allTasks = [...board].sort((a, b) => {
   const ta = new Date(a.spawnTime || 0).getTime();
   const tb = new Date(b.spawnTime || 0).getTime();
   return tb - ta;
 });
 
-const completed = [...done, ...failed];
-let rows = [];
-if (showAll) {
-  rows = allTasks;
-} else {
-  // running 全部显示，completed 只显示最近5条，但整体按 spawnTime 倒序
-  const shownCompleted = new Set(
-    completed.sort((a, b) => {
-      const ta = new Date(a.completeTime || 0).getTime();
-      const tb = new Date(b.completeTime || 0).getTime();
-      return tb - ta;
-    }).slice(0, 5).map(t => t.taskId || t.label || JSON.stringify(t))
-  );
-  rows = allTasks.filter(t => t.status === 'running' || shownCompleted.has(t.taskId || t.label || JSON.stringify(t)));
-}
+// 默认只显示running，--all显示全部
+const rows = showAll ? allTasks : allTasks.filter(t => t.status === 'running');
+
+const summaryLine = '✅完成 ' + done.length + ' | ⏰超时 ' + timeout.length + ' | ❌失败 ' + failed.length;
 
 if (jsonMode) {
   const jsonRows = rows.map(t => ({
@@ -96,16 +89,13 @@ if (jsonMode) {
     status: statusIcon(t.status),
     duration: elapsed(t)
   }));
-  let summary = 'done=' + done.length + ' / failed=' + failed.length + ' / running=' + running.length;
-  if (!showAll && completed.length > 5) {
-    summary += '（仅显示最近5条，共' + completed.length + '条）';
-  }
   console.log(JSON.stringify({
     rows: jsonRows,
     running: running.length,
     done: done.length,
+    timeout: timeout.length,
     failed: failed.length,
-    summary: summary
+    summary: summaryLine
   }));
 } else {
   let out = '📋 Agent任务看板\n\n';
@@ -118,11 +108,11 @@ if (jsonMode) {
       out += '| ' + label + ' | ' + modelName(t) + ' | ' + statusIcon(t.status) + ' | ' + elapsed(t) + ' |\n';
     });
   } else {
-    out += '暂无任务\n';
+    out += '暂无运行中任务\n';
   }
-  out += '\n汇总：done=' + done.length + ' / failed=' + failed.length + ' / running=' + running.length;
-  if (!showAll && completed.length > 5) {
-    out += '\n（仅显示最近5条，用 --all 查看全部 ' + completed.length + ' 条）';
+  out += '\n' + summaryLine;
+  if (showAll) {
+    out += '\n（共 ' + allTasks.length + ' 条任务）';
   }
   console.log(out);
 }

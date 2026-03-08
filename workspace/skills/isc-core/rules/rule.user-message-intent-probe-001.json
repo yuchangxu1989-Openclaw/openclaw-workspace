@@ -1,0 +1,34 @@
+{
+  "rule_id": "user-message-intent-probe-001",
+  "version": "1.0.0",
+  "title": "用户消息意图探针 — 感知层必须对每条用户消息做意图分类",
+  "description": "主Agent必须对每条用户消息执行意图探针(intent-probe)，识别纠偏/否定/教学/追问等信号。纠偏类信号必须自动触发badcase harvest入库。",
+  "trigger": {
+    "event": "user_message_received",
+    "condition": "每条用户消息到达时"
+  },
+  "action": {
+    "type": "script",
+    "command": "echo \"$USER_MESSAGE\" | bash /root/.openclaw/workspace/scripts/intent-harvest-dispatch.sh \"$CONTEXT_SUMMARY\"",
+    "description": "调用意图探针→harvest分发器，自动分类并按需入库"
+  },
+  "severity": "P0",
+  "category": "感知层",
+  "enforcement": {
+    "type": "programmatic",
+    "gate_script": null,
+    "hook": "completion-handler 兜底检查",
+    "description": "双保险: 前置intent-probe感知 + 后置completion-handler兜底"
+  },
+  "metadata": {
+    "created": "2026-03-08",
+    "author": "coder-subagent",
+    "related_badcase": "badcase-no-intent-understanding-on-user-msg",
+    "related_scripts": [
+      "/root/.openclaw/workspace/scripts/intent-probe.sh",
+      "/root/.openclaw/workspace/scripts/intent-harvest-dispatch.sh"
+    ],
+    "regression_test": "/root/.openclaw/workspace/scripts/isc-c2-regression.sh",
+    "v2_note": "v1基于关键词快速过滤，v2必须接入LLM分类器做泛化意图理解"
+  }
+}

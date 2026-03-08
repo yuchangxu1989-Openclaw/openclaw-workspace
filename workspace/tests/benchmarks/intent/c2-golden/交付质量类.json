@@ -142,5 +142,115 @@
     "source": "real_conversation",
     "category": "交付质量",
     "timestamp": "2026-03-08T11:22:00Z"
+  },
+  {
+    "id": "DQ-013",
+    "input": "帮我把评测报告写到飞书文档里",
+    "context": "子Agent写飞书文档时格式混乱——标题层级错误、表格渲染失败、代码块没有语法高亮。Agent提交了4次都没写干净。",
+    "expected_behavior": "1)识别飞书文档的格式限制 2)先在本地验证markdown渲染效果 3)分块写入而非一次性大段落 4)写入后读取验证格式正确 5)如果同一Agent反复失败应换Agent",
+    "actual_behavior": "同一Agent重试4次都格式错误，没有换Agent也没有调整策略，用户收到的文档不可读",
+    "root_cause": "缺少写入后自动验证的闭环，以及反复失败后的Agent更换机制",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "交付质量"
+  },
+  {
+    "id": "DQ-014",
+    "input": "你之前说要自动推送日报的，怎么又没推",
+    "context": "Agent承诺了每日自动推送洞察日报，连续3天没有推送。用户来问才发现cron任务配置有误但Agent没有自检发现。",
+    "expected_behavior": "1)自动化任务设置后应有首次验证 2)连续未执行应有告警 3)应主动向用户报告异常而非等用户发现",
+    "actual_behavior": "承诺后没有验证定时任务是否生效，3天静默失败，用户主动追问才发现",
+    "root_cause": "承诺->设置->验证->监控的闭环中，验证和监控环节缺失",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "自主性缺失"
+  },
+  {
+    "id": "DQ-015",
+    "input": "我说的是改intent分类逻辑，你怎么改到event handler去了",
+    "context": "用户要求修改意图分类的LLM prompt，Agent误解为修改事件处理器的分发逻辑，修改了错误的模块。",
+    "expected_behavior": "1)理解'intent分类逻辑'指的是LLM意图识别prompt/模型配置 2)确认修改目标文件 3)修改前与用户确认理解",
+    "actual_behavior": "修改了event-handler而非intent-classifier，根因是概念混淆——将intent分类等同于event dispatch",
+    "root_cause": "对系统架构中intent层和event层的概念边界认知模糊",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "认知错误"
+  },
+  {
+    "id": "DQ-016",
+    "input": "你改了A模块之后B模块的测试挂了",
+    "context": "Agent修改了共享工具函数的接口签名来修复A模块的bug，但没有检查B/C/D模块也依赖同一个函数，导致B模块的测试失败。",
+    "expected_behavior": "修改共享代码前：1)grep所有调用方 2)评估每个调用方的影响 3)同步修改所有调用方 4)全量跑测试确认无回归",
+    "actual_behavior": "只修改了A模块的调用处，没有检查其他模块的引用，导致连锁故障",
+    "root_cause": "修改共享代码时缺少影响面分析，只关注当前任务上下文而非全局依赖关系",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "连锁跷跷板"
+  },
+  {
+    "id": "DQ-017",
+    "input": "这个方案你只改了前端的部分，后端的同步逻辑呢？",
+    "context": "用户要求修改一个功能的展示逻辑，Agent只改了前端组件，但这个功能的数据转换逻辑在后端API层也需要同步修改。",
+    "expected_behavior": "识别全栈修改需求：1)前端展示层修改 2)后端API返回格式同步 3)数据库层面是否需要migration 4)缓存是否需要清理",
+    "actual_behavior": "只改了前端，后端返回的数据格式没变，前端显示异常",
+    "root_cause": "Agent将功能修改理解为单层操作，缺少全栈视角的影响面分析",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "全局未对齐"
+  },
+  {
+    "id": "DQ-018",
+    "input": "你给的代码跑不起来，缺少依赖声明",
+    "context": "Agent写了一个Python脚本交给用户，使用了pandas和matplotlib，但没有提供requirements.txt或说明依赖。用户pip install后还有版本兼容问题。",
+    "expected_behavior": "代码交付时应包含：1)依赖清单(requirements.txt/package.json) 2)Python版本要求 3)安装步骤 4)基本运行说明 5)预期输出示例",
+    "actual_behavior": "只给了.py文件，用户要自己猜需要什么依赖，安装后还有版本不兼容的问题",
+    "root_cause": "Agent交付代码时的completeness标准只关注代码本身，缺少运行环境和依赖的交付意识",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "交付质量"
+  },
+  {
+    "id": "DQ-019",
+    "input": "你的看板数据跟实际不一样啊",
+    "context": "Agent汇报看板显示5个子任务全部完成，但实际subagents list查询显示2个还在running、1个已失败。",
+    "expected_behavior": "看板数据必须来自runtime真实查询，不能基于记忆中的预期状态",
+    "actual_behavior": "看板数据基于Agent对任务进度的'印象'而非实时查询，导致数据造假",
+    "root_cause": "汇报未以subagents list为唯一真相源，违反了runtime真值原则",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "交付质量"
+  },
+  {
+    "id": "DQ-020",
+    "input": "我让你改的那个bug，你改完测试通过了但线上还是有问题",
+    "context": "Agent修复了一个race condition bug，本地测试通过（因为单线程测试不触发并发）。但线上多实例部署时问题依然存在因为修复方案用了进程内锁而非分布式锁。",
+    "expected_behavior": "修复并发问题时应考虑：1)本地单线程测试不够，需要并发测试 2)确认部署架构（单实例vs多实例）3)选择匹配架构的同步机制 4)在接近生产的环境验证",
+    "actual_behavior": "用synchronized/mutex做了进程内锁，本地通过但多实例环境下无效",
+    "root_cause": "Agent对部署架构缺少感知，修复方案的验证环境与生产环境不匹配",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "交付质量"
+  },
+  {
+    "id": "DQ-021",
+    "input": "你做完记得推飞书告诉我，别让我自己来问",
+    "context": "用户明确要求任务完成后主动推送结果到飞书。Agent完成了任务但只在terminal里打印了结果，没有推送飞书。",
+    "expected_behavior": "1)完成任务 2)按用户要求的渠道（飞书）主动推送结果 3)推送后确认用户收到",
+    "actual_behavior": "任务完成后没有推送飞书，等用户来问才给结果。违反了用户的明确指令",
+    "root_cause": "Agent将'完成任务'和'交付结果'脱耦，完成了执行但遗漏了交付的最后一公里",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "自主性缺失"
+  },
+  {
+    "id": "DQ-022",
+    "input": "你上次说修好了的问题怎么又出现了",
+    "context": "Agent之前修复了一个配置解析的bug，修的是症状（加了个if判断跳过异常输入）而非根因（配置schema没有验证层）。新的异常输入绕过了if判断。",
+    "expected_behavior": "修复时应做根因分析：1)为什么会有异常输入？是schema缺失 2)修根因=加schema验证层 3)加回归测试覆盖多种异常输入 4)修复后确认不会被绕过",
+    "actual_behavior": "修了症状没修根因，新的异常输入模式绕过了补丁，问题复现",
+    "root_cause": "修复链中缺少根因分析步骤，直接改症状导致修复不彻底",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "连锁跷跷板"
   }
 ]

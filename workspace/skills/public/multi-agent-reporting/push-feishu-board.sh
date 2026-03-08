@@ -30,7 +30,7 @@ SUMMARY=$(echo "$BOARD_JSON" | jq -r '.summary')
 ROWS=$(echo "$BOARD_JSON" | jq -c '.rows')
 ROW_COUNT=$(echo "$BOARD_JSON" | jq '.rows | length')
 
-# 构造elements数组
+# 构造elements数组：只显示running任务 + 汇总数字
 if [ "$ROW_COUNT" -gt 0 ]; then
   ELEMENTS=$(jq -n \
     --arg rc "$RUNNING_COUNT" \
@@ -51,14 +51,16 @@ if [ "$ROW_COUNT" -gt 0 ]; then
         ],
         rows: $rows
       },
-      {tag: "markdown", content: ("汇总：" + $summary)}
+      {tag: "markdown", content: $summary}
     ]')
 else
   ELEMENTS=$(jq -n \
     --arg rc "$RUNNING_COUNT" \
+    --arg summary "$SUMMARY" \
     '[
       {tag: "markdown", content: ("**Agent并行总数：" + $rc + "**")},
-      {tag: "markdown", content: "暂无任务"}
+      {tag: "markdown", content: "暂无运行中任务"},
+      {tag: "markdown", content: $summary}
     ]')
 fi
 

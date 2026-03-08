@@ -1,98 +1,122 @@
 #!/bin/bash
 # 子Agent完成时的标准处理流程
 # 用法: completion-handler.sh <taskId_or_label> <status> <summary>
-# 主Agent收到completion event后，调用此脚本完成所有必做动作
+# stdout≤10行，详细日志写文件
 
 TASK_ID="$1"
 STATUS="$2"  # done / failed
 SUMMARY="${3:-}"
+BOARD_FILE="/root/.openclaw/workspace/logs/subagent-task-board.json"
+RETRY_QUEUE="/root/.openclaw/workspace/logs/retry-queue.json"
+LOGFILE="/root/.openclaw/workspace/logs/completion-handler-latest.log"
+
+mkdir -p /root/.openclaw/workspace/logs
 
 if [ -z "$TASK_ID" ] || [ -z "$STATUS" ]; then
   echo "用法: completion-handler.sh <taskId_or_label> <done|failed> \"简要结果\""
   exit 1
 fi
 
-echo "=== Completion Handler ==="
+HARVESTED="false"
+HARVEST_ID=""
 
-# Step 1: 更新task-board（强制）
-bash /root/.openclaw/workspace/scripts/update-task.sh "$TASK_ID" "$STATUS" "$SUMMARY"
+# 所有详细输出写日志文件
+{
+  echo "=== Completion Handler $(date -Iseconds) ==="
+  echo "Task: $TASK_ID | Status: $STATUS | Summary: $SUMMARY"
 
-# Step 2: 自动质量核查（强制）
-# 判断是否需要核查（开发/写作类任务需要，纯分析/查询类不需要）
-NEED_QA="false"
+  # Step 1: 更新task-board
+  bash /root/.openclaw/workspace/scripts/update-task.sh "$TASK_ID" "$STATUS" "$SUMMARY"
 
-# 从task-board读取任务的agentId
-AGENT_ID=$(node -e "
+  # Step 2: 质量核查判断
+  AGENT_ID=$(node -e "
 const board = JSON.parse(require('fs').readFileSync('$BOARD_FILE','utf8'));
 const task = board.find(t => t.label === '$TASK_ID' || t.taskId === '$TASK_ID');
 if (task) console.log(task.agentId || '');
-")
+" 2>/dev/null)
 
-# 开发类Agent的产出必须核查
-case "$AGENT_ID" in
-  coder|writer|researcher)
-    NEED_QA="true"
-    ;;
-  reviewer|analyst|scout)
-    NEED_QA="false"  # 核查者/分析者本身不需要再核查
-    ;;
-esac
-
-# 如果任务状态是failed，不需要核查
-if [ "$STATUS" = "failed" ]; then
   NEED_QA="false"
-fi
+  case "$AGENT_ID" in
+    coder|writer|researcher) NEED_QA="true" ;;
+  esac
+  [ "$STATUS" = "failed" ] && NEED_QA="false"
 
-if [ "$NEED_QA" = "true" ]; then
-  echo ""
-  echo "🔍 需要质量核查：$TASK_ID (by $AGENT_ID)"
-  echo "请主Agent立即派reviewer或analyst核查此任务产出"
-  echo "命令模板：sessions_spawn agentId=reviewer label=qa-$TASK_ID task='核查...'"
-fi
+  if [ "$NEED_QA" = "true" ]; then
+    echo "🔍 需要质量核查：$TASK_ID (by $AGENT_ID)"
+  fi
 
-# Step 3: 生成看板并直接推送飞书（不依赖主Agent转发）
-bash /root/.openclaw/workspace/scripts/show-task-board-feishu.sh
-bash /root/.openclaw/workspace/scripts/push-feishu-board.sh
+  # Step 3: 看板+飞书
+  bash /root/.openclaw/workspace/scripts/show-task-board-feishu.sh
+  bash /root/.openclaw/workspace/scripts/push-feishu-board.sh 2>/dev/null || true
 
-# Step 4: 检查是否触发批量汇报（running=0时）
-BOARD_FILE="/root/.openclaw/workspace/logs/subagent-task-board.json"
-if [ -f "$BOARD_FILE" ]; then
-  RUNNING=$(node -e "
+  # Step 4: running=0检查
+  if [ -f "$BOARD_FILE" ]; then
+    RUNNING=$(node -e "
 const board = JSON.parse(require('fs').readFileSync('$BOARD_FILE','utf8'));
 console.log(board.filter(t=>t.status==='running').length);
-")
-
-  if [ "$RUNNING" = "0" ]; then
-    echo ""
-    echo "🎯 所有任务已完成！请向用户推送最终汇总。"
+" 2>/dev/null || echo "0")
+    [ "$RUNNING" = "0" ] && echo "🎯 所有任务已完成！"
   fi
-fi
 
-# Step 5: Badcase自动检测（ISC-EVAL-C2-AUTO-HARVEST-001）
-BADCASE_KEYWORDS="badcase|违反|纠偏|反复未果|头痛医头|又忘了|第N次|不推看板|手动触发"
-if echo "$SUMMARY" | grep -qiE "$BADCASE_KEYWORDS"; then
-  echo ""
-  echo "⚠️ 检测到潜在Badcase，建议入库！"
-  echo "   匹配内容: $SUMMARY"
-  echo "   入库命令: bash /root/.openclaw/workspace/scripts/auto-badcase-harvest.sh <badcase_id> <category> \"<description>\" \"<wrong_chain>\" \"<correct_chain>\" \"<root_cause>\""
-  echo "   ISC规则: ISC-EVAL-C2-AUTO-HARVEST-001"
-fi
+  # Step 5: Badcase检测 + 自动入库（原子化）
+  BADCASE_KEYWORDS="badcase|违反|纠偏|反复未果|头痛医头|又忘了|第N次|不推看板|手动触发"
+  if echo "$SUMMARY" | grep -qiE "$BADCASE_KEYWORDS"; then
+    echo "⚠️ 检测到潜在Badcase: $SUMMARY"
 
-# Step 6: 顺便扫描超时任务（双保险，含自动重试排队）
-bash /root/.openclaw/workspace/scripts/task-timeout-check.sh 2>/dev/null || true
+    SAFE_TASK_ID=$(echo "$TASK_ID" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//;s/-$//')
+    [ -z "$SAFE_TASK_ID" ] && SAFE_TASK_ID="task"
+    SAFE_TS=$(date +%Y%m%d%H%M%S)
+    HARVEST_ID="auto-${SAFE_TASK_ID}-${SAFE_TS}"
 
-# Step 7: 检查是否有待重试任务，输出提示给主Agent
-RETRY_QUEUE="/root/.openclaw/workspace/logs/retry-queue.json"
+    if bash /root/.openclaw/workspace/scripts/auto-badcase-harvest.sh \
+      "$HARVEST_ID" \
+      "自主性缺失类" \
+      "completion-handler自动检测: task=$TASK_ID status=$STATUS summary=$SUMMARY" \
+      "任务总结含badcase语义 then仅口头标记 then未程序化入库" \
+      "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库" \
+      "口头判断与结构化记录脱钩，缺少强制原子绑定"; then
+      HARVESTED="true"
+      echo "✅ Badcase已自动入库: $HARVEST_ID"
+    else
+      echo "❌ Badcase自动入库失败: $HARVEST_ID"
+    fi
+  fi
+
+  # Step 6: 超时扫描
+  bash /root/.openclaw/workspace/scripts/task-timeout-check.sh 2>/dev/null || true
+
+  echo "=== Handler Complete ==="
+} > "$LOGFILE" 2>&1
+
+# === stdout精简摘要（≤10行） ===
+
+# 看板摘要1行
+BOARD_SUMMARY=$(node -e "
+const fs = require('fs');
+try {
+  const board = JSON.parse(fs.readFileSync('$BOARD_FILE','utf8'));
+  const r = board.filter(t=>t.status==='running').length;
+  const d = board.filter(t=>t.status==='done').length;
+  const t = board.filter(t=>t.status==='timeout').length;
+  const f = board.filter(t=>t.status==='failed').length;
+  console.log('running: '+r+' | done: '+d+' | timeout: '+t+' | failed: '+f);
+} catch(e) { console.log('看板读取失败'); }
+" 2>/dev/null)
+
+# 重试队列数
+PENDING_COUNT=0
 if [ -f "$RETRY_QUEUE" ]; then
-  HAS_PENDING=$(node -e "
-const q=JSON.parse(require('fs').readFileSync('$RETRY_QUEUE','utf8'));
+  PENDING_COUNT=$(node -e "
+const q = JSON.parse(require('fs').readFileSync('$RETRY_QUEUE','utf8'));
 console.log(q.filter(r=>r.status==='pending').length);
 " 2>/dev/null || echo "0")
-  if [ "$HAS_PENDING" != "0" ] && [ "$HAS_PENDING" != "" ]; then
-    echo ""
-    echo "🔄 以下任务需要重试："
-    bash /root/.openclaw/workspace/scripts/retry-dispatcher.sh 2>/dev/null || true
-  fi
 fi
 
-echo "=== Handler Complete ==="
+echo "✅ 已更新: $TASK_ID → $STATUS"
+echo "📋 $BOARD_SUMMARY"
+if [ "$HARVESTED" = "true" ]; then
+  echo "🧷 已自动Badcase入库: $HARVEST_ID"
+fi
+if [ "$PENDING_COUNT" != "0" ]; then
+  echo "🔄 当前有${PENDING_COUNT}条任务待重试（详见logs/completion-handler-latest.log）"
+fi

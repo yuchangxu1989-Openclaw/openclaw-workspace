@@ -1,11 +1,28 @@
 #!/bin/bash
 # 重试派发器 - 读取retry-queue.json，输出待重试任务的spawn建议
-# 主Agent看到输出后可直接执行sessions_spawn
+# 默认仅在显式调用时输出详情；可通过 --summary 输出摘要
 
 RETRY_QUEUE="/root/.openclaw/workspace/logs/retry-queue.json"
+MODE="detail"
+
+if [ "$1" = "--summary" ]; then
+  MODE="summary"
+fi
 
 if [ ! -f "$RETRY_QUEUE" ]; then
   echo "无重试队列文件"
+  exit 0
+fi
+
+if [ "$MODE" = "summary" ]; then
+  node -e "
+const fs = require('fs');
+const q = JSON.parse(fs.readFileSync('$RETRY_QUEUE', 'utf8'));
+const pending = q.filter(r => r.status === 'pending').length;
+const dispatched = q.filter(r => r.status === 'dispatched').length;
+const done = q.filter(r => r.status === 'done').length;
+console.log('🔄 重试队列摘要: pending=' + pending + ', dispatched=' + dispatched + ', done=' + done);
+"
   exit 0
 fi
 

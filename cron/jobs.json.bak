@@ -380,7 +380,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772971237281,
+      "updatedAtMs": 1772978422800,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -399,11 +399,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772974807906,
-        "lastRunAtMs": 1772971226937,
+        "nextRunAtMs": 1772982007906,
+        "lastRunAtMs": 1772978413180,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 10344,
+        "lastDurationMs": 9620,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772971287979,
+      "updatedAtMs": 1772978486816,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -503,11 +503,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1772974878795,
-        "lastRunAtMs": 1772971278802,
+        "nextRunAtMs": 1772982078795,
+        "lastRunAtMs": 1772978478801,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 9177,
+        "lastDurationMs": 8015,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772973900007,
+      "updatedAtMs": 1772981100008,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,14 +670,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772974200000,
-        "lastRunAtMs": 1772973900007,
+        "nextRunAtMs": 1772981400000,
+        "lastRunAtMs": 1772981100007,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 0,
+        "lastDurationMs": 1,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
-        "runningAtMs": 1772974200006
+        "runningAtMs": 1772981400006
       }
     },
     {
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1772973924433,
+      "updatedAtMs": 1772981151469,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,11 +703,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1772974800000,
-        "lastRunAtMs": 1772973900007,
+        "nextRunAtMs": 1772982000000,
+        "lastRunAtMs": 1772981100008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 24426,
+        "lastDurationMs": 51461,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -843,6 +843,33 @@
         "lastDurationMs": 11030,
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered"
+      }
+    },
+    {
+      "id": "daily-gongzhonghao-review",
+      "agentId": "cron-worker",
+      "name": "每日公众号复盘文章",
+      "enabled": true,
+      "createdAtMs": 1772976515517,
+      "updatedAtMs": 1772976515517,
+      "schedule": {
+        "expr": "0 23 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "每日公众号复盘文章任务触发。读取 /root/.openclaw/workspace/skills/public/daily-gongzhonghao/prompt.md 获取完整prompt，然后派发3个Agent并行执行：\n1. sessions_spawn agentId=writer label=gongzhonghao-{today}-writer thinking=high\n2. sessions_spawn agentId=researcher label=gongzhonghao-{today}-researcher\n3. sessions_spawn agentId=coder label=gongzhonghao-{today}-coder\n每个Agent读取prompt后，用当天日期替换YYYY-MM-DD，读取当天memory文件，写飞书文档+本地md。",
+        "timeoutSeconds": 600
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
+      },
+      "state": {
+        "nextRunAtMs": 1772982000000
       }
     }
   ]
