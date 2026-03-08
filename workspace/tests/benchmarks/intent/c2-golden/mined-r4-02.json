@@ -1,0 +1,193 @@
+[
+  {
+    "id": "mined-r4-02-001",
+    "input": "用户发现PDCA cron报告推飞书写'全量技能：60个'，但实际CAPABILITY-ANCHOR.md有93个条目。报告数据与runtime真值不一致。",
+    "expected_output": "系统应保证所有报告数据来源于runtime真值：①PDCA报告从CAPABILITY-ANCHOR.md实时统计技能数；②评测集数据从c2-golden目录实时扫描条数/合格率；③报告生成前自动校验数字是否与源文件一致；④发现不一致立即修复并通知用户，而非等用户发现。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-09 00:23会话，用户看到某定时报告提到'60条'与实际459条不一致。CAPABILITY-ANCHOR.md写技能总数60但实际93条目。体现报告数字与runtime真值脱节的交付质量问题。",
+    "execution_chain_steps": [
+      "识别报告数据源：PDCA cron任务中的技能数硬编码",
+      "扫描CAPABILITY-ANCHOR.md实际条目数，对比报告数字",
+      "定位硬编码位置并改为实时统计逻辑",
+      "增加评测集统计段落（总数/C2占比/真实对话占比/多轮占比）",
+      "添加报告生成前数据校验断言（数字必须与源文件一致）",
+      "重新触发报告生成验证修复效果"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-002",
+    "input": "用户说'你更新了任务队列，但没给我看汇报列表'，这个问题反复出现无数次了。系统在spawn子Agent后不主动推送任务列表。",
+    "expected_output": "系统应在每次spawn子Agent后立即自动推送更新的任务列表：①spawn完成后触发任务看板刷新；②格式化为running/done/timeout/failed汇总；③推送到飞书；④将此行为固化为程序化hook而非依赖记忆。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 18:40会话，用户再次纠偏'你更新了任务队列但没给我看汇报列表'，并强调'这个问题反复出现无数次了'。根因是spawn后刷列表靠记忆，异步turn断裂导致遗忘。体现反复纠偏同一问题但始终未根治的顽疾。",
+    "execution_chain_steps": [
+      "识别反复出现的模式：spawn后不汇报是系统性问题",
+      "根因分析：行为依赖记忆而非程序化hook",
+      "设计spawn后置hook：completion-handler自动触发看板刷新",
+      "实现hook脚本：spawn成功→调subagents list→格式化→推飞书",
+      "注册到ISC规则确保所有spawn路径都触发",
+      "验真：spawn新任务后检查飞书是否收到更新看板"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-003",
+    "input": "评测集600+条全部未对齐V3标准。用户说'我们磨了那么久的标准、总纲、宪法！结果你罔顾标准，耗了那么多钱'。生成脚本没嵌V3约束，子Agent没读V3，C3/C4/C5不该存在。",
+    "expected_output": "系统应在评测集生成链路中程序化绑定V3标准：①生成脚本嵌入V3约束（只允许C1/C2，8类category，必填字段）；②子Agent任务prompt强制读V3文档；③生成后自动过准入门禁；④不合格立即重生成而非提交。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-09 00:00会话，用户发现600+条评测集全部未对齐V3标准。C3/C4/C5难度不该存在（V3只定义C1/C2），category大量不在8类枚举内。根因是生成脚本与V3标准之间缺乏程序化绑定，子Agent生成时根本不知道V3标准内容。",
+    "execution_chain_steps": [
+      "识别致命问题：评测标准与评测集生成完全脱节",
+      "分析根因链：生成脚本无V3约束→子Agent无V3上下文→无准入门禁",
+      "将V3标准核心约束嵌入生成脚本（difficulty枚举/category枚举/必填字段）",
+      "子Agent任务prompt强制包含'先读V3飞书文档再生成'指令",
+      "生成后自动调用c2-admission-gate.js校验",
+      "不通过则自动重生成（最多2次），而非人工发现后再清洗"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-004",
+    "input": "11个claude系provider的api协议字段写成了'openai-completions'应为'anthropic-messages'，导致子Agent空跑（content=[], usage全0, stopReason=stop），不报错。",
+    "expected_output": "系统应有配置自检机制：①启动时校验每个provider的api字段与模型类型匹配（claude→anthropic-messages, boom→openai-completions）；②发现不匹配立即告警并自动修复；③API返回空响应（content=[]）应作为异常检测信号而非静默通过。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 12:00会话，researcher-02和coder-02连续空跑（0 token, 0s runtime, 无输出）。诊断发现11个claude provider的api字段错配为openai-completions。API不报错只返回空响应，系统没有检测到异常。已建config-api-protocol-check.js防护。",
+    "execution_chain_steps": [
+      "从session jsonl文件定位空跑evidence：content=[], usage=0",
+      "逐个检查provider配置，发现api字段错配",
+      "修复11个provider的api字段为anthropic-messages",
+      "验证修复：researcher-02成功返回正常响应",
+      "创建config-api-protocol-check.js自检脚本",
+      "集成到startup-self-check.sh确保每次启动自动校验"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-005",
+    "input": "用户发现评测集500条中真实对话仅8.85%(51条)，占比远低于80%目标。576条用例大部分是模板生成的合成数据。",
+    "expected_output": "系统应在评测集扩充时优先保证真实对话占比：①扫描当前占比并与目标对比；②识别真实对话来源（session日志/memory文件）；③优先从真实对话挖掘而非模板生成；④每轮扩充后自动校验占比是否改善。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 12:00 AEO评测集盘点（analyst/Codex完成），发现576条用例中真实对话仅51条(8.85%)。大量用例是模板化生成的合成数据，不符合V3标准要求的80%真实对话占比。",
+    "execution_chain_steps": [
+      "扫描评测集全量文件统计data_source分布",
+      "识别真实对话占比8.85%远低于80%目标",
+      "盘点可用真实对话源：session日志、memory文件、badcase库",
+      "设计挖掘策略：小批量(≤10条/任务)从session日志提取",
+      "并行派发挖掘任务优先从真实会话提取C2用例",
+      "每批完成后重新统计占比，直到达标"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-006",
+    "input": "系统在处理completion event时连续sessions_send推子Agent消息，阻塞了对用户的响应。用户说'你肯定自己参与任务了，这么久没回我'。",
+    "expected_output": "系统应将completion event处理设计为非阻塞：①completion-handler.sh一行命令完成（写log+更新看板+推通知）；②stdout限制≤10行摘要，完整日志写文件；③不在主Agent上下文中展开所有重试建议；④用户消息永远优先于系统事件处理。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 21:40和23:48两次发生，主Agent处理completion event时连续调sessions_send、打印retry建议全量200+行，导致用户消息响应延迟。用户多次追问后才发现是输出膨胀导致卡顿。L1修了输出精简但L3-L5（超时分诊/产出验证/exec同步调用）未根治。",
+    "execution_chain_steps": [
+      "诊断用户响应延迟的真正原因：completion event处理阻塞",
+      "L1修复：handler输出400行→42行摘要",
+      "L2修复：retry队列21条积压清理",
+      "L3修复：超时分诊逻辑（已完成标done不进retry）",
+      "L4修复：超时检测增加产出验证",
+      "L5架构修复：exec输出重定向到log文件，stdout≤10行"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-007",
+    "input": "用户说'取消已经在跑的定时任务'，系统理解为'禁用cron'而非'kill正在运行的实例'。结果cron被触发的5个gongzhonghao实例全部继续运行。",
+    "expected_output": "系统应对'取消'做精确意图理解：①'取消在跑的'=kill当前running实例；②'禁用'=从cron配置移除；③区分'运行中实例'和'调度规则'两个层面；④执行前确认理解是否正确。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 23:01会话，用户说'取消已经在跑的定时任务'，系统错误理解为禁用cron调度而非kill当前运行实例。heartbeat巡检发现cron已触发5个gongzhonghao实例全部继续运行。意图理解偏差导致操作方向完全错误。",
+    "execution_chain_steps": [
+      "接收用户指令'取消已经在跑的定时任务'",
+      "LLM意图分析：'在跑的'指向当前运行实例，不是调度规则",
+      "列出当前running的cron派生实例（subagents list过滤）",
+      "逐一kill正在运行的实例",
+      "确认所有实例已终止",
+      "向用户回报已kill的实例列表和当前状态"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-008",
+    "input": "系统派出10路V3清洗任务，coder成功2个，其余8个全部幻写（phantom write）：reviewer截断45条为3条，analyst膨胀135条到480条，scout/writer声称写了但实际0标记。",
+    "expected_output": "系统应在子Agent写文件后验证实际写入：①completion-handler检查目标文件修改时间和内容变化；②对比写入前后文件hash；③检测条数变化是否在合理范围；④发现幻写立即git恢复并换agent重试。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-09 02:00会话，10路V3清洗任务大面积失败。reviewer截断数据、analyst膨胀数据、其他agent声称执行write但实际未调用。只有coder agent 100%成功。后续发现根因是gpt-5.3-codex的write工具调用不可靠，以及workspace碎片化导致写入路径不对。",
+    "execution_chain_steps": [
+      "派出多路清洗任务后监控子Agent完成状态",
+      "对每个completed任务检查目标文件实际变化（hash/条数/修改时间）",
+      "发现reviewer文件条数从45→3，判定为数据丢失",
+      "发现analyst文件从135→480，判定为数据污染",
+      "立即git checkout恢复被损坏的文件",
+      "分析失败agent共性：均使用boom/gpt-5.3-codex模型，改用coder/opus重试"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-009",
+    "input": "用户问'根因是输出太多？'系统只回答L1（handler输出400行），用户追问后才逐层揭示L2-L5更深层根因：retry积压/超时不分诊/无产出验证/exec同步调用架构问题。",
+    "expected_output": "系统应在分析根因时主动深挖到架构层：①不止报表层修复（L1输出精简）；②主动分析L2积压（retry队列不清理）；③主动分析L3分诊缺失（超时只标记不判断）；④主动分析L5架构（exec同步→输出全进上下文）。不应等用户追问才逐层展开。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 21:40会话，用户追问卡顿根因时，系统最初只给出L1（输出太多）。用户说'不是'后才继续分析到L2-L5。完整根因链：L1输出膨胀→L2积压不清理→L3超时只标记不分诊→L4无产出验证→L5 exec同步调用架构瓶颈。体现只治表层不挖根因的头痛医头问题。",
+    "execution_chain_steps": [
+      "接收根因分析请求，从L1开始但不止步于L1",
+      "L1分析：completion-handler输出400行→精简为摘要",
+      "L2分析：retry队列21条积压从未清理→添加自动清理",
+      "L3分析：超时只标记不分诊→添加产出检查决定是否真需重试",
+      "L4分析：超时检测无产出验证逻辑→添加文件修改时间检查",
+      "L5架构分析：exec同步调用=输出全进上下文→重定向到log文件",
+      "一次性向用户呈现完整L1-L5根因链和修复方案"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-02-010",
+    "input": "6个Agent各有独立workspace，子Agent写文件落在自己的workspace-{agentId}目录下而非主workspace。导致49个文件'失踪'（stranded），大量phantom write的真正原因之一。",
+    "expected_output": "系统应统一workspace配置避免碎片化：①openclaw.json中agents.defaults.workspace统一为主workspace路径；②删除各agent独立workspace覆盖配置；③迁移散落在agent workspace中的文件到主workspace；④建立symlink确保兼容旧路径。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-09 02:47会话，排查phantom write根因时发现sandbox是假问题（Docker未安装），真凶是workspace碎片化：6个Agent各有独立workspace-{agentId}目录。49个stranded文件从agent workspace抢救回主workspace。这解释了大量phantom write的真正原因——子Agent成功写入了文件，但写在了自己的workspace而非主workspace。",
+    "execution_chain_steps": [
+      "排除sandbox假设：确认Docker未安装，sandbox=OFF",
+      "检查各agent workspace目录，发现6个独立workspace-*",
+      "扫描每个agent workspace，发现49个stranded文件",
+      "将所有stranded文件迁移到主workspace对应目录",
+      "修改openclaw.json统一agents.defaults.workspace",
+      "删除19个agent的独立workspace覆盖配置，gateway重启验证"
+    ],
+    "data_source": "real_conversation"
+  }
+]

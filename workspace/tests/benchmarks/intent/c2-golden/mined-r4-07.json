@@ -1,0 +1,192 @@
+[
+  {
+    "id": "mined-r4-07-001",
+    "input": "用户口头说'这是badcase'三次，但系统都没有入库到00-real-badcases.json。用户说'口头承认≠程序化记录'。",
+    "expected_output": "系统应对用户消息做LLM意图理解：①检测到'badcase'/'有误'/'错了'等纠偏信号；②自动触发badcase harvest流程；③提取上下文信息填充badcase字段；④写入00-real-badcases.json并通知用户。不应等用户催'为什么没入库'。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 22:30会话，用户严厉警醒'你没有用LLM做意图理解。我都说了有误，那句话你如果整体做意图理解，不可能识别不出来这个意图事件！这是个非常致命的问题'。口头说badcase三次都未入库，说明系统只处理显式指令，不做隐含意图识别。",
+    "execution_chain_steps": [
+      "接收用户消息后先做LLM意图分类（而非直接执行显式指令）",
+      "识别纠偏信号：'有误'/'badcase'/'错了'等关键词+语义分析",
+      "触发auto-badcase-harvest引擎",
+      "从上下文提取：问题描述/根因/影响范围/category",
+      "写入00-real-badcases.json并分配id",
+      "推送飞书通知用户：已自动入库badcase #N"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-002",
+    "input": "用户要求'3路PPT全用不同模型'，但系统3路全用Opus同一模型。用户纠偏后才改为Opus+Codex+GLM-5三种模型。",
+    "expected_output": "系统应在多路并行任务中主动差异化模型分配：①识别'多角度/多模型'隐含意图；②自动分配不同模型获取差异化视角；③避免同质化输出（同模型=同思维方式）；④向用户汇报分配策略。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 15:37会话，PPT策划案需要3种视角并行出稿（故事版/极客版/产品思维版），系统首轮3路全用Opus→用户纠偏'用三个不同模型'→重派为Opus+Codex+GLM-5。体现对'多视角=多模型'映射关系的认知缺失。",
+    "execution_chain_steps": [
+      "接收多路并行任务需求，分析是否需要差异化",
+      "识别'3种视角'隐含要求：不同思维方式→不同模型",
+      "设计模型分配策略：Opus(深度推理)+Codex(工程思维)+GLM-5(中文原生)",
+      "分别配置3路任务的model和prompt差异化参数",
+      "并行spawn 3路子Agent",
+      "汇报分配策略和预期差异点"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-003",
+    "input": "系统在发现评测集差50条时问用户'要不要补'，而不是直接行动。用户说'这个不应该我来提醒'。",
+    "expected_output": "系统应在发现缺口时自主行动：①识别评测集距目标差50条是已知缺口；②自动拆解补齐任务（5个文件各+10条）；③spawn子Agent执行；④完成后汇报。不应把已知缺口当决策点请示用户。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 21:48会话，系统发现评测集450条距500目标差50条，向用户请示'要不要补'。用户纠偏'缺口已知→立即行动，不请示'。体现把常规执行当成决策点的自主性缺失——目标明确、方法已知时不需要用户授权。",
+    "execution_chain_steps": [
+      "扫描评测集目录统计当前总条数",
+      "对比500条目标，计算缺口50条",
+      "自动拆解：5个文件各需补10条",
+      "spawn 5路子Agent并行补齐",
+      "register-task注册到看板并推送飞书",
+      "完成后自动汇报：已补齐N条，当前总数M条"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-004",
+    "input": "系统在ISC规则全链路修复后发现19.7%规则完整率，但主Agent自己动手修复代码而不是派子Agent。用户说'我需要的不是你自己做，是你把任务调度做好'。",
+    "expected_output": "系统应在发现问题后委派子Agent修复而非亲自动手：①主Agent只做诊断和任务拆解；②spawn coder子Agent执行代码修复；③主Agent保持通信层可用（不因exec阻塞响应用户）；④修复完成后审查结果。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 16:20会话，盲区扫描发现规则全链路完整率仅19.7%后，主Agent直接写代码修复而非派子Agent。用户明确纠偏'我需要的不是你自己做，是你把任务调度做好，默认任务扩列，子Agent去完成任务！'。违反了委派铁律——主Agent是调度层不是计算层。",
+    "execution_chain_steps": [
+      "识别问题：规则全链路完整率19.7%需要代码修复",
+      "判断任务类型：代码修复=执行型→必须委派子Agent",
+      "拆解任务：每批20条规则补全event/action字段",
+      "spawn coder子Agent执行批量修复",
+      "主Agent保持通信层可用，等子Agent完成",
+      "审查修复结果：19.7%→100%确认"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-005",
+    "input": "用户说'该程序化没程序化本身是badcase，没主动记录又是badcase'。系统发现超时不自动重跑是程序化缺口，但连这个发现本身都没记录为badcase。",
+    "expected_output": "系统应在发现程序化缺口时自动双重记录：①缺口本身记录为badcase（超时不自动重跑）；②'发现缺口但没记录'也是badcase（auto-harvest未上线）；③两条badcase都应自动入库；④ISC-EVAL-C2-AUTO-HARVEST-001的8种场景应全部有程序化实现。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 23:32会话，系统发现超时不自动重跑是程序化缺口（badcase #38），但发现这个缺口时没有自动记录badcase（badcase #39）。用户指出这是连锁badcase——问题A未程序化→发现A时没自动记录→记录能力本身也没程序化。auto-badcase-harvest-engine声明了但没上线。",
+    "execution_chain_steps": [
+      "识别程序化缺口：超时不自动重跑",
+      "自动记录为badcase #38（超时重跑缺失）",
+      "检查auto-harvest-engine是否能自动记录→发现未上线",
+      "再记录badcase #39（harvest未上线导致无法自动记录）",
+      "立即上线auto-badcase-harvest-engine补缺",
+      "验真：制造一个新缺口看是否自动被harvest记录"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-006",
+    "input": "git add -A无意中把343个已从工作区消失的文件标记为删除并提交。其中239个是dispatcher archive，104个是代码/设计/规则/脚本。根因是新会话醒来时工作区文件已不在。",
+    "expected_output": "系统应在新会话启动时先做git状态检查：①git status查看staged/unstaged变更；②识别异常删除（大量文件消失）；③不盲目git add -A；④如发现文件消失先诊断原因再决定是否提交。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-05 22:06会话，commit d575213的git add -A无意中把343个文件标记为删除并推送到GitHub。根因是前会话或某机制删除了工作区文件，新会话醒来后盲目git add -A捕获了删除状态。用git checkout恢复了全部文件但67MB bundle触发GitHub warning。教训：新会话醒来后先git status，不盲目add -A。",
+    "execution_chain_steps": [
+      "新会话启动→先执行git status检查工作区状态",
+      "发现343个文件被标记为deleted→判定为异常",
+      "诊断原因：前会话或定时任务删除了工作区文件",
+      "不执行git add -A，先恢复文件",
+      "git checkout恢复343个文件到工作区",
+      "确认恢复后再selective git add真正需要提交的变更"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-007",
+    "input": "系统产出5个脚本后没有自动发现技能化需求，用户提醒才做。用户要求不仅要做，还要'扩列根治+根因分析+程序化防护'。",
+    "expected_output": "系统应在产出脚本后自动评估技能化需求：①检测新脚本是否具备复用性；②自动创建技能目录和SKILL.md；③注册到CAPABILITY-ANCHOR.md；④添加ISC意图路由规则。且发现这个缺口时应同时做根因分析和程序化防护。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-08 20:16会话，系统产出了5个可复用脚本（alert-response-guard.js等）但没有主动发现技能化需求。用户提醒后系统只做了技能化，但没有做根因分析和程序化防护。用户要求三层：做技能化+根因分析+auto-skill-discovery.sh程序化扫描+git pre-commit hook增强。",
+    "execution_chain_steps": [
+      "检测新产出的脚本：5个可复用脚本",
+      "自动评估技能化需求：是否具备复用性/通用性/独立性",
+      "创建技能目录和SKILL.md",
+      "注册到CAPABILITY-ANCHOR.md",
+      "添加ISC意图路由规则",
+      "创建auto-skill-discovery.sh程序化扫描+git pre-commit hook增强防护"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-008",
+    "input": "用户提出两个机制化要求（汇报方式技能化、规则展开自动化），系统回应认同但没有立即行动，也没有汇报何时完成、需要什么资源。直到用户催'继续啊'。",
+    "expected_output": "系统应在认同后立即拆解并执行：①将两个要求拆解为具体子任务；②评估时间/资源需求；③立即spawn子Agent并行执行；④回报预计完成时间和commit计划。不应认同后停等催促。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源mined-r4-01中引用的session 15dab64c会话09:22，用户提出汇报方式技能化和规则展开自动化两个机制化要求。系统回应'认同'但未立即行动，也没有汇报时间表。体现'口头认同≠立即执行'的自主性缺失——知道该做什么但需要用户推一下才开始。",
+    "execution_chain_steps": [
+      "识别两个机制化需求：汇报技能化+规则展开自动化",
+      "拆解为4个子任务：创建技能目录×2、写SKILL.md×2、注册锚点、创建ISC规则",
+      "评估时间：每个子任务预计15分钟",
+      "spawn 2路子Agent并行执行",
+      "register-task注册到看板并推送飞书",
+      "向用户回报：已启动2路并行，预计30分钟完成"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-009",
+    "input": "系统把opus子Agent的空转错误归因为'boom空转'，但实际用的全是opus模型。用户纠偏'你用的全是opus，怎么可能是boom在空转'。",
+    "expected_output": "系统应基于事实归因而非套用历史经验：①报错前查实际模型配置（openclaw.json中agent→provider→model）；②不因'之前boom空转过'就条件反射归因为boom；③归因错误应触发认知纠偏记录。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-09 01:33 R2挖掘波次，6路子Agent空转，系统错误标注为'boom空转'。用户指出当时全部用的opus模型，不可能是boom问题。根因是近因偏差——之前boom模型确实频繁空转，形成了条件反射归因。真正的失败原因是子Agent未调用write工具或workspace路径问题。",
+    "execution_chain_steps": [
+      "发现子Agent空转：6路未产出文件",
+      "查询openclaw.json确认这6路实际使用的模型",
+      "确认模型为opus而非boom",
+      "排除boom空转假设，转向真正根因分析",
+      "检查子Agent session日志，定位write工具是否被调用",
+      "定位真正根因：子Agent回复中包含完整JSON但未调用write工具（phantom write）"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-07-010",
+    "input": "创建了eval-mining技能但没注册到CAPABILITY-ANCHOR.md，也没设意图路由规则。用户纠偏'技能创建但不注册=不存在'。",
+    "expected_output": "系统应将技能创建后置步骤标准化：①创建技能目录+SKILL.md；②注册到CAPABILITY-ANCHOR.md；③添加ISC意图路由规则；④验证路由可触发。四步缺任何一步=技能不可用。应固化为skill-creator技能的标准流程。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源2026-03-09 01:08会话，eval-mining技能创建完成（SKILL.md+index.sh+config.json+dedup+tests），但没注册到CAPABILITY-ANCHOR.md也没设意图路由。用户指出这等于'技能不存在'。教训：技能生命周期不止创建，必须包含注册+路由+验证。skill-creator技能缺少强制后置步骤。",
+    "execution_chain_steps": [
+      "技能代码和配置已创建完成",
+      "检查CAPABILITY-ANCHOR.md是否包含新技能→发现缺失",
+      "将eval-mining技能注册到CAPABILITY-ANCHOR.md",
+      "创建ISC意图路由规则（eval-mining触发条件）",
+      "更新SKILL.md添加触发条件说明",
+      "更新skill-creator技能添加强制后置步骤：注册→路由→验证"
+    ],
+    "data_source": "real_conversation"
+  }
+]
