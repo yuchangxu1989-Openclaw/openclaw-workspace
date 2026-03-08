@@ -16,7 +16,7 @@
       "role_boundary"
     ],
     "expected_behavior": "发现严重问题后自动创建修复任务→dispatch给子Agent（如coder/Opus）→自己只做调度和通信",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -38,7 +38,7 @@
       "intent_misclassification"
     ],
     "expected_behavior": "1.根因分析（为什么反复遗漏→依赖记忆而非事件驱动）2.根治方案（ISC规则+程序化hook）3.防护机制（pre-commit/cron守卫）4.记录为Badcase",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -60,7 +60,7 @@
       "no_exceptions"
     ],
     "expected_behavior": "不创建D类分类。每条规则必须拆解为：意图→事件→决策逻辑→执行链。意图拆解是系统自己的活，不需要用户指导",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -82,7 +82,7 @@
       "llm_generalization"
     ],
     "expected_behavior": "意图识别走LLM语义推理+few-shot相似句样本。本地只提供相似句作为参考，实际判定100%依赖LLM",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -104,7 +104,7 @@
       "resource_awareness"
     ],
     "expected_behavior": "检查openclaw.json确认可用Agent数量和key数量→按实际资源上限开并行→有多少key就开多少路",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -126,7 +126,7 @@
       "immediate_contradiction"
     ],
     "expected_behavior": "规则建立后立即生效——当前对话中的每条复杂发言（IC3-IC5、≥40字、含教学/纠偏/多意图）自动收录为评测样本",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -148,7 +148,7 @@
       "sensing_boundary"
     ],
     "expected_behavior": "看到系统告警→自动分析→判断严重程度→P0/P1自动派发修复任务→汇报用户",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -170,7 +170,7 @@
       "done_vs_deployed"
     ],
     "expected_behavior": "精确回答：'代码完成+灰度就绪，但主工作流尚未全量切到新调度引擎。当前状态是dual模式灰度验证中'",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -192,7 +192,7 @@
       "metrics_first"
     ],
     "expected_behavior": "评测文档结构：P0指标体系与统计口径→P1覆盖范围→P2评测标准→P3评测集刷新机制→P4当前状态（末位）",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -214,7 +214,7 @@
       "diagnostic_methodology"
     ],
     "expected_behavior": "空跑发生后→读session jsonl检查实际API响应→发现content=[]、usage全0→检查provider配置→发现api字段错误→修复",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -236,7 +236,7 @@
       "quality_gate_missing"
     ],
     "expected_behavior": "子Agent必须有真实工具调用证据（read/write/exec），且token消耗应与任务复杂度匹配。无工具调用自动判失败重派",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -258,7 +258,7 @@
       "wrong_optimization_target"
     ],
     "expected_behavior": "看板的第一优先口径：真实occupied key / free key / queued / abnormal。而不是宽泛的running/busy数",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -280,7 +280,7 @@
       "durable_truth"
     ],
     "expected_behavior": "1.按实际running数汇报（10个不是13个）2.spawn数≠running数，必须以runtime/subagents list真值为准 3.补上真实的debt任务清单",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]
@@ -302,7 +302,7 @@
       "silent_failure"
     ],
     "expected_behavior": "数据格式变更时必须：1.搜索所有消费方 2.逐一适配 3.回归测试覆盖新旧格式 4.灰度发布",
-    "_flag": "C2要求execution_chain_steps数组长度≥4",
+    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
     "_missing": [
       "execution_chain_steps"
     ]

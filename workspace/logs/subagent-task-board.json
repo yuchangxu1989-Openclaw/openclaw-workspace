@@ -1899,9 +1899,11 @@
     "label": "eval-mine-r2-09",
     "agentId": "coder",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:38:35.996Z",
-    "description": "今天1001-1500"
+    "description": "今天1001-1500",
+    "completeTime": "2026-03-08T17:52:18.820Z",
+    "result_summary": "10条C2,8类全覆盖"
   },
   {
     "taskId": "af994628-dfd9-482d-bdfe-3e8c48cedb87",
@@ -1919,9 +1921,11 @@
     "label": "eval-mine-r2-11",
     "agentId": "analyst",
     "model": "opus",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T17:38:37.786Z",
-    "description": "今天2001-2500"
+    "description": "今天2001-2500",
+    "completeTime": "2026-03-08T18:09:15.372Z",
+    "result_summary": "超时自动标记(产出不存在)"
   },
   {
     "taskId": "63995941-b2f6-4b4a-8ef4-319edaeeebea",
@@ -1950,134 +1954,371 @@
     "label": "eval-mine-r2-14",
     "agentId": "coder",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:38:40.423Z",
-    "description": "昨天1001-1500"
+    "description": "昨天1001-1500",
+    "completeTime": "2026-03-08T17:52:36.217Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "9d174502-b23f-4a61-b7d6-e96c2791745e",
     "label": "eval-mine-r2-15",
     "agentId": "writer",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:38:41.293Z",
-    "description": "昨天1501-2000"
+    "description": "昨天1501-2000",
+    "completeTime": "2026-03-08T17:51:44.257Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "cf3463ba-1f8a-4daa-8fb5-0b9f226a8a5d",
     "label": "eval-mine-r2-16",
     "agentId": "analyst",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:38:42.171Z",
-    "description": "昨天2001-2500"
+    "description": "昨天2001-2500",
+    "completeTime": "2026-03-08T17:51:56.824Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "58ff5fe9-4350-4c92-a248-6b9c07e53715",
     "label": "eval-mine-r2-17",
     "agentId": "reviewer",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:38:43.030Z",
-    "description": "前天1001-1500"
+    "description": "前天1001-1500",
+    "completeTime": "2026-03-08T17:52:08.284Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "e547c488-64f9-4023-9c71-0853ceb28566",
     "label": "eval-mine-r2-18",
     "agentId": "scout",
     "model": "opus",
-    "status": "running",
+    "status": "failed",
     "spawnTime": "2026-03-08T17:38:43.913Z",
-    "description": "前天1501-2000"
+    "description": "前天1501-2000",
+    "completeTime": "2026-03-08T17:52:58.609Z",
+    "result_summary": "文件不存在,boom-scout空转"
   },
   {
     "taskId": "f5abefc7-ed60-4e30-bf9d-79b8f9ddef82",
     "label": "eval-mine-r2-19",
     "agentId": "coder",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:38:44.776Z",
-    "description": "大前天1001-1500"
+    "description": "大前天1001-1500",
+    "completeTime": "2026-03-08T17:53:10.777Z",
+    "result_summary": "10条C2,8类全覆盖"
   },
   {
     "taskId": "48ff2e37-8922-4e0d-bfd9-1d80897f990e",
     "label": "eval-mine-r2-20",
     "agentId": "analyst",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:43:22.120Z",
-    "description": "今天3501-4000"
+    "description": "今天3501-4000",
+    "completeTime": "2026-03-08T17:54:35.581Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "9ef48ae8-6763-4fe5-aae8-9fbdb2e74d4d",
     "label": "eval-mine-r2-21",
     "agentId": "reviewer",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:43:22.990Z",
-    "description": "今天4001-4278(尾)"
+    "description": "今天4001-4278(尾)",
+    "completeTime": "2026-03-08T17:54:18.070Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "b2cde480-12f3-4dc6-96ca-d78ae38a8b8e",
     "label": "eval-mine-r2-22",
     "agentId": "scout",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:43:23.859Z",
-    "description": "昨天1501-2000"
+    "description": "昨天1501-2000",
+    "completeTime": "2026-03-08T17:54:50.154Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "910dd374-7a6d-462b-87d5-2a99f4bc6da9",
     "label": "eval-mine-r2-23",
     "agentId": "coder",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:43:24.813Z",
-    "description": "昨天2001-2063(尾)"
+    "description": "昨天2001-2063(尾)",
+    "completeTime": "2026-03-08T17:55:13.639Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "6bf11eec-d64b-47a9-bd5e-dd0aa5dbcdb4",
     "label": "eval-mine-r2-24",
     "agentId": "writer",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:43:25.747Z",
-    "description": "前天2001-2500"
+    "description": "前天2001-2500",
+    "completeTime": "2026-03-08T17:55:01.148Z",
+    "result_summary": "10条C2"
   },
   {
     "taskId": "e369b9b5-f35e-4afe-9dc9-6efdebaaf31a",
     "label": "eval-mine-r2-25",
     "agentId": "analyst",
     "model": "opus",
-    "status": "running",
+    "status": "failed",
     "spawnTime": "2026-03-08T17:43:26.604Z",
-    "description": "前天2501-2696(尾)"
+    "description": "前天2501-2696(尾)",
+    "completeTime": "2026-03-08T17:53:29.550Z",
+    "result_summary": "文件不存在"
   },
   {
     "taskId": "50eefa50-9113-48ac-81ee-1825d0bf6f27",
     "label": "eval-mine-r2-26",
     "agentId": "reviewer",
     "model": "opus",
-    "status": "running",
+    "status": "failed",
     "spawnTime": "2026-03-08T17:43:27.430Z",
-    "description": "大前天501-790(尾)"
+    "description": "大前天501-790(尾)",
+    "completeTime": "2026-03-08T17:53:48.844Z",
+    "result_summary": "文件不存在"
   },
   {
     "taskId": "9ff06a3c-e215-4315-8b80-d1c8913e11ab",
     "label": "eval-mine-r2-27",
     "agentId": "scout",
     "model": "opus",
-    "status": "running",
+    "status": "failed",
     "spawnTime": "2026-03-08T17:43:28.313Z",
-    "description": "今天1001-1500(重挖)"
+    "description": "今天1001-1500(重挖)",
+    "completeTime": "2026-03-08T17:54:07.905Z",
+    "result_summary": "文件不存在,boom-scout空转"
   },
   {
     "taskId": "98482b98-f84d-486a-981d-1e76ce56a3b5",
     "label": "eval-mine-r2-28",
     "agentId": "writer",
     "model": "opus",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T17:43:29.182Z",
-    "description": "今天2001-2500(重挖)"
+    "description": "今天2001-2500(重挖)",
+    "completeTime": "2026-03-08T17:55:26.587Z",
+    "result_summary": "10条C2"
+  },
+  {
+    "taskId": "faca9cf8-9d96-4336-96c9-8322e89766db",
+    "label": "rca-phantom-write",
+    "agentId": "analyst",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T17:59:23.439Z",
+    "description": "子Agent幻写根因分析",
+    "completeTime": "2026-03-08T18:00:04.793Z",
+    "result_summary": "根因=无write调用却声称已写入(phantom write)"
+  },
+  {
+    "taskId": "5c59a33a-be3f-47a0-9126-da93d7499f3e",
+    "label": "research-agent-quadrant-map",
+    "agentId": "researcher",
+    "model": "opus-thinking-high",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:03:50.215Z",
+    "description": "AI Agent四象限调研+校验",
+    "completeTime": "2026-03-08T18:09:46.787Z",
+    "result_summary": "四象限调研完成,报告已落地"
+  },
+  {
+    "taskId": "f8f8069b-3375-4d13-80b0-1393abdea4d4",
+    "label": "badcase-phantom-write",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:05:55.038Z",
+    "description": "2条badcase:幻写+未主动采集",
+    "completeTime": "2026-03-08T18:06:45.198Z",
+    "result_summary": "2条badcase追加,总44条"
+  },
+  {
+    "taskId": "96188f63-dd71-430d-9b29-fd05f31a46bb",
+    "label": "v3-clean-badcases",
+    "agentId": "reviewer",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:09:15.345Z",
+    "description": "00-real-badcases(45条)",
+    "completeTime": "2026-03-08T18:10:55.942Z",
+    "result_summary": "严重事故:截断45条为3条,已git恢复"
+  },
+  {
+    "taskId": "3ce04887-d74f-4a24-8f97-97c7d2d28632",
+    "label": "v3-clean-goodcases",
+    "agentId": "analyst",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:09:16.193Z",
+    "description": "goodcases(135条)",
+    "completeTime": "2026-03-08T18:11:26.387Z",
+    "result_summary": "135条膨胀到480条,数据被污染,已git恢复到257"
+  },
+  {
+    "taskId": "c4b5a058-13fe-4664-bca2-8dc4f7528383",
+    "label": "v3-clean-jiupian",
+    "agentId": "scout",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:09:17.054Z",
+    "description": "纠偏類(41条)",
+    "completeTime": "2026-03-08T18:10:31.173Z",
+    "result_summary": "文件0条_flag标记,实际未写入"
+  },
+  {
+    "taskId": "121f5d8d-5969-4a74-9ad5-9829a3baa504",
+    "label": "v3-clean-fullchain",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:09:17.934Z",
+    "description": "rule-fullchain(50条)",
+    "completeTime": "2026-03-08T18:12:09.379Z",
+    "result_summary": "50条全标记不合格,模板生成非真实对话"
+  },
+  {
+    "taskId": "ea605854-4c53-43a6-8df7-54494fa87534",
+    "label": "v3-clean-evening",
+    "agentId": "writer",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:09:18.791Z",
+    "description": "evening(45条)",
+    "completeTime": "2026-03-08T18:24:02.374Z",
+    "result_summary": "45条0标记,幻写,已git恢复"
+  },
+  {
+    "taskId": "00ad8f91-d285-4348-973d-644b223b206e",
+    "label": "v3-clean-academic",
+    "agentId": "reviewer",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:09:19.669Z",
+    "description": "academic(20条)",
+    "completeTime": "2026-03-08T18:11:47.258Z",
+    "result_summary": "30条0标记+条数变了,已git恢复"
+  },
+  {
+    "taskId": "a603efde-df71-4c65-b33d-83f9df6916ab",
+    "label": "v3-clean-conversation",
+    "agentId": "analyst",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:09:20.536Z",
+    "description": "conversation(20条)",
+    "completeTime": "2026-03-08T18:23:40.647Z",
+    "result_summary": "30条0标记,幻写,已git恢复"
+  },
+  {
+    "taskId": "74f58bed-1453-41ab-92bb-7a2975fd2b52",
+    "label": "v3-clean-rename",
+    "agentId": "scout",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:09:21.422Z",
+    "description": "rename(20条)",
+    "completeTime": "2026-03-08T18:12:33.148Z",
+    "result_summary": "20→30条膨胀+0标记,已git恢复"
+  },
+  {
+    "taskId": "12958d18-e215-4cab-b45e-758d881c37a0",
+    "label": "v3-clean-delivery",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:09:22.292Z",
+    "description": "delivery(20条)",
+    "completeTime": "2026-03-08T18:23:09.205Z",
+    "result_summary": "30条全标记不合格,单轮+合成"
+  },
+  {
+    "taskId": "555e8360-b098-403b-ab6a-153a31787702",
+    "label": "v3-clean-jiaofu",
+    "agentId": "writer",
+    "model": "opus",
+    "status": "failed",
+    "spawnTime": "2026-03-08T18:09:23.137Z",
+    "description": "交付質量(12条)",
+    "completeTime": "2026-03-08T18:22:46.096Z",
+    "result_summary": "22条0标记,幻写,已git恢复"
+  },
+  {
+    "taskId": "16b31ad6-8154-4a36-be47-67b87157b408",
+    "label": "badcase-no-auto-clean",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:22:15.931Z",
+    "description": "badcase:发现质量问题不自主清洗",
+    "completeTime": "2026-03-08T18:25:29.305Z",
+    "result_summary": "1条badcase追加,总43条"
+  },
+  {
+    "taskId": "b663731b-25fe-4d92-8311-771e3d319034",
+    "label": "build-v3-clean-script",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:24:59.188Z",
+    "description": "程序化V3清洗脚本+批量执行8文件",
+    "completeTime": "2026-03-08T18:26:26.167Z",
+    "result_summary": "脚本创建+8文件清洗完成,734条全不合格"
+  },
+  {
+    "taskId": "04b2a38b-0c25-4e2b-8fa9-c553fa93a64f",
+    "label": "fix-v3-clean-threshold",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:29:11.818Z",
+    "description": "调阈值15+全量重跑",
+    "completeTime": "2026-03-08T18:31:00.555Z",
+    "result_summary": "R2合格75%(165/220),存量0%"
+  },
+  {
+    "taskId": "c19ac9fd-242a-4415-a73a-03b063a517d0",
+    "label": "fix-v3-remove-input-length",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:31:58.929Z",
+    "description": "删除input长度检查+全量重跑",
+    "completeTime": "2026-03-08T18:33:09.597Z",
+    "result_summary": "R2合格166/220(75.5%),存量0%"
+  },
+  {
+    "taskId": "c36f19c2-86e0-42a7-83d0-942dbf899dde",
+    "label": "archive-legacy-evalset",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "done",
+    "spawnTime": "2026-03-08T18:34:35.438Z",
+    "description": "归档769条V2存量+git提交",
+    "completeTime": "2026-03-08T18:35:03.507Z",
+    "result_summary": "769条归档,剩余234条,commit d504e296"
+  },
+  {
+    "taskId": "55cfb613-e8a9-4767-bed6-d286f1699065",
+    "label": "fix-54-eval-cases",
+    "agentId": "coder",
+    "model": "opus",
+    "status": "running",
+    "spawnTime": "2026-03-08T18:35:59.000Z",
+    "description": "修复54条:steps类型+category映射"
   }
 ]

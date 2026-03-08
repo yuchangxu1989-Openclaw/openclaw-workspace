@@ -19,6 +19,20 @@
 ### 清洗模式 (clean)
 按 V3 标准对已有评测集文件逐条检查、修复、删除不合格 case。
 
+#### 程序化清洗（推荐，防止LLM幻写）
+
+单文件清洗：
+```bash
+node scripts/v3-eval-clean.js <json文件路径>
+```
+
+批量清洗c2-golden目录：
+```bash
+bash scripts/v3-eval-clean-batch.sh
+```
+
+脚本自动备份原文件为 `.bak`，只追加 `_flag` 和 `_missing` 字段，不修改现有数据。
+
 ### 刷新模式 (refresh)
 先 clean 全量评测集，再 mine 补缺。
 

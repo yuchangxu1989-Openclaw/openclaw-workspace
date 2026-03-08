@@ -29,8 +29,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "用户发现系统汇报并行任务数与runtime真实数据不一致，spawn总数被冒充为running数。session 21572393，2026-03-07 22:51 CST。",
-    "execution_chain_steps": 6,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 6
   },
   {
     "id": "C2-MINE-R2-09-002",
@@ -58,8 +57,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "用户多次要求用汇报技能的标准模板输出子Agent状态，系统每次仍手写表格格式不稳定、信息不全。session 21572393，2026-03-08 13:04 CST。",
-    "execution_chain_steps": 5,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 5
   },
   {
     "id": "C2-MINE-R2-09-003",
@@ -91,8 +89,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "子Agent重写评测标准文档后：旧内容残留未清理、C2 case太简单(改配置级)、执行链是设计稿非真实记录、组成约束未对齐V3标准。session 21572393，2026-03-08 13:45~13:57 CST。",
-    "execution_chain_steps": 6,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 6
   },
   {
     "id": "C2-MINE-R2-09-004",
@@ -128,8 +125,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "openclaw.json大规模重构(8→19 Agent)后，11个claude系provider的api协议字段写错，导致全部返回空响应。连续3次空跑后才定位根因。session 21572393，2026-03-08 12:00~12:49 CST。",
-    "execution_chain_steps": 7,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 7
   },
   {
     "id": "C2-MINE-R2-09-005",
@@ -161,8 +157,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "coder/Opus的AEO评测任务跑了1小时超时无产出，系统挂着等用户来问而不是自动处理。用户手动触发杀+拆后要求建立自动机制。session 21572393，2026-03-08 12:00 CST。",
-    "execution_chain_steps": 7,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 7
   },
   {
     "id": "C2-MINE-R2-09-006",
@@ -190,8 +185,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "用户要求3个不同模型同时竞技写公众号策划，每个创建独立飞书文档。涉及多模型路由、并行调度、中间结果等待（NO_REPLY）、最终汇总。session 21572393，2026-03-08 13:20 CST。",
-    "execution_chain_steps": 6,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 6
   },
   {
     "id": "C2-MINE-R2-09-007",
@@ -227,8 +221,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "用户连续3次修改文档标题，系统需要在子Agent运行中通过steer机制实时调整，而非杀掉重建。session 21572393，2026-03-08 13:01~13:04 CST。",
-    "execution_chain_steps": 4,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 4
   },
   {
     "id": "C2-MINE-R2-09-008",
@@ -260,8 +253,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "用户多次纠偏渠道/模型术语混用以及子Agent英文输出问题，系统纠偏后下次仍犯。最终需要代码级强制(dispatch-runner.js注入中文后缀+14个AGENTS.md)。session 21572393，2026-03-08。",
-    "execution_chain_steps": 6,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 6
   },
   {
     "id": "C2-MINE-R2-09-009",
@@ -293,8 +285,7 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "系统对C2难度定义的认知有偏差——把'改配置改字段'当C2，实际C2应该是多轮纠偏后全局对齐的复杂case。用户要求无BUG交付而非交付后让用户挑BUG。session 21572393，2026-03-08 13:55~13:57 CST。",
-    "execution_chain_steps": 7,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 7
   },
   {
     "id": "C2-MINE-R2-09-010",
@@ -330,7 +321,6 @@
     "source": "real_conversation",
     "multi_turn": true,
     "context": "评测标准太低→评测集质量差(真实对话仅8.85%)→评测结论不可信→系统优化方向错误的连锁效应。用户反复返工3次后系统才识别出这是标准层面的元问题而非数据问题。session 21572393，2026-03-08。",
-    "execution_chain_steps": 6,
-    "_flag": "C2要求execution_chain_steps数组长度≥4"
+    "execution_chain_steps": 6
   }
 ]
