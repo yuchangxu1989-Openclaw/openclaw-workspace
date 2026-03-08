@@ -109,8 +109,10 @@
   },
   "enforcement_tier": "P0_gate",
   "action": {
-    "type": "handler",
+    "type": "script",
     "handler": "notify-alert",
-    "description": ""
-  }
+    "description": "",
+    "script": "scripts/isc-hooks/rule.n029-model-api-key-pool-management-029.sh"
+  },
+  "enforcement": "programmatic"
 }

@@ -23,8 +23,9 @@
   },
   "priority": 7,
   "action": {
-    "type": "sync_to_evomap_network",
-    "handler": "evomap-sync-trigger"
+    "type": "script",
+    "handler": "evomap-sync-trigger",
+    "script": "scripts/isc-hooks/rule.auto-evomap-sync-trigger-001.sh"
   },
   "governance": {
     "auto_execute": true,
@@ -32,5 +33,6 @@
   },
   "created_at": "2026-02-25T06:32:00+08:00",
   "version": "1.0.0",
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

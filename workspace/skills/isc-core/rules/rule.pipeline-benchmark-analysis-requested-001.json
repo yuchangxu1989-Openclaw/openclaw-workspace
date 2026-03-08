@@ -14,7 +14,9 @@
   "priority": "P1",
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "handler",
-    "handler": "parallel-analysis"
-  }
+    "type": "script",
+    "handler": "parallel-analysis",
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-analysis-requested-001.sh"
+  },
+  "enforcement": "programmatic"
 }

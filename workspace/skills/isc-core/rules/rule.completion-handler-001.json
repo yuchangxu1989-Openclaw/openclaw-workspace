@@ -2,13 +2,17 @@
   "id": "ISC-COMPLETION-HANDLER-001",
   "name": "Completion Event程序化处理",
   "description": "收到子Agent completion event后必须先调用completion-handler.sh，不得跳过直接回复用户",
-  "trigger": {"event": "agent.task.completed"},
+  "trigger": {
+    "event": "agent.task.completed"
+  },
   "action": {
-    "type": "mandatory_first_action",
+    "type": "script",
     "command": "bash /root/.openclaw/workspace/scripts/completion-handler.sh <label> <done|failed> \"简要结果\"",
-    "violation": "badcase"
+    "violation": "badcase",
+    "script": "scripts/isc-hooks/ISC-COMPLETION-HANDLER-001.sh"
   },
   "priority": "highest",
   "created": "2026-03-08",
-  "rationale": "update-task.sh靠md规则提醒，历史遗忘率100%。合并到completion-handler.sh实现程序化强制。"
+  "rationale": "update-task.sh靠md规则提醒，历史遗忘率100%。合并到completion-handler.sh实现程序化强制。",
+  "enforcement": "programmatic"
 }

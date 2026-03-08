@@ -73,6 +73,8 @@
   "enforcement_tier": "P0_gate",
   "action": {
     "handler": "meta-enforcement",
-    "type": "handler"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.meta-enforcement-gate-001.sh"
+  },
+  "enforcement": "programmatic"
 }

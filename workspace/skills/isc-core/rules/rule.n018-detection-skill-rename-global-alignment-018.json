@@ -121,7 +121,9 @@
   "status": "active",
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "check",
-    "handler": "naming-convention-check"
-  }
+    "type": "script",
+    "handler": "naming-convention-check",
+    "script": "scripts/isc-hooks/rule.n018-detection-skill-rename-global-alignment-018.sh"
+  },
+  "enforcement": "programmatic"
 }

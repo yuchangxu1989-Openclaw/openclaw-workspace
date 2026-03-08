@@ -28,10 +28,11 @@
     "event": "system.analysis.requested"
   },
   "action": {
-    "type": "model_switch",
+    "type": "script",
     "target": "zhipu/glm-4v-plus",
     "fallback": "follow_openclaw_config",
-    "handler": "glm-vision-priority"
+    "handler": "glm-vision-priority",
+    "script": "scripts/isc-hooks/rule.glm-vision-priority-001.sh"
   },
   "governance": {
     "auto_execute": true,
@@ -40,5 +41,6 @@
   },
   "created_at": "2026-02-25T12:52:00+08:00",
   "version": "1.0.0",
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

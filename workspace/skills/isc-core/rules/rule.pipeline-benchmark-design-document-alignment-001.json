@@ -15,7 +15,9 @@
   "priority": "P1",
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "check",
-    "handler": "architecture-review-pipeline"
-  }
+    "type": "script",
+    "handler": "architecture-review-pipeline",
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-alignment-001.sh"
+  },
+  "enforcement": "programmatic"
 }

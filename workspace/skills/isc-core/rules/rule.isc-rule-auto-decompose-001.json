@@ -51,6 +51,8 @@
   "source": "用户教学：元规则——规则创建后自动拆解",
   "action": {
     "handler": "isc-rule-decompose",
-    "type": "handler"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.isc-rule-auto-decompose-001.sh"
+  },
+  "enforcement": "programmatic"
 }

@@ -65,7 +65,9 @@
   },
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "check",
-    "handler": "eval-quality-check"
-  }
+    "type": "script",
+    "handler": "eval-quality-check",
+    "script": "scripts/isc-hooks/rule.n026-aeo-insight-to-action-026.sh"
+  },
+  "enforcement": "programmatic"
 }

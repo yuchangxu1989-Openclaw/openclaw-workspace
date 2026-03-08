@@ -14,7 +14,9 @@
   "priority": "P1",
   "enforcement_tier": "P0_gate",
   "action": {
-    "type": "handler",
-    "handler": "self-correction-root-cause"
-  }
+    "type": "script",
+    "handler": "self-correction-root-cause",
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-defect-acknowledged-001.sh"
+  },
+  "enforcement": "programmatic"
 }

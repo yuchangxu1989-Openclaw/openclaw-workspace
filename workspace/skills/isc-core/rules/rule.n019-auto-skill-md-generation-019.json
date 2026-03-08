@@ -125,8 +125,10 @@
   "status": "active",
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "check",
-    "handler": "document-structure-check"
+    "type": "script",
+    "handler": "document-structure-check",
+    "script": "scripts/isc-hooks/rule.n019-auto-skill-md-generation-019.sh"
   },
-  "updated_at": "2026-03-07T00:20:00+08:00"
+  "updated_at": "2026-03-07T00:20:00+08:00",
+  "enforcement": "programmatic"
 }

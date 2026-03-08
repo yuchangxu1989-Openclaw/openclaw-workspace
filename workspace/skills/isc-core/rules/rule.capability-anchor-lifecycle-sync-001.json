@@ -11,8 +11,10 @@
     "event": "skill.lifecycle.modified"
   },
   "action": {
-    "type": "sync",
-    "handler": "capability-anchor-sync"
+    "type": "script",
+    "handler": "capability-anchor-sync",
+    "script": "scripts/isc-hooks/rule.capability-anchor-lifecycle-sync-001.sh"
   },
-  "created_at": "2026-03-06"
+  "created_at": "2026-03-06",
+  "enforcement": "programmatic"
 }

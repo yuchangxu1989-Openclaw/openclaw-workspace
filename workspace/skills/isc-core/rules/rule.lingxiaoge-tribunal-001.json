@@ -44,8 +44,10 @@
     ]
   },
   "action": {
-    "type": "handler",
+    "type": "script",
     "handler": "notify-alert",
-    "description": ""
-  }
+    "description": "",
+    "script": "scripts/isc-hooks/rule.lingxiaoge-tribunal-001.sh"
+  },
+  "enforcement": "programmatic"
 }

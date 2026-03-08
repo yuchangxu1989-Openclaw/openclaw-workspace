@@ -97,7 +97,9 @@
   },
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "check",
-    "handler": "eval-quality-check"
-  }
+    "type": "script",
+    "handler": "eval-quality-check",
+    "script": "scripts/isc-hooks/rule.n023-auto-aeo-evaluation-standard-generation-023.sh"
+  },
+  "enforcement": "programmatic"
 }

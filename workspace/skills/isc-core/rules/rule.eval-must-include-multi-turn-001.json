@@ -23,7 +23,9 @@
   "rationale": "用户原话：'你的评测集，只搞单轮对话？' IC4/IC5脱离上下文根本无法判断意图。",
   "created_at": "2026-03-06T00:58:00+08:00",
   "action": {
-    "type": "check",
-    "handler": "eval-quality-check"
-  }
+    "type": "script",
+    "handler": "eval-quality-check",
+    "script": "scripts/isc-hooks/rule.eval-must-include-multi-turn-001.sh"
+  },
+  "enforcement": "programmatic"
 }

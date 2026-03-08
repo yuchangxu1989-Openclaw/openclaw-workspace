@@ -72,8 +72,10 @@
   "status": "active",
   "enforcement_tier": "P1_process",
   "action": {
-    "type": "handler",
+    "type": "script",
     "handler": "auto-fix",
-    "description": ""
-  }
+    "description": "",
+    "script": "scripts/isc-hooks/rule.n016-decision-auto-repair-loop-post-pipeline-016.sh"
+  },
+  "enforcement": "programmatic"
 }

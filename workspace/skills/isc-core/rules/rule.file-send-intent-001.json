@@ -3,11 +3,29 @@
   "name": "发文件意图自动匹配",
   "description": "当用户表达发送文件意图时，自动使用file-sender技能",
   "trigger": {
-    "intent_patterns": ["发文件", "发源文件", "把.*发给我", "发附件", "源文件", "把.*文件.*给我", "发一下.*文件", "文件发我", "给我发文件", "传文件", "把.*传给我", "发送文件", "把报告发我", "把.*给我"]
+    "intent_patterns": [
+      "发文件",
+      "发源文件",
+      "把.*发给我",
+      "发附件",
+      "源文件",
+      "把.*文件.*给我",
+      "发一下.*文件",
+      "文件发我",
+      "给我发文件",
+      "传文件",
+      "把.*传给我",
+      "发送文件",
+      "把报告发我",
+      "把.*给我"
+    ]
   },
   "action": {
     "skill": "file-sender",
-    "command": "node /root/.openclaw/workspace/skills/public/file-sender/index.js <文件路径> <receive_id> <receive_id_type> [显示文件名]"
+    "command": "node /root/.openclaw/workspace/skills/public/file-sender/index.js <文件路径> <receive_id> <receive_id_type> [显示文件名]",
+    "type": "script",
+    "script": "scripts/isc-hooks/ISC-FILE-SEND-INTENT-001.sh"
   },
-  "notes": "receive_id从会话上下文的sender_id获取，receive_id_type默认open_id"
+  "notes": "receive_id从会话上下文的sender_id获取，receive_id_type默认open_id",
+  "enforcement": "programmatic"
 }

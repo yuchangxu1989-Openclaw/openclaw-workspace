@@ -10,8 +10,9 @@
   "severity": "HIGH",
   "priority": 10,
   "action": {
-    "type": "execute_auto_remediation",
-    "handler": "auto-fix-severity"
+    "type": "script",
+    "handler": "auto-fix-severity",
+    "script": "scripts/isc-hooks/rule.auto-fix-high-severity-001.sh"
   },
   "governance": {
     "auto_execute": true,
@@ -32,5 +33,6 @@
     ],
     "event": "isc.rule.matched"
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

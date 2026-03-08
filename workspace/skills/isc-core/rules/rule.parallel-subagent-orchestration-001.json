@@ -90,6 +90,8 @@
   "enforcement_tier": "P1_process",
   "action": {
     "handler": "parallel-subagent-orchestration",
-    "type": "handler"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.parallel-subagent-orchestration-001.sh"
+  },
+  "enforcement": "programmatic"
 }

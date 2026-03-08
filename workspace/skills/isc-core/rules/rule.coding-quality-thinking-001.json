@@ -24,7 +24,9 @@
   "enforcement_tier": "P1_check",
   "created_at": "2026-03-06T00:28:00+08:00",
   "action": {
-    "type": "check",
-    "handler": "eval-quality-check"
-  }
+    "type": "script",
+    "handler": "eval-quality-check",
+    "script": "scripts/isc-hooks/rule.coding-quality-thinking-001.sh"
+  },
+  "enforcement": "programmatic"
 }

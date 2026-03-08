@@ -6,8 +6,21 @@
   "trigger": {
     "type": "task_match",
     "description": "当任务涉及重大决策文档、重要报告、方案设计文档时自动触发",
-    "match_keywords": ["重大决策文档", "重要报告", "方案设计", "架构方案", "评测基线", "飞书文档写入"],
-    "excludes": ["简单文件修改", "配置更新", "日志记录", "memory更新", "MEMORY.md"]
+    "match_keywords": [
+      "重大决策文档",
+      "重要报告",
+      "方案设计",
+      "架构方案",
+      "评测基线",
+      "飞书文档写入"
+    ],
+    "excludes": [
+      "简单文件修改",
+      "配置更新",
+      "日志记录",
+      "memory更新",
+      "MEMORY.md"
+    ]
   },
   "conditions": {
     "applicable": [
@@ -25,7 +38,7 @@
     ]
   },
   "action": {
-    "type": "pipeline",
+    "type": "script",
     "description": "写→审→改 流水线",
     "steps": [
       {
@@ -57,7 +70,8 @@
       }
     ],
     "max_retries": 2,
-    "escalation": "主Agent决策"
+    "escalation": "主Agent决策",
+    "script": "scripts/isc-hooks/ISC-DOC-QUALITY-GATE-001.sh"
   },
   "fullchain": {
     "intent": "ISC-DOC-QUALITY-GATE-001",
@@ -67,5 +81,6 @@
   },
   "references": [
     "ISC-MAIN-AGENT-DELEGATION-001"
-  ]
+  ],
+  "enforcement": "programmatic"
 }

@@ -10,8 +10,9 @@
   "threshold": 50,
   "priority": 9,
   "action": {
-    "type": "trigger_auto_skillization_pipeline",
-    "handler": "auto-skillization"
+    "type": "script",
+    "handler": "auto-skillization",
+    "script": "scripts/isc-hooks/rule.auto-skillization-trigger-001.sh"
   },
   "governance": {
     "auto_execute": true,
@@ -32,5 +33,6 @@
     ],
     "event": "isc.rule.matched"
   },
-  "enforcement_tier": "P1_process"
+  "enforcement_tier": "P1_process",
+  "enforcement": "programmatic"
 }

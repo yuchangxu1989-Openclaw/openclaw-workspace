@@ -45,6 +45,8 @@
   "enforcement_tier": "P1_process",
   "action": {
     "handler": "isc-dto-handshake",
-    "type": "handler"
-  }
+    "type": "script",
+    "script": "scripts/isc-hooks/rule.isc-dto-handshake-001.sh"
+  },
+  "enforcement": "programmatic"
 }

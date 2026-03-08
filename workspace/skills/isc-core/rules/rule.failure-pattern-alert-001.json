@@ -11,8 +11,10 @@
     "event": "system.failure.pattern_detected"
   },
   "action": {
-    "type": "alert",
-    "handler": "notify-alert"
+    "type": "script",
+    "handler": "notify-alert",
+    "script": "scripts/isc-hooks/rule.failure-pattern-alert-001.sh"
   },
-  "created_at": "2026-03-06"
+  "created_at": "2026-03-06",
+  "enforcement": "programmatic"
 }
