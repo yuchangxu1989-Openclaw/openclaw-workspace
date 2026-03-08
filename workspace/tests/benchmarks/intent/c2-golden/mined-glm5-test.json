@@ -1,0 +1,165 @@
+[
+  {
+    "id": "mined-glm5-test-001",
+    "input": "用户问\"day2还有哪些遗留项？\"系统回答\"看不到上下文\"。用户随后指出\"这是不是恰恰说明了一个问题，缺少项目管理的文件输出动作和技能。如果有这个技能或产出物，不至于完全丢失记忆\"",
+    "expected_output": "系统应立即识别为基础设施级缺失，执行：①根因分析定位为何没有项目级状态跟踪；②创建PROJECT-TRACKER.md作为项目进度唯一真相源；③在MEMORY.md中写入强制规则（接任务建条目/完成更新状态/收工写日报）；④向用户确认机制建立完成而非等待用户补充内容",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源session 15dab64c-d95b-4f39-af15-ba959da68b57，用户在06:29询问遗留项，系统无法回答，06:35进行纠偏指出缺少项目管理产物沉淀机制",
+    "execution_chain_steps": [
+      "识别用户纠偏语句并提取强约束目标：建立项目管理产物沉淀机制",
+      "根因分析四层定位（代码/规则/认知/架构）为何没有项目级状态跟踪文件",
+      "创建PROJECT-TRACKER.md作为项目进度唯一真相源，定义状态图例和更新规则",
+      "在MEMORY.md中写入强制规则：接任务建条目/完成更新状态/阻塞记原因/收工写日报",
+      "Git提交持久化变更，ISC Pre-Commit检查通过",
+      "向用户回报完成证据（文件已建立、规则已固化、git已提交）而非等待用户补充"
+    ]
+  },
+  {
+    "id": "mined-glm5-test-002",
+    "input": "系统询问\"如果你愿意，我也可以按'必须今天完成/可延后'给出一个最小收敛版本\"，用户随后说\"进度可以透明，不必要的确认项不需要等我决定\"",
+    "expected_output": "系统应识别为自主性缺失纠偏，立即执行：①收回询问型语句，直接给出分类结果；②spawn多路子agent并行推进任务；③每完成一个推送一个状态更新；④只在真正需要用户决策点（命名/重大架构拍板）时才等待",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "同一会话中，系统先给出解释并询问是否需要分类，用户明确纠偏要求自主推进，不需要等待确认",
+    "execution_chain_steps": [
+      "识别用户纠偏语句'不必要的确认项不需要等我决定'，提取强约束：除决策点外全自动",
+      "收回询问型回复，直接执行任务分类和分派",
+      "spawn多路子agent并行推进（如4-5路并行）",
+      "每个子agent完成后自动推送状态更新到用户可见渠道",
+      "仅在用户决策点（命名确认/重大架构拍板）时才等待用户",
+      "将纠偏沉淀为ISC规则：非决策步骤不询问"
+    ]
+  },
+  {
+    "id": "mined-glm5-test-003",
+    "input": "用户问\"所有的定时任务中，有哪些是因为这次架构的重大变更（包括核心设计思想的对齐）而需要重塑的？\"",
+    "expected_output": "系统应执行全局影响面分析：①列出所有27个定时任务；②逐个判断是否受L3架构升级影响；③分类为'必须重塑/需要适配/可保留/已废弃'；④对必须重塑的任务给出具体改造方案；⑤输出重塑优先级和预估工时",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在架构重构后要求系统分析定时任务的影响面，判断哪些需要随架构变更重塑",
+    "execution_chain_steps": [
+      "读取openclaw cron list获取全部定时任务列表",
+      "分析L3架构升级的核心变更点（EventBus统一事件总线/意图识别层/决策流水线）",
+      "逐个任务判断：触发源是否需改走EventBus/监控维度是否需扩展/执行链是否需对齐新架构",
+      "分类输出：必须重塑（3个）/需要适配（1个）/可保留（1个）/已废弃（1个）",
+      "对必须重塑的任务给出具体改造方案和代码路径",
+      "输出重塑优先级排序和预估工时"
+    ]
+  },
+  {
+    "id": "mined-glm5-test-004",
+    "input": "用户强调\"AEO的功能质量测试和Agent数据效果评测，是重点。每个Day的研发任务，都要有凌霄阁决策后再自动解决遗留问题或进入下一个Day的范围\"",
+    "expected_output": "系统应识别为流程规范纠偏，执行：①在MEMORY.md中写入研发流程规则（AEO评测是重点/每个Day完成后必须经过凌霄阁裁决）；②更新PROJECT-TRACKER模板增加凌霄阁裁决检查点；③后续任务执行时自动触发凌霄阁裁决流程",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在研发过程中强调AEO评测的重要性和凌霄阁裁决流程，指出之前流程中缺失这些关键检查点",
+    "execution_chain_steps": [
+      "识别用户强调的流程规范：AEO功能质量测试+Agent数据效果评测是重点",
+      "识别流程约束：每个Day研发完成后必须经过凌霄阁裁决",
+      "在MEMORY.md中写入研发流程规则，明确定义Day N研发→凌霄阁裁决→解决遗留→Day N+1的流程",
+      "更新PROJECT-TRACKER.md模板，增加凌霄阁裁决检查点字段",
+      "创建ISC规则确保后续任务自动触发凌霄阁裁决流程",
+      "向用户确认规则已固化，后续研发将自动遵循"
+    ]
+  },
+  {
+    "id": "mined-glm5-test-005",
+    "input": "用户指出\"在这次架构重构后，全局自主决策流水线定时任务/报告所cover的范围，不能再局限于代码变更与发布了\"",
+    "expected_output": "系统应识别为监控维度升级需求，执行：①分析当前定时任务/报告覆盖范围（仅Dev视角的代码变更）；②设计L3之后应覆盖的五层全域（意图层/决策层/执行层/效果层/系统健康）；③输出每个层级的具体监控指标；④给出定时任务改造方案",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在架构重构后指出定时任务覆盖范围需要从Dev视角升级为Agent运营视角，涉及多层联动改造",
+    "execution_chain_steps": [
+      "识别用户指出的架构变更影响：监控范围需从代码流水线升级为认知-决策-执行闭环",
+      "分析当前定时任务覆盖范围：代码变更检测/技能发布状态/Git提交统计",
+      "设计L3之后应覆盖的五层全域：意图层（IC1-IC5分布/命中率）/决策层（规则覆盖率/熔断触发）/执行层（任务成功率/并行效率）/效果层（端到端质量评分/用户满意度）/系统健康（EventBus吞吐/FeatureFlag审计）",
+      "逐层列出具体监控指标和数据来源",
+      "给出定时任务改造方案：哪些任务需要扩展监控维度",
+      "将思考融入研发项目，确保Day 2-3落地时对齐五层监控"
+    ]
+  },
+  {
+    "id": "mined-glm5-test-007",
+    "input": "系统连续收到503错误\"No available accounts\"，4次尝试均失败后切换模型成功",
+    "expected_output": "系统应识别为服务不可用场景，执行：①检测到503错误后立即触发降级策略；②尝试备用provider（boom-main）；③记录降级事件到DecisionLogger；④创建ISC规则确保503错误自动降级而非等待用户干预",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "系统在处理用户请求时连续遇到503错误，4次失败后才切换到可用provider",
+    "execution_chain_steps": [
+      "检测到503错误'No available accounts'，识别为服务不可用",
+      "立即触发降级策略：切换到备用provider（boom-main/gpt-5.3-codex）",
+      "记录降级事件到DecisionLogger，包含错误类型/降级时间/备用provider",
+      "成功处理用户请求后向用户说明发生了服务降级",
+      "创建ISC规则：503错误连续2次后自动降级到备用provider，无需等待4次失败",
+      "更新MEMORY.md记录可用provider优先级列表"
+    ]
+  },
+  {
+    "id": "mined-glm5-test-008",
+    "input": "用户指出\"你应该先去查询自己openclaw.json中配置了哪些模型，而不是上来就跟我要工具\"",
+    "expected_output": "系统应识别为资源发现能力缺失，执行：①读取openclaw.json获取已配置的模型/provider列表；②整理可用资源清单（Claude Opus thinking/gpt-5.3-codex boom渠道等）；③在MEMORY.md中记录模型路由规则；④后续spawn子agent时根据任务类型选择合适模型",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "系统向用户询问可用工具，而实际配置文件中已有完整信息，用户纠偏要求系统先自查再提问",
+    "execution_chain_steps": [
+      "识别用户纠偏：应该先查询自己的配置，而不是向用户要工具",
+      "读取/root/.openclaw/openclaw.json获取已配置的模型/provider/accounts",
+      "解析配置整理可用资源清单：Claude Opus (thinking)用于核心模块/gpt-5.3-codex (boom渠道)用于工具性任务",
+      "在MEMORY.md中写入模型路由实际可用资源规则",
+      "后续spawn子agent时根据任务类型选择合适模型（核心用thinking，工具性用codex）",
+      "向用户确认已掌握可用资源，后续不再询问"
+    ]
+  },
+  {
+    "id": "mined-glm5-test-009",
+    "input": "系统发现CRAS-A生成的洞察报告内容过于精准对齐系统现状（Multi-Agent→SEEF/DTO，记忆三层→CRAS-B），但没有web_search调用记录",
+    "expected_output": "系统应识别为数据诚实性违规，执行：①检查CRAS-A cron配置确认是否有真实搜索调用；②分析洞察内容判断是真实搜索还是LLM生成；③标记违反数据诚实性红线；④改造CRAS-A：必须标注数据来源，无真实来源就标'知识推断'",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "系统发现CRAS-A产出的洞察数据来源可疑，内容过于精准命中系统特点，实际没有调用web_search",
+    "execution_chain_steps": [
+      "检查CRAS-A cron配置，确认prompt中是否有web_search调用指令",
+      "分析洞察内容特征：内容过于精准对齐系统（Multi-Agent→SEEF/DTO等），真实搜索不会这么巧",
+      "检查cron执行日志，确认是否有web_search工具调用记录",
+      "判定违反数据诚实性红线：LLM基于自身知识'编'了洞察，而非真实搜索",
+      "改造CRAS-A：修改prompt要求每条洞察必须标注数据来源URL，禁止编造，无真实来源标注'知识推断'",
+      "创建ISC规则：所有洞察/报告类产出必须标注数据来源，违反即判定为Badcase"
+    ]
+  },
+  {
+    "id": "mined-glm5-test-010",
+    "input": "CRAS-D cron配置中硬编码了`kimi_search`命令，但环境中不存在该命令导致执行失败",
+    "expected_output": "系统应识别为硬编码依赖失效问题，执行：①检查cron配置中的硬编码命令；②验证命令在当前环境是否可用；③将硬编码改为可用工具调用（web_search）；④更新cron配置并验证；⑤创建规则禁止cron中硬编码不可用命令",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "CRAS-D定时任务因硬编码了不存在的kimi_search命令导致失败，需要将硬编码改为可用工具",
+    "execution_chain_steps": [
+      "检查CRAS-D cron配置，发现prompt硬编码了`kimi_search`命令",
+      "验证命令在cron环境是否可用：执行`which kimi_search`确认不存在",
+      "分析失败原因：硬编码依赖了不可用的外部命令",
+      "修改cron配置：将`kimi_search`改为`web_search`工具调用（Brave API，当前可用）",
+      "更新prompt要求每条洞察必须标注数据来源URL，禁止编造",
+      "创建ISC规则：cron配置禁止硬编码不可用命令，必须使用当前环境可用的工具",
+      "验证修改后的cron能正常执行"
+    ]
+  }
+]
