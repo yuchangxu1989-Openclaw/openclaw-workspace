@@ -1,0 +1,41 @@
+{
+  "id": "rule.intent-任务分配策略-jrw5uo",
+  "name": "intent_任务分配策略",
+  "domain": "intent",
+  "type": "workflow",
+  "description": "基于boom/Codex渠道的失败经验，确立生成类任务必须优先分配给Opus的规则",
+  "trigger": {
+    "events": [
+      "intent.ruleify"
+    ],
+    "conditions": [
+      {
+        "field": "target",
+        "op": "contains",
+        "value": "任务分配策略"
+      }
+    ],
+    "actions": [
+      {
+        "type": "auto_trigger",
+        "description": "Auto-created from intent.ruleify: 任务分配策略"
+      }
+    ]
+  },
+  "action": {
+    "handler": "skill-isc-handler"
+  },
+  "governance": {
+    "auto_execute": false,
+    "source": "intent-event-handler",
+    "derived_from_event": "evt_1772960101942"
+  },
+  "metadata": {
+    "intent_type": "RULEIFY",
+    "target": "任务分配策略",
+    "confidence": 0.9,
+    "source_file": "2026-03-08.md",
+    "evidence": "boom/Codex做'生成大量内容+写文件'类任务不可靠，此类任务必须优先走Opus",
+    "created_at": "2026-03-08T08:55:01.942Z"
+  }
+}

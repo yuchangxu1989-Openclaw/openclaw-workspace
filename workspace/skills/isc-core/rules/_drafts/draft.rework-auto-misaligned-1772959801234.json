@@ -1,0 +1,32 @@
+{
+  "id": "rework-auto-misaligned-1772959801234",
+  "name": "auto_rework_prevention_misaligned",
+  "domain": "intent",
+  "type": "validation",
+  "status": "draft_pending_review",
+  "auto_generated": true,
+  "generation_source": "rework-analyzer",
+  "generation_date": "2026-03-08T08:50:01.234Z",
+  "confidence": 1.6,
+  "evidence": {
+    "event_count": 2,
+    "category": "misaligned",
+    "sample_signals": [
+      "4. **用户要求：任务应该默认扩列子Agent，不是自己上** — \"我需要的不是你自己做，是你把任务调度做好，默认任务扩列，子Agent去完成任务！\"",
+      "不是自己上** — \"我需要的"
+    ]
+  },
+  "description": "交付物与需求对齐校验",
+  "trigger": {
+    "type": "pattern",
+    "patterns": [
+      "misaligned"
+    ]
+  },
+  "action": {
+    "type": "enforce",
+    "description": "交付前对照原始需求做自检，列出\"你要的X，我实现的是Y\"矩阵"
+  },
+  "review_required": true,
+  "review_notes": "由 rework-analyzer 自动生成，需人工审核后激活"
+}

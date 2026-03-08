@@ -1,22 +1,1420 @@
 {
-  "timestamp": "2026-03-07T10:50:01.981Z",
+  "timestamp": "2026-03-08T09:01:29.900Z",
   "scanned": {
-    "files": 4434,
-    "dirs": 430
+    "files": 94082,
+    "dirs": 519
   },
-  "issues": 1,
-  "fixes": 1,
+  "issues": 116,
+  "fixes": 140,
   "details": {
     "issues": [
       {
+        "type": "duplicate",
+        "files": [
+          "feishu_send_queue/send_1772929695468_cras_d_research_strategy_1772929286373.json",
+          "feishu_send_queue/send_1772929697019_cras_d_research_strategy_1772929687271.json",
+          "feishu_send_queue/send_1772929698497_cras_d_research_strategy_1772929691391.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/error/pre-commit-1772899829983.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772899830803.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772899831617.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772899832429.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772899833238.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772899834068.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/error/pre-commit-1772914219565.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772914220389.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/error/pre-commit-1772914221210.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772914222023.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772914222837.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/error/pre-commit-1772928618996.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772928619962.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772928620937.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772928621920.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772928622900.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/error/pre-commit-1772943022335.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772943023553.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772943024770.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772943025978.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772943027189.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772943028415.signal",
+          "infrastructure/event-bus/signals/error/pre-commit-1772943029630.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885420701.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885421473.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885422916.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885423682.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885424431.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885425326.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885712822.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885733718.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885793920.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772885820098.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/processed/pre-commit-1772957419633.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772957419936.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/event-bus/signals/processed/pre-commit-1772957420551.signal",
+          "infrastructure/event-bus/signals/processed/pre-commit-1772957420870.signal"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "infrastructure/intent-engine/unknown-candidates.jsonl",
+          "skills/public/multi-agent-dispatch/state/engine-state.json.lock",
+          "skills/public/multi-agent-dispatch/state/live-board.json.lock",
+          "tmp/swebench-lite/repo/swebench/collect/__init__.py",
+          "tmp/swebench-lite/repo/swebench/inference/__init__.py",
+          "tmp/swebench-lite/repo/swebench/versioning/__init__.py"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/cras/knowledge/active-learning_1771827136407.json",
+          "tests/benchmarks/intent/c2-golden/07-data-honesty.json",
+          "tests/benchmarks/intent/c2-golden/08-timeout-convergence.json",
+          "tests/benchmarks/intent/c2-golden/09-auto-expansion.json",
+          "tests/benchmarks/intent/c2-golden/10-meta-problem.json",
+          "tests/benchmarks/intent/c2-golden/交付质量类.json",
+          "tests/benchmarks/intent/c2-golden/全局未对齐类.json",
+          "tests/benchmarks/intent/c2-golden/反复未果类.json",
+          "tests/benchmarks/intent/c2-golden/头痛医头类.json",
+          "tests/benchmarks/intent/c2-golden/自主性缺失类.json",
+          "tests/benchmarks/intent/c2-golden/认知错误类.json",
+          "tests/benchmarks/intent/c2-golden/连锁跷跷板类.json"
+        ]
+      },
+      {
+        "type": "duplicate",
+        "files": [
+          "skills/project-mgmt/lessons/2026-03-07-artifact-governance-closure.md",
+          "skills/project-mgmt/lessons/2026-03-08-artifact-governance-closure.md"
+        ]
+      },
+      {
+        "type": "empty_file",
+        "file": "infrastructure/intent-engine/unknown-candidates.jsonl"
+      },
+      {
+        "type": "empty_file",
+        "file": "skills/public/multi-agent-dispatch/state/engine-state.json.lock"
+      },
+      {
+        "type": "empty_file",
+        "file": "skills/public/multi-agent-dispatch/state/live-board.json.lock"
+      },
+      {
+        "type": "empty_file",
+        "file": "tmp/swebench-lite/repo/swebench/collect/__init__.py"
+      },
+      {
+        "type": "empty_file",
+        "file": "tmp/swebench-lite/repo/swebench/inference/__init__.py"
+      },
+      {
+        "type": "empty_file",
+        "file": "tmp/swebench-lite/repo/swebench/versioning/__init__.py"
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/decision-log/decisions.jsonl",
+        "size": 6305812
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/dispatcher/manual-queue.jsonl",
+        "size": 8176411
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-05-01-892Z.jsonl",
+        "size": 12834989
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-05-02-691Z.jsonl",
+        "size": 10486910
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-10-01-515Z.jsonl",
+        "size": 34137704
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-15-03-222Z.jsonl",
+        "size": 29829188
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-15-03-819Z.jsonl",
+        "size": 10486159
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-15-04-490Z.jsonl",
+        "size": 10486521
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-15-05-237Z.jsonl",
+        "size": 10486625
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-20-04-027Z.jsonl",
+        "size": 25338131
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-20-11-132Z.jsonl",
+        "size": 10486190
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-35-01-560Z.jsonl",
+        "size": 11254853
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-35-02-213Z.jsonl",
+        "size": 10486238
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-40-01-633Z.jsonl",
+        "size": 15529581
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-45-01-447Z.jsonl",
+        "size": 12348053
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-45-02-151Z.jsonl",
+        "size": 10486704
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-50-02-202Z.jsonl",
+        "size": 16365526
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-50-07-691Z.jsonl",
+        "size": 10486497
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-55-02-352Z.jsonl",
+        "size": 21891817
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-55-11-196Z.jsonl",
+        "size": 10485925
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-55-11-736Z.jsonl",
+        "size": 10485897
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-00-02-340Z.jsonl",
+        "size": 18046409
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-00-06-592Z.jsonl",
+        "size": 10486301
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-00-07-172Z.jsonl",
+        "size": 10485998
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-05-02-131Z.jsonl",
+        "size": 15049731
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-05-02-802Z.jsonl",
+        "size": 10485842
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-10-02-790Z.jsonl",
+        "size": 23113424
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-10-12-468Z.jsonl",
+        "size": 10486093
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-10-13-051Z.jsonl",
+        "size": 10486660
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-15-02-062Z.jsonl",
+        "size": 17113841
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-15-05-902Z.jsonl",
+        "size": 10486176
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-16-01-522Z.jsonl",
+        "size": 12320345
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-20-02-114Z.jsonl",
+        "size": 11131806
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-20-03-252Z.jsonl",
+        "size": 10486748
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-23-56-901Z.jsonl",
+        "size": 13676225
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-25-02-293Z.jsonl",
+        "size": 16984828
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-25-06-553Z.jsonl",
+        "size": 10486129
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-30-02-020Z.jsonl",
+        "size": 22968124
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-30-12-741Z.jsonl",
+        "size": 10486571
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-30-13-281Z.jsonl",
+        "size": 10485899
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-35-02-257Z.jsonl",
+        "size": 14721290
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-35-06-092Z.jsonl",
+        "size": 10485785
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-50-01-668Z.jsonl",
+        "size": 23488422
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-50-04-479Z.jsonl",
+        "size": 10486645
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-55-01-976Z.jsonl",
+        "size": 22118438
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-55-11-343Z.jsonl",
+        "size": 10486446
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-55-11-894Z.jsonl",
+        "size": 10486102
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-00-02-236Z.jsonl",
+        "size": 15989751
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-00-05-560Z.jsonl",
+        "size": 10486431
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-05-01-985Z.jsonl",
+        "size": 22701927
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-05-12-134Z.jsonl",
+        "size": 10485778
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-05-12-658Z.jsonl",
+        "size": 10485771
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-10-02-657Z.jsonl",
+        "size": 15911082
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-10-06-230Z.jsonl",
+        "size": 10486432
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-15-02-651Z.jsonl",
+        "size": 21882241
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-15-12-614Z.jsonl",
+        "size": 10486214
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-15-13-190Z.jsonl",
+        "size": 10487370
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-20-02-382Z.jsonl",
+        "size": 15522452
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-20-04-986Z.jsonl",
+        "size": 10485827
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-25-02-159Z.jsonl",
+        "size": 21896538
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-25-10-867Z.jsonl",
+        "size": 10486336
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-25-11-434Z.jsonl",
+        "size": 10486151
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-30-02-657Z.jsonl",
+        "size": 15323544
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-30-05-359Z.jsonl",
+        "size": 10486318
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-35-02-860Z.jsonl",
+        "size": 17233309
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-37-19-043Z.jsonl",
+        "size": 10486540
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T14-10-01-966Z.jsonl",
+        "size": 10486377
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/logs/alerts.jsonl",
+        "size": 497272731
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/logs/auto-repair-executions.jsonl",
+        "size": 1280804592
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/logs/cron-dispatch.log",
+        "size": 82779966
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/logs/dispatcher-actions.jsonl",
+        "size": 318959591
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/logs/handler-actions.jsonl",
+        "size": 112723847
+      },
+      {
+        "type": "oversized_log",
+        "file": "infrastructure/logs/report-snapshots.jsonl",
+        "size": 332888243
+      },
+      {
         "type": "empty_dir",
-        "dir": "skills/isc-core/rules/_drafts"
+        "dir": "tmp/swebench-lite/venv/lib/python3.12/site-packages"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tmp/swebench-lite/venv/lib/python3.12"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tmp/swebench-lite/venv/lib"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tmp/swebench-lite/venv/include/python3.12"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tmp/swebench-lite/venv/include"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tests/unit/.test-tmp-1772935038182/handlers"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tests/unit/.test-tmp-1772935038182"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tests/unit/.test-tmp-1772882569465/handlers"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tests/unit/.test-tmp-1772882569465"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "tests/integration/_empty-rules"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "skills/cras/feishu_queue"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "principle-e2e-spec/scripts"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "principle-e2e-spec/examples"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "principle-e2e-spec"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "logs/archive"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "infrastructure/vector-service/backup/orphan-vectors"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "infrastructure/vector-service/backup/deleted-skills"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "infrastructure/event-bus/empty-rules-for-test"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "evolver/reports"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "evolver"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "benchmarks/swe-bench-lite/submission/minimal_batch/evaluation_results"
+      },
+      {
+        "type": "empty_dir",
+        "dir": "benchmarks/swe-bench-lite/artifacts"
       }
     ],
     "fixes": [
       {
+        "type": "dedup",
+        "from": "feishu_send_queue/send_1772929697019_cras_d_research_strategy_1772929687271.json",
+        "to": ".entropy-archive/duplicates/send_1772929697019_cras_d_research_strategy_1772929687271.json.1772960477063",
+        "kept": "feishu_send_queue/send_1772929695468_cras_d_research_strategy_1772929286373.json"
+      },
+      {
+        "type": "dedup",
+        "from": "feishu_send_queue/send_1772929698497_cras_d_research_strategy_1772929691391.json",
+        "to": ".entropy-archive/duplicates/send_1772929698497_cras_d_research_strategy_1772929691391.json.1772960477065",
+        "kept": "feishu_send_queue/send_1772929695468_cras_d_research_strategy_1772929286373.json"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772899830803.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772899830803.signal.1772960477066",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772899829983.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772899831617.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772899831617.signal.1772960477066",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772899829983.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772899832429.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772899832429.signal.1772960477066",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772899829983.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772899833238.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772899833238.signal.1772960477066",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772899829983.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772899834068.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772899834068.signal.1772960477066",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772899829983.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772914220389.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772914220389.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772914219565.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772914222023.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772914222023.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772914221210.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772914222837.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772914222837.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772914221210.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772928619962.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772928619962.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772928618996.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772928620937.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772928620937.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772928618996.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772928621920.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772928621920.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772928618996.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772928622900.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772928622900.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772928618996.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772943023553.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772943023553.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772943022335.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772943024770.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772943024770.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772943022335.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772943025978.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772943025978.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772943022335.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772943027189.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772943027189.signal.1772960477067",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772943022335.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772943028415.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772943028415.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772943022335.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/error/pre-commit-1772943029630.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772943029630.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/error/pre-commit-1772943022335.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772885421473.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772885421473.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772885420701.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772885423682.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772885423682.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772885422916.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772885425326.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772885425326.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772885424431.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772885733718.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772885733718.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772885712822.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772885793920.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772885793920.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772885712822.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772885820098.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772885820098.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772885712822.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772957419936.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772957419936.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772957419633.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/event-bus/signals/processed/pre-commit-1772957420870.signal",
+        "to": ".entropy-archive/duplicates/pre-commit-1772957420870.signal.1772960477068",
+        "kept": "infrastructure/event-bus/signals/processed/pre-commit-1772957420551.signal"
+      },
+      {
+        "type": "dedup",
+        "from": "infrastructure/intent-engine/unknown-candidates.jsonl",
+        "to": ".entropy-archive/duplicates/unknown-candidates.jsonl.1772960477068",
+        "kept": "tmp/swebench-lite/repo/swebench/collect/__init__.py"
+      },
+      {
+        "type": "dedup",
+        "from": "tmp/swebench-lite/repo/swebench/inference/__init__.py",
+        "to": ".entropy-archive/duplicates/__init__.py.1772960477069",
+        "kept": "tmp/swebench-lite/repo/swebench/collect/__init__.py"
+      },
+      {
+        "type": "dedup",
+        "from": "tmp/swebench-lite/repo/swebench/versioning/__init__.py",
+        "to": ".entropy-archive/duplicates/__init__.py.1772960477069",
+        "kept": "tmp/swebench-lite/repo/swebench/collect/__init__.py"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/public/multi-agent-dispatch/state/live-board.json.lock",
+        "to": ".entropy-archive/duplicates/live-board.json.lock.1772960477069",
+        "kept": "tmp/swebench-lite/repo/swebench/collect/__init__.py"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/public/multi-agent-dispatch/state/engine-state.json.lock",
+        "to": ".entropy-archive/duplicates/engine-state.json.lock.1772960477069",
+        "kept": "tmp/swebench-lite/repo/swebench/collect/__init__.py"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/反复未果类.json",
+        "to": ".entropy-archive/duplicates/反复未果类.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/头痛医头类.json",
+        "to": ".entropy-archive/duplicates/头痛医头类.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/认知错误类.json",
+        "to": ".entropy-archive/duplicates/认知错误类.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/全局未对齐类.json",
+        "to": ".entropy-archive/duplicates/全局未对齐类.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/自主性缺失类.json",
+        "to": ".entropy-archive/duplicates/自主性缺失类.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/连锁跷跷板类.json",
+        "to": ".entropy-archive/duplicates/连锁跷跷板类.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/07-data-honesty.json",
+        "to": ".entropy-archive/duplicates/07-data-honesty.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/10-meta-problem.json",
+        "to": ".entropy-archive/duplicates/10-meta-problem.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/cras/knowledge/active-learning_1771827136407.json",
+        "to": ".entropy-archive/duplicates/active-learning_1771827136407.json.1772960477085",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/09-auto-expansion.json",
+        "to": ".entropy-archive/duplicates/09-auto-expansion.json.1772960477086",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "tests/benchmarks/intent/c2-golden/08-timeout-convergence.json",
+        "to": ".entropy-archive/duplicates/08-timeout-convergence.json.1772960477086",
+        "kept": "tests/benchmarks/intent/c2-golden/交付质量类.json"
+      },
+      {
+        "type": "dedup",
+        "from": "skills/project-mgmt/lessons/2026-03-08-artifact-governance-closure.md",
+        "to": ".entropy-archive/duplicates/2026-03-08-artifact-governance-closure.md.1772960477086",
+        "kept": "skills/project-mgmt/lessons/2026-03-07-artifact-governance-closure.md"
+      },
+      {
+        "type": "empty_cleanup",
+        "from": "tmp/swebench-lite/repo/swebench/collect/__init__.py"
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/decision-log/decisions.jsonl",
+        "from": 6305812,
+        "to": 421202
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/dispatcher/manual-queue.jsonl",
+        "from": 8176411,
+        "to": 214293
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-05-01-892Z.jsonl",
+        "from": 12834989,
+        "to": 381804
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-05-02-691Z.jsonl",
+        "from": 10486910,
+        "to": 481017
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-10-01-515Z.jsonl",
+        "from": 34137704,
+        "to": 394300
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-15-03-222Z.jsonl",
+        "from": 29829188,
+        "to": 392817
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-15-03-819Z.jsonl",
+        "from": 10486159,
+        "to": 491779
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-15-04-490Z.jsonl",
+        "from": 10486521,
+        "to": 487889
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-15-05-237Z.jsonl",
+        "from": 10486625,
+        "to": 497614
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-20-04-027Z.jsonl",
+        "from": 25338131,
+        "to": 383991
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-20-11-132Z.jsonl",
+        "from": 10486190,
+        "to": 493805
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-35-01-560Z.jsonl",
+        "from": 11254853,
+        "to": 391169
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-35-02-213Z.jsonl",
+        "from": 10486238,
+        "to": 499067
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-40-01-633Z.jsonl",
+        "from": 15529581,
+        "to": 393597
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-45-01-447Z.jsonl",
+        "from": 12348053,
+        "to": 389763
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-45-02-151Z.jsonl",
+        "from": 10486704,
+        "to": 492581
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-50-02-202Z.jsonl",
+        "from": 16365526,
+        "to": 391294
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-50-07-691Z.jsonl",
+        "from": 10486497,
+        "to": 491495
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-55-02-352Z.jsonl",
+        "from": 21891817,
+        "to": 390803
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-55-11-196Z.jsonl",
+        "from": 10485925,
+        "to": 492809
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T11-55-11-736Z.jsonl",
+        "from": 10485897,
+        "to": 497955
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-00-02-340Z.jsonl",
+        "from": 18046409,
+        "to": 391342
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-00-06-592Z.jsonl",
+        "from": 10486301,
+        "to": 492606
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-00-07-172Z.jsonl",
+        "from": 10485998,
+        "to": 493429
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-05-02-131Z.jsonl",
+        "from": 15049731,
+        "to": 391438
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-05-02-802Z.jsonl",
+        "from": 10485842,
+        "to": 499383
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-10-02-790Z.jsonl",
+        "from": 23113424,
+        "to": 390330
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-10-12-468Z.jsonl",
+        "from": 10486093,
+        "to": 492839
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-10-13-051Z.jsonl",
+        "from": 10486660,
+        "to": 492497
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-15-02-062Z.jsonl",
+        "from": 17113841,
+        "to": 390846
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-15-05-902Z.jsonl",
+        "from": 10486176,
+        "to": 493391
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-16-01-522Z.jsonl",
+        "from": 12320345,
+        "to": 391954
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-20-02-114Z.jsonl",
+        "from": 11131806,
+        "to": 391698
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-20-03-252Z.jsonl",
+        "from": 10486748,
+        "to": 494805
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-23-56-901Z.jsonl",
+        "from": 13676225,
+        "to": 390104
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-25-02-293Z.jsonl",
+        "from": 16984828,
+        "to": 390202
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-25-06-553Z.jsonl",
+        "from": 10486129,
+        "to": 492699
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-30-02-020Z.jsonl",
+        "from": 22968124,
+        "to": 393559
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-30-12-741Z.jsonl",
+        "from": 10486571,
+        "to": 491839
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-30-13-281Z.jsonl",
+        "from": 10485899,
+        "to": 493221
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-35-02-257Z.jsonl",
+        "from": 14721290,
+        "to": 394231
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-35-06-092Z.jsonl",
+        "from": 10485785,
+        "to": 497774
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-50-01-668Z.jsonl",
+        "from": 23488422,
+        "to": 396924
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-50-04-479Z.jsonl",
+        "from": 10486645,
+        "to": 494740
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-55-01-976Z.jsonl",
+        "from": 22118438,
+        "to": 391801
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-55-11-343Z.jsonl",
+        "from": 10486446,
+        "to": 491729
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T12-55-11-894Z.jsonl",
+        "from": 10486102,
+        "to": 499529
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-00-02-236Z.jsonl",
+        "from": 15989751,
+        "to": 394275
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-00-05-560Z.jsonl",
+        "from": 10486431,
+        "to": 491797
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-05-01-985Z.jsonl",
+        "from": 22701927,
+        "to": 395405
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-05-12-134Z.jsonl",
+        "from": 10485778,
+        "to": 492239
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-05-12-658Z.jsonl",
+        "from": 10485771,
+        "to": 496508
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-10-02-657Z.jsonl",
+        "from": 15911082,
+        "to": 391728
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-10-06-230Z.jsonl",
+        "from": 10486432,
+        "to": 490921
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-15-02-651Z.jsonl",
+        "from": 21882241,
+        "to": 393021
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-15-12-614Z.jsonl",
+        "from": 10486214,
+        "to": 493975
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-15-13-190Z.jsonl",
+        "from": 10487370,
+        "to": 493635
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-20-02-382Z.jsonl",
+        "from": 15522452,
+        "to": 390780
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-20-04-986Z.jsonl",
+        "from": 10485827,
+        "to": 499773
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-25-02-159Z.jsonl",
+        "from": 21896538,
+        "to": 391940
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-25-10-867Z.jsonl",
+        "from": 10486336,
+        "to": 494590
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-25-11-434Z.jsonl",
+        "from": 10486151,
+        "to": 492397
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-30-02-657Z.jsonl",
+        "from": 15323544,
+        "to": 390708
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-30-05-359Z.jsonl",
+        "from": 10486318,
+        "to": 493007
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-35-02-860Z.jsonl",
+        "from": 17233309,
+        "to": 395924
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T13-37-19-043Z.jsonl",
+        "from": 10486540,
+        "to": 497397
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/event-bus/archive/events-2026-03-07T14-10-01-966Z.jsonl",
+        "from": 10486377,
+        "to": 494207
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/logs/alerts.jsonl",
+        "from": 497272731,
+        "to": 362827
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/logs/cron-dispatch.log",
+        "from": 82779966,
+        "to": 423892
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/logs/dispatcher-actions.jsonl",
+        "from": 318959591,
+        "to": 399101
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/logs/handler-actions.jsonl",
+        "from": 112723847,
+        "to": 363236
+      },
+      {
+        "type": "log_trimmed",
+        "file": "infrastructure/logs/report-snapshots.jsonl",
+        "from": 332888243,
+        "to": 159199
+      },
+      {
         "type": "empty_dir_removed",
-        "dir": "skills/isc-core/rules/_drafts"
+        "dir": "tmp/swebench-lite/venv/lib/python3.12/site-packages"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tmp/swebench-lite/venv/lib/python3.12"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tmp/swebench-lite/venv/lib"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tmp/swebench-lite/venv/include/python3.12"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tmp/swebench-lite/venv/include"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tests/unit/.test-tmp-1772935038182/handlers"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tests/unit/.test-tmp-1772935038182"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tests/unit/.test-tmp-1772882569465/handlers"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tests/unit/.test-tmp-1772882569465"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "tests/integration/_empty-rules"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "skills/cras/feishu_queue"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "principle-e2e-spec/scripts"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "principle-e2e-spec/examples"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "principle-e2e-spec"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "logs/archive"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "infrastructure/vector-service/backup/orphan-vectors"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "infrastructure/vector-service/backup/deleted-skills"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "infrastructure/event-bus/empty-rules-for-test"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "evolver/reports"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "evolver"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "benchmarks/swe-bench-lite/submission/minimal_batch/evaluation_results"
+      },
+      {
+        "type": "empty_dir_removed",
+        "dir": "benchmarks/swe-bench-lite/artifacts"
       }
     ]
   }

@@ -68,5 +68,15 @@
     "created_at": "2026-03-08T08:34:52.924Z",
     "data_source": "real_conversation",
     "signal": "15:47-16:16 根因分析深挖连环（用户驱动的系统性修复）\n\n### Badcase 1: 派发后不自动汇报\n- 表层：派完子Agent没调汇报技能\n- 根因：ISC规则缺失 dispatch.batch.completed → auto_report 事件绑定\n- 修复：ISC规则 dispatch-auto-report-001 + 意图/事件注册 + MEMORY铁律\n\n### Badcase 2: 规则全链路不完整（只写JSON不展开）\n- 表层：建规则只写JSON就报\"规则已建\"\n- 根因源头：**ISC-core SKILL.md流程定义不完整**——规则生命周期只到\"声明→"
+  },
+  {
+    "id": "auto-eval-1772960401351-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "16:20-16:48 系统通知排查 + CRAS程序化 + 评测集扩充\n\n### 系统通知全面排查（6大问题根治）\n1. **39条历史告警从未处理** → alert-response-guard",
+    "source": "memory/2026-03-08.md",
+    "created_at": "2026-03-08T09:00:01.344Z",
+    "data_source": "real_conversation",
+    "signal": "16:20-16:48 系统通知排查 + CRAS程序化 + 评测集扩充\n\n### 系统通知全面排查（6大问题根治）\n1. **39条历史告警从未处理** → alert-response-guard.js扫描+标记，全部响应\n2. **handler_not_found 429次** → 根因：规则用下划线(auto_trigger)，文件用连字符(auto-trigger.js)；dispatcher.js增加兼容转换\n3. **3个handler缺失** → 创建 log-only.js, quality-gate.js, auto-sync.js\n4. **dispatch-cron "
   }
 ]

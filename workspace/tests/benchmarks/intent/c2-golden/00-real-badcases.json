@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "BADCASE-DELEGATION-001",
+    "input": "用户要求修复intent-engine的bug",
+    "context": "主Agent直接调用edit修改intent-engine/dispatcher.js，而不是spawn子Agent",
+    "expected_behavior": "sessions_spawn子Agent去修复",
+    "actual_behavior": "主Agent自己edit了dispatcher.js",
+    "badcase_category": "主Agent亲力亲为",
+    "root_cause": "无程序化守卫，委派规则仅存在于MEMORY.md",
+    "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
+    "data_source": "real-conversation",
+    "complexity_tags": ["delegation_violation", "coding_by_main_agent"]
+  },
+  {
+    "id": "BADCASE-DELEGATION-002",
+    "input": "用户要求写飞书文档报告",
+    "context": "主Agent直接调用feishu_doc write写了整篇文档，而不是委派子Agent",
+    "expected_behavior": "sessions_spawn子Agent去写文档",
+    "actual_behavior": "主Agent自己调用feishu_doc write/append",
+    "badcase_category": "主Agent亲力亲为",
+    "root_cause": "认为写文档是'通信'而非'实现工作'，未正确分类",
+    "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
+    "data_source": "real-conversation",
+    "complexity_tags": ["delegation_violation", "doc_writing_by_main_agent"]
+  },
+  {
+    "id": "BADCASE-DELEGATION-003",
+    "input": "用户要求分析评测结果并输出报告",
+    "context": "主Agent自己执行了大量exec命令做数据分析，写了分析脚本",
+    "expected_behavior": "sessions_spawn子Agent做分析工作",
+    "actual_behavior": "主Agent执行了超过20行的shell脚本做分析",
+    "badcase_category": "主Agent亲力亲为",
+    "root_cause": "认为'分析'是判断工作不是实现工作，边界模糊",
+    "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
+    "data_source": "real-conversation",
+    "complexity_tags": ["delegation_violation", "analysis_by_main_agent"]
+  },
+  {
+    "id": "BADCASE-DELEGATION-004",
+    "input": "用户要求创建ISC规则JSON文件",
+    "context": "主Agent直接write创建了.json规则文件，而不是委派子Agent",
+    "expected_behavior": "sessions_spawn子Agent去创建规则文件",
+    "actual_behavior": "主Agent自己write了rule.xxx.json",
+    "badcase_category": "主Agent亲力亲为",
+    "root_cause": "认为创建规则文件是'规则管理'属于主Agent职责，实际上写JSON文件是实现工作",
+    "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
+    "data_source": "real-conversation",
+    "complexity_tags": ["delegation_violation", "rule_creation_by_main_agent"]
+  },
+  {
+    "id": "BADCASE-DELEGATION-005",
+    "input": "用户纠偏后要求更新SOUL.md加入委派规则",
+    "context": "主Agent被纠偏后只在MEMORY.md写了认知规则'下次记得委派'，没有建立程序化守卫，导致下次还犯",
+    "expected_behavior": "建立程序化守卫（ISC规则+代码gate），而不仅是认知规则",
+    "actual_behavior": "只在MEMORY.md写了一句提醒，下次启动后又忘记",
+    "badcase_category": "主Agent亲力亲为",
+    "root_cause": "认知规则≠程序化守卫，声明式约束无法阻止行为，这是根本设计缺陷",
+    "isc_rule": "ISC-MAIN-AGENT-DELEGATION-001",
+    "data_source": "real-conversation",
+    "complexity_tags": ["delegation_violation", "cognitive_rule_insufficient", "meta_problem"]
+  }
+]
