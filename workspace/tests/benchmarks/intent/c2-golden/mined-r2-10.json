@@ -16,7 +16,8 @@
       "编写alert-auto-rootcause.js生成RCA模板与critical事件",
       "写入crontab每10分钟自动巡检",
       "回跑守卫脚本确认无未响应告警"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-002",
@@ -34,7 +35,8 @@
       "创建quality-gate.js",
       "创建auto-sync.js",
       "输出创建成功并进入后续链路验证"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-003",
@@ -52,7 +54,8 @@
       "编辑dispatch-runner.js加入canSpawn守卫",
       "在不可spawn时仅处理pending日志并defer到runtime",
       "保留reap/drain/republish能力确保队列健康"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-004",
@@ -70,7 +73,8 @@
       "生成unresolved-alerts报告",
       "再次扫描确认unresolved=0",
       "输出可审计完成状态"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-005",
@@ -88,7 +92,8 @@
       "critical告警写入event-bus触发后续处理",
       "记录运行日志到alert-auto-rootcause.log",
       "接入crontab定期执行"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-006",
@@ -106,7 +111,8 @@
       "回查threshold-scanner和运行日志验证",
       "将因果关系写入告警处置说明",
       "执行分层响应并闭环记录"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-007",
@@ -124,7 +130,8 @@
       "实现auto-rootcause自动生成RCA模板",
       "固化执行频率与锁文件防并发",
       "用一次真实扫描验收流程"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-008",
@@ -142,7 +149,8 @@
       "产出未响应清单报告",
       "上线自动增量巡检cron",
       "验证当前状态与未来机制并存"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-009",
@@ -160,7 +168,8 @@
       "新增self-check守卫与自动根因器",
       "接入系统级cron调度",
       "回跑验证全链路状态"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-REAL-21572393-010",
@@ -178,6 +187,7 @@
       "运行验证脚本确认修复生效",
       "对未通过项继续迭代",
       "输出最终通过结论与证据"
-    ]
+    ],
+    "data_source": "real_conversation"
   }
 ]

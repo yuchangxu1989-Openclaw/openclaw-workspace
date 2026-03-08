@@ -14,7 +14,8 @@
       "重新执行根因分析：定位phantom write的真实原因（未调用write工具）",
       "输出修正后的根因报告",
       "沉淀规则：汇报数据必须与runtime真值一致，禁止经验推断替代实查"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-002",
@@ -31,7 +32,8 @@
       "执行四层根因分析定位到'未调用write工具即宣称完成'",
       "产出根因报告写入workspace",
       "主动推送结论给用户"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-003",
@@ -48,7 +50,8 @@
       "对无保障批次标记质量风险等级",
       "自动启动清洗流程（而非问用户'要不要清洗'）",
       "输出审计报告推送用户"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-004",
@@ -65,7 +68,8 @@
       "子Agent按V3标准逐条检查并标记_flag/_missing",
       "汇总清洗结果并推送用户",
       "将此模式沉淀为ISC规则：发现质量问题自动修复不请示"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-005",
@@ -82,7 +86,8 @@
       "创建ISC规则：质量问题发现后自动修复不请示",
       "立即执行清洗任务",
       "向用户确认已纠偏并展示防护措施"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-006",
@@ -99,7 +104,8 @@
       "追加到评测集文件",
       "运行v3-eval-clean.js验证case合规性",
       "推送用户确认已自动纳入"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-007",
@@ -116,7 +122,8 @@
       "派RCA子Agent分析失败session的工具调用链",
       "对失败任务重派（prompt中硬约束必须调用write工具）",
       "沉淀completion验收规则：自述不可信，必须验证产出物存在"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-008",
@@ -133,7 +140,8 @@
       "建立程序化门禁：eval生成脚本必须内嵌V3标准约束",
       "更新eval-mining技能的SKILL.md强制要求先读V3",
       "向用户汇报清理结果和防护措施"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-009",
@@ -150,7 +158,8 @@
       "从.bak恢复所有被清洗文件",
       "全量重跑清洗脚本验证修改效果",
       "输出修正后的清洗报告"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r3-01-010",
@@ -167,6 +176,7 @@
       "写回后校验：新文件条数≥原始条数，否则自动回滚",
       "发现条数异常时从.bak恢复并重试",
       "将写入防护逻辑固化到v3-eval-clean.js脚本中"
-    ]
+    ],
+    "data_source": "real_conversation"
   }
 ]

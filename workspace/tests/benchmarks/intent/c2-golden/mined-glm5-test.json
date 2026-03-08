@@ -15,7 +15,8 @@
       "在MEMORY.md中写入强制规则：接任务建条目/完成更新状态/阻塞记原因/收工写日报",
       "Git提交持久化变更，ISC Pre-Commit检查通过",
       "向用户回报完成证据（文件已建立、规则已固化、git已提交）而非等待用户补充"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-glm5-test-002",
@@ -33,7 +34,8 @@
       "每个子agent完成后自动推送状态更新到用户可见渠道",
       "仅在用户决策点（命名确认/重大架构拍板）时才等待用户",
       "将纠偏沉淀为ISC规则：非决策步骤不询问"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-glm5-test-003",
@@ -51,7 +53,8 @@
       "分类输出：必须重塑（3个）/需要适配（1个）/可保留（1个）/已废弃（1个）",
       "对必须重塑的任务给出具体改造方案和代码路径",
       "输出重塑优先级排序和预估工时"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-glm5-test-004",
@@ -69,7 +72,8 @@
       "更新PROJECT-TRACKER.md模板，增加凌霄阁裁决检查点字段",
       "创建ISC规则确保后续任务自动触发凌霄阁裁决流程",
       "向用户确认规则已固化，后续研发将自动遵循"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-glm5-test-005",
@@ -87,7 +91,8 @@
       "逐层列出具体监控指标和数据来源",
       "给出定时任务改造方案：哪些任务需要扩展监控维度",
       "将思考融入研发项目，确保Day 2-3落地时对齐五层监控"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-glm5-test-007",
@@ -105,7 +110,8 @@
       "成功处理用户请求后向用户说明发生了服务降级",
       "创建ISC规则：503错误连续2次后自动降级到备用provider，无需等待4次失败",
       "更新MEMORY.md记录可用provider优先级列表"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-glm5-test-008",
@@ -123,7 +129,8 @@
       "在MEMORY.md中写入模型路由实际可用资源规则",
       "后续spawn子agent时根据任务类型选择合适模型（核心用thinking，工具性用codex）",
       "向用户确认已掌握可用资源，后续不再询问"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-glm5-test-009",
@@ -141,7 +148,8 @@
       "判定违反数据诚实性红线：LLM基于自身知识'编'了洞察，而非真实搜索",
       "改造CRAS-A：修改prompt要求每条洞察必须标注数据来源URL，禁止编造，无真实来源标注'知识推断'",
       "创建ISC规则：所有洞察/报告类产出必须标注数据来源，违反即判定为Badcase"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-glm5-test-010",
@@ -160,6 +168,7 @@
       "更新prompt要求每条洞察必须标注数据来源URL，禁止编造",
       "创建ISC规则：cron配置禁止硬编码不可用命令，必须使用当前环境可用的工具",
       "验证修改后的cron能正常执行"
-    ]
+    ],
+    "data_source": "real_conversation"
   }
 ]

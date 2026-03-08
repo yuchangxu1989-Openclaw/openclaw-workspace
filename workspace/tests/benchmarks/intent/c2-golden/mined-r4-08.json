@@ -1,0 +1,192 @@
+[
+  {
+    "id": "mined-r4-08-001",
+    "input": "用户追问'你当时说做的HTML呢？'，此前系统曾回复'I'll create a single-file HTML demo now.'但并未实际产出文件。",
+    "expected_output": "系统应立即识别承诺未兑现的badcase，执行：①追溯历史承诺定位原始回复；②根因分析为何口头应了但没落地（是spawn失败/执行中断/未验真）；③补派子Agent实际产出HTML文件；④验真文件存在且可运行；⑤向用户回报完成证据（文件路径+运行方式）；⑥沉淀ISC规则防止'口头承诺不交付'。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源session 73052ef7-5eae-482d-8069-b7e4ff861473，用户在09:40追问此前承诺的HTML demo为何未产出。系统曾口头说会创建但未实际spawn任务或产出文件。",
+    "execution_chain_steps": [
+      "检索历史消息定位'create a single-file HTML demo'承诺",
+      "根因分析：为何只说没做（认知偏差/执行链断裂/验真缺失）",
+      "立即spawn子Agent产出HTML并验真文件存在",
+      "向用户回报文件路径和运行方式",
+      "沉淀'口头承诺必须落地'的ISC规则",
+      "建立承诺→执行→验真的强制绑定"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-002",
+    "input": "用户在系统汇报并行任务状态后追问'你卡住了？'，反映系统在等待子Agent回流时未主动向用户同步进度。",
+    "expected_output": "系统应建立'长时间无输出必主动汇报'机制：①检测距上次用户可见输出超过N秒；②主动调用subagents list获取实时状态；③向用户汇报当前执行中任务列表、预计剩余时间、已回流结果；④若发现异常任务自动处理而非静默等待。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在09:47发问'你卡住了？'，此时系统有3个active子Agent但无主动进度汇报。系统仅在被催促后才调用subagents list并汇报状态。",
+    "execution_chain_steps": [
+      "检测长时间无用户可见输出",
+      "主动调用subagents list获取实时状态",
+      "格式化汇报：任务列表/已回流/预计时间",
+      "识别异常任务（timeout/block）并自动处理",
+      "建立定时汇报触发器而非依赖用户催促",
+      "沉淀'主动汇报'为默认行为规则"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-003",
+    "input": "一条global-benchmark-research子Agent运行45分钟后状态为timeout，系统仅汇报超时事实，未自动执行补偿策略。",
+    "expected_output": "系统应自动执行timeout收敛链：①检测timeout状态；②第一级replace：换agent/model重试；③若仍超时，第二级split_requeue：拆成2-3个小任务分派；④若仍失败，第三级human_handoff：推送用户+附失败日志和根因分析；⑤每次操作更新timeoutCount+live-board。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "session中global-benchmark-research任务45分钟后timeout，系统汇报了超时但没有自动执行replace/split/handoff策略，需用户明确说'并行重开'才重新派任务。",
+    "execution_chain_steps": [
+      "检测子Agent状态为timeout",
+      "执行replace策略：换agent/model重试",
+      "若仍超时执行split_requeue：拆分任务",
+      "若仍失败执行human_handoff：推送用户+日志",
+      "更新timeoutCount和live-board",
+      "沉淀timeout自动收敛为系统级能力"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-004",
+    "input": "用户纠正系统理解：'但必须把全系统激活，例如CRAS'——此前系统提出的Top3改造项是局部能力补丁，用户要求升级为全系统激活。",
+    "expected_output": "系统应立即识别用户纠偏信号：①提取纠偏关键词'全系统激活/CRAS'；②对比当前方案与用户期望的差距；③重新设计Top3为'全系统闭卷评测激活/全系统异常闭环激活/全系统言出法随链路激活'；④明确覆盖范围从局部扩展到ISC/DTO/CRAS/AEO/LEP/Gate/Release全链路。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "系统先提出Top3为'可信闭卷评测/系统异常闭环/言出法随成功率面板'，用户在10:07纠偏要求'全系统激活，例如CRAS'，系统需识别并修正理解。",
+    "execution_chain_steps": [
+      "识别用户纠偏语句'全系统激活/CRAS'",
+      "提取原方案与用户期望的gap",
+      "重新设计Top3为全系统激活型改造项",
+      "明确覆盖范围：ISC/DTO/CRAS/AEO/LEP全链路",
+      "向用户回报修正后方案",
+      "沉淀'用户纠偏必须修正方案'的ISC规则"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-005",
+    "input": "用户指出'这个系统健康的提醒，有第一时间扩列诊断解决么？如果没有，请扩列根治'——系统收到健康告警后未自动进入处置链。",
+    "expected_output": "系统应建立'告警即触发自治链'机制：①识别系统健康告警信号；②自动触发诊断任务（定位根因）；③自动触发修复任务（针对性修复）；④自动触发验真任务（确认修复生效）；⑤向用户回报完整处置证据链；⑥沉淀为ISC规则使同类告警自动处置。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在13:06回复系统健康告警卡片，指出系统收到健康提醒后未第一时间扩列诊断解决。系统需要建立告警→诊断→修复→验真的自动闭环。",
+    "execution_chain_steps": [
+      "识别系统健康告警信号类型",
+      "自动spawn诊断任务定位根因",
+      "自动spawn修复任务针对性修复",
+      "自动spawn验真任务确认生效",
+      "向用户回报完整处置证据链",
+      "沉淀为ISC规则：告警→自治链"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-006",
+    "input": "评测集审计发现：现有'.openclaw/tests'样本只是静态字段校验，'pass_case.json'可直接手填autonomy_chain全PASS即通过，无真实执行链覆盖。",
+    "expected_output": "系统应识别评测集放水问题并执行整改：①标记放水样本为'gate-unit-tests'降级使用；②建立'禁止手填状态直接算通过'的门禁；③要求evidence绑定trace/时间戳/case-id；④新增真实执行链评测格式（raw_input→expected_intents→execution_trace→evidence_refs→final_verdict）。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "evalset-rectification-existing-datasets-audit子Agent在13:06回流审计结果，指出现有评测集存在放水特征：手填PASS、无真实执行链、无evidence校验。",
+    "execution_chain_steps": [
+      "识别放水样本特征（手填状态/无trace）",
+      "降级标记为gate-unit-tests不可作准出依据",
+      "建立evidence质量门禁（来源/时间戳/case-id绑定）",
+      "设计真实执行链评测格式schema",
+      "产出整改优先级清单（P0/P1/P2）",
+      "向用户回报审计结论和整改方案"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-007",
+    "input": "用户要求'评测标准先改，然后复查评测集，并且大幅提高未来自动生成评测集的质量！'——此前系统未按正确顺序执行整改。",
+    "expected_output": "系统应识别执行顺序问题并调整：①立即把'评测标准整改'设为P0前置任务；②暂停评测集生成直到标准确定；③复查现有评测集对齐新标准；④修改自动生成脚本内嵌新标准约束；⑤建立'标准变更→评测集重新校验'的程序化绑定。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在13:05明确要求整改顺序：先改评测标准，再复查评测集，再提高自动生成质量。系统此前可能在并行执行但未明确前置依赖关系。",
+    "execution_chain_steps": [
+      "识别用户明确要求的执行顺序",
+      "调整任务依赖关系：标准→复查→生成",
+      "暂停评测集生成直到标准确定",
+      "确保新标准内嵌到自动生成脚本",
+      "建立标准变更→评测集重校验的程序化绑定",
+      "向用户回报调整后的执行计划"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-008",
+    "input": "用户要求'让凌霄阁7位阁主接入，给到地狱级难度的评测集考核裁决过程'——当前评测集难度偏低，C2占比不足。",
+    "expected_output": "系统应建立高难度评测集生成机制：①定义'地狱级难度'的C2标准（多轮/隐含意图/执行链≥4步/跨模块协同）；②调用凌霄阁裁决机制对评测集难度分级；③筛选/改写现有case提升到C2级别；④确保C2占比≥80%；⑤输出裁决证据链供审计。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在13:05要求凌霄阁7位阁主介入评测集难度裁决。审计发现现有评测集C2占比严重不足，多数是C1级别静态校验。",
+    "execution_chain_steps": [
+      "定义'地狱级难度'的C2标准",
+      "调用凌霄阁裁决机制对评测集分级",
+      "筛选/改写case提升到C2级别",
+      "确保C2占比≥80%",
+      "输出裁决证据链供审计",
+      "建立评测集难度自动分级机制"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-009",
+    "input": "评测标准整改报告提出'从人格化赞美改为行为化判据'，把'聪明/懂事/有sense'改写为'是否识别真实目标/是否主动补全必要子任务/是否按风险边界执行'。",
+    "expected_output": "系统应把模糊评价标准转化为可判定rubric：①建立5个一级维度（真实意图识别/任务扩列/情境敏感/推断质量/结果交付）；②每项按0/1/2/3分评分；③明确失分点（只答字面不给成品/只做主动作不补前后链/该确认不确认）；④建立一票否决项（高风险扩列当主动性/擅自代表用户做关键决策）。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "evalset-rectification-rubric-and-standards子Agent在13:06产出评测标准整改草案，核心是把口号化描述改为可观察、可判定、可扣分的评测项。",
+    "execution_chain_steps": [
+      "分析现有标准中的模糊表述",
+      "转化为可判定的行为化判据",
+      "建立5维度评分rubric（0-3分制）",
+      "明确失分点和一票否决项",
+      "输出可直接纳入规范的rubric表格",
+      "建立标准变更→评测脚本同步的机制"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-08-010",
+    "input": "用户要求'Top3全力并行冲刺！为了效率，你好好安排下任务拆解，将子Agent并行开到最极限，同时主Agent不处理复杂任务保持畅通'。",
+    "expected_output": "系统应执行极限并行调度：①盘点可用agent池（analyst/coder/researcher/reviewer/scout/writer）；②把Top3改造项拆解为最小独立子任务；③按agent角色分派（analyst做架构/coder做实现/researcher做验证/reviewer做审计）；④主Agent仅做orchestration不处理复杂任务；⑤建立看板实时同步状态。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在10:11要求极限并行冲刺Day2 Top3改造项。系统需要把3个大任务拆成多个并行子任务，最大化利用agent池，同时主Agent保持畅通做协调。",
+    "execution_chain_steps": [
+      "盘点可用agent池和角色分工",
+      "把Top3改造项拆解为最小独立子任务",
+      "按agent角色分派任务包",
+      "主Agent仅做orchestration不执行复杂任务",
+      "建立看板实时同步并行状态",
+      "确保子任务结果自动回流无需轮询"
+    ],
+    "data_source": "real_conversation"
+  }
+]

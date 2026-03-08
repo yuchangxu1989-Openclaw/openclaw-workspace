@@ -15,7 +15,8 @@
       "根因分析差异来源（排队、失败、超时、空跑）",
       "执行自动收敛动作（replace/split_requeue/标记失败）",
       "按四维口径生成最终汇报并回传用户"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-002",
@@ -33,7 +34,8 @@
       "执行独立质量检查（结构完整、无重复拼接、结论一致）",
       "写入/更新飞书文档",
       "回读飞书确认内容生效并向用户汇报"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-003",
@@ -51,7 +53,8 @@
       "校验multi_turn与执行链步数是否达C2",
       "按8类category做MECE归类与配比控制",
       "输出最终case集并记录不合规拦截原因"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-004",
@@ -69,7 +72,8 @@
       "判定是否空转/伪完成",
       "失败则自动重派或更换agent",
       "通过后推进主任务并同步用户"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-005",
@@ -87,7 +91,8 @@
       "为关键结论附来源映射",
       "生成高管版PPT素材结构",
       "交付后进行可追溯性复核"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-006",
@@ -105,7 +110,8 @@
       "识别异常（耗时异常/低产出/空转）",
       "更新调度策略（继续/替换/重试）",
       "输出结构化进度+决策说明"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-007",
@@ -123,7 +129,8 @@
       "若未达标定位缺口并决定返工/换agent",
       "若达标则进入下一主步骤",
       "回报“为何继续/为何返工”的依据"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-008",
@@ -141,7 +148,8 @@
       "为每条case附来源上下文描述",
       "校验字段完整性与难度一致性",
       "输出可追溯case清单"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-009",
@@ -159,7 +167,8 @@
       "回收新产物并再次验真",
       "更新任务状态为usable_done",
       "向用户汇报修复闭环"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-12-010",
@@ -177,6 +186,7 @@
       "通过后统一写入最终交付载体",
       "执行交付后回读验真",
       "输出闭环报告并结束"
-    ]
+    ],
+    "data_source": "real_conversation"
   }
 ]

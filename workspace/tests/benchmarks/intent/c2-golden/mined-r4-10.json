@@ -1,0 +1,192 @@
+[
+  {
+    "id": "mined-r4-10-001",
+    "input": "用户问'超时为什么不自动重跑？'，系统回复completion-handler.sh只记录状态不触发重试。用户随即纠偏：'这类问题不应依赖人工触发'，要求超时/失败任务自动入重试队列。",
+    "expected_output": "系统应立即识别为程序化缺口，自动触发：①检测timeout/failed状态→②自动入重试队列→③派子Agent重试→④更新任务看板→⑤验真超时收敛为done",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源session 21572393-7704-49c3-a0a8-5fd99ecd5942，用户在23:32提问超时问题，系统解释现状后用户明确要求机制化。",
+    "execution_chain_steps": [
+      "读取多轮上下文，识别用户从'询问原因'转为'要求机制建设'",
+      "根因分析四层定位：代码缺陷(completion-handler只记录不重试)+规则缺失(无timeout自动重试ISC)",
+      "设计补偿策略：检测timeout→入auto-retry-queue.json→process-retry-queue.sh处理",
+      "实现自动重试逻辑并绑定completion-handler Step7",
+      "创建ISC规则timeout-auto-retry-001并全链路展开",
+      "验真：模拟超时场景验证自动收敛到done"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-002",
+    "input": "用户追问'该程序化没程序化，有自动记录Badcase么？'，系统检查后发现没有自动采集，需手动补录。",
+    "expected_output": "发现程序化缺口时应自动触发badcase采集：①识别程序化缺口模式→②提取原始任务+执行结果+纠偏指令→③自动生成badcase记录→④推送到用户可见渠道",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "同一会话中系统刚修复了超时重试问题，用户随即指出'没主动记录badcase'又是一个badcase。",
+    "execution_chain_steps": [
+      "识别用户纠偏语句'有自动记录Badcase么'触发badcase采集流程",
+      "提取原始问题：超时不自动重跑（程序化缺口）",
+      "提取系统行为：只记录状态不触发补偿",
+      "定位根因：auto-badcase-harvest-engine未上线，ISC规则只有声明无程序",
+      "生成badcase记录并写入00-real-badcases.json",
+      "触发ISC规则创建：badcase采集程序化"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-003",
+    "input": "用户指出'你肯定自己参与任务了，这么久没回我'，系统承认处理completion event时连续sessions_send推子Agent导致阻塞。",
+    "expected_output": "completion event处理应极轻量（一行completion-handler.sh），不阻塞用户通信。主Agent只做调度+通信，重型操作全程序化。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话出现典型'主Agent亲自干活阻塞通信'模式，用户直接指出响应延迟原因。",
+    "execution_chain_steps": [
+      "识别用户投诉'响应慢'关联到completion event处理阻塞",
+      "根因分析：主Agent手动推子Agent写回+重派空转任务，违反调度层原则",
+      "设计轻量化方案：completion-handler.sh一行调用完成所有后置处理",
+      "将子Agent空转检测+自动重派程序化到completion-handler",
+      "验证主Agent响应延迟下降到秒级",
+      "沉淀ISC规则：completion-event轻量化处理"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-004",
+    "input": "用户指出'评测集全都不对！必须把600多条全都朝着最新的评测文档对齐！'，系统检查后发现C3/C4/C5难度体系错误、C2占比仅6%、多轮占比接近0%。",
+    "expected_output": "评测集生成全链路必须以V3标准为宪法：脚本内嵌标准约束、子Agent强制先读V3、组成比例自动校验、不达标case自动拦截。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户发现600+条评测集全部不对齐V3标准，强调'磨了那么久的《标准》是宪法'，系统罔顾标准导致所有产出无效。",
+    "execution_chain_steps": [
+      "识别用户纠偏级别：系统性错误，整个评测集要按V3重建",
+      "根因四层分析：代码缺陷+规则缺失+认知偏差+架构瓶颈",
+      "提取V3硬性约束：C1/C2定义、占比要求、准入门槛",
+      "重写评测集生成脚本内嵌V3标准",
+      "创建eval准入门禁：写入前自动校验V3合规性",
+      "全量600+条重新审计：按V3逐条判定保留/重标/删除"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-005",
+    "input": "用户问'我记得我们评测标准里，没有C3吧？'，系统grep后发现78条C3、14条C4，全部错误。",
+    "expected_output": "系统应自动检测难度标注与V3标准不一致，自动触发重新归类或删除。V3只定义C1和C2。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户指出难度体系错误，系统确认92条使用了不存在的C3/C4/C5难度级别。",
+    "execution_chain_steps": [
+      "识别用户质疑'没有C3'触发标准对照检查",
+      "读取V3标准确认难度定义只有C1/C2",
+      "grep扫描评测集发现78条C3、14条C4",
+      "根因分析：脚本hardcode错误难度体系，从未回V3确认",
+      "设计自动归类规则：C3/C4按复杂度重新判定为C1或C2",
+      "批量更新或删除不合规case"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-006",
+    "input": "用户指出'该程序化没程序化，本身就是个Badcase。没有主动记录Badcase，又是个Badcase'，要求系统记录连锁badcase。",
+    "expected_output": "系统应识别badcase连锁模式：①发现程序化缺口→②自动记录第一个badcase→③发现没自动记录→④自动记录第二个badcase（自主性缺失）",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户明确指出badcase连锁：程序化缺口本身是badcase，没自动记录又是badcase。",
+    "execution_chain_steps": [
+      "解析用户'又是'关键词识别badcase连锁模式",
+      "记录第一个badcase：超时不自动重跑（程序化缺口）",
+      "识别第二个badcase：发现缺口时没自动记录（自主性缺失）",
+      "根因分析：auto-badcase-harvest未上线，依赖人工发现",
+      "设计自动采集机制：程序化缺口检测→自动badcase记录",
+      "沉淀ISC规则：badcase连锁自动识别"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-007",
+    "input": "子Agent（writer/reviewer）首次执行时只说'将执行'但不调用任何工具，系统需改派coder才能成功。",
+    "expected_output": "系统应自动检测子Agent空转：①监控token输出和工具调用→②识别0工具调用→③自动换Agent重试→④验真有实际执行",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话记录显示writer和reviewer首次都空转，只有coder真正执行。空转浪费资源和时间。",
+    "execution_chain_steps": [
+      "识别子Agent空转模式：输出文本但0工具调用",
+      "根因分析：任务描述不够明确/Agent选择不当/prompt问题",
+      "设计空转检测机制：runtime监控token和工具调用数",
+      "实现自动换Agent：空转检测→换agent/model重试",
+      "验真：确认重试后有实际工具调用",
+      "沉淀ISC规则：子Agent空转自动检测与重派"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-008",
+    "input": "用户指出'我们磨了那么久的《标准》，是宪法！结果你罔顾标准，耗了那么多钱、时间、精力！'，强调V3标准的宪法地位。",
+    "expected_output": "系统应将V3标准作为评测活动的最高依据：任何评测集生成/修改必须先读V3、所有产出必须对齐V3、标准更新自动触发链路刷新。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户强调V3标准的宪法地位，批评系统'罔顾标准'导致大量资源浪费。",
+    "execution_chain_steps": [
+      "识别用户情绪极性：愤怒、失望，强调'宪法'地位",
+      "根因分析：认知偏差层——从未把V3当宪法，只当参考文档",
+      "设计程序化绑定：V3标准→eval脚本→子Agent prompt→准入校验",
+      "实现标准变更触发机制：V3 revision更新→自动触发评测集重校验",
+      "验证：所有后续eval任务强制先读V3",
+      "汇报用户：宪法地位程序化，不再罔顾"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-009",
+    "input": "用户要求'把它加入到黄金评测集！加入到《标准》这个飞书文档里！'，强调标杆是飞书文档不是其他文档。",
+    "expected_output": "系统应立即将badcase转化为黄金评测Case并写入飞书标准文档：①提取badcase完整信息→②按黄金Case格式重写→③feishu_doc append到标准文档",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户要求将评测集罔顾标准的badcase作为黄金Case写入飞书标准文档，强调飞书文档是唯一标杆。",
+    "execution_chain_steps": [
+      "识别用户指令：badcase→黄金Case→飞书标准文档",
+      "提取badcase #42完整信息：现象+根因四层+错误/正确执行链+判定标准",
+      "按黄金Case格式重写：Case ID+类别+严重度+现象+根因+执行链+判定",
+      "feishu_doc read获取当前文档结构",
+      "feishu_doc append追加到第三章黄金Case部分",
+      "验证：读取文档确认追加成功，汇报用户"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-10-010",
+    "input": "用户多次指出spawn子Agent后看板没更新，系统检查发现主Agent多次spawn后未调用register-task.sh。",
+    "expected_output": "spawn和register必须原子绑定：spawn成功→同一回复立即register→看板更新→推送飞书。两步操作程序化为一行调用。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户三次纠偏spawn后看板不更新的问题，系统每次手动补register但下次又忘。",
+    "execution_chain_steps": [
+      "识别用户反复纠偏模式：spawn→看板无记录→纠偏→手动补→下次又忘",
+      "根因分析：spawn和register是两个独立动作，依赖记忆执行第二步",
+      "设计原子绑定方案：spawn_and_register()一行调用完成两步",
+      "实现程序化绑定：spawn成功后自动调用register-task.sh",
+      "验真：spawn后检查看板是否立即更新",
+      "沉淀教训：凡是'记得做'而不是'必须做'的环节100%遗漏"
+    ],
+    "data_source": "real_conversation"
+  }
+]

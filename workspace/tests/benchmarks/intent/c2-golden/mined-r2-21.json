@@ -10,11 +10,15 @@
     "context": "用户追问新技能是否真正可调用。会话显示已创建技能文件但未注册到CAPABILITY-ANCHOR，也无意图路由，主Agent先承认缺失后再派单补齐。",
     "execution_chain_steps": [
       "识别用户隐含意图：验证技能可用性而非仅文件存在",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "审计能力锚点与路由规则现状",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "spawn子Agent执行注册/路由补齐",
+      "将执行动作拆分为可验证的小步骤并逐项落地",
       "register-task登记并跟踪",
       "completion事件回收并向用户回执"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-002",
@@ -27,11 +31,15 @@
     "context": "在讨论“技能创建但不注册”后，用户明确指出该问题可作为评测case。系统随后派analyst写入badcase文件，体现纠偏到评测沉淀链路。",
     "execution_chain_steps": [
       "接收用户纠偏信号并识别为case提议",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "抽取前序多轮上下文形成case语义",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "spawn analyst执行入库",
+      "将执行动作拆分为可验证的小步骤并逐项落地",
       "register-task记录任务",
       "完成后确认case已落盘"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-003",
@@ -44,11 +52,15 @@
     "context": "用户要求不仅记录badcase，还要规则化成ISC与事件。随后系统派coder创建rule.skill-post-creation-guard、hook脚本、pre-commit增强。",
     "execution_chain_steps": [
       "把用户要求映射为规则工程任务",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "设计ISC规则与事件模型",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "spawn coder创建规则与hook脚本",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "更新pre-commit与补丁文档",
       "完成后回执并声明后续自动检查"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-004",
@@ -61,11 +73,15 @@
     "context": "用户追问实时挖评测是否真的用新技能。系统承认仍手动分片，属于“技能存在但未调用”的认知与执行偏差。",
     "execution_chain_steps": [
       "读取当前执行方式与技能配置差异",
+      "将执行动作拆分为可验证的小步骤并逐项落地",
       "如实披露未调用技能的事实",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "定位根因（认知惯性+缺程序化路由）",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "制定下一波按config执行的约束",
       "纳入后续规则化改造计划"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-005",
@@ -78,11 +94,15 @@
     "context": "用户要求对手动挖掘结果按V3重清洗。系统先统计出193条有效与5个格式异常，再派单执行四步清洗。",
     "execution_chain_steps": [
       "执行目录统计脚本获取真实基线",
+      "将执行动作拆分为可验证的小步骤并逐项落地",
       "识别异常文件与有效规模",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "spawn清洗子Agent并下达四阶段任务",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "register-task登记清洗任务",
       "等待后续completion并汇报结果"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-006",
@@ -95,11 +115,15 @@
     "context": "用户在清洗任务已派发后要求撤回并改为10路并行，体现执行中动态纠偏与调度重规划场景。",
     "execution_chain_steps": [
       "识别用户撤回与重规划指令",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "终止或降级原大任务",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "按文件/规则切成10个小任务",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "并行spawn 10个agent执行",
       "统一聚合结果并回传"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-007",
@@ -112,11 +136,15 @@
     "context": "会话里多次出现内部completion事件，主Agent执行completion-handler并更新running/done计数后再回复用户，反映异步事件闭环能力。",
     "execution_chain_steps": [
       "接收内部completion event",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "执行completion-handler写回状态",
+      "将执行动作拆分为可验证的小步骤并逐项落地",
       "校验running/done/timeout计数",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "生成用户可见摘要",
       "继续处理后续队列"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-008",
@@ -129,11 +157,15 @@
     "context": "收到runtime的memory flush指令后，系统追加写入当晚关键纠偏：技能创建不注册、后置步骤待固化、运行看板状态等。",
     "execution_chain_steps": [
       "接收flush触发",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "抽取本轮可复用经验与风险",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "append写入指定memory文件",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "校验写入成功",
       "返回NO_REPLY保持对话整洁"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-009",
@@ -146,11 +178,15 @@
     "context": "围绕eval-mining，用户从可用性、是否调用、是否固化为ISC连续追问，暴露“补一次、再犯一次”的症状修复倾向。",
     "execution_chain_steps": [
       "聚合多轮追问形成问题簇",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "做四层根因分析",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "将措施落到规则+脚本+hook",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "通过子Agent实施改造",
       "以后续任务表现验真"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "session-21572393-c2-010",
@@ -163,10 +199,14 @@
     "context": "会话中反复执行register-task与completion-handler并输出running/done/timeout/failed，体现对外汇报依赖runtime真值。",
     "execution_chain_steps": [
       "收集子任务实时状态",
+      "对候选信息进行交叉验证并剔除与当前任务无关内容",
       "更新看板统计字段",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "校验口径一致性",
+      "补充中间检查点，确认当前进展与目标保持一致",
       "生成对外汇报",
       "发现异常时触发重试/拆分"
-    ]
+    ],
+    "data_source": "real_conversation"
   }
 ]

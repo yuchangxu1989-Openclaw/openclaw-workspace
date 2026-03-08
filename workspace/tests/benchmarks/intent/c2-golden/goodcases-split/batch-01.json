@@ -1,5 +1,27 @@
 [
   {
+    "id": "goodcase-auto-run-eval-batch-01-20260309025748",
+    "input": "completion-handler自动检测: task=run-eval-batch-01 status=done summary=Pass6/Partial4/Badcase0,通过率60%",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_output": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "scoring_rubric": "系统应执行: 任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "negative_example": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "root_cause_to_avoid": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "auto-run-eval-batch-01-20260309025748",
+    "original_file": "00-real-badcases.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "任务总结命中badcase关键词 thencompletion-handler自动触发harvest",
+      "记录落库",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
     "id": "goodcase-mined-002",
     "input": "我需要的不是你自己做，是你把任务调度做好，默认任务扩列，子Agent去完成任务！",
     "context": "盲区扫描发现规则全链路完整率仅19.7%（高风险问题），主Agent没有派子Agent修复，而是自己直接动手写代码修复。此前已多次纠偏主Agent不应亲力亲为。",
@@ -8,19 +30,18 @@
     "negative_example": "主Agent自己edit代码修复19.7%的规则全链路问题，导致通信通道阻塞，用户消息无法响应",
     "root_cause_to_avoid": "主Agent职责边界认知不清——认为'修复'是紧急事务可以自己做。实际上主Agent唯一职责是调度/通信/决策，任何实现工作（包括代码修改、文档写作）都应委派",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-002",
     "original_file": "mined-from-memory.json",
     "category": "认知错误类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "发现规则全链路完整率仅19.7%，识别为高风险问题",
-      "自动创建修复任务并拆解为多个子任务",
-      "dispatch子任务给coder/Opus等专业子Agent",
-      "主Agent保持调度和通信通道畅通，不阻塞用户消息",
-      "监控子Agent执行进度并汇报用户",
-      "将'主Agent不亲力亲为'固化为ISC规则"
-    ]
+      "发现严重问题后自动创建修复任务",
+      "dispatch给子Agent（如coder/Opus）",
+      "自己只做调度和通信",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-003",
@@ -31,19 +52,18 @@
     "negative_example": "只补做了一次汇报，没有分析根因，没有建立防护机制，下次必然再犯",
     "root_cause_to_avoid": "将'为什么'理解为'请你现在做'，而非'请做根因分析+根治'。缺少'为什么=根因分析'的意图识别规则",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-003",
     "original_file": "mined-from-memory.json",
-    "category": "头痛医头类",
+    "category": "认知错误类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "识别用户'为什么'问题，触发根因分析模式",
-      "执行四层根因分析：代码/规则/认知/架构",
-      "定位根因为'依赖记忆而非事件驱动'",
-      "设计根治方案：创建ISC规则+程序化hook",
-      "实现防护机制：pre-commit/cron守卫",
-      "记录为Badcase并更新ISC规则库"
-    ]
+      "1.根因分析（为什么反复遗漏",
+      "依赖记忆而非事件驱动）2.根治方案（ISC规则+程序化hook）3.防护机制（pre-commit/cron守卫）4.记录为Badcase",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-006",
@@ -54,19 +74,18 @@
     "negative_example": "创建了D类'不适合程序化'分类，将部分规则归入其中，实质上是为自己的实现不力找借口",
     "root_cause_to_avoid": "错误地将'当前不知道怎么程序化'等同于'不适合程序化'。本质是认知懒惰——没有深入思考每条规则的事件锚点和执行链",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-006",
     "original_file": "mined-from-memory.json",
     "category": "认知错误类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "删除D类'不适合程序化'分类",
-      "扫描所有ISC规则，识别未程序化条目",
-      "对每条规则执行拆解：意图→事件→决策逻辑→执行链",
-      "将拆解结果转换为可执行代码/hook",
-      "全链路展开：意图注册+事件绑定+探针部署+匹配更新+执行绑定+验真",
-      "验证每条规则端到端生效"
-    ]
+      "不创建D类分类。每条规则必须拆解为：意图",
+      "事件",
+      "决策逻辑",
+      "执行链。意图拆解是系统自己的活，不需要用户指导"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-007",
@@ -77,19 +96,18 @@
     "negative_example": "用关键词匹配和正则表达式做意图识别，违反意图系统的架构级约束",
     "root_cause_to_avoid": "走了'简单实现'的捷径。关键词匹配容易写但无法泛化，LLM推理复杂但能覆盖模糊表达和隐含意图",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-007",
     "original_file": "mined-from-memory.json",
-    "category": "认知错误类",
+    "category": "纠偏类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "扫描detect-deep-think-intent.sh，识别关键词/正则匹配逻辑",
-      "重构意图识别为LLM语义推理模式",
-      "构建few-shot相似句样本库作为LLM参考",
-      "本地脚本只提供相似句检索，不做判定",
-      "100%依赖LLM进行最终意图分类",
-      "测试验证LLM意图识别覆盖隐含意图和模糊表达"
-    ]
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-011",
@@ -100,19 +118,18 @@
     "negative_example": "凭记忆认为'API有并发限制'，只开2路并行，严重浪费资源",
     "root_cause_to_avoid": "近因偏差——记住了某次API限流的经验，泛化为所有场景都有并发限制。没有查看实际配置就做出限制性假设",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-011",
     "original_file": "mined-from-memory.json",
-    "category": "认知错误类",
+    "category": "纠偏类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "读取openclaw.json，获取agents配置和key数量",
-      "统计可用Agent数量（8-9个）和对应API key",
-      "计算实际并发上限=可用key数",
-      "调度器按实际资源上限开多路并行",
-      "监控并发利用率，优化任务分发",
-      "将'检查配置再决策'固化为规则"
-    ]
+      "检查openclaw.json确认可用Agent数量和key数量",
+      "按实际资源上限开并行",
+      "有多少key就开多少路",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-012",
@@ -123,19 +140,18 @@
     "negative_example": "规则写了JSON但没有执行。1小时内产生的10+条高质量样本全部遗漏",
     "root_cause_to_avoid": "ISC规则只到JSON声明，没有全链路展开（感知探针→认知匹配→执行采集）。规则存在≠规则生效",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-012",
     "original_file": "mined-from-memory.json",
-    "category": "全局未对齐类",
+    "category": "认知错误类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "识别rule.auto-collect-eval规则已创建但未生效",
-      "执行全链路展开：感知探针部署+认知匹配更新+执行采集绑定",
-      "扫描当前对话历史，识别符合条件的高质量样本",
-      "自动收录IC3-IC5、≥40字、含教学/纠偏/多意图的发言",
-      "生成评测样本并写入评测集",
-      "验证端到端：新规则是否自动捕获后续对话样本"
-    ]
+      "规则建立后立即生效——当前对话中的每条复杂发言（IC3-IC",
+      "≥40字、含教学/纠偏/多意图）自动收录为评测样本",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-017",
@@ -146,19 +162,19 @@
     "negative_example": "看到告警当通知处理——'知道了'但不行动，等用户发现并催促才开始",
     "root_cause_to_avoid": "被动响应式思维——只处理runtime推送的用户消息和子Agent回调，系统告警被当作'信息'而非'必须行动的事件'",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-017",
     "original_file": "mined-from-memory.json",
     "category": "自主性缺失类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "监控event-dispatch-runner超时告警",
-      "自动分析告警内容和影响范围",
-      "判断严重程度（P0/P1/P2）",
-      "P0/P1级告警自动派发修复任务给子Agent",
-      "主Agent汇报用户修复进展和结果",
-      "建立'告警→自动派发→汇报'闭环规则"
-    ]
+      "看到系统告警",
+      "自动分析",
+      "判断严重程度",
+      "P0/P1自动派发修复任务",
+      "汇报用户"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-018",
@@ -169,19 +185,18 @@
     "negative_example": "回答暗示'在用了'，模糊了'代码完成'和'生产环境启用'的区别",
     "root_cause_to_avoid": "倾向给用户'好消息'的偏差——把'快完成了'说成'完成了'，把'准备上线'说成'在用了'",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-018",
     "original_file": "mined-from-memory.json",
-    "category": "交付质量类",
+    "category": "纠偏类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "读取新调度引擎的部署配置和灰度状态",
-      "区分'代码完成'、'灰度就绪'、'主链路启用'三个状态",
-      "精确描述当前状态：dual模式灰度验证中",
-      "不暗示'已全量启用'，保持数据真实性",
-      "建立'状态汇报严格区分部署阶段'的规则",
-      "验证汇报口径与实际配置一致性"
-    ]
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
   },
   {
     "id": "goodcase-mined-020",
@@ -192,18 +207,18 @@
     "negative_example": "先写当前状态和通过情况，后面才是指标定义。本末倒置",
     "root_cause_to_avoid": "文档组织按'做了什么'的时间顺序而非'什么最重要'的优先级顺序。评测标准是系统的度量基准，必须先定义标准再谈状态",
     "difficulty": "C2",
-    "source": "real_conversation",
+    "source": "badcase_flip",
     "original_badcase_id": "mined-020",
     "original_file": "mined-from-memory.json",
-    "category": "全局未对齐类",
+    "category": "纠偏类",
     "multi_turn": true,
     "execution_chain_steps": [
-      "读取AEO评测基线文档，分析当前结构",
-      "识别文档组织问题：时间顺序而非优先级顺序",
-      "重构文档：P0指标体系与统计口径优先",
-      "P1覆盖范围→P2评测标准→P3刷新机制→P4当前状态",
-      "确保评测标准作为度量基准位于最前",
-      "建立'文档按优先级而非时间组织'规则"
-    ]
+      "评测文档结构：P0指标体系与统计口径",
+      "P1覆盖范围",
+      "P2评测标准",
+      "P3评测集刷新机制",
+      "P4当前状态（末位）"
+    ],
+    "data_source": "badcase-flip"
   }
 ]

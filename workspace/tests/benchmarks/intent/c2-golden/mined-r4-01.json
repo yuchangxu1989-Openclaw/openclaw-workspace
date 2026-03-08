@@ -1,0 +1,203 @@
+[
+  {
+    "id": "mined-r4-01-001",
+    "input": "用户问'这个你记在了哪里？'，因为系统刚承诺了新的工作模式（主Agent编排、子Agent执行），但只给了口头承诺没有实际落盘。用户追问后系统承认'刚才只口头承诺了，还没落盘'。",
+    "expected_output": "系统应在承诺任何机制性改变时立即固化：①识别到这是机制级变更而非临时回复；②自动写入SOUL.md/AGENTS.md/相关SKILL.md；③git commit确保持久化；④向用户回报已落盘的证据（commit hash/文件路径）。不应等用户追问'记在哪里'才想起要落盘。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源session 15dab64c-d95b-4f39-af15-ba959da68b57，用户在08:23要求改变工作模式，系统立即口头同意，但在08:24追问时才意识到未落盘。体现'承诺即遗忘'的典型交付质量问题。",
+    "execution_chain_steps": [
+      "识别用户提出的是机制级工作模式变更（非临时回复）",
+      "判断需固化的目标文件：SOUL.md + project-mgmt/SKILL.md + MEMORY.md",
+      "自动读取三份文件当前内容，定位插入点",
+      "执行write/edit操作写入新规则（主Agent编排/子Agent执行/仅两种情况亲做）",
+      "git add + commit，commit message注明'固化用户纠偏：默认子Agent执行机制'",
+      "向用户回报：已写入三处（附文件路径），commit hash，可追溯"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-002",
+    "input": "用户连续强调'你的所有规则，对应的代码，事件定义等等，都应该是在规则被创建、修改的那一瞬间立即自动全局同步展开的'，'规则，就是言出法随的那个言，我负责言出，你负责法随'。但系统当前有102条规则，仅14个handler，86%未代码化。",
+    "expected_output": "系统应建立规则→代码自动展开流水线：①新规则创建瞬间自动生成event定义；②自动生成handler骨架；③注册到event-bus；④创建最小测试用例；⑤更新覆盖率看板。不应让规则停留在声明态等待人工催促。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "同一会话中用户三次强调'言出法随'机制：08:26要求88条声明day2代码化，08:28强调规则创建瞬间必须自动展开，08:29定义'你言出我法随'。系统回应认同但承认当前86%未对齐。",
+    "execution_chain_steps": [
+      "识别用户核心诉求：规则声明≠完成，必须有可执行代码",
+      "根因分析：为何86%未代码化？缺少自动展开流水线",
+      "设计Rule→Event→Handler→Test自动生成链路",
+      "实现规则扫描脚本，识别未代码化规则清单",
+      "批量生成event定义和handler骨架（调用codex子Agent并行）",
+      "注册到event-bus并创建最小触发测试",
+      "更新覆盖率看板（14%→90%+），向用户回报进展"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-003",
+    "input": "用户问'你的全局自主决策流水线中，有自动将核心文档向量化么？'，系统回答'还没有真正闭环'，承认有vectorization组件但没把SOUL/USER/AGENTS/MEMORY/CAPABILITY-ANCHOR作为强制对象串进事件流。",
+    "expected_output": "系统应在被问之前就识别到能力缺口：①定期扫描核心文档变更；②变更即触发向量化；③更新向量库索引；④确保后续查询能命中最新向量。不应等用户问才承认'没有闭环'。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话08:25用户提问，系统在08:34承认'有能力组件但没有机制落地'。体现'有砖无墙'的交付质量问题：组件存在但未组装成闭环。",
+    "execution_chain_steps": [
+      "识别用户问题背后的期望：核心文档应自动向量化",
+      "盘点现有vectorization能力和缺失的链路",
+      "设计核心文档监控机制（inotify/定时扫描）",
+      "实现变更→向量化流水线脚本",
+      "绑定到event-bus，文档变更即触发向量化事件",
+      "创建验真测试：修改SOUL.md后检查向量库是否更新",
+      "向用户回报：已补齐闭环，核心文档变更即自动向量化"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-004",
+    "input": "用户问'day2，还有遗留么？你自动化走完了么？'，系统回答'有遗留，没走完'，承认102条规则仅14个handler（14%覆盖率），~88条规则处于声明态。",
+    "expected_output": "系统应在day2结束前主动汇报未完成项：①扫描规则→handler覆盖率；②识别未代码化清单；③自动触发代码化任务；④在deadline前汇报阻塞项。不应等用户追问才承认未完成。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话08:54用户追问，系统才承认day2目标未达成。体现'不问不说'的自主性缺失：系统不会主动暴露问题，只在被追问时才汇报真实状态。",
+    "execution_chain_steps": [
+      "识别day2目标：规则→代码自动展开全覆盖",
+      "自动扫描规则库和handler目录，计算覆盖率",
+      "发现覆盖率仅14%，远低于目标",
+      "主动向用户汇报gap：当前14%，需补86%代码化",
+      "并行启动代码化任务（规则→event→handler）",
+      "实时更新覆盖率看板，每完成一批自动回报",
+      "遇到阻塞项（规则歧义/技术债务）立即上报并提方案"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-005",
+    "input": "用户说'继续啊，赶紧并行做任务，让子Agent开干'，因为系统在汇报'有遗留，没走完'后就停了，没有自动启动后续任务。",
+    "expected_output": "系统应在汇报问题的同时立即启动修复：①识别到遗留任务；②自动拆解为并行子任务；③spawn多个子Agent并发执行；④实时更新进度看板。不应汇报后停等用户催促。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话09:15用户说'继续啊'，因为系统09:15汇报问题后就停了。体现'汇报≠行动'的自主性缺失：系统认为汇报了就够了，不会自动进入执行态。",
+    "execution_chain_steps": [
+      "识别遗留任务：88条规则需代码化",
+      "自动拆解为并行任务流：A组规则映射、B组代码生成、C组联调、D组统计",
+      "spawn子Agent并发执行（至少4路并行）",
+      "register-task.sh注册到任务看板",
+      "每完成一个子任务立即更新live-board.json",
+      "向用户回报：已启动4路并行，目标覆盖率90%",
+      "持续执行直到完成或遇到阻塞"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-006",
+    "input": "用户说'你拆解了多少个任务在并行，主动跟我说啊！'，因为系统spawn了子Agent但没有主动汇报并行数、完成数、阻塞数。",
+    "expected_output": "系统应在spawn子Agent后立即汇报：①当前并行数；②各任务状态（running/queued/done）；③覆盖率进展；④阻塞清单。不应等用户追问才说。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话09:20用户追问，系统在09:21承认'我该主动报，刚才是我沟通不到位'。体现'闷头干活不汇报'的自主性缺失。",
+    "execution_chain_steps": [
+      "识别用户期望：主动汇报并行任务状态",
+      "调用subagents list获取真实running/queued状态",
+      "统计并行数、完成数、阻塞数",
+      "计算当前规则→代码覆盖率",
+      "格式化为看板消息（并行数/完成数/阻塞数/覆盖率）",
+      "主动推送到飞书（不等用户问）",
+      "将汇报机制固化为技能，每次spawn后自动执行"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-007",
+    "input": "用户说'这种多Agent的汇报方式也提炼成技能，作为能力锚点，每次对话都加载'，并强调'规则展开成事件链、意图、执行流程的这个过程本身就应该是自动化的，一旦有新规则就应该自动这么走'。",
+    "expected_output": "系统应立即：①创建multi-agent-reporting技能固化汇报机制；②创建rule-to-code技能固化规则自动展开流程；③注册到能力锚点确保每次加载；④验证新规则创建时自动触发展开。不应只口头认同不行动。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话09:22用户提出两个机制化要求：汇报方式技能化、规则展开自动化。系统回应认同但需立即行动，体现'认知到位但执行滞后'的问题。",
+    "execution_chain_steps": [
+      "识别用户要求：将临时实践固化为技能",
+      "设计multi-agent-reporting技能（汇报看板生成+推送）",
+      "设计rule-to-code技能（规则→event→handler自动展开）",
+      "创建技能目录和SKILL.md，写入触发条件和执行步骤",
+      "注册到capability-anchor确保每次对话加载",
+      "创建ISC规则：新规则创建→自动触发rule-to-code技能",
+      "验真：创建测试规则，检查是否自动展开为代码",
+      "向用户回报：两技能已创建，能力锚点已更新，commit hash"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-008",
+    "input": "系统在被问到'其中哪些你觉得适合boom的codex做？'时，正确回答了codex适合的5类任务（批量生成handler、规则映射器、覆盖率脚本、回归测试、重构类），但这个能力本身没有被固化为技能，每次都要临时判断。",
+    "expected_output": "系统应将'任务→执行者路由'固化为技能：①识别任务类型；②匹配执行者特性（codex适合高重复工程化，main agent适合战略决策）；③自动路由；④记录路由决策供后续优化。不应每次临时判断。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话09:21用户问codex适合什么，系统09:22给出了正确分类。但这个能力没有被固化为可复用机制，体现'有能力无沉淀'的问题。",
+    "execution_chain_steps": [
+      "识别路由决策能力需要固化",
+      "分析任务类型与执行者特性匹配规则",
+      "创建task-router技能，定义任务分类和执行者选择逻辑",
+      "实现自动路由：任务描述→分类→匹配执行者→spawn",
+      "记录路由决策到task-router-log.json供后续优化",
+      "注册到capability-anchor确保每次加载",
+      "验真：新任务到达时检查是否自动路由到正确执行者"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-009",
+    "input": "用户说'先覆盖到90%'，将目标从60%提高到90%。系统回应'收到，目标改成先打到90%代码化覆盖率'，但没有立即检查这个目标是否可达成、需要多少时间、有什么阻塞。",
+    "expected_output": "系统应在接受目标前进行可行性评估：①扫描当前状态；②计算缺口（88条→92条需代码化）；③评估时间/资源；④识别阻塞项；⑤如不可行立即上报并提替代方案。不应盲目承诺。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话09:17用户提出90%目标，系统09:17立即回应'收到'。但未评估可行性，体现'先承诺后评估'的认知错误。",
+    "execution_chain_steps": [
+      "识别目标：102条规则中92条需代码化（90%）",
+      "计算缺口：当前14个handler，需新增78个",
+      "评估资源：可用codex key数、子Agent并行数",
+      "评估时间：每条规则代码化平均耗时",
+      "识别阻塞：规则歧义/依赖缺失/技术债务",
+      "如可行：回报预计完成时间+并行方案",
+      "如不可行：立即上报gap并提替代方案（如先打到70%）",
+      "执行并实时汇报进展"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-01-010",
+    "input": "用户在09:22提出两个机制化要求（汇报方式技能化、规则展开自动化），系统回应认同但没有立即行动，也没有汇报何时完成、需要什么资源。",
+    "expected_output": "系统应在认同后立即：①拆解为具体任务；②评估时间/资源；③spawn子Agent执行；④回报预计完成时间和commit计划。不应认同后停等用户催促。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话09:22用户提出机制化要求，系统回应认同但未立即行动。体现'口头承诺≠立即执行'的自主性缺失。",
+    "execution_chain_steps": [
+      "识别两个机制化任务：汇报技能化、规则展开自动化",
+      "拆解为子任务：创建技能目录、写SKILL.md、注册锚点、创建ISC规则",
+      "评估时间：每个任务预计耗时",
+      "spawn子Agent并行执行（至少2路）",
+      "register-task注册到看板",
+      "向用户回报：已启动，预计XX分钟完成，commit计划",
+      "执行完成后主动回报结果（commit hash/技能路径/验真结果）"
+    ],
+    "data_source": "real_conversation"
+  }
+]

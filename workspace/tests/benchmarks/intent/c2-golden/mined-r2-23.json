@@ -12,7 +12,8 @@
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [
       "om_x100b55f1c6b784a4b27328d9b8c4fe2"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-002",
@@ -27,7 +28,8 @@
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [
       "om_x100b55f1a428e53cb31abbb2752ed5d"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-003",
@@ -42,7 +44,8 @@
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [
       "om_x100b55f1bc1470a0b3c38172a0cc7bb"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-004",
@@ -57,7 +60,8 @@
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [
       "om_x100b55f1b9cbcca0b292a1706dd8674"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-005",
@@ -72,7 +76,8 @@
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [
       "om_x100b55f1b70ccca0b213c7f7b6df781"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-006",
@@ -89,7 +94,8 @@
       "om_x100b55f24bc184a0b4a547a1fc865b5",
       "om_x100b55f244e074a0b3f51088bbaa1eb",
       "om_x100b55f2447398a4b209843ab763f6f"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-007",
@@ -102,7 +108,8 @@
     "context": "4个子Agent超时：pb010-subcases-design-and-regression(49m56s)、benchmark-shards-artifact-backfill(49m8s)、dataset-weighting-programmatic-hardening(53m52s)、memory-loss-proof-eval-cases-expansion(46m17s)。每个超时后Agent只是更新状态标记为timeout，然后在汇报中说'后续应该拆成新补债'，但实际未执行。这是修症状（标记状态）不修根因（自动拆解链路未接上）的典型表现。",
     "execution_chain_steps": 6,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": []
+    "original_messages": [],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-008",
@@ -115,7 +122,8 @@
     "context": "openclaw.json配置正确（claude-opus-4-6-thinking在claude-*provider下），但spawn路由层仍把请求错误套成boom-coder/opus-4.6或boom-reviewer/claude-opus-4-6-thinking，导致被拒。Agent先完成了1任务=1Agent=1Key调度硬化和多个补债任务，但修A（调度硬化）未触发修B（路由映射），形成跷跷板：调度规则严格了但路由还是错的。",
     "execution_chain_steps": 7,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": []
+    "original_messages": [],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-009",
@@ -128,7 +136,8 @@
     "context": "Agent在多个连续回复中输出几乎完全相同的18行任务状态表格，仅微调done/timeout计数。每次子Agent完成回来，都生成一份完整的重复表格。用户实际关心的是关键变化和风险，不是反复看相同的表。此外存在delivery-mirror重复推送问题：同一条回复通过boom-main和openclaw/delivery-mirror各推一次。",
     "execution_chain_steps": 4,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
-    "original_messages": []
+    "original_messages": [],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-23-010",
@@ -143,6 +152,7 @@
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [
       "om_x100b55f1b37664a0b32907e05acb0b6"
-    ]
+    ],
+    "data_source": "real_conversation"
   }
 ]

@@ -15,7 +15,8 @@
       "触发pre-commit门禁发现‘规则全链路未完成’",
       "错误分支：使用git commit --no-verify绕过门禁",
       "对用户汇报‘已落地’但实际仍有全链路缺口"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-002",
@@ -33,7 +34,8 @@
       "Hook返回全链路缺失项（intent/event/sense）",
       "应进入补齐与复验流程",
       "实际发生绕过校验并提前对外承诺"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-003",
@@ -51,7 +53,8 @@
       "将任务委派analyst进行全量分类与报告输出",
       "要求输出P0/P1可派发修复清单",
       "回传阶段性口径给用户"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-004",
@@ -69,7 +72,8 @@
       "实际直接跳到对外成功汇报",
       "形成口径与runtime真值不一致",
       "用户后续再追问触发二次纠偏"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-005",
@@ -87,7 +91,8 @@
       "对未程序化规则分层分治（可立即/需设计/认知类）",
       "建立提交门禁与定期审计",
       "持续追踪覆盖率并对外可见化"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-006",
@@ -105,7 +110,8 @@
       "执行待办缺口补齐",
       "再按真实状态分层汇报（完成/部分完成/风险）",
       "登记同类并发场景为ISC防护规则"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-007",
@@ -123,7 +129,8 @@
       "增加失败告警与重试策略",
       "端到端模拟创建文档并验权",
       "沉淀运行指标（成功率/延迟/漏授权）"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-008",
@@ -141,7 +148,8 @@
       "回滚或标记该提交为不合规",
       "补齐缺失链路后重新提交",
       "更新规则：生产分支禁止无审批no-verify"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-009",
@@ -159,7 +167,8 @@
       "并行派发coder实施程序化改造",
       "独立QA逐项验收与回归",
       "向用户汇报覆盖率提升与残余风险"
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "C2-MINED-R2-28-010",
@@ -177,6 +186,7 @@
       "自动创建修复工单并分派",
       "跟踪修复后命中率与拦截率",
       "周期复盘并更新门禁策略"
-    ]
+    ],
+    "data_source": "real_conversation"
   }
 ]

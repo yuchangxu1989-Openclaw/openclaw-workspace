@@ -1,0 +1,192 @@
+[
+  {
+    "id": "mined-r4-05-001",
+    "input": "用户要求看到'进行中的任务队列卡片'，Agent多次生成HTML/JSON/本地文件并声称'已发送'，用户连续5轮回复'我没有看见卡片'。Agent误判为飞书API权限问题，用户纠偏：'如果没有APPID和Secret，你怎么跟我对话的？'最终发现Agent走错了本地fake-sender链路而非主会话真实送达链。",
+    "expected_output": "系统应在首次用户说'没看见'时立即切换发送路径排查：①对比历史成功卡片链路；②识别当前会话可用通道（非workspace本地sender）；③尝试message工具直发当前会话；④验证送达反馈（messageId/deliveryStatus）；⑤固化正确路径。不应把本地归档/打印误当真实送达。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源session 73052ef7-5eae-482d-8069-b7e4ff861473，用户在07:13-08:00连续要求看任务队列卡片，Agent反复声称已发送但实际未送达，最终定位为走错了feishu-report-sender本地假发送链。",
+    "execution_chain_steps": [
+      "读取用户连续'没看见'反馈，识别为送达链路问题而非渲染问题",
+      "对比定时任务成功链（OpenClaw delivery通道）vs当前失败链（本地fake sender）",
+      "验证当前主会话Feishu通道能力（已证明可用）",
+      "识别本地sender本质是console.log+文件搬运，不是真实API调用",
+      "切换到message工具直发当前会话，获取messageId确认送达",
+      "固化正确发送路径并写入脚本/规则，防止再次走错链路"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-002",
+    "input": "用户要求'立刻开子Agent用opus thinking排查飞书卡片问题'，Agent执行sessions_spawn时全部返回'model not allowed'。用户纠偏：'你之前都好好的，为什么现在突然不行了？'Agent发现配置文件openclaw.json最近修改时间为2026-03-06 19:51:31。",
+    "expected_output": "系统应在子Agent启动失败时立即进入运行时配置排查：①读取openclaw.json的models.providers配置；②识别当前使用的model参数；③对比allowlist与实际请求；④发现model='default'被错误解析成'boom-xxx/default'而非'boom-xxx/gpt-5.4'；⑤改用显式模型参数启动；⑥验证子Agent恢复可用。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "同一会话中用户在08:04要求开子Agent，Agent尝试后全部报model not allowed，经排查发现是model参数解析逻辑问题，改用显式模型后恢复。",
+    "execution_chain_steps": [
+      "捕获sessions_spawn返回的'model not allowed'错误",
+      "读取openclaw.json的models.providers与allowlist配置",
+      "对比请求参数model='default'与allowlist中的实际模型名",
+      "识别运行时将'default'解析成'boom-xxx/default'而非配置中的'boom-xxx/gpt-5.4'",
+      "改用显式模型参数如'boom-analyst/gpt-5.4'重新调用sessions_spawn",
+      "验证子Agent启动成功并继续执行排查任务"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-003",
+    "input": "用户指出'你定时任务都能正常发卡片，为什么任务队列发不出来'，Agent仍在解释飞书API权限问题。用户再次纠偏：'你的定时任务都能正常发卡片，即便现在，也可以'。Agent最终发现定时任务走的是OpenClaw内置delivery通道，而任务队列汇报走的是本地fake-sender链。",
+    "expected_output": "系统应在用户第一次指出'定时任务能发'时立即进入链路对比：①查定时任务cron-worker的delivery配置；②发现delivery.mode=announce+delivery.to=user:ou_xxx；③对比任务队列汇报链走的feishu-report-sender本地队列；④识别后者是假发送；⑤切换到与定时任务相同的delivery通道或message工具；⑥验证任务队列卡片送达。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在08:31-08:32连续指出定时任务能发卡片，Agent经子Agent排查发现两条链路根本不同：定时任务走内置delivery，任务队列走本地假sender。",
+    "execution_chain_steps": [
+      "读取用户对比'定时任务能发，任务队列不能发'",
+      "调子Agent查定时任务cron-worker的发送路径",
+      "发现定时任务走OpenClaw内置delivery通道（delivery.mode=announce）",
+      "对比任务队列汇报链（feishu-report-sender/push.js只是console.log）",
+      "识别任务队列链路是假发送，未走真实API",
+      "切换任务队列汇报到message工具或内置delivery通道，验证送达"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-004",
+    "input": "用户发图片展示喜欢的飞书卡片样式（独立卡片，非文本气泡），并说'我喜欢这种'。Agent判断'可能是系统自动把markdown转成卡片'，用户未否认但要求'刷新队列看看'。Agent刷新后仍用文本表格格式，用户再次纠偏'状态应该写进行中而不是执行'。",
+    "expected_output": "系统应在用户展示目标样式后立即记录为样式标准：①提取用户偏好的独立卡片特征（header/颜色/分割线/可扫读）；②对比当前汇报格式（markdown表格）；③识别需要调用sendCard API或触发挥手自动卡片化；④生成符合独立卡片格式的汇报内容；⑤验证用户端显示为独立卡片样式；⑥固化样式模板。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在10:52发图片展示喜欢的卡片样式，Agent在10:57-11:07刷新队列时仍用文本表格，用户连续纠偏状态词和样式。",
+    "execution_chain_steps": [
+      "读取用户图片及'我喜欢这种'反馈",
+      "提取目标样式特征：独立卡片、header、分割线、可扫读",
+      "对比当前汇报格式：markdown表格+文本气泡",
+      "识别需要改用sendCard API或结构化内容触发自动卡片化",
+      "生成符合独立卡片格式的任务队列汇报",
+      "发送并验证用户端显示为独立卡片样式，固化模板"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-005",
+    "input": "用户指出'在这之后，你突然就开不了子Agent了'并转发一条历史消息说'这是你最后正常的时候'。Agent仍在分析配置文件修改时间，用户再次纠偏'我的意思是，在这之后，你突然就开不了子Agent了'。",
+    "expected_output": "系统应在用户指出异常时间点后立即进入运行时状态回溯：①读取用户转发的历史消息时间戳；②查该时间点前后的session日志；③对比前后子Agent启动参数差异；④识别model参数解析逻辑变化；⑤定位到sessions_spawn的model='default'解析问题；⑥修复或绕过并验证子Agent恢复。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在08:20-08:21转发历史消息并指出异常起点，Agent误分析配置文件时间，用户纠偏后Agent才聚焦到子Agent启动能力突变问题。",
+    "execution_chain_steps": [
+      "读取用户转发的'最后正常'消息及'之后突然开不了子Agent'陈述",
+      "提取该消息的时间戳作为异常起点",
+      "查该时间点前后的sessions_spawn调用日志",
+      "对比前后model参数及运行时解析结果",
+      "识别model='default'被错误解析成'boom-xxx/default'",
+      "改用显式模型参数，验证子Agent恢复可用"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-006",
+    "input": "用户要求'你必须持续挂在子Agent直到彻底解决'，Agent回复'对，必须这样'并解释规则。用户立即纠偏'不用废话，执行'。Agent尝试开thread=true的session模式子Agent被runtime限制卡住，用户问'你可以解决运行时卡住这个问题么？'Agent开始解释两种解法，用户再次纠偏'执行，并把修改的代码块给我看'。",
+    "expected_output": "系统应在用户说'持续挂在子Agent'后立即执行：①尝试sessions_spawn(mode=session, thread=true)；②捕获runtime限制错误；③立刻切换到mode=run的续跑方案；④启动子Agent执行修复任务；⑤监控子Agent状态并在完成/失败时自动重启；⑥向用户展示代码修改而非解释方案。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在09:33-10:02连续要求持续挂在子Agent，Agent反复解释方案而不执行，最终在用户强力纠偏下才启动子Agent。",
+    "execution_chain_steps": [
+      "读取用户'持续挂在子Agent直到彻底解决'要求",
+      "尝试sessions_spawn(mode=session, thread=true)",
+      "捕获'thread=true is unavailable'错误",
+      "立即切换到mode=run+自动续跑方案，不解释",
+      "启动子Agent执行修复任务",
+      "展示实际修改的代码块，而非方案描述"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-007",
+    "input": "用户指出任务队列中的状态词'执行'不准确：'如果已经是编码阶段，那你刚才卡片中的任务列表的状态，就不应该写执行，而是进行中'。Agent回复'对，这个纠偏是对的'并解释应该改成什么。用户立即说'刷新队列'，Agent刷新后状态词仍未全部更新。",
+    "expected_output": "系统应在用户指出状态词问题后立即全局修正：①扫描当前所有任务队列汇报代码；②定位status字段映射逻辑；③将'🔄执行'改为'🟡进行中'；④细分状态：进行中/验证中/阻塞中/待决中/已完成；⑤重新生成并发送任务队列卡片；⑥验证所有状态词已更新。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在11:04-11:08指出状态词问题，Agent承认纠偏但刷新时仍有遗漏，需要更彻底的状态词体系改造。",
+    "execution_chain_steps": [
+      "读取用户'状态应该写进行中而不是执行'纠偏",
+      "扫描任务队列汇报代码中的status字段",
+      "定位状态词映射逻辑（🔄执行）",
+      "改为细分状态体系（🟡进行中/🧪验证中/⚠️阻塞中/⚖️待决中/✅已完成）",
+      "重新生成任务队列汇报内容",
+      "发送并验证所有状态词已更新"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-008",
+    "input": "用户转发历史消息说'这是你最后正常的时候，在这之后就不正常了'，Agent仍在分析openclaw.json修改时间。用户纠偏'不是'，Agent改为分析聊天中暴露异常的时间点（07:53）。用户再次纠偏'我的意思是，在这之后，你突然就开不了子Agent了'，要求聚焦到子Agent能力突变问题。",
+    "expected_output": "系统应在用户转发消息后立即：①提取转发消息的时间戳作为异常起点；②查该时间点前后的能力变化（而非配置文件修改时间）；③聚焦用户指出的具体异常（子Agent启动）；④读取该时间点前后的sessions_spawn调用日志；⑤对比前后差异；⑥定位根因并修复。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在08:17-08:21连续纠偏Agent的分析方向，从配置文件时间转到聊天暴露时间再转到具体能力（子Agent）突变。",
+    "execution_chain_steps": [
+      "读取用户转发的'最后正常'消息",
+      "提取该消息时间戳作为异常起点",
+      "识别用户指出的具体异常：子Agent突然开不了",
+      "查该时间点前后的sessions_spawn调用日志",
+      "对比前后model参数及解析逻辑差异",
+      "定位model='default'解析错误，改用显式模型"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-009",
+    "input": "用户问'现在并行中的是多少个子Agent？'，Agent回答'2个'。用户立即追问'但是你确定子Agent在任务进行中？'，Agent承认'不能诚实地说还在任务进行中'，承认之前说的子Agent是诊断型已结束，没有持续挂着修复任务。用户纠偏'必须持续挂在子Agent直到彻底解决'。",
+    "expected_output": "系统应在回答子Agent数量时同步检查真实状态：①调用subagents工具查当前running状态；②识别诊断型子Agent已完成；③发现没有执行型子Agent持续挂着；④诚实回答'当前0个在持续执行'；⑤立即启动执行型子Agent；⑥设置自动续跑机制直到问题彻底解决。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在10:45-10:46追问子Agent真实状态，Agent承认之前说'在跑'实际是诊断已完成，没有持续执行，用户要求必须持续挂着。",
+    "execution_chain_steps": [
+      "读取用户'现在并行中多少个子Agent'问题",
+      "调用subagents工具查当前真实running状态",
+      "识别诊断型子Agent已完成，无执行型子Agent持续运行",
+      "诚实回答'当前0个在持续执行'",
+      "立即启动执行型子Agent（reviewer/scout）继续修复",
+      "设置监控+自动续跑，直到问题彻底解决"
+    ],
+    "data_source": "real_conversation"
+  },
+  {
+    "id": "mined-r4-05-010",
+    "input": "用户连续说'别废话！做！'（09:33）、'执行，并把修改的代码块给我看'（09:33）、'别说废话！都说多少遍下一步了？既然知道自己下一步该干啥，就赶紧做！！！！'（11:11）、'别废话！做！'（11:13）。Agent反复在解释'下一步该做X'而不是直接执行X。",
+    "expected_output": "系统应在首次用户说'做'时立即停止解释并执行：①识别用户已多次听到'下一步'描述；②停止输出'下一步我该做X'；③直接执行X；④展示执行结果（代码块/文件路径/messageId）；⑤如果执行卡住立即报错并切换方案；⑥不再用'下一步'这类描述替代实际执行。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在09:33-11:13至少4次说'别废话，做'，Agent反复在回复中承认'对，不该说下一步，应该直接做'但下一轮又开始解释。",
+    "execution_chain_steps": [
+      "读取用户'别废话！做！'纠偏",
+      "识别这是对'解释下一步'模式的纠偏",
+      "立即停止任何'下一步'描述",
+      "直接执行之前描述的'下一步'动作",
+      "展示执行结果（代码块/messageId/文件路径）",
+      "如果执行失败立即报错并切换方案，不再解释"
+    ],
+    "data_source": "real_conversation"
+  }
+]

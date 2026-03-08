@@ -27,7 +27,8 @@
         "role": "assistant",
         "content": "没有消化不掉。我刚才是在跟你确认状态同步没偏，不是在等指令。现在干活。"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-002",
@@ -57,7 +58,8 @@
         "role": "assistant",
         "content": "✅ Pipeline回归修复 — 38/38 (100%) 恢复。根因：events格式变了但matcher没兼容。一行修复。"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-003",
@@ -83,7 +85,8 @@
         "role": "assistant",
         "content": "诚实回答：真实数据占比极低，大部分是手造的。意图识别benchmark 80条来源不明，Pipeline benchmark 38条来源不明..."
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-004",
@@ -121,7 +124,8 @@
         "role": "assistant",
         "content": "理解了。boomstyleai渠道的GPT-5.3 Codex，已经在跑了。"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-005",
@@ -151,7 +155,8 @@
         "role": "assistant",
         "content": "57张截图 + eval-history文件。重新派子Agent，这次读57张截图+所有md文件提取真实对话。"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-006",
@@ -181,7 +186,8 @@
         "role": "assistant",
         "content": "对，这是D2-03自愈守卫23:30刚发的报告。说明它确实在跑——不是crontab里的定时任务，而是通过其他方式触发的。"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-007",
@@ -211,7 +217,8 @@
         "role": "assistant",
         "content": "5个条件全部关闭。Day 1关门条件5/5 ✅"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-008",
@@ -237,7 +244,8 @@
         "role": "assistant",
         "content": "修好了。三个问题：1.real-conversation不在白名单已加入 2..snapshot.json误匹配已排除 3.裸数组已包装。ISC Pre-Commit全部通过。"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-009",
@@ -267,7 +275,8 @@
         "role": "assistant",
         "content": "准确率67.6% → 90.5% ✅。IC4 F1=0.85, IC5 F1=0.93。4轮迭代，主因是prompt对IC1-IC3定义与生产环境不对齐。"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   },
   {
     "id": "mined-r2-19-010",
@@ -297,6 +306,7 @@
         "role": "assistant",
         "content": "E2E评测套件12/12全通过(100%)。7个handler、5条新规则、12个真实场景覆盖。"
       }
-    ]
+    ],
+    "data_source": "real_conversation"
   }
 ]
