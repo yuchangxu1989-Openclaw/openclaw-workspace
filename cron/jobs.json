@@ -809,6 +809,34 @@
         "consecutiveErrors": 0,
         "lastError": ""
       }
+    },
+    {
+      "id": "7947b82d-da7b-4ce6-a854-9f0c1fa689d5",
+      "agentId": "cron-worker",
+      "name": "CRAS-每日洞察报告",
+      "enabled": true,
+      "createdAtMs": 1772931600000,
+      "updatedAtMs": 1772931600000,
+      "schedule": {
+        "expr": "0 19 * * *",
+        "kind": "cron",
+        "tz": "Asia/Shanghai"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "执行CRAS每日洞察报告汇总。步骤：1) 运行 bash /root/.openclaw/workspace/scripts/cras-daily-report.sh 获取报告内容 2) 将报告全文作为消息发送给用户。如果脚本执行失败，汇报错误信息。\n\n【重要】必须将报告内容完整输出，这是每日定时推送任务。",
+        "model": "boom-cron-worker/gpt-5.3-codex",
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "announce",
+        "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
+      },
+      "state": {
+        "consecutiveErrors": 0
+      }
     }
   ]
 }

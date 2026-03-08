@@ -1,0 +1,37 @@
+{
+  "id": "rule.cras-daily-report-001",
+  "version": "1.0.0",
+  "name": "CRAS每日洞察报告定时推送",
+  "description": "每天19:00自动汇总CRAS五大模块（主动学习/用户洞察/知识治理/战略行研/自主进化）的当日洞察，生成结构化报告并推送到飞书",
+  "priority": "P1_operational",
+  "domain": "cras",
+  "category": "reporting",
+  "trigger": {
+    "events": ["cron.cras-daily-report"],
+    "schedule": "0 19 * * *",
+    "timezone": "Asia/Shanghai"
+  },
+  "conditions": {
+    "all": [
+      { "fact": "cron_job_name", "operator": "equal", "value": "CRAS-每日洞察报告" }
+    ]
+  },
+  "actions": [
+    {
+      "type": "execute_script",
+      "script": "/root/.openclaw/workspace/scripts/cras-daily-report.sh",
+      "description": "运行CRAS日报汇总脚本，读取各模块insights JSON并生成markdown报告"
+    },
+    {
+      "type": "deliver_to_feishu",
+      "target": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b",
+      "format": "markdown"
+    }
+  ],
+  "metadata": {
+    "modules": ["learning", "user", "knowledge", "strategy", "evolution"],
+    "failover": "per-module-graceful",
+    "created": "2026-03-08",
+    "author": "coder-agent"
+  }
+}
