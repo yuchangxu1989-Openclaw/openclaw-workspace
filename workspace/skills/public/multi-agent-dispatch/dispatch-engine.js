@@ -38,6 +38,7 @@ const { applyModelGovernance } = require('./model-governance');
 const { attachModelKey, inferModelKey } = require('./runtime-model-key');
 const { createAutoExpansionController } = require('./free-key-auto-expand');
 const { preflightModelCheck } = require('./model-preflight');
+const { TaskBoard } = require('./task-board');
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -268,6 +269,13 @@ class DispatchEngine extends EventEmitter {
     this.onDispatch = opts.onDispatch || null;   // external spawn callback
     this.autoExpand = opts.autoExpand || createAutoExpansionController(this, opts.autoExpandOptions || {});
 
+    // Task board for persistent tracking + history
+    this.taskBoard = opts.taskBoard || new TaskBoard({
+      boardFile: opts.boardFile ? opts.boardFile.replace('live-board', 'task-board') : path.join(this.baseDir, 'state', 'task-board.json'),
+      summaryDir: path.join(this.baseDir, 'state', 'summaries'),
+      ...(opts.taskBoardOptions || {}),
+    });
+
     // in-memory cache (loaded lazily)
     this._state = null;
   }
@@ -302,6 +310,8 @@ class DispatchEngine extends EventEmitter {
     }
     writeJson(this.stateFile, s);
     writeJson(this.boardFile, this.liveBoard());
+    // Sync task board
+    try { this.taskBoard.syncFromEngine(s, this.maxSlots); } catch {}
     return s;
   }
 
@@ -395,6 +405,7 @@ class DispatchEngine extends EventEmitter {
     const task = makeTask(input);
     s.queued[task.taskId] = task;
     this._log('enqueued', { taskId: task.taskId, title: task.title });
+    try { this.taskBoard.registerTask(task); } catch {}
     this._save();
 
     // Axiom 2: enqueue === attempt dispatch
@@ -790,8 +801,12 @@ class DispatchEngine extends EventEmitter {
     s.finished = s.finished.filter((item) => item.taskId !== taskId);
     s.finished.unshift(task);
     this._log('finished', { taskId, from, to: status });
+    // Record to persistent task board history
+    let autoSummary = null;
+    try { autoSummary = this.taskBoard.recordCompletion(task); } catch {}
     this._save();
     this.emit('finished', task);
+    if (autoSummary) this.emit('autoSummary', autoSummary);
 
     // Axiom 4: slot freed → immediate backfill
     this.drain();
@@ -987,8 +1002,32 @@ class DispatchEngine extends EventEmitter {
     this._state = emptyState();
     this._state.maxSlots = this.maxSlots;
     this._save();
+    try { this.taskBoard.reset(); } catch {}
     return true;
   }
+
+  // ── Task Board query delegation ──────────────────────────────────────────
+
+  /** Query completed task history with filters. */
+  queryHistory(opts) { return this.taskBoard.queryHistory(opts); }
+
+  /** Create a batch for a group of tasks. */
+  createBatch(label, taskIds) { return this.taskBoard.createBatch(label, taskIds); }
+
+  /** Add a task to an existing batch. */
+  addToBatch(batchId, taskId) { return this.taskBoard.addToBatch(batchId, taskId); }
+
+  /** Get all batches. */
+  getBatches() { return this.taskBoard.getBatches(); }
+
+  /** Generate a manual summary. */
+  generateSummary(trigger) { return this.taskBoard.generateSummary(trigger); }
+
+  /** Get recent auto-summaries. */
+  getSummaries(limit) { return this.taskBoard.getSummaries(limit); }
+
+  /** Get full task board snapshot. */
+  getTaskBoard() { return this.taskBoard.getBoard(); }
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

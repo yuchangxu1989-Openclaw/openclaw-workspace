@@ -1,11 +1,11 @@
 ---
 name: multi-agent-dispatch
 description: >
-  Zero-delay multi-agent dispatch engine. Enqueue = immediate dispatch.
-  19-lane high-utilisation scheduler with auto-backfill.
-  This skill is DISPATCH ONLY — no reporting, no dashboards.
-  For status boards use multi-agent-reporting.
-version: 1.0.0
+  Zero-delay multi-agent dispatch engine with persistent task board.
+  19-lane high-utilisation scheduler with auto-backfill, history tracking,
+  batch management, and auto-summary triggers.
+  For status boards and formatted reports use multi-agent-reporting.
+version: 2.0.0
 author: OpenClaw Community
 license: MIT
 tags:
@@ -14,12 +14,21 @@ tags:
   - orchestration
   - scheduler
   - acp
+  - task-board
 ---
 
-# Multi-Agent Dispatch Skill
+# Multi-Agent Dispatch Skill v2.0.0
 
-**Purpose:** Schedule and dispatch tasks to ACP agent slots at maximum utilisation.
+**Purpose:** Schedule, dispatch, and track tasks across ACP agent slots with full lifecycle persistence.
 **NOT for:** Status reports, dashboards, summaries → use `multi-agent-reporting`.
+
+## What's New in v2.0
+
+- **Persistent Task Board** — All tasks registered, tracked, and archived with full history
+- **History Query API** — Query completed tasks by time range, status, search text
+- **Batch Management** — Group tasks into batches, track batch-level completion
+- **Auto-Summary Triggers** — Automatic summary generation on threshold/interval/batch completion
+- **ISC Board Integration** — Task board data feeds ISC-REPORT-SUBAGENT-BOARD-001 format
 
 ## Core Axioms
 
@@ -29,116 +38,120 @@ tags:
 4. **Slot freed = instant backfill.** `markDone`/`markFailed` auto-drains the queue.
 5. **19 lanes, ≥90% target.** If free slots > 0 and queue > 0, something is wrong.
 6. **Accurate counts.** `running` = sessions that are actually executing. No inflation.
-7. **New tasks don't wait.** Even mid-conversation, if you identify a deterministic task, enqueue immediately.
-8. **Conversation ≠ gate.** Typing a response to the user does not pause dispatch.
+7. **Every task persists.** Completion → history archive. Nothing is lost.
 
 ## State Machine
 
 ```
 queued  →  spawning  →  running  →  done | failed | cancelled
-  ▲            │
-  │       (spawn fail → failed, slot freed → drain)
+  ▲            │                         │
+  │       (spawn fail → failed)    (archived to task board history)
   │
   └─── new task arrives via enqueue()
 ```
 
-## Usage in Agent Prompt
+## Usage
 
-### Step 1: Initialise (once per orchestration session)
+### Step 1: Initialise
 
 ```js
 const { DispatchEngine } = require('./skills/public/multi-agent-dispatch/dispatch-engine');
 const engine = new DispatchEngine({ maxSlots: 19 });
 ```
 
-### Step 2: Enqueue tasks as soon as they are identified
+### Step 2: Enqueue tasks
 
 ```js
-// Single task — dispatches immediately if slot available
 engine.enqueue({
   title: 'Build payment API',
   model: 'codex/gpt-5.4',
   source: 'user-request',
-  priority: 'high',       // critical > high > normal > low
+  priority: 'high',
   payload: { task: '...prompt...' },
 });
 
-// Batch — all enqueued, then drain runs once
+// Batch enqueue
 engine.enqueueBatch([
   { title: 'Task A', model: 'codex/gpt-5.4' },
   { title: 'Task B', model: 'codex/gpt-5.4' },
-  { title: 'Task C', model: 'codex/gpt-5.4' },
 ]);
 ```
 
-### Step 3: Wire to sessions_spawn
-
-Set `onDispatch` to actually spawn the ACP session:
-
-```js
-const engine = new DispatchEngine({
-  maxSlots: 19,
-  onDispatch: (task) => {
-    // This is called synchronously during drain().
-    // The agent should call sessions_spawn here.
-    // After spawn success, call engine.markRunning(task.taskId, { sessionKey });
-    // On spawn failure, engine auto-marks it failed.
-  }
-});
-```
-
-Or handle dispatch events externally:
-
-```js
-engine.on('dispatched', (tasks) => {
-  for (const task of tasks) {
-    // spawn each task via sessions_spawn
-  }
-});
-```
-
-### Step 4: Lifecycle callbacks (from subagent results)
+### Step 3: Lifecycle callbacks
 
 ```js
 engine.markRunning(taskId, { sessionKey: 'agent:...' });
 engine.markDone(taskId, { result: 'PR merged' });
 engine.markFailed(taskId, { error: 'build failed' });
 engine.cancel(taskId);
-engine.heartbeat(taskId, { progress: '75%' });
 ```
 
-### Step 5: Read state (for reporting skill)
+### Step 4: Query history (NEW)
 
 ```js
-const board = engine.liveBoard();   // structured snapshot
-const tasks = engine.allTasks();    // flat list for formatReport()
+// Recent completions
+const recent = engine.queryHistory({ limit: 20 });
+
+// Filter by time range
+const last2h = engine.queryHistory({ since: '2026-03-08T15:00:00Z' });
+
+// Filter by status
+const failures = engine.queryHistory({ status: 'failed' });
+
+// Search by title
+const apiTasks = engine.queryHistory({ search: 'API' });
 ```
 
-## 基操加固（本次最小补齐）
+### Step 5: Batch management (NEW)
 
-围绕“任务生命周期、超时重启、并行拆分、主表状态一致性”，当前最关键的基操缺口是：
+```js
+// Create a batch
+const batchId = engine.createBatch('Day2 Implementation', ['t_1', 't_2', 't_3']);
 
-- **缺少一组最小闭环验证**，能直接证明：
-  1. 超时任务会进入明确终态，并按策略 `restart/replace/archive/human_handoff` 收敛；
-  2. 并行拆分时 busy / queue / spawning / running 计数持续一致；
-  3. 主表（`engine-state.json` 的 active + finished）对同一 `taskId` 始终只有一个权威当前终态；
-  4. bridge 侧投递状态与主表终态至少可关联、不破坏主表唯一终态。
+// Add task to batch
+engine.addToBatch(batchId, 't_4');
 
-最小实现已补：
-
-- `test/lifecycle-basics.min.test.js`
-  - 覆盖超时重启闭环
-  - 覆盖并行回填计数一致性
-  - 覆盖 bridge 投递状态与主表收敛关系
-  - 覆盖失败场景下主表唯一终态记录
-
-运行：
-
-```bash
-node skills/public/multi-agent-dispatch/test/lifecycle-basics.min.test.js
-node skills/public/multi-agent-dispatch/test/timeout-governance.min.test.js
+// Check batch status
+const batches = engine.getBatches();
 ```
 
+### Step 6: Summaries (NEW)
+
+```js
+// Manual summary
+const summary = engine.generateSummary('manual');
+
+// Get recent auto-summaries
+const summaries = engine.getSummaries(5);
+
+// Listen for auto-summaries
+engine.on('autoSummary', (summary) => {
+  // Triggered when threshold reached (default: every 5 completions)
+  console.log('Auto summary:', summary);
+});
+
+// Get full task board
+const board = engine.getTaskBoard();
+```
+
+### Step 7: Read state (for reporting skill)
+
+```js
+const board = engine.liveBoard();       // real-time snapshot
+const taskBoard = engine.getTaskBoard(); // full board with history
+const tasks = engine.allTasks();         // flat list for renderReport()
+```
+
+## Persistent Files
+
+| File | Purpose |
+|------|---------|
+| `state/engine-state.json` | Engine core state (queued/spawning/running/finished) |
+| `state/live-board.json` | Real-time snapshot for quick reads |
+| `state/task-board.json` | **Full task board with history, batches, summaries** |
+| `state/summaries/*.json` | Individual auto-summary files |
+
+## CLI
 
 ```bash
 BASE=skills/public/multi-agent-dispatch
@@ -159,6 +172,16 @@ node $BASE/cli.js cancel <taskId>
 node $BASE/cli.js status    # compact summary
 node $BASE/cli.js board     # full live board JSON
 
+# History (NEW)
+node $BASE/cli.js history                    # recent 20
+node $BASE/cli.js history --status=failed    # failed only
+node $BASE/cli.js history --since=2h         # last 2 hours
+node $BASE/cli.js history --search="API"     # search
+
+# Summaries (NEW)
+node $BASE/cli.js summary          # generate manual summary
+node $BASE/cli.js summaries        # list recent summaries
+
 # Maintenance
 node $BASE/cli.js reap      # auto-fail stale tasks
 node $BASE/cli.js drain     # force fill slots from queue
@@ -166,21 +189,56 @@ node $BASE/cli.js clear-queue
 node $BASE/cli.js reset
 ```
 
-## Integration with Main Agent
+## Auto-Summary Triggers
 
-The main agent should follow this protocol:
+| Trigger | Condition | Default |
+|---------|-----------|---------|
+| Threshold | Every N task completions | 5 |
+| Interval | Min time between summaries | 30 min |
+| Batch complete | All tasks in a batch done | Immediate |
+| Manual | CLI or API call | On demand |
 
-1. **Parse user request** → identify discrete tasks
-2. **For each task: `enqueue()` immediately** — do NOT batch "for later"
-3. **Continue conversation** — dispatch is non-blocking
-4. **On subagent completion announcement** → `markDone()` or `markFailed()`
-5. **Backfill is automatic** — no need to manually trigger
-6. **For reporting** → read `liveBoard()` or `allTasks()` and pass to reporting skill
+## Task Board Schema
 
-### Anti-patterns (DO NOT)
+```typescript
+interface TaskBoard {
+  version: number;
+  boardId: string;
+  createdAt: string;
+  updatedAt: string;
+  summary: {
+    maxSlots: number;
+    occupied: number;
+    free: number;
+    queued: number;
+    totalRegistered: number;
+    totalCompleted: number;
+    totalFailed: number;
+    totalCancelled: number;
+  };
+  active: TaskRecord[];
+  queued: TaskRecord[];
+  history: TaskRecord[];    // completed tasks, newest first, capped at 1000
+  batches: Record<string, Batch>;
+  autoSummaries: Summary[];
+}
+```
+
+## Integration with Reporting
+
+The reporting skill reads from the task board:
+
+```js
+const { renderBoardReport } = require('./skills/public/multi-agent-reporting/board-report');
+const board = engine.getTaskBoard();
+const report = renderBoardReport(board, { highlights: [...], risks: [...] });
+// Output follows ISC-REPORT-SUBAGENT-BOARD-001 standard
+```
+
+## Anti-patterns (DO NOT)
 
 - ❌ "I'll dispatch these after explaining the plan" → dispatch FIRST
 - ❌ "Waiting for wave 1 to finish before starting wave 2" → enqueue everything now
-- ❌ "3 tasks dispatched (2 pending)" → there is no pending; they're queued or dispatched
-- ❌ Manually counting slots → engine tracks this
-- ❌ Reporting running count that doesn't match actual sessions
+- ❌ "Task completed but I don't know the history" → query `engine.queryHistory()`
+- ❌ Manually tracking completed tasks → the board does it automatically
+- ❌ Polling for task status → listen to events or query the board
