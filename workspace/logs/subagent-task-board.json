@@ -34,15 +34,57 @@
     "label": "harvest-eval-cases-from-session",
     "agentId": "analyst",
     "model": "boom-analyst/gpt-5.3-codex",
-    "status": "running",
-    "spawnTime": "2026-03-08T09:34:54.027Z"
+    "status": "done",
+    "spawnTime": "2026-03-08T09:34:54.027Z",
+    "completeTime": "2026-03-08T09:38:18.104Z",
+    "result_summary": "5条C2 badcase采集+评测标准盲区分析完成"
   },
   {
     "taskId": "1cf2d1b1",
     "label": "rca-taskboard-update-miss",
     "agentId": "coder",
     "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T09:34:54.054Z",
+    "completeTime": "2026-03-08T09:38:31.116Z",
+    "result_summary": "根因=异步turn认知断裂，三层强化已落地"
+  },
+  {
+    "taskId": "68a73e7e",
+    "label": "eval-role-separation-engine",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T09:37:39.183Z",
+    "completeTime": "2026-03-08T09:40:20.234Z",
+    "result_summary": "评测引擎+角色分离全部落地，7项完成"
+  },
+  {
+    "taskId": "ecb3f411",
+    "label": "taskboard-feishu-push",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T09:39:13.773Z",
+    "completeTime": "2026-03-08T09:41:35.476Z",
+    "result_summary": "show-task-board-feishu.sh创建+ISC规则+AGENTS.md+SOUL.md全更新"
+  },
+  {
+    "taskId": "42c28287",
+    "label": "aeo-doc-live-update",
+    "agentId": "writer",
+    "model": "boom-writer/gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-08T09:40:06.983Z",
+    "completeTime": "2026-03-08T09:41:16.783Z",
+    "result_summary": "4指标+3原则+5Case+演进方向追加完成，50个block写入验证通过"
+  },
+  {
+    "taskId": "a0702d96",
+    "label": "programmatic-completion-hook",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
     "status": "running",
-    "spawnTime": "2026-03-08T09:34:54.054Z"
+    "spawnTime": "2026-03-08T09:41:04.723Z"
   }
 ]

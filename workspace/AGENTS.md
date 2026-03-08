@@ -53,25 +53,26 @@ fi
 exec: bash /root/.openclaw/workspace/scripts/register-task.sh <runId> <label> <agentId> <model>
 不登记 = Badcase。
 
-### completion event必须回写（ISC-SPAWN-TASKBOARD-HOOK-001，与register同级铁律）
+### completion event必须调completion-handler.sh（程序化强制）
 
-⚠️ **这是最容易遗忘的环节！收到completion event ≠ 处理完成，必须先回写看板！**
-
-**触发条件**：消息中包含 "completed" / "子Agent完成" / "subagent completed" / completion event
-**第一个动作**（在读取结果、回复用户之前）：
+收到子Agent completion event后，执行且只需执行一行：
 ```
-exec: bash /root/.openclaw/workspace/scripts/update-task.sh <label> <done|failed> "简要结果"
+exec: bash /root/.openclaw/workspace/scripts/completion-handler.sh <label> <done|failed> "简要结果"
 ```
 
-**执行顺序铁律**：
-1. 收到completion event
-2. **立即** `update-task.sh` ← 第一件事，不可跳过
-3. 然后才读取子Agent产出
-4. 然后才回复用户
+该脚本自动完成：
+1. update-task.sh回写看板
+2. show-task-board.sh生成看板快照
+3. 检测是否所有任务完成
 
-不回写 = 看板数据不准 = Badcase（已有真实badcase: BADCASE-TASKBOARD-UPDATE-001）。
+主Agent拿到输出后：
+1. 将看板快照格式化发给用户（如有变化）
+2. 汇报任务结果
 
-完整生命周期：spawn → register-task.sh → 等completion → **update-task.sh** → 验收 → 回复用户
+**禁止**：跳过completion-handler.sh直接回复用户
+**禁止**：手动调update-task.sh（已合并到handler中）
+
+完整生命周期：spawn → register-task.sh → 等completion → **completion-handler.sh** → 验收 → 回复用户
 
 ## 重要报告写作钢印（长期生效）
 

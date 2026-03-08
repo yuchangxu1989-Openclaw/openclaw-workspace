@@ -382,6 +382,25 @@
       "status": "active",
       "created_at": "2026-03-08T15:49:00+08:00",
       "source": "ISC rule dispatch-auto-report-001"
+    },
+    {
+      "id": "system.completion-event.received",
+      "category": "IC4",
+      "name": "Completion Event程序化处理",
+      "description": "子Agent completion event到达，触发completion-handler.sh程序化处理",
+      "examples": [
+        "子Agent completed",
+        "subagent completed",
+        "task finished"
+      ],
+      "anti_examples": [
+        "子Agent正在运行中"
+      ],
+      "confidence_threshold": 0.9,
+      "status": "active",
+      "created_at": "2026-03-08T17:40:00+08:00",
+      "isc_rule": "ISC-COMPLETION-HANDLER-001",
+      "source": "ISC-COMPLETION-HANDLER-001"
     }
   ],
   "metadata": {

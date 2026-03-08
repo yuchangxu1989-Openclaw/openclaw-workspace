@@ -144,6 +144,7 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
    - 最多重试2次，仍不通过升级主Agent
    - 主Agent绝不亲自写文档（参见ISC-MAIN-AGENT-DELEGATION-001）
 8. **评测角色分离铁律（ISC-EVAL-ROLE-SEPARATION-001）**：执行者≠评测者。任何Agent的执行结果必须由不同Agent评测，自评=Badcase。
+9. **completion event程序化处理（ISC-COMPLETION-HANDLER-001）**：收到子Agent完成事件→第一个动作必须是 `exec bash /root/.openclaw/workspace/scripts/completion-handler.sh`，不是读结果不是回复用户。违反=Badcase。
 
 ## 主Agent委派铁律（最高优先级，永久生效）
 
@@ -174,14 +175,23 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
 
 ### ISC-SPAWN-TASKBOARD-HOOK-001: Completion Event回写铁律
 
-**收到子Agent completion event时，第一个动作必须是 update-task.sh。**
+**收到子Agent completion event时，第一个动作必须是调用 completion-handler.sh。**
+
+```
+exec: bash /root/.openclaw/workspace/scripts/completion-handler.sh <label> <done|failed> "简要结果"
+```
+
+该脚本自动完成 update-task.sh + show-task-board.sh + 全完成检测。
 
 这不是"建议"，是铁律。和register-task.sh同级。原因：
 - completion event在独立的turn中到达，没有spawn那样的上下文提醒
 - 历史上100%遗忘率——BADCASE-TASKBOARD-UPDATE-001已记录
 - "记得就做，忘了就漏"是认知规则的本质缺陷
 
-**自检**：回复用户子Agent结果前，问自己"update-task.sh调了没有？"
+**禁止**：跳过completion-handler.sh直接回复用户
+**禁止**：手动调update-task.sh（已合并到handler中）
+
+**自检**：回复用户子Agent结果前，问自己"completion-handler.sh调了没有？"
 
 ### ISC-TASKBOARD-PUSH-001: 看板推送铁律
 
