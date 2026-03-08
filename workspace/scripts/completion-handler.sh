@@ -78,4 +78,21 @@ if echo "$SUMMARY" | grep -qiE "$BADCASE_KEYWORDS"; then
   echo "   ISC规则: ISC-EVAL-C2-AUTO-HARVEST-001"
 fi
 
+# Step 6: 顺便扫描超时任务（双保险，含自动重试排队）
+bash /root/.openclaw/workspace/scripts/task-timeout-check.sh 2>/dev/null || true
+
+# Step 7: 检查是否有待重试任务，输出提示给主Agent
+RETRY_QUEUE="/root/.openclaw/workspace/logs/retry-queue.json"
+if [ -f "$RETRY_QUEUE" ]; then
+  HAS_PENDING=$(node -e "
+const q=JSON.parse(require('fs').readFileSync('$RETRY_QUEUE','utf8'));
+console.log(q.filter(r=>r.status==='pending').length);
+" 2>/dev/null || echo "0")
+  if [ "$HAS_PENDING" != "0" ] && [ "$HAS_PENDING" != "" ]; then
+    echo ""
+    echo "🔄 以下任务需要重试："
+    bash /root/.openclaw/workspace/scripts/retry-dispatcher.sh 2>/dev/null || true
+  fi
+fi
+
 echo "=== Handler Complete ==="

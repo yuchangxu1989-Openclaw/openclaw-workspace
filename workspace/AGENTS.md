@@ -46,6 +46,24 @@ fi
 - 需要执行>3行脚本 → **sessions_spawn 子Agent**
 - 只有读取、验证、通信、更新记忆 → 自己做
 
+**exec计数提醒（2026-03-08 追加）：**
+- **每次准备调exec前，问自己："这是本轮第几次exec了？"**
+- 第1-2次：允许（仅限读取/验证类）
+- 第3次起：**停！必须委派子Agent**
+- 修改型命令（即使第1次）：**停！必须委派子Agent**
+
+**修改型命令黑名单（即使1次也禁止主Agent执行）：**
+- `sed -i` — 原地修改文件
+- `tee` — 写文件
+- `>` / `>>` — 重定向写文件
+- `awk '...' > file` — awk写文件
+- 任何 shell 命令的目的是"修改文件内容" → 委派
+
+**feishu_doc写操作黑名单（绝对禁止主Agent调用）：**
+- `feishu_doc write` — 写文档
+- `feishu_doc append` — 追加文档
+- 主Agent只能调 `feishu_doc read`
+
 **ISC-MAIN-AGENT-DELEGATION-001 铁律生效中。违反 = Badcase。**
 
 ### spawn必须登记（ISC-SPAWN-TASKBOARD-HOOK-001，永久生效）

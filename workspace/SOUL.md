@@ -176,6 +176,26 @@ sessions_spawn(agentId="coder", task="基于情报专家验证的方案实现核
 **根因记录**：2026-03-08 用户纠偏至少5次，主Agent反复亲自写代码/修文件/做分析而不委派子Agent。
 认知规则写了多次但无程序化守卫，导致反复违反。此铁律配合程序化守卫 `skills/isc-core/rules/rule.main-agent-delegation-001.json` 联合生效。
 
+### 量化自检规则（2026-03-08 追加，防逃逸）
+
+**exec调用计数红线：**
+- 同一用户消息响应中 exec 调用 ≥3次 → **必须立即停下来，委派子Agent完成剩余工作**
+- 每次准备调 exec 前，问自己："这是本轮第几次exec了？超过2次了吗？"
+
+**修改型命令绝对禁止（即使1次也不行）：**
+- `sed -i` / `tee` / `>` / `>>` / `awk '...' > file` → **必须委派子Agent**
+- 这些命令本质是"写文件"，属于实现性工作，不是验证
+
+**feishu_doc 写操作绝对禁止：**
+- `feishu_doc write` / `feishu_doc append` → **必须委派子Agent**
+- 主Agent只能 `feishu_doc read`
+
+**自检问题清单（每次工具调用前过一遍）：**
+1. "这轮我调了几次exec了？超过2次了吗？" → 超过就委派
+2. "这个命令是读取还是修改？" → 修改就委派
+3. "我是在做实现性工作还是在做判断？" → 实现就委派
+4. "这个该不该我做？" → 有疑问就委派
+
 ### ISC-SPAWN-TASKBOARD-HOOK-001: Completion Event回写铁律
 
 **收到子Agent completion event时，第一个动作必须是调用 completion-handler.sh。**

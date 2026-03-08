@@ -92,9 +92,11 @@
     "label": "programmatic-completion-hook",
     "agentId": "coder",
     "model": "claude-coder/claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T09:41:04.723Z",
-    "description": "完成事件程序化处理"
+    "description": "完成事件程序化处理",
+    "completeTime": "2026-03-08T12:38:10.849Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "961677ca",
@@ -112,9 +114,11 @@
     "label": "auto-qa-on-completion",
     "agentId": "coder",
     "model": "claude-coder/claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T09:44:17.208Z",
-    "description": "完成后自动质量核查"
+    "description": "完成后自动质量核查",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "gap-analysis-01",
@@ -141,45 +145,55 @@
     "label": "isc-meta-rule-auto-programmatic",
     "agentId": "coder",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "startTime": "2026-03-08T18:03:00+08:00",
-    "description": "ISC元规则自动程序化"
+    "description": "ISC元规则自动程序化",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "batch1-p0",
     "label": "isc-fix-batch1-githook-p0",
     "agentId": "coder",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "startTime": "2026-03-08T18:03:00+08:00",
-    "description": "ISC修复批次1-GitHook-P0"
+    "description": "ISC修复批次1-GitHook-P0",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "batch2-p1",
     "label": "isc-fix-batch2-event-p1",
     "agentId": "writer",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "startTime": "2026-03-08T18:03:00+08:00",
-    "description": "ISC修复批次2-事件-P1"
+    "description": "ISC修复批次2-事件-P1",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "batch3-p2",
     "label": "isc-fix-batch3-cron-p2",
     "agentId": "researcher",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "startTime": "2026-03-08T18:03:00+08:00",
-    "description": "ISC修复批次3-定时-P2"
+    "description": "ISC修复批次3-定时-P2",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "batch4-p3",
     "label": "isc-fix-batch4-other-p3",
     "agentId": "reviewer",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "startTime": "2026-03-08T18:03:00+08:00",
-    "description": "ISC修复批次4-其他-P3"
+    "description": "ISC修复批次4-其他-P3",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "rem-a",
@@ -202,8 +216,10 @@
     "label": "isc-fix-remaining-batch-c",
     "agentId": "researcher",
     "model": "opus-4-6-thinking",
-    "status": "running",
-    "description": "ISC剩余修复批次C"
+    "status": "timeout",
+    "description": "ISC剩余修复批次C",
+    "completeTime": "2026-03-08T12:39:20.422Z",
+    "result_summary": "超时自动标记(无时间戳)"
   },
   {
     "taskId": "rem-d",
@@ -218,8 +234,10 @@
     "label": "isc-programmatic-quality-audit",
     "agentId": "analyst",
     "model": "opus-4-6-thinking",
-    "status": "running",
-    "description": "ISC程序化质量审计"
+    "status": "timeout",
+    "description": "ISC程序化质量审计",
+    "completeTime": "2026-03-08T12:39:20.422Z",
+    "result_summary": "超时自动标记(无时间戳)"
   },
   {
     "taskId": "cras-rpt",
@@ -234,61 +252,75 @@
     "label": "lto-rename-global-alignment",
     "agentId": "researcher",
     "model": "opus-4-6-thinking",
-    "status": "running",
-    "description": "LTO重命名全局对齐"
+    "status": "timeout",
+    "description": "LTO重命名全局对齐",
+    "completeTime": "2026-03-08T12:39:20.422Z",
+    "result_summary": "超时自动标记(无时间戳)"
   },
   {
     "taskId": "lxg-rename",
     "label": "caijuedian-rename-to-caijuedian",
     "agentId": "writer",
     "model": "opus-4-6-thinking",
-    "status": "running",
-    "description": "裁决点重命名"
+    "status": "timeout",
+    "description": "裁决点重命名",
+    "completeTime": "2026-03-08T12:39:20.422Z",
+    "result_summary": "超时自动标记(无时间戳)"
   },
   {
     "taskId": "caijuedian-rename",
     "label": "caijuedian-rename-execute",
     "agentId": "coder",
     "model": "opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T10:37:18.886Z",
-    "description": "裁决点重命名执行"
+    "description": "裁决点重命名执行",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "lto-dirname",
     "label": "lto-core-dirname-rename",
     "agentId": "coder",
     "model": "opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T10:39:26.414Z",
-    "description": "LTO核心目录重命名"
+    "description": "LTO核心目录重命名",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "lto-qa",
     "label": "lto-rename-qa-review",
     "agentId": "reviewer",
     "model": "opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T10:39:46.338Z",
-    "description": "LTO重命名QA审查"
+    "description": "LTO重命名QA审查",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "deep-audit",
     "label": "isc-deep-quality-audit-opus",
     "agentId": "analyst",
     "model": "opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T10:40:38.403Z",
-    "description": "ISC深度质量审计"
+    "description": "ISC深度质量审计",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "doc-replace",
     "label": "aeo-doc-replace-simple-cases",
     "agentId": "writer",
     "model": "opus-4-6-thinking",
-    "status": "running",
+    "status": "timeout",
     "spawnTime": "2026-03-08T10:41:28.191Z",
-    "description": "AEO文档替换简单案例"
+    "description": "AEO文档替换简单案例",
+    "completeTime": "2026-03-08T12:38:10.850Z",
+    "result_summary": "超时自动标记(session已断开)"
   },
   {
     "taskId": "3827dd0e-2366-451c-9b1e-513a2451b216",
@@ -306,9 +338,11 @@
     "label": "rca-main-agent-self-exec-again",
     "agentId": "analyst",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "spawnTime": "2026-03-08T12:23:12.721Z",
-    "description": "主Agent违规执行根因分析"
+    "description": "主Agent违规执行根因分析",
+    "completeTime": "2026-03-08T12:40:41.964Z",
+    "result_summary": "根因报告213行+Badcase#23入库+7种逃逸路径扩列+P0-P3防护方案"
   },
   {
     "taskId": "827d1bed-8467-4299-8144-68c452af086a",
@@ -385,5 +419,85 @@
     "spawnTime": "2026-03-08T12:32:58.612Z",
     "completeTime": "2026-03-08T12:34:07.783Z",
     "result_summary": "看板中文名完成：register-task新增description参数+39条历史任务补中文名"
+  },
+  {
+    "taskId": "510ba619-e50a-46ed-99c8-0a2da1f7f546",
+    "label": "taskboard-sort-newest-first",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T12:36:11.110Z",
+    "description": "看板排序：最新任务在前",
+    "completeTime": "2026-03-08T12:36:46.775Z",
+    "result_summary": "看板排序改为最新在前(spawnTime倒序)"
+  },
+  {
+    "taskId": "f0b53db4-e403-4161-9c4e-4b92073ab5e6",
+    "label": "merge-taskboard-into-reporting-skill",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T12:37:52.957Z",
+    "description": "飞书卡片看板合并到汇报技能+清理超时任务",
+    "completeTime": "2026-03-08T12:39:20.999Z",
+    "result_summary": "12个超时任务已清理+飞书卡片看板合并到multi-agent-reporting技能v5.0"
+  },
+  {
+    "taskId": "2915a7d4-d3d5-4213-8cd1-6012ce4edcbc",
+    "label": "auto-timeout-detection",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T12:38:49.759Z",
+    "description": "任务自动超时检测机制",
+    "completeTime": "2026-03-08T12:39:51.868Z",
+    "result_summary": "超时检测三层防线完成：register/completion/cron三处嵌入，清理4个超时任务"
+  },
+  {
+    "taskId": "965dabed-b09b-40b4-a9cd-cf23219d2a9a",
+    "label": "timeout-auto-retry-mechanism",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-08T12:40:26.610Z",
+    "description": "超时任务自动重试机制",
+    "completeTime": "2026-03-08T12:42:07.586Z",
+    "result_summary": "超时自动重试机制完成：retry-queue+dispatcher+completion嵌入+16个超时任务入队"
+  },
+  {
+    "taskId": "199394e8-084c-4c7b-8eff-b51eb220aec0",
+    "label": "exec-guard-implementation",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T12:41:45.345Z",
+    "description": "7种逃逸路径全封堵实施"
+  },
+  {
+    "taskId": "a23816bc-82b0-47ff-80f3-80355cd99c66",
+    "label": "skillify-auto-badcase-harvest",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T12:44:03.357Z",
+    "description": "Badcase自动采集技能化"
+  },
+  {
+    "taskId": "2d69172c-ef7c-401c-b0a5-cf8660a55980",
+    "label": "openclaw-product-insight-ppt",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T12:47:44.461Z",
+    "description": "《Openclaw产品洞察》PPT策划案重做"
+  },
+  {
+    "taskId": "4e2e1b30-9ca8-454e-8b3f-5aa634f58510",
+    "label": "goodcase-feishu-notify",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-08T12:48:19.636Z",
+    "description": "Goodcase入库飞书通知"
   }
 ]
