@@ -1,0 +1,21 @@
+{
+  "id": "rule.feishu-doc-auto-perm-001",
+  "name": "飞书文档创建后自动授权用户full_access",
+  "description": "每次创建飞书文档/表格后，必须自动调用auto-grant-feishu-perm.sh给长煦加full_access权限",
+  "priority": "P1",
+  "category": "execution",
+  "trigger": {
+    "events": ["feishu.doc.created", "feishu.bitable.created", "feishu.sheet.created"]
+  },
+  "condition": {
+    "always": true
+  },
+  "action": {
+    "type": "script",
+    "script": "scripts/auto-grant-feishu-perm.sh",
+    "args": ["${doc_token}", "${doc_type}"]
+  },
+  "enforcement": "programmatic",
+  "created": "2026-03-08",
+  "source": "用户要求：所有未来新创建的飞书文档都给我加满权限"
+}
