@@ -20,6 +20,25 @@
 
 **这不是口号，是状态机的约束条件——违反此原则的设计必须被ISC规则拦截。**
 
+## 规则全链路展开（铁律，最高优先级）
+
+**写 JSON ≠ 规则已建。规则是一等公民，代码是规则的展开形态。**
+
+任何规则/标准/铁律创建后，必须完成 4 项全链路展开，缺一不可：
+
+1. **意图注册** → `infrastructure/intent-engine/intent-registry.json`
+2. **事件注册** → `infrastructure/event-bus/events.jsonl`
+3. **感知层探针** → 谁在观察？用什么方式捕获信号？
+4. **执行层绑定** → 捕获到信号后谁执行什么动作？
+
+**4 项不全 = 规则未完成 = 禁止报"规则已建"。**
+
+程序化守卫：`skills/isc-core/rule-fullchain-guard.js`，已接入 git pre-commit hook。
+
+根因记录：2026-03-08 发现 ISC-core SKILL.md 原流程只到"声明→JSON→存在"就结束，
+导致 142 条规则中 141 条只有 JSON 声明没有全链路展开。
+认知层(MEMORY.md)与执行层(SKILL.md)不一致 = 系统性 Bug，已根治。
+
 ## 核心职责
 
 ### 产品战略（Product Strategy）
