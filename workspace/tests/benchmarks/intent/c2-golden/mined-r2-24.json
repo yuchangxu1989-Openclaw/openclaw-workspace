@@ -1,0 +1,172 @@
+[
+  {
+    "id": "C2-MINED-R2-24-001",
+    "input": "用户连续追问‘任务发出去没’，指出系统卡在解释而非执行，要求先并发派发再对话。",
+    "expected_output": "系统应立即切换到执行优先：拆解任务→批量sessions_spawn→回传首版并发表（含真实running状态）→持续自动刷新，不再等待用户催促。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "session 15dab64c... offset 2001+，用户多轮质问‘那你任务发出去了没？为什么不发？’后系统才开始并发派发。",
+    "execution_chain_steps": [
+      "识别用户纠偏信号与隐含优先级（执行先于解释）",
+      "将目标拆分为多子任务并确定优先级",
+      "跨模块调用 sessions_spawn 派发 coder/reviewer/writer/analyst",
+      "汇总并行状态生成统一看板反馈",
+      "后续基于完成事件自动刷新状态"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-002",
+    "input": "用户要求‘18路并发’，系统接到10条新key，需要完成去重、探测、接入并给出是否达标结论。",
+    "expected_output": "系统应完成key可用性探测与去重，明确重复项，最小改动接入provider池，给出真实并发槽数与差额。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "子任务 boom-18-key-probe-and-pool 返回：10条HTTP 200但1条重复，新增可用9，总槽17，未达18。",
+    "execution_chain_steps": [
+      "接收多key扩容指令并解析约束",
+      "批量HTTP探测每条key可用性",
+      "检测重复key并计算真实新增数",
+      "按既有命名规律修改配置接入provider",
+      "验真并输出并发槽结论与补齐建议"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-003",
+    "input": "用户指出‘图是失败品为何要我来判断’，要求系统具备自诊断与返工闭环。",
+    "expected_output": "系统应在交付前自检判定失败，自动触发返工任务与质量门禁，直至合格再交付。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "对话中系统先辩解后承认失败，用户追问‘不是你自诊？怎么解决？’暴露交付前自检缺失。",
+    "execution_chain_steps": [
+      "识别用户对交付质量的否定反馈",
+      "回溯交付物并执行质量评估",
+      "判定失败并归因（非成品/信息缺失）",
+      "触发返工子任务并设定验收标准",
+      "复检通过后再对用户交付"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-004",
+    "input": "用户要求并行状态看板可信，不能口头‘几路并行’，需与runtime事件一致。",
+    "expected_output": "系统应基于真实完成事件更新running/completed，避免口径漂移，并在同一看板持续追踪。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话中出现‘6路/7路/8路并行’动态变化，需把subagent completion event纳入统一状态口径。",
+    "execution_chain_steps": [
+      "建立并发表初始状态快照",
+      "监听并解析子任务完成事件",
+      "将事件映射到看板状态字段",
+      "重新计算并发口径并刷新看板",
+      "向用户输出一致口径的阶段结论"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-005",
+    "input": "系统需把‘报告产物默认发送原文件给用户’从口头要求固化为可执行机制。",
+    "expected_output": "应落地脚本/技能联动：识别artifact_path→调用file-sender→失败显式记日志，不再依赖人工记忆。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "artifact-auto-send-ruleify 子任务完成并提交，强调workspace层固化与失败日志。",
+    "execution_chain_steps": [
+      "抽象通用产物发送规则",
+      "在报告发送链路接入自动发送入口",
+      "适配多文件类型并解析目标参数",
+      "发送失败写入显式日志避免静默",
+      "通过一次真实链路验证并报告结果"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-006",
+    "input": "file-sender 存在参数误用风险，用户要求‘发原文件’稳定成功，需防御错误入参并给清晰失败指引。",
+    "expected_output": "系统应增加参数校验/自动纠正、默认优先open_id策略、失败可操作提示和最小测试覆盖。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "并发任务 file-sender-hardening 被单独派发，目标是避免‘说能发但实际未送达’。",
+    "execution_chain_steps": [
+      "识别高频误用参数模式",
+      "在CLI入口增加校验与纠正逻辑",
+      "调整默认接收ID策略以提高成功率",
+      "补充失败分流提示与下一步建议",
+      "新增可运行验证并更新技能文档"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-007",
+    "input": "路由补齐任务与独立评审发现冲突：执行方称补齐，评审仍报 intent.ruleify/reflect/directive 为 P0 no-route。",
+    "expected_output": "系统应触发冲突仲裁：以独立评审为准回滚乐观结论，继续修复仍未闭环的路由点。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "event-routing-closeout-review 给出 fixed 与 still-open 并存，暴露‘测试全绿≠目标全闭环’。",
+    "execution_chain_steps": [
+      "收集实现方与评审方两路结果",
+      "对比目标清单定位冲突项",
+      "按P0优先级重排未闭环问题",
+      "下发二次修复并要求最小验收命令",
+      "复审通过后再更新对外结论"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-008",
+    "input": "用户新增2条key后要求立即扩容，且与前序‘17路未达标’结果衔接，避免状态断层。",
+    "expected_output": "系统应将新增key纳入同一扩容流水线，复用去重+探测+接入+验真流程，并更新总并发结论。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "在收到‘再增加两个boom key’消息时，系统已有前序审计结论和待补1条缺口。",
+    "execution_chain_steps": [
+      "接收新增资源纠偏输入",
+      "与历史key池合并并去重",
+      "执行可用性探测并记录证据",
+      "更新provider配置与模型映射",
+      "重算并发槽并回传是否达标"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-009",
+    "input": "用户质疑‘你拆解发布任务与对话有冲突吗’，要求系统边对话边执行，不可因沟通中断主流程。",
+    "expected_output": "系统应实现对话与执行并行：沟通线程持续响应，执行线程不中断，并定时回传进度。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户明确指出并行原则，系统承认此前因解释停工，后续转为并发派发。",
+    "execution_chain_steps": [
+      "识别‘沟通不应阻塞执行’约束",
+      "建立并行执行计划与沟通节奏",
+      "批量派发子任务并保留会话响应",
+      "按事件驱动更新阶段进展",
+      "在不阻断执行的前提下答复用户追问"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-24-010",
+    "input": "多子任务并发收敛时，系统需区分同工作流与非同工作流事件，避免过早汇报或漏报关键结果。",
+    "expected_output": "系统应按工作流聚合策略处理completion event：关键链路未收敛前保留统一看板，关键结果到达即更新优先级结论。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "多次出现‘仍有N个active runs’提示，系统需要在等待与即时反馈之间做策略化决策。",
+    "execution_chain_steps": [
+      "读取completion事件中的active runs提示",
+      "判断事件与当前主目标的关联度",
+      "对关键结果先行发布阶段结论",
+      "对未完成支线保持待更新状态",
+      "最终统一收敛并输出完整结果"
+    ]
+  }
+]

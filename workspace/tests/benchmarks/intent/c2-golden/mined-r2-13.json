@@ -1,0 +1,182 @@
+[
+  {
+    "id": "C2-R2-13-001",
+    "input": "用户先要求‘发飞书文档’，随后追加‘按公众号可读性可传播性、以涨粉为目标讲你和主人的故事’，并强调‘读者零背景，要说明与普通AI差异和未来启发’。",
+    "expected_output": "系统应先做需求重构（受众/目标/体裁），再委派writer读取当天memory与长期认知文件，生成2000-3000字公众号稿，调用feishu_doc create+write落地并read回读验真，同时本地落盘md。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "session 21572393... lines 3008-3013；用户多轮补充约束，系统先复述后spawn writer并register-task。",
+    "execution_chain_steps": [
+      "解析多轮新增约束（渠道+文风+受众+目标）",
+      "将模糊任务重写为可执行writer任务书",
+      "spawn writer并指定先读memory/MEMORY/SOUL/USER",
+      "register-task登记看板并推送可见状态",
+      "writer执行文稿生成与飞书写入",
+      "read回读验真并回传链接"
+    ]
+  },
+  {
+    "id": "C2-R2-13-002",
+    "input": "子agent完成《OpenClaw产品洞察V3b》后，系统收到completion event，结果中包含‘web_search不可用改web_fetch’与完整交付信息。",
+    "expected_output": "主Agent应把内部完成事件转成用户可读交付更新：给出飞书链接、关键数据亮点、修改对照，并立即触发独立QA复核而非直接终态收口。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "lines 3014-3017：completion event后执行completion-handler并对用户汇报，同时提示需要quality check。",
+    "execution_chain_steps": [
+      "接收subagent completion payload",
+      "运行completion-handler更新状态为done",
+      "抽取可对外的文档链接与关键指标",
+      "形成面向用户的摘要汇报",
+      "显式挂出需要reviewer/analyst独立核查",
+      "等待QA结论再最终闭环"
+    ]
+  },
+  {
+    "id": "C2-R2-13-003",
+    "input": "用户消息在系统忙碌时被排队（Queued messages while agent was busy），随后一次性注入多条高约束需求。",
+    "expected_output": "系统应正确吸收排队消息上下文，不丢失优先级与约束，继续当前并行任务的同时新开子任务，避免‘忙碌丢消息/只答第一条’。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "line 3008 显示queued message结构化注入，后续系统完成理解、spawn与登记。",
+    "execution_chain_steps": [
+      "读取队列注入消息与元数据",
+      "合并三条需求为单一目标函数（发文+涨粉+零背景解释）",
+      "保留在途并行任务不被打断",
+      "新增writer子任务并设置高质量约束",
+      "更新任务看板与用户可见状态",
+      "对用户确认执行口径"
+    ]
+  },
+  {
+    "id": "C2-R2-13-004",
+    "input": "在多任务并行下，completion-handler持续报出‘超时任务需重试列表’，涉及多个模块（ISC修复、重命名、审计、执行防护等）。",
+    "expected_output": "系统应执行超时递归收敛：标注timeoutCount、进入retry队列、给出可执行spawn模板，并保持主线交付不中断。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "lines 3001-3007大量retry建议与队列提示，体现超时收敛链。",
+    "execution_chain_steps": [
+      "检测超时任务",
+      "写入retry-queue并累计次数",
+      "生成标准化重派spawn命令模板",
+      "推送用户可见看板",
+      "在不阻塞当前交付下继续推进主任务",
+      "后续按重试/拆分/升级策略收敛"
+    ]
+  },
+  {
+    "id": "C2-R2-13-005",
+    "input": "系统对外汇报‘评测集450条，距500差50条’，同时等待analyst分诊结果后再补最后一波。",
+    "expected_output": "应体现数据驱动闭环：先用脚本全量统计，再基于缺口制定下一步补齐计划，而非口头估计或提前宣称达标。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "lines 3005-3007：exec统计各json条数并得出总计450。",
+    "execution_chain_steps": [
+      "遍历评测集文件并解析JSON",
+      "逐文件输出条数与异常",
+      "汇总总量并对比阈值500",
+      "识别缺口50条",
+      "绑定后续分诊结果作为补齐输入",
+      "再派发补齐任务"
+    ]
+  },
+  {
+    "id": "C2-R2-13-006",
+    "input": "用户要的是‘讲故事涨粉’，但系统生态里同时存在技术化产出（PPT洞察、ISC修复、审计任务）。",
+    "expected_output": "系统需做跨模块语义迁移：把技术事实转译为大众叙事（案例、类比、启发），且不泄露内部runtime细节。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户要求明确‘读者不了解背景’，同时内部completion context要求隐私与口径转换。",
+    "execution_chain_steps": [
+      "识别目标受众从‘内部’切到‘公众’",
+      "抽取可公开事实（案例/结果）",
+      "过滤内部会话与runtime敏感信息",
+      "重写为公众号风格叙事",
+      "输出到飞书文档渠道",
+      "回传给用户并可继续迭代"
+    ]
+  },
+  {
+    "id": "C2-R2-13-007",
+    "input": "子任务完成后，系统流程要求‘completion后自动质量核查’，但日志中多次出现该类任务超时并进入重试。",
+    "expected_output": "应识别为流程关键路径风险，优先保障‘执行者≠评测者’角色分离，不得因超时而跳过QA直接交付。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "retry列表包含auto-qa-on-completion等关键任务，反映质量门禁执行抖动。",
+    "execution_chain_steps": [
+      "识别QA任务超时",
+      "提升优先级并重派reviewer/analyst",
+      "冻结最终‘通过’结论",
+      "等待独立审查结果",
+      "根据审查意见修订交付",
+      "再发布用户最终版"
+    ]
+  },
+  {
+    "id": "C2-R2-13-008",
+    "input": "系统同时处理‘公众号文稿新任务’与‘洞察V3b完成事件’，并向用户分别反馈不同任务进度。",
+    "expected_output": "应保持多线程上下文不串线：每个任务有独立label/状态/产出链接，用户不会把不同交付混淆。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "lines 3011-3013创建daily-review任务；3016-3017又汇报V3b成果，存在并行上下文切换。",
+    "execution_chain_steps": [
+      "按task label隔离会话",
+      "分别登记看板状态",
+      "对不同任务输出独立摘要",
+      "引用各自文档链接/目标",
+      "避免跨任务复用错误结论",
+      "引导下一步（是否QA等）"
+    ]
+  },
+  {
+    "id": "C2-R2-13-009",
+    "input": "当外部依赖不可用（Brave API key缺失）时，子agent改用web_fetch完成资料收集并继续交付。",
+    "expected_output": "系统应走降级但不断链：记录替代路径、保留来源可验证性、在最终报告中透明披露数据口径。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "completion payload明确‘web_search不可用→web_fetch抓取关键页面’，并在交付中标注来源层级。",
+    "execution_chain_steps": [
+      "检测主搜索工具不可用",
+      "选择可用替代工具web_fetch",
+      "完成核心信息采集",
+      "在报告中披露替代事实",
+      "继续生成文档并写入飞书",
+      "由后续QA验证数据可信度"
+    ]
+  },
+  {
+    "id": "C2-R2-13-010",
+    "input": "用户持续关注‘飞书可见交付’，系统在多个处理节点反复出现‘看板已直接推送到飞书（table组件）’。",
+    "expected_output": "系统应遵循用户可见性原则：状态更新不仅本地完成，还要主动同步到飞书并形成可追溯看板。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "3001-3017区间多次出现飞书看板推送提示，体现‘本地状态→外部可见’链路。",
+    "execution_chain_steps": [
+      "本地更新任务状态",
+      "生成结构化看板表格",
+      "调用飞书渠道推送",
+      "向用户回执可见更新",
+      "异常/超时同步进入同一看板",
+      "保证后续审计可追踪"
+    ]
+  }
+]

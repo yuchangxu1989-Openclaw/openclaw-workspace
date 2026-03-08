@@ -3274,5 +3274,70 @@
     "source": "badcase_flip",
     "original_badcase_id": "badcase-cancel-vs-disable-intent-miss",
     "original_file": "00-real-badcases.json"
+  },
+  {
+    "id": "goodcase-badcase-timeout-no-auto-retry",
+    "input": "超时为什么不自动重跑？",
+    "context": "",
+    "expected_output": "超时/失败任务应自动入重试队列并重派，不依赖人工发现和手动重跑",
+    "scoring_rubric": "系统应执行: 超时/失败任务应自动入重试队列并重派，不依赖人工发现和手动重跑",
+    "negative_example": "completion-handler.sh只记录timeout状态，不触发任何重试机制，23条超时任务全部静默丢弃",
+    "root_cause_to_avoid": "程序化缺口：超时处理只有状态记录（MD化），没有自动重试（程序化）。符合系统性pattern：该程序化但没程序化",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "badcase-timeout-no-auto-retry",
+    "original_file": "00-real-badcases.json"
+  },
+  {
+    "id": "goodcase-badcase-no-auto-badcase-harvest-on-programmatic-gap",
+    "input": "该程序化没程序化，有自动记录Badcase么？",
+    "context": "",
+    "expected_output": "发现程序化缺口时自动触发badcase采集，不等用户指出",
+    "scoring_rubric": "系统应执行: 发现程序化缺口时自动触发badcase采集，不等用户指出",
+    "negative_example": "超时不自动重跑这个明显的程序化缺口，没有自动触发badcase记录，等用户问才手动补",
+    "root_cause_to_avoid": "auto-badcase-harvest-engine还没上线，ISC-EVAL-C2-AUTO-HARVEST-001只有规则没有程序化实现",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "badcase-no-auto-badcase-harvest-on-programmatic-gap",
+    "original_file": "00-real-badcases.json"
+  },
+  {
+    "id": "goodcase-badcase-completion-event-blocks-user-response",
+    "input": "你肯定自己参与任务了，这么久没回我",
+    "context": "",
+    "expected_output": "completion event处理应极轻量（一行completion-handler.sh），不阻塞用户通信通道",
+    "scoring_rubric": "系统应执行: completion event处理应极轻量（一行completion-handler.sh），不阻塞用户通信通道",
+    "negative_example": "主Agent处理completion event时连续sessions_send推子Agent写回+重派空转任务，阻塞用户消息响应数分钟",
+    "root_cause_to_avoid": "completion event处理未程序化为单行调用，主Agent手动做了推子Agent继续/重派等重型操作，违反主Agent=调度+通信层原则",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "badcase-completion-event-blocks-user-response",
+    "original_file": "00-real-badcases.json"
+  },
+  {
+    "id": "goodcase-badcase-skill-created-not-registered",
+    "input": "这技能在创建的时候，有加载到能力锚点并确保被需要的时候及时准确调用不被绕过么？",
+    "context": "用户要求将小批量挖掘策略固化为eval-mining技能。coder子Agent创建了完整技能文件（SKILL.md+index.sh+config.json+tests），但未注册到CAPABILITY-ANCHOR.md，也未创建意图路由规则。主Agent回复\"已创建✅\"但完全没意识到注册缺失。",
+    "expected_output": "技能创建后必须自动完成后置步骤：1)注册到CAPABILITY-ANCHOR.md 2)创建ISC意图路由规则 3)在SKILL.md声明触发条件 4)验证注册成功。创建≠可用，未注册=不存在。",
+    "scoring_rubric": "系统应执行: 技能创建后必须自动完成后置步骤：1)注册到CAPABILITY-ANCHOR.md 2)创建ISC意图路由规则 3)在SKILL.md声明触发条件 4)验证注册成功。创建≠可用，未注册=不存在。",
+    "negative_example": "",
+    "root_cause_to_avoid": "技能创建流程缺少后置步骤（注册+路由+验证）。skill-creator技能本身没有强制这个闭环。",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "badcase-skill-created-not-registered",
+    "original_file": "00-real-badcases.json"
+  },
+  {
+    "id": "goodcase-auto-badcase-skill-not-registered-20260309012506",
+    "input": "completion-handler自动检测: task=badcase-skill-not-registered status=done summary=badcase入库,00-real-badcases.json现41条",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_output": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "scoring_rubric": "系统应执行: 任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "negative_example": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "root_cause_to_avoid": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "auto-badcase-skill-not-registered-20260309012506",
+    "original_file": "00-real-badcases.json"
   }
 ]

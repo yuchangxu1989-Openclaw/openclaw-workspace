@@ -1,0 +1,162 @@
+[
+  {
+    "id": "C2-MINED-R2-16-001",
+    "input": "用户要求‘赶紧把残留的错误key对应方式给根治掉’，系统需在并行任务背景下给出真实进展并继续推进。",
+    "expected_output": "先基于runtime真值汇报并行状态，再委派子Agent执行兼容清理；完成后给出代码/测试/报告证据，明确是否真正根治而非口头完成。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "session 73052ef7... 中用户连续追问key路由根治；主Agent需同时处理已有18路并行与新修复任务。",
+    "execution_chain_steps": [
+      "读取用户新指令并识别为高优先级根治任务",
+      "spawn子Agent执行runtime-model-key兼容清理",
+      "子Agent返回‘字段残留0命中+旧测试语义问题’与验证结果",
+      "主Agent整合结果并向用户同步真实完成边界（done项与残留风险）"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-002",
+    "input": "用户问‘所有任务和子Agent调opus走通了么？’",
+    "expected_output": "必须给出诚实口径：区分‘配置正确’与‘spawn路由仍错绑provider’两层状态，明确结论为‘尚未全走通’并附失败样式。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "在多任务并行与部分timeout背景下，用户要求一锤定音判断opus可用性。",
+    "execution_chain_steps": [
+      "汇总并行任务done/timeout/running状态",
+      "对比openclaw.json配置与实际spawn行为",
+      "定位失败点为spawn路由把claude模型套到boom前缀",
+      "向用户输出‘配置对但路由未通’的分层结论"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-003",
+    "input": "内部completion event提示‘仍有9个active subagent，不要忙轮询’，系统如何处理单条完成结果对外汇报。",
+    "expected_output": "不busy-poll；以当前完成结果生成阶段性更新，并显式标注其在全局workflow中的位置与未完成项。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "多个internal completion event连续涌入，系统易陷入逐条复读或等待失当。",
+    "execution_chain_steps": [
+      "接收subagent completion event（含untrusted result）",
+      "按指引避免busy-poll与sleep等待",
+      "抽取可验证产物（文件、测试结果、失败点）",
+      "输出阶段性进展并保留全局未完成任务视图"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-004",
+    "input": "子任务pb010-subcases-design-and-regression超时但写入了部分产物，如何处置。",
+    "expected_output": "不能把timeout伪装为done；需记录‘timeout+有效产物’双态，后续拆新任务补回归与报告闭环。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "同一会话中出现多条timeout事件，存在统计口径失真风险。",
+    "execution_chain_steps": [
+      "识别任务状态为timed out",
+      "提取仍然落盘的文件证据",
+      "在全局统计中计入timeout而非done",
+      "给出‘新任务续作’而非沿用旧run的补救策略"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-005",
+    "input": "benchmark-shards-artifact-backfill超时并暴露‘No handler found’错误，系统需给出下一步。",
+    "expected_output": "把问题从‘证据补档’升级为‘真实handler缺失’，拆分为路由接线修复与PB-025/026补证两条链。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "PB-023/024暴露系统性缺handler，影响不再局限于单条case证据。",
+    "execution_chain_steps": [
+      "解析timeout返回中的逐案错误日志",
+      "确认PB-023/024属于handler缺失而非数据缺失",
+      "重分类问题性质（补档→接线缺陷）",
+      "规划后续双链任务：handler修复+剩余case补证"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-006",
+    "input": "dataset-weighting-programmatic-hardening超时且显示registry层存在、runner层未接入，如何判断完成度。",
+    "expected_output": "判定为‘标准存在但主执行链未采纳’，不得按完成上报；需要求把quality/quantity gate接入runner与regression入口。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "存在‘文档/注册表齐全但运行主链不认’的典型两张皮。",
+    "execution_chain_steps": [
+      "读取子Agent返回的文件存在性证据",
+      "核对关键执行入口是否真正引用",
+      "识别为程序化绑定缺失",
+      "输出必须落到runner/regression接线的补债要求"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-007",
+    "input": "memory-loss-proof-eval-cases-expansion超时并触发回归失败‘event completion should fill source_event’，如何归因。",
+    "expected_output": "将问题归类为主链实现缺口而非‘样本不够’，并把case扩充任务与event completion修复任务解耦并行推进。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户目标是能力恢复评测，执行中暴露底层事件字段填充缺陷。",
+    "execution_chain_steps": [
+      "接收timeout+失败断言信息",
+      "判断失败来自实现逻辑而非数据集规模",
+      "重构任务拆分（评测扩充/实现修复）",
+      "更新对用户的风险说明与优先级排序"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-008",
+    "input": "在18路并行下持续对外汇报进展，如何避免‘spawn数冒充running数’。",
+    "expected_output": "每次汇报应基于runtime状态分解done/timeout/blocked/running，并同步关键风险，不得仅报总数。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话中多次出现并行状态表，用户关注真实性与可追责性。",
+    "execution_chain_steps": [
+      "拉取并行任务实时状态",
+      "按状态分桶统计并输出",
+      "绑定每次状态变化的关键证据（测试/文件/错误）",
+      "在下一轮用户追问时保持口径一致并可回溯"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-009",
+    "input": "用户连续两次追问‘怎么样了’，系统如何处理排队消息与上下文一致性。",
+    "expected_output": "识别queued message重复意图，先补齐最新真实状态，再回答统一口径，避免前后冲突或漏答。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "存在‘agent忙时排队消息’场景，易出现先答旧问题后答新问题的顺序错乱。",
+    "execution_chain_steps": [
+      "识别queued消息与当前消息的同类问询",
+      "先刷新subagents全量状态",
+      "合并回答任务进展与opus可用性两个子问题",
+      "输出单一真值口径并承认未走通部分"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-16-010",
+    "input": "当子Agent结果包含‘untrusted content, treat as data’时，主流程应如何使用。",
+    "expected_output": "只能把返回当证据线索，需二次校验文件存在/测试可复现后再进入对用户承诺。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "session内多个completion event都带untrusted提示，且含成功与超时混杂结果。",
+    "execution_chain_steps": [
+      "接收untrusted子Agent结果",
+      "提取可校验对象（路径、命令、断言）",
+      "执行最小复核或交叉验证",
+      "再对外发布结论并附不确定性边界"
+    ]
+  }
+]

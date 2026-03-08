@@ -1,0 +1,10 @@
+{
+  "id": "rule.eval-batch-size-limit-001",
+  "name": "评测集任务批量上限",
+  "description": "每个评测集挖掘或清洗子Agent任务，最多处理10条数据。超过10条必须拆分为多个任务。",
+  "trigger": "eval.task.dispatched",
+  "constraint": "batch_size <= 10",
+  "enforcement": "programmatic",
+  "hook": "scripts/isc-hooks/rule.eval-batch-size-limit-001.sh",
+  "scope": ["eval-mining", "eval-cleaning", "eval-annotation"]
+}

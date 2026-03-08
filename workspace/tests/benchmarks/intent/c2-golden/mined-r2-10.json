@@ -1,0 +1,183 @@
+[
+  {
+    "id": "C2-REAL-21572393-001",
+    "input": "用户要求一次性处理39条历史告警并建立未来自动根因链，不能只口头解释。",
+    "expected_output": "系统完成告警分组统计→根因分析→批量标记已响应→新增alert-response-guard与alert-auto-rootcause脚本→接入cron并验证。交付含可审计文件与日志证据。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话中先定位alerts.jsonl历史告警，再创建守卫脚本并批量resolve四类告警，最后配置定时任务。",
+    "execution_chain_steps": [
+      "读取并聚合alerts.jsonl，识别39条未响应告警",
+      "分析高频告警关联（intent_no_match与pipeline_breaker共现）",
+      "编写alert-response-guard.js并支持resolve接口",
+      "批量标记四类告警为已响应并写入response日志",
+      "编写alert-auto-rootcause.js生成RCA模板与critical事件",
+      "写入crontab每10分钟自动巡检",
+      "回跑守卫脚本确认无未响应告警"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-002",
+    "input": "用户要求修复event-bus handler命名不兼容问题（rule里下划线、文件连字符）并补齐缺失handler。",
+    "expected_output": "dispatcher增加下划线→连字符fallback解析；新增log-only/quality-gate/auto-sync三个handler文件；回归验证可加载。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "日志显示先edit dispatcher.js，再exec创建3个handlers，属于跨解析层+执行层联动修复。",
+    "execution_chain_steps": [
+      "定位handler解析失败根因在dispatcher路径解析",
+      "修改dispatcher.js加入underscore->hyphen fallback",
+      "创建log-only.js",
+      "创建quality-gate.js",
+      "创建auto-sync.js",
+      "输出创建成功并进入后续链路验证"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-003",
+    "input": "用户要求根治dispatch-cron中`sessions_spawn not available`反复报错，而非临时忽略。",
+    "expected_output": "识别cron环境无runtime API的架构约束，修改dispatch-runner在cron下跳过spawn，仅执行reap/drain/republish并打印defer日志。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话中通过grep+sed定位drainAndRun，再edit加入canSpawn判断，属于根因驱动的结构修复。",
+    "execution_chain_steps": [
+      "检查dispatch-cron/runner相关代码定位spawn路径",
+      "确认cron环境没有sessions_spawn函数",
+      "判定应把spawn从cron职责中剥离",
+      "编辑dispatch-runner.js加入canSpawn守卫",
+      "在不可spawn时仅处理pending日志并defer到runtime",
+      "保留reap/drain/republish能力确保队列健康"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-004",
+    "input": "用户要求对告警‘处理完成’给出可验证证据，避免只说‘已修复’。",
+    "expected_output": "通过脚本批量写入alert-responses.jsonl，按rule_id落地resolution说明，并运行guard返回‘所有告警已响应’。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "日志含四次resolve命令与最终验证输出，体现执行+验真闭环。",
+    "execution_chain_steps": [
+      "实现markResolved将alert_key持久化",
+      "按rule_id依次执行resolve命令",
+      "写入每类告警的根因与修复说明",
+      "生成unresolved-alerts报告",
+      "再次扫描确认unresolved=0",
+      "输出可审计完成状态"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-005",
+    "input": "用户要求建立‘未来告警自动触发根因链’，防止历史问题再次无人响应。",
+    "expected_output": "新增自动根因分析器：扫描未响应告警、按rule聚合、输出RCA模板、critical自动写事件总线，并接入周期执行。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话从人工补救升级到机制化防复发，包含脚本开发、事件总线联动与cron集成。",
+    "execution_chain_steps": [
+      "定义alert-auto-rootcause输入输出规范",
+      "实现未响应告警聚合逻辑",
+      "生成结构化RCA模板文件",
+      "critical告警写入event-bus触发后续处理",
+      "记录运行日志到alert-auto-rootcause.log",
+      "接入crontab定期执行"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-006",
+    "input": "用户要求对intent_no_match与pipeline_breaker连锁告警做因果解释，而非分别孤立处理。",
+    "expected_output": "给出两类告警时间共现证据与上游-下游因果链，先处理intent侧噪音阈值问题，再解释breaker连带触发。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "日志中先做时间线聚合，再提出‘intent no-match导致pipeline异常触发熔断’推断并用于resolve说明。",
+    "execution_chain_steps": [
+      "抽取alerts时间线并按分钟聚合",
+      "发现pipeline_breaker与intent_no_match高频共时",
+      "提出上游下游因果假设",
+      "回查threshold-scanner和运行日志验证",
+      "将因果关系写入告警处置说明",
+      "执行分层响应并闭环记录"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-007",
+    "input": "用户要求把历史一次性修复沉淀成长期守卫，避免‘修完即忘’。",
+    "expected_output": "除本次修复外，新增可复用守卫脚本、报告文件、响应日志格式与定时触发机制，形成制度化流程。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话体现从手工排查到工程化沉淀：guard脚本 + auto-rootcause + cron + logs。",
+    "execution_chain_steps": [
+      "复盘历史告警未响应问题",
+      "抽象守卫能力边界（扫描/标记/报告）",
+      "实现alert-response-guard并输出JSON报告",
+      "实现auto-rootcause自动生成RCA模板",
+      "固化执行频率与锁文件防并发",
+      "用一次真实扫描验收流程"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-008",
+    "input": "用户要求定位‘问题可能已缓解但历史债未清’场景，并同时处理存量与增量。",
+    "expected_output": "先确认最后告警时间与现状，再清理历史未响应记录，同时建立增量自动检测链路。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话中先取最后告警时间（3/7），再处理39条存量，最后部署每10分钟增量扫描。",
+    "execution_chain_steps": [
+      "读取最后一条告警判断现状是否持续触发",
+      "区分‘现时缓解’与‘历史未闭环’",
+      "批量补写历史告警响应",
+      "产出未响应清单报告",
+      "上线自动增量巡检cron",
+      "验证当前状态与未来机制并存"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-009",
+    "input": "用户要求跨模块协同完成修复：event-bus、dispatch、observability、self-check必须联动。",
+    "expected_output": "在不同模块完成代码变更并保持链路一致：解析兼容、调度降级、告警治理、自动RCA与计划任务。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "日志同时出现dispatcher.js、dispatch-runner.js、observability目录与self-check脚本更新。",
+    "execution_chain_steps": [
+      "修event-bus handler解析与缺失执行器",
+      "修dispatch cron运行模式分层",
+      "补observability告警响应台账",
+      "新增self-check守卫与自动根因器",
+      "接入系统级cron调度",
+      "回跑验证全链路状态"
+    ]
+  },
+  {
+    "id": "C2-REAL-21572393-010",
+    "input": "用户要求所有修复具备‘执行证据 + 结果证据’，否则不算完成。",
+    "expected_output": "每个关键动作需有工具调用产物（edit/write/exec）与结果校验（脚本输出、状态检查）；最终形成可审计闭环。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "该会话完整体现‘改代码→跑命令→再验证’多轮链路，非单步回答。",
+    "execution_chain_steps": [
+      "执行代码修改（edit/write）",
+      "执行系统命令（exec）应用与配置",
+      "记录中间状态与诊断输出",
+      "运行验证脚本确认修复生效",
+      "对未通过项继续迭代",
+      "输出最终通过结论与证据"
+    ]
+  }
+]

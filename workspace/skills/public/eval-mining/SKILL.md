@@ -1,13 +1,37 @@
 ## 触发条件
 当用户意图匹配以下场景时，必须调用本技能：
-- 挖掘/补充/生成评测集
-- C2 case批量生成
+- 挖掘/补充/生成评测集 → **mine 模式**
+- 清洗/校验/对齐评测集 → **clean 模式**
+- 刷新评测集 → **refresh 模式**（先 clean 全量再 mine 补缺）
+- C2 case 批量生成
 - 评测数据质量刷新
-- 评测集与V3标准对齐
+- 评测集与 V3 标准对齐
 
-# 评测集挖掘技能 (Eval Mining) ⛏️
+# 评测集生成与清洗技能 (eval-mining) ⛏️🧹
 
-从 session 日志中挖掘 C2 意图识别评测用例的标准化流程。
+从 session 日志中挖掘 C2 意图识别评测用例，并按 V3 标准清洗已有评测集的统一流程。
+
+## 两种模式
+
+### 生成模式 (mine)
+从 session 日志挖掘 C2 评测用例。
+
+### 清洗模式 (clean)
+按 V3 标准对已有评测集文件逐条检查、修复、删除不合格 case。
+
+### 刷新模式 (refresh)
+先 clean 全量评测集，再 mine 补缺。
+
+## 统一质量标准
+
+无论生成还是清洗，都使用同一套 V3 合规检查（定义在 `config.json` 的 `quality_rules`）：
+
+| 规则 | 说明 |
+|------|------|
+| 必填字段 | id, input, expected_output, category, difficulty, source |
+| C2 要求 | 多轮对话、input≥20字符、来源为真实对话、执行步骤≥4 |
+| 合法分类 | 纠偏类/认知错误类/全局未对齐类/头痛医头类/反复未果类/连锁跷跷板类/自主性缺失类/交付质量类 |
+| 合法难度 | C1, C2 |
 
 ## 核心策略：小批量原则
 
@@ -15,21 +39,11 @@
 
 | 参数 | 值 | 原因 |
 |------|-----|------|
-| 每路挖掘条数 | **10条**（不多不少） | 超过15条子Agent大概率空转 |
+| 每路挖掘条数 | **10条** | 超过15条子Agent大概率空转 |
 | 每路读取日志行数 | **500行** | 防止50KB截断导致空转 |
 | 并发上限 | 16路 | 填满并发池，总量靠路数堆 |
 
-### 空转率统计（经验数据）
-
-| 模型 | 大批量(15-20条) | 小批量(10条) |
-|------|-----------------|-------------|
-| boom | ~60% 空转 | 显著降低 |
-| opus | ~5% 空转 | 接近0% |
-| GLM-5 | 待观察 | 待观察 |
-
-**结论：小批量(10条)成功率 >> 大批量(15-20条)**
-
-## 挖掘流程
+## 挖掘流程 (mine)
 
 ### 1. 准备阶段
 - 读取 V3 标准文档：`feishu_doc read` token `OKmrd21OsotmFkxpT4gcLXjunze`
@@ -53,88 +67,120 @@ Task prompt 模板：
 ```
 读取文件 {session_file} 的第 {start_line} 到 {end_line} 行。
 从中挖掘恰好10条C2意图识别评测用例，格式遵循V3标准（参考 feishu_doc token OKmrd21OsotmFkxpT4gcLXjunze）。
-用 write 工具将结果写入 {output_dir}/mined-{batch_id}.json，JSON数组格式，每条包含 input/expected_intent/context 字段。
+用 write 工具将结果写入 {output_dir}/mined-{batch_id}.json，JSON数组格式，每条包含 id/input/expected_output/category/difficulty/source 字段。
 一次性完成不要等确认。
 ```
 
-### 4. 验证规则（关键！）
+### 4. 验证规则
 
 子Agent completion 后**必须**检查：
-1. 文件是否存在（`read` 或 `exec ls`）
+1. 文件是否存在
 2. JSON 数组条数 > 0
-3. 不满足则标记 **failed**（不是 done）
+3. 每条 case 通过 `scripts/validate-single-case.sh` 验证
+4. 不满足则标记 **failed**
 
+### 5. 去重 + 清洗
+
+挖掘全部完成后：
 ```bash
-# 验证伪代码
-if [ ! -f "$output_file" ]; then
-  echo "FAILED: file not written"
-elif [ "$(jq length "$output_file")" -eq 0 ]; then
-  echo "FAILED: empty array"
-else
-  echo "DONE: $(jq length "$output_file") cases mined"
-fi
+bash scripts/dedup-eval-cases.sh [output_dir]
+bash scripts/clean-eval-cases.sh [output_dir]
 ```
 
-### 5. 去重
+## 清洗流程 (clean) — 非破坏性三步模式
 
-挖掘全部完成后，运行去重脚本：
+清洗采用「扫描标记 → 统计确认 → 执行删除」三步流程，避免误删：
+
+### 第1步：扫描标记（默认，不修改文件）
 ```bash
-bash scripts/dedup-eval-cases.sh
+bash index.sh clean [file_or_dir]
+# 等价于
+bash scripts/clean-eval-cases.sh scan [file_or_dir]
 ```
-基于 input 字段文本相似度去重（完全相同 或 >90% 相似）。
+- 逐条检查合规性（必填字段、分类、难度、输入长度等）
+- 不合格 case 标记 `_flag`（原因）和 `_missing`（缺失字段）
+- 输出统计报告：总条数/合格数/不合格数/待补字段数/按原因分类
+- **不修改原文件**
+
+### 第2步：确认
+人工查看统计报告，确认需要删除的 case。
+
+### 第3步：执行删除
+```bash
+bash index.sh clean --apply [file_or_dir]
+# 等价于
+bash scripts/clean-eval-cases.sh apply [file_or_dir]
+```
+- 备份原文件到 `.backup/` 目录（带时间戳）
+- 删除带 `_flag` 的不合格 case
+- 清除合格 case 上的临时标记字段
+- 写回清洗后文件
+- 输出清洗执行报告
+
+## 刷新流程 (refresh)
+
+```bash
+bash index.sh refresh
+```
+
+1. 先对全量评测集执行 clean
+2. 统计清洗后缺口
+3. 如需补缺，可手动执行 mine
 
 ## 标准自动同步
 
 ### 唯一真相源
 
 评测标准 V3 的唯一真相源为飞书文档 `OKmrd21OsotmFkxpT4gcLXjunze`。
-任何本地缓存、记忆中的标准描述均不可作为最终依据，必须以飞书文档实时内容为准。
 
 ### 挖掘前必读最新标准
 
-每次执行挖掘任务前，**必须**先通过 `feishu_doc read` 拉取最新 V3 标准文档内容，确保挖掘口径与最新标准对齐。
+每次执行挖掘任务前，**必须**先通过 `feishu_doc read` 拉取最新 V3 标准文档内容。
 
 ### 标准版本变更自动刷新
 
 - 标准内容的 hash 缓存于 `skills/public/eval-mining/.v3-version-hash`
 - 每次挖掘前运行 `scripts/sync-v3-standard.sh` 检测标准是否变更
-- 若标准变更：
-  1. 更新 hash 缓存
-  2. 写信号文件到 `.eval-mining-signals/standard-updated`
-  3. 自动触发 `scripts/refresh-evalset.sh` 对全量评测集进行合规检查
-- 若未变更：跳过刷新，正常挖掘
-
-### 相关脚本
-
-| 脚本 | 用途 |
-|------|------|
-| `scripts/sync-v3-standard.sh` | 检测 V3 标准是否变更，更新 hash 缓存 |
-| `scripts/refresh-evalset.sh` | 读取最新标准，扫描评测集，输出不合格 case |
+- 若标准变更：自动触发 refresh 流程
 
 ## 文件结构
 
 ```
 eval-mining/
-├── SKILL.md          # 本文件
-├── config.json       # 配置参数
-├── index.sh          # 一键挖掘入口
-├── .v3-version-hash  # V3标准内容hash缓存
+├── SKILL.md                        # 本文件
+├── config.json                     # 配置参数（含 quality_rules）
+├── index.sh                        # 统一入口（mine/clean/refresh）
+├── .v3-version-hash                # V3标准内容hash缓存
 ├── scripts/
-│   ├── dedup-eval-cases.sh  # 去重脚本
-│   ├── sync-v3-standard.sh  # V3标准同步检测
-│   └── refresh-evalset.sh   # 评测集合规刷新
+│   ├── clean-eval-cases.sh         # 清洗脚本
+│   ├── validate-single-case.sh     # 单条case V3合规验证
+│   ├── dedup-eval-cases.sh         # 去重脚本
+│   ├── sync-v3-standard.sh         # V3标准同步检测
+│   └── refresh-evalset.sh          # 评测集合规刷新
 └── tests/
-    └── test-mining.sh       # 验证脚本
+    └── test-mining.sh              # 验证脚本
 ```
 
 ## 使用方式
 
 ```bash
-# 一键挖掘
-bash index.sh <session日志目录> <目标条数> [并发数]
+# 挖掘模式
+bash index.sh mine <session日志目录> <目标条数> [并发数]
+
+# 清洗模式（扫描统计，不删除）
+bash index.sh clean [file_or_dir]
+
+# 清洗模式（确认后执行删除）
+bash index.sh clean --apply [file_or_dir]
+
+# 刷新模式（clean全量 + 统计缺口）
+bash index.sh refresh
 
 # 单独去重
 bash scripts/dedup-eval-cases.sh [output_dir]
+
+# 单条case验证
+bash scripts/validate-single-case.sh '<json_string>'
 
 # 验证产出
 bash tests/test-mining.sh [output_dir]

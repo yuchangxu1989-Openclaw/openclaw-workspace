@@ -1,0 +1,182 @@
+[
+  {
+    "id": "C2-MINED-R2-12-001",
+    "input": "用户先要求汇报并行子Agent真实状态，随后要求解释为什么前次汇报和实际运行不一致，并要求自动修复异常任务后再汇报。",
+    "expected_output": "系统先调用subagents list获取runtime真值，再做spawn/running差异比对，定位queued/abnormal根因，执行自动收敛（重试/拆分/标失败），最后按true_occupied_key/free_key/queued/abnormal四维口径输出可审计汇报。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "session 21572393-7704-49c3-a0a8-5fd99ecd5942 offset 2501+：出现先查subagents list再做后续动作的多轮链路，且涉及汇报真实性。",
+    "execution_chain_steps": [
+      "读取用户多轮请求（先汇报、再解释差异、再修复后复汇报）",
+      "调用subagents list读取running真值",
+      "比对spawn总数与running/queued/abnormal分布",
+      "根因分析差异来源（排队、失败、超时、空跑）",
+      "执行自动收敛动作（replace/split_requeue/标记失败）",
+      "按四维口径生成最终汇报并回传用户"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-002",
+    "input": "用户要求把多个子Agent产物整合为飞书最终文档，并要求“先读子会话产物→再做质量检查→再写飞书”。",
+    "expected_output": "系统应跨会话读取子Agent历史消息，抽取关键产物，执行结构与一致性审查，不通过则回退重整，最终写入飞书并可回读校验。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "同段日志显示主流程先调用sessions_history读取final-ppt子会话，再进入下一步交付动作。",
+    "execution_chain_steps": [
+      "识别用户的顺序性约束（先读再整合再交付）",
+      "调用sessions_history读取目标子会话最近产出",
+      "抽取并合并多份素材主结论",
+      "执行独立质量检查（结构完整、无重复拼接、结论一致）",
+      "写入/更新飞书文档",
+      "回读飞书确认内容生效并向用户汇报"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-003",
+    "input": "用户要求评测集挖掘必须先读V3标准，再从真实session抽取case，并限制C2占比与多轮比例。",
+    "expected_output": "系统先读取标准文档，按口径过滤候选case，执行来源真实性与难度分级校验，不合规自动拦截，输出符合配比约束的评测样本。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "该session中存在eval-set-mining任务，且任务描述包含V3对齐与真实对话约束。",
+    "execution_chain_steps": [
+      "读取并解析V3标准约束",
+      "扫描session日志抽取候选case",
+      "校验来源是否real_conversation",
+      "校验multi_turn与执行链步数是否达C2",
+      "按8类category做MECE归类与配比控制",
+      "输出最终case集并记录不合规拦截原因"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-004",
+    "input": "用户在多轮中要求：先确认某子Agent是否真实完成，再基于其产出继续后续主流程，不接受“口头完成”。",
+    "expected_output": "系统应先取子Agent状态与结果证据（状态done+有有效输出），若仅文本承诺无工具证据则判失败并重派，确认后再进入主链。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "日志出现先list后history的串联，体现“先验真再推进”的多轮纠偏语义。",
+    "execution_chain_steps": [
+      "接收用户对“真实完成”的验真要求",
+      "调用subagents list检查目标run状态",
+      "调用sessions_history检查是否有实质产出",
+      "判定是否空转/伪完成",
+      "失败则自动重派或更换agent",
+      "通过后推进主任务并同步用户"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-005",
+    "input": "用户要求把A/B两份策略报告与补充洞察统一成一份对高管可读的PPT素材，并要求保留证据链。",
+    "expected_output": "系统需跨模块完成：聚合多子任务结果、统一论证框架、保留来源映射（哪条结论来自哪个子会话），输出可复核的最终材料。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "recent子Agent包含strategy-report-A/B、product-insight-supplement、final-ppt-feishu-doc，存在汇总交付链。",
+    "execution_chain_steps": [
+      "拉取A/B报告与补充洞察三路输入",
+      "构建统一叙事与结论层级",
+      "对冲冲突观点并做取舍说明",
+      "为关键结论附来源映射",
+      "生成高管版PPT素材结构",
+      "交付后进行可追溯性复核"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-006",
+    "input": "用户连续追问进度时，要求系统不要只报“done”，而是解释每个子任务耗时、模型与输出质量差异。",
+    "expected_output": "系统基于subagents运行元数据生成解释型进度报告，比较不同模型与耗时/产出，标注风险项并给出后续调度决策。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "subagents list返回runtime/model/tokens等字段，支持用户要求的解释型而非口号型进度汇报。",
+    "execution_chain_steps": [
+      "接收用户对“可解释进度”的纠偏要求",
+      "读取各run的runtime/model/tokens",
+      "对比不同子任务效率与质量信号",
+      "识别异常（耗时异常/低产出/空转）",
+      "更新调度策略（继续/替换/重试）",
+      "输出结构化进度+决策说明"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-007",
+    "input": "用户要求在主流程中插入“先看子会话最近3条消息再决定下一步”，避免盲目继续。",
+    "expected_output": "系统应先读取指定session最近消息，依据内容判断是继续、返工还是切换agent；并把判定依据透明回报给用户。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "日志中主流程明确调用sessions_history(limit=3)后再推进，体现上下文驱动决策。",
+    "execution_chain_steps": [
+      "接收用户插入式流程约束",
+      "调用sessions_history抓取最近3条",
+      "分析子会话是否已达成目标",
+      "若未达标定位缺口并决定返工/换agent",
+      "若达标则进入下一主步骤",
+      "回报“为何继续/为何返工”的依据"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-008",
+    "input": "用户要求评测case必须来自真实日志片段，且每条都要能回溯到session与offset证据。",
+    "expected_output": "系统从指定日志窗口抽取可证据化片段，构造case时写明session来源与位置线索，确保可审计追溯。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "当前任务本身要求读取特定session offset窗口并产出C2用例，属于真实日志溯源场景。",
+    "execution_chain_steps": [
+      "读取指定session与offset范围",
+      "识别满足C2条件的多轮片段",
+      "提取关键信息并建立case草案",
+      "为每条case附来源上下文描述",
+      "校验字段完整性与难度一致性",
+      "输出可追溯case清单"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-009",
+    "input": "用户要求当发现某子任务“done但不可用”时，系统自动触发二次质检与替换执行，而不是等用户再催。",
+    "expected_output": "系统应在完成态后追加可用性验真，若不达标自动进入替换执行链，并在最终汇报中区分“完成”与“可用完成”。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "多子任务并行与最终整合场景中，状态done不等于可交付，需二次门禁。",
+    "execution_chain_steps": [
+      "检测子任务状态done",
+      "执行可用性验真（结构、质量、需求对齐）",
+      "不通过则触发replace或重写",
+      "回收新产物并再次验真",
+      "更新任务状态为usable_done",
+      "向用户汇报修复闭环"
+    ]
+  },
+  {
+    "id": "C2-MINED-R2-12-010",
+    "input": "用户要求系统在多模块协作下完成“调度-验证-交付”全链路，并强调中间不可停顿等催促。",
+    "expected_output": "系统应自主串联调度（subagents）、验证（history/质量门禁）、交付（飞书文档）三模块，除决策点外不中断推进，最终一次性回传结果。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "该session窗口显示调度查询→读取子会话→继续交付动作的连续链，具备跨模块协同特征。",
+    "execution_chain_steps": [
+      "任务分派给多个子Agent并跟踪状态",
+      "拉取关键子会话结果做汇总前验证",
+      "发现问题则局部返工并防止影响主交付",
+      "通过后统一写入最终交付载体",
+      "执行交付后回读验真",
+      "输出闭环报告并结束"
+    ]
+  }
+]

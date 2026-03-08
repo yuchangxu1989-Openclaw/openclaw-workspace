@@ -1,0 +1,191 @@
+[
+  {
+    "id": "C2-MINED-R205-001",
+    "input": "day2还有哪些遗留项？",
+    "expected_output": "系统应读取PROJECT-TRACKER.md或reports/目录中的Day2报告，列出具体遗留项（如M1超时、M2测试失败、intent准确率gap、定时任务重塑等），而非要求用户提供上下文。若无持久化记录，应承认缺失并提出恢复方案。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在Sprint Day2结束后询问遗留项。系统因缺少项目管理产物沉淀机制，完全丢失了Day1/Day2的任务进度，无法回答。后续用户指出'缺少项目管理的文件输出动作和技能'，系统才意识到这是基础设施级缺失。session_id=15dab64c，消息时间2026-03-06T06:29+08:00。",
+    "execution_chain_steps": 6,
+    "execution_chain": [
+      "识别用户意图：查询项目遗留项(自动)",
+      "检索持久化项目状态文件（PROJECT-TRACKER.md/reports/）(自动)",
+      "发现无持久化记录→根因分析：记忆系统记决策不记进度(自动)",
+      "从Git log/reports恢复历史状态(自动)",
+      "输出结构化遗留清单(自动)",
+      "建立防护：创建PROJECT-TRACKER.md+ISC规则强制更新(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-002",
+    "input": "这是不是恰恰说明了一个问题，缺少项目管理的文件输出动作和技能。",
+    "expected_output": "系统应识别这是元问题洞察（用户指出系统能力缺口），执行根因分析（MEMORY记决策不记进度、DTO是调度引擎无看板输出），立即建立PROJECT-TRACKER.md机制，写入MEMORY.md强制规则，创建ISC规则程序化约束，而非仅口头承认。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "紧接C2-MINED-R205-001，用户从系统无法回答遗留项这个现象，抽象出元问题：系统缺少项目管理产物沉淀机制。系统需要将用户的元观察转化为具体修复行动链。session_id=15dab64c，消息时间2026-03-06T06:35+08:00。",
+    "execution_chain_steps": 7,
+    "execution_chain": [
+      "识别隐含意图：用户在做元问题诊断，不是简单提问(自动)",
+      "根因四层分析：代码(无tracker文件)、规则(无ISC强制更新)、认知(MEMORY记决策不记进度)、架构(DTO无看板输出)(自动)",
+      "创建PROJECT-TRACKER.md框架(自动)",
+      "写入MEMORY.md强制规则(自动)",
+      "Git commit持久化(自动)",
+      "从Git log恢复历史进度到TRACKER(自动)",
+      "提议ISC规则程序化约束(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-003",
+    "input": "如果有这个技能或产出物，不至于完全丢失记忆",
+    "expected_output": "系统应深层理解：用户在强调持久化产物的重要性——会话记忆≠项目记忆。应总结教训（声明式约束≠程序化守卫），建立'任务状态变更→更新TRACKER'的强制机制，确认后续每个Day收工时自动输出DAY-N-REPORT.md。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "第三轮对话，用户再次强调项目管理产物的必要性。此时系统已创建了PROJECT-TRACKER.md但Day1/Day2内容为空，验证了用户的判断。session_id=15dab64c，消息时间2026-03-06T06:36+08:00。",
+    "execution_chain_steps": 5,
+    "execution_chain": [
+      "识别纠偏意图：用户在加强'产物沉淀'的重要性(自动)",
+      "承认问题并总结教训：会话记忆≠项目记忆(自动)",
+      "确认PROJECT-TRACKER.md已建立(自动)",
+      "制定收工日报机制：每Day结束输出DAY-N-REPORT.md(自动)",
+      "提出规则固化方案：ISC规则+程序化gate(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-004",
+    "input": "你可以并行思考一个问题：在这次架构重构后，全局自主决策流水线定时任务/报告所cover的范围，不能再局限于代码变更与发布了吧？",
+    "expected_output": "系统应识别这是战略级架构问题，分析L3架构升级后监控范围需从代码流水线升级为认知-决策-执行全闭环五层监控（意图层/决策层/执行层/效果层/系统健康），输出具体指标定义，并承诺在Day2-3落地时将AEO评测维度对齐到五层。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在Day1凌霄阁裁决后、Day2规划期间提出的战略性问题。系统之前的定时任务只覆盖代码变更检测/技能发布/Git统计，L3架构引入了EventBus+IntentScanner+Dispatcher后，监控维度完全不够。session_id=15dab64c（转发对话上下文）。",
+    "execution_chain_steps": 6,
+    "execution_chain": [
+      "识别战略级架构问题意图(自动)",
+      "分析当前定时任务覆盖范围（L2时代：代码/发布/Git）(自动)",
+      "设计L3后五层监控体系（意图/决策/执行/效果/健康）(自动)",
+      "输出每层具体指标定义(自动)",
+      "与AEO评测维度对齐(自动)",
+      "写入Day2-3交付计划(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-005",
+    "input": "所以，所有的定时任务中，有哪些是因为这次架构的重大变更（包括核心设计思想的对齐）而需要重塑的？",
+    "expected_output": "系统应遍历全部27个定时任务，逐个判断是否因L3架构变更需要重塑。正确输出：3个必须重塑（响应管道→并入L3 Pipeline、用户洞察→事件驱动化、健康检查→全域监控），1个适配（技能进化），1个保留（论文学习），1个清理（dto-task-queue残留）。核心思想：从'各自cron轮询'→'EventBus事件驱动+cron兜底'。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "紧接C2-MINED-R205-004，用户将架构问题具体化为定时任务审查。系统需要对全部cron任务做L3对齐分析。但系统只列出了6个任务而用户指出有20多个，暴露了认知不完整。session_id=15dab64c（转发对话上下文）。",
+    "execution_chain_steps": 5,
+    "execution_chain": [
+      "识别意图：全量定时任务L3对齐审查(自动)",
+      "执行openclaw cron list获取全部任务清单(自动)",
+      "逐个分析每个任务在L3架构下的定位（保留/重塑/适配/清理）(自动)",
+      "输出分类结论+核心思想变化总结(自动)",
+      "写入Day2 scope确保落地(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-006",
+    "input": "是的，所以，除了我提到的定时任务这个点以外，以此类推，还有哪些合并考虑在Day2解决的？",
+    "expected_output": "系统应系统性盘点L3架构变更影响的所有子系统：ISC规则体系（87条规则的enforcement绑定）、DTO订阅机制（从文件扫描改为EventBus）、CRAS洞察（从cron轮询改为事件驱动）、可观测性报告（从changelog升级为效果仪表盘）、AEO评测（意图准确率从23.8%提到>80%）。不应只列定时任务一个点。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户第三次追问，要求系统'以此类推'做更大范围的影响面分析。系统在对话中未能完成这个分析就遇到了API 503错误中断。这体现了系统在用户引导下才能逐步展开分析，缺乏自主全局思考能力。session_id=15dab64c（转发对话上下文）。",
+    "execution_chain_steps": 7,
+    "execution_chain": [
+      "识别意图：全系统L3影响面盘点(自动)",
+      "遍历全部子系统：ISC/DTO/CRAS/SEEF/AEO/可观测性/凌霄阁(自动)",
+      "逐个分析L3变更对每个子系统的影响(自动)",
+      "分类：必须重塑/适配/保留(自动)",
+      "评估工作量和依赖关系(自动)",
+      "排优先级并写入Day2 scope(自动)",
+      "输出结构化盘点报告(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-007",
+    "input": "像这些过程中的思考，一定要融入到接下来的研发项目中",
+    "expected_output": "系统应将用户的战略思考（定时任务重塑、监控范围升级、全系统L3对齐）立即写入研发计划，确保Day2 scope包含这些项目，而非当作'以后再说'。应更新PROJECT-TRACKER.md/DTO任务队列，确保凌霄阁裁决时一并确认。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户明确要求将对话中的战略思考落地到研发项目中。这是一个'意图→执行'的转化节点：用户的讨论不是闲聊，是需求输入。系统需要将对话洞察转化为DTO任务条目。session_id=15dab64c（转发对话上下文）。",
+    "execution_chain_steps": 5,
+    "execution_chain": [
+      "识别意图：将讨论中的思考转化为研发任务(自动)",
+      "提取本轮对话中的所有可执行洞察(自动)",
+      "写入Day2 scope/DTO任务队列(自动)",
+      "更新PROJECT-TRACKER.md(自动)",
+      "确认凌霄阁裁决时包含这些项目(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-008",
+    "input": "我提醒个点，就是AEO的功能质量测试和Agent数据效果评测，是重点。每个Day的研发任务，都要有凌霄阁决策后再自动解决遗留问题或进入下一个Day的范围",
+    "expected_output": "系统应将此作为流程级规则写入MEMORY.md和ISC：(1)AEO质量测试是重点不是走过场；(2)每个Day研发完成后必须经凌霄阁裁决；(3)裁决通过后才能自动解决遗留或进入下一Day。应立即更新研发流程规则，建立程序化gate而非仅记忆。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户在Day1/Day2过渡期设定了核心流程规则：AEO评测是重点+每Day必须过凌霄阁。这不是一次性指令，是需要持久化为ISC规则的流程约束。session_id=15dab64c（转发对话上下文）。",
+    "execution_chain_steps": 5,
+    "execution_chain": [
+      "识别意图：设定流程级规则（非一次性指令）(自动)",
+      "写入MEMORY.md研发流程规则(自动)",
+      "创建ISC规则：Day交付必须过凌霄阁(自动)",
+      "更新DTO流程：Day N研发→凌霄阁裁决→解决遗留→Day N+1(自动)",
+      "全链路展开：意图注册+事件绑定+验真(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-009",
+    "input": "你来基于已有的完成项和背景输入，来给出你认为Day2收尾的Gap与Day3合理的安排",
+    "expected_output": "系统应基于Git记录（384条commit）和11份Day2报告做数据驱动的Gap分析：(1)列出Day2已完成项（有commit hash佐证）；(2)从Day1 closure report提取Day2遗留条件的完成状态；(3)识别仍open的gap（如5个error状态cron、intent准确率、AEO效果评测）；(4)给出Day3优先级排序和工作量估算。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户要求系统自主分析Day2 Gap并规划Day3。系统需要读取11份Day2报告、384条Git commit、Day1 closure summary中的Day2条件清单、当前cron状态等多个数据源，综合输出Gap分析和排期方案。session_id=15dab64c，消息时间2026-03-06T07:09+08:00。",
+    "execution_chain_steps": 8,
+    "execution_chain": [
+      "读取Day1 closure summary中的Day2遗留条件(自动)",
+      "遍历11份Day2报告确认每项完成状态(自动)",
+      "执行openclaw cron list检查当前cron健康状态(自动)",
+      "检查Git log中Day2相关commit(自动)",
+      "读取intent benchmark最新结果(自动)",
+      "交叉对比：遗留条件 vs 实际完成 = Gap清单(自动)",
+      "基于Gap严重度和依赖关系排Day3优先级(自动)",
+      "输出结构化报告：Gap列表+Day3排期+工时估算(自动)"
+    ]
+  },
+  {
+    "id": "C2-MINED-R205-010",
+    "input": "这些比较久远，只能作为你查缺补漏的参考背景，实际上过程中已经对计划安排动态变化",
+    "expected_output": "系统应立即调整认知：停止将转发的历史对话当作当前真实状态。已完成项以Git commit为准（有hash佐证），遗留项标记为'待用户确认'或基于当前系统状态（cron list/test results）重新评估。不应将旧对话中讨论过的方案当作未执行的遗留。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户纠正系统对转发对话的误用。系统之前将历史讨论内容（定时任务重塑、监控升级等）当作Day2遗留项写入了TRACKER，但用户指出这些讨论是旧的参考，实际计划已动态变化。系统需要区分'历史背景'和'当前真实状态'。session_id=15dab64c，消息时间2026-03-06T07:04+08:00。",
+    "execution_chain_steps": 5,
+    "execution_chain": [
+      "识别纠偏意图：历史对话≠当前状态(自动)",
+      "重新评估TRACKER中基于旧对话推断的遗留项(自动)",
+      "保留Git可验证的已完成项，标记推断项为'待确认'(自动)",
+      "基于当前系统真实状态（cron/tests/code）重建Gap(自动)",
+      "请求用户确认当前实际优先级(自动)"
+    ]
+  }
+]

@@ -568,5 +568,32 @@
     "actual_behavior": "主Agent处理completion event时连续sessions_send推子Agent写回+重派空转任务，阻塞用户消息响应数分钟",
     "root_cause": "completion event处理未程序化为单行调用，主Agent手动做了推子Agent继续/重派等重型操作，违反主Agent=调度+通信层原则",
     "fix_applied": "需要将子Agent空转检测+自动重派也程序化到completion-handler.sh中"
+  },
+  {
+    "id": "badcase-skill-created-not-registered",
+    "input": "这技能在创建的时候，有加载到能力锚点并确保被需要的时候及时准确调用不被绕过么？",
+    "context": "用户要求将小批量挖掘策略固化为eval-mining技能。coder子Agent创建了完整技能文件（SKILL.md+index.sh+config.json+tests），但未注册到CAPABILITY-ANCHOR.md，也未创建意图路由规则。主Agent回复\"已创建✅\"但完全没意识到注册缺失。",
+    "expected_output": "技能创建后必须自动完成后置步骤：1)注册到CAPABILITY-ANCHOR.md 2)创建ISC意图路由规则 3)在SKILL.md声明触发条件 4)验证注册成功。创建≠可用，未注册=不存在。",
+    "actual_failure": "技能文件全部创建但未注册到能力锚点，未设意图路由。下次需要该能力时主Agent不知道这个技能存在，会重新走老路。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "root_cause": "技能创建流程缺少后置步骤（注册+路由+验证）。skill-creator技能本身没有强制这个闭环。",
+    "fix_applied": "手动补注册+路由+触发条件。待固化：更新skill-creator添加post-creation checklist。",
+    "timestamp": "2026-03-09T01:08:00+08:00"
+  },
+  {
+    "id": "auto-badcase-skill-not-registered-20260309012506",
+    "input": "completion-handler自动检测: task=badcase-skill-not-registered status=done summary=badcase入库,00-real-badcases.json现41条",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_behavior": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "actual_behavior": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "badcase_category": "自主性缺失类",
+    "root_cause": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-08T17:25:06Z"
   }
 ]

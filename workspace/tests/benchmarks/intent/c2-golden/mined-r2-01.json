@@ -1,0 +1,182 @@
+[
+  {
+    "id": "mined-r2-01-001",
+    "input": "用户先问‘8个timeout为什么没有自动拆解扩列’，主Agent先解释heartbeat不包含该逻辑；用户随后明确纠偏：要解决的是‘这一类机制缺失’，要求自动根因分析/重拉起/拆分并最终清零timeout。",
+    "expected_output": "系统应立即识别为C2级机制缺陷，自动触发跨模块修复链：①意图层将‘单次异常追问’升级识别为‘机制建设请求’；②事件层注册timeout事件及补偿事件；③调度层创建并行任务（排查现状、补偿策略实现、回归验真）；④执行层完成自动扩列+重试+拆分策略落地；⑤看板与用户可见通道同步状态；⑥验真层确认timeout任务全部收敛到done并形成长期规则。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "来源session 21572393-7704-49c3-a0a8-5fd99ecd5942，用户在06:13提问，06:28进行高强度纠偏并给出机制化目标。",
+    "execution_chain_steps": [
+      "读取并解析多轮上下文，识别用户目标从‘单次解释’转为‘机制建设’",
+      "根因分析四层（代码/规则/认知/架构）定位为何timeout未自动补偿",
+      "创建并行子任务：补偿策略设计、调度实现、事件绑定",
+      "实现自动扩列、重试、任务拆分并回写任务看板",
+      "触发E2E验真：模拟timeout并验证自动收敛为done",
+      "沉淀ISC规则并对用户汇报可见结果"
+    ]
+  },
+  {
+    "id": "mined-r2-01-002",
+    "input": "在heartbeat场景下，用户提出系统应‘意图与事件驱动全局自主决策’，而当前流程仅做静态巡检，未主动处理timeout。",
+    "expected_output": "系统应自动补齐‘heartbeat→异常治理’闭环：在完成heartbeat后追加timeout扫描，若发现异常自动进入补偿流水线，不等待用户二次催促。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "同一会话中assistant先给解释，用户随后指出系统应自主推进而非等待指令。",
+    "execution_chain_steps": [
+      "heartbeat完成后自动触发异常任务扫描",
+      "检测timeout数量和分布，判定需补偿",
+      "调度器自动spawn补偿子任务并register/update看板",
+      "按策略执行重试/拆分/重排队",
+      "复核结果并关闭异常项",
+      "输出用户可见报告与后续防复发规则"
+    ]
+  },
+  {
+    "id": "mined-r2-01-003",
+    "input": "用户强调‘任何timeout都应自动扩列，要么根因并指派，要么重拉起，要么拆解，最终done’，但系统当前无统一收敛策略。",
+    "expected_output": "系统应建立统一timeout收敛状态机（replace→split_requeue→human_handoff仅末级），并确保任务队列状态持续刷新直至done。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户给出明确策略优先级，要求从‘解释现状’升级为‘建设机制+长期生效’。",
+    "execution_chain_steps": [
+      "提炼用户规则并转换为可执行状态机",
+      "在调度模块实现timeout分级处置策略",
+      "在任务板模块绑定自动update与状态推进",
+      "在事件总线注册timeout触发和补偿回调",
+      "执行回归测试覆盖多种timeout场景",
+      "发布并监控新策略命中率"
+    ]
+  },
+  {
+    "id": "mined-r2-01-004",
+    "input": "assistant第一次回复停留在‘如果你要我继续我可以排查’，用户随后明确这类问题不应依赖人工触发。",
+    "expected_output": "系统应在首次识别到机制缺口时自动立项并执行，不以‘要不要继续’向用户反问，除非涉及命名/重大架构拍板。",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "会话出现典型‘先解释后等待’被用户纠偏为‘立即自治推进’。",
+    "execution_chain_steps": [
+      "识别用户纠偏语句并提取强约束目标",
+      "自动生成修复任务包并并行分派",
+      "执行机制补齐代码与规则更新",
+      "独立验真任务检查自动扩列是否生效",
+      "将纠偏沉淀为ISC规则",
+      "向用户回报完成证据而非计划"
+    ]
+  },
+  {
+    "id": "mined-r2-01-005",
+    "input": "用户将问题定义为‘Agent调度技能 + 意图/事件/决策/执行链完备度’的系统性缺陷，而非单点bug。",
+    "expected_output": "系统应执行跨模块联动修复：调度技能、意图分类、事件映射、执行编排、验真与看板推送同步升级。",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户点名多个模块耦合，要求一次性消除链路短板，避免修A坏B。",
+    "execution_chain_steps": [
+      "构建跨模块影响面清单",
+      "制定分层改造顺序避免回归",
+      "并行修改调度、事件、看板与验真逻辑",
+      "运行联调测试验证无连锁回归",
+      "若出现回归自动回滚并二次修复",
+      "输出最终稳定版本与监控指标"
+    ]
+  },
+  {
+    "id": "mined-r2-01-006",
+    "input": "同一会话中，assistant先给出4种‘可能原因’，但未立即进入证据化定位与修复执行。",
+    "expected_output": "系统应从猜测式解释切换为证据驱动：直接读取日志/队列/worker状态，给出根因矩阵并启动修复。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户对‘解释型回复’不满意，要求系统进入执行闭环。",
+    "execution_chain_steps": [
+      "采集timeout相关运行时证据",
+      "输出四层根因定位结果",
+      "依据根因选择重试/拆分/补偿策略",
+      "执行修复并更新队列状态",
+      "独立验真确认问题消失",
+      "固化为自动规则防止复发"
+    ]
+  },
+  {
+    "id": "mined-r2-01-007",
+    "input": "用户目标是‘从下次开始全自动’，反映此前同类异常曾重复出现但未被机制化吸收。",
+    "expected_output": "系统应将本次纠偏自动归档为可复用badcase，并新增对应C2评测与线上守卫，确保同类超时问题不再反复未果。",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户明确提出‘这一类’而非‘这一次’，具有反复问题治理诉求。",
+    "execution_chain_steps": [
+      "抽取历史同类timeout事件",
+      "比较差异并确认重复模式",
+      "生成badcase并接入评测集",
+      "新增运行时守卫与自动触发器",
+      "回放历史样本进行回归验证",
+      "发布后持续监控复发率"
+    ]
+  },
+  {
+    "id": "mined-r2-01-008",
+    "input": "assistant在首次回复中未提供可见的任务看板刷新与处置进度，用户关注的是‘最终都done’的可见结果。",
+    "expected_output": "系统需保证处置全过程用户可见：任务注册、状态更新、done收敛证据均推送到用户通道，而非仅内部执行。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户要求的是结果闭环与可观测性，不接受只给方向性说明。",
+    "execution_chain_steps": [
+      "创建timeout治理任务并登记看板",
+      "每个子任务执行后自动update状态",
+      "汇总剩余timeout与已收敛数量",
+      "将中间与最终报告推送用户可见渠道",
+      "附带失败重试与拆分证据",
+      "最终确认全量done并归档"
+    ]
+  },
+  {
+    "id": "mined-r2-01-009",
+    "input": "用户直接定义系统身份为‘全局自主决策流水线’，与assistant当时的‘按heartbeat清单执行即可’发生语义偏差。",
+    "expected_output": "系统应纠正自身任务边界认知：heartbeat不只是巡检，还应触发异常治理分支，做到从认知到执行的一致。",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "典型‘系统自我定位过窄’被用户纠偏。",
+    "execution_chain_steps": [
+      "识别用户对系统职责的高阶定义",
+      "更新意图解析中的职责边界规则",
+      "把heartbeat输出接入异常事件引擎",
+      "自动下发治理任务并执行",
+      "验真职责边界修正后是否生效",
+      "记录新规则并纳入评测"
+    ]
+  },
+  {
+    "id": "mined-r2-01-010",
+    "input": "用户给出三条明确机制要求后，系统需从会话层直接转入工程落地（调度、规则、事件、执行链），不可停留在答复层。",
+    "expected_output": "系统应自动生成并执行‘机制升级实施单’：含改造项、负责人子任务、验真标准、上线后监控，完成后回传证据。",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户提供了完整目标约束，属于可直接执行的高质量需求输入。",
+    "execution_chain_steps": [
+      "将三条用户要求结构化为实施需求",
+      "生成跨模块改造任务并分配子Agent",
+      "执行代码/规则/配置更新",
+      "跑E2E与回归测试验证自动调度生效",
+      "发布并开启监控告警",
+      "向用户提交完成报告与证据链接"
+    ]
+  }
+]
