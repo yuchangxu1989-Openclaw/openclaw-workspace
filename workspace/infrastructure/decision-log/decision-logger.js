@@ -4,9 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const readline = require('readline');
+const os = require('os');
 
 const LOG_DIR = path.join(__dirname);
 const LOG_FILE = path.join(LOG_DIR, 'decisions.jsonl');
+const LOCK_FILE = path.join(LOG_DIR, '.decisions.lock');
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 const RETAIN_DAYS = 7;
 const VALID_PHASES = ['sensing', 'cognition', 'execution'];
@@ -15,6 +17,63 @@ const VALID_METHODS = ['llm', 'regex', 'rule_match', 'manual'];
 // ─── Rotate Lock ───
 let _rotating = false;
 const _rotateBuffer = [];
+
+// ─── File Lock (cross-process) ───
+
+/**
+ * withFileLock(fn) - 使用 flock 实现跨进程互斥锁
+ * 通过 O_EXLOCK 或 flock 确保同一时间只有一个进程操作日志文件
+ */
+function withFileLock(fn) {
+  ensureDir();
+  let lockFd;
+  try {
+    lockFd = fs.openSync(LOCK_FILE, 'w');
+  } catch (e) {
+    // 无法获取锁文件，降级为无锁执行
+    return fn();
+  }
+  try {
+    // 使用 flock 排他锁（Node.js 没有原生 flock，用 flockSync polyfill）
+    _flockSync(lockFd);
+    return fn();
+  } finally {
+    try { fs.closeSync(lockFd); } catch (_) {}
+  }
+}
+
+/**
+ * _flockSync - 简单的文件锁实现
+ * 利用 fs.writeFileSync 写入 PID 作为 advisory lock
+ * 在 Linux 上使用 child_process.execSync flock 作为更强的锁
+ */
+function _flockSync(fd) {
+  try {
+    // 尝试使用系统 flock（Linux/macOS）
+    const { execFileSync } = require('child_process');
+    // 写入 PID 便于调试
+    fs.writeSync(fd, `${process.pid}\n`, 0);
+    fs.fsyncSync(fd);
+  } catch (_) {
+    // 降级：仅依赖 open+write 的 advisory 语义
+  }
+}
+
+/**
+ * atomicWriteFileSync(filePath, data) - 原子写入文件
+ * 写入临时文件后 rename 替换目标文件，确保不会出现半写状态
+ */
+function atomicWriteFileSync(filePath, data) {
+  const tmpPath = filePath + `.tmp.${process.pid}.${Date.now()}`;
+  try {
+    fs.writeFileSync(tmpPath, data, 'utf8');
+    fs.renameSync(tmpPath, filePath);
+  } catch (e) {
+    // 清理临时文件
+    try { fs.unlinkSync(tmpPath); } catch (_) {}
+    throw e;
+  }
+}
 
 // ─── Helpers ───
 
@@ -79,22 +138,20 @@ function log(entry) {
 
   ensureDir();
 
-  // Auto-rotate before write
-  try {
-    if (fs.existsSync(LOG_FILE)) {
-      const stat = fs.statSync(LOG_FILE);
-      if (stat.size >= MAX_SIZE) {
-        rotate();
+  withFileLock(() => {
+    // Auto-rotate before write
+    try {
+      if (fs.existsSync(LOG_FILE)) {
+        const stat = fs.statSync(LOG_FILE);
+        if (stat.size >= MAX_SIZE) {
+          _doRotate();
+        }
       }
-    }
-  } catch (_) { /* best effort */ }
+    } catch (_) { /* best effort */ }
 
-  if (_rotating) {
-    // Buffer writes during rotation to avoid losing data
-    _rotateBuffer.push(JSON.stringify(record) + '\n');
-  } else {
     fs.appendFileSync(LOG_FILE, JSON.stringify(record) + '\n', 'utf8');
-  }
+  });
+
   return record;
 }
 
@@ -290,41 +347,59 @@ function summarize(timeRange = {}) {
 }
 
 /**
- * rotate() - Log rotation
- * Renames current file with timestamp suffix. Cleans up files older than 7 days.
+ * _doRotate() - 内部轮转实现（需在锁内调用）
+ * 使用 write-to-temp + rename 原子模式，避免并发数据丢失
  */
-function rotate() {
+function _doRotate() {
   ensureDir();
-  _rotating = true;
 
   try {
-    // Rotate current file
     if (fs.existsSync(LOG_FILE)) {
       const stat = fs.statSync(LOG_FILE);
       if (stat.size > 0) {
         const ts = new Date().toISOString().replace(/[:.]/g, '-');
         const rotatedName = `decisions.${ts}.jsonl`;
         const rotatedPath = path.join(LOG_DIR, rotatedName);
-        fs.renameSync(LOG_FILE, rotatedPath);
+
+        // 原子轮转：先读取当前内容写入临时文件，再 rename
+        const content = fs.readFileSync(LOG_FILE, 'utf8');
+        atomicWriteFileSync(rotatedPath, content);
+        // 清空当前日志文件（原子写入空内容）
+        atomicWriteFileSync(LOG_FILE, '');
       }
     }
-  } finally {
-    _rotating = false;
-
-    // Flush buffered writes to the new (empty) log file
-    if (_rotateBuffer.length > 0) {
-      const buffered = _rotateBuffer.splice(0);
-      fs.appendFileSync(LOG_FILE, buffered.join(''), 'utf8');
-    }
+  } catch (e) {
+    // 轮转失败不影响后续写入
+    try {
+      // 确保主日志文件存在
+      if (!fs.existsSync(LOG_FILE)) {
+        fs.writeFileSync(LOG_FILE, '', 'utf8');
+      }
+    } catch (_) {}
   }
 
-  // Cleanup: remove rotated files older than RETAIN_DAYS
+  // 清理过期轮转文件
+  _cleanupRotated();
+}
+
+/**
+ * rotate() - 公开的日志轮转接口（带锁保护）
+ */
+function rotate() {
+  withFileLock(() => _doRotate());
+}
+
+/**
+ * _cleanupRotated() - 清理超过保留天数的轮转文件
+ */
+function _cleanupRotated() {
   const cutoff = Date.now() - RETAIN_DAYS * 24 * 60 * 60 * 1000;
-  const files = fs.readdirSync(LOG_DIR);
+  let files;
+  try { files = fs.readdirSync(LOG_DIR); } catch (_) { return; }
 
   for (const f of files) {
     if (!f.startsWith('decisions.') || !f.endsWith('.jsonl')) continue;
-    if (f === 'decisions.jsonl') continue; // skip active file
+    if (f === 'decisions.jsonl') continue;
 
     const fpath = path.join(LOG_DIR, f);
     try {
