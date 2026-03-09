@@ -57,7 +57,7 @@ function getFlag(envKey, defaultVal = true) {
 
 function getFeatureFlags() {
   return {
-    pipeline: getFlag('L3_PIPELINE_ENABLED', true),
+    pipeline: getFlag('L3_PIPELINE_ENABLED', false),
     eventbus: getFlag('L3_EVENTBUS_ENABLED', true),
     rulematcher: getFlag('L3_RULEMATCHER_ENABLED', true),
     intentscanner: getFlag('L3_INTENTSCANNER_ENABLED', true),
