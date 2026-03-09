@@ -15,7 +15,7 @@ const API_KEY = match[1];
 
 const text = process.argv[2];
 const outputFile = process.argv[3] || '/tmp/glm-tts-output.wav';
-const voice = process.argv[4] || 'female';
+const voice = process.argv[4] || 'douji';
 const speed = parseFloat(process.argv[5] || '1.0');
 const volume = parseFloat(process.argv[6] || '1.0');
 
