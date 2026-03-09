@@ -1,0 +1,41 @@
+{
+  "id": "rule.auto-asr-on-voice-message-001",
+  "version": "1.0.0",
+  "name": "语音消息自动ASR转录",
+  "description": "收到语音/音频消息时自动触发GLM-ASR转录，将语音内容转为文本处理，消除能力遗忘",
+  "priority": "P0",
+  "fullchain_status": "expanded",
+  "domain": "perception",
+  "category": "asr",
+  "trigger": {
+    "events": [
+      "message.received.audio",
+      "message.received.voice"
+    ],
+    "conditions": {
+      "file_types": ["ogg", "mp3", "wav", "m4a", "oga"],
+      "has_audio_attachment": true
+    }
+  },
+  "conditions": {
+    "must": [
+      "消息包含音频/语音附件（ogg/mp3/wav/m4a）",
+      "附件可下载且文件大小 > 0"
+    ]
+  },
+  "action": {
+    "perception": "检测到音频/语音消息附件",
+    "cognition": "自动调用GLM-ASR转录，无需用户指令",
+    "execution": [
+      "下载音频附件到临时路径",
+      "ogg格式需cp为.wav后缀（GLM-ASR不支持ogg扩展名）",
+      "调用GLM-ASR转录",
+      "转录结果作为文本内容返回处理"
+    ],
+    "handler": "auto-asr-voice-transcribe",
+    "type": "script"
+  },
+  "created_at": "2026-03-09T23:40:00+08:00",
+  "created_by": "coder-subagent",
+  "tags": ["asr", "voice", "auto-trigger", "perception", "P0"]
+}
