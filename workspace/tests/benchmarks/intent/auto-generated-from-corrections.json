@@ -228,5 +228,125 @@
     "created_at": "2026-03-08T16:00:01.557Z",
     "data_source": "real_conversation",
     "signal": "23:32-23:48 评测集修复 + 难度标准纠偏 + badcase连锁\n\n### 评测集4路修复\n- B(reviewer重派)完成：130条补difficulty/source/expected_output\n- C(coder重派)完成：142条补expected_output\n- A(analyst)和D(scout)在写回中（需推动才继续）\n- 子Agent空转问题依旧严重：writer/reviewer首次都空转（只说计划不执行），改派coder才成功\n\n### 难度标准纠偏（用户指出）\n- V3评测标准只有C1和C2，没有C3/C4/C5\n- 但评测集里有78条C3、14条C"
+  },
+  {
+    "id": "auto-eval-1773014401542-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "# 2026-03-09 记忆日志\n\n---\n\n### [00:00] 自动记忆摘要（过去6小时）\n- 重要变更: 40个 ([OTHER]x40)\n- 空转提交: 0个（已忽略）\n- 事件总线: 3",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.537Z",
+    "data_source": "real_conversation",
+    "signal": "# 2026-03-09 记忆日志\n\n---\n\n### [00:00] 自动记忆摘要（过去6小时）\n- 重要变更: 40个 ([OTHER]x40)\n- 空转提交: 0个（已忽略）\n- 事件总线: 317个事件\n- 关键变更列表:\n  1. [OTHER] auto-sync: event-triggered - 影响1个文件\n  2. [OTHER] 🧹 anti-entropy: 1 fixes (2 issues detected) - 影响46个文件\n  3. [OTHER] auto-sync: event-triggered - 影响2个文件\n  4. [OTHER] 🧹 an"
+  },
+  {
+    "id": "auto-eval-1773014401542-1",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "00:00-00:18 评测集V3全量清洗\n\n### 致命Badcase #41/#42: 评测集全链路罔顾V3标准\n- 用户发现600+条评测集全部未对齐V3标准\n- 根因：生成脚本没嵌V3约束、子",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.537Z",
+    "data_source": "real_conversation",
+    "signal": "00:00-00:18 评测集V3全量清洗\n\n### 致命Badcase #41/#42: 评测集全链路罔顾V3标准\n- 用户发现600+条评测集全部未对齐V3标准\n- 根因：生成脚本没嵌V3约束、子Agent没读V3、C3/C4/C5不该存在(V3只有C1/C2)、无准入门禁\n- 用户原话：\"我们磨了那么久的《标准》，总纲，宪法！结果你罔顾标准，耗了那么多钱\"\n- 已写入飞书V3文档黄金Case: C2-EVALSET-PIPELINE-IGNORE-STANDARD-001\n- **教训：评测标准与评测集生成链路之间必须有程序化绑定**\n\n### 12路V3清洗结果\n派出12路并行清洗（a"
+  },
+  {
+    "id": "auto-eval-1773014401542-2",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "00:27-01:08 评测集大规模挖掘 + 技能化\n\n### 评测集挖掘V2（小批量策略）\n- **关键策略突破**：每路只挖10条+只读500行，成功率大幅提升（用户建议）\n- V1（每路15-2",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.537Z",
+    "data_source": "real_conversation",
+    "signal": "00:27-01:08 评测集大规模挖掘 + 技能化\n\n### 评测集挖掘V2（小批量策略）\n- **关键策略突破**：每路只挖10条+只读500行，成功率大幅提升（用户建议）\n- V1（每路15-20条）空转率~60%（boom）；V2（每路10条）成功率显著提高\n- 派出10路V2 + 4路补充 + 6路GLM-5 = 20路并行挖掘\n- **已验证落地的文件**（截至01:08）：\n  - session-01: 20条C2 ✅ (opus/analyst)\n  - session-05: 16条C2 ✅ (opus/coder)\n  - v2-01: 10条 ✅ (boom/analy"
+  },
+  {
+    "id": "auto-eval-1773014401542-3",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "01:08-01:10 技能注册闭环 + 用户纠偏\n\n### 用户纠偏：技能创建≠可用技能\n- 创建了eval-mining技能但没注册到CAPABILITY-ANCHOR.md，也没设意图路由\n- ",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.537Z",
+    "data_source": "real_conversation",
+    "signal": "01:08-01:10 技能注册闭环 + 用户纠偏\n\n### 用户纠偏：技能创建≠可用技能\n- 创建了eval-mining技能但没注册到CAPABILITY-ANCHOR.md，也没设意图路由\n- **badcase模式**：\"技能创建但不注册=不存在\"\n- 已修复：能力锚点注册+ISC意图路由规则+SKILL.md触发条件\n\n### 待固化：技能创建标准后置步骤\n- 创建→注册锚点→意图路由→验证 应该是skill-creator技能的标准流程\n- 当前skill-creator没有强制这个后置步骤\n- **TODO**：更新skill-creator技能，添加post-creation "
+  },
+  {
+    "id": "auto-eval-1773014401542-4",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "01:33-01:58 评测集大规模挖掘（R2波次）\n\n### 技能整改完成\n- **fix-eval-clean-nondestructive** ✅ — 清洗改为scan标记+apply删除双模式",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.538Z",
+    "data_source": "real_conversation",
+    "signal": "01:33-01:58 评测集大规模挖掘（R2波次）\n\n### 技能整改完成\n- **fix-eval-clean-nondestructive** ✅ — 清洗改为scan标记+apply删除双模式\n- **isc-eval-batch-size-limit** ✅ — ISC规则+config+守卫脚本，≤10条/任务\n\n### R2挖掘战果\n- 总计派出**27路**（R2-01~R2-28，其中R2波次19路原有+9路补满=28路实际27路因编号跳过）\n- **22路实写成功**，产出220条C2评测用例\n- **6路失败**（r2-03/07/18/25/26/27）：子Agent声"
+  },
+  {
+    "id": "auto-eval-1773014401542-5",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "02:00-02:30 评测集质量大清洗 + 四象限调研\n\n### V3清洗残酷真相\n- 程序化清洗脚本 `scripts/v3-eval-clean.js` 创建成功（coder）\n- **存量73",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.538Z",
+    "data_source": "real_conversation",
+    "signal": "02:00-02:30 评测集质量大清洗 + 四象限调研\n\n### V3清洗残酷真相\n- 程序化清洗脚本 `scripts/v3-eval-clean.js` 创建成功（coder）\n- **存量734条：100%不合格，0条能用** — V2时代产物，模板生成/单轮/缺字段/category乱标\n- **R2的220条：62条完全合格(28%)，158条有flag但0缺字段**\n- R2不合格主因：138条input<50字（阈值过严，真实纠偏就是短句），50条steps<4，4条category不对\n- 已派coder调阈值15字重跑（fix-v3-clean-threshold）\n- *"
+  },
+  {
+    "id": "auto-eval-1773014401542-6",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "02:30-02:37 评测集清洗最终结果 + 归档\n\n### 程序化清洗最终数据（v3-eval-clean.js迭代3次）\n- v1: input阈值50字 → R2合格62/220(28%)\n-",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.538Z",
+    "data_source": "real_conversation",
+    "signal": "02:30-02:37 评测集清洗最终结果 + 归档\n\n### 程序化清洗最终数据（v3-eval-clean.js迭代3次）\n- v1: input阈值50字 → R2合格62/220(28%)\n- v2: input阈值15字 → R2合格165/220(75%)\n- v3: 删除input长度检查 → R2合格166/220(75.5%)\n- **发现：50条不合格的execution_chain_steps是数字格式(6/7/5)不是数组，脚本误判**\n- **发现：4条category不在八类，可映射修复**\n- 结论：54条全部可修复，修完后R2应接近100%合格\n\n### 存量归"
+  },
+  {
+    "id": "auto-eval-1773014401542-7",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "02:37-02:39 评测集修复完成 + Agent架构现状\n\n### 评测集最终状态\n- 54条不合格全部修复：50条steps数字格式兼容 + 4条category映射\n- **R2 220条 ",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.538Z",
+    "data_source": "real_conversation",
+    "signal": "02:37-02:39 评测集修复完成 + Agent架构现状\n\n### 评测集最终状态\n- 54条不合格全部修复：50条steps数字格式兼容 + 4条category映射\n- **R2 220条 → 100%合格**\n- 全量234条，V3合格220条（94.0%），14条mined-from-memory不合格\n- commit 4c1e3cd7\n- 距500目标差280条\n\n### Agent架构现状\n- 23个Agent目录，实际在用8个（main/coder/cron-worker/analyst/reviewer/scout/writer/researcher）\n- 15个从未使"
+  },
+  {
+    "id": "auto-eval-1773014401542-8",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "02:44 用户休息，今日总结\n\n### 用户状态\n- 长煦02:44说\"没力气了\"，休息\n- 有更多早期对话数据但没精力转发，后续再补\n\n### 今晚(03-08 ~20:00 至 03-09 02",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.538Z",
+    "data_source": "real_conversation",
+    "signal": "02:44 用户休息，今日总结\n\n### 用户状态\n- 长煦02:44说\"没力气了\"，休息\n- 有更多早期对话数据但没精力转发，后续再补\n\n### 今晚(03-08 ~20:00 至 03-09 02:44)核心战果\n1. **评测集大清洗**：虚假646条 → 真实220条V3合格（94%合格率）\n2. **程序化清洗脚本** v3-eval-clean.js 创建+3次迭代优化\n3. **R2大规模挖掘**：22路落地220条C2评测case\n4. **769条V2垃圾归档**\n5. **四象限竞品调研**完成（右上角最稀缺，OpenClaw唯一占据者）\n6. **phantom writ"
+  },
+  {
+    "id": "auto-eval-1773014401542-9",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "02:47 workspace碎片化根因定位（重大发现）\n- **Sandbox是假问题**：Docker未安装，sandbox=OFF\n- **真凶=workspace碎片化**：6个Agent各有",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.538Z",
+    "data_source": "real_conversation",
+    "signal": "02:47 workspace碎片化根因定位（重大发现）\n- **Sandbox是假问题**：Docker未安装，sandbox=OFF\n- **真凶=workspace碎片化**：6个Agent各有独立workspace，子Agent写文件落在自己workspace\n- 49个stranded文件从agent workspace抢救回主workspace\n- 已建symlink：agent的reports/memory/logs/skills → 主workspace\n- commit 1bf8c481\n- **这解释了大量phantom write失败的真正原因**\n- 建议：spawn "
+  },
+  {
+    "id": "auto-eval-1773014401542-10",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "02:55-02:58 三大修复落地\n\n### Workspace全合并\n- openclaw.json: agents.defaults.workspace = /root/.openclaw/wo",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T00:00:01.538Z",
+    "data_source": "real_conversation",
+    "signal": "02:55-02:58 三大修复落地\n\n### Workspace全合并\n- openclaw.json: agents.defaults.workspace = /root/.openclaw/workspace\n- 删除19个agent的独立workspace覆盖配置\n- 130+文件从6个独立workspace迁移到主workspace\n- commit d66a33b1\n- 旧workspace-*目录待确认gateway生效后清理\n\n### Phantom write真正根因\n- 不是sandbox，不是workspace碎片化（虽然碎片化确实有影响）\n- **真正根因=模型差异**"
+  },
+  {
+    "id": "auto-eval-1773025201739-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "10:43 GLM-5评测基线 + 可靠性矩阵评估\n\n### GLM-5 C2评测全量结果\n- GLM-5 (glm-4-flash) zero-shot 基线：**~27.5%**（96/349，b",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T03:00:01.735Z",
+    "data_source": "real_conversation",
+    "signal": "10:43 GLM-5评测基线 + 可靠性矩阵评估\n\n### GLM-5 C2评测全量结果\n- GLM-5 (glm-4-flash) zero-shot 基线：**~27.5%**（96/349，batch4还未汇入）\n- 6路并行全量跑完423条C2评测用例\n- 分文件准确率区间：0%-50%，均值约27%\n- 对比Mock分类器：全0%（IC体系与C2中文类别不对齐，符合预期）\n- **下一步**：few-shot优化（每类加2-3条示例）预计提升15-20%\n\n### AI Agent可靠性矩阵对比（用户要求双Agent评估）\n用户发了一张AI Agent可靠性矩阵图（4维度×3区间）"
   }
 ]

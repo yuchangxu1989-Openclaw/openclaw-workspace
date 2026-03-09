@@ -11,5 +11,31 @@
     "difficulty": "C2",
     "source": "auto-harvest-engine",
     "harvested_at": "2026-03-08T18:57:49Z"
+  },
+  {
+    "id": "auto-harvest-badcases-0309-20260309083109",
+    "input": "completion-handler自动检测: task=harvest-badcases-0309 status=done summary=2条badcase已写入并通过门禁,git commit等final-commit-fix统一解决",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_behavior": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "actual_behavior": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "badcase_category": "自主性缺失类",
+    "root_cause": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-09T00:31:09Z"
+  },
+  {
+    "id": "auto-fix-eval-cognitive-badcase-20260309135619",
+    "input": "completion-handler自动检测: task=fix-eval-cognitive-badcase status=done summary=badcase入库+MEMORY追加完成,AGENTS.md和git需收尾",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_behavior": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "actual_behavior": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "badcase_category": "自主性缺失类",
+    "root_cause": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-09T05:56:19Z"
   }
 ]
