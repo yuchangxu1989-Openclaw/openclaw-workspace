@@ -26,6 +26,38 @@ tags:
 
 ## 核心脚本
 
+### `register-task.sh`
+
+任务登记脚本（写入/更新 `subagent-task-board.json` 的运行中任务项），用于在任务启动时注册：
+
+```bash
+bash register-task.sh "task-id" "label" "agent-id" "model"
+```
+
+### `update-task.sh`
+
+任务状态更新脚本，用于将任务从 `running` 更新为 `done/failed/timeout` 等状态，并记录完成时间、摘要等信息：
+
+```bash
+bash update-task.sh "label" "done" "结果摘要"
+```
+
+### `completion-handler.sh`
+
+任务完成处理入口脚本，封装任务完成后的状态落盘、摘要记录与后续处理流程：
+
+```bash
+bash completion-handler.sh "label" "done" "结果摘要"
+```
+
+### `show-task-board.sh`
+
+任务看板文本输出脚本，读取任务板并输出简洁可扫描的文本看板：
+
+```bash
+bash show-task-board.sh
+```
+
 ### `show-task-board-feishu.sh`
 
 生成看板数据，支持两种模式：
