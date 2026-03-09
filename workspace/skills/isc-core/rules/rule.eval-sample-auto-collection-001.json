@@ -37,5 +37,7 @@
   "action": {
     "type": "check",
     "handler": "eval-quality-check"
-  }
+  },
+  "fullchain_status": "expanded",
+  "handler": "handlers/eval-sample-auto-collection.js"
 }

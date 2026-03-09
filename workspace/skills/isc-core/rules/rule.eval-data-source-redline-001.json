@@ -38,5 +38,7 @@
     "handler": "eval-quality-check",
     "script": "scripts/isc-hooks/rule.eval-data-source-redline-001.sh"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded",
+  "handler": "handlers/eval-data-source-redline.js"
 }
