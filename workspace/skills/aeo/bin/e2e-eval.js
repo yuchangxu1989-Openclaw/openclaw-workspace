@@ -9,8 +9,8 @@
  * Usage:
  *   node e2e-eval.js --level l1l2 --batch 10
  *   node e2e-eval.js --level l1 --batch 3 --dry-run
- *   node e2e-eval.js --test-model glm-4-flash --judge-model glm-4-plus
- *   node e2e-eval.js --test-model claude-opus-4-6 --judge-model glm-4-plus
+ *   node e2e-eval.js --test-model glm-4-flash --judge-model glm-5
+ *   node e2e-eval.js --test-model claude-opus-4-6 --judge-model glm-5
  */
 
 'use strict';
@@ -28,8 +28,8 @@ const { values: args } = parseArgs({
     'data-dir':    { type: 'string', default: '' },
     'dry-run':     { type: 'boolean', default: false },
     'out-dir':     { type: 'string', default: '' },
-    'test-model':  { type: 'string', default: 'glm-4-plus' },
-    'judge-model': { type: 'string', default: 'glm-4-plus' },
+    'test-model':  { type: 'string', default: 'glm-5' },
+    'judge-model': { type: 'string', default: 'glm-5' },
     // legacy compat
     model:         { type: 'string', default: '' },
   },
@@ -38,8 +38,8 @@ const { values: args } = parseArgs({
 
 // If legacy --model is passed, use it for both
 if (args.model) {
-  if (!args['test-model'] || args['test-model'] === 'glm-4-plus') args['test-model'] = args.model;
-  if (!args['judge-model'] || args['judge-model'] === 'glm-4-plus') args['judge-model'] = args.model;
+  if (!args['test-model'] || args['test-model'] === 'glm-5') args['test-model'] = args.model;
+  if (!args['judge-model'] || args['judge-model'] === 'glm-5') args['judge-model'] = args.model;
 }
 
 const LEVEL       = args.level;                    // l1 | l2 | l1l2
@@ -55,13 +55,13 @@ const JUDGE_MODEL = args['judge-model'];
 
 // ── Zhipu API config ────────────────────────────────────────────────────────
 const ZHIPU_ENDPOINT = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
-const TIMEOUT_MS     = 30_000;  // 30s per call
+const TIMEOUT_MS     = 45_000;  // 45s per call (GLM-5 can be slower)
 
 // Track resolved models after fallback (per role)
 const resolvedModels = { test: TEST_MODEL, judge: JUDGE_MODEL };
 
 function buildFallbackChain(primary) {
-  return [...new Set([primary, 'glm-4-plus', 'glm-4-0520', 'glm-4-flash'])];
+  return [...new Set([primary, 'glm-5', 'glm-4-0520', 'glm-4-flash'])];
 }
 
 function loadApiKey() {
@@ -226,13 +226,32 @@ async function callLLMWithFallback(prompt, apiKey, role) {
   }
 }
 
-/** Extract JSON from LLM response (handles markdown fences, leading text, etc.) */
+/** Extract JSON from LLM response (handles markdown fences, leading text, nested braces) */
 function extractJSON(text) {
   try { return JSON.parse(text.trim()); } catch {}
+  // Try extracting from ```json ... ```
   const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (fenceMatch) {
     try { return JSON.parse(fenceMatch[1].trim()); } catch {}
   }
+  // Balanced-brace extraction (handles nested arrays/objects)
+  const start = text.indexOf('{');
+  if (start !== -1) {
+    let depth = 0, inStr = false, esc = false;
+    for (let i = start; i < text.length; i++) {
+      const ch = text[i];
+      if (esc) { esc = false; continue; }
+      if (ch === '\\') { esc = true; continue; }
+      if (ch === '"') { inStr = !inStr; continue; }
+      if (inStr) continue;
+      if (ch === '{' || ch === '[') depth++;
+      else if (ch === '}' || ch === ']') depth--;
+      if (depth === 0) {
+        try { return JSON.parse(text.slice(start, i + 1)); } catch { break; }
+      }
+    }
+  }
+  // Last resort: greedy match
   const braceMatch = text.match(/\{[\s\S]*\}/);
   if (braceMatch) {
     try { return JSON.parse(braceMatch[0]); } catch {}

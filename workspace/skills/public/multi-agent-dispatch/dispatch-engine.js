@@ -39,6 +39,7 @@ const { attachModelKey, inferModelKey } = require('./runtime-model-key');
 const { createAutoExpansionController } = require('./free-key-auto-expand');
 const { preflightModelCheck } = require('./model-preflight');
 const { TaskBoard } = require('./task-board');
+const { analyzeSplittability, autoSplit, aggregateResults } = require('./auto-split');
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -985,6 +986,90 @@ class DispatchEngine extends EventEmitter {
     ];
   }
 
+  // ── Auto-split enqueue ─────────────────────────────────────────────────
+
+  /**
+   * Smart enqueue: automatically detects batch tasks and splits them into
+   * parallel sub-tasks. Falls back to normal enqueue() if not splittable.
+   *
+   * @param {object} input — Task descriptor (same as enqueue)
+   * @param {object} [opts] — Auto-split options
+   * @param {number} [opts.maxConcurrency] — Override max parallel (default: this.maxSlots)
+   * @param {number} [opts.minSplitCount=2] — Min items to trigger split
+   * @param {number} [opts.subTaskTimeoutMs] — Per-subtask timeout
+   * @returns {{ split: boolean, rootTaskId?: string, tasks: object[] }}
+   */
+  autoSplitEnqueue(input, opts = {}) {
+    const splitOpts = {
+      maxConcurrency: opts.maxConcurrency || this.freeSlots() || this.maxSlots,
+      minSplitCount: opts.minSplitCount || 2,
+      subTaskTimeoutMs: opts.subTaskTimeoutMs,
+      model: opts.model || input.model,
+      agentId: opts.agentId || input.agentId,
+    };
+
+    const analysis = analyzeSplittability(input, splitOpts);
+    if (!analysis.splittable) {
+      // Not splittable — normal enqueue
+      const task = this.enqueue(input);
+      return { split: false, tasks: [task] };
+    }
+
+    // Generate sub-tasks
+    const subTasks = autoSplit(input, splitOpts);
+    if (subTasks.length === 0) {
+      // Couldn't actually split (e.g. glob with unknown count)
+      const task = this.enqueue(input);
+      return { split: false, tasks: [task] };
+    }
+
+    // Batch-enqueue all sub-tasks (triggers drain once, maximizing parallelism)
+    const tasks = this.enqueueBatch(subTasks);
+    const rootTaskId = subTasks[0]?.rootTaskId || null;
+
+    // Create a batch for tracking
+    if (rootTaskId) {
+      try {
+        const taskIds = tasks.map(t => t.taskId);
+        this.createBatch(`auto-split:${input.title || 'batch'}`, taskIds);
+      } catch {}
+    }
+
+    this._log('auto_split', {
+      rootTaskId,
+      originalTitle: input.title,
+      pattern: analysis.pattern,
+      itemCount: analysis.count,
+      shardCount: tasks.length,
+    });
+    this._save();
+
+    return {
+      split: true,
+      rootTaskId,
+      pattern: analysis.pattern,
+      itemLabel: analysis.itemLabel,
+      originalCount: analysis.count,
+      shardCount: tasks.length,
+      tasks,
+    };
+  }
+
+  /**
+   * Aggregate results for all sub-tasks of a given root task.
+   *
+   * @param {string} rootTaskId
+   * @returns {object} — Aggregated result from aggregateResults()
+   */
+  aggregateByRoot(rootTaskId) {
+    const history = this.queryHistory({ limit: 500 });
+    const children = history.filter(t =>
+      t.rootTaskId === rootTaskId ||
+      (t.payload && t.payload.splitFromTaskId === rootTaskId)
+    );
+    return aggregateResults(children);
+  }
+
   // ── Bulk operations ──────────────────────────────────────────────────────
 
   /** Cancel all queued tasks (does not touch running). */
@@ -1313,4 +1398,8 @@ module.exports = {
   ALL_AGENT_ROLES,
   DEFAULTS,
   PRIO_ORDER,
+  // Auto-split utilities (re-exported for convenience)
+  analyzeSplittability,
+  autoSplit,
+  aggregateResults,
 };
