@@ -65,7 +65,6 @@ console.log('\ndoEntryGate:');
 // ─── doExitGate ───
 console.log('\ndoExitGate:');
 {
-  // 创建临时文件用于测试
   const fs = require('fs');
   const path = require('path');
   const WORKSPACE = process.env.OPENCLAW_WORKSPACE || '/root/.openclaw/workspace';
@@ -101,16 +100,14 @@ console.log('\ncheckEntryGate:');
 // ─── checkExitGate ───
 console.log('\ncheckExitGate:');
 {
+  // analyst是唯一合法evaluator
   const r = gates.checkExitGate({
     executor_agent: 'coder',
-    evaluator_agent: 'reviewer',
+    evaluator_agent: 'analyst',
     eval_report_path: 'reports/eval.md',
     eval_verdict: 'pass',
   }, 'block');
-  // 注意：eval_report_path的文件不一定存在，但角色分离是通过的
-  // checkExitGate检查文件存在性时会fail，但角色分离本身是通过的
-  // 这里我们只验证角色分离不会block
-  assert(r.violations.every(v => !v.startsWith('ROLE_SEPARATION:')), 'PASS: 角色分离验证通过');
+  assert(r.violations.every(v => !v.startsWith('ROLE_SEPARATION:')), 'PASS: coder→analyst角色分离通过');
 }
 {
   const r = gates.checkExitGate({
@@ -155,6 +152,24 @@ console.log('\nactExitGate:');
 {
   const r = gates.actExitGate({}, 'block');
   assert(r.passed === false, 'BLOCK: 无改进措施');
+}
+
+// ─── 铁令专项：reviewer不再合法 ───
+console.log('\n铁令专项 - analyst唯一:');
+{
+  const r = gates.checkExitGate({
+    executor_agent: 'coder',
+    evaluator_agent: 'reviewer',  // reviewer不再合法！
+    eval_report_path: 'reports/eval.md',
+    eval_verdict: 'pass',
+  }, 'block');
+  assert(r.passed === false, 'BLOCK: reviewer不是合法evaluator（只有analyst）');
+  assert(r.violations.some(v => v.includes('ROLE_SEPARATION')), 'BLOCK: 角色分离violation');
+}
+{
+  assert(gates.isRoleSeparationValid('coder', 'analyst') === true, 'coder→analyst: 合法');
+  assert(gates.isRoleSeparationValid('coder', 'reviewer') === false, 'coder→reviewer: 不合法（铁令）');
+  assert(gates.CHECK_EVALUATOR_ROLE === 'analyst', 'CHECK_EVALUATOR_ROLE === analyst');
 }
 
 // ─── 汇总 ───

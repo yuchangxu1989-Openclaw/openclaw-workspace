@@ -86,12 +86,15 @@ function transition(taskId, from, to, task) {
   // 🚨 铁律：ISC-EVAL-ROLE-SEPARATION-001 硬拦截
   //    在所有gate函数之前执行。状态机层面的第一道防线。
   //    自检=Badcase，不是warn，不是可配置选项。无例外。
+  //
+  //    🚨 用户铁令：Check阶段evaluator_agent只能是analyst。
+  //    唯一选项。代码层面硬编码。
   // ============================================================
   if (from === 'do' && to === 'check') {
     if (!task.evaluator_agent) {
       const result = {
         allowed: false,
-        reason: 'BLOCK: Check阶段未分配评测者(evaluator_agent)。必须指定与executor_agent不同的Agent。',
+        reason: 'BLOCK: Check阶段未分配评测者(evaluator_agent)。必须指定analyst作为评测者。',
         violation: 'ISC-EVAL-ROLE-SEPARATION-001',
         gateResults: [],
       };
@@ -115,11 +118,11 @@ function transition(taskId, from, to, task) {
       });
       return result;
     }
-    if (!gates.isRoleSeparationValid(task.executor_agent, task.evaluator_agent)) {
-      const allowed = gates.ROLE_SEPARATION_MAP[task.executor_agent] || ['任何不同Agent'];
+    // 🚨 铁令：evaluator必须是analyst，唯一选项
+    if (task.evaluator_agent !== gates.CHECK_EVALUATOR_ROLE) {
       const result = {
         allowed: false,
-        reason: `BADCASE: 角色映射不合法。executor=${task.executor_agent} 的合法评测者为 ${allowed.join('/')}, 实际=${task.evaluator_agent}。`,
+        reason: `BLOCK: Check阶段评测者必须是 ${gates.CHECK_EVALUATOR_ROLE}（质量分析师），实际=${task.evaluator_agent}。用户铁令。`,
         violation: 'ISC-EVAL-ROLE-SEPARATION-001',
         badcase: true,
         gateResults: [],

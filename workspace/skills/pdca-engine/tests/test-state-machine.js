@@ -6,6 +6,7 @@
  * - 正常流 init→plan→do→check→done
  * - 角色分离拦截 do→check
  * - 非法转换
+ * - 铁令：evaluator必须是analyst
  */
 
 const fs = require('fs');
@@ -27,9 +28,6 @@ function cleanState() {
   try { fs.unlinkSync(STATE_FILE); } catch {}
 }
 
-// 备份events.jsonl，测试后恢复
-const eventsBackup = fs.existsSync(EVENTS_FILE) ? fs.readFileSync(EVENTS_FILE, 'utf8') : '';
-
 console.log('=== test-state-machine.js ===\n');
 
 // ─── 正常流：init→plan ───
@@ -48,7 +46,6 @@ cleanState();
 // ─── 正常流：plan→do ───
 console.log('\n正常流 plan→do:');
 {
-  // 创建临时文件用于artifact测试
   const artifactPath = path.join(WORKSPACE, 'logs', '_test_sm_artifact.tmp');
   fs.mkdirSync(path.dirname(artifactPath), { recursive: true });
   fs.writeFileSync(artifactPath, 'x'.repeat(300), 'utf8');
@@ -88,30 +85,42 @@ console.log('\n角色分离拦截 do→check (无evaluator):');
   const task = {
     actual_artifacts: ['some/file.js'],
     executor_agent: 'coder',
-    // evaluator_agent 缺失
   };
   const r = transition('test-task-3', 'do', 'check', task);
   assert(r.allowed === false, 'do→check 无evaluator被拦截');
   assert(r.violation === 'ISC-EVAL-ROLE-SEPARATION-001', '违规规则正确');
 }
 
-// ─── 角色分离拦截：do→check 非法映射 ───
-console.log('\n角色分离拦截 do→check (非法映射):');
+// ─── 铁令拦截：do→check evaluator=reviewer (不是analyst) ───
+console.log('\n铁令拦截 do→check (evaluator=reviewer, 非analyst):');
 {
   const task = {
     actual_artifacts: ['some/file.js'],
     executor_agent: 'coder',
-    evaluator_agent: 'writer',  // writer不在coder的合法评测者列表中
+    evaluator_agent: 'reviewer',  // reviewer不再合法！只有analyst可以
   };
   const r = transition('test-task-4', 'do', 'check', task);
-  assert(r.allowed === false, 'do→check 非法映射被拦截');
+  assert(r.allowed === false, 'do→check reviewer被拦截（铁令：只有analyst）');
+  assert(r.badcase === true, 'badcase=true');
+  assert(r.reason.includes('analyst'), '原因提到analyst');
+}
+
+// ─── 铁令拦截：do→check evaluator=writer ───
+console.log('\n铁令拦截 do→check (evaluator=writer):');
+{
+  const task = {
+    actual_artifacts: ['some/file.js'],
+    executor_agent: 'coder',
+    evaluator_agent: 'writer',
+  };
+  const r = transition('test-task-4b', 'do', 'check', task);
+  assert(r.allowed === false, 'do→check writer被拦截');
   assert(r.badcase === true, 'badcase=true');
 }
 
-// ─── 正常流：do→check (合法角色) ───
-console.log('\n正常流 do→check (合法角色):');
+// ─── 正常流：do→check (evaluator=analyst, 唯一合法) ───
+console.log('\n正常流 do→check (evaluator=analyst):');
 {
-  // 创建临时交付物文件
   const artifactPath = path.join(WORKSPACE, 'logs', '_test_sm_do_check.tmp');
   fs.mkdirSync(path.dirname(artifactPath), { recursive: true });
   fs.writeFileSync(artifactPath, 'x'.repeat(300), 'utf8');
@@ -119,10 +128,10 @@ console.log('\n正常流 do→check (合法角色):');
   const task = {
     actual_artifacts: ['logs/_test_sm_do_check.tmp'],
     executor_agent: 'coder',
-    evaluator_agent: 'reviewer',  // 合法
+    evaluator_agent: 'analyst',  // 唯一合法
   };
   const r = transition('test-task-5', 'do', 'check', task);
-  assert(r.allowed === true, 'do→check coder→reviewer 允许');
+  assert(r.allowed === true, 'do→check coder→analyst 允许');
 
   fs.unlinkSync(artifactPath);
 }
@@ -130,8 +139,7 @@ console.log('\n正常流 do→check (合法角色):');
 // ─── 非法转换：init→do ───
 console.log('\n非法转换 init→do:');
 {
-  const task = {};
-  const r = transition('test-task-6', 'init', 'do', task);
+  const r = transition('test-task-6', 'init', 'do', {});
   assert(r.allowed === false, 'init→do 被拒绝');
   assert(r.reason.includes('非法状态转换'), '原因含"非法状态转换"');
 }
@@ -139,16 +147,14 @@ console.log('\n非法转换 init→do:');
 // ─── 非法转换：plan→check ───
 console.log('\n非法转换 plan→check:');
 {
-  const task = {};
-  const r = transition('test-task-7', 'plan', 'check', task);
+  const r = transition('test-task-7', 'plan', 'check', {});
   assert(r.allowed === false, 'plan→check 被拒绝');
 }
 
 // ─── 非法转换：done→plan ───
 console.log('\n非法转换 done→plan:');
 {
-  const task = {};
-  const r = transition('test-task-8', 'done', 'plan', task);
+  const r = transition('test-task-8', 'done', 'plan', {});
   assert(r.allowed === false, 'done→plan 被拒绝');
 }
 
@@ -161,7 +167,6 @@ console.log('\n事件总线写入:');
   });
   assert(pdcaEvents.length > 0, `事件总线有 ${pdcaEvents.length} 条PDCA事件`);
 
-  // 检查角色分离badcase事件
   const badcaseEvents = pdcaEvents.filter(line => {
     const e = JSON.parse(line);
     return e.type === 'pdca.badcase.role_separation_violation';
@@ -169,11 +174,7 @@ console.log('\n事件总线写入:');
   assert(badcaseEvents.length > 0, `角色分离违规事件有 ${badcaseEvents.length} 条`);
 }
 
-// 清理测试状态
 cleanState();
-
-// 恢复events.jsonl（不要留太多测试事件）
-// 注意：不恢复，让测试事件留在那里作为验证
 
 console.log(`\n=== 结果: ${passed} passed, ${failed} failed ===`);
 process.exit(failed > 0 ? 1 : 0);

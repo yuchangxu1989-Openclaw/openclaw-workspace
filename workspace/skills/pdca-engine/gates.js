@@ -18,23 +18,27 @@ const WORKSPACE = process.env.OPENCLAW_WORKSPACE || '/root/.openclaw/workspace';
 // 🚨 角色分离映射表（ISC-EVAL-ROLE-SEPARATION-001 代码化）
 //    Do执行者 → Check允许的评测者列表
 //    硬编码常量。改映射 = 改代码 = 需要Code Review。
+//
+//    🚨 用户铁令：Check环节角色固定为 analyst（质量分析师）。
+//    唯一选项。不是reviewer，不是其他。代码层面硬编码。
 // ============================================================
 const ROLE_SEPARATION_MAP = {
-  'coder':      ['reviewer', 'analyst'],
-  'writer':     ['reviewer', 'analyst'],
-  'researcher': ['analyst', 'reviewer'],
-  'scout':      ['analyst', 'reviewer'],
+  'coder':      ['analyst'],
+  'writer':     ['analyst'],
+  'researcher': ['analyst'],
+  'scout':      ['analyst'],
 };
+
+// 🚨 铁令：Check阶段evaluator只能是analyst
+const CHECK_EVALUATOR_ROLE = 'analyst';
 
 function isRoleSeparationValid(executorAgent, evaluatorAgent) {
   // 铁律：自检永远不合法
   if (executorAgent === evaluatorAgent) return false;
 
-  const allowedEvaluators = ROLE_SEPARATION_MAP[executorAgent];
-  if (allowedEvaluators) {
-    return allowedEvaluators.includes(evaluatorAgent);
-  }
-  // 未在映射表中的角色：只要不同就行
+  // 铁令：evaluator必须是analyst，唯一选项
+  if (evaluatorAgent !== CHECK_EVALUATOR_ROLE) return false;
+
   return true;
 }
 
@@ -277,6 +281,7 @@ function runGate(gateName, task, mode = 'warn') {
 
 module.exports = {
   ROLE_SEPARATION_MAP,
+  CHECK_EVALUATOR_ROLE,
   isRoleSeparationValid,
   planEntryGate,
   planExitGate,
