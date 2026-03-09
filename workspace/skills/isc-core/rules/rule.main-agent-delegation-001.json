@@ -41,11 +41,12 @@
     }
   },
   "action": {
-    "type": "block_and_alert",
+    "type": "handler",
     "message": "🚫 ISC-MAIN-AGENT-DELEGATION-001 违反：主Agent不得亲自做实现工作。请使用 sessions_spawn 委派子Agent。",
     "log_as_badcase": true,
     "badcase_category": "主Agent亲力亲为",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-MAIN-AGENT-DELEGATION-001.sh"
+    "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-MAIN-AGENT-DELEGATION-001.sh",
+    "handler": "main-agent-delegation-guard"
   },
   "whitelist": {
     "description": "主Agent允许直接执行的操作",
@@ -94,5 +95,6 @@
       "detail": "之前5次纠偏均只写入MEMORY.md/SOUL.md认知规则，未建立程序化拦截，导致反复违反"
     }
   ],
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }

@@ -34,12 +34,13 @@
     "decoupling": "三层是否通过事件总线解耦，无直接调用依赖？"
   },
   "action": {
-    "type": "script",
-    "handler": "layered-architecture-checker",
+    "type": "handler",
+    "handler": "layered-decoupling-architecture-check",
     "description": "任一层归属不清晰→标注设计缺陷→打回补充→裁决殿可将此项作为审查维度",
     "script": "scripts/isc-hooks/rule.layered-decoupling-architecture-001.sh"
   },
   "anti_entropy": "防止系统随时间退化为大泥球架构（Big Ball of Mud）。分层是反熵增的核心手段。",
   "enforcement_tier": "P0_gate",
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }
