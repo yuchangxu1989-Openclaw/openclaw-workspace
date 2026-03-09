@@ -240,7 +240,21 @@ async function runEvaluation() {
   // 2. 加载评测集
   let dataset;
   try {
-    dataset = JSON.parse(fs.readFileSync(opts.dataset, 'utf8'));
+    const raw = JSON.parse(fs.readFileSync(opts.dataset, 'utf8'));
+    // 兼容纯数组格式（c2-golden评测用例）和对象格式
+    if (Array.isArray(raw)) {
+      // c2-golden格式适配：input是字符串→转消息数组，category→expected_ic
+      const adapted = raw.map(r => ({
+        ...r,
+        input: typeof r.input === 'string' ? [{ role: 'user', content: r.input }] : r.input,
+        expected_ic: r.expected_ic || r.category || 'unknown',
+      }));
+      dataset = { samples: adapted, description: path.basename(opts.dataset) };
+    } else {
+      dataset = raw;
+      if (!dataset.samples && Array.isArray(dataset.test_cases)) dataset.samples = dataset.test_cases;
+      if (!dataset.samples && Array.isArray(dataset.scenarios)) dataset.samples = dataset.scenarios;
+    }
     console.log(`📂 已加载评测集: ${path.basename(opts.dataset)}`);
     console.log(`   描述: ${dataset.description || '无'}`);
     console.log(`   样本总数: ${dataset.samples.length}`);
