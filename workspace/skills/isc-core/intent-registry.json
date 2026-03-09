@@ -1,0 +1,172 @@
+[
+  {
+    "intent_type": "batch_completion_push",
+    "description": "批次任务全部完成时自动推送看板",
+    "source_rules": [
+      "rule.batch-completion-auto-push-001"
+    ]
+  },
+  {
+    "intent_type": "ISC-DOC-QUALITY-GATE-001",
+    "description": "",
+    "source_rules": [
+      "ISC-DOC-QUALITY-GATE-001"
+    ]
+  },
+  {
+    "intent_type": "发文件",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "发源文件",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "把.*发给我",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "发附件",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "源文件",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "把.*文件.*给我",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "发一下.*文件",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "文件发我",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "给我发文件",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "传文件",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "把.*传给我",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "发送文件",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "把报告发我",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "把.*给我",
+    "description": "",
+    "source_rules": [
+      "ISC-FILE-SEND-INTENT-001"
+    ]
+  },
+  {
+    "intent_type": "RULEIFY",
+    "description": "",
+    "source_rules": [
+      "rule.intent-agent-orchestration-design-standard-p3nxat",
+      "rule.intent-cras-e系统架构与交付约束-21ztnb",
+      "rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891",
+      "rule.intent-dispatchengine-api-usage-gvhcmy",
+      "rule.intent-doc-quality-gate-001质量门禁规则-wrsequ",
+      "rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl",
+      "rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36",
+      "rule.intent-mece命名原则-86o70p",
+      "rule.intent-p0-regression-tracking-qmsnw4",
+      "rule.intent-pdf输出标准-fyhznt",
+      "rule.intent-post-commit-quality-gate-h8z2sz",
+      "rule.intent-任务分配策略-jrw5uo",
+      "rule.intent-任务调度机制-yuiao8",
+      "rule.intent-会话记忆机制-f2lei",
+      "rule.intent-子agent产出自动发送-g7wmm7",
+      "rule.intent-子agent深度思考委派机制-2l6fsj",
+      "rule.intent-规则命名规范与去重技能-pop4vq"
+    ]
+  },
+  {
+    "intent_type": "IC1",
+    "description": "情绪/反馈",
+    "source_rules": [
+      "rule.umr-intent-routing-001"
+    ]
+  },
+  {
+    "intent_type": "IC2",
+    "description": "规则/治理",
+    "source_rules": [
+      "rule.umr-intent-routing-001"
+    ]
+  },
+  {
+    "intent_type": "IC3",
+    "description": "知识/学术",
+    "source_rules": [
+      "rule.umr-intent-routing-001"
+    ]
+  },
+  {
+    "intent_type": "IC4",
+    "description": "开发/技能",
+    "source_rules": [
+      "rule.umr-intent-routing-001"
+    ]
+  },
+  {
+    "intent_type": "IC5",
+    "description": "分析/洞察",
+    "source_rules": [
+      "rule.umr-intent-routing-001"
+    ]
+  }
+]

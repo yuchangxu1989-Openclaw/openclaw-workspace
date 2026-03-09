@@ -1,0 +1,226 @@
+{"event": "event_bus.handler.modified", "source_rules": ["rule.aeo-e2e-decision-pipeline-test-001"], "description": ""}
+{"event": "event_bus.dispatcher.modified", "source_rules": ["rule.aeo-e2e-decision-pipeline-test-001"], "description": ""}
+{"event": "isc.rule.created", "source_rules": ["rule.aeo-e2e-decision-pipeline-test-001", "rule.anti-entropy-design-principle-001", "rule.isc-auto-programmatic-alignment-001", "rule.isc-naming-convention-001", "rule.isc-rule-auto-decompose-001", "rule.layered-decoupling-architecture-001", "rule.n034-rule-identity-accuracy", "rule.n035-rule-trigger-completeness", "rule.naming-mece-consistency-001"], "description": ""}
+{"event": "isc.rule.modified", "source_rules": ["rule.aeo-e2e-decision-pipeline-test-001", "rule.isc-auto-programmatic-alignment-001", "rule.isc-naming-convention-001", "rule.isc-rule-modified-dedup-scan-001"], "description": ""}
+{"event": "skill.public.pre_publish", "source_rules": ["rule.aeo-e2e-decision-pipeline-test-001", "rule.public-skill-quality-gate-001"], "description": ""}
+{"event": "sprint.day.completion", "source_rules": ["rule.aeo-e2e-decision-pipeline-test-001"], "description": ""}
+{"event": "document.document.created", "source_rules": ["rule.anti-entropy-design-principle-001", "rule.architecture-review-pipeline-001", "rule.layered-decoupling-architecture-001"], "description": ""}
+{"event": "document.document.modified", "source_rules": ["rule.anti-entropy-design-principle-001", "rule.architecture-review-pipeline-001", "rule.layered-decoupling-architecture-001"], "description": ""}
+{"event": "architecture.decision.completed", "source_rules": ["rule.anti-entropy-design-principle-001"], "description": ""}
+{"event": "skill.general.created", "source_rules": ["rule.anti-entropy-design-principle-001", "rule.capability-anchor-auto-register-001", "rule.eval-driven-development-loop-001", "rule.isc-skill-index-auto-update-001", "rule.layered-decoupling-architecture-001", "rule.naming-mece-consistency-001", "rule.seef-skill-registered-001"], "description": ""}
+{"event": "lto.task.created", "source_rules": ["rule.anti-entropy-design-principle-001", "rule.cron-task-model-requirement-001", "rule.layered-decoupling-architecture-001"], "description": ""}
+{"event": "document.architecture.created", "source_rules": ["rule.architecture-diagram-visual-output-001"], "description": ""}
+{"event": "document.architecture.updated", "source_rules": ["rule.architecture-diagram-visual-output-001"], "description": ""}
+{"event": "architecture.refactor.proposed", "source_rules": ["rule.architecture-review-pipeline-001"], "description": ""}
+{"event": "skill.restructure.proposed", "source_rules": ["rule.architecture-review-pipeline-001"], "description": ""}
+{"event": "system.failure.refactor_required", "source_rules": ["rule.architecture-review-pipeline-001"], "description": ""}
+{"event": "session.message.received", "source_rules": ["rule.auto-collect-eval-from-conversation-001"], "description": ""}
+{"event": "isc.rule.handler_missing", "source_rules": ["rule.auto-correction-规则存在但handler缺失-mmgbaua1"], "description": ""}
+{"event": "skill.general.published", "source_rules": ["rule.auto-evomap-sync-trigger-001"], "description": ""}
+{"event": "skill.version.updated", "source_rules": ["rule.auto-evomap-sync-trigger-001"], "description": ""}
+{"event": "skill.lifecycle.status_changed", "source_rules": ["rule.auto-evomap-sync-trigger-001"], "description": ""}
+{"event": "isc.rule.matched", "source_rules": ["rule.auto-fix-high-severity-001", "rule.auto-skillization-trigger-001", "rule.detection-report-feishu-card-001", "intent-ic4-ic5-boundary-001", "rule.isc-change-auto-trigger-alignment-001", "rule.isc-creation-gate-001", "rule.isc-lto-handshake-001", "rule.isc-naming-convention-001", "rule.isc-skill-permission-classification-031", "rule.isc-skill-usage-protocol-001", "rule.isc-standard-format-001", "rule.multi-agent-communication-priority-001", "N006", "rule.pipeline-report-filter-001", "rule.planning-time-granularity-037", "ISC-SKILL-QUALITY-001", "rule.seef-subskill-orchestration-001", "rule.skill-mandatory-skill-md-001", "rule.vectorization-standard-enforcement-001", "rule.zhipu-capability-router-001"], "description": ""}
+{"event": "isc.category.matched", "source_rules": ["rule.auto-fix-high-severity-001", "rule.auto-skillization-trigger-001", "rule.detection-report-feishu-card-001", "rule.isc-change-auto-trigger-alignment-001", "rule.isc-creation-gate-001", "rule.isc-lto-handshake-001", "rule.isc-naming-convention-001", "rule.isc-skill-permission-classification-031", "rule.isc-skill-usage-protocol-001", "rule.isc-standard-format-001", "rule.multi-agent-communication-priority-001", "N006", "rule.pipeline-report-filter-001", "rule.planning-time-granularity-037", "ISC-SKILL-QUALITY-001", "rule.seef-subskill-orchestration-001", "rule.skill-mandatory-skill-md-001", "rule.zhipu-capability-router-001"], "description": ""}
+{"event": "system.general.modified", "source_rules": ["rule.auto-github-sync-trigger-001"], "description": ""}
+{"event": "system.commit.created", "source_rules": ["rule.auto-github-sync-trigger-001"], "description": ""}
+{"event": "system.file.modified", "source_rules": ["rule.auto-github-sync-trigger-001"], "description": ""}
+{"event": "subagent.completion", "source_rules": ["ISC-AUTO-QA-001"], "description": ""}
+{"event": "modify", "source_rules": ["ISC-BADCASE-AUTO-FLIP-001"], "description": ""}
+{"event": "create", "source_rules": ["ISC-BADCASE-AUTO-FLIP-001"], "description": ""}
+{"event": "subagent.batch.all_completed", "source_rules": ["rule.batch-completion-auto-push-001"], "description": ""}
+{"event": "architecture.decision.major", "source_rules": ["rule.caijuedian-tribunal-001"], "description": ""}
+{"event": "design.direction.uncertain", "source_rules": ["rule.caijuedian-tribunal-001"], "description": ""}
+{"event": "system.evolution.direction_change", "source_rules": ["rule.caijuedian-tribunal-001"], "description": ""}
+{"event": "sprint.day.completed", "source_rules": ["rule.caijuedian-tribunal-001", "rule.project-artifact-gate-001"], "description": ""}
+{"event": "review.rejection.count >= 2", "source_rules": ["rule.caijuedian-tribunal-001"], "description": ""}
+{"event": "skill.general.updated", "source_rules": ["rule.capability-anchor-auto-register-001", "rule.isc-skill-index-auto-update-001", "rule.seef-skill-registered-001"], "description": ""}
+{"event": "system.general.discovered", "source_rules": ["rule.capability-anchor-auto-register-001"], "description": ""}
+{"event": "system.general.added", "source_rules": ["rule.capability-anchor-auto-register-001"], "description": ""}
+{"event": "skill.general.modified", "source_rules": ["rule.capability-anchor-auto-register-001"], "description": ""}
+{"event": "skill.lifecycle.modified", "source_rules": ["rule.capability-anchor-lifecycle-sync-001", "rule.skill-distribution-auto-classify-001", "rule.skill-no-direct-llm-call-001", "rule.version-integrity-gate-001"], "description": ""}
+{"event": "skill.lifecycle.created", "source_rules": ["rule.capability-anchor-lifecycle-sync-001", "rule.skill-distribution-auto-classify-001", "rule.skill-no-direct-llm-call-001", "rule.version-integrity-gate-001"], "description": ""}
+{"event": "skill.module_core.modified", "source_rules": ["rule.coding-quality-thinking-001"], "description": ""}
+{"event": "agent.task.completed", "source_rules": ["ISC-COMPLETION-HANDLER-001"], "description": ""}
+{"event": "cron.cras-daily-report", "source_rules": ["rule.cras-daily-report-001"], "description": ""}
+{"event": "cras.scan.completed", "source_rules": ["rule.cras-dual-channel-001"], "description": ""}
+{"event": "cras.report.generated", "source_rules": ["rule.cras-dual-channel-001"], "description": ""}
+{"event": "lto.task.updated", "source_rules": ["rule.cron-task-model-requirement-001"], "description": ""}
+{"event": "lto.task.validated", "source_rules": ["rule.cron-task-model-requirement-001"], "description": ""}
+{"event": "cron.job.requested", "source_rules": ["rule.day2-gap1-cron-event-bridge"], "description": ""}
+{"event": "system.infrastructure.modified", "source_rules": ["rule.dependency-direction-check-001"], "description": ""}
+{"event": "document.design.requested", "source_rules": ["rule.design-document-delivery-pipeline-001"], "description": ""}
+{"event": "document.design.created", "source_rules": ["rule.design-document-narrative-review-001", "rule.design-document-structure-001"], "description": ""}
+{"event": "design.document.created", "source_rules": ["rule.design-document-structure-001", "rule.pipeline-benchmark-design-document-alignment-001", "rule.pipeline-benchmark-design-document-layered-001"], "description": ""}
+{"event": "design.document.modified", "source_rules": ["rule.design-document-structure-001", "rule.pipeline-benchmark-design-document-alignment-001", "rule.pipeline-benchmark-design-document-layered-001"], "description": ""}
+{"event": "document.design.modified", "source_rules": ["rule.design-document-structure-001"], "description": ""}
+{"event": "system.issue.discovered", "source_rules": ["rule.discovery-must-trigger-rule-creation-001"], "description": ""}
+{"event": "architecture.gap.detected", "source_rules": ["rule.discovery-must-trigger-rule-creation-001"], "description": ""}
+{"event": "aeo.methodology.upgraded", "source_rules": ["rule.discovery-must-trigger-rule-creation-001"], "description": ""}
+{"event": "dispatch.batch.completed", "source_rules": ["dispatch-auto-report-001"], "description": ""}
+{"event": "eval.batch.requested", "source_rules": ["rule.eval-batch-size-limit-001"], "description": ""}
+{"event": "aeo.evaluation.dataset_created", "source_rules": ["rule.eval-data-source-redline-001", "rule.eval-must-include-multi-turn-001"], "description": ""}
+{"event": "aeo.evaluation.dataset_modified", "source_rules": ["rule.eval-data-source-redline-001", "rule.eval-must-include-multi-turn-001"], "description": ""}
+{"event": "system.general.created", "source_rules": ["rule.eval-driven-development-loop-001"], "description": ""}
+{"event": "quality.general.completed", "source_rules": ["rule.eval-driven-development-loop-001"], "description": ""}
+{"event": "eval.case.execution.completed", "source_rules": ["ISC-EVAL-ROLE-SEPARATION-001"], "description": ""}
+{"event": "event.general.classified", "source_rules": ["rule.eval-sample-auto-collection-001"], "description": ""}
+{"event": "orchestration.general.completed", "source_rules": ["rule.eval-sample-auto-collection-001"], "description": ""}
+{"event": "quality.general.failed", "source_rules": ["rule.eval-sample-auto-collection-001"], "description": ""}
+{"event": "cron.evalset.daily", "source_rules": ["rule.evalset-cron-daily-generation-001"], "description": ""}
+{"event": "system.failure.pattern_detected", "source_rules": ["rule.failure-pattern-alert-001"], "description": ""}
+{"event": "feishu.doc.created", "source_rules": ["rule.feishu-doc-auto-perm-001"], "description": ""}
+{"event": "feishu.bitable.created", "source_rules": ["rule.feishu-doc-auto-perm-001"], "description": ""}
+{"event": "feishu.sheet.created", "source_rules": ["rule.feishu-doc-auto-perm-001"], "description": ""}
+{"event": "event.general.created", "source_rules": ["rule.five-layer-event-model-001"], "description": ""}
+{"event": "event.general.emitted", "source_rules": ["rule.five-layer-event-model-001"], "description": ""}
+{"event": "git.commit.completed", "source_rules": ["rule.git-commit-dispatch-001"], "description": ""}
+{"event": "system.analysis.requested", "source_rules": ["rule.glm-vision-priority-001"], "description": ""}
+{"event": "system.task.created", "source_rules": ["rule.glm-vision-priority-001"], "description": ""}
+{"event": "session.image.received", "source_rules": ["rule.glm-vision-priority-001"], "description": ""}
+{"event": "event.system.modified", "source_rules": ["rule.intent-aeo-quality-gate-001"], "description": ""}
+{"event": "event.type.created", "source_rules": ["rule.intent-aeo-quality-gate-001", "rule.intent-anti-entropy-001"], "description": ""}
+{"event": "intent.ruleify", "source_rules": ["rule.intent-agent-orchestration-design-standard-p3nxat", "rule.intent-cras-e系统架构与交付约束-21ztnb", "rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891", "rule.intent-dispatchengine-api-usage-gvhcmy", "rule.intent-doc-quality-gate-001质量门禁规则-wrsequ", "rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl", "rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36", "rule.intent-mece命名原则-86o70p", "rule.intent-p0-regression-tracking-qmsnw4", "rule.intent-pdf输出标准-fyhznt", "rule.intent-post-commit-quality-gate-h8z2sz", "rule.intent-ruleify-consumption-001", "intent-ruleify-dispatch-001", "rule.intent-任务分配策略-jrw5uo", "rule.intent-任务调度机制-yuiao8", "rule.intent-会话记忆机制-f2lei", "rule.intent-子agent产出自动发送-g7wmm7", "rule.intent-子agent深度思考委派机制-2l6fsj", "rule.intent-规则命名规范与去重技能-pop4vq"], "description": ""}
+{"event": "lto.general.monthly", "source_rules": ["rule.intent-anti-entropy-001"], "description": ""}
+{"event": "intent.directive", "source_rules": ["rule.intent-directive-consumption-001", "intent-directive-dispatch-001"], "description": ""}
+{"event": "intent.reflect", "source_rules": ["rule.intent-reflect-consumption-001", "intent-reflect-dispatch-001"], "description": ""}
+{"event": "event.type.registration_requested", "source_rules": ["rule.intent-type-convergence-001"], "description": ""}
+{"event": "lto.general.weekly", "source_rules": ["rule.intent-unknown-discovery-001"], "description": ""}
+{"event": "system.unresolved.detected", "source_rules": ["rule.intent-unknown-discovery-001"], "description": ""}
+{"event": "user.request.source_file", "source_rules": ["N007-v2"], "description": ""}
+{"event": "session.received.file_request", "source_rules": ["N007-v2"], "description": ""}
+{"event": "session.reply.received", "source_rules": ["rule.interactive-card-context-inference-001"], "description": ""}
+{"event": "isc.rule.created,isc.rule.modified,isc.rule.deleted", "source_rules": ["rule.isc-auto-programmatic-alignment-001"], "description": ""}
+{"event": "isc.rule.deleted", "source_rules": ["rule.isc-auto-programmatic-alignment-001", "rule.n034-rule-identity-accuracy"], "description": ""}
+{"event": "evomap.sync.requested", "source_rules": ["rule.isc-evomap-mandatory-security-scan-032"], "description": ""}
+{"event": "evomap.skill.requested", "source_rules": ["rule.isc-evomap-mandatory-security-scan-032"], "description": ""}
+{"event": "skill.general.deleted", "source_rules": ["rule.isc-skill-index-auto-update-001"], "description": ""}
+{"event": "isc.skill_index.refresh_requested", "source_rules": ["rule.isc-skill-index-auto-update-001"], "description": ""}
+{"event": "skill.general.publish", "source_rules": ["rule.isc-skill-security-gate-030"], "description": ""}
+{"event": "skill.general.sync", "source_rules": ["rule.isc-skill-security-gate-030"], "description": ""}
+{"event": "skill.evoMap.upload", "source_rules": ["rule.isc-skill-security-gate-030"], "description": ""}
+{"event": "knowledge.general.created", "source_rules": ["rule.knowledge-must-be-executable-001", "rule.memory-digest-must-verify-001"], "description": ""}
+{"event": "user.teaching.received", "source_rules": ["rule.knowledge-must-be-executable-001"], "description": ""}
+{"event": "system.error", "source_rules": ["rule.knowledge-must-be-executable-001"], "description": ""}
+{"event": "system.error.lesson_extracted", "source_rules": ["rule.knowledge-must-be-executable-001"], "description": ""}
+{"event": "tool_call.edit", "source_rules": ["ISC-MAIN-AGENT-DELEGATION-001"], "description": ""}
+{"event": "tool_call.write", "source_rules": ["ISC-MAIN-AGENT-DELEGATION-001"], "description": ""}
+{"event": "tool_call.exec", "source_rules": ["ISC-MAIN-AGENT-DELEGATION-001"], "description": ""}
+{"event": "tool_call.feishu_doc", "source_rules": ["ISC-MAIN-AGENT-DELEGATION-001"], "description": ""}
+{"event": "knowledge.general.updated", "source_rules": ["rule.memory-digest-must-verify-001"], "description": ""}
+{"event": "isc.general.created", "source_rules": ["rule.meta-enforcement-gate-001"], "description": ""}
+{"event": "isc.general.updated", "source_rules": ["rule.meta-enforcement-gate-001"], "description": ""}
+{"event": "orchestration.general.review_requested", "source_rules": ["rule.meta-enforcement-gate-001"], "description": ""}
+{"event": "code.module.created", "source_rules": ["rule.must-verify-config-before-coding-001"], "description": ""}
+{"event": "code.module.modified", "source_rules": ["rule.must-verify-config-before-coding-001"], "description": ""}
+{"event": "global_auto_decision_pipeline_complete", "source_rules": ["rule.n016-decision-auto-repair-loop-post-pipeline-016"], "description": ""}
+{"event": "orchestration.execution.completed", "source_rules": ["rule.n016-decision-auto-repair-loop-post-pipeline-016"], "description": ""}
+{"event": "orchestration.stage.failed", "source_rules": ["rule.n016-decision-auto-repair-loop-post-pipeline-016"], "description": ""}
+{"event": "system.repair.needed", "source_rules": ["rule.n016-decision-auto-repair-loop-post-pipeline-016"], "description": ""}
+{"event": "cras.pattern.detected", "source_rules": ["rule.n017-detection-cras-recurring-pattern-auto-resolve-017"], "description": ""}
+{"event": "cras.recurring.issue_identified", "source_rules": ["rule.n017-detection-cras-recurring-pattern-auto-resolve-017"], "description": ""}
+{"event": "system.recurring.threshold_exceeded", "source_rules": ["rule.n017-detection-cras-recurring-pattern-auto-resolve-017"], "description": ""}
+{"event": "skill_renamed", "source_rules": ["rule.n018-detection-skill-rename-global-alignment-018"], "description": ""}
+{"event": "skill_moved", "source_rules": ["rule.n018-detection-skill-rename-global-alignment-018"], "description": ""}
+{"event": "module_refactored", "source_rules": ["rule.n018-detection-skill-rename-global-alignment-018"], "description": ""}
+{"event": "skill_code_created", "source_rules": ["rule.n019-auto-skill-md-generation-019"], "description": ""}
+{"event": "skill_code_major_update", "source_rules": ["rule.n019-auto-skill-md-generation-019"], "description": ""}
+{"event": "skill_md_missing", "source_rules": ["rule.n019-auto-skill-md-generation-019"], "description": ""}
+{"event": "skill_md_quality_low", "source_rules": ["rule.n019-auto-skill-md-generation-019"], "description": ""}
+{"event": "execution_failed", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "pipeline_error", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "sync_failure", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "health_check_failed", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "user_reported_issue", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "design_compliance_failure", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "architecture_audit_failed", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "hardcode_detected", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "isc_non_compliance_detected", "source_rules": ["rule.n020-auto-universal-root-cause-analysis-020"], "description": ""}
+{"event": "design_document_created", "source_rules": ["rule.n022-detection-architecture-design-isc-compliance-audit-022"], "description": ""}
+{"event": "architecture_design_completed", "source_rules": ["rule.n022-detection-architecture-design-isc-compliance-audit-022"], "description": ""}
+{"event": "mr_design_generated", "source_rules": ["rule.n022-detection-architecture-design-isc-compliance-audit-022"], "description": ""}
+{"event": "skill_created", "source_rules": ["rule.n023-auto-aeo-evaluation-standard-generation-023"], "description": ""}
+{"event": "skill_major_update", "source_rules": ["rule.n023-auto-aeo-evaluation-standard-generation-023"], "description": ""}
+{"event": "aeo_evaluation_required", "source_rules": ["rule.n023-auto-aeo-evaluation-standard-generation-023", "rule.n024-aeo-dual-track-orchestration-024"], "description": ""}
+{"event": "user_feedback_collected", "source_rules": ["rule.n023-auto-aeo-evaluation-standard-generation-023"], "description": ""}
+{"event": "skill_test_triggered", "source_rules": ["rule.n024-aeo-dual-track-orchestration-024"], "description": ""}
+{"event": "user_message_received", "source_rules": ["rule.n025-aeo-feedback-auto-collection-025", "user-message-intent-probe-001"], "description": ""}
+{"event": "conversation_turn_completed", "source_rules": ["rule.n025-aeo-feedback-auto-collection-025"], "description": ""}
+{"event": "aeo_issue_frequency_threshold_exceeded", "source_rules": ["rule.n026-aeo-insight-to-action-026"], "description": ""}
+{"event": "n020_analysis_completed", "source_rules": ["rule.n026-aeo-insight-to-action-026"], "description": ""}
+{"event": "api_key_rate_limit", "source_rules": ["rule.n029-model-api-key-pool-management-029"], "description": ""}
+{"event": "api_key_invalid", "source_rules": ["rule.n029-model-api-key-pool-management-029"], "description": ""}
+{"event": "api_key_expired", "source_rules": ["rule.n029-model-api-key-pool-management-029"], "description": ""}
+{"event": "model_request_initiated", "source_rules": ["rule.n029-model-api-key-pool-management-029"], "description": ""}
+{"event": "system.config.modified", "source_rules": ["N033"], "description": ""}
+{"event": "system.config.created", "source_rules": ["N033"], "description": ""}
+{"event": "system.config.deleted", "source_rules": ["N033"], "description": ""}
+{"event": "system.config.change_requested", "source_rules": ["N033"], "description": ""}
+{"event": "lto.rule.statistics_requested", "source_rules": ["rule.n034-rule-identity-accuracy"], "description": ""}
+{"event": "lto.general.rule_count_validation", "source_rules": ["rule.n034-rule-identity-accuracy"], "description": ""}
+{"event": "isc.rule.updated", "source_rules": ["rule.n035-rule-trigger-completeness"], "description": ""}
+{"event": "isc.enforcement.audit_requested", "source_rules": ["rule.n035-rule-trigger-completeness"], "description": ""}
+{"event": "session.general.started", "source_rules": ["rule.n036-memory-loss-recovery"], "description": ""}
+{"event": "system.memory.loss_detected", "source_rules": ["rule.n036-memory-loss-recovery"], "description": ""}
+{"event": "session.context.incomplete", "source_rules": ["rule.n036-memory-loss-recovery"], "description": ""}
+{"event": "architecture.diagram.created", "source_rules": ["rule.naming-mece-consistency-001"], "description": ""}
+{"event": "orchestration.general.requested", "source_rules": ["rule.parallel-subagent-orchestration-001"], "description": ""}
+{"event": "orchestration.general.detected", "source_rules": ["rule.parallel-subagent-orchestration-001"], "description": ""}
+{"event": "analysis.requested", "source_rules": ["rule.pipeline-benchmark-analysis-requested-001"], "description": ""}
+{"event": "agent.behavior.defect_acknowledged", "source_rules": ["rule.pipeline-benchmark-defect-acknowledged-001"], "description": ""}
+{"event": "evomap.sync.request", "source_rules": ["rule.pipeline-benchmark-evomap-security-scan-001"], "description": ""}
+{"event": "skill.created", "source_rules": ["rule.pipeline-benchmark-skill-created-alignment-001", "rule.public-skill-classification-001"], "description": ""}
+{"event": "skill.publish", "source_rules": ["rule.pipeline-benchmark-skill-publish-security-gate-001"], "description": ""}
+{"event": "workflow.requested", "source_rules": ["rule.pipeline-benchmark-workflow-requested-001"], "description": ""}
+{"event": "task.status.completed", "source_rules": ["rule.project-artifact-gate-001"], "description": ""}
+{"event": "task.status.done", "source_rules": ["rule.project-artifact-gate-001"], "description": ""}
+{"event": "subtask.status.completed", "source_rules": ["rule.project-artifact-gate-001"], "description": ""}
+{"event": "sprint.completed", "source_rules": ["rule.project-mgmt-lesson-capture-001", "rule.tracker-sync-gate-001"], "description": ""}
+{"event": "sprint.aborted", "source_rules": ["rule.project-mgmt-lesson-capture-001"], "description": ""}
+{"event": "project.milestone.reached", "source_rules": ["rule.project-mgmt-lesson-capture-001"], "description": ""}
+{"event": "review.rejected.count >= 2", "source_rules": ["rule.project-mgmt-lesson-capture-001"], "description": ""}
+{"event": "task.overdue.ratio > 0.5", "source_rules": ["rule.project-mgmt-lesson-capture-001"], "description": ""}
+{"event": "user.process.correction", "source_rules": ["rule.project-mgmt-lesson-capture-001"], "description": ""}
+{"event": "project.started", "source_rules": ["rule.project-mgmt-startup-checklist-001"], "description": ""}
+{"event": "sprint.started", "source_rules": ["rule.project-mgmt-startup-checklist-001", "rule.tracker-sync-gate-001"], "description": ""}
+{"event": "task.orchestration.initiated", "source_rules": ["rule.project-mgmt-startup-checklist-001"], "description": ""}
+{"event": "skill.modified", "source_rules": ["rule.public-skill-classification-001"], "description": ""}
+{"event": "skill.skill_md.updated", "source_rules": ["rule.public-skill-classification-001"], "description": ""}
+{"event": "skill.public.modified", "source_rules": ["rule.public-skill-quality-gate-001"], "description": ""}
+{"event": "git.commit.skills_public", "source_rules": ["rule.public-skill-quality-gate-001"], "description": ""}
+{"event": "report.created", "source_rules": ["rule.report-readability-001"], "description": ""}
+{"event": "report.modified", "source_rules": ["rule.report-readability-001"], "description": ""}
+{"event": "document.report.created", "source_rules": ["rule.report-readability-001"], "description": ""}
+{"event": "document.report.modified", "source_rules": ["rule.report-readability-001"], "description": ""}
+{"event": "evaluation.benchmark.completed", "source_rules": ["rule.report-snapshot-lock-001"], "description": ""}
+{"event": "quality.general.created", "source_rules": ["rule.scenario-acceptance-gate-001"], "description": ""}
+{"event": "aeo.general.completed", "source_rules": ["rule.scenario-acceptance-gate-001"], "description": ""}
+{"event": "skill.general.completed", "source_rules": ["rule.scenario-acceptance-gate-001"], "description": ""}
+{"event": "system.behavior.defect_acknowledged", "source_rules": ["rule.self-correction-to-rule-001"], "description": ""}
+{"event": "intent.detected", "source_rules": ["rule.semantic-intent-event-001"], "description": ""}
+{"event": "skill.general.publish_requested", "source_rules": ["isc-skill-distribution-separation-001"], "description": ""}
+{"event": "skill.evomap.requested", "source_rules": ["isc-skill-distribution-separation-001"], "description": ""}
+{"event": "skill.evomap.sync", "source_rules": ["isc-skill-distribution-separation-001"], "description": ""}
+{"event": "skill.usage.pattern_detected", "source_rules": ["skill.evolution.auto-trigger"], "description": ""}
+{"event": "skill.performance.degraded", "source_rules": ["skill.evolution.auto-trigger"], "description": ""}
+{"event": "skill.evolution.scheduled", "source_rules": ["skill.evolution.auto-trigger"], "description": ""}
+{"event": "agent.task.spawned", "source_rules": ["ISC-SPAWN-TASKBOARD-HOOK-001"], "description": ""}
+{"event": "sprint.closure.requested", "source_rules": ["rule.sprint-closure-acceptance-001"], "description": ""}
+{"event": "sprint.day.closure.requested", "source_rules": ["rule.sprint-closure-acceptance-001"], "description": ""}
+{"event": "project.milestone.closure.requested", "source_rules": ["rule.sprint-closure-acceptance-001"], "description": ""}
+{"event": "orchestration.task.created", "source_rules": ["rule.subagent-checkpoint-gate-001"], "description": ""}
+{"event": "subagent.task.completed", "source_rules": ["rule.subagent-report-queue-001"], "description": ""}
+{"event": "user_asks_task_status", "source_rules": ["ISC-TASKBOARD-PUSH-001"], "description": ""}
+{"event": "batch_tasks_completed_gte_3", "source_rules": ["ISC-TASKBOARD-PUSH-001"], "description": ""}
+{"event": "any_task_failed", "source_rules": ["ISC-TASKBOARD-PUSH-001"], "description": ""}
+{"event": "new_task_wave_dispatched", "source_rules": ["ISC-TASKBOARD-PUSH-001"], "description": ""}
+{"event": "isc.yellow_light.threshold_crossed", "source_rules": ["rule.threshold-alert-routing-001"], "description": ""}
+{"event": "system.eventbus.size_threshold_crossed", "source_rules": ["rule.threshold-alert-routing-001"], "description": ""}
+{"event": "system.handler.failure_threshold_crossed", "source_rules": ["rule.threshold-alert-routing-001"], "description": ""}
+{"event": "system.eventbus.backlog_threshold_crossed", "source_rules": ["rule.threshold-alert-routing-001"], "description": ""}
+{"event": "subagent_completion", "source_rules": ["ISC-TIMEOUT-AUTO-RETRY-001"], "description": ""}
+{"event": "task.status.changed", "source_rules": ["rule.tracker-sync-gate-001"], "description": ""}
+{"event": "task.created", "source_rules": ["rule.tracker-sync-gate-001"], "description": ""}
+{"event": "task.expanded", "source_rules": ["rule.tracker-sync-gate-001"], "description": ""}
+{"event": "subtask.created", "source_rules": ["rule.tracker-sync-gate-001"], "description": ""}
+{"event": "user.general.message", "source_rules": ["rule.umr-domain-routing-001", "rule.umr-intent-routing-001"], "description": ""}
+{"event": "document.diagram.created", "source_rules": ["rule.visual-output-style-001"], "description": ""}
