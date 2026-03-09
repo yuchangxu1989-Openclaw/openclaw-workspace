@@ -323,14 +323,88 @@ function chunkItems(count, items, numChunks) {
   return chunks;
 }
 
+// ── Simple Auto-Split (sessions_spawn ready) ─────────────────────────────────
+
+/**
+ * Simple task splitter for batch workloads → sessions_spawn-ready subtasks.
+ *
+ * @param {object} task - { description: string, items_count: number, type: string }
+ * @param {number} [maxConcurrency=19] - Maximum parallel lanes
+ * @returns {object[]} - Array of { task, label } objects ready for sessions_spawn
+ */
+function autoSplitSimple(task, maxConcurrency = 19) {
+  if (!task || !task.items_count || task.items_count <= 1) {
+    return [{ task: task.description || '', label: task.type || 'task' }];
+  }
+
+  const count = task.items_count;
+  const lanes = Math.min(count, maxConcurrency);
+  const chunkSize = Math.ceil(count / lanes);
+  const subtasks = [];
+
+  for (let i = 0; i < lanes; i++) {
+    const start = i * chunkSize + 1;
+    const end = Math.min((i + 1) * chunkSize, count);
+    if (start > count) break;
+
+    subtasks.push({
+      task: `${task.description}\n\n[Shard ${i + 1}/${lanes}] Process ${task.type || 'items'} ${start}-${end} (of ${count} total).`,
+      label: `${task.type || 'batch'}-shard-${i + 1}-of-${lanes}`,
+    });
+  }
+
+  return subtasks;
+}
+
 // ── Exports ──────────────────────────────────────────────────────────────────
 
 module.exports = {
   analyzeSplittability,
   autoSplit,
+  autoSplitSimple,
   aggregateResults,
   SPLIT_PATTERNS,
   // Exposed for testing
   chunkItems,
   taskText,
 };
+
+// ── CLI test runner ──────────────────────────────────────────────────────────
+
+if (require.main === module && process.argv.includes('--test')) {
+  console.log('=== autoSplitSimple tests ===\n');
+
+  // Test 1: 100 items, 19 concurrency
+  const r1 = autoSplitSimple({ description: 'Run eval suite', items_count: 100, type: 'eval' }, 19);
+  console.log(`Test 1: 100 items → ${r1.length} shards`);
+  console.assert(r1.length === 17, `Expected 17, got ${r1.length}`); // ceil(100/19)=6 per chunk → 17 shards
+  console.log(`  First: ${r1[0].label}`);
+  console.log(`  Last:  ${r1[r1.length - 1].label}\n`);
+
+  // Test 2: 5 items
+  const r2 = autoSplitSimple({ description: 'Process files', items_count: 5, type: 'file' }, 19);
+  console.log(`Test 2: 5 items → ${r2.length} shards`);
+  console.assert(r2.length === 5, `Expected 5, got ${r2.length}`);
+
+  // Test 3: 1 item (no split)
+  const r3 = autoSplitSimple({ description: 'Single task', items_count: 1, type: 'task' }, 19);
+  console.log(`Test 3: 1 item → ${r3.length} shard (no split)`);
+  console.assert(r3.length === 1, `Expected 1, got ${r3.length}`);
+
+  // Test 4: 19 items exactly
+  const r4 = autoSplitSimple({ description: 'Exact fit', items_count: 19, type: 'item' }, 19);
+  console.log(`Test 4: 19 items → ${r4.length} shards`);
+  console.assert(r4.length === 19, `Expected 19, got ${r4.length}`);
+
+  // Test 5: coverage check - all items accounted for
+  const r5 = autoSplitSimple({ description: 'Check coverage', items_count: 100, type: 'row' }, 19);
+  let totalCovered = 0;
+  for (const s of r5) {
+    const m = s.task.match(/rows? (\d+)-(\d+)/);
+    if (m) totalCovered += parseInt(m[2]) - parseInt(m[1]) + 1;
+  }
+  console.log(`Test 5: Coverage check → ${totalCovered}/100 items covered`);
+  console.assert(totalCovered === 100, `Expected 100, got ${totalCovered}`);
+
+  console.log('\n✅ All tests passed.');
+}
