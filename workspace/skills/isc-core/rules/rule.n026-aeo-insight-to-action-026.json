@@ -69,5 +69,7 @@
     "handler": "eval-quality-check",
     "script": "scripts/isc-hooks/rule.n026-aeo-insight-to-action-026.sh"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded",
+  "handler": "handlers/n026-aeo-insight-to-action.js"
 }

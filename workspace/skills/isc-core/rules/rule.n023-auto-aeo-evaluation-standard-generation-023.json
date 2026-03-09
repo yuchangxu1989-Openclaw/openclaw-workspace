@@ -101,5 +101,7 @@
     "handler": "eval-quality-check",
     "script": "scripts/isc-hooks/rule.n023-auto-aeo-evaluation-standard-generation-023.sh"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded",
+  "handler": "handlers/n023-aeo-eval-standard-generation.js"
 }

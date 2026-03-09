@@ -82,5 +82,7 @@
     "handler": "eval-quality-check",
     "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n025-aeo-feedback-auto-collection-025.sh"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded",
+  "handler": "handlers/n025-aeo-feedback-auto-collection.js"
 }

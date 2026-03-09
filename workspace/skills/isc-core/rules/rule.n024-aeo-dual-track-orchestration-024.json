@@ -74,5 +74,7 @@
     "handler": "eval-quality-check",
     "script": "scripts/isc-hooks/rule.n024-aeo-dual-track-orchestration-024.sh"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded",
+  "handler": "handlers/n024-aeo-dual-track-orchestration.js"
 }
