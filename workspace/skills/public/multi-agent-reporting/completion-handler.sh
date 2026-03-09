@@ -103,12 +103,22 @@ console.log(board.filter(t=>t.status==='running').length);
         else "NONE" end
       ' "$BOARD_FILE" 2>/dev/null || echo "NONE")
 
+      FREE_SLOTS=$((MAX_CONCURRENT - RUNNING_NOW))
       if echo "$RETRYABLE" | grep -q "^FOUND"; then
-        FREE_SLOTS=$((MAX_CONCURRENT - RUNNING_NOW))
         echo ""
-        echo "🔄 有空闲slot（当前running: ${RUNNING_NOW}/${MAX_CONCURRENT}，空闲: ${FREE_SLOTS}），以下任务可重试："
-        echo "$RETRYABLE" | tail -n +2
-        echo "建议立即扩列。"
+        if [ "$FREE_SLOTS" -ge 5 ]; then
+          echo "🚨🚨🚨 扩列提醒 🚨🚨🚨"
+          RETRYABLE_COUNT=$(echo "$RETRYABLE" | tail -n +2 | wc -l)
+          echo "空闲slot: ${FREE_SLOTS}/${MAX_CONCURRENT} | 待派任务池: ${RETRYABLE_COUNT}条"
+          echo "立即扩列！不要让算力闲置！"
+          echo ""
+          echo "可重试任务："
+          echo "$RETRYABLE" | tail -n +2
+        else
+          echo "🔄 有空闲slot（当前running: ${RUNNING_NOW}/${MAX_CONCURRENT}，空闲: ${FREE_SLOTS}），以下任务可重试："
+          echo "$RETRYABLE" | tail -n +2
+          echo "建议立即扩列。"
+        fi
 
         # 为待重试任务初始化 retry_count 字段（如果不存在则设为0）
         jq '[ .[] | if (.status=="timeout" or .status=="timed_out" or .status=="failed") and ((.retry_count // 0) < 3) and (.retry_count == null) then .retry_count = 0 else . end ]' "$BOARD_FILE" > "${BOARD_FILE}.tmp" && mv "${BOARD_FILE}.tmp" "$BOARD_FILE"
@@ -200,7 +210,27 @@ if [ "$HARVESTED" = "true" ]; then
   echo "🧷 已自动Badcase入库: $HARVEST_ID"
 fi
 if [ "$PENDING_COUNT" != "0" ]; then
-  echo "🔄 当前有${PENDING_COUNT}条任务待重试（详见logs/completion-handler-latest.log）"
+  # 从看板获取当前running数
+  CUR_RUNNING=$(jq '[.[] | select(.status=="running")] | length' "$BOARD_FILE" 2>/dev/null || echo "0")
+  CUR_FREE=$((19 - CUR_RUNNING))
+  if [ "$CUR_FREE" -ge 5 ]; then
+    echo ""
+    echo "🚨🚨🚨 扩列提醒 🚨🚨🚨"
+    echo "空闲slot: ${CUR_FREE}/19 | 待派任务池: ${PENDING_COUNT}条"
+    echo "立即扩列！不要让算力闲置！"
+  else
+    echo "🔄 当前有${PENDING_COUNT}条任务待重试（详见logs/completion-handler-latest.log）"
+  fi
+fi
+
+# 检查：running=0 但有已完成任务（说明刚完成一波但没派新的）
+if [ -f "$BOARD_FILE" ]; then
+  _CHK_RUNNING=$(jq '[.[] | select(.status=="running")] | length' "$BOARD_FILE" 2>/dev/null || echo "0")
+  _CHK_DONE=$(jq '[.[] | select(.status=="done")] | length' "$BOARD_FILE" 2>/dev/null || echo "0")
+  if [ "$_CHK_RUNNING" = "0" ] && [ "$_CHK_DONE" -gt 0 ] 2>/dev/null; then
+    echo ""
+    echo "⚠️ 全部完成，无任务在跑！检查是否有下一批任务需要派发"
+  fi
 fi
 
 # Detect batch completion: when no running tasks remain after an update
