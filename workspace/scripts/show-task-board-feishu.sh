@@ -29,9 +29,13 @@ const todayEnd = todayStart + 86400000;
 const dateStr = new Date(now + tzOffset).toISOString().slice(0, 10); // YYYY-MM-DD
 
 const running = board.filter(t => t.status === 'running');
-const done = board.filter(t => t.status === 'done' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd).length;
-const timeout = board.filter(t => t.status === 'timeout' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd).length;
-const failed = board.filter(t => t.status === 'failed' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd).length;
+const done = board.filter(t => t.status === 'done').length;
+const timeout = board.filter(t => t.status === 'timeout').length;
+const failed = board.filter(t => t.status === 'failed').length;
+// Today-only counts for the daily summary line
+const doneToday = board.filter(t => t.status === 'done' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd).length;
+const timeoutToday = board.filter(t => t.status === 'timeout' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd).length;
+const failedToday = board.filter(t => t.status === 'failed' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd).length;
 
 function elapsed(t) {
   const start = new Date(t.spawnTime).getTime();
@@ -45,6 +49,7 @@ function elapsed(t) {
 
 let out = '📋 Agent任务看板（' + dateStr + '）';
 out += '\n并行: ' + running.length + ' | ✅' + done + ' ⏰' + timeout + ' ❌' + failed;
+out += '\n今日: ✅' + doneToday + ' ⏰' + timeoutToday + ' ❌' + failedToday;
 if (running.length > 0) {
   out += '\n| 任务 | 状态 | 耗时 |';
   out += '\n|------|------|------|';
