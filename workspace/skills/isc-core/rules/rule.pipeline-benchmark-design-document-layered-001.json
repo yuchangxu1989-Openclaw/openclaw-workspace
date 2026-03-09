@@ -16,7 +16,10 @@
   "enforcement_tier": "P1_process",
   "action": {
     "type": "script",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-layered-001.sh"
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-layered-001.sh",
+    "handler": "design-document-layered-check",
+    "handler_file": "handlers/design-document-layered-check.js"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }

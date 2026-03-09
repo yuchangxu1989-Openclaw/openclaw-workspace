@@ -16,7 +16,9 @@
   "action": {
     "type": "script",
     "handler": "self-correction-root-cause",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-defect-acknowledged-001.sh"
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-defect-acknowledged-001.sh",
+    "handler_file": "handlers/self-correction-root-cause.js"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }

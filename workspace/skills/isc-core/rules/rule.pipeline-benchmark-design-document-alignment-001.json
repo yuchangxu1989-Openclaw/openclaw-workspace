@@ -17,7 +17,9 @@
   "action": {
     "type": "script",
     "handler": "architecture-review-pipeline",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-alignment-001.sh"
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-alignment-001.sh",
+    "handler_file": "handlers/architecture-review-pipeline.js"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }

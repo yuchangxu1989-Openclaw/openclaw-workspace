@@ -15,7 +15,10 @@
   "enforcement_tier": "P0_gate",
   "action": {
     "type": "script",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-evomap-security-scan-001.sh"
+    "script": "scripts/isc-hooks/rule.pipeline-benchmark-evomap-security-scan-001.sh",
+    "handler": "evomap-security-scan",
+    "handler_file": "handlers/evomap-security-scan.js"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }
