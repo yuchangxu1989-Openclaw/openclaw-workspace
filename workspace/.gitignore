@@ -60,3 +60,47 @@ infrastructure/logs/report-snapshots.jsonl
 infrastructure/logs/alerts.jsonl
 infrastructure/logs/dispatcher-actions.jsonl
 backups/*.bundle
+# === Git卫生治理 2026-03-09 ===
+
+# Vector service runtime (embeddings会重建)
+infrastructure/vector-service/vectors/*.json
+infrastructure/vector-service/vectors/index.count
+infrastructure/vector-service/vectors/index-meta.json
+
+# Event bus runtime state
+infrastructure/event-bus/events.jsonl
+infrastructure/event-bus/signals/.git-sensor-dedupe.json
+
+# Enforcement runtime logs
+infrastructure/enforcement/enforcement-log.jsonl
+infrastructure/gate-blocked.json
+
+# Entropy report (auto-generated)
+infrastructure/entropy-report.json
+
+# AEO evalset cron output (runtime)
+skills/aeo/evalset-cron-output/
+skills/aeo/evaluation-sets/*/
+skills/aeo/unified-evaluation-sets/registry.json
+
+# Skills runtime state
+skills/project-mgmt/metrics/*.json
+skills/project-mgmt/lessons/*.md
+
+# Workspace version state
+.workspace-versions.json
+
+# Dispatcher runtime
+infrastructure/dispatcher/manual-queue.jsonl
+
+# Tmp directory
+tmp/
+
+# Logs in workspace root
+logs/*.json
+
+# Deleted honesty-daily output
+honesty-daily/output/
+
+# Bak files
+*.bak
