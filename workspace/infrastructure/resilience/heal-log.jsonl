@@ -52,3 +52,21 @@
 {"ts":"2026-03-05T23:39:02.678Z","healType":"routes_missing","file":"/nonexistent/routes.json","action":"using built-in defaults"}
 {"ts":"2026-03-05T23:39:02.679Z","healType":"json_load_failed","file":"/tmp/selfheal-test-WUCsL4/data.json","context":"data.json","error":"Unexpected token 'N', \"NOT JSON\" is not valid JSON","action":"using fallback"}
 {"ts":"2026-03-05T23:39:02.679Z","healType":"json_load_failed","file":"/tmp/selfheal-test-BaPul9/data.json","context":"data.json","error":"Unexpected token 'C', \"CORRUPTED\" is not valid JSON","action":"repairing with fallback"}
+{"ts":"2026-03-09T06:47:49.776Z","healType":"rule_parse_failed","file":"bad.json","error":"Expected property name or '}' in JSON at position 1 (line 1 column 2)","action":"skipped — other rules still loaded"}
+{"ts":"2026-03-09T06:47:49.777Z","healType":"rules_dir_unreadable","dir":"/nonexistent/rules/dir","error":"ENOENT: no such file or directory, scandir '/nonexistent/rules/dir'"}
+{"ts":"2026-03-09T06:47:49.777Z","healType":"flags_corrupted","file":"/tmp/selfheal-test-bicN05/flags.json","error":"Unexpected token 'N', \"NOT JSON AT ALL!!!\" is not valid JSON","action":"falling back to defaults"}
+{"ts":"2026-03-09T06:47:49.778Z","healType":"flags_repaired","file":"/tmp/selfheal-test-bicN05/flags.json","action":"wrote defaults to file"}
+{"ts":"2026-03-09T06:47:49.779Z","healType":"routes_corrupted","file":"/tmp/selfheal-test-pKPaAl/routes.json","error":"Unexpected token '!', \"!!!CORRUPTED!!!\" is not valid JSON","action":"falling back to built-in defaults"}
+{"ts":"2026-03-09T06:47:49.779Z","healType":"routes_repaired","file":"/tmp/selfheal-test-pKPaAl/routes.json","backup":"/tmp/selfheal-test-pKPaAl/routes.json.corrupted.1773038869779","action":"wrote defaults"}
+{"ts":"2026-03-09T06:47:49.780Z","healType":"routes_missing","file":"/nonexistent/routes.json","action":"using built-in defaults"}
+{"ts":"2026-03-09T06:47:49.781Z","healType":"json_load_failed","file":"/tmp/selfheal-test-4PxtlT/data.json","context":"data.json","error":"Unexpected token 'N', \"NOT JSON\" is not valid JSON","action":"using fallback"}
+{"ts":"2026-03-09T06:47:49.781Z","healType":"json_load_failed","file":"/tmp/selfheal-test-ctHklI/data.json","context":"data.json","error":"Unexpected token 'C', \"CORRUPTED\" is not valid JSON","action":"repairing with fallback"}
+{"ts":"2026-03-09T06:47:49.823Z","healType":"rule_parse_failed","file":"bad.json","error":"Expected property name or '}' in JSON at position 1 (line 1 column 2)","action":"skipped — other rules still loaded"}
+{"ts":"2026-03-09T06:47:49.824Z","healType":"rules_dir_unreadable","dir":"/nonexistent/rules/dir","error":"ENOENT: no such file or directory, scandir '/nonexistent/rules/dir'"}
+{"ts":"2026-03-09T06:47:49.825Z","healType":"flags_corrupted","file":"/tmp/selfheal-test-dpvR1h/flags.json","error":"Unexpected token 'N', \"NOT JSON AT ALL!!!\" is not valid JSON","action":"falling back to defaults"}
+{"ts":"2026-03-09T06:47:49.825Z","healType":"flags_repaired","file":"/tmp/selfheal-test-dpvR1h/flags.json","action":"wrote defaults to file"}
+{"ts":"2026-03-09T06:47:49.827Z","healType":"routes_corrupted","file":"/tmp/selfheal-test-BeIjfi/routes.json","error":"Unexpected token '!', \"!!!CORRUPTED!!!\" is not valid JSON","action":"falling back to built-in defaults"}
+{"ts":"2026-03-09T06:47:49.827Z","healType":"routes_repaired","file":"/tmp/selfheal-test-BeIjfi/routes.json","backup":"/tmp/selfheal-test-BeIjfi/routes.json.corrupted.1773038869827","action":"wrote defaults"}
+{"ts":"2026-03-09T06:47:49.828Z","healType":"routes_missing","file":"/nonexistent/routes.json","action":"using built-in defaults"}
+{"ts":"2026-03-09T06:47:49.828Z","healType":"json_load_failed","file":"/tmp/selfheal-test-lbe3ko/data.json","context":"data.json","error":"Unexpected token 'N', \"NOT JSON\" is not valid JSON","action":"using fallback"}
+{"ts":"2026-03-09T06:47:49.829Z","healType":"json_load_failed","file":"/tmp/selfheal-test-JRniof/data.json","context":"data.json","error":"Unexpected token 'C', \"CORRUPTED\" is not valid JSON","action":"repairing with fallback"}

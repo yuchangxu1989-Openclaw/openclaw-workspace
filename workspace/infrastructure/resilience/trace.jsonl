@@ -1604,3 +1604,21 @@
 {"ts":"2026-03-08T01:57:43.830Z","stage":"dispatch.start","traceId":"evt_test_object_action","action":"log_only","eventType":"isc.rule.modified"}
 {"ts":"2026-03-08T01:57:50.287Z","stage":"dispatch.start","traceId":"evt_system_error_route_test","action":"system.error","eventType":"system.error"}
 {"ts":"2026-03-08T01:57:50.454Z","stage":"dispatch.success","traceId":"evt_system_error_route_test","action":"system.error","handler":"notify-alert","attempt":1,"duration":167}
+{"ts":"2026-03-09T06:47:03.220Z","stage":"dispatch.start","traceId":"evt_test_mmitjbqr_p0gm","action":"skill.created","eventType":"skill.created"}
+{"ts":"2026-03-09T06:47:12.404Z","stage":"dispatch.start","traceId":"evt_test_mmitjitw_ta2r","action":"intent.detected","eventType":"intent.detected"}
+{"ts":"2026-03-09T06:47:22.107Z","stage":"dispatch.start","traceId":"evt_test_mmitjqbf_q76x","action":"test.fallback","eventType":"test.fallback"}
+{"ts":"2026-03-09T06:47:31.993Z","stage":"dispatch.start","traceId":"evt_test_mmitjxy1_q5tn","action":"test.event","eventType":"test.event"}
+{"ts":"2026-03-09T06:47:41.643Z","stage":"dispatch.start","traceId":"evt_test_mmitk5e3_5vtp","action":"test.schema.dispatch","eventType":"test.schema.dispatch"}
+{"ts":"2026-03-09T06:47:49.762Z","stage":"resilience.circuit_open","handlerName":"crashing-handler","consecutiveFailures":3,"lastError":"crash 3"}
+{"ts":"2026-03-09T06:47:49.764Z","stage":"resilience.circuit_open","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash"}
+{"ts":"2026-03-09T06:47:49.767Z","stage":"resilience.circuit_open","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash"}
+{"ts":"2026-03-09T06:47:49.773Z","stage":"resilience.circuit_open","handlerName":"broken","consecutiveFailures":3,"lastError":"crash"}
+{"ts":"2026-03-09T06:47:50.192Z","stage":"resilience.circuit_open","handlerName":"crashing-handler","consecutiveFailures":3,"lastError":"crash 3"}
+{"ts":"2026-03-09T06:47:50.195Z","stage":"resilience.circuit_open","handlerName":"disabled-one","consecutiveFailures":3,"lastError":"crash"}
+{"ts":"2026-03-09T06:47:50.197Z","stage":"resilience.circuit_open","handlerName":"to-enable","consecutiveFailures":3,"lastError":"crash"}
+{"ts":"2026-03-09T06:47:50.202Z","stage":"resilience.circuit_open","handlerName":"broken","consecutiveFailures":3,"lastError":"crash"}
+{"ts":"2026-03-09T06:47:59.742Z","stage":"dispatch.start","traceId":"evt_test_mmitkjcu_0cje","action":"skill.created","eventType":"skill.created"}
+{"ts":"2026-03-09T06:48:09.480Z","stage":"dispatch.start","traceId":"evt_test_mmitkqvc_8oh4","action":"intent.detected","eventType":"intent.detected"}
+{"ts":"2026-03-09T06:48:19.198Z","stage":"dispatch.start","traceId":"evt_test_mmitkyda_b9t5","action":"test.fallback","eventType":"test.fallback"}
+{"ts":"2026-03-09T06:48:28.945Z","stage":"dispatch.start","traceId":"evt_test_mmitl5w1_lg6x","action":"test.event","eventType":"test.event"}
+{"ts":"2026-03-09T06:48:38.739Z","stage":"dispatch.start","traceId":"evt_test_mmitldg3_7bwd","action":"test.schema.dispatch","eventType":"test.schema.dispatch"}
