@@ -1,7 +1,7 @@
 ---
 name: project-mgmt
 description: 项目管理 - 任务编排、Sprint规划、架构评审、裁决
-version: "1.0.14"
+version: "1.0.15"
 status: active
 tags: [project, management, orchestration, sprint, review]
 ---
