@@ -32,6 +32,7 @@ if (!process.env.ZHIPU_API_KEY) {
 const DEFAULT_DATASET = path.join(WORKSPACE, 'tests/benchmarks/intent/intent-benchmark-dataset.json');
 const CONFIG_PATH = path.join(__dirname, '../config/aeo-config.json');
 const REPORT_DIR = path.join(__dirname, '../reports');
+const OPENCLAW_CONFIG_PATH = '/root/.openclaw/openclaw.json';
 
 // ─── 解析命令行参数 ───
 function parseArgs() {
@@ -117,15 +118,8 @@ const MOCK_RULES = {
 // ─── GLM-5 LLM 分类器 ───
 const C2_CATEGORIES = ['纠偏类', '自主性缺失类', '全局未对齐类', '认知错误类', '连锁跷跷板类', '交付质量类', '反复未果类', '头痛医头类'];
 
-async function glm5Classify(input) {
-  const messages = Array.isArray(input) ? input : [{ role: 'user', content: input }];
-  const lastUserMsg = messages.filter(m => m.role === 'user').pop();
-  const text = lastUserMsg?.content || '';
-
-  const apiKey = process.env.ZHIPU_API_KEY || '';
-  if (!apiKey) return mockClassify(input);
-
-  const systemPrompt = `你是一个AI Agent错误分类专家。给定一段描述AI Agent在执行任务时的错误场景，你需要将其分类为以下8类之一：
+function getC2SystemPrompt() {
+  return `你是一个AI Agent错误分类专家。给定一段描述AI Agent在执行任务时的错误场景，你需要将其分类为以下8类之一：
 ${C2_CATEGORIES.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 
 分类定义：
@@ -139,6 +133,30 @@ ${C2_CATEGORIES.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 - 头痛医头类：只改症状不改根因
 
 只返回类别名称，不要任何其他内容。`;
+}
+
+function loadOpenClawConfig() {
+  try {
+    return JSON.parse(fs.readFileSync(OPENCLAW_CONFIG_PATH, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function getProviderConfig(providerName) {
+  const config = loadOpenClawConfig();
+  return config?.models?.providers?.find(p => p.name === providerName) || null;
+}
+
+async function glm5Classify(input) {
+  const messages = Array.isArray(input) ? input : [{ role: 'user', content: input }];
+  const lastUserMsg = messages.filter(m => m.role === 'user').pop();
+  const text = lastUserMsg?.content || '';
+
+  const apiKey = process.env.ZHIPU_API_KEY || '';
+  if (!apiKey) return mockClassify(input);
+
+  const systemPrompt = getC2SystemPrompt();
 
   const body = JSON.stringify({
     model: 'glm-4-flash',
@@ -160,6 +178,116 @@ ${C2_CATEGORIES.map((c, i) => `${i + 1}. ${c}`).join('\n')}
         Authorization: `Bearer ${apiKey}`,
       },
       timeout: 15000,
+    }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          const answer = (json.choices?.[0]?.message?.content || '').trim();
+          const matched = C2_CATEGORIES.find(c => answer.includes(c));
+          resolve({ ic: matched || 'UNKNOWN', intents: [], raw: answer });
+        } catch {
+          resolve(mockClassify(input));
+        }
+      });
+    });
+    req.on('error', () => resolve(mockClassify(input)));
+    req.on('timeout', () => { req.destroy(); resolve(mockClassify(input)); });
+    req.write(body);
+    req.end();
+  });
+}
+
+async function callAnthropic(apiKey, baseURL, input) {
+  const messages = Array.isArray(input) ? input : [{ role: 'user', content: input }];
+  const lastUserMsg = messages.filter(m => m.role === 'user').pop();
+  const text = lastUserMsg?.content || '';
+
+  const systemPrompt = getC2SystemPrompt();
+  const body = JSON.stringify({
+    model: 'claude-opus-4-6-thinking',
+    max_tokens: 32,
+    temperature: 0.1,
+    system: systemPrompt,
+    messages: [{ role: 'user', content: `请分类以下场景：\n${text.slice(0, 2000)}` }],
+  });
+
+  return new Promise((resolve) => {
+    const url = new URL((baseURL || 'https://api.penguinsai.chat').replace(/\/$/, '') + '/v1/messages');
+    const req = https.request({
+      hostname: url.hostname,
+      port: url.port || 443,
+      path: `${url.pathname}${url.search}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      timeout: 30000,
+    }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          const answer = (json.content?.find?.(c => c.type === 'text')?.text || '').trim();
+          const matched = C2_CATEGORIES.find(c => answer.includes(c));
+          resolve({ ic: matched || 'UNKNOWN', intents: [], raw: answer });
+        } catch {
+          resolve(mockClassify(input));
+        }
+      });
+    });
+    req.on('error', () => resolve(mockClassify(input)));
+    req.on('timeout', () => { req.destroy(); resolve(mockClassify(input)); });
+    req.write(body);
+    req.end();
+  });
+}
+
+async function opusClassify(input) {
+  const envKey = process.env.ANTHROPIC_API_KEY || '';
+  if (envKey) return callAnthropic(envKey, 'https://api.penguinsai.chat', input);
+
+  const provider = getProviderConfig('penguinsaichat');
+  if (provider?.apiKey) {
+    return callAnthropic(provider.apiKey, provider.baseURL || 'https://api.penguinsai.chat', input);
+  }
+  return mockClassify(input);
+}
+
+async function codexClassify(input) {
+  const messages = Array.isArray(input) ? input : [{ role: 'user', content: input }];
+  const lastUserMsg = messages.filter(m => m.role === 'user').pop();
+  const text = lastUserMsg?.content || '';
+
+  const provider = getProviderConfig('boom');
+  if (!provider?.apiKey || !provider?.baseURL) return mockClassify(input);
+
+  const body = JSON.stringify({
+    model: 'gpt-5.3-codex',
+    messages: [
+      { role: 'system', content: getC2SystemPrompt() },
+      { role: 'user', content: `请分类以下场景：\n${text.slice(0, 2000)}` },
+    ],
+    temperature: 0.1,
+    max_tokens: 20,
+  });
+
+  return new Promise((resolve) => {
+    const url = new URL(provider.baseURL.replace(/\/$/, '') + '/v1/chat/completions');
+    const req = https.request({
+      hostname: url.hostname,
+      port: url.port || 443,
+      path: `${url.pathname}${url.search}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${provider.apiKey}`,
+      },
+      timeout: 30000,
     }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
@@ -232,7 +360,7 @@ function inferICFromIntent(intentName) {
 }
 
 // ─── 单批次评测执行 ───
-async function runBatch(batchSamples, batchIndex, totalBatches, scanner, useScanner, useGLM5) {
+async function runBatch(batchSamples, batchIndex, totalBatches, scanner, useScanner, useGLM5, useOpus, useCodex) {
   const results = [];
   let correct = 0;
   const icStats = {};
@@ -242,7 +370,11 @@ async function runBatch(batchSamples, batchIndex, totalBatches, scanner, useScan
 
     // 调用分类器
     let prediction;
-    if (useGLM5) {
+    if (useOpus) {
+      prediction = await opusClassify(sample.input);
+    } else if (useCodex) {
+      prediction = await codexClassify(sample.input);
+    } else if (useGLM5) {
       prediction = await glm5Classify(sample.input);
     } else if (useScanner) {
       prediction = await scannerClassify(scanner, sample.input);
@@ -357,9 +489,17 @@ async function runEvaluation() {
 
   // 3. 初始化分类器
   const useGLM5 = opts.classifier === 'glm5' || process.env.USE_GLM5 === 'true';
-  const scanner = !useGLM5 ? loadIntentScanner() : null;
-  const useScanner = !useGLM5 && scanner && process.env.USE_LLM === 'true';
-  const classifierName = useGLM5 ? 'GLM-5 (glm-4-flash)' : (useScanner ? 'IntentScanner (LLM)' : 'Mock 正则分类器');
+  const useOpus = opts.classifier === 'opus';
+  const useCodex = opts.classifier === 'codex';
+  const scanner = (!useGLM5 && !useOpus && !useCodex) ? loadIntentScanner() : null;
+  const useScanner = !useGLM5 && !useOpus && !useCodex && scanner && process.env.USE_LLM === 'true';
+  const classifierName = useOpus
+    ? 'Opus (claude-opus-4-6-thinking)'
+    : useCodex
+      ? 'Codex (gpt-5.3-codex)'
+      : useGLM5
+        ? 'GLM-5 (glm-4-flash)'
+        : (useScanner ? 'IntentScanner (LLM)' : 'Mock 正则分类器');
   console.log(`🔧 分类器: ${classifierName}`);
 
   // 4. 确定评测范围
@@ -385,7 +525,7 @@ async function runEvaluation() {
   const allBatchResults = [];
   for (let b = 0; b < batches.length; b++) {
     console.log(`\n▶ 批次 ${b + 1}/${batches.length}（${batches[b].length}条）`);
-    const batchResult = await runBatch(batches[b], b + 1, batches.length, scanner, useScanner, useGLM5);
+    const batchResult = await runBatch(batches[b], b + 1, batches.length, scanner, useScanner, useGLM5, useOpus, useCodex);
     allBatchResults.push(batchResult);
   }
 
