@@ -7,6 +7,7 @@
  *   node e2e-eval.js --level l2 --batch 10 --offset 0
  *   node e2e-eval.js --level l1l2 --batch 10        # run both layers
  *   node e2e-eval.js --level l1 --batch 3 --dry-run  # prompt preview only
+ *   node e2e-eval.js --model glm-4-0520             # use specific model
  */
 
 'use strict';
@@ -24,6 +25,7 @@ const { values: args } = parseArgs({
     'data-dir': { type: 'string', default: '' },
     'dry-run': { type: 'boolean', default: false },
     'out-dir': { type: 'string', default: '' },
+    model:    { type: 'string', default: 'glm-4-plus' },
   },
   strict: false,
 });
@@ -39,7 +41,8 @@ const OUT_DIR     = args['out-dir'] ||
 
 // ── Zhipu API config ────────────────────────────────────────────────────────
 const ZHIPU_ENDPOINT = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
-const ZHIPU_MODEL    = 'glm-4-flash';
+const MODEL_FALLBACK_CHAIN = [args.model, 'glm-4-plus', 'glm-4-0520', 'glm-4-flash'];
+let   activeModel    = args.model;  // resolved after first successful call or fallback
 const TIMEOUT_MS     = 30_000;  // 30s per call
 const MAX_RETRIES    = 1;
 
@@ -106,12 +109,12 @@ ${steps}
 }
 
 // ── LLM call (Zhipu glm-4-flash) ───────────────────────────────────────────
-async function callLLM(prompt, apiKey) {
+async function callLLM(prompt, apiKey, model) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
   const body = JSON.stringify({
-    model: ZHIPU_MODEL,
+    model: model || activeModel,
     messages: [{ role: 'user', content: prompt }],
     temperature: 0.1,
     max_tokens: 512,
@@ -143,16 +146,31 @@ async function callLLM(prompt, apiKey) {
   }
 }
 
-/** Call LLM with 1 retry on failure */
+/** Call LLM with 1 retry + model fallback chain on failure */
 async function callLLMWithRetry(prompt, apiKey) {
-  try {
-    return await callLLM(prompt, apiKey);
-  } catch (e1) {
-    // retry once
+  // De-duplicate fallback chain while preserving order
+  const chain = [...new Set(MODEL_FALLBACK_CHAIN)];
+  for (let mi = 0; mi < chain.length; mi++) {
+    const model = chain[mi];
     try {
-      return await callLLM(prompt, apiKey);
-    } catch (e2) {
-      throw e2;
+      const result = await callLLM(prompt, apiKey, model);
+      if (model !== activeModel) {
+        console.log(`\n  [model-fallback] ${activeModel} → ${model}`);
+        activeModel = model;
+      }
+      return result;
+    } catch (e) {
+      // If model not found / not supported, try next in chain
+      const isModelError = /model|not.?found|not.?support|1301/i.test(e.message);
+      if (isModelError && mi < chain.length - 1) {
+        continue; // try next model
+      }
+      // For non-model errors, retry once with same model
+      if (!isModelError) {
+        try { return await callLLM(prompt, apiKey, model); } catch {}
+      }
+      // Last model in chain — throw
+      if (mi === chain.length - 1) throw e;
     }
   }
 }
@@ -225,7 +243,7 @@ async function evalL2(c, intentSummary, apiKey, dryRun) {
 
 // ── Main ────────────────────────────────────────────────────────────────────
 async function main() {
-  console.log(`[e2e-eval] level=${LEVEL} batch=${BATCH_SIZE} offset=${OFFSET} dry-run=${DRY_RUN}`);
+  console.log(`[e2e-eval] level=${LEVEL} batch=${BATCH_SIZE} offset=${OFFSET} model=${activeModel} dry-run=${DRY_RUN}`);
   console.log(`[e2e-eval] data-dir: ${DATA_DIR}`);
 
   const allCases = loadCases(DATA_DIR);
@@ -296,6 +314,7 @@ async function main() {
     total: batch.length,
     offset: OFFSET,
     dry_run: DRY_RUN,
+    model: activeModel,
   };
 
   if (doL1) {
