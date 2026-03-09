@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 /**
  * AEO 端到端评测 Runner
- * 
+ *
  * 功能：读取评测集，对每条用例调用意图分类，对比预期结果，计算准确率，输出评测报告。
- * 用法：node skills/aeo/bin/run-eval.js [--limit N] [--dataset <path>]
- * 
+ * 用法：node skills/aeo/bin/run-eval.js [--limit N] [--dataset <path>] [--batch-size N]
+ *
  * 默认使用本地 intent-scanner 的正则降级路径进行分类。
  * 设置环境变量 USE_LLM=true 可启用 LLM 路径（需要配置 API Key）。
+ *
+ * 铁律：评测批次默认10条/批，用户铁令2026-03-09
+ * ISC规则：rule.eval-batch-size-limit-001
  */
 
 'use strict';
@@ -23,10 +26,11 @@ const REPORT_DIR = path.join(__dirname, '../reports');
 // ─── 解析命令行参数 ───
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { limit: 0, dataset: DEFAULT_DATASET };
+  const opts = { limit: 0, dataset: DEFAULT_DATASET, batchSize: 10 }; // 铁律：默认10条/批
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--limit' && args[i + 1]) opts.limit = parseInt(args[i + 1], 10);
     if (args[i] === '--dataset' && args[i + 1]) opts.dataset = path.resolve(args[i + 1]);
+    if (args[i] === '--batch-size' && args[i + 1]) opts.batchSize = parseInt(args[i + 1], 10);
   }
   return opts;
 }
@@ -137,9 +141,86 @@ function inferICFromIntent(intentName) {
   return 'UNKNOWN';
 }
 
+// ─── 单批次评测执行 ───
+async function runBatch(batchSamples, batchIndex, totalBatches, scanner, useScanner) {
+  const results = [];
+  let correct = 0;
+  const icStats = {};
+
+  for (const sample of batchSamples) {
+    const startTime = Date.now();
+
+    // 调用分类器
+    let prediction;
+    if (useScanner) {
+      prediction = await scannerClassify(scanner, sample.input);
+    } else {
+      prediction = mockClassify(sample.input);
+    }
+
+    const elapsed = Date.now() - startTime;
+    const isCorrect = prediction.ic === sample.expected_ic;
+    if (isCorrect) correct++;
+
+    // 统计每个 IC 类别
+    if (!icStats[sample.expected_ic]) {
+      icStats[sample.expected_ic] = { total: 0, correct: 0 };
+    }
+    icStats[sample.expected_ic].total++;
+    if (isCorrect) icStats[sample.expected_ic].correct++;
+
+    // 记录结果
+    const result = {
+      id: sample.id,
+      description: sample.description,
+      difficulty: sample.difficulty,
+      expected_ic: sample.expected_ic,
+      predicted_ic: prediction.ic,
+      correct: isCorrect,
+      elapsed_ms: elapsed,
+    };
+    results.push(result);
+
+    // 输出进度（错误用例详细显示）
+    if (!isCorrect) {
+      const userMsg = sample.input.filter(m => m.role === 'user').pop();
+      console.log(`  ❌ ${sample.id} | 期望: ${sample.expected_ic} | 预测: ${prediction.ic} | "${(userMsg?.content || '').slice(0, 30)}..."`);
+    }
+  }
+
+  // 输出该批次结果
+  const batchAccuracy = batchSamples.length > 0 ? (correct / batchSamples.length * 100).toFixed(1) : '0.0';
+  console.log(`\n  📊 批次 ${batchIndex}/${totalBatches} 完成: 准确率 ${batchAccuracy}% (${correct}/${batchSamples.length})`);
+
+  return { results, correct, total: batchSamples.length, icStats };
+}
+
+// ─── 合并统计 ───
+function mergeStats(allBatchResults) {
+  const mergedIcStats = {};
+  let totalCorrect = 0;
+  let totalCount = 0;
+
+  for (const batch of allBatchResults) {
+    totalCorrect += batch.correct;
+    totalCount += batch.total;
+
+    for (const [ic, stats] of Object.entries(batch.icStats)) {
+      if (!mergedIcStats[ic]) {
+        mergedIcStats[ic] = { total: 0, correct: 0 };
+      }
+      mergedIcStats[ic].total += stats.total;
+      mergedIcStats[ic].correct += stats.correct;
+    }
+  }
+
+  return { totalCorrect, totalCount, mergedIcStats };
+}
+
 // ─── 评测主逻辑 ───
 async function runEvaluation() {
   const opts = parseArgs();
+  const BATCH_SIZE = opts.batchSize || 10; // 铁律：默认10条/批
 
   console.log('╔══════════════════════════════════════════╗');
   console.log('║   AEO 意图分类 端到端评测 Runner         ║');
@@ -180,71 +261,41 @@ async function runEvaluation() {
     samples = samples.slice(0, opts.limit);
     console.log(`⚡ 限制评测数量: ${opts.limit} 条`);
   }
+
+  // 5. 分批处理（铁律：默认每批10条）
+  const batches = [];
+  for (let i = 0; i < samples.length; i += BATCH_SIZE) {
+    batches.push(samples.slice(i, i + BATCH_SIZE));
+  }
+
   console.log();
+  console.log(`📋 共${samples.length}条，分${batches.length}批（每批${BATCH_SIZE}条）`);
   console.log('─'.repeat(50));
   console.log('开始评测...');
   console.log('─'.repeat(50));
 
-  // 5. 逐条评测
-  const results = [];
-  let correct = 0;
-  let total = samples.length;
-
-  // 按 IC 类别统计
-  const icStats = {};
-
-  for (const sample of samples) {
-    const startTime = Date.now();
-
-    // 调用分类器
-    let prediction;
-    if (useScanner) {
-      prediction = await scannerClassify(scanner, sample.input);
-    } else {
-      prediction = mockClassify(sample.input);
-    }
-
-    const elapsed = Date.now() - startTime;
-    const isCorrect = prediction.ic === sample.expected_ic;
-    if (isCorrect) correct++;
-
-    // 统计每个 IC 类别
-    if (!icStats[sample.expected_ic]) {
-      icStats[sample.expected_ic] = { total: 0, correct: 0 };
-    }
-    icStats[sample.expected_ic].total++;
-    if (isCorrect) icStats[sample.expected_ic].correct++;
-
-    // 记录结果
-    const result = {
-      id: sample.id,
-      description: sample.description,
-      difficulty: sample.difficulty,
-      expected_ic: sample.expected_ic,
-      predicted_ic: prediction.ic,
-      correct: isCorrect,
-      elapsed_ms: elapsed,
-    };
-    results.push(result);
-
-    // 输出进度（错误用例详细显示）
-    const icon = isCorrect ? '✅' : '❌';
-    if (!isCorrect) {
-      const userMsg = sample.input.filter(m => m.role === 'user').pop();
-      console.log(`${icon} ${sample.id} | 期望: ${sample.expected_ic} | 预测: ${prediction.ic} | "${(userMsg?.content || '').slice(0, 30)}..." | ${sample.description}`);
-    }
+  // 6. 逐批执行评测
+  const allBatchResults = [];
+  for (let b = 0; b < batches.length; b++) {
+    console.log(`\n▶ 批次 ${b + 1}/${batches.length}（${batches[b].length}条）`);
+    const batchResult = await runBatch(batches[b], b + 1, batches.length, scanner, useScanner);
+    allBatchResults.push(batchResult);
   }
 
   console.log();
   console.log('─'.repeat(50));
 
-  // 6. 生成报告
-  const accuracy = total > 0 ? (correct / total) : 0;
+  // 7. 汇总所有批次结果
+  const { totalCorrect, totalCount, mergedIcStats } = mergeStats(allBatchResults);
+  const allResults = allBatchResults.flatMap(b => b.results);
+
+  // 8. 生成汇总报告
+  const accuracy = totalCount > 0 ? (totalCorrect / totalCount) : 0;
   const accuracyPct = (accuracy * 100).toFixed(1);
 
   // 按 IC 类别汇总
   const icSummary = {};
-  for (const [ic, stats] of Object.entries(icStats)) {
+  for (const [ic, stats] of Object.entries(mergedIcStats)) {
     icSummary[ic] = {
       total: stats.total,
       correct: stats.correct,
@@ -254,7 +305,7 @@ async function runEvaluation() {
 
   // 按难度汇总
   const diffStats = {};
-  for (const r of results) {
+  for (const r of allResults) {
     if (!diffStats[r.difficulty]) diffStats[r.difficulty] = { total: 0, correct: 0 };
     diffStats[r.difficulty].total++;
     if (r.correct) diffStats[r.difficulty].correct++;
@@ -273,24 +324,33 @@ async function runEvaluation() {
       评测时间: new Date().toISOString(),
       评测集: path.basename(opts.dataset),
       分类器: classifierName,
-      样本总数: total,
+      样本总数: totalCount,
+      批次数: batches.length,
+      批次大小: BATCH_SIZE,
       AEO版本: config.version || 'unknown',
     },
     总体结果: {
-      正确数: correct,
-      总数: total,
+      正确数: totalCorrect,
+      总数: totalCount,
       准确率: `${accuracyPct}%`,
       准确率数值: accuracy,
     },
     按IC类别: icSummary,
     按难度: diffSummary,
-    错误用例: results.filter(r => !r.correct),
-    全部结果: results,
+    各批次结果: allBatchResults.map((b, i) => ({
+      批次: i + 1,
+      样本数: b.total,
+      正确数: b.correct,
+      准确率: b.total > 0 ? `${(b.correct / b.total * 100).toFixed(1)}%` : '0.0%',
+    })),
+    错误用例: allResults.filter(r => !r.correct),
+    全部结果: allResults,
   };
 
-  // 7. 输出结果摘要
-  console.log('📊 评测结果摘要');
-  console.log(`   总准确率: ${accuracyPct}% (${correct}/${total})`);
+  // 9. 输出汇总结果
+  console.log('📊 汇总评测结果');
+  console.log(`   总准确率: ${accuracyPct}% (${totalCorrect}/${totalCount})`);
+  console.log(`   批次数: ${batches.length} (每批${BATCH_SIZE}条)`);
   console.log();
   console.log('   按 IC 类别:');
   for (const [ic, stats] of Object.entries(icSummary).sort()) {
@@ -311,7 +371,7 @@ async function runEvaluation() {
     console.log(`   ❌ 错误用例数: ${report.错误用例.length}`);
   }
 
-  // 8. 保存报告
+  // 10. 保存报告
   try {
     fs.mkdirSync(REPORT_DIR, { recursive: true });
     const reportFile = path.join(REPORT_DIR, `eval-report-${Date.now()}.json`);
