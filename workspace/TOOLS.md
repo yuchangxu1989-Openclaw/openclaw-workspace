@@ -82,3 +82,10 @@ node /root/.openclaw/workspace/skills/public/file-sender/index.js <文件路径>
 - 可用 agent：**8 个**（1 main + 7 子 agent）
 - 每个 agent 都有 **boom fallback**（崩溃自动回退）
 - 并行任务拆分上限参考：7 个并发子 agent
+
+### TTS语音回复（GLM-TTS + 飞书语音气泡）
+- 一键调用：`bash scripts/feishu-voice-reply.sh "文本" "ou_xxx"`
+- 音色：douji（固定）
+- 自动处理：GLM-TTS生成 → 截2秒去噪 → opus转换 → 飞书语音气泡
+- 触发条件：用户发语音+短回复时自动用语音
+- ISC规则：voice-reply-on-short-response-001
