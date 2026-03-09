@@ -1,0 +1,13 @@
+{
+  "id": "ISC-PDCA-DO-ENTRY-GATE-001",
+  "name": "PDCA Do准入门禁",
+  "description": "进入Do阶段前确认Plan准出已通过",
+  "trigger": "pdca.phase.do.entry",
+  "condition": "task.plan_exit_passed===true",
+  "action": "未通过Plan准出则block",
+  "severity": "high",
+  "related_rules": [
+    "ISC-PDCA-PLAN-EXIT-GATE-001"
+  ],
+  "created": "2026-03-09"
+}

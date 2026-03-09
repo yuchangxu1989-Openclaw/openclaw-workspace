@@ -1,0 +1,11 @@
+{
+  "id": "ISC-PDCA-ACT-ENTRY-GATE-001",
+  "name": "PDCA Act准入门禁",
+  "description": "进入Act阶段前确认Check发现了需要改进的问题",
+  "trigger": "pdca.phase.act.entry",
+  "condition": "task.check_findings数组非空",
+  "action": "无发现则跳过Act直接done",
+  "severity": "low",
+  "related_rules": [],
+  "created": "2026-03-09"
+}
