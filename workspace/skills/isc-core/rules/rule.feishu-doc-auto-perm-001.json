@@ -5,7 +5,11 @@
   "priority": "P1",
   "category": "execution",
   "trigger": {
-    "events": ["feishu.doc.created", "feishu.bitable.created", "feishu.sheet.created"]
+    "events": [
+      "feishu.doc.created",
+      "feishu.bitable.created",
+      "feishu.sheet.created"
+    ]
   },
   "condition": {
     "always": true
@@ -13,9 +17,13 @@
   "action": {
     "type": "script",
     "script": "scripts/auto-grant-feishu-perm.sh",
-    "args": ["${doc_token}", "${doc_type}"]
+    "args": [
+      "${doc_token}",
+      "${doc_type}"
+    ]
   },
   "enforcement": "programmatic",
   "created": "2026-03-08",
-  "source": "用户要求：所有未来新创建的飞书文档都给我加满权限"
+  "source": "用户要求：所有未来新创建的飞书文档都给我加满权限",
+  "fullchain_status": "expanded"
 }

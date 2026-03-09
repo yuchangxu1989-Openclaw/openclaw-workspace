@@ -6,7 +6,10 @@
   "enabled": true,
   "priority": "P1",
   "event": {
-    "triggers": ["script.created", "script.modified"],
+    "triggers": [
+      "script.created",
+      "script.modified"
+    ],
     "source": "git-pre-commit-hook + cron-scan"
   },
   "perception": {
@@ -32,5 +35,6 @@
     "check_signals": "/root/.openclaw/workspace/.skill-discovery-signals/last-scan-result.txt"
   },
   "created_at": "2026-03-08",
-  "created_by": "rca-skill-discovery-rootfix"
+  "created_by": "rca-skill-discovery-rootfix",
+  "fullchain_status": "expanded"
 }
