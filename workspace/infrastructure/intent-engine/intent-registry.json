@@ -3,7 +3,7 @@
   "schema_version": "1",
   "description": "Intent Registry v4.3 - 5类意图收敛分类（IC1-IC5），MECE互斥穷尽",
   "created_at": "2026-03-05T00:07:00+08:00",
-  "updated_at": "2026-03-08T15:49:00+08:00",
+  "updated_at": "2026-03-09T14:43:28.567Z",
   "categories": {
     "IC1": {
       "name": "情绪意图",
@@ -555,6 +555,329 @@
         "user.teaching.received",
         "system.error.lesson_extracted"
       ]
+    },
+    {
+      "id": "system.issue.discovered.rule_creation",
+      "category": "IC2",
+      "name": "发现问题必须触发规则创建",
+      "description": "当发现系统设计缺陷、评测方法论问题、架构盲区时，必须同步创建规则+事件+执行链三件套",
+      "examples": [
+        "（系统内部）发现单轮评测无法覆盖多轮场景",
+        "（系统内部）架构盲区：缺少自动化规则加载机制",
+        "（系统内部）方法论升级：新增AEO评测维度"
+      ],
+      "anti_examples": [
+        "普通bug修复，不涉及系统性设计问题"
+      ],
+      "confidence_threshold": 0.9,
+      "status": "active",
+      "created_at": "2026-03-09T20:50:00+08:00",
+      "source": "ISC rule rule.discovery-must-trigger-rule-creation-001"
+    },
+    {
+      "id": "intent.aeo_e2e_decision_pipeline_test_001",
+      "rule_id": "rule.aeo-e2e-decision-pipeline-test-001",
+      "category": "IC2",
+      "description": "任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止模拟数据",
+      "source": "rule.aeo-e2e-decision-pipeline-test-001",
+      "trigger_events": [
+        "event_bus.handler.modified",
+        "event_bus.dispatcher.modified",
+        "isc.rule.created",
+        "isc.rule.modified",
+        "skill.public.pre_publish",
+        "sprint.day.completion"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.565Z"
+    },
+    {
+      "id": "intent.batch_completion_auto_push_001",
+      "rule_id": "rule.batch-completion-auto-push-001",
+      "category": "IC2",
+      "description": "所有子Agent任务完成后，必须自动推送最终看板给用户。不推送=Badcase。",
+      "source": "rule.batch-completion-auto-push-001",
+      "trigger_events": [],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.caijuedian_tribunal_001",
+      "rule_id": "rule.caijuedian-tribunal-001",
+      "category": "IC2",
+      "description": "裁决殿是通用多维度裁决技能，7席认知维度独立battle，用户是最终裁决者。",
+      "source": "rule.caijuedian-tribunal-001",
+      "trigger_events": [
+        "architecture.decision.major",
+        "design.direction.uncertain",
+        "system.evolution.direction_change",
+        "sprint.day.completed",
+        "review.rejection.count >= 2"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.design_document_delivery_pipeline_001",
+      "rule_id": "rule.design-document-delivery-pipeline-001",
+      "category": "IC2",
+      "description": "设计文档9步交付流水线——每步都是门禁，不许跳步，任何一步不过打回",
+      "source": "rule.design-document-delivery-pipeline-001",
+      "trigger_events": [
+        "document.design.requested"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.discovery_must_trigger_rule_creation_001",
+      "rule_id": "rule.discovery-must-trigger-rule-creation-001",
+      "category": "IC2",
+      "description": "当发现系统设计缺陷、评测方法论问题、架构盲区时，修复问题的同时必须创建对应的ISC规则+事件绑定+DTO执行链，防止同类问题再次发生。修复不带规则=只治标不治本。",
+      "source": "rule.discovery-must-trigger-rule-creation-001",
+      "trigger_events": [
+        "system.issue.discovered",
+        "architecture.gap.detected",
+        "aeo.methodology.upgraded"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.dispatch_auto_report_001",
+      "rule_id": "dispatch-auto-report-001",
+      "category": "IC2",
+      "description": "每次批量spawn子Agent(>=2个)后，必须立即调用multi-agent-reporting技能输出标准格式队列状态给用户",
+      "source": "dispatch-auto-report-001",
+      "trigger_events": [],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.eval_batch_size_limit_001",
+      "rule_id": "rule.eval-batch-size-limit-001",
+      "category": "IC2",
+      "description": "评测用例的生成、修复、评测，一次最多10条。超过10条必须拆分为多批次。",
+      "source": "rule.eval-batch-size-limit-001",
+      "trigger_events": [],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.eval_must_include_multi_turn_001",
+      "rule_id": "rule.eval-must-include-multi-turn-001",
+      "category": "IC2",
+      "description": "IC3-IC5意图本质依赖上下文，单轮评测无法验证真实能力。评测集必须同时包含单轮和多轮格式，多轮样本占比不低于40%。任何评测集变更必须自动触发benchmark重跑。",
+      "source": "rule.eval-must-include-multi-turn-001",
+      "trigger_events": [
+        "aeo.evaluation.dataset_created",
+        "aeo.evaluation.dataset_modified"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.ISC_EVAL_ROLE_SEPARATION_001",
+      "rule_id": "ISC-EVAL-ROLE-SEPARATION-001",
+      "category": "IC2",
+      "description": "评测用例必须由独立的质量分析Agent评测，执行Agent不能自评",
+      "source": "ISC-EVAL-ROLE-SEPARATION-001",
+      "trigger_events": [],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.isc_auto_programmatic_alignment_001",
+      "rule_id": "rule.isc-auto-programmatic-alignment-001",
+      "category": "IC2",
+      "description": "任何ISC规则的创建、修改、删除，都必须自动触发全链路程序化对齐：感知探针→认知判断→执行动作→质量验真",
+      "source": "rule.isc-auto-programmatic-alignment-001",
+      "trigger_events": [
+        "isc.rule.created",
+        "isc.rule.modified",
+        "isc.rule.deleted"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.566Z"
+    },
+    {
+      "id": "intent.isc_evomap_mandatory_security_scan_032",
+      "rule_id": "rule.isc-evomap-mandatory-security-scan-032",
+      "category": "IC2",
+      "description": "对EvoMap同步清单中的技能实施强制安全扫描，阻断恶意技能传播",
+      "source": "rule.isc-evomap-mandatory-security-scan-032",
+      "trigger_events": [
+        "evomap.sync.requested",
+        "evomap.skill.requested"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.isc_rule_auto_decompose_001",
+      "rule_id": "rule.isc-rule-auto-decompose-001",
+      "category": "IC2",
+      "description": "元规则——规则创建后自动拆解事件绑定、DTO关联、三层归属验证，输出对齐矩阵",
+      "source": "rule.isc-rule-auto-decompose-001",
+      "trigger_events": [
+        "isc.rule.created"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.isc_skill_permission_classification_031",
+      "rule_id": "rule.isc-skill-permission-classification-031",
+      "category": "IC2",
+      "description": "Filesystem/Network/Shell/Credential四维度权限标注，实现最小权限原则",
+      "source": "rule.isc-skill-permission-classification-031",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.isc_skill_security_gate_030",
+      "rule_id": "rule.isc-skill-security-gate-030",
+      "category": "IC2",
+      "description": "基于Snyk 8类威胁检测的技能发布前置门禁，阻断潜在供应链风险",
+      "source": "rule.isc-skill-security-gate-030",
+      "trigger_events": [
+        "skill.general.publish",
+        "skill.general.sync",
+        "skill.evoMap.upload"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.knowledge_must_be_executable_001",
+      "rule_id": "rule.knowledge-must-be-executable-001",
+      "category": "IC2",
+      "description": "任何从对话、教学、错误中学到的知识，必须自主固化为可执行的规则/技能/代码（不是告警等人处理）。全链路自主闭环：感知（扫描MEMORY.md发现可执行知识）→ 认知（判断应该成为技能还是规则还是代码）→ 执行（自动创建技能/规则/handler）→ 验证（确认可执行性）。Memory是索引不是终点。",
+      "source": "rule.knowledge-must-be-executable-001",
+      "trigger_events": [
+        "knowledge.general.created",
+        "user.teaching.received",
+        "system.error",
+        "system.error.lesson_extracted"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.must_verify_config_before_coding_001",
+      "rule_id": "rule.must-verify-config-before-coding-001",
+      "category": "IC2",
+      "description": "在代码中引用任何外部服务（API地址、模型名、Key）时，必须先读取实际配置文件确认，不允许凭记忆或推测填写。违反此规则=数据不诚实。",
+      "source": "rule.must-verify-config-before-coding-001",
+      "trigger_events": [
+        "code.module.created",
+        "code.module.modified"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.pipeline_benchmark_skill_publish_security_gate_001",
+      "rule_id": "rule.pipeline-benchmark-skill-publish-security-gate-001",
+      "category": "IC2",
+      "description": "兼容 skill.publish 事件命名，确保技能发布走安全门禁。",
+      "source": "rule.pipeline-benchmark-skill-publish-security-gate-001",
+      "trigger_events": [
+        "skill.publish"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.project_artifact_gate_001",
+      "rule_id": "rule.project-artifact-gate-001",
+      "category": "IC2",
+      "description": "任何任务标记完成前，必须验证可交付产物已沉淀。无产物=未完成，禁止空标completed。",
+      "source": "rule.project-artifact-gate-001",
+      "trigger_events": [
+        "task.status.completed",
+        "task.status.done",
+        "subtask.status.completed",
+        "sprint.day.completed"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.public_skill_quality_gate_001",
+      "rule_id": "rule.public-skill-quality-gate-001",
+      "category": "IC2",
+      "description": "skills/public/下的技能必须满足销售质量标准才能发布",
+      "source": "rule.public-skill-quality-gate-001",
+      "trigger_events": [
+        "skill.public.pre_publish",
+        "skill.public.modified",
+        "git.commit.skills_public"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.isc_skill_distribution_separation_001",
+      "rule_id": "isc-skill-distribution-separation-001",
+      "category": "IC2",
+      "description": "技能发布到EvoMap前强制检查distribution标记、权限声明、密钥泄露和沙箱兼容性，阻断不合规发布",
+      "source": "isc-skill-distribution-separation-001",
+      "trigger_events": [
+        "skill.general.publish_requested",
+        "skill.evomap.requested",
+        "skill.evomap.sync"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.skill_no_direct_llm_call_001",
+      "rule_id": "rule.skill-no-direct-llm-call-001",
+      "category": "IC2",
+      "description": "技能代码中禁止直接发HTTP请求调用LLM API（OpenAI/Anthropic/智谱等）。技能使用LLM能力的正确方式：(1)默认用当前Agent的模型直接执行 (2)需要多次独立LLM调用时通过sessions_spawn派子Agent。模型选择是运行时配置层的职责，不是技能的职责。除非用户显式指定某技能绑定某模型。",
+      "source": "rule.skill-no-direct-llm-call-001",
+      "trigger_events": [
+        "skill.lifecycle.created",
+        "skill.lifecycle.modified"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.sprint_closure_acceptance_001",
+      "rule_id": "rule.sprint-closure-acceptance-001",
+      "category": "IC2",
+      "description": "Sprint/Day标记完成前，必须通过四重验收：产物核查、指标采集、经验沉淀、裁决殿裁决。缺任何一项不允许close。",
+      "source": "rule.sprint-closure-acceptance-001",
+      "trigger_events": [
+        "sprint.closure.requested",
+        "sprint.day.closure.requested",
+        "project.milestone.closure.requested"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.tracker_sync_gate_001",
+      "rule_id": "rule.tracker-sync-gate-001",
+      "category": "IC2",
+      "description": "任何任务状态变更必须同步到PROJECT-TRACKER.md。TRACKER是唯一真相源，不同步=状态丢失。",
+      "source": "rule.tracker-sync-gate-001",
+      "trigger_events": [
+        "task.status.changed",
+        "task.created",
+        "task.expanded",
+        "subtask.created",
+        "sprint.started",
+        "sprint.completed"
+      ],
+      "status": "active",
+      "created_at": "2026-03-09T14:43:28.567Z"
     }
   ],
   "metadata": {
