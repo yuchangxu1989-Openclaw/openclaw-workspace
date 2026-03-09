@@ -1,7 +1,7 @@
 ---
 name: aeo
 description: AEO效果运营
-version: "2.0.16"
+version: "2.0.17"
 status: active
 layer: infrastructure
 tags: [aeo, quality, evaluation, dual-track]
