@@ -21,5 +21,6 @@
     "script": "scripts/isc-hooks/rule.intent-reflect-consumption-001.sh"
   },
   "enforcement_tier": "P1_process",
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "handler": "handlers/intent-reflect-consumption.js"
 }
