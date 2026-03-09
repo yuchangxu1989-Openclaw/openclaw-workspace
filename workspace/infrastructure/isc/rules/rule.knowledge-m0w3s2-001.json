@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-m0w3s2-001",
+  "name": "knowledge-m0w3s2",
+  "domain": "knowledge",
+  "type": "enforcement",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 规则：claude→anthropic-messages, boom→openai-completions, zhipu→openai-completions",
+  "source": {
+    "file": "2026-03-08.md",
+    "originalText": "规则：claude→anthropic-messages, boom→openai-completions, zhipu→openai-completions",
+    "discoveredAt": "2026-03-09T13:00:02.473Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.rule.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-m0w3s2.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

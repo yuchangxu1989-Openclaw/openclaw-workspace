@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-6jfx7x-001",
+  "name": "knowledge-6jfx7x",
+  "domain": "knowledge",
+  "type": "enforcement",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 规则：量级 > 单Agent合理产能（如>50条）→ 自动按可用Agent数拆分并行",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "规则：量级 > 单Agent合理产能（如>50条）→ 自动按可用Agent数拆分并行",
+    "discoveredAt": "2026-03-09T13:00:02.473Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.rule.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-6jfx7x.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

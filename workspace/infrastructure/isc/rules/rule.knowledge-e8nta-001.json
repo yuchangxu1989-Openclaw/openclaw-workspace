@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-e8nta-001",
+  "name": "knowledge-e8nta",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 禁止清单+delegation-guard增强",
+  "source": {
+    "file": "2026-03-08.md",
+    "originalText": "禁止清单+delegation-guard增强",
+    "discoveredAt": "2026-03-09T13:00:02.473Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-e8nta.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

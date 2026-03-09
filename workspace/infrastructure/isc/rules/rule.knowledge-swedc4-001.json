@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-swedc4-001",
+  "name": "knowledge-swedc4",
+  "domain": "knowledge",
+  "type": "enforcement",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 每次批量spawn子Agent(≥2个)后，必须立即调用汇报技能输出队列状态。**",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "每次批量spawn子Agent(≥2个)后，必须立即调用汇报技能输出队列状态。**",
+    "discoveredAt": "2026-03-09T13:00:02.472Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.mandatory.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-swedc4.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

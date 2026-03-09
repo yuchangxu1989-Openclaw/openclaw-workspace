@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-6yufcr-001",
+  "name": "knowledge-6yufcr",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 不要亲力亲为\"",
+  "source": {
+    "file": "2026-03-08.md",
+    "originalText": "不要亲力亲为\"",
+    "discoveredAt": "2026-03-09T13:00:02.474Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-6yufcr.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

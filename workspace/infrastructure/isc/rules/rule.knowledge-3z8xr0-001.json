@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-3z8xr0-001",
+  "name": "knowledge-3z8xr0",
+  "domain": "knowledge",
+  "type": "enforcement",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 规则：`rule.user-message-intent-probe-001.json`",
+  "source": {
+    "file": "2026-03-08.md",
+    "originalText": "规则：`rule.user-message-intent-probe-001.json`",
+    "discoveredAt": "2026-03-09T13:00:02.473Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.rule.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-3z8xr0.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

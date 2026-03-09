@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-z48bgc-001",
+  "name": "knowledge-z48bgc",
+  "domain": "knowledge",
+  "type": "enforcement",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 规则：失败≥2次强制代码化",
+  "source": {
+    "file": "2026-03-09.md",
+    "originalText": "规则：失败≥2次强制代码化",
+    "discoveredAt": "2026-03-09T13:00:02.474Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.rule.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-z48bgc.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-fie6wc-001",
+  "name": "knowledge-fie6wc",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 不要再说\"反爬了\"",
+  "source": {
+    "file": "2026-03-09.md",
+    "originalText": "不要再说\"反爬了\"",
+    "discoveredAt": "2026-03-09T13:00:02.474Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-fie6wc.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

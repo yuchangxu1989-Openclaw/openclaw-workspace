@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-l10ijr-001",
+  "name": "knowledge-l10ijr",
+  "domain": "knowledge",
+  "type": "enforcement",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 每次spawn必须登记 taskId/label/agentId/status/spawnTime，完成后补 completeTime/result_summary。",
+  "source": {
+    "file": "MEMORY.md",
+    "originalText": "每次spawn必须登记 taskId/label/agentId/status/spawnTime，完成后补 completeTime/result_summary。",
+    "discoveredAt": "2026-03-09T13:00:02.472Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.mandatory.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-l10ijr.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "rule.knowledge-51z4nw-001",
+  "name": "knowledge-51z4nw",
+  "domain": "knowledge",
+  "type": "gate",
+  "scope": "workspace",
+  "description": "自动从知识发现生成: 不要只治L1表层",
+  "source": {
+    "file": "2026-03-08.md",
+    "originalText": "不要只治L1表层",
+    "discoveredAt": "2026-03-09T13:00:02.474Z"
+  },
+  "trigger": {
+    "events": [
+      "knowledge.prohibition.triggered"
+    ]
+  },
+  "action": {
+    "type": "handler",
+    "handler": "knowledge-51z4nw.js"
+  },
+  "governance": {
+    "auto_execute": false,
+    "councilRequired": true,
+    "reason": "自动生成规则需人工确认"
+  }
+}
