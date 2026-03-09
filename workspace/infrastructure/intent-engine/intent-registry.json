@@ -437,6 +437,17 @@
       "rule_id": "rule.eval-batch-size-limit-001",
       "description": "评测批次超过10条时自动拆分",
       "source": "rule.eval-batch-size-limit-001"
+    },
+    {
+      "intent_id": "intent.user_emphasis_repeated",
+      "description": "用户对同一概念反复强调（≥2次提及/纠偏/发火）",
+      "examples": [
+        "我都说了很多次了，评测标准文档很重要",
+        "你怎么还没把这个纳入启动清单",
+        "我之前强调过这个"
+      ],
+      "registered_by": "ISC-USER-EMPHASIS-AUTO-ESCALATION-001",
+      "detection_method": "LLM语义分析，检测同一概念在对话中出现≥2次且带强调语气"
     }
   ],
   "metadata": {

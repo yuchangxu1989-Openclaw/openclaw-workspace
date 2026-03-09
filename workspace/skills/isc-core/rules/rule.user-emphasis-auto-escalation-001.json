@@ -1,0 +1,17 @@
+{
+  "id": "ISC-USER-EMPHASIS-AUTO-ESCALATION-001",
+  "name": "用户重复强调自动升级",
+  "description": "用户对同一概念反复强调≥2次时，自动将该概念从MEMORY.md升级到AGENTS.md启动清单或代码hook层",
+  "trigger": "user.emphasis.repeated",
+  "condition": "同一概念在对话中被用户强调≥2次（含纠偏、发火、重复提醒）",
+  "action": "auto_escalate_to_structural_change",
+  "escalation_levels": {
+    "level_1_memory": "用户提1次→记MEMORY.md",
+    "level_2_agents": "用户强调≥2次→写入AGENTS.md启动清单或SOUL.md",
+    "level_3_code": "用户纠偏/发火→写成代码hook程序化强制"
+  },
+  "anti_pattern": "用户反复强调但只往MEMORY.md写→意图洞察不敏感→认知错误类badcase",
+  "severity": "critical",
+  "created": "2026-03-09",
+  "source": "badcase-0309-005实战教训"
+}
