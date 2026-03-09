@@ -57,8 +57,15 @@ function computeSummary(tasks) {
     doing: 0,
     blocked: 0,
     byKind: {},
-    byTrack: {}
+    byTrack: {},
+    staleTasks: [],       // open/doing 超过7天未更新
+    noAcceptance: [],     // 缺少验收标准
+    topBlocked: [],       // 阻塞任务
+    highPriority: []      // P0/P1 且未完成
   };
+
+  const now = Date.now();
+  const STALE_DAYS = 7;
 
   for (const { data: task } of tasks) {
     const status = task.status || 'open';
@@ -75,6 +82,45 @@ function computeSummary(tasks) {
 
     summary.byKind[kind] = (summary.byKind[kind] || 0) + 1;
     summary.byTrack[track] = (summary.byTrack[track] || 0) + 1;
+
+    // 识别长期滞留任务（open/doing 超过7天未更新）
+    if (status !== 'done') {
+      const updatedAt = task.updated_at || task.created_at;
+      if (updatedAt) {
+        const daysSinceUpdate = (now - new Date(updatedAt).getTime()) / (1000 * 60 * 60 * 24);
+        if (daysSinceUpdate > STALE_DAYS) {
+          summary.staleTasks.push({
+            title: task.title || task.id,
+            status,
+            daysSinceUpdate: Math.floor(daysSinceUpdate),
+            priority: task.priority || 'NA'
+          });
+        }
+      }
+    }
+
+    // 识别缺少验收标准的任务
+    if (status !== 'done' && (!task.acceptance || (Array.isArray(task.acceptance) && task.acceptance.length === 0))) {
+      summary.noAcceptance.push({ title: task.title || task.id, status });
+    }
+
+    // 收集阻塞任务
+    if (status === 'blocked') {
+      summary.topBlocked.push({
+        title: task.title || task.id,
+        priority: task.priority || 'NA',
+        owner: task.owner || '未指派'
+      });
+    }
+
+    // 收集高优先级未完成任务
+    if (status !== 'done' && /^P[01]$/i.test(task.priority || '')) {
+      summary.highPriority.push({
+        title: task.title || task.id,
+        status,
+        priority: task.priority
+      });
+    }
   }
 
   return summary;
@@ -199,6 +245,108 @@ function renderGovernanceReport(tasks, summary, artifacts) {
   fs.writeFileSync(GOVERNANCE_REPORT, lines.join('\n'), 'utf8');
 }
 
+function generateHumanReport(summary) {
+  const { date } = nowParts();
+  const lines = [];
+
+  // 标题
+  lines.push(`## 今日PDCA执行摘要（${date}）`);
+  lines.push('');
+
+  // 本轮做了什么
+  lines.push('### 本轮做了什么');
+  lines.push(`- 扫描任务库，发现 **${summary.total}** 个任务条目（${summary.root}个根任务 + ${summary.sub}个子任务）`);
+
+  const statusParts = [];
+  if (summary.open > 0) statusParts.push(`${summary.open}个待执行`);
+  if (summary.doing > 0) statusParts.push(`${summary.doing}个进行中`);
+  if (summary.blocked > 0) statusParts.push(`${summary.blocked}个阻塞中`);
+  if (summary.done > 0) statusParts.push(`${summary.done}个已完成`);
+  lines.push(`- 当前状态：${statusParts.join('、')}`);
+
+  const completionRate = summary.total > 0
+    ? ((summary.done / summary.total) * 100).toFixed(1)
+    : '0.0';
+  const activeRate = summary.total > 0
+    ? (((summary.done + summary.doing) / summary.total) * 100).toFixed(1)
+    : '0.0';
+  lines.push(`- 完成率 ${completionRate}%，活跃率（完成+进行中）${activeRate}%`);
+  lines.push('');
+
+  // 关键发现
+  lines.push('### 关键发现');
+  let hasFindings = false;
+
+  if (summary.staleTasks.length > 0) {
+    lines.push(`- ⚠️ **${summary.staleTasks.length}条任务长期滞留**（超过7天未更新），建议清理或推进：`);
+    const topStale = summary.staleTasks
+      .sort((a, b) => b.daysSinceUpdate - a.daysSinceUpdate)
+      .slice(0, 5);
+    for (const t of topStale) {
+      lines.push(`  - 「${t.title}」${t.status}状态，已${t.daysSinceUpdate}天未更新`);
+    }
+    if (summary.staleTasks.length > 5) {
+      lines.push(`  - …还有${summary.staleTasks.length - 5}条，详见治理报告`);
+    }
+    hasFindings = true;
+  }
+
+  if (summary.noAcceptance.length > 0) {
+    lines.push(`- 📋 **${summary.noAcceptance.length}条任务缺少验收标准**，完成后无法判定是否真正交付`);
+    hasFindings = true;
+  }
+
+  if (summary.blocked > 0) {
+    lines.push(`- 🚧 **${summary.blocked}条任务处于阻塞状态**，需要介入解除：`);
+    for (const t of summary.topBlocked.slice(0, 3)) {
+      lines.push(`  - 「${t.title}」优先级${t.priority}，负责人${t.owner}`);
+    }
+    hasFindings = true;
+  }
+
+  if (summary.highPriority.length > 0) {
+    const undone = summary.highPriority.filter(t => t.status !== 'done');
+    if (undone.length > 0) {
+      lines.push(`- 🔴 **${undone.length}条高优先级任务（P0/P1）尚未完成**`);
+      hasFindings = true;
+    }
+  }
+
+  if (!hasFindings) {
+    lines.push('- ✅ 未发现明显风险，任务推进正常');
+  }
+  lines.push('');
+
+  // 建议行动
+  lines.push('### 建议行动');
+
+  if (summary.blocked > 0) {
+    lines.push(`- 🔧 优先解除 ${Math.min(summary.blocked, 3)} 条阻塞任务`);
+  }
+
+  if (summary.highPriority.length > 0) {
+    lines.push(`- 🎯 集中精力推进 ${Math.min(summary.highPriority.length, 3)} 条P0/P1任务`);
+  }
+
+  if (summary.staleTasks.length > 0) {
+    lines.push(`- 🧹 清理或重新激活 ${summary.staleTasks.length} 条长期滞留任务`);
+  }
+
+  if (summary.noAcceptance.length > 0) {
+    lines.push(`- 📝 为 ${summary.noAcceptance.length} 条任务补充验收标准`);
+  }
+
+  if (summary.done === 0 && summary.total > 0) {
+    lines.push('- 💡 当前完成数为0，建议挑选最小可交付任务先完成一个，建立推进节奏');
+  }
+
+  if (summary.open > summary.total * 0.8) {
+    lines.push('- ⚡ 超过80%任务处于待执行状态，建议控制在途数量，聚焦推进');
+  }
+
+  return lines.join('\n');
+}
+
 async function run(input = {}, context = {}) {
   const logger = context?.logger || console;
   logger.info?.('[pdca-engine] 启动项目管理产物治理闭环');
@@ -214,11 +362,30 @@ async function run(input = {}, context = {}) {
   writeJson(GOVERNANCE_STATE, governanceState);
   renderGovernanceReport(tasks, summary, artifacts);
 
+  const humanReport = generateHumanReport(summary);
+
+  // 机器输出只保留计数，不输出冗长的分析数组
+  const leanSummary = {
+    total: summary.total,
+    root: summary.root,
+    sub: summary.sub,
+    done: summary.done,
+    open: summary.open,
+    doing: summary.doing,
+    blocked: summary.blocked,
+    stale_count: summary.staleTasks.length,
+    no_acceptance_count: summary.noAcceptance.length,
+    high_priority_count: summary.highPriority.length,
+    byKind: summary.byKind,
+    byTrack: summary.byTrack
+  };
+
   const result = {
     ok: true,
     skill: 'pdca-engine',
     mode: 'artifact-governance-closure',
-    summary,
+    summary: leanSummary,
+    human_report: humanReport,
     governance_report: path.relative(WORKSPACE, GOVERNANCE_REPORT),
     lesson_file: path.relative(WORKSPACE, artifacts.lessonFile),
     metrics_file: path.relative(WORKSPACE, artifacts.metricsFile)
