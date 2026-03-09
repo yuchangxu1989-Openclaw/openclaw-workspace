@@ -1,7 +1,7 @@
 ---
 name: feishu-report-sender
 description: 飞书报告发送 - 将报告推送到飞书
-version: "1.0.13"
+version: "1.0.14"
 status: active
 tags: [feishu, report, sender]
 ---
