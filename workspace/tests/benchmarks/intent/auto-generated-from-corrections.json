@@ -348,5 +348,75 @@
     "created_at": "2026-03-09T03:00:01.735Z",
     "data_source": "real_conversation",
     "signal": "10:43 GLM-5评测基线 + 可靠性矩阵评估\n\n### GLM-5 C2评测全量结果\n- GLM-5 (glm-4-flash) zero-shot 基线：**~27.5%**（96/349，batch4还未汇入）\n- 6路并行全量跑完423条C2评测用例\n- 分文件准确率区间：0%-50%，均值约27%\n- 对比Mock分类器：全0%（IC体系与C2中文类别不对齐，符合预期）\n- **下一步**：few-shot优化（每类加2-3条示例）预计提升15-20%\n\n### AI Agent可靠性矩阵对比（用户要求双Agent评估）\n用户发了一张AI Agent可靠性矩阵图（4维度×3区间）"
+  },
+  {
+    "id": "auto-eval-1773050401648-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "15:00-17:00 裁决殿+野生脚本整治+PDCA审计\n\n### 裁决殿Day2终审（7席全票有条件通过）\n- 7席并行：道(opus)/战(codex)/工(glm-5)/盾(opus)/眼(c",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T10:00:01.647Z",
+    "data_source": "real_conversation",
+    "signal": "15:00-17:00 裁决殿+野生脚本整治+PDCA审计\n\n### 裁决殿Day2终审（7席全票有条件通过）\n- 7席并行：道(opus)/战(codex)/工(glm-5)/盾(opus)/眼(codex)/远(glm-5)/衡(codex)\n- 全票结果：有条件通过\n- 高频条件：AEO闭环(6席)、ISC全链路补齐(4席)、韧性层生产验证(3席)、cron故障(2席)、身份隔离(2席)\n- 「工」席最锐利发现：代码优秀但ISC全链路完整率仅2.3%(4/172)\n- 「盾」席验证：子Agent可读主Agent MEMORY.md和USER.md（身份隔离缺陷已确认）\n- 裁决书已发用户"
+  },
+  {
+    "id": "auto-eval-1773057602018-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "19:33 会话记录（compaction flush）\n\n### CRAS空报告根因（analyst完成）\n- CRAS每日洞察报告5个模块全\"暂无数据\"，根因三个bug叠加：\n  1. 时区错误：",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T12:00:02.017Z",
+    "data_source": "real_conversation",
+    "signal": "19:33 会话记录（compaction flush）\n\n### CRAS空报告根因（analyst完成）\n- CRAS每日洞察报告5个模块全\"暂无数据\"，根因三个bug叠加：\n  1. 时区错误：日报用UTC日期，6:30 GMT+8跑时UTC还是昨天，文件写到3月8号\n  2. 类型比较bug：ISO字符串和数字比较恒为false，insights永远0\n  3. 聚合窗口没过滤：统计全量历史而非最近24h\n- 报告：reports/cras-empty-rootcause-2026-03-09.md\n- 修复方案5项已出，待派coder实施\n\n### 用户要求：亲力亲为根治+安全打断C"
+  },
+  {
+    "id": "auto-eval-1773058490180-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "00:18-00:23 用户追问+口径对齐问题\n\n### 用户追问\"goodcase/badcase算上了么\"\n- 回复被排队延迟，用户重复问了两次\n- 答：全部算上了。459条包含badcases(",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T12:14:50.179Z",
+    "data_source": "real_conversation",
+    "signal": "00:18-00:23 用户追问+口径对齐问题\n\n### 用户追问\"goodcase/badcase算上了么\"\n- 回复被排队延迟，用户重复问了两次\n- 答：全部算上了。459条包含badcases(44)+goodcases(300,84deleted)+mined(35)等\n- 三项占比仍远低于80%目标\n\n### 定时任务报告口径不对齐\n- 用户看到某报告/卡片提到\"60条\"，与实际459条不一致\n- CAPABILITY-ANCHOR.md里有\"技能总数: 60\"，可能是此处\n- 但用户说的是\"定时任务报告\"——需要进一步确认具体来源\n- **教训：所有报告数字必须与runtime真值"
+  },
+  {
+    "id": "auto-eval-1773058490180-1",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "02:39-02:44 workspace架构修复启动 + 用户找补充数据\n\n### workspace架构修复\n- 派researcher/opus-thinking-high做sandbox机制分",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T12:14:50.179Z",
+    "data_source": "real_conversation",
+    "signal": "02:39-02:44 workspace架构修复启动 + 用户找补充数据\n\n### workspace架构修复\n- 派researcher/opus-thinking-high做sandbox机制分析+修复实施\n- 核心问题：为什么coder成功率100%但scout/reviewer/analyst/writer经常phantom write\n- 需要查OpenClaw docs中sandbox文档，搞清inherit/require对文件写入的影响\n\n### 评测集补量\n- 当前可用220条V3合格，距500差280条\n- 主session日志已挖完（3月5日起3个session）\n- "
+  },
+  {
+    "id": "auto-eval-1773058490180-2",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "03:04-03:12 GLM-5产能认知修正 + 评测集原则\n\n### GLM-5实际产能\n- **23个zhipu provider，每个独立API key** — 不是之前以为的5个！\n- 19",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T12:14:50.179Z",
+    "data_source": "real_conversation",
+    "signal": "03:04-03:12 GLM-5产能认知修正 + 评测集原则\n\n### GLM-5实际产能\n- **23个zhipu provider，每个独立API key** — 不是之前以为的5个！\n- 19个Agent都配了GLM-5路由\n- 理论最大并行：19路GLM-5\n- 之前MEMORY.md说\"5个GLM-5 key\"是错误认知，已修正\n\n### 评测集创建原则（长煦亲授）\n- 第一波标注最早期黄金评测集 → 用Opus\n- 其余所有评测集创建 → 全部用GLM-5\n- GLM-5写文件测试通过：10条0flag，完全可靠\n\n### P0身份隔离已修复\n- commit 4574702a\n"
+  },
+  {
+    "id": "auto-eval-1773058490180-3",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "17:00-18:48 PDCA重写+技能闭环+端到端评测\n\n### PDCA引擎彻底重写\n- analyst/opus-thinking审计结论：**PDCA引擎是假的**——统计脚本伪装，零状态机",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T12:14:50.179Z",
+    "data_source": "real_conversation",
+    "signal": "17:00-18:48 PDCA重写+技能闭环+端到端评测\n\n### PDCA引擎彻底重写\n- analyst/opus-thinking审计结论：**PDCA引擎是假的**——统计脚本伪装，零状态机零ISC引用零门禁\n- 用户铁令：Check环节角色固定为**质量分析师（analyst）**，代码级硬编码\n- 重写交付：state-machine.js + gates.js(8门禁) + event-emitter.js + index.js重写\n- 测试：test-gates 19/20, test-state-machine 17/18, test-role-separation 40/"
+  },
+  {
+    "id": "auto-eval-1773061201439-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "20:16 进化四引擎（长煦亲授，最高优先级认知）\n\n我的进化主要来源，四个引擎：\n1. **评测标准驱动**：badcase根因分析→积累评测集→考核自己→差距分析→解决→反思优化评测标准本身\n2.",
+    "source": "memory/2026-03-09.md",
+    "created_at": "2026-03-09T13:00:01.438Z",
+    "data_source": "real_conversation",
+    "signal": "20:16 进化四引擎（长煦亲授，最高优先级认知）\n\n我的进化主要来源，四个引擎：\n1. **评测标准驱动**：badcase根因分析→积累评测集→考核自己→差距分析→解决→反思优化评测标准本身\n2. **CRAS学术沉淀**：学术、哲学、系统动力学持续输入，提升认知天花板\n3. **PDCA技能优化**：check发现问题→根因分析→主动提升认知进化和自动化强相关的技能\n4. **程序化替代记忆**：badcase根因分析后，把原本放入记忆的原则/方法尽可能程序化\n\n关键认知：\n- 评测标准本身也要进化，不是静态的\n- CRAS不只是洞察报告，是认知天花板的提升器\n- PDCA不只是度量，是"
   }
 ]
