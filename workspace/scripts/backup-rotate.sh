@@ -1,12 +1,3 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TARGET="$SCRIPT_DIR/../skills/public/ops-maintenance/scripts/backup-rotate.sh"
-
-if [ ! -f "$TARGET" ]; then
-  echo "Error: target script not found: $TARGET" >&2
-  exit 1
-fi
-
-exec bash "$TARGET" "$@"
+#!/bin/bash
+# 薄封装 — 实际逻辑在技能目录
+exec bash "$(dirname "$0")/../skills/public/ops-maintenance/scripts/backup-rotate.sh" "$@"

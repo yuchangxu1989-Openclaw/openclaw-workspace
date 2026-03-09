@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-set -euo pipefail
-SCRIPT_DIR="/root/.openclaw/workspace"
-ROOT_DIR="/"
-exec "/skills/public/multi-agent-dispatch/scripts/process-retry-queue.sh" ""
+#!/bin/bash
+# 薄封装 — 实际逻辑在技能目录
+exec bash "$(dirname "$0")/../skills/public/multi-agent-dispatch/scripts/process-retry-queue.sh" "$@"

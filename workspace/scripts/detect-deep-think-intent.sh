@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-set -euo pipefail
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-exec "${REPO_ROOT}/skills/public/detect-deep-think-intent/scripts/detect-deep-think-intent.sh" "$@"
+#!/bin/bash
+# 薄封装 — 实际逻辑在技能目录
+exec bash "$(dirname "$0")/../skills/public/detect-deep-think-intent/scripts/detect-deep-think-intent.sh" "$@"
