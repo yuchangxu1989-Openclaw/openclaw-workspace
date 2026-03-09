@@ -1,293 +1,187 @@
 #!/usr/bin/env bash
-# auto-skill-discovery.sh — 扫描scripts/目录，找出未技能化的"野生脚本"
+# auto-skill-discovery.sh — 技能发现器 v2
 # 归属技能: SEEF (自我进化引擎)
-# 三层闭合: 感知(扫描) + 认知(对比/告警) + 执行(JSON输出+告警)
+# 三阶段: 野生脚本发现 → 代码归属审计 → 重复文件检测
 set -euo pipefail
 
 WORKSPACE="${WORKSPACE:-/root/.openclaw/workspace}"
-SCRIPTS_DIR="$WORKSPACE/scripts"
-SKILLS_DIR="$WORKSPACE/skills/public"
-LOG_DIR="$WORKSPACE/logs"
-OUTPUT_FILE="$LOG_DIR/wild-scripts-discovery.json"
-PREV_FILE="$LOG_DIR/wild-scripts-discovery.prev.json"
-
-mkdir -p "$LOG_DIR"
-
-# ── 已收编脚本跳过列表 ──
-# 薄封装、工具脚本、已明确收编的脚本
-SKIP_LIST=(
-  install-hooks
-  completion-handler
-  register-task
-  update-task
-  show-task-board
-  show-task-board-feishu
-  push-feishu-board
-  auto-skill-discovery
-)
-
-is_skipped() {
-  local name="$1"
-  for skip in "${SKIP_LIST[@]}"; do
-    [[ "$name" == "$skip" ]] && return 0
-  done
-  return 1
-}
-
-# ── 薄封装检测：前3行含"薄封装"则跳过 ──
-is_thin_wrapper() {
-  local file="$1"
-  head -3 "$file" 2>/dev/null | grep -qi '薄封装' && return 0
-  return 1
-}
-
-# ── 收集已技能化的脚本 ──
-declare -A SKILLIZED
-for skill_dir in "$SKILLS_DIR"/*/; do
-  [ -d "$skill_dir" ] || continue
-  skill_name=$(basename "$skill_dir")
-  SKILLIZED["$skill_name"]=1
-  # 检查index.sh/index.js中引用的脚本
-  for idx in "$skill_dir"/index.{sh,js}; do
-    [ -f "$idx" ] || continue
-    while IFS= read -r ref; do
-      ref_base=$(basename "$ref" 2>/dev/null)
-      ref_base="${ref_base%.sh}"
-      ref_base="${ref_base%.js}"
-      [ -n "$ref_base" ] && SKILLIZED["$ref_base"]=1
-    done < <(grep -oP 'scripts/\K[^"'\''/ ]+\.(sh|js)' "$idx" 2>/dev/null || true)
-  done
-done
-
-# ── 保存上次结果用于对比 ──
-if [ -f "$OUTPUT_FILE" ]; then
-  cp "$OUTPUT_FILE" "$PREV_FILE"
-fi
-
-# ── 扫描 *.sh 和 *.js ──
-CANDIDATES=()
-for script in "$SCRIPTS_DIR"/*.sh "$SCRIPTS_DIR"/*.js; do
-  [ -f "$script" ] || continue
-  
-  script_basename=$(basename "$script")
-  # 去掉扩展名
-  script_name="${script_basename%.sh}"
-  script_name="${script_name%.js}"
-  ext="${script_basename##*.}"
-  
-  # 跳过已收编
-  is_skipped "$script_name" && continue
-  
-  # 跳过薄封装
-  is_thin_wrapper "$script" && continue
-  
-  # 检查是否已技能化
-  if [ -n "${SKILLIZED[$script_name]:-}" ]; then
-    continue
-  fi
-  
-  # >10行才值得技能化
-  lines=$(wc -l < "$script")
-  if [ "$lines" -le 10 ]; then
-    continue
-  fi
-  
-  # 提取描述
-  desc=$(head -5 "$script" | grep '^[#/]' | grep -v '^#!' | head -1 | sed 's|^[#/ ]*||' || echo "无描述")
-  
-  CANDIDATES+=("{\"name\":\"$script_name\",\"file\":\"$script_basename\",\"ext\":\"$ext\",\"lines\":$lines,\"desc\":\"$desc\"}")
-done
-
-# ── 生成JSON输出 ──
-NOW=$(date '+%Y-%m-%dT%H:%M:%S+08:00')
-COUNT=${#CANDIDATES[@]}
-
-{
-  echo "{"
-  echo "  \"scan_time\": \"$NOW\","
-  echo "  \"scripts_dir\": \"$SCRIPTS_DIR\","
-  echo "  \"skillized_count\": ${#SKILLIZED[@]},"
-  echo "  \"wild_count\": $COUNT,"
-  echo "  \"wild_scripts\": ["
-  for i in "${!CANDIDATES[@]}"; do
-    if [ "$i" -lt $((COUNT - 1)) ]; then
-      echo "    ${CANDIDATES[$i]},"
-    else
-      echo "    ${CANDIDATES[$i]}"
-    fi
-  done
-  echo "  ]"
-  echo "}"
-} > "$OUTPUT_FILE"
-
-# ── 对比上次扫描，发现新增则告警 ──
-if [ -f "$PREV_FILE" ] && [ "$COUNT" -gt 0 ]; then
-  # 提取上次的脚本名列表
-  prev_names=$(grep -oP '"name"\s*:\s*"\K[^"]+' "$PREV_FILE" 2>/dev/null | sort || true)
-  curr_names=$(grep -oP '"name"\s*:\s*"\K[^"]+' "$OUTPUT_FILE" 2>/dev/null | sort || true)
-  
-  new_scripts=$(comm -13 <(echo "$prev_names") <(echo "$curr_names") 2>/dev/null || true)
-  new_count=$(echo "$new_scripts" | grep -c . 2>/dev/null || echo 0)
-  
-  if [ "$new_count" -gt 0 ]; then
-    echo "🚨 发现${new_count}个新野生脚本，需收编进技能："
-    echo "$new_scripts" | sed 's/^/  - /'
-  fi
-elif [ ! -f "$PREV_FILE" ] && [ "$COUNT" -gt 0 ]; then
-  echo "🚨 发现${COUNT}个新野生脚本，需收编进技能（首次扫描）"
-fi
-
-# ── 事件总线集成（断点①修复）──
-EVENT_BUS_FILE="$WORKSPACE/infrastructure/event-bus/events.jsonl"
-if [ "$COUNT" -gt 0 ] && [ -d "$(dirname "$EVENT_BUS_FILE")" ]; then
-  # 构建脚本名列表用于事件payload
-  SCRIPT_NAMES=$(grep -oP '"name"\s*:\s*"\K[^"]+' "$OUTPUT_FILE" 2>/dev/null | paste -sd',' | sed 's/,/","/g')
-  EVENT_TS=$(date -Iseconds)
-
-  # 断点① 修复：发现野生脚本时写事件到event-bus
-  echo "{\"type\":\"skill.wild_script.discovered\",\"timestamp\":\"$EVENT_TS\",\"source\":\"auto-skill-discovery\",\"data\":{\"scripts\":[\"$SCRIPT_NAMES\"],\"count\":$COUNT,\"output_file\":\"$OUTPUT_FILE\"}}" >> "$EVENT_BUS_FILE"
-  echo "📡 已发送 skill.wild_script.discovered 事件到事件总线 (count=$COUNT)"
-
-  # 断点② 修复：触发SEEF discoverer，让两套发现机制衔接
-  echo "{\"type\":\"seef.skill.discovered\",\"timestamp\":\"$EVENT_TS\",\"source\":\"auto-skill-discovery\",\"data\":{\"source\":\"auto-discovery\",\"wild_scripts_count\":$COUNT,\"scripts\":[\"$SCRIPT_NAMES\"],\"output_file\":\"$OUTPUT_FILE\"}}" >> "$EVENT_BUS_FILE"
-  echo "📡 已发送 seef.skill.discovered 事件到事件总线 → SEEF creator"
-fi
-
-# ── 汇总输出（阶段一） ──
-if [ "$COUNT" -eq 0 ]; then
-  echo "✅ 所有脚本均已技能化，无野生脚本。"
-else
-  echo "📋 野生脚本清单已写入: $OUTPUT_FILE (共${COUNT}个)"
-fi
-
-# ═══════════════════════════════════════════════════════════════
-# 阶段二：代码归属审计 — 检查非技能目录中的代码是否应归属某技能
-# ═══════════════════════════════════════════════════════════════
-
 REPORT_DIR="$WORKSPACE/reports"
-MISPLACED_REPORT="$REPORT_DIR/misplaced-code-report.json"
+REPORT_FILE="$REPORT_DIR/misplaced-code-report.json"
 mkdir -p "$REPORT_DIR"
 
-# 技能关键词映射（技能目录名 → 匹配关键词列表）
-declare -A SKILL_KEYWORDS
-for skill_dir in "$WORKSPACE/skills"/*/; do
-  [ -d "$skill_dir" ] || continue
-  sname=$(basename "$skill_dir")
-  # 用目录名本身和常见缩写作为关键词
-  SKILL_KEYWORDS["$sname"]="$sname"
+NOW=$(date '+%Y-%m-%dT%H:%M:%S+08:00')
+
+# Collect all skill directory names
+SKILL_NAMES=()
+for d in "$WORKSPACE/skills"/*/; do
+  [ -d "$d" ] && SKILL_NAMES+=("$(basename "$d")")
 done
-# 补充常用缩写映射
-SKILL_KEYWORDS["isc-core"]+=" isc"
-SKILL_KEYWORDS["isc-capability-anchor-sync"]+=" isc-capability isc_capability"
-SKILL_KEYWORDS["isc-document-quality"]+=" isc-doc isc_doc"
-SKILL_KEYWORDS["isc-report-readability"]+=" isc-report isc_report"
-SKILL_KEYWORDS["cras"]+=" cras"
-SKILL_KEYWORDS["aeo"]+=" aeo"
-SKILL_KEYWORDS["pdca-engine"]+=" pdca"
-SKILL_KEYWORDS["seef"]+=" seef"
-SKILL_KEYWORDS["evomap-publisher"]+=" evomap"
-SKILL_KEYWORDS["evomap-a2a"]+=" evomap"
-SKILL_KEYWORDS["evomap-uploader"]+=" evomap"
-SKILL_KEYWORDS["lto-core"]+=" lto"
-SKILL_KEYWORDS["lep-executor"]+=" lep"
-SKILL_KEYWORDS["dto-core"]+=" dto"
-SKILL_KEYWORDS["evolver"]+=" evolver"
+# Also check skills/public/
+for d in "$WORKSPACE/skills/public"/*/; do
+  [ -d "$d" ] && SKILL_NAMES+=("$(basename "$d")")
+done
 
-# 待扫描目录
-AUDIT_DIRS=(
-  "infrastructure/event-bus/handlers"
-  "infrastructure/event-bus/sensors"
-  "infrastructure/intent-engine"
-  "scripts"
-)
+# ═══════════════════════════════════════════════════
+# 阶段一：野生脚本发现
+# ═══════════════════════════════════════════════════
+echo "── 阶段一：野生脚本发现 ──"
 
-MISPLACED=()
+WILD_SCRIPTS_JSON=""
+WILD_COUNT=0
 
-check_file_ownership() {
-  local file="$1"
-  local rel_path="${file#$WORKSPACE/}"
-  local fname=$(basename "$file")
-  local fname_lower=$(echo "$fname" | tr '[:upper:]' '[:lower:]')
-  # 读取文件头（前20行）用于注释和import检查
-  local head_content
-  head_content=$(head -20 "$file" 2>/dev/null || true)
+if [ -d "$WORKSPACE/scripts" ]; then
+  for script in "$WORKSPACE/scripts"/*.sh "$WORKSPACE/scripts"/*.js "$WORKSPACE/scripts"/*.py; do
+    [ -f "$script" ] || continue
+    lines=$(wc -l < "$script")
+    [ "$lines" -le 50 ] && continue
 
-  for sname in "${!SKILL_KEYWORDS[@]}"; do
-    local keywords="${SKILL_KEYWORDS[$sname]}"
-    local matched=""
-    local reason=""
-
-    for kw in $keywords; do
-      # 1. 文件名匹配
-      if echo "$fname_lower" | grep -qi "$kw"; then
-        matched="$sname"
-        reason="文件名包含技能关键词 '$kw'"
+    # Check if script imports/requires a specific skill
+    suggested=""
+    content=$(cat "$script" 2>/dev/null || true)
+    for sname in "${SKILL_NAMES[@]}"; do
+      if echo "$content" | grep -qP "require\(.*skills/(public/)?$sname|from ['\"].*skills/(public/)?$sname|skills/(public/)?$sname/"; then
+        suggested="$sname"
         break
       fi
     done
 
-    # 2. 文件头注释引用技能名
-    if [ -z "$matched" ]; then
-      if echo "$head_content" | grep -qi "归属技能.*$sname\|技能.*$sname\|skill.*$sname"; then
-        matched="$sname"
-        reason="文件头注释引用技能 '$sname'"
-      fi
-    fi
-
-    # 3. require/import路径引用技能目录
-    if [ -z "$matched" ]; then
-      if echo "$head_content" | grep -qP "require\(.*skills/$sname|from ['\"].*skills/$sname"; then
-        matched="$sname"
-        reason="import/require引用技能目录 'skills/$sname'"
-      fi
-    fi
-
-    if [ -n "$matched" ]; then
-      # 检查文件是否已在该技能目录下
-      if [[ "$rel_path" != skills/$matched/* ]]; then
-        local current_dir=$(dirname "$rel_path")
-        MISPLACED+=("{\"file\":\"$rel_path\",\"currentDir\":\"$current_dir\",\"shouldBelongTo\":\"$matched\",\"reason\":\"$reason\"}")
-      fi
-      return 0
-    fi
+    fname=$(basename "$script")
+    entry="{\"file\":\"scripts/$fname\",\"lines\":$lines,\"suggestedSkill\":$([ -n "$suggested" ] && echo "\"$suggested\"" || echo "null")}"
+    [ "$WILD_COUNT" -gt 0 ] && WILD_SCRIPTS_JSON+=","
+    WILD_SCRIPTS_JSON+="$entry"
+    WILD_COUNT=$((WILD_COUNT + 1))
   done
-}
+fi
 
-echo ""
+echo "  发现 $WILD_COUNT 个野生脚本（>50行）"
+
+# ═══════════════════════════════════════════════════
+# 阶段二：代码归属审计（重写）
+# ═══════════════════════════════════════════════════
 echo "── 阶段二：代码归属审计 ──"
 
-for dir in "${AUDIT_DIRS[@]}"; do
-  full_dir="$WORKSPACE/$dir"
-  [ -d "$full_dir" ] || continue
-  while IFS= read -r -d '' codefile; do
-    check_file_ownership "$codefile"
-  done < <(find "$full_dir" -maxdepth 2 -type f \( -name '*.js' -o -name '*.sh' -o -name '*.py' \) -print0 2>/dev/null)
-done
+MISPLACED_JSON=""
+MISPLACED_COUNT=0
 
-# 生成报告JSON
-MISPLACED_COUNT=${#MISPLACED[@]}
-{
-  echo "["
-  for i in "${!MISPLACED[@]}"; do
-    if [ "$i" -lt $((MISPLACED_COUNT - 1)) ]; then
-      echo "  ${MISPLACED[$i]},"
-    else
-      echo "  ${MISPLACED[$i]}"
-    fi
+add_misplaced() {
+  local file="$1" dir="$2" belong="$3" reason="$4"
+  local entry="{\"file\":\"$file\",\"currentDir\":\"$dir\",\"shouldBelongTo\":\"$belong\",\"reason\":\"$reason\"}"
+  [ "$MISPLACED_COUNT" -gt 0 ] && MISPLACED_JSON+=","
+  MISPLACED_JSON+="$entry"
+  MISPLACED_COUNT=$((MISPLACED_COUNT + 1))
+}
+
+# Rule 1: handlers in infrastructure/event-bus/handlers/ → NORMAL, skip
+# Rule 2: scripts/ files that require a skill module → mark as migratable
+# (Already covered by phase 1 with suggestedSkill, but also add to misplaced)
+if [ -d "$WORKSPACE/scripts" ]; then
+  for script in "$WORKSPACE/scripts"/*.sh "$WORKSPACE/scripts"/*.js "$WORKSPACE/scripts"/*.py; do
+    [ -f "$script" ] || continue
+    content=$(cat "$script" 2>/dev/null || true)
+    for sname in "${SKILL_NAMES[@]}"; do
+      if echo "$content" | grep -qP "require\(.*skills/(public/)?$sname|from ['\"].*skills/(public/)?$sname"; then
+        fname=$(basename "$script")
+        add_misplaced "scripts/$fname" "scripts" "$sname" "脚本require/import了技能 $sname 的模块"
+        break
+      fi
+    done
   done
-  echo "]"
-} > "$MISPLACED_REPORT"
+fi
 
-if [ "$MISPLACED_COUNT" -gt 0 ]; then
-  echo "🚨 发现 ${MISPLACED_COUNT} 个错位代码文件！"
-  echo "📋 报告已写入: $MISPLACED_REPORT"
-  # 事件总线集成
-  if [ -d "$(dirname "$EVENT_BUS_FILE")" ]; then
-    EVENT_TS=$(date -Iseconds)
-    echo "{\"type\":\"seef.misplaced_code.detected\",\"timestamp\":\"$EVENT_TS\",\"source\":\"auto-skill-discovery\",\"data\":{\"count\":$MISPLACED_COUNT,\"report\":\"$MISPLACED_REPORT\"}}" >> "$EVENT_BUS_FILE"
-    echo "📡 已发送 seef.misplaced_code.detected 事件到事件总线"
+# Rule 3: infrastructure/ files (excluding handlers/) used by only one skill
+if [ -d "$WORKSPACE/infrastructure" ]; then
+  while IFS= read -r -d '' codefile; do
+    rel="${codefile#$WORKSPACE/}"
+    # Skip handlers — they belong in infrastructure
+    [[ "$rel" == infrastructure/event-bus/handlers/* ]] && continue
+
+    fname=$(basename "$codefile")
+    fname_noext="${fname%.*}"
+
+    # Grep: which skills reference this file?
+    referencing_skills=()
+    for sname in "${SKILL_NAMES[@]}"; do
+      for sdir in "$WORKSPACE/skills/$sname" "$WORKSPACE/skills/public/$sname"; do
+        [ -d "$sdir" ] || continue
+        if grep -rql "$fname_noext\|$fname\|$rel" "$sdir" 2>/dev/null; then
+          referencing_skills+=("$sname")
+          break
+        fi
+      done
+    done
+
+    if [ "${#referencing_skills[@]}" -eq 1 ]; then
+      add_misplaced "$rel" "$(dirname "$rel")" "${referencing_skills[0]}" "仅被技能 ${referencing_skills[0]} 引用，可迁入该技能"
+    fi
+  done < <(find "$WORKSPACE/infrastructure" -type f \( -name '*.js' -o -name '*.sh' -o -name '*.py' \) -not -path '*/node_modules/*' -print0 2>/dev/null)
+fi
+
+echo "  发现 $MISPLACED_COUNT 个错位文件"
+
+# ═══════════════════════════════════════════════════
+# 阶段三：重复文件检测
+# ═══════════════════════════════════════════════════
+echo "── 阶段三：重复文件检测 ──"
+
+DUPES_JSON=""
+DUPES_COUNT=0
+
+# Find all code files, compute md5, find duplicates
+TMPFILE=$(mktemp)
+find "$WORKSPACE" -type f \( -name '*.js' -o -name '*.sh' -o -name '*.py' -o -name '*.json' -o -name '*.md' \) \
+  -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/reports/*' -not -path '*/logs/*' \
+  -exec md5sum {} + 2>/dev/null | sort > "$TMPFILE"
+
+# Group by md5
+prev_md5="" prev_files=""
+while IFS=' ' read -r md5 filepath; do
+  # md5sum output: "hash  filename" (two spaces)
+  filepath="${filepath#  }"
+  rel="${filepath#$WORKSPACE/}"
+  if [ "$md5" = "$prev_md5" ]; then
+    prev_files+=",\"$rel\""
+  else
+    if echo "$prev_files" | grep -q ','; then
+      entry="{\"files\":[$prev_files],\"md5\":\"$prev_md5\"}"
+      [ "$DUPES_COUNT" -gt 0 ] && DUPES_JSON+=","
+      DUPES_JSON+="$entry"
+      DUPES_COUNT=$((DUPES_COUNT + 1))
+    fi
+    prev_md5="$md5"
+    prev_files="\"$rel\""
   fi
-  exit 1
-else
-  echo "✅ 代码归属审计通过，无错位代码。"
+done < "$TMPFILE"
+# Don't forget the last group
+if echo "$prev_files" | grep -q ','; then
+  entry="{\"files\":[$prev_files],\"md5\":\"$prev_md5\"}"
+  [ "$DUPES_COUNT" -gt 0 ] && DUPES_JSON+=","
+  DUPES_JSON+="$entry"
+  DUPES_COUNT=$((DUPES_COUNT + 1))
+fi
+rm -f "$TMPFILE"
+
+echo "  发现 $DUPES_COUNT 组重复文件"
+
+# ═══════════════════════════════════════════════════
+# 输出报告
+# ═══════════════════════════════════════════════════
+
+cat > "$REPORT_FILE" <<EOF
+{
+  "scan_time": "$NOW",
+  "wild_scripts": [$WILD_SCRIPTS_JSON],
+  "misplaced": [$MISPLACED_JSON],
+  "duplicates": [$DUPES_JSON]
+}
+EOF
+
+echo ""
+echo "📋 报告已写入: $REPORT_FILE"
+echo "   野生脚本: $WILD_COUNT | 错位文件: $MISPLACED_COUNT | 重复文件组: $DUPES_COUNT"
+
+# ── 事件总线集成 ──
+EVENT_BUS_FILE="$WORKSPACE/infrastructure/event-bus/events.jsonl"
+if [ -d "$(dirname "$EVENT_BUS_FILE" 2>/dev/null)" ] 2>/dev/null; then
+  EVENT_TS=$(date -Iseconds)
+  echo "{\"type\":\"seef.skill_discovery.completed\",\"timestamp\":\"$EVENT_TS\",\"source\":\"auto-skill-discovery\",\"data\":{\"wild_scripts\":$WILD_COUNT,\"misplaced\":$MISPLACED_COUNT,\"duplicates\":$DUPES_COUNT,\"report\":\"$REPORT_FILE\"}}" >> "$EVENT_BUS_FILE"
 fi
