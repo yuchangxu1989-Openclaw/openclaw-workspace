@@ -878,6 +878,30 @@
       ],
       "status": "active",
       "created_at": "2026-03-09T14:43:28.567Z"
+    },
+    {
+      "id": "intent.user_feedback_correction_001",
+      "category": "IC2",
+      "name": "用户纠偏触发记忆反查",
+      "description": "用户纠偏时自动反查MEMORY.md中的矛盾记忆并修正",
+      "examples": [
+        "不是XX是YY",
+        "你理解错了",
+        "这个不对",
+        "你搞混了",
+        "我说的是XX不是YY"
+      ],
+      "anti_examples": [
+        "帮我查一下",
+        "今天天气怎么样"
+      ],
+      "confidence_threshold": 0.7,
+      "status": "active",
+      "created_at": "2026-03-10T01:03:00+08:00",
+      "trigger_events": [
+        "user.feedback.correction"
+      ],
+      "rule_id": "rule.memory-correction-on-feedback-001"
     }
   ],
   "metadata": {
