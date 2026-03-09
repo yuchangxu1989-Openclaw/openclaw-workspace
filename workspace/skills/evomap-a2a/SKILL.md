@@ -1,7 +1,7 @@
 ---
 name: evomap-a2a
 description: EvoMap A2A连接 - WebSocket连接、自动重连、消息队列
-version: "1.0.11"
+version: "1.0.12"
 status: active
 layer: infrastructure
 tags: [evomap, a2a, websocket, network]
