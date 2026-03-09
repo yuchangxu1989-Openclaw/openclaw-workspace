@@ -485,6 +485,52 @@
         "rule.isc-auto-programmatic-alignment-001"
       ],
       "detection_method": "监听isc.rule.created/modified/deleted事件"
+    },
+    {
+      "id": "intent.skill_no_direct_llm_call_guard",
+      "rule_id": "rule.skill-no-direct-llm-call-001",
+      "description": "技能代码禁止直接调用LLM API，检测并拦截违规",
+      "source": "rule.skill-no-direct-llm-call-001"
+    },
+    {
+      "intent_id": "intent.sprint_closure_acceptance",
+      "description": "Sprint/Day收工时执行四重验收门禁（产物核查、指标采集、经验沉淀、裁决殿裁决）",
+      "examples": [
+        "sprint收工验收",
+        "关闭sprint前检查",
+        "sprint完成门禁",
+        "收工验收四重门禁"
+      ],
+      "registered_by": "rule.sprint-closure-acceptance-001",
+      "source": [
+        "rule.sprint-closure-acceptance-001"
+      ],
+      "detection_method": "监听sprint.closure.requested事件"
+    },
+    {
+      "intent_id": "intent.isc_skill_permission_classification",
+      "description": "技能权限分级检查 - 四维度权限标注，实现最小权限原则",
+      "examples": [
+        "检查技能权限声明",
+        "验证SKILL.md权限分级",
+        "技能部署前权限门禁"
+      ],
+      "registered_by": "rule.isc-skill-permission-classification-031",
+      "source": [
+        "rule.isc-skill-permission-classification-031"
+      ],
+      "detection_method": "扫描SKILL.md中permissions字段，验证filesystem/network/shell/credential四维度"
+    },
+    {
+      "id": "intent.evomap_mandatory_security_scan",
+      "rule_id": "rule.isc-evomap-mandatory-security-scan-032",
+      "category": "IC2",
+      "description": "EvoMap同步清单强制安全扫描，阻断未通过扫描的技能同步",
+      "source": "rule.isc-evomap-mandatory-security-scan-032",
+      "trigger_events": [
+        "evomap.sync.requested",
+        "evomap.skill.requested"
+      ]
     }
   ],
   "metadata": {

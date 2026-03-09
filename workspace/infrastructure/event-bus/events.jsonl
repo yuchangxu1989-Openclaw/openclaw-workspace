@@ -906,3 +906,4 @@
 {"type":"event_type_registration","data":{"event_type":"isc.rule.created","registered_by":"rule.isc-auto-programmatic-alignment-001","description":"ISC规则创建事件"},"meta":{"event_type_registration":true},"ts":"2026-03-09T12:51:01Z"}
 {"type":"event_type_registration","data":{"event_type":"isc.rule.modified","registered_by":"rule.isc-auto-programmatic-alignment-001","description":"ISC规则修改事件"},"meta":{"event_type_registration":true},"ts":"2026-03-09T12:51:02Z"}
 {"type":"event_type_registration","data":{"event_type":"isc.rule.deleted","registered_by":"rule.isc-auto-programmatic-alignment-001","description":"ISC规则删除事件"},"meta":{"event_type_registration":true},"ts":"2026-03-09T12:51:03Z"}
+{"event_id": "skill.lifecycle.created", "description": "技能创建或修改时触发LLM直调检查", "source": "isc-core/rule-expansion", "registered_by": "rule.skill-no-direct-llm-call-001", "timestamp": "2026-03-09T20:54:41.366247+08:00"}
