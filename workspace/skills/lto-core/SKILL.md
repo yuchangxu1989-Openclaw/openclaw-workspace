@@ -1,7 +1,7 @@
 ---
 name: lto-core
 description: LTO本地可控编排器 v3.0.11 - 可扩展调度平台，多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
-version: "2.1.5"
+version: "2.1.6"
 status: active
 layer: core
 abbreviation: LTO
