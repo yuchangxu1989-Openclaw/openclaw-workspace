@@ -459,6 +459,32 @@
       ],
       "registered_by": "ISC-FAILURE-PATTERN-CODE-ESCALATION-001",
       "detection_method": "检测badcase库中同一root_cause出现≥2次"
+    },
+    {
+      "intent_id": "intent.eval_role_separation",
+      "description": "评测角色分离检查 - 确保执行Agent与评测Agent不同",
+      "examples": [
+        "评测用例完成后检查角色分离",
+        "执行Agent不能自评"
+      ],
+      "registered_by": "ISC-EVAL-ROLE-SEPARATION-001",
+      "source": [
+        "ISC-EVAL-ROLE-SEPARATION-001"
+      ],
+      "detection_method": "evaluator.agentId !== executor.agentId"
+    },
+    {
+      "intent_id": "intent.isc_auto_programmatic_alignment",
+      "description": "ISC规则增删改自动触发全链路程序化对齐",
+      "examples": [
+        "规则创建后自动对齐",
+        "规则修改触发全链路检查"
+      ],
+      "registered_by": "rule.isc-auto-programmatic-alignment-001",
+      "source": [
+        "rule.isc-auto-programmatic-alignment-001"
+      ],
+      "detection_method": "监听isc.rule.created/modified/deleted事件"
     }
   ],
   "metadata": {
