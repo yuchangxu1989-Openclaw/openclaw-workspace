@@ -1,0 +1,51 @@
+{
+  "id": "rule.capability-gap-auto-learn-001",
+  "rule_name": "能力缺失自动学习闭环",
+  "version": "1.0.0",
+  "severity": "critical",
+  "description": "发现能力缺失时，自动按优先级搜索解决方案：1)本地技能目录 2)已有模型API 3)外部官方API文档学习",
+  "source": "ISC核心规则 - 自愈与自学习能力",
+  "trigger": {
+    "events": [
+      "agent.capability.not_found",
+      "agent.task.failed",
+      "agent.skill.missing",
+      "agent.tool.unavailable"
+    ],
+    "description": "当Agent发现自身无法完成某项操作时触发",
+    "event": "agent.capability.not_found"
+  },
+  "action": {
+    "type": "auto_learn_chain",
+    "steps": [
+      {
+        "id": "scan_local_skills",
+        "priority": 1,
+        "description": "扫描本地 skills/ 目录寻找已有技能",
+        "behavior": "search_and_match"
+      },
+      {
+        "id": "check_model_api",
+        "priority": 2,
+        "description": "检查已配置的模型/API是否支持该能力",
+        "behavior": "probe_available_apis"
+      },
+      {
+        "id": "search_external_docs",
+        "priority": 3,
+        "description": "搜索外部官方API文档学习并实现",
+        "behavior": "web_search_and_learn"
+      },
+      {
+        "id": "codify_new_skill",
+        "priority": 4,
+        "description": "将新学到的能力固化为技能",
+        "behavior": "create_skill_artifact"
+      }
+    ],
+    "handler": "capability-gap-auto-learn"
+  },
+  "enforcement": "runtime_binding",
+  "enforcement_tier": "P0_gate",
+  "fullchain_status": "expanded"
+}
