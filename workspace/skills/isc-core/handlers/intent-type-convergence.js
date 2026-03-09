@@ -1,97 +1,106 @@
 'use strict';
 
 /**
- * intent-type-convergence.js
- * Handler for rule.intent-type-convergence-001
- *
- * 意图识别系统必须覆盖且仅覆盖5种收敛类型：
- * (1)正负向情绪意图 (2)规则触发意图 (3)复杂意图(需5轮以上推理)
- * (4)隐含意图(非明确表达) (5)一句话多意图。
- * 任何新意图类型必须归入以上5类之一，否则不予注册。
+ * ISC Handler: intent-type-convergence
+ * Rule: rule.intent-type-convergence-001
+ * Validates new intent types against the 5 converged categories.
+ * Rejects registration if type doesn't fit any category.
  */
 
 const path = require('path');
-const { scanFiles, writeReport, gateResult } = require('../lib/handler-utils');
+const {
+  writeReport,
+  emitEvent,
+  gitExec,
+  gateResult,
+} = require('../lib/handler-utils');
 
-const CONVERGENT_TYPES = [
-  'emotion',      // 正负向情绪意图
-  'rule-trigger',  // 规则触发意图
-  'complex',       // 复杂意图
-  'implicit',      // 隐含意图
-  'multi-intent',  // 一句话多意图
+const CONVERGED_TYPES = [
+  { id: 'emotion', label: '正负向情绪意图', pattern: /emotion|情绪|sentiment|positive|negative|正向|负向/i },
+  { id: 'rule_trigger', label: '规则触发意图', pattern: /rule|trigger|规则|触发|ruleify|enforcement/i },
+  { id: 'complex', label: '复杂意图（5轮+上下文）', pattern: /complex|复杂|multi.?turn|多轮|上下文推理/i },
+  { id: 'implicit', label: '隐含意图（需推理）', pattern: /implicit|隐含|infer|推理|暗示|间接/i },
+  { id: 'multi_intent', label: '一句话多意图', pattern: /multi.?intent|多意图|compound|复合|组合/i },
 ];
 
-/**
- * @param {object} context - ISC 运行时上下文
- * @param {string} context.repoRoot - 仓库根目录
- * @returns {object} gate result
- */
-async function handler(context = {}) {
-  const repoRoot = context.repoRoot || process.cwd();
+module.exports = async function(event, rule, context) {
+  const logger = context?.logger || console;
+  const root = context?.workspace || context?.workspaceRoot || context?.cwd || process.cwd();
+  const bus = context?.bus;
+  const actions = [];
+
+  const newType = event?.payload?.intentType || event?.payload?.type_name || '';
+  const description = event?.payload?.description || '';
+  logger.info?.(`[intent-type-convergence] Validating new intent type: "${newType}"`);
+
   const checks = [];
 
-  // 1. 扫描意图注册/定义文件，确认5种类型都有覆盖
-  const foundTypes = new Set();
-  const typePatterns = {
-    'emotion': /emotion|情绪|sentiment/i,
-    'rule-trigger': /rule.?trigger|规则触发/i,
-    'complex': /complex|复杂意图|multi.?turn/i,
-    'implicit': /implicit|隐含|infer/i,
-    'multi-intent': /multi.?intent|多意图|一句话.*意图/i,
-  };
-
-  scanFiles(path.join(repoRoot, 'skills'), /\.(js|json|md)$/, (filePath) => {
-    try {
-      const content = require('fs').readFileSync(filePath, 'utf8');
-      for (const [type, pattern] of Object.entries(typePatterns)) {
-        if (pattern.test(content)) foundTypes.add(type);
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 4 });
-
-  const missingTypes = CONVERGENT_TYPES.filter(t => !foundTypes.has(t));
-
+  // Check 1: type name provided
+  const hasName = newType.length > 0;
   checks.push({
-    name: 'convergent-type-coverage',
-    ok: missingTypes.length === 0,
-    message: missingTypes.length === 0
-      ? '5种收敛意图类型均已覆盖'
-      : `缺少以下意图类型覆盖: ${missingTypes.join(', ')}`,
+    name: 'type_name_provided',
+    ok: hasName,
+    message: hasName ? `Intent type name: "${newType}"` : 'No intent type name provided',
   });
 
-  // 2. 检查是否存在超出5类的意图类型定义（防止扩散）
-  const registeredIntents = [];
-  scanFiles(path.join(repoRoot, 'skills', 'isc-core'), /\.(json)$/, (filePath) => {
-    try {
-      const content = require('fs').readFileSync(filePath, 'utf8');
-      const data = JSON.parse(content);
-      if (data.intent_type && !CONVERGENT_TYPES.some(t => data.intent_type.includes(t))) {
-        registeredIntents.push({ file: path.relative(repoRoot, filePath), type: data.intent_type });
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 3 });
-
+  // Check 2: type must map to one of the 5 converged categories
+  const combined = `${newType} ${description}`;
+  const matchedCategories = CONVERGED_TYPES.filter(t => t.pattern.test(combined));
+  const fitsCategory = matchedCategories.length > 0;
   checks.push({
-    name: 'no-type-sprawl',
-    ok: registeredIntents.length === 0,
-    message: registeredIntents.length === 0
-      ? '未发现超出5类收敛类型的意图注册'
-      : `发现 ${registeredIntents.length} 个未归类意图类型`,
+    name: 'fits_converged_category',
+    ok: fitsCategory,
+    message: fitsCategory
+      ? `Maps to: ${matchedCategories.map(c => c.label).join(', ')}`
+      : `"${newType}" does not fit any of the 5 converged categories — registration rejected. Must MECE-reclassify.`,
   });
 
-  const result = gateResult('intent-type-convergence-001', checks, { failClosed: false });
+  // Check 3: should map to exactly one category (MECE)
+  const meceCompliant = matchedCategories.length === 1;
+  checks.push({
+    name: 'mece_single_category',
+    ok: meceCompliant,
+    message: meceCompliant
+      ? `MECE: maps to exactly 1 category`
+      : matchedCategories.length === 0
+        ? 'No category match'
+        : `Ambiguous: maps to ${matchedCategories.length} categories — clarify classification`,
+  });
 
-  writeReport(path.join(repoRoot, 'reports', 'intent-type-convergence.json'), {
-    rule: 'rule.intent-type-convergence-001',
+  const result = gateResult(rule?.id || 'intent-type-convergence-001', checks);
+
+  if (!result.ok) {
+    actions.push('registration_rejected');
+    await emitEvent(bus, 'intent.type.registration.rejected', {
+      source: 'intent-type-convergence',
+      intentType: newType,
+      reason: result.checks.filter(c => !c.ok).map(c => c.message).join('; '),
+    });
+  } else {
+    actions.push('registration_approved');
+    await emitEvent(bus, 'intent.type.registration.approved', {
+      source: 'intent-type-convergence',
+      intentType: newType,
+      category: matchedCategories[0]?.id,
+    });
+  }
+
+  const reportPath = path.join(root, 'reports', 'intent-type-convergence', `report-${Date.now()}.json`);
+  writeReport(reportPath, {
     timestamp: new Date().toISOString(),
-    summary: { status: result.status, passed: result.passed, total: result.total },
-    convergentTypes: CONVERGENT_TYPES,
-    foundTypes: [...foundTypes],
-    missingTypes,
-    checks,
+    handler: 'intent-type-convergence',
+    intentType: newType,
+    matchedCategories: matchedCategories.map(c => c.id),
+    lastCommit: gitExec(root, 'log --oneline -1'),
+    ...result,
+  });
+  actions.push(`report_written:${reportPath}`);
+
+  await emitEvent(bus, 'intent-type-convergence.completed', {
+    ok: result.ok,
+    status: result.status,
+    actions,
   });
 
-  return result;
-}
-
-module.exports = handler;
+  return { ok: result.ok, autonomous: true, actions, ...result };
+};

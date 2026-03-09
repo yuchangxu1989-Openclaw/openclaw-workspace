@@ -1,102 +1,89 @@
 'use strict';
 
 /**
- * intent-reflect-consumption.js
- * Handler for rule.intent-reflect-consumption-001
- *
- * 当意图分析器识别出 reflect 类意图时，路由到 intent-event-handler 进入 CRAS 分析/知识沉淀路径。
- * 确保 intent.reflect 事件在 event-bus 链路中被正确匹配和执行。
+ * ISC Handler: intent-reflect-consumption
+ * Rule: rule.intent-reflect-consumption-001
+ * Routes intent.reflect events to CRAS analysis/knowledge consolidation path.
  */
 
 const path = require('path');
-const { scanFiles, writeReport, gateResult, readRuleJson } = require('../lib/handler-utils');
+const {
+  writeReport,
+  emitEvent,
+  gitExec,
+  gateResult,
+} = require('../lib/handler-utils');
 
-const REFLECT_EVENT = 'intent.reflect';
+module.exports = async function(event, rule, context) {
+  const logger = context?.logger || console;
+  const root = context?.workspace || context?.workspaceRoot || context?.cwd || process.cwd();
+  const bus = context?.bus;
+  const actions = [];
 
-/**
- * @param {object} context - ISC 运行时上下文
- * @param {string} context.repoRoot - 仓库根目录
- * @param {object} [context.bus] - 事件总线
- * @returns {object} gate result
- */
-async function handler(context = {}) {
-  const repoRoot = context.repoRoot || process.cwd();
+  const intentType = event?.payload?.intent || event?.payload?.type;
+  const sessionId = event?.payload?.sessionId || 'unknown';
+  logger.info?.(`[intent-reflect-consumption] Processing reflect intent, session=${sessionId}`);
+
   const checks = [];
 
-  // 1. 检查 intent-event-handler 是否存在并注册了 reflect 路由
-  let hasReflectRoute = false;
-  const handlersDir = path.join(repoRoot, 'skills', 'isc-core', 'handlers');
-  scanFiles(handlersDir, /intent.*event.*handler|event.*handler/i, (filePath) => {
-    try {
-      const content = require('fs').readFileSync(filePath, 'utf8');
-      if (/reflect/i.test(content)) {
-        hasReflectRoute = true;
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 2 });
-
+  // Check 1: intent type must be reflect
+  const isReflect = intentType === 'reflect' || /reflect/i.test(intentType || '');
   checks.push({
-    name: 'reflect-route-registered',
-    ok: hasReflectRoute,
-    message: hasReflectRoute
-      ? 'intent.reflect 路由已在 handler 中注册'
-      : '未找到 intent.reflect 路由注册，需在 intent-event-handler 中添加',
+    name: 'intent_type_valid',
+    ok: isReflect,
+    message: isReflect
+      ? `Intent type "${intentType}" is reflect`
+      : `Intent type "${intentType}" does not match reflect`,
   });
 
-  // 2. 检查 event-bus 配置中是否包含 intent.reflect 事件
-  let hasEventConfig = false;
-  const configDirs = [
-    path.join(repoRoot, 'skills', 'isc-core'),
-    path.join(repoRoot, 'config'),
-  ];
-  for (const dir of configDirs) {
-    scanFiles(dir, /\.(json|js|ya?ml)$/, (filePath) => {
-      try {
-        const content = require('fs').readFileSync(filePath, 'utf8');
-        if (content.includes(REFLECT_EVENT) || content.includes('intent.reflect')) {
-          hasEventConfig = true;
-        }
-      } catch { /* skip */ }
-    }, { maxDepth: 3 });
+  // Check 2: event bus must be available for routing
+  const busAvailable = !!bus?.emit;
+  checks.push({
+    name: 'event_bus_available',
+    ok: busAvailable,
+    message: busAvailable
+      ? 'Event bus available for CRAS routing'
+      : 'Event bus unavailable — cannot route to CRAS',
+  });
+
+  // Check 3: payload should contain context for analysis
+  const hasContext = !!(event?.payload?.message || event?.payload?.context || event?.payload?.content);
+  checks.push({
+    name: 'payload_has_context',
+    ok: hasContext,
+    message: hasContext
+      ? 'Reflect payload contains analysis context'
+      : 'No message/context in payload — CRAS analysis may be incomplete',
+  });
+
+  const result = gateResult(rule?.id || 'intent-reflect-consumption-001', checks, { failClosed: false });
+
+  // Route to CRAS if checks pass
+  if (result.ok && busAvailable) {
+    await emitEvent(bus, 'cras.analysis.requested', {
+      source: 'intent-reflect-consumption',
+      sessionId,
+      payload: event?.payload,
+    });
+    actions.push('routed_to_cras_analysis');
   }
 
-  checks.push({
-    name: 'reflect-event-bus-config',
-    ok: hasEventConfig,
-    message: hasEventConfig
-      ? 'intent.reflect 事件在配置中已声明'
-      : '未在 event-bus 配置中找到 intent.reflect 事件声明',
-  });
-
-  // 3. 检查 CRAS 分析路径是否可达
-  let hasCrasPath = false;
-  scanFiles(path.join(repoRoot, 'skills'), /\.(js|md|json)$/, (filePath) => {
-    try {
-      const content = require('fs').readFileSync(filePath, 'utf8');
-      if (/cras/i.test(content) && /reflect/i.test(content)) {
-        hasCrasPath = true;
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 4 });
-
-  checks.push({
-    name: 'cras-path-reachable',
-    ok: hasCrasPath,
-    message: hasCrasPath
-      ? 'CRAS 分析路径可达'
-      : '未找到从 reflect 到 CRAS 的可达路径',
-  });
-
-  const result = gateResult('intent-reflect-consumption-001', checks, { failClosed: false });
-
-  writeReport(path.join(repoRoot, 'reports', 'intent-reflect-consumption.json'), {
-    rule: 'rule.intent-reflect-consumption-001',
+  const reportPath = path.join(root, 'reports', 'intent-reflect', `report-${Date.now()}.json`);
+  writeReport(reportPath, {
     timestamp: new Date().toISOString(),
-    summary: { status: result.status, passed: result.passed, total: result.total },
-    checks,
+    handler: 'intent-reflect-consumption',
+    intentType,
+    sessionId,
+    lastCommit: gitExec(root, 'log --oneline -1'),
+    ...result,
+  });
+  actions.push(`report_written:${reportPath}`);
+
+  await emitEvent(bus, 'intent-reflect-consumption.completed', {
+    ok: result.ok,
+    status: result.status,
+    actions,
   });
 
-  return result;
-}
-
-module.exports = handler;
+  return { ok: result.ok, autonomous: true, actions, ...result };
+};

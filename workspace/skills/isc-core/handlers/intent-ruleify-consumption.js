@@ -1,92 +1,91 @@
 'use strict';
 
 /**
- * intent-ruleify-consumption.js
- * Handler for rule.intent-ruleify-consumption-001
- *
- * 当意图分析器识别出 ruleify 类意图时，路由到 intent-event-handler 创建 ISC 规则草案。
- * 确保 intent.ruleify 事件在 event-bus 链路中被正确匹配和执行。
+ * ISC Handler: intent-ruleify-consumption
+ * Rule: rule.intent-ruleify-consumption-001
+ * Routes intent.ruleify events to create ISC rule drafts.
  */
 
 const path = require('path');
-const { scanFiles, writeReport, gateResult } = require('../lib/handler-utils');
+const {
+  writeReport,
+  emitEvent,
+  gitExec,
+  gateResult,
+} = require('../lib/handler-utils');
 
-/**
- * @param {object} context - ISC 运行时上下文
- * @param {string} context.repoRoot - 仓库根目录
- * @returns {object} gate result
- */
-async function handler(context = {}) {
-  const repoRoot = context.repoRoot || process.cwd();
+module.exports = async function(event, rule, context) {
+  const logger = context?.logger || console;
+  const root = context?.workspace || context?.workspaceRoot || context?.cwd || process.cwd();
+  const bus = context?.bus;
+  const actions = [];
+
+  const intentType = event?.payload?.intent || event?.payload?.type;
+  const sessionId = event?.payload?.sessionId || 'unknown';
+  const message = event?.payload?.message || event?.payload?.content || '';
+  logger.info?.(`[intent-ruleify-consumption] Processing ruleify intent, session=${sessionId}`);
+
   const checks = [];
 
-  // 1. 检查 intent-event-handler 是否注册了 ruleify 路由
-  let hasRuleifyRoute = false;
-  scanFiles(path.join(repoRoot, 'skills', 'isc-core', 'handlers'), /\.(js|ts)$/, (filePath) => {
-    try {
-      const content = require('fs').readFileSync(filePath, 'utf8');
-      if (/ruleify/i.test(content) && /handler|route|event/i.test(content)) {
-        hasRuleifyRoute = true;
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 2 });
-
+  // Check 1: intent type must be ruleify
+  const isRuleify = intentType === 'ruleify' || /ruleify/i.test(intentType || '');
   checks.push({
-    name: 'ruleify-route-registered',
-    ok: hasRuleifyRoute,
-    message: hasRuleifyRoute
-      ? 'intent.ruleify 路由已注册'
-      : '未找到 intent.ruleify 路由注册',
+    name: 'intent_type_valid',
+    ok: isRuleify,
+    message: isRuleify
+      ? `Intent type "${intentType}" is ruleify`
+      : `Intent type "${intentType}" does not match ruleify`,
   });
 
-  // 2. 检查规则草案创建机制
-  let hasDraftMechanism = false;
-  scanFiles(path.join(repoRoot, 'skills', 'isc-core'), /\.(js|ts)$/, (filePath) => {
-    try {
-      const content = require('fs').readFileSync(filePath, 'utf8');
-      if (/draft|草案|create.*rule|rule.*creat/i.test(content)) {
-        hasDraftMechanism = true;
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 3 });
-
+  // Check 2: message content sufficient for rule draft
+  const hasContent = message.length > 10;
   checks.push({
-    name: 'rule-draft-mechanism',
-    ok: hasDraftMechanism,
-    message: hasDraftMechanism
-      ? '规则草案创建机制存在'
-      : '未找到 ISC 规则草案创建机制',
+    name: 'content_sufficient',
+    ok: hasContent,
+    message: hasContent
+      ? `Message has ${message.length} chars — sufficient for rule draft`
+      : 'Message too short to derive a meaningful rule draft',
   });
 
-  // 3. 检查 event-bus 中 intent.ruleify 事件是否已声明
-  let hasEventDecl = false;
-  scanFiles(path.join(repoRoot, 'skills', 'isc-core'), /\.(json|js|ya?ml)$/, (filePath) => {
-    try {
-      const content = require('fs').readFileSync(filePath, 'utf8');
-      if (content.includes('intent.ruleify') || content.includes('ruleify')) {
-        hasEventDecl = true;
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 3 });
-
+  // Check 3: event bus available for rule creation pipeline
+  const busAvailable = !!bus?.emit;
   checks.push({
-    name: 'ruleify-event-declared',
-    ok: hasEventDecl,
-    message: hasEventDecl
-      ? 'intent.ruleify 事件已声明'
-      : '未在配置中找到 intent.ruleify 事件声明',
+    name: 'event_bus_available',
+    ok: busAvailable,
+    message: busAvailable
+      ? 'Event bus available for rule creation pipeline'
+      : 'Event bus unavailable — cannot trigger rule draft creation',
   });
 
-  const result = gateResult('intent-ruleify-consumption-001', checks, { failClosed: false });
+  const result = gateResult(rule?.id || 'intent-ruleify-consumption-001', checks);
 
-  writeReport(path.join(repoRoot, 'reports', 'intent-ruleify-consumption.json'), {
-    rule: 'rule.intent-ruleify-consumption-001',
+  if (result.ok && busAvailable) {
+    await emitEvent(bus, 'isc.rule.draft.requested', {
+      source: 'intent-ruleify-consumption',
+      sessionId,
+      message,
+      payload: event?.payload,
+    });
+    actions.push('routed_to_rule_draft_creation');
+  }
+
+  const reportPath = path.join(root, 'reports', 'intent-ruleify', `report-${Date.now()}.json`);
+  writeReport(reportPath, {
     timestamp: new Date().toISOString(),
-    summary: { status: result.status, passed: result.passed, total: result.total },
-    checks,
+    handler: 'intent-ruleify-consumption',
+    intentType,
+    sessionId,
+    contentLength: message.length,
+    lastCommit: gitExec(root, 'log --oneline -1'),
+    ...result,
+  });
+  actions.push(`report_written:${reportPath}`);
+
+  await emitEvent(bus, 'intent-ruleify-consumption.completed', {
+    ok: result.ok,
+    status: result.status,
+    actions,
   });
 
-  return result;
-}
-
-module.exports = handler;
+  return { ok: result.ok, autonomous: true, actions, ...result };
+};

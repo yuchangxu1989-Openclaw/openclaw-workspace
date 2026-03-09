@@ -1,106 +1,116 @@
 'use strict';
 
 /**
- * intent-unknown-discovery.js
- * Handler for rule.intent-unknown-discovery-001
- *
- * 每周执行一次未知意图发现：
- * (1) 用智谱embedding对近期对话做向量聚类
- * (2) LLM对聚类结果做意图分类
- * (3) MECE原则识别增量且高频的意图类型
- * (4) 主动溯源未解决问题是否因意图类型缺失导致
- * 发现候选新意图→提交用户确认→注册。
+ * ISC Handler: intent-unknown-discovery
+ * Rule: rule.intent-unknown-discovery-001
+ * Periodic unknown intent discovery: vector clustering → classification → MECE → user confirm → register.
  */
 
-const path = require('path');
 const fs = require('fs');
-const { scanFiles, writeReport, gateResult, checkFileExists } = require('../lib/handler-utils');
+const path = require('path');
+const {
+  writeReport,
+  emitEvent,
+  gitExec,
+  scanFiles,
+  gateResult,
+} = require('../lib/handler-utils');
 
-/**
- * @param {object} context - ISC 运行时上下文
- * @param {string} context.repoRoot - 仓库根目录
- * @returns {object} gate result
- */
-async function handler(context = {}) {
-  const repoRoot = context.repoRoot || process.cwd();
+module.exports = async function(event, rule, context) {
+  const logger = context?.logger || console;
+  const root = context?.workspace || context?.workspaceRoot || context?.cwd || process.cwd();
+  const bus = context?.bus;
+  const actions = [];
+
+  const triggerType = event?.type || 'manual';
+  logger.info?.(`[intent-unknown-discovery] Running discovery, trigger=${triggerType}`);
+
   const checks = [];
 
-  // 1. 检查对话日志/历史是否可供聚类分析
-  const possibleLogDirs = [
-    path.join(repoRoot, 'logs'),
-    path.join(repoRoot, 'memory'),
-    path.join(repoRoot, 'data', 'conversations'),
-  ];
-  const hasLogs = possibleLogDirs.some(d => checkFileExists(d));
-
+  // Check 1: conversation logs directory exists
+  const logsDir = path.join(root, 'logs', 'conversations');
+  const logsExist = fs.existsSync(logsDir);
   checks.push({
-    name: 'conversation-logs-available',
-    ok: hasLogs,
-    message: hasLogs
-      ? '对话日志可供聚类分析'
-      : '未找到可供意图聚类的对话日志目录',
+    name: 'conversation_logs_exist',
+    ok: logsExist,
+    message: logsExist
+      ? `Conversation logs found at ${logsDir}`
+      : `No conversation logs at ${logsDir} — discovery cannot proceed`,
   });
 
-  // 2. 检查向量聚类工具/脚本是否存在
-  let hasClusterTool = false;
-  scanFiles(path.join(repoRoot, 'skills'), /\.(js|py|ts)$/, (filePath) => {
-    try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      if (/cluster|embedding|向量|聚类/i.test(content)) {
-        hasClusterTool = true;
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 4 });
-
+  // Check 2: existing intent registry accessible
+  const registryPath = path.join(root, 'skills', 'isc-core', 'intent-registry.json');
+  const altRegistryPath = path.join(root, 'intent-registry.json');
+  const registryExists = fs.existsSync(registryPath) || fs.existsSync(altRegistryPath);
   checks.push({
-    name: 'cluster-tool-exists',
-    ok: hasClusterTool,
-    message: hasClusterTool
-      ? '向量聚类工具/脚本存在'
-      : '未找到向量聚类工具，需实现 embedding + 聚类流程',
+    name: 'intent_registry_accessible',
+    ok: registryExists,
+    message: registryExists
+      ? 'Intent registry found'
+      : 'No intent registry found — will create candidates without dedup check',
   });
 
-  // 3. 检查未知意图发现报告目录
-  const discoveryReportDir = path.join(repoRoot, 'reports', 'intent-discovery');
-  const hasDiscoveryReports = checkFileExists(discoveryReportDir);
-
+  // Check 3: event bus available for candidate submission
+  const busAvailable = !!bus?.emit;
   checks.push({
-    name: 'discovery-report-dir',
-    ok: hasDiscoveryReports,
-    message: hasDiscoveryReports
-      ? '意图发现报告目录已存在'
-      : '未找到意图发现报告目录，首次运行将自动创建',
+    name: 'event_bus_available',
+    ok: busAvailable,
+    message: busAvailable
+      ? 'Event bus available for candidate submission'
+      : 'No event bus — candidates will be written to report only',
   });
 
-  // 4. 检查 MECE 意图分类注册机制
-  let hasMeceCheck = false;
-  scanFiles(path.join(repoRoot, 'skills', 'isc-core'), /\.(js|json|md)$/, (filePath) => {
-    try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      if (/mece|互斥.*穷尽|mutually.?exclusive/i.test(content)) {
-        hasMeceCheck = true;
-      }
-    } catch { /* skip */ }
-  }, { maxDepth: 3 });
+  const result = gateResult(rule?.id || 'intent-unknown-discovery-001', checks, { failClosed: false });
 
-  checks.push({
-    name: 'mece-classification',
-    ok: hasMeceCheck,
-    message: hasMeceCheck
-      ? 'MECE 意图分类机制存在'
-      : '未找到 MECE 意图分类/校验机制',
-  });
+  // Scan for unresolved patterns if logs exist
+  const candidates = [];
+  if (logsExist) {
+    const logFiles = scanFiles(logsDir, /\.(json|log|md)$/, null, { maxDepth: 2 });
+    // Count unresolved markers as a heuristic
+    let unresolvedCount = 0;
+    for (const f of logFiles.slice(0, 50)) {
+      try {
+        const content = fs.readFileSync(f, 'utf8');
+        const matches = content.match(/unknown|unresolved|未识别|未知意图/gi);
+        if (matches) unresolvedCount += matches.length;
+      } catch { /* skip */ }
+    }
+    if (unresolvedCount > 0) {
+      candidates.push({
+        signal: 'unresolved_pattern_detected',
+        count: unresolvedCount,
+        recommendation: 'Run vector clustering on recent conversations to identify new intent types',
+      });
+      actions.push(`found_${unresolvedCount}_unresolved_signals`);
+    }
+  }
 
-  const result = gateResult('intent-unknown-discovery-001', checks, { failClosed: false });
+  if (busAvailable && candidates.length > 0) {
+    await emitEvent(bus, 'intent.unknown.candidates.found', {
+      source: 'intent-unknown-discovery',
+      candidates,
+      requiresUserConfirmation: true,
+    });
+    actions.push('candidates_submitted_for_review');
+  }
 
-  writeReport(path.join(repoRoot, 'reports', 'intent-unknown-discovery.json'), {
-    rule: 'rule.intent-unknown-discovery-001',
+  const reportPath = path.join(root, 'reports', 'intent-unknown-discovery', `report-${Date.now()}.json`);
+  writeReport(reportPath, {
     timestamp: new Date().toISOString(),
-    summary: { status: result.status, passed: result.passed, total: result.total },
-    checks,
+    handler: 'intent-unknown-discovery',
+    trigger: triggerType,
+    candidates,
+    lastCommit: gitExec(root, 'log --oneline -1'),
+    ...result,
+  });
+  actions.push(`report_written:${reportPath}`);
+
+  await emitEvent(bus, 'intent-unknown-discovery.completed', {
+    ok: result.ok,
+    status: result.status,
+    candidateCount: candidates.length,
+    actions,
   });
 
-  return result;
-}
-
-module.exports = handler;
+  return { ok: result.ok, autonomous: true, actions, candidates, ...result };
+};
