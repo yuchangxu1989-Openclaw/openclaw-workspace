@@ -1,7 +1,7 @@
 ---
 name: isc-capability-anchor-sync
 description: ISC锚点自动同步 - 从ISC规则自动生成能力锚点文档
-version: "0.0.4"
+version: "0.0.5"
 status: active
 tags: [isc, capability, anchor, sync, automation]
 ---
