@@ -1,0 +1,39 @@
+{
+  "id": "rule.report-data-snapshot-001",
+  "version": "1.0.0",
+  "title": "报告数据快照锁定",
+  "description": "在报告生成后立即对关联数据做快照，并在报告末尾追加快照路径，防止后续修改导致报告与数据不一致。",
+  "severity": "high",
+  "scope": [
+    "report-generation",
+    "data-integrity"
+  ],
+  "trigger": {
+    "event": "report_generated"
+  },
+  "requirements": [
+    "必须调用 scripts/snapshot-report-data.sh 对关联数据执行快照",
+    "快照目录命名必须符合 {report-name}-{timestamp}-snapshot",
+    "快照应落盘在报告目录下的 snapshots/ 子目录",
+    "报告正文末尾必须追加快照路径引用"
+  ],
+  "enforcement": {
+    "type": "script",
+    "entry": "scripts/snapshot-report-data.sh",
+    "args": [
+      "<report-file>",
+      "[data-path ...]"
+    ]
+  },
+  "acceptance": [
+    "生成报告后可在 reports/**/snapshots/ 下找到对应快照目录",
+    "报告末尾包含“快照路径：...”字段",
+    "快照目录内包含 manifest.txt 并记录报告与数据来源"
+  ],
+  "tags": [
+    "snapshot",
+    "report",
+    "immutability",
+    "anti-drift"
+  ]
+}
