@@ -5,7 +5,10 @@
   "trigger": {
     "type": "file_change",
     "watch_path": "/root/.openclaw/workspace/tests/benchmarks/intent/c2-golden/00-real-badcases.json",
-    "events": ["modify", "create"]
+    "events": [
+      "modify",
+      "create"
+    ]
   },
   "action": {
     "type": "exec",
@@ -16,5 +19,7 @@
     "created": "2026-03-08",
     "author": "automation-engineer",
     "purpose": "程序化保证badcase→goodcase翻转，不依赖记忆"
-  }
+  },
+  "handler": "handlers/badcase-auto-flip.js",
+  "fullchain_status": "expanded"
 }

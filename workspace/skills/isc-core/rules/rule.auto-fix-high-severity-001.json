@@ -34,5 +34,7 @@
     "event": "isc.rule.matched"
   },
   "enforcement_tier": "P1_process",
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "handler": "handlers/auto-fix-high-severity.js",
+  "fullchain_status": "expanded"
 }
