@@ -53,7 +53,7 @@
         "fail_action": "block_and_simplify"
       }
     ],
-    "handler": "anti-entropy-check"
+    "handler": "anti-entropy-design-principle"
   },
   "enforcement": "runtime_binding",
   "dto_alignment": {
@@ -61,5 +61,6 @@
     "task_type": "quality_gate",
     "description": "每次触发事件时，DTO自动调度反熵增检查任务"
   },
-  "enforcement_tier": "P0_gate"
+  "enforcement_tier": "P0_gate",
+  "fullchain_status": "expanded"
 }
