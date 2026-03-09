@@ -129,7 +129,7 @@ console.log(board.filter(t=>t.status==='running').length);
   # Step 6: 超时扫描
   bash /root/.openclaw/workspace/scripts/task-timeout-check.sh 2>/dev/null || true
 
-  # Step 7: 超时/失败自动重试入队
+  # Step 7: 超时/失败自动重试入队 + pending-retry-pool写入
   if [ "$STATUS" = "timed_out" ] || [ "$STATUS" = "timeout" ] || [ "$STATUS" = "failed" ]; then
     # 检查是否为user_cancelled，是则跳过
     IS_CANCELLED=$(node -e "
@@ -149,24 +149,46 @@ console.log(board.filter(t=>t.status==='running').length);
 
       if [ "$RETRY_COUNT" -lt "$MAX_RETRY" ] 2>/dev/null; then
         AUTO_RETRY_QUEUE="/root/.openclaw/workspace/logs/auto-retry-queue.json"
+        PENDING_POOL="/root/.openclaw/workspace/logs/pending-retry-pool.json"
         node -e "
           const fs=require('fs');
           const board=JSON.parse(fs.readFileSync('$BOARD_FILE','utf8'));
           const task=board.filter(t=>t.label==='$TASK_ID'||t.taskId==='$TASK_ID').pop();
-          const queue_path='$AUTO_RETRY_QUEUE';
-          let queue=[];
-          try{queue=JSON.parse(fs.readFileSync(queue_path,'utf8'));}catch(e){}
-          queue.push({
+          const retryCount = (${RETRY_COUNT}||0)+1;
+          const entry = {
             label:'$TASK_ID',
             original_agentId: task?.agentId||'unknown',
             original_model: task?.model||'unknown',
-            retry_count: (${RETRY_COUNT}||0)+1,
+            retry_count: retryCount,
             reason:'$STATUS',
             status:'pending',
             queued_at: new Date().toISOString(),
             original_task_summary: task?.result_summary||task?.task||''
-          });
+          };
+
+          // Write to auto-retry-queue
+          const queue_path='$AUTO_RETRY_QUEUE';
+          let queue=[];
+          try{queue=JSON.parse(fs.readFileSync(queue_path,'utf8'));}catch(e){}
+          queue.push(entry);
           fs.writeFileSync(queue_path,JSON.stringify(queue,null,2));
+
+          // Write to pending-retry-pool (deduplicated by label)
+          const pool_path='$PENDING_POOL';
+          let pool=[];
+          try{pool=JSON.parse(fs.readFileSync(pool_path,'utf8'));}catch(e){}
+          pool = pool.filter(p => p.label !== '$TASK_ID');
+          pool.push({
+            label:'$TASK_ID',
+            originalTask: task?.task||'',
+            retryCount: retryCount,
+            addedAt: new Date().toISOString(),
+            status:'pending',
+            agentId: task?.agentId||'unknown',
+            model: task?.model||'unknown',
+            reason:'$STATUS'
+          });
+          fs.writeFileSync(pool_path,JSON.stringify(pool,null,2));
         " 2>/dev/null
         echo "🔄 自动重试已入队: $TASK_ID (第$((RETRY_COUNT+1))次)"
       else
@@ -240,3 +262,6 @@ if [ "${after_running:-}" = "0" ] && [ "${before_running:-}" != "0" ] && [ "${st
   echo "执行: bash /root/.openclaw/workspace/scripts/show-task-board-feishu.sh"
   echo "🏁🏁🏁"
 fi
+
+# Step FINAL: 自动扩列检测 — 输出不可忽略的派发指令
+bash /root/.openclaw/workspace/scripts/auto-backfill.sh 2>/dev/null || true
