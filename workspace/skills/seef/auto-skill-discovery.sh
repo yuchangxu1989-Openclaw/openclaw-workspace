@@ -153,9 +153,141 @@ if [ "$COUNT" -gt 0 ] && [ -d "$(dirname "$EVENT_BUS_FILE")" ]; then
   echo "📡 已发送 seef.skill.discovered 事件到事件总线 → SEEF creator"
 fi
 
-# ── 汇总输出 ──
+# ── 汇总输出（阶段一） ──
 if [ "$COUNT" -eq 0 ]; then
   echo "✅ 所有脚本均已技能化，无野生脚本。"
 else
   echo "📋 野生脚本清单已写入: $OUTPUT_FILE (共${COUNT}个)"
+fi
+
+# ═══════════════════════════════════════════════════════════════
+# 阶段二：代码归属审计 — 检查非技能目录中的代码是否应归属某技能
+# ═══════════════════════════════════════════════════════════════
+
+REPORT_DIR="$WORKSPACE/reports"
+MISPLACED_REPORT="$REPORT_DIR/misplaced-code-report.json"
+mkdir -p "$REPORT_DIR"
+
+# 技能关键词映射（技能目录名 → 匹配关键词列表）
+declare -A SKILL_KEYWORDS
+for skill_dir in "$WORKSPACE/skills"/*/; do
+  [ -d "$skill_dir" ] || continue
+  sname=$(basename "$skill_dir")
+  # 用目录名本身和常见缩写作为关键词
+  SKILL_KEYWORDS["$sname"]="$sname"
+done
+# 补充常用缩写映射
+SKILL_KEYWORDS["isc-core"]+=" isc"
+SKILL_KEYWORDS["isc-capability-anchor-sync"]+=" isc-capability isc_capability"
+SKILL_KEYWORDS["isc-document-quality"]+=" isc-doc isc_doc"
+SKILL_KEYWORDS["isc-report-readability"]+=" isc-report isc_report"
+SKILL_KEYWORDS["cras"]+=" cras"
+SKILL_KEYWORDS["aeo"]+=" aeo"
+SKILL_KEYWORDS["pdca-engine"]+=" pdca"
+SKILL_KEYWORDS["seef"]+=" seef"
+SKILL_KEYWORDS["evomap-publisher"]+=" evomap"
+SKILL_KEYWORDS["evomap-a2a"]+=" evomap"
+SKILL_KEYWORDS["evomap-uploader"]+=" evomap"
+SKILL_KEYWORDS["lto-core"]+=" lto"
+SKILL_KEYWORDS["lep-executor"]+=" lep"
+SKILL_KEYWORDS["dto-core"]+=" dto"
+SKILL_KEYWORDS["evolver"]+=" evolver"
+
+# 待扫描目录
+AUDIT_DIRS=(
+  "infrastructure/event-bus/handlers"
+  "infrastructure/event-bus/sensors"
+  "infrastructure/intent-engine"
+  "scripts"
+)
+
+MISPLACED=()
+
+check_file_ownership() {
+  local file="$1"
+  local rel_path="${file#$WORKSPACE/}"
+  local fname=$(basename "$file")
+  local fname_lower=$(echo "$fname" | tr '[:upper:]' '[:lower:]')
+  # 读取文件头（前20行）用于注释和import检查
+  local head_content
+  head_content=$(head -20 "$file" 2>/dev/null || true)
+
+  for sname in "${!SKILL_KEYWORDS[@]}"; do
+    local keywords="${SKILL_KEYWORDS[$sname]}"
+    local matched=""
+    local reason=""
+
+    for kw in $keywords; do
+      # 1. 文件名匹配
+      if echo "$fname_lower" | grep -qi "$kw"; then
+        matched="$sname"
+        reason="文件名包含技能关键词 '$kw'"
+        break
+      fi
+    done
+
+    # 2. 文件头注释引用技能名
+    if [ -z "$matched" ]; then
+      if echo "$head_content" | grep -qi "归属技能.*$sname\|技能.*$sname\|skill.*$sname"; then
+        matched="$sname"
+        reason="文件头注释引用技能 '$sname'"
+      fi
+    fi
+
+    # 3. require/import路径引用技能目录
+    if [ -z "$matched" ]; then
+      if echo "$head_content" | grep -qP "require\(.*skills/$sname|from ['\"].*skills/$sname"; then
+        matched="$sname"
+        reason="import/require引用技能目录 'skills/$sname'"
+      fi
+    fi
+
+    if [ -n "$matched" ]; then
+      # 检查文件是否已在该技能目录下
+      if [[ "$rel_path" != skills/$matched/* ]]; then
+        local current_dir=$(dirname "$rel_path")
+        MISPLACED+=("{\"file\":\"$rel_path\",\"currentDir\":\"$current_dir\",\"shouldBelongTo\":\"$matched\",\"reason\":\"$reason\"}")
+      fi
+      return 0
+    fi
+  done
+}
+
+echo ""
+echo "── 阶段二：代码归属审计 ──"
+
+for dir in "${AUDIT_DIRS[@]}"; do
+  full_dir="$WORKSPACE/$dir"
+  [ -d "$full_dir" ] || continue
+  while IFS= read -r -d '' codefile; do
+    check_file_ownership "$codefile"
+  done < <(find "$full_dir" -maxdepth 2 -type f \( -name '*.js' -o -name '*.sh' -o -name '*.py' \) -print0 2>/dev/null)
+done
+
+# 生成报告JSON
+MISPLACED_COUNT=${#MISPLACED[@]}
+{
+  echo "["
+  for i in "${!MISPLACED[@]}"; do
+    if [ "$i" -lt $((MISPLACED_COUNT - 1)) ]; then
+      echo "  ${MISPLACED[$i]},"
+    else
+      echo "  ${MISPLACED[$i]}"
+    fi
+  done
+  echo "]"
+} > "$MISPLACED_REPORT"
+
+if [ "$MISPLACED_COUNT" -gt 0 ]; then
+  echo "🚨 发现 ${MISPLACED_COUNT} 个错位代码文件！"
+  echo "📋 报告已写入: $MISPLACED_REPORT"
+  # 事件总线集成
+  if [ -d "$(dirname "$EVENT_BUS_FILE")" ]; then
+    EVENT_TS=$(date -Iseconds)
+    echo "{\"type\":\"seef.misplaced_code.detected\",\"timestamp\":\"$EVENT_TS\",\"source\":\"auto-skill-discovery\",\"data\":{\"count\":$MISPLACED_COUNT,\"report\":\"$MISPLACED_REPORT\"}}" >> "$EVENT_BUS_FILE"
+    echo "📡 已发送 seef.misplaced_code.detected 事件到事件总线"
+  fi
+  exit 1
+else
+  echo "✅ 代码归属审计通过，无错位代码。"
 fi
