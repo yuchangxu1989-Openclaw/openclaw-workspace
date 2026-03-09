@@ -1,0 +1,41 @@
+[
+  {
+    "id": "badcase-0309-001",
+    "input": "用户发截图指出PDCA报告里评测集V3显示总条数34、多轮占比0%，但实际评测集已有423条、多轮99%。用户说'这是个badcase，明显的问题，自己看不见？'",
+    "expected_output": "系统应在完成评测集扩充（34→423）后，主动检查所有引用评测集数据的报告（PDCA/daily-ops等），发现数据源过时后立即修复，不等用户发现。具体：①完成评测集变更后扫描所有下游消费者；②发现eval-stats.sh扫描目录错误+字段名错误；③立即修复并重新生成报告；④向用户汇报修复结果。",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "data_source": "real_conversation",
+    "multi_turn": true,
+    "context": "2026-03-09 06:49-08:22会话，主Agent完成评测集从34条扩充到423条的全流程（P0删违规+P1细化+P2建门禁+补缺口），但未主动检查PDCA报告的数据源是否同步更新。用户在08:22发现PDCA卡片数据严重过时并截图指出。根因：eval-stats.sh扫描目录错误(intent/ vs c2-golden/)且字段名错误(level vs difficulty)。",
+    "execution_chain_steps": [
+      "完成评测集扩充任务后，识别到评测集数据已大幅变更",
+      "主动扫描所有引用评测集统计数据的下游模块（PDCA报告、daily-ops等）",
+      "发现eval-stats.sh扫描目录为intent/而非c2-golden/，字段名用level而非difficulty",
+      "立即修复eval-stats.sh的两个bug",
+      "重新运行eval-stats.sh验证输出正确（423条/C2=100%/多轮99%）",
+      "触发PDCA报告重新生成，确认数据已更新",
+      "向用户汇报：评测集扩充完成+发现并修复了PDCA数据源bug+当前数据已准确"
+    ]
+  },
+  {
+    "id": "badcase-0309-002",
+    "input": "用户问'Agent任务看板没有做最终汇报？'，因为11个子Agent任务全部完成后主Agent没有推送最终看板。",
+    "expected_output": "系统应在所有子Agent任务完成（running=0）时，自动推送最终看板给用户，不等用户追问。具体：①completion-handler检测到running=0；②立即调用show-task-board-feishu.sh生成看板；③将看板作为回复推送给用户；④附带关键结果摘要。",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "data_source": "real_conversation",
+    "multi_turn": true,
+    "context": "2026-03-09 06:49-08:19会话，主Agent派出11个子Agent执行评测集P0-P2修复+补缺口任务，每个completion都调了handler但都说'等齐了汇报'。最后一路完成后主Agent没推最终看板，用户在08:19主动追问。根因：批次完成→推送看板没有程序化，依赖主Agent记忆。",
+    "execution_chain_steps": [
+      "completion-handler.sh检测到running=0（所有任务已完成）",
+      "输出ALL_TASKS_DONE标记触发主Agent行动",
+      "主Agent调用show-task-board-feishu.sh生成最终看板",
+      "将看板格式化为用户可读的汇总（任务/模型/结果表+关键数据）",
+      "立即推送给用户，不等用户追问",
+      "附带评测集最终状态盘点（总条数/通过率/缺口状态）"
+    ]
+  }
+]

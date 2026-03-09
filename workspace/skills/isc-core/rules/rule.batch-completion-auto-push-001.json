@@ -1,0 +1,40 @@
+{
+  "id": "rule.batch-completion-auto-push-001",
+  "name": "批次完成自动推送看板",
+  "description": "所有子Agent任务完成后，必须自动推送最终看板给用户。不推送=Badcase。",
+  "priority": "P0",
+  "category": "observability",
+  "trigger": {
+    "event": "subagent.batch.all_completed",
+    "condition": "running_count == 0 AND batch_had_tasks"
+  },
+  "action": {
+    "type": "enforce",
+    "execute": "show-task-board-feishu.sh output → push to user",
+    "violation": "BADCASE-BATCH-NO-PUSH"
+  },
+  "intent_registration": {
+    "intent_type": "batch_completion_push",
+    "description": "批次任务全部完成时自动推送看板"
+  },
+  "event_registration": {
+    "event_type": "subagent.batch.all_completed",
+    "source": "completion-handler.sh",
+    "description": "completion-handler检测到running=0"
+  },
+  "perception_layer": {
+    "probe": "completion-handler.sh running count check",
+    "signal": "running=0 after task status update"
+  },
+  "execution_layer": {
+    "executor": "main-agent",
+    "action": "show-task-board-feishu.sh → message to user"
+  },
+  "created_at": "2026-03-09",
+  "root_cause": "BADCASE: 11个子Agent全完成后未推送最终看板，用户主动追问才发现。依赖主Agent记忆而非程序化=必然遗忘。",
+  "enforcement": {
+    "level": "mandatory",
+    "action": "block_and_alert",
+    "violation_code": "BADCASE-BATCH-NO-PUSH"
+  }
+}

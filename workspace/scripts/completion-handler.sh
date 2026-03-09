@@ -168,3 +168,11 @@ fi
 if [ "$PENDING_COUNT" != "0" ]; then
   echo "🔄 当前有${PENDING_COUNT}条任务待重试（详见logs/completion-handler-latest.log）"
 fi
+
+# Detect batch completion: when no running tasks remain after an update
+if [ "${after_running:-}" = "0" ] && [ "${before_running:-}" != "0" ] && [ "${status:-}" != "running" ]; then
+  echo ""
+  echo "🏁🏁🏁 ALL_TASKS_DONE — 所有任务已完成，必须立即推送最终看板给用户！"
+  echo "执行: bash /root/.openclaw/workspace/scripts/show-task-board-feishu.sh"
+  echo "🏁🏁🏁"
+fi
