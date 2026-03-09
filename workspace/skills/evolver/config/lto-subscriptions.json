@@ -1,0 +1,32 @@
+{
+  "skill": "capability-evolver",
+  "version": "1.0.0",
+  "subscriptions": [
+    {
+      "event": "aeo.evaluation.completed",
+      "handler": "event-bridge.js",
+      "description": "AEO evaluation completed — trigger evolution to incorporate findings"
+    },
+    {
+      "event": "pdca.check.critical",
+      "handler": "event-bridge.js",
+      "description": "PDCA check phase detected critical issue — trigger repair evolution"
+    },
+    {
+      "event": "system.failure.pattern_detected",
+      "handler": "event-bridge.js",
+      "description": "Recurring failure pattern detected — trigger adaptive evolution"
+    },
+    {
+      "event": "skill.quality.degraded",
+      "handler": "event-bridge.js",
+      "description": "Skill quality metrics degraded — trigger improvement evolution"
+    }
+  ],
+  "emissions": [
+    {
+      "event": "skill.evolution.completed",
+      "description": "Emitted after evolution cycle completes (success or failure)"
+    }
+  ]
+}
