@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -23,6 +24,12 @@ const MIME = {
   '.png': 'image/png', '.ico': 'image/x-icon', '.json': 'application/json',
 };
 
+// SSL for WSS support (GitHub Pages requires secure WebSocket)
+const sslOptions = {
+  key: fs.readFileSync(path.join(__dirname, 'key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert.pem')),
+};
+
 const server = http.createServer((req, res) => {
   let filePath = path.join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url);
   const ext = path.extname(filePath);
@@ -33,7 +40,12 @@ const server = http.createServer((req, res) => {
   });
 });
 
-const wss = new WebSocketServer({ server });
+// HTTPS server for WSS (port 8765)
+const httpsServer = https.createServer(sslOptions, (req, res) => {
+  res.writeHead(200); res.end('WSS OK');
+});
+
+const wss = new WebSocketServer({ server: httpsServer });
 
 wss.on('connection', (clientWs) => {
   console.log('[客户端] 已连接');
@@ -143,7 +155,12 @@ wss.on('connection', (clientWs) => {
   });
 });
 
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`🔥 焰崽语音服务已启动`);
-  console.log(`📡 访问: http://localhost:${PORT}`);
+server.listen(8080, '0.0.0.0', () => {
+  console.log(`🔥 焰崽语音服务已启动 (HTTP)`);
+  console.log(`📡 本地访问: http://localhost:8080`);
+});
+
+httpsServer.listen(PORT, '0.0.0.0', () => {
+  console.log(`🔒 WSS服务已启动`);
+  console.log(`📡 WSS地址: wss://43.160.213.199:${PORT}`);
 });

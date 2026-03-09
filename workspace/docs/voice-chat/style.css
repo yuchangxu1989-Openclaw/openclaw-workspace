@@ -1,0 +1,127 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 140px;
+  height: 140px;
+}
+
+.avatar-glow {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,53,0.3), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.avatar-wrapper.active .avatar-glow {
+  opacity: 1;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.avatar-wrapper.speaking .avatar-glow {
+  opacity: 1;
+  animation: pulse-fast 0.8s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(255,69,0,0.5), transparent 70%);
+}
+
+.avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b35, #f7931e, #ff4500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+  position: relative;
+  box-shadow: 0 4px 30px rgba(255,107,53,0.2);
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 600;
+  color: #f0f0f0;
+  letter-spacing: 2px;
+}
+
+.status {
+  font-size: 14px;
+  color: #888;
+  min-height: 20px;
+  transition: color 0.3s;
+}
+
+.status.listening { color: #4ade80; }
+.status.speaking { color: #ff6b35; }
+
+.call-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: none;
+  background: #22c55e;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(34,197,94,0.3);
+  margin-top: 12px;
+}
+
+.call-btn:active { transform: scale(0.93); }
+.call-btn:hover { box-shadow: 0 4px 30px rgba(34,197,94,0.5); }
+
+.call-btn.active {
+  background: #ef4444;
+  box-shadow: 0 4px 20px rgba(239,68,68,0.3);
+}
+.call-btn.active:hover { box-shadow: 0 4px 30px rgba(239,68,68,0.5); }
+
+.call-btn svg { width: 32px; height: 32px; }
+.hidden { display: none !important; }
+
+.hint {
+  font-size: 12px;
+  color: #666;
+  min-height: 16px;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes pulse-fast {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  .avatar-wrapper { width: 120px; height: 120px; }
+  .avatar { width: 120px; height: 120px; font-size: 54px; }
+  .call-btn { width: 64px; height: 64px; }
+  .call-btn svg { width: 28px; height: 28px; }
+}
