@@ -2,6 +2,8 @@
 # push-feishu-board.sh - 生成看板并直接推送到飞书（使用table组件）
 # 不依赖主Agent，脚本自己调飞书API发消息
 
+DATE_STR=$(TZ=Asia/Shanghai date +%Y-%m-%d)
+
 FEISHU_APP_ID="cli_a92f2a545838dcc8"
 FEISHU_APP_SECRET="r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC"
 FEISHU_RECEIVE_ID="ou_a113e465324cc55f9ab3348c9a1a7b9b"
@@ -66,6 +68,7 @@ fi
 
 PAYLOAD=$(jq -n \
   --arg rid "$FEISHU_RECEIVE_ID" \
+  --arg date "$DATE_STR" \
   --argjson elements "$ELEMENTS" \
   '{
     receive_id: $rid,
@@ -73,7 +76,7 @@ PAYLOAD=$(jq -n \
     content: ({
       config: {wide_screen_mode: true},
       header: {
-        title: {tag: "plain_text", content: "📋 Agent任务看板"},
+        title: {tag: "plain_text", content: ("📋 Agent任务看板（" + $date + "）")},
         template: "blue"
       },
       elements: $elements
