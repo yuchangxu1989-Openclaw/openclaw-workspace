@@ -137,6 +137,22 @@ elif [ ! -f "$PREV_FILE" ] && [ "$COUNT" -gt 0 ]; then
   echo "🚨 发现${COUNT}个新野生脚本，需收编进技能（首次扫描）"
 fi
 
+# ── 事件总线集成（断点①修复）──
+EVENT_BUS_FILE="$WORKSPACE/infrastructure/event-bus/events.jsonl"
+if [ "$COUNT" -gt 0 ] && [ -d "$(dirname "$EVENT_BUS_FILE")" ]; then
+  # 构建脚本名列表用于事件payload
+  SCRIPT_NAMES=$(grep -oP '"name"\s*:\s*"\K[^"]+' "$OUTPUT_FILE" 2>/dev/null | paste -sd',' | sed 's/,/","/g')
+  EVENT_TS=$(date -Iseconds)
+
+  # 断点① 修复：发现野生脚本时写事件到event-bus
+  echo "{\"type\":\"skill.wild_script.discovered\",\"timestamp\":\"$EVENT_TS\",\"source\":\"auto-skill-discovery\",\"data\":{\"scripts\":[\"$SCRIPT_NAMES\"],\"count\":$COUNT,\"output_file\":\"$OUTPUT_FILE\"}}" >> "$EVENT_BUS_FILE"
+  echo "📡 已发送 skill.wild_script.discovered 事件到事件总线 (count=$COUNT)"
+
+  # 断点② 修复：触发SEEF discoverer，让两套发现机制衔接
+  echo "{\"type\":\"seef.skill.discovered\",\"timestamp\":\"$EVENT_TS\",\"source\":\"auto-skill-discovery\",\"data\":{\"source\":\"auto-discovery\",\"wild_scripts_count\":$COUNT,\"scripts\":[\"$SCRIPT_NAMES\"],\"output_file\":\"$OUTPUT_FILE\"}}" >> "$EVENT_BUS_FILE"
+  echo "📡 已发送 seef.skill.discovered 事件到事件总线 → SEEF creator"
+fi
+
 # ── 汇总输出 ──
 if [ "$COUNT" -eq 0 ]; then
   echo "✅ 所有脚本均已技能化，无野生脚本。"

@@ -55,6 +55,9 @@ const ROUTES = {
   'isc.rule.updated':          'aligner',     // 规则变更 → 对齐器重新对齐
   'isc.rule.deleted':          'aligner',     // 规则删除 → 对齐器清理对齐记录
 
+  // 野生脚本发现 → 创造器（断点①②修复：衔接auto-skill-discovery和SEEF流水线）
+  'skill.wild_script.discovered': 'creator',  // 野生脚本发现 → 创造器生成技能原型
+
   // SEEF 内部事件 - 跨子技能协作
   'seef.skill.evaluated':      'discoverer',  // 评估完成 → 发现器分析差距
   'seef.skill.discovered':     'creator',     // 发现机会 → 创造器生成原型
@@ -72,7 +75,7 @@ const ROUTES = {
  */
 function processEvents() {
   const events = bus.consume(CONSUMER_ID, {
-    types: ['lto.sync.*', 'aeo.assessment.*', 'cras.insight.*', 'isc.rule.*', 'seef.skill.*']
+    types: ['lto.sync.*', 'aeo.assessment.*', 'cras.insight.*', 'isc.rule.*', 'seef.skill.*', 'skill.wild_script.*']
   });
 
   if (events.length === 0) {
