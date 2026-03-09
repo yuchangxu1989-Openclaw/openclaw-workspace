@@ -37,5 +37,25 @@
       "立即推送给用户，不等用户追问",
       "附带评测集最终状态盘点（总条数/通过率/缺口状态）"
     ]
+  },
+  {
+    "id": "badcase-0309-003",
+    "input": "用户要求分小批次评测，主Agent建议50+150+223分批，用户纠偏'一次10条'。主Agent只写入MEMORY.md未做ISC程序化。",
+    "expected_output": "①识别到用户铁令后立即创建ISC规则；②全链路展开（intent+event+sense+exec）；③程序化守卫确保后续自动拦截>10条的批次；④入库badcase。不能只写记忆文件。",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "data_source": "real_conversation",
+    "multi_turn": true,
+    "context": "2026-03-09会话，评测集448条就绪后用户说可以分小批次评测。主Agent建议50+150+223分批，用户纠偏'一次10条'。主Agent只写入MEMORY.md，未做ISC规则+程序化展开。用户指出这是badcase，违反思想钢印'凡是有规则必进ISC必须程序化'。",
+    "execution_chain_steps": [
+      "识别用户铁令：评测批次一次10条",
+      "立即创建ISC规则rule.eval-batch-size-limit-001",
+      "注册intent到intent-registry.json",
+      "注册event到events.jsonl",
+      "创建程序化守卫：eval-runner启动时检查batch_size<=10",
+      "入库badcase记录本次违反",
+      "向用户确认：规则已全链路程序化"
+    ]
   }
 ]

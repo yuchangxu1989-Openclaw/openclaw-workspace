@@ -43,28 +43,28 @@ function check(filePath) {
 
   // 支持纯数组格式（c2-golden评测用例格式）
   if (Array.isArray(data)) {
-    // 数组格式：每条记录独立检查data_source
+    // 数组格式：每条记录独立检查data_source/source
     const items = data;
     items.forEach((item, i) => {
-      const src = (item.source || item.data_source || item.origin || ).toLowerCase();
+      const src = (item.source || item.data_source || item.origin || '').toLowerCase();
       if (!src) {
-        violations.push(`场景[]: 缺少source/data_source标注`);
-      } else if (src === synthetic || src === generated || src === mock || src === simulated || src === fake) {
-        violations.push(`场景[]: source="" 为合成数据，禁止提交`);
+        violations.push(`场景[${i}]: 缺少source/data_source标注`);
+      } else if (src === 'synthetic' || src === 'generated' || src === 'mock' || src === 'simulated' || src === 'fake') {
+        violations.push(`场景[${i}]: source="${src}" 为合成数据，禁止提交`);
       } else if (!VALID_REAL_SOURCES.includes(src)) {
-        violations.push(`场景[]: source="" 未标注为真实数据`);
+        violations.push(`场景[${i}]: source="${src}" 未标注为真实数据`);
       }
     });
 
     if (violations.length > 0) {
-      console.error(`🚫 [BLOCKED] Benchmark数据源验证失败\n   规则: rule.scenario-acceptance-gate-001 (P0)\n   文件: \n   违规详情:`);
-      violations.forEach(v => console.error(`   - `));
-      log({ rule: rule.scenario-acceptance-gate-001, gate: benchmark-submit, result: BLOCKED, violations, path: resolved });
+      console.error(`🚫 [BLOCKED] Benchmark数据源验证失败\n   规则: rule.scenario-acceptance-gate-001 (P0)\n   文件: ${resolved}\n   违规详情:`);
+      violations.forEach(v => console.error(`   - ${v}`));
+      log({ rule: 'rule.scenario-acceptance-gate-001', gate: 'benchmark-submit', result: 'BLOCKED', violations, path: resolved });
       process.exit(1);
     }
 
-    console.log(`✅ [PASS] Benchmark数据源验证通过: `);
-    log({ rule: rule.scenario-acceptance-gate-001, gate: benchmark-submit, result: PASS, path: resolved, scenarioCount: items.length });
+    console.log(`✅ [PASS] Benchmark数据源验证通过: ${resolved}`);
+    log({ rule: 'rule.scenario-acceptance-gate-001', gate: 'benchmark-submit', result: 'PASS', path: resolved, scenarioCount: items.length });
     process.exit(0);
   }
 

@@ -1,10 +1,25 @@
 {
   "id": "rule.eval-batch-size-limit-001",
-  "name": "评测集任务批量上限",
-  "description": "每个评测集挖掘或清洗子Agent任务，最多处理10条数据。超过10条必须拆分为多个任务。",
-  "trigger": "eval.task.dispatched",
-  "constraint": "batch_size <= 10",
-  "enforcement": "programmatic",
-  "hook": "scripts/isc-hooks/rule.eval-batch-size-limit-001.sh",
-  "scope": ["eval-mining", "eval-cleaning", "eval-annotation"]
+  "name": "评测批次量级限制",
+  "description": "评测用例的生成、修复、评测，一次最多10条。超过10条必须拆分为多批次。",
+  "priority": "P0",
+  "category": "quality-control",
+  "trigger": {
+    "event": "eval.batch.requested",
+    "condition": "batch_size > 10"
+  },
+  "action": {
+    "type": "block_and_split",
+    "max_batch_size": 10,
+    "executor": "eval-runner"
+  },
+  "enforcement": {
+    "level": "mandatory",
+    "action": "block_and_split",
+    "violation_code": "BADCASE-EVAL-BATCH-OVERSIZE",
+    "max_batch_size": 10
+  },
+  "scope": ["eval_generation", "eval_fix", "eval_execution"],
+  "created_at": "2026-03-09",
+  "root_cause": "用户铁令：量太大=失控，小批次=可控可验证。用户原话'我都说了一次10条'"
 }

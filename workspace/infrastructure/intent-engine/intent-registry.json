@@ -431,6 +431,12 @@
         "push",
         "看板"
       ]
+    },
+    {
+      "id": "intent.eval_batch_size_guard",
+      "rule_id": "rule.eval-batch-size-limit-001",
+      "description": "评测批次超过10条时自动拆分",
+      "source": "rule.eval-batch-size-limit-001"
     }
   ],
   "metadata": {
