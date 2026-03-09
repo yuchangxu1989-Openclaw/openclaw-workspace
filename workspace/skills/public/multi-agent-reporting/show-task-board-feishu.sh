@@ -31,10 +31,18 @@ const fs = require('fs');
 const board = JSON.parse(fs.readFileSync('$BOARD_FILE', 'utf8'));
 const now = Date.now();
 
+// 获取当天0点（Asia/Shanghai = UTC+8）
+const tzOffset = 8 * 60 * 60 * 1000;
+const todayStart = new Date(Math.floor((now + tzOffset) / 86400000) * 86400000 - tzOffset).getTime();
+const todayEnd = todayStart + 86400000;
+
+// 格式化日期
+const dateStr = new Date(now + tzOffset).toISOString().slice(0, 10); // YYYY-MM-DD
+
 const running = board.filter(t => t.status === 'running');
-const done = board.filter(t => t.status === 'done');
-const timeout = board.filter(t => t.status === 'timeout');
-const failed = board.filter(t => t.status === 'failed');
+const done = board.filter(t => t.status === 'done' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd);
+const timeout = board.filter(t => t.status === 'timeout' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd);
+const failed = board.filter(t => t.status === 'failed' && new Date(t.completeTime).getTime() >= todayStart && new Date(t.completeTime).getTime() < todayEnd);
 
 function formatDuration(ms) {
   if (!ms || ms < 0) return '-';
@@ -98,7 +106,7 @@ if (jsonMode) {
     summary: summaryLine
   }));
 } else {
-  let out = '📋 Agent任务看板\n\n';
+  let out = '📋 Agent任务看板（' + dateStr + '）\n\n';
   out += 'Agent并行总数：' + running.length + '\n\n';
   if (rows.length > 0) {
     out += '| 任务 | 模型 | 状态 | 耗时 |\n';
