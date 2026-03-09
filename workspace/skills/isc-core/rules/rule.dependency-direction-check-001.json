@@ -17,5 +17,7 @@
     "level": "block",
     "message": "依赖方向违规：skills层不得直接引用infrastructure层"
   },
-  "created_at": "2026-03-06"
+  "created_at": "2026-03-06",
+  "handler": "handlers/check-dependency-direction.js",
+  "fullchain_status": "expanded"
 }

@@ -31,5 +31,7 @@
     "method": "gate-check",
     "script": "scripts/isc-hooks/rule.day2-gap1-cron-event-bridge.sh"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "handler": "handlers/cron-event-bridge.js",
+  "fullchain_status": "expanded"
 }
