@@ -88,6 +88,34 @@ console.log(board.filter(t=>t.status==='running').length);
     fi
   fi
 
+  # Step 5.5: 空闲slot检查 + 待重试任务提示
+  MAX_CONCURRENT=19
+  if [ -f "$BOARD_FILE" ]; then
+    RUNNING_NOW=$(jq '[.[] | select(.status=="running")] | length' "$BOARD_FILE" 2>/dev/null || echo "0")
+    if [ "$RUNNING_NOW" -lt "$MAX_CONCURRENT" ] 2>/dev/null; then
+      # 查找待重试任务：status=timeout/failed/timed_out 且 retry_count<3
+      RETRYABLE=$(jq -r '
+        [.[] | select(
+          (.status=="timeout" or .status=="timed_out" or .status=="failed") and
+          ((.retry_count // 0) < 3)
+        )] | if length > 0 then
+          "FOUND\n" + (map("  - \(.label) (\(.status), retry \(.retry_count // 0)/3)") | join("\n"))
+        else "NONE" end
+      ' "$BOARD_FILE" 2>/dev/null || echo "NONE")
+
+      if echo "$RETRYABLE" | grep -q "^FOUND"; then
+        FREE_SLOTS=$((MAX_CONCURRENT - RUNNING_NOW))
+        echo ""
+        echo "🔄 有空闲slot（当前running: ${RUNNING_NOW}/${MAX_CONCURRENT}，空闲: ${FREE_SLOTS}），以下任务可重试："
+        echo "$RETRYABLE" | tail -n +2
+        echo "建议立即扩列。"
+
+        # 为待重试任务初始化 retry_count 字段（如果不存在则设为0）
+        jq '[ .[] | if (.status=="timeout" or .status=="timed_out" or .status=="failed") and ((.retry_count // 0) < 3) and (.retry_count == null) then .retry_count = 0 else . end ]' "$BOARD_FILE" > "${BOARD_FILE}.tmp" && mv "${BOARD_FILE}.tmp" "$BOARD_FILE"
+      fi
+    fi
+  fi
+
   # Step 6: 超时扫描
   bash /root/.openclaw/workspace/scripts/task-timeout-check.sh 2>/dev/null || true
 
