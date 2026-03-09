@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const { WebSocket, WebSocketServer } = require('ws');
 
 const PORT = 8765;
-const API_KEY = 'd6338644b2f141ad88f2cfebb6b48b34.ssIkoiAmxSYTUXst';
+const API_KEY = process.env.GLM_API_KEY || 'd6338644b2f141ad88f2cfebb6b48b34.ssIkoiAmxSYTUXst';
 const WS_URL = 'wss://open.bigmodel.cn/api/paas/v4/realtime';
 const VOICE = 'douji';
 
