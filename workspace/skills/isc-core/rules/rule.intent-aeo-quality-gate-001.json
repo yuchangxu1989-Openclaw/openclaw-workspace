@@ -23,5 +23,7 @@
     "script": "scripts/isc-hooks/rule.intent-aeo-quality-gate-001.sh"
   },
   "enforcement_tier": "P1_process",
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "handler": "handlers/intent-aeo-quality-gate.js",
+  "fullchain_status": "expanded"
 }

@@ -22,5 +22,7 @@
     "script": "scripts/isc-hooks/rule.intent-anti-entropy-001.sh"
   },
   "enforcement_tier": "P1_process",
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "handler": "handlers/intent-anti-entropy.js",
+  "fullchain_status": "expanded"
 }
