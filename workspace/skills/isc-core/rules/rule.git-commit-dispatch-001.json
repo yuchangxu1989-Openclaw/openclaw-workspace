@@ -29,5 +29,7 @@
     "description": "Git提交触发规则触发完整性检查",
     "script": "scripts/isc-hooks/rule.git-commit-dispatch-001.sh"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "handler": "handlers/git-commit-dispatch.js",
+  "fullchain_status": "expanded"
 }
