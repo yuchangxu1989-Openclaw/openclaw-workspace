@@ -40,32 +40,8 @@ fi
 
 **如果关键文件缺失，立即停止执行并告知用户。**
 
-### 🚨 委派自检（每次会话必做）
-**提醒自己：你是战略指挥官，不是开发工程师。**
-- 需要写代码/改文件/做分析 → **sessions_spawn 子Agent**
-- 需要写飞书文档 → **sessions_spawn 子Agent**
-- 需要执行>3行脚本 → **sessions_spawn 子Agent**
-- 只有读取、验证、通信、更新记忆 → 自己做
-
-**exec计数提醒（2026-03-08 追加）：**
-- **每次准备调exec前，问自己："这是本轮第几次exec了？"**
-- 第1-2次：允许（仅限读取/验证类）
-- 第3次起：**停！必须委派子Agent**
-- 修改型命令（即使第1次）：**停！必须委派子Agent**
-
-**修改型命令黑名单（即使1次也禁止主Agent执行）：**
-- `sed -i` — 原地修改文件
-- `tee` — 写文件
-- `>` / `>>` — 重定向写文件
-- `awk '...' > file` — awk写文件
-- 任何 shell 命令的目的是"修改文件内容" → 委派
-
-**feishu_doc写操作黑名单（绝对禁止主Agent调用）：**
-- `feishu_doc write` — 写文档
-- `feishu_doc append` — 追加文档
-- 主Agent只能调 `feishu_doc read`
-
-**ISC-MAIN-AGENT-DELEGATION-001 铁律生效中。违反 = Badcase。**
+### 🚨 主Agent委派与写操作边界（统一规则）
+主Agent默认只做读取/验证/沟通与调度，**禁止直接执行任何写操作（含本地文件修改与 feishu_doc 的 write/append/insert/update/delete 等写入类动作）**；读取类操作不受限制。白名单可直接执行，黑名单一律视为写操作需走审批。若主Agent判断任务确需亲自写操作，必须先主动向用户确认“这个我需要亲自写，可以吗？”，仅在用户明确批准后方可执行；未经确认直接写即违规。另：真正可靠的治理方式是程序化拦截与流程hook，认知规则仅作补充，不可替代自动化约束。
 
 ### spawn必须登记（ISC-SPAWN-TASKBOARD-HOOK-001，永久生效）
 每次sessions_spawn后，立即执行：
@@ -479,24 +455,6 @@ completion-handler.sh会自动检测是否需要核查。
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
-
-## 子Agent任务登记（强制）
-- 主Agent每次 `spawn` 子Agent后，必须立即登记到：`/root/.openclaw/workspace/logs/subagent-task-board.json`。
-- 最低字段：`taskId, label, agentId, status(running/done/failed), spawnTime, completeTime, result_summary`。
-- 建议附加：`model`（用于看板展示）。
-- 子Agent完成事件触发后，必须更新同一 taskId 记录；当累计完成（done+failed）>=3，触发 `scripts/subagent-report.sh` 做批量汇总。
-
-### 看板必须推给用户（ISC-TASKBOARD-PUSH-001）
-show-task-board.sh只是自己看，用户看不到 = 没做。
-标准流程：
-1. bash show-task-board-feishu.sh > 获得格式化文本
-2. 将文本作为回复发给用户
-
-触发时机：
-- 用户问任务状态
-- 批量任务完成（≥3个）
-- 任何失败发生
-- 每波新任务派出后
 
 **用户强调升级自检（2026-03-09 追加）：**
 - 用户对同一概念提了2次以上？→ 必须升级到AGENTS.md或代码层，不能只写MEMORY
