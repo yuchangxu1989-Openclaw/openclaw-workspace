@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "description": "PDCA Check动态审视标准 - 修改此文件即可调整审视基准",
+  "metrics": {
+    "concurrencyUtil": {
+      "label": "并发利用率",
+      "target": 0.60,
+      "direction": "gte",
+      "warnThreshold": 0.40,
+      "weight": 0.25,
+      "description": "峰值并发任务数 / 并发上限(19)，反映资源利用效率"
+    },
+    "timeoutRate": {
+      "label": "任务超时率",
+      "target": 0.10,
+      "direction": "lte",
+      "warnThreshold": 0.20,
+      "weight": 0.25,
+      "description": "超时任务数 / 总任务数，越低越好"
+    },
+    "taskSplitDegree": {
+      "label": "任务拆分度",
+      "target": 3,
+      "direction": "gte",
+      "warnThreshold": 2,
+      "weight": 0.20,
+      "description": "平均每次dispatch的子任务数，反映任务分解粒度"
+    },
+    "ruleExpansionRate": {
+      "label": "ISC规则展开率",
+      "target": 0.50,
+      "direction": "gte",
+      "warnThreshold": 0.25,
+      "weight": 0.20,
+      "description": "已展开规则数 / 总规则数(182)，反映治理覆盖度"
+    },
+    "badcaseAutoRate": {
+      "label": "Badcase自动采集率",
+      "target": null,
+      "direction": "gte",
+      "warnThreshold": null,
+      "weight": 0.10,
+      "description": "自动采集的badcase数 / 用户纠偏数，信息性指标"
+    }
+  }
+}
