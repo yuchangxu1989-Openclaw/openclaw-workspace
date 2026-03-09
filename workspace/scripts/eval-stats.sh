@@ -6,7 +6,7 @@ set -euo pipefail
 node -e '
 const fs = require("fs"), path = require("path");
 const dir = "/root/.openclaw/workspace/tests/benchmarks/intent/c2-golden/";
-const files = fs.readdirSync(dir).filter(f => f.endsWith(".json"));
+const files = fs.readdirSync(dir).filter(f => f.startsWith("mined-") && f.endsWith(".json"));
 
 let active = 0, c2 = 0, realConv = 0, multiTurn = 0;
 for (const f of files) {
