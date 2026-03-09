@@ -1,4 +1,4 @@
-# 系统运营日报生成器
+# 运营日报生成
 
 distribution: internal
 

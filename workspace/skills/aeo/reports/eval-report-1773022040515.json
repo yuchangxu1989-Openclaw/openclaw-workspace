@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "评测时间": "2026-03-09T02:07:20.514Z",
+    "评测集": "mined-r2-19.json",
+    "分类器": "GLM-5 (glm-4-flash)",
+    "样本总数": 10,
+    "批次数": 1,
+    "批次大小": 10,
+    "AEO版本": "1.0.0"
+  },
+  "总体结果": {
+    "正确数": 1,
+    "总数": 10,
+    "准确率": "10.0%",
+    "准确率数值": 0.1
+  },
+  "按IC类别": {
+    "认知错误类": {
+      "total": 3,
+      "correct": 1,
+      "accuracy": 33.3
+    },
+    "头痛医头类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "交付质量类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "全局未对齐类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "自主性缺失类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "连锁跷跷板类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "反复未果类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "纠偏类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    }
+  },
+  "按难度": {
+    "C2": {
+      "total": 10,
+      "correct": 1,
+      "accuracy": 10
+    }
+  },
+  "各批次结果": [
+    {
+      "批次": 1,
+      "样本数": 10,
+      "正确数": 1,
+      "准确率": "10.0%"
+    }
+  ],
+  "错误用例": [
+    {
+      "id": "mined-r2-19-001",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "自主性缺失类",
+      "correct": false,
+      "elapsed_ms": 598
+    },
+    {
+      "id": "mined-r2-19-002",
+      "difficulty": "C2",
+      "expected_ic": "头痛医头类",
+      "predicted_ic": "纠偏类",
+      "correct": false,
+      "elapsed_ms": 403
+    },
+    {
+      "id": "mined-r2-19-003",
+      "difficulty": "C2",
+      "expected_ic": "交付质量类",
+      "predicted_ic": "纠偏类",
+      "correct": false,
+      "elapsed_ms": 524
+    },
+    {
+      "id": "mined-r2-19-005",
+      "difficulty": "C2",
+      "expected_ic": "全局未对齐类",
+      "predicted_ic": "认知错误类",
+      "correct": false,
+      "elapsed_ms": 642
+    },
+    {
+      "id": "mined-r2-19-006",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "连锁跷跷板类",
+      "correct": false,
+      "elapsed_ms": 839
+    },
+    {
+      "id": "mined-r2-19-007",
+      "difficulty": "C2",
+      "expected_ic": "自主性缺失类",
+      "predicted_ic": "全局未对齐类",
+      "correct": false,
+      "elapsed_ms": 1128
+    },
+    {
+      "id": "mined-r2-19-008",
+      "difficulty": "C2",
+      "expected_ic": "连锁跷跷板类",
+      "predicted_ic": "交付质量类",
+      "correct": false,
+      "elapsed_ms": 644
+    },
+    {
+      "id": "mined-r2-19-009",
+      "difficulty": "C2",
+      "expected_ic": "反复未果类",
+      "predicted_ic": "认知错误类",
+      "correct": false,
+      "elapsed_ms": 894
+    },
+    {
+      "id": "mined-r2-19-010",
+      "difficulty": "C2",
+      "expected_ic": "纠偏类",
+      "predicted_ic": "交付质量类",
+      "correct": false,
+      "elapsed_ms": 519
+    }
+  ],
+  "全部结果": [
+    {
+      "id": "mined-r2-19-001",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "自主性缺失类",
+      "correct": false,
+      "elapsed_ms": 598
+    },
+    {
+      "id": "mined-r2-19-002",
+      "difficulty": "C2",
+      "expected_ic": "头痛医头类",
+      "predicted_ic": "纠偏类",
+      "correct": false,
+      "elapsed_ms": 403
+    },
+    {
+      "id": "mined-r2-19-003",
+      "difficulty": "C2",
+      "expected_ic": "交付质量类",
+      "predicted_ic": "纠偏类",
+      "correct": false,
+      "elapsed_ms": 524
+    },
+    {
+      "id": "mined-r2-19-004",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "认知错误类",
+      "correct": true,
+      "elapsed_ms": 504
+    },
+    {
+      "id": "mined-r2-19-005",
+      "difficulty": "C2",
+      "expected_ic": "全局未对齐类",
+      "predicted_ic": "认知错误类",
+      "correct": false,
+      "elapsed_ms": 642
+    },
+    {
+      "id": "mined-r2-19-006",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "连锁跷跷板类",
+      "correct": false,
+      "elapsed_ms": 839
+    },
+    {
+      "id": "mined-r2-19-007",
+      "difficulty": "C2",
+      "expected_ic": "自主性缺失类",
+      "predicted_ic": "全局未对齐类",
+      "correct": false,
+      "elapsed_ms": 1128
+    },
+    {
+      "id": "mined-r2-19-008",
+      "difficulty": "C2",
+      "expected_ic": "连锁跷跷板类",
+      "predicted_ic": "交付质量类",
+      "correct": false,
+      "elapsed_ms": 644
+    },
+    {
+      "id": "mined-r2-19-009",
+      "difficulty": "C2",
+      "expected_ic": "反复未果类",
+      "predicted_ic": "认知错误类",
+      "correct": false,
+      "elapsed_ms": 894
+    },
+    {
+      "id": "mined-r2-19-010",
+      "difficulty": "C2",
+      "expected_ic": "纠偏类",
+      "predicted_ic": "交付质量类",
+      "correct": false,
+      "elapsed_ms": 519
+    }
+  ]
+}

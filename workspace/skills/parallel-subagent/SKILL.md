@@ -1,4 +1,4 @@
-# Parallel Subagent（并行子代理执行器）
+# Parallel Subagent（并行子代理执行）
 
 发布级（publishable）并行子任务编排技能，提供**通用接口**，不绑定 OpenClaw 内部扩展路径。
 

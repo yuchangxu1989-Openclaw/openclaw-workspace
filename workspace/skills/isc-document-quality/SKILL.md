@@ -1,6 +1,6 @@
 ---
 name: isc-document-quality
-description: ISC智能标准中心 - 文档质量评估系统。对技能文档进行多维度质量评分，包括基础完整性、规范符合度、内容准确性、扩展完整性。输出标准化评估报告。
+description: ISC文档质量评估。对技能文档进行多维度质量评分，包括基础完整性、规范符合度、内容准确性、扩展完整性。输出标准化评估报告。
 version: "0.5.3"
 status: active
 tags: [isc, infrastructure, quality, standard]
@@ -8,7 +8,7 @@ author: OpenClaw
 created_at: 2026-02-23
 ---
 
-# ISC智能标准中心 - 文档质量评估系统
+# ISC文档质量评估
 
 distribution: both
 

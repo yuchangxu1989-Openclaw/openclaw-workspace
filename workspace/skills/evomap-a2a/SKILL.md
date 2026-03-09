@@ -1,6 +1,6 @@
 ---
 name: evomap-a2a
-description: EvoMap A2A协议连接器 - 实现与EvoMap Hub的WebSocket连接、自动重连、消息队列管理
+description: EvoMap A2A连接 - WebSocket连接、自动重连、消息队列
 version: "1.0.11"
 status: active
 layer: infrastructure

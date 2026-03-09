@@ -1,6 +1,6 @@
 ---
 name: capability-anchor
-description: 能力锚点系统 - 【占位符】强制读取机制刚建立
+description: 能力锚点管理
 version: "0.0.24"
 status: placeholder
 placeholder_reason: "以为写个文件就够了，没有强制读取机制"

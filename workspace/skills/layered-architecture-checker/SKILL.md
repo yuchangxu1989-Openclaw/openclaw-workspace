@@ -1,4 +1,4 @@
-# 分层端到端架构检查器（Layered Architecture Checker）
+# 分层架构检查（Layered Architecture Checker）
 
 ## 能力说明
 

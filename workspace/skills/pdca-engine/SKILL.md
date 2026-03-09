@@ -1,6 +1,6 @@
 ---
 name: pdca-engine
-description: PDCA-C执行引擎 - 每5分钟有实际产出
+description: PDCA持续改进
 version: "0.5.2"
 status: active
 ---

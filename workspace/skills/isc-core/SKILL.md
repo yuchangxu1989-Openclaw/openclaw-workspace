@@ -1,6 +1,6 @@
 ---
 name: isc-core
-description: ISC智能标准中心 - 标准生成与演进机制的唯一管理源
+description: ISC标准管理 - 标准生成与演进机制的唯一管理源
 version: "2.0.14"
 status: active
 layer: infrastructure

@@ -1,0 +1,228 @@
+{
+  "meta": {
+    "评测时间": "2026-03-09T01:28:01.312Z",
+    "评测集": "mined-r3-01.json",
+    "分类器": "Mock 正则分类器",
+    "样本总数": 10,
+    "批次数": 1,
+    "批次大小": 10,
+    "AEO版本": "1.0.0"
+  },
+  "总体结果": {
+    "正确数": 0,
+    "总数": 10,
+    "准确率": "0.0%",
+    "准确率数值": 0
+  },
+  "按IC类别": {
+    "认知错误类": {
+      "total": 2,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "自主性缺失类": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "全局未对齐类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "纠偏类": {
+      "total": 2,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "交付质量类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    },
+    "连锁跷跷板类": {
+      "total": 1,
+      "correct": 0,
+      "accuracy": 0
+    }
+  },
+  "按难度": {
+    "C2": {
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0
+    }
+  },
+  "各批次结果": [
+    {
+      "批次": 1,
+      "样本数": 10,
+      "正确数": 0,
+      "准确率": "0.0%"
+    }
+  ],
+  "错误用例": [
+    {
+      "id": "mined-r3-01-001",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-002",
+      "difficulty": "C2",
+      "expected_ic": "自主性缺失类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 1
+    },
+    {
+      "id": "mined-r3-01-003",
+      "difficulty": "C2",
+      "expected_ic": "全局未对齐类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-004",
+      "difficulty": "C2",
+      "expected_ic": "自主性缺失类",
+      "predicted_ic": "IC3",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-005",
+      "difficulty": "C2",
+      "expected_ic": "纠偏类",
+      "predicted_ic": "IC3",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-006",
+      "difficulty": "C2",
+      "expected_ic": "自主性缺失类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-007",
+      "difficulty": "C2",
+      "expected_ic": "交付质量类",
+      "predicted_ic": "IC3",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-008",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "IC1",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-009",
+      "difficulty": "C2",
+      "expected_ic": "纠偏类",
+      "predicted_ic": "IC2",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-010",
+      "difficulty": "C2",
+      "expected_ic": "连锁跷跷板类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 0
+    }
+  ],
+  "全部结果": [
+    {
+      "id": "mined-r3-01-001",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-002",
+      "difficulty": "C2",
+      "expected_ic": "自主性缺失类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 1
+    },
+    {
+      "id": "mined-r3-01-003",
+      "difficulty": "C2",
+      "expected_ic": "全局未对齐类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-004",
+      "difficulty": "C2",
+      "expected_ic": "自主性缺失类",
+      "predicted_ic": "IC3",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-005",
+      "difficulty": "C2",
+      "expected_ic": "纠偏类",
+      "predicted_ic": "IC3",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-006",
+      "difficulty": "C2",
+      "expected_ic": "自主性缺失类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-007",
+      "difficulty": "C2",
+      "expected_ic": "交付质量类",
+      "predicted_ic": "IC3",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-008",
+      "difficulty": "C2",
+      "expected_ic": "认知错误类",
+      "predicted_ic": "IC1",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-009",
+      "difficulty": "C2",
+      "expected_ic": "纠偏类",
+      "predicted_ic": "IC2",
+      "correct": false,
+      "elapsed_ms": 0
+    },
+    {
+      "id": "mined-r3-01-010",
+      "difficulty": "C2",
+      "expected_ic": "连锁跷跷板类",
+      "predicted_ic": "UNKNOWN",
+      "correct": false,
+      "elapsed_ms": 0
+    }
+  ]
+}

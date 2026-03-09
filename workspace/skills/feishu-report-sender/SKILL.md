@@ -1,6 +1,6 @@
 ---
 name: feishu-report-sender
-description: 飞书报告发送器 - 将CRAS、EvoMap的报告队列实际推送到飞书
+description: 飞书报告发送 - 将报告推送到飞书
 version: "1.0.13"
 status: active
 tags: [feishu, report, sender]

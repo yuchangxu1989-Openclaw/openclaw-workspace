@@ -1,6 +1,6 @@
 ---
 name: feishu-evolver-wrapper
-description: Feishu-integrated wrapper for the capability-evolver. Manages the evolution loop lifecycle (start/stop/ensure), sends rich Feishu card reports, and provides dashboard visualization. Use when running evolver with Feishu reporting or when managing the evolution daemon.
+description: 飞书自进化封装. Manages the evolution loop lifecycle (start/stop/ensure), sends rich Feishu card reports, and provides dashboard visualization. Use when running evolver with Feishu reporting or when managing the evolution daemon.
 ---
 
 # Feishu Evolver Wrapper
