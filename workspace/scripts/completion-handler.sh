@@ -29,7 +29,7 @@ HARVEST_ID=""
   bash /root/.openclaw/workspace/scripts/update-task.sh "$TASK_ID" "$STATUS" "$SUMMARY"
 
   # Step 1.5: 产出物路径检测提示
-  ARTIFACT_PATH=$(echo "$SUMMARY" | grep -oE '(/[^[:space:]"'"'<>]+\.(md|json|js|sh))' | head -n1 || true)
+  ARTIFACT_PATH=$(echo "$SUMMARY" | grep -oE "(/[^[:space:]\"'<>]+\.(md|json|js|sh))" | head -n1 || true)
   if [ -n "$ARTIFACT_PATH" ]; then
     echo "📎 产出物待发送: $ARTIFACT_PATH"
   fi
@@ -48,7 +48,7 @@ if (task) console.log(task.agentId || '');
   [ "$STATUS" = "failed" ] && NEED_QA="false"
 
   if [ "$NEED_QA" = "true" ]; then
-    echo "🔍 需要质量核查：$TASK_ID (by $AGENT_ID)"
+    echo "🔍 需要质量核查：$TASK_ID \(by $AGENT_ID\)"
   fi
 
   # Step 3: 看板+飞书
