@@ -86,6 +86,10 @@ class Dispatcher {
   }
 
   async dispatch(eventType, payload = {}, _depth = 0) {
+    // 类型保护：eventType可能是对象而非字符串（修复 startsWith is not a function）
+    if (typeof eventType !== 'string') {
+      eventType = (eventType && typeof eventType.type === 'string') ? eventType.type : String(eventType || '');
+    }
     this.stats.dispatched++;
 
     if (_depth >= this.maxDepth) {
@@ -218,14 +222,32 @@ class Dispatcher {
     return null;
   }
 
+  // 显式 action.type → handler 映射表
+  static get HANDLER_MAP() {
+    return {
+      'skill.classification.auto_detect': 'skill-classification-auto-detect',
+      'skill.metadata.update_distribution': 'skill-metadata-update-distribution',
+      'quality.code.no_direct_llm_check': 'quality-code-no-direct-llm-check',
+      'isc.rule.triggered': 'isc-rule-triggered',
+      'threshold.alert.notify': 'threshold-alert-notify',
+    };
+  }
+
   async _executeHandler(action, rule, event) {
-    const handlerName = action.handler || action.type;
+    let handlerName = action.handler || action.type;
     if (!handlerName) return;
+
+    // 查映射表：action type可直接映射到handler
+    if (!action.handler && handlerName && Dispatcher.HANDLER_MAP[handlerName]) {
+      handlerName = Dispatcher.HANDLER_MAP[handlerName];
+    }
 
     const handlerPath = this._resolveHandlerPath(handlerName);
     try {
       if (!handlerPath) {
         const reason = `handler_not_found:${handlerName}`;
+        this.logger.warn?.(`[Dispatcher] ⚠️ 未知action，无对应handler: ${handlerName}`) ||
+          this.logger.log?.(`[Dispatcher] ⚠️ 未知action，无对应handler: ${handlerName}`);
         this._emitHandlerFailure(event, rule, action, new Error(reason));
         throw new Error(reason);
       }
