@@ -15,7 +15,8 @@
   "enforcement_tier": "P0_gate",
   "action": {
     "type": "script",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-skill-publish-security-gate-001.sh"
+    "script": "infrastructure/event-bus/handlers/handle-pipeline-benchmark-skill-publish-security-gate-001.sh"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }
