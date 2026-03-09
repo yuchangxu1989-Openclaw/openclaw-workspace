@@ -77,33 +77,44 @@ function gapValue(actual, target, direction) {
 
 // --- Metric collectors (same as v1) ---
 function measureConcurrency() {
-  const candidates = [
-    path.join(WORKSPACE, 'task-board.json'),
-    path.join(WORKSPACE, 'reports/task-queue'),
-    path.join(WORKSPACE, 'skills/pdca-engine/task-board.json'),
-  ];
-  let board = null;
-  for (const c of candidates) { board = readJsonSafe(c); if (board) break; }
-  
-  let peakRunning = 0;
+  // Primary source: subagent-task-board.json — count tasks spawned in the last hour
+  const taskBoardPath = path.join(WORKSPACE, 'logs/subagent-task-board.json');
+  const board = readJsonSafe(taskBoardPath);
   const oneHourAgo = Date.now() - 3600_000;
+  let recentTaskCount = 0;
+
   if (board) {
     const tasks = Array.isArray(board) ? board : (board.tasks || []);
     for (const t of tasks) {
-      if ((t.status === 'running' || t.state === 'running')) {
-        const start = t.startedAt || t.created || t.timestamp;
-        if (start && new Date(start).getTime() >= oneHourAgo) peakRunning++;
-      }
+      const spawn = t.spawnTime || t.startedAt || t.created || t.timestamp;
+      if (spawn && new Date(spawn).getTime() >= oneHourAgo) recentTaskCount++;
     }
   }
-  if (peakRunning === 0) {
+
+  // Fallback: legacy board files and LEP reports
+  if (recentTaskCount === 0) {
+    const candidates = [
+      path.join(WORKSPACE, 'task-board.json'),
+      path.join(WORKSPACE, 'skills/pdca-engine/task-board.json'),
+    ];
+    for (const c of candidates) {
+      const b = readJsonSafe(c);
+      if (!b) continue;
+      const tasks = Array.isArray(b) ? b : (b.tasks || []);
+      for (const t of tasks) {
+        if ((t.status === 'running' || t.state === 'running')) recentTaskCount++;
+      }
+      if (recentTaskCount > 0) break;
+    }
+  }
+  if (recentTaskCount === 0) {
     const lepFiles = findJsonFiles(REPORTS_DIR, /^lep-daily-report.*\.json$/);
     if (lepFiles.length > 0) {
       const latest = readJsonSafe(lepFiles[lepFiles.length - 1]);
-      if (latest) peakRunning = latest.peakConcurrency || latest.peak_running || latest.activeTasks || 0;
+      if (latest) recentTaskCount = latest.peakConcurrency || latest.peak_running || latest.activeTasks || 0;
     }
   }
-  return { actual: +(peakRunning / CONCURRENCY_LIMIT).toFixed(4), peakRunning, limit: CONCURRENCY_LIMIT };
+  return { actual: +(recentTaskCount / CONCURRENCY_LIMIT).toFixed(4), recentTaskCount, limit: CONCURRENCY_LIMIT };
 }
 
 function measureTimeoutRate() {
@@ -135,6 +146,34 @@ function measureTimeoutRate() {
 }
 
 function measureTaskSplitDegree() {
+  // Primary: read subagent-task-board.json, group tasks spawned in last hour by parent/wave
+  const taskBoardPath = path.join(WORKSPACE, 'logs/subagent-task-board.json');
+  const board = readJsonSafe(taskBoardPath);
+  const oneHourAgo = Date.now() - 3600_000;
+
+  if (board) {
+    const tasks = Array.isArray(board) ? board : (board.tasks || []);
+    const recentTasks = tasks.filter(t => {
+      const spawn = t.spawnTime || t.startedAt || t.created || t.timestamp;
+      return spawn && new Date(spawn).getTime() >= oneHourAgo;
+    });
+
+    if (recentTasks.length > 0) {
+      // Group by parentId or by 5-minute time windows as proxy for dispatch waves
+      const waves = new Map();
+      for (const t of recentTasks) {
+        const spawn = new Date(t.spawnTime || t.startedAt || t.created || t.timestamp).getTime();
+        const waveKey = t.parentId || String(Math.floor(spawn / 300_000)); // 5-min buckets
+        if (!waves.has(waveKey)) waves.set(waveKey, 0);
+        waves.set(waveKey, waves.get(waveKey) + 1);
+      }
+      const dispatchWaves = waves.size;
+      const totalSubtasks = recentTasks.length;
+      return { actual: +(totalSubtasks / dispatchWaves).toFixed(2), totalSubtasks, dispatchWaves };
+    }
+  }
+
+  // Fallback: LEP reports and dispatch files
   let totalSubtasks = 0, dispatchWaves = 0;
   const today = new Date().toISOString().slice(0, 10);
   const lep = readJsonSafe(path.join(REPORTS_DIR, `lep-daily-report-${today}.json`));
@@ -153,19 +192,37 @@ function measureTaskSplitDegree() {
 }
 
 function measureRuleExpansion() {
-  const totalRules = 182;
+  // Primary: scan actual rule JSON files for fullchain_status
+  const rulesDir = path.join(WORKSPACE, 'skills/isc-core/rules');
+  let totalRules = 0;
   let expandedRules = 0;
-  for (const f of ['isc-full-scan.txt', 'isc-programmatic-gap-report.md', 'isc-enforcement-audit.md'].map(n => path.join(REPORTS_DIR, n))) {
-    try {
-      const content = fs.readFileSync(f, 'utf8');
-      const expandedMatch = content.match(/(\d+)\s*(rules?\s*(expanded|enforced|implemented|active)|(展开|实施|激活))/i);
-      if (expandedMatch) { const n = parseInt(expandedMatch[1]); if (n > expandedRules && n <= totalRules) expandedRules = n; }
-      const pctMatch = content.match(/([\d.]+)%\s*(coverage|覆盖|展开)/i);
-      if (pctMatch) { const implied = Math.round(parseFloat(pctMatch[1]) / 100 * totalRules); if (implied > expandedRules) expandedRules = implied; }
-    } catch {}
+  try {
+    const files = fs.readdirSync(rulesDir).filter(f => f.endsWith('.json'));
+    for (const f of files) {
+      try {
+        const rule = JSON.parse(fs.readFileSync(path.join(rulesDir, f), 'utf8'));
+        totalRules++;
+        if (rule.fullchain_status === 'expanded') expandedRules++;
+      } catch {}
+    }
+  } catch {}
+
+  // Fallback if no rules found
+  if (totalRules === 0) {
+    totalRules = 182;
+    for (const f of ['isc-full-scan.txt', 'isc-programmatic-gap-report.md', 'isc-enforcement-audit.md'].map(n => path.join(REPORTS_DIR, n))) {
+      try {
+        const content = fs.readFileSync(f, 'utf8');
+        const expandedMatch = content.match(/(\d+)\s*(rules?\s*(expanded|enforced|implemented|active)|(展开|实施|激活))/i);
+        if (expandedMatch) { const n = parseInt(expandedMatch[1]); if (n > expandedRules && n <= totalRules) expandedRules = n; }
+        const pctMatch = content.match(/([\d.]+)%\s*(coverage|覆盖|展开)/i);
+        if (pctMatch) { const implied = Math.round(parseFloat(pctMatch[1]) / 100 * totalRules); if (implied > expandedRules) expandedRules = implied; }
+      } catch {}
+    }
+    const hardGate = readJsonSafe(path.join(REPORTS_DIR, 'isc-hard-gate-fullsystem-test.json'));
+    if (hardGate) { const passed = hardGate.passed || hardGate.enforced || 0; if (passed > expandedRules) expandedRules = passed; }
   }
-  const hardGate = readJsonSafe(path.join(REPORTS_DIR, 'isc-hard-gate-fullsystem-test.json'));
-  if (hardGate) { const passed = hardGate.passed || hardGate.enforced || 0; if (passed > expandedRules) expandedRules = passed; }
+
   return { actual: +(expandedRules / totalRules).toFixed(4), expandedRules, totalRules };
 }
 
