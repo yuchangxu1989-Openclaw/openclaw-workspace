@@ -16,7 +16,7 @@
   },
   "action": {
     "type": "script",
-    "handler": "self-correction-root-cause",
+    "handler": "handler-missing-auto-correction",
     "fix_type": "create_rule",
     "script": "scripts/isc-hooks/rule.auto-correction-规则存在但handler缺失-mmgbaua1.sh"
   },
@@ -30,5 +30,6 @@
     "related_events": [],
     "correction_intent": ""
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }

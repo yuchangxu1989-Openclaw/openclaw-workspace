@@ -2,10 +2,24 @@
   "rule_id": "ISC-EVAL-C2-AUTO-HARVEST-ENGINE-001",
   "title": "自动Badcase采集引擎",
   "description": "纠偏类、反复未果类、头痛医头类等场景自动采集为badcase，不依赖主Agent手动记忆",
-  "events": ["user.correction", "task.failed", "rule.violated"],
+  "events": [
+    "user.correction",
+    "task.failed",
+    "rule.violated"
+  ],
   "sensing": {
     "completion_handler": {
-      "keywords": ["badcase", "违反", "纠偏", "反复未果", "头痛医头", "又忘了", "第N次", "不推看板", "手动触发"],
+      "keywords": [
+        "badcase",
+        "违反",
+        "纠偏",
+        "反复未果",
+        "头痛医头",
+        "又忘了",
+        "第N次",
+        "不推看板",
+        "手动触发"
+      ],
       "script": "scripts/completion-handler.sh"
     },
     "main_agent_call": {
@@ -14,11 +28,20 @@
   },
   "action": {
     "script": "scripts/auto-badcase-harvest.sh",
-    "params": ["badcase_id", "category", "description", "wrong_chain", "correct_chain", "root_cause"]
+    "params": [
+      "badcase_id",
+      "category",
+      "description",
+      "wrong_chain",
+      "correct_chain",
+      "root_cause"
+    ],
+    "handler": "badcase-harvest-engine"
   },
   "verification": {
     "check": "检查00-real-badcases.json是否新增对应badcase_id",
     "file": "tests/benchmarks/intent/c2-golden/00-real-badcases.json"
   },
-  "created_at": "2026-03-08T20:29:00Z"
+  "created_at": "2026-03-08T20:29:00Z",
+  "fullchain_status": "expanded"
 }

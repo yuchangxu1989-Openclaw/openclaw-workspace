@@ -21,10 +21,11 @@
   },
   "action": {
     "type": "gate",
-    "handler": "eval-quality-check",
+    "handler": "real-data-gate",
     "on_failure": "reject"
   },
   "enforcement": "runtime_binding",
   "enforcement_tier": "P0_gate",
-  "schema_version": "2.0"
+  "schema_version": "2.0",
+  "fullchain_status": "expanded"
 }
