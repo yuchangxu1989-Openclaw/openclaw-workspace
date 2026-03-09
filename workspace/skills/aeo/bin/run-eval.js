@@ -16,9 +16,19 @@
 
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 
 // ─── 路径常量 ───
 const WORKSPACE = path.resolve(__dirname, '../../..');
+
+// 加载智谱API Key
+if (!process.env.ZHIPU_API_KEY) {
+  try {
+    const envContent = require('fs').readFileSync('/root/.openclaw/.secrets/zhipu-keys.env', 'utf8');
+    const match = envContent.match(/ZHIPU_API_KEY_1="([^"]+)"/);
+    if (match) process.env.ZHIPU_API_KEY = match[1];
+  } catch {}
+}
 const DEFAULT_DATASET = path.join(WORKSPACE, 'tests/benchmarks/intent/intent-benchmark-dataset.json');
 const CONFIG_PATH = path.join(__dirname, '../config/aeo-config.json');
 const REPORT_DIR = path.join(__dirname, '../reports');
@@ -26,11 +36,24 @@ const REPORT_DIR = path.join(__dirname, '../reports');
 // ─── 解析命令行参数 ───
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { limit: 0, dataset: DEFAULT_DATASET, batchSize: 10 }; // 铁律：默认10条/批
+  const opts = { limit: 0, dataset: DEFAULT_DATASET, batchSize: 10, classifier: '' }; // 铁律：默认10条/批
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === '--limit' && args[i + 1]) opts.limit = parseInt(args[i + 1], 10);
-    if (args[i] === '--dataset' && args[i + 1]) opts.dataset = path.resolve(args[i + 1]);
-    if (args[i] === '--batch-size' && args[i + 1]) opts.batchSize = parseInt(args[i + 1], 10);
+    switch (args[i]) {
+    case '--limit':
+      if (args[i + 1]) opts.limit = parseInt(args[++i], 10);
+      break;
+    case '--dataset':
+      if (args[i + 1]) opts.dataset = path.resolve(args[++i]);
+      break;
+    case '--batch-size':
+      if (args[i + 1]) opts.batchSize = parseInt(args[++i], 10);
+      break;
+    case '--classifier':
+      opts.classifier = args[++i];
+      break;
+    default:
+      break;
+    }
   }
   return opts;
 }
@@ -91,6 +114,73 @@ const MOCK_RULES = {
   ],
 };
 
+// ─── GLM-5 LLM 分类器 ───
+const C2_CATEGORIES = ['纠偏类', '自主性缺失类', '全局未对齐类', '认知错误类', '连锁跷跷板类', '交付质量类', '反复未果类', '头痛医头类'];
+
+async function glm5Classify(input) {
+  const messages = Array.isArray(input) ? input : [{ role: 'user', content: input }];
+  const lastUserMsg = messages.filter(m => m.role === 'user').pop();
+  const text = lastUserMsg?.content || '';
+
+  const apiKey = process.env.ZHIPU_API_KEY || '';
+  if (!apiKey) return mockClassify(input);
+
+  const systemPrompt = `你是一个AI Agent错误分类专家。给定一段描述AI Agent在执行任务时的错误场景，你需要将其分类为以下8类之一：
+${C2_CATEGORIES.map((c, i) => `${i + 1}. ${c}`).join('\n')}
+
+分类定义：
+- 纠偏类：用户明确否定/修正Agent行为
+- 自主性缺失类：Agent该主动做但没做，等用户指出
+- 全局未对齐类：局部正确但全局不一致
+- 认知错误类：对需求/概念理解错误
+- 连锁跷跷板类：修A坏B，修B又影响C
+- 交付质量类：半成品/格式错误/残留
+- 反复未果类：同一问题多次尝试仍未解决
+- 头痛医头类：只改症状不改根因
+
+只返回类别名称，不要任何其他内容。`;
+
+  const body = JSON.stringify({
+    model: 'glm-4-flash',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: `请分类以下场景：\n${text.slice(0, 2000)}` },
+    ],
+    temperature: 0.1,
+    max_tokens: 20,
+  });
+
+  return new Promise((resolve) => {
+    const req = https.request({
+      hostname: 'open.bigmodel.cn',
+      path: '/api/paas/v4/chat/completions',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      timeout: 15000,
+    }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          const answer = (json.choices?.[0]?.message?.content || '').trim();
+          const matched = C2_CATEGORIES.find(c => answer.includes(c));
+          resolve({ ic: matched || 'UNKNOWN', intents: [], raw: answer });
+        } catch {
+          resolve(mockClassify(input));
+        }
+      });
+    });
+    req.on('error', () => resolve(mockClassify(input)));
+    req.on('timeout', () => { req.destroy(); resolve(mockClassify(input)); });
+    req.write(body);
+    req.end();
+  });
+}
+
 /**
  * Mock 分类器：基于正则匹配返回 IC 类别
  */
@@ -142,7 +232,7 @@ function inferICFromIntent(intentName) {
 }
 
 // ─── 单批次评测执行 ───
-async function runBatch(batchSamples, batchIndex, totalBatches, scanner, useScanner) {
+async function runBatch(batchSamples, batchIndex, totalBatches, scanner, useScanner, useGLM5) {
   const results = [];
   let correct = 0;
   const icStats = {};
@@ -152,7 +242,9 @@ async function runBatch(batchSamples, batchIndex, totalBatches, scanner, useScan
 
     // 调用分类器
     let prediction;
-    if (useScanner) {
+    if (useGLM5) {
+      prediction = await glm5Classify(sample.input);
+    } else if (useScanner) {
       prediction = await scannerClassify(scanner, sample.input);
     } else {
       prediction = mockClassify(sample.input);
@@ -264,9 +356,10 @@ async function runEvaluation() {
   }
 
   // 3. 初始化分类器
-  const scanner = loadIntentScanner();
-  const useScanner = scanner && process.env.USE_LLM === 'true';
-  const classifierName = useScanner ? 'IntentScanner (LLM)' : 'Mock 正则分类器';
+  const useGLM5 = opts.classifier === 'glm5' || process.env.USE_GLM5 === 'true';
+  const scanner = !useGLM5 ? loadIntentScanner() : null;
+  const useScanner = !useGLM5 && scanner && process.env.USE_LLM === 'true';
+  const classifierName = useGLM5 ? 'GLM-5 (glm-4-flash)' : (useScanner ? 'IntentScanner (LLM)' : 'Mock 正则分类器');
   console.log(`🔧 分类器: ${classifierName}`);
 
   // 4. 确定评测范围
@@ -292,7 +385,7 @@ async function runEvaluation() {
   const allBatchResults = [];
   for (let b = 0; b < batches.length; b++) {
     console.log(`\n▶ 批次 ${b + 1}/${batches.length}（${batches[b].length}条）`);
-    const batchResult = await runBatch(batches[b], b + 1, batches.length, scanner, useScanner);
+    const batchResult = await runBatch(batches[b], b + 1, batches.length, scanner, useScanner, useGLM5);
     allBatchResults.push(batchResult);
   }
 
