@@ -6,5 +6,7 @@
   "category": "meta",
   "trigger": {"events": ["isc.rule.created", "isc.rule.modified", "isc.rule.deleted"]},
   "enforcement": "programmatic",
-  "action": {"type": "script", "script": "scripts/isc-auto-align.sh"}
+  "action": {"type": "script", "script": "scripts/isc-auto-align.sh"},
+  "handler": "infrastructure/event-bus/handlers/handle-isc-auto-programmatic-alignment-001.sh",
+  "fullchain_status": "expanded"
 }
