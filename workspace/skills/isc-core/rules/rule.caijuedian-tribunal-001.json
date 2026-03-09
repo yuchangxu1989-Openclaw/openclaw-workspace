@@ -45,9 +45,10 @@
   },
   "action": {
     "type": "script",
-    "handler": "notify-alert",
-    "description": "",
-    "script": "scripts/isc-hooks/rule.caijuedian-tribunal-001.sh"
+    "handler": "caijuedian-tribunal",
+    "description": "7席裁决殿handler，接收事件后初始化裁决session",
+    "script": "infrastructure/event-bus/handlers/caijuedian-tribunal.js"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }

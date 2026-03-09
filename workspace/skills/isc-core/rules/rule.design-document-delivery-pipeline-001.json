@@ -89,8 +89,10 @@
   "source": "用户教学：9步交付流水线",
   "action": {
     "type": "check",
-    "handler": "document-structure-check",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.design-document-delivery-pipeline-001.sh"
+    "handler": "design-document-delivery-pipeline",
+    "description": "9步门禁流水线handler，管理流水线状态机",
+    "script": "infrastructure/event-bus/handlers/design-document-delivery-pipeline.js"
   },
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "fullchain_status": "expanded"
 }
