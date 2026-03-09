@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/10 00:05:04
-> **技能总数**: 76
+> **生成时间**: 2026/3/10 04:05:05
+> **技能总数**: 77
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -124,6 +124,7 @@
 - 📄 **public/feishu-doc-verify**: skills/public/feishu-doc-verify/ — 飞书文档create/write后验证block_count>1，防止空文档推送
 - ✅ **public/file-sender**: skills/public/file-sender/ — |
 - ✅ **public/glm-asr**: skills/public/glm-asr/ — GLM-ASR 语音转文本 - 使用智谱 GLM-ASR-2512 模型，支持多语言语音转录
+- 📄 **public/glm-tts**: skills/public/glm-tts/
 - 📄 **public/isc-auto-align**: skills/public/isc-auto-align/ — ISC规则增删改时自动检查感知/执行/验真三层对齐
 - 📄 **public/multi-agent-dispatch**: skills/public/multi-agent-dispatch/ — >
 - ✅ **public/multi-agent-reporting**: skills/public/multi-agent-reporting/ — >
