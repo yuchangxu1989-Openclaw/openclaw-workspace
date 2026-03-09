@@ -18,13 +18,13 @@
       "weight": 0.25,
       "description": "超时任务数 / 总任务数，越低越好"
     },
-    "taskSplitDegree": {
-      "label": "任务拆分度",
-      "target": 3,
-      "direction": "gte",
-      "warnThreshold": 2,
+    "taskGranularity": {
+      "label": "单任务粒度",
+      "target": 10,
+      "direction": "lte",
+      "warnThreshold": 15,
       "weight": 0.20,
-      "description": "平均每次dispatch的子任务数，反映任务分解粒度"
+      "description": "最近完成任务平均涉及文件数，越少越好，目标<10文件/Agent"
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",

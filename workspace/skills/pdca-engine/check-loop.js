@@ -34,7 +34,7 @@ function loadStandards() {
     return {
       concurrencyUtil:   { target: 0.60, direction: 'gte', warnThreshold: 0.40 },
       timeoutRate:       { target: 0.10, direction: 'lte', warnThreshold: 0.20 },
-      taskSplitDegree:   { target: 3,    direction: 'gte', warnThreshold: 2 },
+      taskGranularity:   { target: 10,   direction: 'lte', warnThreshold: 15 },
       ruleExpansionRate: { target: 0.50, direction: 'gte', warnThreshold: 0.25 },
       badcaseAutoRate:   { target: null, direction: 'gte', warnThreshold: null },
     };
@@ -77,44 +77,62 @@ function gapValue(actual, target, direction) {
 
 // --- Metric collectors (same as v1) ---
 function measureConcurrency() {
-  // Primary source: subagent-task-board.json — count tasks spawned in the last hour
-  const taskBoardPath = path.join(WORKSPACE, 'logs/subagent-task-board.json');
-  const board = readJsonSafe(taskBoardPath);
+  // Correct definition: peak number of simultaneously running tasks in last 1h / CONCURRENCY_LIMIT
+  // Method: build timeline from spawnTime/completeTime, find max overlap
   const oneHourAgo = Date.now() - 3600_000;
-  let recentTaskCount = 0;
+  const now = Date.now();
+  let peakRunning = 0;
 
-  if (board) {
+  // Gather tasks from all known board files
+  const boardPaths = [
+    path.join(WORKSPACE, 'logs/subagent-task-board.json'),
+    path.join(WORKSPACE, 'task-board.json'),
+    path.join(WORKSPACE, 'skills/pdca-engine/task-board.json'),
+  ];
+
+  const events = []; // {time, delta: +1 or -1}
+  for (const bp of boardPaths) {
+    const board = readJsonSafe(bp);
+    if (!board) continue;
     const tasks = Array.isArray(board) ? board : (board.tasks || []);
     for (const t of tasks) {
-      const spawn = t.spawnTime || t.startedAt || t.created || t.timestamp;
-      if (spawn && new Date(spawn).getTime() >= oneHourAgo) recentTaskCount++;
+      const spawnRaw = t.spawnTime || t.startedAt || t.created || t.timestamp;
+      if (!spawnRaw) continue;
+      const start = new Date(spawnRaw).getTime();
+      const endRaw = t.completeTime || t.completedAt || t.endTime || t.finishedAt;
+      const end = endRaw ? new Date(endRaw).getTime() : now; // still running if no end time
+
+      // Only consider tasks that overlap with the last 1h window
+      if (end < oneHourAgo) continue;
+      const effectiveStart = Math.max(start, oneHourAgo);
+      const effectiveEnd = Math.min(end, now);
+      if (effectiveStart >= effectiveEnd) continue;
+
+      events.push({ time: effectiveStart, delta: 1 });
+      events.push({ time: effectiveEnd, delta: -1 });
     }
   }
 
-  // Fallback: legacy board files and LEP reports
-  if (recentTaskCount === 0) {
-    const candidates = [
-      path.join(WORKSPACE, 'task-board.json'),
-      path.join(WORKSPACE, 'skills/pdca-engine/task-board.json'),
-    ];
-    for (const c of candidates) {
-      const b = readJsonSafe(c);
-      if (!b) continue;
-      const tasks = Array.isArray(b) ? b : (b.tasks || []);
-      for (const t of tasks) {
-        if ((t.status === 'running' || t.state === 'running')) recentTaskCount++;
-      }
-      if (recentTaskCount > 0) break;
+  if (events.length > 0) {
+    // Sort by time; on tie, ends (-1) before starts (+1) to avoid overcounting instant overlaps
+    events.sort((a, b) => a.time - b.time || a.delta - b.delta);
+    let running = 0;
+    for (const e of events) {
+      running += e.delta;
+      if (running > peakRunning) peakRunning = running;
     }
   }
-  if (recentTaskCount === 0) {
+
+  // Fallback: LEP reports
+  if (peakRunning === 0) {
     const lepFiles = findJsonFiles(REPORTS_DIR, /^lep-daily-report.*\.json$/);
     if (lepFiles.length > 0) {
       const latest = readJsonSafe(lepFiles[lepFiles.length - 1]);
-      if (latest) recentTaskCount = latest.peakConcurrency || latest.peak_running || latest.activeTasks || 0;
+      if (latest) peakRunning = latest.peakConcurrency || latest.peak_running || latest.activeTasks || 0;
     }
   }
-  return { actual: +(recentTaskCount / CONCURRENCY_LIMIT).toFixed(4), recentTaskCount, limit: CONCURRENCY_LIMIT };
+
+  return { actual: +(peakRunning / CONCURRENCY_LIMIT).toFixed(4), peakRunning, limit: CONCURRENCY_LIMIT };
 }
 
 function measureTimeoutRate() {
@@ -145,50 +163,73 @@ function measureTimeoutRate() {
   return { actual: +(timeouts / total).toFixed(4), timeouts, total };
 }
 
-function measureTaskSplitDegree() {
-  // Primary: read subagent-task-board.json, group tasks spawned in last hour by parent/wave
-  const taskBoardPath = path.join(WORKSPACE, 'logs/subagent-task-board.json');
-  const board = readJsonSafe(taskBoardPath);
-  const oneHourAgo = Date.now() - 3600_000;
+function measureTaskGranularity() {
+  // Definition: average number of files touched per task (单任务粒度)
+  // Target: <10 files per agent task
+  // Method: check recently completed tasks' result_summary for file counts,
+  //         fallback to counting file path references in task descriptions
+  const boardPaths = [
+    path.join(WORKSPACE, 'logs/subagent-task-board.json'),
+    path.join(WORKSPACE, 'task-board.json'),
+    path.join(WORKSPACE, 'skills/pdca-engine/task-board.json'),
+  ];
 
-  if (board) {
+  let fileCounts = [];
+
+  for (const bp of boardPaths) {
+    const board = readJsonSafe(bp);
+    if (!board) continue;
     const tasks = Array.isArray(board) ? board : (board.tasks || []);
-    const recentTasks = tasks.filter(t => {
-      const spawn = t.spawnTime || t.startedAt || t.created || t.timestamp;
-      return spawn && new Date(spawn).getTime() >= oneHourAgo;
-    });
 
-    if (recentTasks.length > 0) {
-      // Group by parentId or by 5-minute time windows as proxy for dispatch waves
-      const waves = new Map();
-      for (const t of recentTasks) {
-        const spawn = new Date(t.spawnTime || t.startedAt || t.created || t.timestamp).getTime();
-        const waveKey = t.parentId || String(Math.floor(spawn / 300_000)); // 5-min buckets
-        if (!waves.has(waveKey)) waves.set(waveKey, 0);
-        waves.set(waveKey, waves.get(waveKey) + 1);
+    // Get recently completed tasks (sorted by completion time, take last 10)
+    const completed = tasks
+      .filter(t => t.status === 'done' || t.status === 'completed' || t.state === 'done' || t.state === 'completed')
+      .sort((a, b) => {
+        const ta = new Date(a.completeTime || a.completedAt || a.endTime || 0).getTime();
+        const tb = new Date(b.completeTime || b.completedAt || b.endTime || 0).getTime();
+        return tb - ta;
+      })
+      .slice(0, 10);
+
+    for (const t of completed) {
+      // Try to get file count from result_summary
+      const summary = t.result_summary || t.resultSummary || t.result || {};
+      const fileCount = summary.filesChanged || summary.files_changed || summary.fileCount || summary.file_count;
+      if (typeof fileCount === 'number' && fileCount > 0) {
+        fileCounts.push(fileCount);
+        continue;
       }
-      const dispatchWaves = waves.size;
-      const totalSubtasks = recentTasks.length;
-      return { actual: +(totalSubtasks / dispatchWaves).toFixed(2), totalSubtasks, dispatchWaves };
+      // If result_summary has a text, count file paths in it
+      const summaryText = typeof summary === 'string' ? summary : (summary.text || summary.message || '');
+      if (summaryText) {
+        const pathRefs = countFilePathRefs(summaryText);
+        if (pathRefs > 0) { fileCounts.push(pathRefs); continue; }
+      }
+      // Fallback: count file path references in the task description
+      const desc = t.task || t.description || t.label || '';
+      const pathRefs2 = countFilePathRefs(desc);
+      if (pathRefs2 > 0) fileCounts.push(pathRefs2);
     }
+    if (fileCounts.length > 0) break;
   }
 
-  // Fallback: LEP reports and dispatch files
-  let totalSubtasks = 0, dispatchWaves = 0;
-  const today = new Date().toISOString().slice(0, 10);
-  const lep = readJsonSafe(path.join(REPORTS_DIR, `lep-daily-report-${today}.json`));
-  if (lep) { totalSubtasks = lep.subtasksDispatched || lep.subtasks || 0; dispatchWaves = lep.dispatchWaves || lep.waves || 0; }
-  if (dispatchWaves === 0) {
-    const dispatchFiles = findJsonFiles(REPORTS_DIR, /dispatch/i);
-    for (const f of dispatchFiles.slice(-5)) {
-      try {
-        const content = fs.readFileSync(f, 'utf8');
-        const matches = content.match(/(\d+)\s*(subtask|子任务|sub-agent|subagent)/gi);
-        if (matches) { dispatchWaves++; for (const m of matches) { const num = parseInt(m); if (!isNaN(num)) totalSubtasks += num; } }
-      } catch {}
-    }
+  const avgFiles = fileCounts.length > 0
+    ? +(fileCounts.reduce((a, b) => a + b, 0) / fileCounts.length).toFixed(1)
+    : 0;
+
+  return { actual: avgFiles, sampledTasks: fileCounts.length, fileCounts };
+}
+
+function countFilePathRefs(text) {
+  if (!text) return 0;
+  // Match common file path patterns: /foo/bar.js, src/x.ts, ./a/b, etc.
+  const pathPattern = /(?:^|[\s,;('"`])([.\/~]?(?:[a-zA-Z0-9_-]+\/)+[a-zA-Z0-9_.-]+\.[a-zA-Z0-9]+)/g;
+  const matches = new Set();
+  let m;
+  while ((m = pathPattern.exec(text)) !== null) {
+    matches.add(m[1].trim());
   }
-  return { actual: +(dispatchWaves > 0 ? totalSubtasks / dispatchWaves : 0).toFixed(2), totalSubtasks, dispatchWaves };
+  return matches.size;
 }
 
 function measureRuleExpansion() {
@@ -268,10 +309,10 @@ function analyzeGap(metricKey, label, actual, target, direction, st) {
       '考虑增加超时阈值或优化慢任务的执行路径',
       '检查是否有外部依赖(API/网络)导致超时',
     ],
-    taskSplitDegree: [
-      '复杂任务应至少拆分为3个独立子任务',
-      '引入自动拆分策略，基于任务复杂度评估',
-      '参考ISC规则中的任务分解最佳实践',
+    taskGranularity: [
+      '单任务涉及文件过多，应进一步拆分',
+      '目标：每个Agent任务控制在10个文件以内',
+      '使用complexity-gate评估任务复杂度后再分配',
     ],
     ruleExpansionRate: [
       '优先展开高权重治理规则',
@@ -361,7 +402,7 @@ function run() {
   const collectors = {
     concurrencyUtil: measureConcurrency,
     timeoutRate: measureTimeoutRate,
-    taskSplitDegree: measureTaskSplitDegree,
+    taskGranularity: measureTaskGranularity,
     ruleExpansionRate: measureRuleExpansion,
     badcaseAutoRate: measureBadcaseAutoRate,
   };
