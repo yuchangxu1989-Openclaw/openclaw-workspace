@@ -1,0 +1,122 @@
+[
+  {
+    "label": "eval-v3-qa-reviewer-A",
+    "original_agentId": "analyst",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-08T16:15:17.184Z",
+    "original_task_summary": "空转等确认,已推但timeout"
+  },
+  {
+    "label": "mine-missing-r2",
+    "original_agentId": "writer",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-08T22:57:47.353Z",
+    "original_task_summary": "只创建了占位文件，未实际挖掘填充10条用例，需重派"
+  },
+  {
+    "label": "mine-missing-r2-retry",
+    "original_agentId": "analyst",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-08T22:59:20.807Z",
+    "original_task_summary": "用户要求换GLM-5执行，已kill"
+  },
+  {
+    "label": "clean-stage-and-commit",
+    "original_agentId": "coder",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-09T00:32:59.261Z",
+    "original_task_summary": "hook仍拦截:rule缺intent/event注册+3个json被报缺data_source"
+  },
+  {
+    "label": "rule-batch-size-limit",
+    "original_agentId": "coder",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-09T00:48:53.805Z",
+    "original_task_summary": "规则文件缺exec/action+gate脚本语法错误导致hook拦截"
+  },
+  {
+    "label": "openclaw-security-analysis",
+    "original_agentId": "researcher",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-09T03:27:59.441Z",
+    "original_task_summary": "tavily-search路径错误,未产出报告"
+  },
+  {
+    "label": "eval-opus-pilot-10",
+    "original_agentId": "scout",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-09T05:15:16.249Z",
+    "original_task_summary": "providers是object不是array,需要修正配置读取"
+  },
+  {
+    "label": "eval-codex-pilot-10",
+    "original_agentId": "analyst",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-09T05:16:18.415Z",
+    "original_task_summary": "providers是object不是array"
+  },
+  {
+    "label": "dispatch-auto-split",
+    "original_agentId": "coder",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "timeout",
+    "status": "pending",
+    "queued_at": "2026-03-09T12:05:04.213Z",
+    "original_task_summary": "5分钟超时，任务过大未拆分"
+  },
+  {
+    "label": "isc-handler-abstraction",
+    "original_agentId": "analyst",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "timeout",
+    "status": "pending",
+    "queued_at": "2026-03-09T13:22:52.864Z",
+    "original_task_summary": "分析过程中超时，但已输出了大量handler代码扫描数据"
+  },
+  {
+    "label": "misplaced-code-audit",
+    "original_agentId": "analyst",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "timeout",
+    "status": "pending",
+    "queued_at": "2026-03-09T13:46:39.282Z",
+    "original_task_summary": "超时，ls输出太大卡住了"
+  },
+  {
+    "label": "glm-realtime-voice-research",
+    "original_agentId": "researcher",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "timeout",
+    "status": "pending",
+    "queued_at": "2026-03-09T16:50:05.064Z",
+    "original_task_summary": "脚本重写中超时"
+  }
+]
