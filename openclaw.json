@@ -1051,8 +1051,10 @@
           ]
         },
         "tools": {
-          "allow": [
-            "*"
+          "deny": [
+            "write",
+            "edit",
+            "apply_patch"
           ]
         }
       },
