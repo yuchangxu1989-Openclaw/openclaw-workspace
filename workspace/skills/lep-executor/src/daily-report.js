@@ -67,7 +67,11 @@ function checkSkillsHealth() {
         try {
           const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
           const nodeModulesPath = path.join(skillPath, 'node_modules');
-          if (!fs.existsSync(nodeModulesPath)) {
+          const deps = pkg && typeof pkg === 'object' ? pkg.dependencies : undefined;
+          const hasDependencies = !!(deps && typeof deps === 'object' && Object.keys(deps).length > 0);
+
+          // 只有声明了 dependencies 且缺失 node_modules 才报警
+          if (hasDependencies && !fs.existsSync(nodeModulesPath)) {
             results.issues.push({
               skill,
               severity: 'info',
