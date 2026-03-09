@@ -1,0 +1,45 @@
+#!/bin/bash
+# Git Pre-Push Hook - 守护未提交的重要文件
+# 警告但不阻止 push
+
+echo "🔍 [Git Guardian] Pre-push 检查中..."
+
+WORKSPACE="$(git rev-parse --show-toplevel)"
+cd "$WORKSPACE" || exit 0
+
+# 检查未提交的重要文件
+UNTRACKED=$(git ls-files --others --exclude-standard | grep -E '\.(js|json|md|sh)$' | grep -vE '(node_modules|\.git|logs)/')
+MODIFIED=$(git diff --name-only | grep -E '\.(js|json|md|sh)$')
+
+HAS_ISSUES=0
+
+if [ -n "$UNTRACKED" ]; then
+    echo "⚠️  发现未跟踪的重要文件："
+    echo "$UNTRACKED" | sed 's/^/   /'
+    HAS_ISSUES=1
+fi
+
+if [ -n "$MODIFIED" ]; then
+    echo "⚠️  发现已修改但未暂存的文件："
+    echo "$MODIFIED" | sed 's/^/   /'
+    HAS_ISSUES=1
+fi
+
+# 自动 git add 常见遗漏目录
+AUTO_ADD_DIRS="scripts skills memory docs"
+for dir in $AUTO_ADD_DIRS; do
+    if [ -d "$WORKSPACE/$dir" ]; then
+        NEW_FILES=$(git ls-files --others --exclude-standard "$dir" | grep -E '\.(js|json|md|sh)$')
+        if [ -n "$NEW_FILES" ]; then
+            echo "📦 自动添加 $dir/ 下的新文件..."
+            echo "$NEW_FILES" | xargs git add
+        fi
+    fi
+done
+
+if [ "$HAS_ISSUES" -eq 1 ]; then
+    echo "💡 建议：push 后记得 git add 并提交遗漏文件"
+fi
+
+echo "✅ Pre-push 检查完成，继续推送..."
+exit 0
