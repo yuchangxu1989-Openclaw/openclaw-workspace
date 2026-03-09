@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/9 12:05:06
-> **技能总数**: 75
+> **生成时间**: 2026/3/9 20:05:11
+> **技能总数**: 76
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -127,6 +127,7 @@
 - 📄 **public/isc-auto-align**: skills/public/isc-auto-align/ — ISC规则增删改时自动检查感知/执行/验真三层对齐
 - 📄 **public/multi-agent-dispatch**: skills/public/multi-agent-dispatch/ — >
 - ✅ **public/multi-agent-reporting**: skills/public/multi-agent-reporting/ — >
+- 📄 **public/ops-maintenance**: skills/public/ops-maintenance/
 - 📄 **public/pdf-generator**: skills/public/pdf-generator/
 - 📄 **public/skill-creator-addon**: skills/public/skill-creator-addon/
 - ✅ **public/system-monitor**: skills/public/system-monitor/ — 技能健康度评估仪表盘 - 自动化扫描所有技能，评估完整性、活跃度、依赖健康度，生成可视化报告
