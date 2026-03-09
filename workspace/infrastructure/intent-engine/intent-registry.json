@@ -448,6 +448,17 @@
       ],
       "registered_by": "ISC-USER-EMPHASIS-AUTO-ESCALATION-001",
       "detection_method": "LLM语义分析，检测同一概念在对话中出现≥2次且带强调语气"
+    },
+    {
+      "intent_id": "intent.repeated_behavior_failure",
+      "description": "同一行为模式反复失败（如遗忘发送文件、遗忘登记任务等）",
+      "examples": [
+        "这个问题之前也发生过",
+        "又忘了发文件",
+        "怎么又没登记"
+      ],
+      "registered_by": "ISC-FAILURE-PATTERN-CODE-ESCALATION-001",
+      "detection_method": "检测badcase库中同一root_cause出现≥2次"
     }
   ],
   "metadata": {
