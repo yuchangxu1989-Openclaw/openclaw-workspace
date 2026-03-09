@@ -28,6 +28,12 @@ HARVEST_ID=""
   # Step 1: 更新task-board
   bash /root/.openclaw/workspace/scripts/update-task.sh "$TASK_ID" "$STATUS" "$SUMMARY"
 
+  # Step 1.5: 产出物路径检测提示
+  ARTIFACT_PATH=$(echo "$SUMMARY" | grep -oE '(/[^[:space:]"'"'<>]+\.(md|json|js|sh))' | head -n1 || true)
+  if [ -n "$ARTIFACT_PATH" ]; then
+    echo "📎 产出物待发送: $ARTIFACT_PATH"
+  fi
+
   # Step 2: 质量核查判断
   AGENT_ID=$(node -e "
 const board = JSON.parse(require('fs').readFileSync('$BOARD_FILE','utf8'));

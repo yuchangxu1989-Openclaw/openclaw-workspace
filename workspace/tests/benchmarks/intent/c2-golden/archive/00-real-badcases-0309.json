@@ -90,5 +90,38 @@
     "root_cause": "自我强化认知闭环：自己写的规则→写入启动文件→下次读到当权威→基于它做决策→越做越偏。根本原因：把自己写的东西当成用户需求，不去读用户的权威文档。",
     "lesson": "自己写进系统的规则≠用户的需求。用户的需求在用户写的文档里。做任何领域工作前必须先读该领域的权威文档，不是读自己之前的笔记。",
     "timestamp": "2026-03-09T13:54:00+08:00"
+  },
+  {
+    "id": "badcase-0309-006",
+    "category": [
+      "自主性缺失类",
+      "反复未果类"
+    ],
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "data_source": "real_conversation",
+    "is_multi_turn": true,
+    "title": "子Agent产出物完成后未主动发送源文件给用户",
+    "context": "裁决殿7个子Agent并行完成Day2终审裁决书。主Agent只口头汇报摘要，未主动发送源文件。用户问'裁决书源文件又不发我'。之前也发生过同样问题。",
+    "input": "裁决书源文件又不发我？",
+    "expected_behavior": "产出物完成后主动发送源文件给用户",
+    "actual_behavior": "只口头汇报，用户催促后才发送",
+    "execution_chain_expected": [
+      "收到completion event",
+      "整合结果",
+      "合并文件",
+      "主动file-sender发用户",
+      "汇报摘要"
+    ],
+    "execution_chain_actual": [
+      "收到completion event",
+      "整合结果",
+      "只汇报摘要",
+      "用户催促",
+      "才发文件"
+    ],
+    "root_cause": "依赖LLM记忆执行发送动作，未程序化到completion-handler中",
+    "lesson": "产出物完成=必须主动发给用户。失败≥2次的行为必须下沉到代码层自动执行。",
+    "timestamp": "2026-03-09T15:28:00+08:00"
   }
 ]
