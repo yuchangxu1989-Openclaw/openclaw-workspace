@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/9 04:05:05
-> **技能总数**: 81
+> **生成时间**: 2026/3/9 12:05:06
+> **技能总数**: 75
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -73,13 +73,12 @@
 
 ## 🔴 全量技能清单
 
-- ✅ **aeo**: skills/aeo/ — 智能体效果运营系统 - Phase 2 双轨运营
+- ✅ **aeo**: skills/aeo/ — AEO效果运营
 - ✅ **agent-mode-enforcer**: skills/agent-mode-enforcer/
 - ✅ **anti-entropy-checker**: skills/anti-entropy-checker/
-- ✅ **api**: skills/api/
 - ✅ **api-aggregator**: skills/api-aggregator/
 - ✅ **architecture-review-pipeline**: skills/architecture-review-pipeline/ — 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入裁决殿终审并给出最终裁决。
-- ✅ **capability-anchor**: skills/capability-anchor/ — 能力锚点系统 - 【占位符】强制读取机制刚建立
+- ✅ **capability-anchor**: skills/capability-anchor/ — 能力锚点管理
 - ✅ **convert-helper**: skills/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
 - ✅ **cras**: skills/cras/ — CRAS认知进化伙伴 - 知识管理与认知进化中枢。实现从数据汲取到技能进化的全闭环，包含主动学习引擎、用户洞察分析、知识治理、战略行研、自主进化五大模块。
 - ✅ **cras-generated-1771827136412**: skills/cras-generated-1771827136412/ — CRAS 自动生成的技能 - 填补能力空白
@@ -88,33 +87,30 @@
 - ✅ **cras-generated-1772128853925**: skills/cras-generated-1772128853925/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **daily-ops-report**: skills/daily-ops-report/
 - ✅ **dto-core**: skills/dto-core/
-- ✅ **etl**: skills/etl/
-- ✅ **evolver**: skills/evolver/ — A self-evolution engine for AI agents. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
-- ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A协议连接器 - 实现与EvoMap Hub的WebSocket连接、自动重连、消息队列管理
+- ✅ **evolver**: skills/evolver/ — 自进化引擎 - AI Agent自我演进. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
+- ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A连接 - WebSocket连接、自动重连、消息队列
 - ✅ **evomap-publisher**: skills/evomap-publisher/ — EvoMap极简发布器 - 只负责一件事：将SEEF+DTO生成的技能发布到EvoMap网络
 - ✅ **evomap-uploader**: skills/evomap-uploader/
 - ✅ **feishu-card-sender**: skills/feishu-card-sender/
-- ✅ **feishu-chat-backup**: skills/feishu-chat-backup/ — 飞书聊天记录备份系统 - 实质性记录对话日志
+- ✅ **feishu-chat-backup**: skills/feishu-chat-backup/ — 飞书聊天备份
 - ✅ **feishu-common**: skills/feishu-common/
-- ✅ **feishu-evolver-wrapper**: skills/feishu-evolver-wrapper/ — Feishu-integrated wrapper for the capability-evolver. Manages the evolution loop lifecycle (start/stop/ensure), sends rich Feishu card reports, and provides dashboard visualization. Use when running evolver with Feishu reporting or when managing the evolution daemon.
-- ✅ **feishu-report-sender**: skills/feishu-report-sender/ — 飞书报告发送器 - 将CRAS、EvoMap的报告队列实际推送到飞书
+- ✅ **feishu-evolver-wrapper**: skills/feishu-evolver-wrapper/ — 飞书自进化封装. Manages the evolution loop lifecycle (start/stop/ensure), sends rich Feishu card reports, and provides dashboard visualization. Use when running evolver with Feishu reporting or when managing the evolution daemon.
+- ✅ **feishu-report-sender**: skills/feishu-report-sender/ — 飞书报告发送 - 将报告推送到飞书
 - ✅ **file-downloader**: skills/file-downloader/
 - ✅ **five-layer-event-model**: skills/five-layer-event-model/
 - ✅ **github-api**: skills/github-api/
 - ✅ **intent-design-principles**: skills/intent-design-principles/ — 将"意图理解系统设计原则"固化为可执行技能，覆盖意图注册治理、收敛类型覆盖、反熵增校验、未知意图发现调度与健康报告。
-- ✅ **isc-capability-anchor-sync**: skills/isc-capability-anchor-sync/ — ISC能力锚点自动同步器 - 从ISC规则自动生成能力锚点文档
-- ✅ **isc-core**: skills/isc-core/ — ISC智能标准中心 - 标准生成与演进机制的唯一管理源
-- ✅ **isc-document-quality**: skills/isc-document-quality/ — ISC智能标准中心 - 文档质量评估系统。对技能文档进行多维度质量评分，包括基础完整性、规范符合度、内容准确性、扩展完整性。输出标准化评估报告。
+- ✅ **isc-capability-anchor-sync**: skills/isc-capability-anchor-sync/ — ISC锚点自动同步 - 从ISC规则自动生成能力锚点文档
+- ✅ **isc-core**: skills/isc-core/ — ISC标准管理 - 标准生成与演进机制的唯一管理源
+- ✅ **isc-document-quality**: skills/isc-document-quality/ — ISC文档质量评估。对技能文档进行多维度质量评分，包括基础完整性、规范符合度、内容准确性、扩展完整性。输出标准化评估报告。
 - ✅ **isc-report-readability**: skills/isc-report-readability/
 - ✅ **layered-architecture-checker**: skills/layered-architecture-checker/
-- ✅ **lep-executor**: skills/lep-executor/ — LEP韧性执行中心 (Local Execution Protocol) - 全局统一韧性任务执行引擎，整合现有分散的韧性能力
-- ✅ **lto-core**: skills/lto-core/ — 本地任务编排 (LTO) v3.0.11 - 可扩展任务调度平台，支持声明式任务编排、多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
-- ✅ **new-skill**: skills/new-skill/
-- ✅ **new-skill-v2**: skills/new-skill-v2/
+- ✅ **lep-executor**: skills/lep-executor/ — LEP稳定执行 - 统一韧性任务执行引擎
+- ✅ **lto-core**: skills/lto-core/ — LTO本地可控编排器 v3.0.11 - 可扩展调度平台，多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 - ✅ **parallel-subagent**: skills/parallel-subagent/
-- ✅ **paths-center**: skills/paths-center/ — 路径中心 - 【占位符】概念驱动，需求不清
-- ✅ **pdca-engine**: skills/pdca-engine/ — PDCA-C执行引擎 - 每5分钟有实际产出
-- ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理中枢 - 任务编排、Sprint规划、架构评审流水线、裁决殿裁决
+- ✅ **paths-center**: skills/paths-center/ — 路径方案管理
+- ✅ **pdca-engine**: skills/pdca-engine/ — PDCA持续改进
+- ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理 - 任务编排、Sprint规划、架构评审、裁决
 - ✅ **public**: skills/public/
 - 📄 **public/auto-badcase-harvest**: skills/public/auto-badcase-harvest/
 - 📄 **public/auto-grant-feishu-perm**: skills/public/auto-grant-feishu-perm/ — 飞书文档创建后自动授权指定用户full_access权限
@@ -140,8 +136,6 @@
 - ✅ **seef/evolution-pipeline**: skills/seef/evolution-pipeline/ — EvoMap技能自动进化流水线 - 实现技能从开发到EvoMap发布的全自动化状态机驱动系统
 - ✅ **shared**: skills/shared/
 - ✅ **system-mapping-visualizer**: skills/system-mapping-visualizer/
-- ✅ **test-skill-for-seef**: skills/test-skill-for-seef/
-- ✅ **verify-test-skill**: skills/verify-test-skill/
 
 > 图例: ✅=完整(SKILL.md+代码) 📄=仅文档 ⚙️=仅代码 ❓=空目录
 
