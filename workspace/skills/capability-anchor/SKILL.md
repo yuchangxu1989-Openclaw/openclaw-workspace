@@ -1,7 +1,7 @@
 ---
 name: capability-anchor
 description: 能力锚点管理
-version: "0.0.24"
+version: "0.0.25"
 status: placeholder
 placeholder_reason: "以为写个文件就够了，没有强制读取机制"
 root_cause: "CAPABILITY-ANCHOR.md存在，但AGENTS.md没强制要求读取，导致遗忘"
