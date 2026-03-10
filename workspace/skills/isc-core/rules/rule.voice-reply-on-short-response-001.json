@@ -1,24 +1,18 @@
 {
-  "id": "voice-reply-on-short-response-001",
-  "name": "短回复自动语音回复",
-  "description": "当用户发送语音消息且回复内容较短（<50字）时，自动使用GLM-TTS语音气泡回复",
-  "priority": "P1",
+  "id": "rule.voice-reply-on-short-response-001",
+  "name": "短回复语音建议",
+  "description": "当回复文本长度少于20字时，建议使用语音回复以增强表达效果。",
+  "version": "1.0.0",
+  "enabled": true,
   "trigger": {
-    "event": "user.message.voice",
-    "condition": "response_length < 50"
+    "event": "before_reply",
+    "condition": "text.length < 20"
   },
   "action": {
-    "handler": "feishu-voice-reply.sh",
-    "params": {
-      "voice": "douji",
-      "trim_seconds": 2.0
-    }
+    "type": "suggest",
+    "suggestion": "reply_as_voice"
   },
-  "tags": [
-    "voice",
-    "tts",
-    "feishu",
-    "ux"
-  ],
-  "handler": "cognitive-guard"
+  "handler": "scripts/isc-hooks/rule.voice-reply-on-short-response-001.sh",
+  "tags": ["voice", "ux", "reply-format"],
+  "priority": 50
 }
