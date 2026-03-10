@@ -1,8 +1,8 @@
 # 返工根因分析报告 - 2026-03-10
 
-> 自动生成于: 2026-03-10T08:15:01.176Z
+> 自动生成于: 2026-03-10T08:20:01.387Z
 > 分析窗口: 过去 10 分钟
-> 检测到返工事件: **16 个**
+> 检测到返工事件: **17 个**
 
 ---
 
@@ -11,6 +11,7 @@
 | 根因类别 | 得分 | 事件数 | ISC规则状态 |
 |----------|------|--------|-------------|
 | kill | 14.4 | 16 | ⚠️ 待规则化 |
+| retry | 0.8 | 1 | ⚠️ 待规则化 |
 
 ## 🔍 根因详情
 
@@ -24,6 +25,16 @@
 ```
 [Dispatcher] Handler log-action executed: {"success":true,"result":"Logged to /root/.openclaw/workspace/infrastructure/logs/handler-actions.jsonl"}
 [Dispatcher] {"status":"executed","eventType":"inten
+```
+
+### retry (score: 0.8)
+
+**触发信号样本**:
+```
+[IntentExtractor:LLM] 使用 zhipu-cron/glm-5
+[IntentExtractor:LLM] zhipu-cron/glm-5 调用失败: HTTP timeout after 60000ms
+[IntentExtractor:LLM] Failover → claude-scout/claude-opus-4-6
+[IntentExtractor] 🎯 int
 ```
 
 ## 📚 Golden Testset 更新
