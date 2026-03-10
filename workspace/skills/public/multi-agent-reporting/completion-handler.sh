@@ -34,7 +34,7 @@ HARVEST_ID=""
     echo "📎 产出物待发送: $ARTIFACT_PATH"
   fi
 
-  # Step 2: 质量核查判断
+  # Step 2: 质量核查判断 + AUTO_QA队列生成
   AGENT_ID=$(node -e "
 const board = JSON.parse(require('fs').readFileSync('$BOARD_FILE','utf8'));
 const task = board.find(t => t.label === '$TASK_ID' || t.taskId === '$TASK_ID');
@@ -42,13 +42,51 @@ if (task) console.log(task.agentId || '');
 " 2>/dev/null)
 
   NEED_QA="false"
+  AUTO_QA_FILE=""
   case "$AGENT_ID" in
     coder|writer|researcher) NEED_QA="true" ;;
+    # reviewer/analyst不触发auto-qa，避免无限循环
+    reviewer|analyst) NEED_QA="false" ;;
   esac
   [ "$STATUS" = "failed" ] && NEED_QA="false"
 
   if [ "$NEED_QA" = "true" ]; then
-    echo "🔍 需要质量核查：$TASK_ID \(by $AGENT_ID\)"
+    echo "🔍 AUTO_QA: 自动派发reviewer核查 $TASK_ID (by $AGENT_ID)"
+    # 生成auto-qa队列文件
+    AUTO_QA_DIR="/root/.openclaw/workspace/logs/auto-qa-queue"
+    mkdir -p "$AUTO_QA_DIR"
+    SAFE_LABEL=$(echo "$TASK_ID" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/-\+/-/g' | sed 's/^-//;s/-$//')
+    QA_TS=$(date +%Y%m%d%H%M%S)
+    AUTO_QA_FILE="${AUTO_QA_DIR}/auto-qa-${SAFE_LABEL}-${QA_TS}.json"
+
+    # 确定checklist模板类型
+    QA_TYPE="code-qa"
+    case "$AGENT_ID" in
+      writer) QA_TYPE="doc-qa" ;;
+      researcher) QA_TYPE="doc-qa" ;;
+      coder) QA_TYPE="code-qa" ;;
+    esac
+
+    node -e "
+const fs = require('fs');
+let taskDetail = '';
+try {
+  const board = JSON.parse(fs.readFileSync('$BOARD_FILE','utf8'));
+  const task = board.find(t => t.label === '$TASK_ID' || t.taskId === '$TASK_ID');
+  taskDetail = task?.task || task?.result_summary || '';
+} catch(e) {}
+const entry = {
+  original_label: '$TASK_ID',
+  original_agent: '$AGENT_ID',
+  status: 'pending',
+  qa_type: '$QA_TYPE',
+  task_summary: taskDetail,
+  result_summary: $(printf '%s' "$SUMMARY" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>console.log(JSON.stringify(d)))"),
+  created_at: new Date().toISOString()
+};
+fs.writeFileSync('$AUTO_QA_FILE', JSON.stringify(entry, null, 2));
+" 2>/dev/null
+    echo "📋 核查队列文件已生成: $AUTO_QA_FILE"
   fi
 
   # Step 3: 看板+飞书
@@ -228,6 +266,11 @@ fi
 
 echo "✅ 已更新: $TASK_ID → $STATUS"
 echo "📋 $BOARD_SUMMARY"
+if [ -n "$AUTO_QA_FILE" ] && [ -f "$AUTO_QA_FILE" ]; then
+  echo ""
+  echo "🔍 AUTO_QA_REQUIRED: $TASK_ID"
+  echo "📋 核查队列: $AUTO_QA_FILE"
+fi
 if [ "$HARVESTED" = "true" ]; then
   echo "🧷 已自动Badcase入库: $HARVEST_ID"
 fi
