@@ -8536,7 +8536,11 @@
     "label": "check-5-questions",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
-    "spawnTime": "2026-03-10T23:27:36.338Z"
+    "status": "timeout",
+    "spawnTime": "2026-03-10T23:27:36.338Z",
+    "result_summary": "(超时任务自动回收 — session疑似卡住)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:39:01.526Z",
+    "fixed_reason": "session 10分钟未更新(stopReason=N/A)"
   }
 ]
