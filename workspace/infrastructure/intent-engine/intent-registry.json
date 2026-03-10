@@ -3,7 +3,7 @@
   "schema_version": "1",
   "description": "Intent Registry v4.3 - 5类意图收敛分类（IC1-IC5），MECE互斥穷尽",
   "created_at": "2026-03-05T00:07:00+08:00",
-  "updated_at": "2026-03-10T00:57:39.686908+00:00",
+  "updated_at": "2026-03-10T02:21:53.704Z",
   "categories": {
     "IC1": {
       "name": "情绪意图",
@@ -1029,6 +1029,2770 @@
       "status": "active",
       "created_at": "2026-03-10T08:54:00+08:00",
       "mapped_rule": "rule.arch-rule-equals-code-002"
+    },
+    {
+      "id": "intent.rule-aeo-e2e-decision-pipeline-test-001",
+      "category": "IC2",
+      "name": "任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止",
+      "description": "任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止模拟数据",
+      "isc_rule_ref": "rule.aeo-e2e-decision-pipeline-test-001",
+      "trigger_events": [
+        "event_bus.handler.modified",
+        "event_bus.dispatcher.modified",
+        "isc.rule.created",
+        "isc.rule.modified",
+        "skill.public.pre_publish",
+        "sprint.day.completion"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-anti-entropy-design-principle-001",
+      "category": "IC2",
+      "name": "所有设计和决策必须满足反熵增原则：批判性思维、可扩展、可泛化、可生长。违反此原则的设计必须被拦截。",
+      "description": "所有设计和决策必须满足反熵增原则：批判性思维、可扩展、可泛化、可生长。违反此原则的设计必须被拦截。",
+      "isc_rule_ref": "rule.anti-entropy-design-principle-001",
+      "trigger_events": [
+        "document.document.created",
+        "document.document.modified",
+        "architecture.decision.completed",
+        "isc.rule.created",
+        "skill.general.created",
+        "lto.task.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-arch-feedback-must-close-003",
+      "category": "IC2",
+      "name": "任何事件发布后必须有明确的消费确认。任何错误检测后必须有诊断→修复→验证的完整闭环。开环=失控。",
+      "description": "任何事件发布后必须有明确的消费确认。任何错误检测后必须有诊断→修复→验证的完整闭环。开环=失控。",
+      "isc_rule_ref": "rule.arch-feedback-must-close-003",
+      "trigger_events": [
+        "system.event.orphan_report",
+        "system.event.dead_channel"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-arch-gate-before-action-001",
+      "category": "IC2",
+      "name": "任何影响系统状态的操作（提交代码、发布技能、生成报告、关闭Day）必须通过至少一个自动化Gate检查。无Gate的操作路",
+      "description": "任何影响系统状态的操作（提交代码、发布技能、生成报告、关闭Day）必须通过至少一个自动化Gate检查。无Gate的操作路径视为安全漏洞。",
+      "isc_rule_ref": "rule.arch-gate-before-action-001",
+      "trigger_events": [
+        "skill.lifecycle.created",
+        "skill.lifecycle.published",
+        "isc.rule.created",
+        "quality.benchmark.completed",
+        "orchestration.pipeline.completed",
+        "system.day.closure_requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-architecture-diagram-visual-output-001",
+      "category": "IC2",
+      "name": "架构设计输出必须生成可视化图片，并符合10项视觉标准。使用Mermaid渲染，不使用AI文生图。",
+      "description": "架构设计输出必须生成可视化图片，并符合10项视觉标准。使用Mermaid渲染，不使用AI文生图。",
+      "isc_rule_ref": "rule.architecture-diagram-visual-output-001",
+      "trigger_events": [
+        "document.architecture.created",
+        "document.architecture.updated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-arch-machine-over-human-004",
+      "category": "IC2",
+      "name": "所有'应该做'的事项必须自动化为'必须做'。依赖人记忆和纪律的约束，在概率上等于没有约束。",
+      "description": "所有'应该做'的事项必须自动化为'必须做'。依赖人记忆和纪律的约束，在概率上等于没有约束。",
+      "isc_rule_ref": "rule.arch-machine-over-human-004",
+      "trigger_events": [
+        "quality.automation.gap_found"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-arch-real-data-gate-005",
+      "category": "IC2",
+      "name": "任何benchmark、测试、验收的数据来源必须标注且可溯源。合成数据可用于开发调试，不可用于验收。验收使用合成数据=验",
+      "description": "任何benchmark、测试、验收的数据来源必须标注且可溯源。合成数据可用于开发调试，不可用于验收。验收使用合成数据=验收无效。",
+      "isc_rule_ref": "rule.arch-real-data-gate-005",
+      "trigger_events": [
+        "quality.benchmark.completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-arch-rule-equals-code-002",
+      "category": "IC2",
+      "name": "ISC规则定义(JSON)与规则执行(gate-check代码)必须1:1配对。只有JSON定义无代码实现的规则，在合规",
+      "description": "ISC规则定义(JSON)与规则执行(gate-check代码)必须1:1配对。只有JSON定义无代码实现的规则，在合规审计中视为'不存在'。",
+      "isc_rule_ref": "rule.arch-rule-equals-code-002",
+      "trigger_events": [
+        "isc.rule.created",
+        "isc.rule.updated",
+        "isc.enforcement_rate.threshold_crossed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-auto-asr-on-voice-message-001",
+      "category": "IC2",
+      "name": "收到语音/音频消息时自动触发GLM-ASR转录，将语音内容转为文本处理，消除能力遗忘",
+      "description": "收到语音/音频消息时自动触发GLM-ASR转录，将语音内容转为文本处理，消除能力遗忘",
+      "isc_rule_ref": "rule.auto-asr-on-voice-message-001",
+      "trigger_events": [
+        "message.received.audio",
+        "message.received.voice"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.auto-badcase-harvest-engine-001",
+      "category": "IC2",
+      "name": "纠偏类、反复未果类、头痛医头类等场景自动采集为badcase，不依赖主Agent手动记忆",
+      "description": "纠偏类、反复未果类、头痛医头类等场景自动采集为badcase，不依赖主Agent手动记忆",
+      "isc_rule_ref": "AUTO-BADCASE-HARVEST-ENGINE-001",
+      "trigger_events": [
+        "isc.rule.auto.badcase.harvest.engine.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-auto-collect-eval-from-conversation-001",
+      "category": "IC2",
+      "name": "每次会话中用户的复杂发言（IC3-IC5、>=40字、含教学/纠偏/多意图）自动收录为评测样本。必须用原话原样不缩写不改",
+      "description": "每次会话中用户的复杂发言（IC3-IC5、>=40字、含教学/纠偏/多意图）自动收录为评测样本。必须用原话原样不缩写不改写，必须带完整上下文。",
+      "isc_rule_ref": "rule.auto-collect-eval-from-conversation-001",
+      "trigger_events": [
+        "session.message.received"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-auto-correction-规则存在但handler缺失-mmgbaua1",
+      "category": "IC2",
+      "name": "自动纠偏规则。根因: 缺少对应ISC规则。原始缺陷: 规则存在但handler缺失，应该自动创建handler并补验证",
+      "description": "自动纠偏规则。根因: 缺少对应ISC规则。原始缺陷: 规则存在但handler缺失，应该自动创建handler并补验证",
+      "isc_rule_ref": "rule.auto-correction-规则存在但handler缺失-mmgbaua1",
+      "trigger_events": [],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.696Z"
+    },
+    {
+      "id": "intent.rule-auto-evomap-sync-trigger-001",
+      "category": "IC2",
+      "name": "自动EvoMap同步触发规则 - 技能创建或更新时同步到EvoMap网络",
+      "description": "自动EvoMap同步触发规则 - 技能创建或更新时同步到EvoMap网络",
+      "isc_rule_ref": "rule.auto-evomap-sync-trigger-001",
+      "trigger_events": [
+        "skill.general.published",
+        "skill.version.updated",
+        "skill.lifecycle.status_changed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-auto-fix-high-severity-001",
+      "category": "IC2",
+      "name": "自动修复高严重度问题 - 严重度高且允许自动修复时执行",
+      "description": "自动修复高严重度问题 - 严重度高且允许自动修复时执行",
+      "isc_rule_ref": "rule.auto-fix-high-severity-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-auto-github-sync-trigger-001",
+      "category": "IC2",
+      "name": "自动GitHub同步触发规则 - 核心系统代码变更时自动提交到GitHub",
+      "description": "自动GitHub同步触发规则 - 核心系统代码变更时自动提交到GitHub",
+      "isc_rule_ref": "rule.auto-github-sync-trigger-001",
+      "trigger_events": [
+        "system.general.modified",
+        "system.commit.created",
+        "system.file.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.isc-auto-qa-001",
+      "category": "IC2",
+      "name": "coder/writer/researcher完成的任务必须自动触发质量核查，核查者必须是不同Agent",
+      "description": "coder/writer/researcher完成的任务必须自动触发质量核查，核查者必须是不同Agent",
+      "isc_rule_ref": "ISC-AUTO-QA-001",
+      "trigger_events": [
+        "isc.rule.auto.qa.on.completion.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.auto-skill-discovery-001",
+      "category": "IC2",
+      "name": "当新脚本产出时，自动检测是否应该技能化",
+      "description": "当新脚本产出时，自动检测是否应该技能化",
+      "isc_rule_ref": "AUTO-SKILL-DISCOVERY-001",
+      "trigger_events": [
+        "isc.rule.auto.skill.discovery.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-auto-skillization-trigger-001",
+      "category": "IC2",
+      "name": "自动技能化触发规则 - 技能质量分>=50时自动触发技能化流程",
+      "description": "自动技能化触发规则 - 技能质量分>=50时自动触发技能化流程",
+      "isc_rule_ref": "rule.auto-skillization-trigger-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.badcase-auto-flip-001",
+      "category": "IC2",
+      "name": "badcase文件变更时自动运行翻转脚本，生成对应goodcase",
+      "description": "badcase文件变更时自动运行翻转脚本，生成对应goodcase",
+      "isc_rule_ref": "BADCASE-AUTO-FLIP-001",
+      "trigger_events": [
+        "modify",
+        "create"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-batch-completion-auto-push-001",
+      "category": "IC2",
+      "name": "所有子Agent任务完成后，必须自动推送最终看板给用户。不推送=Badcase。",
+      "description": "所有子Agent任务完成后，必须自动推送最终看板给用户。不推送=Badcase。",
+      "isc_rule_ref": "rule.batch-completion-auto-push-001",
+      "trigger_events": [
+        "isc.rule.batch.completion.auto.push.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-caijuedian-tribunal-001",
+      "category": "IC2",
+      "name": "裁决殿是通用多维度裁决技能，7席认知维度独立battle，用户是最终裁决者。",
+      "description": "裁决殿是通用多维度裁决技能，7席认知维度独立battle，用户是最终裁决者。",
+      "isc_rule_ref": "rule.caijuedian-tribunal-001",
+      "trigger_events": [
+        "architecture.decision.major",
+        "design.direction.uncertain",
+        "system.evolution.direction_change",
+        "sprint.day.completed",
+        "review.rejection.count >= 2"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-capability-anchor-auto-register-001",
+      "category": "IC2",
+      "name": "新增通用能力（多模态、大模型、IM交互、工具等）时，必须自动写入CAPABILITY-ANCHOR.md。AI不应忘记自",
+      "description": "新增通用能力（多模态、大模型、IM交互、工具等）时，必须自动写入CAPABILITY-ANCHOR.md。AI不应忘记自己的能力。",
+      "isc_rule_ref": "rule.capability-anchor-auto-register-001",
+      "trigger_events": [
+        "skill.general.created",
+        "skill.general.updated",
+        "system.general.discovered",
+        "system.general.added",
+        "skill.general.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-capability-anchor-lifecycle-sync-001",
+      "category": "IC2",
+      "name": "技能修改时触发能力锚点同步",
+      "description": "技能修改时触发能力锚点同步",
+      "isc_rule_ref": "rule.capability-anchor-lifecycle-sync-001",
+      "trigger_events": [
+        "skill.lifecycle.modified",
+        "skill.lifecycle.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-capability-gap-auto-learn-001",
+      "category": "IC2",
+      "name": "发现能力缺失时，自动按优先级搜索解决方案：1)本地技能目录 2)已有模型API 3)外部官方API文档学习",
+      "description": "发现能力缺失时，自动按优先级搜索解决方案：1)本地技能目录 2)已有模型API 3)外部官方API文档学习",
+      "isc_rule_ref": "rule.capability-gap-auto-learn-001",
+      "trigger_events": [
+        "agent.capability.not_found",
+        "agent.task.failed",
+        "agent.skill.missing",
+        "agent.tool.unavailable"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-coding-quality-thinking-001",
+      "category": "IC2",
+      "name": "核心模块的编码，开发工程师必须开thinking（高质量推理模式）。",
+      "description": "核心模块的编码，开发工程师必须开thinking（高质量推理模式）。",
+      "isc_rule_ref": "rule.coding-quality-thinking-001",
+      "trigger_events": [
+        "skill.module_core.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.isc-completion-handler-001",
+      "category": "IC2",
+      "name": "收到子Agent completion event后必须先调用completion-handler.sh，不得跳过直接回",
+      "description": "收到子Agent completion event后必须先调用completion-handler.sh，不得跳过直接回复用户",
+      "isc_rule_ref": "ISC-COMPLETION-HANDLER-001",
+      "trigger_events": [
+        "isc.rule.completion.handler.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-cras-daily-report-001",
+      "category": "IC2",
+      "name": "每天19:00自动汇总CRAS五大模块（主动学习/用户洞察/知识治理/战略行研/自主进化）的当日洞察，生成结构化报告并推",
+      "description": "每天19:00自动汇总CRAS五大模块（主动学习/用户洞察/知识治理/战略行研/自主进化）的当日洞察，生成结构化报告并推送到飞书",
+      "isc_rule_ref": "rule.cras-daily-report-001",
+      "trigger_events": [
+        "cron.cras-daily-report"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-cras-dual-channel-001",
+      "category": "IC2",
+      "name": "意图捕获必须分快慢双通道：快通道（5min增量扫描）提取原子意图事件实时emit；慢通道（daily聚合）计算意图占比/",
+      "description": "意图捕获必须分快慢双通道：快通道（5min增量扫描）提取原子意图事件实时emit；慢通道（daily聚合）计算意图占比/频次/趋势emit模式事件。不要把实时感知和统计报告混为一谈。",
+      "isc_rule_ref": "rule.cras-dual-channel-001",
+      "trigger_events": [
+        "cras.scan.completed",
+        "cras.report.generated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-cron-task-model-requirement-001",
+      "category": "IC2",
+      "name": "定时任务模型规范 - 必须指定模型，跟随openclaw.json配置",
+      "description": "定时任务模型规范 - 必须指定模型，跟随openclaw.json配置",
+      "isc_rule_ref": "rule.cron-task-model-requirement-001",
+      "trigger_events": [
+        "lto.task.created",
+        "lto.task.updated",
+        "lto.task.validated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-day2-gap1-cron-event-bridge",
+      "category": "IC2",
+      "name": "[Day2-Gap1] cron 请求统一进入事件总线并交由 handler 接入/兜底执行",
+      "description": "[Day2-Gap1] cron 请求统一进入事件总线并交由 handler 接入/兜底执行",
+      "isc_rule_ref": "rule.day2-gap1-cron-event-bridge",
+      "trigger_events": [
+        "cron.job.requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.deep-think-auto-delegate-001",
+      "category": "IC2",
+      "name": "当用户消息命中深度思考意图关键词且预估处理时间>30秒时，主Agent必须spawn子Agent处理，自身只做结果整合和",
+      "description": "当用户消息命中深度思考意图关键词且预估处理时间>30秒时，主Agent必须spawn子Agent处理，自身只做结果整合和通信",
+      "isc_rule_ref": "deep-think-auto-delegate-001",
+      "trigger_events": [
+        "isc.rule.deep.think.auto.delegate.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-dependency-direction-check-001",
+      "category": "IC2",
+      "name": "skills不得直接引用infrastructure目录，依赖方向必须自顶向下",
+      "description": "skills不得直接引用infrastructure目录，依赖方向必须自顶向下",
+      "isc_rule_ref": "rule.dependency-direction-check-001",
+      "trigger_events": [
+        "system.infrastructure.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-design-document-delivery-pipeline-001",
+      "category": "IC2",
+      "name": "设计文档9步交付流水线——每步都是门禁，不许跳步，任何一步不过打回",
+      "description": "设计文档9步交付流水线——每步都是门禁，不许跳步，任何一步不过打回",
+      "isc_rule_ref": "rule.design-document-delivery-pipeline-001",
+      "trigger_events": [
+        "document.design.requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-design-document-narrative-review-001",
+      "category": "IC2",
+      "name": "模拟演讲强制门禁——设计文档必须通过模拟演讲审查才能交付",
+      "description": "模拟演讲强制门禁——设计文档必须通过模拟演讲审查才能交付",
+      "isc_rule_ref": "rule.design-document-narrative-review-001",
+      "trigger_events": [
+        "document.design.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-design-document-structure-001",
+      "category": "IC2",
+      "name": "设计文档结构标准——7项强制约束，确保设计文档结构清晰、可读、可维护",
+      "description": "设计文档结构标准——7项强制约束，确保设计文档结构清晰、可读、可维护",
+      "isc_rule_ref": "rule.design-document-structure-001",
+      "trigger_events": [
+        "design.document.created",
+        "document.design.created",
+        "design.document.modified",
+        "document.design.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-detection-report-feishu-card-001",
+      "category": "IC2",
+      "name": "报告输出格式标准 - 飞书卡片",
+      "description": "报告输出格式标准 - 飞书卡片",
+      "isc_rule_ref": "rule.detection-report-feishu-card-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.rule-discovery-must-trigger-rule-creation-001",
+      "category": "IC2",
+      "name": "当发现系统设计缺陷、评测方法论问题、架构盲区时，修复问题的同时必须创建对应的ISC规则+事件绑定+DTO执行链，防止同类",
+      "description": "当发现系统设计缺陷、评测方法论问题、架构盲区时，修复问题的同时必须创建对应的ISC规则+事件绑定+DTO执行链，防止同类问题再次发生。修复不带规则=只治标不治本。",
+      "isc_rule_ref": "rule.discovery-must-trigger-rule-creation-001",
+      "trigger_events": [
+        "system.issue.discovered",
+        "architecture.gap.detected",
+        "aeo.methodology.upgraded"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.dispatch-auto-report-001",
+      "category": "IC2",
+      "name": "每次批量spawn子Agent(>=2个)后，必须立即调用multi-agent-reporting技能输出标准格式队列",
+      "description": "每次批量spawn子Agent(>=2个)后，必须立即调用multi-agent-reporting技能输出标准格式队列状态给用户",
+      "isc_rule_ref": "dispatch-auto-report-001",
+      "trigger_events": [
+        "isc.rule.dispatch.auto.report.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.697Z"
+    },
+    {
+      "id": "intent.isc-doc-quality-gate-001",
+      "category": "IC2",
+      "name": "重大文档双Agent质量门禁",
+      "description": "重大文档双Agent质量门禁",
+      "isc_rule_ref": "ISC-DOC-QUALITY-GATE-001",
+      "trigger_events": [
+        "isc.rule.doc.quality.gate.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-eval-batch-size-limit-001",
+      "category": "IC2",
+      "name": "评测用例的生成、修复、评测，一次最多10条。超过10条必须拆分为多批次。",
+      "description": "评测用例的生成、修复、评测，一次最多10条。超过10条必须拆分为多批次。",
+      "isc_rule_ref": "rule.eval-batch-size-limit-001",
+      "trigger_events": [
+        "isc.rule.eval.batch.size.limit.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-eval-data-source-redline-001",
+      "category": "IC2",
+      "name": "评测数据只有两个合法来源：1)真实对话（你我之间的会话记录）2)网络搜索（真实用户场景、公开数据）。绝对禁止合成/想象/",
+      "description": "评测数据只有两个合法来源：1)真实对话（你我之间的会话记录）2)网络搜索（真实用户场景、公开数据）。绝对禁止合成/想象/编造。",
+      "isc_rule_ref": "rule.eval-data-source-redline-001",
+      "trigger_events": [
+        "aeo.evaluation.dataset_created",
+        "aeo.evaluation.dataset_modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-eval-driven-development-loop-001",
+      "category": "IC2",
+      "name": "评测驱动开发闭环：任何功能开发/系统建设必须遵循完整的场景化评测闭环流程，不允许跳步。",
+      "description": "评测驱动开发闭环：任何功能开发/系统建设必须遵循完整的场景化评测闭环流程，不允许跳步。",
+      "isc_rule_ref": "rule.eval-driven-development-loop-001",
+      "trigger_events": [
+        "skill.general.created",
+        "skill.general.created",
+        "system.general.created",
+        "quality.general.completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-eval-mining-intent-route-001",
+      "category": "IC2",
+      "name": "用户要求挖掘/补充/生成评测集时，自动路由到eval-mining技能",
+      "description": "用户要求挖掘/补充/生成评测集时，自动路由到eval-mining技能",
+      "isc_rule_ref": "rule.eval-mining-intent-route-001",
+      "trigger_events": [
+        "user.intent.eval_mining"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-eval-must-include-multi-turn-001",
+      "category": "IC2",
+      "name": "IC3-IC5意图本质依赖上下文，单轮评测无法验证真实能力。评测集必须同时包含单轮和多轮格式，多轮样本占比不低于40%。",
+      "description": "IC3-IC5意图本质依赖上下文，单轮评测无法验证真实能力。评测集必须同时包含单轮和多轮格式，多轮样本占比不低于40%。任何评测集变更必须自动触发benchmark重跑。",
+      "isc_rule_ref": "rule.eval-must-include-multi-turn-001",
+      "trigger_events": [
+        "aeo.evaluation.dataset_created",
+        "aeo.evaluation.dataset_modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.isc-eval-role-separation-001",
+      "category": "IC2",
+      "name": "评测用例必须由独立的质量分析Agent评测，执行Agent不能自评",
+      "description": "评测用例必须由独立的质量分析Agent评测，执行Agent不能自评",
+      "isc_rule_ref": "ISC-EVAL-ROLE-SEPARATION-001",
+      "trigger_events": [
+        "isc.rule.eval.role.separation.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-eval-sample-auto-collection-001",
+      "category": "IC2",
+      "name": "真实使用中产生的意图/事件/场景必须自动回收为评测样本。评测集不能只靠手造，必须持续从生产数据补充。",
+      "description": "真实使用中产生的意图/事件/场景必须自动回收为评测样本。评测集不能只靠手造，必须持续从生产数据补充。",
+      "isc_rule_ref": "rule.eval-sample-auto-collection-001",
+      "trigger_events": [
+        "event.general.classified",
+        "orchestration.general.completed",
+        "quality.general.failed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-evalset-cron-daily-generation-001",
+      "category": "IC2",
+      "name": "每24小时自主从真实会话中采样生成评测集。采样策略版本化，与按需生成统一去重，闭卷安全，落盘到 evaluation-s",
+      "description": "每24小时自主从真实会话中采样生成评测集。采样策略版本化，与按需生成统一去重，闭卷安全，落盘到 evaluation-sets/ 并注册到 registry.json。",
+      "isc_rule_ref": "rule.evalset-cron-daily-generation-001",
+      "trigger_events": [
+        "cron.evalset.daily"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-eval-standard-auto-sync-001",
+      "category": "IC2",
+      "name": "当V3评测标准文档(OKmrd21OsotmFkxpT4gcLXjunze)内容发生变更时，自动触发评测集合规刷新，确保",
+      "description": "当V3评测标准文档(OKmrd21OsotmFkxpT4gcLXjunze)内容发生变更时，自动触发评测集合规刷新，确保所有评测用例与最新标准口径对齐。",
+      "isc_rule_ref": "rule.eval-standard-auto-sync-001",
+      "trigger_events": [
+        "eval.standard.version.changed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-failure-pattern-alert-001",
+      "category": "IC2",
+      "name": "检测到系统故障模式时触发告警通知",
+      "description": "检测到系统故障模式时触发告警通知",
+      "isc_rule_ref": "rule.failure-pattern-alert-001",
+      "trigger_events": [
+        "system.failure.pattern_detected"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.isc-failure-pattern-code-escalation-001",
+      "category": "IC2",
+      "name": "任何依赖LLM记忆/规则文本执行的行为模式，如果失败≥2次，必须从规则/记忆层下沉到代码层自动执行。禁止继续用AGENT",
+      "description": "任何依赖LLM记忆/规则文本执行的行为模式，如果失败≥2次，必须从规则/记忆层下沉到代码层自动执行。禁止继续用AGENTS.md规则或MEMORY.md教训兜底。",
+      "isc_rule_ref": "ISC-FAILURE-PATTERN-CODE-ESCALATION-001",
+      "trigger_events": [
+        "system.behavior_pattern.repeated_failure"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-feishu-doc-auto-perm-001",
+      "category": "IC2",
+      "name": "每次创建飞书文档/表格后，必须自动调用auto-grant-feishu-perm.sh给长煦加full_access权",
+      "description": "每次创建飞书文档/表格后，必须自动调用auto-grant-feishu-perm.sh给长煦加full_access权限",
+      "isc_rule_ref": "rule.feishu-doc-auto-perm-001",
+      "trigger_events": [
+        "feishu.doc.created",
+        "feishu.bitable.created",
+        "feishu.sheet.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.isc-file-send-intent-001",
+      "category": "IC2",
+      "name": "当用户表达发送文件意图时，自动使用file-sender技能",
+      "description": "当用户表达发送文件意图时，自动使用file-sender技能",
+      "isc_rule_ref": "ISC-FILE-SEND-INTENT-001",
+      "trigger_events": [
+        "isc.rule.file.send.intent.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-five-layer-event-model-001",
+      "category": "IC2",
+      "name": "事件分5层：L1对象生命周期（创建/修改/删除）、L2量化阈值（计数器越过阈值）、L3语义意图（对话流中的意图信号，CR",
+      "description": "事件分5层：L1对象生命周期（创建/修改/删除）、L2量化阈值（计数器越过阈值）、L3语义意图（对话流中的意图信号，CRAS快通道5min捕获）、L4知识发现（学术/公网学习发现增量价值→触发本地适配）、L5系统性模式（反复失败/修补同类问题→触发根因分析重构）。还有元事件：自驱进化。",
+      "isc_rule_ref": "rule.five-layer-event-model-001",
+      "trigger_events": [
+        "event.general.created",
+        "event.general.emitted"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.698Z"
+    },
+    {
+      "id": "intent.rule-git-commit-dispatch-001",
+      "category": "IC2",
+      "name": "git.commit.completed 是所有代码变更的入口事件。此规则将其路由到质量检查、架构审查、规则-代码配对检",
+      "description": "git.commit.completed 是所有代码变更的入口事件。此规则将其路由到质量检查、架构审查、规则-代码配对检查等下游管道。修复 P0-03：100+ 次 git.commit.completed 事件全部 NO_ROUTE 的问题。",
+      "isc_rule_ref": "rule.git-commit-dispatch-001",
+      "trigger_events": [
+        "git.commit.completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-glm-vision-priority-001",
+      "category": "IC2",
+      "name": "图像视频需求优先调用GLM-4V-Plus规则 - 根治遗忘",
+      "description": "图像视频需求优先调用GLM-4V-Plus规则 - 根治遗忘",
+      "isc_rule_ref": "rule.glm-vision-priority-001",
+      "trigger_events": [
+        "system.analysis.requested",
+        "system.task.created",
+        "session.image.received"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-aeo-quality-gate-001",
+      "category": "IC2",
+      "name": "意图识别系统的任何变更（新增意图类型、修改识别逻辑、更换模型）必须通过AEO评测准出：黄金评测集自动化测试通过 + Ba",
+      "description": "意图识别系统的任何变更（新增意图类型、修改识别逻辑、更换模型）必须通过AEO评测准出：黄金评测集自动化测试通过 + Badcase主动根因分析完成。评测链必须以LLM语义意图识别为主判断链，关键词/正则仅可作为辅助交叉匹配信号，未通过不得上线。",
+      "isc_rule_ref": "rule.intent-aeo-quality-gate-001",
+      "trigger_events": [
+        "event.system.modified",
+        "event.type.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-agent-orchestration-design-standard-p3nxat",
+      "category": "IC2",
+      "name": "用户要求将'诊断必须自动扩展为具体执行队列'确立为agent编排的设计标准",
+      "description": "用户要求将'诊断必须自动扩展为具体执行队列'确立为agent编排的设计标准",
+      "isc_rule_ref": "rule.intent-agent-orchestration-design-standard-p3nxat",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-anti-entropy-001",
+      "category": "IC2",
+      "name": "意图类型数量必须保持MECE、不长尾。治理红线：(1)语义重叠的意图必须合并，(2)触发频率极低（30天<3次）的意图降",
+      "description": "意图类型数量必须保持MECE、不长尾。治理红线：(1)语义重叠的意图必须合并，(2)触发频率极低（30天<3次）的意图降级为观察态，(3)90天未触发的意图自动废弃提案，(4)任何新注册意图必须证明与现有意图不重叠。",
+      "isc_rule_ref": "rule.intent-anti-entropy-001",
+      "trigger_events": [
+        "event.type.created",
+        "lto.general.monthly"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-cras-e系统架构与交付约束-21ztnb",
+      "category": "IC2",
+      "name": "用户要求将提炼出的需求转化为持久约束：CRAS-E必须成为持续进化器官、具备抗失忆能力、支持动态队列扩展、优先飞书卡片交",
+      "description": "用户要求将提炼出的需求转化为持久约束：CRAS-E必须成为持续进化器官、具备抗失忆能力、支持动态队列扩展、优先飞书卡片交付",
+      "isc_rule_ref": "rule.intent-cras-e系统架构与交付约束-21ztnb",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-day2-gap2-dispatcher-intent-route-validation-t84891",
+      "category": "IC2",
+      "name": "Validate dispatcher can consume intent.ruleify through inten",
+      "description": "Validate dispatcher can consume intent.ruleify through intent-event-handler",
+      "isc_rule_ref": "rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-directive-consumption-001",
+      "category": "IC2",
+      "name": "当意图分析器识别出 directive 类意图时，路由到 intent-event-handler 创建 本地任务编排 ",
+      "description": "当意图分析器识别出 directive 类意图时，路由到 intent-event-handler 创建 本地任务编排 任务。确保 intent.directive 事件在 event-bus 链路中被正确匹配和执行。",
+      "isc_rule_ref": "rule.intent-directive-consumption-001",
+      "trigger_events": [
+        "intent.directive"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.intent-directive-dispatch-001",
+      "category": "IC2",
+      "name": "当意图被分类为 directive 时，路由到 intent-event-handler 创建 本地任务编排 任务消费路",
+      "description": "当意图被分类为 directive 时，路由到 intent-event-handler 创建 本地任务编排 任务消费路径",
+      "isc_rule_ref": "intent-directive-dispatch-001",
+      "trigger_events": [
+        "isc.rule.intent.directive.dispatch.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-dispatchengine-api-usage-gvhcmy",
+      "category": "IC2",
+      "name": "用户要求记住DispatchEngine的正确生命周期方法，排除不存在的markFinished",
+      "description": "用户要求记住DispatchEngine的正确生命周期方法，排除不存在的markFinished",
+      "isc_rule_ref": "rule.intent-dispatchengine-api-usage-gvhcmy",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-doc-quality-gate-001质量门禁规则-wrsequ",
+      "category": "IC2",
+      "name": "将writer→reviewer→不通过重写的流程固化为永久生效的规则",
+      "description": "将writer→reviewer→不通过重写的流程固化为永久生效的规则",
+      "isc_rule_ref": "rule.intent-doc-quality-gate-001质量门禁规则-wrsequ",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.intent-ic4-ic5-boundary-001",
+      "category": "IC2",
+      "name": "明确IC4（隐含意图）与IC5（多意图复合）的边界判定标准",
+      "description": "明确IC4（隐含意图）与IC5（多意图复合）的边界判定标准",
+      "isc_rule_ref": "INTENT-IC4-IC5-BOUNDARY-001",
+      "trigger_events": [
+        "isc.rule.intent.ic4.ic5.boundary.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-isc-main-agent-delegation-001委派守卫-vczzrl",
+      "category": "IC2",
+      "name": "落地主Agent委派守卫规则，建立四层防御机制",
+      "description": "落地主Agent委派守卫规则，建立四层防御机制",
+      "isc_rule_ref": "rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36",
+      "category": "IC2",
+      "name": "用户在建设可执行的规则系统，包括3个gate check和pre-commit hook v2.0的3-check en",
+      "description": "用户在建设可执行的规则系统，包括3个gate check和pre-commit hook v2.0的3-check enforcement",
+      "isc_rule_ref": "rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-mece命名原则-86o70p",
+      "category": "IC2",
+      "name": "将MECE命名原则确立为规则命名、事件命名、技能命名等的评测维度和规范",
+      "description": "将MECE命名原则确立为规则命名、事件命名、技能命名等的评测维度和规范",
+      "isc_rule_ref": "rule.intent-mece命名原则-86o70p",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-p0-regression-tracking-qmsnw4",
+      "category": "IC2",
+      "name": "用户要求将subagent default-model解析失败记录为P0级别的回归问题",
+      "description": "用户要求将subagent default-model解析失败记录为P0级别的回归问题",
+      "isc_rule_ref": "rule.intent-p0-regression-tracking-qmsnw4",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-pdf输出标准-fyhznt",
+      "category": "IC2",
+      "name": "用户将PDF输出的排版和内容组织要求固化为永久生效的规则",
+      "description": "用户将PDF输出的排版和内容组织要求固化为永久生效的规则",
+      "isc_rule_ref": "rule.intent-pdf输出标准-fyhznt",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-post-commit-quality-gate-h8z2sz",
+      "category": "IC2",
+      "name": "提交后应自动创建质量检查规则",
+      "description": "提交后应自动创建质量检查规则",
+      "isc_rule_ref": "rule.intent-post-commit-quality-gate-h8z2sz",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-reflect-consumption-001",
+      "category": "IC2",
+      "name": "当意图分析器识别出 reflect 类意图时，路由到 intent-event-handler 进入 CRAS 分析/知",
+      "description": "当意图分析器识别出 reflect 类意图时，路由到 intent-event-handler 进入 CRAS 分析/知识沉淀路径。确保 intent.reflect 事件在 event-bus 链路中被正确匹配和执行。",
+      "isc_rule_ref": "rule.intent-reflect-consumption-001",
+      "trigger_events": [
+        "intent.reflect"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.intent-reflect-dispatch-001",
+      "category": "IC2",
+      "name": "当意图被分类为 reflect 时，路由到 intent-event-handler 触发 CRAS 分析/知识汇聚",
+      "description": "当意图被分类为 reflect 时，路由到 intent-event-handler 触发 CRAS 分析/知识汇聚",
+      "isc_rule_ref": "intent-reflect-dispatch-001",
+      "trigger_events": [
+        "isc.rule.intent.reflect.dispatch.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-ruleify-consumption-001",
+      "category": "IC2",
+      "name": "当意图分析器识别出 ruleify 类意图时，路由到 intent-event-handler 创建 ISC 规则草案。",
+      "description": "当意图分析器识别出 ruleify 类意图时，路由到 intent-event-handler 创建 ISC 规则草案。确保 intent.ruleify 事件在 event-bus 链路中被正确匹配和执行。",
+      "isc_rule_ref": "rule.intent-ruleify-consumption-001",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.intent-ruleify-dispatch-001",
+      "category": "IC2",
+      "name": "当意图被分类为 ruleify 时，路由到 intent-event-handler 创建 ISC 规则草案",
+      "description": "当意图被分类为 ruleify 时，路由到 intent-event-handler 创建 ISC 规则草案",
+      "isc_rule_ref": "intent-ruleify-dispatch-001",
+      "trigger_events": [
+        "isc.rule.intent.ruleify.dispatch.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-type-convergence-001",
+      "category": "IC2",
+      "name": "意图识别系统必须覆盖且仅覆盖5种收敛类型：(1)正负向情绪意图、(2)规则触发意图、(3)复杂意图（需5轮以上上下文推理",
+      "description": "意图识别系统必须覆盖且仅覆盖5种收敛类型：(1)正负向情绪意图、(2)规则触发意图、(3)复杂意图（需5轮以上上下文推理）、(4)隐含意图（非明确表达，需推理）、(5)一句话多意图。任何新意图类型必须归入以上5类之一，否则不予注册。",
+      "isc_rule_ref": "rule.intent-type-convergence-001",
+      "trigger_events": [
+        "event.type.registration_requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-unknown-discovery-001",
+      "category": "IC2",
+      "name": "每周执行一次未知意图发现：(1)用智谱embedding对近期对话做向量聚类，(2)LLM对聚类结果做意图分类，(3)M",
+      "description": "每周执行一次未知意图发现：(1)用智谱embedding对近期对话做向量聚类，(2)LLM对聚类结果做意图分类，(3)MECE原则识别增量且高频的意图类型，(4)主动溯源未解决问题是否因意图类型缺失导致。发现候选新意图→提交用户确认→注册。",
+      "isc_rule_ref": "rule.intent-unknown-discovery-001",
+      "trigger_events": [
+        "lto.general.weekly",
+        "system.unresolved.detected"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-任务分配策略-jrw5uo",
+      "category": "IC2",
+      "name": "基于boom/Codex渠道的失败经验，确立生成类任务必须优先分配给Opus的规则",
+      "description": "基于boom/Codex渠道的失败经验，确立生成类任务必须优先分配给Opus的规则",
+      "isc_rule_ref": "rule.intent-任务分配策略-jrw5uo",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-任务调度机制-yuiao8",
+      "category": "IC2",
+      "name": "用户明确要求系统建立默认规则：任务应扩列子Agent执行，而非主Agent亲自操作",
+      "description": "用户明确要求系统建立默认规则：任务应扩列子Agent执行，而非主Agent亲自操作",
+      "isc_rule_ref": "rule.intent-任务调度机制-yuiao8",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-会话记忆机制-f2lei",
+      "category": "IC2",
+      "name": "从失误中提炼规则：commit历史不等于记忆，需要写memory日记",
+      "description": "从失误中提炼规则：commit历史不等于记忆，需要写memory日记",
+      "isc_rule_ref": "rule.intent-会话记忆机制-f2lei",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-子agent产出自动发送-g7wmm7",
+      "category": "IC2",
+      "name": "用户期望将报告类产出自动发送功能程序化，以解决记忆丢失后行为不一致问题",
+      "description": "用户期望将报告类产出自动发送功能程序化，以解决记忆丢失后行为不一致问题",
+      "isc_rule_ref": "rule.intent-子agent产出自动发送-g7wmm7",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-子agent深度思考委派机制-2l6fsj",
+      "category": "IC2",
+      "name": "用户希望将深度思考任务委派给子Agent确立为常规规则",
+      "description": "用户希望将深度思考任务委派给子Agent确立为常规规则",
+      "isc_rule_ref": "rule.intent-子agent深度思考委派机制-2l6fsj",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-intent-规则命名规范与去重技能-pop4vq",
+      "category": "IC2",
+      "name": "用户要求将ISC规则去重和命名统一变成可复用技能和标准化流程",
+      "description": "用户要求将ISC规则去重和命名统一变成可复用技能和标准化流程",
+      "isc_rule_ref": "rule.intent-规则命名规范与去重技能-pop4vq",
+      "trigger_events": [
+        "intent.ruleify"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.n007-v2",
+      "category": "IC2",
+      "name": "源文件交付标准 - 当用户要求'源文件'时，必须通过消息工具直接发送文件本身。如果通道不支持文件传输，则输出完整文件内容",
+      "description": "源文件交付标准 - 当用户要求'源文件'时，必须通过消息工具直接发送文件本身。如果通道不支持文件传输，则输出完整文件内容供用户复制保存",
+      "isc_rule_ref": "N007-v2",
+      "trigger_events": [
+        "user.request.source_file",
+        "session.received.file_request"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-interactive-card-context-inference-001",
+      "category": "IC2",
+      "name": "当收到用户回复引用的消息体为[Interactive Card]时，不得询问用户卡片内容。必须根据最近发出的消息、当前对",
+      "description": "当收到用户回复引用的消息体为[Interactive Card]时，不得询问用户卡片内容。必须根据最近发出的消息、当前对话上下文推断卡片内容并直接响应。",
+      "isc_rule_ref": "rule.interactive-card-context-inference-001",
+      "trigger_events": [
+        "session.reply.received"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-isc-auto-programmatic-alignment-001",
+      "category": "IC2",
+      "name": "任何ISC规则的创建、修改、删除，都必须自动触发全链路程序化对齐：感知探针→认知判断→执行动作→质量验真",
+      "description": "任何ISC规则的创建、修改、删除，都必须自动触发全链路程序化对齐：感知探针→认知判断→执行动作→质量验真",
+      "isc_rule_ref": "rule.isc-auto-programmatic-alignment-001",
+      "trigger_events": [
+        "isc.rule.created",
+        "isc.rule.modified",
+        "isc.rule.deleted"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-isc-change-auto-trigger-alignment-001",
+      "category": "IC2",
+      "name": "ISC规则变更自动触发对齐检查 - 规则新增/修改/删除时自动执行对齐",
+      "description": "ISC规则变更自动触发对齐检查 - 规则新增/修改/删除时自动执行对齐",
+      "isc_rule_ref": "rule.isc-change-auto-trigger-alignment-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.699Z"
+    },
+    {
+      "id": "intent.rule-isc-creation-gate-001",
+      "category": "IC2",
+      "name": "ISC规则创建闸门 - 创建时强制验证，拒绝不符合标准的规则",
+      "description": "ISC规则创建闸门 - 创建时强制验证，拒绝不符合标准的规则",
+      "isc_rule_ref": "rule.isc-creation-gate-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-evomap-mandatory-security-scan-032",
+      "category": "IC2",
+      "name": "对EvoMap同步清单中的技能实施强制安全扫描，阻断恶意技能传播",
+      "description": "对EvoMap同步清单中的技能实施强制安全扫描，阻断恶意技能传播",
+      "isc_rule_ref": "rule.isc-evomap-mandatory-security-scan-032",
+      "trigger_events": [
+        "evomap.sync.requested",
+        "evomap.skill.requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-lto-handshake-001",
+      "category": "IC2",
+      "name": "ISC-DTO定期握手机制 - 每30分钟互相扫描对齐",
+      "description": "ISC-DTO定期握手机制 - 每30分钟互相扫描对齐",
+      "isc_rule_ref": "rule.isc-lto-handshake-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-naming-convention-001",
+      "category": "IC2",
+      "name": "ISC规则命名公约 - 严格执行R001-R005标准格式",
+      "description": "ISC规则命名公约 - 严格执行R001-R005标准格式",
+      "isc_rule_ref": "rule.isc-naming-convention-001",
+      "trigger_events": [
+        "isc.rule.created",
+        "isc.rule.modified",
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-rule-auto-decompose-001",
+      "category": "IC2",
+      "name": "元规则——规则创建后自动拆解事件绑定、DTO关联、三层归属验证，输出对齐矩阵",
+      "description": "元规则——规则创建后自动拆解事件绑定、DTO关联、三层归属验证，输出对齐矩阵",
+      "isc_rule_ref": "rule.isc-rule-auto-decompose-001",
+      "trigger_events": [
+        "isc.rule.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-rule-creation-dedup-gate-001",
+      "category": "IC2",
+      "name": "在ISC规则创建前，通过三维度语义比对检测重复：(1) event快筛——新规则events与现有规则events是否有",
+      "description": "在ISC规则创建前，通过三维度语义比对检测重复：(1) event快筛——新规则events与现有规则events是否有交集，无交集直接放行；(2) 有交集则调用Claude Opus深检——condition场景是否等价 + action执行效果是否相同；三维度同时满足才判定重复并阻止创建。任一维度不同即视为不同规则，哪怕description写得一模一样。",
+      "isc_rule_ref": "rule.isc-rule-creation-dedup-gate-001",
+      "trigger_events": [
+        "isc.rule.before_create"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-rule-modified-dedup-scan-001",
+      "category": "IC2",
+      "name": "ISC规则修改后触发去重扫描，检测是否与其他规则产生重复",
+      "description": "ISC规则修改后触发去重扫描，检测是否与其他规则产生重复",
+      "isc_rule_ref": "rule.isc-rule-modified-dedup-scan-001",
+      "trigger_events": [
+        "isc.rule.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-skill-index-auto-update-001",
+      "category": "IC2",
+      "name": "技能索引自动更新 - 技能创建/修改/删除时自动更新CAPABILITY-ANCHOR.md",
+      "description": "技能索引自动更新 - 技能创建/修改/删除时自动更新CAPABILITY-ANCHOR.md",
+      "isc_rule_ref": "rule.isc-skill-index-auto-update-001",
+      "trigger_events": [
+        "skill.general.created",
+        "skill.general.updated",
+        "skill.general.deleted",
+        "isc.skill_index.refresh_requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-skill-permission-classification-031",
+      "category": "IC2",
+      "name": "Filesystem/Network/Shell/Credential四维度权限标注，实现最小权限原则",
+      "description": "Filesystem/Network/Shell/Credential四维度权限标注，实现最小权限原则",
+      "isc_rule_ref": "rule.isc-skill-permission-classification-031",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-skill-security-gate-030",
+      "category": "IC2",
+      "name": "基于Snyk 8类威胁检测的技能发布前置门禁，阻断潜在供应链风险",
+      "description": "基于Snyk 8类威胁检测的技能发布前置门禁，阻断潜在供应链风险",
+      "isc_rule_ref": "rule.isc-skill-security-gate-030",
+      "trigger_events": [
+        "skill.general.publish",
+        "skill.general.sync",
+        "skill.evoMap.upload"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-skill-usage-protocol-001",
+      "category": "IC2",
+      "name": "技能使用协议 - 使用任何技能前必须先读取SKILL.md确认用法，禁止凭猜测调用",
+      "description": "技能使用协议 - 使用任何技能前必须先读取SKILL.md确认用法，禁止凭猜测调用",
+      "isc_rule_ref": "rule.isc-skill-usage-protocol-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-isc-standard-format-001",
+      "category": "IC2",
+      "name": "ISC规则文件格式统一标准 - 确保ISC-DTO无缝对接",
+      "description": "ISC规则文件格式统一标准 - 确保ISC-DTO无缝对接",
+      "isc_rule_ref": "rule.isc-standard-format-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-knowledge-must-be-executable-001",
+      "category": "IC2",
+      "name": "任何从对话、教学、错误中学到的知识，必须自主固化为可执行的规则/技能/代码（不是告警等人处理）。全链路自主闭环：感知（扫",
+      "description": "任何从对话、教学、错误中学到的知识，必须自主固化为可执行的规则/技能/代码（不是告警等人处理）。全链路自主闭环：感知（扫描MEMORY.md发现可执行知识）→ 认知（判断应该成为技能还是规则还是代码）→ 执行（自动创建技能/规则/handler）→ 验证（确认可执行性）。Memory是索引不是终点。",
+      "isc_rule_ref": "rule.knowledge-must-be-executable-001",
+      "trigger_events": [
+        "knowledge.general.created",
+        "user.teaching.received",
+        "system.error",
+        "system.error.lesson_extracted"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-layered-decoupling-architecture-001",
+      "category": "IC2",
+      "name": "所有规则、任务、技能的设计必须明确三层归属：感知层（谁观察/什么探针）、认知层（谁判断/什么引擎）、执行层（谁行动/什么",
+      "description": "所有规则、任务、技能的设计必须明确三层归属：感知层（谁观察/什么探针）、认知层（谁判断/什么引擎）、执行层（谁行动/什么技能）。三层通过事件总线解耦，不直接耦合。任何架构设计如果无法清晰说明三层归属，视为设计不完整。",
+      "isc_rule_ref": "rule.layered-decoupling-architecture-001",
+      "trigger_events": [
+        "document.document.created",
+        "document.document.modified",
+        "isc.rule.created",
+        "skill.general.created",
+        "lto.task.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.isc-main-agent-delegation-001",
+      "category": "IC2",
+      "name": "主Agent禁止亲自做实现工作，必须委派子Agent。认知规则已被用户纠偏5次以上仍反复违反，升级为程序化守卫。",
+      "description": "主Agent禁止亲自做实现工作，必须委派子Agent。认知规则已被用户纠偏5次以上仍反复违反，升级为程序化守卫。",
+      "isc_rule_ref": "ISC-MAIN-AGENT-DELEGATION-001",
+      "trigger_events": [
+        "tool_call.edit",
+        "tool_call.write",
+        "tool_call.exec",
+        "tool_call.feishu_doc"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.memory-correction-on-feedback-001",
+      "category": "IC2",
+      "name": "用户纠偏时自动反查MEMORY.md中的矛盾记忆并修正",
+      "description": "用户纠偏时自动反查MEMORY.md中的矛盾记忆并修正",
+      "isc_rule_ref": "memory-correction-on-feedback-001",
+      "trigger_events": [
+        "isc.rule.memory.correction.on.feedback.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-memory-digest-must-verify-001",
+      "category": "IC2",
+      "name": "消化任何历史信息后必须核实磁盘文件实际存在。流程：记录→核实文件→补缺→commit。不能只写memory不查磁盘。",
+      "description": "消化任何历史信息后必须核实磁盘文件实际存在。流程：记录→核实文件→补缺→commit。不能只写memory不查磁盘。",
+      "isc_rule_ref": "rule.memory-digest-must-verify-001",
+      "trigger_events": [
+        "knowledge.general.updated",
+        "knowledge.general.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-meta-enforcement-gate-001",
+      "category": "IC2",
+      "name": "ISC元规则：规则必须有强制执行机制，否则视为未制定。写了但没挂执行的规则等于废纸。",
+      "description": "ISC元规则：规则必须有强制执行机制，否则视为未制定。写了但没挂执行的规则等于废纸。",
+      "isc_rule_ref": "rule.meta-enforcement-gate-001",
+      "trigger_events": [
+        "isc.general.created",
+        "isc.general.updated",
+        "orchestration.general.review_requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-multi-agent-communication-priority-001",
+      "category": "IC2",
+      "name": "多Agent并行与用户沟通优先规则 - 所有任务使用多Agent并行，主Agent沟通始终畅通",
+      "description": "多Agent并行与用户沟通优先规则 - 所有任务使用多Agent并行，主Agent沟通始终畅通",
+      "isc_rule_ref": "rule.multi-agent-communication-priority-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-must-verify-config-before-coding-001",
+      "category": "IC2",
+      "name": "在代码中引用任何外部服务（API地址、模型名、Key）时，必须先读取实际配置文件确认，不允许凭记忆或推测填写。违反此规则",
+      "description": "在代码中引用任何外部服务（API地址、模型名、Key）时，必须先读取实际配置文件确认，不允许凭记忆或推测填写。违反此规则=数据不诚实。",
+      "isc_rule_ref": "rule.must-verify-config-before-coding-001",
+      "trigger_events": [
+        "code.module.created",
+        "code.module.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.700Z"
+    },
+    {
+      "id": "intent.rule-n016-decision-auto-repair-loop-post-pipeline-016",
+      "category": "IC2",
+      "name": "流水线后自动修复循环 - 全局自主决策流水线发现问题后，自动循环修复直至稳定",
+      "description": "流水线后自动修复循环 - 全局自主决策流水线发现问题后，自动循环修复直至稳定",
+      "isc_rule_ref": "rule.n016-decision-auto-repair-loop-post-pipeline-016",
+      "trigger_events": [
+        "orchestration.execution.completed",
+        "orchestration.stage.failed",
+        "system.repair.needed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n017-detection-cras-recurring-pattern-auto-resolve-017",
+      "category": "IC2",
+      "name": "CRAS重复模式自动解决 - CRAS-B用户洞察分析发现同一问题模式≥2次时，主动根因分析并自动解决",
+      "description": "CRAS重复模式自动解决 - CRAS-B用户洞察分析发现同一问题模式≥2次时，主动根因分析并自动解决",
+      "isc_rule_ref": "rule.n017-detection-cras-recurring-pattern-auto-resolve-017",
+      "trigger_events": [
+        "cras.pattern.detected",
+        "cras.recurring.issue_identified",
+        "system.recurring.threshold_exceeded"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n018-detection-skill-rename-global-alignment-018",
+      "category": "IC2",
+      "name": "技能重命名全局引用对齐 - 检测到技能/模块重命名或移动时，自动扫描并更新所有引用点",
+      "description": "技能重命名全局引用对齐 - 检测到技能/模块重命名或移动时，自动扫描并更新所有引用点",
+      "isc_rule_ref": "rule.n018-detection-skill-rename-global-alignment-018",
+      "trigger_events": [
+        "skill_renamed",
+        "skill_moved",
+        "module_refactored"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n019-auto-skill-md-generation-019",
+      "category": "IC2",
+      "name": "自动SKILL.md生成 - 代码文件存在但SKILL.md缺失或质量不达标时，由深度思考类模型自动生成",
+      "description": "自动SKILL.md生成 - 代码文件存在但SKILL.md缺失或质量不达标时，由深度思考类模型自动生成",
+      "isc_rule_ref": "rule.n019-auto-skill-md-generation-019",
+      "trigger_events": [
+        "skill_code_created",
+        "skill_code_major_update",
+        "skill_md_missing",
+        "skill_md_quality_low"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n020-auto-universal-root-cause-analysis-020",
+      "category": "IC2",
+      "name": "通用根因分析与差距分析 - 针对各类系统问题自动进行深度分析，由DTO驱动闭环解决",
+      "description": "通用根因分析与差距分析 - 针对各类系统问题自动进行深度分析，由DTO驱动闭环解决",
+      "isc_rule_ref": "rule.n020-auto-universal-root-cause-analysis-020",
+      "trigger_events": [
+        "execution_failed",
+        "pipeline_error",
+        "sync_failure",
+        "health_check_failed",
+        "user_reported_issue",
+        "design_compliance_failure",
+        "architecture_audit_failed",
+        "hardcode_detected",
+        "isc_non_compliance_detected"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n022-detection-architecture-design-isc-compliance-audit-022",
+      "category": "IC2",
+      "name": "架构设计ISC合规审计 - 自动检查架构设计方案是否符合ISC标准，强制要求完整输出物",
+      "description": "架构设计ISC合规审计 - 自动检查架构设计方案是否符合ISC标准，强制要求完整输出物",
+      "isc_rule_ref": "rule.n022-detection-architecture-design-isc-compliance-audit-022",
+      "trigger_events": [
+        "design_document_created",
+        "architecture_design_completed",
+        "mr_design_generated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n023-auto-aeo-evaluation-standard-generation-023",
+      "category": "IC2",
+      "name": "AEO自动生成评测标准 - 基于技能类型、历史数据、用户反馈自动生成评测标准和黄金标准",
+      "description": "AEO自动生成评测标准 - 基于技能类型、历史数据、用户反馈自动生成评测标准和黄金标准",
+      "isc_rule_ref": "rule.n023-auto-aeo-evaluation-standard-generation-023",
+      "trigger_events": [
+        "skill_created",
+        "skill_major_update",
+        "aeo_evaluation_required",
+        "user_feedback_collected"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n024-aeo-dual-track-orchestration-024",
+      "category": "IC2",
+      "name": "AEO双轨运营编排 - 自动区分AI效果运营和功能质量运营，分别执行评测",
+      "description": "AEO双轨运营编排 - 自动区分AI效果运营和功能质量运营，分别执行评测",
+      "isc_rule_ref": "rule.n024-aeo-dual-track-orchestration-024",
+      "trigger_events": [
+        "aeo_evaluation_required",
+        "skill_test_triggered"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n025-aeo-feedback-auto-collection-025",
+      "category": "IC2",
+      "name": "AEO用户反馈自动收录 - 主动检测用户质疑、澄清、重复修改等信号，自动收录为问题",
+      "description": "AEO用户反馈自动收录 - 主动检测用户质疑、澄清、重复修改等信号，自动收录为问题",
+      "isc_rule_ref": "rule.n025-aeo-feedback-auto-collection-025",
+      "trigger_events": [
+        "user_message_received",
+        "conversation_turn_completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n026-aeo-insight-to-action-026",
+      "category": "IC2",
+      "name": "AEO洞察到整改闭环 - 当问题频率达到阈值时，自动生成短期/中期/长期整改方案并跟踪执行",
+      "description": "AEO洞察到整改闭环 - 当问题频率达到阈值时，自动生成短期/中期/长期整改方案并跟踪执行",
+      "isc_rule_ref": "rule.n026-aeo-insight-to-action-026",
+      "trigger_events": [
+        "aeo_issue_frequency_threshold_exceeded",
+        "n020_analysis_completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n029-model-api-key-pool-management-029",
+      "category": "IC2",
+      "name": "模型API Key池管理 - 多Key并行调度、失效自动切换、负载均衡",
+      "description": "模型API Key池管理 - 多Key并行调度、失效自动切换、负载均衡",
+      "isc_rule_ref": "rule.n029-model-api-key-pool-management-029",
+      "trigger_events": [
+        "api_key_rate_limit",
+        "api_key_invalid",
+        "api_key_expired",
+        "model_request_initiated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n033-gateway-config-protection",
+      "category": "IC2",
+      "name": "禁止自动修改Gateway、飞书、Agent与模型配置，所有此类修改必须用户人工确认后方可执行",
+      "description": "禁止自动修改Gateway、飞书、Agent与模型配置，所有此类修改必须用户人工确认后方可执行",
+      "isc_rule_ref": "rule.n033-gateway-config-protection",
+      "trigger_events": [
+        "system.config.modified",
+        "system.config.created",
+        "system.config.deleted",
+        "system.config.change_requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.701Z"
+    },
+    {
+      "id": "intent.rule-n034-rule-identity-accuracy",
+      "category": "IC2",
+      "name": "强制从文件系统实际计数规则，禁止推断或缓存，确保DTO规则识别准确",
+      "description": "强制从文件系统实际计数规则，禁止推断或缓存，确保DTO规则识别准确",
+      "isc_rule_ref": "rule.n034-rule-identity-accuracy",
+      "trigger_events": [
+        "lto.rule.statistics_requested",
+        "isc.rule.created",
+        "isc.rule.deleted",
+        "lto.general.rule_count_validation"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-n035-rule-trigger-completeness",
+      "category": "IC2",
+      "name": "监控所有规则的触发情况，检测未触发规则并报告原因",
+      "description": "监控所有规则的触发情况，检测未触发规则并报告原因",
+      "isc_rule_ref": "rule.n035-rule-trigger-completeness",
+      "trigger_events": [
+        "isc.rule.created",
+        "isc.rule.updated",
+        "isc.enforcement.audit_requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-n036-memory-loss-recovery",
+      "category": "IC2",
+      "name": "当MEMORY.md丢失或损坏时，从文件系统自动重建规则清单和系统状态",
+      "description": "当MEMORY.md丢失或损坏时，从文件系统自动重建规则清单和系统状态",
+      "isc_rule_ref": "rule.n036-memory-loss-recovery",
+      "trigger_events": [
+        "session.general.started",
+        "system.memory.loss_detected",
+        "session.context.incomplete"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-naming-mece-consistency-001",
+      "category": "IC2",
+      "name": "命名MECE校验——同一层级的所有实体关键词两两比对，不允许概念重叠",
+      "description": "命名MECE校验——同一层级的所有实体关键词两两比对，不允许概念重叠",
+      "isc_rule_ref": "rule.naming-mece-consistency-001",
+      "trigger_events": [
+        "architecture.diagram.created",
+        "isc.rule.created",
+        "skill.general.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.n006",
+      "category": "IC2",
+      "name": "技能名称双语展示标准 - 所有汇报涉及skill英文名时必须同时展示中文名",
+      "description": "技能名称双语展示标准 - 所有汇报涉及skill英文名时必须同时展示中文名",
+      "isc_rule_ref": "N006",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-parallel-subagent-orchestration-001",
+      "category": "IC2",
+      "name": "并行子Agent编排规则 - DTO调度多Agent并行执行复杂工作流",
+      "description": "并行子Agent编排规则 - DTO调度多Agent并行执行复杂工作流",
+      "isc_rule_ref": "rule.parallel-subagent-orchestration-001",
+      "trigger_events": [
+        "orchestration.general.requested",
+        "orchestration.general.detected"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.isc-pdca-act-entry-gate-001",
+      "category": "IC2",
+      "name": "进入Act阶段前确认Check发现了需要改进的问题",
+      "description": "进入Act阶段前确认Check发现了需要改进的问题",
+      "isc_rule_ref": "ISC-PDCA-ACT-ENTRY-GATE-001",
+      "trigger_events": [
+        "pdca.phase.act.entry"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.isc-pdca-act-exit-gate-001",
+      "category": "IC2",
+      "name": "离开Act阶段前确认改进措施已落到代码或ISC规则",
+      "description": "离开Act阶段前确认改进措施已落到代码或ISC规则",
+      "isc_rule_ref": "ISC-PDCA-ACT-EXIT-GATE-001",
+      "trigger_events": [
+        "pdca.phase.act.exit"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.isc-pdca-check-entry-gate-001",
+      "category": "IC2",
+      "name": "进入Check阶段前确认有交付物且评测者已分配",
+      "description": "进入Check阶段前确认有交付物且评测者已分配",
+      "isc_rule_ref": "ISC-PDCA-CHECK-ENTRY-GATE-001",
+      "trigger_events": [
+        "pdca.phase.check.entry"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.isc-pdca-check-exit-gate-001",
+      "category": "IC2",
+      "name": "离开Check阶段前确认评测报告已生成",
+      "description": "离开Check阶段前确认评测报告已生成",
+      "isc_rule_ref": "ISC-PDCA-CHECK-EXIT-GATE-001",
+      "trigger_events": [
+        "pdca.phase.check.exit"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.isc-pdca-do-entry-gate-001",
+      "category": "IC2",
+      "name": "进入Do阶段前确认Plan准出已通过",
+      "description": "进入Do阶段前确认Plan准出已通过",
+      "isc_rule_ref": "ISC-PDCA-DO-ENTRY-GATE-001",
+      "trigger_events": [
+        "pdca.phase.do.entry"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.isc-pdca-do-exit-gate-001",
+      "category": "IC2",
+      "name": "离开Do阶段前检查交付物存在性",
+      "description": "离开Do阶段前检查交付物存在性",
+      "isc_rule_ref": "ISC-PDCA-DO-EXIT-GATE-001",
+      "trigger_events": [
+        "pdca.phase.do.exit"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.isc-pdca-plan-entry-gate-001",
+      "category": "IC2",
+      "name": "任务进入Plan阶段前检查来源合法性（用户指令/ISC规则触发/事件驱动）",
+      "description": "任务进入Plan阶段前检查来源合法性（用户指令/ISC规则触发/事件驱动）",
+      "isc_rule_ref": "ISC-PDCA-PLAN-ENTRY-GATE-001",
+      "trigger_events": [
+        "pdca.phase.plan.entry"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.isc-pdca-plan-exit-gate-001",
+      "category": "IC2",
+      "name": "任务离开Plan阶段前检查4要素完整性（业务目标/时效约束/成本边界/验收标准）",
+      "description": "任务离开Plan阶段前检查4要素完整性（业务目标/时效约束/成本边界/验收标准）",
+      "isc_rule_ref": "ISC-PDCA-PLAN-EXIT-GATE-001",
+      "trigger_events": [
+        "pdca.phase.plan.exit"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-benchmark-analysis-requested-001",
+      "category": "IC2",
+      "name": "兼容 analysis.requested 事件命名，触发并行分析治理流程。",
+      "description": "兼容 analysis.requested 事件命名，触发并行分析治理流程。",
+      "isc_rule_ref": "rule.pipeline-benchmark-analysis-requested-001",
+      "trigger_events": [
+        "analysis.requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-benchmark-defect-acknowledged-001",
+      "category": "IC2",
+      "name": "兼容 agent.behavior.defect_acknowledged 事件命名，触发自我纠偏规则化。",
+      "description": "兼容 agent.behavior.defect_acknowledged 事件命名，触发自我纠偏规则化。",
+      "isc_rule_ref": "rule.pipeline-benchmark-defect-acknowledged-001",
+      "trigger_events": [
+        "agent.behavior.defect_acknowledged"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-benchmark-design-document-alignment-001",
+      "category": "IC2",
+      "name": "设计文档创建或修改时触发统一架构治理补充检查，补足 anti-entropy / layered / review 三类",
+      "description": "设计文档创建或修改时触发统一架构治理补充检查，补足 anti-entropy / layered / review 三类基础规则在 benchmark 事件命名下的命中。",
+      "isc_rule_ref": "rule.pipeline-benchmark-design-document-alignment-001",
+      "trigger_events": [
+        "design.document.created",
+        "design.document.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-benchmark-design-document-layered-001",
+      "category": "IC2",
+      "name": "设计文档事件在 benchmark 命名空间下补充分层解耦检查。",
+      "description": "设计文档事件在 benchmark 命名空间下补充分层解耦检查。",
+      "isc_rule_ref": "rule.pipeline-benchmark-design-document-layered-001",
+      "trigger_events": [
+        "design.document.created",
+        "design.document.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-benchmark-evomap-security-scan-001",
+      "category": "IC2",
+      "name": "兼容 evomap.sync.request 事件命名，确保 EvoMap 同步请求进入强制安全扫描流程。",
+      "description": "兼容 evomap.sync.request 事件命名，确保 EvoMap 同步请求进入强制安全扫描流程。",
+      "isc_rule_ref": "rule.pipeline-benchmark-evomap-security-scan-001",
+      "trigger_events": [
+        "evomap.sync.request"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-benchmark-skill-created-alignment-001",
+      "category": "IC2",
+      "name": "对 skill.created 做通用对齐，覆盖能力锚点、分层架构、命名一致性与公开技能分类检查，确保新技能创建时的基础",
+      "description": "对 skill.created 做通用对齐，覆盖能力锚点、分层架构、命名一致性与公开技能分类检查，确保新技能创建时的基础治理规则都能被命中。",
+      "isc_rule_ref": "rule.pipeline-benchmark-skill-created-alignment-001",
+      "trigger_events": [
+        "skill.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-benchmark-skill-publish-security-gate-001",
+      "category": "IC2",
+      "name": "兼容 skill.publish 事件命名，确保技能发布走安全门禁。",
+      "description": "兼容 skill.publish 事件命名，确保技能发布走安全门禁。",
+      "isc_rule_ref": "rule.pipeline-benchmark-skill-publish-security-gate-001",
+      "trigger_events": [
+        "skill.publish"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-benchmark-workflow-requested-001",
+      "category": "IC2",
+      "name": "兼容 workflow.requested 事件命名，触发并行子 agent 编排。",
+      "description": "兼容 workflow.requested 事件命名，触发并行子 agent 编排。",
+      "isc_rule_ref": "rule.pipeline-benchmark-workflow-requested-001",
+      "trigger_events": [
+        "workflow.requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-pipeline-report-filter-001",
+      "category": "IC2",
+      "name": "流水线汇报过滤规则 - 静默常规技能版本更新，仅汇报同步失败或重大发布",
+      "description": "流水线汇报过滤规则 - 静默常规技能版本更新，仅汇报同步失败或重大发布",
+      "isc_rule_ref": "rule.pipeline-report-filter-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.702Z"
+    },
+    {
+      "id": "intent.rule-planning-time-granularity-037",
+      "category": "IC2",
+      "name": "AI进化速度极快，计划粒度必须以分钟/小时为单位，禁止按日/周/月列计划",
+      "description": "AI进化速度极快，计划粒度必须以分钟/小时为单位，禁止按日/周/月列计划",
+      "isc_rule_ref": "rule.planning-time-granularity-037",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.project-artifact-gate-001",
+      "category": "IC2",
+      "name": "任何任务标记完成前，必须验证可交付产物已沉淀。无产物=未完成，禁止空标completed。",
+      "description": "任何任务标记完成前，必须验证可交付产物已沉淀。无产物=未完成，禁止空标completed。",
+      "isc_rule_ref": "PROJECT-ARTIFACT-GATE-001",
+      "trigger_events": [
+        "task.status.completed",
+        "task.status.done",
+        "subtask.status.completed",
+        "sprint.day.completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-project-artifact-settlement-001",
+      "category": "IC2",
+      "name": "子Agent任务标记完成前，必须校验其关键输出已写入项目文件（规则、报告、文档或代码）并可追溯；仅口头完成或未落盘视为未",
+      "description": "子Agent任务标记完成前，必须校验其关键输出已写入项目文件（规则、报告、文档或代码）并可追溯；仅口头完成或未落盘视为未完成。",
+      "isc_rule_ref": "rule.project-artifact-settlement-001",
+      "trigger_events": [
+        "subagent.task.completed",
+        "orchestration.subagent.completed",
+        "pipeline.stage.completed",
+        "system.day.closure_requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.project-mgmt-lesson-capture-001",
+      "category": "IC2",
+      "name": "Sprint结束或项目里程碑完成时，必须沉淀经验教训和指标数据",
+      "description": "Sprint结束或项目里程碑完成时，必须沉淀经验教训和指标数据",
+      "isc_rule_ref": "PROJECT-MGMT-LESSON-CAPTURE-001",
+      "trigger_events": [
+        "sprint.completed",
+        "sprint.aborted",
+        "project.milestone.reached",
+        "review.rejected.count >= 2",
+        "task.overdue.ratio > 0.5",
+        "user.process.correction"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.project-mgmt-startup-checklist-001",
+      "category": "IC2",
+      "name": "启动项目管理流程时，必须完成自检清单，包括读取历史经验和反模式",
+      "description": "启动项目管理流程时，必须完成自检清单，包括读取历史经验和反模式",
+      "isc_rule_ref": "PROJECT-MGMT-STARTUP-CHECKLIST-001",
+      "trigger_events": [
+        "project.started",
+        "sprint.started",
+        "task.orchestration.initiated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-project-tracker-hygiene-001",
+      "category": "IC2",
+      "name": "当任务状态发生变更（新建/进行中/阻塞/完成）时，必须同步更新 PROJECT-TRACKER.md 对应条目，并在当日",
+      "description": "当任务状态发生变更（新建/进行中/阻塞/完成）时，必须同步更新 PROJECT-TRACKER.md 对应条目，并在当日日报写入该变更记录；若任一环节缺失则拒绝状态提交。",
+      "isc_rule_ref": "rule.project-tracker-hygiene-001",
+      "trigger_events": [
+        "task.status.changed",
+        "task.lifecycle.updated",
+        "orchestration.task.completed",
+        "orchestration.task.blocked",
+        "system.day.closure_requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-public-skill-classification-001",
+      "category": "IC2",
+      "name": "新建或修改技能时，自动判断是否为通用可销售技能，符合条件的必须放入skills/public/",
+      "description": "新建或修改技能时，自动判断是否为通用可销售技能，符合条件的必须放入skills/public/",
+      "isc_rule_ref": "rule.public-skill-classification-001",
+      "trigger_events": [
+        "skill.created",
+        "skill.modified",
+        "skill.skill_md.updated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-public-skill-quality-gate-001",
+      "category": "IC2",
+      "name": "skills/public/下的技能必须满足销售质量标准才能发布",
+      "description": "skills/public/下的技能必须满足销售质量标准才能发布",
+      "isc_rule_ref": "rule.public-skill-quality-gate-001",
+      "trigger_events": [
+        "skill.public.pre_publish",
+        "skill.public.modified",
+        "git.commit.skills_public"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.quality-over-efficiency-over-cost-001",
+      "category": "IC2",
+      "name": "任何技术选型决策必须遵循质量>效率>成本的优先级。越重要的环节越用最强方案，不允许在关键环节为省成本或求快而降级方案质量",
+      "description": "任何技术选型决策必须遵循质量>效率>成本的优先级。越重要的环节越用最强方案，不允许在关键环节为省成本或求快而降级方案质量。",
+      "isc_rule_ref": "QUALITY-OVER-EFFICIENCY-OVER-COST-001",
+      "trigger_events": [
+        "architecture.decision.model_selection",
+        "architecture.decision.tool_selection",
+        "architecture.decision.approach_selection",
+        "architecture.decision.verification_method_selection",
+        "architecture.decision.delivery_scope_selection",
+        "architecture.decision.execution_mode_selection",
+        "architecture.decision.task_granularity_selection",
+        "architecture.decision.wait_strategy_selection",
+        "quality.review.selection_rationality_check"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.isc-skill-quality-001",
+      "category": "IC2",
+      "name": "禁止占位符技能 - 技能必须有实质性实现",
+      "description": "禁止占位符技能 - 技能必须有实质性实现",
+      "isc_rule_ref": "ISC-SKILL-QUALITY-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-report-readability-001",
+      "category": "IC2",
+      "name": "重要报告可读性钢印——默认按更适合中文阅读的方式写作，强调思路、结构、主次与简洁表达",
+      "description": "重要报告可读性钢印——默认按更适合中文阅读的方式写作，强调思路、结构、主次与简洁表达",
+      "isc_rule_ref": "rule.report-readability-001",
+      "trigger_events": [
+        "report.created",
+        "report.modified",
+        "document.report.created",
+        "document.report.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-report-snapshot-lock-001",
+      "category": "IC2",
+      "name": "评测完成后锁定报告快照，防止数据被篡改",
+      "description": "评测完成后锁定报告快照，防止数据被篡改",
+      "isc_rule_ref": "rule.report-snapshot-lock-001",
+      "trigger_events": [
+        "evaluation.benchmark.completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-scenario-acceptance-gate-001",
+      "category": "IC2",
+      "name": "所有评测体系必须包含场景化验收层。单模块功能测试通过不代表系统合格，必须有完整用户故事线的端到端场景测试。",
+      "description": "所有评测体系必须包含场景化验收层。单模块功能测试通过不代表系统合格，必须有完整用户故事线的端到端场景测试。",
+      "isc_rule_ref": "rule.scenario-acceptance-gate-001",
+      "trigger_events": [
+        "quality.general.created",
+        "aeo.general.completed",
+        "skill.general.completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-seef-skill-registered-001",
+      "category": "IC2",
+      "name": "技能注册/更新时自动触发SEEF质量评估",
+      "description": "技能注册/更新时自动触发SEEF质量评估",
+      "isc_rule_ref": "rule.seef-skill-registered-001",
+      "trigger_events": [
+        "skill.general.created",
+        "skill.general.updated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-seef-subskill-orchestration-001",
+      "category": "IC2",
+      "name": "DTO直接调度SEEF七大子技能，SEEF仅作为子技能库",
+      "description": "DTO直接调度SEEF七大子技能，SEEF仅作为子技能库",
+      "isc_rule_ref": "rule.seef-subskill-orchestration-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-semantic-intent-event-001",
+      "category": "IC2",
+      "name": "不可量化但可监听的意图信号也是事件。反复强调→user.intent.repeated_emphasis，不耐烦→use",
+      "description": "不可量化但可监听的意图信号也是事件。反复强调→user.intent.repeated_emphasis，不耐烦→user.intent.frustration，根因分析请求→user.intent.root_cause_request。事件源=对话流，提取靠语义分析，CRAS是探针。",
+      "isc_rule_ref": "rule.semantic-intent-event-001",
+      "trigger_events": [
+        "intent.detected"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-skill-distribution-auto-classify-001",
+      "category": "IC2",
+      "name": "当技能创建或修改时，自动扫描技能内容判断是local还是publishable。检查维度：(1)是否有hardcode绝",
+      "description": "当技能创建或修改时，自动扫描技能内容判断是local还是publishable。检查维度：(1)是否有hardcode绝对路径 (2)是否引用workspace特定文件 (3)是否依赖本地配置/密钥 (4)是否有通用的输入输出接口。全部通过→publishable，任一不通过→local。结果写入SKILL.md的distribution字段。",
+      "isc_rule_ref": "rule.skill-distribution-auto-classify-001",
+      "trigger_events": [
+        "skill.lifecycle.created",
+        "skill.lifecycle.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.isc-skill-distribution-separation-001",
+      "category": "IC2",
+      "name": "技能发布到EvoMap前强制检查distribution标记、权限声明、密钥泄露和沙箱兼容性，阻断不合规发布",
+      "description": "技能发布到EvoMap前强制检查distribution标记、权限声明、密钥泄露和沙箱兼容性，阻断不合规发布",
+      "isc_rule_ref": "isc-skill-distribution-separation-001",
+      "trigger_events": [
+        "skill.general.publish_requested",
+        "skill.evomap.requested",
+        "skill.evomap.sync"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-skill-mandatory-skill-md-001",
+      "category": "IC2",
+      "name": "技能强制SKILL.md规则 - 所有技能目录必须包含SKILL.md文件，否则禁止进入流水线",
+      "description": "技能强制SKILL.md规则 - 所有技能目录必须包含SKILL.md文件，否则禁止进入流水线",
+      "isc_rule_ref": "rule.skill-mandatory-skill-md-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-skill-no-direct-llm-call-001",
+      "category": "IC2",
+      "name": "技能代码中禁止直接发HTTP请求调用LLM API（OpenAI/Anthropic/智谱等）。技能使用LLM能力的正确",
+      "description": "技能代码中禁止直接发HTTP请求调用LLM API（OpenAI/Anthropic/智谱等）。技能使用LLM能力的正确方式：(1)默认用当前Agent的模型直接执行 (2)需要多次独立LLM调用时通过sessions_spawn派子Agent。模型选择是运行时配置层的职责，不是技能的职责。除非用户显式指定某技能绑定某模型。",
+      "isc_rule_ref": "rule.skill-no-direct-llm-call-001",
+      "trigger_events": [
+        "skill.lifecycle.created",
+        "skill.lifecycle.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-skill-post-creation-guard-001",
+      "category": "IC2",
+      "name": "任何新技能创建后，必须完成4项后置步骤：注册能力锚点、创建意图路由规则、声明触发条件、验证注册成功。缺任何一项=技能未完",
+      "description": "任何新技能创建后，必须完成4项后置步骤：注册能力锚点、创建意图路由规则、声明触发条件、验证注册成功。缺任何一项=技能未完成。",
+      "isc_rule_ref": "rule.skill-post-creation-guard-001",
+      "trigger_events": [
+        "skill.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.isc-spawn-taskboard-hook-001",
+      "category": "IC2",
+      "name": "主Agent每次sessions_spawn后必须调用register-task登记到task-board",
+      "description": "主Agent每次sessions_spawn后必须调用register-task登记到task-board",
+      "isc_rule_ref": "ISC-SPAWN-TASKBOARD-HOOK-001",
+      "trigger_events": [
+        "isc.rule.spawn.taskboard.hook.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.sprint-closure-acceptance-001",
+      "category": "IC2",
+      "name": "Sprint/Day标记完成前，必须通过四重验收：产物核查、指标采集、经验沉淀、裁决殿裁决。缺任何一项不允许close。",
+      "description": "Sprint/Day标记完成前，必须通过四重验收：产物核查、指标采集、经验沉淀、裁决殿裁决。缺任何一项不允许close。",
+      "isc_rule_ref": "SPRINT-CLOSURE-ACCEPTANCE-001",
+      "trigger_events": [
+        "sprint.closure.requested",
+        "sprint.day.closure.requested",
+        "project.milestone.closure.requested"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-subagent-checkpoint-gate-001",
+      "category": "IC2",
+      "name": "子Agent任务必须分段执行+分段验证。禁止单次长程任务（>5min或>20k tokens）不产出中间结果。",
+      "description": "子Agent任务必须分段执行+分段验证。禁止单次长程任务（>5min或>20k tokens）不产出中间结果。",
+      "isc_rule_ref": "rule.subagent-checkpoint-gate-001",
+      "trigger_events": [
+        "orchestration.task.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.subagent-report-queue-001",
+      "category": "IC2",
+      "name": "子Agent完成时更新任务看板，并在累计完成>=3时触发统一汇总汇报",
+      "description": "子Agent完成时更新任务看板，并在累计完成>=3时触发统一汇总汇报",
+      "isc_rule_ref": "SUBAGENT-REPORT-QUEUE-001",
+      "trigger_events": [
+        "isc.rule.subagent.report.queue.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.isc-taskboard-push-001",
+      "category": "IC2",
+      "name": "show-task-board.sh只是自己看，用户看不到=没做。必须用show-task-board-feishu.s",
+      "description": "show-task-board.sh只是自己看，用户看不到=没做。必须用show-task-board-feishu.sh生成格式化文本并发送给用户。",
+      "isc_rule_ref": "ISC-TASKBOARD-PUSH-001",
+      "trigger_events": [
+        "user_asks_task_status",
+        "batch_tasks_completed_gte_3",
+        "any_task_failed",
+        "new_task_wave_dispatched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.task-orchestration-quality-001",
+      "category": "IC2",
+      "name": "Agent任务拆解与协同模式是影响效率的关键。每次任务编排决策必须检查：并行度是否最大化、依赖关系是否真实、任务描述是否",
+      "description": "Agent任务拆解与协同模式是影响效率的关键。每次任务编排决策必须检查：并行度是否最大化、依赖关系是否真实、任务描述是否精确到一次完成。",
+      "isc_rule_ref": "TASK-ORCHESTRATION-QUALITY-001",
+      "trigger_events": [
+        "orchestration.task.completed",
+        "orchestration.subagent.created",
+        "orchestration.task.sequential_detected",
+        "orchestration.efficiency.throughput_below_expected",
+        "orchestration.subagent.rework_triggered"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.703Z"
+    },
+    {
+      "id": "intent.rule-threshold-alert-routing-001",
+      "category": "IC2",
+      "name": "threshold-scanner 发射的4类阈值越界事件统一路由到 notify-alert handler。修复 P",
+      "description": "threshold-scanner 发射的4类阈值越界事件统一路由到 notify-alert handler。修复 P0-04：isc.yellow_light / eventbus.size / handler.failure / eventbus.backlog 四种 threshold_crossed 事件无消费路径。",
+      "isc_rule_ref": "rule.threshold-alert-routing-001",
+      "trigger_events": [
+        "isc.yellow_light.threshold_crossed",
+        "system.eventbus.size_threshold_crossed",
+        "system.handler.failure_threshold_crossed",
+        "system.eventbus.backlog_threshold_crossed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.timeout-auto-retry-001",
+      "category": "IC2",
+      "name": "子Agent超时(timed_out/timeout)或失败(failed)时，自动入重试队列，最多重试2次。user_",
+      "description": "子Agent超时(timed_out/timeout)或失败(failed)时，自动入重试队列，最多重试2次。user_cancelled除外。",
+      "isc_rule_ref": "TIMEOUT-AUTO-RETRY-001",
+      "trigger_events": [
+        "isc.rule.timeout.auto.retry.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.tracker-sync-gate-001",
+      "category": "IC2",
+      "name": "任何任务状态变更必须同步到PROJECT-TRACKER.md。TRACKER是唯一真相源，不同步=状态丢失。",
+      "description": "任何任务状态变更必须同步到PROJECT-TRACKER.md。TRACKER是唯一真相源，不同步=状态丢失。",
+      "isc_rule_ref": "TRACKER-SYNC-GATE-001",
+      "trigger_events": [
+        "task.status.changed",
+        "task.created",
+        "task.expanded",
+        "subtask.created",
+        "sprint.started",
+        "sprint.completed"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.rule-umr-domain-routing-001",
+      "category": "IC2",
+      "name": "基于消息payload的domain字段路由user.message，作为意图路由的降级兜底",
+      "description": "基于消息payload的domain字段路由user.message，作为意图路由的降级兜底",
+      "isc_rule_ref": "rule.umr-domain-routing-001",
+      "trigger_events": [
+        "user.general.message"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.rule-umr-intent-routing-001",
+      "category": "IC2",
+      "name": "基于IntentScanner意图分类(IC1-IC5)将user.message路由到对应处理器",
+      "description": "基于IntentScanner意图分类(IC1-IC5)将user.message路由到对应处理器",
+      "isc_rule_ref": "rule.umr-intent-routing-001",
+      "trigger_events": [
+        "user.general.message"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.isc-user-emphasis-auto-escalation-001",
+      "category": "IC2",
+      "name": "用户对同一概念反复强调≥2次时，自动将该概念从MEMORY.md升级到AGENTS.md启动清单或代码hook层",
+      "description": "用户对同一概念反复强调≥2次时，自动将该概念从MEMORY.md升级到AGENTS.md启动清单或代码hook层",
+      "isc_rule_ref": "ISC-USER-EMPHASIS-AUTO-ESCALATION-001",
+      "trigger_events": [
+        "user.emphasis.repeated"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.user-message-intent-probe-001",
+      "category": "IC2",
+      "name": "主Agent必须对每条用户消息执行意图探针(intent-probe v2)，基于LLM分类器识别纠偏/否定/反复未果/",
+      "description": "主Agent必须对每条用户消息执行意图探针(intent-probe v2)，基于LLM分类器识别纠偏/否定/反复未果/自主性缺失/教学/根因追问/交付质量/认知错误等信号。纠偏类信号必须自动触发badcase harvest入库。",
+      "isc_rule_ref": "USER-MESSAGE-INTENT-PROBE-001",
+      "trigger_events": [
+        "isc.rule.user.message.intent.probe.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.rule-vectorization-auto-trigger-001",
+      "category": "IC2",
+      "name": "资源生命周期自动向量化 - 任何资源(skill/memory/knowledge/aeo)的生命周期事件(create",
+      "description": "资源生命周期自动向量化 - 任何资源(skill/memory/knowledge/aeo)的生命周期事件(created/updated/fixed/merged/deleted)统一触发向量化处理。参数化通配规则，替代原17条分散规则。",
+      "isc_rule_ref": "rule.vectorization-auto-trigger-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.rule-vectorization-standard-enforcement-001",
+      "category": "IC2",
+      "name": "向量化统一标准强制执行 - 禁止TF-IDF/本地模型，强制使用智谱Embedding API(1024维)；定期扫描孤",
+      "description": "向量化统一标准强制执行 - 禁止TF-IDF/本地模型，强制使用智谱Embedding API(1024维)；定期扫描孤儿向量并清理；强制合规检查。本规则与 rule.vectorization-auto-trigger-001 配合使用，后者负责触发，本规则负责标准保障。",
+      "isc_rule_ref": "rule.vectorization-standard-enforcement-001",
+      "trigger_events": [
+        "isc.rule.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.rule-version-integrity-gate-001",
+      "category": "IC2",
+      "name": "技能版本号必须与代码成熟度匹配，禁止虚假版本号和跳级升版",
+      "description": "技能版本号必须与代码成熟度匹配，禁止虚假版本号和跳级升版",
+      "isc_rule_ref": "rule.version-integrity-gate-001",
+      "trigger_events": [
+        "skill.lifecycle.created",
+        "skill.lifecycle.modified"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.rule-visual-output-style-001",
+      "category": "IC2",
+      "name": "所有工程图（架构图、集成映射图、数据流图等）必须：1.浅色背景（白色或浅灰）2.中文标注（不接受纯英文）3.颜色柔和不刺",
+      "description": "所有工程图（架构图、集成映射图、数据流图等）必须：1.浅色背景（白色或浅灰）2.中文标注（不接受纯英文）3.颜色柔和不刺眼。用户原话：'颜色轻一些，不要纯英文，我不想看纯英文'",
+      "isc_rule_ref": "rule.visual-output-style-001",
+      "trigger_events": [
+        "document.diagram.created"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.rule-voice-reply-on-short-response-001",
+      "category": "IC2",
+      "name": "当回复文本长度少于20字时，建议使用语音回复以增强表达效果。",
+      "description": "当回复文本长度少于20字时，建议使用语音回复以增强表达效果。",
+      "isc_rule_ref": "rule.voice-reply-on-short-response-001",
+      "trigger_events": [
+        "isc.rule.voice.reply.on.short.response.001"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.isc-wild-script-auto-discovery-001",
+      "category": "IC2",
+      "name": "每日自动扫描scripts/目录，发现不属于任何技能的脚本，告警并推动收编",
+      "description": "每日自动扫描scripts/目录，发现不属于任何技能的脚本，告警并推动收编",
+      "isc_rule_ref": "ISC-WILD-SCRIPT-AUTO-DISCOVERY-001",
+      "trigger_events": [
+        "cron.daily.0900"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
+    },
+    {
+      "id": "intent.rule-zhipu-capability-router-001",
+      "category": "IC2",
+      "name": "智谱能力自动路由 - 根据输入模态自动选择模型",
+      "description": "智谱能力自动路由 - 根据输入模态自动选择模型",
+      "isc_rule_ref": "rule.zhipu-capability-router-001",
+      "trigger_events": [
+        "isc.rule.matched",
+        "isc.category.matched"
+      ],
+      "confidence_threshold": 0.8,
+      "status": "active",
+      "auto_registered": true,
+      "created_at": "2026-03-10T02:21:53.704Z"
     }
   ],
   "metadata": {
