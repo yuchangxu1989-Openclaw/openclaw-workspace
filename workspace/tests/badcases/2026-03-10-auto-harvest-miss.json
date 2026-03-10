@@ -1,0 +1,22 @@
+[
+  {
+    "id": "BC-20260310-WRONG-TOKEN-NO-SELF-FIX",
+    "timestamp": "2026-03-10T12:48:00+08:00",
+    "categories": ["自主性缺失类", "认知错误类"],
+    "severity": "P1",
+    "summary": "主Agent给子Agent传错doc_token（SRXKd...应为DdLUd...），子Agent收到404后没有尝试自行修复，而是停下来问用户要token",
+    "root_cause": "1) 主Agent没有验证自己传给子Agent的参数正确性 2) 子Agent收到404后直接放弃并反问用户，缺乏自主修复能力（应尝试搜索飞书文档或从记忆中找正确token）",
+    "correct_behavior": "主Agent应在spawn前验证doc_token可读；子Agent收到404应自行尝试修复（memory_search/feishu搜索），而非反问用户",
+    "prevention": "spawn前对关键参数做预校验；子Agent增加404自动重试+搜索逻辑"
+  },
+  {
+    "id": "BC-20260310-BADCASE-HARVEST-NOT-AUTO",
+    "timestamp": "2026-03-10T13:03:00+08:00",
+    "categories": ["自主性缺失类"],
+    "severity": "P1",
+    "summary": "主Agent发现子Agent用错token并重派后，没有自动将此事件入库为badcase，等用户提醒才知道要入库",
+    "root_cause": "badcase自动采集规则（ISC-EVAL-C2-AUTO-HARVEST-001）虽然写了8类自动采集场景，但主Agent执行时仍依赖'记得'而非程序化触发。发现问题→修复→但不入库 = 自主性缺失",
+    "correct_behavior": "发现任何属于8类badcase的事件时，应在修复的同时立即自动入库，不需要用户提醒",
+    "prevention": "badcase采集应在completion-handler或问题发现环节程序化触发，不依赖主Agent记忆"
+  }
+]
