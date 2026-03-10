@@ -9,10 +9,10 @@ const RETRY_PATH = path.join(__dirname, '../logs/auto-retry-queue.json');
 // 过期模式
 const STALE_PATTERNS = [
   /^isc-expand-/, /^isc-p0-/, /^isc-p1-/, /^isc-p2-/, /^isc-wave2-/, /^isc-none-/, /^isc-fix-/,
-  /^eval-mine-/, /^eval-batch-/, /^eval-clean-/, /^eval-v3-clean-/, /^eval-audit-/,
+  /^eval-mine-/, /^eval-batch-/, /^eval-clean-/, /^eval-v4-clean-/, /^eval-audit-/,
   /^fix-gc-batch-/, /^fix-gate-/, /^fix-hook-/, /^fix-and-commit-/, /^final-commit-fix$/, /^fix-format-/,
   /^gongzhonghao-2026-03-08-/,
-  /^v3-clean-/,
+  /^v4-clean-/,
   /^execute-rename-all$/, /^lto-.*-rename-/,
 ];
 
