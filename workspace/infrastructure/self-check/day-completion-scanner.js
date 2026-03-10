@@ -458,10 +458,15 @@ async function main() {
     // Auto: detect new days
     targetDays = detectNewDays(state);
     if (targetDays.length === 0) {
-      console.log(`[${new Date().toISOString()}] 自动扫描: 无新的Day完成事件，跳过`);
-      state.lastRun = new Date().toISOString();
-      saveState(state);
-      return;
+      // 无新Day完成事件时，每24小时执行一次常规债务扫描
+      const lastRun = state.lastRun ? new Date(state.lastRun).getTime() : 0;
+      const hoursSinceLastRun = (Date.now() - lastRun) / (1000 * 60 * 60);
+      if (hoursSinceLastRun < 24) {
+        console.log(`[${new Date().toISOString()}] 自动扫描: 无新Day完成事件，距上次扫描${hoursSinceLastRun.toFixed(1)}h，跳过`);
+        return;
+      }
+      console.log(`[${new Date().toISOString()}] 自动扫描: 无新Day完成事件，执行24h周期常规债务扫描 (day=0)`);
+      targetDays = [0];
     }
     console.log(`[${new Date().toISOString()}] 自动扫描: 检测到新Day: ${targetDays.join(', ')}`);
   } else {
@@ -473,11 +478,13 @@ async function main() {
       .sort((a, b) => b - a);
 
     if (allDays.length === 0) {
-      console.log('未找到任何 closure-conditions 文件，退出');
-      return;
+      // 即使没有closure-conditions文件，仍执行债务扫描（day=0代表"无Day触发"的常规扫描）
+      console.log('未找到 closure-conditions 文件，执行常规债务扫描 (day=0)');
+      targetDays = [0];
+    } else {
+      targetDays = [allDays[0]];
+      console.log(`扫描最新Day: ${targetDays[0]}`);
     }
-    targetDays = [allDays[0]];
-    console.log(`扫描最新Day: ${targetDays[0]}`);
   }
 
   // Run scans (shared across days to avoid redundancy)
