@@ -13,6 +13,9 @@ if [ -z "$TASK_ID" ] || [ -z "$STATUS" ]; then
   exit 1
 fi
 
+(
+flock -x 200
+
 node -e "
 const fs = require('fs');
 const f = '$BOARD_FILE';
@@ -29,3 +32,5 @@ if (idx >= 0) {
   console.log('⚠️ 未找到任务: $TASK_ID');
 }
 "
+
+) 200>/tmp/task-board.lock

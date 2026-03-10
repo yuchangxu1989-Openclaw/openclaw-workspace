@@ -10,6 +10,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const BOARD_FILE = '/root/.openclaw/workspace/logs/subagent-task-board.json';
 const AGENTS_DIR = '/root/.openclaw/agents';
@@ -94,7 +95,9 @@ if (!fs.existsSync(BOARD_FILE)) {
   process.exit(0);
 }
 
-const board = JSON.parse(fs.readFileSync(BOARD_FILE, 'utf8'));
+let board = [];
+try { board = JSON.parse(fs.readFileSync(BOARD_FILE, 'utf8')); } catch { board = []; }
+if (!Array.isArray(board)) board = [];
 const running = board.filter(t => t.status === 'running');
 
 if (running.length === 0) {
@@ -234,7 +237,14 @@ if (autoFix && fixTargets.length > 0) {
   }
 
   if (fixCount > 0) {
-    fs.writeFileSync(BOARD_FILE, JSON.stringify(board, null, 2) + '\n');
+    // BUG-4: 用 flock 文件锁保护写操作，防止并发写入冲突
+    const boardData = JSON.stringify(board, null, 2) + '\n';
+    try {
+      execSync(`flock -x /tmp/task-board.lock -c 'cat > "${BOARD_FILE}"'`, { input: boardData });
+    } catch (e) {
+      // flock 失败时降级为直接写入
+      fs.writeFileSync(BOARD_FILE, boardData);
+    }
     const msg = `自动修正 ${fixCount} 个任务: ${fixTargets.map(t => `${t.label}(${t.status}→${t.status === 'zombie' ? 'done' : 'timeout'})`).join(', ')}`;
     if (!quiet) console.log(`\n✅ ${msg}`);
     appendLog(`FIX: ${msg}`);
