@@ -146,7 +146,7 @@ for (const task of running) {
         const lastMsg = JSON.parse(lastLine);
         const stopReason = lastMsg?.message?.stopReason;
 
-        const terminalReasons = ['stop', 'end_turn', 'aborted', 'length'];
+        const terminalReasons = ['stop', 'end_turn', 'aborted', 'length', 'error'];
         if (terminalReasons.includes(stopReason)) {
           // session已终止（正常完成/中止/超长），但看板还是running → 僵尸
           status = 'zombie';
