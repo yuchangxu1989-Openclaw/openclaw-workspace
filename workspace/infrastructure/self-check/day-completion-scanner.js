@@ -521,3 +521,4 @@ main().catch(err => {
   console.error('扫描器错误:', err);
   process.exit(1);
 });
+
