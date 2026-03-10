@@ -12,6 +12,11 @@ const { execSync } = require('child_process');
 const WORKSPACE = process.env.WORKSPACE || '/root/.openclaw/workspace';
 const TODAY = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 const YESTERDAY = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+const IS_TEST = process.argv.includes('--test');
+
+// ─── Feishu Config ───
+const OPENCLAW_CONFIG_PATH = '/root/.openclaw/openclaw.json';
+const FEISHU_RECEIVE_ID = 'ou_a113e465324cc55f9ab3348c9a1a7b9b';
 
 // ─── Helpers ───
 
@@ -34,6 +39,206 @@ function appendIfMissing(filePath, marker, content) {
     return true;
   }
   return false;
+}
+
+// ─── Feishu API Helpers ───
+
+function getFeishuConfig() {
+  const config = readJsonOr(OPENCLAW_CONFIG_PATH, {});
+  const account = config?.channels?.feishu?.accounts?.default || {};
+  if (!account.appId || !account.appSecret) {
+    throw new Error('飞书配置缺失: 未找到 channels.feishu.accounts.default.appId/appSecret');
+  }
+  return { appId: account.appId, appSecret: account.appSecret };
+}
+
+async function feishuRequest(url, body, token) {
+  const headers = { 'Content-Type': 'application/json; charset=utf-8' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  if (data.code !== 0) {
+    throw new Error(`飞书API错误 [${url}]: code=${data.code} msg=${data.msg}`);
+  }
+  return data;
+}
+
+async function getFeishuTenantToken() {
+  const { appId, appSecret } = getFeishuConfig();
+  const data = await feishuRequest(
+    'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
+    { app_id: appId, app_secret: appSecret }
+  );
+  // This endpoint returns code 0 but token is in tenant_access_token field
+  if (!data.tenant_access_token) {
+    throw new Error('获取 tenant_access_token 失败: ' + JSON.stringify(data));
+  }
+  return data.tenant_access_token;
+}
+
+async function createFeishuDoc(token, title) {
+  const data = await feishuRequest(
+    'https://open.feishu.cn/open-apis/docx/v1/documents',
+    { title },
+    token
+  );
+  const doc = data.data?.document;
+  if (!doc?.document_id) {
+    throw new Error('创建飞书文档失败: ' + JSON.stringify(data));
+  }
+  return { documentId: doc.document_id, blockId: doc.document_id }; // root block_id = document_id
+}
+
+function mdToFeishuBlocks(md) {
+  const blocks = [];
+  const lines = md.split('\n');
+  let inCodeBlock = false;
+  let codeContent = '';
+
+  for (const line of lines) {
+    if (line.startsWith('```')) {
+      if (inCodeBlock) {
+        blocks.push({
+          block_type: 14,
+          code: {
+            elements: [{ text_run: { content: codeContent.trimEnd() || ' ', text_element_style: {} } }],
+            style: { language: 1 }
+          }
+        });
+        codeContent = '';
+        inCodeBlock = false;
+      } else {
+        inCodeBlock = true;
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeContent += line + '\n';
+      continue;
+    }
+
+    if (line.startsWith('# ')) {
+      blocks.push({
+        block_type: 3,
+        heading1: { elements: [{ text_run: { content: line.slice(2), text_element_style: {} } }] }
+      });
+    } else if (line.startsWith('## ')) {
+      blocks.push({
+        block_type: 4,
+        heading2: { elements: [{ text_run: { content: line.slice(3), text_element_style: {} } }] }
+      });
+    } else if (line.startsWith('### ')) {
+      blocks.push({
+        block_type: 5,
+        heading3: { elements: [{ text_run: { content: line.slice(4), text_element_style: {} } }] }
+      });
+    } else if (line.startsWith('---')) {
+      blocks.push({ block_type: 22, divider: {} });
+    } else if (line.trim()) {
+      // Handle bold markers **text** → just plain text (feishu blocks don't do inline MD)
+      blocks.push({
+        block_type: 2,
+        paragraph: { elements: [{ text_run: { content: line, text_element_style: {} } }] }
+      });
+    }
+  }
+
+  return blocks;
+}
+
+async function writeFeishuDocContent(token, documentId, blockId, mdContent) {
+  const blocks = mdToFeishuBlocks(mdContent);
+  // Feishu API allows max 50 blocks per request, batch if needed
+  const BATCH_SIZE = 50;
+  for (let i = 0; i < blocks.length; i += BATCH_SIZE) {
+    const batch = blocks.slice(i, i + BATCH_SIZE);
+    await feishuRequest(
+      `https://open.feishu.cn/open-apis/docx/v1/documents/${documentId}/blocks/${blockId}/children`,
+      { children: batch, index: -1 },
+      token
+    );
+  }
+  return blocks.length;
+}
+
+async function sendFeishuMessage(token, receiveId, text) {
+  await feishuRequest(
+    'https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=open_id',
+    {
+      receive_id: receiveId,
+      msg_type: 'text',
+      content: JSON.stringify({ text }),
+    },
+    token
+  );
+}
+
+async function publishToFeishu(report, date) {
+  const title = `焰崽进化日报 ${date}`;
+  console.log(`[feishu] 开始推送飞书文档: ${title}`);
+
+  const token = await getFeishuTenantToken();
+  console.log('[feishu] 获取 tenant_access_token 成功');
+
+  const { documentId, blockId } = await createFeishuDoc(token, title);
+  const docUrl = `https://bytedance.feishu.cn/docx/${documentId}`;
+  console.log(`[feishu] 文档已创建: ${docUrl}`);
+
+  const blockCount = await writeFeishuDocContent(token, documentId, blockId, report);
+  console.log(`[feishu] 内容已写入: ${blockCount} 个块`);
+
+  // Send message notification
+  const msgText = `📊 进化日报已生成\n📄 ${title}\n🔗 ${docUrl}`;
+  await sendFeishuMessage(token, FEISHU_RECEIVE_ID, msgText);
+  console.log('[feishu] 消息已推送');
+
+  return docUrl;
+}
+
+async function testFeishuConnectivity() {
+  console.log('[test] 验证飞书API连通性...');
+  try {
+    getFeishuConfig();
+    console.log('[test] ✅ 飞书配置读取成功');
+  } catch (e) {
+    console.error('[test] ❌ 飞书配置读取失败:', e.message);
+    process.exit(1);
+  }
+
+  try {
+    const token = await getFeishuTenantToken();
+    console.log('[test] ✅ tenant_access_token 获取成功');
+
+    // Create a test doc and delete it
+    const { documentId } = await createFeishuDoc(token, `[测试] 日报推送测试 ${new Date().toISOString()}`);
+    console.log(`[test] ✅ 测试文档创建成功: ${documentId}`);
+
+    // Try to delete the test doc via drive API
+    try {
+      const delRes = await fetch(`https://open.feishu.cn/open-apis/drive/v1/files/${documentId}?type=docx`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const delData = await delRes.json();
+      if (delData.code === 0) {
+        console.log('[test] ✅ 测试文档已清理');
+      } else {
+        console.log(`[test] ⚠️ 测试文档清理失败(非致命): ${delData.msg}`);
+      }
+    } catch {
+      console.log('[test] ⚠️ 测试文档清理跳过');
+    }
+
+    console.log('[test] ✅ 飞书API连通性验证通过');
+  } catch (e) {
+    console.error('[test] ❌ 飞书API连通性验证失败:', e.message);
+    process.exit(1);
+  }
 }
 
 // ─── 1. Data Collection ───
@@ -225,7 +430,13 @@ function autoSediment(lessons) {
 
 // ─── Main ───
 
-function main() {
+async function main() {
+  // --test mode: just verify feishu API connectivity
+  if (IS_TEST) {
+    await testFeishuConnectivity();
+    return;
+  }
+
   console.log(`[evolution-daily-report] 开始生成 ${TODAY} 日报...`);
 
   const data = {
@@ -246,6 +457,16 @@ function main() {
   fs.writeFileSync(outFile, report);
   console.log(`[evolution-daily-report] 日报已写入: ${outFile}`);
 
+  // Publish to Feishu
+  try {
+    const docUrl = await publishToFeishu(report, TODAY);
+    // Append feishu doc link to the MD file
+    fs.appendFileSync(outFile, `\n\n---\n📄 飞书文档: ${docUrl}\n`);
+    console.log(`[evolution-daily-report] 飞书文档链接已追加到: ${outFile}`);
+  } catch (e) {
+    console.error(`[evolution-daily-report] 飞书推送失败(非致命): ${e.message}`);
+  }
+
   // Auto-sediment
   const lessons = extractLessons(data);
   if (lessons.length > 0) {
@@ -259,4 +480,7 @@ function main() {
   console.log(`[evolution-daily-report] 完成. 任务=${data.tasks.total} 提交=${data.gitLog === '(无今日提交)' ? 0 : data.gitLog.split('\\n').length} badcase=${data.badcases.count}`);
 }
 
-main();
+main().catch(e => {
+  console.error('[evolution-daily-report] 致命错误:', e);
+  process.exit(1);
+});
