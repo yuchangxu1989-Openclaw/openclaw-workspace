@@ -1,0 +1,240 @@
+[
+  {
+    "id": "v4-pregate-001",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户创建ISC规则：当飞书群收到包含'周报'关键词的消息时，自动汇总本周各成员提交的任务完成情况并生成周报摘要发送到群。Agent生成的ISC JSON包含：rule_id='isc-weekly-report-001'（唯一）、trigger.events=['feishu.group.message.receive']（结构合法）、handler路径指向scripts/weekly-report-generator.js（文件存在且可加载）、意图注册映射intent_map中已有对应条目且可追溯。Pre-Gate需校验该规则的基础完整性。",
+    "expected_output": "Pre-Gate门禁应逐项执行四项检查：①rule_id='isc-weekly-report-001'非空且在规则库中唯一；②trigger.events=['feishu.group.message.receive']非空且为合法事件数组结构；③handler路径scripts/weekly-report-generator.js通过find/ls验证文件存在且模块可加载；④意图/事件注册映射存在且从intent_map可追溯到该规则。四项全部通过，标记Pre-Gate=PASS，放行进入Gate-A。",
+    "execution_chain_steps": [
+      "接收ISC规则JSON",
+      "检查rule_id字段非空，查询规则库确认唯一性",
+      "检查trigger.events字段非空，验证数组结构合法且事件名在已注册事件类型中",
+      "对handler路径执行find/ls验证文件存在，尝试require/import确认模块可加载",
+      "查询intent_map确认意图注册映射存在且可追溯到该规则",
+      "四项全部通过，标记Pre-Gate=PASS，放行至Gate-A"
+    ],
+    "scoring_rubric": {
+      "pass": "四项检查（rule_id唯一、trigger.events合法、handler可达可加载、映射可追溯）全部执行且结果正确，Pre-Gate判定PASS",
+      "partial": "执行了检查但遗漏1项（如未验证映射可追溯性），最终判定正确",
+      "badcase": "仅检查JSON语法合法性而未逐项校验四项Pre-Gate检查项，或跳过Pre-Gate直接进入Gate-A"
+    }
+  },
+  {
+    "id": "v4-pregate-002",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户创建ISC规则：当用户发送'帮我订会议室'时，自动查询空闲会议室并预订最近可用的一间。Agent生成ISC JSON，rule_id='isc-room-booking-007'，trigger.events=['user.message.intent.room_booking']，handler指向skills/room-booking/index.js，意图注册映射中room_booking意图已绑定到该handler。系统通过find确认skills/room-booking/index.js存在，通过require确认模块导出了handleBooking函数。Pre-Gate需验证基础完整性。",
+    "expected_output": "Pre-Gate门禁应：①确认rule_id='isc-room-booking-007'非空且唯一；②确认trigger.events包含合法事件且非空；③通过find验证skills/room-booking/index.js存在，通过require验证模块可加载且导出handleBooking函数；④确认意图注册映射中room_booking→handler绑定存在且可追溯。四项全部通过，Pre-Gate=PASS。关键点：handler不仅要文件存在，还要模块可加载。",
+    "execution_chain_steps": [
+      "接收ISC规则JSON",
+      "校验rule_id非空且在规则库中无重复",
+      "校验trigger.events非空且事件名格式合法",
+      "执行find确认handler文件存在",
+      "执行require/import确认模块可加载，检查导出函数签名",
+      "查询意图注册映射确认room_booking意图绑定存在",
+      "全部通过，Pre-Gate=PASS"
+    ],
+    "scoring_rubric": {
+      "pass": "四项检查全部执行，特别是handler不仅验证文件存在还验证了模块可加载性，Pre-Gate判定PASS",
+      "partial": "验证了文件存在但未验证模块可加载性（如未执行require测试）",
+      "badcase": "仅检查handler路径字符串非空而未实际验证文件存在和可加载"
+    }
+  },
+  {
+    "id": "v4-pregate-003",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "系统批量导入3条ISC规则，分别处理'查快递'、'查航班'、'查汇率'三个意图。三条规则的rule_id分别为isc-express-track-001、isc-flight-query-001、isc-exchange-rate-001，均唯一。trigger.events均为合法事件数组。handler分别指向skills/express/track.js、skills/flight/query.js、skills/exchange/rate.js，三个文件均存在且可加载。意图注册映射均已配置且可追溯。Pre-Gate需逐条校验。",
+    "expected_output": "Pre-Gate门禁应对3条规则逐条执行四项检查：①每条rule_id非空且互不重复；②每条trigger.events非空且结构合法；③每条handler路径通过find验证存在且模块可加载；④每条意图注册映射存在且可追溯。3条规则全部通过Pre-Gate=PASS，逐条放行进入Gate-A。关键点：批量导入不降低校验标准，必须逐条校验。",
+    "execution_chain_steps": [
+      "接收3条ISC规则的批量导入请求",
+      "对规则1（查快递）执行四项Pre-Gate检查，全部通过",
+      "对规则2（查航班）执行四项Pre-Gate检查，全部通过",
+      "对规则3（查汇率）执行四项Pre-Gate检查，全部通过",
+      "额外校验3条rule_id之间无重复",
+      "3条规则全部标记Pre-Gate=PASS，放行至Gate-A"
+    ],
+    "scoring_rubric": {
+      "pass": "逐条执行四项检查且额外校验批量rule_id互不重复，3条全部PASS",
+      "partial": "逐条校验了但未检查批量rule_id之间的唯一性",
+      "badcase": "批量一次性通过未逐条校验，或仅抽检部分规则"
+    }
+  },
+  {
+    "id": "v4-pregate-004",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户创建ISC规则：当检测到GitHub仓库有新PR时，自动执行代码审查并将审查结果评论到PR。Agent生成ISC JSON，rule_id='isc-pr-review-003'，trigger.events=['github.pull_request.opened', 'github.pull_request.synchronize']（多事件绑定），handler指向skills/code-review/reviewer.js，意图注册映射中pr_review意图已绑定。Pre-Gate需验证多事件绑定场景下的结构合法性。",
+    "expected_output": "Pre-Gate门禁应：①确认rule_id非空且唯一；②确认trigger.events包含两个事件，逐个验证事件名格式合法且在已注册事件类型中；③验证handler文件存在且可加载；④确认意图注册映射存在且可追溯。关键点：多事件绑定场景下，每个事件都需单独验证合法性，不能只检查数组非空。Pre-Gate=PASS。",
+    "execution_chain_steps": [
+      "接收ISC规则JSON",
+      "校验rule_id='isc-pr-review-003'非空且唯一",
+      "校验trigger.events数组非空，逐个验证github.pull_request.opened和github.pull_request.synchronize格式合法",
+      "验证每个事件名在已注册事件类型列表中存在",
+      "执行find验证handler文件存在，require验证可加载",
+      "查询意图注册映射确认pr_review绑定存在",
+      "全部通过，Pre-Gate=PASS"
+    ],
+    "scoring_rubric": {
+      "pass": "对多事件绑定逐个验证合法性，四项检查全部执行，Pre-Gate判定PASS",
+      "partial": "检查了trigger.events非空但未逐个验证每个事件的合法性",
+      "badcase": "仅检查trigger.events是数组类型而未验证内容合法性"
+    }
+  },
+  {
+    "id": "v4-pregate-005",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户更新已有ISC规则isc-notify-001，将handler从scripts/notify-v1.js更换为scripts/notify-v2.js，同时更新trigger.events增加了一个新事件类型'system.alert.critical'。更新后的规则rule_id不变，新handler文件已部署到位，新事件类型已在事件注册表中登记，意图映射已同步更新。Pre-Gate需对更新后的规则重新执行完整性校验。",
+    "expected_output": "Pre-Gate门禁应对更新后的规则重新执行完整四项检查（不因是更新操作而跳过）：①rule_id='isc-notify-001'非空且唯一（更新场景下ID不变，确认未产生重复）；②trigger.events包含新增的system.alert.critical，逐个验证合法；③新handler路径scripts/notify-v2.js通过find验证存在且可加载（不能沿用旧handler的校验结果）；④意图注册映射已同步更新且可追溯。全部通过，Pre-Gate=PASS。关键点：规则更新必须重新走Pre-Gate，不能复用历史校验结果。",
+    "execution_chain_steps": [
+      "接收ISC规则更新请求",
+      "识别为已有规则更新，仍执行完整Pre-Gate校验（不跳过）",
+      "校验rule_id非空且唯一（更新场景确认无重复）",
+      "校验trigger.events含新事件，逐个验证合法性",
+      "对新handler路径scripts/notify-v2.js执行find验证存在，require验证可加载",
+      "查询意图注册映射确认已同步更新",
+      "全部通过，Pre-Gate=PASS"
+    ],
+    "scoring_rubric": {
+      "pass": "对更新后的规则重新执行完整四项检查，未复用历史校验结果，Pre-Gate判定PASS",
+      "partial": "执行了检查但复用了部分历史校验结果（如未重新验证handler可加载性）",
+      "badcase": "因为是更新操作而跳过Pre-Gate，或仅校验变更部分而未做完整检查"
+    }
+  },
+  {
+    "id": "v4-pregate-006",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户创建ISC规则：当用户说'帮我翻译这段话'时，自动调用翻译skill。Agent生成ISC JSON，但rule_id字段为空字符串''。trigger.events=['user.message.intent.translate']结构合法，handler指向skills/translate/index.js文件存在，意图映射已配置。Pre-Gate需校验该规则。",
+    "expected_output": "Pre-Gate门禁应在第一项检查即发现缺陷：①rule_id为空字符串，不满足'非空'要求，直接标记Pre-Gate=FAIL；②输出缺陷报告：字段rule_id为空，违反Pre-Gate检查项'规则id非空且唯一'；③该规则禁止进入后续流程（Gate-A/北极星/Gate-B/评级均不执行）；④返回给创建者修复。即使其他三项检查可能通过，rule_id为空即直接Fail，不应继续校验其余项后给出'部分通过'。",
+    "execution_chain_steps": [
+      "接收ISC规则JSON",
+      "检查rule_id字段，发现为空字符串",
+      "立即标记Pre-Gate=FAIL",
+      "生成缺陷报告：rule_id为空，违反'规则id非空且唯一'",
+      "规则禁止进入后续流程，返回创建者修复"
+    ],
+    "scoring_rubric": {
+      "pass": "在rule_id检查阶段即发现为空并判定FAIL，输出明确缺陷描述，阻止进入后续流程",
+      "partial": "发现了rule_id为空但仍继续执行后续检查项，最终判定FAIL",
+      "badcase": "未检测到rule_id为空，或将空字符串视为合法值放行"
+    }
+  },
+  {
+    "id": "v4-pregate-007",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户创建ISC规则：当收到邮件时自动分类归档。Agent生成ISC JSON，rule_id='isc-email-classify-002'唯一，handler指向skills/email/classifier.js文件存在且可加载，意图映射已配置。但trigger.events字段值为字符串'email.received'而非数组['email.received']，结构不合法（应为数组类型）。Pre-Gate需校验该规则。",
+    "expected_output": "Pre-Gate门禁应：①rule_id校验通过；②trigger.events校验时发现值为字符串类型而非数组类型，结构不合法，标记Pre-Gate=FAIL；③输出缺陷报告：trigger.events应为数组类型，当前为字符串'email.received'，违反'trigger.events非空且结构合法'；④规则禁止进入后续流程，返回创建者修复。关键点：trigger.events必须是数组结构，即使内容本身是合法事件名，类型错误也必须拦截。",
+    "execution_chain_steps": [
+      "接收ISC规则JSON",
+      "校验rule_id='isc-email-classify-002'非空且唯一，通过",
+      "校验trigger.events，发现类型为字符串而非数组",
+      "标记Pre-Gate=FAIL",
+      "生成缺陷报告：trigger.events类型错误，应为数组",
+      "规则禁止进入后续流程，返回创建者修复"
+    ],
+    "scoring_rubric": {
+      "pass": "准确识别trigger.events类型错误（字符串而非数组），判定FAIL并给出明确缺陷描述",
+      "partial": "发现trigger.events有问题但缺陷描述不精确（如仅说'格式错误'未指出应为数组）",
+      "badcase": "将字符串类型的trigger.events视为合法并放行，或未校验trigger.events的类型"
+    }
+  },
+  {
+    "id": "v4-pregate-008",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户创建ISC规则：当用户说'帮我生成报表'时，自动调用报表生成skill。Agent生成ISC JSON，rule_id='isc-report-gen-005'唯一，trigger.events=['user.message.intent.report_gen']合法。但handler指向skills/report/generator.js，该文件在文件系统中不存在（已被删除或路径拼写错误）。意图映射已配置。Pre-Gate需校验该规则。",
+    "expected_output": "Pre-Gate门禁应：①rule_id校验通过；②trigger.events校验通过；③对handler路径skills/report/generator.js执行find/ls验证，发现文件不存在，标记Pre-Gate=FAIL；④输出缺陷报告：handler路径skills/report/generator.js不可达，文件不存在，违反'handler路径可达且可加载'；⑤规则禁止进入后续流程，返回创建者修复。关键点：handler路径必须实际验证文件存在，不能仅检查路径字符串格式合法。",
+    "execution_chain_steps": [
+      "接收ISC规则JSON",
+      "校验rule_id非空且唯一，通过",
+      "校验trigger.events非空且结构合法，通过",
+      "对handler路径执行find/ls验证",
+      "发现skills/report/generator.js文件不存在",
+      "标记Pre-Gate=FAIL",
+      "生成缺陷报告：handler路径不可达，文件不存在",
+      "规则禁止进入后续流程，返回创建者修复"
+    ],
+    "scoring_rubric": {
+      "pass": "通过实际文件系统操作（find/ls）发现handler文件不存在，判定FAIL并给出明确路径和原因",
+      "partial": "判定了FAIL但未通过实际文件系统操作验证（如仅根据路径格式推测）",
+      "badcase": "仅检查handler路径字符串非空而未实际验证文件存在，放行了不可达的handler"
+    }
+  },
+  {
+    "id": "v4-pregate-009",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户创建ISC规则：当检测到服务器CPU超过90%时自动扩容。Agent生成ISC JSON，rule_id='isc-auto-scale-001'唯一，trigger.events=['system.monitor.cpu_high']合法，handler指向skills/infra/auto-scaler.js文件存在且可加载。但意图注册映射中不存在cpu_high_alert意图到该handler的绑定条目，intent_map中查不到对应映射。Pre-Gate需校验该规则。",
+    "expected_output": "Pre-Gate门禁应：①rule_id校验通过；②trigger.events校验通过；③handler文件存在且可加载，校验通过；④查询intent_map发现意图注册映射不存在，无法从意图追溯到该规则，标记Pre-Gate=FAIL；⑤输出缺陷报告：意图/事件注册映射缺失，intent_map中无cpu_high_alert→isc-auto-scale-001的绑定条目，违反'意图/事件注册映射存在且可追溯'；⑥规则禁止进入后续流程。关键点：前三项通过不代表Pre-Gate通过，映射可追溯性是必检项。",
+    "execution_chain_steps": [
+      "接收ISC规则JSON",
+      "校验rule_id非空且唯一，通过",
+      "校验trigger.events非空且结构合法，通过",
+      "校验handler文件存在且可加载，通过",
+      "查询intent_map，发现无对应意图注册映射",
+      "标记Pre-Gate=FAIL",
+      "生成缺陷报告：意图/事件注册映射缺失，不可追溯",
+      "规则禁止进入后续流程，返回创建者修复"
+    ],
+    "scoring_rubric": {
+      "pass": "前三项通过后仍严格校验映射可追溯性，发现缺失并判定FAIL，给出明确缺陷描述",
+      "partial": "发现映射有问题但缺陷描述不够精确（如未指出具体缺失的映射条目）",
+      "badcase": "前三项通过后跳过映射校验直接判定PASS，或认为映射是可选项"
+    }
+  },
+  {
+    "id": "v4-pregate-010",
+    "category": "Pre-Gate基础完整性",
+    "complexity": "C2",
+    "source": "synthetic-v4-pregate",
+    "gate": "Pre-Gate",
+    "north_star_indicator": "言出法随达成率",
+    "input": "用户创建ISC规则：当用户说'帮我查库存'时自动查询库存系统。Agent生成ISC JSON存在多项缺陷：rule_id='isc-inventory-001'与已有规则重复（规则库中已存在同ID规则）；trigger.events为空数组[]；handler指向skills/inventory/query.js但该文件不存在；意图注册映射也未配置。Pre-Gate需校验该规则并列出全部缺陷。",
+    "expected_output": "Pre-Gate门禁应检出全部四项缺陷：①rule_id='isc-inventory-001'与已有规则重复，违反唯一性；②trigger.events为空数组，违反'非空'要求；③handler路径skills/inventory/query.js文件不存在，不可达；④意图注册映射未配置，不可追溯。标记Pre-Gate=FAIL，输出完整缺陷报告列出全部四项问题及具体描述。规则禁止进入后续流程。关键点：必须列出全部缺陷而非发现第一个就停止，以便创建者一次性修复。",
+    "execution_chain_steps": [
+      "接收ISC规则JSON",
+      "校验rule_id，发现与已有规则重复，记录缺陷1",
+      "校验trigger.events，发现为空数组，记录缺陷2",
+      "校验handler路径，执行find发现文件不存在，记录缺陷3",
+      "查询intent_map，发现映射未配置，记录缺陷4",
+      "标记Pre-Gate=FAIL",
+      "生成完整缺陷报告，列出全部四项缺陷及具体描述",
+      "规则禁止进入后续流程，返回创建者一次性修复"
+    ],
+    "scoring_rubric": {
+      "pass": "检出全部四项缺陷并逐项给出具体描述，生成完整缺陷报告，判定FAIL",
+      "partial": "检出部分缺陷（2-3项）但遗漏了其余项，或发现第一个缺陷后即停止检查",
+      "badcase": "仅检出1项缺陷就停止，或未能识别任何缺陷而放行"
+    }
+  }
+]

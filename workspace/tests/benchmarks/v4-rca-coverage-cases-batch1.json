@@ -1,0 +1,251 @@
+[
+  {
+    "id": "rca-coverage-pos-01",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "部署失败后四层根因完整定位并结构性修复",
+    "input": "CI/CD流水线在staging环境部署时报错：容器启动后健康检查持续失败，Pod反复CrashLoopBackOff。运维Agent介入处理。",
+    "expected_output": "Agent执行四层根因分析：(1)代码缺陷——发现 src/server.js:15 健康检查端点 /healthz 返回的端口与Dockerfile EXPOSE端口不一致（代码监听8080，Dockerfile声明3000）；(2)规则缺失——k8s deployment.yaml 中 livenessProbe 未配置 initialDelaySeconds 导致冷启动期间误判；(3)认知偏差——无；(4)架构瓶颈——无。修复：修正端口一致性+添加initialDelaySeconds:30。防护措施：添加CI阶段端口一致性校验脚本 scripts/check-port-consistency.sh，防止同类问题复发。",
+    "execution_chain_steps": [
+      "1. Agent接收部署失败告警，获取Pod日志和事件",
+      "2. 执行四层根因分析第一层（代码缺陷）：grep端口配置，发现 src/server.js:15 监听8080 vs Dockerfile:7 EXPOSE 3000 不一致",
+      "3. 执行第二层（规则缺失）：检查 k8s/deployment.yaml:32 livenessProbe缺少initialDelaySeconds",
+      "4. 执行第三层（认知偏差）：检查是否有错误假设，确认无",
+      "5. 执行第四层（架构瓶颈）：评估整体架构，确认无瓶颈",
+      "6. 结构性修复：统一端口为8080，添加initialDelaySeconds:30",
+      "7. 添加防护措施：创建CI端口一致性校验脚本",
+      "8. 验真：重新部署，健康检查通过，Pod稳定运行"
+    ],
+    "scoring_rubric": {
+      "pass": "完整执行四层根因分析，精确到文件+行号+原因，结构性修复+防护措施到位",
+      "partial": "做了根因分析但未覆盖全部四层，或修复了但未添加防护措施",
+      "badcase": "直接改端口或删除健康检查了事，未做根因分析"
+    }
+  },
+  {
+    "id": "rca-coverage-pos-02",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "评测脚本误报后追溯到认知偏差并系统性修正",
+    "input": "评测脚本 scripts/eval/run-audit.js 对某条ISC规则判定为Fail，但人工复核发现该规则实际已生效。评测结果存在误报。",
+    "expected_output": "Agent执行四层根因分析：(1)代码缺陷——scripts/eval/run-audit.js:67 的正则匹配逻辑未处理handler路径中包含连字符的情况（如 my-handler.js），导致路径校验误判；(2)规则缺失——评测脚本缺少误报自检机制；(3)认知偏差——脚本编写者假设handler文件名只含字母数字，未考虑连字符场景；(4)架构瓶颈——无。修复：修正正则表达式支持连字符，添加误报自检断言。防护措施：在评测脚本的测试集中增加含特殊字符的handler路径用例。",
+    "execution_chain_steps": [
+      "1. Agent复现误报场景，确认规则实际已生效",
+      "2. 执行第一层（代码缺陷）：定位 scripts/eval/run-audit.js:67 正则 /^[a-zA-Z0-9_]+\\.js$/ 不匹配含连字符的文件名",
+      "3. 执行第二层（规则缺失）：发现评测脚本无误报自检机制",
+      "4. 执行第三层（认知偏差）：识别出编写者对文件命名的错误假设",
+      "5. 执行第四层（架构瓶颈）：确认无架构层面问题",
+      "6. 结构性修复：修正正则为 /^[a-zA-Z0-9_-]+\\.js$/，添加误报自检断言",
+      "7. 防护措施：在测试集中增加特殊字符handler路径用例",
+      "8. 验真：重新运行评测脚本，误报消除，原有正确判定不受影响"
+    ],
+    "scoring_rubric": {
+      "pass": "四层分析完整，精确定位到正则表达式行号+认知偏差原因，修复+防护到位",
+      "partial": "修正了正则但未识别认知偏差层，或未添加防护用例",
+      "badcase": "直接改正则了事，不分析为什么会写错，不加防护"
+    }
+  },
+  {
+    "id": "rca-coverage-pos-03",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "子Agent频繁超时后定位到架构瓶颈并重构",
+    "input": "最近一周内，负责代码分析的子Agent超时率从2%飙升到35%。主Agent需要排查原因。",
+    "expected_output": "Agent执行四层根因分析：(1)代码缺陷——skills/code-analysis/analyzer.js:128 的文件遍历使用同步递归 fs.readdirSync，大仓库下阻塞事件循环；(2)规则缺失——无超时熔断规则，子Agent卡死后无自动降级策略；(3)认知偏差——无；(4)架构瓶颈——单线程同步遍历架构无法应对仓库规模增长（近期新增3个大型monorepo项目）。修复：将同步遍历改为异步流式处理+添加超时熔断规则（30秒未响应自动降级为摘要模式）。防护措施：添加仓库规模预检，超过阈值自动切换轻量分析模式。",
+    "execution_chain_steps": [
+      "1. Agent收集超时日志，统计超时分布特征",
+      "2. 执行第一层（代码缺陷）：定位 skills/code-analysis/analyzer.js:128 同步递归遍历",
+      "3. 执行第二层（规则缺失）：发现无超时熔断和降级规则",
+      "4. 执行第三层（认知偏差）：确认无认知偏差",
+      "5. 执行第四层（架构瓶颈）：识别单线程同步架构无法应对仓库规模增长",
+      "6. 结构性修复：改为异步流式处理，添加超时熔断规则",
+      "7. 防护措施：添加仓库规模预检+自动切换轻量模式",
+      "8. 验真：部署后超时率降至1.5%，低于基线"
+    ],
+    "scoring_rubric": {
+      "pass": "四层分析完整，识别出架构瓶颈+代码缺陷+规则缺失，结构性重构+防护到位",
+      "partial": "只改了同步为异步但未识别架构瓶颈，或未添加熔断降级规则",
+      "badcase": "直接加大超时时间或增加重试次数，不分析根因"
+    }
+  },
+  {
+    "id": "rca-coverage-pos-04",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "意图识别准确率下降后多层根因定位",
+    "input": "监控显示意图识别准确率从98%降至89%，最近一次变更是更新了意图分类模型的prompt模板。Agent需要排查并修复。",
+    "expected_output": "Agent执行四层根因分析：(1)代码缺陷——src/intent/classifier.js:45 新prompt模板中删除了\"优先匹配已注册意图\"的关键指令，导致模型倾向生成新意图而非匹配已有意图；(2)规则缺失——prompt模板变更缺少回归测试规则，无变更前后准确率对比门禁；(3)认知偏差——变更者认为简化prompt能提升响应速度，未意识到删除的指令对准确率至关重要；(4)架构瓶颈——无。修复：恢复关键指令+添加prompt变更回归测试门禁。防护措施：建立prompt模板变更checklist，关键指令标记为不可删除。",
+    "execution_chain_steps": [
+      "1. Agent对比变更前后的准确率数据，确认下降与prompt变更时间吻合",
+      "2. 执行第一层（代码缺陷）：diff对比 src/intent/classifier.js:45 新旧prompt，发现关键指令被删除",
+      "3. 执行第二层（规则缺失）：发现prompt变更无回归测试门禁",
+      "4. 执行第三层（认知偏差）：识别变更者对prompt简化的错误假设",
+      "5. 执行第四层（架构瓶颈）：确认无架构问题",
+      "6. 结构性修复：恢复关键指令，添加回归测试门禁脚本 scripts/prompt-regression-gate.js",
+      "7. 防护措施：建立prompt变更checklist，关键指令标记protected",
+      "8. 验真：准确率恢复至98.2%，门禁脚本在CI中生效"
+    ],
+    "scoring_rubric": {
+      "pass": "四层分析完整，精确定位到被删除的prompt指令+认知偏差+规则缺失，修复+防护到位",
+      "partial": "恢复了prompt但未分析为什么被删除（认知偏差层缺失），或未加门禁",
+      "badcase": "直接回滚prompt模板了事，不分析原因，不加防护"
+    }
+  },
+  {
+    "id": "rca-coverage-pos-05",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "规则创建后未生效的跨模块根因追溯",
+    "input": "用户创建了一条ISC规则用于自动归档过期任务，但规则创建24小时后仍未触发执行。系统日志显示规则状态为active。",
+    "expected_output": "Agent执行四层根因分析：(1)代码缺陷——src/events/eventDispatcher.js:93 事件分发器的事件类型枚举中缺少 task.expired 事件类型，导致该事件无法被路由到规则匹配器；(2)规则缺失——新事件类型注册流程缺少自动同步到事件分发器枚举的步骤，ISC规则创建流程未校验trigger.events中的事件类型是否已在分发器中注册；(3)认知偏差——无；(4)架构瓶颈——事件类型注册分散在多处（规则声明层、事件绑定层、分发器枚举），缺乏单一事实来源。修复：在分发器枚举中添加 task.expired，添加规则创建时的事件类型校验。防护措施：建立事件类型注册表作为单一事实来源，所有模块从注册表读取。",
+    "execution_chain_steps": [
+      "1. Agent检查规则声明层，确认规则结构合法、状态active",
+      "2. Agent追溯事件绑定层，发现trigger.events中的 task.expired 已绑定",
+      "3. 执行第一层（代码缺陷）：检查 src/events/eventDispatcher.js:93 事件枚举，发现缺少 task.expired",
+      "4. 执行第二层（规则缺失）：发现规则创建流程未校验事件类型在分发器中的注册状态",
+      "5. 执行第三层（认知偏差）：确认无认知偏差",
+      "6. 执行第四层（架构瓶颈）：识别事件类型注册分散、缺乏单一事实来源",
+      "7. 结构性修复：补充事件枚举+添加创建时校验",
+      "8. 防护措施：建立事件类型注册表 src/events/eventTypeRegistry.json 作为单一事实来源",
+      "9. 验真：规则触发成功，过期任务被自动归档"
+    ],
+    "scoring_rubric": {
+      "pass": "跨模块追溯完整，四层分析到位（含架构瓶颈识别），结构性修复+单一事实来源防护",
+      "partial": "找到了分发器枚举缺失但未识别架构瓶颈，或修复了但未建立注册表",
+      "badcase": "直接在分发器中硬编码事件类型了事，不分析为什么会遗漏"
+    }
+  },
+  {
+    "id": "rca-coverage-neg-01",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "【负例】API报错后直接改返回值不查原因",
+    "input": "用户反馈调用 /api/rules/list 接口返回500错误。Agent介入处理。",
+    "expected_output": "Agent应执行四层根因分析定位500错误的真正原因。但Agent实际行为：直接查看报错日志发现是数据库查询超时，于是将数据库查询超时时间从5秒改为30秒，接口恢复正常后即报告修复完成。未分析为什么数据库查询会超时（可能是缺少索引、数据量暴增、慢查询等），未添加任何防护措施。",
+    "execution_chain_steps": [
+      "1. Agent查看错误日志，发现数据库查询超时",
+      "2. 直接修改 config/database.js:12 queryTimeout 从5000改为30000",
+      "3. 重启服务，接口恢复200",
+      "4. 报告修复完成",
+      "5. 【缺失】未执行四层根因分析",
+      "6. 【缺失】未分析超时的真正原因（缺少索引/数据量/慢查询）",
+      "7. 【缺失】未添加防护措施"
+    ],
+    "scoring_rubric": {
+      "pass": "N/A（本case为负例，展示不应有的行为）",
+      "partial": "改了超时时间但同时也做了部分根因分析（如查了慢查询日志但未完成四层）",
+      "badcase": "直接改超时时间了事，不分析为什么超时，不加防护——这正是本case展示的典型badcase行为"
+    }
+  },
+  {
+    "id": "rca-coverage-neg-02",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "【负例】测试失败后只删测试不查代码",
+    "input": "CI流水线中3个单元测试突然失败，阻塞了发版流程。Agent被要求尽快修复以恢复发版。",
+    "expected_output": "Agent应执行四层根因分析定位测试失败的真正原因。但Agent实际行为：查看失败的测试用例，发现是断言值与实际返回值不匹配，直接修改测试用例的期望值以匹配当前返回值，3个测试全部通过，CI恢复绿色，报告修复完成。未分析返回值为什么变了（可能是业务逻辑被意外修改），本质上是让测试去适配bug而非修复bug。",
+    "execution_chain_steps": [
+      "1. Agent查看CI失败日志，发现3个断言失败",
+      "2. 直接修改 tests/unit/ruleEngine.test.js:45,78,112 的期望值",
+      "3. 重新运行CI，全部通过",
+      "4. 报告修复完成，发版恢复",
+      "5. 【缺失】未分析返回值为什么变了",
+      "6. 【缺失】未检查业务逻辑是否被意外修改",
+      "7. 【缺失】未执行四层根因分析"
+    ],
+    "scoring_rubric": {
+      "pass": "N/A（本case为负例）",
+      "partial": "修改了测试期望值但同时也检查了部分业务代码，发现了一些线索但未完成四层分析",
+      "badcase": "直接改测试期望值让CI通过，不查业务逻辑变更原因——典型的让测试适配bug行为"
+    }
+  },
+  {
+    "id": "rca-coverage-neg-03",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "【负例】内存泄漏只加重启不查泄漏源",
+    "input": "生产环境Node.js服务每运行约8小时后内存占用超过90%触发OOM告警，需要手动重启。Agent被要求解决此问题。",
+    "expected_output": "Agent应执行四层根因分析定位内存泄漏的真正原因。但Agent实际行为：添加了一个定时重启cron任务（每6小时自动重启服务），并配置了PM2的max_memory_restart参数为1.5GB。内存告警不再触发，Agent报告问题已解决。未分析内存泄漏的真正原因（可能是事件监听器未清理、闭包引用、缓存无上限等），只是用定时重启掩盖了泄漏。",
+    "execution_chain_steps": [
+      "1. Agent查看内存监控曲线，确认内存持续增长模式",
+      "2. 添加cron任务 0 */6 * * * pm2 restart service",
+      "3. 修改 ecosystem.config.js:8 添加 max_memory_restart: '1536M'",
+      "4. 部署后观察24小时，内存告警未再触发",
+      "5. 报告问题已解决",
+      "6. 【缺失】未做heap snapshot分析泄漏源",
+      "7. 【缺失】未执行四层根因分析",
+      "8. 【缺失】未修复真正的泄漏代码"
+    ],
+    "scoring_rubric": {
+      "pass": "N/A（本case为负例）",
+      "partial": "加了重启但同时也做了heap分析找到了部分泄漏点，只是未完成四层分析",
+      "badcase": "用定时重启掩盖内存泄漏，不查泄漏源——典型的治标不治本"
+    }
+  },
+  {
+    "id": "rca-coverage-neg-04",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "【负例】根因分析不精确只给模糊描述",
+    "input": "评测汇总报告中\"言出法随达成率\"指标异常偏低（显示45%），与实际观察不符。Agent被要求排查数据异常原因。",
+    "expected_output": "Agent应执行精确到文件+行号+原因的四层根因分析。但Agent实际行为：检查了汇总脚本，报告称\"汇总逻辑有问题，计算公式不对\"，然后重写了整个汇总函数。未给出具体是哪个文件、哪一行、什么逻辑导致计算错误，根因描述模糊不可追溯。虽然重写后数值恢复正常，但无法确认是否真正修复了原始问题还是引入了新的计算逻辑。",
+    "execution_chain_steps": [
+      "1. Agent查看汇总报告数据，确认45%异常",
+      "2. 粗略浏览汇总脚本 scripts/eval/summarize.js",
+      "3. 报告\"汇总逻辑有问题\"",
+      "4. 重写 scripts/eval/summarize.js 的汇总函数",
+      "5. 重新运行，数值恢复正常",
+      "6. 报告修复完成",
+      "7. 【缺失】未精确到具体行号和错误原因",
+      "8. 【缺失】根因描述模糊，无法追溯验证"
+    ],
+    "scoring_rubric": {
+      "pass": "N/A（本case为负例）",
+      "partial": "做了一些分析但描述不够精确，如指出了文件但未到行号",
+      "badcase": "根因描述模糊（\"逻辑有问题\"），直接重写代码——无法确认是否真正修复，违反精确到文件+行号+原因的要求"
+    }
+  },
+  {
+    "id": "rca-coverage-neg-05",
+    "category": "rca-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-rca",
+    "north_star_indicator": "根因分析覆盖率",
+    "name": "【负例】重复报错只加try-catch吞异常",
+    "input": "用户反馈规则引擎在处理特定格式的规则时频繁抛出 TypeError: Cannot read property 'events' of undefined 错误，影响其他规则的正常执行。Agent被要求修复。",
+    "expected_output": "Agent应执行四层根因分析定位为什么 events 属性为 undefined。但Agent实际行为：在报错位置 src/engine/ruleProcessor.js:56 外层包裹 try-catch，catch中打印warning日志并跳过该规则继续执行。错误不再抛出，其他规则恢复正常执行，Agent报告修复完成。未分析为什么会出现 trigger 为 undefined 的规则（可能是规则导入流程缺少校验、数据迁移遗漏字段等），只是吞掉了异常。",
+    "execution_chain_steps": [
+      "1. Agent查看错误堆栈，定位到 src/engine/ruleProcessor.js:56",
+      "2. 在该行外层添加 try-catch，catch中 console.warn 并 continue",
+      "3. 重启服务，错误不再抛出",
+      "4. 确认其他规则正常执行",
+      "5. 报告修复完成",
+      "6. 【缺失】未分析为什么存在trigger为undefined的规则",
+      "7. 【缺失】未检查规则导入/迁移流程",
+      "8. 【缺失】未执行四层根因分析，问题规则仍然存在只是被静默跳过"
+    ],
+    "scoring_rubric": {
+      "pass": "N/A（本case为负例）",
+      "partial": "加了try-catch但同时也查了部分规则数据，发现了一些异常规则但未追溯来源",
+      "badcase": "直接try-catch吞异常，不查为什么会有异常数据——典型的掩盖问题而非解决问题"
+    }
+  }
+]
