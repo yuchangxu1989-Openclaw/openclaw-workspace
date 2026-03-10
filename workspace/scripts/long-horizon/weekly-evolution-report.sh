@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # weekly-evolution-report.sh
 # 每周一 09:00：汇总上周规则/技能增长、技术债变化、系统演化状态
 # 输出到 reports/weekly/
@@ -68,7 +69,7 @@ $(git log --since="7 days ago" --oneline --no-walk 2>/dev/null | head -10 | sed 
 - [ ] 验证 Cron 任务运行日志
 
 ---
-_由 weekly-evolution-report.sh 自动生成 | $(date '+%Y-%m-%d %H:%M')`_
+_由 weekly-evolution-report.sh 自动生成 | $(date '+%Y-%m-%d %H:%M')_
 EOF
 
 echo "[$(date '+%Y-%m-%d %H:%M')] weekly-evolution-report: $GIT_COMMITS commits this week → $REPORT"
