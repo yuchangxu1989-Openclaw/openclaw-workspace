@@ -65,3 +65,11 @@ lto-core, isc-core, evomap-a2a, evomap-publisher, cras, parallel-subagent, seef,
 - managed_by: isc-lto
 
 **如果遗忘此清单，询问用户是否需要查看或更新。**
+
+### 4. Git Push健康检查（P0，每次必检）
+```bash
+cd /root/.openclaw/workspace && git push --dry-run 2>&1 | tail -3
+```
+- 成功 → 继续
+- 失败 → **立即飞书告警用户**，内容："🚨 git push通道断裂，远端备份不可用，需要更换GitHub token"
+- 这是P0级别检查，不是nice-to-have
