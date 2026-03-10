@@ -119,9 +119,17 @@ for (const task of running) {
     if (fs.existsSync(candidate)) sessionFile = candidate;
   }
 
-  // 2. 兜底：找agent最新的session文件
+  // 2. 兜底：找agent最新的session文件（必须晚于spawnTime，避免匹配到上一个任务的session）
   if (!sessionFile) {
-    sessionFile = findLatestSession(agentId);
+    const candidate = findLatestSession(agentId);
+    if (candidate) {
+      const candidateMtime = fs.statSync(candidate).mtimeMs;
+      const spawnMs = spawnTime ? new Date(spawnTime).getTime() : 0;
+      if (candidateMtime > spawnMs) {
+        sessionFile = candidate;
+      }
+      // 如果session文件比spawnTime还早，说明是上一个任务的session，不匹配
+    }
   }
 
   // 3. 判定状态
