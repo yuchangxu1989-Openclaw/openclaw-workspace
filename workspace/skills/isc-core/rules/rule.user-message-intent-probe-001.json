@@ -23,14 +23,46 @@
     "description": "v2架构: 用户消息→LLM意图分类→结构化JSON。LLM不可用时自动降级到v1关键词版。"
   },
   "intent_types": [
-    {"type": "correction",        "harvest": true,  "category": "纠偏类"},
-    {"type": "negation",          "harvest": true,  "category": "否定类"},
-    {"type": "repeated_failure",  "harvest": true,  "category": "纠偏类"},
-    {"type": "autonomy_lack",     "harvest": true,  "category": "自主性缺失类"},
-    {"type": "teaching",          "harvest": true,  "category": "教学类"},
-    {"type": "root_cause_request","harvest": false,  "category": ""},
-    {"type": "quality_issue",     "harvest": true,  "category": "交付质量类"},
-    {"type": "normal",            "harvest": false,  "category": ""}
+    {
+      "type": "correction",
+      "harvest": true,
+      "category": "纠偏类"
+    },
+    {
+      "type": "negation",
+      "harvest": true,
+      "category": "否定类"
+    },
+    {
+      "type": "repeated_failure",
+      "harvest": true,
+      "category": "纠偏类"
+    },
+    {
+      "type": "autonomy_lack",
+      "harvest": true,
+      "category": "自主性缺失类"
+    },
+    {
+      "type": "teaching",
+      "harvest": true,
+      "category": "教学类"
+    },
+    {
+      "type": "root_cause_request",
+      "harvest": false,
+      "category": ""
+    },
+    {
+      "type": "quality_issue",
+      "harvest": true,
+      "category": "交付质量类"
+    },
+    {
+      "type": "normal",
+      "harvest": false,
+      "category": ""
+    }
   ],
   "metadata": {
     "created": "2026-03-08",
@@ -47,10 +79,26 @@
       "runner": "/root/.openclaw/workspace/tests/benchmarks/intent/benchmark_runner.py",
       "report": "/root/.openclaw/workspace/reports/intent-probe-v2-model-comparison.md",
       "results": {
-        "glm-4-flash": {"f1": 0.884, "accuracy": 0.835, "avg_latency_ms": 1597, "cost_cny": 0.0055},
-        "glm-4-plus":  {"f1": 0.950, "accuracy": 0.938, "avg_latency_ms": 698,  "cost_cny": 2.7822},
-        "claude-opus":  {"f1": 0.960, "accuracy": 0.946, "avg_latency_ms": 2556, "cost_cny": 81.1339}
+        "glm-4-flash": {
+          "f1": 0.884,
+          "accuracy": 0.835,
+          "avg_latency_ms": 1597,
+          "cost_cny": 0.0055
+        },
+        "glm-4-plus": {
+          "f1": 0.95,
+          "accuracy": 0.938,
+          "avg_latency_ms": 698,
+          "cost_cny": 2.7822
+        },
+        "claude-opus": {
+          "f1": 0.96,
+          "accuracy": 0.946,
+          "avg_latency_ms": 2556,
+          "cost_cny": 81.1339
+        }
       }
     }
-  }
+  },
+  "handler": "handlers/user-message-intent-probe-001.js"
 }

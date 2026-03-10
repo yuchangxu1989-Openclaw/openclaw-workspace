@@ -3,7 +3,16 @@
   "name": "用户纠偏触发记忆反查与修正",
   "description": "用户纠偏时自动反查MEMORY.md中的矛盾记忆并修正",
   "priority": "P0",
-  "trigger": { "event": "user.feedback.correction" },
-  "action": { "handler": "memory-correction-handler.js" },
-  "tags": ["memory", "self-correction", "anti-entropy"]
+  "trigger": {
+    "event": "user.feedback.correction"
+  },
+  "action": {
+    "handler": "memory-correction-handler.js"
+  },
+  "tags": [
+    "memory",
+    "self-correction",
+    "anti-entropy"
+  ],
+  "handler": "cognitive-guard"
 }

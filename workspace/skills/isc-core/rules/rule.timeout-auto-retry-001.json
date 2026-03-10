@@ -30,5 +30,6 @@
     "主Agent根据队列输出重新派发任务",
     "retry_count记录在看板和队列中，防止无限重试"
   ],
-  "fullchain_status": "expanded"
+  "fullchain_status": "expanded",
+  "handler": "handlers/timeout-auto-retry-001.js"
 }

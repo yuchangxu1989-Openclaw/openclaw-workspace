@@ -52,5 +52,6 @@
   "anti_entropy": "将对话中的每一次认知升级自动固化为系统规则，确保同类错误不再重复。规则本身也要泛化——解决一类问题，不只是当前这个case。",
   "enforcement_tier": "P0_gate",
   "name": "缺陷根因分析与修复",
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "handler": "scripts/isc-hooks/rule.self-correction-to-rule-001.sh"
 }

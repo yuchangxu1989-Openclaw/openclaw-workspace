@@ -99,5 +99,6 @@
   },
   "enforcement_tier": "P0_gate",
   "id": "rule.n033-gateway-config-protection",
-  "enforcement": "programmatic"
+  "enforcement": "programmatic",
+  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n033-gateway-config-protection.sh"
 }

@@ -18,5 +18,6 @@
   "severity": "high",
   "enforcement": "mandatory",
   "created": "2026-03-08",
-  "rationale": "用户在飞书端看不到任何本地exec的输出，看板必须通过消息推送才能让用户可见。自己exec看=口嗨。"
+  "rationale": "用户在飞书端看不到任何本地exec的输出，看板必须通过消息推送才能让用户可见。自己exec看=口嗨。",
+  "handler": "handlers/taskboard-push-001.js"
 }
