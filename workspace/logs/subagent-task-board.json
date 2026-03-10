@@ -8298,26 +8298,31 @@
     "model": "claude-opus-4-6-thinking",
     "status": "done",
     "spawnTime": "2026-03-10T22:47:38.774Z",
-    "result_summary": "(僵尸任务自动回收 — session已完成但completion event丢失)",
+    "result_summary": "方案已出,423条分42batch,5个V4字段缺失需补",
     "auto_fixed": true,
     "fixed_at": "2026-03-10T22:51:01.918Z",
-    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟"
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟",
+    "completeTime": "2026-03-10T22:51:47.878Z"
   },
   {
     "taskId": "52975d97-7383-434e-b8de-bc31139662b2",
     "label": "p0-eval-infra-fix",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
-    "spawnTime": "2026-03-10T22:47:39.699Z"
+    "status": "done",
+    "spawnTime": "2026-03-10T22:47:39.699Z",
+    "completeTime": "2026-03-10T22:54:15.011Z",
+    "result_summary": "423条V4字段100%补齐，e2e-eval.js扩展至850条，北极星5指标全覆盖"
   },
   {
     "taskId": "157237a0-ce45-4dae-acec-649bcc8de369",
     "label": "p0-golden423-scoring",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
-    "spawnTime": "2026-03-10T22:47:40.598Z"
+    "status": "done",
+    "spawnTime": "2026-03-10T22:47:40.598Z",
+    "completeTime": "2026-03-10T22:53:40.655Z",
+    "result_summary": "前10条scoring_rubric已补齐，10/423完成，生成脚本已保存"
   },
   {
     "taskId": "66974e57-da68-4617-9549-d9dfd59b9c2f",
@@ -8326,10 +8331,11 @@
     "model": "claude-opus-4-6-thinking",
     "status": "done",
     "spawnTime": "2026-03-10T22:47:41.530Z",
-    "result_summary": "(僵尸任务自动回收 — session已完成但completion event丢失)",
+    "result_summary": "Batch2第11-20条V4字段已补齐",
     "auto_fixed": true,
     "fixed_at": "2026-03-10T22:51:01.918Z",
-    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟"
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟",
+    "completeTime": "2026-03-10T22:51:28.185Z"
   },
   {
     "taskId": "qa-test-label",
@@ -8343,5 +8349,194 @@
     "auto_fixed": true,
     "fixed_at": "2026-03-10T22:51:01.918Z",
     "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟"
+  },
+  {
+    "taskId": "8b9773a7-1d81-464d-be42-03471a430ffd",
+    "label": "verify-memos-plugin",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:53:21.392Z",
+    "result_summary": "MemOS因slot被memory-core占据而disabled，启用需改配置+迁移，值得但不紧急",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T22:54:36.064Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟",
+    "completeTime": "2026-03-10T22:54:53.667Z"
+  },
+  {
+    "taskId": "7db54bdf-8e70-44ed-afb9-2dc243df23db",
+    "label": "verify-auto-qa-e2e",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:53:22.300Z",
+    "result_summary": "QA自动触发链路5/6通过，1项风险：看板agentId为空时QA静默跳过",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T22:57:01.901Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成1分钟",
+    "completeTime": "2026-03-10T22:57:36.181Z"
+  },
+  {
+    "taskId": "qa-test-verify",
+    "label": "qa-test-verify",
+    "agentId": "reviewer",
+    "model": "auto-qa",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:53:34.875Z",
+    "description": "质量核查: test-verify",
+    "result_summary": "(僵尸任务自动回收 — session已完成但completion event丢失)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T22:54:36.064Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟"
+  },
+  {
+    "taskId": "dd107550-32d0-4d16-9604-cdcfecb31e83",
+    "label": "qa-p0-eval-infra",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:54:45.043Z",
+    "result_summary": "3/4通过，1项未通过：run-e2e-eval.js未集成c2-golden目录，评测管道未接通",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T22:57:01.901Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟",
+    "completeTime": "2026-03-10T22:57:55.583Z"
+  },
+  {
+    "taskId": "qa-test-coder-task",
+    "label": "qa-test-coder-task",
+    "agentId": "reviewer",
+    "model": "auto-qa",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:56:53.589Z",
+    "description": "质量核查: test-coder-task",
+    "result_summary": "(僵尸任务自动回收 — session已完成但completion event丢失)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T22:57:41.626Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟"
+  },
+  {
+    "taskId": "90b80cf1-1835-423b-abd2-100033c04743",
+    "label": "qa-audit-0040-bug1-autoqa",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:57:11.919Z",
+    "result_summary": "✅两commit均通过，BUG-1修复生效+自动QA三层循环防护有效",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:00:01.590Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成2分钟",
+    "completeTime": "2026-03-10T23:00:26.962Z"
+  },
+  {
+    "taskId": "fc43f843-9abb-4be3-ac9f-8095b5f23720",
+    "label": "qa-audit-0040-aeo-golden10",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:57:12.921Z",
+    "result_summary": "❌未通过：补齐率仅2/5，complexity和execution_chain_steps缺失，gate非标，north_star同质化，综合2.9/10",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:00:01.590Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成1分钟",
+    "completeTime": "2026-03-10T23:00:58.752Z"
+  },
+  {
+    "taskId": "960597be-683f-44b2-97b4-eee2a4c731c8",
+    "label": "qa-audit-0040-zombie-fix",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:57:13.927Z",
+    "completeTime": "2026-03-10T22:59:59.540Z",
+    "result_summary": "✅全部通过，零僵尸，三commit均生效"
+  },
+  {
+    "taskId": "dfe7e9d1-a4a7-4d05-8e73-3a3c678c3088",
+    "label": "qa-audit-0040-reports",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:57:14.886Z",
+    "result_summary": "报告1⭐4通过/报告2⭐5但代码未修/报告3⭐3略超8KB且丢重要认知",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:00:01.590Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟",
+    "completeTime": "2026-03-10T23:01:32.936Z"
+  },
+  {
+    "taskId": "b1485c1b-f8c3-47e9-b127-159df37881ab",
+    "label": "fix-e2e-eval-load-c2golden",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:58:55.116Z",
+    "result_summary": "run-e2e-eval.js接通c2-golden，591条=168+423，dry-run通过",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:01:38.863Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟",
+    "completeTime": "2026-03-10T23:02:32.098Z"
+  },
+  {
+    "taskId": "d7f74fdc-508f-4f25-a26b-54618f41449c",
+    "label": "fix-taskboard-duplicate-push",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T22:59:40.704Z",
+    "result_summary": "看板去重+auto-qa模型名修复，均已验证",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:02:37.752Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成1分钟",
+    "completeTime": "2026-03-10T23:03:41.751Z"
+  },
+  {
+    "taskId": "71799640-22fd-4b30-b04c-a07432e4ab76",
+    "label": "qa-fix-e2e-eval-c2golden",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T23:03:09.855Z",
+    "result_summary": "僵尸扫描发现已完成，补回写",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:06:01.897Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成0分钟",
+    "completeTime": "2026-03-10T23:06:23.392Z"
+  },
+  {
+    "taskId": "255811df-4780-4fa2-9cfa-1da542bfe84b",
+    "label": "chub-install",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T23:09:33.365Z",
+    "result_summary": "(僵尸任务自动回收 — session已完成但completion event丢失)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:12:01.962Z",
+    "fixed_reason": "session已终止(stopReason=stop)，看板仍为running，距完成1分钟"
+  },
+  {
+    "taskId": "b621cf5c-3de1-44f5-a03c-42b1ca658280",
+    "label": "memos-enable",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T23:18:05.822Z"
+  },
+  {
+    "taskId": "ecd5a145-6b67-402d-81ce-d435dd5f31e9",
+    "label": "memos-fix-sqlite",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T23:24:10.630Z"
+  },
+  {
+    "taskId": "851ec987-c379-4189-b781-be32a51a372c",
+    "label": "check-5-questions",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T23:27:36.338Z"
   }
 ]

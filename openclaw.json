@@ -1029,7 +1029,10 @@
         "archiveAfterMinutes": 120,
         "runTimeoutSeconds": 0
       },
-      "workspace": "/root/.openclaw/workspace"
+      "workspace": "/root/.openclaw/workspace",
+      "memorySearch": {
+        "enabled": false
+      }
     },
     "list": [
       {
@@ -1417,6 +1420,9 @@
       "feishu": {
         "enabled": true
       }
+    },
+    "slots": {
+      "memory": "memos-local-openclaw-plugin"
     }
   },
   "gateway": {
