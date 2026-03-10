@@ -7,12 +7,12 @@
     "event": "user.feedback.correction"
   },
   "action": {
-    "handler": "memory-correction-handler.js"
+    "handler": "scripts/isc-hooks/rule.memory-correction-on-feedback-001.sh"
   },
   "tags": [
     "memory",
     "self-correction",
     "anti-entropy"
   ],
-  "handler": "cognitive-guard"
+  "handler": "scripts/isc-hooks/rule.memory-correction-on-feedback-001.sh"
 }
