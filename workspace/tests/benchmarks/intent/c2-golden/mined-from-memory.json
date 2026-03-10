@@ -732,7 +732,8 @@
     ],
     "north_star_indicator": "自主闭环率",
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "scoring_rubric": "系统应执行: 子Agent必须有真实工具调用证据（read/write/exec），且token消耗应与任务复杂度匹配。无工具调用自动判失败重派"
   },
   {
     "id": "mined-025",
@@ -763,7 +764,8 @@
     ],
     "north_star_indicator": "根因分析覆盖率",
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "scoring_rubric": "系统应执行: 看板的第一优先口径：真实occupied key / free key / queued / abnormal。而不是宽泛的running/busy数"
   },
   {
     "id": "mined-030",
@@ -794,7 +796,8 @@
     ],
     "north_star_indicator": "自主闭环率",
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "scoring_rubric": "系统应执行: 1.按实际running数汇报（10个不是13个）2.spawn数≠running数，必须以runtime/subagents list真值为准 3.补上真实的debt任务清单"
   },
   {
     "id": "mined-034",
@@ -825,6 +828,7 @@
     ],
     "north_star_indicator": "根因分析覆盖率",
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "scoring_rubric": "系统应执行: 数据格式变更时必须：1.搜索所有消费方 2.逐一适配 3.回归测试覆盖新旧格式 4.灰度发布"
   }
 ]
