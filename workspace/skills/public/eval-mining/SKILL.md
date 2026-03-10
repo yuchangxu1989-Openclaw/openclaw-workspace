@@ -60,7 +60,7 @@ bash scripts/v3-eval-clean-batch.sh
 ## 挖掘流程 (mine)
 
 ### 1. 准备阶段
-- 读取 V3 标准文档：`feishu_doc read` token `OKmrd21OsotmFkxpT4gcLXjunze`
+- 读取 V3 标准文档：`feishu_doc read` token `JxhNdoc7ko7ZLwxJUJHcWyeDnYd`
 - 确定 session 日志目录和目标条数
 
 ### 2. 分片规则
@@ -80,7 +80,7 @@ bash scripts/v3-eval-clean-batch.sh
 Task prompt 模板：
 ```
 读取文件 {session_file} 的第 {start_line} 到 {end_line} 行。
-从中挖掘恰好10条C2意图识别评测用例，格式遵循V3标准（参考 feishu_doc token OKmrd21OsotmFkxpT4gcLXjunze）。
+从中挖掘恰好10条C2意图识别评测用例，格式遵循V3标准（参考 feishu_doc token JxhNdoc7ko7ZLwxJUJHcWyeDnYd）。
 用 write 工具将结果写入 {output_dir}/mined-{batch_id}.json，JSON数组格式，每条包含 id/input/expected_output/category/difficulty/source 字段。
 一次性完成不要等确认。
 ```
@@ -145,7 +145,7 @@ bash index.sh refresh
 
 ### 唯一真相源
 
-评测标准 V3 的唯一真相源为飞书文档 `OKmrd21OsotmFkxpT4gcLXjunze`。
+评测标准 V3 的唯一真相源为飞书文档 `JxhNdoc7ko7ZLwxJUJHcWyeDnYd`。
 
 ### 挖掘前必读最新标准
 

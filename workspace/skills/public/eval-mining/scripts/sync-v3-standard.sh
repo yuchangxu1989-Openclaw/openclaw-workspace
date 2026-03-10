@@ -14,7 +14,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILL_DIR="$(dirname "$SCRIPT_DIR")"
 REPO_ROOT="$(cd "$SKILL_DIR/../../.." && pwd)"
 
-V3_DOC_TOKEN="OKmrd21OsotmFkxpT4gcLXjunze"
+V3_DOC_TOKEN="JxhNdoc7ko7ZLwxJUJHcWyeDnYd"
 HASH_FILE="$SKILL_DIR/.v3-version-hash"
 SIGNAL_DIR="$REPO_ROOT/.eval-mining-signals"
 SIGNAL_FILE="$SIGNAL_DIR/standard-updated"

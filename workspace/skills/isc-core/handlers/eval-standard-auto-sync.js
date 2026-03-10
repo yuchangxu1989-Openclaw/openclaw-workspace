@@ -21,7 +21,7 @@ module.exports = {
   async execute(context = {}) {
     const {
       standardVersion = 'unknown',
-      standardDocToken = 'OKmrd21OsotmFkxpT4gcLXjunze',
+      standardDocToken = 'JxhNdoc7ko7ZLwxJUJHcWyeDnYd',
       evalsetDir
     } = context;
     const checks = [];

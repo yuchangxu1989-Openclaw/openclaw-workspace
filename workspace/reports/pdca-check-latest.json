@@ -1,53 +1,53 @@
 {
-  "timestamp": "2026-03-09T12:13:17.299Z",
+  "timestamp": "2026-03-10T02:00:51.440Z",
   "version": "2.0.0",
   "metrics": {
     "concurrencyUtil": {
       "label": "并发利用率",
-      "actual": 0,
+      "actual": 1.1053,
       "target": 0.6,
-      "gap": -0.6,
-      "status": "critical",
+      "gap": 0.5053,
+      "status": "ok",
       "detail": {
-        "actual": 0,
-        "peakRunning": 0,
+        "actual": 1.1053,
+        "peakRunning": 21,
         "limit": 19
       }
     },
     "timeoutRate": {
       "label": "任务超时率",
-      "actual": 0.2,
-      "target": 0.1,
-      "gap": -0.1,
-      "status": "warn",
-      "detail": {
-        "actual": 0.2,
-        "timeouts": 1,
-        "total": 5
-      }
-    },
-    "taskSplitDegree": {
-      "label": "任务拆分度",
       "actual": 0,
-      "target": 3,
-      "gap": -3,
-      "status": "critical",
+      "target": 0.1,
+      "gap": 0.1,
+      "status": "ok",
       "detail": {
         "actual": 0,
-        "totalSubtasks": 0,
-        "dispatchWaves": 0
+        "timeouts": 0,
+        "total": 1
+      }
+    },
+    "taskGranularity": {
+      "label": "单任务粒度",
+      "actual": 0,
+      "target": 10,
+      "gap": 10,
+      "status": "ok",
+      "detail": {
+        "actual": 0,
+        "sampledTasks": 0,
+        "fileCounts": []
       }
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
-      "actual": 0,
+      "actual": 0.6882,
       "target": 0.5,
-      "gap": -0.5,
-      "status": "critical",
+      "gap": 0.1882,
+      "status": "ok",
       "detail": {
-        "actual": 0,
-        "expandedRules": 0,
-        "totalRules": 182
+        "actual": 0.6882,
+        "expandedRules": 128,
+        "totalRules": 186
       }
     },
     "badcaseAutoRate": {
@@ -63,70 +63,13 @@
       }
     }
   },
-  "gapAnalysis": [
-    {
-      "metric": "concurrencyUtil",
-      "label": "并发利用率",
-      "severity": "critical",
-      "actual": 0,
-      "target": 0.6,
-      "gap": -0.6,
-      "gapDescription": "并发利用率当前0，距目标0.6还差0.6000，需提升100.0%",
-      "suggestions": [
-        "增加任务拆分粒度，让更多子任务并行",
-        "检查是否有阻塞性依赖导致串行执行",
-        "优化dispatch策略，提前预取下一批任务"
-      ]
-    },
-    {
-      "metric": "timeoutRate",
-      "label": "任务超时率",
-      "severity": "warn",
-      "actual": 0.2,
-      "target": 0.1,
-      "gap": -0.1,
-      "gapDescription": "任务超时率当前0.2，超出目标0.1达0.1000，需降低50.0%",
-      "suggestions": [
-        "分析超时任务的共性，是否为特定类型任务",
-        "考虑增加超时阈值或优化慢任务的执行路径",
-        "检查是否有外部依赖(API/网络)导致超时"
-      ]
-    },
-    {
-      "metric": "taskSplitDegree",
-      "label": "任务拆分度",
-      "severity": "critical",
-      "actual": 0,
-      "target": 3,
-      "gap": -3,
-      "gapDescription": "任务拆分度当前0，距目标3还差3.0000，需提升100.0%",
-      "suggestions": [
-        "复杂任务应至少拆分为3个独立子任务",
-        "引入自动拆分策略，基于任务复杂度评估",
-        "参考ISC规则中的任务分解最佳实践"
-      ]
-    },
-    {
-      "metric": "ruleExpansionRate",
-      "label": "ISC规则展开率",
-      "severity": "critical",
-      "actual": 0,
-      "target": 0.5,
-      "gap": -0.5,
-      "gapDescription": "ISC规则展开率当前0，距目标0.5还差0.5000，需提升100.0%",
-      "suggestions": [
-        "优先展开高权重治理规则",
-        "建立规则展开的自动化pipeline",
-        "每次Check后自动识别下一批应展开的规则"
-      ]
-    }
-  ],
+  "gapAnalysis": [],
   "summary": {
     "total": 5,
-    "ok": 0,
-    "warn": 1,
-    "critical": 3,
+    "ok": 4,
+    "warn": 0,
+    "critical": 0,
     "info": 1,
-    "overallHealth": "critical"
+    "overallHealth": "ok"
   }
 }

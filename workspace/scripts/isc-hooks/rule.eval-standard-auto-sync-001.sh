@@ -7,7 +7,7 @@
 set -euo pipefail
 
 RULE_ID="rule.eval-standard-auto-sync-001"
-DOC_TOKEN="OKmrd21OsotmFkxpT4gcLXjunze"
+DOC_TOKEN="JxhNdoc7ko7ZLwxJUJHcWyeDnYd"
 LOCAL_STANDARD_DIR="/root/.openclaw/workspace/data/eval-standards"
 LOCAL_HASH_FILE="${LOCAL_STANDARD_DIR}/.v3-standard.sha256"
 

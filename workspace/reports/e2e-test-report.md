@@ -1,18 +1,18 @@
 # E2E 事件驱动全链路集成测试报告
 
-**日期**: 2026-03-08T01:57:22.260Z
-**状态**: ❌ 6 FAILURES
-**通过率**: 85.0% (34/40)
+**日期**: 2026-03-09T06:46:48.392Z
+**状态**: ✅ ALL PASSED
+**通过率**: 100.0% (40/40)
 
 ## 测试概要
 
 | 指标 | 数值 |
 |------|------|
 | 总测试数 | 40 |
-| 通过 | 34 |
-| 失败 | 6 |
+| 通过 | 40 |
+| 失败 | 0 |
 | 跳过 | 0 |
-| 通过率 | 85.0% |
+| 通过率 | 100.0% |
 
 ## 测试链路
 
@@ -66,28 +66,18 @@ bus-adapter.emit() → circuit-breaker.check() → dispatcher.dispatch()
 | ✅ | ISC条件 severity==HIGH | - |
 | ✅ | 描述性条件→needs_llm | - |
 
-### ⚙️ Stage 5: handler-executor ⚠️ (2/6)
+### ⚙️ Stage 5: handler-executor ✅ (6/6)
 
 | 状态 | 测试名称 | 备注 |
 |------|----------|------|
-| ❌ | loadHandler log-action | The expression evaluated to a falsy value:
-
-  assert.ok(h && typeof h === 'funct |
+| ✅ | loadHandler log-action | - |
 | ✅ | loadHandler不存在→null | - |
 | ✅ | buildContext正确 | - |
-| ❌ | execute() log-action | handler not found: log-action
+| ✅ | execute() log-action | - |
+| ✅ | handler写入log | - |
+| ✅ | 超时处理 | - |
 
-false !== true
- |
-| ❌ | handler写入log | Expected values to be strictly equal:
-+ actual - expected
-
-+ 'evt_1772935041381' |
-| ❌ | 超时处理 | The expression evaluated to a falsy value:
-
-  assert.ok(r.error.includes('timeou |
-
-### 🔗 Stage 6: 全链路集成 ⚠️ (10/12)
+### 🔗 Stage 6: 全链路集成 ✅ (12/12)
 
 | 状态 | 测试名称 | 备注 |
 |------|----------|------|
@@ -100,56 +90,9 @@ false !== true
 | ✅ | Dispatcher路由→条件→handler执行 | - |
 | ✅ | 条件评估CRITICAL通过 | - |
 | ✅ | 条件评估LOW不通过 | - |
-| ❌ | handler-executor执行handler | handler not found: e2e-test-handler
-
-false !== true
- |
-| ❌ | handler输出文件正确 | output file should exist |
+| ✅ | handler-executor执行handler | - |
+| ✅ | handler输出文件正确 | - |
 | ✅ | consume()消费事件 | - |
-
-## ❌ 失败详情
-
-### S5: loadHandler log-action
-- **时间**: 2026-03-08T01:57:21.476Z
-- **错误**: `The expression evaluated to a falsy value:
-
-  assert.ok(h && typeof h === 'function')
-`
-
-### S5: execute() log-action
-- **时间**: 2026-03-08T01:57:21.485Z
-- **错误**: `handler not found: log-action
-
-false !== true
-`
-
-### S5: handler写入log
-- **时间**: 2026-03-08T01:57:22.191Z
-- **错误**: `Expected values to be strictly equal:
-+ actual - expected
-
-+ 'evt_1772935041381'
-- 'evt_e2e_01'
-       ^
-`
-
-### S5: 超时处理
-- **时间**: 2026-03-08T01:57:22.200Z
-- **错误**: `The expression evaluated to a falsy value:
-
-  assert.ok(r.error.includes('timeout'))
-`
-
-### S6: handler-executor执行handler
-- **时间**: 2026-03-08T01:57:22.250Z
-- **错误**: `handler not found: e2e-test-handler
-
-false !== true
-`
-
-### S6: handler输出文件正确
-- **时间**: 2026-03-08T01:57:22.252Z
-- **错误**: `output file should exist`
 
 ## 验证的关键链路
 
