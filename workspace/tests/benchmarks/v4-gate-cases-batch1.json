@@ -198,7 +198,7 @@
     "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "gate-b",
-    "north_star_indicator": "根因分析覆盖率",
+    "north_star_indicator": "认知层真实代码覆盖率",
     "input": "V4评测标准文档中定义了'认知层真实代码覆盖率=100%'指标，对应的审计脚本audit-cognition.cjs中实现了检查逻辑：遍历评测记录，验证每次认知映射是否包含grep/find命令调用和精确到文件路径+行号的输出。Gate-B需要验证标准文档的指标定义与脚本实现的绑定关系。",
     "expected_output": "Gate-B标准-脚本绑定门应：①读取V4标准文档中'认知层真实代码覆盖率'的定义和判定细则；②读取audit-cognition.cjs的实际检查逻辑代码；③逐项对比：标准要求'grep/find遍历'→脚本是否检查命令调用记录；标准要求'精确到文件路径+函数名+行号'→脚本是否验证输出格式包含这三要素；标准要求'只看文档摘要不计为有效'→脚本是否有排除逻辑；④全部绑定一致，Gate-B=PASS。",
     "execution_chain_steps": [
@@ -223,7 +223,7 @@
     "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "gate-b",
-    "north_star_indicator": "根因分析覆盖率",
+    "north_star_indicator": "审计口径一致率",
     "input": "V4标准要求'审计口径一致率≥99%（同样本跨批次一致结论数/总结论数）'，但对应的汇总脚本summarize-audit.cjs中的一致率计算逻辑实际是'同批次内样本间一致率'而非'跨批次同样本一致率'。计算口径与标准定义不匹配。Gate-B需要检出这个绑定偏差。",
     "expected_output": "这是Gate-B应检出标准-脚本绑定偏差的负面case。正确行为：①读取V4标准中'审计口径一致率'定义：'同样本跨批次一致结论数/总结论数'；②读取summarize-audit.cjs中一致率计算代码；③发现脚本计算的是'同批次内样本间一致率'——分子分母定义与标准不同；④标记Gate-B=FAIL，报告绑定偏差：标准要求跨批次同样本对比，脚本实现为同批次内样本对比；⑤该脚本产出的一致率数据不可用于正式报告。",
     "execution_chain_steps": [
