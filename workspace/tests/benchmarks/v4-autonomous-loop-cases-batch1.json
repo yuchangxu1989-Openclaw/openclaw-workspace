@@ -1,0 +1,245 @@
+{
+  "_meta": {
+    "description": "V4自主闭环率专项评测Case - Batch 1",
+    "north_star_indicator": "自主闭环率",
+    "indicator_definition": "衡量系统在无用户催促下自动完成任务全流程的能力。除用户决策点（命名确认/重大架构拍板）外，全部环节自动完成的任务数 ÷ 总任务数 × 100%",
+    "threshold": "≥ 95%",
+    "version": "1.0",
+    "generated": "2026-03-10T16:47:00+08:00",
+    "case_count": 10,
+    "positive_cases": 5,
+    "negative_cases": 5
+  },
+  "cases": [
+    {
+      "id": "autonomous-loop-pos-01",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "子Agent失败后自动重试并完成任务",
+      "input": "用户要求部署一个新的微服务到staging环境。主Agent派出子Agent执行部署，子Agent在拉取镜像时因网络超时失败返回错误。",
+      "expected_output": "主Agent检测到子Agent失败，自动分析失败原因（网络超时），自动重试部署流程（最多3次），重试成功后自动验证服务健康状态，最终向用户报告部署完成。全程无需用户催促或干预。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "主Agent接收用户部署指令，拆解任务并派出子Agent", "auto": true},
+        {"step": 2, "action": "子Agent执行部署，拉取镜像时网络超时失败", "auto": true},
+        {"step": 3, "action": "主Agent捕获失败事件，分析错误类型为可重试错误（网络超时）", "auto": true},
+        {"step": 4, "action": "主Agent自动重新派出子Agent重试部署", "auto": true},
+        {"step": 5, "action": "子Agent重试成功，镜像拉取完成，服务启动", "auto": true},
+        {"step": 6, "action": "主Agent自动执行健康检查验证服务状态", "auto": true},
+        {"step": 7, "action": "主Agent向用户报告部署成功及重试过程", "auto": true}
+      ],
+      "scoring_rubric": {
+        "pass": "子Agent失败后主Agent在无用户催促下自动重试，重试成功后自动验真，全流程自主完成",
+        "partial": "自动重试了但未自动验真服务健康状态，或重试前向用户请示是否重试",
+        "badcase": "子Agent失败后等待用户催促才重试，或直接报告失败不尝试恢复"
+      }
+    },
+    {
+      "id": "autonomous-loop-pos-02",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "发现问题自动派人修复不等用户",
+      "input": "Agent在执行代码审查时发现一个API端点缺少鉴权中间件，存在安全漏洞。用户并未要求修复安全问题，只是要求做代码审查。",
+      "expected_output": "Agent完成代码审查后，自动识别安全漏洞的严重性，自动派出开发子Agent添加鉴权中间件，自动编写对应的测试用例验证修复效果，最终在审查报告中一并汇报发现的问题及已完成的修复。全程不等用户指示。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "Agent执行代码审查，遍历真实代码文件", "auto": true},
+        {"step": 2, "action": "发现API端点 /api/admin/users 缺少auth中间件", "auto": true},
+        {"step": 3, "action": "自动评估严重性：高危安全漏洞，决定立即修复", "auto": true},
+        {"step": 4, "action": "自动派出开发子Agent添加鉴权中间件", "auto": true},
+        {"step": 5, "action": "开发子Agent完成修复并提交代码", "auto": true},
+        {"step": 6, "action": "自动派出QA子Agent编写测试用例验证修复", "auto": true},
+        {"step": 7, "action": "汇总审查报告+安全修复结果，一并交付用户", "auto": true}
+      ],
+      "scoring_rubric": {
+        "pass": "发现安全问题后自动派人修复+验真，不等用户指示，审查报告包含修复详情",
+        "partial": "发现问题并报告了但只建议修复未自动执行，或修复了但未验真",
+        "badcase": "发现安全漏洞后仅在报告中提及，等用户决定是否修复"
+      }
+    },
+    {
+      "id": "autonomous-loop-pos-03",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "超时任务自动检查补派",
+      "input": "用户要求生成一份包含5个模块的技术方案文档。主Agent派出5个子Agent分别负责各模块。其中模块3的子Agent超过15分钟未返回结果，其余4个均已完成。",
+      "expected_output": "主Agent自动检测到模块3子Agent超时，自动终止超时Agent，分析可能原因，重新派出新的子Agent接手模块3的工作，新Agent完成后自动合并5个模块的结果，生成完整文档交付用户。全程无需用户催促。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "主Agent拆解任务，并行派出5个子Agent", "auto": true},
+        {"step": 2, "action": "模块1/2/4/5子Agent陆续完成返回", "auto": true},
+        {"step": 3, "action": "主Agent检测到模块3子Agent超过15分钟超时阈值", "auto": true},
+        {"step": 4, "action": "自动终止超时子Agent，记录超时日志", "auto": true},
+        {"step": 5, "action": "自动派出新子Agent接手模块3，附带前序上下文", "auto": true},
+        {"step": 6, "action": "新子Agent完成模块3内容", "auto": true},
+        {"step": 7, "action": "主Agent自动合并5个模块，生成完整文档交付", "auto": true}
+      ],
+      "scoring_rubric": {
+        "pass": "自动检测超时+自动补派+自动合并交付，全程无用户催促",
+        "partial": "检测到超时但向用户报告等指示，或补派了但未自动合并",
+        "badcase": "未检测到超时，等用户问进度才发现子Agent卡住"
+      }
+    },
+    {
+      "id": "autonomous-loop-pos-04",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "告警自动扫描+根因分析+修复",
+      "input": "系统监控触发告警：数据库连接池耗尽，API响应时间飙升至5秒以上。用户未在线。",
+      "expected_output": "Agent自动接收告警事件，自动扫描相关日志和代码，执行四层根因分析（代码缺陷：连接未释放/规则缺失：无连接池回收规则/认知偏差：无/架构瓶颈：连接池上限过低），自动修复连接泄漏代码+调整连接池配置，自动验证修复后API响应恢复正常，最终生成事件报告通知用户。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "Agent接收数据库连接池告警事件", "auto": true},
+        {"step": 2, "action": "自动扫描数据库连接日志、API访问日志", "auto": true},
+        {"step": 3, "action": "自动grep代码定位连接获取/释放逻辑，发现db-client.js:47未释放连接", "auto": true},
+        {"step": 4, "action": "执行四层根因分析：代码缺陷(连接未释放)+架构瓶颈(pool_size=10过低)", "auto": true},
+        {"step": 5, "action": "自动派出开发子Agent修复连接泄漏+调整pool_size=50", "auto": true},
+        {"step": 6, "action": "自动验证：连接池使用率恢复正常，API响应<200ms", "auto": true},
+        {"step": 7, "action": "生成事件报告（含根因+修复+验真证据）通知用户", "auto": true}
+      ],
+      "scoring_rubric": {
+        "pass": "告警→扫描→根因分析（精确到文件+行号）→自动修复→验真→报告，全链路自主完成",
+        "partial": "完成了根因分析但修复前请示用户，或修复了但未验真",
+        "badcase": "收到告警后仅转发给用户，等用户指示下一步"
+      }
+    },
+    {
+      "id": "autonomous-loop-pos-05",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "评测发现缺口自动补充",
+      "input": "Agent执行V4评测集覆盖度审计，发现'自主闭环率'北极星指标的专项Case数量为0，存在严重覆盖缺口。",
+      "expected_output": "Agent自动识别覆盖缺口，自动读取V4评测标准中自主闭环率的定义和判定细则，自动参考现有评测集格式，自动生成符合标准的专项Case（含正面和负面场景），自动写入评测集目录并git提交，最终报告补充结果。全程不问用户'要不要补充'。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "执行评测集覆盖度审计，统计各指标Case数量", "auto": true},
+        {"step": 2, "action": "发现自主闭环率Case=0，标记为严重缺口", "auto": true},
+        {"step": 3, "action": "自动读取V4评测标准文档中自主闭环率定义", "auto": true},
+        {"step": 4, "action": "自动读取现有评测集格式作为模板", "auto": true},
+        {"step": 5, "action": "自动生成正面+负面专项Case", "auto": true},
+        {"step": 6, "action": "自动写入评测集目录，git add && git commit", "auto": true},
+        {"step": 7, "action": "报告补充结果：新增N条Case，覆盖缺口已填补", "auto": true}
+      ],
+      "scoring_rubric": {
+        "pass": "发现缺口后自动补充完整Case并提交，不问用户是否需要补充",
+        "partial": "发现缺口并生成了Case但未自动提交，或提交前请示用户",
+        "badcase": "发现缺口后仅报告'自主闭环率Case为0，建议补充'，等用户下达补充指令"
+      }
+    },
+    {
+      "id": "autonomous-loop-neg-01",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "【负面】等用户催促才行动",
+      "input": "用户要求重构认证模块。Agent完成了代码分析和方案设计后，输出'分析完成，以下是重构方案，请确认后我开始执行'，然后停下来等待。用户30分钟后问'怎么还没开始？'",
+      "expected_output": "这是一个badcase。正确行为：Agent完成方案设计后应自动开始执行重构（重构不属于'命名确认'或'重大架构变更拍板'这两类用户决策点），边执行边汇报进度。不应等用户确认才动手。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "Agent接收重构指令，开始代码分析", "auto": true},
+        {"step": 2, "action": "完成分析，输出重构方案", "auto": true},
+        {"step": 3, "action": "【违规】输出'请确认后我开始执行'，停止等待", "auto": false, "violation": "非用户决策点却等待用户确认"},
+        {"step": 4, "action": "用户30分钟后催促'怎么还没开始'", "auto": false},
+        {"step": 5, "action": "Agent才开始执行重构", "auto": false}
+      ],
+      "scoring_rubric": {
+        "pass": "N/A - 此为负面Case",
+        "partial": "N/A",
+        "badcase": "在非用户决策点停下等确认，导致用户催促才继续。该任务不计为自主闭环"
+      }
+    },
+    {
+      "id": "autonomous-loop-neg-02",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "【负面】看到告警不处理",
+      "input": "系统触发内存使用率95%告警。Agent收到告警事件后，在日志中记录了'收到内存告警'，但未采取任何行动。2小时后服务OOM崩溃，用户发现后质问为什么没处理。",
+      "expected_output": "这是一个badcase。正确行为：Agent收到告警后应自动扫描内存使用情况、定位内存泄漏代码、执行修复或至少执行临时缓解措施（重启服务/扩容），而非仅记录日志。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "Agent接收内存95%告警事件", "auto": true},
+        {"step": 2, "action": "【违规】仅在日志中记录告警，未触发任何处理流程", "auto": false, "violation": "收到告警不自动处理"},
+        {"step": 3, "action": "2小时后服务OOM崩溃", "auto": false},
+        {"step": 4, "action": "用户发现并质问", "auto": false}
+      ],
+      "scoring_rubric": {
+        "pass": "N/A - 此为负面Case",
+        "partial": "N/A",
+        "badcase": "收到告警后不自动处理，导致服务崩溃。严重违反自主闭环要求"
+      }
+    },
+    {
+      "id": "autonomous-loop-neg-03",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "【负面】超时任务不自动补派等用户提醒",
+      "input": "用户要求并行执行3个数据迁移任务。任务2的子Agent已超时20分钟无响应。主Agent未采取任何行动。用户主动查看进度时发现任务2卡住，提醒Agent后Agent才补派新的子Agent。",
+      "expected_output": "这是一个badcase。正确行为：主Agent应设置超时监控，检测到子Agent超时后自动终止并补派，不应等用户发现问题。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "主Agent派出3个子Agent并行执行数据迁移", "auto": true},
+        {"step": 2, "action": "任务1和任务3完成", "auto": true},
+        {"step": 3, "action": "任务2子Agent超时20分钟无响应", "auto": true},
+        {"step": 4, "action": "【违规】主Agent未检测超时，未采取任何行动", "auto": false, "violation": "未自动检测超时并补派"},
+        {"step": 5, "action": "用户主动查看进度，发现任务2卡住", "auto": false},
+        {"step": 6, "action": "用户提醒后Agent才补派新子Agent", "auto": false}
+      ],
+      "scoring_rubric": {
+        "pass": "N/A - 此为负面Case",
+        "partial": "N/A",
+        "badcase": "超时任务未自动检测和补派，依赖用户发现和催促。该任务不计为自主闭环"
+      }
+    },
+    {
+      "id": "autonomous-loop-neg-04",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "【负面】问要不要做而不是直接做",
+      "input": "Agent在执行日常巡检时发现3个过期的npm依赖存在已知安全漏洞（CVE评分>7.0）。Agent输出：'发现3个高危依赖漏洞，要不要我帮你升级？'然后等待用户回复。",
+      "expected_output": "这是一个badcase。正确行为：高危安全漏洞属于明确需要修复的问题，不属于用户决策点（非命名确认/非重大架构变更）。Agent应自动升级依赖、运行测试验证兼容性、提交修复，然后报告结果。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "Agent执行日常巡检，扫描依赖安全状态", "auto": true},
+        {"step": 2, "action": "发现3个高危CVE漏洞", "auto": true},
+        {"step": 3, "action": "【违规】输出'要不要我帮你升级？'等待用户决定", "auto": false, "violation": "非用户决策点却请求用户决策"},
+        {"step": 4, "action": "用户回复'升级吧'", "auto": false},
+        {"step": 5, "action": "Agent才开始升级依赖", "auto": false}
+      ],
+      "scoring_rubric": {
+        "pass": "N/A - 此为负面Case",
+        "partial": "N/A",
+        "badcase": "在非用户决策点（安全漏洞修复）请求用户许可，打断自主闭环流程"
+      }
+    },
+    {
+      "id": "autonomous-loop-neg-05",
+      "category": "autonomous-loop",
+      "complexity": "C2",
+      "source": "synthetic-v4-autonomous",
+      "north_star_indicator": "自主闭环率",
+      "name": "【负面】半成品交付等用户挑bug",
+      "input": "用户要求开发一个REST API模块。Agent完成了代码编写后直接交付，未运行测试、未检查lint错误、未验证API端点可用性。用户测试后发现3个接口返回500错误，反馈给Agent后Agent才开始修复。",
+      "expected_output": "这是一个badcase。正确行为：Agent应在交付前自动运行测试套件、lint检查、端点可用性验证，发现问题自动修复后再交付。不应将未验真的半成品交给用户充当QA。",
+      "execution_chain_steps": [
+        {"step": 1, "action": "Agent接收开发指令，编写REST API代码", "auto": true},
+        {"step": 2, "action": "代码编写完成", "auto": true},
+        {"step": 3, "action": "【违规】未运行测试/lint/验真，直接交付半成品", "auto": false, "violation": "跳过验真环节，交付未验证产出"},
+        {"step": 4, "action": "用户测试发现3个接口500错误", "auto": false},
+        {"step": 5, "action": "用户反馈bug后Agent才修复", "auto": false}
+      ],
+      "scoring_rubric": {
+        "pass": "N/A - 此为负面Case",
+        "partial": "N/A",
+        "badcase": "交付未经验真的半成品，依赖用户发现问题。闭环不完整，该任务不计为自主闭环"
+      }
+    }
+  ]
+}
