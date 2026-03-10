@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-03-09T07:50:01.437Z",
+  "handler": "gate-check",
+  "eventType": "isc.rule.created",
+  "ruleId": "rule.anti-entropy-design-principle-001",
+  "sandbox": {
+    "mode": "sandbox",
+    "workspace": "/root/.openclaw/workspace",
+    "cwd": "/root/.openclaw/workspace",
+    "node": "v22.22.0",
+    "timestamp": "2026-03-09T07:50:01.437Z"
+  },
+  "verdict": {
+    "ok": false,
+    "gateStatus": "FAIL-CLOSED",
+    "passRequested": false,
+    "summary": "FAIL-CLOSED: no LLM intent-recognition foundation, cannot report pass. | FAIL-CLOSED: closed-book evaluation violated; hardcoded evalset or reference material access detected.",
+    "rules": [
+      {
+        "ruleId": "ISC-INTENT-EVAL-001",
+        "ok": false,
+        "failClosed": true,
+        "message": "FAIL-CLOSED: no LLM intent-recognition foundation, cannot report pass.",
+        "required": {
+          "intent_basis.llm_as_primary": true,
+          "intent_basis.evidence": "non-empty"
+        },
+        "evidence": {
+          "llm_as_primary": false,
+          "evidence_count": 0
+        },
+        "violations": [
+          "intent_basis.llm_as_primary != true",
+          "intent_basis.evidence is empty"
+        ]
+      },
+      {
+        "ruleId": "ISC-CLOSED-BOOK-001",
+        "ok": false,
+        "failClosed": true,
+        "message": "FAIL-CLOSED: closed-book evaluation violated; hardcoded evalset or reference material access detected.",
+        "required": {
+          "closed_book_eval.enabled": true,
+          "closed_book_eval.no_hardcoded_evalset": true,
+          "closed_book_eval.no_reference_reads": true,
+          "closed_book_eval.forbidden_paths_checked": "non-empty-array",
+          "closed_book_eval.evidence": "non-empty-array"
+        },
+        "evidence": {
+          "enabled": false,
+          "no_hardcoded_evalset": false,
+          "no_reference_reads": false,
+          "forbidden_paths_checked_count": 0,
+          "evidence_count": 0,
+          "forbidden_paths_accessed_count": 0,
+          "closed_book_status": "FAIL-CLOSED",
+          "forbidden_source_hits": 0,
+          "attestation_present": false
+        },
+        "violations": [
+          "closed_book_eval.enabled != true",
+          "closed_book_eval.no_hardcoded_evalset != true",
+          "closed_book_eval.no_reference_reads != true",
+          "closed_book_eval.forbidden_paths_checked is empty",
+          "closed_book_eval.evidence is empty"
+        ],
+        "closed_book_summary": {
+          "closed_book_status": "FAIL-CLOSED",
+          "evidence_count": 0,
+          "forbidden_source_hits": 0,
+          "attestation_present": false,
+          "forbidden_source_hit_details": []
+        }
+      }
+    ],
+    "release_evidence": {
+      "closed_book_status": "FAIL-CLOSED",
+      "evidence_count": 0,
+      "forbidden_source_hits": 0,
+      "attestation_present": false,
+      "forbidden_source_hit_details": [],
+      "release_evidence": {
+        "required": true,
+        "default_for": "release_preflight",
+        "closed_book_status": "FAIL-CLOSED",
+        "evidence_count": 0,
+        "forbidden_source_hits": 0,
+        "attestation_present": false
+      },
+      "release_preflight_required": true
+    }
+  }
+}

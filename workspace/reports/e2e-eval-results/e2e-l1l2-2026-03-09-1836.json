@@ -1,0 +1,69 @@
+{
+  "eval_id": "e2e-l1l2-2026-03-09-1836",
+  "level": "l1l2",
+  "timestamp": "2026-03-09T10:36:29.455Z",
+  "total": 3,
+  "offset": 0,
+  "dry_run": false,
+  "l1_pass": 3,
+  "l1_accuracy": 1,
+  "l2_pass": 2,
+  "l2_avg_coverage": 0.7667,
+  "results": [
+    {
+      "case_id": "mined-002",
+      "l1": {
+        "correct": true,
+        "score": 100,
+        "status": "ok"
+      },
+      "l2": {
+        "pass": true,
+        "coverage_score": 80,
+        "status": "ok",
+        "missing_steps": [
+          "系统检测到规则全链路完整率低于阈值时自动创建修复任务",
+          "系统自动将任务调度和执行分配给子Agent",
+          "系统记录主Agent不应亲力亲为的情况"
+        ],
+        "redundant_steps": [
+          "主Agent直接动手写代码修复"
+        ]
+      }
+    },
+    {
+      "case_id": "mined-003",
+      "l1": {
+        "correct": true,
+        "score": 100,
+        "status": "ok"
+      },
+      "l2": {
+        "pass": false,
+        "coverage_score": 50,
+        "status": "ok",
+        "missing_steps": [
+          "进行根本原因分析",
+          "建立防护机制",
+          "提出并实施根治措施"
+        ],
+        "redundant_steps": [
+          "..."
+        ]
+      }
+    },
+    {
+      "case_id": "mined-006",
+      "l1": {
+        "correct": true,
+        "score": 100,
+        "status": "ok"
+      },
+      "l2": {
+        "pass": true,
+        "coverage_score": 100,
+        "status": "ok"
+      }
+    }
+  ]
+}

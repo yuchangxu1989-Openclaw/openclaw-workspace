@@ -1,0 +1,100 @@
+# 孤儿任务扫描报告 2026-03-09 06:00
+
+## 超过 48h 未修改的设计/任务文档
+
+- `designs/l3-architecture/IMPLEMENTATION.md` — 80h ago
+- `designs/mr-v2/IMPLEMENTATION.md` — 80h ago
+- `designs/MRAS-执行摘要.md` — 56h ago
+- `designs/aeo-v1/SUPPLEMENT.md` — 80h ago
+- `reports/summary-trigger-thresholds.md` — 56h ago
+- `reports/diagram-redo-premium-brief.md` — 58h ago
+- `reports/day1-llm-smoke-test.md` — 78h ago
+- `reports/dispatch-auto-backfill-hardening.md` — 53h ago
+- `reports/day2-observability.md` — 80h ago
+- `reports/top-ai-roadmap-agent-quality.md` — 58h ago
+- `reports/boom-18-lane-key-audit.md` — 58h ago
+- `reports/day2-final-open-gaps-only.md` — 58h ago
+- `reports/day1-enforcement-poc.md` — 78h ago
+- `reports/complex-task-split-rule.md` — 56h ago
+- `reports/rule-naming-migration.md` — 76h ago
+- `reports/reporting-skill-cutover-rebuild.md` — 54h ago
+- `reports/day3-cron-fix-report.md` — 70h ago
+- `reports/model-budget-routing-governance.md` — 53h ago
+- `reports/long-horizon-autonomy-cron-backlog.md` — 52h ago
+- `reports/artifact-auto-send-ruleify.md` — 58h ago
+- `reports/day3-failover-drill-plan.md` — 63h ago
+- `reports/d2-08-l3-mainline.md` — 79h ago
+- `reports/task-tool-budget-table.md` — 56h ago
+- `reports/real-conversation-benchmark.md` — 77h ago
+- `reports/first-live-e2e-run.md` — 75h ago
+- `reports/failure-recovery-tree.md` — 56h ago
+- `reports/session-file-volume-governance.md` — 53h ago
+- `reports/day2-error-recovery.md` — 80h ago
+- `reports/cron-model-policy.md` — 59h ago
+- `reports/mass-expand-evalset-from-todays-conversations.md` — 54h ago
+- `reports/real-eval-extraction-report.md` — 78h ago
+- `reports/business-e2e-suite.md` — 59h ago
+- `reports/capability-anchor-session-load-hardening.md` — 53h ago
+- `reports/diagram-redo-no-garbled-text.md` — 56h ago
+- `reports/activate-and-validate-dispatch-reporting.md` — 54h ago
+- `reports/multimodal-forgetfulness-hardening.md` — 53h ago
+- `reports/rebuild-dispatch-skill-opus-thinking.md` — 55h ago
+- `reports/day2-contract-tests.md` — 80h ago
+- `reports/fix-system-error-handler-failure-retry.md` — 56h ago
+- `reports/diagram-final-quality-redo.md` — 56h ago
+- `reports/summary-regression-check-template.md` — 56h ago
+- `reports/dispatch-layer-program-solidify.md` — 57h ago
+- `reports/day2-gap-scoreboard.md` — 59h ago
+- `reports/intent-online-eval.md` — 59h ago
+- `reports/day3-test-runner-report.md` — 70h ago
+- `reports/event-routing-closeout-review.md` — 58h ago
+- `reports/event-routing-p0-fix-priority.md` — 59h ago
+- `reports/file-sender-hardening.md` — 58h ago
+- `reports/d2-05-pipeline-standalone.md` — 79h ago
+- `reports/diagram-redo-execution.md` — 57h ago
+- `reports/day3-ops-dashboard-v1.md` — 70h ago
+- `reports/multi-turn-benchmark-2026-03-06.md` — 76h ago
+- `reports/memory-layering-policy.md` — 56h ago
+- `reports/correction-harvest-2026-03-06.md` — 56h ago
+- `reports/day1-snapshot-mechanism.md` — 78h ago
+- `reports/d2-intent-analysis.md` — 79h ago
+- `reports/intent-benchmark-90-target-2026-03-06.md` — 74h ago
+- `reports/rebuild-reporting-skill-opus-thinking.md` — 55h ago
+- `reports/zhipu-multimodal-test-2026-03-04.md` — 80h ago
+- `reports/p0-p2-execution-batch-3.md` — 54h ago
+- `reports/day2-eval-collection.md` — 80h ago
+- `reports/day2-real-scenario-mining.md` — 80h ago
+- `reports/d2-01-enforcement-engine.md` — 79h ago
+- `reports/md-report-auto-send-hardening.md` — 53h ago
+- `reports/debt-l3-enable-report.md` — 79h ago
+- `reports/e2e-real-dialog-metrics-audit.md` — 54h ago
+- `reports/day2-gap-closeout-execution.md` — 54h ago
+- `reports/open-gaps-to-task-map.md` — 58h ago
+- `reports/intent-90-error-analysis-2026-03-06.md` — 74h ago
+- `reports/fix-aeo-evaluation-required-retry.md` — 56h ago
+- `reports/over-budget-degrade-playbook.md` — 56h ago
+- `reports/day2-test-registry.md` — 80h ago
+- `reports/pre-finish-acceptance-gate.md` — 56h ago
+- `reports/feishu-card-parallel-board-sample.md` — 58h ago
+- `reports/day1-scenario-benchmark.md` — 80h ago
+- `reports/dispatch-skill-cutover-safe-rollout.md` — 54h ago
+- `reports/day1-intent-benchmark.md` — 70h ago
+- `reports/boom-key-reprobe-plus-2.md` — 58h ago
+- `reports/monitor-alert-auto-rootcause-and-repair.md` — 52h ago
+- `reports/acp-setup-guide.md` — 67h ago
+- `reports/parallel-reporting-upgrade.md` — 58h ago
+- `reports/new-event-dispatcher-nonok-fix.md` — 53h ago
+- `reports/meta-cognition-research-program.md` — 52h ago
+- `reports/dispatch-skill-max-efficiency-optimization.md` — 56h ago
+- `reports/restart-copy-feishu-style.md` — 54h ago
+- `reports/feishu-file-api.md` — 67h ago
+- `lep-subagent/docs/ARCHITECTURE.md` — 80h ago
+- `lep-subagent/docs/QUICK_REFERENCE.md` — 80h ago
+- `lep-subagent/SKILL.md` — 80h ago
+- `lep-subagent/README.md` — 80h ago
+- `council-inputs/elite-memory-evaluation.md` — 80h ago
+
+**总计：91 个孤儿文件**
+
+---
+_由 orphaned-task-scanner.sh 自动生成_

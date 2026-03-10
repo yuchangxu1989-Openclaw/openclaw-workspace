@@ -1,0 +1,732 @@
+{
+  "timestamp": "2026-03-07T05:56:29.286Z",
+  "dataset": "/root/.openclaw/workspace/tests/benchmarks/intent/multi-turn-eval-dataset.json",
+  "sample_count": 42,
+  "accuracy": 100,
+  "by_class": {
+    "IC5": {
+      "total": 29,
+      "correct": 29,
+      "accuracy": 100,
+      "errors": []
+    },
+    "IC4": {
+      "total": 13,
+      "correct": 13,
+      "accuracy": 100,
+      "errors": []
+    }
+  },
+  "by_tag": {
+    "multi_intent": {
+      "total": 28,
+      "correct": 28,
+      "accuracy": 100
+    },
+    "correction": {
+      "total": 18,
+      "correct": 18,
+      "accuracy": 100
+    },
+    "meta_request": {
+      "total": 14,
+      "correct": 14,
+      "accuracy": 100
+    },
+    "multi_turn": {
+      "total": 42,
+      "correct": 42,
+      "accuracy": 100
+    },
+    "teaching": {
+      "total": 23,
+      "correct": 23,
+      "accuracy": 100
+    },
+    "switch": {
+      "total": 1,
+      "correct": 1,
+      "accuracy": 100
+    },
+    "emotion": {
+      "total": 4,
+      "correct": 4,
+      "accuracy": 100
+    },
+    "implicit": {
+      "total": 17,
+      "correct": 17,
+      "accuracy": 100
+    },
+    "implicit_rejection": {
+      "total": 5,
+      "correct": 5,
+      "accuracy": 100
+    },
+    "rhetorical_question": {
+      "total": 5,
+      "correct": 5,
+      "accuracy": 100
+    },
+    "escalation": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 100
+    },
+    "implicit_criticism": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 100
+    },
+    "directive": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 100
+    },
+    "urgency": {
+      "total": 1,
+      "correct": 1,
+      "accuracy": 100
+    },
+    "reminder": {
+      "total": 1,
+      "correct": 1,
+      "accuracy": 100
+    }
+  },
+  "multi_turn_depth": {
+    "samples_3plus": 36,
+    "accuracy_3plus": 100,
+    "avg_turns": 3.2
+  },
+  "errors": [],
+  "results": [
+    {
+      "id": "conv-001",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "multi_intent",
+        "correction",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-002",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 5,
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-003",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "multi_intent",
+        "switch",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-004",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "emotion",
+        "implicit",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-005",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-006",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-007",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-008",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 5,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-009",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "correction",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-010",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-011",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 5,
+      "tags": [
+        "teaching",
+        "implicit",
+        "correction",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-012",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "correction",
+        "emotion",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-013",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "implicit",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-014",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 3,
+      "tags": [
+        "implicit",
+        "teaching",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-015",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-016",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "multi_intent",
+        "implicit",
+        "correction",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-017",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "correction",
+        "emotion",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-018",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "correction",
+        "emotion",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-019",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-020",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 5,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-021",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-022",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "correction",
+        "multi_intent",
+        "teaching",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-023",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "multi_intent",
+        "correction",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-024",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "correction",
+        "multi_intent",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-025",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 5,
+      "tags": [
+        "meta_request",
+        "multi_intent",
+        "teaching",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-026",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 3,
+      "tags": [
+        "correction",
+        "teaching",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-027",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "implicit",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-028",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-029",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 3,
+      "tags": [
+        "multi_intent",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-030",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 5,
+      "tags": [
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-031",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-032",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "teaching",
+        "multi_intent",
+        "meta_request",
+        "implicit",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-033",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 3,
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-034",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 5,
+      "tags": [
+        "multi_intent",
+        "teaching",
+        "meta_request",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-035",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 2,
+      "tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-036",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 2,
+      "tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-037",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 4,
+      "tags": [
+        "correction",
+        "teaching",
+        "implicit_rejection",
+        "escalation",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-038",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 2,
+      "tags": [
+        "correction",
+        "implicit_criticism",
+        "directive",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-039",
+      "expected": "IC5",
+      "predicted": "IC5",
+      "correct": true,
+      "confidence": 0.82,
+      "turn_count": 4,
+      "tags": [
+        "correction",
+        "urgency",
+        "directive",
+        "escalation",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-040",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 2,
+      "tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-041",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 2,
+      "tags": [
+        "implicit_rejection",
+        "rhetorical_question",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    },
+    {
+      "id": "conv-042",
+      "expected": "IC4",
+      "predicted": "IC4",
+      "correct": true,
+      "confidence": 0.75,
+      "turn_count": 2,
+      "tags": [
+        "implicit_criticism",
+        "rhetorical_question",
+        "reminder",
+        "multi_turn"
+      ],
+      "method": "rule_multi_turn"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-03-08T01:58:01.365Z",
+  "sourceReport": "reports/cras-d-research-strategy-summary.json",
+  "rootTask": {
+    "id": "task-cras_d_strategy_execution",
+    "title": "CRAS-D研究策略执行化闭环",
+    "priority": "P0",
+    "governance": [
+      "memory/tasks",
+      "skills/lto-core/tasks",
+      "PROJECT-TRACKER.md",
+      "infrastructure/close-loop-tasks"
+    ]
+  },
+  "cards": [
+    {
+      "id": "A1",
+      "title": "把研究源从二手社区文扩展到学术/官方优先采样",
+      "priority": "P1",
+      "owner": "cras/research",
+      "memory_task": "memory/tasks/cras_d_a1_把研究源从二手社区文扩展到学术-官方优先采样.json",
+      "dto_task": "skills/lto-core/tasks/cras_d_a1_把研究源从二手社区文扩展到学术-官方优先采样.json",
+      "close_loop": "infrastructure/close-loop-tasks/close-loop-cras_d_a1_把研究源从二手社区文扩展到学术-官方优先采样.json",
+      "validation_commands": [
+        "node scripts/cras-d-research-report.js",
+        "node scripts/cras-d-refresh-research.js"
+      ],
+      "local_gap": "现有 research-*.json 以 Medium/LinkedIn/博客聚合为主，学术与官方文档占比偏低。",
+      "verification": "下一版 research 输出中 academic+docs 命中数 > community。"
+    },
+    {
+      "id": "A2",
+      "title": "将研究结论绑定本地执行压力与积压",
+      "priority": "P0",
+      "owner": "ops/governance",
+      "memory_task": "memory/tasks/cras_d_a2_将研究结论绑定本地执行压力与积压.json",
+      "dto_task": "skills/lto-core/tasks/cras_d_a2_将研究结论绑定本地执行压力与积压.json",
+      "close_loop": "infrastructure/close-loop-tasks/close-loop-cras_d_a2_将研究结论绑定本地执行压力与积压.json",
+      "validation_commands": [
+        "node scripts/cras-d-research-report.js",
+        "node scripts/cras-d-materialize-action-cards.js"
+      ],
+      "local_gap": "现有洞察文件偏外部趋势总结，缺少对 manual-queue、DTO任务、tracker 遗留的直接映射。",
+      "verification": "报告中每条建议必须含本地缺口字段与验证命令。"
+    },
+    {
+      "id": "A3",
+      "title": "生成 Feishu Doc 友好的结构化材料",
+      "priority": "P1",
+      "owner": "cras/reporting",
+      "memory_task": "memory/tasks/cras_d_a3_生成-feishu-doc-友好的结构化材料.json",
+      "dto_task": "skills/lto-core/tasks/cras_d_a3_生成-feishu-doc-友好的结构化材料.json",
+      "close_loop": "infrastructure/close-loop-tasks/close-loop-cras_d_a3_生成-feishu-doc-友好的结构化材料.json",
+      "validation_commands": [
+        "node scripts/cras-d-research-report.js",
+        "test -f reports/cras-d-action-cards.md"
+      ],
+      "local_gap": "缺少统一 Markdown/Doc 模板、关键指标表、任务卡片和执行清单。",
+      "verification": "生成 report markdown，可直接写入 Feishu Doc。"
+    },
+    {
+      "id": "A4",
+      "title": "把研究结论接入 Tracker / todo / DTO 任务树",
+      "priority": "P0",
+      "owner": "project-mgmt/lto",
+      "memory_task": "memory/tasks/cras_d_a4_把研究结论接入-tracker-todo-lto-任务树.json",
+      "dto_task": "skills/lto-core/tasks/cras_d_a4_把研究结论接入-tracker-todo-lto-任务树.json",
+      "close_loop": "infrastructure/close-loop-tasks/close-loop-cras_d_a4_把研究结论接入-tracker-todo-lto-任务树.json",
+      "validation_commands": [
+        "node scripts/cras-d-research-report.js",
+        "node scripts/cras-d-materialize-action-cards.js --check"
+      ],
+      "local_gap": "研究模块未持续把战略建议沉淀成项目管理对象。",
+      "verification": "summary.json 中 actions 数组可被脚本化读取。"
+    }
+  ]
+}

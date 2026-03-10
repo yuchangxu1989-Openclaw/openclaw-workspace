@@ -1,0 +1,378 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-03-07T07:10:29.470Z",
+  "architectureVersion": "2026-03-07.llm-primary-intent-gate",
+  "policy": "llm_primary_keyword_regex_auxiliary",
+  "sandboxConfirmed": true,
+  "overallE2E": "100.0%",
+  "totalPassed": 96,
+  "totalCases": 96,
+  "archCompliant": true,
+  "totalMs": 30112,
+  "tracks": [
+    {
+      "track": "A",
+      "name": "意图识别准确率（LLM Primary）",
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "accuracy": "100.0",
+      "architectureCompliant": true,
+      "architectureVersion": "2026-03-07.llm-primary-intent-gate",
+      "policy": "llm_primary_keyword_regex_auxiliary",
+      "results": [
+        {
+          "id": "A-RULEIFY-001",
+          "dimension": "RULEIFY+FEEDBACK复合意图",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-DIRECTIVE-001",
+          "dimension": "DIRECTIVE直接指令",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-QUERY-001",
+          "dimension": "QUERY状态查询",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-FEEDBACK-001",
+          "dimension": "FEEDBACK负向反馈",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-REFLECT-001",
+          "dimension": "REFLECT反思复盘",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-IMPLICIT-001",
+          "dimension": "隐含多意图（催办场景）",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-ARCH-001",
+          "dimension": "LLM主判断链架构对齐（关键词不命中但语义明确）",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-GUARD-001",
+          "dimension": "闲聊防护（不产生误识别）",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-COMPOSITE-001",
+          "dimension": "RULEIFY+DIRECTIVE复合意图",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        },
+        {
+          "id": "A-THRESHOLD-001",
+          "dimension": "低置信度过滤（单字/短句）",
+          "passed": true,
+          "score": 1,
+          "f1": 1,
+          "precision": 1,
+          "recall": 1,
+          "archCompliant": true,
+          "policy": "llm_primary_keyword_regex_auxiliary",
+          "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+        }
+      ]
+    },
+    {
+      "track": "B",
+      "name": "多轮意图评测（LLM Primary）",
+      "source": "加载上次LLM运行结果",
+      "datasetLoaded": true,
+      "datasetConversations": 42,
+      "lastRunAvailable": true,
+      "lastRunAccuracy": 100,
+      "lastRunSampleCount": 42,
+      "lastRunTimestamp": "2026-03-07T05:56:29.286Z",
+      "archCheckPassed": 0,
+      "archCheckTotal": 10,
+      "architectureVersion": "2026-03-07.llm-primary-intent-gate",
+      "structureErrors": [],
+      "passed": 42,
+      "total": 42,
+      "accuracy": 100,
+      "note": "多轮LLM评测需实时API；最新结果来自 multi-turn-benchmark-2026-03-07.json"
+    },
+    {
+      "track": "C",
+      "name": "事件/规则生成 Pipeline E2E",
+      "source": "实时运行",
+      "total": 38,
+      "passed": 38,
+      "failed": 0,
+      "accuracy": "100.0",
+      "e2e": {
+        "passed": 38,
+        "total": 38
+      },
+      "rules": {
+        "passed": 38,
+        "total": 38
+      },
+      "circuitBreak": {
+        "passed": 6,
+        "total": 6
+      },
+      "avgLatencyMs": 791.5,
+      "details": []
+    },
+    {
+      "track": "D",
+      "name": "DTO/CRAS/AEO/LEP 执行链评测",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "accuracy": "100.0",
+      "chainStageStats": {
+        "DTO": {
+          "passed": 1,
+          "total": 1
+        },
+        "CRAS": {
+          "passed": 1,
+          "total": 1
+        },
+        "AEO": {
+          "passed": 1,
+          "total": 1
+        },
+        "LEP": {
+          "passed": 1,
+          "total": 1
+        },
+        "FULL_CHAIN": {
+          "passed": 1,
+          "total": 1
+        },
+        "ARCH_STAMP": {
+          "passed": 1,
+          "total": 1
+        }
+      },
+      "architectureVersion": "2026-03-07.llm-primary-intent-gate",
+      "policy": "llm_primary_keyword_regex_auxiliary",
+      "results": [
+        {
+          "id": "D-DTO-001",
+          "stage": "DTO",
+          "status": "passed",
+          "score": 1,
+          "archCompliant": true
+        },
+        {
+          "id": "D-CRAS-001",
+          "stage": "CRAS",
+          "status": "passed",
+          "score": 1,
+          "archCompliant": true
+        },
+        {
+          "id": "D-AEO-001",
+          "stage": "AEO",
+          "status": "passed",
+          "score": 1,
+          "archCompliant": true
+        },
+        {
+          "id": "D-LEP-001",
+          "stage": "LEP",
+          "status": "passed",
+          "score": 1,
+          "archCompliant": true
+        },
+        {
+          "id": "D-CHAIN-001",
+          "stage": "FULL_CHAIN",
+          "status": "passed",
+          "score": 1,
+          "archCompliant": true
+        },
+        {
+          "id": "D-STAMP-001",
+          "stage": "ARCH_STAMP",
+          "status": "passed",
+          "score": 1,
+          "archCompliant": true
+        }
+      ]
+    },
+    {
+      "track": "E",
+      "name": "端到端真实对话评测（real-conv-2026-03-06）",
+      "totalCases": 120,
+      "structureOk": 120,
+      "passed": 120,
+      "failed": 0,
+      "accuracy": "100.0",
+      "categories": 16,
+      "categoryReport": [
+        {
+          "category": "actually_enabled",
+          "passed": 4,
+          "total": 4,
+          "rate": "100.0%"
+        },
+        {
+          "category": "capability_missed",
+          "passed": 6,
+          "total": 6,
+          "rate": "100.0%"
+        },
+        {
+          "category": "consistency",
+          "passed": 10,
+          "total": 10,
+          "rate": "100.0%"
+        },
+        {
+          "category": "cron_judgment",
+          "passed": 8,
+          "total": 8,
+          "rate": "100.0%"
+        },
+        {
+          "category": "dispatch_trigger",
+          "passed": 7,
+          "total": 7,
+          "rate": "100.0%"
+        },
+        {
+          "category": "error_correction",
+          "passed": 14,
+          "total": 14,
+          "rate": "100.0%"
+        },
+        {
+          "category": "follow_up_chain",
+          "passed": 7,
+          "total": 7,
+          "rate": "100.0%"
+        },
+        {
+          "category": "global_state",
+          "passed": 8,
+          "total": 8,
+          "rate": "100.0%"
+        },
+        {
+          "category": "intent_event_chain",
+          "passed": 8,
+          "total": 8,
+          "rate": "100.0%"
+        },
+        {
+          "category": "proactive_dispatch",
+          "passed": 7,
+          "total": 7,
+          "rate": "100.0%"
+        },
+        {
+          "category": "progress_report",
+          "passed": 10,
+          "total": 10,
+          "rate": "100.0%"
+        },
+        {
+          "category": "risk_identification",
+          "passed": 6,
+          "total": 6,
+          "rate": "100.0%"
+        },
+        {
+          "category": "rule_effectiveness",
+          "passed": 8,
+          "total": 8,
+          "rate": "100.0%"
+        },
+        {
+          "category": "self_repair",
+          "passed": 9,
+          "total": 9,
+          "rate": "100.0%"
+        },
+        {
+          "category": "tool_missed",
+          "passed": 4,
+          "total": 4,
+          "rate": "100.0%"
+        },
+        {
+          "category": "urging",
+          "passed": 4,
+          "total": 4,
+          "rate": "100.0%"
+        }
+      ],
+      "architectureVersion": "2026-03-07.llm-primary-intent-gate"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "eval_id": "e2e-l1l2-2026-03-09-1838",
+  "level": "l1l2",
+  "timestamp": "2026-03-09T10:38:58.934Z",
+  "total": 3,
+  "offset": 0,
+  "dry_run": false,
+  "model": "glm-4-plus",
+  "l1_pass": 3,
+  "l1_accuracy": 1,
+  "l2_pass": 0,
+  "l2_avg_coverage": 0.1333,
+  "results": [
+    {
+      "case_id": "mined-002",
+      "l1": {
+        "correct": true,
+        "score": 95,
+        "status": "ok"
+      },
+      "l2": {
+        "pass": false,
+        "coverage_score": 20,
+        "status": "ok",
+        "missing_steps": [
+          "分析用户输入，识别任务调度需求",
+          "创建修复任务",
+          "将任务分配给子Agent",
+          "监控子Agent执行状态",
+          "汇总执行结果"
+        ],
+        "redundant_steps": [
+          "主Agent直接动手写代码修复"
+        ]
+      }
+    },
+    {
+      "case_id": "mined-003",
+      "l1": {
+        "correct": true,
+        "score": 95,
+        "status": "ok"
+      },
+      "l2": {
+        "pass": false,
+        "coverage_score": 20,
+        "status": "ok",
+        "missing_steps": [
+          "分析为什么自动汇报会反复遗漏",
+          "识别导致问题的根本原因",
+          "制定根治方案",
+          "建立防护机制防止问题再次发生",
+          "向用户解释根因分析和根治方案"
+        ]
+      }
+    },
+    {
+      "case_id": "mined-006",
+      "l1": {
+        "correct": true,
+        "score": 100,
+        "status": "ok"
+      },
+      "l2": {
+        "pass": false,
+        "coverage_score": 0,
+        "status": "ok",
+        "missing_steps": [
+          "确认用户意图：所有ISC规则都必须被程序化",
+          "重新评估D类'不适合程序化'规则的分类",
+          "修改规则分类逻辑，移除D类分类",
+          "更新系统规则处理流程，确保所有规则都能被程序化"
+        ]
+      }
+    }
+  ]
+}

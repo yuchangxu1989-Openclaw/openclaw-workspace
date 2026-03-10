@@ -1,0 +1,419 @@
+{
+  "text": "Agent并行总数：6\n\n| 任务 | 模型 | 状态 | 开始/持续 |\n|---|---|---|---|\n| 假发送链清理与替换 | gpt-5.4 | active | 06:56 |\n| 阶段性全局进展汇报接入 | gpt-5.4 | active | 06:56 |\n| Day2五大gap closure收口 | gpt-5.4 | active | 06:56 |\n| 失忆后可持续进化保障 | gpt-5.4 | active | 06:56 |\n| 每轮对话意图洞察强制化 | gpt-5.4 | active | 06:56 |\n| CRAS-E持续进化中枢改造 | gpt-5.4 | active | 06:56 |\n| 主会话真实发送路径复用 | gpt-5.4 | blocked | 06:56 |\n\n- done：0\n- timeout：0\n- blocked：1",
+  "card": {
+    "config": {
+      "wide_screen_mode": true
+    },
+    "header": {
+      "title": {
+        "tag": "plain_text",
+        "content": "🔄 进行中的任务队列"
+      },
+      "template": "orange"
+    },
+    "elements": [
+      {
+        "tag": "div",
+        "text": {
+          "tag": "lark_md",
+          "content": "Agent并行总数：**6**"
+        }
+      },
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "div",
+        "text": {
+          "tag": "lark_md",
+          "content": "- 假发送链清理与替换 ｜ gpt-5.4 ｜ active ｜ 06:56\n- 阶段性全局进展汇报接入 ｜ gpt-5.4 ｜ active ｜ 06:56\n- Day2五大gap closure收口 ｜ gpt-5.4 ｜ active ｜ 06:56\n- 失忆后可持续进化保障 ｜ gpt-5.4 ｜ active ｜ 06:56\n- 每轮对话意图洞察强制化 ｜ gpt-5.4 ｜ active ｜ 06:56\n- CRAS-E持续进化中枢改造 ｜ gpt-5.4 ｜ active ｜ 06:56\n- 主会话真实发送路径复用 ｜ gpt-5.4 ｜ blocked ｜ 06:56"
+        }
+      },
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "div",
+        "text": {
+          "tag": "lark_md",
+          "content": "done：**0** · timeout：**0** · blocked：**1**"
+        }
+      },
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "markdown",
+        "content": "**送达链**：pending 1 / acked 0 / spawned 0 / delivered 0 / failed 0"
+      }
+    ]
+  },
+  "title": "🔄 进行中的任务队列",
+  "stats": {
+    "total": 7,
+    "active": 6,
+    "done": 0,
+    "timeout": 0,
+    "blocked": 1,
+    "completed": 0,
+    "decisions": 0,
+    "queued": 0,
+    "other": 0
+  },
+  "tasks": [
+    {
+      "taskId": "t_1772924175191_fk28r7",
+      "agentId": "auditor",
+      "displayName": "审计官",
+      "model": "boom-auditor/gpt-5.4",
+      "modelKey": "boom-auditor/gpt-5.4",
+      "runtimeModelKey": "boom-auditor/gpt-5.4",
+      "task": "假发送链清理与替换",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.270Z",
+      "runningAt": "2026-03-07T22:56:15.270Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175191_7e7zzf",
+      "agentId": "scout",
+      "displayName": "情报专家",
+      "model": "boom-scout/gpt-5.4",
+      "modelKey": "boom-scout/gpt-5.4",
+      "runtimeModelKey": "boom-scout/gpt-5.4",
+      "task": "阶段性全局进展汇报接入",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.262Z",
+      "runningAt": "2026-03-07T22:56:15.262Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175191_g3g8lo",
+      "agentId": "reviewer",
+      "displayName": "质量仲裁官",
+      "model": "boom-reviewer/gpt-5.4",
+      "modelKey": "boom-reviewer/gpt-5.4",
+      "runtimeModelKey": "boom-reviewer/gpt-5.4",
+      "task": "Day2五大gap closure收口",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.256Z",
+      "runningAt": "2026-03-07T22:56:15.256Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175191_0n2o69",
+      "agentId": "researcher",
+      "displayName": "系统架构师",
+      "model": "boom-researcher/gpt-5.4",
+      "modelKey": "boom-researcher/gpt-5.4",
+      "runtimeModelKey": "boom-researcher/gpt-5.4",
+      "task": "失忆后可持续进化保障",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.249Z",
+      "runningAt": "2026-03-07T22:56:15.249Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175190_zic2yv",
+      "agentId": "coder",
+      "displayName": "开发工程师",
+      "model": "boom-coder/gpt-5.4",
+      "modelKey": "boom-coder/gpt-5.4",
+      "runtimeModelKey": "boom-coder/gpt-5.4",
+      "task": "每轮对话意图洞察强制化",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.242Z",
+      "runningAt": "2026-03-07T22:56:15.242Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175189_re3emc",
+      "agentId": "analyst",
+      "displayName": "洞察分析师",
+      "model": "boom-analyst/gpt-5.4",
+      "modelKey": "boom-analyst/gpt-5.4",
+      "runtimeModelKey": "boom-analyst/gpt-5.4",
+      "task": "CRAS-E持续进化中枢改造",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.235Z",
+      "runningAt": "2026-03-07T22:56:15.235Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.190Z",
+      "createdAt": "2026-03-07T22:56:15.190Z"
+    },
+    {
+      "taskId": "t_1772924175191_5czus7",
+      "agentId": "engineer",
+      "displayName": "开发工程师",
+      "model": "boom-engineer/gpt-5.4",
+      "modelKey": "boom-engineer/gpt-5.4",
+      "runtimeModelKey": "boom-engineer/gpt-5.4",
+      "task": "主会话真实发送路径复用",
+      "status": "failed",
+      "duration": "57ms",
+      "blocker": "主会话真实卡片送达链尚未完全固化",
+      "error": "主会话真实卡片送达链尚未完全固化",
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.226Z",
+      "runningAt": "2026-03-07T22:56:15.226Z",
+      "spawningAt": "2026-03-07T22:56:15.209Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    }
+  ],
+  "runtimeActiveTasks": [
+    {
+      "taskId": "t_1772924175191_fk28r7",
+      "agentId": "auditor",
+      "displayName": "审计官",
+      "model": "boom-auditor/gpt-5.4",
+      "modelKey": "boom-auditor/gpt-5.4",
+      "runtimeModelKey": "boom-auditor/gpt-5.4",
+      "task": "假发送链清理与替换",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.270Z",
+      "runningAt": "2026-03-07T22:56:15.270Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175191_7e7zzf",
+      "agentId": "scout",
+      "displayName": "情报专家",
+      "model": "boom-scout/gpt-5.4",
+      "modelKey": "boom-scout/gpt-5.4",
+      "runtimeModelKey": "boom-scout/gpt-5.4",
+      "task": "阶段性全局进展汇报接入",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.262Z",
+      "runningAt": "2026-03-07T22:56:15.262Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175191_g3g8lo",
+      "agentId": "reviewer",
+      "displayName": "质量仲裁官",
+      "model": "boom-reviewer/gpt-5.4",
+      "modelKey": "boom-reviewer/gpt-5.4",
+      "runtimeModelKey": "boom-reviewer/gpt-5.4",
+      "task": "Day2五大gap closure收口",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.256Z",
+      "runningAt": "2026-03-07T22:56:15.256Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175191_0n2o69",
+      "agentId": "researcher",
+      "displayName": "系统架构师",
+      "model": "boom-researcher/gpt-5.4",
+      "modelKey": "boom-researcher/gpt-5.4",
+      "runtimeModelKey": "boom-researcher/gpt-5.4",
+      "task": "失忆后可持续进化保障",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.249Z",
+      "runningAt": "2026-03-07T22:56:15.249Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175190_zic2yv",
+      "agentId": "coder",
+      "displayName": "开发工程师",
+      "model": "boom-coder/gpt-5.4",
+      "modelKey": "boom-coder/gpt-5.4",
+      "runtimeModelKey": "boom-coder/gpt-5.4",
+      "task": "每轮对话意图洞察强制化",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.242Z",
+      "runningAt": "2026-03-07T22:56:15.242Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.191Z",
+      "createdAt": "2026-03-07T22:56:15.191Z"
+    },
+    {
+      "taskId": "t_1772924175189_re3emc",
+      "agentId": "analyst",
+      "displayName": "洞察分析师",
+      "model": "boom-analyst/gpt-5.4",
+      "modelKey": "boom-analyst/gpt-5.4",
+      "runtimeModelKey": "boom-analyst/gpt-5.4",
+      "task": "CRAS-E持续进化中枢改造",
+      "status": "running",
+      "duration": null,
+      "blocker": null,
+      "error": null,
+      "decision": null,
+      "timeoutDecision": null,
+      "startedAt": "2026-03-07T22:56:15.235Z",
+      "runningAt": "2026-03-07T22:56:15.235Z",
+      "spawningAt": "2026-03-07T22:56:15.210Z",
+      "queuedAt": "2026-03-07T22:56:15.190Z",
+      "createdAt": "2026-03-07T22:56:15.190Z"
+    }
+  ],
+  "event": "finished",
+  "reportCount": 11,
+  "globalProgress": null,
+  "generatedAt": "2026-03-07T22:56:15.301Z",
+  "delivery": {
+    "summary": {
+      "total": 1,
+      "pending": 1,
+      "acked": 0,
+      "spawned": 0,
+      "delivered": 0,
+      "failed": 0
+    },
+    "tasks": [
+      {
+        "taskId": "stuck-1",
+        "title": "Stuck task",
+        "model": "boom-main/gpt-5.4",
+        "modelKey": "boom-main/gpt-5.4",
+        "runtimeModelKey": "boom-main/gpt-5.4",
+        "requestedModel": null,
+        "agentId": null,
+        "priority": "normal",
+        "payload": {},
+        "payloadForSpawn": {
+          "governance": {
+            "policy": "default-gpt-5.4-opus-only-critical-architecture-or-hard-troubleshooting",
+            "requestedModel": null,
+            "finalModel": "boom-main/gpt-5.4",
+            "changed": true,
+            "reason": "defaulted_to_gpt_5_4",
+            "opus": {
+              "requested": false,
+              "allowed": false,
+              "checks": {
+                "priorityOk": false,
+                "categoryOk": false,
+                "justificationOk": false,
+                "disallowed": false
+              },
+              "justification": ""
+            }
+          }
+        },
+        "governance": {
+          "policy": "default-gpt-5.4-opus-only-critical-architecture-or-hard-troubleshooting",
+          "requestedModel": null,
+          "finalModel": "boom-main/gpt-5.4",
+          "changed": true,
+          "reason": "defaulted_to_gpt_5_4",
+          "opus": {
+            "requested": false,
+            "allowed": false,
+            "checks": {
+              "priorityOk": false,
+              "categoryOk": false,
+              "justificationOk": false,
+              "disallowed": false
+            },
+            "justification": ""
+          }
+        },
+        "status": "spawning",
+        "dispatchAttempts": 1,
+        "createdAt": "2026-03-07T22:56:15.045Z",
+        "queuedAt": "2026-03-07T22:56:15.045Z",
+        "spawningAt": "2026-03-07T22:56:05.071Z",
+        "runningAt": null,
+        "dispatchedAt": "2026-03-07T22:56:15.083Z",
+        "delivery": {
+          "state": "pending",
+          "pendingAt": "2026-03-07T22:56:15.083Z",
+          "ackedAt": null,
+          "spawnedAt": null,
+          "deliveredAt": null,
+          "failedAt": null,
+          "sessionKey": null,
+          "worker": null,
+          "message": null,
+          "error": null,
+          "attempts": 0,
+          "history": [
+            {
+              "ts": "2026-03-07T22:56:15.083Z",
+              "state": "pending",
+              "source": "onDispatchBridge"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

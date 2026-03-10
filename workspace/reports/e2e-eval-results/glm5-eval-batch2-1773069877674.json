@@ -1,0 +1,42 @@
+{
+  "eval_name": "GLM-5 E2E Intent Classification",
+  "model": "glm-5",
+  "batch": "samples-3-4",
+  "run_at": "2026-03-09T15:24:37.674Z",
+  "total": 2,
+  "passed": 0,
+  "failed": 2,
+  "accuracy": 0,
+  "results": [
+    {
+      "id": "IB-003",
+      "input": "厉害，比预期好多了",
+      "description": "正向情绪-超预期",
+      "difficulty": "easy",
+      "expected_ic": "IC1",
+      "expected_intents": [
+        "user.emotion.positive"
+      ],
+      "actual_output": "ERROR: Command failed: node /root/.openclaw/workspace/scripts/glm5-proxy.cjs\n[2026-03-09T15:24:37.637Z] [ERROR] Fatal error {\"error\":\"ZHIPU_API_KEY not found in environment\"}\nError: ZHIPU_API_KEY not found in environment\n",
+      "predicted_ic": null,
+      "match": false,
+      "duration_ms": 33,
+      "timestamp": "2026-03-09T15:24:37.641Z"
+    },
+    {
+      "id": "IB-004",
+      "input": "这做的什么垃圾，完全不能用",
+      "description": "典型负向情绪-强烈不满",
+      "difficulty": "easy",
+      "expected_ic": "IC1",
+      "expected_intents": [
+        "user.emotion.negative"
+      ],
+      "actual_output": "ERROR: Command failed: node /root/.openclaw/workspace/scripts/glm5-proxy.cjs\n[2026-03-09T15:24:37.670Z] [ERROR] Fatal error {\"error\":\"ZHIPU_API_KEY not found in environment\"}\nError: ZHIPU_API_KEY not found in environment\n",
+      "predicted_ic": null,
+      "match": false,
+      "duration_ms": 33,
+      "timestamp": "2026-03-09T15:24:37.674Z"
+    }
+  ]
+}

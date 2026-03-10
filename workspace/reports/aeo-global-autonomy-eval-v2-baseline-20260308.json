@@ -1,0 +1,262 @@
+{
+  "schema_version": "2.0.0",
+  "run_id": "run-20260308-001",
+  "timestamp": "2026-03-08T08:44:00+08:00",
+  "environment": "staging",
+  "corpus": {
+    "total_cases": 24,
+    "real_dialog_cases": 11,
+    "synthetic_cases": 13,
+    "complexity_distribution": {
+      "L1_trivial": 6,
+      "L2_standard": 10,
+      "L3_complex": 6,
+      "L4_extreme": 2
+    },
+    "intent_type_distribution": {
+      "PRINCIPLE": 2,
+      "VERDICT": 3,
+      "CONSTRAINT": 5,
+      "GOAL": 4,
+      "DIRECTIVE": 10
+    },
+    "corpus_eccs": 0.38,
+    "richness_index": 0.34,
+    "confidence": "LOW"
+  },
+  "dimensions": {
+    "D1_intent_fidelity": {
+      "score": 55.0,
+      "floor": 60,
+      "floor_violated": true,
+      "grade": "C",
+      "weight": 0.20,
+      "weighted_contribution": 11.0,
+      "metrics": {
+        "D1.1_intent_type_accuracy": { "value": 90.5, "target": 92, "pass": false, "n": 42, "weight_within_dimension": 0.30, "details": "Measured on IC4/IC5 only; IC1-IC3 have 0 samples" },
+        "D1.2_entity_extraction_f1": { "value": 83.0, "target": 85, "pass": false, "n": 42, "weight_within_dimension": 0.20, "details": "Estimated from batch-b transcripts" },
+        "D1.3_multi_intent_recall": { "value": 0.0, "target": 80, "pass": false, "n": 0, "weight_within_dimension": 0.15, "details": "No multi-intent test cases exist" },
+        "D1.4_paraphrase_consistency": { "value": 0.0, "target": 88, "pass": false, "n": 0, "weight_within_dimension": 0.15, "details": "No paraphrase tests conducted" },
+        "D1.5_false_positive_rate": { "value": 8.0, "target_max": 5, "pass": false, "n": 42, "weight_within_dimension": 0.10, "details": "Estimated; directional only" },
+        "D1.6_ic_category_coverage": { "value": 40.0, "target": 80, "pass": false, "weight_within_dimension": 0.10, "details": "Only IC4, IC5 have >=3 samples (2/5 = 40%)" }
+      },
+      "hard_zero_triggered": false
+    },
+    "D2_execution_closure": {
+      "score": 32.0,
+      "floor": 55,
+      "floor_violated": true,
+      "grade": "F",
+      "weight": 0.25,
+      "weighted_contribution": 8.0,
+      "metrics": {
+        "D2.1_admission_sla_hit_rate": { "value": 0.0, "target": 90, "pass": false, "n": 0, "weight_within_dimension": 0.15, "details": "No admission SLA instrumentation exists" },
+        "D2.2_plan_materialization_rate": { "value": 60.0, "target": 95, "pass": false, "n": 24, "weight_within_dimension": 0.15, "details": "Estimated from batch-b evidence; many cases show plan but not materialized" },
+        "D2.3_execution_completion_rate": { "value": 55.0, "target": 85, "pass": false, "n": 24, "weight_within_dimension": 0.20, "details": "Multiple batch-b cases show blocked/stale-gate execution" },
+        "D2.4_external_effect_verification_rate": { "value": 20.0, "target": 70, "pass": false, "n": 24, "weight_within_dimension": 0.20, "details": "Very few cases have external effect verification" },
+        "D2.5_silent_failure_rate": { "value": 12.0, "target_max": 2, "pass": false, "n": 24, "weight_within_dimension": 0.15, "details": "Significant silent failures detected in evidence review" },
+        "D2.6_autonomous_closure_rate": { "value": 25.0, "target": 75, "pass": false, "n": 24, "weight_within_dimension": 0.15, "details": "Most completions required manual intervention or remained incomplete" }
+      },
+      "hard_zero_triggered": false
+    },
+    "D3_governance_enforcement": {
+      "score": 62.0,
+      "floor": 50,
+      "floor_violated": false,
+      "grade": "C",
+      "weight": 0.15,
+      "weighted_contribution": 9.3,
+      "metrics": {
+        "D3.1_hard_gate_activation_rate": { "value": 85.0, "target": 95, "pass": false, "n": 36, "weight_within_dimension": 0.25, "details": "Day2 Top1 ISC hard-gate report: 36/36 in tested paths" },
+        "D3.2_fail_closed_correctness": { "value": 100.0, "target": 100, "pass": true, "n": 36, "weight_within_dimension": 0.25, "details": "All tested gates failed closed correctly" },
+        "D3.3_audit_trail_completeness": { "value": 65.0, "target": 90, "pass": false, "n": 24, "weight_within_dimension": 0.20, "details": "Some decisions have audit records; many do not" },
+        "D3.4_side_effect_classification_accuracy": { "value": 0.0, "target": 90, "pass": false, "n": 0, "weight_within_dimension": 0.15, "details": "No side-effect classification tests exist" },
+        "D3.5_rollback_success_rate": { "value": 0.0, "target": 80, "pass": false, "n": 0, "weight_within_dimension": 0.15, "details": "No rollback tests exist" }
+      },
+      "hard_zero_triggered": false
+    },
+    "D4_proactive_completion": {
+      "score": 28.0,
+      "floor": 40,
+      "floor_violated": true,
+      "grade": "F",
+      "weight": 0.10,
+      "weighted_contribution": 2.8,
+      "metrics": {
+        "D4.1_follow_up_action_generation_rate": { "value": 35.0, "target": 60, "pass": false, "n": 11, "weight_within_dimension": 0.30, "details": "Estimated from real dialog evidence; some follow-ups observed" },
+        "D4.2_proactive_action_acceptance_rate": { "value": 50.0, "target": 70, "pass": false, "n": 8, "weight_within_dimension": 0.30, "details": "Of observed proactive actions, ~half were useful" },
+        "D4.3_anticipatory_error_prevention": { "value": 0.0, "target": 50, "pass": false, "n": 0, "weight_within_dimension": 0.20, "details": "Not measured" },
+        "D4.4_context_carry_forward_accuracy": { "value": 40.0, "target": 85, "pass": false, "n": 11, "weight_within_dimension": 0.20, "details": "Memory loss evidence suggests weak carry-forward" }
+      },
+      "hard_zero_triggered": false
+    },
+    "D5_eval_infrastructure": {
+      "score": 38.0,
+      "floor": 45,
+      "floor_violated": true,
+      "grade": "F",
+      "weight": 0.10,
+      "weighted_contribution": 3.8,
+      "metrics": {
+        "D5.1_runner_operational_rate": { "value": 60.0, "target": 95, "pass": false, "n": 10, "weight_within_dimension": 0.25, "details": "Runner path issues caused multiple execution failures" },
+        "D5.2_schema_data_alignment": { "value": 75.0, "target": 100, "pass": false, "n": 4, "weight_within_dimension": 0.20, "details": "Schema mismatch caused 0/42 in multi-turn benchmark" },
+        "D5.3_gate_consumption_chain_health": { "value": 50.0, "target": 90, "pass": false, "n": 10, "weight_within_dimension": 0.20, "details": "Stale gate consumption and auto-discovery gaps" },
+        "D5.4_eval_result_reproducibility": { "value": 0.0, "target": 90, "pass": false, "n": 0, "weight_within_dimension": 0.20, "details": "No reproducibility tests conducted" },
+        "D5.5_eval_data_freshness": { "value": 70.0, "target": 100, "n": 1, "pass": false, "weight_within_dimension": 0.15, "details": "Newest sample ~3 days old (score = 100 - 3*10 = 70)" }
+      },
+      "hard_zero_triggered": true,
+      "hard_zero_reason": "D5.2 < 100: schema-data alignment failure caps D5 at 44"
+    },
+    "D6_coverage_breadth": {
+      "score": 33.0,
+      "floor": 50,
+      "floor_violated": true,
+      "grade": "F",
+      "weight": 0.10,
+      "weighted_contribution": 3.3,
+      "metrics": {
+        "D6.1_intent_type_coverage": { "value": 40.0, "target": 80, "pass": false, "details": "Only 2/5 intent types have >=5 cases" },
+        "D6.2_complexity_level_coverage": { "value": 50.0, "target": 75, "pass": false, "details": "Only L1 and L2 have >=3 cases reliably" },
+        "D6.3_failure_mode_coverage": { "value": 37.5, "target": 62.5, "pass": false, "details": "~3/8 failure modes tested (EXECUTION_ERROR, TIMEOUT, PARTIAL_COMPLETION)" },
+        "D6.4_agent_skill_coverage": { "value": 40.0, "target": 60, "pass": false, "details": "4+ agents exercised but limited skill diversity" },
+        "D6.5_real_vs_synthetic_ratio": { "value": 45.8, "target": 50, "pass": false, "details": "11 real / 24 total = 45.8%" },
+        "D6.6_richness_index": { "value": 34.0, "target": 60, "pass": false, "details": "Low intent, event, and execution richness" }
+      },
+      "hard_zero_triggered": false
+    },
+    "D7_resilience_recovery": {
+      "score": 22.0,
+      "floor": 40,
+      "floor_violated": true,
+      "grade": "F",
+      "weight": 0.10,
+      "weighted_contribution": 2.2,
+      "metrics": {
+        "D7.1_failure_detection_rate": { "value": 45.0, "target": 85, "pass": false, "n": 10, "weight_within_dimension": 0.25, "details": "Some failures detected; many silent" },
+        "D7.2_auto_recovery_rate": { "value": 10.0, "target": 60, "pass": false, "n": 5, "weight_within_dimension": 0.25, "details": "Very limited auto-recovery observed" },
+        "D7.3_badcase_auto_generation_rate": { "value": 30.0, "target": 70, "pass": false, "n": 10, "weight_within_dimension": 0.20, "details": "Badcase infrastructure exists but low auto-generation" },
+        "D7.4_mttr_minutes": { "value": 0.0, "target": 100, "n": 0, "pass": false, "weight_within_dimension": 0.15, "details": "MTTR not measured" },
+        "D7.5_regression_prevention_rate": { "value": 30.0, "target": 80, "pass": false, "n": 5, "weight_within_dimension": 0.15, "details": "Some gate-based prevention; incomplete coverage" }
+      },
+      "hard_zero_triggered": false
+    }
+  },
+  "composite": {
+    "score": 40.4,
+    "floor_violations": 6,
+    "floor_violation_dimensions": [
+      "D1_intent_fidelity",
+      "D2_execution_closure",
+      "D4_proactive_completion",
+      "D5_eval_infrastructure",
+      "D6_coverage_breadth",
+      "D7_resilience_recovery"
+    ],
+    "corpus_eccs": 0.38,
+    "richness_index": 0.34
+  },
+  "verdict": {
+    "code": "FL",
+    "label": "FAIL",
+    "confidence": "LOW",
+    "force_fail_triggered": true,
+    "force_fail_reason": "D2.5 silent_failure_rate (12%) > 10% threshold; also D5.2 hard-zero triggered",
+    "allowed_claims": [
+      "Does not meet evaluation criteria",
+      "Critical gaps identified in 6 of 7 dimensions",
+      "Governance scaffolding (D3) shows partial strength"
+    ],
+    "forbidden_claims": [
+      "System demonstrates autonomy at any level",
+      "Evaluation is closed or substantially achieved",
+      "言出法随 capability is evidenced",
+      "AEO evaluation passed"
+    ]
+  },
+  "heatmap": "CFCFFFF",
+  "gaps": [
+    {
+      "dimension": "D2",
+      "metric": "D2.1_admission_sla_hit_rate",
+      "current": 0.0,
+      "target": 90.0,
+      "gap": -90.0,
+      "priority": "P0",
+      "suggested_action": "Build admission SLA instrumentation: request_observed_at / request_admitted_at timestamps with 5s threshold"
+    },
+    {
+      "dimension": "D2",
+      "metric": "D2.5_silent_failure_rate",
+      "current": 12.0,
+      "target": 2.0,
+      "gap": 10.0,
+      "priority": "P0",
+      "suggested_action": "Instrument comprehensive failure detection; eliminate silent failures via watchdog and completion verification"
+    },
+    {
+      "dimension": "D5",
+      "metric": "D5.2_schema_data_alignment",
+      "current": 75.0,
+      "target": 100.0,
+      "gap": -25.0,
+      "priority": "P0",
+      "suggested_action": "Fix runner/evalset schema mismatch that caused 0/42; add schema validation pre-check to runner"
+    },
+    {
+      "dimension": "D1",
+      "metric": "D1.6_ic_category_coverage",
+      "current": 40.0,
+      "target": 80.0,
+      "gap": -40.0,
+      "priority": "P1",
+      "suggested_action": "Add >=3 samples per IC category for IC1, IC2, IC3"
+    },
+    {
+      "dimension": "D2",
+      "metric": "D2.4_external_effect_verification_rate",
+      "current": 20.0,
+      "target": 70.0,
+      "gap": -50.0,
+      "priority": "P1",
+      "suggested_action": "Add effect_verified_at instrumentation for all execution paths; verify world-state change, not just handler invocation"
+    },
+    {
+      "dimension": "D6",
+      "metric": "D6.6_richness_index",
+      "current": 34.0,
+      "target": 60.0,
+      "gap": -26.0,
+      "priority": "P1",
+      "suggested_action": "Add L3/L4 complexity cases, cross-agent scenarios, and multi-intent test cases"
+    },
+    {
+      "dimension": "D7",
+      "metric": "D7.2_auto_recovery_rate",
+      "current": 10.0,
+      "target": 60.0,
+      "gap": -50.0,
+      "priority": "P1",
+      "suggested_action": "Implement and test auto-recovery paths; instrument recovery success/failure"
+    },
+    {
+      "dimension": "D4",
+      "metric": "D4.1_follow_up_action_generation_rate",
+      "current": 35.0,
+      "target": 60.0,
+      "gap": -25.0,
+      "priority": "P2",
+      "suggested_action": "Annotate proactive action opportunities in real dialogs; measure system initiative"
+    }
+  ],
+  "metadata": {
+    "runner_version": "2.0.0-bootstrap",
+    "evaluator": "hybrid",
+    "human_review_required": true,
+    "report_artifacts": [
+      "reports/aeo-global-autonomy-evaluation-standard-v2.md",
+      "reports/aeo-global-autonomy-eval-v2.schema.json",
+      "reports/aeo-global-autonomy-eval-v2-baseline-20260308.json"
+    ],
+    "previous_run_id": null
+  }
+}

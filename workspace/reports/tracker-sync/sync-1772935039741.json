@@ -1,0 +1,75 @@
+{
+  "timestamp": "2026-03-08T01:57:19.741Z",
+  "pre_sync_desyncs": 8,
+  "post_sync_desyncs": 8,
+  "fixed": 0,
+  "remaining": [
+    {
+      "task_id": "task-benchmark_timeout",
+      "title": "benchmark timeout 任务",
+      "type": "missing_in_tracker",
+      "task_status": "archived",
+      "expected_icon": "📋"
+    },
+    {
+      "task_id": "subtask-benchmark-timeout-case-shard-a",
+      "title": "Benchmark timeout 收口 / Case 分片A（PB-001~PB-013）",
+      "type": "status_mismatch",
+      "task_status": "active",
+      "expected_icon": "📋",
+      "tracker_icon": "⏳"
+    },
+    {
+      "task_id": "subtask-benchmark-timeout-case-shard-b",
+      "title": "Benchmark timeout 收口 / Case 分片B（PB-014~PB-026）",
+      "type": "status_mismatch",
+      "task_status": "active",
+      "expected_icon": "📋",
+      "tracker_icon": "⏳"
+    },
+    {
+      "task_id": "subtask-benchmark-timeout-case-shard-c",
+      "title": "Benchmark timeout 收口 / Case 分片C（PB-027~PB-038）",
+      "type": "status_mismatch",
+      "task_status": "active",
+      "expected_icon": "📋",
+      "tracker_icon": "⏳"
+    },
+    {
+      "task_id": "subtask-benchmark-timeout-final-aggregation",
+      "title": "Benchmark timeout 收口 / 汇总复跑与最终裁决",
+      "type": "status_mismatch",
+      "task_status": "active",
+      "expected_icon": "📋",
+      "tracker_icon": "⏳"
+    },
+    {
+      "task_id": "subtask-benchmark-timeout-rootcause-and-runner",
+      "title": "Benchmark timeout 收口 / 运行器与超时根因治理",
+      "type": "status_mismatch",
+      "task_status": "active",
+      "expected_icon": "📋",
+      "tracker_icon": "⏳"
+    },
+    {
+      "task_id": "task-cras_d_a2_将研究结论绑定本地执行压力与积压",
+      "title": "CRAS-D研究策略落地 / 将研究结论绑定本地执行压力与积压",
+      "type": "status_mismatch",
+      "task_status": "doing",
+      "expected_icon": "⏳",
+      "tracker_icon": "📋"
+    },
+    {
+      "task_id": "task-global-autonomy-5s-gap-remediation",
+      "title": "全局自主性缺口整改：不存在于库里则5秒内自动纳入，否则badcase",
+      "type": "missing_in_tracker",
+      "task_status": "doing",
+      "expected_icon": "⏳"
+    }
+  ],
+  "sync_result": {
+    "ok": true,
+    "synced": 6,
+    "tasks_count": 47
+  }
+}

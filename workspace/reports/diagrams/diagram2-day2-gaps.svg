@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="620" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang SC','Microsoft YaHei',Arial,sans-serif">
+  <!-- Background -->
+  <rect width="900" height="620" fill="#F8FAFC" rx="12"/>
+  
+  <!-- Title bar -->
+  <rect x="0" y="0" width="900" height="56" fill="#1E293B" rx="12"/>
+  <rect x="0" y="44" width="900" height="12" fill="#1E293B"/>
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#F1F5F9">Day2 完成/缺口图 · Agent运行效率与质量</text>
+
+  <!-- Subtitle -->
+  <text x="450" y="74" text-anchor="middle" font-size="12" fill="#64748B">评级：✅ done | 🔶 partial | 🔴 P0 | 🟡 P1</text>
+
+  <!-- Column headers -->
+  <rect x="30" y="82" width="180" height="36" fill="#1E293B" rx="4"/>
+  <text x="120" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#F8FAFC">维度</text>
+  
+  <rect x="218" y="82" width="80" height="36" fill="#1E293B" rx="4"/>
+  <text x="258" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#F8FAFC">状态</text>
+
+  <rect x="306" y="82" width="260" height="36" fill="#1E293B" rx="4"/>
+  <text x="436" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#F8FAFC">已收口</text>
+
+  <rect x="574" y="82" width="296" height="36" fill="#1E293B" rx="4"/>
+  <text x="722" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#F8FAFC">未收口缺口</text>
+
+  <!-- Row data -->
+  <!-- Row 1: 执行链 P0 -->
+  <rect x="30" y="122" width="840" height="56" fill="#FEF2F2" rx="0"/>
+  <rect x="30" y="122" width="180" height="56" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5" rx="4"/>
+  <text x="120" y="146" text-anchor="middle" font-size="14" font-weight="bold" fill="#DC2626">执行链</text>
+  <text x="120" y="164" text-anchor="middle" font-size="11" fill="#EF4444">Execution Chain</text>
+
+  <rect x="218" y="126" width="80" height="48" fill="#EF4444" rx="4"/>
+  <text x="258" y="147" text-anchor="middle" font-size="14" font-weight="bold" fill="white">🔴</text>
+  <text x="258" y="165" text-anchor="middle" font-size="13" font-weight="bold" fill="white">P0</text>
+
+  <text x="316" y="143" font-size="11" fill="#374151">• 局部链路可执行</text>
+  <text x="316" y="161" font-size="11" fill="#374151">• 单步工具调用通过</text>
+
+  <text x="584" y="138" font-size="11" fill="#DC2626">• 缺链路编排 / 步骤级回滚</text>
+  <text x="584" y="154" font-size="11" fill="#DC2626">• 上下文续接缺失</text>
+  <text x="584" y="170" font-size="11" fill="#DC2626">• 失败定位与可解释性弱</text>
+
+  <!-- Row 2: Failover P0 -->
+  <rect x="30" y="182" width="840" height="56" fill="#FFF7F7" rx="0"/>
+  <rect x="30" y="182" width="180" height="56" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5" rx="4"/>
+  <text x="120" y="206" text-anchor="middle" font-size="14" font-weight="bold" fill="#DC2626">Failover</text>
+  <text x="120" y="224" text-anchor="middle" font-size="11" fill="#EF4444">降级切换</text>
+
+  <rect x="218" y="186" width="80" height="48" fill="#EF4444" rx="4"/>
+  <text x="258" y="207" text-anchor="middle" font-size="14" font-weight="bold" fill="white">🔴</text>
+  <text x="258" y="225" text-anchor="middle" font-size="13" font-weight="bold" fill="white">P0</text>
+
+  <text x="316" y="203" font-size="11" fill="#374151">• 简单重试机制存在</text>
+  <text x="316" y="221" font-size="11" fill="#374151">• 基础兜底可触发</text>
+
+  <text x="584" y="198" font-size="11" fill="#DC2626">• 备用模型路径未硬编码</text>
+  <text x="584" y="214" font-size="11" fill="#DC2626">• 超时切换条件不明确</text>
+  <text x="584" y="230" font-size="11" fill="#DC2626">• 质量下限未定义</text>
+
+  <!-- Row 3: 业务E2E P0 -->
+  <rect x="30" y="242" width="840" height="56" fill="#FEF2F2" rx="0"/>
+  <rect x="30" y="242" width="180" height="56" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5" rx="4"/>
+  <text x="120" y="266" text-anchor="middle" font-size="14" font-weight="bold" fill="#DC2626">业务级E2E</text>
+  <text x="120" y="284" text-anchor="middle" font-size="11" fill="#EF4444">End-to-End</text>
+
+  <rect x="218" y="246" width="80" height="48" fill="#EF4444" rx="4"/>
+  <text x="258" y="267" text-anchor="middle" font-size="14" font-weight="bold" fill="white">🔴</text>
+  <text x="258" y="285" text-anchor="middle" font-size="13" font-weight="bold" fill="white">P0</text>
+
+  <text x="316" y="263" font-size="11" fill="#374151">• 单组件局部验证通过</text>
+  <text x="316" y="281" font-size="11" fill="#374151">• 场景级单测存在</text>
+
+  <text x="584" y="258" font-size="11" fill="#DC2626">• 缺全链路业务验收</text>
+  <text x="584" y="274" font-size="11" fill="#DC2626">• 触发→理解→执行→反馈未串通</text>
+  <text x="584" y="290" font-size="11" fill="#DC2626">• 假阳性质量结论风险高</text>
+
+  <!-- Row 4: 稳定性 P0 -->
+  <rect x="30" y="302" width="840" height="56" fill="#FFF7F7" rx="0"/>
+  <rect x="30" y="302" width="180" height="56" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5" rx="4"/>
+  <text x="120" y="326" text-anchor="middle" font-size="14" font-weight="bold" fill="#DC2626">稳定性</text>
+  <text x="120" y="344" text-anchor="middle" font-size="11" fill="#EF4444">Stability</text>
+
+  <rect x="218" y="306" width="80" height="48" fill="#EF4444" rx="4"/>
+  <text x="258" y="327" text-anchor="middle" font-size="14" font-weight="bold" fill="white">🔴</text>
+  <text x="258" y="345" text-anchor="middle" font-size="13" font-weight="bold" fill="white">P0</text>
+
+  <text x="316" y="323" font-size="11" fill="#374151">• 基础链路连续运行</text>
+  <text x="316" y="341" font-size="11" fill="#374151">• 核心路径无崩溃</text>
+
+  <text x="584" y="318" font-size="11" fill="#DC2626">• 超时/重试风暴未治理</text>
+  <text x="584" y="334" font-size="11" fill="#DC2626">• 状态漂移/不一致风险存在</text>
+  <text x="584" y="350" font-size="11" fill="#DC2626">• 长尾抖动恢复策略缺失</text>
+
+  <!-- Row 5: 意图 partial -->
+  <rect x="30" y="362" width="840" height="50" fill="#FFFBEB" rx="0"/>
+  <rect x="30" y="362" width="180" height="50" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" rx="4"/>
+  <text x="120" y="384" text-anchor="middle" font-size="14" font-weight="bold" fill="#B45309">意图识别</text>
+  <text x="120" y="402" text-anchor="middle" font-size="11" fill="#D97706">Intent</text>
+
+  <rect x="218" y="366" width="80" height="42" fill="#F59E0B" rx="4"/>
+  <text x="258" y="385" text-anchor="middle" font-size="13" font-weight="bold" fill="white">🔶</text>
+  <text x="258" y="401" text-anchor="middle" font-size="12" font-weight="bold" fill="white">partial</text>
+
+  <text x="316" y="382" font-size="11" fill="#374151">• 基础意图识别能力具备</text>
+  <text x="584" y="382" font-size="11" fill="#B45309">• 多意图/歧义/失败重判未标准化</text>
+  <text x="316" y="400" font-size="11" fill="#374151">• 常见任务进入执行链</text>
+  <text x="584" y="400" font-size="11" fill="#B45309">• 上下文切换处理不足</text>
+
+  <!-- Row 6: 事件 partial -->
+  <rect x="30" y="416" width="840" height="50" fill="#FEFCE8" rx="0"/>
+  <rect x="30" y="416" width="180" height="50" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" rx="4"/>
+  <text x="120" y="438" text-anchor="middle" font-size="14" font-weight="bold" fill="#B45309">事件驱动</text>
+  <text x="120" y="456" text-anchor="middle" font-size="11" fill="#D97706">Event</text>
+
+  <rect x="218" y="420" width="80" height="42" fill="#F59E0B" rx="4"/>
+  <text x="258" y="439" text-anchor="middle" font-size="13" font-weight="bold" fill="white">🔶</text>
+  <text x="258" y="455" text-anchor="middle" font-size="12" font-weight="bold" fill="white">partial</text>
+
+  <text x="316" y="436" font-size="11" fill="#374151">• 基础事件触发链路可用</text>
+  <text x="584" y="436" font-size="11" fill="#B45309">• 事件语义标准化/去重未收口</text>
+  <text x="316" y="454" font-size="11" fill="#374151">• 状态回传基本通畅</text>
+  <text x="584" y="454" font-size="11" fill="#B45309">• 优先级/质量标记不够硬</text>
+
+  <!-- Row 7: Cron P1 -->
+  <rect x="30" y="470" width="840" height="50" fill="#FEFCE8" rx="0"/>
+  <rect x="30" y="470" width="180" height="50" fill="#FEF9C3" stroke="#EAB308" stroke-width="1.5" rx="4"/>
+  <text x="120" y="492" text-anchor="middle" font-size="14" font-weight="bold" fill="#854D0E">Cron模型治理</text>
+  <text x="120" y="510" text-anchor="middle" font-size="11" fill="#A16207">Model Governance</text>
+
+  <rect x="218" y="474" width="80" height="42" fill="#EAB308" rx="4"/>
+  <text x="258" y="493" text-anchor="middle" font-size="13" font-weight="bold" fill="white">🟡</text>
+  <text x="258" y="509" text-anchor="middle" font-size="12" font-weight="bold" fill="white">P1</text>
+
+  <text x="316" y="490" font-size="11" fill="#374151">• 定时任务可触发运行</text>
+  <text x="584" y="490" font-size="11" fill="#B45309">• 模型分层/成本控制未固化</text>
+  <text x="316" y="508" font-size="11" fill="#374151">• 部分任务可自动执行</text>
+  <text x="584" y="508" font-size="11" fill="#B45309">• 失败后再调度策略未完善</text>
+
+  <!-- Summary bar -->
+  <rect x="30" y="530" width="840" height="76" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5" rx="8"/>
+  <text x="50" y="551" font-size="13" font-weight="bold" fill="#1D4ED8">硬结论</text>
+  <text x="50" y="570" font-size="12" fill="#374151">P0 共 4 项：执行链、Failover、业务级E2E、稳定性 → 这四项共同决定Agent是否"能跑、持续能跑、故障时还能跑"</text>
+  <text x="50" y="588" font-size="12" fill="#374151">Partial 3 项：意图、事件、静默策略 → 上游质量放大器，持续向下游注入噪声，不能视为 done</text>
+  <text x="50" y="596" font-size="11" fill="#6B7280">暂无项目可硬性判定为完全收口（done）</text>
+
+  <!-- Table border -->
+  <rect x="30" y="118" width="840" height="406" fill="none" stroke="#D1D5DB" stroke-width="1" rx="2"/>
+  <line x1="210" y1="118" x2="210" y2="524" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="300" y1="118" x2="300" y2="524" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="572" y1="118" x2="572" y2="524" stroke="#D1D5DB" stroke-width="1"/>
+</svg>

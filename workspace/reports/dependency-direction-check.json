@@ -1,0 +1,45 @@
+{
+  "rule": "rule.dependency-direction-check-001",
+  "timestamp": "2026-03-09T15:04:27.849Z",
+  "summary": {
+    "status": "blocked",
+    "violationCount": 7
+  },
+  "violations": [
+    {
+      "file": "skills/anti-entropy-checker/index.js",
+      "pattern": "require('path').join(__dirname, '..', '..', 'infrastructure",
+      "count": 1
+    },
+    {
+      "file": "skills/cras/intent-extractor-inline.js",
+      "pattern": "require('../infrastructure",
+      "count": 1
+    },
+    {
+      "file": "skills/evomap-publisher/publish-silence-watchdog.js",
+      "pattern": "require('../../infrastructure",
+      "count": 1
+    },
+    {
+      "file": "skills/isc-core/archive/check-dependency-direction.js",
+      "pattern": "import infrastructure",
+      "count": 1
+    },
+    {
+      "file": "skills/isc-core/handlers/check-dependency-direction.js",
+      "pattern": "import.*infrastructure",
+      "count": 1
+    },
+    {
+      "file": "skills/public/multi-agent-reporting/scripts/verify-report-snapshot.js",
+      "pattern": "require('../infrastructure",
+      "count": 1
+    },
+    {
+      "file": "skills/public/system-monitor/scripts/llm-smoke-test.js",
+      "pattern": "require('../infrastructure",
+      "count": 1
+    }
+  ]
+}

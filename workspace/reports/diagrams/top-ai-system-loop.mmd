@@ -1,0 +1,52 @@
+%%{init: {"theme": "base", "themeVariables": {"background": "#ffffff", "primaryColor": "#DCEBFF", "primaryTextColor": "#1F2937", "primaryBorderColor": "#5B8FF9", "lineColor": "#6B7280", "secondaryColor": "#E8F5E9", "tertiaryColor": "#FFF3D6", "fontFamily": "Arial, PingFang SC, Microsoft YaHei, sans-serif", "fontSize": "16px", "clusterBkg": "#F8FAFC", "clusterBorder": "#CBD5E1"}} }%%
+flowchart TB
+    U[用户 / 外部输入] --> S1[意图识别与事件感知]
+    CFG[openclaw.json\n模型与角色配置] --> GOV
+    CRON[cron/jobs.json\n定时任务与补偿调度] -.兜底触发.-> BUS
+    RULES[ISC Rules\n规则触发 / 门禁 / 自动动作] --> GOV
+    ANCHOR[Capability Anchor\n技能与能力地图] --> EXEC
+    EVLOG[event-bus events.jsonl\n真实事件流证据] --> BUS
+
+    subgraph L1[感知与输入层]
+      S1[意图识别与事件感知]
+      BUS[EventBus / Bus Adapter]
+    end
+
+    subgraph L2[治理与决策层]
+      GOV[ISC 治理 / 规则门禁]
+      DTO[DTO 编排 / 任务路由]
+      DISP[Dispatcher / Routes]
+      AEO[AEO 评测 / 质量门禁]
+    end
+
+    subgraph L3[执行与能力层]
+      EXEC[技能执行面\nCRAS / SEEF / LEP / Monitor / Reports]
+      HANDLER[Handlers / Pipelines]
+      REPORT[日报 / 审计 / 风险报告]
+      PUB[EvoMap / 外部发布]
+    end
+
+    S1 ==> BUS
+    BUS ==> GOV
+    GOV ==> DTO
+    DTO ==> DISP
+    DISP ==> HANDLER
+    HANDLER ==> EXEC
+    EXEC ==> REPORT
+    EXEC ==> PUB
+    EXEC ==> FEED[结果 / 指标 / 决策日志]
+    FEED ==> AEO
+    AEO ==> GOV
+    REPORT -.复盘修正.-> RULES
+    REPORT -.能力锚点更新.-> ANCHOR
+    FEED ==> BUS
+
+    classDef control fill:#DCEBFF,stroke:#5B8FF9,color:#1F2937,stroke-width:1.5px;
+    classDef exec fill:#E8F5E9,stroke:#2E7D32,color:#1F2937,stroke-width:1.5px;
+    classDef evidence fill:#EEF2F7,stroke:#94A3B8,color:#1F2937,stroke-width:1.2px;
+    classDef feedback fill:#FFF3D6,stroke:#D97706,color:#1F2937,stroke-width:1.3px;
+
+    class GOV,DTO,DISP,BUS,AEO control;
+    class EXEC,HANDLER,REPORT,PUB exec;
+    class CFG,CRON,RULES,ANCHOR,EVLOG,U,S1 evidence;
+    class FEED feedback;

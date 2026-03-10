@@ -1,0 +1,42 @@
+{
+  "eval_name": "GLM-5 E2E Intent Classification",
+  "model": "glm-5",
+  "batch": "samples-3-4",
+  "run_at": "2026-03-09T15:27:13.520Z",
+  "total": 2,
+  "passed": 1,
+  "failed": 1,
+  "accuracy": 0.5,
+  "results": [
+    {
+      "id": "IB-003",
+      "input": "厉害，比预期好多了",
+      "description": "正向情绪-超预期",
+      "difficulty": "easy",
+      "expected_ic": "IC1",
+      "expected_intents": [
+        "user.emotion.positive"
+      ],
+      "actual_output": "```json\n{\n\"class\": \"IC1\",\n\"confidence\": 0.99,\n\"reason\": \"纯粹的情绪表达（赞赏），未附带任何操作指令或业务逻辑请求。\"\n}\n```",
+      "predicted_ic": "IC1",
+      "match": true,
+      "duration_ms": 11536,
+      "timestamp": "2026-03-09T15:25:13.419Z"
+    },
+    {
+      "id": "IB-004",
+      "input": "这做的什么垃圾，完全不能用",
+      "description": "典型负向情绪-强烈不满",
+      "difficulty": "easy",
+      "expected_ic": "IC1",
+      "expected_intents": [
+        "user.emotion.negative"
+      ],
+      "actual_output": "ERROR: spawnSync /bin/sh ETIMEDOUT",
+      "predicted_ic": null,
+      "match": false,
+      "duration_ms": 120100,
+      "timestamp": "2026-03-09T15:27:13.520Z"
+    }
+  ]
+}

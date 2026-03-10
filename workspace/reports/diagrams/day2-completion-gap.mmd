@@ -1,0 +1,63 @@
+%%{init: {"theme": "base", "themeVariables": {"background": "#ffffff", "primaryColor": "#DCEBFF", "primaryTextColor": "#1F2937", "primaryBorderColor": "#5B8FF9", "lineColor": "#6B7280", "secondaryColor": "#E8F5E9", "tertiaryColor": "#FFF3D6", "fontFamily": "Arial, PingFang SC, Microsoft YaHei, sans-serif", "fontSize": "16px", "clusterBkg": "#F8FAFC", "clusterBorder": "#CBD5E1"}} }%%
+flowchart LR
+    subgraph DONE[Day2 已完成能力]
+      D1[韧性层\n64/64 测试通过]
+      D2[接口契约\n32/32 通过]
+      D3[事件管道 / 技能集成\n34 + 47 测试通过]
+      D4[降级演练\n9 场景通过]
+      D5[可观测性基础\nmetrics + alert + dashboard]
+      D6[ISC 治理\n重命名 / 去重 / 拆分]
+      D7[决策追溯\nDeliberation 嵌入 L3]
+      D8[意图识别\n67.6% → 90.5%]
+    end
+
+    subgraph EVID[主要证据]
+      E1[day2-error-recovery.md]
+      E2[day2-contract-tests.md]
+      E3[day2-skill-integration.md]
+      E4[day2-degradation-drill.md]
+      E5[day2-observability.md]
+      E6[day2-deliberation.md]
+      E7[day3-plan.md]
+    end
+
+    subgraph GAP[Day2 收尾缺口]
+      G1[Gap-1\n5 个 Cron 曾持续 error\n已止血 但仍有功能性遗留]
+      G2[Gap-2\n定时任务未完全融入 L3\n需事件驱动化]
+      G3[Gap-3\nAEO 尚未覆盖 Day2 新交付物]
+      G4[Gap-4\n运营看板仍偏 Dev 视角\n五层指标待接入]
+      G5[Gap-5\n统一 test runner 已建成\n但 E2E 仍有超时问题]
+    end
+
+    subgraph RISK[风险与影响]
+      R1[日志噪音 / token 白烧]
+      R2[新架构可跑但未完全生产化]
+      R3[无正式质量裁决]
+      R4[运营层不可直接拿来决策]
+      R5[回归验证存在长尾风险]
+    end
+
+    D1 --> E1
+    D2 --> E2
+    D3 --> E3
+    D4 --> E4
+    D5 --> E5
+    D7 --> E6
+    D8 --> E7
+
+    DONE ==> GAP
+    G1 --> R1
+    G2 --> R2
+    G3 --> R3
+    G4 --> R4
+    G5 --> R5
+
+    classDef done fill:#E8F5E9,stroke:#2E7D32,color:#1F2937,stroke-width:1.5px;
+    classDef evid fill:#EEF2F7,stroke:#94A3B8,color:#1F2937,stroke-width:1.2px;
+    classDef gap fill:#FFF3D6,stroke:#D97706,color:#1F2937,stroke-width:1.5px;
+    classDef risk fill:#FDE2E1,stroke:#C0392B,color:#1F2937,stroke-width:1.6px;
+
+    class D1,D2,D3,D4,D5,D6,D7,D8 done;
+    class E1,E2,E3,E4,E5,E6,E7 evid;
+    class G1,G2,G3,G4,G5 gap;
+    class R1,R2,R3,R4,R5 risk;

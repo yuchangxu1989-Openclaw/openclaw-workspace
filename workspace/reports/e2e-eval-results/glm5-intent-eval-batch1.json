@@ -1,0 +1,31 @@
+{
+  "eval_id": "glm5-intent-batch1",
+  "model": "glm-5",
+  "timestamp": "2026-03-09T23:23:00+08:00",
+  "total_cases": 2,
+  "passed": 2,
+  "failed": 0,
+  "accuracy": 1.0,
+  "results": [
+    {
+      "id": "IB-001",
+      "input": "太棒了，这个方案完美！",
+      "expected_ic": "IC1",
+      "expected_intents": ["user.emotion.positive"],
+      "actual_ic": "IC1",
+      "actual_confidence": 0.98,
+      "actual_reason": "用户仅表达了对方案的赞赏和满意，属于纯粹的情绪表达，未包含操作请求或深层意图。",
+      "match": true
+    },
+    {
+      "id": "IB-002",
+      "input": "不错不错，终于搞定了",
+      "expected_ic": "IC1",
+      "expected_intents": ["user.emotion.positive"],
+      "actual_ic": "IC1",
+      "actual_confidence": 0.98,
+      "actual_reason": "用户纯粹在表达对任务完成的满意和如释重负的情绪，未包含任何操作请求或具体指令。",
+      "match": true
+    }
+  ]
+}

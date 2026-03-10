@@ -1,0 +1,49 @@
+{
+  "eval_name": "glm5-e2e-intent-batch3",
+  "model": "glm-5",
+  "cases": "5-6",
+  "run_at": "2026-03-09T15:27:27.426Z",
+  "results": [
+    {
+      "id": "IB-005",
+      "description": "负向情绪-反复出错",
+      "input": "又错了，你到底在不在听",
+      "expected_ic": "IC1",
+      "expected_intents": [
+        "user.emotion.negative"
+      ],
+      "model_output": "```json\n{\n\"class\": \"IC1\",\n\"confidence\": 0.99,\n\"reason\": \"纯粹的情绪宣泄与质问，未附带具体的操作指令或技术要求，符合IC1定义及示例。\"\n}\n```",
+      "parsed_result": {
+        "class": "IC1",
+        "confidence": 0.99,
+        "reason": "纯粹的情绪宣泄与质问，未附带具体的操作指令或技术要求，符合IC1定义及示例。"
+      },
+      "predicted_ic": "IC1",
+      "correct": true,
+      "timestamp": "2026-03-09T15:26:15.234Z"
+    },
+    {
+      "id": "IB-006",
+      "description": "负向情绪-要求重做",
+      "input": "太差了，重做吧",
+      "expected_ic": "IC1",
+      "expected_intents": [
+        "user.emotion.negative"
+      ],
+      "model_output": "```json\n{\"class\":\"IC5\",\"confidence\":0.95,\"reason\":\"包含可分离的情绪/批评（太差了）与明确的操作指令（重做吧），符合IC5充分条件。\"}\n```",
+      "parsed_result": {
+        "class": "IC5",
+        "confidence": 0.95,
+        "reason": "包含可分离的情绪/批评（太差了）与明确的操作指令（重做吧），符合IC5充分条件。"
+      },
+      "predicted_ic": "IC5",
+      "correct": false,
+      "timestamp": "2026-03-09T15:27:27.426Z"
+    }
+  ],
+  "summary": {
+    "total": 2,
+    "correct": 1,
+    "errors": 0
+  }
+}

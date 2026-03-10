@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-03-07T10:48:29.164Z",
+  "handler": "gate",
+  "eventType": "test",
+  "ruleId": "test",
+  "sandbox": {
+    "mode": "sandbox",
+    "workspace": "/root/.openclaw/workspace",
+    "cwd": "/root/.openclaw/workspace",
+    "node": "v22.22.0",
+    "timestamp": "2026-03-07T10:48:29.164Z"
+  },
+  "verdict": {
+    "ok": true,
+    "gateStatus": "PASS",
+    "passRequested": false,
+    "summary": "PASS: ISC intent-eval + closed-book hard gates satisfied.",
+    "rules": [
+      {
+        "ruleId": "ISC-INTENT-EVAL-001",
+        "ok": true,
+        "failClosed": false,
+        "message": "PASS: LLM intent-recognition foundation verified.",
+        "required": {
+          "intent_basis.llm_as_primary": true,
+          "intent_basis.evidence": "non-empty"
+        },
+        "evidence": {
+          "llm_as_primary": true,
+          "evidence_count": 1
+        },
+        "violations": []
+      },
+      {
+        "ruleId": "ISC-CLOSED-BOOK-001",
+        "ok": true,
+        "failClosed": false,
+        "message": "PASS: closed-book evaluation hard gate verified.",
+        "required": {
+          "closed_book_eval.enabled": true,
+          "closed_book_eval.no_hardcoded_evalset": true,
+          "closed_book_eval.no_reference_reads": true,
+          "closed_book_eval.forbidden_paths_checked": "non-empty-array",
+          "closed_book_eval.evidence": "non-empty-array"
+        },
+        "evidence": {
+          "enabled": true,
+          "no_hardcoded_evalset": true,
+          "no_reference_reads": true,
+          "forbidden_paths_checked_count": 1,
+          "evidence_count": 1,
+          "forbidden_paths_accessed_count": 0
+        },
+        "violations": []
+      }
+    ]
+  }
+}

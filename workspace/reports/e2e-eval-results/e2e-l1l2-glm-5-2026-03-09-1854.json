@@ -1,0 +1,66 @@
+{
+  "eval_id": "e2e-l1l2-glm-5-2026-03-09-1854",
+  "level": "l1l2",
+  "timestamp": "2026-03-09T10:54:51.804Z",
+  "total": 3,
+  "offset": 0,
+  "dry_run": false,
+  "test_model": "glm-5",
+  "judge_model": "glm-5",
+  "test_model_requested": "glm-5",
+  "judge_model_requested": "glm-5",
+  "l1_pass": 0,
+  "l1_accuracy": 0,
+  "l2_pass": 0,
+  "l2_avg_coverage": 0,
+  "results": [
+    {
+      "case_id": "mined-002",
+      "l1": {
+        "correct": false,
+        "score": 0,
+        "status": "parse_error",
+        "actual_intent": "用户要求主Agent立即停止直接执行任务，转而专注于任务调度与拆解，并强制委派子Agent完成具体工作。",
+        "actual_response": "系统应立即终止主Agent的代码编写行为，切换至调度模式，将高风险问题拆解为子任务列表并分发给子Agent执行，主Agent仅负责统筹与验收结果。"
+      },
+      "l2": {
+        "pass": false,
+        "coverage_score": 0,
+        "status": "parse_error",
+        "actual_steps": []
+      }
+    },
+    {
+      "case_id": "mined-003",
+      "l1": {
+        "correct": false,
+        "score": 0,
+        "status": "parse_error",
+        "actual_intent": "用户要求系统进行根因分析并建立长效机制以彻底解决反复遗漏汇报的问题，而非仅被动执行任务。",
+        "actual_response": "系统应承认之前仅被动执行的不足，立即对“未自动汇报”进行根因分析（如检查触发条件或逻辑漏洞），提出具体的防复发机制（如增加检查清单或修正代码），并落实整改。"
+      },
+      "l2": {
+        "pass": false,
+        "coverage_score": 0,
+        "status": "parse_error",
+        "actual_steps": []
+      }
+    },
+    {
+      "case_id": "mined-006",
+      "l1": {
+        "correct": false,
+        "score": 0,
+        "status": "parse_error",
+        "actual_intent": "用户要求废除'不适合程序化'的分类，强制要求所有ISC规则必须实现自动化程序化。",
+        "actual_response": "系统应立即修正分类逻辑，取消D类分类，并重新尝试将所有规则转化为自动化程序。"
+      },
+      "l2": {
+        "pass": false,
+        "coverage_score": 0,
+        "status": "parse_error",
+        "actual_steps": []
+      }
+    }
+  ]
+}

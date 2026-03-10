@@ -1,41 +1,43 @@
 {
-  "timestamp": "2026-03-10T02:00:51.440Z",
+  "timestamp": "2026-03-10T08:00:26.674Z",
   "version": "2.0.0",
   "metrics": {
     "concurrencyUtil": {
       "label": "并发利用率",
-      "actual": 1.1053,
+      "actual": 0.4737,
       "target": 0.6,
-      "gap": 0.5053,
-      "status": "ok",
+      "gap": -0.1263,
+      "status": "warn",
       "detail": {
-        "actual": 1.1053,
-        "peakRunning": 21,
+        "actual": 0.4737,
+        "peakRunning": 9,
         "limit": 19
       }
     },
     "timeoutRate": {
       "label": "任务超时率",
-      "actual": 0,
+      "actual": 0.2,
       "target": 0.1,
-      "gap": 0.1,
-      "status": "ok",
+      "gap": -0.1,
+      "status": "warn",
       "detail": {
-        "actual": 0,
-        "timeouts": 0,
-        "total": 1
+        "actual": 0.2,
+        "timeouts": 1,
+        "total": 5
       }
     },
     "taskGranularity": {
       "label": "单任务粒度",
-      "actual": 0,
+      "actual": 1,
       "target": 10,
-      "gap": 10,
+      "gap": 9,
       "status": "ok",
       "detail": {
-        "actual": 0,
-        "sampledTasks": 0,
-        "fileCounts": []
+        "actual": 1,
+        "sampledTasks": 1,
+        "fileCounts": [
+          1
+        ]
       }
     },
     "ruleExpansionRate": {
@@ -63,13 +65,42 @@
       }
     }
   },
-  "gapAnalysis": [],
+  "gapAnalysis": [
+    {
+      "metric": "concurrencyUtil",
+      "label": "并发利用率",
+      "severity": "warn",
+      "actual": 0.4737,
+      "target": 0.6,
+      "gap": -0.1263,
+      "gapDescription": "并发利用率当前0.4737，距目标0.6还差0.1263，需提升21.1%",
+      "suggestions": [
+        "增加任务拆分粒度，让更多子任务并行",
+        "检查是否有阻塞性依赖导致串行执行",
+        "优化dispatch策略，提前预取下一批任务"
+      ]
+    },
+    {
+      "metric": "timeoutRate",
+      "label": "任务超时率",
+      "severity": "warn",
+      "actual": 0.2,
+      "target": 0.1,
+      "gap": -0.1,
+      "gapDescription": "任务超时率当前0.2，超出目标0.1达0.1000，需降低50.0%",
+      "suggestions": [
+        "分析超时任务的共性，是否为特定类型任务",
+        "考虑增加超时阈值或优化慢任务的执行路径",
+        "检查是否有外部依赖(API/网络)导致超时"
+      ]
+    }
+  ],
   "summary": {
     "total": 5,
-    "ok": 4,
-    "warn": 0,
+    "ok": 2,
+    "warn": 2,
     "critical": 0,
     "info": 1,
-    "overallHealth": "ok"
+    "overallHealth": "warn"
   }
 }

@@ -1,0 +1,118 @@
+{
+  "date": "2026-03-10",
+  "timezone": "Asia/Shanghai",
+  "generated_at": "2026-03-10T01:14:45.611Z",
+  "intent_trends": {
+    "total_runs": 1123,
+    "with_content": 55,
+    "no_content": 1073,
+    "patterns": {},
+    "intent_type_distribution": {
+      "intent.ruleify": 71,
+      "intent.reflect": 25,
+      "intent.directive": 28,
+      "intent.feedback": 21,
+      "intent.query": 6
+    }
+  },
+  "insights_count": 0,
+  "insights_sample": [],
+  "four_dimensions": {
+    "learning": {
+      "corrections_count": 3,
+      "signals": [
+        "2026-03-10 00:22 会话记录\n\n### ISC全链路展开 — 里程碑完成\n- 182条ISC规则100% handler展开完成\n- 22 intents + 226 events 串行注册完成（解决之前并行冲突）\n- 关键commit: `f7964f4f`（intent+event注册）, `677d6dc8`（wave2 batch01+02）, `e4ce1a7`（batch",
+        "Session 2 — 00:22~01:07 语音交互+端到端评测+能力进化\n\n### 语音能力打通\n- **ASR**: GLM-ASR已稳定工作，ogg→.wav rename workaround，30秒限制\n- **TTS**: OpenClaw内置tts工具有bug（生成空文件0bytes），根因：OpenClaw的TTS wrapper问题，非Edge TTS引擎问题\n- **Edg",
+        "Session 3 — 01:07~01:20 语音调优+事件总线审计+网页部署\n\n### TTS噪音修复\n- GLM-TTS(douji)输出的wav开头有~2秒噪音（嘣嘣嘣声）\n- 解决方案：ffmpeg -ss 2.0 截掉开头2秒 + afade淡入\n- 1秒不够，2.5秒太多切掉字，2秒刚好（待用户确认）\n- 需要固化到feishu-send-voice.sh或glm-tts.js中\n\n"
+      ],
+      "summary": "今日3条纠偏信号，主要来自: memory/2026-03-10.md"
+    },
+    "user_patterns": {
+      "intent_distribution": {
+        "intent.ruleify": 71,
+        "intent.reflect": 25,
+        "intent.directive": 28,
+        "intent.feedback": 21,
+        "intent.query": 6
+      },
+      "top_intents": [
+        "intent.ruleify(71次)",
+        "intent.directive(28次)",
+        "intent.reflect(25次)",
+        "intent.feedback(21次)",
+        "intent.query(6次)"
+      ],
+      "high_frequency_topics": [],
+      "summary": "用户高频意图: intent.ruleify, intent.directive, intent.reflect, intent.feedback, intent.query"
+    },
+    "knowledge_governance": {
+      "memory_updated": true,
+      "skills_count": 55,
+      "rules_count": 186,
+      "last_memory_update": "2026-03-09T17:05:47.184Z",
+      "today_memory_exists": true,
+      "summary": "技能55个, 规则186条, MEMORY.md 活跃, 今日记忆有"
+    },
+    "evolution": {
+      "suggestions": [
+        "24h内无洞察产出，检查intent-extractor是否正常运行"
+      ],
+      "count": 1
+    }
+  },
+  "north_star_gap": {
+    "言出法随": {
+      "score": 2,
+      "max": 5,
+      "evidence": [
+        "今日3条纠偏信号"
+      ],
+      "desc": "指令执行完整度"
+    },
+    "自主闭环": {
+      "score": 3,
+      "max": 5,
+      "evidence": [
+        "2个自动化事件"
+      ],
+      "desc": "无需人工干预的闭环能力"
+    },
+    "代码覆盖": {
+      "score": 5,
+      "max": 5,
+      "evidence": [
+        "24h内193个commit"
+      ],
+      "desc": "用代码而非话语解决问题"
+    },
+    "独立QA": {
+      "score": 5,
+      "max": 5,
+      "evidence": [
+        "评测用例173条"
+      ],
+      "desc": "自主验证和质量保障"
+    },
+    "根因分析": {
+      "score": 1,
+      "max": 5,
+      "evidence": [
+        "0条根因洞察"
+      ],
+      "desc": "问题归因到根因而非表面"
+    }
+  },
+  "north_star_avg_score": 3.2,
+  "upgrade_opportunities": [],
+  "upgrades_executed": [],
+  "summary": {
+    "intent_extraction_active": true,
+    "insights_flowing": false,
+    "corrections_today": 3,
+    "system_upgrades": 0,
+    "north_star_score": "3.2/5",
+    "evolution_suggestions": [
+      "24h内无洞察产出，检查intent-extractor是否正常运行"
+    ]
+  }
+}

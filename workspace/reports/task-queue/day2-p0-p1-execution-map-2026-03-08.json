@@ -1,0 +1,141 @@
+{
+  "createdAt": "2026-03-08T00:00:00Z",
+  "source": [
+    "workspace/reports/day2-final-open-gaps-only.md",
+    "workspace/reports/event-routing-p0-fix-priority.md",
+    "workspace/reports/day2-remaining-gap-scan-final.md",
+    "workspace/reports/dispatch-occupancy-audit-2026-03-08.md",
+    "workspace/reports/dispatch-skill-1task-1agent-1key-hardening-2026-03-08.md"
+  ],
+  "policy": {
+    "oneAgentOneKey": true,
+    "openclawJsonFrozen": true,
+    "mode": "execution-oriented-non-conflicting"
+  },
+  "waves": [
+    {
+      "wave": 1,
+      "parallel": true,
+      "lanes": ["B", "C", "D", "E"]
+    },
+    {
+      "wave": 2,
+      "parallel": false,
+      "lanes": ["A"]
+    },
+    {
+      "wave": 3,
+      "parallel": false,
+      "lanes": ["VALIDATION"]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "A",
+      "title": "Event routing contract closure",
+      "priority": "P0",
+      "status": "ready_with_split",
+      "waitsOn": ["B-decision-if-handler-ref-style-changes"],
+      "ownerSurface": [
+        "skills/isc-core/rules"
+      ],
+      "safeParallelWith": ["C", "D", "E"],
+      "notParallelWith": ["B-on-same-rule-files"],
+      "includes": [
+        "intent.detected trigger correction",
+        "intent.ruleify/reflect/directive(/feedback) rule coverage",
+        "git.commit.completed rule hook",
+        "AEO n023/n024/n026 trigger normalization",
+        "system.error consumption rule"
+      ]
+    },
+    {
+      "id": "B",
+      "title": "Handler resolution unification",
+      "priority": "P0",
+      "status": "ready_now",
+      "waitsOn": [],
+      "ownerSurface": [
+        "infrastructure/event-bus",
+        "infrastructure/dispatcher"
+      ],
+      "safeParallelWith": ["C", "D", "E"],
+      "notParallelWith": ["A-on-same-rule-files"],
+      "includes": [
+        "19 full-path handler reference fix",
+        "cross-directory completeness-check resolution",
+        "single strategy decision: short-name normalize OR resolver path support"
+      ]
+    },
+    {
+      "id": "C",
+      "title": "Failure recovery hardening",
+      "priority": "P1-unblocker",
+      "status": "ready_now",
+      "waitsOn": [],
+      "ownerSurface": [
+        "event-bus/handlers",
+        "recovery-tree artifacts"
+      ],
+      "safeParallelWith": ["A", "B", "D", "E"],
+      "notParallelWith": ["another-batch-handler-fixer"],
+      "includes": [
+        "11 handlers logger/bus/notify fallback hardening",
+        "isc-change-alignment class/function mismatch fix",
+        "timeout/permission/not-found/flaky recovery tree refresh"
+      ]
+    },
+    {
+      "id": "D",
+      "title": "Runtime hygiene and queue integrity",
+      "priority": "P0/P1",
+      "status": "ready_now",
+      "waitsOn": [],
+      "ownerSurface": [
+        "cron/runtime hygiene scripts",
+        "queue state artifacts"
+      ],
+      "safeParallelWith": ["A", "B", "C", "E"],
+      "notParallelWith": [],
+      "includes": [
+        "api-probe flock gap",
+        "event-dispatch-runner timeout classification",
+        "manual/stale queue observability refresh"
+      ]
+    },
+    {
+      "id": "E",
+      "title": "Reporting and expansion control plane",
+      "priority": "P1",
+      "status": "ready_now",
+      "waitsOn": [],
+      "ownerSurface": [
+        "workspace/reports",
+        "workspace/reports/task-queue"
+      ],
+      "safeParallelWith": ["A", "B", "C", "D"],
+      "notParallelWith": [],
+      "includes": [
+        "publish execution map",
+        "mark ready-vs-blocked lanes",
+        "preserve one-agent-one-key discipline"
+      ]
+    },
+    {
+      "id": "VALIDATION",
+      "title": "Cross-lane P0 acceptance sweep",
+      "priority": "gate",
+      "status": "wait",
+      "waitsOn": ["A", "B", "C"],
+      "ownerSurface": [
+        "acceptance commands and evidence reports"
+      ],
+      "safeParallelWith": [],
+      "notParallelWith": ["active code-changing lanes"],
+      "includes": [
+        "run event-routing P0 acceptance commands",
+        "refresh queue/archive decisions from validated status"
+      ]
+    }
+  ]
+}

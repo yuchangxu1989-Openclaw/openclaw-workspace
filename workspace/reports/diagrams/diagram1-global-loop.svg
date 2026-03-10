@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="680" viewBox="0 0 900 680" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang SC','Microsoft YaHei',Arial,sans-serif">
+  <!-- Background -->
+  <rect width="900" height="680" fill="#F8FAFC" rx="12"/>
+  
+  <!-- Title -->
+  <rect x="0" y="0" width="900" height="56" fill="#1E293B" rx="12"/>
+  <rect x="0" y="44" width="900" height="12" fill="#1E293B"/>
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#F1F5F9">OpenClaw 全局闭环总图</text>
+
+  <!-- Layer 1: Input Layer -->
+  <rect x="30" y="76" width="840" height="110" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5" rx="8"/>
+  <text x="50" y="96" font-size="12" font-weight="bold" fill="#1D4ED8">L1 · 感知与输入层</text>
+  
+  <!-- User input box -->
+  <rect x="60" y="105" width="130" height="60" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5" rx="6"/>
+  <text x="125" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E40AF">用户/外部输入</text>
+  <text x="125" y="148" text-anchor="middle" font-size="11" fill="#3B82F6">消息 / API / 定时</text>
+
+  <!-- Intent recognition -->
+  <rect x="220" y="105" width="145" height="60" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5" rx="6"/>
+  <text x="292" y="128" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E40AF">意图识别</text>
+  <text x="292" y="146" text-anchor="middle" font-size="11" fill="#3B82F6">Event Sense / NLU</text>
+
+  <!-- Event Bus -->
+  <rect x="395" y="105" width="145" height="60" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5" rx="6"/>
+  <text x="467" y="128" text-anchor="middle" font-size="13" font-weight="bold" fill="#1E40AF">EventBus</text>
+  <text x="467" y="146" text-anchor="middle" font-size="11" fill="#3B82F6">events.jsonl 事件流</text>
+
+  <!-- Config inputs -->
+  <rect x="570" y="100" width="130" height="30" fill="#BFDBFE" stroke="#93C5FD" stroke-width="1" rx="4"/>
+  <text x="635" y="119" text-anchor="middle" font-size="11" fill="#1D4ED8">openclaw.json 配置</text>
+  <rect x="570" y="135" width="130" height="30" fill="#BFDBFE" stroke="#93C5FD" stroke-width="1" rx="4"/>
+  <text x="635" y="154" text-anchor="middle" font-size="11" fill="#1D4ED8">ISC Rules 规则引擎</text>
+  <rect x="720" y="105" width="120" height="60" fill="#BFDBFE" stroke="#93C5FD" stroke-width="1.5" rx="6"/>
+  <text x="780" y="128" text-anchor="middle" font-size="12" font-weight="bold" fill="#1E40AF">Cron 调度</text>
+  <text x="780" y="146" text-anchor="middle" font-size="11" fill="#3B82F6">jobs.json 定时任务</text>
+
+  <!-- Arrows L1 -->
+  <line x1="190" y1="135" x2="218" y2="135" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="365" y1="135" x2="393" y2="135" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="540" y1="119" x2="568" y2="119" stroke="#93C5FD" stroke-width="1.5" marker-end="url(#arrowLBlue)"/>
+  <line x1="540" y1="150" x2="568" y2="150" stroke="#93C5FD" stroke-width="1.5" marker-end="url(#arrowLBlue)"/>
+
+  <!-- Layer 2: Governance Layer -->
+  <rect x="30" y="200" width="840" height="125" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.5" rx="8"/>
+  <text x="50" y="220" font-size="12" font-weight="bold" fill="#15803D">L2 · 治理与决策层</text>
+
+  <rect x="60" y="228" width="140" height="60" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5" rx="6"/>
+  <text x="130" y="253" text-anchor="middle" font-size="13" font-weight="bold" fill="#14532D">ISC 治理门禁</text>
+  <text x="130" y="271" text-anchor="middle" font-size="11" fill="#15803D">规则 / 过滤 / 鉴权</text>
+
+  <rect x="230" y="228" width="140" height="60" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5" rx="6"/>
+  <text x="300" y="253" text-anchor="middle" font-size="13" font-weight="bold" fill="#14532D">DTO 编排</text>
+  <text x="300" y="271" text-anchor="middle" font-size="11" fill="#15803D">任务路由 / 参数绑定</text>
+
+  <rect x="400" y="228" width="140" height="60" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5" rx="6"/>
+  <text x="470" y="253" text-anchor="middle" font-size="13" font-weight="bold" fill="#14532D">Dispatcher</text>
+  <text x="470" y="271" text-anchor="middle" font-size="11" fill="#15803D">分发 / 优先级排队</text>
+
+  <rect x="570" y="228" width="140" height="60" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5" rx="6"/>
+  <text x="640" y="253" text-anchor="middle" font-size="13" font-weight="bold" fill="#14532D">AEO 质量门禁</text>
+  <text x="640" y="271" text-anchor="middle" font-size="11" fill="#15803D">评测 / 置信度 / 门限</text>
+
+  <rect x="740" y="228" width="110" height="60" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5" rx="6"/>
+  <text x="795" y="253" text-anchor="middle" font-size="13" font-weight="bold" fill="#14532D">Failover</text>
+  <text x="795" y="271" text-anchor="middle" font-size="11" fill="#15803D">降级 / 备切</text>
+
+  <!-- Arrows L1→L2 -->
+  <line x1="467" y1="165" x2="200" y2="228" stroke="#3B82F6" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#arrowBlue)"/>
+  <!-- Arrows L2 internal -->
+  <line x1="200" y1="258" x2="228" y2="258" stroke="#22C55E" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="370" y1="258" x2="398" y2="258" stroke="#22C55E" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="540" y1="258" x2="568" y2="258" stroke="#22C55E" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <line x1="710" y1="258" x2="738" y2="258" stroke="#22C55E" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Layer 3: Execution Layer -->
+  <rect x="30" y="340" width="840" height="130" fill="#FFF7ED" stroke="#F59E0B" stroke-width="1.5" rx="8"/>
+  <text x="50" y="360" font-size="12" font-weight="bold" fill="#B45309">L3 · 执行与能力层</text>
+
+  <rect x="60" y="368" width="145" height="60" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" rx="6"/>
+  <text x="132" y="393" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400E">Handlers/Pipeline</text>
+  <text x="132" y="411" text-anchor="middle" font-size="11" fill="#B45309">工具调用 / 任务执行</text>
+
+  <rect x="235" y="368" width="145" height="60" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" rx="6"/>
+  <text x="307" y="393" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400E">Skills执行面</text>
+  <text x="307" y="411" text-anchor="middle" font-size="11" fill="#B45309">CRAS/SEEF/LEP</text>
+
+  <rect x="410" y="368" width="145" height="60" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" rx="6"/>
+  <text x="482" y="393" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400E">Monitor/观测</text>
+  <text x="482" y="411" text-anchor="middle" font-size="11" fill="#B45309">实时指标 / 告警</text>
+
+  <rect x="585" y="368" width="145" height="60" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" rx="6"/>
+  <text x="657" y="393" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400E">日报/审计</text>
+  <text x="657" y="411" text-anchor="middle" font-size="11" fill="#B45309">Reports / 风险记录</text>
+
+  <rect x="760" y="368" width="90" height="60" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" rx="6"/>
+  <text x="805" y="390" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400E">EvoMap</text>
+  <text x="805" y="408" text-anchor="middle" font-size="11" fill="#B45309">外部发布</text>
+
+  <!-- Arrows L2→L3 -->
+  <line x1="470" y1="288" x2="307" y2="368" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrowOrange)"/>
+  <!-- Arrows L3 internal -->
+  <line x1="205" y1="398" x2="233" y2="398" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <line x1="380" y1="398" x2="408" y2="398" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <line x1="555" y1="398" x2="583" y2="398" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <line x1="730" y1="398" x2="758" y2="398" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- Layer 4: Feedback Layer -->
+  <rect x="30" y="488" width="840" height="80" fill="#FDF4FF" stroke="#A855F7" stroke-width="1.5" rx="8"/>
+  <text x="50" y="508" font-size="12" font-weight="bold" fill="#7E22CE">L4 · 反馈与进化层</text>
+
+  <rect x="60" y="515" width="170" height="42" fill="#F3E8FF" stroke="#A855F7" stroke-width="1.5" rx="6"/>
+  <text x="145" y="533" text-anchor="middle" font-size="12" font-weight="bold" fill="#6B21A8">执行结果 / 指标</text>
+  <text x="145" y="549" text-anchor="middle" font-size="11" fill="#7E22CE">决策日志 / 成功率</text>
+
+  <rect x="270" y="515" width="170" height="42" fill="#F3E8FF" stroke="#A855F7" stroke-width="1.5" rx="6"/>
+  <text x="355" y="533" text-anchor="middle" font-size="12" font-weight="bold" fill="#6B21A8">PDCA 复盘</text>
+  <text x="355" y="549" text-anchor="middle" font-size="11" fill="#7E22CE">根因分析 / 计划修正</text>
+
+  <rect x="480" y="515" width="170" height="42" fill="#F3E8FF" stroke="#A855F7" stroke-width="1.5" rx="6"/>
+  <text x="565" y="533" text-anchor="middle" font-size="12" font-weight="bold" fill="#6B21A8">规则修正回写</text>
+  <text x="565" y="549" text-anchor="middle" font-size="11" fill="#7E22CE">ISC Rules 更新</text>
+
+  <rect x="690" y="515" width="160" height="42" fill="#F3E8FF" stroke="#A855F7" stroke-width="1.5" rx="6"/>
+  <text x="770" y="533" text-anchor="middle" font-size="12" font-weight="bold" fill="#6B21A8">能力锚点更新</text>
+  <text x="770" y="549" text-anchor="middle" font-size="11" fill="#7E22CE">Capability Anchor</text>
+
+  <!-- Arrows L3→L4 -->
+  <line x1="307" y1="428" x2="145" y2="515" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <line x1="482" y1="428" x2="355" y2="515" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <line x1="657" y1="428" x2="565" y2="515" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <line x1="805" y1="428" x2="770" y2="515" stroke="#A855F7" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- Feedback Loop arrows back up -->
+  <path d="M 145 557 Q 20 620 20 260 Q 20 150 60 135" fill="none" stroke="#A855F7" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrowPurple)"/>
+  <path d="M 565 557 Q 870 610 870 130 Q 870 100 740 115" fill="none" stroke="#A855F7" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowPurple)"/>
+
+  <!-- Bottom labels -->
+  <text x="25" y="590" font-size="10" fill="#A855F7" font-style="italic">↑ AEO质量反馈→L2治理</text>
+  <text x="680" y="590" font-size="10" fill="#A855F7" font-style="italic">规则修正→L1配置层 ↑</text>
+
+  <!-- Legend -->
+  <rect x="30" y="610" width="840" height="60" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1" rx="6"/>
+  <text x="50" y="628" font-size="11" font-weight="bold" fill="#475569">图例</text>
+  <rect x="90" y="618" width="16" height="10" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+  <text x="112" y="628" font-size="10" fill="#1D4ED8">L1 感知输入</text>
+  <rect x="195" y="618" width="16" height="10" fill="#DCFCE7" stroke="#22C55E" stroke-width="1"/>
+  <text x="217" y="628" font-size="10" fill="#14532D">L2 治理决策</text>
+  <rect x="300" y="618" width="16" height="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <text x="322" y="628" font-size="10" fill="#92400E">L3 执行能力</text>
+  <rect x="405" y="618" width="16" height="10" fill="#F3E8FF" stroke="#A855F7" stroke-width="1"/>
+  <text x="427" y="628" font-size="10" fill="#6B21A8">L4 反馈进化</text>
+  <line x1="90" y1="648" x2="120" y2="648" stroke="#475569" stroke-width="2" marker-end="url(#arrowGrey)"/>
+  <text x="127" y="652" font-size="10" fill="#475569">主链路流向</text>
+  <line x1="220" y1="648" x2="250" y2="648" stroke="#475569" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowGrey)"/>
+  <text x="257" y="652" font-size="10" fill="#475569">反馈/进化回路</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#3B82F6"/>
+    </marker>
+    <marker id="arrowLBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#93C5FD"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#22C55E"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#A855F7"/>
+    </marker>
+    <marker id="arrowGrey" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

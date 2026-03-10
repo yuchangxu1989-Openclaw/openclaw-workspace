@@ -1,0 +1,40 @@
+flowchart TB
+    %% Styles
+    classDef source fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1,stroke-width:1.5px;
+    classDef process fill:#E8F5E9,stroke:#43A047,color:#1B5E20,stroke-width:1.5px;
+    classDef decision fill:#FFF8E1,stroke:#F9A825,color:#E65100,stroke-width:1.5px;
+    classDef store fill:#F3E5F5,stroke:#8E24AA,color:#4A148C,stroke-width:1.5px;
+    classDef output fill:#FCE4EC,stroke:#D81B60,color:#880E4F,stroke-width:1.5px;
+
+    U[用户 / 运营 / 管理员]:::source --> A[Web / App / API 入口]:::source
+    A --> G[网关 / 鉴权 / 限流]:::process
+    G --> B[业务编排层]:::process
+
+    B --> C1[订单服务]:::process
+    B --> C2[库存服务]:::process
+    B --> C3[支付服务]:::process
+    B --> C4[通知服务]:::process
+    B --> C5[报表服务]:::process
+
+    C1 --> D1[(订单库)]:::store
+    C2 --> D2[(库存库)]:::store
+    C3 --> D3[(支付库)]:::store
+    C5 --> D4[(分析仓库)]:::store
+
+    C1 --> E{库存是否充足}:::decision
+    E -- 是 --> F1[锁定库存]:::process
+    E -- 否 --> F2[返回缺货结果]:::output
+
+    F1 --> P{支付是否成功}:::decision
+    C3 --> P
+    P -- 是 --> F3[生成订单 / 出库 / 通知]:::process
+    P -- 否 --> F4[释放库存 / 关闭订单]:::process
+
+    F3 --> C4
+    C4 --> O1[短信 / 邮件 / 站内信]:::output
+    F3 --> C5
+    C5 --> O2[经营报表 / 监控看板]:::output
+
+    D1 -.同步.-> C5
+    D2 -.同步.-> C5
+    D3 -.同步.-> C5

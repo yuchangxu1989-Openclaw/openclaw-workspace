@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-03-08T00:28:59.297Z",
+  "job": "CRAS-D-战略行研与产品规划",
+  "sourceFile": "skills/cras/insights/insight_1772879384513_7sjv.json",
+  "research": {
+    "queryCount": 0,
+    "queries": [],
+    "insightCount": 0,
+    "sourceQuality": {
+      "domains": [],
+      "academic": 0,
+      "docs": 0,
+      "vendor": 0,
+      "community": 0
+    }
+  },
+  "local": {
+    "manualQueueBacklog": 3838,
+    "staleWarningCount": 444,
+    "taskSummary": {
+      "total": 1367,
+      "statusCount": {
+        "open": 3,
+        "doing": 1,
+        "pending": 1360,
+        "unknown": 3
+      },
+      "recent": [
+        {
+          "file": "cras_d_a3_生成-feishu-doc-友好的结构化材料.json",
+          "mtime": 1772929257833.3918,
+          "title": "cras_d_a3_生成-feishu-doc-友好的结构化材料.json",
+          "status": "open",
+          "priority": "P1"
+        },
+        {
+          "file": "cras_d_a4_把研究结论接入-tracker-todo-lto-任务树.json",
+          "mtime": 1772929257833.3918,
+          "title": "cras_d_a4_把研究结论接入-tracker-todo-lto-任务树.json",
+          "status": "open",
+          "priority": "P0"
+        },
+        {
+          "file": "cras_d_a1_把研究源从二手社区文扩展到学术-官方优先采样.json",
+          "mtime": 1772929257832.392,
+          "title": "cras_d_a1_把研究源从二手社区文扩展到学术-官方优先采样.json",
+          "status": "open",
+          "priority": "P1"
+        },
+        {
+          "file": "cras_d_a2_将研究结论绑定本地执行压力与积压.json",
+          "mtime": 1772929257832.392,
+          "title": "cras_d_a2_将研究结论绑定本地执行压力与积压.json",
+          "status": "doing",
+          "priority": "P0"
+        },
+        {
+          "file": "task_1772881227774_43mu.json",
+          "mtime": 1772881501894.809,
+          "title": "day2-top3",
+          "status": "pending",
+          "priority": "unknown"
+        },
+        {
+          "file": "task_1772880908090_2rnj.json",
+          "mtime": 1772881201335.3535,
+          "title": "day2-top3",
+          "status": "pending",
+          "priority": "unknown"
+        },
+        {
+          "file": "task_1772880605910_7i4z.json",
+          "mtime": 1772880901360.9973,
+          "title": "day2-top3",
+          "status": "pending",
+          "priority": "unknown"
+        },
+        {
+          "file": "task_1772880307352_dtmo.json",
+          "mtime": 1772880602908.6628,
+          "title": "day2-top3",
+          "status": "pending",
+          "priority": "unknown"
+        }
+      ]
+    },
+    "trackerOpenSignals": 25,
+    "todoCount": 0,
+    "routeCount": 66
+  },
+  "actions": [
+    {
+      "id": "A1",
+      "title": "把研究源从二手社区文扩展到学术/官方优先采样",
+      "basis": "当前最新研究命中 academic=0, docs=0, community=0",
+      "localGap": "现有 research-*.json 以 Medium/LinkedIn/博客聚合为主，学术与官方文档占比偏低。",
+      "execution": "在 CRAS-D 查询生成中增加 arXiv/OpenReview/GitHub/docs 厂商文档优先模板，并对社区文章降权。",
+      "verification": "下一版 research 输出中 academic+docs 命中数 > community。"
+    },
+    {
+      "id": "A2",
+      "title": "将研究结论绑定本地执行压力与积压",
+      "basis": "manual-queue backlog=3838, stale=444, recent DTO tasks=1367",
+      "localGap": "现有洞察文件偏外部趋势总结，缺少对 manual-queue、DTO任务、tracker 遗留的直接映射。",
+      "execution": "生成 insight-action-map，把每条洞察映射到 backlog 清理、路由补齐、监控口径修复或 roadmap 任务。",
+      "verification": "报告中每条建议必须含本地缺口字段与验证命令。"
+    },
+    {
+      "id": "A3",
+      "title": "生成 Feishu Doc 友好的结构化材料",
+      "basis": "当前 CRAS 报告多为 JSON，飞书可读性弱。",
+      "localGap": "缺少统一 Markdown/Doc 模板、关键指标表、任务卡片和执行清单。",
+      "execution": "输出 markdown + summary.json 双产物；markdown 采用飞书标题、表格、任务卡风格。",
+      "verification": "生成 report markdown，可直接写入 Feishu Doc。"
+    },
+    {
+      "id": "A4",
+      "title": "把研究结论接入 Tracker / todo / DTO 任务树",
+      "basis": "todo_items=0, tracker_open_signals=25",
+      "localGap": "研究模块未持续把战略建议沉淀成项目管理对象。",
+      "execution": "从报告中输出 action cards，明确 owner、目标文件、验证命令，供 project-mgmt / DTO 直接消费。",
+      "verification": "summary.json 中 actions 数组可被脚本化读取。"
+    }
+  ]
+}

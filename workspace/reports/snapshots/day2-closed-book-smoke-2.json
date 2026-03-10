@@ -1,0 +1,33 @@
+{
+  "id": "day2-closed-book-smoke-2",
+  "lockedAt": "2026-03-07T10:58:26.537Z",
+  "checksum": "eyJhdHRlc3RhdGlvbl9wcmVzZW50Ijp0",
+  "data": {
+    "attestation_present": true,
+    "closed_book_eval": {
+      "enabled": true,
+      "no_hardcoded_evalset": true,
+      "no_reference_reads": true,
+      "forbidden_paths_checked": [
+        "reports/"
+      ],
+      "evidence": [
+        "smoke-evidence"
+      ]
+    }
+  },
+  "closed_book_status": "PASS",
+  "evidence_count": 1,
+  "forbidden_source_hits": 0,
+  "attestation_present": true,
+  "forbidden_source_hit_details": [],
+  "release_evidence": {
+    "required": true,
+    "default_for": "release_preflight",
+    "closed_book_status": "PASS",
+    "evidence_count": 1,
+    "forbidden_source_hits": 0,
+    "attestation_present": true
+  },
+  "release_preflight_required": true
+}

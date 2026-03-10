@@ -1,0 +1,104 @@
+{
+  "date": "2026年3月10日星期二",
+  "timestamp": "2026-03-10T01:00:30.950Z",
+  "healthScore": 95,
+  "healthLevel": "🟢 健康",
+  "summary": {
+    "skills": "55/55 健康",
+    "systemFiles": "4/4 完整",
+    "git": "104 未提交, 29 未推送",
+    "cron": "运行中",
+    "disk": "20% 使用率"
+  },
+  "details": {
+    "skillsHealth": {
+      "total": 55,
+      "healthy": 55,
+      "issues": [
+        {
+          "skill": "evomap-a2a",
+          "severity": "info",
+          "message": "Node模块未安装"
+        },
+        {
+          "skill": "evomap-publisher",
+          "severity": "info",
+          "message": "Node模块未安装"
+        },
+        {
+          "skill": "feishu-evolver-wrapper",
+          "severity": "info",
+          "message": "Node模块未安装"
+        },
+        {
+          "skill": "lep-executor",
+          "severity": "info",
+          "message": "Node模块未安装"
+        },
+        {
+          "skill": "lto-core",
+          "severity": "info",
+          "message": "Node模块未安装"
+        }
+      ]
+    },
+    "systemFiles": {
+      "healthy": 4,
+      "total": 4,
+      "issues": []
+    },
+    "gitStatus": {
+      "uncommitted": 104,
+      "unpushed": 29,
+      "dirty": true
+    },
+    "cronStatus": {
+      "service": "active",
+      "healthy": true
+    },
+    "diskSpace": {
+      "total": "118G",
+      "used": "22G",
+      "available": "92G",
+      "usagePercent": 20,
+      "healthy": true
+    }
+  },
+  "issues": [
+    {
+      "skill": "evomap-a2a",
+      "severity": "info",
+      "message": "Node模块未安装",
+      "category": "技能"
+    },
+    {
+      "skill": "evomap-publisher",
+      "severity": "info",
+      "message": "Node模块未安装",
+      "category": "技能"
+    },
+    {
+      "skill": "feishu-evolver-wrapper",
+      "severity": "info",
+      "message": "Node模块未安装",
+      "category": "技能"
+    },
+    {
+      "skill": "lep-executor",
+      "severity": "info",
+      "message": "Node模块未安装",
+      "category": "技能"
+    },
+    {
+      "skill": "lto-core",
+      "severity": "info",
+      "message": "Node模块未安装",
+      "category": "技能"
+    }
+  ],
+  "stats": {
+    "criticalIssues": 0,
+    "warnings": 5,
+    "totalIssues": 5
+  }
+}

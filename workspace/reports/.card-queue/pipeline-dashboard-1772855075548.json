@@ -1,0 +1,59 @@
+{
+  "type": "pipeline-dashboard",
+  "card": {
+    "config": {
+      "wide_screen_mode": true
+    },
+    "header": {
+      "title": {
+        "tag": "plain_text",
+        "content": "🔴 Agent运营仪表盘 — CRITICAL"
+      },
+      "template": "red"
+    },
+    "elements": [
+      {
+        "tag": "markdown",
+        "content": "**🔴 CRITICAL** | 评分: **88/100** | 告警 ⬇️-1"
+      },
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "markdown",
+        "content": "⚪ **🧠意图** no_data ⚠️1\n🟢 **⚖️决策** healthy \n🟢 **⚡执行** healthy \n🟢 **🎯效果** healthy \n🔴 **🏥系统** critical ⚠️1"
+      },
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "markdown",
+        "content": "**评分分解:**\n🟢 breaker_safety: 100\n🟡 aeo_quality: 76"
+      },
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "markdown",
+        "content": "**关键指标:**\n🧠 意图: 0请求 | 命中率0%\n⚖️ 决策: 111条 | 置信度1.00\n⚡ 分发: 0次 | 成功率0%\n🏥 资源: 内存89% | 磁盘14%"
+      },
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "markdown",
+        "content": "**🚨 告警:**\nℹ️ [L1] 意图识别模块无运行时数据\n🔴 [L5] 内存使用率 89%"
+      },
+      {
+        "tag": "note",
+        "elements": [
+          {
+            "tag": "plain_text",
+            "content": "2026/3/7 11:44:35 | 窗口1h | autonomous-pipeline-monitor"
+          }
+        ]
+      }
+    ]
+  },
+  "snapshot_status": "critical"
+}

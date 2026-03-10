@@ -1,0 +1,110 @@
+{
+  "status": "BLOCKED",
+  "report": "reports/aeo/day2-gap3-2026-03-07T03-52-45-191Z.json",
+  "tribunal": "reports/tribunal/day2-gap3-2026-03-07T03-52-45-191Z-tribunal.md",
+  "trigger": "isc.rule.created",
+  "timestamp": "2026-03-09T17:35:02.104Z",
+  "summary": {
+    "gateReady": false,
+    "functionalQuality": {
+      "pipelineBenchmarkPassed": false,
+      "eventDispatchE2EPassed": false,
+      "benchmark": {},
+      "e2eSignal": "fail",
+      "passRate": 0.5
+    },
+    "badcaseCount": 14,
+    "closedLoop": [
+      "真实数据集执行",
+      "自动化报告生成",
+      "badcase根因分析",
+      "裁决殿裁决材料生成"
+    ]
+  },
+  "badcases": [
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-001**: Rules: expected >=2, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-004**: Rules: expected >=3, got 1 (actual: rules=1, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-006**: Rules: expected >=1, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-008**: Rules: expected >=1, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-009**: Rules: expected >=1, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-010**: Rules: expected >=1, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-017**: Rules: expected >=2, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-018**: Rules: expected >=2, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-019**: Rules: expected >=6, got 1 (actual: rules=1, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-021**: Rules: expected >=3, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-022**: Rules: expected >=3, got 1 (actual: rules=1, breaks=1, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-027**: Rules: expected >=3, got 1 (actual: rules=1, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-029**: Rules: expected >=1, got 0 (actual: rules=0, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    },
+    {
+      "category": "rule-matching",
+      "evidence": "- **PB-031**: Rules: expected >=7, got 1 (actual: rules=1, breaks=0, dispatches=0)",
+      "rootCause": "规则覆盖不足、条件评估偏差或数据集期望与现实现状不一致",
+      "action": "核对规则集、修正条件表达式，并把真实 case 回灌黄金集"
+    }
+  ]
+}

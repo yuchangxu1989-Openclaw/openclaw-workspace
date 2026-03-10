@@ -1,0 +1,973 @@
+[
+  {
+    "name": "_shared",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "paths.js",
+        "pattern": "\\/root\\/"
+      }
+    ]
+  },
+  {
+    "name": "aeo",
+    "distribution": "local",
+    "local_indicators": [
+      "skills\\/aeo\\/",
+      "\\/root\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 107,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "skills\\/aeo\\/"
+      },
+      {
+        "file": "evaluation-sets/eval_1772046931828_g4oqgl7io.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "evaluation-sets/eval_1772046931828_g4oqgl7io.json",
+        "pattern": "skills\\/aeo\\/"
+      },
+      {
+        "file": "evaluation-sets/eval_1772046981635_n2nakzo12.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "evaluation-sets/eval_1772046981635_n2nakzo12.json",
+        "pattern": "skills\\/aeo\\/"
+      },
+      {
+        "file": "evaluation-sets/修复建议报告.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "evaluation-sets/修复建议报告.md",
+        "pattern": "skills\\/aeo\\/"
+      },
+      {
+        "file": "evaluation-sets/执行报告.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "evaluation-sets/执行报告.md",
+        "pattern": "skills\\/aeo\\/"
+      },
+      {
+        "file": "src/evaluation/DELIVERY-REPORT.md",
+        "pattern": "\\/root\\/"
+      }
+    ]
+  },
+  {
+    "name": "agent-mode-enforcer",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 1,
+    "hit_details": []
+  },
+  {
+    "name": "api",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 4,
+    "hit_details": []
+  },
+  {
+    "name": "api-aggregator",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "capability-anchor",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 1,
+    "hit_details": []
+  },
+  {
+    "name": "cogvideo",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "cogview",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "convert-helper",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "cras",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "skills\\/cras\\/",
+      "openclaw\\.json",
+      "skills\\/lto-core\\/",
+      "memory\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 93,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "SKILL.md",
+        "pattern": "skills\\/cras\\/"
+      },
+      {
+        "file": "insights/README.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "insights/README.md",
+        "pattern": "skills\\/cras\\/"
+      },
+      {
+        "file": "insights/user-insight-2026-03-01.json",
+        "pattern": "skills\\/cras\\/"
+      },
+      {
+        "file": "modules/zhipu-embedding.js",
+        "pattern": "openclaw\\.json"
+      },
+      {
+        "file": "reports/timeout-fix-report.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "reports/timeout-fix-report.md",
+        "pattern": "skills\\/lto-core\\/"
+      },
+      {
+        "file": "reports/timeout-fix-report.md",
+        "pattern": "skills\\/cras\\/"
+      },
+      {
+        "file": "reports/user-insight-2026-02-28-full.json",
+        "pattern": "memory\\/"
+      }
+    ]
+  },
+  {
+    "name": "cras-generated-1771827136412",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "cras-generated-1771827197478",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "cras-generated-1772042431830",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "cras-generated-1772128853925",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "daily-ops-report",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "cron\\/jobs\\.json"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 1,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "SKILL.md",
+        "pattern": "cron\\/jobs\\.json"
+      }
+    ]
+  },
+  {
+    "name": "lto-core",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "skills\\/lto-core\\/",
+      "memory\\/",
+      "skills\\/isc-core\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 153,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "core/event-consumer.js",
+        "pattern": "skills\\/lto-core\\/"
+      },
+      {
+        "file": "core/global-auto-decision-pipeline.js",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "core/isc-lto-aligner.js",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "lib/root-cause-analyzer.js",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "subscriptions/isc-N034.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "subscriptions/isc-N034.json",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "subscriptions/isc-N035.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "subscriptions/isc-N035.json",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "subscriptions/isc-rule-auto-evomap-sync-trigger-001.json",
+        "pattern": "\\/root\\/"
+      }
+    ]
+  },
+  {
+    "name": "etl",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 4,
+    "hit_details": []
+  },
+  {
+    "name": "evolver",
+    "distribution": "local",
+    "local_indicators": [
+      "memory\\/",
+      "openclaw\\.json",
+      "MEMORY\\.md"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 60,
+    "hit_details": [
+      {
+        "file": "README.md",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "README.md",
+        "pattern": "openclaw\\.json"
+      },
+      {
+        "file": "README.zh-CN.md",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "README.zh-CN.md",
+        "pattern": "openclaw\\.json"
+      },
+      {
+        "file": "scripts/build_public.js",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "src/evolve.js",
+        "pattern": "MEMORY\\.md"
+      },
+      {
+        "file": "src/evolve.js",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "src/evolve.js",
+        "pattern": "openclaw\\.json"
+      },
+      {
+        "file": "src/gep/analyzer.js",
+        "pattern": "MEMORY\\.md"
+      },
+      {
+        "file": "src/gep/prompt.js",
+        "pattern": "MEMORY\\.md"
+      }
+    ]
+  },
+  {
+    "name": "evomap-a2a",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 4,
+    "hit_details": []
+  },
+  {
+    "name": "evomap-publisher",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 6,
+    "hit_details": [
+      {
+        "file": "README.md",
+        "pattern": "\\/root\\/"
+      }
+    ]
+  },
+  {
+    "name": "evomap-uploader",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 19,
+    "hit_details": []
+  },
+  {
+    "name": "feishu-chat-backup",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "skills\\/isc-core\\/",
+      "skills\\/lto-core\\/",
+      "skills\\/cras\\/",
+      "cron\\/jobs\\.json",
+      "openclaw\\.json",
+      "MEMORY\\.md",
+      "skills\\/aeo\\/",
+      "memory\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 8,
+    "hit_details": [
+      {
+        "file": "logs/feishu-chat-2026-02-24_to_2026-02-27.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "logs/feishu-chat-2026-02-24_to_2026-02-27.md",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "logs/feishu-chat-2026-02-24_to_2026-02-27.md",
+        "pattern": "skills\\/lto-core\\/"
+      },
+      {
+        "file": "logs/feishu-chat-2026-02-24_to_2026-02-27.md",
+        "pattern": "skills\\/cras\\/"
+      },
+      {
+        "file": "logs/feishu-chat-2026-02-24_to_2026-02-27.md",
+        "pattern": "cron\\/jobs\\.json"
+      },
+      {
+        "file": "logs/feishu-chat-2026-02-24_to_2026-02-27.md",
+        "pattern": "openclaw\\.json"
+      },
+      {
+        "file": "logs/feishu-chat-2026-02-25_to_2026-02-28.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "logs/feishu-chat-2026-02-25_to_2026-02-28.md",
+        "pattern": "MEMORY\\.md"
+      },
+      {
+        "file": "logs/feishu-chat-2026-02-25_to_2026-02-28.md",
+        "pattern": "skills\\/aeo\\/"
+      },
+      {
+        "file": "logs/feishu-chat-2026-03-01_to_2026-03-04.md",
+        "pattern": "MEMORY\\.md"
+      }
+    ]
+  },
+  {
+    "name": "feishu-evolver-wrapper",
+    "distribution": "local",
+    "local_indicators": [
+      "memory\\/",
+      "MEMORY\\.md"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 25,
+    "hit_details": [
+      {
+        "file": "cleanup.js",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "index.js",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "lifecycle.js",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "report.js",
+        "pattern": "MEMORY\\.md"
+      },
+      {
+        "file": "report.js",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "trigger.js",
+        "pattern": "memory\\/"
+      }
+    ]
+  },
+  {
+    "name": "feishu-report-sender",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "skills\\/cras\\/",
+      "memory\\/",
+      "openclaw\\.json"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 6,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "SKILL.md",
+        "pattern": "skills\\/cras\\/"
+      },
+      {
+        "file": "queue/backup_20260227-1903.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "queue/backup_20260227-1903.json",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "queue/backup_20260227-231821.json",
+        "pattern": "memory\\/"
+      },
+      {
+        "file": "queue/backup_20260227-231821.json",
+        "pattern": "openclaw\\.json"
+      }
+    ]
+  },
+  {
+    "name": "file-downloader",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "file-sender",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": [
+      {
+        "file": "package.json",
+        "pattern": "\\/root\\/"
+      }
+    ]
+  },
+  {
+    "name": "github-api",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "glm-4v",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "glm-asr",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "glm-image",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "glm-ocr",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "glm-tts",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "glm-video",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "glm-vision",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "isc-capability-anchor-sync",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "skills\\/isc-core\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "SKILL.md",
+        "pattern": "skills\\/isc-core\\/"
+      }
+    ]
+  },
+  {
+    "name": "isc-core",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "skills\\/isc-core\\/",
+      "MEMORY\\.md",
+      "skills\\/aeo\\/",
+      "skills\\/lto-core\\/",
+      "skills\\/cras\\/",
+      "memory\\/",
+      "cron\\/jobs\\.json",
+      "openclaw\\.json",
+      "\\/home\\/",
+      "~\\/.openclaw"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 178,
+    "hit_details": [
+      {
+        "file": ".watch-state.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": ".watch-state.json",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "README.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "config/unified-standards.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "config/unified-standards.json",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "rules/_deprecated/memory-loss-self-recovery-N036.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "rules/_deprecated/memory-loss-self-recovery-N036.json",
+        "pattern": "MEMORY\\.md"
+      },
+      {
+        "file": "rules/_deprecated/memory-loss-self-recovery-N036.json",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "rules/_deprecated/rule.aeo-evaluation-set-registry-001.json",
+        "pattern": "skills\\/aeo\\/"
+      },
+      {
+        "file": "rules/rule.auto-github-sync-trigger-001.json",
+        "pattern": "skills\\/isc-core\\/"
+      }
+    ]
+  },
+  {
+    "name": "isc-document-quality",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 4,
+    "hit_details": [
+      {
+        "file": "README.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      }
+    ]
+  },
+  {
+    "name": "lep-executor",
+    "distribution": "local",
+    "local_indicators": [
+      "skills\\/isc-core\\/",
+      "skills\\/lto-core\\/",
+      "skills\\/cras\\/",
+      "cron\\/jobs\\.json",
+      "\\/root\\/",
+      "MEMORY\\.md",
+      "openclaw\\.json"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 22,
+    "hit_details": [
+      {
+        "file": "docs/ARCHITECTURE.md",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE.md",
+        "pattern": "skills\\/lto-core\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE.md",
+        "pattern": "skills\\/cras\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE.md",
+        "pattern": "cron\\/jobs\\.json"
+      },
+      {
+        "file": "docs/INTEGRATION.md",
+        "pattern": "cron\\/jobs\\.json"
+      },
+      {
+        "file": "docs/ROADMAP.md",
+        "pattern": "skills\\/lto-core\\/"
+      },
+      {
+        "file": "docs/ROADMAP.md",
+        "pattern": "skills\\/cras\\/"
+      },
+      {
+        "file": "reports/isc-lto-handshake-report-2026-02-28T15-39-39-476Z.json",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "reports/isc-lto-handshake-report-2026-02-28T15-39-39-476Z.json",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "reports/isc-lto-handshake-report-2026-02-28T15-39-39-476Z.json",
+        "pattern": "skills\\/lto-core\\/"
+      }
+    ]
+  },
+  {
+    "name": "caijuedian-tribunal",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "new-skill",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 4,
+    "hit_details": []
+  },
+  {
+    "name": "new-skill-v2",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 4,
+    "hit_details": []
+  },
+  {
+    "name": "parallel-subagent",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "paths-center",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 1,
+    "hit_details": []
+  },
+  {
+    "name": "pdca-engine",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "pdf-generator",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      }
+    ]
+  },
+  {
+    "name": "rule-hygiene",
+    "distribution": "local",
+    "local_indicators": [
+      "skills\\/isc-core\\/",
+      "skills\\/lto-core\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 1,
+    "hit_details": [
+      {
+        "file": "SKILL.md",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "SKILL.md",
+        "pattern": "skills\\/lto-core\\/"
+      }
+    ]
+  },
+  {
+    "name": "seef",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "skills\\/lto-core\\/",
+      "skills\\/isc-core\\/",
+      "skills\\/cras\\/",
+      "skills\\/aeo\\/",
+      "MEMORY\\.md"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 176,
+    "hit_details": [
+      {
+        "file": "DEPLOYMENT_GUIDE.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "DEPLOYMENT_GUIDE.md",
+        "pattern": "skills\\/lto-core\\/"
+      },
+      {
+        "file": "IMPLEMENTATION_REPORT.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "SKILL.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE.md",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE.md",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE.md",
+        "pattern": "skills\\/lto-core\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE_UPDATE_SUMMARY.md",
+        "pattern": "skills\\/isc-core\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE_UPDATE_SUMMARY.md",
+        "pattern": "skills\\/lto-core\\/"
+      },
+      {
+        "file": "docs/ARCHITECTURE_UPDATE_SUMMARY.md",
+        "pattern": "skills\\/cras\\/"
+      }
+    ]
+  },
+  {
+    "name": "system-monitor",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/"
+    ],
+    "has_skill_md": true,
+    "files_scanned": 4,
+    "hit_details": [
+      {
+        "file": "reports/skill-health-report.json",
+        "pattern": "\\/root\\/"
+      }
+    ]
+  },
+  {
+    "name": "tavily-search",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "test-skill-for-seef",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 3,
+    "hit_details": []
+  },
+  {
+    "name": "verify-test-skill",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 4,
+    "hit_details": []
+  },
+  {
+    "name": "zhipu-image-gen",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  },
+  {
+    "name": "zhipu-keys",
+    "distribution": "local",
+    "local_indicators": [
+      "\\/root\\/",
+      "openclaw\\.json"
+    ],
+    "has_skill_md": false,
+    "files_scanned": 1,
+    "hit_details": [
+      {
+        "file": "index.js",
+        "pattern": "\\/root\\/"
+      },
+      {
+        "file": "index.js",
+        "pattern": "openclaw\\.json"
+      }
+    ]
+  },
+  {
+    "name": "zhipu-vision",
+    "distribution": "publishable",
+    "local_indicators": [],
+    "has_skill_md": true,
+    "files_scanned": 2,
+    "hit_details": []
+  }
+]

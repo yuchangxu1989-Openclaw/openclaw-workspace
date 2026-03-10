@@ -1,0 +1,26 @@
+{
+  "eval_id": "e2e-l1-glm-5-2026-03-09-1845",
+  "level": "l1",
+  "timestamp": "2026-03-09T10:45:10.504Z",
+  "total": 1,
+  "offset": 0,
+  "dry_run": false,
+  "test_model": "glm-5",
+  "judge_model": "glm-5",
+  "test_model_requested": "glm-5",
+  "judge_model_requested": "glm-5",
+  "l1_pass": 0,
+  "l1_accuracy": 0,
+  "results": [
+    {
+      "case_id": "mined-002",
+      "l1": {
+        "correct": false,
+        "score": 0,
+        "status": "parse_error",
+        "actual_intent": "用户要求主Agent停止直接执行任务，转而专注于任务调度与分解，并指派子Agent完成具体工作。",
+        "actual_response": "系统应立即停止直接编写代码，将修复任务拆解并分配给子Agent执行，主Agent仅负责统筹调度与结果验收。"
+      }
+    }
+  ]
+}

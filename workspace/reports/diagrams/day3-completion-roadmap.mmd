@@ -1,0 +1,43 @@
+%%{init: {"theme": "base", "themeVariables": {"background": "#ffffff", "primaryColor": "#DCEBFF", "primaryTextColor": "#1F2937", "primaryBorderColor": "#5B8FF9", "lineColor": "#6B7280", "secondaryColor": "#E8F5E9", "tertiaryColor": "#FFF3D6", "fontFamily": "Arial, PingFang SC, Microsoft YaHei, sans-serif", "fontSize": "16px", "clusterBkg": "#F8FAFC", "clusterBorder": "#CBD5E1"}} }%%
+flowchart TB
+    START[Day3 起点\n先收尾 再扩张] --> P1
+
+    subgraph PH1[阶段一：止血与基础收尾]
+      P1[修复 / 禁用异常 Cron\n目标：0 error 状态]
+      P2[统一 Test Runner\n目标：一键回归入口]
+      P3[AEO 评测 Day2 交付物\n目标：形成质量门禁]
+      P4[凌霄阁裁决 Day2\n目标：正式出结论]
+    end
+
+    subgraph PH2[阶段二：结构完备化]
+      P5[3 个核心 Cron 事件驱动重塑\n主路径 EventBus，Cron 仅兜底]
+      P6[五层运营日报首版\n从 Dev 指标转向 Agent 运营指标]
+    end
+
+    subgraph PH3[阶段三：生产化验证]
+      P7[L3 Pipeline 接入真实事件流\n从 shadow 切到 active]
+      P8[真实链路 E2E 验证\nISC 变更 → DTO → Dispatcher → Handler]
+      P9[Day3 AEO + 凌霄阁裁决\n形成闭环验收]
+    end
+
+    subgraph OUT[最终验收结果]
+      O1[0 个 error Cron]
+      O2[Day2 / Day3 均有正式质量裁决]
+      O3[事件驱动主路径成型]
+      O4[五层运营看板可用]
+      O5[至少 1 条真实事件端到端跑通]
+    end
+
+    P1 --> P2 --> P3 --> P4
+    P4 ==> P5 ==> P6 ==> P7 ==> P8 ==> P9
+    P9 ==> OUT
+
+    DQ[遗留长尾\nE2E 超时 / 待接入指标 / 功能性依赖] -.持续清理.-> P9
+
+    classDef route fill:#F3E8FF,stroke:#7C3AED,color:#1F2937,stroke-width:1.5px;
+    classDef exec fill:#E8F5E9,stroke:#2E7D32,color:#1F2937,stroke-width:1.5px;
+    classDef risk fill:#FDE2E1,stroke:#C0392B,color:#1F2937,stroke-width:1.4px;
+
+    class START,P1,P2,P3,P4,P5,P6,P7,P8,P9 route;
+    class O1,O2,O3,O4,O5 exec;
+    class DQ risk;

@@ -1,0 +1,16 @@
+{
+  "rule": "rule.cron-task-model-requirement-001",
+  "timestamp": "2026-03-09T15:04:27.699Z",
+  "summary": {
+    "status": "blocked",
+    "defaultModel": null,
+    "violationCount": 1
+  },
+  "violations": [
+    {
+      "file": "skills/lto-core/config/cron/api-probe-health.json",
+      "id": "api-probe-health.json",
+      "hasDefaultFallback": false
+    }
+  ]
+}
