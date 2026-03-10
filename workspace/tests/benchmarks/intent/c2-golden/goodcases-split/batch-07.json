@@ -19,7 +19,10 @@
       "动态更新执行看板，统一口径为90%可执行覆盖",
       "验证子Agent任务状态与新目标一致性，回传确认"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-007",
@@ -41,7 +44,10 @@
       "将汇报协议固化到执行流程，确保每轮自动触发推送",
       "验证首次自动汇报执行效果，确认无需用户催促"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-008",
@@ -63,7 +69,10 @@
       "执行路由分派，将匹配任务下发到对应Agent",
       "收集执行反馈，验证路由策略有效性并迭代优化"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-009",
@@ -85,7 +94,10 @@
       "建立规则自动展开链路：规则声明→事件注册→意图绑定→执行流程",
       "验证新规则自动展开效果，确认全链路生效"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-010",
@@ -107,7 +119,10 @@
       "重放关键上下文，避免因切换导致的承诺丢失或重复回复",
       "验证承诺事项闭环，确认高优先级指令执行完整性"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-001",
@@ -129,7 +144,10 @@
       "补充测试用例，验证深检逻辑正确性",
       "提交代码变更，确保规则落地而非仅停留在声明层面"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-002",
@@ -151,7 +169,10 @@
       "识别缺失事件、意图MECE问题、DTO/AEO/CRAS/LEP对齐缺口",
       "生成审计报告，按P0/P1/P2优先级输出改造顺序"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-003",
@@ -173,7 +194,10 @@
       "更新代码实现fallback链路，替换字段比对降级逻辑",
       "验证fallback chain执行效果，确认语义判定不中断"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-004",
@@ -195,7 +219,10 @@
       "实现阶段标注逻辑，避免提前定性为'完成'",
       "验证汇报时序治理效果，确保状态与runtime一致"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-005",
@@ -217,6 +244,9 @@
       "建立规则声明—handler实现—触发路径三方一致性检查机制",
       "验证检查机制生效，防止'纸面合规'问题复发"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

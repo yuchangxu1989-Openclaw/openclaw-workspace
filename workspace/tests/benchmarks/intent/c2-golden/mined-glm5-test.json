@@ -22,7 +22,9 @@
       "partial": "创建了跟踪文件但规则未固化到MEMORY/ISC，或需要用户确认才推进",
       "badcase": "只回复'好的我会注意'而未创建任何持久化文件；或等用户具体说要创建什么文件"
     },
-    "north_star_indicator": "自主闭环率"
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-glm5-test-002",
@@ -47,7 +49,9 @@
       "partial": "减少了询问但仍在非决策点等待用户确认，或未将纠偏沉淀为规则",
       "badcase": "继续询问用户是否需要执行；或理解了纠偏但下一个任务又恢复询问模式"
     },
-    "north_star_indicator": "自主闭环率"
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-glm5-test-003",
@@ -72,7 +76,9 @@
       "partial": "列出了任务但分析粒度不够（如只笼统说'需要改造'而无具体方案），或未覆盖全部任务",
       "badcase": "只分析了部分任务而声称'全部分析完毕'；或不读真实代码只凭文档推测影响面"
     },
-    "north_star_indicator": "认知层真实代码覆盖率"
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-glm5-test-004",
@@ -97,7 +103,9 @@
       "partial": "理解了流程要求但只写了MEMORY未创建ISC规则，或未更新模板",
       "badcase": "口头承诺'后续会遵循'但未做任何持久化；或将AEO评测重要性降级为普通任务"
     },
-    "north_star_indicator": "言出法随达成率"
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-glm5-test-005",
@@ -122,7 +130,9 @@
       "partial": "认识到需要升级但方案只覆盖2-3层，或未给出具体改造步骤",
       "badcase": "继续在Dev视角优化而忽略Agent运营视角；或方案脱离代码实际仅做理论设计"
     },
-    "north_star_indicator": "认知层真实代码覆盖率"
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-glm5-test-007",
@@ -147,7 +157,9 @@
       "partial": "最终降级成功但触发阈值过高（如4次才降级），或未创建ISC规则",
       "badcase": "等待用户干预才切换provider；或降级后不记录事件不建规则"
     },
-    "north_star_indicator": "自主闭环率"
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-glm5-test-008",
@@ -166,7 +178,11 @@
       "后续spawn子agent时根据任务类型选择合适模型（核心用thinking，工具性用codex）",
       "向用户确认已掌握可用资源，后续不再询问"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别为资源发现能力缺失，执行：①读取openclaw.json获取已配置的模型/provider列表；②整理可用资源清单（Claude Opus thinking/gpt-5.3-codex boom渠道等）；③在MEMORY.md中记录模型路由规则；④后续spawn子agent时根据任务类型选择合适模型",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-glm5-test-009",
@@ -185,7 +201,11 @@
       "改造CRAS-A：修改prompt要求每条洞察必须标注数据来源URL，禁止编造，无真实来源标注'知识推断'",
       "创建ISC规则：所有洞察/报告类产出必须标注数据来源，违反即判定为Badcase"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别为数据诚实性违规，执行：①检查CRAS-A cron配置确认是否有真实搜索调用；②分析洞察内容判断是真实搜索还是LLM生成；③标记违反数据诚实性红线；④改造CRAS-A：必须标注数据来源，无真实来源就标'知识推断'",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-glm5-test-010",
@@ -205,6 +225,10 @@
       "创建ISC规则：cron配置禁止硬编码不可用命令，必须使用当前环境可用的工具",
       "验证修改后的cron能正常执行"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别为硬编码依赖失效问题，执行：①检查cron配置中的硬编码命令；②验证命令在当前环境是否可用；③将硬编码改为可用工具调用（web_search）；④更新cron配置并验证；⑤创建规则禁止cron中硬编码不可用命令",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

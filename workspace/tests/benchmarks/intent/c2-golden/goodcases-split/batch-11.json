@@ -19,7 +19,10 @@
       "检查权限成员列表含目标用户",
       "记录证据后再承诺。"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-007",
@@ -41,7 +44,10 @@
       "批量派发",
       "质量门禁禁止新增未全链路规则入主分支。"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-008",
@@ -64,7 +70,10 @@
       "派独立QA Agent复核绕过提交的变更内容",
       "补偿任务完成后解除分支风险标记并验真"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-009",
@@ -87,7 +96,10 @@
       "为每条待迁移规则生成handler骨架代码",
       "验真：新规则入库后自动执行handler确认可运行"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-010",
@@ -110,7 +122,10 @@
       "派发到coder子Agent执行程序化改造",
       "设置完成追踪与验收标准（通过率/回归测试）"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-001",
@@ -133,7 +148,10 @@
       "对异常任务执行自动收敛（重试/拆分/标记失败）",
       "按true_occupied_key/free_key/queued/abnormal四维口径输出可审计汇报"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-002",
@@ -156,7 +174,10 @@
       "通过后格式化写入飞书文档",
       "回读飞书文档校验最终内容完整性"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-003",
@@ -179,7 +200,10 @@
       "不合规case自动拦截并记录拦截原因",
       "输出符合C2≥80%/真实对话≥80%/多轮≥80%配比约束的评测样本"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-004",
@@ -202,7 +226,10 @@
       "若仅文本承诺无工具证据则判失败并重派子Agent",
       "确认有效完成后再进入主流程下一环节"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-005",
@@ -225,6 +252,9 @@
       "保留证据链确保每条结论可复核",
       "输出最终材料并推送至飞书文档"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

@@ -17,7 +17,11 @@
       "写入crontab每10分钟自动巡检",
       "回跑守卫脚本确认无未响应告警"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统完成告警分组统计→根因分析→批量标记已响应→新增alert-response-guard与alert-auto-rootcause脚本→接入cron并验证。交付含可审计文件与日志证据。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-002",
@@ -36,7 +40,11 @@
       "创建auto-sync.js",
       "输出创建成功并进入后续链路验证"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: dispatcher增加下划线→连字符fallback解析；新增log-only/quality-gate/auto-sync三个handler文件；回归验证可加载。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-003",
@@ -55,7 +63,11 @@
       "在不可spawn时仅处理pending日志并defer到runtime",
       "保留reap/drain/republish能力确保队列健康"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 识别cron环境无runtime API的架构约束，修改dispatch-runner在cron下跳过spawn，仅执行reap/drain/republish并打印defer日志。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-004",
@@ -74,7 +86,11 @@
       "再次扫描确认unresolved=0",
       "输出可审计完成状态"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 通过脚本批量写入alert-responses.jsonl，按rule_id落地resolution说明，并运行guard返回‘所有告警已响应’。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-005",
@@ -93,7 +109,11 @@
       "记录运行日志到alert-auto-rootcause.log",
       "接入crontab定期执行"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 新增自动根因分析器：扫描未响应告警、按rule聚合、输出RCA模板、critical自动写事件总线，并接入周期执行。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-006",
@@ -112,7 +132,11 @@
       "将因果关系写入告警处置说明",
       "执行分层响应并闭环记录"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 给出两类告警时间共现证据与上游-下游因果链，先处理intent侧噪音阈值问题，再解释breaker连带触发。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-007",
@@ -131,7 +155,11 @@
       "固化执行频率与锁文件防并发",
       "用一次真实扫描验收流程"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 除本次修复外，新增可复用守卫脚本、报告文件、响应日志格式与定时触发机制，形成制度化流程。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-008",
@@ -150,7 +178,11 @@
       "上线自动增量巡检cron",
       "验证当前状态与未来机制并存"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 先确认最后告警时间与现状，再清理历史未响应记录，同时建立增量自动检测链路。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-009",
@@ -169,7 +201,11 @@
       "接入系统级cron调度",
       "回跑验证全链路状态"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 在不同模块完成代码变更并保持链路一致：解析兼容、调度降级、告警治理、自动RCA与计划任务。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-21572393-010",
@@ -188,6 +224,10 @@
       "对未通过项继续迭代",
       "输出最终通过结论与证据"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 每个关键动作需有工具调用产物（edit/write/exec）与结果校验（脚本输出、状态检查）；最终形成可审计闭环。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

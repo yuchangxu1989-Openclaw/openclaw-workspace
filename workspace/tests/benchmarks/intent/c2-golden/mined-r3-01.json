@@ -15,7 +15,11 @@
       "输出修正后的根因报告",
       "沉淀规则：汇报数据必须与runtime真值一致，禁止经验推断替代实查"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应：①立即承认认知错误，不狡辩；②重新执行根因分析，基于真实runtime数据（subagents list查询actual model/channel）定位空转原因；③排查opus渠道下子Agent声称完成但未实际写入的真实原因（phantom write）；④更新根因报告并沉淀防护规则：汇报前必须核实渠道/模型归属，禁止套用历史经验替代runtime真值。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-002",
@@ -33,7 +37,11 @@
       "产出根因报告写入workspace",
       "主动推送结论给用户"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应在识别到问题的同一回复中自动spawn根因分析子Agent，而非停在'我发现了问题'等用户推动。正确行为：①识别问题→②同一turn内spawn RCA任务→③子Agent执行四层根因分析（代码/规则/认知/架构）→④产出报告并推送用户。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-003",
@@ -51,7 +59,11 @@
       "自动启动清洗流程（而非问用户'要不要清洗'）",
       "输出审计报告推送用户"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应诚实审计每批次评测集的生成过程，区分哪些读了V3标准、哪些没有，给出精确数字而非笼统回答。正确行为：①逐批次审计prompt是否包含V3标准读取步骤；②分类统计（有V3保障 vs 无V3保障）；③对无保障批次标记质量风险；④主动提出清洗方案而非等用户决策。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-004",
@@ -69,7 +81,11 @@
       "汇总清洗结果并推送用户",
       "将此模式沉淀为ISC规则：发现质量问题自动修复不请示"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应在发现380条不合格后立即启动清洗，不应请示用户。V3标准原则4明确：用户决策点仅限命名确认和重大架构拍板，清洗已知不合格数据不属于用户决策点。正确行为：汇报问题→同一turn内派并行清洗任务→产出清洗报告。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-005",
@@ -87,7 +103,11 @@
       "立即执行清洗任务",
       "向用户确认已纠偏并展示防护措施"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应：①立即识别用户纠偏并承认错误模式；②将此纠偏事件自动沉淀为评测case写入评测集（C2-自主性缺失类）；③建立防护规则：发现已知质量问题后必须自动修复，禁止反问用户；④同步执行清洗任务（不再等待）。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-006",
@@ -105,7 +125,11 @@
       "运行v3-eval-clean.js验证case合规性",
       "推送用户确认已自动纳入"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应在发现新的C2级问题模式（phantom write）时自动生成评测case并纳入评测集，无需用户提醒。正确行为：①RCA完成→②自动识别为可采集的C2场景（交付质量类）→③生成评测case→④追加到评测集→⑤向用户确认。V3标准要求C2评测用例8类自动采集率≥90%。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-007",
@@ -123,7 +147,11 @@
       "对失败任务重派（prompt中硬约束必须调用write工具）",
       "沉淀completion验收规则：自述不可信，必须验证产出物存在"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应：①对所有子Agent完成态建立postcondition验证（检查文件实际存在性，不信任自述）；②识别失败pattern（read→分析→跳过write→宣告完成）vs成功pattern（read→分析→write→宣告完成）；③对失败任务自动重派并添加prompt硬约束'必须调用write工具'；④沉淀为系统级防护规则。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-008",
@@ -141,7 +169,11 @@
       "更新eval-mining技能的SKILL.md强制要求先读V3",
       "向用户汇报清理结果和防护措施"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别这是对评测集生成全链路的根因性批评：问题不在清洗脚本不够好，而在评测集从一开始就没有对齐V3标准（标准与生成脚本两张皮）。正确反应：①识别元问题（标准本身vs执行脱节）；②对所有非V3生成的case执行彻底清洗/归档而非修补；③建立程序化门禁确保未来生成必须先读V3标准；④不为旧评测集辩护。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-009",
@@ -159,7 +191,11 @@
       "全量重跑清洗脚本验证修改效果",
       "输出修正后的清洗报告"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应理解：多轮对话中的纠偏指令往往是短句（如'继续'、'直接修复'、'这又是个Badcase'），但结合上下文它们承载完整的C2语义。清洗脚本不应以input字符长度作为质量判据。正确行为：①从脚本中移除input长度检查规则；②恢复被误杀的短句纠偏case；③重跑全量验证。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r3-01-010",
@@ -177,6 +213,10 @@
       "发现条数异常时从.bak恢复并重试",
       "将写入防护逻辑固化到v3-eval-clean.js脚本中"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应：①清洗操作前自动备份原文件（.bak）；②清洗写回时校验条数一致性（写入条数≥原始条数）；③发现条数骤降时自动回滚到备份；④不依赖子Agent自述'误覆盖了'——应有程序化防护（写前备份+写后条数校验+自动回滚）。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

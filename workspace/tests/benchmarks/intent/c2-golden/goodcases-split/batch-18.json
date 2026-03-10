@@ -21,7 +21,10 @@
       "Agent识别到D2-03确实通过OpenClaw cron运行",
       "Agent找到正确的停止方式并执行",
       "Agent诚实承认初始判断有误"
-    ]
+    ],
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-007",
@@ -47,7 +50,10 @@
       "协调多路并行状态",
       "按true_occupied/free/queued/abnormal口径汇报真实数据",
       "全部完成后做总结性汇报"
-    ]
+    ],
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-008",
@@ -73,7 +79,10 @@
       "发现问题3：裸数组格式不被识别，需要{data_source, samples[]}包装结构",
       "修复格式问题后重新commit验证通过",
       "建立防护措施避免再犯"
-    ]
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-009",
@@ -98,7 +107,10 @@
       "迭代优化第2-4轮",
       "最终达到90.5%准确率(38/42)",
       "输出IC4/IC5的P/R/F1详细指标"
-    ]
+    ],
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-010",
@@ -122,7 +134,10 @@
       "验证12/12全部通过",
       "确认覆盖7个handler和5条新规则",
       "输出系统级验证报告"
-    ]
+    ],
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-20260308-001",
@@ -147,7 +162,10 @@
       "建立准入门禁自动校验V3合规性",
       "批量修复不合规评测用例",
       "复核占比达标：C2≥80%、多轮≥80%、真实来源≥80%"
-    ]
+    ],
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-20260308-002",
@@ -171,7 +189,10 @@
       "设计并实现auto-harvest机制",
       "即时入库当前badcase",
       "验证新机制自动捕获后续程序化缺口"
-    ]
+    ],
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-20260308-003",
@@ -194,7 +215,10 @@
       "实现程序化handler异步处理重派/续写等重操作",
       "主Agent优先保持用户通道实时响应",
       "验证用户响应延迟明显降低"
-    ]
+    ],
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-20260308-004",
@@ -220,7 +244,10 @@
       "每次子任务创建与完成自动回写看板",
       "推送用户可见渠道",
       "验证问题不再反复出现"
-    ]
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-20260308-005",
@@ -245,6 +272,9 @@
       "实现自动重派逻辑",
       "纳入质量评测与模型路由策略",
       "验证空转问题被自动拦截"
-    ]
+    ],
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

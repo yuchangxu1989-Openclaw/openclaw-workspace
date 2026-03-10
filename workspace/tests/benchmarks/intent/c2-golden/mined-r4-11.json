@@ -16,7 +16,11 @@
       "将phantom write问题沉淀为badcase入库（交付质量类）",
       "汇报根因分析和解决方案，承诺后续清洗任务只派coder"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应立即识别为系统性质量问题：①分析8路失败的原因（agent差异、write工具调用情况）；②发现只有coder agent能稳定写回JSON，其他agent全军覆没；③定位根因是phantom write（声称执行但未实际调用工具）；④创建程序化清洗脚本替代LLM手动清洗；⑤将问题沉淀为badcase入库（phantom-write类）。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-002",
@@ -35,7 +39,11 @@
       "恢复.bak文件重跑全量，验证修复后合格率变化",
       "更新技能文档，说明真实对话场景特点：input短+context完整=合格"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别规则设计缺陷并立即修正：①承认input长度检查本身是错误设计（真实用户纠偏就是短句+上下文）；②删除input长度检查规则而非调整阈值；③重跑全量验证修复效果；④更新技能文档说明真实对话场景特点。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-003",
@@ -54,7 +62,11 @@
       "计算缺口：166条合格，距500目标差334条",
       "提出补量方案：继续挖主session更深层 / 等待更多真实对话积累"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应诚实汇报清洗结果并给出行动建议：①承认存量V2数据schema完全不匹配V3，不值得修复；②确认R2是真实底牌（220条中166条合格）；③建议归档存量769条；④计算缺口（距500目标差334条）并提出补量方案。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-004",
@@ -73,7 +85,11 @@
       "派coder执行修复：改v3-eval-clean.js逻辑 + 修改4条case的category字段",
       "预期修复后R2的220条接近100%合格"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应分析不合格原因并给出修复方案：①识别50条steps是数字格式（值≥4，实际合格）而非数组格式；②识别4条category需要映射到八类；③修改脚本兼容数字格式；④程序化修复category映射；⑤重跑验证后应接近100%合格。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-005",
@@ -92,7 +108,11 @@
       "提出补量思路：深层挖掘 / 子Agent失败badcase / 等待积累",
       "询问用户优先方向"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应诚实评估日志矿藏：①确认主session 3个已挖完（11M+6.9M+4.9M）；②说明子Agent 84个session缺用户纠偏上下文，C2质量会低很多；③提出补量思路：继续挖主session更深层 / 挖子Agent失败session的badcase / 等待更多真实对话。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-006",
@@ -111,7 +131,11 @@
       "汇报真实多轮评测集 = R2的220条 + mined约15条 ≈ 235条",
       "承认存量数据质量问题，支持归档决策"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应精确统计多轮对话分布：①全量1048条中multi_turn=true只有235条（22.4%）；②R2的220条100%是多轮；③存量813条连multi_turn字段都没有；④承认存量V2数据schema缺陷严重。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-007",
@@ -130,7 +154,11 @@
       "承诺后续所有评测活动以V3为唯一依据，不再自建标准",
       "将此教训记录到MEMORY.md作为长期记忆"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应承认V4之前没有用户校准的质量基线：①承认V2标准是自己瞎搞的，没有用户参与校准；②解释为什么会产生大量不合格数据；③强调V4标准是用户参与制定的宪法级文档；④后续所有评测活动必须以V3为唯一依据。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-008",
@@ -149,7 +177,11 @@
       "输出真实统计：每个文件多少条合格、多少条垃圾、什么原因",
       "更新技能文档，记录程序化清洗方式"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应立即行动而非解释：①创建程序化清洗脚本替代LLM手动清洗；②脚本硬编码V3规则（8条检查）；③添加安全门（备份+条数校验+回滚）；④立即对失败文件执行清洗；⑤输出真实统计数据。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-009",
@@ -168,7 +200,11 @@
       "计算真实底牌：~265条，合格约170条（调阈值/修格式后）",
       "诚实汇报，不隐瞒数据质量问题"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应精确盘点底牌：①R2有220条，62条完全合格，158条有flag但0缺字段；②mined-from-memory 35条约15条能用；③存量769条100%不合格是垃圾；④真实底牌约265条，合格约170条；⑤调阈值/修格式后R2合格率可提升到85-90%。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-11-010",
@@ -187,6 +223,10 @@
       "欢迎用户转发早期聊天记录（飞书/其他渠道）",
       "说明早期对话里的纠偏/教学/认知校准是最高质量C2素材"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应快速定位日志起点：①查main session最早是2026-03-05 20:09；②3个主session覆盖3月5日-9日；③3月5日之前没有日志；④欢迎用户转发早期聊天记录，那些早期纠偏/教学/认知校准是最高质量素材。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

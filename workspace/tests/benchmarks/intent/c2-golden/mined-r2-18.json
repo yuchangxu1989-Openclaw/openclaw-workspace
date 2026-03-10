@@ -18,7 +18,11 @@
       "sessions_spawn并发派发8个子任务",
       "汇总并向用户回传并行态势"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 主Agent先读取设计文档并拆分模块A-G+总线统一化，再按关键度分配不同agent/model（关键模块用high thinking），并发spawn>=8个子任务，完成后持续汇总并向用户可见渠道同步进展与产物。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-002",
@@ -39,7 +43,11 @@
       "其余模块调用sessions_spawn并指定codex",
       "输出带模型标注的并行看板"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应完成‘任务分级→模型映射→执行下发→状态追踪’闭环：将condition-evaluator与cras-intent-extractor识别为关键模块，指定high thinking；其余模块走codex，且在汇报中标注agent/model。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-003",
@@ -60,7 +68,11 @@
       "统一兼容约束与接口",
       "计划集成验证避免修A坏B"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在一个工作流内跨模块协同（event-bus + isc + cras + handler执行层）：先统一接口约束，再并行实现模块，最后进入集成验真与回归，不得停留在单模块交付。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-004",
@@ -81,7 +93,11 @@
       "继续推进主链并发任务",
       "统一汇总后对用户更新"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应正确处理异步工作流：识别同一workflow的未完成子任务，避免过早定稿；对已完成支线（cron诊断）先归档并可见化，再等待主链结果汇总。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-005",
@@ -102,7 +118,11 @@
       "回传用户可读状态面板",
       "后续按面板追踪完成情况"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应输出结构化并行态势表（模块/agent/model/thinking/状态），并确保状态基于真实运行而非口头承诺，支持后续追责与调度。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-006",
@@ -123,7 +143,11 @@
       "并发下发并执行",
       "按同一标准验收"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应在每个子任务prompt中强制‘先读对应章节再实现’，并包含接口兼容、错误处理、提交要求；防止子Agent凭记忆偏航。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-007",
@@ -144,7 +168,11 @@
       "在主线程总结核心发现",
       "保持主链并行不阻塞"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应把支线结果转为用户可见交付（发送文件+消息ID），并在主流程汇报中摘要关键结论与风险项，不因主链繁忙忽略外部同步。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-008",
@@ -165,7 +193,11 @@
       "补充单元测试与错误策略",
       "提交并进入集成验证"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别该任务为高风险认知层改造，要求子Agent处理DSL扩展、兼容性与测试；不能仅做局部修补。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-009",
@@ -186,7 +218,11 @@
       "统一总线接口与兼容策略",
       "准备E2E链路验真"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统需完成从需求到执行的跨域映射：感知层生产者建设、认知层规则评估增强、执行层handler实执行、总线熔断/去重/回压联动，形成可运行闭环。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-18-010",
@@ -207,6 +243,10 @@
       "执行独立复审/集成验真",
       "向用户交付终态结论"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 应建立‘派发-执行-产物-验真-汇报’链路：spawn仅是起点，必须跟进子任务结果回收、质量复审、对用户输出最终可交付结论。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

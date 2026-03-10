@@ -1,13 +1,7 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.2",
-    "lastTouchedAt": "2026-03-09T17:37:59.647Z"
-  },
-  "wizard": {
-    "lastRunAt": "2026-03-09T17:37:59.600Z",
-    "lastRunVersion": "2026.3.2",
-    "lastRunCommand": "doctor",
-    "lastRunMode": "local"
+    "lastTouchedVersion": "2026.3.1",
+    "lastTouchedAt": "2026-03-02T13:38:00.000Z"
   },
   "models": {
     "mode": "merge",
@@ -1028,14 +1022,14 @@
         "zhipu-worker-05/glm-5": {},
         "zhipu-worker-06/glm-5": {}
       },
-      "workspace": "/root/.openclaw/workspace",
       "subagents": {
         "maxConcurrent": 24,
         "maxSpawnDepth": 2,
         "maxChildrenPerAgent": 20,
         "archiveAfterMinutes": 120,
         "runTimeoutSeconds": 0
-      }
+      },
+      "workspace": "/root/.openclaw/workspace"
     },
     "list": [
       {
@@ -1060,7 +1054,11 @@
           "deny": [
             "write",
             "edit",
-            "apply_patch"
+            "apply_patch",
+            "feishu_bitable_create_record",
+            "feishu_bitable_update_record",
+            "feishu_bitable_create_field",
+            "feishu_bitable_create_app"
           ]
         }
       },
@@ -1076,7 +1074,7 @@
           ]
         },
         "identity": {
-          "name": "洞察分析师",
+          "name": "系统架构师",
           "emoji": "🔍"
         }
       },
@@ -1140,8 +1138,8 @@
           ]
         },
         "identity": {
-          "name": "系统架构师",
-          "emoji": "📐"
+          "name": "洞察分析师",
+          "emoji": "📊"
         }
       },
       {
@@ -1149,7 +1147,7 @@
         "name": "scout",
         "agentDir": "/root/.openclaw/agents/scout/agent",
         "model": {
-          "primary": "claude-scout/claude-opus-4-6-thinking",
+          "primary": "claude-scout/claude-opus-4-6",
           "fallbacks": [
             "boom-scout/gpt-5.3-codex",
             "zhipu-scout/glm-5"
@@ -1253,7 +1251,7 @@
         },
         "identity": {
           "name": "分析师-02",
-          "emoji": "📐"
+          "emoji": "📊"
         }
       },
       {
@@ -1413,6 +1411,14 @@
       }
     }
   },
+  "plugins": {
+    "enabled": true,
+    "entries": {
+      "feishu": {
+        "enabled": true
+      }
+    }
+  },
   "gateway": {
     "port": 18789,
     "mode": "local",
@@ -1420,14 +1426,6 @@
     "auth": {
       "mode": "token",
       "token": "3b2536af0fa208383b2af461f7585f4c8176fe198361ade4"
-    }
-  },
-  "plugins": {
-    "enabled": true,
-    "entries": {
-      "feishu": {
-        "enabled": true
-      }
     }
   }
 }

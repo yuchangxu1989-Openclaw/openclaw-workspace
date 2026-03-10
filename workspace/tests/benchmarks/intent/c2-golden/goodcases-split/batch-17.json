@@ -19,7 +19,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-17-007",
@@ -41,7 +44,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-17-008",
@@ -63,7 +69,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-17-009",
@@ -85,7 +94,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-17-010",
@@ -107,7 +119,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-001",
@@ -130,7 +145,10 @@
       "自动并行派子Agent处理未完成条件",
       "汇报真实状态而非假设状态"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-002",
@@ -154,7 +172,10 @@
       "重跑验证38/38恢复",
       "commit并汇报根因"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-003",
@@ -177,7 +198,10 @@
       "不粉饰数据",
       "提出改进方案从真实对话中提取"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-004",
@@ -200,7 +224,10 @@
       "不反复追问已经回答过的问题",
       "快速执行不磨叽"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r2-19-005",
@@ -222,6 +249,9 @@
       "子Agent应先提取截图文字再做标注",
       "不应仅依赖memory/下的md摘要文件"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

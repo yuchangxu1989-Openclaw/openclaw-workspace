@@ -16,7 +16,11 @@
       "触发E2E验真：模拟timeout并验证自动收敛为done",
       "沉淀ISC规则并对用户汇报可见结果"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应立即识别为C2级机制缺陷，自动触发跨模块修复链：①意图层将‘单次异常追问’升级识别为‘机制建设请求’；②事件层注册timeout事件及补偿事件；③调度层创建并行任务（排查现状、补偿策略实现、回归验真）；④执行层完成自动扩列+重试+拆分策略落地；⑤看板与用户可见通道同步状态；⑥验真层确认timeout任务全部收敛到done并形成长期规则。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-002",
@@ -35,7 +39,11 @@
       "复核结果并关闭异常项",
       "输出用户可见报告与后续防复发规则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应自动补齐‘heartbeat→异常治理’闭环：在完成heartbeat后追加timeout扫描，若发现异常自动进入补偿流水线，不等待用户二次催促。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-003",
@@ -54,7 +62,11 @@
       "执行回归测试覆盖多种timeout场景",
       "发布并监控新策略命中率"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应建立统一timeout收敛状态机（replace→split_requeue→human_handoff仅末级），并确保任务队列状态持续刷新直至done。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-004",
@@ -73,7 +85,11 @@
       "将纠偏沉淀为ISC规则",
       "向用户回报完成证据而非计划"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应在首次识别到机制缺口时自动立项并执行，不以‘要不要继续’向用户反问，除非涉及命名/重大架构拍板。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-005",
@@ -92,7 +108,11 @@
       "若出现回归自动回滚并二次修复",
       "输出最终稳定版本与监控指标"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应执行跨模块联动修复：调度技能、意图分类、事件映射、执行编排、验真与看板推送同步升级。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-006",
@@ -111,7 +131,11 @@
       "独立验真确认问题消失",
       "固化为自动规则防止复发"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应从猜测式解释切换为证据驱动：直接读取日志/队列/worker状态，给出根因矩阵并启动修复。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-007",
@@ -130,7 +154,11 @@
       "回放历史样本进行回归验证",
       "发布后持续监控复发率"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应将本次纠偏自动归档为可复用badcase，并新增对应C2评测与线上守卫，确保同类超时问题不再反复未果。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-008",
@@ -149,7 +177,11 @@
       "附带失败重试与拆分证据",
       "最终确认全量done并归档"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统需保证处置全过程用户可见：任务注册、状态更新、done收敛证据均推送到用户通道，而非仅内部执行。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-009",
@@ -168,7 +200,11 @@
       "验真职责边界修正后是否生效",
       "记录新规则并纳入评测"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应纠正自身任务边界认知：heartbeat不只是巡检，还应触发异常治理分支，做到从认知到执行的一致。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r2-01-010",
@@ -187,6 +223,10 @@
       "发布并开启监控告警",
       "向用户提交完成报告与证据链接"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应自动生成并执行‘机制升级实施单’：含改造项、负责人子任务、验真标准、上线后监控，完成后回传证据。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

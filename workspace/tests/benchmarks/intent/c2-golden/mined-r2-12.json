@@ -16,7 +16,11 @@
       "执行自动收敛动作（replace/split_requeue/标记失败）",
       "按四维口径生成最终汇报并回传用户"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统先调用subagents list获取runtime真值，再做spawn/running差异比对，定位queued/abnormal根因，执行自动收敛（重试/拆分/标失败），最后按true_occupied_key/free_key/queued/abnormal四维口径输出可审计汇报。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-002",
@@ -35,7 +39,11 @@
       "写入/更新飞书文档",
       "回读飞书确认内容生效并向用户汇报"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应跨会话读取子Agent历史消息，抽取关键产物，执行结构与一致性审查，不通过则回退重整，最终写入飞书并可回读校验。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-003",
@@ -54,7 +62,11 @@
       "按8类category做MECE归类与配比控制",
       "输出最终case集并记录不合规拦截原因"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统先读取标准文档，按口径过滤候选case，执行来源真实性与难度分级校验，不合规自动拦截，输出符合配比约束的评测样本。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-004",
@@ -73,7 +85,11 @@
       "失败则自动重派或更换agent",
       "通过后推进主任务并同步用户"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应先取子Agent状态与结果证据（状态done+有有效输出），若仅文本承诺无工具证据则判失败并重派，确认后再进入主链。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-005",
@@ -92,7 +108,11 @@
       "生成高管版PPT素材结构",
       "交付后进行可追溯性复核"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统需跨模块完成：聚合多子任务结果、统一论证框架、保留来源映射（哪条结论来自哪个子会话），输出可复核的最终材料。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-006",
@@ -111,7 +131,11 @@
       "更新调度策略（继续/替换/重试）",
       "输出结构化进度+决策说明"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统基于subagents运行元数据生成解释型进度报告，比较不同模型与耗时/产出，标注风险项并给出后续调度决策。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-007",
@@ -130,7 +154,11 @@
       "若达标则进入下一主步骤",
       "回报“为何继续/为何返工”的依据"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应先读取指定session最近消息，依据内容判断是继续、返工还是切换agent；并把判定依据透明回报给用户。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-008",
@@ -149,7 +177,11 @@
       "校验字段完整性与难度一致性",
       "输出可追溯case清单"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统从指定日志窗口抽取可证据化片段，构造case时写明session来源与位置线索，确保可审计追溯。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-009",
@@ -168,7 +200,11 @@
       "更新任务状态为usable_done",
       "向用户汇报修复闭环"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在完成态后追加可用性验真，若不达标自动进入替换执行链，并在最终汇报中区分“完成”与“可用完成”。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-12-010",
@@ -187,6 +223,10 @@
       "执行交付后回读验真",
       "输出闭环报告并结束"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应自主串联调度（subagents）、验证（history/质量门禁）、交付（飞书文档）三模块，除决策点外不中断推进，最终一次性回传结果。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

@@ -18,7 +18,11 @@
       "重写脚本与准入门禁（写入前合规校验）",
       "对600+条全量重分类/删改并输出复核报告"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统先读取V3标准并确认约束，再全量审计现有评测集，定位脚本与标准脱节根因，重写生成/准入门禁，最后按新标准批量修复并复核占比（C2/多轮/真实来源）。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-002",
@@ -39,7 +43,11 @@
       "补录当前badcase并标注证据",
       "新增或排期auto-badcase-harvest程序化能力"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应自动识别程序化缺口并即时入库badcase，无需用户追问；若未自动记录，应进行根因分析并补齐auto-harvest机制。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-003",
@@ -60,7 +68,11 @@
       "实时回传用户当前进度与风险",
       "审计响应延迟并沉淀防阻塞规则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: completion event处理应轻量化并自动化，主Agent优先保持用户通道实时响应；重派/续写等重操作应由程序化handler异步完成。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-004",
@@ -81,7 +93,11 @@
       "若任一步缺失自动告警并补偿",
       "复盘反复触发点并固化为强制hook"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: spawn与register/update应原子绑定；每次子任务创建与完成都自动回写看板并推送用户可见渠道，禁止靠记忆补动作。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-005",
@@ -102,7 +118,11 @@
       "将失败样本写入badcase与路由黑名单",
       "复审最终产物并确认真实执行证据"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应以工具调用证据作为执行门槛，空转自动判失败并重派，且纳入质量评测与模型路由策略。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-006",
@@ -123,7 +143,11 @@
       "关联已有ISC规则或新建规则",
       "回执用户入库编号与后续治理计划"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应在用户纠偏触发时自动完成badcase归档（含message_id、上下文、根因、修复动作），并可追踪到规则更新状态。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-007",
@@ -144,7 +168,11 @@
       "执行失败时回传环境根因而非泛化错误",
       "更新调度模板防止同类再次发生"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 调度层应根据任务依赖自动选择sandbox=inherit，并在派发前校验路径可达性，避免执行后才发现环境不匹配。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-008",
@@ -165,7 +193,11 @@
       "reviewer独立审查不通过则自动重派",
       "通过后再交付并沉淀门禁规则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 质量门禁不仅检查'是否执行步骤'，还要验证净化完成度（无历史残留、无重复拼接、章节结构正确），不达标自动重写闭环。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-009",
@@ -186,7 +218,11 @@
       "修订规则并补充自动验真",
       "复跑历史样本验证拦截率提升"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统需评估规则有效执行率（命中率/拦截率），将'有规则'升级为'规则可执行且有效'，并持续验真。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-REAL-20260308-010",
@@ -207,6 +243,10 @@
       "分阶段上线并做端到端回归",
       "向用户回报三项能力同时生效证据"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应进行跨模块根因归并，给出统一程序化改造方案，而非逐条手工补丁；最终实现超时收敛、自动归档与通信解耦协同生效。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

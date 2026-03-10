@@ -288,5 +288,65 @@
     "status": "pending",
     "queued_at": "2026-03-10T08:34:53.239Z",
     "original_task_summary": "HTTP 520服务暂不可用,但agent-role核查已确认边界P2已解决,不再重试"
+  },
+  {
+    "label": "v3-to-v4-migrate-batch2",
+    "original_agentId": "scout",
+    "original_model": "claude-scout/claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T09:43:15.200Z",
+    "original_task_summary": "scout工作区没有skills/scripts目录,需要指定主workspace路径"
+  },
+  {
+    "label": "v3-to-v4-migrate-docs",
+    "original_agentId": "scout",
+    "original_model": "claude-scout/claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T09:45:51.616Z",
+    "original_task_summary": "scout工作区是空模板,目标文件都在主workspace,需要用绝对路径重派"
+  },
+  {
+    "label": "test-path-fail",
+    "original_agentId": "unknown",
+    "original_model": "unknown",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T10:23:36.396Z",
+    "original_task_summary": ""
+  },
+  {
+    "label": "test-boom",
+    "original_agentId": "unknown",
+    "original_model": "unknown",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T10:23:55.935Z",
+    "original_task_summary": ""
+  },
+  {
+    "label": "test-timeout",
+    "original_agentId": "unknown",
+    "original_model": "unknown",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T10:24:09.789Z",
+    "original_task_summary": ""
+  },
+  {
+    "label": "git-token-test",
+    "original_agentId": "coder",
+    "original_model": "claude-coder/claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "timeout",
+    "status": "pending",
+    "queued_at": "2026-03-10T14:53:23.487Z",
+    "original_task_summary": "33分钟无响应,需重试"
   }
 ]

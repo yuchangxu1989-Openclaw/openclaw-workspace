@@ -1029,8 +1029,7 @@
         "archiveAfterMinutes": 120,
         "runTimeoutSeconds": 0
       },
-      "workspace": "/root/.openclaw/workspace",
-      "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+      "workspace": "/root/.openclaw/workspace"
     },
     "list": [
       {
@@ -1055,10 +1054,13 @@
           "deny": [
             "write",
             "edit",
-            "apply_patch"
+            "apply_patch",
+            "feishu_bitable_create_record",
+            "feishu_bitable_update_record",
+            "feishu_bitable_create_field",
+            "feishu_bitable_create_app"
           ]
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "researcher",
@@ -1074,8 +1076,7 @@
         "identity": {
           "name": "系统架构师",
           "emoji": "🔍"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "coder",
@@ -1091,76 +1092,71 @@
         "identity": {
           "name": "开发工程师",
           "emoji": "💻"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "reviewer",
         "name": "reviewer",
         "agentDir": "/root/.openclaw/agents/reviewer/agent",
         "model": {
-          "primary": "boom-reviewer/gpt-5.3-codex",
+          "primary": "claude-reviewer/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-reviewer/claude-opus-4-6-thinking",
+            "boom-reviewer/gpt-5.3-codex",
             "zhipu-reviewer/glm-5"
           ]
         },
         "identity": {
           "name": "质量仲裁官",
           "emoji": "🔎"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "writer",
         "name": "writer",
         "agentDir": "/root/.openclaw/agents/writer/agent",
         "model": {
-          "primary": "boom-writer/gpt-5.3-codex",
+          "primary": "claude-writer/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-writer/claude-opus-4-6-thinking",
+            "boom-writer/gpt-5.3-codex",
             "zhipu-writer/glm-5"
           ]
         },
         "identity": {
           "name": "创作大师",
           "emoji": "✍️"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "analyst",
         "name": "analyst",
         "agentDir": "/root/.openclaw/agents/analyst/agent",
         "model": {
-          "primary": "boom-analyst/gpt-5.3-codex",
+          "primary": "claude-analyst/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-analyst/claude-opus-4-6-thinking",
+            "boom-analyst/gpt-5.3-codex",
             "zhipu-analyst/glm-5"
           ]
         },
         "identity": {
           "name": "洞察分析师",
           "emoji": "📊"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "scout",
         "name": "scout",
         "agentDir": "/root/.openclaw/agents/scout/agent",
         "model": {
-          "primary": "boom-scout/gpt-5.3-codex",
+          "primary": "claude-scout/claude-opus-4-6",
           "fallbacks": [
-            "claude-scout/claude-opus-4-6",
+            "boom-scout/gpt-5.3-codex",
             "zhipu-scout/glm-5"
           ]
         },
         "identity": {
           "name": "情报专家",
           "emoji": "🎯"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "cron-worker",
@@ -1176,8 +1172,7 @@
         "identity": {
           "name": "定时任务执行者",
           "emoji": "⏰"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "researcher-02",
@@ -1193,8 +1188,7 @@
         "identity": {
           "name": "架构师-02",
           "emoji": "🔍"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "coder-02",
@@ -1210,161 +1204,151 @@
         "identity": {
           "name": "工程师-02",
           "emoji": "💻"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "reviewer-02",
         "name": "reviewer-02",
         "agentDir": "/root/.openclaw/agents/reviewer-02/agent",
         "model": {
-          "primary": "boom-reviewer-02/gpt-5.3-codex",
+          "primary": "claude-reviewer-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-reviewer-02/claude-opus-4-6-thinking",
+            "boom-reviewer-02/gpt-5.3-codex",
             "zhipu-reviewer-02/glm-5"
           ]
         },
         "identity": {
           "name": "仲裁官-02",
           "emoji": "🔎"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "writer-02",
         "name": "writer-02",
         "agentDir": "/root/.openclaw/agents/writer-02/agent",
         "model": {
-          "primary": "boom-writer-02/gpt-5.3-codex",
+          "primary": "claude-writer-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-writer-02/claude-opus-4-6-thinking",
+            "boom-writer-02/gpt-5.3-codex",
             "zhipu-writer-02/glm-5"
           ]
         },
         "identity": {
           "name": "创作师-02",
           "emoji": "✍️"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "analyst-02",
         "name": "analyst-02",
         "agentDir": "/root/.openclaw/agents/analyst-02/agent",
         "model": {
-          "primary": "boom-analyst-02/gpt-5.3-codex",
+          "primary": "claude-analyst-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-analyst-02/claude-opus-4-6-thinking",
+            "boom-analyst-02/gpt-5.3-codex",
             "zhipu-analyst-02/glm-5"
           ]
         },
         "identity": {
           "name": "分析师-02",
           "emoji": "📊"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "scout-02",
         "name": "scout-02",
         "agentDir": "/root/.openclaw/agents/scout-02/agent",
         "model": {
-          "primary": "boom-scout-02/gpt-5.3-codex",
+          "primary": "claude-scout-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-scout-02/claude-opus-4-6-thinking",
+            "boom-scout-02/gpt-5.3-codex",
             "zhipu-scout-02/glm-5"
           ]
         },
         "identity": {
           "name": "侦察兵-02",
           "emoji": "🔭"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "cron-worker-02",
         "name": "cron-worker-02",
         "agentDir": "/root/.openclaw/agents/cron-worker-02/agent",
         "model": {
-          "primary": "boom-cron-worker-02/gpt-5.3-codex",
+          "primary": "claude-cron-worker-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-cron-worker-02/claude-opus-4-6-thinking",
+            "boom-cron-worker-02/gpt-5.3-codex",
             "zhipu-cron-worker-02/glm-5"
           ]
         },
         "identity": {
           "name": "定时器-02",
           "emoji": "⏰"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "worker-03",
         "name": "worker-03",
         "agentDir": "/root/.openclaw/agents/worker-03/agent",
         "model": {
-          "primary": "boom-main-02/gpt-5.3-codex",
+          "primary": "claude-worker-03/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-worker-03/claude-opus-4-6-thinking",
+            "boom-main-02/gpt-5.3-codex",
             "zhipu-worker-03/glm-5"
           ]
         },
         "identity": {
           "name": "执行者-02",
           "emoji": "⚡"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "worker-04",
         "name": "worker-04",
         "agentDir": "/root/.openclaw/agents/worker-04/agent",
         "model": {
-          "primary": "boom-main-03/gpt-5.3-codex",
+          "primary": "claude-worker-04/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-worker-04/claude-opus-4-6-thinking",
+            "boom-main-03/gpt-5.3-codex",
             "zhipu-worker-04/glm-5"
           ]
         },
         "identity": {
           "name": "执行者-03",
           "emoji": "⚡"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "worker-05",
         "name": "worker-05",
         "agentDir": "/root/.openclaw/agents/worker-05/agent",
         "model": {
-          "primary": "boom-main-04/gpt-5.3-codex",
+          "primary": "claude-worker-05/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-worker-05/claude-opus-4-6-thinking",
+            "boom-main-04/gpt-5.3-codex",
             "zhipu-worker-05/glm-5"
           ]
         },
         "identity": {
           "name": "执行者-04",
           "emoji": "⚡"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "worker-06",
         "name": "worker-06",
         "agentDir": "/root/.openclaw/agents/worker-06/agent",
         "model": {
-          "primary": "boom-main-05/gpt-5.3-codex",
+          "primary": "claude-worker-06/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-worker-06/claude-opus-4-6-thinking",
+            "boom-main-05/gpt-5.3-codex",
             "zhipu-worker-06/glm-5"
           ]
         },
         "identity": {
           "name": "执行者-05",
           "emoji": "⚡"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       }
     ]
   },

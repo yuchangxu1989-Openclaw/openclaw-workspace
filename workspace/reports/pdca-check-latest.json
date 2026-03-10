@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-03-10T08:00:26.674Z",
+  "timestamp": "2026-03-10T22:19:49.035Z",
   "version": "2.0.0",
   "metrics": {
     "concurrencyUtil": {
       "label": "并发利用率",
-      "actual": 0.4737,
-      "target": 0.6,
-      "gap": -0.1263,
+      "actual": 0.8421,
+      "target": 0.9,
+      "gap": -0.0579,
       "status": "warn",
       "detail": {
-        "actual": 0.4737,
-        "peakRunning": 9,
+        "actual": 0.8421,
+        "peakRunning": 16,
         "limit": 19
       }
     },
@@ -28,24 +28,22 @@
     },
     "taskGranularity": {
       "label": "单任务粒度",
-      "actual": 1,
+      "actual": 0,
       "target": 10,
-      "gap": 9,
+      "gap": 10,
       "status": "ok",
       "detail": {
-        "actual": 1,
-        "sampledTasks": 1,
-        "fileCounts": [
-          1
-        ]
+        "actual": 0,
+        "sampledTasks": 0,
+        "fileCounts": []
       }
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
       "actual": 0.6882,
-      "target": 0.5,
-      "gap": 0.1882,
-      "status": "ok",
+      "target": 1,
+      "gap": -0.3118,
+      "status": "warn",
       "detail": {
         "actual": 0.6882,
         "expandedRules": 128,
@@ -70,10 +68,10 @@
       "metric": "concurrencyUtil",
       "label": "并发利用率",
       "severity": "warn",
-      "actual": 0.4737,
-      "target": 0.6,
-      "gap": -0.1263,
-      "gapDescription": "并发利用率当前0.4737，距目标0.6还差0.1263，需提升21.1%",
+      "actual": 0.8421,
+      "target": 0.9,
+      "gap": -0.0579,
+      "gapDescription": "并发利用率当前0.8421，距目标0.9还差0.0579，需提升6.4%",
       "suggestions": [
         "增加任务拆分粒度，让更多子任务并行",
         "检查是否有阻塞性依赖导致串行执行",
@@ -93,12 +91,26 @@
         "考虑增加超时阈值或优化慢任务的执行路径",
         "检查是否有外部依赖(API/网络)导致超时"
       ]
+    },
+    {
+      "metric": "ruleExpansionRate",
+      "label": "ISC规则展开率",
+      "severity": "warn",
+      "actual": 0.6882,
+      "target": 1,
+      "gap": -0.3118,
+      "gapDescription": "ISC规则展开率当前0.6882，距目标1还差0.3118，需提升31.2%",
+      "suggestions": [
+        "优先展开高权重治理规则",
+        "建立规则展开的自动化pipeline",
+        "每次Check后自动识别下一批应展开的规则"
+      ]
     }
   ],
   "summary": {
     "total": 5,
-    "ok": 2,
-    "warn": 2,
+    "ok": 1,
+    "warn": 3,
     "critical": 0,
     "info": 1,
     "overallHealth": "warn"

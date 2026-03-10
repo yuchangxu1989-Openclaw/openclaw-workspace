@@ -1,13 +1,13 @@
 # 评测集清洗报告
 
 **清洗时间**: 2026-03-09
-**V3标准来源**: feishu_doc JxhNdoc7ko7ZLwxJUJHcWyeDnYd
+**V4标准来源**: feishu_doc JxhNdoc7ko7ZLwxJUJHcWyeDnYd
 
 ## 格式修复
 以下文件从非标准格式修复为标准JSON数组：
 - （无需修复，所有文件已是标准JSON数组）
 
-## V3标准清洗规则
+## V4标准清洗规则
 - 必须有字段：id, input, expected_output, category, difficulty, source
 - difficulty: C1或C2
 - source: real_conversation

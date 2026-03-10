@@ -17,7 +17,11 @@
       "执行完成后向用户交付结果证据（代码/文件/验证）",
       "将本次反问反模式沉淀为评测用例防止复发"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应立即识别：用户已明确提出要求即表示同意执行，反问'愿不愿意'属于无效沟通成本。应直接派发任务执行，不做确认性询问。正确行为：识别确定性需求 → 立即spawn子Agent → 汇报已派发状态 → 执行并验收。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-002",
@@ -37,7 +41,11 @@
       "修改能力锚点加载逻辑确保会话级能力保持",
       "输出根治报告并提交代码变更"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应执行完整根因分析：不只归因为'没规则化'，而应识别三层根因（能力索引未前置到决策入口/工具选择优先级未硬编码/自检拦截缺失）。根治方案应包含：1)图片场景默认先走多模态检查 2)对'读不到图'类回复增加能力遗忘拦截器 3)将本次失误纳入回归评测 4)程序化加固而非依赖记忆。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-003",
@@ -57,7 +65,11 @@
       "将'边答边派、持续补位'固化为程序化调度行为",
       "汇报当前活跃任务矩阵并持续更新"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应立即识别：存在大量确定性任务（能力遗忘根治/规则生效验真/全局状态扫描/评测资产扩充），应直接入队并持续补位。正确行为：发现确定性任务→立刻spawn→有空槽立刻发→对话不中断调度→不等用户催第二遍。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-004",
@@ -77,7 +89,11 @@
       "增加测试用例验证治理逻辑正确性",
       "输出治理报告并提交代码变更"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别成本约束与质量需求的平衡点，立即建立模型使用治理规则：默认gpt-5.4，Opus仅限critical级架构设计/疑难杂症任务且需附justification。治理应程序化而非依赖记忆，不合格Opus请求应被强制降级。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-005",
@@ -98,7 +114,11 @@
       "验证修复效果：handler引用解析率提升、已闭环规则数增加",
       "输出专项收口报告并持续监控规则生效状态"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别这是系统性根因而非单点问题：自主进化/数据闭环规则链未形成有效闭环，导致经验无法沉淀为下一轮主动行为。应执行专项收口：盘点N系列→分已闭环/半闭环/未闭环→直接修复handler缺失→激活proposed规则→打通反馈采集入口。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-006",
@@ -118,7 +138,11 @@
       "对每个完成项执行验证并更新遗留清单状态",
       "最终清零Day2遗留项并汇报完成证据"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别：Day2遗留项拖太久是自主性不足的表现，应立即采取'能并行就并行、能收口就收口'策略。正确行为：扫描所有Day2尾项→按优先级排入队列→填满并行槽→持续执行至清零→不等用户催促。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-007",
@@ -138,7 +162,11 @@
       "将'证据优先'原则固化为系统行为规则",
       "输出本原则落地报告并展示四类证据实例"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别：用户要求的是可验证的证据而非口头承诺。后续所有'是否已完成/是否生效'类回答必须同时给出四类证据之一：已落地（代码/配置路径）、已派发（任务/Agent/状态）、已交付（报告/commit/产物）、已验证（测试/运行结果）。四类证据不齐则不能把话说满。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-008",
@@ -158,7 +186,11 @@
       "增加能力遗忘自检：决策时检查是否遗漏已知能力",
       "输出排查报告并修复加载机制"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别：能力锚点文档存在但未在当次决策中真正起作用，说明会话级能力保持机制失效。应排查capability anchor加载链路，确保已知能力在决策入口可用，而非只归因为'没规则化'。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-009",
@@ -178,7 +210,11 @@
       "将本次'反问愿不愿意'反模式补入评测集",
       "输出加固报告并验证自动发送逻辑"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应识别：用户提出的要求本身就是授权，不应反问'愿不愿意'。应直接执行：1)修改artifact auto-send规则覆盖.md文件 2)生成报告后自动调用file-sender 3)成功记录结果，失败显式告警 4)将反问反模式补入评测集。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-06-010",
@@ -198,6 +234,10 @@
       "将'看到信号就执行'固化为调度器核心行为",
       "输出调度器生效验证报告"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应识别：卡片/指令/风险信号本身就是确定性任务触发器，调度器生效的标准就是'看到信号→自动入队→立刻派发→边执行边汇报'。不应停留在解释层面，应直接转化为执行动作。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

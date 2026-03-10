@@ -20,7 +20,10 @@
       "生成Day2合并解决清单并标注优先级",
       "提交影响面分析报告供用户确认"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-007",
@@ -43,7 +46,10 @@
       "推送任务队列到凌霄阁待裁决列表",
       "回执用户已落盘的任务清单和位置"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-008",
@@ -66,7 +72,10 @@
       "建立程序化gate确保规则自动执行",
       "回执用户规则已落盘的位置和生效范围"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-009",
@@ -89,7 +98,10 @@
       "识别仍open的gap（5个error状态cron、intent准确率、AEO效果评测）",
       "生成Day3优先级排序和工作量估算报告"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-010",
@@ -112,7 +124,10 @@
       "基于当前系统状态（cron list/test results）重新评估真实gap",
       "回执用户已调整的认知和更新后的任务清单"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-001",
@@ -135,7 +150,10 @@
       "给出已写入的文件位置和git commit证据",
       "在后续任务中验证spawn行为是否符合新规则"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-002",
@@ -158,7 +176,10 @@
       "回执用户提交结果和commit hash",
       "恢复处理排队中的其他任务"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-003",
@@ -181,7 +202,10 @@
       "绑定执行器：连接文档变更事件与向量化处理程序",
       "端到端验真：模拟文档变更确认向量化自动执行"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-004",
@@ -204,7 +228,10 @@
       "定义失败回退策略：代码化失败时保留声明版本并标记gap",
       "建立持续自动推进机制：每日检查进度并自动触发下一步"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-06-005",
@@ -227,6 +254,9 @@
       "设定下一次可核验里程碑（如24小时内达30%覆盖）",
       "持续跟踪进度并在里程碑达成时主动汇报"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

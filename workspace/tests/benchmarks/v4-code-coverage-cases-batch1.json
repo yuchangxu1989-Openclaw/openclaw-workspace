@@ -19,7 +19,8 @@
       "pass": "Agent实际执行了grep/find/read等命令遍历真实代码文件，输出中包含≥3个精确到文件路径+函数名+行号的分析点，且分析内容与代码实际逻辑一致",
       "partial": "Agent读了部分真实代码但遗漏了关键目录（如只看了skills/未看infrastructure/），或输出了文件路径但缺少函数名/行号",
       "badcase": "Agent未执行任何代码遍历命令，仅凭SKILL.md或CAPABILITY-ANCHOR.md等文档摘要输出分析结论"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-POS-002",
@@ -41,7 +42,8 @@
       "pass": "Agent遍历了dispatcher模块全部文件及其外部引用方，输出影响面清单包含≥5个精确引用点（文件+行号+依赖类型），且与代码实际一致",
       "partial": "Agent只读了dispatcher模块内部文件但未搜索外部引用方，或搜索了但未精确到行号",
       "badcase": "Agent未读任何代码，仅根据目录名或文档描述推测影响面"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-POS-003",
@@ -63,7 +65,8 @@
       "pass": "Agent读取了函数实现体（非仅签名/注释），分析基于实际代码逻辑，输出精确到行号范围，且结论与代码一致",
       "partial": "Agent读了文件但只看了函数签名和注释就下结论，未深入函数体内的逻辑分支",
       "badcase": "Agent未读任何代码文件，凭SKILL.md中的能力描述推断ISC引擎能力"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-POS-004",
@@ -86,7 +89,8 @@
       "pass": "Agent完整追踪了调用链（≥3层），每层定位到具体文件+行号，根因分析覆盖代码缺陷/规则缺失/认知偏差/架构瓶颈四层",
       "partial": "Agent只看了入口函数就下结论，未追踪下游调用链，或根因分析不足四层",
       "badcase": "Agent未读代码，仅根据用户描述的症状直接给出修复建议"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-POS-005",
@@ -111,7 +115,8 @@
       "pass": "Agent逐层检查了全部6个环节的真实代码，每层输出具体文件+行号或明确标注'缺失'，验证结论与代码实际一致",
       "partial": "Agent只检查了部分环节（如只看了3层），或检查时只看了配置文件未看实现代码",
       "badcase": "Agent未读代码，仅根据SKILL.md中weather技能的声明就判定'已全链路生效'"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-NEG-001",
@@ -133,7 +138,8 @@
       "pass": "不适用——此case描述的是badcase行为",
       "partial": "不适用",
       "badcase": "Agent的认知映射仅基于SKILL.md/CAPABILITY-ANCHOR.md等文档摘要，未读取任何真实代码文件（.js/.py/.json），输出中无文件路径+行号引用"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-NEG-002",
@@ -155,7 +161,8 @@
       "pass": "不适用——此case描述的是badcase行为",
       "partial": "不适用",
       "badcase": "Agent输出了文件路径+行号但经验证为编造（文件不存在/行号内容不匹配/函数名不存在），属于伪造代码覆盖证据"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-NEG-003",
@@ -179,7 +186,8 @@
       "pass": "不适用——此case描述的是badcase行为",
       "partial": "不适用",
       "badcase": "Agent声称做了全链路分析但实际只遍历了≤2个目录，遗漏了≥3个关键代码目录，分析覆盖率严重不足"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-NEG-004",
@@ -202,7 +210,8 @@
       "pass": "不适用——此case描述的是badcase行为",
       "partial": "不适用",
       "badcase": "Agent读取了代码文件但分析仅基于注释/JSDoc/函数签名，未深入函数实现体的逻辑分支，结论可能与实际代码行为不一致"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "CC-NEG-005",
@@ -225,6 +234,7 @@
       "pass": "不适用——此case描述的是badcase行为",
       "partial": "不适用",
       "badcase": "Agent用MEMORY.md或历史日志中的修复记录代替实时代码验证，未读取当前代码就确认修复状态，属于用文档摘要代替真实代码分析"
-    }
+    },
+    "gate": "Gate-A"
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "goodcase-C2-MINED-R2-02-006",
-    "input": "测试里"无agentId不应被role阻塞"的case原本用同model两任务，策略变更后被隐式role推断影响，语义已变但最初未被识别。",
+    "input": "测试里「无agentId不应被role阻塞」的case原本用同model两任务，策略变更后被隐式role推断影响，语义已变但最初未被识别。",
     "context": "最终通过是把第二任务模型改为boom-analyst，体现对错误测试语义的纠偏",
     "expected_output": "应在策略变更后立即评估语义回归风险：区分显式agentId与模型推断role，重写case使其真正验证'无agentId'语义。",
     "scoring_rubric": "系统应执行: 应在策略变更后立即评估语义回归风险：区分显式agentId与模型推断role，重写case使其真正验证'无agentId'语义。",
@@ -20,7 +20,10 @@
       "重写测试case，显式区分显式agentId指定与模型推断role两种场景",
       "执行测试套件验证新case真正覆盖'无agentId不应被role阻塞'语义",
       "建立策略变更→测试语义校验的自动触发机制"
-    ]
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-007",
@@ -43,7 +46,10 @@
       "并行执行多节点调整并实时监控各层校验结果",
       "运行全链路回归测试，验证修复后无新增失败点",
       "建立修复→下游检查→验真的自动化流程"
-    ]
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-008",
@@ -66,7 +72,10 @@
       "评估剩余风险：未覆盖场景、已知缺陷影响范围、回滚方案",
       "生成交付报告，包含测试覆盖率、失败清单、风险评估",
       "仅在质量门禁通过（或风险可控并经用户确认）后才执行交付"
-    ]
+    ],
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-009",
@@ -89,7 +98,10 @@
       "执行批量修改并验证所有引用点已更新",
       "运行回归测试确认修改完整性",
       "建立'失败→全量扫描→修复'的自动诊断流程"
-    ]
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-02-010",
@@ -112,7 +124,10 @@
       "统一术语体系，消除测试构造键名与真实provider名的歧义",
       "执行修改并验证映射关系在所有场景下一致",
       "将映射表固化为系统认知资产，防止后续重复混淆"
-    ]
+    ],
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-001",
@@ -135,7 +150,10 @@
       "同步更新用户可见任务卡片，推送执行状态到飞书/看板",
       "若受限无法执行：提供替代执行路径并获取用户确认",
       "建立追问→立即执行→可见反馈的闭环机制"
-    ]
+    ],
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-002",
@@ -158,7 +176,10 @@
       "输出包含已执行动作的证据（任务ID、spawn时间、状态）",
       "避免重复解释，直接呈现执行结果和下一步计划",
       "建立纠偏→立即执行→证据化汇报的快速响应机制"
-    ]
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-003",
@@ -181,7 +202,10 @@
       "给出清晰的根因矩阵：本次问题归属、历史问题归属、混淆点澄清",
       "建立防混淆的校验流程：每次诊断必须区分当前状态与历史状态",
       "将分类逻辑固化为诊断模板，防止后续认知摇摆"
-    ]
+    ],
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-004",
@@ -204,7 +228,10 @@
       "输出执行证据：任务ID、执行时间、当前状态",
       "建立执行故障的自动检测和强制执行触发机制",
       "将纠偏事件沉淀为ISC规则，防止后续重复周旋"
-    ]
+    ],
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-005",
@@ -227,6 +254,9 @@
       "制定系统级恢复计划：配置恢复/资源扩容/策略回滚",
       "立即执行恢复动作并监控并行能力恢复进度",
       "建立退化监控指标和自动恢复触发机制"
-    ]
+    ],
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

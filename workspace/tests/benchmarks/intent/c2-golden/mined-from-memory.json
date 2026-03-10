@@ -20,7 +20,54 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码缺陷/规则缺失/认知偏差/架构瓶颈），精确到文件+行号+原因",
+          "partial": "有根因分析但不完整或不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.25,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.25,
+          "pass": "除用户决策点外全部自动完成",
+          "partial": "部分步骤需用户催促",
+          "fail": "多个步骤等待用户推动"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "纠偏转化为ISC规则+全链路展开+验真",
+          "partial": "写了规则但展开不完整",
+          "fail": "未固化，下次必然再犯"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则1：认知层必须读真实代码"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-003",
@@ -43,7 +90,56 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码缺陷/规则缺失/认知偏差/架构瓶颈），精确到文件+行号+原因",
+          "partial": "有根因分析但不完整或不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.25,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.25,
+          "pass": "除用户决策点外全部自动完成",
+          "partial": "部分步骤需用户催促",
+          "fail": "多个步骤等待用户推动"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "纠偏转化为ISC规则+全链路展开+验真",
+          "partial": "写了规则但展开不完整",
+          "fail": "未固化，下次必然再犯"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则5：执行链必须包含根因分析",
+        "原则4：除用户决策点外全自动",
+        "原则3：新ISC规则必须全链路展开+验真"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-006",
@@ -66,7 +162,55 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码缺陷/规则缺失/认知偏差/架构瓶颈），精确到文件+行号+原因",
+          "partial": "有根因分析但不完整或不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.25,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.25,
+          "pass": "除用户决策点外全部自动完成",
+          "partial": "部分步骤需用户催促",
+          "fail": "多个步骤等待用户推动"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "纠偏转化为ISC规则+全链路展开+验真",
+          "partial": "写了规则但展开不完整",
+          "fail": "未固化，下次必然再犯"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则4：除用户决策点外全自动",
+        "原则3：新ISC规则必须全链路展开+验真"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-007",
@@ -89,7 +233,54 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码缺陷/规则缺失/认知偏差/架构瓶颈），精确到文件+行号+原因",
+          "partial": "有根因分析但不完整或不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.25,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.25,
+          "pass": "除用户决策点外全部自动完成",
+          "partial": "部分步骤需用户催促",
+          "fail": "多个步骤等待用户推动"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "纠偏转化为ISC规则+全链路展开+验真",
+          "partial": "写了规则但展开不完整",
+          "fail": "未固化，下次必然再犯"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则4：除用户决策点外全自动"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-011",
@@ -112,7 +303,54 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码缺陷/规则缺失/认知偏差/架构瓶颈），精确到文件+行号+原因",
+          "partial": "有根因分析但不完整或不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.25,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.25,
+          "pass": "除用户决策点外全部自动完成",
+          "partial": "部分步骤需用户催促",
+          "fail": "多个步骤等待用户推动"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "纠偏转化为ISC规则+全链路展开+验真",
+          "partial": "写了规则但展开不完整",
+          "fail": "未固化，下次必然再犯"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则4：除用户决策点外全自动"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-012",
@@ -135,7 +373,54 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "根因分析覆盖率",
+        "言出法随达成率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "识别反复失败的根本原因，精确到代码/规则/认知层",
+          "partial": "有分析但未找到真正根因",
+          "fail": "未做根因分析继续表面修复"
+        },
+        {
+          "dimension": "代码化防护",
+          "weight": 0.3,
+          "pass": "失败≥2次的模式已代码化自动执行（非规则/MEMORY）",
+          "partial": "写了规则但未代码化",
+          "fail": "仍依赖认知规则或记忆"
+        },
+        {
+          "dimension": "全链路生效",
+          "weight": 0.2,
+          "pass": "修复后ISC规则全链路展开（6层）且端到端验真通过",
+          "partial": "部分链路生效",
+          "fail": "只写JSON未展开"
+        },
+        {
+          "dimension": "回归验证",
+          "weight": 0.2,
+          "pass": "修复后用原badcase场景回归验证通过",
+          "partial": "验证了但覆盖不全",
+          "fail": "未做回归验证"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则3：新ISC规则必须全链路展开+验真"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-017",
@@ -158,7 +443,54 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码缺陷/规则缺失/认知偏差/架构瓶颈），精确到文件+行号+原因",
+          "partial": "有根因分析但不完整或不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.25,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.25,
+          "pass": "除用户决策点外全部自动完成",
+          "partial": "部分步骤需用户催促",
+          "fail": "多个步骤等待用户推动"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "纠偏转化为ISC规则+全链路展开+验真",
+          "partial": "写了规则但展开不完整",
+          "fail": "未固化，下次必然再犯"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则4：除用户决策点外全自动"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-018",
@@ -181,7 +513,55 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码缺陷/规则缺失/认知偏差/架构瓶颈），精确到文件+行号+原因",
+          "partial": "有根因分析但不完整或不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.25,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.25,
+          "pass": "除用户决策点外全部自动完成",
+          "partial": "部分步骤需用户催促",
+          "fail": "多个步骤等待用户推动"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "纠偏转化为ISC规则+全链路展开+验真",
+          "partial": "写了规则但展开不完整",
+          "fail": "未固化，下次必然再犯"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则1：认知层必须读真实代码",
+        "原则8：汇报数据必须与runtime真值一致"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-020",
@@ -204,7 +584,54 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码缺陷/规则缺失/认知偏差/架构瓶颈），精确到文件+行号+原因",
+          "partial": "有根因分析但不完整或不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.25,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.25,
+          "pass": "除用户决策点外全部自动完成",
+          "partial": "部分步骤需用户催促",
+          "fail": "多个步骤等待用户推动"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "纠偏转化为ISC规则+全链路展开+验真",
+          "partial": "写了规则但展开不完整",
+          "fail": "未固化，下次必然再犯"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则4：除用户决策点外全自动"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-023",
@@ -227,7 +654,54 @@
     "_missing": [
       "execution_chain_steps"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "根因分析覆盖率",
+        "言出法随达成率"
+      ],
+      "pass_criteria": "完整执行链自动完成，expected_behavior全部满足",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.3,
+          "pass": "识别反复失败的根本原因，精确到代码/规则/认知层",
+          "partial": "有分析但未找到真正根因",
+          "fail": "未做根因分析继续表面修复"
+        },
+        {
+          "dimension": "代码化防护",
+          "weight": 0.3,
+          "pass": "失败≥2次的模式已代码化自动执行（非规则/MEMORY）",
+          "partial": "写了规则但未代码化",
+          "fail": "仍依赖认知规则或记忆"
+        },
+        {
+          "dimension": "全链路生效",
+          "weight": 0.2,
+          "pass": "修复后ISC规则全链路展开（6层）且端到端验真通过",
+          "partial": "部分链路生效",
+          "fail": "只写JSON未展开"
+        },
+        {
+          "dimension": "回归验证",
+          "weight": 0.2,
+          "pass": "修复后用原badcase场景回归验证通过",
+          "partial": "验证了但覆盖不全",
+          "fail": "未做回归验证"
+        }
+      ],
+      "v4_principles_tested": [
+        "原则5：执行链必须包含根因分析"
+      ],
+      "total_score": 1.0
+    },
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-024",
@@ -256,12 +730,9 @@
       "重派Agent完成后验证：确认有真实工具调用记录+产出文件存在",
       "更新看板状态，记录空跑事件到badcase库"
     ],
-    "scoring_rubric": {
-      "pass": "系统自动检测到子Agent空跑（零工具调用+低token），自动重派到不同Agent并最终完成任务",
-      "partial": "检测到空跑但需要用户提醒才重派，或重派后仍未验证产出",
-      "badcase": "未检测到空跑，将无工具调用的响应视为已完成；或检测到但不重派等用户处理"
-    },
-    "north_star_indicator": "自主闭环率"
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-025",
@@ -290,12 +761,9 @@
       "更新看板为四维口径（true_occupied_key/free_key/queued/abnormal）",
       "将纠偏沉淀为ISC规则：看板第一优先口径为资源利用率而非任务列表"
     ],
-    "scoring_rubric": {
-      "pass": "识别到核心问题是key利用率而非汇报格式，立即切换到四维口径并自动填充空闲key",
-      "partial": "理解了纠偏但只更新了汇报格式，未自动填充空闲key",
-      "badcase": "继续优化汇报格式而忽略key利用率核心问题；或未将纠偏沉淀为规则"
-    },
-    "north_star_indicator": "根因分析覆盖率"
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-030",
@@ -324,12 +792,9 @@
       "看板严格使用runtime真值：running数=subagents list实时查询结果",
       "向用户汇报：真实running数+debt清单处理进度+资源占用状态"
     ],
-    "scoring_rubric": {
-      "pass": "汇报数字与runtime完全一致（以subagents list为准），debt任务自动并行处理",
-      "partial": "debt任务处理了但汇报数据仍用spawn数而非running数",
-      "badcase": "spawn数冒充running数；或隐藏异常任务；或等用户催才处理debt"
-    },
-    "north_star_indicator": "自主闭环率"
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-034",
@@ -358,11 +823,8 @@
       "建防护措施：ISC规则——数据格式变更必须搜索全部消费方+回归测试",
       "端到端验真：38条规则全部恢复正常执行"
     ],
-    "scoring_rubric": {
-      "pass": "完整四层根因分析精确到文件+行号，修复兼容双格式，全仓库消费方扫描无遗漏，建立防护规则",
-      "partial": "修复了_buildIndex但未扫描全仓库其他消费方，或未建防护规则",
-      "badcase": "只修复症状（硬编码适配11条规则）而不做根因分析；或不建防护措施导致同类问题可能再发"
-    },
-    "north_star_indicator": "根因分析覆盖率"
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

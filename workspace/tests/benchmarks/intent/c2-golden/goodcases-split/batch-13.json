@@ -21,7 +21,10 @@
       "验真层：检查产出是否泄露隐私信息，确认口径转换完整性",
       "交付层：输出面向大众读者的内容，附带可追溯的内部来源标注（仅内部可见）"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-007",
@@ -45,7 +48,10 @@
       "执行层：实施修复并确保角色分离铁律不因超时而破坏",
       "验真层：模拟高负载场景验证QA门禁在超时情况下仍强制执行"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-008",
@@ -68,7 +74,10 @@
       "执行层：分别处理两条任务线——V3b产出验真+交付，文稿任务spawn子Agent执行",
       "验真层：检查用户收到的反馈是否清晰区分两条任务线，无混淆风险"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-009",
@@ -92,7 +101,10 @@
       "验真层：对比降级产出与预期质量差距，标注数据口径变化",
       "交付层：在最终报告中透明披露数据来源为web_fetch降级获取，附带来源URL可验证性"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-010",
@@ -115,7 +127,10 @@
       "执行层：在每个处理节点完成后自动调用飞书API更新看板table组件，附带时间戳和状态",
       "验真层：验证飞书看板数据与本地状态一致性，确认用户可直接看到最新进度"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-001",
@@ -138,7 +153,10 @@
       "执行层：立即并行spawn子Agent，每条任务独立执行，主Agent不阻塞",
       "汇报层：调用subagents list获取真实running数量，按真值汇报active状态"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-002",
@@ -161,7 +179,10 @@
       "执行层：诚实承认未交付，不找借口，立即spawn子Agent补做HTML demo",
       "验真层：子Agent完成后验证HTML文件存在且功能正确，交付给用户"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-003",
@@ -184,7 +205,10 @@
       "执行层：修正Top3收口标准文档，逐项补充全系统覆盖范围，输出修正后的改造方案",
       "验真层：检查修正后的每个Top改造项是否真正覆盖了全部子系统，无遗漏"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-004",
@@ -208,7 +232,10 @@
       "治理层：主Agent仅做调度和汇报，不处理任何实现类复杂任务，保持畅通响应用户",
       "汇报层：调用subagents list获取真实并行状态，按四维口径汇报"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-14-005",
@@ -231,6 +258,9 @@
       "执行层：向相关子Agent发送steer指令调整优先级，确保标准修改先完成",
       "验真层：确认三步串行执行顺序被严格遵循，后续产出基于最新标准"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

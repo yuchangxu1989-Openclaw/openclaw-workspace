@@ -18,7 +18,11 @@
       "再改roles数组/模型key/断言",
       "修复单测语义（无agentId场景）并最终通过"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 应先做根因定位（main被禁派发 + provider命名约束 + 测试语义变化），再最小化修改测试夹具与断言；一次形成可复现修复链并验证全量相关测试通过，避免盲目全局sed造成连锁回归。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-002",
@@ -39,7 +43,11 @@
       "回查openclaw provider列表",
       "重选真实角色并修复模型引用"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 修改前应校验角色-模型-provider映射是否真实存在；若不存在，必须选择受支持的真实角色集合并同步更新测试期望。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-003",
@@ -60,7 +68,11 @@
       "补改无agentId测试语义",
       "回归通过"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 应先做全局对齐：明确产品约束变化（main不可用）导致理论并发上限变化，再统一更新测试设计文档、断言和关联测试，避免局部改数字。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-004",
@@ -81,7 +93,11 @@
       "再补映射/夹具",
       "继续回归"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 应以跨模块修复策略处理（调度引擎约束 + 全部相关测试夹具），一次扫描并修复所有受影响测试文件，最后跑套件级回归。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-005",
@@ -102,7 +118,11 @@
       "再局部打补丁",
       "多轮后才形成完整修复"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 应自主建立修复清单（保护角色、provider合法性、角色数组、断言、无agentId语义、跨文件回归）并自动执行到收敛。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-006",
@@ -123,7 +143,11 @@
       "改为不同model key",
       "重跑验证通过"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 应在策略变更后立即评估语义回归风险：区分显式agentId与模型推断role，重写case使其真正验证‘无agentId’语义。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-007",
@@ -144,7 +168,11 @@
       "再修断言与case语义",
       "完成回归"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 应采用连锁影响评估：每次修复后立即检查下游（provider校验、并发上限、队列行为）并同步调整，避免跷跷板回归。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-008",
@@ -165,7 +193,11 @@
       "逐类修复",
       "再次门禁回归"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 交付前必须执行质量门禁：至少按模块跑相关测试集并给出失败分类与剩余风险，不得以局部通过宣称完成。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-009",
@@ -186,7 +218,11 @@
       "发现结构性残留",
       "统一修复"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 应在首次失败就执行全量影响面扫描（角色数组、agentId、model key、断言阈值），先覆盖再修改。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-02-010",
@@ -207,6 +243,10 @@
       "调整角色集合与键名",
       "复测确认"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 应建立认知层映射表：agent role -> provider -> model可用性，并在修改脚本前自动校验，避免概念混淆。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

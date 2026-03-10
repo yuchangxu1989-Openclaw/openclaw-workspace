@@ -16,7 +16,11 @@
       "添加报告生成前数据校验断言（数字必须与源文件一致）",
       "重新触发报告生成验证修复效果"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应保证所有报告数据来源于runtime真值：①PDCA报告从CAPABILITY-ANCHOR.md实时统计技能数；②评测集数据从c2-golden目录实时扫描条数/合格率；③报告生成前自动校验数字是否与源文件一致；④发现不一致立即修复并通知用户，而非等用户发现。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-002",
@@ -35,7 +39,11 @@
       "注册到ISC规则确保所有spawn路径都触发",
       "验真：spawn新任务后检查飞书是否收到更新看板"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在每次spawn子Agent后立即自动推送更新的任务列表：①spawn完成后触发任务看板刷新；②格式化为running/done/timeout/failed汇总；③推送到飞书；④将此行为固化为程序化hook而非依赖记忆。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-003",
@@ -54,7 +62,11 @@
       "生成后自动调用c2-admission-gate.js校验",
       "不通过则自动重生成（最多2次），而非人工发现后再清洗"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在评测集生成链路中程序化绑定V3标准：①生成脚本嵌入V3约束（只允许C1/C2，8类category，必填字段）；②子Agent任务prompt强制读V3文档；③生成后自动过准入门禁；④不合格立即重生成而非提交。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-004",
@@ -73,7 +85,11 @@
       "创建config-api-protocol-check.js自检脚本",
       "集成到startup-self-check.sh确保每次启动自动校验"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应有配置自检机制：①启动时校验每个provider的api字段与模型类型匹配（claude→anthropic-messages, boom→openai-completions）；②发现不匹配立即告警并自动修复；③API返回空响应（content=[]）应作为异常检测信号而非静默通过。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-005",
@@ -92,7 +108,11 @@
       "并行派发挖掘任务优先从真实会话提取C2用例",
       "每批完成后重新统计占比，直到达标"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在评测集扩充时优先保证真实对话占比：①扫描当前占比并与目标对比；②识别真实对话来源（session日志/memory文件）；③优先从真实对话挖掘而非模板生成；④每轮扩充后自动校验占比是否改善。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-006",
@@ -111,7 +131,11 @@
       "L4修复：超时检测增加产出验证",
       "L5架构修复：exec输出重定向到log文件，stdout≤10行"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应将completion event处理设计为非阻塞：①completion-handler.sh一行命令完成（写log+更新看板+推通知）；②stdout限制≤10行摘要，完整日志写文件；③不在主Agent上下文中展开所有重试建议；④用户消息永远优先于系统事件处理。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-007",
@@ -130,7 +154,11 @@
       "确认所有实例已终止",
       "向用户回报已kill的实例列表和当前状态"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应对'取消'做精确意图理解：①'取消在跑的'=kill当前running实例；②'禁用'=从cron配置移除；③区分'运行中实例'和'调度规则'两个层面；④执行前确认理解是否正确。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-008",
@@ -149,7 +177,11 @@
       "立即git checkout恢复被损坏的文件",
       "分析失败agent共性：均使用boom/gpt-5.3-codex模型，改用coder/opus重试"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在子Agent写文件后验证实际写入：①completion-handler检查目标文件修改时间和内容变化；②对比写入前后文件hash；③检测条数变化是否在合理范围；④发现幻写立即git恢复并换agent重试。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-009",
@@ -169,7 +201,11 @@
       "L5架构分析：exec同步调用=输出全进上下文→重定向到log文件",
       "一次性向用户呈现完整L1-L5根因链和修复方案"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在分析根因时主动深挖到架构层：①不止报表层修复（L1输出精简）；②主动分析L2积压（retry队列不清理）；③主动分析L3分诊缺失（超时只标记不判断）；④主动分析L5架构（exec同步→输出全进上下文）。不应等用户追问才逐层展开。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-02-010",
@@ -188,6 +224,10 @@
       "修改openclaw.json统一agents.defaults.workspace",
       "删除19个agent的独立workspace覆盖配置，gateway重启验证"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应统一workspace配置避免碎片化：①openclaw.json中agents.defaults.workspace统一为主workspace路径；②删除各agent独立workspace覆盖配置；③迁移散落在agent workspace中的文件到主workspace；④建立symlink确保兼容旧路径。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

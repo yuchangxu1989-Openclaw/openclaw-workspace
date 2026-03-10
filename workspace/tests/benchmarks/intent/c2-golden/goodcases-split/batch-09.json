@@ -39,7 +39,10 @@
       "等待3路全部完成(NO_REPLY等待中间结果自动回传)，监控超时/失败",
       "汇总3个文档链接+各自亮点，推送飞书给用户"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-007",
@@ -87,7 +90,10 @@
       "用户第三次修改→subagents action=steer改为《Agent全局效果评测标准与基线设计V0.1》",
       "确认最终标题不再改，验证飞书文档标题已更新一致"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-008",
@@ -132,7 +138,10 @@
       "更新multi-agent-reporting中pureModel()函数只输出模型名不输出渠道名",
       "验证汇报输出不含渠道名，子Agent输出全部为中文"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-009",
@@ -177,7 +186,10 @@
       "交付前自检:逐条对照V3标准验证case难度/来源/多轮/执行链是否合规",
       "验证交付物零缺陷后推送用户"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-010",
@@ -226,7 +238,10 @@
       "基于新标准重建评测集组成约束(真实对话≥80%,多轮≥80%,C2≥80%,总量≥500)",
       "触发评测集全量refresh pipeline，淘汰不合规case"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-001",
@@ -250,7 +265,10 @@
       "新增alert-auto-rootcause脚本用于自动根因分析",
       "接入cron定时任务并验证guard返回'所有告警已响应'，交付含可审计文件与日志证据"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-002",
@@ -272,7 +290,10 @@
       "新增log-only/quality-gate/auto-sync三个handler文件，补齐缺失handler",
       "回归验证所有handler可加载，事件总线dispatch无报错"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-003",
@@ -295,7 +316,10 @@
       "添加defer日志打印，确保跳过的spawn任务可追溯",
       "验证cron环境下不再报sessions_spawn not available，reap/drain/republish正常执行"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-004",
@@ -318,7 +342,10 @@
       "运行alert-response-guard验证返回'所有告警已响应'",
       "将可审计的日志证据和验证结果推送给用户"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-005",
@@ -341,6 +368,9 @@
       "接入cron周期执行，配置定时扫描频率",
       "端到端验真:模拟新告警→自动触发根因链→事件总线响应→确认闭环"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

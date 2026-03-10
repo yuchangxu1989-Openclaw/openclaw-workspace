@@ -21,7 +21,10 @@
       "验真闭环：模拟场景验证规则生效，确保后续任务自动走新流程",
       "沉淀长效：写入MEMORY.md并创建ISC规则全链路展开"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-007",
@@ -45,7 +48,10 @@
       "向用户汇报真值数据（running/queued/abnormal）而非模糊承诺",
       "沉淀规则：强制指令=立即执行+可见证据+真值汇报"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-008",
@@ -69,7 +75,10 @@
       "全链路验真：确认所有子Agent最终进入running状态",
       "规则沉淀：建立模型白名单检查前置机制，spawn前先校验"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-009",
@@ -93,7 +102,10 @@
       "验真：模拟任务创建流程，确认用户能在3秒内看到卡片",
       "规则固化：写入ISC规则，spawn/register必须原子绑定"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-04-010",
@@ -117,7 +129,10 @@
       "沉淀badcase：记录本次口嗨的根因（未验真就汇报）",
       "建立规则：汇报前必须读取runtime真值，禁止用spawn数冒充running数"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-001",
@@ -141,7 +156,10 @@
       "提出恢复方案：立即创建PROJECT-TRACKER.md并回填Day1/Day2内容",
       "建立规则：每个Sprint Day结束时自动输出DAY-N-REPORT.md"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-002",
@@ -165,7 +183,10 @@
       "创建ISC规则：Day结束时自动输出报告，程序化守卫",
       "向用户汇报：承认缺失+已建立机制+后续自动生效"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-003",
@@ -189,7 +210,10 @@
       "确认Day收工流程：自动输出DAY-N-REPORT.md到reports/目录",
       "验真：模拟任务完成，确认TRACKER自动更新且报告生成"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-004",
@@ -213,7 +237,10 @@
       "承诺落地时间：Day2-3将AEO评测维度对齐到五层",
       "创建追踪任务：将监控升级纳入Sprint计划"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R205-005",
@@ -237,6 +264,9 @@
       "识别核心思想变更：从'各自cron轮询'→'EventBus事件驱动+cron兜底'",
       "创建重塑任务清单并纳入Sprint计划"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

@@ -20,7 +20,10 @@
       "生成结构化解释型进度报告，包含风险项与后续调度建议",
       "推送报告至用户可见渠道并确认用户收到"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-007",
@@ -43,7 +46,10 @@
       "基于判断结果选择下一步动作（继续/返工/换agent），输出判定依据",
       "将决策理由与行动计划透明回报给用户，确认后执行"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-008",
@@ -66,7 +72,10 @@
       "基于片段构造C2评测case，嵌入来源证据链（session+offset+原文引用）",
       "校验每条case的溯源链完整性，确保可审计追溯后写入评测集"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-009",
@@ -89,7 +98,10 @@
       "新执行完成后再次验真，确认可用性达标",
       "汇报中区分'完成'与'可用完成'，推送给用户并附上质量对比"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-12-010",
@@ -112,7 +124,10 @@
       "交付模块：产出物写入飞书文档，调用feishu_doc create/write落地",
       "全链路验真：回读文档确认内容完整，一次性向用户推送交付结果与质量报告"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-001",
@@ -135,7 +150,10 @@
       "调用feishu_doc create+write落地文档，回读验真内容完整性与可读性",
       "本地落盘md备份，向用户推送飞书文档链接与内容摘要"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-002",
@@ -158,7 +176,10 @@
       "触发独立QA Agent复核产出物质量（非执行者自评），等待QA结果",
       "QA通过后向用户推送最终交付确认；不通过则自动打回修复"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-003",
@@ -181,7 +202,10 @@
       "register-task登记所有新任务到看板，确保可追踪",
       "向用户确认已收到全部排队消息并列出处理计划，继续推进已有并行任务"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-004",
@@ -204,7 +228,10 @@
       "第3次超时→human_handoff（推送用户+附失败日志与根因分析）",
       "全程保持主线交付不中断，更新live-board状态并推送进度"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-R2-13-005",
@@ -227,6 +254,9 @@
       "等待analyst分诊结果，根据分诊输出精准spawn补齐任务",
       "补齐后重新统计验证达标，向用户汇报最终数据与runtime真值一致的结果"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

@@ -20,7 +20,10 @@
       "汇总各子线产出，生成统一整改backlog（分优先级+验收标准）",
       "推送用户可见的因果链路报告，标注每步依赖与完成状态"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-007",
@@ -43,7 +46,10 @@
       "主动推送用户可见的状态更新，说明新增任务已扩列",
       "持续监控新任务进度，完成后合并到全局workflow报告"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-008",
@@ -67,7 +73,10 @@
       "修改E2E runner代码，增加evidence校验逻辑",
       "端到端验真：用手填case触发门禁拦截，确认伪通过被阻断"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-009",
@@ -91,7 +100,10 @@
       "基于新标准重新生成评测用例batch，校验C2合规性",
       "端到端验证：用新case跑完整裁决流程，确认双层审视生效"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-15-010",
@@ -115,7 +127,10 @@
       "自动spawn子Agent按优先级执行整改任务",
       "汇总执行结果并推送用户可见报告，标注整改前后指标对比"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-001",
@@ -139,7 +154,10 @@
       "验真：用实际请求触发key路由，确认走通正确路径",
       "推送用户可见报告：diff链接+测试结果+根治确认"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-002",
@@ -162,7 +180,10 @@
       "诚实汇报：明确'尚未全走通'+失败样式+affected任务列表",
       "给出根治方案：修复spawn路由绑定+验证全部子Agent实际走opus"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-003",
@@ -185,7 +206,10 @@
       "不触发busy-poll，等待后续event自动push",
       "当达到用户关注的milestone时，主动推送阶段性汇报到用户可见渠道"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-004",
@@ -209,7 +233,10 @@
       "spawn新子Agent执行补救任务，确保不重复已完成部分",
       "全部完成后更新统计口径，区分原始timeout和补救完成"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINED-R2-16-005",
@@ -234,6 +261,9 @@
       "链B在链A完成后执行：基于修复后的handler重新backfill证据",
       "验真：触发相关benchmark shard，确认handler正常响应且证据完整"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

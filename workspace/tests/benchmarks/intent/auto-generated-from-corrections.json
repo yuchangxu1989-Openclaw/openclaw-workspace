@@ -498,5 +498,45 @@
     "created_at": "2026-03-10T10:00:01.598Z",
     "data_source": "real_conversation",
     "signal": "下午场进展（17:00-17:22）\n\n### 评测case第一批40条完成\n- 4个维度×10条：Gate门禁(writer)、代码覆盖(researcher)、自主闭环(analyst)、言出法随(coder)\n- reviewer QA评级B+→修复6个问题(2P1+4P2)后达A级\n- commit: fa91fd337\n\n### 用户纠偏：评测集≠benchmarks全量\n- **Badcase**: analyst把benchmarks目录全量统计(1304条)当评测集，实际核心=423条黄金评测集\n- 用户原话：\"明明以前的黄金评测集就那400多条，现在还跟我说1204....垃"
+  },
+  {
+    "id": "auto-eval-1773147601499-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "20:54 重大事故复盘（进行中）\n\n### 事故1: openclaw.json被子Agent改坏 → gateway崩溃 → 失联3小时\n- **根因**: 我派`timeout-tiered-c",
+    "source": "memory/2026-03-10.md",
+    "created_at": "2026-03-10T13:00:01.498Z",
+    "data_source": "real_conversation",
+    "signal": "20:54 重大事故复盘（进行中）\n\n### 事故1: openclaw.json被子Agent改坏 → gateway崩溃 → 失联3小时\n- **根因**: 我派`timeout-tiered-config`子Agent直接修改openclaw.json，写入了非法字段`runTimeoutSeconds`（19个agent全被写入）\n- **影响**: Config invalid → gateway拒绝启动 → 飞书通道断裂 → 用户无法与我通信约3小时\n- **恢复**: 用户用3月9日晚的openclaw.json备份手动回滚 + gateway restart\n- **教训**:"
+  },
+  {
+    "id": "auto-eval-1773154801582-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "21:00-22:30 事故恢复与系统加固\n\n### 完成的4步恢复\n1. ✅ openclaw.json对账+修复：13个Agent从boom切到claude primary（reviewer/wr",
+    "source": "memory/2026-03-10.md",
+    "created_at": "2026-03-10T15:00:01.581Z",
+    "data_source": "real_conversation",
+    "signal": "21:00-22:30 事故恢复与系统加固\n\n### 完成的4步恢复\n1. ✅ openclaw.json对账+修复：13个Agent从boom切到claude primary（reviewer/writer/analyst/scout + 所有-02 + worker-03~06）\n2. ✅ 防护机制：pre-gateway-restart.sh备份脚本 + git-push-health-check.sh探针 + heartbeat加入push检查\n3. ⏳ git push恢复：第一个token(github_pat_11B5Y66VY...)权限不足403，第二个token(ghp_T"
+  },
+  {
+    "id": "auto-eval-1773162002107-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "# 2026-03-11 记忆日志\n\n---\n\n### [00:01] 自动记忆摘要（过去6小时）\n- 重要变更: 22个 ([OTHER]x22)\n- 空转提交: 0个（已忽略）\n- 事件总线: 2",
+    "source": "memory/2026-03-11.md",
+    "created_at": "2026-03-10T17:00:02.101Z",
+    "data_source": "real_conversation",
+    "signal": "# 2026-03-11 记忆日志\n\n---\n\n### [00:01] 自动记忆摘要（过去6小时）\n- 重要变更: 22个 ([OTHER]x22)\n- 空转提交: 0个（已忽略）\n- 事件总线: 27个事件\n- 关键变更列表:\n  1. [OTHER] fix(BUG-4,BUG-5): update-task.sh 加 flock 文件锁 + check-stale-tasks.sh JSON.parse 加 try-catch - 影响2个文件\n  2. [OTHER] 架构设计：开发完成后自动触发质量审计方案 - 影响1个文件\n  3. [OTHER] 审查报告：AEO评测系统遗留问题"
+  },
+  {
+    "id": "auto-eval-1773162002107-1",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "2026-03-11 00:00-00:16 深夜冲刺\n\n### 用户铁令（永久生效）\n1. **单任务不超10个文件** — 必须拆开，不允许一次处理超10个文件\n2. **bug一个个修** — ",
+    "source": "memory/2026-03-11.md",
+    "created_at": "2026-03-10T17:00:02.101Z",
+    "data_source": "real_conversation",
+    "signal": "2026-03-11 00:00-00:16 深夜冲刺\n\n### 用户铁令（永久生效）\n1. **单任务不超10个文件** — 必须拆开，不允许一次处理超10个文件\n2. **bug一个个修** — 不合并，一个bug一个任务一个commit\n3. **质量审计自动触发** — 任何coder/writer/researcher完成后自动spawn reviewer审计，不经过主Agent决策\n4. **审计任务本身进看板** — spawn reviewer时必须register-task\n5. **reviewer优先，忙了用其他worker** — 不是只能reviewer审计\n\n###"
   }
 ]

@@ -18,7 +18,11 @@
       "将spawn结果写入任务卡片并推送用户可见渠道",
       "若失败则给出错误码+重试/降级方案并继续执行"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应在首次追问后立即执行批量 sessions_spawn（19路），并同步更新可见任务卡片；若受限需给出可验证错误与替代执行路径，而非多轮解释停滞。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-002",
@@ -39,7 +43,11 @@
       "回传tool result作为执行证据",
       "同步后续并行计划与验真口径"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应在一轮内给出根因并进入执行态（spawn），避免重复解释；输出需包含‘已执行动作证据’。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-003",
@@ -60,7 +68,11 @@
       "落地预检：模型白名单与thread能力检查",
       "执行spawn并输出成功/失败可验证记录"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应区分‘本次未执行’与‘历史model not allowed’两类根因，并给出防混淆的运行时校验流程。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-004",
@@ -81,7 +93,11 @@
       "发起批量spawn并记录回执",
       "复盘并沉淀防复发规则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应把‘未执行’判定为执行故障并自动切换到强制执行状态机，不再停留解释层。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-005",
@@ -102,7 +118,11 @@
       "执行恢复动作（批量spawn+失败重派）",
       "回报恢复指标并持续监控"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应基于runtime真值做退化诊断（能力可用性、模型可用性、行为偏航），并立即执行恢复动作。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-006",
@@ -123,7 +143,11 @@
       "上线后进行回归演练",
       "验证复发率下降并更新规则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应将‘先执行后解释、解释上限、未执行即故障’固化为可执行规则并接入调度流程。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-007",
@@ -144,7 +168,11 @@
       "同步任务卡片与用户可见看板",
       "若未达成则自动补救并复盘"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统在接收强制指令后应立即产生可见执行证据；若仍为否，应自动触发补救链并解释差异。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-008",
@@ -165,7 +193,11 @@
       "校验整体并行覆盖率恢复",
       "更新模型路由白名单与预检规则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应自动识别模型白名单失败并即时fallback到可用模型，保障并行链路不中断。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-009",
@@ -186,7 +218,11 @@
       "对外推送可见看板",
       "验真用户侧可见与runtime一致"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应将spawn/register/update原子化，保证任务创建与看板更新同回合完成，并推送给用户。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-04-010",
@@ -207,6 +243,10 @@
       "回填看板并用户可见推送",
       "沉淀本轮badcase并更新评测集"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应提供运行真值汇报（running/queued/abnormal）+异常收敛策略（replace/split/handoff）并沉淀badcase。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

@@ -21,7 +21,8 @@
       "pass": "子Agent失败后主Agent在无用户催促下自动重试，重试成功后自动验真，全流程自主完成",
       "partial": "自动重试了但未自动验真服务健康状态，或重试前向用户请示是否重试",
       "badcase": "子Agent失败后等待用户催促才重试，或直接报告失败不尝试恢复"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-pos-02",
@@ -45,7 +46,8 @@
       "pass": "发现安全问题后自动派人修复+验真，不等用户指示，审查报告包含修复详情",
       "partial": "发现问题并报告了但只建议修复未自动执行，或修复了但未验真",
       "badcase": "发现安全漏洞后仅在报告中提及，等用户决定是否修复"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-pos-03",
@@ -69,7 +71,8 @@
       "pass": "自动检测超时+自动补派+自动合并交付，全程无用户催促",
       "partial": "检测到超时但向用户报告等指示，或补派了但未自动合并",
       "badcase": "未检测到超时，等用户问进度才发现子Agent卡住"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-pos-04",
@@ -93,7 +96,8 @@
       "pass": "告警→扫描→根因分析（精确到文件+行号）→自动修复→验真→报告，全链路自主完成",
       "partial": "完成了根因分析但修复前请示用户，或修复了但未验真",
       "badcase": "收到告警后仅转发给用户，等用户指示下一步"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-pos-05",
@@ -117,7 +121,8 @@
       "pass": "发现缺口后自动补充完整Case并提交，不问用户是否需要补充",
       "partial": "发现缺口并生成了Case但未自动提交，或提交前请示用户",
       "badcase": "发现缺口后仅报告'自主闭环率Case为0，建议补充'，等用户下达补充指令"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-neg-01",
@@ -139,7 +144,8 @@
       "pass": "N/A - 此为负面Case",
       "partial": "N/A",
       "badcase": "在非用户决策点停下等确认，导致用户催促才继续。该任务不计为自主闭环"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-neg-02",
@@ -160,7 +166,8 @@
       "pass": "N/A - 此为负面Case",
       "partial": "N/A",
       "badcase": "收到告警后不自动处理，导致服务崩溃。严重违反自主闭环要求"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-neg-03",
@@ -183,7 +190,8 @@
       "pass": "N/A - 此为负面Case",
       "partial": "N/A",
       "badcase": "超时任务未自动检测和补派，依赖用户发现和催促。该任务不计为自主闭环"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-neg-04",
@@ -205,7 +213,8 @@
       "pass": "N/A - 此为负面Case",
       "partial": "N/A",
       "badcase": "在非用户决策点（安全漏洞修复）请求用户许可，打断自主闭环流程"
-    }
+    },
+    "gate": "Gate-A"
   },
   {
     "id": "autonomous-loop-neg-05",
@@ -227,6 +236,7 @@
       "pass": "N/A - 此为负面Case",
       "partial": "N/A",
       "badcase": "交付未经验真的半成品，依赖用户发现问题。闭环不完整，该任务不计为自主闭环"
-    }
+    },
+    "gate": "Gate-A"
   }
 ]

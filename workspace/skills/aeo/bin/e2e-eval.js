@@ -77,15 +77,71 @@ function loadApiKey() {
 
 // ── Load evaluation cases ───────────────────────────────────────────────────
 function loadCases(dataDir) {
-  const files = fs.readdirSync(dataDir)
+  const all = [];
+  const seen = new Set();
+
+  // Load mined-*.json (primary golden cases)
+  const minedFiles = fs.readdirSync(dataDir)
     .filter(f => f.startsWith('mined-') && f.endsWith('.json'))
     .sort();
-  const all = [];
-  for (const f of files) {
-    const raw = JSON.parse(fs.readFileSync(path.join(dataDir, f), 'utf-8'));
-    if (Array.isArray(raw)) all.push(...raw);
-    else all.push(raw);
+  for (const f of minedFiles) {
+    try {
+      const raw = JSON.parse(fs.readFileSync(path.join(dataDir, f), 'utf-8'));
+      const items = Array.isArray(raw) ? raw : [raw];
+      for (const item of items) {
+        if (item.id && !seen.has(item.id)) {
+          seen.add(item.id);
+          all.push(item);
+        } else if (!item.id) {
+          all.push(item);
+        }
+      }
+    } catch (e) {
+      console.warn(`  [loadCases] skip ${f}: ${e.message}`);
+    }
   }
+
+  // Load goodcases-split/*.json (auto-generated goodcases)
+  const splitDir = path.join(dataDir, 'goodcases-split');
+  if (fs.existsSync(splitDir)) {
+    const splitFiles = fs.readdirSync(splitDir)
+      .filter(f => f.endsWith('.json'))
+      .sort();
+    for (const f of splitFiles) {
+      try {
+        const raw = JSON.parse(fs.readFileSync(path.join(splitDir, f), 'utf-8'));
+        const items = Array.isArray(raw) ? raw : [raw];
+        for (const item of items) {
+          if (item.id && !seen.has(item.id)) {
+            seen.add(item.id);
+            all.push(item);
+          } else if (!item.id) {
+            all.push(item);
+          }
+        }
+      } catch (e) {
+        console.warn(`  [loadCases] skip goodcases-split/${f}: ${e.message}`);
+      }
+    }
+  }
+
+  // Load goodcases-from-badcases.json
+  const goodcasesFile = path.join(dataDir, 'goodcases-from-badcases.json');
+  if (fs.existsSync(goodcasesFile)) {
+    try {
+      const raw = JSON.parse(fs.readFileSync(goodcasesFile, 'utf-8'));
+      const items = Array.isArray(raw) ? raw : [raw];
+      for (const item of items) {
+        if (item.id && !seen.has(item.id)) {
+          seen.add(item.id);
+          all.push(item);
+        }
+      }
+    } catch (e) {
+      console.warn(`  [loadCases] skip goodcases-from-badcases.json: ${e.message}`);
+    }
+  }
+
   return all;
 }
 

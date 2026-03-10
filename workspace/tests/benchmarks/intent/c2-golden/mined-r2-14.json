@@ -17,7 +17,11 @@
       "汇报真实并行状态（自动）",
       "等待回流不抢跑汇报（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 识别用户确认意图后，立即并行spawn多个子Agent执行之前讨论的研究任务（全球顶级AI/Agent公开benchmark综述 + 逐项差距清单与追赶路线图），每条任务独立spawn，汇报真实active数量",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-002",
@@ -36,7 +40,11 @@
       "立即spawn子Agent补做single-file HTML/CSS/JS demo（自动）",
       "汇报当前并行状态含新任务（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 识别用户追问的是之前承诺但未交付的HTML demo产物，诚实承认未落地，立即spawn子Agent补做，不找借口",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-003",
@@ -55,7 +63,11 @@
       "修正Top2：全系统异常自治闭环激活（自动）",
       "修正Top3：全系统言出法随链路激活含CRAS/AEO/LEP（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 识别用户对刚提出的Day2 Top3改造项做了范围升级纠偏：不是局部补丁而是全系统激活。立即修正Top3收口标准，将ISC/DTO/CRAS/AEO/LEP/Gate/Release全部纳入每项改造的覆盖范围",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-004",
@@ -77,7 +89,11 @@
       "汇报真实并行总数和任务分配（自动）",
       "主Agent保持畅通等待回流（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 识别多重指令：1)Top3并行冲刺 2)极限并行拆解 3)主Agent保持畅通不做重活。查询可用Agent角色，将3个Top各拆成架构/实现/验证/审计多条并行子任务，按角色分派，一次性spawn全部",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-005",
@@ -96,7 +112,11 @@
       "将调整后的策略同步到相关子Agent（自动）",
       "汇报调整后的任务排布（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 识别用户给出了三步串行优先级：1)先改评测标准 2)再复查现有评测集 3)再提高未来自动生成质量。按此顺序调整已在执行的评测集整改任务的执行策略",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-006",
@@ -115,7 +135,11 @@
       "确认原有9条任务不受影响继续执行（自动）",
       "汇报更新后的并行总数（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 识别用户要求扩列两个新任务：1)质量分析师诊断评测集水准 2)凌霄阁7位阁主地狱级评测裁决。立即spawn两条新子Agent任务，同时保持原有任务继续执行",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-007",
@@ -134,7 +158,11 @@
       "spawn子Agent: 系统健康提醒→第一时间扩列诊断与根治（自动）",
       "汇报新增任务到并行看板（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 识别用户引用了一条系统健康告警通知，追问是否已有自动诊断闭环。如果没有，立即扩列一条新任务去根治。系统需判断当前是否已有该闭环，如无则立即spawn子Agent执行",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-008",
@@ -154,7 +182,11 @@
       "提炼Top3: 言出法随最小可信成功率面板（自动）",
       "给出每项的完成标准和Day2结项逻辑（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 综合已完成的2份AI调研报告+1份差距分析追赶路线图，提炼Day2最紧迫的Top3改造项，每项给出为什么必须做、完成标准、与全局目标的关系，并明确这3项完成即可Day2结项",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-009",
@@ -172,7 +204,11 @@
       "对比每条任务的运行时长判断是否正常（自动）",
       "用真实数据汇报：未卡住+每条任务当前运行时长+预期（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 识别用户询问系统是否卡住，立即调用subagents list查询真实运行状态，用数据回答而非空口安慰，汇报每条任务的真实运行时长和状态",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-14-010",
@@ -190,6 +226,10 @@
       "重新给出突出程序化固化的元规则case举例（自动）",
       "确保新例子与前两个不重复且互补（自动）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 识别用户对刚给出的元规则case举例质量不满意，具体纠偏方向是：缺少'固化、程序化'维度。立即修正举例，突出'不是写文档而是落代码/gate/runner'的差异",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

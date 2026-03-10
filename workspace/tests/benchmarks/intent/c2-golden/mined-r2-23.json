@@ -13,7 +13,11 @@
     "original_messages": [
       "om_x100b55f1c6b784a4b27328d9b8c4fe2"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 立即spawn子Agent执行根治任务，清理modelKey/runtimeModelKey/runtime_model_key不一致，修旧测试口径，保持1任务=1Agent=1Key，产出验证报告",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-002",
@@ -29,7 +33,11 @@
     "original_messages": [
       "om_x100b55f1a428e53cb31abbb2752ed5d"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 调用subagents list获取runtime真值，诚实汇报opus路由未走通的真实状态，并立即启动根治opus provider路由的子Agent任务，而非仅汇报和解释",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-003",
@@ -45,7 +53,11 @@
     "original_messages": [
       "om_x100b55f1bc1470a0b3c38172a0cc7bb"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 承认优先级排序错误后立即行动：spawn子Agent执行opus provider路由根治任务，而非长篇解释原因后等待用户催促",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-004",
@@ -61,7 +73,11 @@
     "original_messages": [
       "om_x100b55f1b9cbcca0b292a1706dd8674"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 直接spawn根治任务，不再解释或汇报状态。任务应明确指向spawn路由/opus provider根治，产出最小验证和报告",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-005",
@@ -77,7 +93,11 @@
     "original_messages": [
       "om_x100b55f1b70ccca0b213c7f7b6df781"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 承认timeout自动治理链未接成全局默认动作，立即spawn根治任务将timeout→自动拆解→自动派发写死进调度技能默认链路，同时对当前4个timeout任务执行follow-up派生",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-006",
@@ -95,7 +115,11 @@
       "om_x100b55f244e074a0b3f51088bbaa1eb",
       "om_x100b55f2447398a4b209843ab763f6f"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 从openclaw.json或runtime配置中读取当前活跃的provider/key映射，以脱敏方式（前缀+后缀）展示给用户，而非拒绝或说'看不到'",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-007",
@@ -109,7 +133,11 @@
     "execution_chain_steps": 6,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: timeout检测→根因判断（restart/replace/archive/human_handoff）→自动派生follow-up任务→重新入调度队列→更新看板状态，全程无需用户催促",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-008",
@@ -123,7 +151,11 @@
     "execution_chain_steps": 7,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 全仓库扫描spawn选路逻辑→定位model→provider→agent route映射错误→修正路由规则使claude-opus-4-6-thinking走到正确的claude/penguin provider→spawn前fail-fast校验→最小验证→报告",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-009",
@@ -137,7 +169,11 @@
     "execution_chain_steps": 4,
     "session_source": "73052ef7-5eae-482d-8069-b7e4ff861473",
     "original_messages": [],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 汇报应基于subagents list实时查询的runtime真值，按true_occupied_key/free_key/queued/abnormal四维口径输出，不应重复输出相同的旧状态表",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-23-010",
@@ -153,6 +189,10 @@
     "original_messages": [
       "om_x100b55f1b37664a0b32907e05acb0b6"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 立即spawn根治任务，将timeout后默认行为改为：failed终态+自动派生follow-up+重新入调度。覆盖restart/replace/archive/human_handoff四类决策，接入dispatch-runner默认链路，产出最小验证",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

@@ -16,7 +16,11 @@
       "新增凌霄阁7位阁主裁决接入任务",
       "汇总为统一整改与裁决流程"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统先依据V3标准重构rubric，再并行拉起复查与实现子任务；完成后将质量分析与7阁主裁决纳入统一评测流水线（含准入门禁、证据链、裁决输出），并给出可执行整改优先级。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-002",
@@ -35,7 +39,11 @@
       "回写执行状态与结果",
       "向用户同步闭环进度"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应立即把‘健康提醒’从单点告警扩展为诊断-根因-修复-验真的闭环任务，自动拉起扩列子任务并回传根治方案，而非仅回复状态。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-003",
@@ -54,7 +62,11 @@
       "检测并标注异常任务",
       "向用户发布一致口径汇报"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 汇报前必须以runtime真值核对running/queued/done/abnormal四维口径，避免spawn数冒充running数，并对口径变化给出解释。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-004",
@@ -73,7 +85,11 @@
       "对齐现有评测集复查口径",
       "输出可执行标准版本"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 主流程应把草案落为正式评测条款与打分锚点，并接入后续评测集复查与生成链路，不得停留在文本建议层。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-005",
@@ -92,7 +108,11 @@
       "创建最小真实执行链基准集",
       "发布整改优先级与门禁"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应将现有样本降级为smoke/gate用途，立即建立统一目录与case schema，并补齐真实执行链评测最小集。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-006",
@@ -111,7 +131,11 @@
       "不合格样本拦截与返工",
       "输出最终可入库样本"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统需把生成链路从‘产出样本’升级为‘生成-校验-裁决’三段式：自动生成后必须经过质量分析与阁主裁决门禁。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-007",
@@ -130,7 +154,11 @@
       "持续回报阶段性结果",
       "最终交付按顺序达成"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应保持多线程推进同时保证主线优先级：先标准、再复查、再生成质量；并对新插入任务（健康扩列）做不降级调度。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-008",
@@ -149,7 +177,11 @@
       "回填新case并重跑验证",
       "发布根治版生成规范"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统必须触发从‘修样本’到‘修生成器’的根因迁移：不仅补case，还要改runner与证据校验，避免继续产出伪高分集。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-009",
@@ -168,7 +200,11 @@
       "防止遗漏并持续执行",
       "向用户同步整合后计划"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应在多轮异步事件中保持上下文一致：吸收完成结果、处理排队用户指令、避免遗漏后续动作并持续推进主目标。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-22-010",
@@ -187,6 +223,10 @@
       "验真同类场景自动触发",
       "输出自治闭环证据"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统需自动证明自治闭环：发现未扩列即自触发补链，完成根因分析、修复与防护，并在后续同类提醒中自动复用。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

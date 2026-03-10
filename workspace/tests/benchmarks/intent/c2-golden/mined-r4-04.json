@@ -16,7 +16,11 @@
       "沉淀ISC规则：交付前自检，失败品自动重做",
       "向用户汇报完成证据而非解释"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在交付前自检图片质量，识别失败品（空白图）并标记为失败，然后自动重做而非交付给用户。正确执行链：①产出图片后自动验真（检查是否空白/损坏）；②识别为失败品后标记失败；③自动触发重绘任务；④只交付验真通过的合格品；⑤沉淀ISC规则：交付前必须自检，失败品不外发。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-002",
@@ -35,7 +39,11 @@
       "沉淀ISC规则：产出→验真→合格才交付",
       "向用户回报修复证据而非计划"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应立即识别这是纠偏信号，承认交付失败品是系统责任，并启动自诊→重做→防复发闭环。正确执行链：①识别纠偏意图；②根因分析：为什么没有自检；③修复：增加交付前验真逻辑；④重做失败品；⑤验真新产出；⑥沉淀ISC规则。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-003",
@@ -54,7 +62,11 @@
       "沉淀ISC规则：对话与调度并行，不串行等待",
       "后续执行中验证规则生效"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应识别这是自主性缺失纠偏，立即承认错误并改变行为：对话与调度并行，不再因对话暂停任务派发。正确执行链：①识别自主性缺失纠偏；②立即spawn任务；③在对话同时持续调度；④汇报只反映已发出的进行中任务；⑤沉淀ISC规则：对话不中断调度。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-004",
@@ -73,7 +85,11 @@
       "沉淀ISC规则：有空槽必填充，不允许'待发'",
       "验证后续调度效率打满"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应识别这是调度效率纠偏，立即消除'待发'状态，将所有待发任务转为进行中。正确执行链：①识别调度效率问题；②检查空闲并发槽数；③立即spawn所有待发任务；④汇报只显示进行中/已完成/失败三种状态；⑤沉淀ISC规则：无'待发'状态，有空槽必填充。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-005",
@@ -92,7 +108,11 @@
       "沉淀ISC规则：汇报只反映真实并发（进行中）",
       "验证后续汇报口径一致"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别这是全局未对齐问题，立即修正汇报口径：标题反映真实并发数（进行中数量），表内只放进行中的任务。正确执行链：①识别口径混淆问题；②修正汇报逻辑：并发=进行中；③表内只显示进行中任务；④去除已完成/失败任务占位；⑤沉淀ISC规则：汇报口径统一。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-006",
@@ -111,7 +131,11 @@
       "在调度层固化自动发送逻辑",
       "验证后续报告自动发送生效"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别这是交付闭环缺失，立即发送产出文件并沉淀规则：产出报告后默认发送原文件。正确执行链：①识别交付闭环缺失；②立即调用file-sender发送文件；③确认发送成功；④沉淀ISC规则：报告产出→自动发送；⑤验证后续报告自动发送。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-007",
@@ -130,7 +154,11 @@
       "立即spawn任务填满空槽",
       "沉淀ISC规则：分析产出→立即派发执行"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应识别这是执行连续性缺失，立即基于缺口清单拆分任务并派发。正确执行链：①读取缺口清单；②拆分为可执行子任务；③检查空闲并发槽；④立即spawn任务填满空槽；⑤汇报只显示进行中；⑥沉淀ISC规则：缺口识别→立即派发。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-008",
@@ -149,7 +177,11 @@
       "验证后续汇报命名符合规范",
       "更新多Agent汇报技能文档"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应识别这是命名规范纠偏，立即修正汇报中的Agent名称为角色全称（战略家/工程师/审计官等）。正确执行链：①识别命名规范纠偏；②查询Agent角色映射表；③修正汇报中的Agent名称；④沉淀ISC规则：汇报使用角色全称；⑤验证后续汇报命名正确。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-009",
@@ -168,7 +200,11 @@
       "验证后续调度效率打满",
       "向用户回报规则固化证据"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应提炼调度效率规则并固化：①先发任务再汇报；②识别缺口立即拆分；③有空槽必填充；④对话不中断调度；⑤汇报只反映进行中。正确执行链：①提炼5条核心规则；②写入ISC规则/MEMORY.md；③在调度层程序化实现；④验证后续执行符合规则。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-04-010",
@@ -187,6 +223,10 @@
       "更新多Agent汇报技能的过滤逻辑",
       "验证后续汇报只显示进行中"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应识别这是汇报口径纠偏，立即修正：汇报表只显示进行中的任务，已完成/失败任务不进入主列表。正确执行链：①识别汇报口径纠偏；②过滤汇报表只保留进行中；③已完成任务单独汇报或省略；④沉淀ISC规则：汇报只显示进行中；⑤验证后续汇报符合规范。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

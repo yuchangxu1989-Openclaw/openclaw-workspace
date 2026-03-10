@@ -17,7 +17,11 @@
       "补充中间检查点，确认当前进展与目标保持一致",
       "主Agent整合结果并向用户同步真实完成边界（done项与残留风险）"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 先基于runtime真值汇报并行状态，再委派子Agent执行兼容清理；完成后给出代码/测试/报告证据，明确是否真正根治而非口头完成。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-002",
@@ -37,7 +41,11 @@
       "补充中间检查点，确认当前进展与目标保持一致",
       "向用户输出‘配置对但路由未通’的分层结论"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 必须给出诚实口径：区分‘配置正确’与‘spawn路由仍错绑provider’两层状态，明确结论为‘尚未全走通’并附失败样式。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-003",
@@ -57,7 +65,11 @@
       "补充中间检查点，确认当前进展与目标保持一致",
       "输出阶段性进展并保留全局未完成任务视图"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 不busy-poll；以当前完成结果生成阶段性更新，并显式标注其在全局workflow中的位置与未完成项。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-004",
@@ -77,7 +89,11 @@
       "补充中间检查点，确认当前进展与目标保持一致",
       "给出‘新任务续作’而非沿用旧run的补救策略"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 不能把timeout伪装为done；需记录‘timeout+有效产物’双态，后续拆新任务补回归与报告闭环。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-005",
@@ -97,7 +113,11 @@
       "补充中间检查点，确认当前进展与目标保持一致",
       "规划后续双链任务：handler修复+剩余case补证"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 把问题从‘证据补档’升级为‘真实handler缺失’，拆分为路由接线修复与PB-025/026补证两条链。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-006",
@@ -117,7 +137,11 @@
       "补充中间检查点，确认当前进展与目标保持一致",
       "输出必须落到runner/regression接线的补债要求"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 判定为‘标准存在但主执行链未采纳’，不得按完成上报；需要求把quality/quantity gate接入runner与regression入口。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-007",
@@ -137,7 +161,11 @@
       "将执行动作拆分为可验证的小步骤并逐项落地",
       "更新对用户的风险说明与优先级排序"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 将问题归类为主链实现缺口而非‘样本不够’，并把case扩充任务与event completion修复任务解耦并行推进。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-008",
@@ -157,7 +185,11 @@
       "补充中间检查点，确认当前进展与目标保持一致",
       "在下一轮用户追问时保持口径一致并可回溯"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 每次汇报应基于runtime状态分解done/timeout/blocked/running，并同步关键风险，不得仅报总数。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-009",
@@ -177,7 +209,11 @@
       "补充中间检查点，确认当前进展与目标保持一致",
       "输出单一真值口径并承认未走通部分"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 识别queued message重复意图，先补齐最新真实状态，再回答统一口径，避免前后冲突或漏答。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINED-R2-16-010",
@@ -197,6 +233,10 @@
       "将执行动作拆分为可验证的小步骤并逐项落地",
       "再对外发布结论并附不确定性边界"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 只能把返回当证据线索，需二次校验文件存在/测试可复现后再进入对用户承诺。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

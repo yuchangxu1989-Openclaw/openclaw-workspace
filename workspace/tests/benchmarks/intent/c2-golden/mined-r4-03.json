@@ -16,7 +16,11 @@
       "输出修正后的汇报格式并固化规则",
       "后续汇报只反映真实进行中任务数"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应立即识别口径混淆问题：1) 并发上限≠当前活跃数；2) 已完成任务不应列入并发列表；3) 自纠并给出正确格式：标题只写'当前活跃：X路Agent并行中'，列表只放'进行中'状态的任务。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-002",
@@ -36,7 +40,11 @@
       "只有合格品才发送给用户",
       "沉淀规则：产出物必须先自验真再交付"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在产出后立即自诊图片是否合格，发现失败时应：1) 标记失败不交付；2) 主动重做而非等待用户判断；3) 失败品不发给用户，只发合格品。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-003",
@@ -55,7 +63,11 @@
       "固化调度规则：空槽立刻补任务",
       "后续不再出现'待发'状态"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应：1) 立即识别并发槽闲置→立刻发任务；2) 取消'待发'状态，只有'进行中/已完成/失败'三态；3) 一有空槽就补任务，不在手里握着。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-004",
@@ -74,7 +86,11 @@
       "向用户确认'已发原文件'",
       "沉淀规则：报告产出后必须发送原文件"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在任务完成后自动触发：1) 检测产出物路径；2) 调用file-sender发送原文件；3) 确认发送成功后再标记完成。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-005",
@@ -93,7 +109,11 @@
       "固化命名规则到多Agent汇报技能",
       "后续汇报统一使用人物角色名"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应将角色名从功能简称改为人物角色全称：编码→工程师，评审→审计官，写作→文案师，分析→分析师，主控→战略家。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-006",
@@ -112,7 +132,11 @@
       "固化规则：对话不中断调度",
       "后续行为：说话时继续spawn子任务"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应：1) 认识到对话与调度可以并行；2) 在与用户对话时继续派发任务；3) 不因对话而暂停执行链。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-007",
@@ -131,7 +155,11 @@
       "不出现'待发'状态",
       "固化规则：新槽位→立刻补任务"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应：1) 识别到新key=新并发槽=应立即填充任务；2) 不等用户催促，主动扫描缺口并派发；3) 汇报时任务已在进行中而非待发。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-008",
@@ -150,7 +178,11 @@
       "输出精简版原则供后续执行",
       "验证：下次汇报是否符合这些原则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应输出可执行原则：1) 先发任务再汇报；2) 识别缺口立刻拆子任务；3) 有空槽就补；4) 对话不中断调度；5) 汇报只反映已发出的进行中任务。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-009",
@@ -169,7 +201,11 @@
       "更新汇报格式：只显示进行中",
       "固化规则：列表只放进行中"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应：1) 理解'并发'=当前正在执行的任务数；2) 列表只放'进行中'；3) 已完成/失败单独处理不占并发位。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-03-010",
@@ -188,6 +224,10 @@
       "边执行边与用户对话",
       "汇报时只显示已发出的进行中任务"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应：1) 立即把最高优先级任务（key测通）发出；2) 边对话边派发其他可做任务；3) 利用并发优势同时推进多任务；4) 不因对话而暂停执行。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

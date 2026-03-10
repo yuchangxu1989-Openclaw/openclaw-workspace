@@ -18,7 +18,11 @@
       "register-task登记并跟踪",
       "completion事件回收并向用户回执"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 先核验eval-mining是否完成创建→注册锚点→意图路由→触发条件→验证闭环；若缺失，自动补齐并回写状态，后续同类请求强制走技能路由。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-002",
@@ -39,7 +43,11 @@
       "register-task记录任务",
       "完成后确认case已落盘"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应将该纠偏即时沉淀为C2评测用例：补全input/context/expected_output/category/difficulty/source/multi_turn/execution_chain_steps，并写入评测集。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-003",
@@ -60,7 +68,11 @@
       "更新pre-commit与补丁文档",
       "完成后回执并声明后续自动检查"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应把“技能创建后置步骤”升级为ISC规则+事件驱动守卫：定义trigger/event/action/hook，并接入提交流程检查。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-004",
@@ -81,7 +93,11 @@
       "制定下一波按config执行的约束",
       "纳入后续规则化改造计划"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应基于运行真值回答是否实际调用eval-mining，并在未调用时触发“惯性偏离”修复：后续批次强制按技能config执行。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-005",
@@ -102,7 +118,11 @@
       "register-task登记清洗任务",
       "等待后续completion并汇报结果"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应先量化现状，再发起全量清洗：格式修复→V3合规校验→跨文件去重→统计报告，且可追踪任务状态。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-006",
@@ -123,7 +143,11 @@
       "并行spawn 10个agent执行",
       "统一聚合结果并回传"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应支持中途策略切换：撤回大任务，拆分为10个可并行小任务，分别派发并保持统一标准与汇总口径。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-007",
@@ -144,7 +168,11 @@
       "生成用户可见摘要",
       "继续处理后续队列"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统在收到subagent completion事件时，应先调用completion-handler/update-task更新看板，再输出用户可见回执，避免状态漂移。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-008",
@@ -165,7 +193,11 @@
       "校验写入成功",
       "返回NO_REPLY保持对话整洁"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应在不中断主流程的前提下，把可复用根因与待办沉淀到memory文件，并保持追加写入不覆盖历史。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-009",
@@ -186,7 +218,11 @@
       "通过子Agent实施改造",
       "以后续任务表现验真"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应完成四层根因拆解（规则、认知、执行、架构）并给出程序化防复发措施，而非仅口头承诺“下次注意”。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "session-21572393-c2-010",
@@ -207,6 +243,10 @@
       "生成对外汇报",
       "发现异常时触发重试/拆分"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统汇报并发任务时必须基于实时状态更新，避免spawn数冒充running；每次关键节点都应先更新看板再对外汇报。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

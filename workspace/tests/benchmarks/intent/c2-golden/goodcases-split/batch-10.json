@@ -19,7 +19,10 @@
       "定位intent侧噪音阈值配置问题并修复",
       "验证breaker连带触发是否随intent修复而消除"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-007",
@@ -41,7 +44,10 @@
       "配置cron定时触发机制与标准化日志格式",
       "端到端验真：模拟故障触发→guard自动捕获→报告生成→确认制度化闭环"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-008",
@@ -63,7 +69,10 @@
       "部署每10分钟增量自动检测扫描机制",
       "验真：确认存量已清零且增量扫描正常捕获新告警"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-009",
@@ -85,7 +94,10 @@
       "在observability目录中更新告警治理与自动RCA逻辑",
       "更新self-check脚本并验真跨模块链路一致性：事件→调度→观测→自检全链路走通"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-REAL-21572393-010",
@@ -107,7 +119,10 @@
       "对比执行结果与预期状态，生成结果校验证据",
       "汇总执行证据+结果证据形成可审计闭环报告"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-001",
@@ -131,7 +146,10 @@
       "提交不绕过门禁（禁止--no-verify）",
       "向用户汇报真实状态（含已完成项与未完成项）"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-002",
@@ -153,7 +171,10 @@
       "避免粗糙grep关键词误判，用语义分析复核结论",
       "委派子Agent输出分类报告与逐条修复计划"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-003",
@@ -175,7 +196,10 @@
       "补全感知探针部署",
       "重跑pre-commit门禁确认通过后再提交与汇报"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-004",
@@ -197,7 +221,10 @@
       "端到端模拟验真：创建测试文档→触发自动授权→确认权限生效",
       "确认流程强绑定而非依赖人工记忆调用"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-SESSION-21572393-005",
@@ -219,6 +246,9 @@
       "执行长期根治：完成脚本+规则+全链路门禁通过",
       "分轨交付报告：分别给出完成定义、验证证据与未闭环风险告知"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

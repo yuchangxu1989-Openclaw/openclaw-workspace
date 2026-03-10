@@ -1,0 +1,690 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.1",
+    "lastTouchedAt": "2026-03-02T13:38:00.000Z"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "claude-main": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-zGcFUDNZXL13QC69oJDup9qYK2Bf4lKbfW5RTXaP3tRuhy3A",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "boom-main": {
+        "baseUrl": "https://boom.aihuige.com/v1",
+        "apiKey": "sk-D0IEFjB37bpDC3TyYECUcyQkoRMElMuIxGNzteHbuUbzXLAp",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.3-codex",
+            "name": "GPT-5.3 Codex",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "claude-researcher": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-T0jcshzeikmkTdVWVIjke42rXAbBGC8Ksd84gMKNx3zNU7XD",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "boom-researcher": {
+        "baseUrl": "https://boom.aihuige.com/v1",
+        "apiKey": "sk-T3QAPTJG8Qhhq2fVU8BHS7w4RaA6cPKaRbKrnsjY1gaCfpCh",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.3-codex",
+            "name": "GPT-5.3 Codex",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "claude-coder": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-FwxTN0iPYmOeC4aj3JLkLfGMko7lorzcOW1U3zw7XPgNXiQX",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "boom-coder": {
+        "baseUrl": "https://boom.aihuige.com/v1",
+        "apiKey": "sk-sJzDgEm4oCaj0Z9hNN1WabNVCFWjtnysgD1JbG2CX3RSm4wo",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.3-codex",
+            "name": "GPT-5.3 Codex",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "claude-reviewer": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-qqFyIfNM1ujGH8oyD3XxyssK8c4cszwvsqiPMeZTpirzAJlw",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "boom-reviewer": {
+        "baseUrl": "https://boom.aihuige.com/v1",
+        "apiKey": "sk-z88qXQerb3B6mno9W6uc0ICo1j0qtyw9j0xY0fGh0ZkpQ0up",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.3-codex",
+            "name": "GPT-5.3 Codex",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "claude-analyst": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-dvtADlEkFXgJQNB9CAXQwSPEukS34ErSDyyHOL9w3Fyb2rTh",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "boom-analyst": {
+        "baseUrl": "https://boom.aihuige.com/v1",
+        "apiKey": "sk-LpDBweKXyaQMy3p9INnehBNYCjkaue5GxTS3ECfPW8u51KqR",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.3-codex",
+            "name": "GPT-5.3 Codex",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "claude-scout": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-24LCF1n3IIor3At7xvetBv0oZyJYD51ATB28ODQOx56SZm8G",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "boom-scout": {
+        "baseUrl": "https://boom.aihuige.com/v1",
+        "apiKey": "sk-iJTmPMtOHHjYDaHF83MT4NkVLa90W7NS5EP4l6ovuRCnRito",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.3-codex",
+            "name": "GPT-5.3 Codex",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "claude-writer": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-wKu5zI0zmxAdqjqluPo2VD2LeKhZ8oC68wfGYPuHuLnm746N",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "boom-writer": {
+        "baseUrl": "https://boom.aihuige.com/v1",
+        "apiKey": "sk-91cPjF9GFf3Rbpqv5afkNS74UTMCtnI5nDS0MH1tOj6rULU8",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.3-codex",
+            "name": "GPT-5.3 Codex",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "claude-cron-worker": {
+        "baseUrl": "https://api.penguinsaichat.dpdns.org/",
+        "apiKey": "sk-pz2MCBYWSbenZsqgVCfZDRzEaR3TUwQBQgSZxXS3jBbBSPz1",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-opus-4-6-thinking",
+            "name": "Claude Opus 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            "id": "claude-sonnet-4-6-thinking",
+            "name": "Claude Sonnet 4-6 Thinking",
+            "reasoning": true,
+            "contextWindow": 200000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4-6",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "boom-cron-worker": {
+        "baseUrl": "https://boom.aihuige.com/v1",
+        "apiKey": "sk-L3dtgivjpXbmLFcwlQbNgjbXhk4lnXzKLEHevqUZp3lvYwCD",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.3-codex",
+            "name": "GPT-5.3 Codex",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "zhipu-embedding": {
+        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "apiKey": "a474ebc9588a46498513e4d6867dd0ac.VFMTRb6hz89NN8JC",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "embedding-3",
+            "name": "Embedding-3",
+            "contextWindow": 8192,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "zhipu-multimodal": {
+        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "apiKey": "ce9cf29352c9401d8eb57388e5db318b.y2sVHHkjtVmXJKkz",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "glm-4v-plus",
+            "name": "GLM-4V Plus",
+            "contextWindow": 8192,
+            "maxTokens": 4096
+          }
+        ]
+      },
+      "zhipu-cron": {
+        "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+        "apiKey": "d6338644b2f141ad88f2cfebb6b48b34.ssIkoiAmxSYTUXst",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "glm-5",
+            "name": "GLM-5",
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "claude-main/claude-opus-4-6-thinking"
+      },
+      "models": {
+        "claude-main/claude-opus-4-6-thinking": {},
+        "claude-main/claude-opus-4-6": {},
+        "claude-main/claude-sonnet-4-6-thinking": {},
+        "claude-main/claude-sonnet-4-6": {},
+        "boom-main/gpt-5.3-codex": {},
+        "claude-researcher/claude-opus-4-6-thinking": {},
+        "claude-researcher/claude-opus-4-6": {},
+        "claude-researcher/claude-sonnet-4-6-thinking": {},
+        "claude-researcher/claude-sonnet-4-6": {},
+        "boom-researcher/gpt-5.3-codex": {},
+        "claude-coder/claude-opus-4-6-thinking": {},
+        "claude-coder/claude-opus-4-6": {},
+        "claude-coder/claude-sonnet-4-6-thinking": {},
+        "claude-coder/claude-sonnet-4-6": {},
+        "boom-coder/gpt-5.3-codex": {},
+        "claude-reviewer/claude-opus-4-6-thinking": {},
+        "claude-reviewer/claude-opus-4-6": {},
+        "claude-reviewer/claude-sonnet-4-6-thinking": {},
+        "claude-reviewer/claude-sonnet-4-6": {},
+        "boom-reviewer/gpt-5.3-codex": {},
+        "claude-analyst/claude-opus-4-6-thinking": {},
+        "claude-analyst/claude-opus-4-6": {},
+        "claude-analyst/claude-sonnet-4-6-thinking": {},
+        "claude-analyst/claude-sonnet-4-6": {},
+        "boom-analyst/gpt-5.3-codex": {},
+        "claude-scout/claude-opus-4-6-thinking": {},
+        "claude-scout/claude-opus-4-6": {},
+        "claude-scout/claude-sonnet-4-6-thinking": {},
+        "claude-scout/claude-sonnet-4-6": {},
+        "boom-scout/gpt-5.3-codex": {},
+        "claude-writer/claude-opus-4-6-thinking": {},
+        "claude-writer/claude-opus-4-6": {},
+        "claude-writer/claude-sonnet-4-6-thinking": {},
+        "claude-writer/claude-sonnet-4-6": {},
+        "boom-writer/gpt-5.3-codex": {},
+        "claude-cron-worker/claude-opus-4-6-thinking": {},
+        "claude-cron-worker/claude-opus-4-6": {},
+        "claude-cron-worker/claude-sonnet-4-6-thinking": {},
+        "claude-cron-worker/claude-sonnet-4-6": {},
+        "boom-cron-worker/gpt-5.3-codex": {},
+        "zhipu-embedding/embedding-3": {},
+        "zhipu-multimodal/glm-4v-plus": {},
+        "zhipu-cron/glm-5": {}
+      },
+      "subagents": {
+        "maxConcurrent": 16,
+        "maxSpawnDepth": 2,
+        "maxChildrenPerAgent": 20,
+        "archiveAfterMinutes": 120,
+        "runTimeoutSeconds": 0
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "model": {
+          "primary": "claude-main/claude-opus-4-6-thinking",
+          "fallbacks": [
+            "boom-main/gpt-5.3-codex"
+          ]
+        },
+        "identity": {
+          "name": "战略家",
+          "emoji": "🎖️"
+        },
+        "subagents": {
+          "allowAgents": [
+            "*"
+          ]
+        },
+        "tools": {
+          "allow": [
+            "*"
+          ]
+        }
+      },
+      {
+        "id": "researcher",
+        "name": "researcher",
+        "workspace": "/root/.openclaw/workspace-researcher",
+        "agentDir": "/root/.openclaw/agents/researcher/agent",
+        "model": {
+          "primary": "claude-researcher/claude-opus-4-6-thinking",
+          "fallbacks": [
+            "boom-researcher/gpt-5.3-codex"
+          ]
+        },
+        "identity": {
+          "name": "系统架构师",
+          "emoji": "🔍"
+        }
+      },
+      {
+        "id": "coder",
+        "name": "coder",
+        "workspace": "/root/.openclaw/workspace-coder",
+        "agentDir": "/root/.openclaw/agents/coder/agent",
+        "model": {
+          "primary": "claude-coder/claude-opus-4-6",
+          "fallbacks": [
+            "boom-coder/gpt-5.3-codex"
+          ]
+        },
+        "identity": {
+          "name": "开发工程师",
+          "emoji": "💻"
+        }
+      },
+      {
+        "id": "reviewer",
+        "name": "reviewer",
+        "workspace": "/root/.openclaw/workspace-reviewer",
+        "agentDir": "/root/.openclaw/agents/reviewer/agent",
+        "model": {
+          "primary": "claude-reviewer/claude-sonnet-4-6-thinking",
+          "fallbacks": [
+            "boom-reviewer/gpt-5.3-codex"
+          ]
+        },
+        "identity": {
+          "name": "质量仲裁官",
+          "emoji": "🔎"
+        }
+      },
+      {
+        "id": "writer",
+        "name": "writer",
+        "workspace": "/root/.openclaw/workspace-writer",
+        "agentDir": "/root/.openclaw/agents/writer/agent",
+        "model": {
+          "primary": "claude-writer/claude-sonnet-4-6",
+          "fallbacks": [
+            "boom-writer/gpt-5.3-codex"
+          ]
+        },
+        "identity": {
+          "name": "创作大师",
+          "emoji": "✍️"
+        }
+      },
+      {
+        "id": "analyst",
+        "name": "analyst",
+        "workspace": "/root/.openclaw/workspace-analyst",
+        "agentDir": "/root/.openclaw/agents/analyst/agent",
+        "model": {
+          "primary": "claude-analyst/claude-sonnet-4-6-thinking",
+          "fallbacks": [
+            "boom-analyst/gpt-5.3-codex"
+          ]
+        },
+        "identity": {
+          "name": "洞察分析师",
+          "emoji": "📊"
+        }
+      },
+      {
+        "id": "scout",
+        "name": "scout",
+        "workspace": "/root/.openclaw/workspace-scout",
+        "agentDir": "/root/.openclaw/agents/scout/agent",
+        "model": {
+          "primary": "claude-scout/claude-opus-4-6",
+          "fallbacks": [
+            "boom-scout/gpt-5.3-codex"
+          ]
+        },
+        "identity": {
+          "name": "情报专家",
+          "emoji": "🎯"
+        }
+      },
+      {
+        "id": "cron-worker",
+        "name": "cron-worker",
+        "workspace": "/root/.openclaw/workspace",
+        "agentDir": "/root/.openclaw/agents/cron-worker",
+        "model": {
+          "primary": "zhipu-cron/glm-5",
+          "fallbacks": [
+            "boom-cron-worker/gpt-5.3-codex"
+          ]
+        },
+        "identity": {
+          "name": "定时任务执行者",
+          "emoji": "⏰"
+        }
+      }
+    ]
+  },
+  "tools": {
+    "profile": "full",
+    "allow": [
+      "*"
+    ],
+    "sessions": {
+      "visibility": "all"
+    },
+    "agentToAgent": {
+      "enabled": true
+    },
+    "elevated": {
+      "enabled": true
+    },
+    "exec": {
+      "backgroundMs": 30000,
+      "timeoutSec": 3600
+    },
+    "subagents": {
+      "tools": {
+        "allow": [
+          "*"
+        ],
+        "deny": []
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "reset": {
+      "mode": "daily",
+      "atHour": 4,
+      "idleMinutes": 120
+    }
+  },
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "streaming": true,
+      "blockStreaming": true,
+      "accounts": {
+        "default": {
+          "appId": "cli_a92f2a545838dcc8",
+          "appSecret": "r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC",
+          "botName": "战略家"
+        }
+      },
+      "groups": {
+        "allowAll": true,
+        "requireMention": true
+      }
+    }
+  },
+  "plugins": {
+    "enabled": true,
+    "entries": {
+      "feishu": {
+        "enabled": true
+      }
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "3b2536af0fa208383b2af461f7585f4c8176fe198361ade4"
+    }
+  }
+}

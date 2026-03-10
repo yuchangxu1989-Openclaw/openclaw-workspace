@@ -30,7 +30,11 @@
     "multi_turn": true,
     "context": "用户发现系统汇报并行任务数与runtime真实数据不一致，spawn总数被冒充为running数。session 21572393，2026-03-07 22:51 CST。",
     "execution_chain_steps": 6,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 识别为纠偏类意图→建立汇报诚实规则：1)调用subagents list获取真实running数 2)对比spawn总数vs实际running 3)按true_occupied_key/free_key/queued/abnormal四维口径输出 4)写入AGENTS.md约束 5)更新dispatch-engine增加trueOccupiedModelKeys 6)验证下次汇报与runtime一致",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-002",
@@ -59,7 +63,11 @@
     "multi_turn": true,
     "context": "用户多次要求用汇报技能的标准模板输出子Agent状态，系统每次仍手写表格格式不稳定、信息不全。session 21572393，2026-03-08 13:04 CST。",
     "execution_chain_steps": 5,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 识别为纠偏+自主性缺失→根因分析(习惯性偏差,知道有工具但不用)→建立强制规则：1)读multi-agent-reporting/SKILL.md确认接口 2)读multi-agent-reporting/index.js确认renderText/renderCard函数 3)新建桥接脚本refresh-board.js 4)AGENTS.md写入ISC-REPORT-SUBAGENT-BOARD-001规则 5)验证下次汇报走标准格式",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-003",
@@ -92,7 +100,11 @@
     "multi_turn": true,
     "context": "子Agent重写评测标准文档后：旧内容残留未清理、C2 case太简单(改配置级)、执行链是设计稿非真实记录、组成约束未对齐V3标准。session 21572393，2026-03-08 13:45~13:57 CST。",
     "execution_chain_steps": 6,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 识别为全局未对齐+交付质量问题→1)feishu_doc read检查文档开头 2)发现旧Section 11残留→确认write未完全覆盖 3)拆分3路子Agent并行：文档彻底重写(researcher-02)、真实执行链提取(coder)、评测集差距分析(analyst) 4)每路子Agent prompt强制包含V3标准 5)C2 case替换为多轮纠偏全局对齐类 6)验证文档第一行是第一章",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-004",
@@ -129,7 +141,11 @@
     "multi_turn": true,
     "context": "openclaw.json大规模重构(8→19 Agent)后，11个claude系provider的api协议字段写错，导致全部返回空响应。连续3次空跑后才定位根因。session 21572393，2026-03-08 12:00~12:49 CST。",
     "execution_chain_steps": 7,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 识别为根因分析+防护机制建立→1)读session jsonl文件定位空跑原因 2)发现content=[] usage=0 stopReason=stop 3)检查openclaw.json中11个provider的api字段 4)修改api:openai-completions→anthropic-messages(11个provider) 5)新建scripts/config-api-protocol-check.js(规则:claude→anthropic-messages,boom→openai-completions,zhipu→openai-completions) 6)集成到s",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-005",
@@ -162,7 +178,11 @@
     "multi_turn": true,
     "context": "coder/Opus的AEO评测任务跑了1小时超时无产出，系统挂着等用户来问而不是自动处理。用户手动触发杀+拆后要求建立自动机制。session 21572393，2026-03-08 12:00 CST。",
     "execution_chain_steps": 7,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 识别为自主性缺失+超时治理→1)检测子Agent超时(runtimeMs>3600000) 2)杀掉超时任务 3)拆分为3个独立子任务 4)分别派发到不同Agent/模型 5)dispatch-engine.js添加递归收敛:1st timeout→replace 2nd→split_requeue 3rd+→human_handoff 6)补timeoutCount传播 7)验证：拆分后各2分钟完成",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-006",
@@ -191,7 +211,11 @@
     "multi_turn": true,
     "context": "用户要求3个不同模型同时竞技写公众号策划，每个创建独立飞书文档。涉及多模型路由、并行调度、中间结果等待（NO_REPLY）、最终汇总。session 21572393，2026-03-08 13:20 CST。",
     "execution_chain_steps": 6,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 识别为多模型竞技任务→1)message发送飞书文档链接 2)sessions_spawn第一路(researcher/Opus,thinking:high)创建飞书文档写入策划 3)sessions_spawn第二路(writer/Codex)创建飞书文档写入策划 4)sessions_spawn第三路(cron-worker/GLM-5)创建飞书文档写入策划 5)等待3路全部完成(NO_REPLY等待中间结果) 6)汇总3个文档链接+各自亮点",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-007",
@@ -228,7 +252,11 @@
     "multi_turn": true,
     "context": "用户连续3次修改文档标题，系统需要在子Agent运行中通过steer机制实时调整，而非杀掉重建。session 21572393，2026-03-08 13:01~13:04 CST。",
     "execution_chain_steps": 4,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 识别为纠偏类(命名确认)→1)第一次steer子Agent改标题为《评测标准与基线设计》 2)用户第二次修改→steer改为《AEO评测基线设计》 3)用户第三次修改→steer改为《Agent全局效果评测标准与基线设计V0.1》并确认不再改 4)每次steer必须使用subagents action=steer而非重新spawn",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-008",
@@ -261,7 +289,11 @@
     "multi_turn": true,
     "context": "用户多次纠偏渠道/模型术语混用以及子Agent英文输出问题，系统纠偏后下次仍犯。最终需要代码级强制(dispatch-runner.js注入中文后缀+14个AGENTS.md)。session 21572393，2026-03-08。",
     "execution_chain_steps": 6,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 识别为反复未果+全局未对齐→1)识别渠道vs模型术语混用根因 2)确认术语规范:penguin/boom/zhipu=渠道,Opus 4.6/GPT-5.3 Codex/GLM-5=模型 3)修改dispatch-runner.js添加中文语言强制后缀 4)批量创建14个agents/*/AGENTS.md写入语言规则 5)更新multi-agent-reporting中pureModel()只输出模型名 6)验证汇报输出不含渠道名",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-009",
@@ -294,7 +326,11 @@
     "multi_turn": true,
     "context": "系统对C2难度定义的认知有偏差——把'改配置改字段'当C2，实际C2应该是多轮纠偏后全局对齐的复杂case。用户要求无BUG交付而非交付后让用户挑BUG。session 21572393，2026-03-08 13:55~13:57 CST。",
     "execution_chain_steps": 7,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 识别为认知错误+交付质量→1)识别元问题:C2 case标准理解偏差(改配置≠C2) 2)读取memory/2026-03-06~08.md提取真实纠偏记录 3)读取MEMORY.md提取全局对齐规则 4)重新定义C2:多轮纠偏+执行链≥4步+跨模块协同+全局对齐 5)spawn researcher重写第三章(7个C2+3个C1) 6)task prompt包含10个具体case详细描述 7)验证交付前自检",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "C2-MINE-R2-09-010",
@@ -331,6 +367,10 @@
     "multi_turn": true,
     "context": "评测标准太低→评测集质量差(真实对话仅8.85%)→评测结论不可信→系统优化方向错误的连锁效应。用户反复返工3次后系统才识别出这是标准层面的元问题而非数据问题。session 21572393，2026-03-08。",
     "execution_chain_steps": 6,
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 识别为连锁跷跷板+全局未对齐→1)识别元问题:标准本身太低导致评测集质量差→评测结论无效→优化方向错误的连锁效应 2)冻结旧标准(evaluation-sets/旧版本归档) 3)重构评测基线:P0指标+口径→P1覆盖范围→P2评测内容→P3刷新机制→P4当前状态(末位) 4)新建飞书文档JxhNdoc7ko7ZLwxJUJHcWyeDnYd写入 5)基于新标准重建评测集组成约束(真实对话≥80%,多轮≥80%,C2≥80%,总量≥500) 6)触发评测集全量refresh pipeline",
+    "gate": "Gate-B",
+    "complexity": "C2"
   }
 ]

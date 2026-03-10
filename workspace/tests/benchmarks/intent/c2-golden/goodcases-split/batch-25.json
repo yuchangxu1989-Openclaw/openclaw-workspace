@@ -20,7 +20,10 @@
       "④追加到评测集",
       "⑤向用户确认。V3标准要求C2评测用例8类自动采集率≥90%。"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r3-01-007",
@@ -45,7 +48,10 @@
       "write",
       "宣告完成）；③对失败任务自动重派并添加prompt硬约束'必须调用write工具'；④沉淀为系统级防护规则。"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r3-01-008",
@@ -67,7 +73,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r3-01-009",
@@ -89,7 +98,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-mined-r3-01-010",
@@ -111,6 +123,9 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

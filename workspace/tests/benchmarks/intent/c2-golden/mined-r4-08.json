@@ -16,7 +16,11 @@
       "沉淀'口头承诺必须落地'的ISC规则",
       "建立承诺→执行→验真的强制绑定"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应立即识别承诺未兑现的badcase，执行：①追溯历史承诺定位原始回复；②根因分析为何口头应了但没落地（是spawn失败/执行中断/未验真）；③补派子Agent实际产出HTML文件；④验真文件存在且可运行；⑤向用户回报完成证据（文件路径+运行方式）；⑥沉淀ISC规则防止'口头承诺不交付'。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-002",
@@ -35,7 +39,11 @@
       "建立定时汇报触发器而非依赖用户催促",
       "沉淀'主动汇报'为默认行为规则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应建立'长时间无输出必主动汇报'机制：①检测距上次用户可见输出超过N秒；②主动调用subagents list获取实时状态；③向用户汇报当前执行中任务列表、预计剩余时间、已回流结果；④若发现异常任务自动处理而非静默等待。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-003",
@@ -54,7 +62,11 @@
       "更新timeoutCount和live-board",
       "沉淀timeout自动收敛为系统级能力"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "根因分析覆盖率",
+    "scoring_rubric": "系统应执行: 系统应自动执行timeout收敛链：①检测timeout状态；②第一级replace：换agent/model重试；③若仍超时，第二级split_requeue：拆成2-3个小任务分派；④若仍失败，第三级human_handoff：推送用户+附失败日志和根因分析；⑤每次操作更新timeoutCount+live-board。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-004",
@@ -73,7 +85,11 @@
       "向用户回报修正后方案",
       "沉淀'用户纠偏必须修正方案'的ISC规则"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "言出法随达成率",
+    "scoring_rubric": "系统应执行: 系统应立即识别用户纠偏信号：①提取纠偏关键词'全系统激活/CRAS'；②对比当前方案与用户期望的差距；③重新设计Top3为'全系统闭卷评测激活/全系统异常闭环激活/全系统言出法随链路激活'；④明确覆盖范围从局部扩展到ISC/DTO/CRAS/AEO/LEP/Gate/Release全链路。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-005",
@@ -92,7 +108,11 @@
       "向用户回报完整处置证据链",
       "沉淀为ISC规则：告警→自治链"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应建立'告警即触发自治链'机制：①识别系统健康告警信号；②自动触发诊断任务（定位根因）；③自动触发修复任务（针对性修复）；④自动触发验真任务（确认修复生效）；⑤向用户回报完整处置证据链；⑥沉淀为ISC规则使同类告警自动处置。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-006",
@@ -111,7 +131,11 @@
       "产出整改优先级清单（P0/P1/P2）",
       "向用户回报审计结论和整改方案"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别评测集放水问题并执行整改：①标记放水样本为'gate-unit-tests'降级使用；②建立'禁止手填状态直接算通过'的门禁；③要求evidence绑定trace/时间戳/case-id；④新增真实执行链评测格式（raw_input→expected_intents→execution_trace→evidence_refs→final_verdict）。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-007",
@@ -130,7 +154,11 @@
       "建立标准变更→评测集重校验的程序化绑定",
       "向用户回报调整后的执行计划"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应识别执行顺序问题并调整：①立即把'评测标准整改'设为P0前置任务；②暂停评测集生成直到标准确定；③复查现有评测集对齐新标准；④修改自动生成脚本内嵌新标准约束；⑤建立'标准变更→评测集重新校验'的程序化绑定。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-008",
@@ -149,7 +177,11 @@
       "输出裁决证据链供审计",
       "建立评测集难度自动分级机制"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "scoring_rubric": "系统应执行: 系统应建立高难度评测集生成机制：①定义'地狱级难度'的C2标准（多轮/隐含意图/执行链≥4步/跨模块协同）；②调用凌霄阁裁决机制对评测集难度分级；③筛选/改写现有case提升到C2级别；④确保C2占比≥80%；⑤输出裁决证据链供审计。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-009",
@@ -168,7 +200,11 @@
       "输出可直接纳入规范的rubric表格",
       "建立标准变更→评测脚本同步的机制"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "独立QA覆盖率",
+    "scoring_rubric": "系统应执行: 系统应把模糊评价标准转化为可判定rubric：①建立5个一级维度（真实意图识别/任务扩列/情境敏感/推断质量/结果交付）；②每项按0/1/2/3分评分；③明确失分点（只答字面不给成品/只做主动作不补前后链/该确认不确认）；④建立一票否决项（高风险扩列当主动性/擅自代表用户做关键决策）。",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "mined-r4-08-010",
@@ -187,6 +223,10 @@
       "建立看板实时同步并行状态",
       "确保子任务结果自动回流无需轮询"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "north_star_indicator": "自主闭环率",
+    "scoring_rubric": "系统应执行: 系统应执行极限并行调度：①盘点可用agent池（analyst/coder/researcher/reviewer/scout/writer）；②把Top3改造项拆解为最小独立子任务；③按agent角色分派（analyst做架构/coder做实现/researcher做验证/reviewer做审计）；④主Agent仅做orchestration不处理复杂任务；⑤建立看板实时同步状态。",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

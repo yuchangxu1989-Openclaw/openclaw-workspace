@@ -19,7 +19,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-007",
@@ -41,7 +44,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-008",
@@ -64,7 +70,10 @@
       "执行",
       "反馈的闭环自动化程度，量化哪些环节仍依赖人工。"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-009",
@@ -86,7 +95,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-MINED-R2-08-010",
@@ -108,7 +120,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-001",
@@ -151,7 +166,10 @@
       "制定解决方案",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-002",
@@ -190,7 +208,10 @@
       "建立强制规则：1)读multi-agent-reporting/SKILL.md确认接口 2)读multi-agent-reporting/index.js确认renderText/renderCard函数 3)新建桥接脚本refresh-board.js 4)AGENTS.md写入ISC-REPORT-SUBAGENT-BOARD-001规则 5)验证下次汇报走标准格式",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-003",
@@ -233,7 +254,10 @@
       "确认write未完全覆盖 3)拆分3路子Agent并行：文档彻底重写(researcher-02)、真实执行链提取(coder)、评测集差距分析(analyst) 4)每路子Agent prompt强制包含V4标准 5)C2 case替换为多轮纠偏全局对齐类 6)验证文档第一行是第一章",
       "执行并验证"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-004",
@@ -282,7 +306,10 @@
       "openai-completions,zhipu",
       "openai-completions) 6)集成到scripts/startup-self-check.sh 7)验证researcher-02成功返回响应(totalTokens:23223)"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-B",
+    "complexity": "C2"
   },
   {
     "id": "goodcase-C2-MINE-R2-09-005",
@@ -326,6 +353,9 @@
       "split_requeue 3rd+",
       "human_handoff 6)补timeoutCount传播 7)验证：拆分后各2分钟完成"
     ],
-    "data_source": "badcase-flip"
+    "data_source": "badcase-flip",
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "complexity": "C2"
   }
 ]

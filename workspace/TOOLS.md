@@ -89,3 +89,7 @@ node /root/.openclaw/workspace/skills/public/file-sender/index.js <文件路径>
 - 自动处理：GLM-TTS生成 → 截2秒去噪 → opus转换 → 飞书语音气泡
 - 触发条件：用户发语音+短回复时自动用语音
 - ISC规则：voice-reply-on-short-response-001
+
+### 🚨 openclaw doctor --fix 绝对禁令（永久生效）
+**绝对不能用 `openclaw doctor --fix`**，100%会把openclaw.json改崩导致变砖无法启动。
+只允许 `openclaw doctor`（纯只读验证，不加任何flag）。
