@@ -13,6 +13,8 @@ STAMP="$(date +%Y%m%d-%H%M%S)"
 ARCHIVE_DIR="$ARCHIVE_ROOT/$STAMP"
 mkdir -p "$ARCHIVE_DIR/cron-worker-active"
 
+export ARCHIVE_DIR CRON_KEEP_COUNT MAIN_KEEP_COUNT DELETED_RETENTION_HOURS
+
 echo "[$(date '+%F %T')] session governance start" >> "$LOG_FILE"
 
 python3 - <<'PY' >> "$LOG_FILE"
