@@ -2,6 +2,25 @@
 # push-feishu-board.sh - 生成看板并直接推送到飞书（使用table组件）
 # 不依赖主Agent，脚本自己调飞书API发消息
 
+# === 去重机制：相同内容10秒内不重复推送 ===
+DEDUP_DIR="/tmp/feishu-board-push-dedup"
+mkdir -p "$DEDUP_DIR"
+BOARD_FILE="/root/.openclaw/workspace/logs/subagent-task-board.json"
+if [ -f "$BOARD_FILE" ]; then
+  CONTENT_HASH=$(md5sum "$BOARD_FILE" | cut -d' ' -f1)
+  DEDUP_FILE="$DEDUP_DIR/last-push"
+  if [ -f "$DEDUP_FILE" ]; then
+    LAST_HASH=$(head -1 "$DEDUP_FILE")
+    LAST_TS=$(tail -1 "$DEDUP_FILE")
+    NOW_TS=$(date +%s)
+    DIFF=$((NOW_TS - LAST_TS))
+    if [ "$CONTENT_HASH" = "$LAST_HASH" ] && [ "$DIFF" -lt 10 ]; then
+      echo "⏭️ 看板内容未变化且距上次推送${DIFF}秒，跳过重复推送"
+      exit 0
+    fi
+  fi
+fi
+
 DATE_STR=$(TZ=Asia/Shanghai date +%Y-%m-%d)
 
 FEISHU_APP_ID="cli_a92f2a545838dcc8"
@@ -92,6 +111,9 @@ SEND_RESP=$(curl -s -X POST "https://open.feishu.cn/open-apis/im/v1/messages?rec
 SEND_CODE=$(echo "$SEND_RESP" | jq -r '.code // 0' 2>/dev/null)
 
 if [ "$SEND_CODE" = "0" ]; then
+  # 记录本次推送hash和时间
+  echo "$CONTENT_HASH" > "$DEDUP_FILE"
+  date +%s >> "$DEDUP_FILE"
   echo "✅ 看板已直接推送到飞书（table组件）"
 else
   echo "❌ 飞书推送失败: $SEND_RESP"

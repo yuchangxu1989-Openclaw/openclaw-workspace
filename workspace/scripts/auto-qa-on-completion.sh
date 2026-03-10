@@ -109,7 +109,7 @@ if [ -n "$QA_AGENT" ]; then
       flock -w 5 200 || exit 1
       # 注册到看板
       bash /root/.openclaw/workspace/scripts/register-task.sh \
-        "$QA_LABEL" "$QA_LABEL" "$QA_AGENT" "auto-qa" "质量核查: ${LABEL}" 2>/dev/null || true
+        "$QA_LABEL" "$QA_LABEL" "$QA_AGENT" "claude-opus-4-6-thinking" "质量核查: ${LABEL}" 2>/dev/null || true
     ) 200>"$QA_LOCK"
 
     echo "$(date -Iseconds) 派发QA: task=${LABEL} agent=${QA_AGENT} label=${QA_LABEL}" >> "$QA_SPAWN_LOG"
