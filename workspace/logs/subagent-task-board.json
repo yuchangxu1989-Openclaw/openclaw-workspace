@@ -1188,7 +1188,7 @@
     "label": "eval-v3-clean-03",
     "agentId": "writer",
     "model": "claude-opus-4-6-thinking",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T15:57:10.297Z",
     "description": "V3清洗conversation(30条)",
     "completeTime": "2026-03-08T15:57:53.472Z",
@@ -2330,7 +2330,7 @@
     "label": "v3-clean-badcases",
     "agentId": "reviewer",
     "model": "opus",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T18:09:15.345Z",
     "description": "00-real-badcases(45条)",
     "completeTime": "2026-03-08T18:10:55.942Z",
@@ -2344,7 +2344,7 @@
     "label": "v3-clean-goodcases",
     "agentId": "analyst",
     "model": "opus",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T18:09:16.193Z",
     "description": "goodcases(135条)",
     "completeTime": "2026-03-08T18:11:26.387Z",
@@ -2358,7 +2358,7 @@
     "label": "v3-clean-jiupian",
     "agentId": "scout",
     "model": "opus",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T18:09:17.054Z",
     "description": "纠偏類(41条)",
     "completeTime": "2026-03-08T18:10:31.173Z",
@@ -2383,7 +2383,7 @@
     "label": "v3-clean-evening",
     "agentId": "writer",
     "model": "opus",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T18:09:18.791Z",
     "description": "evening(45条)",
     "completeTime": "2026-03-08T18:24:02.374Z",
@@ -2397,7 +2397,7 @@
     "label": "v3-clean-academic",
     "agentId": "reviewer",
     "model": "opus",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T18:09:19.669Z",
     "description": "academic(20条)",
     "completeTime": "2026-03-08T18:11:47.258Z",
@@ -2411,7 +2411,7 @@
     "label": "v3-clean-conversation",
     "agentId": "analyst",
     "model": "opus",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T18:09:20.536Z",
     "description": "conversation(20条)",
     "completeTime": "2026-03-08T18:23:40.647Z",
@@ -2425,7 +2425,7 @@
     "label": "v3-clean-rename",
     "agentId": "scout",
     "model": "opus",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T18:09:21.422Z",
     "description": "rename(20条)",
     "completeTime": "2026-03-08T18:12:33.148Z",
@@ -2450,7 +2450,7 @@
     "label": "v3-clean-jiaofu",
     "agentId": "writer",
     "model": "opus",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-08T18:09:23.137Z",
     "description": "交付質量(12条)",
     "completeTime": "2026-03-08T18:22:46.096Z",
@@ -3216,7 +3216,7 @@
     "label": "fix-and-commit-all-retry",
     "agentId": "coder",
     "model": "gpt-5.3-codex",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-09T00:28:38.250Z",
     "completeTime": "2026-03-09T00:30:11.359Z",
     "result_summary": "pre-commit仍拦截,hook扫描范围过宽+gate判定逻辑不明确",
@@ -6118,11 +6118,13 @@
     "label": "e2e-expand-batch4-retry",
     "agentId": "scout",
     "model": "claude-opus-4-6-thinking",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-10T00:57:40.400Z",
     "completeTime": "2026-03-10T01:02:05.672Z",
     "result_summary": "粒度太粗撤回，改为1规则1任务",
-    "retry_count": 0
+    "retry_count": 0,
+    "archived_reason": "stale-task-cleanup-20260310",
+    "archived_at": "2026-03-10T09:43:00Z"
   },
   {
     "taskId": "e6ca08e3-c93a-4433-9c50-b8e9bcf4fab9",
@@ -7201,11 +7203,13 @@
     "label": "reviewer-analyst-boundary-retry",
     "agentId": "researcher",
     "model": "claude-researcher/claude-opus-4-6-thinking",
-    "status": "failed",
+    "status": "archived",
     "spawnTime": "2026-03-10T08:21:43.660Z",
     "completeTime": "2026-03-10T08:34:52.050Z",
     "result_summary": "HTTP 520服务暂不可用,但agent-role核查已确认边界P2已解决,不再重试",
-    "retry_count": 0
+    "retry_count": 0,
+    "archived_reason": "stale-task-cleanup-20260310",
+    "archived_at": "2026-03-10T09:43:00Z"
   },
   {
     "taskId": "f208a1f7-66e8-44e2-a8a7-b5249aaee6c3",
@@ -7330,5 +7334,138 @@
     "model": "claude-coder/claude-opus-4-6-thinking",
     "status": "running",
     "spawnTime": "2026-03-10T09:25:59.762Z"
+  },
+  {
+    "taskId": "273b23a6-2866-4e45-8f06-1e412043d46f",
+    "label": "agent-role-status-report",
+    "agentId": "researcher",
+    "model": "claude-researcher/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:14.061Z"
+  },
+  {
+    "taskId": "e4fa9401-13e2-4f61-afdb-2a026f9b92a3",
+    "label": "v3-to-v4-migrate-batch1",
+    "agentId": "reviewer",
+    "model": "claude-reviewer/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T09:41:15.188Z",
+    "completeTime": "2026-03-10T09:43:59.643Z",
+    "result_summary": "eval-mining目录已全部是V4引用,零V3残留,无需修改"
+  },
+  {
+    "taskId": "3fa7c1e4-3b19-4a9c-bee9-110933e725c1",
+    "label": "v3-to-v4-migrate-batch2",
+    "agentId": "scout",
+    "model": "claude-scout/claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T09:41:16.252Z",
+    "completeTime": "2026-03-10T09:43:13.991Z",
+    "result_summary": "scout工作区没有skills/scripts目录,需要指定主workspace路径",
+    "retry_count": 0
+  },
+  {
+    "taskId": "27402f99-99aa-4929-a18e-45a6c72d3604",
+    "label": "reviewer-analyst-boundary",
+    "agentId": "writer",
+    "model": "claude-writer/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:17.414Z"
+  },
+  {
+    "taskId": "482a15ff-007e-4afc-a8d3-4da2e2280146",
+    "label": "cleanup-zombie-workspaces",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:18.509Z"
+  },
+  {
+    "taskId": "45f5f798-dad5-4150-8a7b-71260c7bc699",
+    "label": "pending-task-triage",
+    "agentId": "analyst",
+    "model": "claude-analyst/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:19.544Z"
+  },
+  {
+    "taskId": "2dd6bf5c-aef9-4d91-b4de-fc6010572d03",
+    "label": "glm5-model-routing-design",
+    "agentId": "researcher",
+    "model": "claude-researcher/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:20.704Z"
+  },
+  {
+    "taskId": "ddeb6be4-3e99-42be-b153-a8e1c7369e73",
+    "label": "v3-to-v4-migrate-docs",
+    "agentId": "scout",
+    "model": "claude-scout/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:21.805Z"
+  },
+  {
+    "taskId": "70da5624-bec0-4cd2-bf82-56c343bb8296",
+    "label": "agent-role-prompts-upgrade",
+    "agentId": "writer",
+    "model": "claude-writer/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:22.866Z"
+  },
+  {
+    "taskId": "63304913-298a-41bb-92ff-aec136c8d3fb",
+    "label": "completion-handler-design-review",
+    "agentId": "reviewer",
+    "model": "claude-reviewer/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:23.903Z"
+  },
+  {
+    "taskId": "ced98dce-d6dd-4b72-b7b4-35d946e4b245",
+    "label": "fix-git-workspace-blocker",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:25.026Z"
+  },
+  {
+    "taskId": "d8a68e4a-c2d4-4acf-91d7-2b369179b0d6",
+    "label": "eval-runner-v4-track-design",
+    "agentId": "analyst",
+    "model": "claude-analyst/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:26.098Z"
+  },
+  {
+    "taskId": "9b3e0c61-d60d-4919-bb7e-cb8a3fe6518f",
+    "label": "daily-report-0310",
+    "agentId": "writer",
+    "model": "claude-writer/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:27.143Z"
+  },
+  {
+    "taskId": "a153aaa8-b7fa-435e-bd79-f22f591f9418",
+    "label": "skill-health-scan",
+    "agentId": "scout",
+    "model": "claude-scout/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:28.222Z"
+  },
+  {
+    "taskId": "a153aaa8-b7fa-435e-bd79-f22f591f9418",
+    "label": "skill-health-scan",
+    "agentId": "scout",
+    "model": "claude-scout/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:58.489Z"
+  },
+  {
+    "taskId": "926e8174-3066-4560-ba8e-99a1e9ce3411",
+    "label": "taskboard-archive-stale",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:41:59.643Z"
   }
 ]
