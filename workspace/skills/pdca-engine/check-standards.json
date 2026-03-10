@@ -4,7 +4,7 @@
   "metrics": {
     "concurrencyUtil": {
       "label": "并发利用率",
-      "target": 0.60,
+      "target": 0.90,
       "direction": "gte",
       "warnThreshold": 0.40,
       "weight": 0.25,
@@ -28,7 +28,7 @@
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
-      "target": 0.50,
+      "target": 1.00,
       "direction": "gte",
       "warnThreshold": 0.25,
       "weight": 0.20,
