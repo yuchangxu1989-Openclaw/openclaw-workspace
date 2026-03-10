@@ -1,7 +1,13 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.1",
-    "lastTouchedAt": "2026-03-02T13:38:00.000Z"
+    "lastTouchedVersion": "2026.3.2",
+    "lastTouchedAt": "2026-03-09T17:37:59.647Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-09T17:37:59.600Z",
+    "lastRunVersion": "2026.3.2",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
   },
   "models": {
     "mode": "merge",
@@ -1022,15 +1028,14 @@
         "zhipu-worker-05/glm-5": {},
         "zhipu-worker-06/glm-5": {}
       },
+      "workspace": "/root/.openclaw/workspace",
       "subagents": {
         "maxConcurrent": 24,
         "maxSpawnDepth": 2,
         "maxChildrenPerAgent": 20,
         "archiveAfterMinutes": 120,
         "runTimeoutSeconds": 0
-      },
-      "workspace": "/root/.openclaw/workspace",
-      "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+      }
     },
     "list": [
       {
@@ -1057,8 +1062,7 @@
             "edit",
             "apply_patch"
           ]
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "researcher",
@@ -1072,10 +1076,9 @@
           ]
         },
         "identity": {
-          "name": "系统架构师",
+          "name": "洞察分析师",
           "emoji": "🔍"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "coder",
@@ -1091,8 +1094,7 @@
         "identity": {
           "name": "开发工程师",
           "emoji": "💻"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "reviewer",
@@ -1108,8 +1110,7 @@
         "identity": {
           "name": "质量仲裁官",
           "emoji": "🔎"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "writer",
@@ -1125,8 +1126,7 @@
         "identity": {
           "name": "创作大师",
           "emoji": "✍️"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "analyst",
@@ -1140,10 +1140,9 @@
           ]
         },
         "identity": {
-          "name": "洞察分析师",
+          "name": "系统架构师",
           "emoji": "📊"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "scout",
@@ -1159,8 +1158,7 @@
         "identity": {
           "name": "情报专家",
           "emoji": "🎯"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "cron-worker",
@@ -1176,8 +1174,7 @@
         "identity": {
           "name": "定时任务执行者",
           "emoji": "⏰"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "researcher-02",
@@ -1193,8 +1190,7 @@
         "identity": {
           "name": "架构师-02",
           "emoji": "🔍"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "coder-02",
@@ -1210,8 +1206,7 @@
         "identity": {
           "name": "工程师-02",
           "emoji": "💻"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "reviewer-02",
@@ -1227,8 +1222,7 @@
         "identity": {
           "name": "仲裁官-02",
           "emoji": "🔎"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "writer-02",
@@ -1244,8 +1238,7 @@
         "identity": {
           "name": "创作师-02",
           "emoji": "✍️"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "analyst-02",
@@ -1261,8 +1254,7 @@
         "identity": {
           "name": "分析师-02",
           "emoji": "📊"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "scout-02",
@@ -1278,8 +1270,7 @@
         "identity": {
           "name": "侦察兵-02",
           "emoji": "🔭"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "cron-worker-02",
@@ -1295,8 +1286,7 @@
         "identity": {
           "name": "定时器-02",
           "emoji": "⏰"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "worker-03",
@@ -1312,8 +1302,7 @@
         "identity": {
           "name": "执行者-02",
           "emoji": "⚡"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "worker-04",
@@ -1329,8 +1318,7 @@
         "identity": {
           "name": "执行者-03",
           "emoji": "⚡"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "worker-05",
@@ -1346,8 +1334,7 @@
         "identity": {
           "name": "执行者-04",
           "emoji": "⚡"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       },
       {
         "id": "worker-06",
@@ -1363,8 +1350,7 @@
         "identity": {
           "name": "执行者-05",
           "emoji": "⚡"
-        },
-        "systemPrompt": "所有输出必须使用中文。包括：代码注释用中文、commit message用中文、汇报内容用中文、日志用中文。唯一例外：代码变量名和技术术语保持英文。"
+        }
       }
     ]
   },
@@ -1427,14 +1413,6 @@
       }
     }
   },
-  "plugins": {
-    "enabled": true,
-    "entries": {
-      "feishu": {
-        "enabled": true
-      }
-    }
-  },
   "gateway": {
     "port": 18789,
     "mode": "local",
@@ -1442,6 +1420,14 @@
     "auth": {
       "mode": "token",
       "token": "3b2536af0fa208383b2af461f7585f4c8176fe198361ade4"
+    }
+  },
+  "plugins": {
+    "enabled": true,
+    "entries": {
+      "feishu": {
+        "enabled": true
+      }
     }
   }
 }
