@@ -24,11 +24,17 @@
     }
   },
   "enforcement_tier": "P0_iron_rule",
-  "enforcement": "cognitive",
+  "enforcement": "programmatic",
   "governance": {
     "auto_execute": true,
     "councilRequired": false
   },
   "created_at": "2026-03-11T07:31:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "handler": "scripts/isc-hooks/rule.mandatory-parallel-dispatch-001.sh",
+  "_auto_deployed": {
+    "by": "isc-rule-deployer",
+    "at": "2026-03-10T23:39:04.751Z",
+    "prev_enforcement": "cognitive"
+  }
 }

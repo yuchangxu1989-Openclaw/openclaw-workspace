@@ -1,0 +1,756 @@
+{
+  "deployed": [
+    {
+      "id": "rule.auto-asr-on-voice-message-001",
+      "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.auto-asr-on-voice-message-001.sh"
+    },
+    {
+      "id": "rule.mandatory-parallel-dispatch-001",
+      "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.mandatory-parallel-dispatch-001.sh"
+    }
+  ],
+  "skipped": [
+    {
+      "id": "rule.aeo-e2e-decision-pipeline-test-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.anti-entropy-design-principle-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.arch-feedback-must-close-003",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.arch-gate-before-action-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.arch-machine-over-human-004",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.arch-real-data-gate-005",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.arch-rule-equals-code-002",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.architecture-diagram-visual-output-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.architecture-review-pipeline-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "AUTO-BADCASE-HARVEST-ENGINE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.auto-collect-eval-from-conversation-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.auto-correction-规则存在但handler缺失-mmgbaua1",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.auto-evomap-sync-trigger-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.auto-fix-high-severity-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.auto-github-sync-trigger-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-AUTO-QA-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "AUTO-SKILL-DISCOVERY-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.auto-skillization-trigger-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "BADCASE-AUTO-FLIP-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.batch-completion-auto-push-001",
+      "reason": "enforcement=[object Object]"
+    },
+    {
+      "id": "rule.caijuedian-tribunal-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.capability-anchor-auto-register-001",
+      "reason": "enforcement=runtime_binding"
+    },
+    {
+      "id": "rule.capability-anchor-lifecycle-sync-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.capability-gap-auto-learn-001",
+      "reason": "enforcement=runtime_binding"
+    },
+    {
+      "id": "rule.coding-quality-thinking-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-COMPLETION-HANDLER-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.cras-daily-report-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.cras-dual-channel-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.cron-task-model-requirement-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.day2-gap1-cron-event-bridge",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "deep-think-auto-delegate-001",
+      "reason": "enforcement=programmatic"
+    },
+    {
+      "id": "rule.dependency-direction-check-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.design-document-delivery-pipeline-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.design-document-narrative-review-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.design-document-structure-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.detection-report-feishu-card-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.discovery-must-trigger-rule-creation-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "dispatch-auto-report-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-DOC-QUALITY-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.eval-batch-size-limit-001",
+      "reason": "enforcement=[object Object]"
+    },
+    {
+      "id": "rule.eval-data-source-redline-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.eval-driven-development-loop-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.eval-mining-intent-route-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.eval-must-include-multi-turn-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-EVAL-ROLE-SEPARATION-001",
+      "reason": "enforcement=[object Object]"
+    },
+    {
+      "id": "rule.eval-sample-auto-collection-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.eval-standard-auto-sync-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.evalset-cron-daily-generation-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.failure-pattern-alert-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-FAILURE-PATTERN-CODE-ESCALATION-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.feishu-doc-auto-perm-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-FILE-SEND-INTENT-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.five-layer-event-model-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.git-commit-dispatch-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.glm-vision-priority-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-aeo-quality-gate-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-agent-orchestration-design-standard-p3nxat",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-anti-entropy-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-cras-e系统架构与交付约束-21ztnb",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-directive-consumption-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "intent-directive-dispatch-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-dispatchengine-api-usage-gvhcmy",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-doc-quality-gate-001质量门禁规则-wrsequ",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "INTENT-IC4-IC5-BOUNDARY-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-mece命名原则-86o70p",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-p0-regression-tracking-qmsnw4",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-pdf输出标准-fyhznt",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-post-commit-quality-gate-h8z2sz",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-reflect-consumption-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "intent-reflect-dispatch-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-ruleify-consumption-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "intent-ruleify-dispatch-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-type-convergence-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-unknown-discovery-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-任务分配策略-jrw5uo",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-任务调度机制-yuiao8",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-会话记忆机制-f2lei",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-子agent产出自动发送-g7wmm7",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-子agent深度思考委派机制-2l6fsj",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.intent-规则命名规范与去重技能-pop4vq",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "N007-v2",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.interactive-card-context-inference-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-auto-programmatic-alignment-001",
+      "reason": "enforcement=programmatic"
+    },
+    {
+      "id": "rule.isc-change-auto-trigger-alignment-001",
+      "reason": "enforcement=[object Object]"
+    },
+    {
+      "id": "rule.isc-creation-gate-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-evomap-mandatory-security-scan-032",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-lto-handshake-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-naming-convention-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-rule-auto-decompose-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-rule-creation-dedup-gate-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-rule-modified-dedup-scan-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-skill-index-auto-update-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-skill-permission-classification-031",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-skill-security-gate-030",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.isc-skill-usage-protocol-001",
+      "reason": "enforcement=[object Object]"
+    },
+    {
+      "id": "rule.isc-standard-format-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.knowledge-must-be-executable-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.layered-decoupling-architecture-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-MAIN-AGENT-DELEGATION-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "memory-correction-on-feedback-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.memory-digest-must-verify-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.meta-enforcement-gate-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.multi-agent-communication-priority-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.must-verify-config-before-coding-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n016-decision-auto-repair-loop-post-pipeline-016",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n017-detection-cras-recurring-pattern-auto-resolve-017",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n018-detection-skill-rename-global-alignment-018",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n019-auto-skill-md-generation-019",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n020-auto-universal-root-cause-analysis-020",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n022-detection-architecture-design-isc-compliance-audit-022",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n023-auto-aeo-evaluation-standard-generation-023",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n024-aeo-dual-track-orchestration-024",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n025-aeo-feedback-auto-collection-025",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n026-aeo-insight-to-action-026",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n029-model-api-key-pool-management-029",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n033-gateway-config-protection",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n034-rule-identity-accuracy",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n035-rule-trigger-completeness",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.n036-memory-loss-recovery",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.naming-mece-consistency-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "N006",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.parallel-subagent-orchestration-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-PDCA-ACT-ENTRY-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-PDCA-ACT-EXIT-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-PDCA-CHECK-ENTRY-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-PDCA-CHECK-EXIT-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-PDCA-DO-ENTRY-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-PDCA-DO-EXIT-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-PDCA-PLAN-ENTRY-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-PDCA-PLAN-EXIT-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.pipeline-benchmark-analysis-requested-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.pipeline-benchmark-defect-acknowledged-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.pipeline-benchmark-design-document-alignment-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.pipeline-benchmark-design-document-layered-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.pipeline-benchmark-evomap-security-scan-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.pipeline-benchmark-skill-created-alignment-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.pipeline-benchmark-skill-publish-security-gate-001",
+      "reason": "enforcement=programmatic"
+    },
+    {
+      "id": "rule.pipeline-benchmark-workflow-requested-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.pipeline-report-filter-001",
+      "reason": "enforcement=[object Object]"
+    },
+    {
+      "id": "rule.planning-time-granularity-037",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "PROJECT-ARTIFACT-GATE-001",
+      "reason": "enforcement=programmatic"
+    },
+    {
+      "id": "rule.project-artifact-settlement-001",
+      "reason": "enforcement=runtime_binding"
+    },
+    {
+      "id": "PROJECT-MGMT-LESSON-CAPTURE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "PROJECT-MGMT-STARTUP-CHECKLIST-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.project-tracker-hygiene-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.public-skill-classification-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.public-skill-quality-gate-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "QUALITY-OVER-EFFICIENCY-OVER-COST-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-SKILL-QUALITY-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.report-readability-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.report-snapshot-lock-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.scenario-acceptance-gate-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.seef-skill-registered-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.seef-subskill-orchestration-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.self-correction-to-rule-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.semantic-intent-event-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.skill-distribution-auto-classify-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "isc-skill-distribution-separation-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.skill-mandatory-skill-md-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.skill-no-direct-llm-call-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.skill-post-creation-guard-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "skill.evolution.auto-trigger",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-SPAWN-TASKBOARD-HOOK-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "SPRINT-CLOSURE-ACCEPTANCE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.subagent-checkpoint-gate-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "SUBAGENT-REPORT-QUEUE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "TASK-ORCHESTRATION-QUALITY-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-TASKBOARD-PUSH-001",
+      "reason": "enforcement=mandatory"
+    },
+    {
+      "id": "rule.threshold-alert-routing-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "TIMEOUT-AUTO-RETRY-001",
+      "reason": "enforcement=[object Object]"
+    },
+    {
+      "id": "TRACKER-SYNC-GATE-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.umr-domain-routing-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.umr-intent-routing-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-USER-EMPHASIS-AUTO-ESCALATION-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "USER-MESSAGE-INTENT-PROBE-001",
+      "reason": "enforcement=[object Object]"
+    },
+    {
+      "id": "rule.vectorization-auto-trigger-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.vectorization-standard-enforcement-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.version-integrity-gate-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.visual-output-style-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.voice-reply-on-short-response-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "ISC-WILD-SCRIPT-AUTO-DISCOVERY-001",
+      "reason": "already_has_handler"
+    },
+    {
+      "id": "rule.zhipu-capability-router-001",
+      "reason": "already_has_handler"
+    }
+  ],
+  "errors": [],
+  "timestamp": "2026-03-10T23:39:04.730Z"
+}
