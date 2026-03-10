@@ -8520,8 +8520,12 @@
     "label": "memos-enable",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
-    "spawnTime": "2026-03-10T23:18:05.822Z"
+    "status": "timeout",
+    "spawnTime": "2026-03-10T23:18:05.822Z",
+    "result_summary": "(超时任务自动回收 — session疑似卡住)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:51:01.702Z",
+    "fixed_reason": "session 33分钟未更新，严重超时(stopReason=toolUse)"
   },
   {
     "taskId": "ecd5a145-6b67-402d-81ce-d435dd5f31e9",

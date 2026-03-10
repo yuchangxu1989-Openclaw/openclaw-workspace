@@ -1,0 +1,42 @@
+{
+  "id": "rule.split-multi-intent-analysis-001",
+  "name": "split_multi_intent_analysis_tasks",
+  "domain": "orchestration",
+  "type": "constraint",
+  "description": "多意图查询/分析任务强制拆分并行 — 用户一次提出多个查询/分析问题时，每个问题独立派一个子Agent",
+  "trigger": {
+    "type": "pre_dispatch",
+    "event": "task.dispatch.requested",
+    "condition": "待派发任务包含多个查询/分析/排查子问题"
+  },
+  "constraint": {
+    "rule": "MUST_SPLIT_MULTI_INTENT_ANALYSIS",
+    "description": "查询/分析类任务天然独立，默认视为无依赖，必须拆分并行",
+    "criteria": {
+      "detection": "计数任务描述中的独立查询/分析/排查意图数量",
+      "threshold": "意图数 >= 2 → 必须拆分",
+      "exception": "仅当存在明确的输入输出依赖时允许合并",
+      "violation": "多个独立分析问题打包给1个子Agent = Badcase"
+    },
+    "examples": {
+      "correct": "用户问3个分析问题 → spawn 3个子Agent各查一个",
+      "wrong": "用户问3个分析问题 → 1个子Agent查3个"
+    }
+  },
+  "five_layer_expansion": {
+    "L1_intent": "检测派发任务是否包含多个独立的查询/分析意图",
+    "L2_event": "task.dispatch.requested — 主Agent准备spawn子Agent前触发",
+    "L3_plan": "解析任务描述，识别独立意图数量，若>=2则要求拆分",
+    "L4_execute": "handler分析任务文本，检测多意图模式，生成拆分建议",
+    "L5_verify": "审计spawn记录，确认每个独立意图对应独立子Agent"
+  },
+  "enforcement_tier": "P0_iron_rule",
+  "enforcement": "programmatic",
+  "handler": "handlers/split-multi-intent-analysis-guard.js",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "created_at": "2026-03-11T07:53:00+08:00",
+  "version": "1.0.0"
+}

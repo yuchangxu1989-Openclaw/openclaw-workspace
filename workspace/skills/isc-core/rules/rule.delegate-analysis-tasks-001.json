@@ -1,0 +1,41 @@
+{
+  "id": "rule.delegate-analysis-tasks-001",
+  "name": "delegate_analysis_tasks_to_subagent",
+  "domain": "orchestration",
+  "type": "constraint",
+  "description": "查询/分析/排查类任务强制委派子Agent — 主Agent禁止自己执行任何需要读文件、搜日志、查配置、分析数据的操作",
+  "trigger": {
+    "type": "pre_execution",
+    "event": "main_agent.task.before_execute",
+    "condition": "主Agent即将自己执行读文件/搜索/分析/排查类操作"
+  },
+  "constraint": {
+    "rule": "MUST_DELEGATE_ANALYSIS_TASKS",
+    "description": "主Agent只做调度+沟通+简单问答，所有分析查询排查操作必须委派",
+    "criteria": {
+      "allowed_self": ["简单问答（上下文/记忆直接可答）", "调度决策", "用户沟通", "汇报总结"],
+      "must_delegate": ["读文件", "搜日志", "查配置", "分析数据", "排查问题", "核查状态", "扫描目录", "执行命令获取信息"],
+      "violation": "主Agent自己做分析类任务 = 调度角色越位 = Badcase"
+    },
+    "examples": {
+      "correct": "用户问'查一下XX配置' → spawn子Agent去查",
+      "wrong": "用户问'查一下XX配置' → 主Agent自己cat文件"
+    }
+  },
+  "five_layer_expansion": {
+    "L1_intent": "检测主Agent是否即将自己执行分析/查询/排查类操作",
+    "L2_event": "main_agent.task.before_execute — 主Agent准备执行tool call前触发",
+    "L3_plan": "判断操作类型：若属于must_delegate类别，拦截并改为spawn子Agent",
+    "L4_execute": "handler拦截exec/read/web_search等tool call，生成spawn建议",
+    "L5_verify": "检查主Agent session中是否存在直接执行分析操作的记录"
+  },
+  "enforcement_tier": "P0_iron_rule",
+  "enforcement": "programmatic",
+  "handler": "handlers/delegate-analysis-tasks-guard.js",
+  "governance": {
+    "auto_execute": true,
+    "councilRequired": false
+  },
+  "created_at": "2026-03-11T07:53:00+08:00",
+  "version": "1.0.0"
+}
