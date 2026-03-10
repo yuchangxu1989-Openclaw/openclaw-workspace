@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# clean-eval-cases.sh — 按 V3 标准清洗评测集（非破坏性标记模式）
+# clean-eval-cases.sh — 按 V4 标准清洗评测集（非破坏性标记模式）
 # 用法:
 #   bash clean-eval-cases.sh scan [file_or_dir]   # 扫描标记+统计（默认，不修改文件）
 #   bash clean-eval-cases.sh apply [file_or_dir]  # 备份+删除不合格+写回
@@ -19,7 +19,7 @@ esac
 
 TARGET="${1:-$(jq -r '.output_dir' "$CONFIG")}"
 
-echo "=== 评测集清洗 (V3 标准) — 模式: $MODE ==="
+echo "=== 评测集清洗 (V4 标准) — 模式: $MODE ==="
 echo "目标: $TARGET"
 echo ""
 

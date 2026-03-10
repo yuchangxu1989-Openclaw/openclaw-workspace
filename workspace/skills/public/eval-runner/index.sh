@@ -78,7 +78,7 @@ cat > "$REPORT_FILE" <<EOF
 - **Partial**: $PARTIAL ($((PARTIAL*100/(PROCESSED>0?PROCESSED:1)))%)
 - **Badcase**: $BADCASE ($((BADCASE*100/(PROCESSED>0?PROCESSED:1)))%)
 
-## V3评测维度
+## V4评测维度
 1. 意图分类准确性
 2. 执行链完整性
 3. 跨模块协同

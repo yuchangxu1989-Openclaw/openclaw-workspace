@@ -20,7 +20,7 @@ case "$MODE" in
     BATCH_SIZE="$(jq -r '.batch_size' "$CONFIG")"
     LINES_PER_BATCH="$(jq -r '.lines_per_batch' "$CONFIG")"
     OUTPUT_DIR="$(jq -r '.output_dir' "$CONFIG")"
-    V3_DOC="$(jq -r '.v3_standard_doc' "$CONFIG")"
+    V4_DOC="$(jq -r '.v4_standard_doc' "$CONFIG")"
 
     mkdir -p "$OUTPUT_DIR"
 
@@ -49,7 +49,7 @@ case "$MODE" in
 
         output_file="${OUTPUT_DIR}/mined-${batch_id}.json"
 
-        task="读取文件 ${session_file} 的第 ${start_line} 到 ${end_line} 行。从中挖掘恰好10条C2意图识别评测用例，格式遵循V3标准（参考 feishu_doc token ${V3_DOC}）。用 write 工具将结果写入 ${output_file}，JSON数组格式，每条包含 id/input/expected_output/category/difficulty/source 字段。一次性完成不要等确认。"
+        task="读取文件 ${session_file} 的第 ${start_line} 到 ${end_line} 行。从中挖掘恰好10条C2意图识别评测用例，格式遵循V4标准（参考 feishu_doc token ${V4_DOC}）。用 write 工具将结果写入 ${output_file}，JSON数组格式，每条包含 id/input/expected_output/category/difficulty/source 字段。一次性完成不要等确认。"
 
         spawn_commands+=("$task|$output_file")
         batch_id=$((batch_id + 1))

@@ -1,4 +1,4 @@
-# eval-runner — V3标准意图理解质量评测技能
+# eval-runner — V4标准意图理解质量评测技能
 
 ## 触发条件
 用户要求对评测集进行意图理解质量评测、跑eval、执行评测集。
@@ -6,9 +6,9 @@
 ## 核心原则
 **执行者 ≠ 评测者（角色分离铁律）**
 - Executor：接收 input+context，输出意图分类+执行链（模拟被测Agent）
-- Evaluator：接收执行结果+expected_output，按V3标准5维度判定（独立评测Agent）
+- Evaluator：接收执行结果+expected_output，按V4标准5维度判定（独立评测Agent）
 
-## V3评测维度
+## V4评测维度
 
 | 维度 | 说明 | 判定标准 |
 |------|------|----------|

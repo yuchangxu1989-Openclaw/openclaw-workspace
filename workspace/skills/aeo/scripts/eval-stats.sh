@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# eval-stats.sh — 评测集V3实时统计，供cron报告调用
+# eval-stats.sh — 评测集V4实时统计，供cron报告调用
 # 输出 markdown 表格段落
 set -euo pipefail
 
@@ -25,7 +25,7 @@ for (const f of files) {
 const pct = (n) => active ? Math.round(100 * n / active) : 0;
 const status = (val, target) => val >= target ? "✅" : "⚠️";
 
-console.log("### 3️⃣ 评测集V3对齐状态");
+console.log("### 3️⃣ 评测集V4对齐状态");
 console.log("| 指标 | 当前 | 目标 | 状态 |");
 console.log("|------|------|------|------|");
 console.log(`| 总条数(活跃) | ${active} | ≥500 | ${status(active, 500)} |`);

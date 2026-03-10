@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# validate-single-case.sh — 单条 case 的 V3 合规验证
+# validate-single-case.sh — 单条 case 的 V4 合规验证
 # 用法: 
 #   bash validate-single-case.sh '<json_string>'
 #   echo '<json>' | bash validate-single-case.sh -

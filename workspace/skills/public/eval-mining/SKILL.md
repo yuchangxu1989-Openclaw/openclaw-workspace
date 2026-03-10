@@ -5,11 +5,11 @@
 - 刷新评测集 → **refresh 模式**（先 clean 全量再 mine 补缺）
 - C2 case 批量生成
 - 评测数据质量刷新
-- 评测集与 V3 标准对齐
+- 评测集与 V4 标准对齐
 
 # 评测集生成与清洗技能 (eval-mining) ⛏️🧹
 
-从 session 日志中挖掘 C2 意图识别评测用例，并按 V3 标准清洗已有评测集的统一流程。
+从 session 日志中挖掘 C2 意图识别评测用例，并按 V4 标准清洗已有评测集的统一流程。
 
 ## 两种模式
 
@@ -17,18 +17,18 @@
 从 session 日志挖掘 C2 评测用例。
 
 ### 清洗模式 (clean)
-按 V3 标准对已有评测集文件逐条检查、修复、删除不合格 case。
+按 V4 标准对已有评测集文件逐条检查、修复、删除不合格 case。
 
 #### 程序化清洗（推荐，防止LLM幻写）
 
 单文件清洗：
 ```bash
-node scripts/v3-eval-clean.js <json文件路径>
+node scripts/v4-eval-clean.js <json文件路径>
 ```
 
 批量清洗c2-golden目录：
 ```bash
-bash scripts/v3-eval-clean-batch.sh
+bash scripts/v4-eval-clean-batch.sh
 ```
 
 脚本自动备份原文件为 `.bak`，只追加 `_flag` 和 `_missing` 字段，不修改现有数据。
@@ -38,7 +38,7 @@ bash scripts/v3-eval-clean-batch.sh
 
 ## 统一质量标准
 
-无论生成还是清洗，都使用同一套 V3 合规检查（定义在 `config.json` 的 `quality_rules`）：
+无论生成还是清洗，都使用同一套 V4 合规检查（定义在 `config.json` 的 `quality_rules`）：
 
 | 规则 | 说明 |
 |------|------|
@@ -60,7 +60,7 @@ bash scripts/v3-eval-clean-batch.sh
 ## 挖掘流程 (mine)
 
 ### 1. 准备阶段
-- 读取 V3 标准文档：`feishu_doc read` token `JxhNdoc7ko7ZLwxJUJHcWyeDnYd`
+- 读取 V4 标准文档：`feishu_doc read` token `JxhNdoc7ko7ZLwxJUJHcWyeDnYd`
 - 确定 session 日志目录和目标条数
 
 ### 2. 分片规则
@@ -75,12 +75,12 @@ bash scripts/v3-eval-clean-batch.sh
 - "一次性完成不要等确认"
 - 明确的输出文件路径（`mined-{batch_id}.json`）
 - 明确要求调用 `write` 工具写文件
-- 只挖 10 条，格式遵循 V3 标准
+- 只挖 10 条，格式遵循 V4 标准
 
 Task prompt 模板：
 ```
 读取文件 {session_file} 的第 {start_line} 到 {end_line} 行。
-从中挖掘恰好10条C2意图识别评测用例，格式遵循V3标准（参考 feishu_doc token JxhNdoc7ko7ZLwxJUJHcWyeDnYd）。
+从中挖掘恰好10条C2意图识别评测用例，格式遵循V4标准（参考 feishu_doc token JxhNdoc7ko7ZLwxJUJHcWyeDnYd）。
 用 write 工具将结果写入 {output_dir}/mined-{batch_id}.json，JSON数组格式，每条包含 id/input/expected_output/category/difficulty/source 字段。
 一次性完成不要等确认。
 ```
@@ -145,16 +145,16 @@ bash index.sh refresh
 
 ### 唯一真相源
 
-评测标准 V3 的唯一真相源为飞书文档 `JxhNdoc7ko7ZLwxJUJHcWyeDnYd`。
+评测标准 V4 的唯一真相源为飞书文档 `JxhNdoc7ko7ZLwxJUJHcWyeDnYd`。
 
 ### 挖掘前必读最新标准
 
-每次执行挖掘任务前，**必须**先通过 `feishu_doc read` 拉取最新 V3 标准文档内容。
+每次执行挖掘任务前，**必须**先通过 `feishu_doc read` 拉取最新 V4 标准文档内容。
 
 ### 标准版本变更自动刷新
 
-- 标准内容的 hash 缓存于 `skills/public/eval-mining/.v3-version-hash`
-- 每次挖掘前运行 `scripts/sync-v3-standard.sh` 检测标准是否变更
+- 标准内容的 hash 缓存于 `skills/public/eval-mining/.v4-version-hash`
+- 每次挖掘前运行 `scripts/sync-v4-standard.sh` 检测标准是否变更
 - 若标准变更：自动触发 refresh 流程
 
 ## 文件结构
@@ -164,12 +164,12 @@ eval-mining/
 ├── SKILL.md                        # 本文件
 ├── config.json                     # 配置参数（含 quality_rules）
 ├── index.sh                        # 统一入口（mine/clean/refresh）
-├── .v3-version-hash                # V3标准内容hash缓存
+├── .v4-version-hash                # V4标准内容hash缓存
 ├── scripts/
 │   ├── clean-eval-cases.sh         # 清洗脚本
-│   ├── validate-single-case.sh     # 单条case V3合规验证
+│   ├── validate-single-case.sh     # 单条case V4合规验证
 │   ├── dedup-eval-cases.sh         # 去重脚本
-│   ├── sync-v3-standard.sh         # V3标准同步检测
+│   ├── sync-v4-standard.sh         # V4标准同步检测
 │   └── refresh-evalset.sh          # 评测集合规刷新
 └── tests/
     └── test-mining.sh              # 验证脚本

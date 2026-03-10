@@ -6,7 +6,7 @@
  * 
  * 角色分离：
  *   Executor: 模拟被测Agent，输出意图分类+执行链
- *   Evaluator: 独立评测Agent，按V3标准5维度判定
+ *   Evaluator: 独立评测Agent，按V4标准5维度判定
  * 
  * 输出: JSON结构化评测结果
  */
@@ -32,7 +32,7 @@ const executorPrompt = `你是一个AI助手，收到以下用户消息和上下
 
 // ====== Step 2: 构造 Evaluator Prompt ======
 function buildEvaluatorPrompt(executorResult) {
-  return `你是一个独立的评测专家。请按V3标准的5个维度评测以下执行结果。
+  return `你是一个独立的评测专家。请按V4标准的5个维度评测以下执行结果。
 
 ## 被测Agent输出
 ${JSON.stringify(executorResult, null, 2)}

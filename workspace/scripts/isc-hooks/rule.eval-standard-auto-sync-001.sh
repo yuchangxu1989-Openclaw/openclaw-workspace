@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ISC Rule Handler: rule.eval-standard-auto-sync-001
 # 评测标准变更自动同步评测集
-# 检测飞书评测文档(V3标准)变更并同步到本地
+# 检测飞书评测文档(V4标准)变更并同步到本地
 # 退出码: 0=pass, 1=fail, 2=error
 
 set -euo pipefail
@@ -9,7 +9,7 @@ set -euo pipefail
 RULE_ID="rule.eval-standard-auto-sync-001"
 DOC_TOKEN="JxhNdoc7ko7ZLwxJUJHcWyeDnYd"
 LOCAL_STANDARD_DIR="/root/.openclaw/workspace/data/eval-standards"
-LOCAL_HASH_FILE="${LOCAL_STANDARD_DIR}/.v3-standard.sha256"
+LOCAL_HASH_FILE="${LOCAL_STANDARD_DIR}/.v4-standard.sha256"
 
 json_output() {
   local status="$1" message="$2" details="${3:-{}}"
@@ -43,12 +43,12 @@ if command -v openclaw &>/dev/null; then
   fi
 else
   # Fallback: check if a cached copy exists at all
-  if [ ! -f "${LOCAL_STANDARD_DIR}/v3-standard-latest.md" ]; then
+  if [ ! -f "${LOCAL_STANDARD_DIR}/v4-standard-latest.md" ]; then
     json_output "error" "openclaw CLI not available and no local cache exists" "{}"
     exit 2
   fi
   # Use cached copy as fetch output for hash comparison (will always show pass/no-change)
-  cp "${LOCAL_STANDARD_DIR}/v3-standard-latest.md" "$FETCH_OUTPUT"
+  cp "${LOCAL_STANDARD_DIR}/v4-standard-latest.md" "$FETCH_OUTPUT"
 fi
 
 # --- Condition Check: compare hashes ---
@@ -59,23 +59,23 @@ if [ -f "$LOCAL_HASH_FILE" ]; then
 fi
 
 if [ "$NEW_HASH" = "$OLD_HASH" ]; then
-  json_output "pass" "V3评测标准文档无变更，无需同步" "{\"doc_token\":\"${DOC_TOKEN}\",\"hash\":\"${NEW_HASH}\"}"
+  json_output "pass" "V4评测标准文档无变更，无需同步" "{\"doc_token\":\"${DOC_TOKEN}\",\"hash\":\"${NEW_HASH}\"}"
   exit 0
 fi
 
 # --- Document changed: sync locally ---
-cp "$FETCH_OUTPUT" "${LOCAL_STANDARD_DIR}/v3-standard-latest.md"
+cp "$FETCH_OUTPUT" "${LOCAL_STANDARD_DIR}/v4-standard-latest.md"
 echo "$NEW_HASH" > "$LOCAL_HASH_FILE"
 
 # Archive with timestamp
-ARCHIVE_NAME="v3-standard-$(date +%Y%m%d-%H%M%S).md"
+ARCHIVE_NAME="v4-standard-$(date +%Y%m%d-%H%M%S).md"
 cp "$FETCH_OUTPUT" "${LOCAL_STANDARD_DIR}/${ARCHIVE_NAME}"
 
 # --- Report change detected ---
 if [ -z "$OLD_HASH" ]; then
-  json_output "pass" "V3评测标准文档首次同步完成" "{\"doc_token\":\"${DOC_TOKEN}\",\"new_hash\":\"${NEW_HASH}\",\"archive\":\"${ARCHIVE_NAME}\"}"
+  json_output "pass" "V4评测标准文档首次同步完成" "{\"doc_token\":\"${DOC_TOKEN}\",\"new_hash\":\"${NEW_HASH}\",\"archive\":\"${ARCHIVE_NAME}\"}"
   exit 0
 else
-  json_output "fail" "V3评测标准文档已变更，需刷新评测集" "{\"doc_token\":\"${DOC_TOKEN}\",\"old_hash\":\"${OLD_HASH}\",\"new_hash\":\"${NEW_HASH}\",\"archive\":\"${ARCHIVE_NAME}\",\"action_required\":\"auto-refresh evalset\"}"
+  json_output "fail" "V4评测标准文档已变更，需刷新评测集" "{\"doc_token\":\"${DOC_TOKEN}\",\"old_hash\":\"${OLD_HASH}\",\"new_hash\":\"${NEW_HASH}\",\"archive\":\"${ARCHIVE_NAME}\",\"action_required\":\"auto-refresh evalset\"}"
   exit 1
 fi

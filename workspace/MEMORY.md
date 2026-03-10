@@ -245,7 +245,7 @@ ISC规则、任务、技能都必须分三层解耦：
 - 根因：主Agent执行feishu_doc write 328个block期间，用户消息无法响应
 
 ## 评测标准唯一真相源=飞书文档（2026-03-08 用户铁令）
-- 飞书文档 `JxhNdoc7ko7ZLwxJUJHcWyeDnYd`（《AEO评测标准与基线V3》）= 评测标准唯一权威
+- 飞书文档 `JxhNdoc7ko7ZLwxJUJHcWyeDnYd`（《AEO评测标准与基线V4》）= 评测标准唯一权威
 - 用户可能随时在飞书上修改，系统必须以飞书最新版为准
 - 本地MD只是缓存/副本，与飞书冲突时飞书赢
 - 任何审计/评测执行前，必须先 feishu_doc read 拉最新版

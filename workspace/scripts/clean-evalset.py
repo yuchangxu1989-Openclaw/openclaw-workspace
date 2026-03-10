@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Clean and validate all mined-*.json evaluation files per V3 standard."""
+"""Clean and validate all mined-*.json evaluation files per V4 standard."""
 
 import json, glob, os
 from difflib import SequenceMatcher
@@ -234,7 +234,7 @@ def main():
     lines = [
         "# 评测集清洗报告", "",
         f"**清洗时间**: 2026-03-09",
-        f"**V3标准来源**: feishu_doc OKmrd21OsotmFkxpT4gcLXjunze", "",
+        f"**V4标准来源**: feishu_doc OKmrd21OsotmFkxpT4gcLXjunze", "",
         "## 格式修复",
         f"以下文件从非标准格式修复为标准JSON数组：",
     ]
@@ -245,11 +245,11 @@ def main():
     lines.append("")
     
     lines += [
-        "## V3标准清洗规则",
+        "## V4标准清洗规则",
         "- 必须有字段：id, input, expected_output, category, difficulty, source",
         "- difficulty: C1或C2",
         "- source: real_conversation", 
-        "- category: V3八类之一",
+        "- category: V4八类之一",
         "- input长度 ≥ 20字",
         "- C2: multi_turn=true + 执行链/复杂度标签≥3项",
         "",

@@ -14,7 +14,7 @@ Before doing anything else:
 2. Read `USER.md` — this is who you're helping  
 3. Read `CAPABILITY-ANCHOR.md` — **这是你可用能力的唯一真相来源，使用工具前必须先查**
 3.5. **读完CAPABILITY-ANCHOR.md后，确认"主Agent行为边界"段落存在** — 如果不存在，立即停止并告警
-3.6. **如果涉及评测/AEO工作**：必须先 `feishu_doc read JxhNdoc7ko7ZLwxJUJHcWyeDnYd`（AEO评测标准V3），这是评测的宪法级文档，不是AGENTS.md里的任何段落
+3.6. **如果涉及评测/AEO工作**：必须先 `feishu_doc read JxhNdoc7ko7ZLwxJUJHcWyeDnYd`（AEO评测标准V4），这是评测的宪法级文档，不是AGENTS.md里的任何段落
 4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
 5. **CRITICAL: 执行启动自检** - 运行 `/root/.openclaw/workspace/scripts/startup-self-check.sh`
 
