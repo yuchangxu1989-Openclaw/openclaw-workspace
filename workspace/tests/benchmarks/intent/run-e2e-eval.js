@@ -72,14 +72,55 @@ function loadMultiTurnDataset() {
   }).filter(s => s.expected_ic); // only keep samples with expected labels
 }
 
+
+function loadC2GoldenDataset() {
+  const goldenDir = path.join(__dirname, 'c2-golden');
+  if (!fs.existsSync(goldenDir)) {
+    console.warn('c2-golden 目录不存在，跳过');
+    return [];
+  }
+  const files = fs.readdirSync(goldenDir).filter(f => f.startsWith('mined-') && f.endsWith('.json'));
+  const all = [];
+  for (const f of files) {
+    try {
+      const raw = JSON.parse(fs.readFileSync(path.join(goldenDir, f), 'utf8'));
+      const items = Array.isArray(raw) ? raw : [raw];
+      for (const item of items) {
+        all.push({
+          id: item.id || `c2-golden-${all.length}`,
+          source: 'c2-golden',
+          input: item.input || '',
+          context: item.context || '',
+          expected_ic: item.expected_ic || item.category || 'C2',
+          difficulty: item.difficulty || item.complexity || 'C2',
+          expected_output: item.expected_output || '',
+          category: item.category || '',
+          root_cause: item.root_cause || '',
+        });
+      }
+    } catch (e) {
+      console.warn(`跳过 c2-golden/${f}: ${e.message}`);
+    }
+  }
+  return all;
+}
+
 function loadAllDatasets() {
   const map = {
     benchmark: loadBenchmarkDataset,
     real: loadRealConversationDataset,
     'multi-turn': loadMultiTurnDataset,
+    'c2-golden': loadC2GoldenDataset,
   };
   if (DATASET_ARG === 'all') {
-    return [].concat(...Object.values(map).map(fn => { try { return fn(); } catch(e) { console.warn(`跳过: ${e.message}`); return []; } }));
+    const allCases = [].concat(...Object.values(map).map(fn => { try { return fn(); } catch(e) { console.warn(`跳过: ${e.message}`); return []; } }));
+    // ID去重
+    const seen = new Set();
+    return allCases.filter(s => {
+      if (seen.has(s.id)) return false;
+      seen.add(s.id);
+      return true;
+    });
   }
   return map[DATASET_ARG]();
 }
@@ -210,7 +251,7 @@ async function main() {
 
   // Per-source stats
   const sourceStats = {};
-  for (const src of ['benchmark', 'real-conversation', 'multi-turn']) {
+  for (const src of ['benchmark', 'real-conversation', 'multi-turn', 'c2-golden']) {
     const srcSamples = results.filter(r => r.source === src);
     const srcCorrect = srcSamples.filter(r => r.correct).length;
     sourceStats[src] = { total: srcSamples.length, correct: srcCorrect, accuracy: srcSamples.length ? (srcCorrect / srcSamples.length * 100).toFixed(1) : 'N/A' };
@@ -275,7 +316,7 @@ ${(() => {
 
 - **评测方式**: LLM-as-judge，使用 ${MODEL} 作为意图分类主基座
 - **Prompt**: 使用 \`intent-classification-prompt.txt\` 中定义的分类体系
-- **数据集**: 合并 benchmark(${sourceStats.benchmark?.total || 0}) + real-conversation(${sourceStats['real-conversation']?.total || 0}) + multi-turn(${sourceStats['multi-turn']?.total || 0})
+- **数据集**: 合并 benchmark(${sourceStats.benchmark?.total || 0}) + real-conversation(${sourceStats['real-conversation']?.total || 0}) + multi-turn(${sourceStats['multi-turn']?.total || 0}) + c2-golden(${sourceStats['c2-golden']?.total || 0})
 - **评测脚本**: \`tests/benchmarks/intent/run-e2e-eval.js\`
 `;
 
