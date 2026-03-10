@@ -1,0 +1,40 @@
+{
+  "id": "scenario-real-teaching-session",
+  "name": "教学式交互：事件思维模型",
+  "domain": "knowledge",
+  "description": "用户以教学方式传授概念，要求Agent深度理解并应用到架构设计中",
+  "source": "real-conversation",
+  "source_date": "2026-03-04",
+  "original_text": "事件=状态机触发条件，不是'发生了什么事'。三类事件：被动/主动/查缺补漏。用3个例子证明",
+  "complexity": {
+    "turns": "multi-turn",
+    "intent": "single-intent",
+    "context": "context-dependent",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["teaching-mode", "concept-transfer", "context-dependent", "deep-understanding", "apply-to-design"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "事件不是'发生了什么事'，是状态机的触发条件。你理解这个区别吗？" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC3", "timeout_ms": 5000 },
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "举个例子：报告格式标准规则，你说不能事件化？事件锚点在cron.task.created和report.generated上" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC3", "timeout_ms": 5000 },
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "现在把这个认知应用到77条ISC规则上，重做事件拆解" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

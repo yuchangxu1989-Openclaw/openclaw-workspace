@@ -1,0 +1,222 @@
+[
+  {
+    "id": "goodcase-C2-R2-06-006",
+    "input": "用户命令'继续啊，赶紧并行做任务，让子Agent开干'，随后又要求'先覆盖到90%'。",
+    "context": "出现连续加压与目标调整，考验系统对多轮指令演化的吸收与执行一致性。",
+    "expected_output": "assistant应将目标变更即时下发到并行任务编排层，统一口径到'90%可执行覆盖'，并回传动态看板。",
+    "scoring_rubric": "系统应执行: assistant应将目标变更即时下发到并行任务编排层，统一口径到'90%可执行覆盖'，并回传动态看板。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "C2-R2-06-006",
+    "original_file": "mined-r2-06.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "解析用户指令变更意图，识别目标从当前状态调整为90%覆盖",
+      "并行任务编排层重新分发目标口径，确保所有子Agent对齐新目标",
+      "动态更新执行看板，统一口径为90%可执行覆盖",
+      "验证子Agent任务状态与新目标一致性，回传确认"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-R2-06-007",
+    "input": "用户批评'你拆解了多少并行任务，主动跟我说啊！'",
+    "context": "日志体现非决策步骤依赖用户催促，符合C2中自治缺失与治理链路问题。",
+    "expected_output": "assistant建立并固化主动汇报协议：每轮自动推送并行数、完成数、阻塞数、覆盖率，而非等待追问。",
+    "scoring_rubric": "系统应执行: assistant建立并固化主动汇报协议：每轮自动推送并行数、完成数、阻塞数、覆盖率，而非等待追问。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "C2-R2-06-007",
+    "original_file": "mined-r2-06.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别用户对任务进度透明度的诉求，确认自主性缺失问题",
+      "建立主动汇报协议，定义汇报频率与内容维度（并行数/完成数/阻塞数/覆盖率）",
+      "将汇报协议固化到执行流程，确保每轮自动触发推送",
+      "验证首次自动汇报执行效果，确认无需用户催促"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-R2-06-008",
+    "input": "用户问'哪些任务适合boom codex做？'要求进行多Agent能力分工。",
+    "context": "这是能力边界与路由策略问题，涉及认知层判断+执行层分派+验真层反馈。",
+    "expected_output": "assistant应完成任务-模型路由：将高重复工程化任务分派codex，将架构裁决保留主Agent，并在执行中验证路由效果。",
+    "scoring_rubric": "系统应执行: assistant应完成任务-模型路由：将高重复工程化任务分派codex，将架构裁决保留主Agent，并在执行中验证路由效果。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "C2-R2-06-008",
+    "original_file": "mined-r2-06.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "分析各Agent能力边界与任务特征，识别boom codex适用场景",
+      "建立任务-模型路由策略：高重复工程化任务→codex，架构裁决→主Agent",
+      "执行路由分派，将匹配任务下发到对应Agent",
+      "收集执行反馈，验证路由策略有效性并迭代优化"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-R2-06-009",
+    "input": "用户要求把'多Agent汇报方式'提炼成技能并每次对话加载，同时规则展开流程应自动化。",
+    "context": "用户明确提出'能力锚点+自动展开'双要求，属于跨治理、认知、执行模块协同。",
+    "expected_output": "assistant将新流程沉淀为技能锚点并接入默认加载；新增规则时自动触发'规则→事件→意图→执行流程'展开链。",
+    "scoring_rubric": "系统应执行: assistant将新流程沉淀为技能锚点并接入默认加载；新增规则时自动触发'规则→事件→意图→执行流程'展开链。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "C2-R2-06-009",
+    "original_file": "mined-r2-06.json",
+    "category": "认知错误类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "提炼多Agent汇报方式为技能锚点，定义能力边界与触发条件",
+      "将技能接入默认加载流程，确保每次对话自动激活",
+      "建立规则自动展开链路：规则声明→事件注册→意图绑定→执行流程",
+      "验证新规则自动展开效果，确认全链路生效"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-R2-06-010",
+    "input": "在同一会话中频繁出现模型额度错误与fallback切换，用户仍持续下达高优先级执行指令。",
+    "context": "日志多次出现403额度不足与provider切换，易引发承诺丢失、执行断链和重复回复。",
+    "expected_output": "assistant应在异常环境下保持任务连续性：自动fallback、重放关键上下文、避免重复/遗漏，并确保承诺事项闭环。",
+    "scoring_rubric": "系统应执行: assistant应在异常环境下保持任务连续性：自动fallback、重放关键上下文、避免重复/遗漏，并确保承诺事项闭环。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "C2-R2-06-010",
+    "original_file": "mined-r2-06.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "检测模型额度异常与provider切换事件，识别执行环境不稳定",
+      "自动触发fallback机制，切换到可用模型保持任务连续性",
+      "重放关键上下文，避免因切换导致的承诺丢失或重复回复",
+      "验证承诺事项闭环，确认高优先级指令执行完整性"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-MINED-R2-08-001",
+    "input": "用户指出ISC规则去重不能基于关键词/文本相似度，要求按真实意图、事件、执行链去重；系统先验证现状，再被要求补全Phase2深检。",
+    "context": "session 112ad30e... lines 501+：用户追问去重机制真实性→系统检查rule JSON与scripts/check-rule-dedup.js→发现仅快筛无深检→用户明确'需要补全'。",
+    "expected_output": "先读规则与handler现状并定位'规则声明与代码实现不一致'；再委派子Agent实现Phase2语义深检（GLM-5）、补测试与提交；最终应避免'只写规则不落地'。",
+    "scoring_rubric": "系统应执行: 先读规则与handler现状并定位'规则声明与代码实现不一致'；再委派子Agent实现Phase2语义深检（GLM-5）、补测试与提交；最终应避免'只写规则不落地'。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "MINED-R2-08-001",
+    "original_file": "mined-r2-08.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "读取规则JSON与handler代码，定位规则声明与实现不一致问题",
+      "委派子Agent实现Phase2语义深检（基于GLM-5意图/事件/执行链去重）",
+      "补充测试用例，验证深检逻辑正确性",
+      "提交代码变更，确保规则落地而非仅停留在声明层面"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-MINED-R2-08-002",
+    "input": "用户要求架构师开启thinking，对全量规则与上下游代码做端到端审计：缺失事件、事件识别机制、意图识别频率与MECE、DTO/AEO/CRAS/LEP是否全局自动对齐。",
+    "context": "用户高强度元问题审计指令；系统spawn架构师子Agent并要求thinking=high，报告写入reports/architect-full-audit-2026-03-06.md。",
+    "expected_output": "应生成基于真实代码的五维审计报告（规则绑定、事件层L1-L5、意图体系、执行层对齐、自治闭环），并给出P0/P1/P2缺口与改造顺序，而非仅复述规则。",
+    "scoring_rubric": "系统应执行: 应生成基于真实代码的五维审计报告（规则绑定、事件层L1-L5、意图体系、执行层对齐、自治闭环），并给出P0/P1/P2缺口与改造顺序，而非仅复述规则。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "MINED-R2-08-002",
+    "original_file": "mined-r2-08.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "spawn架构师子Agent（thinking=high），遍历全量规则与上下游代码",
+      "执行五维审计：规则绑定、事件层L1-L5、意图体系、执行层对齐、自治闭环",
+      "识别缺失事件、意图MECE问题、DTO/AEO/CRAS/LEP对齐缺口",
+      "生成审计报告，按P0/P1/P2优先级输出改造顺序"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-MINED-R2-08-003",
+    "input": "子Agent交付称已完成'GLM-5不可用则字段比对fallback'，用户立即纠偏：不可用时应切到其他大模型，不应降级非LLM语义判断。",
+    "context": "用户在回复线程中明确指出'怎么可能降级'；系统随后直接grep+edit脚本。",
+    "expected_output": "系统应承认架构逻辑缺陷并改为LLM fallback chain（如GLM→Claude/Boom），确保语义判定连续可用；更新代码并验证。",
+    "scoring_rubric": "系统应执行: 系统应承认架构逻辑缺陷并改为LLM fallback chain（如GLM→Claude/Boom），确保语义判定连续可用；更新代码并验证。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "MINED-R2-08-003",
+    "original_file": "mined-r2-08.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "承认架构逻辑缺陷，识别非LLM降级方案不符合用户预期",
+      "设计LLM fallback chain（GLM→Claude/Boom），确保语义判定连续可用",
+      "更新代码实现fallback链路，替换字段比对降级逻辑",
+      "验证fallback chain执行效果，确认语义判定不中断"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-MINED-R2-08-004",
+    "input": "同一任务里，系统先口头宣布'正在做'与'已完成'，随后才收到子Agent完成回执，存在进度表述与runtime状态可能错位风险。",
+    "context": "在dedup补全任务中，先发'在做了'再收到最终'Subagent finished'消息，体现汇报时序治理需求。",
+    "expected_output": "状态汇报应绑定真实runtime事件（spawn accepted/finished）并标注阶段，避免提前定性'完成'。",
+    "scoring_rubric": "系统应执行: 状态汇报应绑定真实runtime事件（spawn accepted/finished）并标注阶段，避免提前定性'完成'。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "MINED-R2-08-004",
+    "original_file": "mined-r2-08.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别汇报时序问题：口头宣布与runtime状态不同步",
+      "设计状态汇报绑定机制，关联spawn accepted/finished事件",
+      "实现阶段标注逻辑，避免提前定性为'完成'",
+      "验证汇报时序治理效果，确保状态与runtime一致"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-MINED-R2-08-005",
+    "input": "用户连续追问'规则是否真实生效'，触发从规则文件到执行脚本的交叉验真，识别'文档级正确、执行级不完整'问题。",
+    "context": "先读rule JSON确认v2.0设计，再读check-rule-dedup.js发现仅pre-commit快筛。",
+    "expected_output": "系统应建立规则声明—handler实现—触发路径三方一致性检查，防止'纸面合规'。",
+    "scoring_rubric": "系统应执行: 系统应建立规则声明—handler实现—触发路径三方一致性检查，防止'纸面合规'。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "original_badcase_id": "MINED-R2-08-005",
+    "original_file": "mined-r2-08.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "读取规则JSON确认设计规格，识别'文档级正确'假设",
+      "读取handler实现代码，发现执行级不完整（仅pre-commit快筛）",
+      "建立规则声明—handler实现—触发路径三方一致性检查机制",
+      "验证检查机制生效，防止'纸面合规'问题复发"
+    ],
+    "data_source": "badcase-flip"
+  }
+]

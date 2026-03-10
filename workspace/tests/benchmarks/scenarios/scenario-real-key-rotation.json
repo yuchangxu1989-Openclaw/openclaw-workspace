@@ -1,0 +1,34 @@
+{
+  "id": "scenario-real-key-rotation",
+  "name": "多Key测试与分配：8个Claude Key验证",
+  "domain": "development",
+  "description": "验证多个API Key的可用性并按策略分配给不同Agent",
+  "source": "real-conversation",
+  "source_date": "2026-03-03",
+  "original_text": "8个新Claude Key测试48次API调用，7/8可用，按角色分配Key+模型",
+  "complexity": {
+    "turns": "multi-turn",
+    "intent": "multi-intent",
+    "context": "context-dependent",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["multi-intent", "context-dependent", "systematic-testing", "resource-allocation"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "这8个Claude Key帮我全部测一遍，测opus-4-6-thinking、opus-4-6、sonnet-4-6-thinking、sonnet-4-6四个模型" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "测完了按这个分配方案写入配置：main用opus-thinking, coder用opus, reviewer用sonnet-thinking..." }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

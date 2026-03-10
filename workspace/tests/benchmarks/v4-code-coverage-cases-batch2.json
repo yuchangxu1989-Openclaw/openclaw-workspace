@@ -1,0 +1,240 @@
+[
+  {
+    "id": "v4-codecov-001",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "用户要求对weather skill进行认知映射，分析其完整能力边界。Agent使用find遍历skills/weather/目录下所有.js和.json文件，用grep定位每个导出函数，输出精确到文件路径+函数名+行号的能力清单。例如：skills/weather/index.js:12 exportFunction getWeather(city)、skills/weather/parser.js:35 exportFunction parseWindSpeed(raw)等，共遍历8个文件，识别出14个函数入口。",
+    "expected_output": "认知映射应基于真实代码遍历：①使用find列出skills/weather/下全部代码文件；②对每个文件用grep/AST解析定位导出函数；③输出格式为「文件路径:行号 函数签名」的完整清单；④覆盖.js/.json/.md全部文件类型；⑤最终能力边界结论基于真实函数清单而非文档描述。该次认知映射计为有效。",
+    "execution_chain_steps": [
+      "接收认知映射请求：分析weather skill能力边界",
+      "执行find skills/weather/ -type f遍历全部文件",
+      "对每个.js文件执行grep -n 'export\\|module.exports'定位导出函数",
+      "对每个.json文件解析结构，提取配置项和schema定义",
+      "汇总输出：文件路径+行号+函数签名的完整清单",
+      "基于真实函数清单得出能力边界结论",
+      "标记该认知映射为有效（基于真实代码）"
+    ],
+    "scoring_rubric": {
+      "pass": "使用find/grep遍历了全部真实代码文件，输出精确到文件路径+函数名+行号，认知映射结论基于真实代码",
+      "partial": "遍历了部分代码文件但遗漏了某些子目录或文件类型（如只看.js未看.json），输出有文件路径但缺少行号",
+      "badcase": "仅阅读SKILL.md或README.md的能力描述就得出结论，未遍历任何真实代码文件"
+    }
+  },
+  {
+    "id": "v4-codecov-002",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "系统需要评估新增ISC规则对现有代码的影响面。Agent执行grep -rn在scripts/和infrastructure/目录下搜索所有引用了eventBus.emit('task.completed')的文件，找到3处引用：scripts/task-runner.js:78、scripts/notification.js:142、infrastructure/monitor.js:56，并分析每处引用的上下文逻辑，确认新规则不会与现有事件处理冲突。",
+    "expected_output": "影响面评估应：①用grep -rn在全部代码目录搜索相关事件引用；②列出每处引用的精确位置（文件路径+行号）；③读取每处引用的上下文代码，分析逻辑依赖关系；④给出冲突/无冲突的结论并附具体代码证据。该次影响面评估计为有效认知映射。",
+    "execution_chain_steps": [
+      "接收影响面评估请求：新ISC规则涉及task.completed事件",
+      "执行grep -rn 'eventBus.emit.*task.completed' scripts/ infrastructure/",
+      "定位到3处引用及其精确行号",
+      "逐一读取每处引用的上下文代码（前后10行）",
+      "分析每处引用的事件处理逻辑和数据流",
+      "评估新规则与现有3处引用的兼容性",
+      "输出影响面报告：精确到文件+行号+冲突分析结论"
+    ],
+    "scoring_rubric": {
+      "pass": "grep搜索覆盖全部相关目录，找到所有引用点并精确到行号，逐一分析上下文逻辑后给出有据结论",
+      "partial": "执行了grep搜索但未覆盖全部目录（如遗漏infrastructure/），或找到引用但未分析上下文逻辑",
+      "badcase": "未执行代码搜索，仅凭文档描述或经验判断影响面"
+    }
+  },
+  {
+    "id": "v4-codecov-003",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "用户报告技能路由偶尔将'设置闹钟'意图错误路由到calendar skill。Agent执行差距分析：先用find遍历skills/目录下所有skill的入口文件，再用grep -n搜索每个skill的intent匹配模式，发现skills/calendar/index.js:23的intentPatterns包含/设置.*提醒|.*闹/正则，与skills/alarm/index.js:18的/设置.*闹钟|.*闹铃/存在重叠。精确定位到冲突的两个正则表达式及其文件位置。",
+    "expected_output": "差距分析应：①find遍历全部skill目录；②grep搜索每个skill的intent匹配模式定义；③精确定位到冲突的正则表达式（calendar的:23行和alarm的:18行）；④分析正则重叠的具体字符模式（'闹'字被两个skill匹配）；⑤给出修复建议（收紧calendar的正则，排除'闹钟'关键词）。基于真实代码的差距分析，计为有效。",
+    "execution_chain_steps": [
+      "接收差距分析请求：技能路由冲突排查",
+      "执行find skills/ -name 'index.js'列出全部skill入口",
+      "对每个入口文件grep -n 'intentPattern\\|pattern\\|match'搜索意图匹配定义",
+      "提取每个skill的正则表达式列表",
+      "交叉比对发现calendar和alarm的正则存在重叠",
+      "精确定位冲突：skills/calendar/index.js:23与skills/alarm/index.js:18",
+      "分析重叠模式并给出修复建议"
+    ],
+    "scoring_rubric": {
+      "pass": "遍历全部skill代码，精确定位到冲突正则的文件路径+行号，分析重叠模式并给出修复建议",
+      "partial": "找到了冲突的两个skill但未精确到行号，或只分析了部分skill未做全量遍历",
+      "badcase": "仅查看skill的SKILL.md描述判断路由逻辑，未读取实际的intent匹配代码"
+    }
+  },
+  {
+    "id": "v4-codecov-004",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "系统升级事件总线模块，需要认知映射全部事件订阅者。Agent用grep -rn 'eventBus.on\\|eventBus.subscribe\\|addEventListener'遍历整个代码库（skills/、scripts/、infrastructure/、src/），找到27处事件订阅，输出完整清单包含文件路径+行号+订阅的事件名+回调函数名。同时用find确认没有遗漏的.js文件未被搜索到。",
+    "expected_output": "认知映射应：①grep搜索覆盖全部代码目录（skills/scripts/infrastructure/src/）；②找到全部27处事件订阅并精确到行号；③每处记录：文件路径+行号+事件名+回调函数名；④用find交叉验证搜索覆盖了全部.js文件，无遗漏；⑤输出完整的事件订阅拓扑图。该认知映射基于全量代码遍历，计为有效。",
+    "execution_chain_steps": [
+      "接收认知映射请求：事件总线升级影响面",
+      "执行find . -name '*.js' -not -path '*/node_modules/*'确认代码文件总数",
+      "执行grep -rn 'eventBus.on\\|eventBus.subscribe\\|addEventListener'搜索全部订阅点",
+      "解析grep输出，提取文件路径+行号+事件名+回调函数名",
+      "汇总27处订阅点的完整清单",
+      "交叉验证：确认find列出的全部.js文件均被grep覆盖",
+      "输出事件订阅拓扑图，标注每个事件的订阅者链路"
+    ],
+    "scoring_rubric": {
+      "pass": "grep覆盖全部代码目录，找到全部订阅点并精确到行号+事件名+回调函数名，交叉验证无遗漏",
+      "partial": "搜索了主要目录但遗漏了某个子目录（如infrastructure/），或输出缺少回调函数名",
+      "badcase": "仅查看事件总线的README或架构文档推断订阅关系，未搜索真实代码"
+    }
+  },
+  {
+    "id": "v4-codecov-005",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "用户要求分析系统中所有探针（probe）的部署情况。Agent用find遍历全部目录查找包含probe定义的文件，再用grep -n搜索probeConfig、createProbe、registerProbe等关键词，在scripts/probes/health-check.js:15、scripts/probes/latency-monitor.js:28、infrastructure/probe-registry.js:42、skills/weather/probe.js:8共找到4处探针定义，逐一读取代码确认每个探针的触发条件、检测目标和上报格式。",
+    "expected_output": "认知映射应：①find+grep全量搜索探针相关代码；②精确定位4处探针定义的文件路径+行号；③逐一读取每处代码，提取探针的触发条件、检测目标、上报格式；④输出探针部署全景图，每个探针附带代码级证据；⑤确认搜索覆盖了全部代码目录无遗漏。基于真实代码的探针分析，计为有效认知映射。",
+    "execution_chain_steps": [
+      "接收认知映射请求：探针部署情况分析",
+      "执行find . -type f -name '*.js' | xargs grep -l 'probe'定位包含探针的文件",
+      "对每个文件执行grep -n 'probeConfig\\|createProbe\\|registerProbe'精确定位行号",
+      "逐一读取4处探针定义的上下文代码",
+      "提取每个探针的触发条件、检测目标、上报格式",
+      "汇总输出探针部署全景图",
+      "交叉验证：确认全部代码目录已搜索"
+    ],
+    "scoring_rubric": {
+      "pass": "全量搜索代码库找到全部探针定义，精确到文件路径+行号，逐一分析探针配置并输出完整全景图",
+      "partial": "找到了部分探针定义但遗漏了某个目录下的探针，或未逐一读取代码分析配置细节",
+      "badcase": "仅查看probe相关的文档或配置模板推断探针部署情况，未搜索真实代码"
+    }
+  },
+  {
+    "id": "v4-codecov-006",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "用户要求分析notification skill的能力边界。Agent仅阅读了skills/notification/SKILL.md中的描述——'支持飞书、邮件、短信三种通知渠道'，就直接输出结论：该skill支持3种通知渠道，能力边界清晰。未执行find或grep遍历skills/notification/目录下的任何.js或.json代码文件。",
+    "expected_output": "该认知映射不计为有效：①Agent仅读取了SKILL.md文档摘要，未遍历真实代码文件；②未使用find/grep搜索skills/notification/下的.js/.json文件；③结论缺少文件路径+函数名+行号的精确证据；④可能遗漏SKILL.md未记录的隐藏能力或已废弃功能。认知层真实代码覆盖率该次计为0%。",
+    "execution_chain_steps": [
+      "接收认知映射请求：分析notification skill能力边界",
+      "读取skills/notification/SKILL.md获取能力描述",
+      "直接基于SKILL.md描述输出结论",
+      "未执行find遍历目录下代码文件",
+      "未执行grep搜索导出函数或处理逻辑",
+      "输出结论无文件路径+行号+函数名证据"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此为负面用例",
+      "partial": "Agent意识到应该读代码但仅补充读取了部分文件，结论仍主要依赖SKILL.md",
+      "badcase": "完全依赖SKILL.md文档摘要做认知映射，未遍历任何真实代码文件，该次认知映射无效"
+    }
+  },
+  {
+    "id": "v4-codecov-007",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "系统需要评估删除legacy-handler模块的影响面。Agent查看了CAPABILITY-ANCHOR.md中的模块依赖图，发现legacy-handler被标记为'仅被2个模块引用'，于是直接结论：影响面小，可安全删除。未用grep在真实代码中搜索legacy-handler的实际引用情况。实际上代码中有5处隐式引用未记录在文档中。",
+    "expected_output": "该影响面评估无效：①Agent仅依赖CAPABILITY-ANCHOR.md的模块依赖图，该文档可能过时或不完整；②未执行grep -rn搜索legacy-handler在全部代码中的实际引用；③遗漏了5处隐式引用（如动态require、字符串拼接路径等），导致结论错误；④正确做法应grep全量搜索后再做判断。认知层真实代码覆盖率该次计为0%。",
+    "execution_chain_steps": [
+      "接收影响面评估请求：删除legacy-handler模块",
+      "读取CAPABILITY-ANCHOR.md查看模块依赖图",
+      "基于文档中'仅被2个模块引用'的描述得出结论",
+      "未执行grep -rn 'legacy-handler\\|legacyHandler'搜索真实引用",
+      "未发现5处隐式引用（动态require等）",
+      "输出错误结论：影响面小，可安全删除"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此为负面用例",
+      "partial": "Agent执行了grep但仅搜索了部分目录，找到了部分引用但仍遗漏隐式引用",
+      "badcase": "完全依赖文档中的依赖图做影响面评估，未搜索真实代码，遗漏隐式引用导致结论错误"
+    }
+  },
+  {
+    "id": "v4-codecov-008",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "用户要求做差距分析：当前系统是否支持WebSocket推送。Agent查看了MEMORY.md中的历史记录——'2024-01已实现WebSocket基础推送'，以及架构文档中的'支持WebSocket协议'描述，直接输出结论：系统已支持WebSocket推送，无差距。未用grep/find在代码中搜索WebSocket相关实现，实际上代码中的WebSocket模块在2024-03的重构中已被移除。",
+    "expected_output": "该差距分析无效：①Agent依赖MEMORY.md历史记录和架构文档，这些可能已过时；②未执行grep -rn 'WebSocket\\|ws\\|socket'搜索真实代码；③未发现WebSocket模块已在重构中被移除的事实；④输出了与代码现状相反的错误结论。正确做法：必须grep搜索真实代码确认WebSocket实现是否存在。认知层真实代码覆盖率该次计为0%。",
+    "execution_chain_steps": [
+      "接收差距分析请求：WebSocket推送能力",
+      "读取MEMORY.md查看历史记录",
+      "读取架构文档查看协议支持描述",
+      "基于文档描述直接输出'已支持，无差距'结论",
+      "未执行grep搜索WebSocket相关代码",
+      "未发现WebSocket模块已被移除",
+      "输出与代码现状相反的错误结论"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此为负面用例",
+      "partial": "Agent执行了grep但仅搜索了部分关键词（如只搜WebSocket未搜ws），未完整确认模块状态",
+      "badcase": "完全依赖历史记录和架构文档做差距分析，未搜索真实代码，输出过时的错误结论"
+    }
+  },
+  {
+    "id": "v4-codecov-009",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "系统需要认知映射全部错误处理逻辑以评估系统健壮性。Agent用grep -rn搜索了scripts/目录下的try/catch和.catch()模式，找到12处错误处理，但完全跳过了skills/和infrastructure/目录的搜索。实际上skills/目录下有8处、infrastructure/目录下有6处错误处理逻辑未被发现。Agent基于不完整的12处结果输出了'错误处理覆盖良好'的结论。",
+    "expected_output": "该认知映射部分有效但不达标：①Agent确实使用了grep搜索真实代码，但仅覆盖scripts/目录；②遗漏了skills/和infrastructure/两个目录共14处错误处理；③基于不完整数据（12/26=46%覆盖）得出了过于乐观的结论；④正确做法应grep覆盖全部代码目录（skills/scripts/infrastructure/src/）。认知层真实代码覆盖率该次不计为有效（未达到全量遍历标准）。",
+    "execution_chain_steps": [
+      "接收认知映射请求：全局错误处理逻辑分析",
+      "执行grep -rn 'try.*catch\\|\\.catch(' scripts/",
+      "找到scripts/目录下12处错误处理",
+      "未搜索skills/目录（遗漏8处）",
+      "未搜索infrastructure/目录（遗漏6处）",
+      "基于不完整的12处结果输出'覆盖良好'结论",
+      "实际仅覆盖46%的错误处理逻辑"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此为负面用例",
+      "partial": "使用了grep搜索真实代码但未覆盖全部目录，结论基于不完整数据，认知映射部分有效",
+      "badcase": "虽然用了grep但严重遗漏目录导致结论错误，与完全不搜索代码的危害程度相当"
+    }
+  },
+  {
+    "id": "v4-codecov-010",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-codecov",
+    "gate": "north-star",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "input": "用户要求评估数据库连接池配置是否合理。Agent读取了项目根目录的README.md中'数据库配置'章节——'连接池大小默认10，超时30秒'，直接输出结论：配置合理，符合最佳实践。未用grep/find搜索真实的数据库配置代码。实际上infrastructure/db/pool.js:22中连接池大小被硬编码为2，与README描述不一致，且scripts/db-migration.js:45中存在未关闭连接的bug。",
+    "expected_output": "该认知映射无效：①Agent仅依赖README.md的配置描述，未搜索真实代码；②未发现infrastructure/db/pool.js:22中连接池实际为2（与文档不一致）；③未发现scripts/db-migration.js:45的连接泄漏bug；④正确做法应grep搜索全部数据库相关代码（pool、connection、db等关键词），读取真实配置值。认知层真实代码覆盖率该次计为0%。",
+    "execution_chain_steps": [
+      "接收认知映射请求：数据库连接池配置评估",
+      "读取README.md中的数据库配置章节",
+      "基于README描述'连接池大小10，超时30秒'输出结论",
+      "未执行grep搜索数据库连接相关代码",
+      "未发现pool.js中连接池实际硬编码为2",
+      "未发现db-migration.js中的连接泄漏bug",
+      "输出与代码现状不一致的错误结论"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此为负面用例",
+      "partial": "Agent搜索了部分数据库代码但未覆盖全部文件，发现了配置不一致但遗漏了连接泄漏bug",
+      "badcase": "完全依赖README文档描述做配置评估，未搜索真实代码，输出与代码现状矛盾的结论"
+    }
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "id": "scenario-complex-meta-recall",
+  "name": "元请求：上次做的那个呢",
+  "domain": "knowledge",
+  "description": "用户引用之前的工作成果但不给具体指引，需要Agent从上下文推断",
+  "source": "synthetic",
+  "reference": "session-spanning memory recall pattern",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "ambiguous",
+    "context": "context-dependent",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["meta-request", "ambiguous", "context-dependent", "memory-recall", "session-spanning"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "上次帮我做的那个分析报告呢？就是关于竞品的那个" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC3", "timeout_ms": 5000 },
+    { "expect": "rule_matched" },
+    { "expect": "result", "has_output": true }
+  ]
+}

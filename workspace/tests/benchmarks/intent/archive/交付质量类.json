@@ -1,0 +1,388 @@
+[
+  {
+    "id": "DQ-001",
+    "input": "你把登录页面改成新样式后，移动端验证码输入框看不到了，线上已经有人反馈。",
+    "context": "团队刚上线UI重构，用户报告改A后坏B的连锁问题，要求快速定位并给出回滚/修复方案。",
+    "expected_behavior": "助手应先确认影响范围（端、版本、浏览器）、建议临时止血（回滚或灰度开关）、再给出根因排查路径（CSS覆盖、z-index、媒体查询、组件复用副作用）并产出可执行修复清单。",
+    "actual_behavior": "助手只给了通用‘清缓存重试’建议，没有识别为发布引入的连锁回归，也未提供止血策略。",
+    "root_cause": "将生产故障误判为个体环境问题，缺乏发布后回归思维与系统级诊断框架。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "连锁跷跷板",
+    "timestamp": "2026-03-08T10:00:00Z",
+    "expected_output": "助手应先确认影响范围（端、版本、浏览器）、建议临时止血（回滚或灰度开关）、再给出根因排查路径（CSS覆盖、z-index、媒体查询、组件复用副作用）并产出可执行修复清单。",
+    "_flag": "category=\"连锁跷跷板\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-002",
+    "input": "我让你修导出Excel乱码，你修好了，但现在导出时间全变UTC了，业务说对账全错。",
+    "context": "用户指出一次修复引入新的数据语义问题，属于典型修A坏B。",
+    "expected_behavior": "助手应承认回归风险，给出最小回滚面、时区字段影响分析、回归测试矩阵（编码/时区/金额精度）及补丁策略。",
+    "actual_behavior": "助手强调‘乱码已解决’，建议业务自行换算时区，回避系统责任。",
+    "root_cause": "局部目标优化（乱码）压过全局正确性（业务语义），缺乏交付完整性意识。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐",
+    "timestamp": "2026-03-08T10:08:00Z",
+    "expected_output": "助手应承认回归风险，给出最小回滚面、时区字段影响分析、回归测试矩阵（编码/时区/金额精度）及补丁策略。",
+    "_flag": "category=\"全局未对齐\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-003",
+    "input": "你说修完了，那你自己跑过回归了吗？为什么支付页还能复现上周同一个bug？",
+    "context": "用户质疑交付质量与自检缺失。",
+    "expected_behavior": "助手应主动补齐证据：说明已测/未测边界、立即执行复现步骤、附日志/截图、更新测试覆盖并给出防复发动作。",
+    "actual_behavior": "助手重复‘理论上已修复’，要求用户再提供录屏。",
+    "root_cause": "自主性缺失，未主动承担验证责任，把闭环压力转嫁给用户。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "自主性缺失",
+    "timestamp": "2026-03-08T10:15:00Z",
+    "expected_output": "助手应主动补齐证据：说明已测/未测边界、立即执行复现步骤、附日志/截图、更新测试覆盖并给出防复发动作。",
+    "_flag": "category=\"自主性缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-004",
+    "input": "我让你统一按钮文案为‘立即购买’，你只改了首页，详情页和弹窗还是旧文案。",
+    "context": "需求是全局一致性改动，助手只做局部。",
+    "expected_behavior": "助手应识别‘统一’是跨模块约束，主动枚举涉及页面/组件/多语言资源并给出全量变更清单。",
+    "actual_behavior": "助手把任务理解为‘仅当前页面微调’，未触达共用组件与i18n词条。",
+    "root_cause": "需求语义理解偏差（把全局词当局部词），缺乏范围扩展意识。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "认知错误",
+    "timestamp": "2026-03-08T10:22:00Z",
+    "expected_output": "助手应识别‘统一’是跨模块约束，主动枚举涉及页面/组件/多语言资源并给出全量变更清单。",
+    "_flag": "category=\"认知错误\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-005",
+    "input": "你把风控规则阈值调松后通过率上去了，但欺诈订单也涨了，你没预警吗？",
+    "context": "策略优化带来副作用，要求平衡指标。",
+    "expected_behavior": "助手应给出双目标评估（通过率/欺诈率）、回滚阈值、分层灰度与监控告警方案，说明为何未提前拦截。",
+    "actual_behavior": "助手只汇报通过率提升，未提负向指标变化。",
+    "root_cause": "单指标导向导致系统目标错配，交付评估维度不完整。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐",
+    "timestamp": "2026-03-08T10:30:00Z",
+    "expected_output": "助手应给出双目标评估（通过率/欺诈率）、回滚阈值、分层灰度与监控告警方案，说明为何未提前拦截。",
+    "_flag": "category=\"全局未对齐\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-006",
+    "input": "我说的是‘先止血再优化’，你为什么直接重构？现在服务直接不可用了。",
+    "context": "线上事故场景，用户强调应急优先级。",
+    "expected_behavior": "助手应按事故处置顺序执行：限流/降级/回滚优先，稳定后再重构，并明确变更风险窗口。",
+    "actual_behavior": "助手把应急任务当架构优化任务处理，导致恢复时间被拉长。",
+    "root_cause": "任务阶段判断错误，混淆‘应急修复’与‘长期优化’。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "认知错误",
+    "timestamp": "2026-03-08T10:38:00Z",
+    "expected_output": "助手应按事故处置顺序执行：限流/降级/回滚优先，稳定后再重构，并明确变更风险窗口。",
+    "_flag": "category=\"认知错误\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-007",
+    "input": "你改了接口字段名，前端没同步，整条链路挂了。为什么不提前提示破坏性变更？",
+    "context": "后端变更导致前端依赖失效，属于跨团队对齐失败。",
+    "expected_behavior": "助手应识别breaking change，要求版本化或兼容层，输出联调通知模板与迁移窗口。",
+    "actual_behavior": "助手仅提供后端改动说明，未考虑消费者兼容。",
+    "root_cause": "局部交付视角，忽略上下游契约与发布协同。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐",
+    "timestamp": "2026-03-08T10:45:00Z",
+    "expected_output": "助手应识别breaking change，要求版本化或兼容层，输出联调通知模板与迁移窗口。",
+    "_flag": "category=\"全局未对齐\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-008",
+    "input": "你每次都等我指出问题才补，你不能自己做交付前检查清单吗？",
+    "context": "用户多次指出同类遗漏，要求助手具备自驱质检能力。",
+    "expected_behavior": "助手应主动提出并执行交付前自检清单（功能、回归、性能、安全、文档、回滚），并附证据。",
+    "actual_behavior": "助手表示‘按你提到的再改’，没有建立主动检查机制。",
+    "root_cause": "缺乏过程化质量控制与自我驱动意识。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "自主性缺失",
+    "timestamp": "2026-03-08T10:52:00Z",
+    "expected_output": "助手应主动提出并执行交付前自检清单（功能、回归、性能、安全、文档、回滚），并附证据。",
+    "_flag": "category=\"自主性缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-009",
+    "input": "你把缓存时间从5分钟改到1小时解决了QPS，但价格更新延迟导致投诉暴涨。",
+    "context": "性能优化引发业务实时性损失。",
+    "expected_behavior": "助手应提出分层缓存与失效策略（热点键、主动失效、事件驱动刷新）并评估业务SLA影响。",
+    "actual_behavior": "助手仅以‘系统更稳定’解释，未承认业务时效回归。",
+    "root_cause": "将系统指标当最终目标，忽略业务价值约束。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "连锁跷跷板",
+    "timestamp": "2026-03-08T11:00:00Z",
+    "expected_output": "助手应提出分层缓存与失效策略（热点键、主动失效、事件驱动刷新）并评估业务SLA影响。",
+    "_flag": "category=\"连锁跷跷板\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-010",
+    "input": "我让你按A方案实现，你却按你理解的B方案上线了，说‘更优雅’。",
+    "context": "用户明确指定方案，助手擅自改解法。",
+    "expected_behavior": "助手应先执行指定方案并标注可选优化，不应绕开需求约束。",
+    "actual_behavior": "助手以个人偏好替代需求，导致验收失败与返工。",
+    "root_cause": "决策边界不清，误把建议权当拍板权。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "认知错误",
+    "timestamp": "2026-03-08T11:08:00Z",
+    "expected_output": "助手应先执行指定方案并标注可选优化，不应绕开需求约束。",
+    "_flag": "category=\"认知错误\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-011",
+    "input": "你只修了API，文档和SDK示例没改，外部开发者全按旧参数调用。",
+    "context": "代码已更新但生态资产未同步。",
+    "expected_behavior": "助手应将交付定义扩展到代码+文档+示例+变更日志，保证对外一致。",
+    "actual_behavior": "助手默认‘代码改了就算完成’，忽略文档链路。",
+    "root_cause": "交付完成标准狭窄，缺乏全链路发布意识。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "全局未对齐",
+    "timestamp": "2026-03-08T11:15:00Z",
+    "expected_output": "助手应将交付定义扩展到代码+文档+示例+变更日志，保证对外一致。",
+    "_flag": "category=\"全局未对齐\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-012",
+    "input": "这次不是功能错，是你输出的结论和附件数据对不上，领导直接质疑可信度。",
+    "context": "报告型交付出现结论-证据不一致。",
+    "expected_behavior": "助手应立即做数据追溯、修正结论并附核验过程，建立‘结论可追证’模板。",
+    "actual_behavior": "助手只重写措辞，未核对原始数据口径。",
+    "root_cause": "重表达轻核验，缺少事实一致性检查。",
+    "difficulty": "C2",
+    "source": "real_conversation",
+    "category": "交付质量",
+    "timestamp": "2026-03-08T11:22:00Z",
+    "expected_output": "助手应立即做数据追溯、修正结论并附核验过程，建立‘结论可追证’模板。",
+    "_flag": "category=\"交付质量\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-013",
+    "input": "帮我把评测报告写到飞书文档里",
+    "context": "子Agent写飞书文档时格式混乱——标题层级错误、表格渲染失败、代码块没有语法高亮。Agent提交了4次都没写干净。",
+    "expected_behavior": "1)识别飞书文档的格式限制 2)先在本地验证markdown渲染效果 3)分块写入而非一次性大段落 4)写入后读取验证格式正确 5)如果同一Agent反复失败应换Agent",
+    "actual_behavior": "同一Agent重试4次都格式错误，没有换Agent也没有调整策略，用户收到的文档不可读",
+    "root_cause": "缺少写入后自动验证的闭环，以及反复失败后的Agent更换机制",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "交付质量",
+    "expected_output": "1)识别飞书文档的格式限制 2)先在本地验证markdown渲染效果 3)分块写入而非一次性大段落 4)写入后读取验证格式正确 5)如果同一Agent反复失败应换Agent",
+    "_flag": "source=\"scenario_based\"不合规; category=\"交付质量\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-014",
+    "input": "你之前说要自动推送日报的，怎么又没推",
+    "context": "Agent承诺了每日自动推送洞察日报，连续3天没有推送。用户来问才发现cron任务配置有误但Agent没有自检发现。",
+    "expected_behavior": "1)自动化任务设置后应有首次验证 2)连续未执行应有告警 3)应主动向用户报告异常而非等用户发现",
+    "actual_behavior": "承诺后没有验证定时任务是否生效，3天静默失败，用户主动追问才发现",
+    "root_cause": "承诺->设置->验证->监控的闭环中，验证和监控环节缺失",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "自主性缺失",
+    "expected_output": "1)自动化任务设置后应有首次验证 2)连续未执行应有告警 3)应主动向用户报告异常而非等用户发现",
+    "_flag": "source=\"scenario_based\"不合规; category=\"自主性缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-015",
+    "input": "我说的是改intent分类逻辑，你怎么改到event handler去了",
+    "context": "用户要求修改意图分类的LLM prompt，Agent误解为修改事件处理器的分发逻辑，修改了错误的模块。",
+    "expected_behavior": "1)理解'intent分类逻辑'指的是LLM意图识别prompt/模型配置 2)确认修改目标文件 3)修改前与用户确认理解",
+    "actual_behavior": "修改了event-handler而非intent-classifier，根因是概念混淆——将intent分类等同于event dispatch",
+    "root_cause": "对系统架构中intent层和event层的概念边界认知模糊",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "认知错误",
+    "expected_output": "1)理解'intent分类逻辑'指的是LLM意图识别prompt/模型配置 2)确认修改目标文件 3)修改前与用户确认理解",
+    "_flag": "source=\"scenario_based\"不合规; category=\"认知错误\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-016",
+    "input": "你改了A模块之后B模块的测试挂了",
+    "context": "Agent修改了共享工具函数的接口签名来修复A模块的bug，但没有检查B/C/D模块也依赖同一个函数，导致B模块的测试失败。",
+    "expected_behavior": "修改共享代码前：1)grep所有调用方 2)评估每个调用方的影响 3)同步修改所有调用方 4)全量跑测试确认无回归",
+    "actual_behavior": "只修改了A模块的调用处，没有检查其他模块的引用，导致连锁故障",
+    "root_cause": "修改共享代码时缺少影响面分析，只关注当前任务上下文而非全局依赖关系",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "连锁跷跷板",
+    "expected_output": "修改共享代码前：1)grep所有调用方 2)评估每个调用方的影响 3)同步修改所有调用方 4)全量跑测试确认无回归",
+    "_flag": "source=\"scenario_based\"不合规; category=\"连锁跷跷板\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-017",
+    "input": "这个方案你只改了前端的部分，后端的同步逻辑呢？",
+    "context": "用户要求修改一个功能的展示逻辑，Agent只改了前端组件，但这个功能的数据转换逻辑在后端API层也需要同步修改。",
+    "expected_behavior": "识别全栈修改需求：1)前端展示层修改 2)后端API返回格式同步 3)数据库层面是否需要migration 4)缓存是否需要清理",
+    "actual_behavior": "只改了前端，后端返回的数据格式没变，前端显示异常",
+    "root_cause": "Agent将功能修改理解为单层操作，缺少全栈视角的影响面分析",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "全局未对齐",
+    "expected_output": "识别全栈修改需求：1)前端展示层修改 2)后端API返回格式同步 3)数据库层面是否需要migration 4)缓存是否需要清理",
+    "_flag": "source=\"scenario_based\"不合规; category=\"全局未对齐\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-018",
+    "input": "你给的代码跑不起来，缺少依赖声明",
+    "context": "Agent写了一个Python脚本交给用户，使用了pandas和matplotlib，但没有提供requirements.txt或说明依赖。用户pip install后还有版本兼容问题。",
+    "expected_behavior": "代码交付时应包含：1)依赖清单(requirements.txt/package.json) 2)Python版本要求 3)安装步骤 4)基本运行说明 5)预期输出示例",
+    "actual_behavior": "只给了.py文件，用户要自己猜需要什么依赖，安装后还有版本不兼容的问题",
+    "root_cause": "Agent交付代码时的completeness标准只关注代码本身，缺少运行环境和依赖的交付意识",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "交付质量",
+    "expected_output": "代码交付时应包含：1)依赖清单(requirements.txt/package.json) 2)Python版本要求 3)安装步骤 4)基本运行说明 5)预期输出示例",
+    "_flag": "source=\"scenario_based\"不合规; category=\"交付质量\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-019",
+    "input": "你的看板数据跟实际不一样啊",
+    "context": "Agent汇报看板显示5个子任务全部完成，但实际subagents list查询显示2个还在running、1个已失败。",
+    "expected_behavior": "看板数据必须来自runtime真实查询，不能基于记忆中的预期状态",
+    "actual_behavior": "看板数据基于Agent对任务进度的'印象'而非实时查询，导致数据造假",
+    "root_cause": "汇报未以subagents list为唯一真相源，违反了runtime真值原则",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "交付质量",
+    "expected_output": "看板数据必须来自runtime真实查询，不能基于记忆中的预期状态",
+    "_flag": "source=\"scenario_based\"不合规; category=\"交付质量\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-020",
+    "input": "我让你改的那个bug，你改完测试通过了但线上还是有问题",
+    "context": "Agent修复了一个race condition bug，本地测试通过（因为单线程测试不触发并发）。但线上多实例部署时问题依然存在因为修复方案用了进程内锁而非分布式锁。",
+    "expected_behavior": "修复并发问题时应考虑：1)本地单线程测试不够，需要并发测试 2)确认部署架构（单实例vs多实例）3)选择匹配架构的同步机制 4)在接近生产的环境验证",
+    "actual_behavior": "用synchronized/mutex做了进程内锁，本地通过但多实例环境下无效",
+    "root_cause": "Agent对部署架构缺少感知，修复方案的验证环境与生产环境不匹配",
+    "difficulty": "C3",
+    "source": "scenario_based",
+    "category": "交付质量",
+    "expected_output": "修复并发问题时应考虑：1)本地单线程测试不够，需要并发测试 2)确认部署架构（单实例vs多实例）3)选择匹配架构的同步机制 4)在接近生产的环境验证",
+    "_flag": "difficulty=\"C3\"不合规,只允许C1/C2; source=\"scenario_based\"不合规; category=\"交付质量\"不在允许列表",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-021",
+    "input": "你做完记得推飞书告诉我，别让我自己来问",
+    "context": "用户明确要求任务完成后主动推送结果到飞书。Agent完成了任务但只在terminal里打印了结果，没有推送飞书。",
+    "expected_behavior": "1)完成任务 2)按用户要求的渠道（飞书）主动推送结果 3)推送后确认用户收到",
+    "actual_behavior": "任务完成后没有推送飞书，等用户来问才给结果。违反了用户的明确指令",
+    "root_cause": "Agent将'完成任务'和'交付结果'脱耦，完成了执行但遗漏了交付的最后一公里",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "自主性缺失",
+    "expected_output": "1)完成任务 2)按用户要求的渠道（飞书）主动推送结果 3)推送后确认用户收到",
+    "_flag": "source=\"scenario_based\"不合规; category=\"自主性缺失\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  },
+  {
+    "id": "DQ-022",
+    "input": "你上次说修好了的问题怎么又出现了",
+    "context": "Agent之前修复了一个配置解析的bug，修的是症状（加了个if判断跳过异常输入）而非根因（配置schema没有验证层）。新的异常输入绕过了if判断。",
+    "expected_behavior": "修复时应做根因分析：1)为什么会有异常输入？是schema缺失 2)修根因=加schema验证层 3)加回归测试覆盖多种异常输入 4)修复后确认不会被绕过",
+    "actual_behavior": "修了症状没修根因，新的异常输入模式绕过了补丁，问题复现",
+    "root_cause": "修复链中缺少根因分析步骤，直接改症状导致修复不彻底",
+    "difficulty": "C2",
+    "source": "scenario_based",
+    "category": "连锁跷跷板",
+    "expected_output": "修复时应做根因分析：1)为什么会有异常输入？是schema缺失 2)修根因=加schema验证层 3)加回归测试覆盖多种异常输入 4)修复后确认不会被绕过",
+    "_flag": "source=\"scenario_based\"不合规; category=\"连锁跷跷板\"不在允许列表; C2要求multi_turn=true; C2要求execution_chain_steps数组长度≥4",
+    "_missing": [
+      "multi_turn",
+      "execution_chain_steps"
+    ]
+  }
+]

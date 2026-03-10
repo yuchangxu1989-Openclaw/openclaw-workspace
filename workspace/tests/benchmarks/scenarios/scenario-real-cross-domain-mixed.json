@@ -1,0 +1,28 @@
+{
+  "id": "scenario-real-cross-domain-mixed",
+  "name": "跨领域混合：架构+运维+分析一句话",
+  "domain": "development",
+  "description": "一句话同时涉及架构设计、系统运维和数据分析",
+  "source": "real-conversation",
+  "source_date": "2026-03-02",
+  "original_text": "Cron任务全面整改+飞书ID修正+频率优化+模型统一，同时分析当前系统状态",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "multi-intent",
+    "context": "context-dependent",
+    "interrupt": "no-interrupt",
+    "domain_cross": "cross-domain"
+  },
+  "complexity_tags": ["cross-domain", "multi-intent", "development", "operations", "analysis"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "把29个cron任务全面整改一遍：修正投递的飞书ID、优化频率、统一模型配置，顺便分析下当前系统资源状态" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

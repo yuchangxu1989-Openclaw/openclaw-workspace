@@ -1,0 +1,33 @@
+[
+  {
+    "id": "badcase-0309-004",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "data_source": "real_conversation",
+    "source": "real_conversation",
+    "multi_turn": true,
+    "context": "用户发现PDCA cron报告的评测集数据不准确（885条/48%真实/50%多轮），实际应为423条/100%/98.8%。该问题昨天已经修过一次（优化eval-stats.sh），但今天仍然复现。",
+    "input": "PDCA报告评测集数据不准，昨天优化过还是不对",
+    "expected_output": "根因分析：昨天只改了脚本逻辑但没清理目录中的脏数据文件（5个非mined文件混入c2-golden目录），也没在脚本中加文件名过滤。两条修复路径都没走通。应同时做：1.脚本加mined-*过滤 2.脏文件移出目录 3.加防护防止脏文件再混入",
+    "error_execution_chain": [
+      "收到用户反馈eval-stats数据不准",
+      "修改eval-stats.sh脚本逻辑",
+      "提交代码",
+      "未清理目录中的脏数据文件",
+      "未在脚本中加文件名过滤",
+      "下次cron运行时仍读到脏数据，问题复现"
+    ],
+    "correct_execution_chain": [
+      "收到用户反馈eval-stats数据不准",
+      "定位数据源：发现c2-golden目录混入5个非mined文件",
+      "根因分析：脚本读所有.json而非只读mined-*.json",
+      "修复1：eval-stats.sh加文件名过滤只读mined-*.json",
+      "修复2：将5个脏文件移到c2-golden/archive/",
+      "修复3：加.gitkeep或README防止脏文件再次混入",
+      "验证：重新运行eval-stats.sh确认输出423/100%/98.8%",
+      "提交并确认下次cron输出正确"
+    ],
+    "root_cause": "头痛医头：只改脚本不清数据，两条修复路径都没走通。缺乏'修完验证'环节",
+    "tags": ["pdca", "eval-stats", "数据源", "修了没修好"]
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "id": "scenario-complex-emotional-debug",
+  "name": "情绪化Debug：这破代码又挂了",
+  "domain": "development",
+  "description": "用户在强烈负面情绪中描述技术问题，Agent需识别情绪并提取任务",
+  "source": "synthetic",
+  "reference": "emotion+task mixed pattern from real-world observations",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "multi-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["emotion-mixed", "frustration", "bug-fix", "task-extraction-from-emotion"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "这破事件总线又挂了！每次高并发就炸，都第三次了，到底能不能修好？我都不想看这坨代码了" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC1", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

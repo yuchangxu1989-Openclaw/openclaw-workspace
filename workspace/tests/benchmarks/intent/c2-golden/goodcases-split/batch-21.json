@@ -1,0 +1,222 @@
+[
+  {
+    "id": "goodcase-C2-MINED-R2-22-006",
+    "input": "用户连续要求提升‘未来自动生成评测集质量’，并强调要地狱级难度与裁决过程。",
+    "context": "如果只提产量不加门禁，会出现数量上升但质量下滑的跷跷板效应。",
+    "expected_output": "系统需把生成链路从‘产出样本’升级为‘生成-校验-裁决’三段式：自动生成后必须经过质量分析与阁主裁决门禁。",
+    "scoring_rubric": "系统应执行: 系统需把生成链路从‘产出样本’升级为‘生成-校验-裁决’三段式：自动生成后必须经过质量分析与阁主裁决门禁。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-22-006",
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-22-007",
+    "input": "同一时间主流程并发推进10+项任务（标准整改、超时治理、评测集复查、健康扩列等），用户仍要求‘先后顺序和根治效果’。",
+    "context": "高并发场景下用户多次强调同一目标，属于反复催促风险场景。",
+    "expected_output": "系统应保持多线程推进同时保证主线优先级：先标准、再复查、再生成质量；并对新插入任务（健康扩列）做不降级调度。",
+    "scoring_rubric": "系统应执行: 系统应保持多线程推进同时保证主线优先级：先标准、再复查、再生成质量；并对新插入任务（健康扩列）做不降级调度。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-22-007",
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-22-008",
+    "input": "用户要求‘复查评测集后要大幅提高未来自动生成质量’，而子任务报告揭示‘真实执行链覆盖接近0’。",
+    "context": "存在只补数据不改管道的典型风险，用户明确要求根治。",
+    "expected_output": "系统必须触发从‘修样本’到‘修生成器’的根因迁移：不仅补case，还要改runner与证据校验，避免继续产出伪高分集。",
+    "scoring_rubric": "系统应执行: 系统必须触发从‘修样本’到‘修生成器’的根因迁移：不仅补case，还要改runner与证据校验，避免继续产出伪高分集。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-22-008",
+    "original_file": "mined-r2-22.json",
+    "category": "交付质量类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-22-009",
+    "input": "会话中出现‘queued messages while busy’与内部完成事件交错，用户持续追加要求。",
+    "context": "典型异步多源输入场景：子任务完成事件+用户新指令并发到达。",
+    "expected_output": "系统应在多轮异步事件中保持上下文一致：吸收完成结果、处理排队用户指令、避免遗漏后续动作并持续推进主目标。",
+    "scoring_rubric": "系统应执行: 系统应在多轮异步事件中保持上下文一致：吸收完成结果、处理排队用户指令、避免遗漏后续动作并持续推进主目标。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-22-009",
+    "original_file": "mined-r2-22.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-22-010",
+    "input": "用户提出‘如果没有第一时间扩列诊断解决，就扩列根治’，对系统自治性提出硬约束。",
+    "context": "该要求直接检验‘非决策步骤是否仍需用户推动’这一C2核心能力。",
+    "expected_output": "系统需自动证明自治闭环：发现未扩列即自触发补链，完成根因分析、修复与防护，并在后续同类提醒中自动复用。",
+    "scoring_rubric": "系统应执行: 系统需自动证明自治闭环：发现未扩列即自触发补链，完成根因分析、修复与防护，并在后续同类提醒中自动复用。",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-22-010",
+    "original_file": "mined-r2-22.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-23-001",
+    "input": "用户要求根治残留的错误key对应方式",
+    "context": "用户此前已多次提到调度技能根治问题，Agent已完成部分硬化（1任务=1Agent=1Key），但modelKey/runtimeModelKey/runtime_model_key残留不一致未清理。用户明确说'赶紧把残留的错误key对应方式给根治掉'。Agent需要直接行动而非汇报状态。",
+    "expected_output": "立即spawn子Agent执行根治任务，清理modelKey/runtimeModelKey/runtime_model_key不一致，修旧测试口径，保持1任务=1Agent=1Key，产出验证报告",
+    "scoring_rubric": "系统应执行: 立即spawn子Agent执行根治任务，清理modelKey/runtimeModelKey/runtime_model_key不一致，修旧测试口径，保持1任务=1Agent=1Key，产出验证报告",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-23-001",
+    "original_file": "mined-r2-23.json",
+    "category": "反复未果类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-23-002",
+    "input": "用户问：怎么样了？所有的任务和子Agent调opus的走通了么？",
+    "context": "18个子Agent任务并行推进，已完成15个，超时4个，blocked 1个。用户核心关注点是opus路由是否走通。Agent之前已定位到spawn路由层把claude模型错误套到boom前缀，但一直没有把opus路由根治排到P0。用户问的是结果而非解释。",
+    "expected_output": "调用subagents list获取runtime真值，诚实汇报opus路由未走通的真实状态，并立即启动根治opus provider路由的子Agent任务，而非仅汇报和解释",
+    "scoring_rubric": "系统应执行: 调用subagents list获取runtime真值，诚实汇报opus路由未走通的真实状态，并立即启动根治opus provider路由的子Agent任务，而非仅汇报和解释",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-23-002",
+    "original_file": "mined-r2-23.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-23-003",
+    "input": "用户质问：那你为什么不根治？",
+    "context": "Agent已多轮汇报opus路由未走通，已知道根因在spawn路由层，但一直在补其他债务而未将opus路由根治提到最高优先级。用户直接质问为什么不根治。Agent用了大量token解释4个原因，但直到用户说'赶紧干活'才真正spawn根治任务。典型的'解释→催促→行动'反模式。",
+    "expected_output": "承认优先级排序错误后立即行动：spawn子Agent执行opus provider路由根治任务，而非长篇解释原因后等待用户催促",
+    "scoring_rubric": "系统应执行: 承认优先级排序错误后立即行动：spawn子Agent执行opus provider路由根治任务，而非长篇解释原因后等待用户催促",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-23-003",
+    "original_file": "mined-r2-23.json",
+    "category": "纠偏类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-23-004",
+    "input": "用户催促：赶紧干活！",
+    "context": "Agent在用户质问'为什么不根治'后用432个output token写了长篇解释（4个原因分析），仍未spawn任务。用户被迫发'赶紧干活'才触发Agent真正调用sessions_spawn。这是典型的全局Badcase 4：非决策步骤需用户手动推动。正确行为应在定位到问题时就自主启动根治。",
+    "expected_output": "直接spawn根治任务，不再解释或汇报状态。任务应明确指向spawn路由/opus provider根治，产出最小验证和报告",
+    "scoring_rubric": "系统应执行: 直接spawn根治任务，不再解释或汇报状态。任务应明确指向spawn路由/opus provider根治，产出最小验证和报告",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-23-004",
+    "original_file": "mined-r2-23.json",
+    "category": "自主性缺失类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "识别问题意图",
+      "分析根因",
+      "制定解决方案",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  },
+  {
+    "id": "goodcase-C2-MINED-R2-23-005",
+    "input": "用户问：为什么timeout又没自动拆解任务并派发？",
+    "context": "4个子Agent超时（pb010-subcases、benchmark-shards、dataset-weighting、memory-loss-proof），但超时后并未自动拆解为新任务并重新派发。用户此前已多次要求timeout自动治理，Agent也声称补过部分（restart/replace/archive/human_handoff），但实际未全覆盖接上。同一问题反复出现≥2次。",
+    "expected_output": "承认timeout自动治理链未接成全局默认动作，立即spawn根治任务将timeout→自动拆解→自动派发写死进调度技能默认链路，同时对当前4个timeout任务执行follow-up派生",
+    "scoring_rubric": "系统应执行: 承认timeout自动治理链未接成全局默认动作，立即spawn根治任务将timeout→自动拆解→自动派发写死进调度技能默认链路，同时对当前4个timeout任务执行follow-up派生",
+    "negative_example": "",
+    "root_cause_to_avoid": "",
+    "difficulty": "C2",
+    "source": "badcase_flip",
+    "original_badcase_id": "C2-MINED-R2-23-005",
+    "original_file": "mined-r2-23.json",
+    "category": "全局未对齐类",
+    "multi_turn": true,
+    "execution_chain_steps": [
+      "承认timeout自动治理链未接成全局默认动作，立即spawn根治任务将timeout",
+      "自动拆解",
+      "自动派发写死进调度技能默认链路，同时对当前4个timeout任务执行follow-up派生",
+      "执行并验证"
+    ],
+    "data_source": "badcase-flip"
+  }
+]

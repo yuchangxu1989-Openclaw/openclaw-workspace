@@ -1,0 +1,28 @@
+{
+  "id": "scenario-real-long-text-analysis",
+  "name": "长文本输入：设计方案审查",
+  "domain": "development",
+  "description": "用户粘贴大段设计文档要求审查和优化",
+  "source": "real-conversation",
+  "source_date": "2026-03-04",
+  "original_text": "v4设计方案2031行→4788行，多轮审查迭代(架构师→工程师→质量分析师)",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "single-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["long-text-input", "code-review", "architecture-review"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "这是ISC-事件-DTO闭环设计方案v4，4788行，帮我审查下有没有数据不一致、空壳函数、和工程可行性问题：\n\n## Part 1: 五层事件模型\nL1: 对象生命周期事件（CRUD）...\nL2: 量化阈值事件...\nL3: 语义意图事件...\n\n## Part 2: 统一事件Schema\ndomain.object.action三段式...\n动词有限（封闭集21个）名词无限（开放层级）...\n\n## Part 3: 事件源清单\n24个事件源（5已有+19新建）收敛为7个组合扫描器..." }
+    },
+    { "expect": "intent_detected", "intent_category": "IC3", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

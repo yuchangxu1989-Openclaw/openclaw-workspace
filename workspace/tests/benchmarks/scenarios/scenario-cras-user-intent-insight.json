@@ -1,0 +1,13 @@
+{
+  "id": "scenario-cras-user-intent-insight",
+  "name": "CRAS用户意图洞察",
+  "domain": "knowledge",
+  "description": "从碎片化对话中识别用户的真实需求",
+  "steps": [
+    { "action": "emit", "event": "user.message", "payload": { "text": "最近总觉得效率不高，可能是工具用得不对，也可能是流程有问题，你能帮我分析一下到底哪里出了问题吗" } },
+    { "expect": "intent_detected", "intent_category": "IC3", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "cras*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

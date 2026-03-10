@@ -1,0 +1,28 @@
+{
+  "id": "scenario-real-emotion-task-mixed",
+  "name": "情绪+任务混合：愤怒中要求修复",
+  "domain": "development",
+  "description": "用户带强烈情绪表达不满的同时包含明确的任务需求",
+  "source": "real-conversation",
+  "source_date": "2026-03-04",
+  "original_text": "智商太低，不配当战略家。四维意图仪表盘报告是骗人的",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "multi-intent",
+    "context": "context-dependent",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["emotion-mixed", "multi-intent", "frustration", "urgent-fix", "data-honesty"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "智商太低了，这报告全是假数据！CRAS-B模块全部mock代码，给我立刻禁掉cron任务" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC1", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

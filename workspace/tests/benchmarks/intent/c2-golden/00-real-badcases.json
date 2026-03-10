@@ -1,0 +1,41 @@
+[
+  {
+    "id": "auto-badcase-006-auto-send-proactive-20260309153025",
+    "input": "completion-handler自动检测: task=badcase-006-auto-send-proactive status=done summary=badcase文件不存在需重建",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_behavior": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "actual_behavior": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "badcase_category": "自主性缺失类",
+    "root_cause": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-09T07:30:26Z"
+  },
+  {
+    "id": "auto-badcase-harvest-0309-1953-20260309195555",
+    "input": "completion-handler自动检测: task=badcase-harvest-0309-1953 status=done summary=3条badcase已入库",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_behavior": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "actual_behavior": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "badcase_category": "自主性缺失类",
+    "root_cause": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-09T11:55:56Z"
+  },
+  {
+    "id": "auto-e2e-rule-memory-correction-20260310091622",
+    "input": "completion-handler自动检测: task=e2e-rule-memory-correction status=done summary=handler已创建+测试通过(MEMORY.md纠偏扫描)，commit 1ceb6f6b",
+    "context": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "expected_behavior": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "actual_behavior": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+    "badcase_category": "自主性缺失类",
+    "root_cause": "口头判断与结构化记录脱钩，缺少强制原子绑定",
+    "data_source": "auto-harvest",
+    "difficulty": "C2",
+    "source": "auto-harvest-engine",
+    "harvested_at": "2026-03-10T01:16:22Z"
+  }
+]

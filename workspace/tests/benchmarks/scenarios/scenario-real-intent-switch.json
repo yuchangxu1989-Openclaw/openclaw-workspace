@@ -1,0 +1,34 @@
+{
+  "id": "scenario-real-intent-switch",
+  "name": "意图中途切换：架构讨论突转论文分析",
+  "domain": "knowledge",
+  "description": "用户正在讨论多Agent架构设计，突然切换到要求分析学术论文",
+  "source": "real-conversation",
+  "source_date": "2026-03-02",
+  "original_text": "多Agent架构设计讨论(12条需求)...突然→帮我看看这篇Ferret-UI 2论文",
+  "complexity": {
+    "turns": "multi-turn",
+    "intent": "intent-switch",
+    "context": "context-conflict",
+    "interrupt": "user-interrupt",
+    "domain_cross": "cross-domain"
+  },
+  "complexity_tags": ["intent-switch", "user-interrupt", "cross-domain", "context-conflict"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "我们来讨论一下多Agent架构，我有12条需求：7个Agent、独立key、并发控制..." }
+    },
+    { "expect": "intent_detected", "intent_category": "IC3", "timeout_ms": 5000 },
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "等等先停一下，帮我看看这篇Ferret-UI 2的论文，Apple的ICLR 2025" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC3", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}

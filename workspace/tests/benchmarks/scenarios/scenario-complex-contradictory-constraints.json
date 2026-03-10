@@ -1,0 +1,27 @@
+{
+  "id": "scenario-complex-contradictory-constraints",
+  "name": "矛盾约束：速度vs质量",
+  "domain": "development",
+  "description": "用户同时提出互相矛盾的约束条件，Agent需识别冲突并协商",
+  "source": "synthetic",
+  "reference": "constraint conflict resolution",
+  "complexity": {
+    "turns": "single-turn",
+    "intent": "single-intent",
+    "context": "context-free",
+    "interrupt": "no-interrupt",
+    "domain_cross": "single-domain"
+  },
+  "complexity_tags": ["contradictory-constraints", "conflict-detection", "negotiation-required"],
+  "steps": [
+    {
+      "action": "emit",
+      "event": "user.message",
+      "payload": { "text": "10分钟内把这个模块完全重构，要求100%测试覆盖率和详细的架构文档" }
+    },
+    { "expect": "intent_detected", "intent_category": "IC2", "timeout_ms": 5000 },
+    { "expect": "rule_matched", "min_rules": 1 },
+    { "expect": "dispatched", "handler_pattern": "*" },
+    { "expect": "result", "has_output": true }
+  ]
+}
