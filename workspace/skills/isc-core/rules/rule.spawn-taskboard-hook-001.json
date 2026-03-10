@@ -3,7 +3,10 @@
   "name": "Spawn必须登记TaskBoard",
   "description": "主Agent每次sessions_spawn后必须调用register-task登记到task-board",
   "trigger": {
-    "event": "agent.task.spawned"
+    "event": "agent.task.spawned",
+    "events": [
+      "isc.rule.spawn.taskboard.hook.001"
+    ]
   },
   "action": {
     "type": "script",

@@ -6,7 +6,10 @@
   "enabled": true,
   "trigger": {
     "event": "before_reply",
-    "condition": "text.length < 20"
+    "condition": "text.length < 20",
+    "events": [
+      "isc.rule.voice.reply.on.short.response.001"
+    ]
   },
   "action": {
     "type": "suggest",

@@ -6,7 +6,10 @@
   "category": "execution-governance",
   "trigger": {
     "event": "dispatch.batch.completed",
-    "condition": "spawned_count >= 2"
+    "condition": "spawned_count >= 2",
+    "events": [
+      "isc.rule.dispatch.auto.report.001"
+    ]
   },
   "action": {
     "type": "auto_report",

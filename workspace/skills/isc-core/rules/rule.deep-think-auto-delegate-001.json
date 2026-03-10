@@ -19,7 +19,10 @@
         "threshold_seconds": 30
       }
     ],
-    "logic": "AND"
+    "logic": "AND",
+    "events": [
+      "isc.rule.deep.think.auto.delegate.001"
+    ]
   },
   "action": {
     "type": "spawn_subagent",

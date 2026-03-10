@@ -38,5 +38,10 @@
   "created_by": "rca-skill-discovery-rootfix",
   "fullchain_status": "expanded",
   "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.auto-skill-discovery-001.sh",
-  "id": "AUTO-SKILL-DISCOVERY-001"
+  "id": "AUTO-SKILL-DISCOVERY-001",
+  "trigger": {
+    "events": [
+      "isc.rule.auto.skill.discovery.001"
+    ]
+  }
 }

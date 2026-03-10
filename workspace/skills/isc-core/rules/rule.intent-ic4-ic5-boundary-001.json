@@ -82,7 +82,10 @@
   },
   "trigger": {
     "event": "isc.rule.matched",
-    "condition": "always"
+    "condition": "always",
+    "events": [
+      "isc.rule.intent.ic4.ic5.boundary.001"
+    ]
   },
   "enforcement": "programmatic",
   "handler": "intent-ic4-ic5-boundary",

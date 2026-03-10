@@ -3,7 +3,10 @@
   "name": "Completion Event程序化处理",
   "description": "收到子Agent completion event后必须先调用completion-handler.sh，不得跳过直接回复用户",
   "trigger": {
-    "event": "agent.task.completed"
+    "event": "agent.task.completed",
+    "events": [
+      "isc.rule.completion.handler.001"
+    ]
   },
   "action": {
     "type": "script",

@@ -7,7 +7,10 @@
   "trigger": {
     "event": "subagent.completion",
     "condition": "agentId in [coder, writer, researcher] AND status != failed",
-    "hook": "completion-handler.sh Step 2"
+    "hook": "completion-handler.sh Step 2",
+    "events": [
+      "isc.rule.auto.qa.on.completion.001"
+    ]
   },
   "action": {
     "type": "script",

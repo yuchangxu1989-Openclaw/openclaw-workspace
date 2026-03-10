@@ -6,7 +6,10 @@
   "category": "observability",
   "trigger": {
     "event": "subagent.batch.all_completed",
-    "condition": "running_count == 0 AND batch_had_tasks"
+    "condition": "running_count == 0 AND batch_had_tasks",
+    "events": [
+      "isc.rule.batch.completion.auto.push.001"
+    ]
   },
   "action": {
     "type": "enforce",

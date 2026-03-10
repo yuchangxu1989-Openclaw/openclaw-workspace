@@ -4,7 +4,10 @@
   "description": "用户纠偏时自动反查MEMORY.md中的矛盾记忆并修正",
   "priority": "P0",
   "trigger": {
-    "event": "user.feedback.correction"
+    "event": "user.feedback.correction",
+    "events": [
+      "isc.rule.memory.correction.on.feedback.001"
+    ]
   },
   "action": {
     "handler": "scripts/isc-hooks/rule.memory-correction-on-feedback-001.sh"

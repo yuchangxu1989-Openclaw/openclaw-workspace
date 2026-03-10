@@ -12,6 +12,9 @@
       "status in [timed_out, timeout, failed]",
       "cancel_reason != user_cancelled",
       "retry_count < 2"
+    ],
+    "events": [
+      "isc.rule.timeout.auto.retry.001"
     ]
   },
   "action": {
