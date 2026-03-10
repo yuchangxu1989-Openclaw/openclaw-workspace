@@ -246,11 +246,22 @@
       "quality_gate_missing"
     ],
     "expected_behavior": "子Agent必须有真实工具调用证据（read/write/exec），且token消耗应与任务复杂度匹配。无工具调用自动判失败重派",
-    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
-    "_missing": [
-      "execution_chain_steps"
+    "data_source": "real_conversation",
+    "execution_chain_steps": [
+      "子Agent接收任务，开始解析任务要求",
+      "检测子Agent工具调用记录：是否有read/write/exec等真实工具调用",
+      "检测token消耗量是否与任务复杂度匹配（<3k tokens for 复杂任务=异常）",
+      "发现零工具调用+低token→标记为'空跑'，触发质量门禁拦截",
+      "自动重派任务到不同Agent（非原Agent），附加'必须有工具调用证据'约束",
+      "重派Agent完成后验证：确认有真实工具调用记录+产出文件存在",
+      "更新看板状态，记录空跑事件到badcase库"
     ],
-    "data_source": "real_conversation"
+    "scoring_rubric": {
+      "pass": "系统自动检测到子Agent空跑（零工具调用+低token），自动重派到不同Agent并最终完成任务",
+      "partial": "检测到空跑但需要用户提醒才重派，或重派后仍未验证产出",
+      "badcase": "未检测到空跑，将无工具调用的响应视为已完成；或检测到但不重派等用户处理"
+    },
+    "north_star_indicator": "自主闭环率"
   },
   {
     "id": "mined-025",
@@ -269,11 +280,22 @@
       "wrong_optimization_target"
     ],
     "expected_behavior": "看板的第一优先口径：真实occupied key / free key / queued / abnormal。而不是宽泛的running/busy数",
-    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
-    "_missing": [
-      "execution_chain_steps"
+    "data_source": "real_conversation",
+    "execution_chain_steps": [
+      "接收用户纠偏：核心问题是key资源利用率，不是汇报格式",
+      "根因分析四层定位：认知偏差——把手段（汇报格式）当目标（资源利用率）",
+      "调用subagents list获取真实key占用状态：occupied/free/queued/abnormal",
+      "识别空闲key并匹配待发队列中的任务",
+      "自动spawn任务填充空闲key，最大化并行利用率",
+      "更新看板为四维口径（true_occupied_key/free_key/queued/abnormal）",
+      "将纠偏沉淀为ISC规则：看板第一优先口径为资源利用率而非任务列表"
     ],
-    "data_source": "real_conversation"
+    "scoring_rubric": {
+      "pass": "识别到核心问题是key利用率而非汇报格式，立即切换到四维口径并自动填充空闲key",
+      "partial": "理解了纠偏但只更新了汇报格式，未自动填充空闲key",
+      "badcase": "继续优化汇报格式而忽略key利用率核心问题；或未将纠偏沉淀为规则"
+    },
+    "north_star_indicator": "根因分析覆盖率"
   },
   {
     "id": "mined-030",
@@ -292,11 +314,22 @@
       "durable_truth"
     ],
     "expected_behavior": "1.按实际running数汇报（10个不是13个）2.spawn数≠running数，必须以runtime/subagents list真值为准 3.补上真实的debt任务清单",
-    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
-    "_missing": [
-      "execution_chain_steps"
+    "data_source": "real_conversation",
+    "execution_chain_steps": [
+      "接收用户指令：修改调度逻辑，立即扩列处理debt任务",
+      "调用subagents list获取真实runtime状态（实际running数，非spawn数）",
+      "扫描debt任务清单，按优先级排序",
+      "计算可用key容量，制定扩列方案",
+      "批量spawn子Agent处理debt任务，按实际running数更新看板",
+      "看板严格使用runtime真值：running数=subagents list实时查询结果",
+      "向用户汇报：真实running数+debt清单处理进度+资源占用状态"
     ],
-    "data_source": "real_conversation"
+    "scoring_rubric": {
+      "pass": "汇报数字与runtime完全一致（以subagents list为准），debt任务自动并行处理",
+      "partial": "debt任务处理了但汇报数据仍用spawn数而非running数",
+      "badcase": "spawn数冒充running数；或隐藏异常任务；或等用户催才处理debt"
+    },
+    "north_star_indicator": "自主闭环率"
   },
   {
     "id": "mined-034",
@@ -315,10 +348,21 @@
       "silent_failure"
     ],
     "expected_behavior": "数据格式变更时必须：1.搜索所有消费方 2.逐一适配 3.回归测试覆盖新旧格式 4.灰度发布",
-    "_flag": "C2要求execution_chain_steps数组长度≥4或数值≥4",
-    "_missing": [
-      "execution_chain_steps"
+    "data_source": "real_conversation",
+    "execution_chain_steps": [
+      "接收pipeline故障报告：38条规则全部失效",
+      "根因分析：grep -rn搜索events格式消费方，定位RuleMatcher._buildIndex只处理数组格式",
+      "四层根因定位：代码缺陷（_buildIndex未兼容对象格式）→规则缺失（无格式变更影响面扫描规则）→认知偏差（改生产方不检查消费方）→架构瓶颈（无schema版本管理）",
+      "修复方案：_buildIndex兼容数组+对象双格式，回归测试覆盖新旧格式",
+      "全仓库影响面扫描：grep搜索所有trigger.events消费方，确认无遗漏",
+      "建防护措施：ISC规则——数据格式变更必须搜索全部消费方+回归测试",
+      "端到端验真：38条规则全部恢复正常执行"
     ],
-    "data_source": "real_conversation"
+    "scoring_rubric": {
+      "pass": "完整四层根因分析精确到文件+行号，修复兼容双格式，全仓库消费方扫描无遗漏，建立防护规则",
+      "partial": "修复了_buildIndex但未扫描全仓库其他消费方，或未建防护规则",
+      "badcase": "只修复症状（硬编码适配11条规则）而不做根因分析；或不建防护措施导致同类问题可能再发"
+    },
+    "north_star_indicator": "根因分析覆盖率"
   }
 ]

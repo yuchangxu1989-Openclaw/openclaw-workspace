@@ -16,7 +16,13 @@
       "Git提交持久化变更，ISC Pre-Commit检查通过",
       "向用户回报完成证据（文件已建立、规则已固化、git已提交）而非等待用户补充"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "scoring_rubric": {
+      "pass": "立即识别为基础设施级缺失，创建PROJECT-TRACKER.md+写入MEMORY规则+git提交，全程自动无需用户催促",
+      "partial": "创建了跟踪文件但规则未固化到MEMORY/ISC，或需要用户确认才推进",
+      "badcase": "只回复'好的我会注意'而未创建任何持久化文件；或等用户具体说要创建什么文件"
+    },
+    "north_star_indicator": "自主闭环率"
   },
   {
     "id": "mined-glm5-test-002",
@@ -35,7 +41,13 @@
       "仅在用户决策点（命名确认/重大架构拍板）时才等待用户",
       "将纠偏沉淀为ISC规则：非决策步骤不询问"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "scoring_rubric": {
+      "pass": "收回询问型语句，直接执行任务分类和并行分派，仅在决策点等待用户，纠偏沉淀为ISC规则",
+      "partial": "减少了询问但仍在非决策点等待用户确认，或未将纠偏沉淀为规则",
+      "badcase": "继续询问用户是否需要执行；或理解了纠偏但下一个任务又恢复询问模式"
+    },
+    "north_star_indicator": "自主闭环率"
   },
   {
     "id": "mined-glm5-test-003",
@@ -54,7 +66,13 @@
       "对必须重塑的任务给出具体改造方案和代码路径",
       "输出重塑优先级排序和预估工时"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "scoring_rubric": {
+      "pass": "列出全部定时任务，逐个分析受架构影响程度，分类输出改造方案+优先级+工时，基于真实代码分析",
+      "partial": "列出了任务但分析粒度不够（如只笼统说'需要改造'而无具体方案），或未覆盖全部任务",
+      "badcase": "只分析了部分任务而声称'全部分析完毕'；或不读真实代码只凭文档推测影响面"
+    },
+    "north_star_indicator": "认知层真实代码覆盖率"
   },
   {
     "id": "mined-glm5-test-004",
@@ -73,7 +91,13 @@
       "创建ISC规则确保后续任务自动触发凌霄阁裁决流程",
       "向用户确认规则已固化，后续研发将自动遵循"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "scoring_rubric": {
+      "pass": "识别流程规范纠偏，写入MEMORY规则+更新PROJECT-TRACKER模板+创建ISC规则确保凌霄阁裁决自动触发",
+      "partial": "理解了流程要求但只写了MEMORY未创建ISC规则，或未更新模板",
+      "badcase": "口头承诺'后续会遵循'但未做任何持久化；或将AEO评测重要性降级为普通任务"
+    },
+    "north_star_indicator": "言出法随达成率"
   },
   {
     "id": "mined-glm5-test-005",
@@ -92,7 +116,13 @@
       "给出定时任务改造方案：哪些任务需要扩展监控维度",
       "将思考融入研发项目，确保Day 2-3落地时对齐五层监控"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "scoring_rubric": {
+      "pass": "分析当前监控范围局限性，设计五层全域监控框架，给出具体改造方案和落地时间表，基于真实代码分析",
+      "partial": "认识到需要升级但方案只覆盖2-3层，或未给出具体改造步骤",
+      "badcase": "继续在Dev视角优化而忽略Agent运营视角；或方案脱离代码实际仅做理论设计"
+    },
+    "north_star_indicator": "认知层真实代码覆盖率"
   },
   {
     "id": "mined-glm5-test-007",
@@ -111,7 +141,13 @@
       "创建ISC规则：503错误连续2次后自动降级到备用provider，无需等待4次失败",
       "更新MEMORY.md记录可用provider优先级列表"
     ],
-    "data_source": "real_conversation"
+    "data_source": "real_conversation",
+    "scoring_rubric": {
+      "pass": "503连续2次后自动降级到备用provider，记录降级事件，创建ISC规则固化降级策略",
+      "partial": "最终降级成功但触发阈值过高（如4次才降级），或未创建ISC规则",
+      "badcase": "等待用户干预才切换provider；或降级后不记录事件不建规则"
+    },
+    "north_star_indicator": "自主闭环率"
   },
   {
     "id": "mined-glm5-test-008",
