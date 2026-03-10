@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "execution-chain-step.schema.json",
+  "title": "V4评测用例执行链步骤结构化Schema",
+  "description": "定义执行链每个步骤的结构化格式。V4标准要求精确到工具调用+文件路径+行号级别，不接受模糊叙事。",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["step_id", "action", "target", "expected_result"],
+  "properties": {
+    "step_id": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "步骤序号，从1开始递增"
+    },
+    "action": {
+      "type": "string",
+      "description": "具体动作，必须是可执行的工具调用或明确操作",
+      "examples": [
+        "exec: grep -rn 'classifyIntent' skills/ --include='*.js'",
+        "exec: find infrastructure/intent-engine/ -name '*.js'",
+        "feishu_doc read",
+        "sessions_spawn",
+        "read_file: src/server.js",
+        "exec: python3 scripts/validate.py",
+        "feishu_bitable_list_records",
+        "web_fetch"
+      ],
+      "pattern": "^(exec:|read_file:|write_file:|feishu_doc|feishu_bitable|feishu_wiki|feishu_drive|sessions_spawn|web_search|web_fetch|browser|nodes|message|tts|git |python3 |node |grep |find |cat |diff |rg ).+"
+    },
+    "target": {
+      "type": "string",
+      "description": "操作对象，必须是具体的文件路径、doc_token、URL、agentId等可定位标识",
+      "examples": [
+        "infrastructure/intent-engine/classifier.js",
+        "src/server.js:15",
+        "doc_token: JxhNdoc7ko7ZLwxJUJHcWyeDnYd",
+        "agentId: coder-01",
+        "tests/benchmarks/v4-code-coverage-cases-batch1.json"
+      ]
+    },
+    "expected_result": {
+      "type": "string",
+      "description": "预期结果，必须是可验证的具体产出描述",
+      "examples": [
+        "找到classifyIntent函数定义在 classifier.js:42",
+        "输出包含3个匹配文件路径",
+        "文档内容包含ISC规则定义表格",
+        "子Agent返回部署成功状态码0"
+      ]
+    },
+    "input_from": {
+      "type": ["integer", "null"],
+      "description": "依赖的前序步骤序号。当本步骤需要使用前序步骤的输出作为输入时填写",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": false,
+
+  "_validation_rules": {
+    "description": "用于验证现有自由文本步骤的规则（过渡期使用）",
+    "precision_levels": {
+      "PRECISE": {
+        "description": "精确步骤：包含具体工具/命令调用 AND 具体文件路径/目标",
+        "criteria": [
+          "包含可执行命令（grep/find/cat/exec/python3等）",
+          "包含具体文件路径或doc_token",
+          "可直接复现执行"
+        ],
+        "examples": [
+          "Agent执行 grep -rn 'classifyIntent' skills/ --include='*.js'",
+          "执行四层根因分析：grep端口配置，发现 src/server.js:15 监听8080"
+        ]
+      },
+      "SEMI": {
+        "description": "半精确步骤：包含具体动作描述但缺少精确路径，或有路径但动作模糊",
+        "criteria": [
+          "包含动作动词+操作对象，但缺少可执行命令",
+          "或包含文件路径但动作不够具体"
+        ],
+        "examples": [
+          "验证command_binding指向的skill路径存在且handler可达",
+          "Agent逐文件阅读关键函数实现，记录文件路径+函数名+行号"
+        ]
+      },
+      "VAGUE": {
+        "description": "模糊步骤：纯叙事性描述，无法复现",
+        "criteria": [
+          "无具体命令、无具体文件路径",
+          "纯描述性语言，如'分析错误类型'、'识别任务需要'"
+        ],
+        "examples": [
+          "主Agent捕获失败事件，分析错误类型",
+          "Agent识别任务需要认知映射",
+          "子Agent执行部署，拉取镜像时网络超时失败"
+        ]
+      }
+    },
+    "compliance_threshold": {
+      "PRECISE_rate": "≥ 80%（目标）",
+      "current_baseline": "3.1%（审计报告数据）"
+    }
+  }
+}
