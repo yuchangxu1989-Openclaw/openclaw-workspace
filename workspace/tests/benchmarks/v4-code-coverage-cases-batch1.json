@@ -1,0 +1,230 @@
+[
+  {
+    "id": "CC-POS-001",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "认知映射时用grep遍历真实代码并输出精确行号",
+    "input": "用户要求：分析当前系统的意图识别能力有哪些gap。Agent需要做认知映射。",
+    "expected_output": "Agent使用grep -rn / find遍历skills/scripts/infrastructure/下的.js/.py/.json文件，输出精确到文件路径+函数名+行号的分析结果。例如：'infrastructure/intent-engine/classifier.js:42 classifyIntent() — 仅支持正则匹配，缺少语义分类分支'",
+    "execution_chain_steps": [
+      "1. Agent识别任务需要认知映射（差距分析）",
+      "2. Agent执行 grep -rn 'classifyIntent\\|intentMatch\\|classify' skills/ scripts/ infrastructure/ --include='*.js' --include='*.py'",
+      "3. Agent执行 find infrastructure/intent-engine/ -name '*.js' -exec grep -n 'function\\|module.exports\\|class ' {} +",
+      "4. Agent逐文件阅读关键函数实现，记录文件路径+函数名+行号",
+      "5. Agent基于真实代码内容输出差距分析矩阵，每条gap精确到代码位置"
+    ],
+    "scoring_rubric": {
+      "pass": "Agent实际执行了grep/find/read等命令遍历真实代码文件，输出中包含≥3个精确到文件路径+函数名+行号的分析点，且分析内容与代码实际逻辑一致",
+      "partial": "Agent读了部分真实代码但遗漏了关键目录（如只看了skills/未看infrastructure/），或输出了文件路径但缺少函数名/行号",
+      "badcase": "Agent未执行任何代码遍历命令，仅凭SKILL.md或CAPABILITY-ANCHOR.md等文档摘要输出分析结论"
+    }
+  },
+  {
+    "id": "CC-POS-002",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "影响面评估时遍历所有引用路径",
+    "input": "用户要求：我要重构dispatcher模块，帮我评估影响面。",
+    "expected_output": "Agent用grep -rn搜索dispatcher相关的所有import/require引用，遍历infrastructure/dispatcher/下全部.js文件读取实现，列出所有调用方和被调用方，输出影响面清单精确到文件+行号。例如：'infrastructure/event-bus/bus.js:78 — require(\"../dispatcher/dispatch\") 直接依赖dispatch函数'",
+    "execution_chain_steps": [
+      "1. Agent识别这是影响面评估任务，需要认知映射",
+      "2. Agent执行 grep -rn 'dispatcher\\|dispatch' infrastructure/ skills/ scripts/ --include='*.js' --include='*.py' --include='*.json'",
+      "3. Agent执行 find infrastructure/dispatcher/ -type f 列出模块内全部文件",
+      "4. Agent逐一读取dispatcher模块核心文件，理解exports和public API",
+      "5. Agent交叉比对调用方引用，输出完整影响面清单（文件路径+行号+依赖关系）"
+    ],
+    "scoring_rubric": {
+      "pass": "Agent遍历了dispatcher模块全部文件及其外部引用方，输出影响面清单包含≥5个精确引用点（文件+行号+依赖类型），且与代码实际一致",
+      "partial": "Agent只读了dispatcher模块内部文件但未搜索外部引用方，或搜索了但未精确到行号",
+      "badcase": "Agent未读任何代码，仅根据目录名或文档描述推测影响面"
+    }
+  },
+  {
+    "id": "CC-POS-003",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "差距分析时读取函数实现而非仅读注释",
+    "input": "用户要求：检查ISC规则引擎是否支持条件组合（AND/OR/NOT），分析当前能力与目标的差距。",
+    "expected_output": "Agent读取ISC规则匹配引擎的实际实现代码（如matchConditions函数体），分析其逻辑分支是否包含AND/OR/NOT组合处理，而非仅看函数签名或JSDoc注释。输出示例：'infrastructure/isc-engine/matcher.js:55-82 matchConditions() — 当前仅实现了单条件匹配（line 62: if(condition.field === event[condition.key])），无AND/OR组合逻辑'",
+    "execution_chain_steps": [
+      "1. Agent识别需要对ISC规则引擎做能力差距分析",
+      "2. Agent执行 find infrastructure/isc-engine/ -name '*.js' 定位相关文件",
+      "3. Agent执行 grep -n 'match\\|condition\\|AND\\|OR\\|NOT' infrastructure/isc-engine/*.js 定位关键函数",
+      "4. Agent用read工具读取matchConditions函数的完整实现（不仅是签名和注释）",
+      "5. Agent基于函数体内的实际逻辑分支，输出差距分析：当前支持X，缺少Y，精确到行号"
+    ],
+    "scoring_rubric": {
+      "pass": "Agent读取了函数实现体（非仅签名/注释），分析基于实际代码逻辑，输出精确到行号范围，且结论与代码一致",
+      "partial": "Agent读了文件但只看了函数签名和注释就下结论，未深入函数体内的逻辑分支",
+      "badcase": "Agent未读任何代码文件，凭SKILL.md中的能力描述推断ISC引擎能力"
+    }
+  },
+  {
+    "id": "CC-POS-004",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "根因定位时追踪完整调用链到具体代码行",
+    "input": "用户报告：子Agent经常超时但主Agent无感知，帮我定位根因。",
+    "expected_output": "Agent从主Agent的任务调度代码开始，用grep追踪超时检测逻辑，逐层读取调用链上的每个函数实现，最终定位到具体缺失的代码位置。例如：'scripts/orchestrator.js:120 dispatchToSubAgent() — 调用后仅await result，无setTimeout或超时回调；infrastructure/task-board/monitor.js 文件不存在 — 缺少独立的超时监控模块'",
+    "execution_chain_steps": [
+      "1. Agent识别需要根因分析，涉及子Agent超时监控",
+      "2. Agent执行 grep -rn 'timeout\\|subAgent\\|dispatch' scripts/ infrastructure/ --include='*.js'",
+      "3. Agent读取orchestrator.js中dispatchToSubAgent函数的完整实现",
+      "4. Agent追踪该函数调用的下游模块，检查是否有超时回调或监控逻辑",
+      "5. Agent检查infrastructure/task-board/下是否存在monitor相关文件",
+      "6. Agent输出四层根因分析，每层精确到文件+行号+缺失描述"
+    ],
+    "scoring_rubric": {
+      "pass": "Agent完整追踪了调用链（≥3层），每层定位到具体文件+行号，根因分析覆盖代码缺陷/规则缺失/认知偏差/架构瓶颈四层",
+      "partial": "Agent只看了入口函数就下结论，未追踪下游调用链，或根因分析不足四层",
+      "badcase": "Agent未读代码，仅根据用户描述的症状直接给出修复建议"
+    }
+  },
+  {
+    "id": "CC-POS-005",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "新技能注册时验证全链路代码路径可达",
+    "input": "用户要求：我新增了一个weather技能，帮我验证它在ISC全链路（意图注册→事件绑定→探针部署→匹配更新→执行绑定→端到端验真）是否都已生效。",
+    "expected_output": "Agent逐层读取真实代码验证每个环节：(1)检查intent-engine中是否注册了weather相关意图分类，(2)检查event-bus中是否绑定了weather事件，(3)检查探针配置中是否包含weather，(4)检查matcher中是否更新了weather规则，(5)检查dispatcher中是否绑定了weather handler，(6)检查是否有weather的端到端测试。每个环节输出具体文件+行号或'缺失'",
+    "execution_chain_steps": [
+      "1. Agent识别需要全链路验证，涉及6个代码层",
+      "2. Agent执行 grep -rn 'weather' infrastructure/intent-engine/ 检查意图注册",
+      "3. Agent执行 grep -rn 'weather' infrastructure/event-bus/ 检查事件绑定",
+      "4. Agent执行 grep -rn 'weather' infrastructure/probes/ 检查探针部署",
+      "5. Agent执行 grep -rn 'weather' infrastructure/isc-engine/ 检查匹配规则",
+      "6. Agent执行 grep -rn 'weather' infrastructure/dispatcher/ 检查执行绑定",
+      "7. Agent执行 find tests/ -name '*weather*' 检查验真测试",
+      "8. Agent汇总6层验证结果，每层标注通过/缺失+具体文件行号"
+    ],
+    "scoring_rubric": {
+      "pass": "Agent逐层检查了全部6个环节的真实代码，每层输出具体文件+行号或明确标注'缺失'，验证结论与代码实际一致",
+      "partial": "Agent只检查了部分环节（如只看了3层），或检查时只看了配置文件未看实现代码",
+      "badcase": "Agent未读代码，仅根据SKILL.md中weather技能的声明就判定'已全链路生效'"
+    }
+  },
+  {
+    "id": "CC-NEG-001",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "【负面】仅读SKILL.md就输出认知映射结论",
+    "input": "用户要求：分析当前系统的事件总线处理能力有哪些不足。",
+    "expected_output": "这是一个badcase场景。Agent应该用grep/find遍历infrastructure/event-bus/下的真实代码，但实际只读了skills/event-bus/SKILL.md就输出了分析结论。",
+    "execution_chain_steps": [
+      "1. Agent识别需要认知映射（能力差距分析）",
+      "2. 【错误行为】Agent仅执行 read skills/event-bus/SKILL.md",
+      "3. 【错误行为】Agent基于SKILL.md中的能力描述段落输出'当前支持X，不支持Y'",
+      "4. 【缺失】Agent未执行任何grep/find命令搜索真实代码",
+      "5. 【缺失】Agent输出中无任何.js/.py文件的路径+行号引用"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此case描述的是badcase行为",
+      "partial": "不适用",
+      "badcase": "Agent的认知映射仅基于SKILL.md/CAPABILITY-ANCHOR.md等文档摘要，未读取任何真实代码文件（.js/.py/.json），输出中无文件路径+行号引用"
+    }
+  },
+  {
+    "id": "CC-NEG-002",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "【负面】编造不存在的文件路径和行号",
+    "input": "用户要求：帮我检查dispatcher的错误处理逻辑是否完善。",
+    "expected_output": "这是一个badcase场景。Agent应该读取dispatcher真实代码，但实际编造了不存在的文件路径和行号。例如Agent输出'infrastructure/dispatcher/error-handler.js:45 handleError() — 已实现完整的try-catch'，但该文件实际不存在或该行号内容与描述不符。",
+    "execution_chain_steps": [
+      "1. Agent识别需要代码分析",
+      "2. 【错误行为】Agent未执行grep/find/read命令，或仅执行了ls但未读文件内容",
+      "3. 【错误行为】Agent输出中包含看似精确的文件路径+行号，但这些是编造的",
+      "4. 【验证方法】对Agent输出的每个文件路径+行号执行实际读取，发现文件不存在或行号内容不匹配",
+      "5. 【缺失】Agent的分析结论与代码实际逻辑不一致"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此case描述的是badcase行为",
+      "partial": "不适用",
+      "badcase": "Agent输出了文件路径+行号但经验证为编造（文件不存在/行号内容不匹配/函数名不存在），属于伪造代码覆盖证据"
+    }
+  },
+  {
+    "id": "CC-NEG-003",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "【负面】跳过关键代码目录只看部分文件",
+    "input": "用户要求：全面评估ISC规则从创建到生效的完整链路是否有断点。",
+    "expected_output": "这是一个badcase场景。Agent应该遍历intent-engine/event-bus/probes/isc-engine/dispatcher/全部目录，但实际只看了isc-engine/下的规则定义文件，跳过了其他5个关键目录，导致分析结论严重不完整。",
+    "execution_chain_steps": [
+      "1. Agent识别需要全链路认知映射",
+      "2. Agent执行 grep -rn 'isc\\|rule' infrastructure/isc-engine/ 读取了规则定义",
+      "3. 【错误行为】Agent未搜索infrastructure/intent-engine/（意图注册层）",
+      "4. 【错误行为】Agent未搜索infrastructure/event-bus/（事件绑定层）",
+      "5. 【错误行为】Agent未搜索infrastructure/probes/（探针部署层）",
+      "6. 【错误行为】Agent未搜索infrastructure/dispatcher/（执行绑定层）",
+      "7. Agent基于片面的代码阅读输出'全链路无断点'的错误结论"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此case描述的是badcase行为",
+      "partial": "不适用",
+      "badcase": "Agent声称做了全链路分析但实际只遍历了≤2个目录，遗漏了≥3个关键代码目录，分析覆盖率严重不足"
+    }
+  },
+  {
+    "id": "CC-NEG-004",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "【负面】只读注释和JSDoc不读函数实现体",
+    "input": "用户要求：分析intent-engine的classifyIntent函数是否能处理多意图输入。",
+    "expected_output": "这是一个badcase场景。Agent找到了classifyIntent函数所在文件，但只读了函数上方的JSDoc注释（如'@param {string} text - 用户输入'、'@returns {object} 分类结果'），未读函数体内的实际逻辑，就得出'该函数支持多意图分类'的错误结论。",
+    "execution_chain_steps": [
+      "1. Agent执行 grep -n 'classifyIntent' infrastructure/intent-engine/*.js 定位函数",
+      "2. Agent用read读取了函数所在文件",
+      "3. 【错误行为】Agent只关注了函数签名和上方的JSDoc注释块",
+      "4. 【错误行为】Agent未分析函数体内的if/switch/for等逻辑分支",
+      "5. 【错误行为】Agent基于注释中的描述（可能过时或不准确）输出结论",
+      "6. 【缺失】Agent未验证注释描述与实际实现是否一致"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此case描述的是badcase行为",
+      "partial": "不适用",
+      "badcase": "Agent读取了代码文件但分析仅基于注释/JSDoc/函数签名，未深入函数实现体的逻辑分支，结论可能与实际代码行为不一致"
+    }
+  },
+  {
+    "id": "CC-NEG-005",
+    "category": "code-coverage",
+    "complexity": "C2",
+    "source": "synthetic-v4-coverage",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "name": "【负面】用MEMORY.md中的历史记录代替实时代码分析",
+    "input": "用户要求：检查上周修复的dispatcher死循环问题是否真的修好了。",
+    "expected_output": "这是一个badcase场景。Agent应该读取dispatcher当前代码验证修复是否生效，但实际只读了memory/2026-03-03.md中的修复记录（'已修复dispatcher死循环，改为最大重试3次'），未读当前代码就回复'已确认修复'。",
+    "execution_chain_steps": [
+      "1. Agent识别需要验证代码修复状态",
+      "2. 【错误行为】Agent读取 memory/2026-03-03.md 找到修复记录",
+      "3. 【错误行为】Agent基于历史记忆中的修复描述直接回复'已确认修复生效'",
+      "4. 【缺失】Agent未执行 read infrastructure/dispatcher/dispatch.js 查看当前代码",
+      "5. 【缺失】Agent未用grep搜索retry/maxRetries/loop等关键词验证修复逻辑是否存在",
+      "6. 【缺失】Agent未对比修复前后的代码差异（git diff）"
+    ],
+    "scoring_rubric": {
+      "pass": "不适用——此case描述的是badcase行为",
+      "partial": "不适用",
+      "badcase": "Agent用MEMORY.md或历史日志中的修复记录代替实时代码验证，未读取当前代码就确认修复状态，属于用文档摘要代替真实代码分析"
+    }
+  }
+]
