@@ -66,6 +66,15 @@ lto-core, isc-core, evomap-a2a, evomap-publisher, cras, parallel-subagent, seef,
 
 **如果遗忘此清单，询问用户是否需要查看或更新。**
 
+### 5. 僵尸任务扫描
+```bash
+node /root/.openclaw/workspace/scripts/check-stale-tasks.sh --fix
+```
+- 已有cron每3分钟自动扫描（--fix --quiet模式）
+- heartbeat时主动跑一次，确认无遗漏
+- 发现僵尸 → 自动修正看板状态
+- 发现超时 → 自动标记timeout
+
 ### 4. Git Push健康检查（P0，每次必检）
 ```bash
 cd /root/.openclaw/workspace && git push --dry-run 2>&1 | tail -3
