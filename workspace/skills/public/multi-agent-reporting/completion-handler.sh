@@ -19,6 +19,7 @@ fi
 
 HARVESTED="false"
 HARVEST_ID=""
+QA_DISPATCHED_AGENT=""
 
 # 所有详细输出写日志文件
 {
@@ -44,11 +45,13 @@ if (task) console.log(task.agentId || '');
   NEED_QA="false"
   AUTO_QA_FILE=""
   case "$AGENT_ID" in
-    coder|writer|researcher) NEED_QA="true" ;;
-    # reviewer/analyst不触发auto-qa，避免无限循环
-    reviewer|analyst) NEED_QA="false" ;;
+    coder*|writer*|researcher*) NEED_QA="true" ;;
+    # reviewer/analyst不触发auto-qa，避免无限循环（前缀匹配）
+    reviewer*|analyst*) NEED_QA="false" ;;
   esac
   [ "$STATUS" = "failed" ] && NEED_QA="false"
+  # Layer 2: label以qa-开头时不触发（防无限循环）
+  case "$TASK_ID" in qa-*|auto-qa-*) NEED_QA="false" ;; esac
 
   if [ "$NEED_QA" = "true" ]; then
     echo "🔍 AUTO_QA: 自动派发reviewer核查 $TASK_ID (by $AGENT_ID)"
@@ -59,12 +62,12 @@ if (task) console.log(task.agentId || '');
     QA_TS=$(date +%Y%m%d%H%M%S)
     AUTO_QA_FILE="${AUTO_QA_DIR}/auto-qa-${SAFE_LABEL}-${QA_TS}.json"
 
-    # 确定checklist模板类型
+    # 确定checklist模板类型（前缀匹配）
     QA_TYPE="code-qa"
     case "$AGENT_ID" in
-      writer) QA_TYPE="doc-qa" ;;
-      researcher) QA_TYPE="doc-qa" ;;
-      coder) QA_TYPE="code-qa" ;;
+      writer*) QA_TYPE="doc-qa" ;;
+      researcher*) QA_TYPE="doc-qa" ;;
+      coder*) QA_TYPE="code-qa" ;;
     esac
 
     node -e "
@@ -80,6 +83,7 @@ const entry = {
   original_agent: '$AGENT_ID',
   status: 'pending',
   qa_type: '$QA_TYPE',
+  artifact_path: '$ARTIFACT_PATH' || null,
   task_summary: taskDetail,
   result_summary: $(printf '%s' "$SUMMARY" | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>console.log(JSON.stringify(d)))"),
   created_at: new Date().toISOString()
@@ -87,6 +91,80 @@ const entry = {
 fs.writeFileSync('$AUTO_QA_FILE', JSON.stringify(entry, null, 2));
 " 2>/dev/null
     echo "📋 核查队列文件已生成: $AUTO_QA_FILE"
+
+    # === 自动派发QA Agent ===
+    QA_SPAWN_LOG="/root/.openclaw/workspace/logs/auto-qa-spawn.log"
+    QA_LOCK="/tmp/auto-qa-spawn.lock"
+
+    # 选择QA Agent：优先reviewer开头，其次任意空闲
+    QA_AGENT=""
+    IDLE_LIST=$(bash /root/.openclaw/workspace/scripts/get-idle-agent.sh 18 2>/dev/null || true)
+    if [ -n "$IDLE_LIST" ]; then
+      QA_AGENT=$(echo "$IDLE_LIST" | grep "^reviewer" | head -n1)
+      [ -z "$QA_AGENT" ] && QA_AGENT=$(echo "$IDLE_LIST" | head -n1)
+    fi
+
+    if [ -n "$QA_AGENT" ]; then
+      QA_LABEL="qa-${SAFE_LABEL}"
+      QA_DATE=$(date +%Y-%m-%d)
+      QA_MESSAGE="质量核查任务 [自动触发]
+原始任务: ${TASK_ID}
+执行Agent: ${AGENT_ID}
+核查类型: ${QA_TYPE}
+产出物路径: ${ARTIFACT_PATH:-无}
+任务摘要: $(echo "$SUMMARY" | head -c 500)
+
+请执行以下核查：
+1. 读取产出物文件，检查质量
+2. 根据核查类型(${QA_TYPE})使用对应checklist
+3. 将核查报告写入 /root/.openclaw/workspace/reports/qa-${SAFE_LABEL}-${QA_DATE}.md
+4. 报告格式：评级(通过/有条件通过/不通过) + 问题列表 + 改进建议
+注意：所有文件路径使用绝对路径。这是自动触发的QA，label以qa-开头。"
+
+      # 后台subshell派发，不阻塞主流程
+      (
+        # flock保护写操作（5秒超时）
+        (
+          flock -w 5 200 || { echo "$(date -Iseconds) ⚠️ flock超时，跳过注册" >> "$QA_SPAWN_LOG"; exit 1; }
+          bash /root/.openclaw/workspace/scripts/register-task.sh \
+            "$QA_LABEL" "$QA_LABEL" "$QA_AGENT" "auto-qa" "质量核查: ${TASK_ID}" 2>/dev/null || true
+          if [ -f "$AUTO_QA_FILE" ]; then
+            node -e "
+              const fs=require('fs');
+              const d=JSON.parse(fs.readFileSync('$AUTO_QA_FILE','utf8'));
+              d.status='dispatched';
+              d.dispatched_agent='$QA_AGENT';
+              d.dispatched_at=new Date().toISOString();
+              d.qa_label='$QA_LABEL';
+              fs.writeFileSync('$AUTO_QA_FILE',JSON.stringify(d,null,2));
+            " 2>/dev/null || true
+          fi
+        ) 200>"$QA_LOCK"
+        echo "$(date -Iseconds) 派发QA: task=${TASK_ID} agent=${QA_AGENT} label=${QA_LABEL}" >> "$QA_SPAWN_LOG"
+        openclaw agent --agent "$QA_AGENT" --message "$QA_MESSAGE" --timeout 300 >> "$QA_SPAWN_LOG" 2>&1 || {
+          echo "$(date -Iseconds) ❌ CLI spawn失败，写pending文件兜底" >> "$QA_SPAWN_LOG"
+          echo "{\"label\":\"$QA_LABEL\",\"agent\":\"$QA_AGENT\",\"task\":\"$TASK_ID\",\"created_at\":\"$(date -Iseconds)\"}" > "/tmp/qa-pending-${SAFE_LABEL}.json"
+        }
+      ) &
+
+      QA_DISPATCHED_AGENT="$QA_AGENT"
+      echo "🚀 已派发QA Agent: ${QA_AGENT} → 核查 ${TASK_ID} (label: ${QA_LABEL})"
+    else
+      # 全忙：写pending文件，等heartbeat扫描处理
+      PENDING_FILE="/tmp/qa-pending-${SAFE_LABEL}.json"
+      node -e "
+        const fs=require('fs');
+        fs.writeFileSync('$PENDING_FILE', JSON.stringify({
+          label: '$TASK_ID',
+          qa_label: 'qa-${SAFE_LABEL}',
+          qa_type: '$QA_TYPE',
+          artifact_path: '${ARTIFACT_PATH}' || null,
+          queue_file: '$AUTO_QA_FILE',
+          created_at: new Date().toISOString()
+        }, null, 2));
+      " 2>/dev/null || true
+      echo "⏳ 所有Agent忙碌，QA任务已写入pending: $PENDING_FILE"
+    fi
   fi
 
   # Step 3: 看板+飞书
@@ -268,7 +346,11 @@ echo "✅ 已更新: $TASK_ID → $STATUS"
 echo "📋 $BOARD_SUMMARY"
 if [ -n "$AUTO_QA_FILE" ] && [ -f "$AUTO_QA_FILE" ]; then
   echo ""
-  echo "🔍 AUTO_QA_REQUIRED: $TASK_ID"
+  if [ -n "$QA_DISPATCHED_AGENT" ]; then
+    echo "🚀 AUTO_QA_DISPATCHED: ${TASK_ID} → ${QA_DISPATCHED_AGENT}"
+  else
+    echo "🔍 AUTO_QA_PENDING: $TASK_ID (全忙，等待heartbeat处理)"
+  fi
   echo "📋 核查队列: $AUTO_QA_FILE"
 fi
 if [ "$HARVESTED" = "true" ]; then
