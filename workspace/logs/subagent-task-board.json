@@ -6025,8 +6025,10 @@
     "label": "rule-handler-batch-fill",
     "agentId": "coder",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
-    "spawnTime": "2026-03-10T00:35:51.949Z"
+    "status": "done",
+    "spawnTime": "2026-03-10T00:35:51.949Z",
+    "completeTime": "2026-03-10T00:38:39.937Z",
+    "result_summary": "131条规则补充handler，覆盖率76.9%→100%，commit 8c0615c6"
   },
   {
     "taskId": "eb071b9c-b17c-4c94-b587-ef2722a64b55",
@@ -6044,7 +6046,1289 @@
     "label": "timeout-triage-v2",
     "agentId": "analyst",
     "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:38:25.214Z",
+    "completeTime": "2026-03-10T00:39:01.041Z",
+    "result_summary": "归档121条过时任务，保留5条当天任务，commit 332b1941"
+  },
+  {
+    "taskId": "ae9e09e9-7ca8-4e93-9464-6677157154dd",
+    "label": "badcase-harvest-20260310-morning",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T00:46:59.707Z",
+    "completeTime": "2026-03-10T01:17:21.882Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "6a14bf44-3e2b-4028-9f41-11d044aa8291",
+    "label": "e2e-expand-batch1",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:55:10.138Z",
+    "completeTime": "2026-03-10T00:59:49.300Z",
+    "result_summary": "7条规则端到端展开完成，intent+event+handler脚本全部落地，commit 37a53378"
+  },
+  {
+    "taskId": "b7f4d3e4-7cfb-4700-83b8-214a6f452f7d",
+    "label": "e2e-expand-batch2",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:55:11.218Z",
+    "completeTime": "2026-03-10T00:56:28.130Z",
+    "result_summary": "7条规则端到端展开，7个handler脚本已创建+intent/event注册+git commit"
+  },
+  {
+    "taskId": "470b881f-7fbe-4f15-b0e2-26ce136130d4",
+    "label": "e2e-expand-batch3",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:55:12.285Z",
+    "completeTime": "2026-03-10T00:55:56.115Z",
+    "result_summary": "7条PDCA规则端到端展开进行中，已定位文件开始落地"
+  },
+  {
+    "taskId": "c9eddd1f-df1e-46f8-833b-e6b67a4c5910",
+    "label": "e2e-expand-batch4",
+    "agentId": "reviewer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T00:55:13.355Z",
+    "completeTime": "2026-03-10T00:56:51.081Z",
+    "result_summary": "reviewer也只做了探查没有实际写脚本就退出了",
+    "retry_count": 0
+  },
+  {
+    "taskId": "72ae2f01-1485-4130-8697-e8048fd3958b",
+    "label": "e2e-expand-batch3-retry",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:57:39.324Z",
+    "completeTime": "2026-03-10T01:00:50.838Z",
+    "result_summary": "7条PDCA+时间粒度规则端到端展开完成，commit e6b80e08"
+  },
+  {
+    "taskId": "2dc599b0-acd5-421a-bc1c-b81c2cfd6e92",
+    "label": "e2e-expand-batch4-retry",
+    "agentId": "scout",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T00:57:40.400Z",
+    "completeTime": "2026-03-10T01:02:05.672Z",
+    "result_summary": "粒度太粗撤回，改为1规则1任务",
+    "retry_count": 0
+  },
+  {
+    "taskId": "e6ca08e3-c93a-4433-9c50-b8e9bcf4fab9",
+    "label": "cron-audit-batch1-highfreq",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:59:08.440Z",
+    "completeTime": "2026-03-10T01:04:33.589Z",
+    "result_summary": "高频cron审计：3正常/4空转(git-sensor,intent-extractor,correction-harvester,dispatch-cron-runner)/1报错(api-probe SyntaxError)，commit 2b895ef9"
+  },
+  {
+    "taskId": "e04eedc9-1350-4c88-9097-66c0eeed3213",
+    "label": "cron-audit-batch2-hourly",
+    "agentId": "reviewer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:59:09.441Z",
+    "completeTime": "2026-03-10T01:03:47.736Z",
+    "result_summary": "小时级cron审计完成：4正常/2空转/2报错(session-cleanup KeyError+pipeline MODULE_NOT_FOUND)，commit 587b13c0"
+  },
+  {
+    "taskId": "803ae0f1-16f6-4605-9f2c-19d1a09eabb7",
+    "label": "cron-audit-batch3-daily",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:59:10.570Z",
+    "completeTime": "2026-03-10T01:04:12.168Z",
+    "result_summary": "每日cron审计：8正常/1未运行(auto-skill-discovery)/1风险(unknown-unknowns 360次handler失败)，cras日志双重打印"
+  },
+  {
+    "taskId": "18907c37-9ac5-44d1-b7a5-574533d315a7",
+    "label": "cron-audit-batch4-weekly",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T00:59:11.548Z",
+    "completeTime": "2026-03-10T01:05:00.185Z",
+    "result_summary": "周/月级cron审计：5个从未运行(theory-to-rule/stale-backlog/evolution-checkpoint/dead-skill/capability-growth日志不存在)/1个报错但有产出(weekly-evolution-report语法错误)"
+  },
+  {
+    "taskId": "84c5be41-5214-4e44-8438-3541f5004995",
+    "label": "e2e-rule-project-tracker-hygiene",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:03:09.809Z",
+    "completeTime": "2026-03-10T01:07:06.825Z",
+    "result_summary": "handler已创建，扫描PROJECT-TRACKER.md超48h未更新任务告警，commit f9b28c06"
+  },
+  {
+    "taskId": "8f95578a-9cf0-418a-8291-4bb7a64ff692",
+    "label": "e2e-rule-skill-mandatory-skill-md",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:03:10.870Z",
+    "completeTime": "2026-03-10T01:05:59.544Z",
+    "result_summary": "handler已创建+验证通过(55个skills目录全pass)，commit e20f07f8"
+  },
+  {
+    "taskId": "7fc03989-1216-4c19-9c7b-32b3f06f9f8b",
+    "label": "e2e-rule-user-emphasis-escalation",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:03:12.224Z",
+    "completeTime": "2026-03-10T01:08:11.832Z",
+    "result_summary": "handler已创建，MEMORY.md概念重复≥2自动升级建议，commit 5b9325df"
+  },
+  {
+    "taskId": "b0184588-f4de-4faa-8d5e-a276dfd1fd64",
+    "label": "e2e-rule-version-integrity-gate",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:03:13.247Z",
+    "completeTime": "2026-03-10T01:06:30.179Z",
+    "result_summary": "handler已创建，检测version bump无CHANGELOG则block，commit a66418b1"
+  },
+  {
+    "taskId": "4593f49c-e43a-4265-a858-7bcd787819d9",
+    "label": "e2e-rule-voice-reply-short",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:03:14.280Z",
+    "completeTime": "2026-03-10T01:07:35.676Z",
+    "result_summary": "handler已创建+测试通过(短文本检测<20字)，commit b96566b3"
+  },
+  {
+    "taskId": "6c66807a-14dc-4c37-990c-6fbb3b1dc26e",
+    "label": "e2e-rule-wild-script-discovery",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:03:15.316Z",
+    "completeTime": "2026-03-10T01:08:48.324Z",
+    "result_summary": "handler已创建，扫描258个野生脚本，commit 986936b4"
+  },
+  {
+    "taskId": "63b16941-30b6-4c38-a906-015710086386",
+    "label": "e2e-rule-eval-standard-auto-sync",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:10:41.301Z",
+    "completeTime": "2026-03-10T01:15:23.693Z",
+    "result_summary": "handler已创建，飞书评测文档变更检测+本地同步，commit ca7a6c1b"
+  },
+  {
+    "taskId": "37a02fa1-fd1b-496b-acd5-e9e6ae017169",
+    "label": "e2e-rule-multi-agent-comm-priority",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:10:42.391Z",
+    "completeTime": "2026-03-10T01:15:54.924Z",
+    "result_summary": "handler已创建+测试通过(gateway/CPU/load检测)，commit cf148139"
+  },
+  {
+    "taskId": "87381f0c-09e0-4583-bd00-482fc9f041ab",
+    "label": "e2e-rule-pdca-act-entry",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:10:43.408Z",
+    "completeTime": "2026-03-10T01:17:50.068Z",
+    "result_summary": "handler已创建+3场景测试通过(通过/跳过/拦截)，commit 72f23f7c"
+  },
+  {
+    "taskId": "c8be3c0e-a894-4f34-a701-8d9e73294fc2",
+    "label": "e2e-rule-pdca-act-exit",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:10:44.423Z",
+    "completeTime": "2026-03-10T01:16:51.567Z",
+    "result_summary": "handler已创建+测试通过(4道门禁)，commit 9499e1e3"
+  },
+  {
+    "taskId": "3a71d4e3-e823-44d4-bf95-2c89258a85f7",
+    "label": "e2e-rule-memory-correction",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:10:45.712Z",
+    "completeTime": "2026-03-10T01:16:21.624Z",
+    "result_summary": "handler已创建+测试通过(MEMORY.md纠偏扫描)，commit 1ceb6f6b"
+  },
+  {
+    "taskId": "55ce194d-aca7-492b-864f-ade904e0e575",
+    "label": "e2e-rule-isc-naming-convention",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:10:46.790Z",
+    "completeTime": "2026-03-10T01:17:20.797Z",
+    "result_summary": "handler已创建，规则ID命名正则校验，commit 9a7339e3"
+  },
+  {
+    "taskId": "464a708d-aa4c-41ce-8dbd-47a327d7376f",
+    "label": "e2e-rule-auto-skill-discovery",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:10:47.823Z",
+    "completeTime": "2026-03-10T01:18:19.252Z",
+    "result_summary": "handler已创建+测试通过(发现2个候选)，commit完成"
+  },
+  {
+    "taskId": "cb76abcb-3c44-493d-a6af-bb7c5b3121c3",
+    "label": "fix-cron-api-probe",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:14:25.954Z",
+    "completeTime": "2026-03-10T01:20:47.603Z",
+    "result_summary": "根因：bash脚本被node执行，改为Node.js封装+验证通过(61 keys probed)"
+  },
+  {
+    "taskId": "7155f6ea-e884-4ce2-970f-7c9f2bc50362",
+    "label": "fix-cron-session-cleanup",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:14:27.162Z",
+    "completeTime": "2026-03-10T01:20:18.512Z",
+    "result_summary": "根因：shell变量未export给Python heredoc，已加export+验证通过，commit 556d3fb6"
+  },
+  {
+    "taskId": "0897e6db-717e-44c8-a4ae-ddb7b4b308cf",
+    "label": "fix-cron-pipeline-recovery",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:14:28.318Z",
+    "completeTime": "2026-03-10T01:19:23.375Z",
+    "result_summary": "crontab路径dto-core→lto-core已修复，手动运行验证无MODULE_NOT_FOUND"
+  },
+  {
+    "taskId": "2fc7a54b-994a-429a-83d2-bd3f186da07c",
+    "label": "fix-cron-weekly-evolution",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:14:29.418Z",
+    "completeTime": "2026-03-10T01:19:51.179Z",
+    "result_summary": "修复heredoc反引号语法错+加set -euo pipefail，commit 855245d2"
+  },
+  {
+    "taskId": "bd5f0fed-05ee-456c-9d7b-e2b8e664a2b8",
+    "label": "fix-cron-unknown-unknowns",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:14:30.475Z",
+    "completeTime": "2026-03-10T01:24:50.579Z",
+    "result_summary": "根因：4个handler文件缺失(rule-equals-code等)导致360次失败，已创建+清日志，0失败，commit 06fec8ec"
+  },
+  {
+    "taskId": "b237a7b6-d5a8-41e8-9b46-9f47c15684d6",
+    "label": "fix-cron-idle-highfreq",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:14:31.504Z",
+    "completeTime": "2026-03-10T01:25:57.682Z",
+    "result_summary": "6个idle脚本：2个修复(git-sensor+day-completion-scanner)，3个正常idle，1个架构限制。commits 07a0892a+b4bde13c"
+  },
+  {
+    "taskId": "5e0361a1-7f63-499e-8c49-886759c34b51",
+    "label": "fix-cron-never-ran-scripts",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:14:32.581Z",
+    "completeTime": "2026-03-10T01:25:17.317Z",
+    "result_summary": "6脚本全部验证通过，dead-skill-detector修复grep扫全盘hang问题，commit c46b4ee9"
+  },
+  {
+    "taskId": "13115239-4cd4-43ac-87f7-a795ab2ae371",
+    "label": "fix-cron-cras-double-print",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:14:33.606Z",
+    "completeTime": "2026-03-10T01:22:27.704Z",
+    "result_summary": "根因：log()同时console.log+appendFile，cron又>>重定向，双写。去掉console.log，commit 22450c1e"
+  },
+  {
+    "taskId": "c25f00ed-d0e0-48a9-922a-f2ec0e698126",
+    "label": "qa-rule-handlers-batch5",
+    "agentId": "analyst",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:30:40.615Z",
+    "completeTime": "2026-03-10T01:32:50.136Z",
+    "result_summary": "7/7全部通过，均有实际逻辑+路径正确+exit code语义正确，commit efdb20fb"
+  },
+  {
+    "taskId": "20045464-cd74-4987-ad0d-54e059cb82f5",
+    "label": "pm-daily-report-0310",
+    "agentId": "analyst-02",
+    "model": "gpt-5.3-codex",
+    "status": "failed",
+    "spawnTime": "2026-03-10T01:31:14.714Z",
+    "completeTime": "2026-03-10T01:31:58.956Z",
+    "result_summary": "task board文件太大(6385行)，agent未能完成报告",
+    "retry_count": 0
+  },
+  {
+    "taskId": "fc13b7f4-c620-4825-b514-0514e3626b3b",
+    "label": "pm-daily-report-0310-v2",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:32:31.513Z",
+    "completeTime": "2026-03-10T01:33:46.193Z",
+    "result_summary": "PM日报已生成，commit 2093c863"
+  },
+  {
+    "taskId": "4af06c45-2e0b-45e7-8898-7d4f64c7759f",
+    "label": "pm-agent-architecture",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:39:48.992Z",
+    "completeTime": "2026-03-10T01:53:08.920Z",
+    "result_summary": "PM Agent事件驱动架构设计完成，3层(completion-handler+按需唤醒+sentinel cron)，commit e427eb44"
+  },
+  {
+    "taskId": "dc093153-2c99-49e9-a63d-1aa98682a888",
+    "label": "cron-regression-smoke-test",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:40:58.775Z",
+    "completeTime": "2026-03-10T01:42:25.818Z",
+    "result_summary": "冒烟测试脚本+cron(每天06:00)已创建，commit a9282603"
+  },
+  {
+    "taskId": "ec352a01-227b-4ea7-8d03-267621baeabc",
+    "label": "cron-idle-slo-alert",
+    "agentId": "coder-02",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:41:34.275Z",
+    "completeTime": "2026-03-10T01:49:07.152Z",
+    "result_summary": "SLO告警机制已创建，6脚本监控+黄/红告警+crontab每小时:30运行，commit bb189718"
+  },
+  {
+    "taskId": "df5b2a88-bac7-4566-87b8-36baa9b1bf73",
+    "label": "e2e-audit-batch-01",
+    "agentId": "analyst",
+    "model": "gpt-5.3-codex",
+    "status": "failed",
+    "spawnTime": "2026-03-10T01:44:39.228Z",
+    "completeTime": "2026-03-10T01:47:28.648Z",
+    "result_summary": "events.jsonl太大(2728行)读取截断，未完成审计",
+    "retry_count": 0
+  },
+  {
+    "taskId": "3b19f92a-cb9d-4e48-8786-be745a3291ce",
+    "label": "e2e-audit-batch-02",
+    "agentId": "analyst-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:45:07.367Z",
+    "completeTime": "2026-03-10T01:52:11.271Z",
+    "result_summary": "10条规则全链路审计完成，通过率0/10(0%)，commit待force add"
+  },
+  {
+    "taskId": "1bf3db48-bf22-42db-99e5-d6461ec84f2b",
+    "label": "e2e-audit-batch-03",
+    "agentId": "reviewer",
+    "model": "gpt-5.3-codex",
+    "status": "failed",
+    "spawnTime": "2026-03-10T01:45:42.241Z",
+    "completeTime": "2026-03-10T01:49:33.299Z",
+    "result_summary": "同样被events.jsonl截断，未产出报告",
+    "retry_count": 0
+  },
+  {
+    "taskId": "a4d51b2f-a712-4742-972d-44c9d0eb0702",
+    "label": "e2e-audit-batch-01-v2",
+    "agentId": "reviewer-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:48:45.930Z",
+    "completeTime": "2026-03-10T01:54:07.989Z",
+    "result_summary": "10条规则审计完成：通过率0/10。handler 8.5/10，事件2/10，意图0/10，探针0/10"
+  },
+  {
+    "taskId": "8552fe61-1bf1-4ce2-ab28-be833ce89098",
+    "label": "e2e-audit-batch-02-v2",
+    "agentId": "scout",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:50:13.659Z",
+    "completeTime": "2026-03-10T01:54:37.714Z",
+    "result_summary": "10条规则审计完成：事件注册0/10，意图6/10，handler 9/10。多条id=null/trigger=null元数据质量问题"
+  },
+  {
+    "taskId": "4d2715bd-ee6b-427a-9063-64b63c3029b1",
+    "label": "e2e-audit-batch-03-v2",
+    "agentId": "scout-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:50:39.316Z",
+    "completeTime": "2026-03-10T01:55:10.645Z",
+    "result_summary": "规则21-30审计完成，报告已生成"
+  },
+  {
+    "taskId": "43c0eaf4-9164-4bb6-8de8-29251d9eeb96",
+    "label": "e2e-audit-batch-04",
+    "agentId": "worker-03",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:51:02.038Z",
+    "completeTime": "2026-03-10T01:58:34.328Z",
+    "result_summary": "规则31-40审计完成：handler 6缺失+2路径漂移+2弱实现，事件/意图均不充分"
+  },
+  {
+    "taskId": "20b258b0-0f07-487d-b69c-2f18b3c30caa",
+    "label": "e2e-audit-batch-05",
+    "agentId": "worker-04",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:51:24.014Z",
+    "completeTime": "2026-03-10T01:59:02.094Z",
+    "result_summary": "规则41-50审计完成，报告已生成"
+  },
+  {
+    "taskId": "2957a6c9-4a70-4803-8c9e-4b0ed5626672",
+    "label": "e2e-audit-batch-06",
+    "agentId": "worker-05",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:51:47.004Z",
+    "completeTime": "2026-03-10T01:59:32.051Z",
+    "result_summary": "规则51-60审计完成，3个关键问题(trigger异常/handler缺失/events=null)，commit 626ed64a"
+  },
+  {
+    "taskId": "41b5a224-5222-4edf-9523-ff10c15aa429",
+    "label": "e2e-audit-batch-07",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:56:44.712Z",
+    "completeTime": "2026-03-10T02:03:09.491Z",
+    "result_summary": "规则61-70审计完成：通过率40%(4/10)，6条handler/trigger缺陷"
+  },
+  {
+    "taskId": "cdd89bbb-9213-471b-af75-6f7b6ba757d4",
+    "label": "e2e-audit-batch-08",
+    "agentId": "writer-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:56:45.836Z",
+    "completeTime": "2026-03-10T02:03:36.492Z",
+    "result_summary": "规则71-80审计完成：规则级通过率0/10，handler全部路径不存在，2条trigger.events=null"
+  },
+  {
+    "taskId": "3fb5e509-b545-42a5-a460-4eca2eb44e08",
+    "label": "e2e-audit-batch-09",
+    "agentId": "worker-06",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:56:46.880Z",
+    "completeTime": "2026-03-10T02:04:01.352Z",
+    "result_summary": "规则81-90审计完成：通过率40%(4/10)，6条handler缺失，事件名漂移。commit 19651db2"
+  },
+  {
+    "taskId": "bcb0cae8-912b-4889-a85d-b03b520290ed",
+    "label": "e2e-audit-batch-10",
+    "agentId": "cron-worker-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T01:56:47.922Z",
+    "completeTime": "2026-03-10T02:04:36.227Z",
+    "result_summary": "规则91-100审计完成：检查点通过率72.5%(29/40)，意图注册0/10，1条handler缺失。commit c147df77"
+  },
+  {
+    "taskId": "0a9d12f0-177f-43bb-8644-48ab5b831a23",
+    "label": "e2e-audit-batch-11",
+    "agentId": "analyst",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:13.106Z",
+    "completeTime": "2026-03-10T02:05:48.150Z",
+    "result_summary": "规则101-110审计完成：handler 2/10可直接访问(路径基准问题)，1条trigger=null，事件注册9/10"
+  },
+  {
+    "taskId": "63c11d63-310c-41db-9555-31faa6e4cdb4",
+    "label": "e2e-audit-batch-12",
+    "agentId": "analyst-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:14.199Z",
+    "completeTime": "2026-03-10T02:08:00.456Z",
+    "result_summary": "规则111-120审计完成(n018-n033)。commit 4280c3a6"
+  },
+  {
+    "taskId": "6bc359ec-872b-4331-8d0f-3f5a22e4507e",
+    "label": "e2e-audit-batch-13",
+    "agentId": "reviewer",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:15.280Z",
+    "completeTime": "2026-03-10T02:06:17.629Z",
+    "result_summary": "规则121-130审计完成，含PDCA门禁规则异构trigger识别。commit a0597b1d"
+  },
+  {
+    "taskId": "b6c8d128-03b0-4844-9b28-d1568bf3997b",
+    "label": "e2e-audit-batch-14",
+    "agentId": "reviewer-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:16.399Z",
+    "completeTime": "2026-03-10T02:08:22.401Z",
+    "result_summary": "规则131-140审计完成：完整闭环0/10，部分闭环4/10(PDCA)，弱闭环6/10(pipeline benchmark)。commit cdbbfd5c"
+  },
+  {
+    "taskId": "8fa98d55-7dc7-4fda-85ff-127b183b2ae0",
+    "label": "e2e-audit-batch-15",
+    "agentId": "scout-03",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:17.516Z",
+    "completeTime": "2026-03-10T02:08:45.688Z",
+    "result_summary": "规则141-150审计完成：意图0/10，handler 7/10存在，3条id=null，事件注册仅2/10"
+  },
+  {
+    "taskId": "993a09db-15be-405c-9683-a025d3fc065a",
+    "label": "e2e-audit-batch-16",
+    "agentId": "coder",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:18.634Z",
+    "completeTime": "2026-03-10T02:06:54.196Z",
+    "result_summary": "规则151-160审计完成：handler 10/10✅，意图0/10，事件0/10，探针0/10。id=null和非标准格式问题"
+  },
+  {
+    "taskId": "0563724b-9dfa-47d8-b754-9e219c52a013",
+    "label": "e2e-audit-batch-17",
+    "agentId": "coder-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:19.767Z",
+    "completeTime": "2026-03-10T02:09:34.746Z",
+    "result_summary": "规则161-170审计完成：总通过率50%，意图100%，事件0%，探针60%，handler90%。3个P0(id=null+路径不匹配)"
+  },
+  {
+    "taskId": "f6c3d879-8df9-4b87-8019-32308b0589f9",
+    "label": "e2e-audit-batch-18",
+    "agentId": "cron-worker",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:20.867Z",
+    "completeTime": "2026-03-10T02:10:25.774Z",
+    "result_summary": "规则171-180审计完成：总通过率90%(36/40)，handler 7/10，事件9/10，1条优秀参数化设计。commit 9d0a0453"
+  },
+  {
+    "taskId": "374d6bdb-8ae4-4d47-9e4d-2c2c28b632c0",
+    "label": "e2e-audit-batch-19",
+    "agentId": "worker-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:02:22.004Z",
+    "completeTime": "2026-03-10T02:09:10.086Z",
+    "result_summary": "规则181-186审计完成(最后一批)：宽松81.3%/严格45.8%，意图0/6，2条TODO骨架handler，id大小写不一致"
+  },
+  {
+    "taskId": "01fb2d65-a880-482e-8044-d8761443680b",
+    "label": "e2e-audit-synthesis",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:11:10.127Z",
+    "completeTime": "2026-03-10T02:12:35.006Z",
+    "result_summary": "综合审计报告完成，14批次汇总，含P0清单+修复方案。commit 1ec80e08"
+  },
+  {
+    "taskId": "87895006-0ec6-4b4d-9cd7-2064bbcc06f3",
+    "label": "audit-report-to-feishu",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:22:02.906Z",
+    "completeTime": "2026-03-10T02:27:32.440Z",
+    "result_summary": "飞书文档已创建: https://feishu.cn/docx/Xodqdt7N4oSGqVxMLnrclFv2nph"
+  },
+  {
+    "taskId": "8da0528c-12fc-46fe-9c19-2d3321bcc7ac",
+    "label": "fix-p0-null-ids",
+    "agentId": "coder",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:22:04.041Z",
+    "completeTime": "2026-03-10T02:24:32.074Z",
+    "result_summary": "14条规则id为空已修复(比审计发现的6条多——说明审计有遗漏)"
+  },
+  {
+    "taskId": "5f775cc0-758e-4b14-82bc-8dde8f62f705",
+    "label": "fix-p0-null-triggers",
+    "agentId": "coder-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:22:05.105Z",
+    "completeTime": "2026-03-10T02:26:44.467Z",
+    "result_summary": "21条规则触发事件为空已修复(审计仅发现7条，实际21条)。commit 432be991"
+  },
+  {
+    "taskId": "4dc64da6-bd13-4c8a-93fa-bb86342d23d7",
+    "label": "fix-trigger-structure-normalize",
+    "agentId": "coder-03",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:22:06.146Z",
+    "completeTime": "2026-03-10T02:29:02.852Z",
+    "result_summary": "27条非标准触发结构已统一(string/单数/嵌套→标准数组)，186/186全标准化"
+  },
+  {
+    "taskId": "d3aee8d5-876f-4239-859d-d7e0e2b77209",
+    "label": "fix-handler-path-normalize",
+    "agentId": "coder-04",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:22:07.298Z",
+    "completeTime": "2026-03-10T02:27:09.392Z",
+    "result_summary": "51条处理器路径已修复，17条处理器文件本身缺失待创建。commit 057d50c6"
+  },
+  {
+    "taskId": "42c8000c-0b07-4df3-b248-2ec587212a22",
+    "label": "fix-bulk-intent-registration",
+    "agentId": "coder-05",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:22:08.385Z",
+    "completeTime": "2026-03-10T02:28:36.901Z",
+    "result_summary": "意图注册：64→247条(+183)，186条规则全覆盖。commit 82322723"
+  },
+  {
+    "taskId": "7e6719d9-68b1-42c7-8d4f-f5fc33ac004d",
+    "label": "fix-bulk-event-registration",
+    "agentId": "coder-06",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:22:09.475Z",
+    "completeTime": "2026-03-10T02:28:11.283Z",
+    "result_summary": "事件注册：32→304种(+272)，所有规则声明事件已注册。commit b2c4776f"
+  },
+  {
+    "taskId": "47fd6449-3fbe-4870-80f9-67a76319d62b",
+    "label": "isc-remediation-arch-plan",
+    "agentId": "analyst",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:23:43.001Z",
+    "completeTime": "2026-03-10T02:30:06.928Z",
+    "result_summary": "架构整改方案完成：4大缺陷12项任务，关键路径9.5人日，含schema重构+词表治理+批量生成器+双栈兼容迁移"
+  },
+  {
+    "taskId": "0a750f35-a906-47f2-9604-e4351ba772de",
+    "label": "save-arch-plan-to-disk",
+    "agentId": "coder",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:30:45.933Z",
+    "completeTime": "2026-03-10T02:33:00.264Z",
+    "result_summary": "V1方案已落盘 commit 5ea3f9a8。V2方案架构师正在跑"
+  },
+  {
+    "taskId": "0429fee1-823c-42cb-b1fd-00e6d2e87870",
+    "label": "isc-remediation-arch-plan-v2",
+    "agentId": "analyst",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:32:25.123Z",
+    "completeTime": "2026-03-10T02:33:47.660Z",
+    "result_summary": "V2整改方案完成，含审计工具QA前置+评测标准修订。commit e3ccc488"
+  },
+  {
+    "taskId": "4bdce043-7e73-4b70-a874-89c53739866c",
+    "label": "remediation-v2-to-feishu",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:34:19.512Z",
+    "completeTime": "2026-03-10T02:35:54.054Z",
+    "result_summary": "飞书文档已创建: https://feishu.cn/docx/DdLUdlOwQotxbYx5KYScBvIln1f"
+  },
+  {
+    "taskId": "906777ca-705f-40cf-922a-3cb88ab2ceab",
+    "label": "eval-standard-v4-feishu",
+    "agentId": "analyst",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:46:59.413Z",
+    "completeTime": "2026-03-10T02:48:13.832Z",
+    "result_summary": "V4评测标准内容完成，但子Agent未实际创建飞书文档，需主流程创建"
+  },
+  {
+    "taskId": "d8b517c6-562d-4ad8-b679-0846b77ea21c",
+    "label": "eval-v4-feishu-create",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "failed",
+    "spawnTime": "2026-03-10T02:50:06.445Z",
+    "completeTime": "2026-03-10T03:08:44.897Z",
+    "result_summary": "超时15分钟，卡在飞书API，杀掉重派",
+    "retry_count": 0
+  },
+  {
+    "taskId": "2ad969ef-b43a-4e1a-8589-a3b8f690b7de",
+    "label": "agent-role-definition-audit",
+    "agentId": "analyst-02",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T02:50:55.692Z",
+    "completeTime": "2026-03-10T03:07:44.559Z",
+    "result_summary": "角色审计完成：P0-所有子Agent共用相同泛化prompt，角色分工形同虚设；命名错位；10个僵尸目录。commit完成"
+  },
+  {
+    "taskId": "a389c95d-1d35-4747-9a9e-882de8e245e4",
+    "label": "eval-v4-feishu-retry",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T03:10:20.849Z",
+    "completeTime": "2026-03-10T03:12:07.075Z",
+    "result_summary": "飞书文档已创建: https://feishu.cn/docx/JxhNdoc7ko7ZLwxJUJHcWyeDnYd"
+  },
+  {
+    "taskId": "e07c3112-8e45-4ca2-a25b-e2236d242a09",
+    "label": "switch-eval-v3-to-v4-token",
+    "agentId": "coder",
+    "model": "gpt-5.3-codex",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T03:13:23.119Z",
+    "completeTime": "2026-03-10T03:50:43.733Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "6474f0ba-9e02-4f48-9301-8f3078442d1e",
+    "label": "eval-v4-clean-rewrite",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "failed",
+    "spawnTime": "2026-03-10T03:16:14.071Z",
+    "completeTime": "2026-03-10T03:42:44.039Z",
+    "result_summary": "仅4秒60token，未实际重写飞书文档",
+    "retry_count": 0
+  },
+  {
+    "taskId": "2fe23936-8133-48a3-9458-7f3ac9e48c32",
+    "label": "eval-v4-clean-rewrite-v2",
+    "agentId": "writer-02",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T03:43:12.374Z",
+    "completeTime": "2026-03-10T04:31:30.021Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "bf9db1e6-edcc-453a-9a20-237897fb2f4b",
+    "label": "eval-v4-clean-final",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T03:50:43.701Z",
+    "completeTime": "2026-03-10T04:31:30.022Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "424c1fc6-3037-4392-adfb-fa475f278dc6",
+    "label": "eval-v4-final-clean",
+    "agentId": "writer",
+    "model": "gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T04:05:54.011Z",
+    "completeTime": "2026-03-10T04:31:28.952Z",
+    "result_summary": "93 old blocks deleted, 376 new blocks written"
+  },
+  {
+    "taskId": "4f34c5a8-3664-40ea-9e02-dd933a57f8a1",
+    "label": "v4-case-depth-audit",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T04:47:54.220Z",
+    "completeTime": "2026-03-10T05:43:42.565Z",
+    "result_summary": "超时但产出已存在，自动标记完成"
+  },
+  {
+    "taskId": "b00b111c-b71c-415e-a4db-ecc615bdcd4e",
+    "label": "v4-case-audit-v2",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T04:53:31.555Z",
+    "completeTime": "2026-03-10T05:02:20.544Z",
+    "result_summary": "审计报告已写入 reports/v4-case-depth-audit-20260310.md commit fced3032"
+  },
+  {
+    "taskId": "10afbeda-eb54-4f47-9592-88433439b96d",
+    "label": "badcase-harvest-auto-miss",
+    "agentId": "analyst-02",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T05:05:06.920Z",
+    "completeTime": "2026-03-10T05:43:42.566Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "b33fae75-4b2e-4797-8991-c5339b2a8361",
+    "label": "v4-optimize-part1",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T05:08:18.862Z",
+    "completeTime": "2026-03-10T05:43:42.566Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "9e636c1c-befc-4893-830b-d56626fbf261",
+    "label": "v4-optimize-part2",
+    "agentId": "writer-02",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T05:08:19.841Z",
+    "completeTime": "2026-03-10T05:08:37.461Z",
+    "result_summary": "Case 11-19优化稿已写入 reports/v4-cases-optimized-part2.md"
+  },
+  {
+    "taskId": "0df34e2b-fbd4-491e-b6da-db06b41ad08d",
+    "label": "agent-role-audit-to-feishu",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T05:13:32.311Z",
+    "completeTime": "2026-03-10T05:46:16.715Z",
+    "result_summary": "已手动接管完成，子Agent超时（30min死循环烧400k tokens）",
+    "retry_count": 0
+  },
+  {
+    "taskId": "c3f5efe5-95fb-4828-b439-a3e73041db31",
+    "label": "v4-optimize-part1-retry",
+    "agentId": "writer-02",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T05:48:39.670Z",
+    "completeTime": "2026-03-10T05:49:53.267Z",
+    "result_summary": "Case 1-10优化稿已写入 reports/v4-cases-optimized-part1.md"
+  },
+  {
+    "taskId": "7a1049f7-1322-410c-b7b9-62fc2078efdc",
+    "label": "v4-optimize-part2-retry",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T05:51:01.246Z",
+    "completeTime": "2026-03-10T06:32:51.174Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "fe617ab9-28ac-4193-9bfb-e9263ed13d9f",
+    "label": "p0-fix-naming-swap",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T06:07:34.856Z",
+    "completeTime": "2026-03-10T06:35:53.670Z",
+    "result_summary": "boom渠道gpt-5.3-codex不支持，已用analyst重派",
+    "retry_count": 0
+  },
+  {
+    "taskId": "a974986c-b0d3-42d2-a9db-9cd9b272cfdb",
+    "label": "p0-role-prompts-batch1",
+    "agentId": "coder-02",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T06:07:35.979Z",
+    "completeTime": "2026-03-10T06:38:17.694Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "abdb80bc-31c8-455c-8439-6642ecedf0aa",
+    "label": "p0-role-prompts-batch2",
+    "agentId": "writer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T06:07:37.159Z",
+    "completeTime": "2026-03-10T06:32:55.626Z",
+    "result_summary": "子Agent失败，需重派",
+    "retry_count": 0
+  },
+  {
+    "taskId": "ea5e643f-991b-4c34-a445-4fd4712fc884",
+    "label": "p0-fix-naming-swap-retry",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T06:34:06.241Z",
+    "completeTime": "2026-03-10T06:36:51.136Z",
+    "result_summary": "researcher→洞察分析师, analyst→系统架构师, 已commit ecea6381"
+  },
+  {
+    "taskId": "9e737c71-61dd-434e-a7d3-e4ddd77cccc6",
+    "label": "p0-role-prompts-batch2-retry",
+    "agentId": "scout",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T06:34:07.357Z",
+    "completeTime": "2026-03-10T06:38:16.558Z",
+    "result_summary": "researcher/scout/cron-worker/worker-03~06 AGENTS.md已写入并commit 714232d4"
+  },
+  {
+    "taskId": "23f3e7c8-941e-4032-b318-ddd4e1d17aed",
+    "label": "v4-arch-review",
+    "agentId": "analyst",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T06:44:08.927Z",
+    "completeTime": "2026-03-10T06:46:32.141Z",
+    "result_summary": "boom渠道gpt-5.3-codex不支持，重派",
+    "retry_count": 0
+  },
+  {
+    "taskId": "be745d58-ddde-4c70-a574-979c80128452",
+    "label": "v4-qa-review",
+    "agentId": "reviewer",
+    "model": "claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T06:44:10.001Z",
+    "completeTime": "2026-03-10T06:45:23.174Z",
+    "result_summary": "boom渠道gpt-5.3-codex不支持，需用penguin渠道重派",
+    "retry_count": 0
+  },
+  {
+    "taskId": "33ee4223-c54c-4693-9ca7-95538f01c6d9",
+    "label": "daily-report-feishu-push",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T06:44:44.921Z",
+    "completeTime": "2026-03-10T06:54:25.677Z",
+    "result_summary": "日报自动创建飞书文档+推送链接，--test验证通过，commit 32468b74"
+  },
+  {
+    "taskId": "f3168d83-6926-4c69-b55e-7e5d14c8c309",
+    "label": "v4-qa-review-retry",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T06:46:00.794Z",
+    "completeTime": "2026-03-10T06:59:22.728Z",
+    "result_summary": "质量审查完成：北极星覆盖不均衡、20-25%内容重复、模糊术语需量化。commit 49efcc1c"
+  },
+  {
+    "taskId": "3fdf1123-ede4-4548-af0b-ccadccd0eca1",
+    "label": "v4-arch-review-retry",
+    "agentId": "coder",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T06:47:10.420Z",
+    "completeTime": "2026-03-10T06:57:31.548Z",
+    "result_summary": "架构审查B+/A-，核心：Pre-Gate需独立化、过程指标补判定细则、Gate-B存在感弱。受文档截断限制19 Case未逐条审"
+  },
+  {
+    "taskId": "2087da95-52e2-4fae-8c68-0d7b890a270a",
+    "label": "boom-codex-diagnose",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T06:51:15.727Z",
+    "completeTime": "2026-03-10T07:13:49.095Z",
+    "result_summary": "boom/codex返回400不可用(ChatGPT账户无API权限),但failover机制正常会自动降级到opus"
+  },
+  {
+    "taskId": "39a89284-4df3-45a8-9215-0705257dbf87",
+    "label": "failover-4xx-audit",
+    "agentId": "researcher",
+    "model": "claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T07:03:06.736Z",
+    "completeTime": "2026-03-10T07:16:04.596Z",
+    "result_summary": "researcher搜索了源码但结果不相关(slack blocks),未产出有效failover报告"
+  },
+  {
+    "taskId": "e103a89f-989d-4133-b569-51567ddc2e91",
+    "label": "v4-optimize-all-4",
+    "agentId": "writer",
+    "model": "boom-writer/gpt-5.3-codex",
+    "status": "failed",
+    "spawnTime": "2026-03-10T07:15:24.648Z",
+    "completeTime": "2026-03-10T07:22:36.518Z",
+    "result_summary": "writer只输出了方案未实际执行飞书文档修改,需重新派发",
+    "retry_count": 0
+  },
+  {
+    "taskId": "205359c0-e595-44b6-98de-b200b0b419a9",
+    "label": "cleanup-zombie-agents",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T07:17:24.606Z",
+    "completeTime": "2026-03-10T07:58:27.640Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "b9f8d1da-d09d-4240-9d3a-5d66ddb35d90",
+    "label": "define-worker-slots",
+    "agentId": "writer",
+    "model": "boom-writer/gpt-5.3-codex",
+    "status": "done",
+    "spawnTime": "2026-03-10T07:17:25.691Z",
+    "completeTime": "2026-03-10T07:18:36.220Z",
+    "result_summary": "worker-03~06角色已定义,git commit因workspace-analyst-02异常目录失败,需定向add"
+  },
+  {
+    "taskId": "c93881e3-cc70-4c2b-836e-e33a18c46c9e",
+    "label": "clarify-reviewer-analyst-boundary",
+    "agentId": "researcher",
+    "model": "claude-researcher/claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T07:17:26.769Z",
+    "completeTime": "2026-03-10T07:58:27.641Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "3dc16ed5-ef6b-4b98-ab5d-2ff3133bfa05",
+    "label": "v4-optimize-execute",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T07:23:35.435Z",
+    "completeTime": "2026-03-10T07:58:27.642Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "7e3a0a62-3ea2-48f1-9731-6afd77b8b144",
+    "label": "swap-primary-to-claude",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-10T07:58:27.608Z",
+    "completeTime": "2026-03-10T08:34:53.155Z",
+    "result_summary": "超时自动标记(产出不存在)",
+    "retry_count": 0
+  },
+  {
+    "taskId": "344556d2-9620-4cb0-9728-eaf8f1a235d4",
+    "label": "eval-v4-reference-audit",
+    "agentId": "reviewer",
+    "model": "claude-reviewer/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:08:36.249Z",
+    "completeTime": "2026-03-10T08:15:19.718Z",
+    "result_summary": "17个文件仍引用V3,11个高优(eval-mining/runner/isc-core),6个中优(文档),需批量修复"
+  },
+  {
+    "taskId": "8fbacd03-4492-425d-b159-dc214f525965",
+    "label": "agent-role-p0p2-verify",
+    "agentId": "reviewer",
+    "model": "claude-reviewer/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:11:44.163Z",
+    "completeTime": "2026-03-10T08:23:40.356Z",
+    "result_summary": "P0-1✅命名已修正 P0-2⚠️7个-02系列缺AGENTS.md P0-3✅claude已primary P1-1✅僵尸已清 P1-2✅worker已定义 P2✅边界已清晰"
+  },
+  {
+    "taskId": "ac80634f-1fc7-44eb-bdc1-8b389ce53932",
+    "label": "fix-v3-to-v4-all",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:18:16.844Z",
+    "completeTime": "2026-03-10T08:40:55.924Z",
+    "result_summary": "19文件修复+1文件重命名,commit c0a0c4f4c,82处替换,grep验证零残留"
+  },
+  {
+    "taskId": "98b654f6-26ef-4690-b234-75286a2701e8",
+    "label": "evalset-v4-alignment-audit",
+    "agentId": "analyst",
+    "model": "claude-analyst/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:21:41.444Z",
+    "completeTime": "2026-03-10T08:39:42.188Z",
+    "result_summary": "1304条总量达标,但C2占比69%(差180条),真实对话73%(差100条),Gate门禁零覆盖,67%case缺评分标准,需补~300条+改造字段"
+  },
+  {
+    "taskId": "35595a4b-5f36-47da-8c7e-fc9dd0a30a86",
+    "label": "cleanup-zombie-agents-retry",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:21:42.517Z",
+    "completeTime": "2026-03-10T08:27:48.179Z",
+    "result_summary": "19目录=19注册,无僵尸,已确认clean"
+  },
+  {
+    "taskId": "c493a77f-70e0-4085-b438-08582817a519",
+    "label": "reviewer-analyst-boundary-retry",
+    "agentId": "researcher",
+    "model": "claude-researcher/claude-opus-4-6-thinking",
+    "status": "failed",
+    "spawnTime": "2026-03-10T08:21:43.660Z",
+    "completeTime": "2026-03-10T08:34:52.050Z",
+    "result_summary": "HTTP 520服务暂不可用,但agent-role核查已确认边界P2已解决,不再重试",
+    "retry_count": 0
+  },
+  {
+    "taskId": "f208a1f7-66e8-44e2-a8a7-b5249aaee6c3",
+    "label": "v4-optimize-verify-and-fix",
+    "agentId": "reviewer",
+    "model": "claude-reviewer/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:45:24.825Z",
+    "completeTime": "2026-03-10T09:07:03.511Z",
+    "result_summary": "V4飞书文档4项优化全部执行完成:去重✅Pre-Gate独立第零章✅补8个专项Case✅模糊术语量化✅,377→435blocks"
+  },
+  {
+    "taskId": "b5ba0ffe-7f8e-46b6-84d5-25ce36d0da15",
+    "label": "evalcase-gate-cases",
+    "agentId": "writer",
+    "model": "claude-writer/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:47:51.925Z",
+    "completeTime": "2026-03-10T08:57:33.578Z",
+    "result_summary": "10条Gate门禁case已提交,Pre-Gate5条+Gate-A3条+Gate-B2条,含scoring_rubric三档"
+  },
+  {
+    "taskId": "277dee9e-419e-4a7c-ba10-8b88f13ce526",
+    "label": "evalcase-code-coverage",
+    "agentId": "researcher",
+    "model": "claude-researcher/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:47:53.007Z",
+    "completeTime": "2026-03-10T08:54:30.271Z",
+    "result_summary": "10条认知层代码覆盖率case已提交,5正面+5负面,对齐V4指标3"
+  },
+  {
+    "taskId": "da9d1106-a2f9-454a-84b8-d4e3799ad999",
+    "label": "evalcase-autonomous-loop",
+    "agentId": "analyst",
+    "model": "claude-analyst/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:47:54.104Z",
+    "completeTime": "2026-03-10T08:53:35.687Z",
+    "result_summary": "10条自主闭环case已提交commit 9b276a41f,5正面+5负面,含execution_chain_steps+三级scoring"
+  },
+  {
+    "taskId": "9946f28d-c02a-4415-910f-20e71571be5f",
+    "label": "evalcase-yanchu-fasu",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:47:55.193Z",
+    "completeTime": "2026-03-10T08:52:51.563Z",
+    "result_summary": "10条言出法随case已提交,3正面+7负面,含scoring_rubric三档"
+  },
+  {
+    "taskId": "4443eee9-f98d-4168-9a26-76ce8c6c699b",
+    "label": "subagent-stability-3h-review",
+    "agentId": "analyst",
+    "model": "claude-analyst/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:50:43.531Z",
+    "completeTime": "2026-03-10T08:55:47.063Z",
+    "result_summary": "3h内32任务成功率53.8%,超时23.1%(coder重灾区),boom400连锁失败3个,重试有效75%vs44.4%"
+  },
+  {
+    "taskId": "5f43de52-4b8c-453b-8cd6-384374cac46f",
+    "label": "three-questions-report",
+    "agentId": "researcher",
+    "model": "claude-researcher/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:52:05.738Z",
+    "completeTime": "2026-03-10T08:59:49.319Z",
+    "result_summary": "三问报告完成:评测需补300条+改造字段,Agent治理剩3条P2/P3尾巴,reviewer需5项优化实现全自动审计"
+  },
+  {
+    "taskId": "589700ce-0ff1-4da2-9cb6-f5e7d1a668e9",
+    "label": "evalcase-batch1-qa",
+    "agentId": "reviewer",
+    "model": "claude-reviewer/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T08:58:54.869Z",
+    "completeTime": "2026-03-10T09:04:48.787Z",
+    "result_summary": "40条QA评级B+,2个P1(gate009/010北极星标注错误),4个P2格式不一致,修复后可达A"
+  },
+  {
+    "taskId": "0a76c258-8016-4087-a681-628ac2619dad",
+    "label": "evalset-golden423-v4-audit",
+    "agentId": "analyst",
+    "model": "claude-analyst/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T09:03:54.360Z",
+    "completeTime": "2026-03-10T09:09:23.346Z",
+    "result_summary": "423条黄金集:数据质量优秀但V4结构性缺口严重-scoring_rubric/north_star/gate三字段100%缺失,需6-8人天补齐"
+  },
+  {
+    "taskId": "ba08f522-e12f-4d6c-8c52-70260d782ebd",
+    "label": "fix-evalcase-p1-issues",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "done",
+    "spawnTime": "2026-03-10T09:05:52.830Z",
+    "completeTime": "2026-03-10T09:10:09.131Z",
+    "result_summary": "6个问题全部修复:2P1北极星标注+4P2格式统一,commit fa91fd337"
+  },
+  {
+    "taskId": "32f48e77-435f-4f54-b88b-23138b3b5385",
+    "label": "agent-role-optimize-p1",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
     "status": "running",
-    "spawnTime": "2026-03-10T00:38:25.214Z"
+    "spawnTime": "2026-03-10T09:24:16.745Z"
+  },
+  {
+    "taskId": "5b6a0f23-b8f6-4655-8356-41ad4ec97ee6",
+    "label": "golden423-field-plan",
+    "agentId": "analyst",
+    "model": "claude-analyst/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:25:19.610Z"
+  },
+  {
+    "taskId": "957a1b76-09fd-4822-89f9-fe571651b2b8",
+    "label": "auto-qa-on-completion-impl",
+    "agentId": "coder",
+    "model": "claude-coder/claude-opus-4-6-thinking",
+    "status": "running",
+    "spawnTime": "2026-03-10T09:25:59.762Z"
   }
 ]

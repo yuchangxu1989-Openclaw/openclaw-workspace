@@ -118,5 +118,175 @@
     "status": "pending",
     "queued_at": "2026-03-09T16:50:05.064Z",
     "original_task_summary": "脚本重写中超时"
+  },
+  {
+    "label": "timeout-triage-and-archive",
+    "original_agentId": "analyst",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T00:37:58.813Z",
+    "original_task_summary": "子Agent找不到logs/subagent-task-board.json，工作区隔离问题"
+  },
+  {
+    "label": "e2e-expand-batch4",
+    "original_agentId": "reviewer",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T00:56:52.197Z",
+    "original_task_summary": "reviewer也只做了探查没有实际写脚本就退出了"
+  },
+  {
+    "label": "e2e-expand-batch4-retry",
+    "original_agentId": "scout",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T01:02:06.844Z",
+    "original_task_summary": "粒度太粗撤回，改为1规则1任务"
+  },
+  {
+    "label": "pm-daily-report-0310",
+    "original_agentId": "analyst-02",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T01:32:00.078Z",
+    "original_task_summary": "task board文件太大(6385行)，agent未能完成报告"
+  },
+  {
+    "label": "e2e-audit-batch-01",
+    "original_agentId": "analyst",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T01:47:29.745Z",
+    "original_task_summary": "events.jsonl太大(2728行)读取截断，未完成审计"
+  },
+  {
+    "label": "e2e-audit-batch-03",
+    "original_agentId": "reviewer",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T01:49:34.460Z",
+    "original_task_summary": "同样被events.jsonl截断，未产出报告"
+  },
+  {
+    "label": "eval-v4-feishu-create",
+    "original_agentId": "writer",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T03:08:46.094Z",
+    "original_task_summary": "超时15分钟，卡在飞书API，杀掉重派"
+  },
+  {
+    "label": "eval-v4-clean-rewrite",
+    "original_agentId": "writer",
+    "original_model": "gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T03:42:45.220Z",
+    "original_task_summary": "仅4秒60token，未实际重写飞书文档"
+  },
+  {
+    "label": "agent-role-audit-to-feishu",
+    "original_agentId": "coder",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T05:43:42.649Z",
+    "original_task_summary": "子Agent feishu_doc write死循环，不带content参数"
+  },
+  {
+    "label": "agent-role-audit-to-feishu",
+    "original_agentId": "coder",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T05:46:17.834Z",
+    "original_task_summary": "已手动接管完成，子Agent超时（30min死循环烧400k tokens）"
+  },
+  {
+    "label": "p0-fix-naming-swap",
+    "original_agentId": "coder",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T06:32:51.258Z",
+    "original_task_summary": "子Agent失败，需重派"
+  },
+  {
+    "label": "p0-role-prompts-batch2",
+    "original_agentId": "writer",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T06:32:56.835Z",
+    "original_task_summary": "子Agent失败，需重派"
+  },
+  {
+    "label": "p0-fix-naming-swap",
+    "original_agentId": "coder",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T06:35:54.913Z",
+    "original_task_summary": "boom渠道gpt-5.3-codex不支持，已用analyst重派"
+  },
+  {
+    "label": "v4-qa-review",
+    "original_agentId": "reviewer",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T06:45:24.368Z",
+    "original_task_summary": "boom渠道gpt-5.3-codex不支持，需用penguin渠道重派"
+  },
+  {
+    "label": "v4-arch-review",
+    "original_agentId": "analyst",
+    "original_model": "claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T06:46:33.370Z",
+    "original_task_summary": "boom渠道gpt-5.3-codex不支持，重派"
+  },
+  {
+    "label": "v4-optimize-all-4",
+    "original_agentId": "writer",
+    "original_model": "boom-writer/gpt-5.3-codex",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T07:22:37.758Z",
+    "original_task_summary": "writer只输出了方案未实际执行飞书文档修改,需重新派发"
+  },
+  {
+    "label": "reviewer-analyst-boundary-retry",
+    "original_agentId": "researcher",
+    "original_model": "claude-researcher/claude-opus-4-6-thinking",
+    "retry_count": 1,
+    "reason": "failed",
+    "status": "pending",
+    "queued_at": "2026-03-10T08:34:53.239Z",
+    "original_task_summary": "HTTP 520服务暂不可用,但agent-role核查已确认边界P2已解决,不再重试"
   }
 ]

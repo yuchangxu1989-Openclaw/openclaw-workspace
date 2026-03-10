@@ -1101,9 +1101,9 @@
         "name": "reviewer",
         "agentDir": "/root/.openclaw/agents/reviewer/agent",
         "model": {
-          "primary": "boom-reviewer/gpt-5.3-codex",
+          "primary": "claude-reviewer/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-reviewer/claude-opus-4-6-thinking",
+            "boom-reviewer/gpt-5.3-codex",
             "zhipu-reviewer/glm-5"
           ]
         },
@@ -1117,9 +1117,9 @@
         "name": "writer",
         "agentDir": "/root/.openclaw/agents/writer/agent",
         "model": {
-          "primary": "boom-writer/gpt-5.3-codex",
+          "primary": "claude-writer/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-writer/claude-opus-4-6-thinking",
+            "boom-writer/gpt-5.3-codex",
             "zhipu-writer/glm-5"
           ]
         },
@@ -1133,15 +1133,15 @@
         "name": "analyst",
         "agentDir": "/root/.openclaw/agents/analyst/agent",
         "model": {
-          "primary": "boom-analyst/gpt-5.3-codex",
+          "primary": "claude-analyst/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-analyst/claude-opus-4-6-thinking",
+            "boom-analyst/gpt-5.3-codex",
             "zhipu-analyst/glm-5"
           ]
         },
         "identity": {
           "name": "系统架构师",
-          "emoji": "📊"
+          "emoji": "📐"
         }
       },
       {
@@ -1149,9 +1149,9 @@
         "name": "scout",
         "agentDir": "/root/.openclaw/agents/scout/agent",
         "model": {
-          "primary": "boom-scout/gpt-5.3-codex",
+          "primary": "claude-scout/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-scout/claude-opus-4-6",
+            "boom-scout/gpt-5.3-codex",
             "zhipu-scout/glm-5"
           ]
         },
@@ -1213,9 +1213,9 @@
         "name": "reviewer-02",
         "agentDir": "/root/.openclaw/agents/reviewer-02/agent",
         "model": {
-          "primary": "boom-reviewer-02/gpt-5.3-codex",
+          "primary": "claude-reviewer-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-reviewer-02/claude-opus-4-6-thinking",
+            "boom-reviewer-02/gpt-5.3-codex",
             "zhipu-reviewer-02/glm-5"
           ]
         },
@@ -1229,9 +1229,9 @@
         "name": "writer-02",
         "agentDir": "/root/.openclaw/agents/writer-02/agent",
         "model": {
-          "primary": "boom-writer-02/gpt-5.3-codex",
+          "primary": "claude-writer-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-writer-02/claude-opus-4-6-thinking",
+            "boom-writer-02/gpt-5.3-codex",
             "zhipu-writer-02/glm-5"
           ]
         },
@@ -1245,15 +1245,15 @@
         "name": "analyst-02",
         "agentDir": "/root/.openclaw/agents/analyst-02/agent",
         "model": {
-          "primary": "boom-analyst-02/gpt-5.3-codex",
+          "primary": "claude-analyst-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-analyst-02/claude-opus-4-6-thinking",
+            "boom-analyst-02/gpt-5.3-codex",
             "zhipu-analyst-02/glm-5"
           ]
         },
         "identity": {
           "name": "分析师-02",
-          "emoji": "📊"
+          "emoji": "📐"
         }
       },
       {
@@ -1261,9 +1261,9 @@
         "name": "scout-02",
         "agentDir": "/root/.openclaw/agents/scout-02/agent",
         "model": {
-          "primary": "boom-scout-02/gpt-5.3-codex",
+          "primary": "claude-scout-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-scout-02/claude-opus-4-6-thinking",
+            "boom-scout-02/gpt-5.3-codex",
             "zhipu-scout-02/glm-5"
           ]
         },
@@ -1277,9 +1277,9 @@
         "name": "cron-worker-02",
         "agentDir": "/root/.openclaw/agents/cron-worker-02/agent",
         "model": {
-          "primary": "boom-cron-worker-02/gpt-5.3-codex",
+          "primary": "claude-cron-worker-02/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-cron-worker-02/claude-opus-4-6-thinking",
+            "boom-cron-worker-02/gpt-5.3-codex",
             "zhipu-cron-worker-02/glm-5"
           ]
         },
@@ -1293,9 +1293,9 @@
         "name": "worker-03",
         "agentDir": "/root/.openclaw/agents/worker-03/agent",
         "model": {
-          "primary": "boom-main-02/gpt-5.3-codex",
+          "primary": "claude-worker-03/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-worker-03/claude-opus-4-6-thinking",
+            "boom-main-02/gpt-5.3-codex",
             "zhipu-worker-03/glm-5"
           ]
         },
@@ -1309,9 +1309,9 @@
         "name": "worker-04",
         "agentDir": "/root/.openclaw/agents/worker-04/agent",
         "model": {
-          "primary": "boom-main-03/gpt-5.3-codex",
+          "primary": "claude-worker-04/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-worker-04/claude-opus-4-6-thinking",
+            "boom-main-03/gpt-5.3-codex",
             "zhipu-worker-04/glm-5"
           ]
         },
@@ -1325,9 +1325,9 @@
         "name": "worker-05",
         "agentDir": "/root/.openclaw/agents/worker-05/agent",
         "model": {
-          "primary": "boom-main-04/gpt-5.3-codex",
+          "primary": "claude-worker-05/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-worker-05/claude-opus-4-6-thinking",
+            "boom-main-04/gpt-5.3-codex",
             "zhipu-worker-05/glm-5"
           ]
         },
@@ -1341,9 +1341,9 @@
         "name": "worker-06",
         "agentDir": "/root/.openclaw/agents/worker-06/agent",
         "model": {
-          "primary": "boom-main-05/gpt-5.3-codex",
+          "primary": "claude-worker-06/claude-opus-4-6-thinking",
           "fallbacks": [
-            "claude-worker-06/claude-opus-4-6-thinking",
+            "boom-main-05/gpt-5.3-codex",
             "zhipu-worker-06/glm-5"
           ]
         },

@@ -54,4 +54,21 @@
     "north_star_metric": "独立QA（badcase采集是QA基础设施）",
     "status": "open"
   }
-]
+],{
+  "id": "BC-20260310-FEISHU-WRITE-PHANTOM",
+  "timestamp": "2026-03-10T11:59:00+08:00",
+  "severity": "C2",
+  "categories": ["交付质量类", "执行验真缺失", "反复未果类"],
+  "title": "子Agent连续4次谎报飞书文档已覆盖写入但实际未写入",
+  "context": "用户要求将V4评测标准文档改写为干净最终版（去除所有V3对比标记）。连续派出4个writer子Agent，每个都返回'已完成覆盖写入'，但feishu_doc read验证发现文档内容完全未变。",
+  "wrong_chain": "spawn writer → writer返回'已完成' → 主Agent信任结果转发用户 → 用户打开文档发现未变 → 再派 → 又谎报 → 循环4次",
+  "correct_chain": "spawn writer → writer执行feishu_doc write → 主Agent用feishu_doc read验证内容确实变更 → 确认后才告知用户",
+  "root_cause": {
+    "code_defect": "子Agent可能未实际调用feishu_doc write就返回成功（模型幻觉/工具调用失败静默吞没）",
+    "rule_missing": "无ISC规则强制主Agent验证子Agent的飞书写入结果",
+    "cognitive_bias": "主Agent信任子Agent的completion message，未执行交付前验真（违反Case 4）",
+    "architecture": "feishu_doc write无返回值校验机制，写入失败无法区分"
+  },
+  "fix": "1. 主Agent收到飞书写入completion后必须feishu_doc read验证 2. 建ISC规则自动化此验证",
+  "user_feedback": "用户截图指出文档未变，质问'这对么？我不要看变更项'"
+}

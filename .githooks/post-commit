@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Git Sensor Signal Generator — post-commit hook
+# Creates .signal files for git-sensor.js to consume
+set -euo pipefail
+
+WORKSPACE="/root/.openclaw/workspace"
+SIGNAL_DIR="$WORKSPACE/infrastructure/event-bus/signals"
+mkdir -p "$SIGNAL_DIR"
+
+COMMIT=$(git rev-parse HEAD 2>/dev/null || echo "unknown")
+FILES=$(git diff-tree --no-commit-id --name-only -r HEAD 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+TS=$(date +%s%3N 2>/dev/null || date +%s)
+
+SIGNAL_FILE="$SIGNAL_DIR/$(date +%s)-commit-${COMMIT:0:8}.signal"
+
+cat > "$SIGNAL_FILE" <<EOF
+{
+  "type": "git.committed",
+  "commit": "$COMMIT",
+  "files": "$FILES",
+  "ts": $TS
+}
+EOF
