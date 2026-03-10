@@ -2,7 +2,11 @@
   "id": "rule.eval-mining-intent-route-001",
   "name": "评测集挖掘意图路由",
   "description": "用户要求挖掘/补充/生成评测集时，自动路由到eval-mining技能",
-  "trigger": "user.intent.eval_mining",
+  "trigger": {
+    "events": [
+      "user.intent.eval_mining"
+    ]
+  },
   "keywords_hint": [
     "挖掘评测",
     "补充评测集",
@@ -16,5 +20,5 @@
   "target_skill": "skills/public/eval-mining/",
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "handlers/eval-mining-intent-route.js"
+  "handler": "skills/isc-core/handlers/eval-mining-intent-route.js"
 }

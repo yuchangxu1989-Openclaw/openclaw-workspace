@@ -6,26 +6,13 @@
   "description": "任何影响系统状态的操作（提交代码、发布技能、生成报告、关闭Day）必须通过至少一个自动化Gate检查。无Gate的操作路径视为安全漏洞。",
   "source": "Day 1/2设计债务复盘 — AP-001架构原则，根因α修复",
   "trigger": {
-    "events": {
-      "L1": [
-        "skill.lifecycle.created",
-        "skill.lifecycle.published",
-        "isc.rule.created"
-      ],
-      "L2": [
-        "quality.benchmark.completed",
-        "orchestration.pipeline.completed"
-      ],
-      "META": [
-        "system.day.closure_requested"
-      ]
-    },
-    "condition": "gate-check_required",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "执行Gate Before Action — 行动前必有门禁规则检查"
-      }
+    "events": [
+      "skill.lifecycle.created",
+      "skill.lifecycle.published",
+      "isc.rule.created",
+      "quality.benchmark.completed",
+      "orchestration.pipeline.completed",
+      "system.day.closure_requested"
     ]
   },
   "action": {

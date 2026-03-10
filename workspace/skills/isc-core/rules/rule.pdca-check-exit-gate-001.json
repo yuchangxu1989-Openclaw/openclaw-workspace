@@ -2,7 +2,11 @@
   "id": "ISC-PDCA-CHECK-EXIT-GATE-001",
   "name": "PDCA Check准出门禁",
   "description": "离开Check阶段前确认评测报告已生成",
-  "trigger": "pdca.phase.check.exit",
+  "trigger": {
+    "events": [
+      "pdca.phase.check.exit"
+    ]
+  },
   "condition": "task.check_report存在且非空",
   "action": "无评测报告则block",
   "severity": "high",

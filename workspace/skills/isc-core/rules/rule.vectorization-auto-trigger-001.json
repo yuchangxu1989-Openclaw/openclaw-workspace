@@ -178,18 +178,9 @@
     "blocking": false
   },
   "trigger": {
-    "events": {
-      "L1": [
-        "isc.rule.matched",
-        "isc.category.matched"
-      ]
-    },
-    "condition": "{'type': 'event_pattern', 'match': '{resource_type}.{event_type}', 'resource_type': ['skill', 'memory', 'knowledge', 'aeo'], 'event_type': ['created', 'updated', 'fixed', 'merged', 'deleted']}",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "执行resource_lifecycle_auto_vectorization规则检查"
-      }
+    "events": [
+      "isc.rule.matched",
+      "isc.category.matched"
     ]
   },
   "enforcement_tier": "P1_process",

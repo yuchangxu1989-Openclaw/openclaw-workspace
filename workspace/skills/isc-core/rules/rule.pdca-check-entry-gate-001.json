@@ -2,7 +2,11 @@
   "id": "ISC-PDCA-CHECK-ENTRY-GATE-001",
   "name": "PDCA Check准入门禁",
   "description": "进入Check阶段前确认有交付物且评测者已分配",
-  "trigger": "pdca.phase.check.entry",
+  "trigger": {
+    "events": [
+      "pdca.phase.check.entry"
+    ]
+  },
   "condition": "task.deliverables非空 AND task.evaluator_agent已指定 AND evaluator_agent≠executor_agent",
   "action": "角色分离违规则BLOCK+记录Badcase",
   "severity": "critical",

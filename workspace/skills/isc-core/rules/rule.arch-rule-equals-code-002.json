@@ -6,21 +6,10 @@
   "description": "ISC规则定义(JSON)与规则执行(gate-check代码)必须1:1配对。只有JSON定义无代码实现的规则，在合规审计中视为'不存在'。",
   "source": "Day 1/2设计债务复盘 — AP-002架构原则，根因β修复",
   "trigger": {
-    "events": {
-      "L1": [
-        "isc.rule.created",
-        "isc.rule.updated"
-      ],
-      "L2": [
-        "isc.enforcement_rate.threshold_crossed"
-      ]
-    },
-    "condition": "enforcement_rate < 100%",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "执行Rule = Code — 规则即代码规则检查"
-      }
+    "events": [
+      "isc.rule.created",
+      "isc.rule.updated",
+      "isc.enforcement_rate.threshold_crossed"
     ]
   },
   "action": {

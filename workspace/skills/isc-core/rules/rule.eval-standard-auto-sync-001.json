@@ -1,7 +1,11 @@
 {
   "id": "rule.eval-standard-auto-sync-001",
   "name": "评测标准变更自动同步评测集",
-  "trigger": "eval.standard.version.changed",
+  "trigger": {
+    "events": [
+      "eval.standard.version.changed"
+    ]
+  },
   "action": "auto-refresh evalset against new standard",
   "enforcement": "programmatic",
   "hook": "scripts/sync-v3-standard.sh",

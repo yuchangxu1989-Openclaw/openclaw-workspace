@@ -2,7 +2,11 @@
   "id": "ISC-USER-EMPHASIS-AUTO-ESCALATION-001",
   "name": "用户重复强调自动升级",
   "description": "用户对同一概念反复强调≥2次时，自动将该概念从MEMORY.md升级到AGENTS.md启动清单或代码hook层",
-  "trigger": "user.emphasis.repeated",
+  "trigger": {
+    "events": [
+      "user.emphasis.repeated"
+    ]
+  },
   "condition": "同一概念在对话中被用户强调≥2次（含纠偏、发火、重复提醒）",
   "action": "auto_escalate_to_structural_change",
   "escalation_levels": {

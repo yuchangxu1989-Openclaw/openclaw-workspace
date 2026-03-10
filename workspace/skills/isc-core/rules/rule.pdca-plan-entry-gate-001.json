@@ -2,7 +2,11 @@
   "id": "ISC-PDCA-PLAN-ENTRY-GATE-001",
   "name": "PDCA Plan准入门禁",
   "description": "任务进入Plan阶段前检查来源合法性（用户指令/ISC规则触发/事件驱动）",
-  "trigger": "pdca.phase.plan.entry",
+  "trigger": {
+    "events": [
+      "pdca.phase.plan.entry"
+    ]
+  },
   "condition": "task.source必须为user_command|isc_rule|event_driven之一",
   "action": "不合法则block并记录violation",
   "severity": "medium",

@@ -6,22 +6,8 @@
   "description": "在ISC规则创建前，通过三维度语义比对检测重复：(1) event快筛——新规则events与现有规则events是否有交集，无交集直接放行；(2) 有交集则调用Claude Opus深检——condition场景是否等价 + action执行效果是否相同；三维度同时满足才判定重复并阻止创建。任一维度不同即视为不同规则，哪怕description写得一模一样。",
   "source": "anti-entropy meta-rule — 规则体系自治守卫",
   "trigger": {
-    "events": {
-      "L1": [
-        "isc.rule.before_create"
-      ]
-    },
-    "description": "在任何新ISC规则写入rules/目录之前触发（包括手动创建、脚本生成、子代理产出）",
-    "context_required": [
-      "new_rule_file_path",
-      "new_rule_content"
-    ],
-    "condition": "gate-check_required",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "执行ISC规则创建去重门禁规则检查"
-      }
+    "events": [
+      "isc.rule.before_create"
     ]
   },
   "action": {

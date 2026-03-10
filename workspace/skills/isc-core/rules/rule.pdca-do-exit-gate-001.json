@@ -2,7 +2,11 @@
   "id": "ISC-PDCA-DO-EXIT-GATE-001",
   "name": "PDCA Do准出门禁",
   "description": "离开Do阶段前检查交付物存在性",
-  "trigger": "pdca.phase.do.exit",
+  "trigger": {
+    "events": [
+      "pdca.phase.do.exit"
+    ]
+  },
   "condition": "task.deliverables数组非空且每个deliverable对应的文件/URL存在",
   "action": "无交付物则block",
   "severity": "high",

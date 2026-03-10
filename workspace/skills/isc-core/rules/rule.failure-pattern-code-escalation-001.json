@@ -2,7 +2,11 @@
   "id": "ISC-FAILURE-PATTERN-CODE-ESCALATION-001",
   "name": "失败≥2次行为模式强制代码化",
   "description": "任何依赖LLM记忆/规则文本执行的行为模式，如果失败≥2次，必须从规则/记忆层下沉到代码层自动执行。禁止继续用AGENTS.md规则或MEMORY.md教训兜底。",
-  "trigger": "system.behavior_pattern.repeated_failure",
+  "trigger": {
+    "events": [
+      "system.behavior_pattern.repeated_failure"
+    ]
+  },
   "condition": "同一行为模式（如'产出物发送'、'任务登记'等）失败≥2次",
   "action": "mandatory_code_implementation",
   "escalation_path": {
@@ -15,6 +19,6 @@
   "meta_rule": true,
   "created": "2026-03-09",
   "source": "badcase-0309-006+历史多次遗忘实战教训",
-  "handler": "handlers/failure-pattern-code-escalation.js",
+  "handler": "skills/isc-core/handlers/failure-pattern-code-escalation.js",
   "fullchain_status": "expanded"
 }

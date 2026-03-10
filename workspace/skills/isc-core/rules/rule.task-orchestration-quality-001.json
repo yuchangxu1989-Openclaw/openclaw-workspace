@@ -6,23 +6,12 @@
   "severity": "high",
   "category": "orchestration",
   "trigger": {
-    "events": {
-      "L1": [
-        "orchestration.task.completed",
-        "orchestration.subagent.created",
-        "orchestration.task.sequential_detected"
-      ],
-      "L2": [
-        "orchestration.efficiency.throughput_below_expected",
-        "orchestration.subagent.rework_triggered"
-      ]
-    },
-    "condition": "task_decomposition_decision_made OR subagent_spawn_batch",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "执行任务编排质量门禁规则检查"
-      }
+    "events": [
+      "orchestration.task.completed",
+      "orchestration.subagent.created",
+      "orchestration.task.sequential_detected",
+      "orchestration.efficiency.throughput_below_expected",
+      "orchestration.subagent.rework_triggered"
     ]
   },
   "action": {

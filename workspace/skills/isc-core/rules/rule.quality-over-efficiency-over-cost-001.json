@@ -6,27 +6,16 @@
   "severity": "critical",
   "category": "architecture_decision",
   "trigger": {
-    "events": {
-      "L1": [
-        "architecture.decision.model_selection",
-        "architecture.decision.tool_selection",
-        "architecture.decision.approach_selection",
-        "architecture.decision.verification_method_selection",
-        "architecture.decision.delivery_scope_selection",
-        "architecture.decision.execution_mode_selection",
-        "architecture.decision.task_granularity_selection",
-        "architecture.decision.wait_strategy_selection"
-      ],
-      "L2": [
-        "quality.review.selection_rationality_check"
-      ]
-    },
-    "condition": "selection_decision_made AND task_importance_level EXISTS",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "执行选型铁律：质量>效率>成本规则检查"
-      }
+    "events": [
+      "architecture.decision.model_selection",
+      "architecture.decision.tool_selection",
+      "architecture.decision.approach_selection",
+      "architecture.decision.verification_method_selection",
+      "architecture.decision.delivery_scope_selection",
+      "architecture.decision.execution_mode_selection",
+      "architecture.decision.task_granularity_selection",
+      "architecture.decision.wait_strategy_selection",
+      "quality.review.selection_rationality_check"
     ]
   },
   "action": {

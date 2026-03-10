@@ -2,7 +2,11 @@
   "id": "ISC-WILD-SCRIPT-AUTO-DISCOVERY-001",
   "name": "野生脚本自动发现与收编",
   "description": "每日自动扫描scripts/目录，发现不属于任何技能的脚本，告警并推动收编",
-  "trigger": "cron.daily.0900",
+  "trigger": {
+    "events": [
+      "cron.daily.0900"
+    ]
+  },
   "condition": "scripts/目录下存在非薄封装的脚本文件",
   "action": "输出野生脚本清单到日志，新增脚本触发告警",
   "severity": "medium",

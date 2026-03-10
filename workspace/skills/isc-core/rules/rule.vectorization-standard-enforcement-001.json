@@ -100,19 +100,15 @@
     "logging": "verbose"
   },
   "trigger": {
-    "events": {
-      "L1": [
-        "isc.rule.matched",
-        "isc.category.matched"
-      ]
-    },
+    "events": [
+      "isc.rule.matched"
+    ],
     "actions": [
       {
         "type": "auto_trigger",
         "description": "执行unified_vectorization_standard_enforcement规则检查"
       }
-    ],
-    "event": "isc.rule.matched"
+    ]
   },
   "enforcement_tier": "P1_process",
   "created_at": "2026-03-05T07:55:00+08:00",

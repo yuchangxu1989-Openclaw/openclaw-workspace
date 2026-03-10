@@ -2,7 +2,11 @@
   "id": "ISC-PDCA-PLAN-EXIT-GATE-001",
   "name": "PDCA Plan准出门禁",
   "description": "任务离开Plan阶段前检查4要素完整性（业务目标/时效约束/成本边界/验收标准）",
-  "trigger": "pdca.phase.plan.exit",
+  "trigger": {
+    "events": [
+      "pdca.phase.plan.exit"
+    ]
+  },
   "condition": "task必须有goal, deadline, cost_boundary, acceptance_criteria四个字段且非空",
   "action": "缺失则block，记录缺失字段",
   "severity": "high",

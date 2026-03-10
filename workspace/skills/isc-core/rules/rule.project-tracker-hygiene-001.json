@@ -6,23 +6,12 @@
   "description": "当任务状态发生变更（新建/进行中/阻塞/完成）时，必须同步更新 PROJECT-TRACKER.md 对应条目，并在当日日报写入该变更记录；若任一环节缺失则拒绝状态提交。",
   "source": "Day2遗留项#5 项目管理产物沉淀机制补强",
   "trigger": {
-    "events": {
-      "L2": [
-        "task.status.changed",
-        "task.lifecycle.updated",
-        "orchestration.task.completed",
-        "orchestration.task.blocked"
-      ],
-      "META": [
-        "system.day.closure_requested"
-      ]
-    },
-    "condition": "task-status-change_detected",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "校验 TRACKER 更新与日报沉淀是否齐备"
-      }
+    "events": [
+      "task.status.changed",
+      "task.lifecycle.updated",
+      "orchestration.task.completed",
+      "orchestration.task.blocked",
+      "system.day.closure_requested"
     ]
   },
   "action": {

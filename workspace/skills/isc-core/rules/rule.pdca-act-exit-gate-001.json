@@ -2,7 +2,11 @@
   "id": "ISC-PDCA-ACT-EXIT-GATE-001",
   "name": "PDCA Act准出门禁",
   "description": "离开Act阶段前确认改进措施已落到代码或ISC规则",
-  "trigger": "pdca.phase.act.exit",
+  "trigger": {
+    "events": [
+      "pdca.phase.act.exit"
+    ]
+  },
   "condition": "task.improvement_actions每项有commit_hash或rule_id",
   "action": "纯文字改进无代码/规则落地则block",
   "severity": "high",

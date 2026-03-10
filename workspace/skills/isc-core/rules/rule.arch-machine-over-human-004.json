@@ -6,17 +6,8 @@
   "description": "所有'应该做'的事项必须自动化为'必须做'。依赖人记忆和纪律的约束，在概率上等于没有约束。",
   "source": "Day 1/2设计债务复盘 — AP-004架构原则，根因δ修复",
   "trigger": {
-    "events": {
-      "L2": [
-        "quality.automation.gap_found"
-      ]
-    },
-    "condition": "manual_check_found_without_automation",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "执行Machine Over Human — 机器约束优于人的纪律规则检查"
-      }
+    "events": [
+      "quality.automation.gap_found"
     ]
   },
   "action": {
