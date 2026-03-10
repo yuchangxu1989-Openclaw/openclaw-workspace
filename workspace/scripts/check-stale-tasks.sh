@@ -138,10 +138,11 @@ for (const task of running) {
         const lastMsg = JSON.parse(lastLine);
         const stopReason = lastMsg?.message?.stopReason;
 
-        if (stopReason === 'stop' || stopReason === 'end_turn') {
-          // session已正常结束，但看板还是running → 僵尸
+        const terminalReasons = ['stop', 'end_turn', 'aborted', 'length'];
+        if (terminalReasons.includes(stopReason)) {
+          // session已终止（正常完成/中止/超长），但看板还是running → 僵尸
           status = 'zombie';
-          reason = `session已完成(stopReason=${stopReason})，看板仍为running，距完成${Math.round(ageMinutes)}分钟`;
+          reason = `session已终止(stopReason=${stopReason})，看板仍为running，距完成${Math.round(ageMinutes)}分钟`;
         } else if (ageMinutes > STALE_MINUTES && stopReason !== 'toolUse') {
           // 长时间无更新且不在等工具调用 → 疑似卡住
           status = 'stale';
