@@ -33,6 +33,9 @@ find "$SKILL_DIR" -name "SKILL.md" 2>/dev/null | while read skillfile; do
   # 统计引用次数 (在其他文件中被import/use的次数)
   REF_COUNT=$(grep -r "$SKILL_NAME" "$WORKSPACE" \
     --include="*.md" --include="*.json" --include="*.js" \
+    --exclude-dir=node_modules --exclude-dir=.git \
+    --exclude-dir=infrastructure --exclude-dir=logs \
+    --exclude-dir=reports --exclude-dir=archive \
     -l 2>/dev/null | grep -v "$skillfile" | wc -l)
   
   if [ $AGE_DAYS -gt 30 ] && [ $REF_COUNT -lt 2 ]; then
