@@ -32,7 +32,6 @@ function getShanghaiDayStartMs(dateStr) {
 
 function log(msg) {
   const line = `[${new Date().toISOString()}] ${msg}`;
-  console.log(line);
   fs.mkdirSync(path.dirname(UPGRADE_LOG), { recursive: true });
   fs.appendFileSync(UPGRADE_LOG, line + '\n');
 }
