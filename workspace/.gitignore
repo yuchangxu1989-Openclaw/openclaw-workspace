@@ -48,7 +48,10 @@ node_modules/
 
 # Backups
 *.bundle
-backups/
+backups/*
+!backups/memos-dump.sql
+!backups/memos-stats.txt
+!backups/README-RECOVERY.md
 
 # Media cache
 media/inbound/
