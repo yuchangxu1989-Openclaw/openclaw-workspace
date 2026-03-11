@@ -36,5 +36,67 @@
   "enforcement_tier": "P1_process",
   "enforcement": "programmatic",
   "handler": "skills/isc-core/handlers/evomap-sync-trigger.js",
-  "fullchain_status": "expanded"
+  "fullchain_status": "complete",
+  "plan": {
+    "description": "EvoMap同步触发的执行计划",
+    "steps": [
+      {
+        "step": 1,
+        "action": "detect_skill_change",
+        "desc": "监听技能发布/更新/状态变更事件"
+      },
+      {
+        "step": 2,
+        "action": "load_evomap",
+        "desc": "加载当前EvoMap网络拓扑"
+      },
+      {
+        "step": 3,
+        "action": "diff_skill_node",
+        "desc": "对比技能变更前后的节点差异"
+      },
+      {
+        "step": 4,
+        "action": "update_evomap",
+        "desc": "更新EvoMap中对应技能节点及关联边"
+      },
+      {
+        "step": 5,
+        "action": "persist_evomap",
+        "desc": "持久化EvoMap并发送同步完成事件"
+      }
+    ],
+    "rollback": {
+      "strategy": "restore_snapshot",
+      "desc": "同步失败时恢复EvoMap到变更前快照"
+    }
+  },
+  "verification": {
+    "description": "验证EvoMap同步一致性",
+    "assertions": [
+      {
+        "check": "node_exists",
+        "desc": "变更的技能在EvoMap中有对应节点"
+      },
+      {
+        "check": "edge_consistent",
+        "desc": "技能依赖关系边与实际一致"
+      },
+      {
+        "check": "version_match",
+        "desc": "EvoMap中技能版本与源一致"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "sync_latency_ms",
+        "desc": "同步延迟(毫秒)"
+      },
+      {
+        "name": "sync_failure_count",
+        "desc": "同步失败次数"
+      }
+    ],
+    "timeout": 15
+  }
 }

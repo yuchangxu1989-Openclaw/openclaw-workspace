@@ -31,6 +31,68 @@
     "correction_intent": ""
   },
   "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/auto-correction-规则存在但handler缺失-mmgbaua1.js"
+  "fullchain_status": "complete",
+  "handler": "skills/isc-core/handlers/auto-correction-规则存在但handler缺失-mmgbaua1.js",
+  "plan": {
+    "description": "handler缺失自动纠偏的执行计划",
+    "steps": [
+      {
+        "step": 1,
+        "action": "scan_rules",
+        "desc": "扫描所有ISC规则，检测handler字段指向的文件是否存在"
+      },
+      {
+        "step": 2,
+        "action": "generate_handler",
+        "desc": "为缺失handler的规则自动生成handler骨架代码"
+      },
+      {
+        "step": 3,
+        "action": "register_handler",
+        "desc": "将新handler注册到规则的handler字段"
+      },
+      {
+        "step": 4,
+        "action": "run_syntax_check",
+        "desc": "对生成的handler做语法检查"
+      },
+      {
+        "step": 5,
+        "action": "update_fullchain",
+        "desc": "更新规则的fullchain_status"
+      }
+    ],
+    "rollback": {
+      "strategy": "revert_handler",
+      "desc": "生成的handler不合法时删除文件并恢复规则原始状态"
+    }
+  },
+  "verification": {
+    "description": "验证handler自动创建的正确性",
+    "assertions": [
+      {
+        "check": "handler_file_exists",
+        "desc": "handler文件已创建且路径正确"
+      },
+      {
+        "check": "handler_syntax_valid",
+        "desc": "handler代码通过语法检查(node --check)"
+      },
+      {
+        "check": "handler_exports_run",
+        "desc": "handler导出run()函数"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "auto_fix_count",
+        "desc": "自动修复handler数量"
+      },
+      {
+        "name": "fix_success_rate",
+        "desc": "修复成功率"
+      }
+    ],
+    "timeout": 30
+  }
 }

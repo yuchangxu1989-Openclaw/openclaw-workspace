@@ -36,5 +36,67 @@
   "enforcement_tier": "P1_process",
   "enforcement": "programmatic",
   "handler": "skills/isc-core/handlers/auto-skillization.js",
-  "fullchain_status": "expanded"
+  "fullchain_status": "complete",
+  "plan": {
+    "description": "自动技能化触发的执行计划",
+    "steps": [
+      {
+        "step": 1,
+        "action": "check_score",
+        "desc": "确认技能质量分>=50达到技能化阈值"
+      },
+      {
+        "step": 2,
+        "action": "prepare_skill_meta",
+        "desc": "生成技能元数据(名称、描述、输入输出)"
+      },
+      {
+        "step": 3,
+        "action": "create_skill_scaffold",
+        "desc": "创建技能目录结构和SKILL.md"
+      },
+      {
+        "step": 4,
+        "action": "migrate_code",
+        "desc": "将脚本代码迁移到技能handler"
+      },
+      {
+        "step": 5,
+        "action": "register_skill",
+        "desc": "注册技能到技能库并发布"
+      }
+    ],
+    "rollback": {
+      "strategy": "cleanup_scaffold",
+      "desc": "技能化失败时清理已创建的技能目录和注册记录"
+    }
+  },
+  "verification": {
+    "description": "验证技能化流程的完整性",
+    "assertions": [
+      {
+        "check": "skill_dir_exists",
+        "desc": "技能目录已创建且结构完整"
+      },
+      {
+        "check": "skill_md_valid",
+        "desc": "SKILL.md包含必要字段(名称、描述、输入输出)"
+      },
+      {
+        "check": "handler_runnable",
+        "desc": "技能handler可正常执行"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "skillization_success_rate",
+        "desc": "技能化成功率"
+      },
+      {
+        "name": "avg_skillization_time_s",
+        "desc": "平均技能化耗时(秒)"
+      }
+    ],
+    "timeout": 60
+  }
 }

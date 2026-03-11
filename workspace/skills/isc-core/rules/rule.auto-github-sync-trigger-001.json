@@ -60,5 +60,67 @@
   "enforcement_tier": "P1_process",
   "enforcement": "programmatic",
   "handler": "skills/isc-core/handlers/github-sync-trigger.js",
-  "fullchain_status": "expanded"
+  "fullchain_status": "complete",
+  "plan": {
+    "description": "GitHub自动同步的执行计划",
+    "steps": [
+      {
+        "step": 1,
+        "action": "detect_change",
+        "desc": "监听工作区文件变更/commit创建事件"
+      },
+      {
+        "step": 2,
+        "action": "filter_scope",
+        "desc": "过滤变更范围，排除.gitignore中的文件"
+      },
+      {
+        "step": 3,
+        "action": "stage_changes",
+        "desc": "git add变更文件"
+      },
+      {
+        "step": 4,
+        "action": "commit_if_needed",
+        "desc": "如有未commit变更则自动commit"
+      },
+      {
+        "step": 5,
+        "action": "push_to_remote",
+        "desc": "git push到GitHub远程仓库"
+      }
+    ],
+    "rollback": {
+      "strategy": "retry_then_alert",
+      "desc": "push失败时重试3次，仍失败则记录日志并发送告警"
+    }
+  },
+  "verification": {
+    "description": "验证GitHub同步完整性",
+    "assertions": [
+      {
+        "check": "remote_up_to_date",
+        "desc": "本地HEAD与远程HEAD一致"
+      },
+      {
+        "check": "no_uncommitted",
+        "desc": "工作区无未提交的核心文件变更"
+      },
+      {
+        "check": "push_success",
+        "desc": "git push返回码为0"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "sync_delay_s",
+        "desc": "变更到push完成的延迟(秒)"
+      },
+      {
+        "name": "push_failure_count",
+        "desc": "push失败次数/天"
+      }
+    ],
+    "timeout": 30
+  }
 }

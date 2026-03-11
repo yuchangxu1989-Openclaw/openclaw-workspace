@@ -29,6 +29,68 @@
   "created": "2026-03-08",
   "status": "active",
   "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/auto-qa-on-completion.js"
+  "fullchain_status": "complete",
+  "handler": "skills/isc-core/handlers/auto-qa-on-completion.js",
+  "plan": {
+    "description": "任务完成自动质量核查的执行计划",
+    "steps": [
+      {
+        "step": 1,
+        "action": "intercept_completion",
+        "desc": "捕获coder/writer/researcher的完成事件"
+      },
+      {
+        "step": 2,
+        "action": "validate_precondition",
+        "desc": "确认任务状态!=failed且有可核查产出"
+      },
+      {
+        "step": 3,
+        "action": "select_reviewer",
+        "desc": "选择与执行者不同角色的Agent作为核查者"
+      },
+      {
+        "step": 4,
+        "action": "dispatch_qa",
+        "desc": "派发质量核查任务给选定的reviewer/analyst"
+      },
+      {
+        "step": 5,
+        "action": "collect_result",
+        "desc": "收集核查结果并更新任务状态"
+      }
+    ],
+    "rollback": {
+      "strategy": "mark_unreviewed",
+      "desc": "核查派发失败时将任务标记为unreviewed，等待下次调度"
+    }
+  },
+  "verification": {
+    "description": "验证质量核查流程的正确性",
+    "assertions": [
+      {
+        "check": "reviewer_different",
+        "desc": "核查者与执行者是不同Agent"
+      },
+      {
+        "check": "qa_dispatched",
+        "desc": "核查任务已成功派发"
+      },
+      {
+        "check": "result_recorded",
+        "desc": "核查结果已记录到报告"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "qa_coverage_rate",
+        "desc": "完成任务的核查覆盖率"
+      },
+      {
+        "name": "qa_dispatch_latency_s",
+        "desc": "完成到核查派发的延迟(秒)"
+      }
+    ],
+    "timeout": 120
+  }
 }

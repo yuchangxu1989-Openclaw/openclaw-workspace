@@ -39,6 +39,68 @@
     "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.auto-collect-eval-from-conversation-001.sh"
   },
   "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/auto-collect-eval-from-conversation.js"
+  "fullchain_status": "complete",
+  "handler": "skills/isc-core/handlers/auto-collect-eval-from-conversation.js",
+  "plan": {
+    "description": "自动收录评测样本的执行计划",
+    "steps": [
+      {
+        "step": 1,
+        "action": "classify_message",
+        "desc": "判断用户发言复杂度(IC3-IC5)和字数(>=40字)"
+      },
+      {
+        "step": 2,
+        "action": "check_dedup",
+        "desc": "去重检查，避免重复收录相同语义的样本"
+      },
+      {
+        "step": 3,
+        "action": "extract_context",
+        "desc": "提取完整上下文(前后各2轮对话)"
+      },
+      {
+        "step": 4,
+        "action": "preserve_original",
+        "desc": "原话原样保存，禁止缩写/改写"
+      },
+      {
+        "step": 5,
+        "action": "write_eval_sample",
+        "desc": "写入评测样本库，标注来源会话ID"
+      }
+    ],
+    "rollback": {
+      "strategy": "skip_on_failure",
+      "desc": "收录失败时跳过该样本，记录日志，不影响会话流程"
+    }
+  },
+  "verification": {
+    "description": "验证评测样本收录质量",
+    "assertions": [
+      {
+        "check": "original_preserved",
+        "desc": "样本内容与原始发言完全一致，无缩写改写"
+      },
+      {
+        "check": "context_complete",
+        "desc": "上下文包含前后各2轮对话"
+      },
+      {
+        "check": "complexity_threshold",
+        "desc": "样本复杂度>=IC3且字数>=40"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "daily_collection_count",
+        "desc": "每日收录样本数"
+      },
+      {
+        "name": "dedup_hit_rate",
+        "desc": "去重命中率"
+      }
+    ],
+    "timeout": 10
+  }
 }

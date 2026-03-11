@@ -36,12 +36,46 @@
   },
   "created_at": "2026-03-08",
   "created_by": "rca-skill-discovery-rootfix",
-  "fullchain_status": "expanded",
+  "fullchain_status": "complete",
   "handler": "skills/isc-core/handlers/auto-skill-discovery.js",
   "id": "AUTO-SKILL-DISCOVERY-001",
   "trigger": {
     "events": [
       "isc.rule.auto.skill.discovery.001"
     ]
+  },
+  "plan": {
+    "description": "新脚本技能化发现的执行计划",
+    "steps": [
+      {
+        "step": 1,
+        "action": "detect_new_script",
+        "desc": "监听新脚本文件创建事件"
+      },
+      {
+        "step": 2,
+        "action": "analyze_reusability",
+        "desc": "分析脚本的复用潜力(调用频次、通用性)"
+      },
+      {
+        "step": 3,
+        "action": "check_skill_exists",
+        "desc": "检查是否已有同功能技能避免重复"
+      },
+      {
+        "step": 4,
+        "action": "score_skillization",
+        "desc": "计算技能化评分(复用度、稳定性、文档完整度)"
+      },
+      {
+        "step": 5,
+        "action": "emit_recommendation",
+        "desc": "评分达标时发送技能化建议事件"
+      }
+    ],
+    "rollback": {
+      "strategy": "skip_on_failure",
+      "desc": "分析失败时跳过该脚本，不阻塞其他流程"
+    }
   }
 }

@@ -36,5 +36,67 @@
   "enforcement_tier": "P1_process",
   "enforcement": "programmatic",
   "handler": "skills/isc-core/handlers/auto-fix-high-severity.js",
-  "fullchain_status": "expanded"
+  "fullchain_status": "complete",
+  "plan": {
+    "description": "高严重度问题自动修复的执行计划",
+    "steps": [
+      {
+        "step": 1,
+        "action": "assess_severity",
+        "desc": "确认问题严重度>=high且auto_fix_allowed=true"
+      },
+      {
+        "step": 2,
+        "action": "load_fix_strategy",
+        "desc": "根据问题类型加载对应修复策略"
+      },
+      {
+        "step": 3,
+        "action": "create_backup",
+        "desc": "修复前创建受影响文件的备份"
+      },
+      {
+        "step": 4,
+        "action": "apply_fix",
+        "desc": "执行自动修复脚本"
+      },
+      {
+        "step": 5,
+        "action": "verify_fix",
+        "desc": "运行验证确认修复生效且无副作用"
+      }
+    ],
+    "rollback": {
+      "strategy": "restore_backup",
+      "desc": "修复失败或验证不通过时从备份恢复，并升级为人工处理"
+    }
+  },
+  "verification": {
+    "description": "验证高严重度修复的有效性",
+    "assertions": [
+      {
+        "check": "issue_resolved",
+        "desc": "原始问题不再复现"
+      },
+      {
+        "check": "no_regression",
+        "desc": "修复未引入新问题"
+      },
+      {
+        "check": "backup_created",
+        "desc": "修复前备份已创建"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "auto_fix_success_rate",
+        "desc": "自动修复成功率"
+      },
+      {
+        "name": "mean_time_to_fix_s",
+        "desc": "平均修复耗时(秒)"
+      }
+    ],
+    "timeout": 60
+  }
 }
