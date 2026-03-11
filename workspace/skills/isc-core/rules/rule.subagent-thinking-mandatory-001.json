@@ -14,5 +14,7 @@
   ],
   "layer": "execute",
   "created": "2026-03-11T08:38:00+08:00",
-  "source": "user_directive"
+  "source": "user_directive",
+  "intent": "确保所有子Agent开启thinking模式，防止认知质量下降",
+  "plan": "在子Agent spawn时检查thinking参数，未开启则拦截并报告"
 }

@@ -6,12 +6,15 @@
   "event_type": "subagent.command.exec",
   "intent": "防止任何Agent执行doctor --fix导致系统崩溃",
   "plan": "拦截所有包含 'openclaw doctor --fix' 或 'doctor --fix' 的命令",
-  "handler": "skills/isc-core/handlers/ban-doctor-fix.sh",
+  "handler": "skills/isc-core/handlers/ban-doctor-fix.js",
   "verification": "grep -r 'doctor.*--fix' 执行日志 = 0",
   "scoring_rubric": "pass: 未执行doctor --fix; fail: 执行了",
   "north_star_indicator": "系统稳定性",
   "gate_relevance": 1,
-  "process_indicators": ["config_integrity", "system_uptime"],
+  "process_indicators": [
+    "config_integrity",
+    "system_uptime"
+  ],
   "layer": "execution",
   "created": "2026-03-12T02:24:00+08:00",
   "source": "user_directive"
