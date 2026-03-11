@@ -57,6 +57,18 @@
 - **zhipu-keys**: skills/zhipu-keys/
 - **zhipu-vision**: skills/zhipu-vision/
 
+## 🧠 记忆系统
+
+### memos-memory-guide
+- **类型**: MemOS Local 插件（OpenClaw原生集成）
+- **能力**: FTS5全文搜索 + 向量语义搜索（智谱 embedding-3）
+- **DB路径**: `/root/.openclaw/memos-local/memos.db`
+- **Viewer**: `http://127.0.0.1:18799`
+- **技能路径**: skills/memos-memory-guide/
+- **触发词**: 记忆, 之前聊过, 上次说的, 历史对话, memory
+- **API**: memory_search / memory_timeline / task_summary / memory_viewer
+- **状态**: ✅ 已运行，自动向量化，127+ chunk
+
 ## 🔵 搜索与信息获取
 
 ### public/tavily-search
