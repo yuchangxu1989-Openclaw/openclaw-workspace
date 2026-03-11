@@ -33,7 +33,6 @@ function convertToTasks(subagentData) {
     startedAt: item.startedAt ? new Date(item.startedAt).toISOString() : null,
     endedAt: item.endedAt ? new Date(item.endedAt).toISOString() : null,
     runtimeMs: item.runtimeMs,
-    totalTokens: item.totalTokens,
     modelKey: item.model, // 用于 hasRuntimeModelKey 判定
   }));
 }
