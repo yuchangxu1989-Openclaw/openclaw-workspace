@@ -9,7 +9,15 @@ WORKSPACE="/root/.openclaw/workspace"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="${BACKUP_DIR}/workspace-${TIMESTAMP}.tar.gz"
 
+MEMOS_DB="/root/.openclaw/memos-local/memos.db"
+
 mkdir -p "${BACKUP_DIR}"
+
+# MemOS数据库WAL checkpoint（确保数据写入主文件再备份）
+if [ -f "${MEMOS_DB}" ]; then
+  sqlite3 "${MEMOS_DB}" "PRAGMA wal_checkpoint(TRUNCATE);" 2>/dev/null || true
+  echo "🧠 MemOS WAL checkpoint 完成"
+fi
 
 # Git bundle (包含完整历史)
 cd "${WORKSPACE}"
@@ -32,6 +40,9 @@ tar czf "${BACKUP_FILE}" \
   workspace/skills/isc-core/config/ \
   workspace/skills/lto-core/ \
   workspace/scripts/ \
+  memos-local/memos.db \
+  memos-local/memos.db-wal \
+  memos-local/memos.db-shm \
   2>/dev/null || true
 
 # 清理7天前的旧备份

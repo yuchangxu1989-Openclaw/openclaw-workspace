@@ -9,9 +9,17 @@ KEEP_DAYS="${1:-7}"
 DATE=$(date +%Y-%m-%d_%H%M)
 BACKUP_DIR="${BACKUP_BASE}/${DATE}"
 
+MEMOS_DB="/root/.openclaw/memos-local/memos.db"
+
 mkdir -p "${BACKUP_BASE}"
 
 echo "📦 开始备份 → ${BACKUP_DIR}"
+
+# MemOS数据库WAL checkpoint（确保数据写入主文件再备份）
+if [ -f "${MEMOS_DB}" ]; then
+  sqlite3 "${MEMOS_DB}" "PRAGMA wal_checkpoint(TRUNCATE);" 2>/dev/null || true
+  echo "🧠 MemOS WAL checkpoint 完成"
+fi
 
 # 用git bundle打包完整仓库（含所有历史）
 cd "${REPO_DIR}"
@@ -25,11 +33,15 @@ tar czf "${BACKUP_BASE}/workspace-${DATE}.tar.gz" \
   -C "${REPO_DIR}" workspace/
 echo "✅ Workspace snapshot: workspace-${DATE}.tar.gz ($(du -sh "${BACKUP_BASE}/workspace-${DATE}.tar.gz" | cut -f1))"
 
-# 备份关键配置（非workspace内的）
+# 备份关键配置（非workspace内的）+ MemOS数据库
 tar czf "${BACKUP_BASE}/config-${DATE}.tar.gz" \
   -C "${REPO_DIR}" \
-  .secrets/ config.yaml 2>/dev/null || true
-echo "✅ Config backup: config-${DATE}.tar.gz"
+  .secrets/ config.yaml \
+  memos-local/memos.db \
+  memos-local/memos.db-wal \
+  memos-local/memos.db-shm \
+  2>/dev/null || true
+echo "✅ Config + MemOS backup: config-${DATE}.tar.gz"
 
 # 轮转：删除超过KEEP_DAYS天的备份
 echo ""
