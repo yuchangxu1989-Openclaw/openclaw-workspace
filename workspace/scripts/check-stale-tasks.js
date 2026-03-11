@@ -257,6 +257,17 @@ if (autoFix && fixTargets.length > 0) {
     const msg = `自动修正 ${fixCount} 个任务: ${fixTargets.map(t => `${t.label}(${t.status}→${t.status === 'zombie' ? 'done' : 'timeout'})`).join(', ')}`;
     if (!quiet) console.log(`\n✅ ${msg}`);
     appendLog(`FIX: ${msg}`);
+
+    // 状态变更后立即触发看板推送（事件驱动层）
+    try {
+      require('child_process').exec(
+        'node /root/.openclaw/workspace/scripts/push-board-now.js >> /tmp/feishu-board-cron.log 2>&1',
+        { timeout: 30000 }
+      );
+      if (!quiet) console.log('📋 看板推送已触发');
+    } catch (e) {
+      appendLog(`PUSH_TRIGGER_ERR: ${e.message}`);
+    }
   }
 } else if (!autoFix && fixTargets.length > 0) {
   if (!quiet) {

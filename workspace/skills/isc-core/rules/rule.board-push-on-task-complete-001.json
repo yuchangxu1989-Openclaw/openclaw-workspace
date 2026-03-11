@@ -1,0 +1,28 @@
+{
+  "id": "rule.board-push-on-task-complete-001",
+  "version": "1.0.0",
+  "name": "任务完成时自动推送看板",
+  "description": "当子Agent任务完成/超时/失败时，自动触发飞书看板推送，确保用户实时看到最新状态",
+  "priority": "P1",
+  "domain": "operations",
+  "category": "board",
+  "trigger": {
+    "events": [
+      "task.status.completed",
+      "task.status.done",
+      "task.status.timeout",
+      "task.status.failed",
+      "subagent.session.completed"
+    ],
+    "event": "task.status.completed"
+  },
+  "conditions": {},
+  "action": {
+    "handler": "board-push-on-complete",
+    "type": "handler",
+    "description": "异步调用 push-board-now.js，内置 content-hash 去重"
+  },
+  "created_at": "2026-03-11T19:50:00+08:00",
+  "created_by": "fix-board-auto-push-v2",
+  "enforcement": "programmatic"
+}
