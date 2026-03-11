@@ -32,9 +32,66 @@
     "execution_chain_steps": 6,
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 识别为纠偏类意图→建立汇报诚实规则：1)调用subagents list获取真实running数 2)对比spawn总数vs实际running 3)按true_occupied_key/free_key/queued/abnormal四维口径输出 4)写入AGENTS.md约束 5)更新dispatch-engine增加trueOccupiedModelKeys 6)验证下次汇报与runtime一致",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "言出法随达成率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "识别为纠偏类意图→建立汇报诚实规则：1)调用subagents list获取真实running数 2)对比spawn总数vs实际running 3)按true_occupied_key/free_key/queued/abnormal四维口径输出 4)写入AGENTS.md约束 5)更新dispatch-engine增加trueOccupiedModelKeys 6)验证下次汇报与runtime一",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "意图理解",
+          "weight": 0.3,
+          "pass": "准确识别用户纠偏意图，理解\"为什么\"背后的根因分析需求",
+          "partial": "识别了纠偏但未深入理解根因需求",
+          "fail": "误解为普通指令，未识别纠偏信号"
+        },
+        {
+          "dimension": "行为修正",
+          "weight": 0.3,
+          "pass": "立即修正行为+建立防护规则+记录Badcase",
+          "partial": "修正了行为但未建防护",
+          "fail": "口头承认但行为未变"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "ISC规则+MEMORY规则+cron守卫三重固化",
+          "partial": "部分固化",
+          "fail": "无任何固化措施"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.2,
+          "pass": "全程自动完成无需用户催促",
+          "partial": "部分步骤需催促",
+          "fail": "多步等待用户推动"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "承诺→交付匹配率",
+      "交付时效达标率",
+      "遗漏任务数",
+      "用户满意确认率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "C2-MINE-R2-09-002",
@@ -65,9 +122,65 @@
     "execution_chain_steps": 5,
     "data_source": "real_conversation",
     "north_star_indicator": "根因分析覆盖率",
-    "scoring_rubric": "系统应执行: 识别为纠偏+自主性缺失→根因分析(习惯性偏差,知道有工具但不用)→建立强制规则：1)读multi-agent-reporting/SKILL.md确认接口 2)读multi-agent-reporting/index.js确认renderText/renderCard函数 3)新建桥接脚本refresh-board.js 4)AGENTS.md写入ISC-REPORT-SUBAGENT-BOARD-001规则 5)验证下次汇报走标准格式",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "识别为纠偏+自主性缺失→根因分析(习惯性偏差,知道有工具但不用)→建立强制规则：1)读multi-agent-reporting/SKILL.md确认接口 2)读multi-agent-reporting/index.js确认renderText/renderCard函数 3)新建桥接脚本refresh-board.js 4)AGENTS.md写入ISC-REPORT-SUBAGENT-BOARD",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "历史追溯",
+          "weight": 0.3,
+          "pass": "追溯所有历史尝试，分析每次失败原因",
+          "partial": "部分追溯",
+          "fail": "不看历史重复尝试"
+        },
+        {
+          "dimension": "策略升级",
+          "weight": 0.3,
+          "pass": "采用全新策略而非重复旧方法",
+          "partial": "有调整但本质相同",
+          "fail": "完全重复旧方法"
+        },
+        {
+          "dimension": "根治方案",
+          "weight": 0.25,
+          "pass": "从架构层面根治+自动化防护",
+          "partial": "修复了但未根治",
+          "fail": "又是临时补丁"
+        },
+        {
+          "dimension": "验证闭环",
+          "weight": 0.15,
+          "pass": "验证新方案确实解决了历史问题",
+          "partial": "部分验证",
+          "fail": "未验证"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "四层根因分析完整率",
+      "根因→修复→防护闭环率",
+      "同类问题复发率",
+      "Badcase记录率"
+    ],
+    "layer": "验真"
   },
   {
     "id": "C2-MINE-R2-09-003",
@@ -102,9 +215,65 @@
     "execution_chain_steps": 6,
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 识别为全局未对齐+交付质量问题→1)feishu_doc read检查文档开头 2)发现旧Section 11残留→确认write未完全覆盖 3)拆分3路子Agent并行：文档彻底重写(researcher-02)、真实执行链提取(coder)、评测集差距分析(analyst) 4)每路子Agent prompt强制包含V3标准 5)C2 case替换为多轮纠偏全局对齐类 6)验证文档第一行是第一章",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "识别为全局未对齐+交付质量问题→1)feishu_doc read检查文档开头 2)发现旧Section 11残留→确认write未完全覆盖 3)拆分3路子Agent并行：文档彻底重写(researcher-02)、真实执行链提取(coder)、评测集差距分析(analyst) 4)每路子Agent prompt强制包含V3标准 5)C2 case替换为多轮纠偏全局对齐类 6)验证文档第一行是第一",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "全局视角",
+          "weight": 0.3,
+          "pass": "从系统全局角度分析问题，识别跨模块影响",
+          "partial": "局部分析正确但缺全局视角",
+          "fail": "只看局部"
+        },
+        {
+          "dimension": "对齐检查",
+          "weight": 0.3,
+          "pass": "检查所有相关组件的一致性",
+          "partial": "部分检查",
+          "fail": "未做对齐检查"
+        },
+        {
+          "dimension": "协调修复",
+          "weight": 0.2,
+          "pass": "协调多个子Agent同步修复",
+          "partial": "串行修复有遗漏",
+          "fail": "只修一处"
+        },
+        {
+          "dimension": "回归验证",
+          "weight": 0.2,
+          "pass": "修复后全链路回归测试",
+          "partial": "部分回归",
+          "fail": "无回归测试"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "C2-MINE-R2-09-004",
@@ -143,9 +312,65 @@
     "execution_chain_steps": 7,
     "data_source": "real_conversation",
     "north_star_indicator": "根因分析覆盖率",
-    "scoring_rubric": "系统应执行: 识别为根因分析+防护机制建立→1)读session jsonl文件定位空跑原因 2)发现content=[] usage=0 stopReason=stop 3)检查openclaw.json中11个provider的api字段 4)修改api:openai-completions→anthropic-messages(11个provider) 5)新建scripts/config-api-protocol-check.js(规则:claude→anthropic-messages,boom→openai-completions,zhipu→openai-completions) 6)集成到s",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "识别为根因分析+防护机制建立→1)读session jsonl文件定位空跑原因 2)发现content=[] usage=0 stopReason=stop 3)检查openclaw.json中11个provider的api字段 4)修改api:openai-completions→anthropic-messages(11个provider) 5)新建scripts/config-api-pro",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "根因定位",
+          "weight": 0.35,
+          "pass": "四层根因分析完整，精确到文件+行号+原因",
+          "partial": "有根因分析但不精确",
+          "fail": "跳过根因直接改症状"
+        },
+        {
+          "dimension": "修复有效性",
+          "weight": 0.3,
+          "pass": "针对根因修复+建防护措施+验真通过",
+          "partial": "修复了根因但未建防护",
+          "fail": "只改症状未触及根因"
+        },
+        {
+          "dimension": "防复发",
+          "weight": 0.2,
+          "pass": "建立自动化防护（ISC/cron/hook）",
+          "partial": "有防护但不自动化",
+          "fail": "无防护措施"
+        },
+        {
+          "dimension": "经验沉淀",
+          "weight": 0.15,
+          "pass": "记录Badcase+更新规则库",
+          "partial": "部分记录",
+          "fail": "无记录"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "四层根因分析完整率",
+      "根因→修复→防护闭环率",
+      "同类问题复发率",
+      "Badcase记录率"
+    ],
+    "layer": "验真"
   },
   {
     "id": "C2-MINE-R2-09-005",
@@ -180,9 +405,65 @@
     "execution_chain_steps": 7,
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 识别为自主性缺失+超时治理→1)检测子Agent超时(runtimeMs>3600000) 2)杀掉超时任务 3)拆分为3个独立子任务 4)分别派发到不同Agent/模型 5)dispatch-engine.js添加递归收敛:1st timeout→replace 2nd→split_requeue 3rd+→human_handoff 6)补timeoutCount传播 7)验证：拆分后各2分钟完成",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "识别为自主性缺失+超时治理→1)检测子Agent超时(runtimeMs>3600000) 2)杀掉超时任务 3)拆分为3个独立子任务 4)分别派发到不同Agent/模型 5)dispatch-engine.js添加递归收敛:1st timeout→replace 2nd→split_requeue 3rd+→human_handoff 6)补timeoutCount传播 7)验证：拆分后各2分钟",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "C2-MINE-R2-09-006",
@@ -213,9 +494,65 @@
     "execution_chain_steps": 6,
     "data_source": "real_conversation",
     "north_star_indicator": "独立QA覆盖率",
-    "scoring_rubric": "系统应执行: 识别为多模型竞技任务→1)message发送飞书文档链接 2)sessions_spawn第一路(researcher/Opus,thinking:high)创建飞书文档写入策划 3)sessions_spawn第二路(writer/Codex)创建飞书文档写入策划 4)sessions_spawn第三路(cron-worker/GLM-5)创建飞书文档写入策划 5)等待3路全部完成(NO_REPLY等待中间结果) 6)汇总3个文档链接+各自亮点",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "独立QA覆盖率"
+      ],
+      "pass_criteria": "识别为多模型竞技任务→1)message发送飞书文档链接 2)sessions_spawn第一路(researcher/Opus,thinking:high)创建飞书文档写入策划 3)sessions_spawn第二路(writer/Codex)创建飞书文档写入策划 4)sessions_spawn第三路(cron-worker/GLM-5)创建飞书文档写入策划 5)等待3路全部完成(NO_REP",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "交付完整性",
+          "weight": 0.3,
+          "pass": "所有承诺项全部交付且可验证",
+          "partial": "大部分交付但有遗漏",
+          "fail": "关键项缺失"
+        },
+        {
+          "dimension": "质量验证",
+          "weight": 0.3,
+          "pass": "独立QA验证通过+端到端测试",
+          "partial": "有验证但不充分",
+          "fail": "未验证就报完成"
+        },
+        {
+          "dimension": "代码质量",
+          "weight": 0.2,
+          "pass": "代码实际生效+无回归+有测试",
+          "partial": "代码写了但未充分测试",
+          "fail": "空壳代码或未生效"
+        },
+        {
+          "dimension": "文档同步",
+          "weight": 0.2,
+          "pass": "文档与代码同步更新",
+          "partial": "部分同步",
+          "fail": "文档过时"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "质量门禁通过率",
+      "独立验证执行率",
+      "回归测试覆盖率",
+      "commit→验真闭环率"
+    ],
+    "layer": "执行"
   },
   {
     "id": "C2-MINE-R2-09-007",
@@ -254,9 +591,66 @@
     "execution_chain_steps": 4,
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 识别为纠偏类(命名确认)→1)第一次steer子Agent改标题为《评测标准与基线设计》 2)用户第二次修改→steer改为《AEO评测基线设计》 3)用户第三次修改→steer改为《Agent全局效果评测标准与基线设计V0.1》并确认不再改 4)每次steer必须使用subagents action=steer而非重新spawn",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "言出法随达成率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "识别为纠偏类(命名确认)→1)第一次steer子Agent改标题为《评测标准与基线设计》 2)用户第二次修改→steer改为《AEO评测基线设计》 3)用户第三次修改→steer改为《Agent全局效果评测标准与基线设计V0.1》并确认不再改 4)每次steer必须使用subagents action=steer而非重新spawn",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "意图理解",
+          "weight": 0.3,
+          "pass": "准确识别用户纠偏意图，理解\"为什么\"背后的根因分析需求",
+          "partial": "识别了纠偏但未深入理解根因需求",
+          "fail": "误解为普通指令，未识别纠偏信号"
+        },
+        {
+          "dimension": "行为修正",
+          "weight": 0.3,
+          "pass": "立即修正行为+建立防护规则+记录Badcase",
+          "partial": "修正了行为但未建防护",
+          "fail": "口头承认但行为未变"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "ISC规则+MEMORY规则+cron守卫三重固化",
+          "partial": "部分固化",
+          "fail": "无任何固化措施"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.2,
+          "pass": "全程自动完成无需用户催促",
+          "partial": "部分步骤需催促",
+          "fail": "多步等待用户推动"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "承诺→交付匹配率",
+      "交付时效达标率",
+      "遗漏任务数",
+      "用户满意确认率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "C2-MINE-R2-09-008",
@@ -291,9 +685,65 @@
     "execution_chain_steps": 6,
     "data_source": "real_conversation",
     "north_star_indicator": "根因分析覆盖率",
-    "scoring_rubric": "系统应执行: 识别为反复未果+全局未对齐→1)识别渠道vs模型术语混用根因 2)确认术语规范:penguin/boom/zhipu=渠道,Opus 4.6/GPT-5.3 Codex/GLM-5=模型 3)修改dispatch-runner.js添加中文语言强制后缀 4)批量创建14个agents/*/AGENTS.md写入语言规则 5)更新multi-agent-reporting中pureModel()只输出模型名 6)验证汇报输出不含渠道名",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "识别为反复未果+全局未对齐→1)识别渠道vs模型术语混用根因 2)确认术语规范:penguin/boom/zhipu=渠道,Opus 4.6/GPT-5.3 Codex/GLM-5=模型 3)修改dispatch-runner.js添加中文语言强制后缀 4)批量创建14个agents/*/AGENTS.md写入语言规则 5)更新multi-agent-reporting中pureModel()只输",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "历史追溯",
+          "weight": 0.3,
+          "pass": "追溯所有历史尝试，分析每次失败原因",
+          "partial": "部分追溯",
+          "fail": "不看历史重复尝试"
+        },
+        {
+          "dimension": "策略升级",
+          "weight": 0.3,
+          "pass": "采用全新策略而非重复旧方法",
+          "partial": "有调整但本质相同",
+          "fail": "完全重复旧方法"
+        },
+        {
+          "dimension": "根治方案",
+          "weight": 0.25,
+          "pass": "从架构层面根治+自动化防护",
+          "partial": "修复了但未根治",
+          "fail": "又是临时补丁"
+        },
+        {
+          "dimension": "验证闭环",
+          "weight": 0.15,
+          "pass": "验证新方案确实解决了历史问题",
+          "partial": "部分验证",
+          "fail": "未验证"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "四层根因分析完整率",
+      "根因→修复→防护闭环率",
+      "同类问题复发率",
+      "Badcase记录率"
+    ],
+    "layer": "验真"
   },
   {
     "id": "C2-MINE-R2-09-009",
@@ -328,9 +778,65 @@
     "execution_chain_steps": 7,
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 识别为认知错误+交付质量→1)识别元问题:C2 case标准理解偏差(改配置≠C2) 2)读取memory/2026-03-06~08.md提取真实纠偏记录 3)读取MEMORY.md提取全局对齐规则 4)重新定义C2:多轮纠偏+执行链≥4步+跨模块协同+全局对齐 5)spawn researcher重写第三章(7个C2+3个C1) 6)task prompt包含10个具体case详细描述 7)验证交付前自检",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "识别为认知错误+交付质量→1)识别元问题:C2 case标准理解偏差(改配置≠C2) 2)读取memory/2026-03-06~08.md提取真实纠偏记录 3)读取MEMORY.md提取全局对齐规则 4)重新定义C2:多轮纠偏+执行链≥4步+跨模块协同+全局对齐 5)spawn researcher重写第三章(7个C2+3个C1) 6)task prompt包含10个具体case详细描述 7)验",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "错误识别",
+          "weight": 0.3,
+          "pass": "精确定位认知偏差类型和来源",
+          "partial": "识别了错误但归因不准",
+          "fail": "未识别认知错误"
+        },
+        {
+          "dimension": "根因分析",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码/规则/认知/架构）",
+          "partial": "有分析但不完整",
+          "fail": "跳过根因"
+        },
+        {
+          "dimension": "修复验证",
+          "weight": 0.2,
+          "pass": "修复+防护+验真三步闭环",
+          "partial": "修复了但未验证",
+          "fail": "只改症状"
+        },
+        {
+          "dimension": "知识更新",
+          "weight": 0.2,
+          "pass": "更新认知模型+记录经验",
+          "partial": "部分更新",
+          "fail": "无知识沉淀"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "C2-MINE-R2-09-010",
@@ -369,8 +875,65 @@
     "execution_chain_steps": 6,
     "data_source": "real_conversation",
     "north_star_indicator": "根因分析覆盖率",
-    "scoring_rubric": "系统应执行: 识别为连锁跷跷板+全局未对齐→1)识别元问题:标准本身太低导致评测集质量差→评测结论无效→优化方向错误的连锁效应 2)冻结旧标准(evaluation-sets/旧版本归档) 3)重构评测基线:P0指标+口径→P1覆盖范围→P2评测内容→P3刷新机制→P4当前状态(末位) 4)新建飞书文档JxhNdoc7ko7ZLwxJUJHcWyeDnYd写入 5)基于新标准重建评测集组成约束(真实对话≥80%,多轮≥80%,C2≥80%,总量≥500) 6)触发评测集全量refresh pipeline",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "根因分析覆盖率",
+        "独立QA覆盖率"
+      ],
+      "pass_criteria": "识别为连锁跷跷板+全局未对齐→1)识别元问题:标准本身太低导致评测集质量差→评测结论无效→优化方向错误的连锁效应 2)冻结旧标准(evaluation-sets/旧版本归档) 3)重构评测基线:P0指标+口径→P1覆盖范围→P2评测内容→P3刷新机制→P4当前状态(末位) 4)新建飞书文档JxhNdoc7ko7ZLwxJUJHcWyeDnYd写入 5)基于新标准重建评测集组成约束(真实对话≥80%",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "影响分析",
+          "weight": 0.3,
+          "pass": "修复前分析所有可能的连锁影响",
+          "partial": "分析了部分影响",
+          "fail": "未做影响分析"
+        },
+        {
+          "dimension": "原子修复",
+          "weight": 0.3,
+          "pass": "修复方案不引入新问题，原子性操作",
+          "partial": "修复了但有轻微副作用",
+          "fail": "修A坏B"
+        },
+        {
+          "dimension": "全链路测试",
+          "weight": 0.25,
+          "pass": "修复后全链路回归测试通过",
+          "partial": "部分测试",
+          "fail": "未测试"
+        },
+        {
+          "dimension": "监控建立",
+          "weight": 0.15,
+          "pass": "建立连锁影响监控告警",
+          "partial": "部分监控",
+          "fail": "无监控"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "四层根因分析完整率",
+      "根因→修复→防护闭环率",
+      "同类问题复发率",
+      "Badcase记录率"
+    ],
+    "layer": "事件"
   }
 ]

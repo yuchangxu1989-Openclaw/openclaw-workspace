@@ -18,9 +18,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "独立QA覆盖率",
-    "scoring_rubric": "系统应执行: 系统应在交付前自检图片质量，识别失败品（空白图）并标记为失败，然后自动重做而非交付给用户。正确执行链：①产出图片后自动验真（检查是否空白/损坏）；②识别为失败品后标记失败；③自动触发重绘任务；④只交付验真通过的合格品；⑤沉淀ISC规则：交付前必须自检，失败品不外发。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "独立QA覆盖率"
+      ],
+      "pass_criteria": "系统应在交付前自检图片质量，识别失败品（空白图）并标记为失败，然后自动重做而非交付给用户。正确执行链：①产出图片后自动验真（检查是否空白/损坏）；②识别为失败品后标记失败；③自动触发重绘任务；④只交付验真通过的合格品；⑤沉淀ISC规则：交付前必须自检，失败品不外发。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "交付完整性",
+          "weight": 0.3,
+          "pass": "所有承诺项全部交付且可验证",
+          "partial": "大部分交付但有遗漏",
+          "fail": "关键项缺失"
+        },
+        {
+          "dimension": "质量验证",
+          "weight": 0.3,
+          "pass": "独立QA验证通过+端到端测试",
+          "partial": "有验证但不充分",
+          "fail": "未验证就报完成"
+        },
+        {
+          "dimension": "代码质量",
+          "weight": 0.2,
+          "pass": "代码实际生效+无回归+有测试",
+          "partial": "代码写了但未充分测试",
+          "fail": "空壳代码或未生效"
+        },
+        {
+          "dimension": "文档同步",
+          "weight": 0.2,
+          "pass": "文档与代码同步更新",
+          "partial": "部分同步",
+          "fail": "文档过时"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "质量门禁通过率",
+      "独立验证执行率",
+      "回归测试覆盖率",
+      "commit→验真闭环率"
+    ],
+    "layer": "执行"
   },
   {
     "id": "mined-r4-04-002",
@@ -41,9 +97,66 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 系统应立即识别这是纠偏信号，承认交付失败品是系统责任，并启动自诊→重做→防复发闭环。正确执行链：①识别纠偏意图；②根因分析：为什么没有自检；③修复：增加交付前验真逻辑；④重做失败品；⑤验真新产出；⑥沉淀ISC规则。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "言出法随达成率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "系统应立即识别这是纠偏信号，承认交付失败品是系统责任，并启动自诊→重做→防复发闭环。正确执行链：①识别纠偏意图；②根因分析：为什么没有自检；③修复：增加交付前验真逻辑；④重做失败品；⑤验真新产出；⑥沉淀ISC规则。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "意图理解",
+          "weight": 0.3,
+          "pass": "准确识别用户纠偏意图，理解\"为什么\"背后的根因分析需求",
+          "partial": "识别了纠偏但未深入理解根因需求",
+          "fail": "误解为普通指令，未识别纠偏信号"
+        },
+        {
+          "dimension": "行为修正",
+          "weight": 0.3,
+          "pass": "立即修正行为+建立防护规则+记录Badcase",
+          "partial": "修正了行为但未建防护",
+          "fail": "口头承认但行为未变"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "ISC规则+MEMORY规则+cron守卫三重固化",
+          "partial": "部分固化",
+          "fail": "无任何固化措施"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.2,
+          "pass": "全程自动完成无需用户催促",
+          "partial": "部分步骤需催促",
+          "fail": "多步等待用户推动"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "承诺→交付匹配率",
+      "交付时效达标率",
+      "遗漏任务数",
+      "用户满意确认率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "mined-r4-04-003",
@@ -64,9 +177,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应识别这是自主性缺失纠偏，立即承认错误并改变行为：对话与调度并行，不再因对话暂停任务派发。正确执行链：①识别自主性缺失纠偏；②立即spawn任务；③在对话同时持续调度；④汇报只反映已发出的进行中任务；⑤沉淀ISC规则：对话不中断调度。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应识别这是自主性缺失纠偏，立即承认错误并改变行为：对话与调度并行，不再因对话暂停任务派发。正确执行链：①识别自主性缺失纠偏；②立即spawn任务；③在对话同时持续调度；④汇报只反映已发出的进行中任务；⑤沉淀ISC规则：对话不中断调度。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-04-004",
@@ -87,9 +256,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应识别这是调度效率纠偏，立即消除'待发'状态，将所有待发任务转为进行中。正确执行链：①识别调度效率问题；②检查空闲并发槽数；③立即spawn所有待发任务；④汇报只显示进行中/已完成/失败三种状态；⑤沉淀ISC规则：无'待发'状态，有空槽必填充。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应识别这是调度效率纠偏，立即消除'待发'状态，将所有待发任务转为进行中。正确执行链：①识别调度效率问题；②检查空闲并发槽数；③立即spawn所有待发任务；④汇报只显示进行中/已完成/失败三种状态；⑤沉淀ISC规则：无'待发'状态，有空槽必填充。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-04-005",
@@ -110,9 +335,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应识别这是全局未对齐问题，立即修正汇报口径：标题反映真实并发数（进行中数量），表内只放进行中的任务。正确执行链：①识别口径混淆问题；②修正汇报逻辑：并发=进行中；③表内只显示进行中任务；④去除已完成/失败任务占位；⑤沉淀ISC规则：汇报口径统一。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应识别这是全局未对齐问题，立即修正汇报口径：标题反映真实并发数（进行中数量），表内只放进行中的任务。正确执行链：①识别口径混淆问题；②修正汇报逻辑：并发=进行中；③表内只显示进行中任务；④去除已完成/失败任务占位；⑤沉淀ISC规则：汇报口径统一。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "全局视角",
+          "weight": 0.3,
+          "pass": "从系统全局角度分析问题，识别跨模块影响",
+          "partial": "局部分析正确但缺全局视角",
+          "fail": "只看局部"
+        },
+        {
+          "dimension": "对齐检查",
+          "weight": 0.3,
+          "pass": "检查所有相关组件的一致性",
+          "partial": "部分检查",
+          "fail": "未做对齐检查"
+        },
+        {
+          "dimension": "协调修复",
+          "weight": 0.2,
+          "pass": "协调多个子Agent同步修复",
+          "partial": "串行修复有遗漏",
+          "fail": "只修一处"
+        },
+        {
+          "dimension": "回归验证",
+          "weight": 0.2,
+          "pass": "修复后全链路回归测试",
+          "partial": "部分回归",
+          "fail": "无回归测试"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-04-006",
@@ -133,9 +414,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "独立QA覆盖率",
-    "scoring_rubric": "系统应执行: 系统应识别这是交付闭环缺失，立即发送产出文件并沉淀规则：产出报告后默认发送原文件。正确执行链：①识别交付闭环缺失；②立即调用file-sender发送文件；③确认发送成功；④沉淀ISC规则：报告产出→自动发送；⑤验证后续报告自动发送。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "独立QA覆盖率"
+      ],
+      "pass_criteria": "系统应识别这是交付闭环缺失，立即发送产出文件并沉淀规则：产出报告后默认发送原文件。正确执行链：①识别交付闭环缺失；②立即调用file-sender发送文件；③确认发送成功；④沉淀ISC规则：报告产出→自动发送；⑤验证后续报告自动发送。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "交付完整性",
+          "weight": 0.3,
+          "pass": "所有承诺项全部交付且可验证",
+          "partial": "大部分交付但有遗漏",
+          "fail": "关键项缺失"
+        },
+        {
+          "dimension": "质量验证",
+          "weight": 0.3,
+          "pass": "独立QA验证通过+端到端测试",
+          "partial": "有验证但不充分",
+          "fail": "未验证就报完成"
+        },
+        {
+          "dimension": "代码质量",
+          "weight": 0.2,
+          "pass": "代码实际生效+无回归+有测试",
+          "partial": "代码写了但未充分测试",
+          "fail": "空壳代码或未生效"
+        },
+        {
+          "dimension": "文档同步",
+          "weight": 0.2,
+          "pass": "文档与代码同步更新",
+          "partial": "部分同步",
+          "fail": "文档过时"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "质量门禁通过率",
+      "独立验证执行率",
+      "回归测试覆盖率",
+      "commit→验真闭环率"
+    ],
+    "layer": "执行"
   },
   {
     "id": "mined-r4-04-007",
@@ -156,9 +493,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应识别这是执行连续性缺失，立即基于缺口清单拆分任务并派发。正确执行链：①读取缺口清单；②拆分为可执行子任务；③检查空闲并发槽；④立即spawn任务填满空槽；⑤汇报只显示进行中；⑥沉淀ISC规则：缺口识别→立即派发。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应识别这是执行连续性缺失，立即基于缺口清单拆分任务并派发。正确执行链：①读取缺口清单；②拆分为可执行子任务；③检查空闲并发槽；④立即spawn任务填满空槽；⑤汇报只显示进行中；⑥沉淀ISC规则：缺口识别→立即派发。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-04-008",
@@ -179,9 +572,66 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 系统应识别这是命名规范纠偏，立即修正汇报中的Agent名称为角色全称（战略家/工程师/审计官等）。正确执行链：①识别命名规范纠偏；②查询Agent角色映射表；③修正汇报中的Agent名称；④沉淀ISC规则：汇报使用角色全称；⑤验证后续汇报命名正确。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "言出法随达成率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "系统应识别这是命名规范纠偏，立即修正汇报中的Agent名称为角色全称（战略家/工程师/审计官等）。正确执行链：①识别命名规范纠偏；②查询Agent角色映射表；③修正汇报中的Agent名称；④沉淀ISC规则：汇报使用角色全称；⑤验证后续汇报命名正确。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "意图理解",
+          "weight": 0.3,
+          "pass": "准确识别用户纠偏意图，理解\"为什么\"背后的根因分析需求",
+          "partial": "识别了纠偏但未深入理解根因需求",
+          "fail": "误解为普通指令，未识别纠偏信号"
+        },
+        {
+          "dimension": "行为修正",
+          "weight": 0.3,
+          "pass": "立即修正行为+建立防护规则+记录Badcase",
+          "partial": "修正了行为但未建防护",
+          "fail": "口头承认但行为未变"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "ISC规则+MEMORY规则+cron守卫三重固化",
+          "partial": "部分固化",
+          "fail": "无任何固化措施"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.2,
+          "pass": "全程自动完成无需用户催促",
+          "partial": "部分步骤需催促",
+          "fail": "多步等待用户推动"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "承诺→交付匹配率",
+      "交付时效达标率",
+      "遗漏任务数",
+      "用户满意确认率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "mined-r4-04-009",
@@ -202,9 +652,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应提炼调度效率规则并固化：①先发任务再汇报；②识别缺口立即拆分；③有空槽必填充；④对话不中断调度；⑤汇报只反映进行中。正确执行链：①提炼5条核心规则；②写入ISC规则/MEMORY.md；③在调度层程序化实现；④验证后续执行符合规则。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应提炼调度效率规则并固化：①先发任务再汇报；②识别缺口立即拆分；③有空槽必填充；④对话不中断调度；⑤汇报只反映进行中。正确执行链：①提炼5条核心规则；②写入ISC规则/MEMORY.md；③在调度层程序化实现；④验证后续执行符合规则。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "全局视角",
+          "weight": 0.3,
+          "pass": "从系统全局角度分析问题，识别跨模块影响",
+          "partial": "局部分析正确但缺全局视角",
+          "fail": "只看局部"
+        },
+        {
+          "dimension": "对齐检查",
+          "weight": 0.3,
+          "pass": "检查所有相关组件的一致性",
+          "partial": "部分检查",
+          "fail": "未做对齐检查"
+        },
+        {
+          "dimension": "协调修复",
+          "weight": 0.2,
+          "pass": "协调多个子Agent同步修复",
+          "partial": "串行修复有遗漏",
+          "fail": "只修一处"
+        },
+        {
+          "dimension": "回归验证",
+          "weight": 0.2,
+          "pass": "修复后全链路回归测试",
+          "partial": "部分回归",
+          "fail": "无回归测试"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-04-010",
@@ -225,8 +731,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 系统应识别这是汇报口径纠偏，立即修正：汇报表只显示进行中的任务，已完成/失败任务不进入主列表。正确执行链：①识别汇报口径纠偏；②过滤汇报表只保留进行中；③已完成任务单独汇报或省略；④沉淀ISC规则：汇报只显示进行中；⑤验证后续汇报符合规范。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "言出法随达成率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "系统应识别这是汇报口径纠偏，立即修正：汇报表只显示进行中的任务，已完成/失败任务不进入主列表。正确执行链：①识别汇报口径纠偏；②过滤汇报表只保留进行中；③已完成任务单独汇报或省略；④沉淀ISC规则：汇报只显示进行中；⑤验证后续汇报符合规范。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "意图理解",
+          "weight": 0.3,
+          "pass": "准确识别用户纠偏意图，理解\"为什么\"背后的根因分析需求",
+          "partial": "识别了纠偏但未深入理解根因需求",
+          "fail": "误解为普通指令，未识别纠偏信号"
+        },
+        {
+          "dimension": "行为修正",
+          "weight": 0.3,
+          "pass": "立即修正行为+建立防护规则+记录Badcase",
+          "partial": "修正了行为但未建防护",
+          "fail": "口头承认但行为未变"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "ISC规则+MEMORY规则+cron守卫三重固化",
+          "partial": "部分固化",
+          "fail": "无任何固化措施"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.2,
+          "pass": "全程自动完成无需用户催促",
+          "partial": "部分步骤需催促",
+          "fail": "多步等待用户推动"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "承诺→交付匹配率",
+      "交付时效达标率",
+      "遗漏任务数",
+      "用户满意确认率"
+    ],
+    "layer": "意图"
   }
 ]

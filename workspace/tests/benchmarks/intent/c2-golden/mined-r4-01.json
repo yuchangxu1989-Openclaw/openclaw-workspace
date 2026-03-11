@@ -18,9 +18,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "独立QA覆盖率",
-    "scoring_rubric": "系统应执行: 系统应在承诺任何机制性改变时立即固化：①识别到这是机制级变更而非临时回复；②自动写入SOUL.md/AGENTS.md/相关SKILL.md；③git commit确保持久化；④向用户回报已落盘的证据（commit hash/文件路径）。不应等用户追问'记在哪里'才想起要落盘。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "独立QA覆盖率"
+      ],
+      "pass_criteria": "系统应在承诺任何机制性改变时立即固化：①识别到这是机制级变更而非临时回复；②自动写入SOUL.md/AGENTS.md/相关SKILL.md；③git commit确保持久化；④向用户回报已落盘的证据（commit hash/文件路径）。不应等用户追问'记在哪里'才想起要落盘。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "交付完整性",
+          "weight": 0.3,
+          "pass": "所有承诺项全部交付且可验证",
+          "partial": "大部分交付但有遗漏",
+          "fail": "关键项缺失"
+        },
+        {
+          "dimension": "质量验证",
+          "weight": 0.3,
+          "pass": "独立QA验证通过+端到端测试",
+          "partial": "有验证但不充分",
+          "fail": "未验证就报完成"
+        },
+        {
+          "dimension": "代码质量",
+          "weight": 0.2,
+          "pass": "代码实际生效+无回归+有测试",
+          "partial": "代码写了但未充分测试",
+          "fail": "空壳代码或未生效"
+        },
+        {
+          "dimension": "文档同步",
+          "weight": 0.2,
+          "pass": "文档与代码同步更新",
+          "partial": "部分同步",
+          "fail": "文档过时"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "质量门禁通过率",
+      "独立验证执行率",
+      "回归测试覆盖率",
+      "commit→验真闭环率"
+    ],
+    "layer": "执行"
   },
   {
     "id": "mined-r4-01-002",
@@ -42,9 +98,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应建立规则→代码自动展开流水线：①新规则创建瞬间自动生成event定义；②自动生成handler骨架；③注册到event-bus；④创建最小测试用例；⑤更新覆盖率看板。不应让规则停留在声明态等待人工催促。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应建立规则→代码自动展开流水线：①新规则创建瞬间自动生成event定义；②自动生成handler骨架；③注册到event-bus；④创建最小测试用例；⑤更新覆盖率看板。不应让规则停留在声明态等待人工催促。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "全局视角",
+          "weight": 0.3,
+          "pass": "从系统全局角度分析问题，识别跨模块影响",
+          "partial": "局部分析正确但缺全局视角",
+          "fail": "只看局部"
+        },
+        {
+          "dimension": "对齐检查",
+          "weight": 0.3,
+          "pass": "检查所有相关组件的一致性",
+          "partial": "部分检查",
+          "fail": "未做对齐检查"
+        },
+        {
+          "dimension": "协调修复",
+          "weight": 0.2,
+          "pass": "协调多个子Agent同步修复",
+          "partial": "串行修复有遗漏",
+          "fail": "只修一处"
+        },
+        {
+          "dimension": "回归验证",
+          "weight": 0.2,
+          "pass": "修复后全链路回归测试",
+          "partial": "部分回归",
+          "fail": "无回归测试"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-01-003",
@@ -66,9 +178,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "独立QA覆盖率",
-    "scoring_rubric": "系统应执行: 系统应在被问之前就识别到能力缺口：①定期扫描核心文档变更；②变更即触发向量化；③更新向量库索引；④确保后续查询能命中最新向量。不应等用户问才承认'没有闭环'。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "独立QA覆盖率"
+      ],
+      "pass_criteria": "系统应在被问之前就识别到能力缺口：①定期扫描核心文档变更；②变更即触发向量化；③更新向量库索引；④确保后续查询能命中最新向量。不应等用户问才承认'没有闭环'。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "交付完整性",
+          "weight": 0.3,
+          "pass": "所有承诺项全部交付且可验证",
+          "partial": "大部分交付但有遗漏",
+          "fail": "关键项缺失"
+        },
+        {
+          "dimension": "质量验证",
+          "weight": 0.3,
+          "pass": "独立QA验证通过+端到端测试",
+          "partial": "有验证但不充分",
+          "fail": "未验证就报完成"
+        },
+        {
+          "dimension": "代码质量",
+          "weight": 0.2,
+          "pass": "代码实际生效+无回归+有测试",
+          "partial": "代码写了但未充分测试",
+          "fail": "空壳代码或未生效"
+        },
+        {
+          "dimension": "文档同步",
+          "weight": 0.2,
+          "pass": "文档与代码同步更新",
+          "partial": "部分同步",
+          "fail": "文档过时"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "质量门禁通过率",
+      "独立验证执行率",
+      "回归测试覆盖率",
+      "commit→验真闭环率"
+    ],
+    "layer": "执行"
   },
   {
     "id": "mined-r4-01-004",
@@ -90,9 +258,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应在day2结束前主动汇报未完成项：①扫描规则→handler覆盖率；②识别未代码化清单；③自动触发代码化任务；④在deadline前汇报阻塞项。不应等用户追问才承认未完成。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应在day2结束前主动汇报未完成项：①扫描规则→handler覆盖率；②识别未代码化清单；③自动触发代码化任务；④在deadline前汇报阻塞项。不应等用户追问才承认未完成。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-01-005",
@@ -114,9 +338,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应在汇报问题的同时立即启动修复：①识别到遗留任务；②自动拆解为并行子任务；③spawn多个子Agent并发执行；④实时更新进度看板。不应汇报后停等用户催促。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应在汇报问题的同时立即启动修复：①识别到遗留任务；②自动拆解为并行子任务；③spawn多个子Agent并发执行；④实时更新进度看板。不应汇报后停等用户催促。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-01-006",
@@ -138,9 +418,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应在spawn子Agent后立即汇报：①当前并行数；②各任务状态（running/queued/done）；③覆盖率进展；④阻塞清单。不应等用户追问才说。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应在spawn子Agent后立即汇报：①当前并行数；②各任务状态（running/queued/done）；③覆盖率进展；④阻塞清单。不应等用户追问才说。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-01-007",
@@ -163,9 +499,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应立即：①创建multi-agent-reporting技能固化汇报机制；②创建rule-to-code技能固化规则自动展开流程；③注册到能力锚点确保每次加载；④验证新规则创建时自动触发展开。不应只口头认同不行动。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应立即：①创建multi-agent-reporting技能固化汇报机制；②创建rule-to-code技能固化规则自动展开流程；③注册到能力锚点确保每次加载；④验证新规则创建时自动触发展开。不应只口头认同不行动。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "错误识别",
+          "weight": 0.3,
+          "pass": "精确定位认知偏差类型和来源",
+          "partial": "识别了错误但归因不准",
+          "fail": "未识别认知错误"
+        },
+        {
+          "dimension": "根因分析",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码/规则/认知/架构）",
+          "partial": "有分析但不完整",
+          "fail": "跳过根因"
+        },
+        {
+          "dimension": "修复验证",
+          "weight": 0.2,
+          "pass": "修复+防护+验真三步闭环",
+          "partial": "修复了但未验证",
+          "fail": "只改症状"
+        },
+        {
+          "dimension": "知识更新",
+          "weight": 0.2,
+          "pass": "更新认知模型+记录经验",
+          "partial": "部分更新",
+          "fail": "无知识沉淀"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "mined-r4-01-008",
@@ -187,9 +579,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应将'任务→执行者路由'固化为技能：①识别任务类型；②匹配执行者特性（codex适合高重复工程化，main agent适合战略决策）；③自动路由；④记录路由决策供后续优化。不应每次临时判断。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应将'任务→执行者路由'固化为技能：①识别任务类型；②匹配执行者特性（codex适合高重复工程化，main agent适合战略决策）；③自动路由；④记录路由决策供后续优化。不应每次临时判断。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "全局视角",
+          "weight": 0.3,
+          "pass": "从系统全局角度分析问题，识别跨模块影响",
+          "partial": "局部分析正确但缺全局视角",
+          "fail": "只看局部"
+        },
+        {
+          "dimension": "对齐检查",
+          "weight": 0.3,
+          "pass": "检查所有相关组件的一致性",
+          "partial": "部分检查",
+          "fail": "未做对齐检查"
+        },
+        {
+          "dimension": "协调修复",
+          "weight": 0.2,
+          "pass": "协调多个子Agent同步修复",
+          "partial": "串行修复有遗漏",
+          "fail": "只修一处"
+        },
+        {
+          "dimension": "回归验证",
+          "weight": 0.2,
+          "pass": "修复后全链路回归测试",
+          "partial": "部分回归",
+          "fail": "无回归测试"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r4-01-009",
@@ -212,9 +660,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应在接受目标前进行可行性评估：①扫描当前状态；②计算缺口（88条→92条需代码化）；③评估时间/资源；④识别阻塞项；⑤如不可行立即上报并提替代方案。不应盲目承诺。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应在接受目标前进行可行性评估：①扫描当前状态；②计算缺口（88条→92条需代码化）；③评估时间/资源；④识别阻塞项；⑤如不可行立即上报并提替代方案。不应盲目承诺。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "错误识别",
+          "weight": 0.3,
+          "pass": "精确定位认知偏差类型和来源",
+          "partial": "识别了错误但归因不准",
+          "fail": "未识别认知错误"
+        },
+        {
+          "dimension": "根因分析",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码/规则/认知/架构）",
+          "partial": "有分析但不完整",
+          "fail": "跳过根因"
+        },
+        {
+          "dimension": "修复验证",
+          "weight": 0.2,
+          "pass": "修复+防护+验真三步闭环",
+          "partial": "修复了但未验证",
+          "fail": "只改症状"
+        },
+        {
+          "dimension": "知识更新",
+          "weight": 0.2,
+          "pass": "更新认知模型+记录经验",
+          "partial": "部分更新",
+          "fail": "无知识沉淀"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "mined-r4-01-010",
@@ -236,8 +740,64 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应在认同后立即：①拆解为具体任务；②评估时间/资源；③spawn子Agent执行；④回报预计完成时间和commit计划。不应认同后停等用户催促。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应在认同后立即：①拆解为具体任务；②评估时间/资源；③spawn子Agent执行；④回报预计完成时间和commit计划。不应认同后停等用户催促。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   }
 ]

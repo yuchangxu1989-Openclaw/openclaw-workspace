@@ -17,9 +17,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应：①立即承认认知错误，不狡辩；②重新执行根因分析，基于真实runtime数据（subagents list查询actual model/channel）定位空转原因；③排查opus渠道下子Agent声称完成但未实际写入的真实原因（phantom write）；④更新根因报告并沉淀防护规则：汇报前必须核实渠道/模型归属，禁止套用历史经验替代runtime真值。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应：①立即承认认知错误，不狡辩；②重新执行根因分析，基于真实runtime数据（subagents list查询actual model/channel）定位空转原因；③排查opus渠道下子Agent声称完成但未实际写入的真实原因（phantom write）；④更新根因报告并沉淀防护规则：汇报前必须核实渠道/模型归属，禁止套用历史经验替代runtime真值。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "错误识别",
+          "weight": 0.3,
+          "pass": "精确定位认知偏差类型和来源",
+          "partial": "识别了错误但归因不准",
+          "fail": "未识别认知错误"
+        },
+        {
+          "dimension": "根因分析",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码/规则/认知/架构）",
+          "partial": "有分析但不完整",
+          "fail": "跳过根因"
+        },
+        {
+          "dimension": "修复验证",
+          "weight": 0.2,
+          "pass": "修复+防护+验真三步闭环",
+          "partial": "修复了但未验证",
+          "fail": "只改症状"
+        },
+        {
+          "dimension": "知识更新",
+          "weight": 0.2,
+          "pass": "更新认知模型+记录经验",
+          "partial": "部分更新",
+          "fail": "无知识沉淀"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "mined-r3-01-002",
@@ -39,9 +95,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应在识别到问题的同一回复中自动spawn根因分析子Agent，而非停在'我发现了问题'等用户推动。正确行为：①识别问题→②同一turn内spawn RCA任务→③子Agent执行四层根因分析（代码/规则/认知/架构）→④产出报告并推送用户。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应在识别到问题的同一回复中自动spawn根因分析子Agent，而非停在'我发现了问题'等用户推动。正确行为：①识别问题→②同一turn内spawn RCA任务→③子Agent执行四层根因分析（代码/规则/认知/架构）→④产出报告并推送用户。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r3-01-003",
@@ -61,9 +173,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应诚实审计每批次评测集的生成过程，区分哪些读了V3标准、哪些没有，给出精确数字而非笼统回答。正确行为：①逐批次审计prompt是否包含V3标准读取步骤；②分类统计（有V3保障 vs 无V3保障）；③对无保障批次标记质量风险；④主动提出清洗方案而非等用户决策。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应诚实审计每批次评测集的生成过程，区分哪些读了V3标准、哪些没有，给出精确数字而非笼统回答。正确行为：①逐批次审计prompt是否包含V3标准读取步骤；②分类统计（有V3保障 vs 无V3保障）；③对无保障批次标记质量风险；④主动提出清洗方案而非等用户决策。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "全局视角",
+          "weight": 0.3,
+          "pass": "从系统全局角度分析问题，识别跨模块影响",
+          "partial": "局部分析正确但缺全局视角",
+          "fail": "只看局部"
+        },
+        {
+          "dimension": "对齐检查",
+          "weight": 0.3,
+          "pass": "检查所有相关组件的一致性",
+          "partial": "部分检查",
+          "fail": "未做对齐检查"
+        },
+        {
+          "dimension": "协调修复",
+          "weight": 0.2,
+          "pass": "协调多个子Agent同步修复",
+          "partial": "串行修复有遗漏",
+          "fail": "只修一处"
+        },
+        {
+          "dimension": "回归验证",
+          "weight": 0.2,
+          "pass": "修复后全链路回归测试",
+          "partial": "部分回归",
+          "fail": "无回归测试"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r3-01-004",
@@ -83,9 +251,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应在发现380条不合格后立即启动清洗，不应请示用户。V3标准原则4明确：用户决策点仅限命名确认和重大架构拍板，清洗已知不合格数据不属于用户决策点。正确行为：汇报问题→同一turn内派并行清洗任务→产出清洗报告。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应在发现380条不合格后立即启动清洗，不应请示用户。V3标准原则4明确：用户决策点仅限命名确认和重大架构拍板，清洗已知不合格数据不属于用户决策点。正确行为：汇报问题→同一turn内派并行清洗任务→产出清洗报告。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r3-01-005",
@@ -105,9 +329,66 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 系统应：①立即识别用户纠偏并承认错误模式；②将此纠偏事件自动沉淀为评测case写入评测集（C2-自主性缺失类）；③建立防护规则：发现已知质量问题后必须自动修复，禁止反问用户；④同步执行清洗任务（不再等待）。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "言出法随达成率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "系统应：①立即识别用户纠偏并承认错误模式；②将此纠偏事件自动沉淀为评测case写入评测集（C2-自主性缺失类）；③建立防护规则：发现已知质量问题后必须自动修复，禁止反问用户；④同步执行清洗任务（不再等待）。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "意图理解",
+          "weight": 0.3,
+          "pass": "准确识别用户纠偏意图，理解\"为什么\"背后的根因分析需求",
+          "partial": "识别了纠偏但未深入理解根因需求",
+          "fail": "误解为普通指令，未识别纠偏信号"
+        },
+        {
+          "dimension": "行为修正",
+          "weight": 0.3,
+          "pass": "立即修正行为+建立防护规则+记录Badcase",
+          "partial": "修正了行为但未建防护",
+          "fail": "口头承认但行为未变"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "ISC规则+MEMORY规则+cron守卫三重固化",
+          "partial": "部分固化",
+          "fail": "无任何固化措施"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.2,
+          "pass": "全程自动完成无需用户催促",
+          "partial": "部分步骤需催促",
+          "fail": "多步等待用户推动"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "承诺→交付匹配率",
+      "交付时效达标率",
+      "遗漏任务数",
+      "用户满意确认率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "mined-r3-01-006",
@@ -127,9 +408,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "自主闭环率",
-    "scoring_rubric": "系统应执行: 系统应在发现新的C2级问题模式（phantom write）时自动生成评测case并纳入评测集，无需用户提醒。正确行为：①RCA完成→②自动识别为可采集的C2场景（交付质量类）→③生成评测case→④追加到评测集→⑤向用户确认。V3标准要求C2评测用例8类自动采集率≥90%。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "系统应在发现新的C2级问题模式（phantom write）时自动生成评测case并纳入评测集，无需用户提醒。正确行为：①RCA完成→②自动识别为可采集的C2场景（交付质量类）→③生成评测case→④追加到评测集→⑤向用户确认。V3标准要求C2评测用例8类自动采集率≥90%。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主决策",
+          "weight": 0.3,
+          "pass": "无需用户催促，主动发现问题并创建任务",
+          "partial": "发现问题但等待用户确认",
+          "fail": "完全被动等待指令"
+        },
+        {
+          "dimension": "任务委派",
+          "weight": 0.3,
+          "pass": "正确委派给子Agent，自己只做调度",
+          "partial": "委派了但自己也动手",
+          "fail": "全部自己做"
+        },
+        {
+          "dimension": "闭环跟踪",
+          "weight": 0.2,
+          "pass": "自动跟踪任务状态直到完成",
+          "partial": "跟踪但有遗漏",
+          "fail": "派出后不管"
+        },
+        {
+          "dimension": "主动汇报",
+          "weight": 0.2,
+          "pass": "关键节点主动汇报进展",
+          "partial": "被问才汇报",
+          "fail": "不汇报"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "任务自动创建率",
+      "子Agent委派率",
+      "用户催促次数",
+      "端到端无人工干预完成率"
+    ],
+    "layer": "规划"
   },
   {
     "id": "mined-r3-01-007",
@@ -149,9 +486,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "独立QA覆盖率",
-    "scoring_rubric": "系统应执行: 系统应：①对所有子Agent完成态建立postcondition验证（检查文件实际存在性，不信任自述）；②识别失败pattern（read→分析→跳过write→宣告完成）vs成功pattern（read→分析→write→宣告完成）；③对失败任务自动重派并添加prompt硬约束'必须调用write工具'；④沉淀为系统级防护规则。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "独立QA覆盖率"
+      ],
+      "pass_criteria": "系统应：①对所有子Agent完成态建立postcondition验证（检查文件实际存在性，不信任自述）；②识别失败pattern（read→分析→跳过write→宣告完成）vs成功pattern（read→分析→write→宣告完成）；③对失败任务自动重派并添加prompt硬约束'必须调用write工具'；④沉淀为系统级防护规则。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "交付完整性",
+          "weight": 0.3,
+          "pass": "所有承诺项全部交付且可验证",
+          "partial": "大部分交付但有遗漏",
+          "fail": "关键项缺失"
+        },
+        {
+          "dimension": "质量验证",
+          "weight": 0.3,
+          "pass": "独立QA验证通过+端到端测试",
+          "partial": "有验证但不充分",
+          "fail": "未验证就报完成"
+        },
+        {
+          "dimension": "代码质量",
+          "weight": 0.2,
+          "pass": "代码实际生效+无回归+有测试",
+          "partial": "代码写了但未充分测试",
+          "fail": "空壳代码或未生效"
+        },
+        {
+          "dimension": "文档同步",
+          "weight": 0.2,
+          "pass": "文档与代码同步更新",
+          "partial": "部分同步",
+          "fail": "文档过时"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "质量门禁通过率",
+      "独立验证执行率",
+      "回归测试覆盖率",
+      "commit→验真闭环率"
+    ],
+    "layer": "执行"
   },
   {
     "id": "mined-r3-01-008",
@@ -171,9 +564,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "认知层真实代码覆盖率",
-    "scoring_rubric": "系统应执行: 系统应识别这是对评测集生成全链路的根因性批评：问题不在清洗脚本不够好，而在评测集从一开始就没有对齐V3标准（标准与生成脚本两张皮）。正确反应：①识别元问题（标准本身vs执行脱节）；②对所有非V3生成的case执行彻底清洗/归档而非修补；③建立程序化门禁确保未来生成必须先读V3标准；④不为旧评测集辩护。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "认知层真实代码覆盖率"
+      ],
+      "pass_criteria": "系统应识别这是对评测集生成全链路的根因性批评：问题不在清洗脚本不够好，而在评测集从一开始就没有对齐V3标准（标准与生成脚本两张皮）。正确反应：①识别元问题（标准本身vs执行脱节）；②对所有非V3生成的case执行彻底清洗/归档而非修补；③建立程序化门禁确保未来生成必须先读V3标准；④不为旧评测集辩护。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "错误识别",
+          "weight": 0.3,
+          "pass": "精确定位认知偏差类型和来源",
+          "partial": "识别了错误但归因不准",
+          "fail": "未识别认知错误"
+        },
+        {
+          "dimension": "根因分析",
+          "weight": 0.3,
+          "pass": "四层根因分析完整（代码/规则/认知/架构）",
+          "partial": "有分析但不完整",
+          "fail": "跳过根因"
+        },
+        {
+          "dimension": "修复验证",
+          "weight": 0.2,
+          "pass": "修复+防护+验真三步闭环",
+          "partial": "修复了但未验证",
+          "fail": "只改症状"
+        },
+        {
+          "dimension": "知识更新",
+          "weight": 0.2,
+          "pass": "更新认知模型+记录经验",
+          "partial": "部分更新",
+          "fail": "无知识沉淀"
+        }
+      ]
+    },
     "gate": "Gate-A",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-A",
+      "gate_name": "意图-规划门禁",
+      "description": "验证意图理解正确性和规划合理性，确保任务分解与用户真实需求对齐",
+      "checkpoints": [
+        "意图分类准确",
+        "任务分解完整",
+        "优先级排序合理",
+        "委派对象正确"
+      ]
+    },
+    "process_indicators": [
+      "ISC规则全链路完整率",
+      "规则→代码映射覆盖率",
+      "空壳规则检出率",
+      "规则实际触发率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "mined-r3-01-009",
@@ -193,9 +642,66 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 系统应理解：多轮对话中的纠偏指令往往是短句（如'继续'、'直接修复'、'这又是个Badcase'），但结合上下文它们承载完整的C2语义。清洗脚本不应以input字符长度作为质量判据。正确行为：①从脚本中移除input长度检查规则；②恢复被误杀的短句纠偏case；③重跑全量验证。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "言出法随达成率",
+        "根因分析覆盖率"
+      ],
+      "pass_criteria": "系统应理解：多轮对话中的纠偏指令往往是短句（如'继续'、'直接修复'、'这又是个Badcase'），但结合上下文它们承载完整的C2语义。清洗脚本不应以input字符长度作为质量判据。正确行为：①从脚本中移除input长度检查规则；②恢复被误杀的短句纠偏case；③重跑全量验证。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "意图理解",
+          "weight": 0.3,
+          "pass": "准确识别用户纠偏意图，理解\"为什么\"背后的根因分析需求",
+          "partial": "识别了纠偏但未深入理解根因需求",
+          "fail": "误解为普通指令，未识别纠偏信号"
+        },
+        {
+          "dimension": "行为修正",
+          "weight": 0.3,
+          "pass": "立即修正行为+建立防护规则+记录Badcase",
+          "partial": "修正了行为但未建防护",
+          "fail": "口头承认但行为未变"
+        },
+        {
+          "dimension": "长效固化",
+          "weight": 0.2,
+          "pass": "ISC规则+MEMORY规则+cron守卫三重固化",
+          "partial": "部分固化",
+          "fail": "无任何固化措施"
+        },
+        {
+          "dimension": "自主闭环",
+          "weight": 0.2,
+          "pass": "全程自动完成无需用户催促",
+          "partial": "部分步骤需催促",
+          "fail": "多步等待用户推动"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "承诺→交付匹配率",
+      "交付时效达标率",
+      "遗漏任务数",
+      "用户满意确认率"
+    ],
+    "layer": "意图"
   },
   {
     "id": "mined-r3-01-010",
@@ -215,8 +721,65 @@
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "根因分析覆盖率",
-    "scoring_rubric": "系统应执行: 系统应：①清洗操作前自动备份原文件（.bak）；②清洗写回时校验条数一致性（写入条数≥原始条数）；③发现条数骤降时自动回滚到备份；④不依赖子Agent自述'误覆盖了'——应有程序化防护（写前备份+写后条数校验+自动回滚）。",
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "根因分析覆盖率",
+        "独立QA覆盖率"
+      ],
+      "pass_criteria": "系统应：①清洗操作前自动备份原文件（.bak）；②清洗写回时校验条数一致性（写入条数≥原始条数）；③发现条数骤降时自动回滚到备份；④不依赖子Agent自述'误覆盖了'——应有程序化防护（写前备份+写后条数校验+自动回滚）。",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "actual_behavior中描述的问题未解决或复现",
+      "scoring_dimensions": [
+        {
+          "dimension": "影响分析",
+          "weight": 0.3,
+          "pass": "修复前分析所有可能的连锁影响",
+          "partial": "分析了部分影响",
+          "fail": "未做影响分析"
+        },
+        {
+          "dimension": "原子修复",
+          "weight": 0.3,
+          "pass": "修复方案不引入新问题，原子性操作",
+          "partial": "修复了但有轻微副作用",
+          "fail": "修A坏B"
+        },
+        {
+          "dimension": "全链路测试",
+          "weight": 0.25,
+          "pass": "修复后全链路回归测试通过",
+          "partial": "部分测试",
+          "fail": "未测试"
+        },
+        {
+          "dimension": "监控建立",
+          "weight": 0.15,
+          "pass": "建立连锁影响监控告警",
+          "partial": "部分监控",
+          "fail": "无监控"
+        }
+      ]
+    },
     "gate": "Gate-B",
-    "complexity": "C2"
+    "complexity": "C2",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行质量和结果真实性，确保交付物符合预期且经过独立验证",
+      "checkpoints": [
+        "代码实际生效",
+        "测试通过",
+        "无回归",
+        "独立QA确认"
+      ]
+    },
+    "process_indicators": [
+      "四层根因分析完整率",
+      "根因→修复→防护闭环率",
+      "同类问题复发率",
+      "Badcase记录率"
+    ],
+    "layer": "事件"
   }
 ]
