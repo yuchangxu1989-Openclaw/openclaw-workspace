@@ -68,7 +68,7 @@ lto-core, isc-core, evomap-a2a, evomap-publisher, cras, parallel-subagent, seef,
 
 ### 5. 僵尸任务扫描
 ```bash
-node /root/.openclaw/workspace/scripts/check-stale-tasks.sh --fix
+node /root/.openclaw/workspace/scripts/check-stale-tasks.js --fix
 ```
 - 已有cron每3分钟自动扫描（--fix --quiet模式）
 - heartbeat时主动跑一次，确认无遗漏

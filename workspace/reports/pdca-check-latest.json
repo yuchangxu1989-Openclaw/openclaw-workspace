@@ -1,29 +1,29 @@
 {
-  "timestamp": "2026-03-11T00:01:05.301Z",
+  "timestamp": "2026-03-11T02:00:57.818Z",
   "version": "2.0.0",
   "metrics": {
     "concurrencyUtil": {
       "label": "并发利用率",
-      "actual": 1.2105,
+      "actual": 1.3684,
       "target": 0.9,
-      "gap": 0.3105,
+      "gap": 0.4684,
       "status": "ok",
       "detail": {
-        "actual": 1.2105,
-        "peakRunning": 23,
+        "actual": 1.3684,
+        "peakRunning": 26,
         "limit": 19
       }
     },
     "timeoutRate": {
       "label": "任务超时率",
-      "actual": 0,
+      "actual": 0.2,
       "target": 0.1,
-      "gap": 0.1,
-      "status": "ok",
+      "gap": -0.1,
+      "status": "warn",
       "detail": {
-        "actual": 0,
-        "timeouts": 0,
-        "total": 1
+        "actual": 0.2,
+        "timeouts": 1,
+        "total": 5
       }
     },
     "taskGranularity": {
@@ -40,14 +40,14 @@
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
-      "actual": 0.6772,
+      "actual": 0.6737,
       "target": 1,
-      "gap": -0.3228,
+      "gap": -0.3263,
       "status": "warn",
       "detail": {
-        "actual": 0.6772,
+        "actual": 0.6737,
         "expandedRules": 128,
-        "totalRules": 189
+        "totalRules": 190
       }
     },
     "badcaseAutoRate": {
@@ -65,13 +65,27 @@
   },
   "gapAnalysis": [
     {
+      "metric": "timeoutRate",
+      "label": "任务超时率",
+      "severity": "warn",
+      "actual": 0.2,
+      "target": 0.1,
+      "gap": -0.1,
+      "gapDescription": "任务超时率当前0.2，超出目标0.1达0.1000，需降低50.0%",
+      "suggestions": [
+        "分析超时任务的共性，是否为特定类型任务",
+        "考虑增加超时阈值或优化慢任务的执行路径",
+        "检查是否有外部依赖(API/网络)导致超时"
+      ]
+    },
+    {
       "metric": "ruleExpansionRate",
       "label": "ISC规则展开率",
       "severity": "warn",
-      "actual": 0.6772,
+      "actual": 0.6737,
       "target": 1,
-      "gap": -0.3228,
-      "gapDescription": "ISC规则展开率当前0.6772，距目标1还差0.3228，需提升32.3%",
+      "gap": -0.3263,
+      "gapDescription": "ISC规则展开率当前0.6737，距目标1还差0.3263，需提升32.6%",
       "suggestions": [
         "优先展开高权重治理规则",
         "建立规则展开的自动化pipeline",
@@ -81,8 +95,8 @@
   ],
   "summary": {
     "total": 5,
-    "ok": 3,
-    "warn": 1,
+    "ok": 2,
+    "warn": 2,
     "critical": 0,
     "info": 1,
     "overallHealth": "warn"

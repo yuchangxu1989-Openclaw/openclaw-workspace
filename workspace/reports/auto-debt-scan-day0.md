@@ -1,8 +1,8 @@
 # Auto Debt Scan - Day 0
 
-> 自动生成于: 2026-03-10T01:20:24.014Z
+> 自动生成于: 2026-03-11T02:00:02.399Z
 > 触发器: day0-closure-conditions.md 检测
-> 总计发现: **664 个设计债务项**
+> 总计发现: **671 个设计债务项**
 
 ---
 
@@ -10,13 +10,13 @@
 
 | 类别 | 数量 | 严重度 |
 |------|------|--------|
-| 代码级 TODO/FIXME | 284 | 🔴 高 |
+| 代码级 TODO/FIXME | 291 | 🔴 高 |
 | 配置一致性问题 | 56 | 🔴 高 |
 | 事件对齐缺口 | 324 | 🔴 高 |
 
-## 🔧 代码级债务 (284 项)
+## 🔧 代码级债务 (291 项)
 
-### TODO (218)
+### TODO (224)
 
 - `skills/evolver/src/ops/innovation.js:44` — ideas.push("- Dev: Implement a 'todo-manager' that syncs code TODOs to tasks.");
 - `skills/capability-anchor/index.js:12` — // TODO: 实现 capability-anchor 的核心逻辑
@@ -28,7 +28,7 @@
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:55` — # TODO: 实现 inotifywait / cron / git hook 等感知机制
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:74` — # TODO: 执行动作脚本 for rule: $RULE_ID ($RULE_NAME)
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:76` — # TODO: 实现规则要求的执行逻辑
-- ... 还有 208 项
+- ... 还有 214 项
 
 ### TEMP (37)
 
@@ -44,7 +44,7 @@
 - `skills/public/pdf-generator/generate.js:286` — pandocArgs.push('--template', LATEX_TEMPLATE);
 - ... 还有 27 项
 
-### BUG (11)
+### BUG (12)
 
 - `skills/feishu-evolver-wrapper/commentary.js:17` — failure: ["BUG DETECTED. DESTROY.", "FAILURE IS UNACCEPTABLE.", "RETRY OR DIE."],
 - `skills/feishu-evolver-wrapper/utils/logger.js:32` — debug: (msg, data) => log('DEBUG', msg, data)
@@ -52,11 +52,11 @@
 - `skills/seef/evolution-pipeline/src/error-handler.js:20` — DEBUG: 'debug',
 - `infrastructure/lep-core/executors/base.js:224` — DEBUG: 0,
 - `infrastructure/lep-core/executors/base.js:246` — this._log('DEBUG', message, ...args);
+- `scripts/check-stale-tasks.sh:249` — // BUG-4: 用 flock 文件锁保护写操作，防止并发写入冲突
 - `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:26` — DEBUG_FOUND=""
 - `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:29` — if grep -qn "console\.log\|debugger\|TODO.*HACK\|FIXME.*URGENT" "$f" 2>/dev/null; then
 - `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:30` — DEBUG_FOUND="$DEBUG_FOUND $f"
-- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:35` — if [ -n "$DEBUG_FOUND" ]; then
-- ... 还有 1 项
+- ... 还有 2 项
 
 ### XXX (16)
 
@@ -237,7 +237,7 @@
 2. **优先级P0**: 修复 ISC 规则中的技能引用
 3. **优先级P1**: 清理 FIXME 标记（2 项）
 4. **优先级P2**: 补全孤立事件的 consumer 或移除无用 producer
-5. **优先级P3**: 逐步清理 TODO 标记（218 项）
+5. **优先级P3**: 逐步清理 TODO 标记（224 项）
 
 ---
 *由 infrastructure/self-check/day-completion-scanner.js 自动生成*
