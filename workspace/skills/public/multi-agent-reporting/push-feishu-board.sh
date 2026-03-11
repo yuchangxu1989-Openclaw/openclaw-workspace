@@ -2,19 +2,18 @@
 # push-feishu-board.sh - 生成看板并直接推送到飞书（使用table组件）
 # 不依赖主Agent，脚本自己调飞书API发消息
 
-# === 去重机制：内容级去重，内容不变则不推送 ===
+# === 去重机制：3秒防抖（同一事件连续触发时去重，不阻止正常数据变更推送） ===
 DEDUP_DIR="/tmp/feishu-board-push-dedup"
 mkdir -p "$DEDUP_DIR"
 BOARD_FILE="/root/.openclaw/workspace/logs/subagent-task-board.json"
-if [ -f "$BOARD_FILE" ]; then
-  CONTENT_HASH=$(md5sum "$BOARD_FILE" | cut -d' ' -f1)
-  DEDUP_FILE="$DEDUP_DIR/last-push"
-  if [ -f "$DEDUP_FILE" ]; then
-    LAST_HASH=$(head -1 "$DEDUP_FILE")
-    if [ "$CONTENT_HASH" = "$LAST_HASH" ]; then
-      echo "⏭️ 看板内容md5未变化($CONTENT_HASH)，跳过推送"
-      exit 0
-    fi
+DEDUP_FILE="$DEDUP_DIR/last-push-ts"
+NOW_TS=$(date +%s)
+if [ -f "$DEDUP_FILE" ]; then
+  LAST_TS=$(cat "$DEDUP_FILE" 2>/dev/null || echo 0)
+  DIFF=$((NOW_TS - LAST_TS))
+  if [ "$DIFF" -lt 3 ]; then
+    echo "⏭️ 3秒内已推送过，防抖跳过"
+    exit 0
   fi
 fi
 
@@ -107,9 +106,9 @@ SEND_RESP=$(curl -s -X POST "https://open.feishu.cn/open-apis/im/v1/messages?rec
 SEND_CODE=$(echo "$SEND_RESP" | jq -r '.code // 0' 2>/dev/null)
 
 if [ "$SEND_CODE" = "0" ]; then
-  # 记录本次推送的内容hash
-  echo "$CONTENT_HASH" > "$DEDUP_FILE"
-  echo "✅ 看板已推送到飞书（内容有变化，md5=$CONTENT_HASH）"
+  # 记录本次推送时间戳
+  echo "$NOW_TS" > "$DEDUP_FILE"
+  echo "✅ 看板已推送到飞书"
 else
   echo "❌ 飞书推送失败: $SEND_RESP"
 fi

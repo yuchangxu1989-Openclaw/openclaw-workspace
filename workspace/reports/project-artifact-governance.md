@@ -1,6 +1,6 @@
 # 项目管理产物沉淀机制治理闭环报告
 
-- 生成时间: 2026-03-10T16:05:13.105Z
+- 生成时间: 2026-03-11T00:05:07.139Z
 - 治理范围: task memory / PROJECT-TRACKER / task-queue report / lessons / metrics
 - 结论: 已形成"任务登记 → 汇总报告 → lessons复盘 → metrics计量"的最小闭环
 
@@ -34,5 +34,5 @@
 
 - task queue report: reports/task-queue/latest-report.md
 - governance report: reports/project-artifact-governance.md
-- lessons: skills/project-mgmt/lessons/2026-03-10-artifact-governance-closure.md
+- lessons: skills/project-mgmt/lessons/2026-03-11-artifact-governance-closure.md
 - metrics: skills/project-mgmt/metrics/2026-03.json
