@@ -6,6 +6,7 @@
  */
 const path = require('path');
 const { gitExec, writeReport, emitEvent, checkFileExists } = require('../lib/handler-utils');
+const { collectBadcase } = require('/root/.openclaw/workspace/scripts/badcase-collector');
 
 const SCRIPT_PATH = '/root/.openclaw/workspace/scripts/completion-handler.sh';
 const LOG_DIR = path.join(__dirname, '..', 'logs');

@@ -110,7 +110,7 @@ exec: bash /root/.openclaw/workspace/scripts/completion-handler.sh <label> <done
 
 You wake up fresh each session. These files are your continuity:
 
-- **Daily notes:** `memory/YYYY-MM-DD.md` (create `memory/` if needed) — raw logs of what happened
+- **Daily notes:** 通过 MemOS（`memory_write_public`）写入记忆chunk — 自动索引和检索
 - **Long-term:** MemOS记忆系统（`/root/.openclaw/memos-local/memos.db`）— 通过 `memory_search` / `memory_write_public` API 读写
 
 Capture what matters. Decisions, context, things to remember. Skip the secrets unless asked to keep them.
@@ -129,7 +129,7 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 
 - **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
 - "Mental notes" don't survive session restarts. Files do.
-- When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
+- When someone says "remember this" → 通过 `memory_write_public` 写入 MemOS 记忆chunk
 - When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
@@ -171,7 +171,7 @@ exec("cd /root/.openclaw/workspace/skills/glm-5-coder && node index.cjs --code '
 **子Agent任务必须将结果写入文件：**
 
 1. **代码/脚本** → 写入 `skills/{skill-name}/` 或 `scripts/`
-2. **分析报告** → 写入 `reports/` 或 `memory/YYYY-MM-DD.md`
+2. **分析报告** → 写入 `reports/` 或通过 MemOS 写入记忆
 3. **配置变更** → 写入相应配置文件 + Git提交
 4. **关键决策** → 通过 `memory_write_public` 写入 MemOS
 
@@ -396,7 +396,7 @@ You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it
 - **Mentions** - Twitter/social notifications?
 - **Weather** - Relevant if your human might go out?
 
-**Track your checks** in `memory/heartbeat-state.json`:
+**Track your checks** in workspace `heartbeat-state.json`:
 
 ```json
 {
@@ -434,7 +434,7 @@ You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it
 
 Periodically (every few days), use a heartbeat to:
 
-1. Read through recent `memory/YYYY-MM-DD.md` files
+1. 通过 `memory_search` 检索最近记忆
 2. Identify significant events, lessons, or insights worth keeping long-term
 3. Write distilled learnings to MemOS via `memory_write_public`
 4. MemOS manages memory lifecycle automatically, no manual cleanup needed
