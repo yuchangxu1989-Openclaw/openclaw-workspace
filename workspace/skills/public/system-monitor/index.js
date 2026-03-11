@@ -15,13 +15,18 @@ const _require = createRequire(import.meta.url);
 const { CRON_DIR, AGENTS_DIR, WORKSPACE } = _require('../../shared/paths');
 
 const MONITOR_CONFIG = {
-  version: '1.1.0',
+  version: '1.2.0',
   paths: {
     cron: path.join(CRON_DIR, 'jobs.json'),
     sessions: path.join(AGENTS_DIR, 'main/sessions'),
     workspace: WORKSPACE,
     dispatcherHandlerState: path.join(WORKSPACE, 'infrastructure/resilience/handler-state.json'),
-    autoRepairScript: path.join(WORKSPACE, 'infrastructure/monitoring/auto-rootcause-repair.js')
+    autoRepairScript: path.join(WORKSPACE, 'infrastructure/monitoring/auto-rootcause-repair.js'),
+    // 收编脚本路径
+    alertAutoRootcause: path.join(__dirname, 'scripts/alert-auto-rootcause.js'),
+    alertResponseGuard: path.join(__dirname, 'scripts/alert-response-guard.js'),
+    mainAgentWatchdog: path.join(__dirname, 'scripts/main-agent-watchdog.sh'),
+    gitPushHealthCheck: path.join(__dirname, 'scripts/git-push-health-check.sh')
   },
   thresholds: {
     maxCronError: 3,
@@ -166,12 +171,42 @@ class SystemMonitor {
 
 async function main() {
   const args = process.argv.slice(2);
+  const cmd = args[0];
   const monitor = new SystemMonitor({ autoRootcauseRepair: args.includes('--auto-rootcause-repair') });
-  if (args.includes('health')) {
-    const report = await monitor.checkHealth();
-    process.exit(report.status === 'healthy' ? 0 : 1);
-  } else {
-    console.log('Usage: node index.js health [--auto-rootcause-repair]');
+
+  switch (cmd) {
+    case 'health': {
+      const report = await monitor.checkHealth();
+      process.exit(report.status === 'healthy' ? 0 : 1);
+      break;
+    }
+    case 'alert-rootcause': {
+      execSync(`node ${MONITOR_CONFIG.paths.alertAutoRootcause}`, { stdio: 'inherit' });
+      break;
+    }
+    case 'alert-guard': {
+      const subArgs = args.slice(1).join(' ');
+      execSync(`node ${MONITOR_CONFIG.paths.alertResponseGuard} ${subArgs}`, { stdio: 'inherit' });
+      break;
+    }
+    case 'watchdog': {
+      const subArgs = args.slice(1).join(' ');
+      execSync(`bash ${MONITOR_CONFIG.paths.mainAgentWatchdog} ${subArgs}`, { stdio: 'inherit' });
+      break;
+    }
+    case 'git-probe': {
+      execSync(`bash ${MONITOR_CONFIG.paths.gitPushHealthCheck}`, { stdio: 'inherit' });
+      break;
+    }
+    default:
+      console.log(`Usage: node index.js <command>
+
+Commands:
+  health [--auto-rootcause-repair]  系统健康检查
+  alert-rootcause                   告警根因自动分析
+  alert-guard [resolve <rule_id>]   未响应告警扫描/标记已响应
+  watchdog [--watch] [--interval N] 主Agent文件操作违规检测
+  git-probe                         Git push健康探针`);
   }
 }
 
