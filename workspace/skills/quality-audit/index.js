@@ -1,15 +1,23 @@
 'use strict';
 
 /**
- * quality-audit v2.0.0 — 统一质量审计技能
+ * quality-audit v3.0.0 — 五大维度质量审计技能
  *
- * 四大模式：
- *   auto-qa          子Agent完成时自动审计
- *   isc-audit        ISC规则展开率(4必选+plan可选) + handler存在性 + V4字段覆盖率
- *   completion-review 已完成任务回顾性审计
- *   full             全量审计（isc-audit + completion-review）
+ * 维度：
+ *   1. 需求满足度 — task描述 vs 实际交付
+ *   2. 代码质量 — 空壳/TODO/语法/hardcode检测
+ *   3. 研发标准符合性 — ISC五层展开 + 命名规范 + skill-creator流水线
+ *   4. V4评测标准对齐 — 必要字段 + 评测集质量
+ *   5. 交付完整性 — TODO残留 + commit/push状态 + 禁止文件
  *
- * 可被cron调用：node index.js [mode] [--json]
+ * 模式：
+ *   full           五大维度全量审计（默认）
+ *   auto-qa        子Agent完成后快速审计（需agentId/taskLabel）
+ *   isc-audit      仅ISC规则合规审计
+ *   scan           扫描指定目录的代码质量
+ *
+ * CLI: node index.js [mode] [--json] [--agent=X] [--task=X] [--path=X]
+ * 事件总线: 完成后发布 quality.audit.completed
  */
 
 const fs = require('fs');
@@ -23,34 +31,32 @@ const WORKSPACE = process.env.OPENCLAW_WORKSPACE
 const ISC_RULES_DIR = path.join(WORKSPACE, 'skills/isc-core/rules');
 const HANDLERS_DIR = path.join(WORKSPACE, 'skills/isc-core/handlers');
 const REPORTS_DIR = path.join(WORKSPACE, 'reports/quality-audit');
+const EVENT_BUS_DIR = path.join(WORKSPACE, 'event-bus');
 
-// V4规则必须字段定义
-const V4_REQUIRED_FIELDS = [
-  'id', 'description', 'trigger', 'action', 'handler', 'enforcement',
-];
-const V4_RECOMMENDED_FIELDS = [
-  'name', 'version', 'fullchain_status', 'enforcement_tier', 'priority',
-];
-const V4_EXPANSION_FIELDS = [
-  'plan', 'verification',
-];
-const V4_ALL_FIELDS = [...V4_REQUIRED_FIELDS, ...V4_RECOMMENDED_FIELDS, ...V4_EXPANSION_FIELDS];
+// V4规则字段定义
+const V4_REQUIRED = ['id', 'description', 'trigger', 'action', 'handler', 'enforcement'];
+const V4_RECOMMENDED = ['name', 'version', 'fullchain_status', 'enforcement_tier', 'priority'];
+const V4_EXPANSION = ['plan', 'verification'];
 
 // 禁止修改的文件
 const FORBIDDEN_FILES = ['openclaw.json', '.env', 'package-lock.json'];
+
+// hardcode检测正则
+const HARDCODE_PATTERNS = [
+  { re: /sk-[a-zA-Z0-9]{20,}/, name: 'API密钥泄露' },
+  { re: /password\s*[:=]\s*['"][^'"]{3,}['"]/, name: '明文密码' },
+  { re: /\/root\/[^\s'"]{20,}/, name: '绝对路径hardcode（可疑）' },
+];
 
 // ─── 工具函数 ───
 
 function sh(cmd, opts = {}) {
   try {
     return execSync(cmd, {
-      encoding: 'utf8',
-      timeout: opts.timeout || 15000,
+      encoding: 'utf8', timeout: opts.timeout || 15000,
       cwd: opts.cwd || WORKSPACE,
     }).trim();
-  } catch {
-    return opts.fallback !== undefined ? opts.fallback : '';
-  }
+  } catch { return opts.fallback !== undefined ? opts.fallback : ''; }
 }
 
 function readJson(p) {
@@ -60,524 +66,572 @@ function readJson(p) {
 function writeReport(name, data) {
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
   const ts = new Date().toISOString().replace(/[:.]/g, '-');
-  const filePath = path.join(REPORTS_DIR, `${name}-${ts}.json`);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n', 'utf8');
-  return filePath;
+  const fp = path.join(REPORTS_DIR, `${name}-${ts}.json`);
+  fs.writeFileSync(fp, JSON.stringify(data, null, 2) + '\n', 'utf8');
+  return fp;
 }
 
-function pct(n, total) {
-  return total > 0 ? Math.round(n / total * 100) : 0;
+function pct(n, total) { return total > 0 ? Math.round(n / total * 100) : 0; }
+
+function dimVerdict(score) {
+  if (score >= 8) return 'pass';
+  if (score >= 5) return 'partial';
+  return 'fail';
 }
 
-function verdict(criticalCount, highCount, totalIssues) {
-  if (criticalCount > 0) return 'fail';
-  if (highCount > 0 || totalIssues > 10) return 'partial';
-  if (totalIssues > 0) return 'partial';
-  return 'pass';
+/** 发布事件到事件总线 */
+function publishEvent(eventType, payload) {
+  try {
+    const evtDir = path.join(EVENT_BUS_DIR, 'incoming');
+    fs.mkdirSync(evtDir, { recursive: true });
+    const ts = Date.now();
+    const evt = { type: eventType, timestamp: new Date().toISOString(), payload };
+    fs.writeFileSync(path.join(evtDir, `${eventType}-${ts}.json`), JSON.stringify(evt, null, 2));
+  } catch { /* 事件总线不可用时静默失败 */ }
 }
 
-function score(v, passRate) {
-  if (v === 'pass') return 10;
-  if (v === 'partial') return Math.max(3, Math.round(passRate * 10));
-  return Math.min(3, Math.round(passRate * 10));
+// ═══════════════════════════════════════════════════════════
+// 维度1: 需求满足度 — task描述 vs 实际交付
+// ═══════════════════════════════════════════════════════════
+
+function auditRequirement(input, logger) {
+  const issues = [];
+  const taskLabel = input.taskLabel || input.label || '';
+
+  // 获取最近变更的文件
+  const diffStat = sh('git diff --stat HEAD~1 HEAD 2>/dev/null || git diff --stat HEAD 2>/dev/null');
+  const changedFiles = diffStat ? diffStat.split('\n').filter(l => l.includes('|')).map(l => l.split('|')[0].trim()) : [];
+
+  // 检查1: 是否有文件变更
+  if (changedFiles.length === 0) {
+    issues.push({ check: '文件变更', severity: 'high', message: '无任何文件变更，任务可能未执行' });
+  }
+
+  // 检查2: 变更文件与task关联性（基于路径名匹配）
+  if (taskLabel) {
+    // 从taskLabel提取关键词
+    const keywords = taskLabel.toLowerCase().split(/[\s\-_/]+/).filter(w => w.length > 2);
+    const relatedFiles = changedFiles.filter(f =>
+      keywords.some(kw => f.toLowerCase().includes(kw))
+    );
+    const unrelatedFiles = changedFiles.filter(f =>
+      !keywords.some(kw => f.toLowerCase().includes(kw))
+    );
+
+    if (relatedFiles.length === 0 && changedFiles.length > 0) {
+      issues.push({
+        check: '关联性', severity: 'medium',
+        message: `变更文件与任务"${taskLabel}"无明显关联`,
+        details: changedFiles.slice(0, 10),
+      });
+    }
+
+    // 多余变更检测
+    if (unrelatedFiles.length > changedFiles.length * 0.7 && unrelatedFiles.length > 3) {
+      issues.push({
+        check: '多余变更', severity: 'low',
+        message: `${unrelatedFiles.length}/${changedFiles.length} 个文件可能与任务无关`,
+        details: unrelatedFiles.slice(0, 5),
+      });
+    }
+  }
+
+  // 检查3: 空commit检测
+  const lastCommitMsg = sh('git log -1 --format="%s" 2>/dev/null');
+  if (lastCommitMsg && /^(wip|fix|update|test)$/i.test(lastCommitMsg.trim())) {
+    issues.push({ check: 'commit消息', severity: 'low', message: `commit消息无意义: "${lastCommitMsg}"` });
+  }
+
+  // 评分: 有变更=基础6分, 无关联问题+2, 无多余+1, 消息好+1
+  let score = changedFiles.length > 0 ? 6 : 2;
+  if (!issues.some(i => i.check === '关联性')) score += 2;
+  if (!issues.some(i => i.check === '多余变更')) score += 1;
+  if (!issues.some(i => i.check === 'commit消息')) score += 1;
+  score = Math.min(10, Math.max(0, score));
+
+  return { dimension: 'requirement', score, verdict: dimVerdict(score), issues, changedFiles: changedFiles.length };
 }
 
-// ─── 加载ISC规则和Handler ───
+// ═══════════════════════════════════════════════════════════
+// 维度2: 代码质量 — 空壳/TODO/语法/hardcode
+// ═══════════════════════════════════════════════════════════
 
-function loadRules() {
-  const rules = [];
+function auditCodeQuality(input, logger) {
+  const issues = [];
+  const targetPath = input.scanPath || WORKSPACE;
+
+  // 获取变更文件（或扫描目录）
+  let filesToCheck = [];
+  if (input.scanPath) {
+    // scan模式: 递归扫描指定目录
+    const found = sh(`find "${targetPath}" -type f \\( -name "*.js" -o -name "*.json" -o -name "*.sh" -o -name "*.py" \\) -not -path "*/node_modules/*" -not -path "*/.git/*" 2>/dev/null`);
+    filesToCheck = found ? found.split('\n').filter(Boolean) : [];
+  } else {
+    // 默认: 只查变更文件
+    const diff = sh('git diff --name-only HEAD~1 HEAD 2>/dev/null || git diff --name-only HEAD 2>/dev/null');
+    filesToCheck = diff ? diff.split('\n').filter(Boolean).map(f => path.join(WORKSPACE, f)) : [];
+  }
+
+  let syntaxErrors = 0;
+  let todoCount = 0;
+  let hardcodeCount = 0;
+  let emptyFiles = 0;
+
+  for (const fp of filesToCheck.slice(0, 50)) {
+    if (!fs.existsSync(fp)) continue;
+    const basename = path.basename(fp);
+    let content;
+    try { content = fs.readFileSync(fp, 'utf8'); } catch { continue; }
+
+    // 空文件检测
+    if (content.trim().length === 0) {
+      emptyFiles++;
+      issues.push({ check: '空文件', severity: 'medium', file: basename, message: '文件为空' });
+      continue;
+    }
+
+    // 语法检查
+    if (fp.endsWith('.js') || fp.endsWith('.mjs')) {
+      const r = sh(`node -c "${fp}" 2>&1`, { fallback: 'error' });
+      if (r.includes('SyntaxError') || r === 'error') {
+        syntaxErrors++;
+        issues.push({ check: '语法错误', severity: 'high', file: basename, message: 'JS语法错误' });
+      }
+    }
+    if (fp.endsWith('.json')) {
+      if (!readJson(fp)) {
+        syntaxErrors++;
+        issues.push({ check: '语法错误', severity: 'high', file: basename, message: 'JSON解析失败' });
+      }
+    }
+    if (fp.endsWith('.sh')) {
+      const r = sh(`bash -n "${fp}" 2>&1`, { fallback: '' });
+      if (r) {
+        syntaxErrors++;
+        issues.push({ check: '语法错误', severity: 'high', file: basename, message: `Shell语法: ${r.slice(0, 60)}` });
+      }
+    }
+
+    // TODO/空壳检测
+    const lines = content.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+      if (/TODO.*实现|FIXME|PLACEHOLDER|console\.log\(['"]stub/i.test(lines[i])) {
+        todoCount++;
+        if (todoCount <= 5) {
+          issues.push({
+            check: '占位符残留', severity: 'medium', file: basename,
+            line: i + 1, message: lines[i].trim().slice(0, 80),
+          });
+        }
+      }
+    }
+
+    // hardcode检测
+    for (const { re, name } of HARDCODE_PATTERNS) {
+      if (re.test(content)) {
+        hardcodeCount++;
+        issues.push({ check: 'hardcode', severity: re === HARDCODE_PATTERNS[0].re ? 'critical' : 'high', file: basename, message: name });
+        break; // 每文件只报一次
+      }
+    }
+  }
+
+  // 评分
+  let score = 10;
+  if (syntaxErrors > 0) score -= Math.min(4, syntaxErrors * 2);
+  if (todoCount > 0) score -= Math.min(3, todoCount);
+  if (hardcodeCount > 0) score -= Math.min(3, hardcodeCount * 2);
+  if (emptyFiles > 0) score -= 1;
+  score = Math.max(0, score);
+
+  return {
+    dimension: 'codeQuality', score, verdict: dimVerdict(score), issues,
+    stats: { filesChecked: filesToCheck.length, syntaxErrors, todoCount, hardcodeCount, emptyFiles },
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
+// 维度3: 研发标准符合性 — ISC五层展开 + 命名 + skill-creator流水线
+// ═══════════════════════════════════════════════════════════
+
+function auditDevStandards(input, logger) {
+  const issues = [];
+
+  // ── ISC规则五层展开检查 ──
+  let rules = [];
   try {
     const entries = fs.readdirSync(ISC_RULES_DIR);
     for (const e of entries) {
       if (!e.endsWith('.json') || e.startsWith('.')) continue;
-      const filePath = path.join(ISC_RULES_DIR, e);
-      const data = readJson(filePath);
-      if (data) rules.push({ fileName: e, filePath, data });
-      else rules.push({ fileName: e, filePath, data: null, parseError: true });
+      const data = readJson(path.join(ISC_RULES_DIR, e));
+      if (data) rules.push({ fileName: e, data });
+      else issues.push({ check: 'ISC解析', severity: 'high', file: e, message: 'JSON解析失败' });
     }
   } catch (err) {
-    return { rules: [], error: err.message };
+    issues.push({ check: 'ISC目录', severity: 'high', message: `无法读取规则目录: ${err.message}` });
   }
-  return { rules };
-}
 
-function loadHandlerNames() {
-  try {
-    return fs.readdirSync(HANDLERS_DIR).filter(f => f.endsWith('.js'));
-  } catch { return []; }
-}
+  const handlerFiles = (() => { try { return fs.readdirSync(HANDLERS_DIR).filter(f => f.endsWith('.js')); } catch { return []; } })();
 
-// ═══════════════════════════════════════════════════════════
-// 模式1: ISC规则审计 — 五层覆盖率 + Handler存在性 + V4字段覆盖率
-// ═══════════════════════════════════════════════════════════
-
-function iscAudit(input, logger) {
-  logger.info?.('[isc-audit] 开始ISC规则合规审计');
-
-  const { rules, error } = loadRules();
-  if (error) return { mode: 'isc-audit', ok: false, error: `无法读取规则目录: ${error}` };
-
-  const handlerFiles = loadHandlerNames();
-  const issues = [];
-
-  // ── 统计容器 ──
-  const layerStats = { intent: 0, event: 0, planning: 0, execution: 0, verification: 0 };
-  const v4Stats = { required: {}, recommended: {}, expansion: {} };
-  V4_REQUIRED_FIELDS.forEach(f => v4Stats.required[f] = 0);
-  V4_RECOMMENDED_FIELDS.forEach(f => v4Stats.recommended[f] = 0);
-  V4_EXPANSION_FIELDS.forEach(f => v4Stats.expansion[f] = 0);
-
-  let fullChainCount = 0;
-  let parseErrors = 0;
-  let activeCount = 0;
-  let deprecatedCount = 0;
-  let missingHandlerCount = 0;
-  const ruleDetails = [];
+  // 五层统计
+  const layers = { intent: 0, event: 0, planning: 0, execution: 0, verification: 0 };
+  let fullChain = 0;
+  const validRules = rules.length;
 
   for (const { fileName, data } of rules) {
-    // JSON解析失败
-    if (!data) {
-      parseErrors++;
-      issues.push({ file: fileName, issue: 'JSON解析失败', severity: 'high' });
-      continue;
-    }
-
-    const ruleId = data.id || data.rule_id || fileName;
-    const detail = {
-      id: ruleId,
-      name: data.name || data.rule_name || '(无名称)',
-      status: data.status || 'unknown',
-      layers: { intent: false, event: false, planning: false, execution: false, verification: false },
-      v4Missing: [],
-    };
-
-    if (data.status === 'active') activeCount++;
-    if (data.status === 'deprecated') deprecatedCount++;
-
-    // ════ 五层覆盖率检查 ════
-
-    // 层1: 意图 — id + (name|rule_name) + description
-    const hasName = !!(data.name || data.rule_name);
-    if (data.id && hasName && data.description) {
-      detail.layers.intent = true;
-      layerStats.intent++;
-    } else {
-      const m = [];
-      if (!data.id) m.push('id');
-      if (!hasName) m.push('name');
-      if (!data.description) m.push('description');
-      issues.push({ file: fileName, issue: `意图层缺失: ${m.join(',')}`, severity: 'medium' });
-    }
-
-    // 层2: 事件触发 — trigger.event 或 trigger.events[]
+    const hasIntent = !!(data.id && (data.name || data.rule_name) && data.description);
     const trig = data.trigger;
-    const hasEvent = trig && (trig.event || (Array.isArray(trig.events) && trig.events.length > 0));
-    if (hasEvent) {
-      detail.layers.event = true;
-      layerStats.event++;
-    } else {
-      issues.push({ file: fileName, issue: '事件层缺失: 无trigger.event/events', severity: 'medium' });
-    }
-
-    // 层3: 规划 — action定义 或 plan字段
+    const hasEvent = !!(trig && (trig.event || (Array.isArray(trig.events) && trig.events.length > 0)));
     const act = data.action;
-    const hasAction = act && (act.type || act.method || act.handler || act.script);
-    const hasPlan = !!(data.plan && data.plan.steps);
-    if (hasAction || hasPlan) {
-      detail.layers.planning = true;
-      layerStats.planning++;
-    } else {
-      issues.push({ file: fileName, issue: '规划层缺失: 无action/plan定义', severity: 'medium' });
-    }
-
-    // 层4: 执行 — handler文件实际存在于磁盘
+    const hasPlanning = !!(act && (act.type || act.method || act.handler || act.script)) || !!(data.plan && data.plan.steps);
     const handlerRef = data.handler || act?.handler || act?.script || '';
-    let executionOk = false;
-    if (handlerRef) {
-      const handlerBasename = path.basename(handlerRef);
-      const inDir = handlerFiles.some(h => h === handlerBasename || handlerRef.includes(h.replace('.js', '')));
-      const fullPath = path.join(WORKSPACE, handlerRef);
-      if (inDir || fs.existsSync(fullPath)) {
-        executionOk = true;
-      } else {
-        missingHandlerCount++;
-        issues.push({ file: fileName, issue: `执行层: handler不存在 (${handlerRef})`, severity: 'high' });
-      }
-    } else if (act?.method) {
-      executionOk = true; // 内联方法
-    } else {
-      issues.push({ file: fileName, issue: '执行层缺失: 无handler/script引用', severity: 'medium' });
-    }
-    if (executionOk) {
-      detail.layers.execution = true;
-      layerStats.execution++;
-    }
+    const hasExecution = handlerRef ? (
+      handlerFiles.some(h => handlerRef.includes(h.replace('.js', ''))) || fs.existsSync(path.join(WORKSPACE, handlerRef))
+    ) : !!act?.method;
+    const hasVerification = !!(data.verification || data.gate || data.quality_gate || data.fullchain_status === 'expanded' || data.fullchain_status === 'complete');
 
-    // 层5: 验真 — verification字段 / related_rules / gate / fullchain_status=expanded|complete
-    const hasVerification = !!(
-      data.verification
-      || (data.related_rules && data.related_rules.length > 0)
-      || data.gate || data.quality_gate
-      || data.fullchain_status === 'expanded'
-      || data.fullchain_status === 'complete'
-    );
-    if (hasVerification) {
-      detail.layers.verification = true;
-      layerStats.verification++;
-    } else {
-      issues.push({ file: fileName, issue: '验真层缺失: 无验证/闭环机制', severity: 'low' });
-    }
-
-    // 四层必选展开判定（plan可选，大模型runtime可动态规划，不必硬编码）
-    // 必选：intent + event + execution + verification；可选：planning（有则加分但不影响判定）
-    const REQUIRED_LAYERS = ['intent', 'event', 'execution', 'verification'];
-    const requiredAllMet = REQUIRED_LAYERS.every(l => detail.layers[l]);
-    if (requiredAllMet) fullChainCount++;
-    detail.fullChain = requiredAllMet;
-    detail.hasPlan = detail.layers.planning; // 标记plan层状态（可选加分项）
-
-    // ════ V4字段覆盖率检查 ════
-    for (const f of V4_REQUIRED_FIELDS) {
-      if (data[f] != null) v4Stats.required[f]++;
-      else detail.v4Missing.push(f);
-    }
-    for (const f of V4_RECOMMENDED_FIELDS) {
-      if (data[f] != null) v4Stats.recommended[f]++;
-    }
-    for (const f of V4_EXPANSION_FIELDS) {
-      if (data[f] != null) v4Stats.expansion[f]++;
-    }
-
-    ruleDetails.push(detail);
+    if (hasIntent) layers.intent++;
+    if (hasEvent) layers.event++;
+    if (hasPlanning) layers.planning++;
+    if (hasExecution) layers.execution++;
+    if (hasVerification) layers.verification++;
+    if (hasIntent && hasEvent && hasExecution && hasVerification) fullChain++;
   }
-
-  // ── 覆盖率计算 ──
-  const total = rules.length;
-  const validRules = total - parseErrors;
 
   const layerCoverage = {
-    intent:       pct(layerStats.intent, validRules),
-    event:        pct(layerStats.event, validRules),
-    planning:     pct(layerStats.planning, validRules),
-    execution:    pct(layerStats.execution, validRules),
-    verification: pct(layerStats.verification, validRules),
-    fullChain:    pct(fullChainCount, validRules),
+    intent: pct(layers.intent, validRules),
+    event: pct(layers.event, validRules),
+    planning: pct(layers.planning, validRules),
+    execution: pct(layers.execution, validRules),
+    verification: pct(layers.verification, validRules),
+    fullChain: pct(fullChain, validRules),
   };
 
+  // ── V4字段覆盖率 ──
+  const v4Stats = { required: 0, recommended: 0, expansion: 0 };
+  for (const { data } of rules) {
+    for (const f of V4_REQUIRED) if (data[f] != null) v4Stats.required++;
+    for (const f of V4_RECOMMENDED) if (data[f] != null) v4Stats.recommended++;
+    for (const f of V4_EXPANSION) if (data[f] != null) v4Stats.expansion++;
+  }
   const v4Coverage = {
-    required: {},
-    recommended: {},
-    expansion: {},
-    requiredAvg: 0,
-    recommendedAvg: 0,
-    expansionAvg: 0,
-    overallAvg: 0,
+    required: pct(v4Stats.required, validRules * V4_REQUIRED.length),
+    recommended: pct(v4Stats.recommended, validRules * V4_RECOMMENDED.length),
+    expansion: pct(v4Stats.expansion, validRules * V4_EXPANSION.length),
   };
-  let reqSum = 0, recSum = 0, expSum = 0;
-  for (const f of V4_REQUIRED_FIELDS) {
-    v4Coverage.required[f] = pct(v4Stats.required[f], validRules);
-    reqSum += v4Coverage.required[f];
-  }
-  for (const f of V4_RECOMMENDED_FIELDS) {
-    v4Coverage.recommended[f] = pct(v4Stats.recommended[f], validRules);
-    recSum += v4Coverage.recommended[f];
-  }
-  for (const f of V4_EXPANSION_FIELDS) {
-    v4Coverage.expansion[f] = pct(v4Stats.expansion[f], validRules);
-    expSum += v4Coverage.expansion[f];
-  }
-  v4Coverage.requiredAvg = Math.round(reqSum / V4_REQUIRED_FIELDS.length);
-  v4Coverage.recommendedAvg = Math.round(recSum / V4_RECOMMENDED_FIELDS.length);
-  v4Coverage.expansionAvg = Math.round(expSum / V4_EXPANSION_FIELDS.length);
-  v4Coverage.overallAvg = Math.round(
-    (reqSum + recSum + expSum) / V4_ALL_FIELDS.length
-  );
 
-  // ── Handler孤儿检测（handler文件存在但无规则引用）──
+  // ── 技能目录命名规范检查 ──
+  const skillDirs = (() => { try { return fs.readdirSync(path.join(WORKSPACE, 'skills')); } catch { return []; } })();
+  const badNames = skillDirs.filter(d => d !== d.toLowerCase() || /[A-Z_\s]/.test(d));
+  if (badNames.length > 0) {
+    issues.push({ check: '命名规范', severity: 'low', message: `${badNames.length}个技能目录不符合kebab-case`, details: badNames.slice(0, 5) });
+  }
+
+  // ── 技能是否走了skill-creator流水线 ──
+  let noFrontmatter = 0;
+  for (const d of skillDirs) {
+    const skillMd = path.join(WORKSPACE, 'skills', d, 'SKILL.md');
+    if (!fs.existsSync(skillMd)) continue;
+    try {
+      const content = fs.readFileSync(skillMd, 'utf8');
+      if (!content.startsWith('---')) {
+        noFrontmatter++;
+        if (noFrontmatter <= 3) {
+          issues.push({ check: 'skill-creator流水线', severity: 'medium', file: d, message: 'SKILL.md缺少frontmatter' });
+        }
+      }
+    } catch {}
+  }
+
+  // ── Handler孤儿检测 ──
   const referencedHandlers = new Set();
   for (const { data } of rules) {
-    if (!data) continue;
     const ref = data.handler || data.action?.handler || data.action?.script || '';
     if (ref) referencedHandlers.add(path.basename(ref));
   }
-  const orphanHandlers = handlerFiles.filter(h => !referencedHandlers.has(h));
+  const orphans = handlerFiles.filter(h => !referencedHandlers.has(h));
+  if (orphans.length > 0) {
+    issues.push({ check: '孤儿Handler', severity: 'low', message: `${orphans.length}个handler无规则引用`, details: orphans.slice(0, 10) });
+  }
 
-  // ── 汇总 ──
-  const criticalIssues = issues.filter(i => i.severity === 'critical').length;
-  const highIssues = issues.filter(i => i.severity === 'high').length;
-  const v = verdict(criticalIssues, highIssues, issues.length);
-  const s = score(v, layerCoverage.fullChain / 100);
+  // 评分: 全链覆盖率50% + V4必填覆盖率30% + 命名/流水线合规20%
+  const chainScore = layerCoverage.fullChain / 10; // 0-10
+  const v4Score = v4Coverage.required / 10;
+  const complianceScore = 10 - badNames.length * 0.5 - noFrontmatter * 0.5;
+  let score = Math.round(chainScore * 0.5 + v4Score * 0.3 + Math.max(0, complianceScore) * 0.2);
+  score = Math.min(10, Math.max(0, score));
 
-  const result = {
-    mode: 'isc-audit',
-    verdict: v,
-    score: s,
-    stats: {
-      totalRules: total,
-      validRules,
-      parseErrors,
-      activeCount,
-      deprecatedCount,
-      fullChainCount,
-      missingHandlerCount,
-      totalHandlers: handlerFiles.length,
-      orphanHandlers: orphanHandlers.length,
-    },
-    layerCoverage,
-    v4Coverage,
-    orphanHandlers: orphanHandlers.slice(0, 30),
-    issues: issues.slice(0, 80),
-    issueCount: issues.length,
-    issueSeverity: {
-      critical: criticalIssues,
-      high: highIssues,
-      medium: issues.filter(i => i.severity === 'medium').length,
-      low: issues.filter(i => i.severity === 'low').length,
-    },
-    topIncompleteRules: ruleDetails.filter(r => !r.fullChain).slice(0, 25),
-    timestamp: new Date().toISOString(),
+  return {
+    dimension: 'devStandards', score, verdict: dimVerdict(score), issues,
+    layerCoverage, v4Coverage, orphanHandlers: orphans.length,
+    stats: { totalRules: rules.length, fullChainCount: fullChain, totalHandlers: handlerFiles.length },
   };
-
-  const reportPath = writeReport('isc-audit', result);
-  result.reportPath = reportPath;
-
-  logger.info?.(`[isc-audit] 完成: ${total}条规则, 展开完成(4必选+plan可选)${fullChainCount}条(${layerCoverage.fullChain}%), V4必填覆盖${v4Coverage.requiredAvg}%, ${issues.length}个问题`);
-  return result;
 }
 
 // ═══════════════════════════════════════════════════════════
-// 模式2: Auto-QA — 子Agent完成时自动审计
+// 维度4: V4评测标准对齐 — 评测集质量
 // ═══════════════════════════════════════════════════════════
 
+function auditV4Alignment(input, logger) {
+  const issues = [];
+  const skillsDir = path.join(WORKSPACE, 'skills');
+
+  let skillDirs;
+  try { skillDirs = fs.readdirSync(skillsDir); } catch { skillDirs = []; }
+
+  let totalSkills = 0;
+  let withEvals = 0;
+  let withScoringRubric = 0;
+  let withNorthStar = 0;
+  let withGate = 0;
+  const missingEvals = [];
+
+  for (const d of skillDirs) {
+    const skillMd = path.join(skillsDir, d, 'SKILL.md');
+    if (!fs.existsSync(skillMd)) continue;
+    totalSkills++;
+
+    // 评测集检查
+    const evalsJson = path.join(skillsDir, d, 'evals', 'evals.json');
+    if (fs.existsSync(evalsJson)) {
+      const evals = readJson(evalsJson);
+      if (evals && Array.isArray(evals) && evals.length > 0) {
+        withEvals++;
+        // 检查正例/反例均衡
+        const positive = evals.filter(e => e.expected === true || e.should_trigger === true);
+        const negative = evals.filter(e => e.expected === false || e.should_trigger === false);
+        if (positive.length === 0 || negative.length === 0) {
+          issues.push({ check: '评测集均衡', severity: 'medium', file: d, message: `正例${positive.length}/反例${negative.length}，缺乏均衡` });
+        }
+      } else {
+        issues.push({ check: '评测集', severity: 'medium', file: d, message: 'evals.json为空或格式错误' });
+      }
+    } else {
+      if (missingEvals.length < 10) missingEvals.push(d);
+    }
+
+    // SKILL.md中的评测相关字段
+    try {
+      const content = fs.readFileSync(skillMd, 'utf8');
+      if (/scoring.?rubric/i.test(content)) withScoringRubric++;
+      if (/north.?star/i.test(content)) withNorthStar++;
+      if (/\bgate\b/i.test(content)) withGate++;
+    } catch {}
+  }
+
+  if (missingEvals.length > 0) {
+    issues.push({ check: '缺少评测集', severity: 'medium', message: `${missingEvals.length}+个技能无evals.json`, details: missingEvals });
+  }
+
+  // 评分
+  const evalRate = pct(withEvals, totalSkills);
+  let score = Math.round(evalRate / 10); // 0-10 基于评测覆盖率
+  // 额外加分
+  if (pct(withScoringRubric, totalSkills) > 30) score = Math.min(10, score + 1);
+  if (pct(withGate, totalSkills) > 30) score = Math.min(10, score + 1);
+  score = Math.max(0, score);
+
+  return {
+    dimension: 'v4Alignment', score, verdict: dimVerdict(score), issues,
+    stats: { totalSkills, withEvals, withScoringRubric, withNorthStar, withGate, evalCoverage: evalRate },
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
+// 维度5: 交付完整性 — TODO/commit/push/禁止文件
+// ═══════════════════════════════════════════════════════════
+
+function auditDelivery(input, logger) {
+  const issues = [];
+
+  // 变更文件
+  const diff = sh('git diff --name-only HEAD~1 HEAD 2>/dev/null || git diff --name-only HEAD 2>/dev/null');
+  const changedFiles = diff ? diff.split('\n').filter(Boolean) : [];
+
+  // 检查1: TODO/FIXME残留
+  let todoCount = 0;
+  for (const f of changedFiles.slice(0, 20)) {
+    const fp = path.join(WORKSPACE, f);
+    if (!fs.existsSync(fp)) continue;
+    try {
+      const lines = fs.readFileSync(fp, 'utf8').split('\n');
+      lines.forEach((line, i) => {
+        if (/\bTODO\b|\bFIXME\b|\bHACK\b|\bXXX\b/i.test(line) && !/\/\/ TODO.*OK|#.*TODO.*expected/i.test(line)) {
+          todoCount++;
+          if (todoCount <= 3) {
+            issues.push({ check: 'TODO残留', severity: 'medium', file: f, line: i + 1, message: line.trim().slice(0, 80) });
+          }
+        }
+      });
+    } catch {}
+  }
+
+  // 检查2: 未commit变更
+  const uncommitted = sh('git status --porcelain 2>/dev/null');
+  const uncommittedFiles = uncommitted ? uncommitted.split('\n').filter(Boolean) : [];
+  if (uncommittedFiles.length > 0) {
+    issues.push({
+      check: '未commit', severity: uncommittedFiles.length > 10 ? 'high' : 'medium',
+      message: `${uncommittedFiles.length} 个文件未commit`,
+      details: uncommittedFiles.slice(0, 10),
+    });
+  }
+
+  // 检查3: 未push
+  const unpushed = sh('git log --oneline @{u}..HEAD 2>/dev/null', { fallback: '' });
+  const unpushedCount = unpushed ? unpushed.split('\n').filter(Boolean).length : 0;
+  if (unpushedCount > 0) {
+    issues.push({ check: '未push', severity: 'medium', message: `${unpushedCount} 个commit未push` });
+  }
+
+  // 检查4: 禁止文件修改
+  const forbidden = changedFiles.filter(f => FORBIDDEN_FILES.some(fb => f.endsWith(fb)));
+  if (forbidden.length > 0) {
+    issues.push({ check: '禁止文件', severity: 'critical', message: `修改了禁止文件: ${forbidden.join(', ')}` });
+  }
+
+  // 检查5: commit消息质量
+  const recentCommits = sh('git log -5 --format="%s" 2>/dev/null');
+  const msgs = recentCommits ? recentCommits.split('\n').filter(Boolean) : [];
+  const badMsgs = msgs.filter(m => m.length < 5 || /^(fix|update|change|wip|test)$/i.test(m.trim()));
+  if (badMsgs.length > 0) {
+    issues.push({ check: 'commit消息', severity: 'low', message: `${badMsgs.length}/${msgs.length} 个commit消息质量差`, details: badMsgs });
+  }
+
+  // 检查6: 文档同步（变更了代码但没更新对应SKILL.md）
+  const codeChanges = changedFiles.filter(f => /\.(js|py|sh)$/.test(f) && f.includes('skills/'));
+  const mdChanges = changedFiles.filter(f => f.endsWith('SKILL.md'));
+  const skillsWithCodeChange = new Set(codeChanges.map(f => f.split('/').slice(0, 2).join('/')));
+  const skillsWithMdChange = new Set(mdChanges.map(f => f.split('/').slice(0, 2).join('/')));
+  const noDocUpdate = [...skillsWithCodeChange].filter(s => !skillsWithMdChange.has(s));
+  if (noDocUpdate.length > 0) {
+    issues.push({ check: '文档同步', severity: 'low', message: `${noDocUpdate.length} 个技能改了代码但没更新SKILL.md`, details: noDocUpdate });
+  }
+
+  // 评分
+  let score = 10;
+  if (forbidden.length > 0) score -= 4;
+  if (uncommittedFiles.length > 10) score -= 3;
+  else if (uncommittedFiles.length > 0) score -= 1;
+  if (unpushedCount > 5) score -= 2;
+  else if (unpushedCount > 0) score -= 1;
+  if (todoCount > 5) score -= 2;
+  else if (todoCount > 0) score -= 1;
+  if (badMsgs.length > 2) score -= 1;
+  score = Math.max(0, score);
+
+  return {
+    dimension: 'delivery', score, verdict: dimVerdict(score), issues,
+    stats: { changedFiles: changedFiles.length, uncommitted: uncommittedFiles.length, unpushed: unpushedCount, todoCount },
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
+// 模式组合
+// ═══════════════════════════════════════════════════════════
+
+/** 全量审计：五大维度 */
+function fullAudit(input, logger) {
+  logger.info?.('[quality-audit] 全量审计开始（五大维度）');
+
+  const dimensions = {
+    requirement: auditRequirement(input, logger),
+    codeQuality: auditCodeQuality(input, logger),
+    devStandards: auditDevStandards(input, logger),
+    v4Alignment: auditV4Alignment(input, logger),
+    delivery: auditDelivery(input, logger),
+  };
+
+  // 综合评分（加权平均）
+  const weights = { requirement: 0.2, codeQuality: 0.25, devStandards: 0.2, v4Alignment: 0.15, delivery: 0.2 };
+  let totalScore = 0;
+  for (const [k, w] of Object.entries(weights)) {
+    totalScore += dimensions[k].score * w;
+  }
+  const score = Math.round(totalScore);
+  const verdict = dimVerdict(score);
+
+  // 汇总所有问题并按severity排序
+  const allIssues = [];
+  for (const dim of Object.values(dimensions)) {
+    for (const iss of dim.issues) {
+      allIssues.push({ ...iss, dimension: dim.dimension });
+    }
+  }
+  const severityOrder = { critical: 0, high: 1, medium: 2, low: 3, info: 4 };
+  allIssues.sort((a, b) => (severityOrder[a.severity] || 9) - (severityOrder[b.severity] || 9));
+
+  // 生成修复建议
+  const fixSuggestions = [];
+  if (dimensions.codeQuality.stats?.syntaxErrors > 0) fixSuggestions.push('修复语法错误（最高优先）');
+  if (dimensions.delivery.stats?.uncommitted > 5) fixSuggestions.push('commit未提交的变更');
+  if (dimensions.delivery.stats?.unpushed > 0) fixSuggestions.push('push未推送的commit');
+  if (dimensions.v4Alignment.stats?.evalCoverage < 30) fixSuggestions.push('为更多技能添加evals/evals.json评测集');
+  if (dimensions.devStandards.layerCoverage?.fullChain < 60) fixSuggestions.push('补全ISC规则五层展开（尤其验真层）');
+
+  const result = {
+    mode: 'full', verdict, score, dimensions, fixSuggestions,
+    issueCount: allIssues.length,
+    topIssues: allIssues.slice(0, 20),
+    timestamp: new Date().toISOString(),
+  };
+  result.reportPath = writeReport('full', result);
+
+  // 发布事件
+  publishEvent('quality.audit.completed', { mode: 'full', verdict, score, reportPath: result.reportPath });
+
+  logger.info?.(`[quality-audit] 全量审计完成: ${verdict} ${score}/10`);
+  return result;
+}
+
+/** auto-qa: 子Agent完成时快速审计 */
 function autoQA(input, logger) {
   const agentId = input.agentId || 'unknown';
   const taskLabel = input.taskLabel || input.label || 'unknown';
   logger.info?.(`[auto-qa] 审计 agent=${agentId} task=${taskLabel}`);
 
-  const checks = [];
-
-  // Check 1: 文件变更
-  const diffStat = sh('git diff --stat HEAD~1 HEAD 2>/dev/null || git diff --stat HEAD 2>/dev/null');
-  const diffFiles = diffStat ? diffStat.split('\n').filter(l => l.includes('|')).map(l => l.split('|')[0].trim()) : [];
-  checks.push({
-    name: 'has_file_changes', ok: diffFiles.length > 0, severity: 'high',
-    message: diffFiles.length > 0 ? `${diffFiles.length} 个文件变更` : '⚠️ 无文件变更',
-    details: diffFiles.slice(0, 20),
-  });
-
-  // Check 2: 最近commit
-  const lastCommit = sh('git log -1 --format="%H|%s|%ai" 2>/dev/null');
-  let commitAge = Infinity;
-  if (lastCommit.length > 10) {
-    const parts = lastCommit.split('|');
-    commitAge = (Date.now() - new Date(parts[2]).getTime()) / 60000;
-  }
-  checks.push({
-    name: 'recent_commit', ok: commitAge < 30, severity: 'medium',
-    message: commitAge < 30 ? `最近commit ${Math.round(commitAge)}分钟前` : `最近commit ${Math.round(commitAge)}分钟前（可能非本次任务）`,
-  });
-
-  // Check 3: 语法检查
-  const syntaxIssues = [];
-  for (const f of diffFiles.slice(0, 10)) {
-    const fp = path.join(WORKSPACE, f);
-    if (!fs.existsSync(fp)) continue;
-    if (f.endsWith('.js') || f.endsWith('.mjs')) {
-      const r = sh(`node -c "${fp}" 2>&1`, { fallback: 'error' });
-      if (r.includes('SyntaxError') || r === 'error') syntaxIssues.push({ file: f, issue: 'JS语法错误' });
-    }
-    if (f.endsWith('.json') && !readJson(fp)) syntaxIssues.push({ file: f, issue: 'JSON解析失败' });
-    if (f.endsWith('.sh')) {
-      const r = sh(`bash -n "${fp}" 2>&1`, { fallback: '' });
-      if (r) syntaxIssues.push({ file: f, issue: `Shell语法: ${r.slice(0, 80)}` });
-    }
-  }
-  checks.push({
-    name: 'no_syntax_errors', ok: syntaxIssues.length === 0, severity: 'high',
-    message: syntaxIssues.length === 0 ? '无语法错误' : `${syntaxIssues.length} 个语法问题`,
-    details: syntaxIssues,
-  });
-
-  // Check 4: 占位符残留
-  const placeholders = [];
-  for (const f of diffFiles.slice(0, 10)) {
-    const fp = path.join(WORKSPACE, f);
-    if (!fs.existsSync(fp)) continue;
-    try {
-      fs.readFileSync(fp, 'utf8').split('\n').forEach((line, i) => {
-        if (/TODO.*实现|FIXME|PLACEHOLDER|骨架|stub/i.test(line))
-          placeholders.push({ file: f, line: i + 1, text: line.trim().slice(0, 80) });
-      });
-    } catch {}
-  }
-  checks.push({
-    name: 'no_placeholders', ok: placeholders.length === 0, severity: 'medium',
-    message: placeholders.length === 0 ? '无占位符残留' : `${placeholders.length} 处占位符`,
-    details: placeholders.slice(0, 10),
-  });
-
-  // Check 5: 禁止文件
-  const forbidden = diffFiles.filter(f => FORBIDDEN_FILES.some(fb => f.endsWith(fb)));
-  checks.push({
-    name: 'no_forbidden_changes', ok: forbidden.length === 0, severity: 'critical',
-    message: forbidden.length === 0 ? '未修改禁止文件' : `⛔ 修改了: ${forbidden.join(', ')}`,
-    details: forbidden,
-  });
-
-  // Check 6: push状态
-  const unpushed = sh('git log --oneline @{u}..HEAD 2>/dev/null', { fallback: '' });
-  const unpushedCount = unpushed ? unpushed.split('\n').filter(Boolean).length : 0;
-  checks.push({
-    name: 'changes_pushed', ok: unpushedCount === 0, severity: 'low',
-    message: unpushedCount === 0 ? '已push' : `${unpushedCount} 个commit未push`,
-  });
-
-  // 汇总
-  const passed = checks.filter(c => c.ok).length;
-  const crit = checks.filter(c => !c.ok && c.severity === 'critical').length;
-  const high = checks.filter(c => !c.ok && c.severity === 'high').length;
-  const v = verdict(crit, high, checks.length - passed);
-  const s = score(v, passed / checks.length);
-
-  const result = {
-    mode: 'auto-qa', agentId, taskLabel, verdict: v, score: s,
-    passedCount: passed, failedCount: checks.length - passed, total: checks.length,
-    checks, timestamp: new Date().toISOString(),
+  // 快速跑三个维度: 需求满足度 + 代码质量 + 交付完整性
+  const dimensions = {
+    requirement: auditRequirement(input, logger),
+    codeQuality: auditCodeQuality(input, logger),
+    delivery: auditDelivery(input, logger),
   };
-  result.reportPath = writeReport(`auto-qa-${agentId}`, result);
-  logger.info?.(`[auto-qa] ${v} (${passed}/${checks.length})`);
-  return result;
-}
 
-// ═══════════════════════════════════════════════════════════
-// 模式3: Completion Review — 回顾性审计
-// ═══════════════════════════════════════════════════════════
-
-function completionReview(input, logger) {
-  const hours = input.hours || 6;
-  const since = input.since || `${hours} hours ago`;
-  logger.info?.(`[completion-review] 回顾最近${hours}小时`);
-
-  const checks = [];
-
-  // Check 1: 最近commit
-  const commitLog = sh(`git log --oneline --since="${since}" 2>/dev/null`);
-  const commits = commitLog ? commitLog.split('\n').filter(Boolean) : [];
-  checks.push({
-    name: 'recent_commits', ok: commits.length > 0, severity: 'medium',
-    message: `最近${hours}小时 ${commits.length} 个commit`,
-    details: commits.slice(0, 20),
-  });
-
-  // Check 2: 未commit变更
-  const uncommitted = sh('git status --porcelain 2>/dev/null');
-  const uncommittedFiles = uncommitted ? uncommitted.split('\n').filter(Boolean) : [];
-  checks.push({
-    name: 'no_uncommitted', ok: uncommittedFiles.length < 5,
-    severity: uncommittedFiles.length > 20 ? 'high' : 'medium',
-    message: uncommittedFiles.length === 0 ? '工作区干净' : `${uncommittedFiles.length} 个文件未commit`,
-    details: uncommittedFiles.slice(0, 20),
-  });
-
-  // Check 3: 未push
-  const unpushed = sh('git log --oneline @{u}..HEAD 2>/dev/null');
-  const unpushedList = unpushed ? unpushed.split('\n').filter(Boolean) : [];
-  checks.push({
-    name: 'all_pushed', ok: unpushedList.length === 0,
-    severity: unpushedList.length > 5 ? 'high' : 'medium',
-    message: unpushedList.length === 0 ? '已全部push' : `${unpushedList.length} 个commit未push`,
-    details: unpushedList.slice(0, 10),
-  });
-
-  // Check 4: commit消息质量
-  const badMsgs = [];
-  for (const c of commits.slice(0, 20)) {
-    const hash = c.split(' ')[0];
-    const msg = c.slice(hash.length + 1);
-    if (msg.length < 5) badMsgs.push({ hash, msg, issue: '过短' });
-    else if (/^(fix|update|change|test|wip)$/i.test(msg.trim())) badMsgs.push({ hash, msg, issue: '无意义' });
-    else if (/骨架|placeholder|stub|todo/i.test(msg)) badMsgs.push({ hash, msg, issue: '含占位符' });
-  }
-  checks.push({
-    name: 'commit_msg_quality', ok: badMsgs.length === 0, severity: 'low',
-    message: badMsgs.length === 0 ? 'commit消息合格' : `${badMsgs.length} 个消息质量差`,
-    details: badMsgs,
-  });
-
-  // Check 5: 空转commit
-  const emptyCommits = [];
-  for (const c of commits.slice(0, 15)) {
-    const hash = c.split(' ')[0];
-    const stat = sh(`git diff --stat ${hash}~1 ${hash} 2>/dev/null`);
-    if (!stat) emptyCommits.push({ hash, msg: c.slice(hash.length + 1) });
-  }
-  checks.push({
-    name: 'no_empty_commits', ok: emptyCommits.length === 0, severity: 'medium',
-    message: emptyCommits.length === 0 ? '无空转commit' : `${emptyCommits.length} 个空转commit`,
-    details: emptyCommits,
-  });
-
-  // Check 6: 关键文件完整性
-  const criticalFiles = ['openclaw.json', 'skills/isc-core/rules', 'skills/quality-audit/index.js', 'CAPABILITY-ANCHOR.md'];
-  const missing = criticalFiles.filter(f => !fs.existsSync(path.join(WORKSPACE, f)));
-  checks.push({
-    name: 'critical_files_intact', ok: missing.length === 0, severity: 'critical',
-    message: missing.length === 0 ? '关键文件完整' : `${missing.length} 个关键文件缺失`,
-    details: missing,
-  });
-
-  // Check 7: 报告生成数
-  let recentReports = 0;
-  try {
-    const r = sh(`find "${path.join(WORKSPACE, 'reports')}" -name "*.json" -mmin -${hours * 60} 2>/dev/null`);
-    recentReports = r ? r.split('\n').filter(Boolean).length : 0;
-  } catch {}
-  checks.push({
-    name: 'reports_generated', ok: true, severity: 'info',
-    message: `最近${hours}小时生成 ${recentReports} 份报告`,
-  });
-
-  // 汇总
-  const passed = checks.filter(c => c.ok).length;
-  const crit = checks.filter(c => !c.ok && c.severity === 'critical').length;
-  const high = checks.filter(c => !c.ok && c.severity === 'high').length;
-  const v = verdict(crit, high, checks.length - passed);
-  const s = score(v, passed / checks.length);
+  const score = Math.round(
+    dimensions.requirement.score * 0.3 +
+    dimensions.codeQuality.score * 0.4 +
+    dimensions.delivery.score * 0.3
+  );
+  const verdict = dimVerdict(score);
 
   const result = {
-    mode: 'completion-review', verdict: v, score: s,
-    period: `最近${hours}小时`,
-    passedCount: passed, failedCount: checks.length - passed, total: checks.length,
-    summary: { commits: commits.length, uncommitted: uncommittedFiles.length, unpushed: unpushedList.length, emptyCommits: emptyCommits.length },
-    checks, timestamp: new Date().toISOString(),
-  };
-  result.reportPath = writeReport('completion-review', result);
-  logger.info?.(`[completion-review] ${v} (${passed}/${checks.length}, ${commits.length}个commit)`);
-  return result;
-}
-
-// ═══════════════════════════════════════════════════════════
-// 模式4: Full — 全量审计（isc-audit + completion-review）
-// ═══════════════════════════════════════════════════════════
-
-function fullAudit(input, logger) {
-  logger.info?.('[full-audit] 全量审计开始');
-  const isc = iscAudit(input, logger);
-  const cr = completionReview(input, logger);
-
-  const combinedScore = Math.round((isc.score + cr.score) / 2);
-  const combinedVerdict = combinedScore >= 8 ? 'pass' : combinedScore >= 4 ? 'partial' : 'fail';
-
-  const result = {
-    mode: 'full',
-    verdict: combinedVerdict,
-    score: combinedScore,
-    iscAudit: isc,
-    completionReview: cr,
+    mode: 'auto-qa', agentId, taskLabel, verdict, score, dimensions,
     timestamp: new Date().toISOString(),
   };
-  result.reportPath = writeReport('full-audit', result);
-  logger.info?.(`[full-audit] ${combinedVerdict} (score=${combinedScore})`);
+  result.reportPath = writeReport(`auto-qa-${agentId}`, result);
+
+  publishEvent('quality.audit.completed', { mode: 'auto-qa', agentId, verdict, score, reportPath: result.reportPath });
+
+  logger.info?.(`[auto-qa] ${verdict} ${score}/10`);
+  return result;
+}
+
+/** isc-audit: 仅ISC规则合规 */
+function iscAudit(input, logger) {
+  logger.info?.('[isc-audit] ISC规则合规审计');
+  const devStd = auditDevStandards(input, logger);
+  const result = {
+    mode: 'isc-audit', verdict: devStd.verdict, score: devStd.score,
+    layerCoverage: devStd.layerCoverage, v4Coverage: devStd.v4Coverage,
+    orphanHandlers: devStd.orphanHandlers, stats: devStd.stats,
+    issues: devStd.issues, issueCount: devStd.issues.length,
+    timestamp: new Date().toISOString(),
+  };
+  result.reportPath = writeReport('isc-audit', result);
+
+  publishEvent('quality.audit.completed', { mode: 'isc-audit', verdict: result.verdict, score: result.score });
+
+  logger.info?.(`[isc-audit] ${result.verdict} ${result.score}/10`);
   return result;
 }
 
@@ -587,17 +641,16 @@ function fullAudit(input, logger) {
 
 async function run(input, context) {
   const logger = context?.logger || console;
-  const mode = input?.mode || 'isc-audit';
-
+  const mode = input?.mode || 'full';
   logger.info?.(`[quality-audit] 模式=${mode}`);
 
   switch (mode) {
-    case 'auto-qa':       return autoQA(input, logger);
-    case 'isc-audit':     return iscAudit(input, logger);
-    case 'completion-review': return completionReview(input, logger);
-    case 'full':          return fullAudit(input, logger);
+    case 'full':              return fullAudit(input, logger);
+    case 'auto-qa':           return autoQA(input, logger);
+    case 'isc-audit':         return iscAudit(input, logger);
+    case 'scan':              return auditCodeQuality(input, logger);
     default:
-      return { ok: false, error: `未知模式: ${mode}，支持: auto-qa | isc-audit | completion-review | full` };
+      return { ok: false, error: `未知模式: ${mode}，支持: full | auto-qa | isc-audit | scan` };
   }
 }
 
@@ -605,35 +658,46 @@ module.exports = run;
 module.exports.run = run;
 
 // ═══════════════════════════════════════════════════════════
-// CLI入口 — 支持 cron 调用: node index.js [mode] [--json]
+// CLI入口
 // ═══════════════════════════════════════════════════════════
 
 if (require.main === module) {
   const args = process.argv.slice(2);
-  const mode = args.find(a => !a.startsWith('-')) || 'isc-audit';
+  const mode = args.find(a => !a.startsWith('-')) || 'full';
   const jsonOutput = args.includes('--json');
 
-  // --json模式下logger输出到stderr，保持stdout纯JSON
+  // 解析 --agent=X --task=X --path=X
+  const cliInput = { mode };
+  for (const a of args) {
+    if (a.startsWith('--agent=')) cliInput.agentId = a.split('=')[1];
+    if (a.startsWith('--task=')) cliInput.taskLabel = a.split('=')[1];
+    if (a.startsWith('--path=')) cliInput.scanPath = a.split('=')[1];
+  }
+
   const cliLogger = jsonOutput
     ? { info: (...a) => process.stderr.write(a.join(' ') + '\n') }
     : console;
 
-  run({ mode }, { logger: cliLogger })
+  run(cliInput, { logger: cliLogger })
     .then(result => {
       if (jsonOutput) {
         process.stdout.write(JSON.stringify(result, null, 2) + '\n');
       } else {
         console.log(`\n══ quality-audit [${mode}] ══`);
         console.log(`判定: ${result.verdict}  评分: ${result.score}/10`);
+        if (result.dimensions) {
+          for (const [k, v] of Object.entries(result.dimensions)) {
+            console.log(`  ${v.dimension || k}: ${v.verdict} ${v.score}/10 (${v.issues.length}个问题)`);
+          }
+        }
         if (result.layerCoverage) {
           const lc = result.layerCoverage;
-          console.log(`层覆盖: 意图${lc.intent}% 事件${lc.event}% 规划${lc.planning}%(可选) 执行${lc.execution}% 验真${lc.verification}% | 展开${lc.fullChain}%`);
+          console.log(`五层覆盖: 意图${lc.intent}% 事件${lc.event}% 规划${lc.planning}% 执行${lc.execution}% 验真${lc.verification}% | 全通${lc.fullChain}%`);
         }
-        if (result.v4Coverage) {
-          console.log(`V4覆盖: 必填${result.v4Coverage.requiredAvg}% 推荐${result.v4Coverage.recommendedAvg}% 扩展${result.v4Coverage.expansionAvg}% | 总体${result.v4Coverage.overallAvg}%`);
+        if (result.fixSuggestions?.length) {
+          console.log('修复建议:');
+          result.fixSuggestions.forEach(s => console.log(`  → ${s}`));
         }
-        if (result.issueCount != null) console.log(`问题数: ${result.issueCount}`);
-        if (result.stats) console.log(`规则: ${result.stats.totalRules}条, 全通${result.stats.fullChainCount}条, handler缺失${result.stats.missingHandlerCount}条, 孤儿handler${result.stats.orphanHandlers}个`);
         if (result.reportPath) console.log(`报告: ${result.reportPath}`);
       }
     })

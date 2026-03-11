@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/12 02:00:01
-> **技能总数**: 81
+> **生成时间**: 2026/3/12 07:00:01
+> **技能总数**: 75
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -78,13 +78,9 @@
 - ✅ **anti-entropy-checker**: skills/anti-entropy-checker/
 - ✅ **api-aggregator**: skills/api-aggregator/
 - ✅ **architecture-review-pipeline**: skills/architecture-review-pipeline/ — 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入裁决殿终审并给出最终裁决。
-- ✅ **capability-anchor**: skills/capability-anchor/ — 能力锚点管理
 - ✅ **convert-helper**: skills/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
 - ✅ **cras**: skills/cras/ — CRAS认知进化伙伴 - 知识管理与认知进化中枢。实现从数据汲取到技能进化的全闭环，包含主动学习引擎、用户洞察分析、知识治理、战略行研、自主进化五大模块。
-- ✅ **cras-generated-1771827136412**: skills/cras-generated-1771827136412/ — CRAS 自动生成的技能 - 填补能力空白
-- ✅ **cras-generated-1771827197478**: skills/cras-generated-1771827197478/ — CRAS 自动生成的技能 - 填补能力空白
-- ✅ **cras-generated-1772042431830**: skills/cras-generated-1772042431830/ — CRAS 自动生成的技能 - 填补能力空白
-- ✅ **cras-generated-1772128853925**: skills/cras-generated-1772128853925/ — CRAS 自动生成的技能 - 填补能力空白
+- ✅ **cron-health**: skills/cron-health/
 - ✅ **daily-ops-report**: skills/daily-ops-report/
 - ✅ **dispatch-protocol**: skills/dispatch-protocol/
 - ✅ **dto-core**: skills/dto-core/
@@ -104,22 +100,21 @@
 - ✅ **isc-capability-anchor-sync**: skills/isc-capability-anchor-sync/ — ISC锚点自动同步 - 从ISC规则自动生成能力锚点文档
 - ✅ **isc-core**: skills/isc-core/ — ISC标准管理 - 标准生成与演进机制的唯一管理源
 - ✅ **isc-document-quality**: skills/isc-document-quality/ — ISC文档质量评估。对技能文档进行多维度质量评分，包括基础完整性、规范符合度、内容准确性、扩展完整性。输出标准化评估报告。
-- ✅ **isc-report-readability**: skills/isc-report-readability/
 - ✅ **layered-architecture-checker**: skills/layered-architecture-checker/
 - ✅ **lep-executor**: skills/lep-executor/ — LEP稳定执行 - 统一韧性任务执行引擎
+- ✅ **long-horizon-autonomy**: skills/long-horizon-autonomy/
 - ✅ **lto-core**: skills/lto-core/ — LTO本地可控编排器 v3.0.11 - 可扩展调度平台，多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 - ✅ **memos-memory-guide**: skills/memos-memory-guide/ — Use the MemOS Local memory system to search and use the user's past conversations. Use this skill whenever the user refers to past chats, their own preferences or history, or when you need to answer from prior context. When auto-recall returns nothing (long or unclear user query), generate your own short search query and call memory_search. Use task_summary when you need full task context, skill_get for experience guides, and memory_timeline to expand around a memory hit.
 - ✅ **parallel-subagent**: skills/parallel-subagent/
-- ✅ **paths-center**: skills/paths-center/ — 路径方案管理
 - ✅ **pdca-engine**: skills/pdca-engine/ — PDCA持续改进
 - ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理 - 任务编排、Sprint规划、架构评审、裁决
 - ✅ **public**: skills/public/
 - 📄 **public/auto-badcase-harvest**: skills/public/auto-badcase-harvest/
 - 📄 **public/auto-grant-feishu-perm**: skills/public/auto-grant-feishu-perm/ — 飞书文档创建后自动授权指定用户full_access权限
 - 📄 **public/badcase-to-goodcase**: skills/public/badcase-to-goodcase/ — 扫描badcase文件，自动翻转生成goodcase评测集
-- 📄 **public/caijuedian-tribunal**: skills/public/caijuedian-tribunal/ — LLM驱动的7视角三轮对抗式深度决策引擎。完整可运行，支持CLI和模块调用。
+- ✅ **public/caijuedian-tribunal**: skills/public/caijuedian-tribunal/ — LLM驱动的7视角三轮对抗式深度决策引擎。完整可运行，支持CLI和模块调用。
 - ✅ **public/convert-helper**: skills/public/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
-- 📄 **public/daily-gongzhonghao**: skills/public/daily-gongzhonghao/
+- ✅ **public/daily-gongzhonghao**: skills/public/daily-gongzhonghao/
 - 📄 **public/detect-deep-think-intent**: skills/public/detect-deep-think-intent/ — 检测用户输入中的深度思考意图关键词，触发子Agent委派
 - 📄 **public/eval-mining**: skills/public/eval-mining/
 - 📄 **public/eval-runner**: skills/public/eval-runner/
@@ -130,15 +125,14 @@
 - 📄 **public/isc-auto-align**: skills/public/isc-auto-align/ — ISC规则增删改时自动检查感知/执行/验真三层对齐
 - 📄 **public/multi-agent-dispatch**: skills/public/multi-agent-dispatch/ — >
 - ✅ **public/multi-agent-reporting**: skills/public/multi-agent-reporting/ — >
-- 📄 **public/ops-maintenance**: skills/public/ops-maintenance/
+- ✅ **public/ops-maintenance**: skills/public/ops-maintenance/
 - 📄 **public/pdf-generator**: skills/public/pdf-generator/
 - 📄 **public/skill-creator-addon**: skills/public/skill-creator-addon/
-- ✅ **public/system-monitor**: skills/public/system-monitor/ — 技能健康度评估仪表盘 - 自动化扫描所有技能，评估完整性、活跃度、依赖健康度，生成可视化报告
+- ✅ **public/system-monitor**: skills/public/system-monitor/ — 系统健康监控中心 — 健康检查、告警根因分析、未响应告警扫描、主Agent违规检测、Git push探针
 - ✅ **quality-audit**: skills/quality-audit/ — 统一质量审计技能，整合auto-QA、ISC规则审计、completion review三大组件
-- ✅ **rule-hygiene**: skills/rule-hygiene/ — ISC规则治理——去重、命名统一、三维分析（意图/事件/执行），输出规则-事件-DTO对齐矩阵
-- ✅ **ruleify**: skills/ruleify/ — |
 - ✅ **seef**: skills/seef/ — SEEF技能生态进化工厂 - 高度自治、可被云端大模型动态发现与自由编排的独立子技能集合，具备自主执行完整PDCA闭环能力
 - ✅ **seef/evolution-pipeline**: skills/seef/evolution-pipeline/ — EvoMap技能自动进化流水线 - 实现技能从开发到EvoMap发布的全自动化状态机驱动系统
+- ✅ **self-check-scanners**: skills/self-check-scanners/
 - ✅ **shared**: skills/shared/
 - ✅ **skill-creator**: skills/skill-creator/ — >
 - ✅ **system-mapping-visualizer**: skills/system-mapping-visualizer/
@@ -153,9 +147,9 @@
 4. **能力来源**: 本文档由 isc-capability-anchor-sync 全量扫描自动生成
 5. **同步频率**: 每小时自动 + 技能变更时触发
 
-### skill-creator
-- **描述**: 技能全生命周期管理工具。支持创建新技能骨架、评估技能触发准确率、 迭代优化技能描述、打包分发技能文件，以及创建后自动注册到能力锚点和ISC路由。 适用于需要新建技能、改进现有技能质量、或将脚本技能化的场景。
-- **路径**: skills/skill-creator
-- **触发词**: 用户要求"创建新技能"、"新建skill"、"技能化", 用户要求"评估技能"、"测试技能触发率"、"跑eval", 用户要求"优化技能描述"、"提升技能质量"、"improve skill", 用户要求"打包技能"、"导出skill"、"package skill", 自动技能发现流程检测到候选脚本需要技能化
-- **注册时间**: 2026-03-12 02:32
+### quality-audit
+- **描述**: 子Agent完成任务后的自动质量审计技能。覆盖五大维度：需求满足度、代码质量、 研发标准符合性、V4评测标准对齐、交付完整性。输出结构化JSON审计报告， 支持事件总线集成和cron全局扫描。
+- **路径**: skills/quality-audit
+- **触发词**: 子Agent完成任务后自动触发质量审计, 用户要求"审计质量"、"quality audit"、"QA检查", cron定时全局质量扫描, 事件总线收到 `subagent.completion` 事件, 用户要求"检查代码质量"、"审计交付物"
+- **注册时间**: 2026-03-12 07:22
 

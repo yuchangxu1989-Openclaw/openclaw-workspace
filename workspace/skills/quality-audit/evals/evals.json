@@ -1,0 +1,16 @@
+[
+  { "query": "审计一下质量", "expected": true, "should_trigger": true },
+  { "query": "子Agent完成了，跑一下QA检查", "expected": true, "should_trigger": true },
+  { "query": "quality audit", "expected": true, "should_trigger": true },
+  { "query": "检查代码质量", "expected": true, "should_trigger": true },
+  { "query": "审计交付物", "expected": true, "should_trigger": true },
+  { "query": "跑一下全量审计", "expected": true, "should_trigger": true },
+  { "query": "ISC规则合规检查", "expected": true, "should_trigger": true },
+  { "query": "cron定时质量扫描", "expected": true, "should_trigger": true },
+  { "query": "帮我写个Python脚本", "expected": false, "should_trigger": false },
+  { "query": "创建一个新技能", "expected": false, "should_trigger": false },
+  { "query": "查一下天气", "expected": false, "should_trigger": false },
+  { "query": "部署到生产环境", "expected": false, "should_trigger": false },
+  { "query": "搜索飞书文档", "expected": false, "should_trigger": false },
+  { "query": "帮我debug这个错误", "expected": false, "should_trigger": false }
+]
