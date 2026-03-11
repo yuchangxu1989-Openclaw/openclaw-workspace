@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/11 19:00:01
-> **技能总数**: 80
+> **生成时间**: 2026/3/11 20:00:01
+> **技能总数**: 81
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -86,6 +86,7 @@
 - ✅ **cras-generated-1772042431830**: skills/cras-generated-1772042431830/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **cras-generated-1772128853925**: skills/cras-generated-1772128853925/ — CRAS 自动生成的技能 - 填补能力空白
 - ✅ **daily-ops-report**: skills/daily-ops-report/
+- ✅ **dispatch-protocol**: skills/dispatch-protocol/
 - ✅ **dto-core**: skills/dto-core/
 - ✅ **evolver**: skills/evolver/ — 自进化引擎 - AI Agent自我演进. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
 - ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A连接 - WebSocket连接、自动重连、消息队列
