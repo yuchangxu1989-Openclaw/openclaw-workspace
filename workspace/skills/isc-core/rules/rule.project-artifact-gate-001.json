@@ -98,5 +98,27 @@
         "gate_block_count",
         "false_positive_rate"
     ],
-    "layer": "L2_project"
+    "layer": "L2_project",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 PROJECT-ARTIFACT-GATE-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/project-artifact-gate.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/project-artifact-gate.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

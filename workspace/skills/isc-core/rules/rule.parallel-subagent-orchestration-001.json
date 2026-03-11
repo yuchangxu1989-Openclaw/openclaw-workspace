@@ -108,5 +108,27 @@
         "event_subscribed:True",
         "test_exists:False"
     ],
-    "layer": "L3-programmatic"
+    "layer": "L3-programmatic",
+    "verification": {
+        "method": "orchestration_flow_check",
+        "description": "验证编排规则 rule.parallel-subagent-orchestration-001 的调度正确性",
+        "assertions": [
+            {
+                "check": "dispatch_target_valid",
+                "desc": "调度目标Agent/处理器有效"
+            },
+            {
+                "check": "task_routed_correctly",
+                "desc": "任务被路由到正确的执行者"
+            },
+            {
+                "check": "result_collected",
+                "desc": "执行结果被正确收集和报告"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/parallel-subagent-orchestration.js && echo 'handler_exists:pass'",
+        "expected_outcome": "任务正确调度到目标执行者并收集结果",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

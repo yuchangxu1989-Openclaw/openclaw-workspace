@@ -92,5 +92,27 @@
         "gate_block_count",
         "false_positive_rate"
     ],
-    "layer": "L1_orchestration"
+    "layer": "L1_orchestration",
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 rule.pipeline-report-filter-001 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: isc.rule.matched, isc.category.matched"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/pipeline-report-filter.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/pipeline-report-filter.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

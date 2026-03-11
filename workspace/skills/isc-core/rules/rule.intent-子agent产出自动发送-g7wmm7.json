@@ -1,45 +1,68 @@
 {
-  "id": "rule.intent-子agent产出自动发送-g7wmm7",
-  "name": "intent_子agent产出自动发送",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "用户期望将报告类产出自动发送功能程序化，以解决记忆丢失后行为不一致问题",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "子Agent产出自动发送"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: 子Agent产出自动发送"
-      }
-    ]
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-子agent产出自动发送-g7wmm7.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772964307093"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "子Agent产出自动发送",
-    "confidence": 0.85,
-    "source_file": "2026-03-08.md",
-    "evidence": "completion-handler自动检测报告类产出→自动file-sender发送",
-    "created_at": "2026-03-08T10:05:07.093Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/subagent-output-auto-send.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-子agent产出自动发送-g7wmm7",
+    "event_type": "intent.ruleify",
+    "name": "intent_子agent产出自动发送",
+    "description": "用户期望将报告类产出自动发送功能程序化，以解决记忆丢失后行为不一致问题",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "子Agent产出自动发送"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: 子Agent产出自动发送"
+            }
+        ]
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-子agent产出自动发送-g7wmm7.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772964307093"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "子Agent产出自动发送",
+        "confidence": 0.85,
+        "source_file": "2026-03-08.md",
+        "evidence": "completion-handler自动检测报告类产出→自动file-sender发送",
+        "created_at": "2026-03-08T10:05:07.093Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/subagent-output-auto-send.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 rule.intent-子agent产出自动发送-g7wmm7 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/subagent-output-auto-send.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

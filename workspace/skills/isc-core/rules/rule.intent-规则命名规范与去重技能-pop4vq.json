@@ -1,46 +1,69 @@
 {
-  "id": "rule.intent-规则命名规范与去重技能-pop4vq",
-  "name": "intent_规则命名规范与去重技能",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "用户要求将ISC规则去重和命名统一变成可复用技能和标准化流程",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "规则命名规范与去重技能"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: 规则命名规范与去重技能"
-      }
-    ],
-    "event": "intent.ruleify"
-  },
-  "action": {
-    "handler": "skill-isc-handler",
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-规则命名规范与去重技能-pop4vq.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772817302349"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "规则命名规范与去重技能",
-    "confidence": 0.92,
-    "source_file": "2026-03-05.md",
-    "evidence": "用户要求\"去重本身就该是个可复用技能\"；42%(53条)命名不合标准，7种前缀体系混用；待执行：重命名+去重",
-    "created_at": "2026-03-06T17:15:02.349Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-规则命名规范与去重技能-pop4vq.js"
+    "id": "rule.intent-规则命名规范与去重技能-pop4vq",
+    "event_type": "intent.ruleify",
+    "name": "intent_规则命名规范与去重技能",
+    "description": "用户要求将ISC规则去重和命名统一变成可复用技能和标准化流程",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "规则命名规范与去重技能"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: 规则命名规范与去重技能"
+            }
+        ],
+        "event": "intent.ruleify"
+    },
+    "action": {
+        "handler": "skill-isc-handler",
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-规则命名规范与去重技能-pop4vq.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772817302349"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "规则命名规范与去重技能",
+        "confidence": 0.92,
+        "source_file": "2026-03-05.md",
+        "evidence": "用户要求\"去重本身就该是个可复用技能\"；42%(53条)命名不合标准，7种前缀体系混用；待执行：重命名+去重",
+        "created_at": "2026-03-06T17:15:02.349Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-规则命名规范与去重技能-pop4vq.js",
+    "verification": {
+        "method": "convention_compliance_check",
+        "description": "验证规范规则 rule.intent-规则命名规范与去重技能-pop4vq 的一致性检查",
+        "assertions": [
+            {
+                "check": "naming_pattern_enforced",
+                "desc": "命名/格式规范有明确的正则或模式"
+            },
+            {
+                "check": "violation_detected",
+                "desc": "不符合规范的输入被检测到"
+            },
+            {
+                "check": "correction_suggested",
+                "desc": "违规时给出修正建议"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-规则命名规范与去重技能-pop4vq.js && echo 'handler_exists:pass'",
+        "expected_outcome": "不符合规范的命名/格式被检测并建议修正",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

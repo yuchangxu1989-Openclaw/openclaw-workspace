@@ -1,45 +1,68 @@
 {
-  "id": "rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl",
-  "name": "intent_isc-main-agent-delegation-001委派守卫",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "落地主Agent委派守卫规则，建立四层防御机制",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "ISC-MAIN-AGENT-DELEGATION-001委派守卫"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: ISC-MAIN-AGENT-DELEGATION-001委派守卫"
-      }
-    ]
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772960720188"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "ISC-MAIN-AGENT-DELEGATION-001委派守卫",
-    "confidence": 0.9,
-    "source_file": "2026-03-08.md",
-    "evidence": "四层防御：认知层+会话层+程序化守卫层+评测验证层",
-    "created_at": "2026-03-08T09:05:20.188Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-main-agent-delegation-guard.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl",
+    "event_type": "intent.ruleify",
+    "name": "intent_isc-main-agent-delegation-001委派守卫",
+    "description": "落地主Agent委派守卫规则，建立四层防御机制",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "ISC-MAIN-AGENT-DELEGATION-001委派守卫"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: ISC-MAIN-AGENT-DELEGATION-001委派守卫"
+            }
+        ]
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772960720188"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "ISC-MAIN-AGENT-DELEGATION-001委派守卫",
+        "confidence": 0.9,
+        "source_file": "2026-03-08.md",
+        "evidence": "四层防御：认知层+会话层+程序化守卫层+评测验证层",
+        "created_at": "2026-03-08T09:05:20.188Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-main-agent-delegation-guard.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "orchestration_flow_check",
+        "description": "验证编排规则 rule.intent-isc-main-agent-delegation-001委派守卫-vczzrl 的调度正确性",
+        "assertions": [
+            {
+                "check": "dispatch_target_valid",
+                "desc": "调度目标Agent/处理器有效"
+            },
+            {
+                "check": "task_routed_correctly",
+                "desc": "任务被路由到正确的执行者"
+            },
+            {
+                "check": "result_collected",
+                "desc": "执行结果被正确收集和报告"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-main-agent-delegation-guard.js && echo 'handler_exists:pass'",
+        "expected_outcome": "任务正确调度到目标执行者并收集结果",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

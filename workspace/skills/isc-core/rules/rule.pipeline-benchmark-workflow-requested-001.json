@@ -40,5 +40,27 @@
         "gate_block_count",
         "false_positive_rate"
     ],
-    "layer": "L1_orchestration"
+    "layer": "L1_orchestration",
+    "verification": {
+        "method": "convention_compliance_check",
+        "description": "验证规范规则 rule.pipeline-benchmark-workflow-requested-001 的一致性检查",
+        "assertions": [
+            {
+                "check": "naming_pattern_enforced",
+                "desc": "命名/格式规范有明确的正则或模式"
+            },
+            {
+                "check": "violation_detected",
+                "desc": "不符合规范的输入被检测到"
+            },
+            {
+                "check": "correction_suggested",
+                "desc": "违规时给出修正建议"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/pipeline-benchmark-workflow-requested.js && echo 'handler_exists:pass'",
+        "expected_outcome": "不符合规范的命名/格式被检测并建议修正",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

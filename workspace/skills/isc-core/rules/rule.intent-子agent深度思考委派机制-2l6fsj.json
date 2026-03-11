@@ -1,45 +1,68 @@
 {
-  "id": "rule.intent-子agent深度思考委派机制-2l6fsj",
-  "name": "intent_子agent深度思考委派机制",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "用户希望将深度思考任务委派给子Agent确立为常规规则",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "子Agent深度思考委派机制"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: 子Agent深度思考委派机制"
-      }
-    ]
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-子agent深度思考委派机制-2l6fsj.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772964307072"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "子Agent深度思考委派机制",
-    "confidence": 0.92,
-    "source_file": "2026-03-08.md",
-    "evidence": "我问你的问题，如果需要深思熟虑，其实你可以分配给子Agent",
-    "created_at": "2026-03-08T10:05:07.072Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/deep-thinking-delegation.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-子agent深度思考委派机制-2l6fsj",
+    "event_type": "intent.ruleify",
+    "name": "intent_子agent深度思考委派机制",
+    "description": "用户希望将深度思考任务委派给子Agent确立为常规规则",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "子Agent深度思考委派机制"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: 子Agent深度思考委派机制"
+            }
+        ]
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-子agent深度思考委派机制-2l6fsj.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772964307072"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "子Agent深度思考委派机制",
+        "confidence": 0.92,
+        "source_file": "2026-03-08.md",
+        "evidence": "我问你的问题，如果需要深思熟虑，其实你可以分配给子Agent",
+        "created_at": "2026-03-08T10:05:07.072Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/deep-thinking-delegation.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "orchestration_flow_check",
+        "description": "验证编排规则 rule.intent-子agent深度思考委派机制-2l6fsj 的调度正确性",
+        "assertions": [
+            {
+                "check": "dispatch_target_valid",
+                "desc": "调度目标Agent/处理器有效"
+            },
+            {
+                "check": "task_routed_correctly",
+                "desc": "任务被路由到正确的执行者"
+            },
+            {
+                "check": "result_collected",
+                "desc": "执行结果被正确收集和报告"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/deep-thinking-delegation.js && echo 'handler_exists:pass'",
+        "expected_outcome": "任务正确调度到目标执行者并收集结果",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

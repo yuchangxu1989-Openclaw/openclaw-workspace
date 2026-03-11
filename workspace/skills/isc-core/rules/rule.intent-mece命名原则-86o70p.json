@@ -1,46 +1,69 @@
 {
-  "id": "rule.intent-mece命名原则-86o70p",
-  "name": "intent_mece命名原则",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "将MECE命名原则确立为规则命名、事件命名、技能命名等的评测维度和规范",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "MECE命名原则"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: MECE命名原则"
-      }
-    ],
-    "event": "intent.ruleify"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-mece命名原则-86o70p.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772817302344"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "MECE命名原则",
-    "confidence": 0.88,
-    "source_file": "2026-03-05.md",
-    "evidence": "MECE命名原则（新评测维度）...同一层级的所有实体关键词不能重叠...已进入AEO评测集作为评测维度",
-    "created_at": "2026-03-06T17:15:02.344Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/mece-naming-principle.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-mece命名原则-86o70p",
+    "event_type": "intent.ruleify",
+    "name": "intent_mece命名原则",
+    "description": "将MECE命名原则确立为规则命名、事件命名、技能命名等的评测维度和规范",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "MECE命名原则"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: MECE命名原则"
+            }
+        ],
+        "event": "intent.ruleify"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-mece命名原则-86o70p.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772817302344"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "MECE命名原则",
+        "confidence": 0.88,
+        "source_file": "2026-03-05.md",
+        "evidence": "MECE命名原则（新评测维度）...同一层级的所有实体关键词不能重叠...已进入AEO评测集作为评测维度",
+        "created_at": "2026-03-06T17:15:02.344Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/mece-naming-principle.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.intent-mece命名原则-86o70p 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/mece-naming-principle.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

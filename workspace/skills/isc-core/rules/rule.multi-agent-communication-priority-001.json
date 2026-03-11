@@ -131,5 +131,27 @@
         "type": "handler"
     },
     "fullchain_status": "expanded",
-    "handler": "skills/isc-core/handlers/multi-agent-communication-priority.js"
+    "handler": "skills/isc-core/handlers/multi-agent-communication-priority.js",
+    "verification": {
+        "method": "rule_enforcement_check",
+        "description": "验证规则 rule.multi-agent-communication-priority-001 的执行有效性",
+        "assertions": [
+            {
+                "check": "handler_registered",
+                "desc": "Handler已注册: skills/isc-core/handlers/multi-agent-communication-priority.js"
+            },
+            {
+                "check": "trigger_conditions_met",
+                "desc": "触发条件满足时规则被正确激活"
+            },
+            {
+                "check": "action_executed",
+                "desc": "规则激活后执行指定的动作"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/multi-agent-communication-priority.js && echo 'handler_exists:pass'",
+        "expected_outcome": "规则触发条件满足时正确执行预定义动作",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

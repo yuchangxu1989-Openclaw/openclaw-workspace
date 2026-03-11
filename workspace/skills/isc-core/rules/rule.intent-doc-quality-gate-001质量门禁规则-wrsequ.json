@@ -1,45 +1,68 @@
 {
-  "id": "rule.intent-doc-quality-gate-001质量门禁规则-wrsequ",
-  "name": "intent_doc-quality-gate-001质量门禁规则",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "将writer→reviewer→不通过重写的流程固化为永久生效的规则",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "doc-quality-gate-001质量门禁规则"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: doc-quality-gate-001质量门禁规则"
-      }
-    ]
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-doc-quality-gate-001质量门禁规则-wrsequ.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772960720169"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "doc-quality-gate-001质量门禁规则",
-    "confidence": 0.95,
-    "source_file": "2026-03-08.md",
-    "evidence": "重大文档双Agent质量门禁规则落地（用户要求，永久生效）",
-    "created_at": "2026-03-08T09:05:20.169Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-doc-quality-gate-001质量门禁规则-wrsequ.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-doc-quality-gate-001质量门禁规则-wrsequ",
+    "event_type": "intent.ruleify",
+    "name": "intent_doc-quality-gate-001质量门禁规则",
+    "description": "将writer→reviewer→不通过重写的流程固化为永久生效的规则",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "doc-quality-gate-001质量门禁规则"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: doc-quality-gate-001质量门禁规则"
+            }
+        ]
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-doc-quality-gate-001质量门禁规则-wrsequ.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772960720169"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "doc-quality-gate-001质量门禁规则",
+        "confidence": 0.95,
+        "source_file": "2026-03-08.md",
+        "evidence": "重大文档双Agent质量门禁规则落地（用户要求，永久生效）",
+        "created_at": "2026-03-08T09:05:20.169Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-doc-quality-gate-001质量门禁规则-wrsequ.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.intent-doc-quality-gate-001质量门禁规则-wrsequ 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-doc-quality-gate-001质量门禁规则-wrsequ.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

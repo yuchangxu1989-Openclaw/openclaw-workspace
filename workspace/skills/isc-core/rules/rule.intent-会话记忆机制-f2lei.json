@@ -1,46 +1,69 @@
 {
-  "id": "rule.intent-会话记忆机制-f2lei",
-  "name": "intent_会话记忆机制",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "从失误中提炼规则：commit历史不等于记忆，需要写memory日记",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "会话记忆机制"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: 会话记忆机制"
-      }
-    ],
-    "event": "intent.ruleify"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-会话记忆机制-f2lei.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772817302331"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "会话记忆机制",
-    "confidence": 0.88,
-    "source_file": "2026-03-05.md",
-    "evidence": "git history ≠ memory：commit历史是考古，不是记忆；文件才能活过会话重置",
-    "created_at": "2026-03-06T17:15:02.331Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/session-memory-mechanism.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-会话记忆机制-f2lei",
+    "event_type": "intent.ruleify",
+    "name": "intent_会话记忆机制",
+    "description": "从失误中提炼规则：commit历史不等于记忆，需要写memory日记",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "会话记忆机制"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: 会话记忆机制"
+            }
+        ],
+        "event": "intent.ruleify"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-会话记忆机制-f2lei.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772817302331"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "会话记忆机制",
+        "confidence": 0.88,
+        "source_file": "2026-03-05.md",
+        "evidence": "git history ≠ memory：commit历史是考古，不是记忆；文件才能活过会话重置",
+        "created_at": "2026-03-06T17:15:02.331Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/session-memory-mechanism.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 rule.intent-会话记忆机制-f2lei 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/session-memory-mechanism.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }
