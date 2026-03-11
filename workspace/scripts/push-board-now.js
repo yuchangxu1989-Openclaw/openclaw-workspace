@@ -26,13 +26,28 @@ for (const [key, val] of Object.entries(sessions)) {
   if (doneSet.has(label)) continue;
   const ageMin = Math.floor(age / 60000);
   const duration = ageMin >= 60 ? Math.floor(ageMin/60)+'h'+ageMin%60+'m' : ageMin+'m';
-  const model = (val.model || '-').replace('claude-main/', '').replace('claude-opus-4-6-thinking', 'opus🧠').replace('claude-opus-4-6', 'opus');
+  const rawModel = (val.model || val.config?.model || '-');
+  const model = rawModel
+    .replace(/^[\w-]+\//, '')          // strip provider prefix
+    .replace(/claude-opus-4-6-thinking/i, 'opus🧠')
+    .replace(/claude-opus-4-[\d-]+/i, 'opus')
+    .replace(/claude-sonnet-4-[\d-]+/i, 'sonnet')
+    .replace(/claude-haiku-[\d-]+/i, 'haiku')
+    .replace(/gpt-5\.3-codex/i, 'gpt5.3')
+    .replace(/gpt-4o[\w-]*/i, 'gpt4o')
+    .replace(/^anthropic:/, '')
+    .substring(0, 12);
   rows.push({task: label, model, status: '🟢运行中', duration});
 }
 
-const doneCount = board.filter(t => t.status === 'done').length;
-const timeoutCount = board.filter(t => t.status === 'timeout').length;
-const failedCount = board.filter(t => t.status === 'failed').length;
+const boardDone = board.filter(t => t.status === 'done').length;
+const boardTimeout = board.filter(t => t.status === 'timeout').length;
+const boardFailed = board.filter(t => t.status === 'failed').length;
+// done-sessions.txt has labels of ALL completed tasks (not in board.json)
+const doneFromTxt = [...doneSet].filter(l => !board.some(t => t.label === l)).length;
+const doneCount = boardDone + doneFromTxt;
+const timeoutCount = boardTimeout;
+const failedCount = boardFailed;
 const summary = `✅${doneCount} | ⏰${timeoutCount} | ❌${failedCount} | 🟢${rows.length}`;
 
 // 2. Get token
