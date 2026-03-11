@@ -29,12 +29,14 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const { execSync } = require('child_process');
 
 const WORKSPACE = process.env.WORKSPACE_ROOT || '/root/.openclaw/workspace';
 const MEMORY_DIR = path.join(WORKSPACE, 'memory');
 const PENDING_CASES_FILE = path.join(WORKSPACE, 'infrastructure/aeo/golden-testset/pending-cases.json');
 const STATE_FILE = path.join(WORKSPACE, 'infrastructure/self-check/.harvester-state.json');
 const REPORTS_DIR = path.join(WORKSPACE, 'reports');
+const MEMOS_DB = process.env.MEMOS_DB || '/root/.openclaw/memos-local/memos.db';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 纠偏信号检测器（多层，从强到弱）
@@ -137,6 +139,26 @@ const CORRECTION_SIGNALS = [
     type: 'data_integrity_violation',
     extractContext: true,
   },
+
+  // ── 放宽信号 — 无需"你"前缀，匹配MemOS原始对话 ──
+  {
+    pattern: /(依然|还是|仍然|照样)(不对|错了|有问题|不行|没修|没改)/i,
+    strength: 'strong',
+    type: 'persistent_negation',
+    extractContext: true,
+  },
+  {
+    pattern: /\d+[个条项]?.*(不对|错了|有问题)/i,
+    strength: 'medium',
+    type: 'data_negation',
+    extractContext: true,
+  },
+  {
+    pattern: /(不是.*说了|说了.*不要|都说了)/i,
+    strength: 'strong',
+    type: 'repeated_instruction',
+    extractContext: true,
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -211,6 +233,21 @@ const CORRECTION_TO_RULE = {
   'data_integrity_violation': {
     category: 'data_integrity',
     ruleHint: '严禁使用虚假/模拟数据，必须是真实可验证的结果',
+    priority: 'P0',
+  },
+  'persistent_negation': {
+    category: 'delivery_quality',
+    ruleHint: '反复否定说明修复未到位，需根因分析而非表面修补',
+    priority: 'P0',
+  },
+  'data_negation': {
+    category: 'delivery_quality',
+    ruleHint: '数据/统计类输出需自动校验，不能输出明显错误的数字',
+    priority: 'P1',
+  },
+  'repeated_instruction': {
+    category: 'intent_alignment',
+    ruleHint: '用户重复指令说明之前未执行到位，需建立指令追踪机制',
     priority: 'P0',
   },
 };
@@ -381,6 +418,48 @@ function mapCategoryToDomain(category) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// 扫描 MemOS 数据库（主数据源）
+// ─────────────────────────────────────────────────────────────────────────────
+function scanMemosChunks(windowMinutes, lastMemosTimestamp) {
+  if (!fs.existsSync(MEMOS_DB)) {
+    console.log('  ⚠️ MemOS数据库不存在，跳过');
+    return [];
+  }
+
+  // 用 lastMemosTimestamp 做增量，否则用窗口
+  const cutoffMs = lastMemosTimestamp
+    ? new Date(lastMemosTimestamp).getTime()
+    : Date.now() - windowMinutes * 60 * 1000;
+
+  try {
+    const tmpSql = `/tmp/harvester-memos-${Date.now()}.sql`;
+    fs.writeFileSync(tmpSql, `.mode json\nSELECT id, substr(content,1,500) as content, created_at, session_key FROM chunks WHERE role = 'user' AND created_at > ${cutoffMs} ORDER BY created_at ASC LIMIT 200;\n`);
+    const raw = execSync(`sqlite3 "${MEMOS_DB}" < "${tmpSql}"`, { encoding: 'utf8', timeout: 10000 });
+    try { fs.unlinkSync(tmpSql); } catch {}
+
+    if (!raw.trim() || raw.trim() === '[]') return [];
+
+    const rows = JSON.parse(raw);
+    const allCorrections = [];
+
+    for (const row of rows) {
+      const corrections = extractCorrections(row.content, `memos:${row.session_key}/${row.id.substring(0, 8)}`);
+      if (corrections.length > 0) {
+        const dateStr = new Date(row.created_at).toISOString().split('T')[0];
+        console.log(`  💾 MemOS chunk ${row.id.substring(0, 8)}...: ${corrections.length} 个纠偏信号`);
+        allCorrections.push(...corrections.map(c => ({ ...c, sourceDate: dateStr })));
+      }
+    }
+
+    console.log(`  💾 MemOS扫描: ${rows.length} 条用户消息, ${allCorrections.length} 个纠偏信号`);
+    return allCorrections;
+  } catch (e) {
+    console.error(`  ❌ MemOS扫描失败: ${e.message}`);
+    return [];
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // 扫描记忆文件
 // ─────────────────────────────────────────────────────────────────────────────
 function scanMemoryFiles(windowMinutes, processedFiles) {
@@ -482,6 +561,11 @@ async function main() {
     console.log('🔍 扫描记忆文件...');
     const processedFiles = isAuto ? (state.processedFiles || []) : [];
     allCorrections = scanMemoryFiles(windowMinutes, processedFiles);
+
+    // 主数据源：MemOS数据库
+    console.log('💾 扫描MemOS数据库...');
+    const memosCorrections = scanMemosChunks(windowMinutes, isAuto ? state.lastMemosTimestamp : null);
+    allCorrections.push(...memosCorrections);
   }
 
   console.log(`总计: ${allCorrections.length} 个纠偏信号`);
@@ -490,6 +574,7 @@ async function main() {
     if (isAuto) {
       console.log('无新纠偏信号，退出');
       state.lastProcessedTimestamp = new Date().toISOString();
+      state.lastMemosTimestamp = new Date().toISOString();
       saveState(state);
       return;
     }
@@ -598,6 +683,7 @@ async function main() {
   // Update state
   if (isAuto || !isStdin) {
     state.lastProcessedTimestamp = new Date().toISOString();
+    state.lastMemosTimestamp = new Date().toISOString();
     state.caseCount = pendingCases.cases.length;
     saveState(state);
   }
