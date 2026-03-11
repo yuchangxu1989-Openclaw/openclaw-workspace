@@ -1,0 +1,962 @@
+[
+  {
+    "id": "L2-MT-001",
+    "input": "帮我查一下昨天那个飞书文档的评审意见，然后根据意见把代码里的错误修掉",
+    "expected_output": "先通过飞书API检索昨天的评审文档，提取评审意见列表，然后定位代码中对应的问题点，逐一修复并提交commit，最后在文档中回复已修复状态",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户昨天提交了一份代码评审文档，收到了3条评审意见，现在要求Agent先查后改",
+    "execution_chain_steps": [
+      "检索飞书文档获取评审意见",
+      "解析意见列表提取具体问题",
+      "定位代码中对应问题点",
+      "逐一修复代码",
+      "git commit提交修复",
+      "在飞书文档回复修复状态"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "先查后改",
+      "飞书+代码联动"
+    ]
+  },
+  {
+    "id": "L2-MT-002",
+    "input": "先帮我看看线上服务的错误日志，找到根因后修复，修完了跑一下测试确认没问题",
+    "expected_output": "分步执行：1)拉取线上错误日志 2)分析日志定位根因 3)修复代码 4)运行测试套件 5)确认测试全部通过 6)汇报修复结果",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "线上服务从凌晨开始报错，用户要求完整的排查-修复-验证流程",
+    "execution_chain_steps": [
+      "拉取线上错误日志",
+      "分析日志模式定位根因",
+      "编写修复代码",
+      "运行单元测试",
+      "运行集成测试",
+      "汇报修复结果和测试通过率"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "排查修复验证",
+      "分步骤执行"
+    ]
+  },
+  {
+    "id": "L2-MT-003",
+    "input": "把上次讨论的那个方案写成飞书文档，写完让团队成员review，收集反馈后再改",
+    "expected_output": "回溯上次讨论的方案内容，创建飞书文档并写入方案，@相关团队成员请求review，等待收集反馈后根据反馈修改文档",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户上周在群里讨论了一个技术方案，现在要求Agent完成从写文档到收集反馈再修改的完整流程",
+    "execution_chain_steps": [
+      "从对话历史中提取方案要点",
+      "创建飞书文档写入方案",
+      "识别相关团队成员",
+      "发送review请求",
+      "收集反馈意见",
+      "根据反馈修改文档"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "文档协作",
+      "中间确认"
+    ]
+  },
+  {
+    "id": "L2-MT-004",
+    "input": "你之前帮我建的那个bitable，数据好像不对，帮我核实一下，错了就改过来",
+    "expected_output": "定位之前创建的bitable，逐行核实数据准确性，标记错误数据，修正后与用户确认修改结果",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前帮用户创建了一个bitable并填入了数据，用户发现部分数据有误",
+    "execution_chain_steps": [
+      "从历史记录定位目标bitable",
+      "读取当前bitable数据",
+      "与原始数据源交叉核实",
+      "标记不一致的数据行",
+      "修正错误数据",
+      "向用户确认修改结果"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "数据核实",
+      "先查后改"
+    ]
+  },
+  {
+    "id": "L2-MT-005",
+    "input": "帮我把三个子Agent的输出汇总成一份报告，格式要统一，有冲突的地方标出来让我决定",
+    "expected_output": "收集三个子Agent的输出结果，统一格式后合并，识别冲突点并高亮标注，生成汇总报告供用户决策",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户同时派了三个子Agent做不同维度的分析，现在需要汇总，但三个输出格式不一致且有矛盾结论",
+    "execution_chain_steps": [
+      "获取三个子Agent的输出",
+      "分析各输出的格式差异",
+      "统一为标准格式",
+      "识别结论冲突点",
+      "生成汇总报告并标注冲突",
+      "提交给用户决策"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "多Agent汇总",
+      "冲突标注"
+    ]
+  },
+  {
+    "id": "L2-MT-006",
+    "input": "上次你改的那个配置文件导致服务挂了，先回滚，然后找出问题在哪，再重新改一个正确的版本",
+    "expected_output": "立即回滚配置文件到上一个正常版本，分析改动导致服务异常的原因，重新制定正确的配置方案并应用",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前修改了一个配置文件，导致服务不可用，用户要求回滚-分析-重做的完整流程",
+    "execution_chain_steps": [
+      "git log定位上次配置改动",
+      "回滚到改动前版本",
+      "验证服务恢复正常",
+      "分析配置改动的错误原因",
+      "制定正确的配置方案",
+      "应用新配置并验证"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "回滚修复",
+      "配置管理"
+    ]
+  },
+  {
+    "id": "L2-MT-007",
+    "input": "帮我把这个功能拆成几个子任务，分别派给不同的子Agent做，做完了汇总给我",
+    "expected_output": "分析功能需求并拆解为独立子任务，评估每个子任务适合的Agent角色，分别派发，监控进度，最终汇总结果",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户给了一个较大的功能需求，期望Agent能自主拆解并通过多Agent协作完成",
+    "execution_chain_steps": [
+      "分析功能需求拆解子任务",
+      "评估子任务依赖关系",
+      "确定每个子任务的Agent角色",
+      "并行派发独立子任务",
+      "监控子Agent执行进度",
+      "汇总结果并报告"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "任务拆解",
+      "多Agent协作"
+    ]
+  },
+  {
+    "id": "L2-MT-008",
+    "input": "你刚才说要改三个文件，但我看你只改了两个，第三个呢？补上，然后全部跑一遍测试",
+    "expected_output": "承认遗漏，定位第三个未修改的文件，完成修改，然后对三个文件的改动统一运行测试验证",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前承诺修改三个文件但只完成了两个，用户发现遗漏后要求补全并验证",
+    "execution_chain_steps": [
+      "回溯之前的承诺确认遗漏文件",
+      "定位第三个文件",
+      "完成遗漏的修改",
+      "对三个文件统一运行测试",
+      "确认测试全部通过",
+      "向用户报告完成状态"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "遗漏补全",
+      "最终验证"
+    ]
+  },
+  {
+    "id": "L2-MT-009",
+    "input": "先查一下我们的cron任务列表，看看有没有冲突的时间段，有的话帮我调整一下",
+    "expected_output": "读取当前crontab配置，分析所有任务的执行时间，识别时间冲突，提出调整方案并在用户确认后执行",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "系统中有多个cron任务，用户怀疑某些任务时间冲突导致资源争抢",
+    "execution_chain_steps": [
+      "读取当前crontab配置",
+      "解析所有任务执行时间",
+      "识别时间重叠的任务对",
+      "评估冲突影响",
+      "提出时间调整方案",
+      "用户确认后执行调整"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "cron管理",
+      "冲突检测"
+    ]
+  },
+  {
+    "id": "L2-MT-010",
+    "input": "把昨天的评测结果和今天的对比一下，退步的case单独拉出来分析原因",
+    "expected_output": "加载昨天和今天的评测结果，逐case对比得分变化，筛选退步case，对每个退步case分析可能原因并生成分析报告",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户在持续跟踪评测质量，发现今天的整体得分下降，需要定位退步原因",
+    "execution_chain_steps": [
+      "加载昨天的评测结果",
+      "加载今天的评测结果",
+      "逐case对比得分变化",
+      "筛选退步case列表",
+      "对每个退步case分析原因",
+      "生成对比分析报告"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "评测对比",
+      "退步分析"
+    ]
+  },
+  {
+    "id": "L2-MT-011",
+    "input": "帮我检查一下所有子Agent的技能文件是否都有SKILL.md，缺的帮我补上模板",
+    "expected_output": "遍历所有技能目录，检查SKILL.md是否存在，列出缺失清单，为每个缺失的技能生成标准模板并写入",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户在做技能规范化审计，发现部分技能缺少SKILL.md文档",
+    "execution_chain_steps": [
+      "遍历技能目录列表",
+      "检查每个目录的SKILL.md存在性",
+      "生成缺失清单",
+      "为每个缺失项生成SKILL.md模板",
+      "写入文件",
+      "汇报补全结果"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "批量检查",
+      "模板补全"
+    ]
+  },
+  {
+    "id": "L2-MT-012",
+    "input": "我刚才让你改的那个函数，改完之后调用方也要跟着改，你检查一下所有调用方都改了没",
+    "expected_output": "定位之前修改的函数，搜索所有调用方，检查每个调用方是否已适配新接口，未适配的逐一修改",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent修改了一个函数签名但可能遗漏了部分调用方的适配",
+    "execution_chain_steps": [
+      "定位之前修改的函数",
+      "全局搜索所有调用方",
+      "检查每个调用方的参数是否匹配新签名",
+      "列出未适配的调用方",
+      "逐一修改未适配的调用方",
+      "运行测试验证无破坏"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "连锁修改",
+      "调用方适配"
+    ]
+  },
+  {
+    "id": "L2-MT-013",
+    "input": "先把数据库里的用户表导出来，清洗一下格式，然后导入到新的bitable里",
+    "expected_output": "连接数据库导出用户表数据，清洗数据格式（去重、标准化字段），创建新bitable并导入清洗后的数据",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户需要将数据库数据迁移到飞书bitable，中间需要数据清洗",
+    "execution_chain_steps": [
+      "连接数据库查询用户表",
+      "导出数据到临时文件",
+      "清洗数据格式和去重",
+      "创建目标bitable和字段",
+      "批量导入清洗后数据",
+      "验证导入数据完整性"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "数据迁移",
+      "跨系统"
+    ]
+  },
+  {
+    "id": "L2-MT-014",
+    "input": "你之前生成的那批评测case质量不行，帮我找出不合格的，修一下再重新跑评测",
+    "expected_output": "加载之前生成的评测case，按V4 schema校验每条case的质量，标记不合格项，修复后重新运行评测",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前生成了一批评测case但质量不达标，用户要求自查自纠",
+    "execution_chain_steps": [
+      "加载之前生成的评测case文件",
+      "按V4 schema逐条校验",
+      "标记不合格case及原因",
+      "修复不合格case",
+      "保存修复后的case文件",
+      "重新运行评测流程"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "质量自查",
+      "评测修复"
+    ]
+  },
+  {
+    "id": "L2-MT-015",
+    "input": "帮我看看这个PR改了哪些文件，每个文件的改动是否合理，不合理的给我标出来",
+    "expected_output": "获取PR的diff信息，逐文件分析改动合理性，标注不合理的改动并给出修改建议",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户收到一个PR需要review，希望Agent辅助做代码审查",
+    "execution_chain_steps": [
+      "获取PR的文件变更列表",
+      "逐文件读取diff内容",
+      "分析每个改动的合理性",
+      "标注不合理改动",
+      "给出修改建议",
+      "生成review报告"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "代码审查",
+      "PR review"
+    ]
+  },
+  {
+    "id": "L2-MT-016",
+    "input": "上次部署失败了，帮我查一下失败原因，修好之后重新部署，部署完验证一下服务是否正常",
+    "expected_output": "查看上次部署日志定位失败原因，修复问题，重新执行部署流程，部署后进行健康检查验证服务正常",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "上次部署在中途失败，用户需要完整的故障排查-修复-重部署-验证流程",
+    "execution_chain_steps": [
+      "查看部署失败日志",
+      "分析失败根因",
+      "修复导致失败的问题",
+      "重新执行部署",
+      "运行健康检查",
+      "验证服务正常并报告"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "部署修复",
+      "分步骤执行"
+    ]
+  },
+  {
+    "id": "L2-MT-017",
+    "input": "帮我把这几个散落在不同目录的配置文件统一管理起来，合并到一个地方，原来的地方改成引用",
+    "expected_output": "扫描各目录找到所有配置文件，分析配置项重复和冲突，合并到统一位置，将原位置改为引用或软链接",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "项目中配置文件散落在多个目录，存在重复和不一致，用户要求统一管理",
+    "execution_chain_steps": [
+      "扫描项目目录找到所有配置文件",
+      "分析配置项重复和冲突",
+      "设计统一配置结构",
+      "合并配置到统一位置",
+      "将原位置改为引用",
+      "验证所有引用正确"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "配置统一",
+      "重构"
+    ]
+  },
+  {
+    "id": "L2-MT-018",
+    "input": "你连续三次都没把这个bug修对，先停下来，把之前三次的改动都列出来，分析为什么每次都没修对",
+    "expected_output": "回溯三次修复的git历史，逐次分析修复思路和失败原因，找出反复失败的根本原因，制定正确的修复方案",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent连续三次尝试修复同一个bug都失败了，用户要求停下来做根因分析",
+    "execution_chain_steps": [
+      "回溯三次修复的git commit",
+      "逐次分析修复思路",
+      "对比每次失败的具体原因",
+      "找出反复失败的根本原因",
+      "制定正确的修复方案",
+      "向用户报告分析结论"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "反复失败分析",
+      "根因定位"
+    ]
+  },
+  {
+    "id": "L2-MT-019",
+    "input": "帮我把这个API的文档、测试用例、mock数据三个东西一起更新，要保持一致",
+    "expected_output": "分析API的最新接口定义，同步更新文档、测试用例和mock数据，确保三者完全一致",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "API接口发生了变更，但文档、测试和mock数据还是旧版本，需要同步更新",
+    "execution_chain_steps": [
+      "读取API最新接口定义",
+      "更新API文档",
+      "更新测试用例适配新接口",
+      "更新mock数据",
+      "交叉验证三者一致性",
+      "运行测试确认通过"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "多文件同步",
+      "一致性维护"
+    ]
+  },
+  {
+    "id": "L2-MT-020",
+    "input": "我给你发了一段报错日志，你先别急着改，先告诉我你的分析思路，我确认了再动手",
+    "expected_output": "分析报错日志，输出分析思路和初步判断，等待用户确认后再执行修复操作",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户要求Agent在动手修复前先汇报分析思路，体现中间确认的协作模式",
+    "execution_chain_steps": [
+      "接收并解析报错日志",
+      "分析错误模式和可能原因",
+      "输出分析思路供用户确认",
+      "等待用户确认",
+      "按确认的方案执行修复",
+      "验证修复结果"
+    ],
+    "north_star_indicator": "意图识别准确率",
+    "tags": [
+      "multi-turn",
+      "中间确认",
+      "分析先行"
+    ]
+  },
+  {
+    "id": "L2-MT-021",
+    "input": "帮我把wiki里那篇架构文档拆成三个子文档，每个子文档对应一个模块，拆完检查交叉引用别断了",
+    "expected_output": "读取原架构文档，按模块边界拆分为三个子文档，创建子文档并写入内容，检查并修复所有交叉引用链接",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户的架构文档过长，需要按模块拆分但要保持引用完整性",
+    "execution_chain_steps": [
+      "读取原wiki架构文档",
+      "分析模块边界确定拆分点",
+      "创建三个子文档",
+      "将内容分别写入对应子文档",
+      "扫描并修复交叉引用链接",
+      "验证所有引用可访问"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "文档拆分",
+      "引用完整性"
+    ]
+  },
+  {
+    "id": "L2-MT-022",
+    "input": "你之前帮我写的那个脚本跑出来的数据和手动统计的对不上，帮我排查是脚本的问题还是数据源的问题",
+    "expected_output": "对比脚本输出和手动统计结果，定位差异点，分别检查脚本逻辑和数据源，确定问题归属并修复",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前写的统计脚本输出结果与用户手动统计不一致，需要排查根因",
+    "execution_chain_steps": [
+      "获取脚本输出结果",
+      "获取手动统计结果",
+      "逐项对比找出差异点",
+      "检查脚本逻辑是否有bug",
+      "检查数据源是否有脏数据",
+      "确定问题归属并修复"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "数据对账",
+      "问题归因"
+    ]
+  },
+  {
+    "id": "L2-MT-023",
+    "input": "帮我设计一个新的评测维度，先调研现有的评测体系，然后出方案，我review完你再落地",
+    "expected_output": "调研现有评测维度体系，分析覆盖盲区，设计新评测维度方案，提交用户review，确认后落地到schema和代码",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户认为现有评测维度不够全面，要求Agent先调研再设计，走review流程",
+    "execution_chain_steps": [
+      "读取现有评测schema和维度定义",
+      "分析当前维度的覆盖范围",
+      "识别评测盲区",
+      "设计新评测维度方案",
+      "提交方案供用户review",
+      "用户确认后落地到schema"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "方案设计",
+      "review流程"
+    ]
+  },
+  {
+    "id": "L2-MT-024",
+    "input": "把这个技能的代码、测试、文档三件套都补齐，缺什么补什么，补完了提交",
+    "expected_output": "检查技能目录的完整性，识别缺失的代码/测试/文档，逐一补齐，全部完成后统一提交",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "某个技能只有部分文件，用户要求补齐标准三件套",
+    "execution_chain_steps": [
+      "检查技能目录现有文件",
+      "对照标准确定缺失项",
+      "补写缺失的代码文件",
+      "补写缺失的测试文件",
+      "补写缺失的文档",
+      "git add + commit + push"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "补全三件套",
+      "标准化"
+    ]
+  },
+  {
+    "id": "L2-MT-025",
+    "input": "帮我查一下为什么内存一直在涨，是不是有内存泄漏，找到了帮我修",
+    "expected_output": "监控内存使用趋势，分析可能的泄漏点，通过heap snapshot或日志定位泄漏源，修复泄漏代码并验证",
+    "category": "头痛医头类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "服务运行一段时间后内存持续增长，用户怀疑内存泄漏",
+    "execution_chain_steps": [
+      "获取内存使用趋势数据",
+      "分析内存增长模式",
+      "定位可疑的内存泄漏点",
+      "通过代码审查确认泄漏源",
+      "修复内存泄漏代码",
+      "验证修复后内存稳定"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "内存泄漏",
+      "性能排查"
+    ]
+  },
+  {
+    "id": "L2-MT-026",
+    "input": "我要给三个不同的群发不同的消息，内容我给你，你帮我分别发，发完告诉我每个群的发送状态",
+    "expected_output": "接收三条不同消息和目标群，分别发送到对应群，收集每个群的发送状态，汇总报告",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户需要向多个飞书群发送不同内容的消息，要求逐一确认发送状态",
+    "execution_chain_steps": [
+      "接收三条消息内容和目标群",
+      "向第一个群发送消息",
+      "向第二个群发送消息",
+      "向第三个群发送消息",
+      "收集每个群的发送状态",
+      "汇总发送结果报告"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "批量发送",
+      "状态追踪"
+    ]
+  },
+  {
+    "id": "L2-MT-027",
+    "input": "你上次说这个问题的根因是A，但我觉得不对，应该是B，你重新分析一下，这次要给出证据",
+    "expected_output": "重新审视之前的分析结论，对比A和B两个假设，收集支持证据，给出有据可依的最终判断",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前给出的根因分析被用户质疑，要求重新分析并提供证据",
+    "execution_chain_steps": [
+      "回溯之前的分析结论A",
+      "理解用户提出的假设B",
+      "收集支持假设A的证据",
+      "收集支持假设B的证据",
+      "对比分析两个假设",
+      "给出有证据支持的最终结论"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "假设验证",
+      "证据驱动"
+    ]
+  },
+  {
+    "id": "L2-MT-028",
+    "input": "帮我把这个项目的依赖全部升级到最新版，升完跑测试，有break的记录下来，能修的修不能修的回滚",
+    "expected_output": "列出所有依赖及当前版本，逐一升级到最新版，运行测试，记录breaking changes，能修则修否则回滚对应依赖",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "项目依赖版本老旧，用户要求批量升级但要控制风险",
+    "execution_chain_steps": [
+      "列出所有依赖及版本",
+      "逐一升级到最新版",
+      "运行完整测试套件",
+      "记录失败的测试和对应依赖",
+      "尝试修复breaking changes",
+      "无法修复的回滚到原版本"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "依赖升级",
+      "风险控制"
+    ]
+  },
+  {
+    "id": "L2-MT-029",
+    "input": "帮我对比一下两个分支的代码差异，把feature分支里好的改动cherry-pick到main，不好的丢掉",
+    "expected_output": "对比两个分支的diff，逐个改动评估质量，将优质改动cherry-pick到main分支，跳过低质量改动",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "feature分支有多个commit，部分改动质量好部分不好，用户要求选择性合并",
+    "execution_chain_steps": [
+      "对比两个分支的完整diff",
+      "逐commit分析改动质量",
+      "标记优质和低质量改动",
+      "cherry-pick优质改动到main",
+      "验证cherry-pick后代码正常",
+      "报告合并结果和跳过项"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "选择性合并",
+      "代码质量评估"
+    ]
+  },
+  {
+    "id": "L2-MT-030",
+    "input": "我发现你之前创建的三个cron任务里有两个其实做的是同一件事，帮我合并掉，然后验证合并后的任务能正常跑",
+    "expected_output": "分析三个cron任务的功能，识别重复的两个，合并为一个统一任务，删除冗余任务，验证合并后正常运行",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前创建了冗余的cron任务，用户发现后要求合并去重",
+    "execution_chain_steps": [
+      "读取三个cron任务的配置和脚本",
+      "分析功能重叠度",
+      "设计合并方案",
+      "创建合并后的统一任务",
+      "删除冗余的两个任务",
+      "运行验证合并后任务正常"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "任务合并",
+      "去重"
+    ]
+  },
+  {
+    "id": "L2-MT-031",
+    "input": "帮我把生产环境的数据库schema和测试环境的对比一下，不一致的地方同步过去",
+    "expected_output": "分别获取生产和测试环境的数据库schema，逐表对比结构差异，生成同步SQL，在用户确认后执行同步",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "生产和测试环境的数据库schema长期不同步，用户要求对齐",
+    "execution_chain_steps": [
+      "获取生产环境数据库schema",
+      "获取测试环境数据库schema",
+      "逐表对比结构差异",
+      "生成同步DDL语句",
+      "提交用户确认",
+      "执行同步并验证"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "环境同步",
+      "数据库管理"
+    ]
+  },
+  {
+    "id": "L2-MT-032",
+    "input": "你帮我写的那个监控脚本一直误报，先关掉告警，然后调一下阈值，调完再开回来",
+    "expected_output": "先关闭当前告警避免干扰，分析误报原因调整监控阈值，重新启用告警并观察是否还有误报",
+    "category": "纠偏类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前写的监控脚本阈值设置不合理导致频繁误报",
+    "execution_chain_steps": [
+      "关闭当前告警通知",
+      "分析历史告警记录找出误报模式",
+      "调整监控阈值参数",
+      "重新启用告警",
+      "观察一段时间确认无误报",
+      "向用户报告调整结果"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "监控调优",
+      "阈值调整"
+    ]
+  },
+  {
+    "id": "L2-MT-033",
+    "input": "帮我把这个月所有的子Agent任务执行记录汇总一下，按成功率排序，失败率高的分析一下原因",
+    "expected_output": "收集本月所有子Agent任务记录，统计每个Agent的成功率，按成功率排序，对失败率高的Agent分析失败原因",
+    "category": "认知错误类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户要做月度Agent效能复盘，需要数据支撑",
+    "execution_chain_steps": [
+      "收集本月子Agent任务执行记录",
+      "按Agent分组统计成功/失败数",
+      "计算每个Agent成功率",
+      "按成功率排序",
+      "对失败率高的Agent分析失败原因",
+      "生成月度效能报告"
+    ],
+    "north_star_indicator": "根因分析覆盖率",
+    "tags": [
+      "multi-turn",
+      "效能分析",
+      "月度复盘"
+    ]
+  },
+  {
+    "id": "L2-MT-034",
+    "input": "帮我把这个服务的日志格式从纯文本改成JSON格式，改完要确保所有下游的日志解析都还能正常工作",
+    "expected_output": "修改日志输出格式为JSON，找到所有下游日志解析逻辑，逐一适配新格式，验证整条链路正常",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "日志格式变更会影响所有下游消费者，需要确保连锁改动不遗漏",
+    "execution_chain_steps": [
+      "修改日志输出为JSON格式",
+      "搜索所有下游日志解析代码",
+      "逐一适配新JSON格式",
+      "运行日志解析测试",
+      "端到端验证日志链路",
+      "确认所有下游正常工作"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "格式迁移",
+      "下游适配"
+    ]
+  },
+  {
+    "id": "L2-MT-035",
+    "input": "我让你做的那个功能做到一半你说遇到了技术障碍，现在帮我评估一下有没有替代方案，有的话继续做",
+    "expected_output": "回顾之前遇到的技术障碍，调研替代方案，评估可行性，选择最优方案继续实现功能",
+    "category": "反复未果类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "Agent之前实现功能时遇到技术障碍停滞，用户要求寻找替代方案继续推进",
+    "execution_chain_steps": [
+      "回顾之前的技术障碍详情",
+      "调研可能的替代方案",
+      "评估每个方案的可行性和代价",
+      "选择最优替代方案",
+      "按新方案继续实现功能",
+      "验证功能完成"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "方案替代",
+      "障碍突破"
+    ]
+  },
+  {
+    "id": "L2-MT-036",
+    "input": "帮我检查一下所有的环境变量配置是否在文档里都有说明，没有的补上，多余的文档条目删掉",
+    "expected_output": "对比实际环境变量和文档记录，找出文档缺失和多余的条目，补全缺失项，删除多余项",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "项目的环境变量文档和实际使用不同步，用户要求双向对齐",
+    "execution_chain_steps": [
+      "扫描代码中所有环境变量引用",
+      "读取环境变量文档",
+      "找出文档缺失的变量",
+      "找出文档多余的条目",
+      "补全缺失的文档说明",
+      "删除多余的文档条目"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "文档对齐",
+      "双向同步"
+    ]
+  },
+  {
+    "id": "L2-MT-037",
+    "input": "帮我把这个接口的超时时间从5秒改成10秒，改完要确认上下游都没问题，特别是重试逻辑",
+    "expected_output": "修改接口超时配置，检查上游调用方的超时设置是否兼容，检查下游重试逻辑是否需要调整，全链路验证",
+    "category": "连锁跷跷板类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "修改超时时间看似简单，但可能引发上下游连锁问题",
+    "execution_chain_steps": [
+      "修改接口超时配置为10秒",
+      "检查上游调用方超时设置",
+      "检查下游重试逻辑和间隔",
+      "评估超时变更的连锁影响",
+      "调整需要适配的上下游配置",
+      "全链路测试验证"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "超时调整",
+      "连锁影响评估"
+    ]
+  },
+  {
+    "id": "L2-MT-038",
+    "input": "帮我把散落在代码注释里的TODO全部收集起来，按优先级排序，高优的先处理掉",
+    "expected_output": "全局搜索代码中的TODO注释，分类整理并评估优先级，按优先级排序，处理高优TODO项",
+    "category": "自主性缺失类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "项目中积累了大量TODO注释，用户要求系统性清理",
+    "execution_chain_steps": [
+      "全局搜索所有TODO注释",
+      "提取TODO内容和位置",
+      "按紧急程度评估优先级",
+      "生成优先级排序清单",
+      "处理高优先级TODO项",
+      "更新或删除已处理的TODO注释"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "TODO清理",
+      "优先级排序"
+    ]
+  },
+  {
+    "id": "L2-MT-039",
+    "input": "帮我做一次全面的安全审计，检查代码里有没有硬编码的密钥或token，有的话替换成环境变量",
+    "expected_output": "扫描代码库查找硬编码的密钥和token，列出所有发现，将硬编码替换为环境变量引用，更新配置文档",
+    "category": "交付质量类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "用户担心代码中存在安全隐患，要求全面排查硬编码凭证",
+    "execution_chain_steps": [
+      "扫描代码库查找密钥模式",
+      "识别硬编码的token和密钥",
+      "生成发现清单",
+      "将硬编码替换为环境变量",
+      "更新.env.example文件",
+      "验证替换后功能正常"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "安全审计",
+      "凭证管理"
+    ]
+  },
+  {
+    "id": "L2-MT-040",
+    "input": "帮我把这三个微服务的健康检查接口统一一下，格式要一致，然后写一个统一的监控脚本来检查它们",
+    "expected_output": "分析三个微服务现有的健康检查接口，统一响应格式，编写统一监控脚本，测试脚本能正确检查所有服务",
+    "category": "全局未对齐类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "multi_turn": true,
+    "context": "三个微服务的健康检查接口格式各异，无法统一监控",
+    "execution_chain_steps": [
+      "分析三个服务现有健康检查接口",
+      "设计统一的响应格式标准",
+      "逐一修改三个服务的健康检查接口",
+      "编写统一监控脚本",
+      "测试监控脚本对三个服务的检查",
+      "验证告警逻辑正确"
+    ],
+    "north_star_indicator": "执行链完整度",
+    "tags": [
+      "multi-turn",
+      "接口统一",
+      "监控脚本"
+    ]
+  }
+]
