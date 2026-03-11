@@ -1,29 +1,30 @@
 {
-  "id": "ISC-PDCA-PLAN-ENTRY-GATE-001",
-  "name": "PDCA Plan准入门禁",
-  "description": "任务进入Plan阶段前检查来源合法性（用户指令/ISC规则触发/事件驱动）",
-  "trigger": {
-    "events": [
-      "pdca.phase.plan.entry"
-    ]
-  },
-  "condition": "task.source必须为user_command|isc_rule|event_driven之一",
-  "action": "不合法则block并记录violation",
-  "severity": "medium",
-  "related_rules": [],
-  "created": "2026-03-09",
-  "handler": "skills/isc-core/handlers/pdca-plan-entry-gate.js",
-  "rule_id": "PDCA_PLAN_ENTRY_GATE",
-  "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
-  "north_star_indicator": {
-    "primary": "自主闭环率",
-    "secondary": "言出法随达成率"
-  },
-  "gate_relevance": 0.9,
-  "process_indicators": [
-    "handler_exists:True",
-    "event_subscribed:True",
-    "test_exists:False"
-  ],
-  "layer": "L3-programmatic"
+    "id": "ISC-PDCA-PLAN-ENTRY-GATE-001",
+    "rule_id": "PDCA_PLAN_ENTRY_GATE",
+    "event_type": "pdca.phase.plan.entry",
+    "name": "PDCA Plan准入门禁",
+    "description": "任务进入Plan阶段前检查来源合法性（用户指令/ISC规则触发/事件驱动）",
+    "trigger": {
+        "events": [
+            "pdca.phase.plan.entry"
+        ]
+    },
+    "condition": "task.source必须为user_command|isc_rule|event_driven之一",
+    "action": "不合法则block并记录violation",
+    "severity": "medium",
+    "related_rules": [],
+    "created": "2026-03-09",
+    "handler": "skills/isc-core/handlers/pdca-plan-entry-gate.js",
+    "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+    "north_star_indicator": {
+        "primary": "自主闭环率",
+        "secondary": "言出法随达成率"
+    },
+    "gate_relevance": 0.9,
+    "process_indicators": [
+        "handler_exists:True",
+        "event_subscribed:True",
+        "test_exists:False"
+    ],
+    "layer": "L3-programmatic"
 }

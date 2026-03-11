@@ -1,31 +1,32 @@
 {
-  "id": "ISC-PDCA-CHECK-ENTRY-GATE-001",
-  "name": "PDCA Check准入门禁",
-  "description": "进入Check阶段前确认有交付物且评测者已分配",
-  "trigger": {
-    "events": [
-      "pdca.phase.check.entry"
-    ]
-  },
-  "condition": "task.deliverables非空 AND task.evaluator_agent已指定 AND evaluator_agent≠executor_agent",
-  "action": "角色分离违规则BLOCK+记录Badcase",
-  "severity": "critical",
-  "related_rules": [
-    "ISC-EVAL-ROLE-SEPARATION-001"
-  ],
-  "created": "2026-03-09",
-  "handler": "skills/isc-core/handlers/pdca-check-entry-gate.js",
-  "rule_id": "PDCA_CHECK_ENTRY_GAT",
-  "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
-  "north_star_indicator": {
-    "primary": "自主闭环率",
-    "secondary": "言出法随达成率"
-  },
-  "gate_relevance": 0.9,
-  "process_indicators": [
-    "handler_exists:True",
-    "event_subscribed:True",
-    "test_exists:False"
-  ],
-  "layer": "L3-programmatic"
+    "id": "ISC-PDCA-CHECK-ENTRY-GATE-001",
+    "rule_id": "PDCA_CHECK_ENTRY_GAT",
+    "event_type": "pdca.phase.check.entry",
+    "name": "PDCA Check准入门禁",
+    "description": "进入Check阶段前确认有交付物且评测者已分配",
+    "trigger": {
+        "events": [
+            "pdca.phase.check.entry"
+        ]
+    },
+    "condition": "task.deliverables非空 AND task.evaluator_agent已指定 AND evaluator_agent≠executor_agent",
+    "action": "角色分离违规则BLOCK+记录Badcase",
+    "severity": "critical",
+    "related_rules": [
+        "ISC-EVAL-ROLE-SEPARATION-001"
+    ],
+    "created": "2026-03-09",
+    "handler": "skills/isc-core/handlers/pdca-check-entry-gate.js",
+    "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+    "north_star_indicator": {
+        "primary": "自主闭环率",
+        "secondary": "言出法随达成率"
+    },
+    "gate_relevance": 0.9,
+    "process_indicators": [
+        "handler_exists:True",
+        "event_subscribed:True",
+        "test_exists:False"
+    ],
+    "layer": "L3-programmatic"
 }

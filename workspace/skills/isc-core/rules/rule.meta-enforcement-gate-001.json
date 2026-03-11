@@ -1,82 +1,83 @@
 {
-  "id": "rule.meta-enforcement-gate-001",
-  "name": "rule_enforcement_gate",
-  "domain": "governance",
-  "type": "rule",
-  "scope": "isc",
-  "priority": "critical",
-  "description": "ISC元规则：规则必须有强制执行机制，否则视为未制定。写了但没挂执行的规则等于废纸。",
-  "rationale": "Day 1暴露的核心问题：ISC规则白纸黑字写了CONTRACT.md/SKILL.md等要求，但交付时无任何自动检查，全靠人记忆执行，必然遗漏。规则生命周期必须闭环。",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "rule": {
-    "lifecycle": {
-      "phases": [
-        "define",
-        "bind_enforcer",
-        "verify_enforcement"
-      ],
-      "description": "每条ISC规则必须经历三步闭环：定义→绑定执行机制→验证执行。缺任何一步该规则状态为unenforced。"
+    "id": "rule.meta-enforcement-gate-001",
+    "event_type": "isc.general.created",
+    "name": "rule_enforcement_gate",
+    "description": "ISC元规则：规则必须有强制执行机制，否则视为未制定。写了但没挂执行的规则等于废纸。",
+    "priority": "critical",
+    "domain": "governance",
+    "type": "rule",
+    "scope": "isc",
+    "rationale": "Day 1暴露的核心问题：ISC规则白纸黑字写了CONTRACT.md/SKILL.md等要求，但交付时无任何自动检查，全靠人记忆执行，必然遗漏。规则生命周期必须闭环。",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
     },
-    "enforcement_requirements": {
-      "minimum_one_enforcer": true,
-      "enforcer_types": [
-        "dto_event_trigger",
-        "pre_commit_hook",
-        "e2e_verification",
-        "pipeline_gate",
-        "cron_audit"
-      ],
-      "description": "每条规则必须绑定至少一个自动执行机制"
+    "rule": {
+        "lifecycle": {
+            "phases": [
+                "define",
+                "bind_enforcer",
+                "verify_enforcement"
+            ],
+            "description": "每条ISC规则必须经历三步闭环：定义→绑定执行机制→验证执行。缺任何一步该规则状态为unenforced。"
+        },
+        "enforcement_requirements": {
+            "minimum_one_enforcer": true,
+            "enforcer_types": [
+                "dto_event_trigger",
+                "pre_commit_hook",
+                "e2e_verification",
+                "pipeline_gate",
+                "cron_audit"
+            ],
+            "description": "每条规则必须绑定至少一个自动执行机制"
+        },
+        "unenforced_policy": {
+            "status_label": "unenforced",
+            "treatment": "等同于未制定，裁决殿审计时标红",
+            "grace_period_hours": 48,
+            "description": "新建规则有48h宽限期绑定执行机制，超时自动标记unenforced"
+        },
+        "council_gate": {
+            "name": "裁决殿准入门禁",
+            "requirements": [
+                "所有适用ISC规则逐条验证通过",
+                "零unenforced规则",
+                "E2E自动化验证100%通过",
+                "DecisionLog审计轨迹完整(sensing→cognition→execution)"
+            ],
+            "description": "交付物进入裁决殿评审的最低门槛，不是加分项"
+        }
     },
-    "unenforced_policy": {
-      "status_label": "unenforced",
-      "treatment": "等同于未制定，裁决殿审计时标红",
-      "grace_period_hours": 48,
-      "description": "新建规则有48h宽限期绑定执行机制，超时自动标记unenforced"
+    "trigger": {
+        "events": [
+            "isc.general.created",
+            "isc.general.updated",
+            "orchestration.general.review_requested"
+        ],
+        "actions": [
+            {
+                "type": "audit",
+                "description": "扫描所有ISC规则，标记无执行机制的为unenforced"
+            },
+            {
+                "type": "gate",
+                "description": "裁决殿评审前自动检查准入四条件"
+            }
+        ],
+        "event": "isc.general.created"
     },
-    "council_gate": {
-      "name": "裁决殿准入门禁",
-      "requirements": [
-        "所有适用ISC规则逐条验证通过",
-        "零unenforced规则",
-        "E2E自动化验证100%通过",
-        "DecisionLog审计轨迹完整(sensing→cognition→execution)"
-      ],
-      "description": "交付物进入裁决殿评审的最低门槛，不是加分项"
-    }
-  },
-  "trigger": {
-    "events": [
-      "isc.general.created",
-      "isc.general.updated",
-      "orchestration.general.review_requested"
-    ],
-    "actions": [
-      {
-        "type": "audit",
-        "description": "扫描所有ISC规则，标记无执行机制的为unenforced"
-      },
-      {
-        "type": "gate",
-        "description": "裁决殿评审前自动检查准入四条件"
-      }
-    ],
-    "event": "isc.general.created"
-  },
-  "version": "001",
-  "created": "2026-03-05",
-  "created_by": "战略家",
-  "source": "Day 1复盘 - ISC规则写了但没执行的系统性缺陷",
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "handler": "meta-enforcement",
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.meta-enforcement-gate-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/meta-enforcement-gate.js"
+    "version": "001",
+    "created": "2026-03-05",
+    "created_by": "战略家",
+    "source": "Day 1复盘 - ISC规则写了但没执行的系统性缺陷",
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "handler": "meta-enforcement",
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.meta-enforcement-gate-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/meta-enforcement-gate.js"
 }

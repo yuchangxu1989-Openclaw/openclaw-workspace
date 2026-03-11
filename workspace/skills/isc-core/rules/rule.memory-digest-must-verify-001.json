@@ -1,42 +1,43 @@
 {
-  "id": "rule.memory-digest-must-verify-001",
-  "rule_name": "记忆消化必须核实",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "消化任何历史信息后必须核实磁盘文件实际存在。流程：记录→核实文件→补缺→commit。不能只写memory不查磁盘。",
-  "category": "meta-governance",
-  "trigger": {
-    "events": [
-      "knowledge.general.updated",
-      "knowledge.general.created"
-    ],
-    "actions": [
-      "quality.general.disk_check"
-    ],
-    "event": "knowledge.general.updated"
-  },
-  "conditions": {
-    "workflow": [
-      "record",
-      "verify_file_exists",
-      "fill_gaps",
-      "git_commit"
-    ],
-    "forbidden": "memory_only_without_disk_verification"
-  },
-  "rationale": {
-    "source": "用户教学",
-    "user_quote": "你学到的东西，不应该像看电影一样只是增加了点记忆。记忆不值钱，很容易抹去。MEMORY是声明式的文字描述，真正执行起来会出现漂移。"
-  },
-  "enforcement_tier": "P1_check",
-  "created_at": "2026-03-06T00:28:00+08:00",
-  "action": {
-    "type": "handler",
-    "handler": "memory-digest-must-verify",
-    "description": "",
-    "script": "scripts/isc-hooks/rule.memory-digest-must-verify-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/memory-digest-must-verify.js"
+    "id": "rule.memory-digest-must-verify-001",
+    "event_type": "knowledge.general.updated",
+    "description": "消化任何历史信息后必须核实磁盘文件实际存在。流程：记录→核实文件→补缺→commit。不能只写memory不查磁盘。",
+    "rule_name": "记忆消化必须核实",
+    "version": "1.0.0",
+    "severity": "high",
+    "category": "meta-governance",
+    "trigger": {
+        "events": [
+            "knowledge.general.updated",
+            "knowledge.general.created"
+        ],
+        "actions": [
+            "quality.general.disk_check"
+        ],
+        "event": "knowledge.general.updated"
+    },
+    "conditions": {
+        "workflow": [
+            "record",
+            "verify_file_exists",
+            "fill_gaps",
+            "git_commit"
+        ],
+        "forbidden": "memory_only_without_disk_verification"
+    },
+    "rationale": {
+        "source": "用户教学",
+        "user_quote": "你学到的东西，不应该像看电影一样只是增加了点记忆。记忆不值钱，很容易抹去。MEMORY是声明式的文字描述，真正执行起来会出现漂移。"
+    },
+    "enforcement_tier": "P1_check",
+    "created_at": "2026-03-06T00:28:00+08:00",
+    "action": {
+        "type": "handler",
+        "handler": "memory-digest-must-verify",
+        "description": "",
+        "script": "scripts/isc-hooks/rule.memory-digest-must-verify-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/memory-digest-must-verify.js"
 }

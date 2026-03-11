@@ -1,134 +1,135 @@
 {
-  "id": "rule.multi-agent-communication-priority-001",
-  "name": "multi_agent_communication_priority",
-  "domain": "orchestration",
-  "type": "governance_rule",
-  "description": "多Agent并行与用户沟通优先规则 - 所有任务使用多Agent并行，主Agent沟通始终畅通",
-  "rationale": "确保复杂任务使用多Agent并行提升效率，同时保证用户与主Agent的沟通不被阻塞",
-  "rules": [
-    {
-      "id": "R-A1",
-      "name": "default_parallel_execution",
-      "description": "默认使用多Agent并行执行 - 所有任务强制并行",
-      "condition": "true",
-      "priority": "CRITICAL",
-      "action": {
-        "type": "parallel_subagent",
-        "executor": "parallel-subagent",
-        "config": {
-          "max_concurrency": 5,
-          "pool_min": 2,
-          "pool_max": 10,
-          "retry": 2,
-          "timeout": 300,
-          "default_enabled": true
-        }
-      }
-    },
-    {
-      "id": "R-A2",
-      "name": "backup_key_rotation",
-      "description": "使用备份模型Key实现并行",
-      "condition": "多Agent并行执行时",
-      "action": {
-        "type": "key_pool_rotation",
-        "keys": [
-          "${ZHIPU_KEY_1}",
-          "${ZHIPU_KEY_2}"
-        ],
-        "strategy": "round_robin",
-        "max_requests_per_key": 5
-      }
-    },
-    {
-      "id": "R-A3",
-      "name": "main_agent_communication_priority",
-      "description": "主Agent与用户沟通始终畅通",
-      "priority": "CRITICAL",
-      "rules": [
+    "id": "rule.multi-agent-communication-priority-001",
+    "event_type": "isc.rule.matched",
+    "name": "multi_agent_communication_priority",
+    "description": "多Agent并行与用户沟通优先规则 - 所有任务使用多Agent并行，主Agent沟通始终畅通",
+    "domain": "orchestration",
+    "type": "governance_rule",
+    "rationale": "确保复杂任务使用多Agent并行提升效率，同时保证用户与主Agent的沟通不被阻塞",
+    "rules": [
         {
-          "condition": "用户发送消息",
-          "action": {
-            "type": "immediate_response",
-            "timeout": "< 30s",
-            "blocking": false
-          }
+            "id": "R-A1",
+            "name": "default_parallel_execution",
+            "description": "默认使用多Agent并行执行 - 所有任务强制并行",
+            "condition": "true",
+            "priority": "CRITICAL",
+            "action": {
+                "type": "parallel_subagent",
+                "executor": "parallel-subagent",
+                "config": {
+                    "max_concurrency": 5,
+                    "pool_min": 2,
+                    "pool_max": 10,
+                    "retry": 2,
+                    "timeout": 300,
+                    "default_enabled": true
+                }
+            }
         },
         {
-          "condition": "子Agent执行中",
-          "action": {
-            "type": "async_callback",
-            "main_agent_status": "available_for_user",
-            "sub_agent_status": "background_execution"
-          }
+            "id": "R-A2",
+            "name": "backup_key_rotation",
+            "description": "使用备份模型Key实现并行",
+            "condition": "多Agent并行执行时",
+            "action": {
+                "type": "key_pool_rotation",
+                "keys": [
+                    "${ZHIPU_KEY_1}",
+                    "${ZHIPU_KEY_2}"
+                ],
+                "strategy": "round_robin",
+                "max_requests_per_key": 5
+            }
         },
         {
-          "condition": "子Agent完成",
-          "action": {
-            "type": "aggregate_and_report",
-            "format": "concise_summary"
-          }
-        }
-      ]
-    },
-    {
-      "id": "R-A4",
-      "name": "message_backlog_parallel_processing",
-      "description": "消息积压时多Agent并行处理",
-      "priority": "HIGH",
-      "condition": "待处理消息数 > 1 AND (当前时间 - 最早消息时间) < 60s",
-      "action": {
-        "type": "parallel_batch_process",
-        "strategy": "multi_model_multi_key",
-        "config": {
-          "batch_size": 5,
-          "max_concurrency": 5,
-          "model_distribution": {
-            "glm-5": [
-              "${ZHIPU_KEY_1}",
-              "${ZHIPU_KEY_2}"
+            "id": "R-A3",
+            "name": "main_agent_communication_priority",
+            "description": "主Agent与用户沟通始终畅通",
+            "priority": "CRITICAL",
+            "rules": [
+                {
+                    "condition": "用户发送消息",
+                    "action": {
+                        "type": "immediate_response",
+                        "timeout": "< 30s",
+                        "blocking": false
+                    }
+                },
+                {
+                    "condition": "子Agent执行中",
+                    "action": {
+                        "type": "async_callback",
+                        "main_agent_status": "available_for_user",
+                        "sub_agent_status": "background_execution"
+                    }
+                },
+                {
+                    "condition": "子Agent完成",
+                    "action": {
+                        "type": "aggregate_and_report",
+                        "format": "concise_summary"
+                    }
+                }
             ]
-          },
-          "key_rotation": "round_robin",
-          "aggregation": "ordered_response"
+        },
+        {
+            "id": "R-A4",
+            "name": "message_backlog_parallel_processing",
+            "description": "消息积压时多Agent并行处理",
+            "priority": "HIGH",
+            "condition": "待处理消息数 > 1 AND (当前时间 - 最早消息时间) < 60s",
+            "action": {
+                "type": "parallel_batch_process",
+                "strategy": "multi_model_multi_key",
+                "config": {
+                    "batch_size": 5,
+                    "max_concurrency": 5,
+                    "model_distribution": {
+                        "glm-5": [
+                            "${ZHIPU_KEY_1}",
+                            "${ZHIPU_KEY_2}"
+                        ]
+                    },
+                    "key_rotation": "round_robin",
+                    "aggregation": "ordered_response"
+                }
+            },
+            "fallback": {
+                "on_key_exhausted": "queue_and_retry",
+                "on_timeout": "partial_response_with_continuation"
+            }
         }
-      },
-      "fallback": {
-        "on_key_exhausted": "queue_and_retry",
-        "on_timeout": "partial_response_with_continuation"
-      }
-    }
-  ],
-  "enforcement": {
-    "mode": "strict",
-    "on_violation": "log_and_auto_fix",
-    "auto_fix_action": "spawn_parallel_subagents"
-  },
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false,
-    "priority": 100
-  },
-  "created_at": "2026-02-26T16:45:00+08:00",
-  "version": "1.0.0",
-  "trigger": {
-    "events": [
-      "isc.rule.matched",
-      "isc.category.matched"
     ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "info"
-      }
-    ],
-    "event": "isc.rule.matched"
-  },
-  "enforcement_tier": "P1_process",
-  "action": {
-    "handler": "multi-agent-communication-priority",
-    "type": "handler"
-  },
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/multi-agent-communication-priority.js"
+    "enforcement": {
+        "mode": "strict",
+        "on_violation": "log_and_auto_fix",
+        "auto_fix_action": "spawn_parallel_subagents"
+    },
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false,
+        "priority": 100
+    },
+    "created_at": "2026-02-26T16:45:00+08:00",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "isc.rule.matched",
+            "isc.category.matched"
+        ],
+        "actions": [
+            {
+                "type": "log",
+                "level": "info"
+            }
+        ],
+        "event": "isc.rule.matched"
+    },
+    "enforcement_tier": "P1_process",
+    "action": {
+        "handler": "multi-agent-communication-priority",
+        "type": "handler"
+    },
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/multi-agent-communication-priority.js"
 }

@@ -1,101 +1,102 @@
 {
-  "id": "ISC-MAIN-AGENT-DELEGATION-001",
-  "name": "主Agent委派铁律",
-  "version": "1.0.0",
-  "created": "2026-03-08",
-  "severity": "critical",
-  "description": "主Agent禁止亲自做实现工作，必须委派子Agent。认知规则已被用户纠偏5次以上仍反复违反，升级为程序化守卫。",
-  "root_cause": "认知规则(SOUL.md/MEMORY.md) ≠ 程序化守卫，声明式约束无法阻止行为。程序化守卫 > 认知规则。",
-  "trigger": {
-    "events": [
-      "tool_call.edit",
-      "tool_call.write",
-      "tool_call.exec",
-      "tool_call.feishu_doc"
-    ],
-    "conditions": {
-      "agent_role": "main",
-      "any_of": [
-        {
-          "tool": "edit",
-          "file_pattern": "\\.(js|py|json|sh|ts|jsx|tsx|css|html)$",
-          "exclude_pattern": "(MEMORY\\.md|memory/|AGENTS\\.md|SOUL\\.md|TOOLS\\.md|USER\\.md|HEARTBEAT\\.md)"
-        },
-        {
-          "tool": "write",
-          "file_pattern": "\\.(js|py|json|sh|ts|jsx|tsx|css|html)$",
-          "exclude_pattern": "(MEMORY\\.md|memory/|AGENTS\\.md|SOUL\\.md|TOOLS\\.md|USER\\.md|HEARTBEAT\\.md)"
-        },
-        {
-          "tool": "exec",
-          "script_lines_gt": 3
-        },
-        {
-          "tool": "feishu_doc",
-          "action_in": [
-            "write",
-            "append"
-          ]
+    "id": "ISC-MAIN-AGENT-DELEGATION-001",
+    "event_type": "tool_call.edit",
+    "name": "主Agent委派铁律",
+    "description": "主Agent禁止亲自做实现工作，必须委派子Agent。认知规则已被用户纠偏5次以上仍反复违反，升级为程序化守卫。",
+    "version": "1.0.0",
+    "created": "2026-03-08",
+    "severity": "critical",
+    "root_cause": "认知规则(SOUL.md/MEMORY.md) ≠ 程序化守卫，声明式约束无法阻止行为。程序化守卫 > 认知规则。",
+    "trigger": {
+        "events": [
+            "tool_call.edit",
+            "tool_call.write",
+            "tool_call.exec",
+            "tool_call.feishu_doc"
+        ],
+        "conditions": {
+            "agent_role": "main",
+            "any_of": [
+                {
+                    "tool": "edit",
+                    "file_pattern": "\\.(js|py|json|sh|ts|jsx|tsx|css|html)$",
+                    "exclude_pattern": "(MEMORY\\.md|memory/|AGENTS\\.md|SOUL\\.md|TOOLS\\.md|USER\\.md|HEARTBEAT\\.md)"
+                },
+                {
+                    "tool": "write",
+                    "file_pattern": "\\.(js|py|json|sh|ts|jsx|tsx|css|html)$",
+                    "exclude_pattern": "(MEMORY\\.md|memory/|AGENTS\\.md|SOUL\\.md|TOOLS\\.md|USER\\.md|HEARTBEAT\\.md)"
+                },
+                {
+                    "tool": "exec",
+                    "script_lines_gt": 3
+                },
+                {
+                    "tool": "feishu_doc",
+                    "action_in": [
+                        "write",
+                        "append"
+                    ]
+                }
+            ]
         }
-      ]
-    }
-  },
-  "action": {
-    "type": "handler",
-    "message": "🚫 ISC-MAIN-AGENT-DELEGATION-001 违反：主Agent不得亲自做实现工作。请使用 sessions_spawn 委派子Agent。",
-    "log_as_badcase": true,
-    "badcase_category": "主Agent亲力亲为",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-MAIN-AGENT-DELEGATION-001.sh",
-    "handler": "main-agent-delegation-guard"
-  },
-  "whitelist": {
-    "description": "主Agent允许直接执行的操作",
-    "allowed_tools": [
-      {
-        "tool": "read",
-        "any_file": true
-      },
-      {
-        "tool": "exec",
-        "max_lines": 3,
-        "purpose": "快速验证"
-      },
-      {
-        "tool": "edit",
-        "file_pattern": "(MEMORY\\.md|memory/.*\\.md|AGENTS\\.md|SOUL\\.md|TOOLS\\.md|USER\\.md|HEARTBEAT\\.md)$"
-      },
-      {
-        "tool": "write",
-        "file_pattern": "(MEMORY\\.md|memory/.*\\.md|HEARTBEAT\\.md)$"
-      },
-      {
-        "tool": "message",
-        "any": true
-      },
-      {
-        "tool": "sessions_spawn",
-        "any": true
-      },
-      {
-        "tool": "subagents",
-        "any": true
-      }
-    ]
-  },
-  "fullchain": {
-    "intent_registry": "intent-registry.json#ISC-MAIN-AGENT-DELEGATION-001",
-    "event_bus": "events.jsonl#tool_call.*",
-    "sensor": "主Agent工具调用拦截层（runtime级别）",
-    "executor": "block_and_alert → 拦截操作 + 记录badcase + 提示委派"
-  },
-  "history": [
-    {
-      "date": "2026-03-08",
-      "event": "用户第6次纠偏后创建程序化守卫",
-      "detail": "之前5次纠偏均只写入MEMORY.md/SOUL.md认知规则，未建立程序化拦截，导致反复违反"
-    }
-  ],
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/main-agent-delegation.js"
+    },
+    "action": {
+        "type": "handler",
+        "message": "🚫 ISC-MAIN-AGENT-DELEGATION-001 违反：主Agent不得亲自做实现工作。请使用 sessions_spawn 委派子Agent。",
+        "log_as_badcase": true,
+        "badcase_category": "主Agent亲力亲为",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-MAIN-AGENT-DELEGATION-001.sh",
+        "handler": "main-agent-delegation-guard"
+    },
+    "whitelist": {
+        "description": "主Agent允许直接执行的操作",
+        "allowed_tools": [
+            {
+                "tool": "read",
+                "any_file": true
+            },
+            {
+                "tool": "exec",
+                "max_lines": 3,
+                "purpose": "快速验证"
+            },
+            {
+                "tool": "edit",
+                "file_pattern": "(MEMORY\\.md|memory/.*\\.md|AGENTS\\.md|SOUL\\.md|TOOLS\\.md|USER\\.md|HEARTBEAT\\.md)$"
+            },
+            {
+                "tool": "write",
+                "file_pattern": "(MEMORY\\.md|memory/.*\\.md|HEARTBEAT\\.md)$"
+            },
+            {
+                "tool": "message",
+                "any": true
+            },
+            {
+                "tool": "sessions_spawn",
+                "any": true
+            },
+            {
+                "tool": "subagents",
+                "any": true
+            }
+        ]
+    },
+    "fullchain": {
+        "intent_registry": "intent-registry.json#ISC-MAIN-AGENT-DELEGATION-001",
+        "event_bus": "events.jsonl#tool_call.*",
+        "sensor": "主Agent工具调用拦截层（runtime级别）",
+        "executor": "block_and_alert → 拦截操作 + 记录badcase + 提示委派"
+    },
+    "history": [
+        {
+            "date": "2026-03-08",
+            "event": "用户第6次纠偏后创建程序化守卫",
+            "detail": "之前5次纠偏均只写入MEMORY.md/SOUL.md认知规则，未建立程序化拦截，导致反复违反"
+        }
+    ],
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/main-agent-delegation.js"
 }

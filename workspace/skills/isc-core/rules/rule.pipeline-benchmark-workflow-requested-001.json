@@ -1,43 +1,44 @@
 {
-  "id": "rule.pipeline-benchmark-workflow-requested-001",
-  "name": "pipeline_benchmark_workflow_requested",
-  "domain": "orchestration",
-  "type": "workflow",
-  "version": "1.0.0",
-  "description": "兼容 workflow.requested 事件命名，触发并行子 agent 编排。",
-  "trigger": {
-    "events": [
-      "workflow.requested"
+    "id": "rule.pipeline-benchmark-workflow-requested-001",
+    "event_type": "workflow.requested",
+    "name": "pipeline_benchmark_workflow_requested",
+    "description": "兼容 workflow.requested 事件命名，触发并行子 agent 编排。",
+    "priority": "P1",
+    "domain": "orchestration",
+    "type": "workflow",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "workflow.requested"
+        ],
+        "event": "workflow.requested"
+    },
+    "enforcement_tier": "P1_process",
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.pipeline-benchmark-workflow-requested-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/pipeline-benchmark-workflow-requested.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "event": "workflow.requested"
-  },
-  "priority": "P1",
-  "enforcement_tier": "P1_process",
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-workflow-requested-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/pipeline-benchmark-workflow-requested.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 0.7,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L1_orchestration"
+    "gate_relevance": 0.7,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
+    ],
+    "layer": "L1_orchestration"
 }

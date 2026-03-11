@@ -1,101 +1,102 @@
 {
-  "rule_id": "rule.project-artifact-gate-001",
-  "name": "项目产物沉淀门禁",
-  "version": "1.0.0",
-  "priority": "P0",
-  "type": "gate",
-  "enforcement_tier": "P0_block",
-  "domain": "project-mgmt",
-  "scope": "artifact",
-  "description": "任何任务标记完成前，必须验证可交付产物已沉淀。无产物=未完成，禁止空标completed。",
-  "rationale": "Gap5核心问题：任务可以被标记完成但没有任何可验证产物。门禁必须机器化阻止此情况。",
-  "trigger": {
-    "events": [
-      "task.status.completed",
-      "task.status.done",
-      "subtask.status.completed",
-      "sprint.day.completed"
+    "id": "PROJECT-ARTIFACT-GATE-001",
+    "rule_id": "rule.project-artifact-gate-001",
+    "event_type": "task.status.completed",
+    "name": "项目产物沉淀门禁",
+    "description": "任何任务标记完成前，必须验证可交付产物已沉淀。无产物=未完成，禁止空标completed。",
+    "priority": "P0",
+    "version": "1.0.0",
+    "type": "gate",
+    "enforcement_tier": "P0_block",
+    "domain": "project-mgmt",
+    "scope": "artifact",
+    "rationale": "Gap5核心问题：任务可以被标记完成但没有任何可验证产物。门禁必须机器化阻止此情况。",
+    "trigger": {
+        "events": [
+            "task.status.completed",
+            "task.status.done",
+            "subtask.status.completed",
+            "sprint.day.completed"
+        ],
+        "actions": [
+            {
+                "type": "gate",
+                "description": "阻止无产物的完成标记"
+            }
+        ],
+        "event": "task.status.completed"
+    },
+    "conditions": {
+        "required_checks": [
+            {
+                "id": "artifact_exists",
+                "description": "任务关联的产物文件/代码/报告必须存在",
+                "fail_action": "block"
+            },
+            {
+                "id": "artifact_not_empty",
+                "description": "产物不能为空文件或骨架模板",
+                "check": "文件大小>200字节 且 非纯标题占位",
+                "fail_action": "block"
+            },
+            {
+                "id": "acceptance_criteria_met",
+                "description": "任务定义的验收标准至少有一项有证据支撑",
+                "fail_action": "block"
+            },
+            {
+                "id": "tracker_updated",
+                "description": "PROJECT-TRACKER.md中对应条目已更新状态",
+                "fail_action": "warn"
+            }
+        ],
+        "exemptions": [
+            "风险治理类任务允许用文字记录代替代码产物",
+            "汇报类任务的产物是报告本身"
+        ]
+    },
+    "actions": {
+        "on_pass": [
+            "emit task.artifact.verified 事件",
+            "更新 PROJECT-TRACKER.md 状态为 ✅",
+            "写入 sprint metrics"
+        ],
+        "on_fail": [
+            "emit task.artifact.rejected 事件",
+            "标记任务状态回退为 ⏳ 进行中",
+            "输出缺失产物清单"
+        ]
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.project-artifact-gate-001.sh"
+    },
+    "metadata": {
+        "created": "2026-03-07",
+        "source": "Day2 Gap5 closure",
+        "anti_entropy": true
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/project-artifact-gate.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "actions": [
-      {
-        "type": "gate",
-        "description": "阻止无产物的完成标记"
-      }
+    "gate_relevance": 1,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
     ],
-    "event": "task.status.completed"
-  },
-  "conditions": {
-    "required_checks": [
-      {
-        "id": "artifact_exists",
-        "description": "任务关联的产物文件/代码/报告必须存在",
-        "fail_action": "block"
-      },
-      {
-        "id": "artifact_not_empty",
-        "description": "产物不能为空文件或骨架模板",
-        "check": "文件大小>200字节 且 非纯标题占位",
-        "fail_action": "block"
-      },
-      {
-        "id": "acceptance_criteria_met",
-        "description": "任务定义的验收标准至少有一项有证据支撑",
-        "fail_action": "block"
-      },
-      {
-        "id": "tracker_updated",
-        "description": "PROJECT-TRACKER.md中对应条目已更新状态",
-        "fail_action": "warn"
-      }
-    ],
-    "exemptions": [
-      "风险治理类任务允许用文字记录代替代码产物",
-      "汇报类任务的产物是报告本身"
-    ]
-  },
-  "actions": {
-    "on_pass": [
-      "emit task.artifact.verified 事件",
-      "更新 PROJECT-TRACKER.md 状态为 ✅",
-      "写入 sprint metrics"
-    ],
-    "on_fail": [
-      "emit task.artifact.rejected 事件",
-      "标记任务状态回退为 ⏳ 进行中",
-      "输出缺失产物清单"
-    ]
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.project-artifact-gate-001.sh"
-  },
-  "metadata": {
-    "created": "2026-03-07",
-    "source": "Day2 Gap5 closure",
-    "anti_entropy": true
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/project-artifact-gate.js",
-  "id": "PROJECT-ARTIFACT-GATE-001",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 1,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "layer": "L2_project"
 }

@@ -1,40 +1,41 @@
 {
-  "id": "rule.mandatory-parallel-dispatch-001",
-  "name": "mandatory_parallel_dispatch_for_independent_tasks",
-  "domain": "orchestration",
-  "type": "constraint",
-  "description": "独立任务强制并行派发 - 禁止在Agent池充足时将无依赖关系的独立任务打包成组合型任务",
-  "trigger": {
-    "type": "pre_dispatch",
-    "event": "task.dispatch.requested",
-    "condition": "任务包含多个独立子问题且Agent池有空闲slot"
-  },
-  "constraint": {
-    "rule": "MUST_SPLIT_INDEPENDENT_TASKS",
-    "description": "各子任务之间无依赖关系时，必须拆分为独立子Agent并行执行",
-    "criteria": {
-      "dependency_check": "子任务之间是否存在输入/输出依赖",
-      "independent": "无依赖 → 必须并行派发，每个子Agent处理一个任务",
-      "dependent": "有依赖 → 允许串行或组合",
-      "violation": "Agent池充足时将独立任务打包 = Badcase"
+    "id": "rule.mandatory-parallel-dispatch-001",
+    "event_type": "task.dispatch.requested",
+    "name": "mandatory_parallel_dispatch_for_independent_tasks",
+    "description": "独立任务强制并行派发 - 禁止在Agent池充足时将无依赖关系的独立任务打包成组合型任务",
+    "domain": "orchestration",
+    "type": "constraint",
+    "trigger": {
+        "type": "pre_dispatch",
+        "event": "task.dispatch.requested",
+        "condition": "任务包含多个独立子问题且Agent池有空闲slot"
     },
-    "examples": {
-      "correct": "用户问5个独立问题 → spawn 5个子Agent并行",
-      "wrong": "用户问5个独立问题 → 1个子Agent查5个问题"
+    "constraint": {
+        "rule": "MUST_SPLIT_INDEPENDENT_TASKS",
+        "description": "各子任务之间无依赖关系时，必须拆分为独立子Agent并行执行",
+        "criteria": {
+            "dependency_check": "子任务之间是否存在输入/输出依赖",
+            "independent": "无依赖 → 必须并行派发，每个子Agent处理一个任务",
+            "dependent": "有依赖 → 允许串行或组合",
+            "violation": "Agent池充足时将独立任务打包 = Badcase"
+        },
+        "examples": {
+            "correct": "用户问5个独立问题 → spawn 5个子Agent并行",
+            "wrong": "用户问5个独立问题 → 1个子Agent查5个问题"
+        }
+    },
+    "enforcement_tier": "P0_iron_rule",
+    "enforcement": "programmatic",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
+    },
+    "created_at": "2026-03-11T07:31:00+08:00",
+    "version": "1.0.0",
+    "handler": "skills/isc-core/handlers/mandatory-parallel-dispatch.js",
+    "_auto_deployed": {
+        "by": "isc-rule-deployer",
+        "at": "2026-03-10T23:39:04.751Z",
+        "prev_enforcement": "cognitive"
     }
-  },
-  "enforcement_tier": "P0_iron_rule",
-  "enforcement": "programmatic",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "created_at": "2026-03-11T07:31:00+08:00",
-  "version": "1.0.0",
-  "handler": "skills/isc-core/handlers/mandatory-parallel-dispatch.js",
-  "_auto_deployed": {
-    "by": "isc-rule-deployer",
-    "at": "2026-03-10T23:39:04.751Z",
-    "prev_enforcement": "cognitive"
-  }
 }

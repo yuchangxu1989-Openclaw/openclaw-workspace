@@ -1,29 +1,30 @@
 {
-  "id": "ISC-PDCA-ACT-ENTRY-GATE-001",
-  "name": "PDCA Act准入门禁",
-  "description": "进入Act阶段前确认Check发现了需要改进的问题",
-  "trigger": {
-    "events": [
-      "pdca.phase.act.entry"
-    ]
-  },
-  "condition": "task.check_findings数组非空",
-  "action": "无发现则跳过Act直接done",
-  "severity": "low",
-  "related_rules": [],
-  "created": "2026-03-09",
-  "handler": "skills/isc-core/handlers/pdca-act-entry-gate.js",
-  "rule_id": "PDCA_ACT_ENTRY_GATE_",
-  "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
-  "north_star_indicator": {
-    "primary": "自主闭环率",
-    "secondary": "言出法随达成率"
-  },
-  "gate_relevance": 0.9,
-  "process_indicators": [
-    "handler_exists:True",
-    "event_subscribed:True",
-    "test_exists:False"
-  ],
-  "layer": "L3-programmatic"
+    "id": "ISC-PDCA-ACT-ENTRY-GATE-001",
+    "rule_id": "PDCA_ACT_ENTRY_GATE_",
+    "event_type": "pdca.phase.act.entry",
+    "name": "PDCA Act准入门禁",
+    "description": "进入Act阶段前确认Check发现了需要改进的问题",
+    "trigger": {
+        "events": [
+            "pdca.phase.act.entry"
+        ]
+    },
+    "condition": "task.check_findings数组非空",
+    "action": "无发现则跳过Act直接done",
+    "severity": "low",
+    "related_rules": [],
+    "created": "2026-03-09",
+    "handler": "skills/isc-core/handlers/pdca-act-entry-gate.js",
+    "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+    "north_star_indicator": {
+        "primary": "自主闭环率",
+        "secondary": "言出法随达成率"
+    },
+    "gate_relevance": 0.9,
+    "process_indicators": [
+        "handler_exists:True",
+        "event_subscribed:True",
+        "test_exists:False"
+    ],
+    "layer": "L3-programmatic"
 }

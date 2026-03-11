@@ -1,43 +1,44 @@
 {
-  "id": "rule.pipeline-benchmark-skill-created-alignment-001",
-  "name": "pipeline_benchmark_skill_created_alignment",
-  "domain": "skill",
-  "type": "rule",
-  "version": "1.0.0",
-  "description": "对 skill.created 做通用对齐，覆盖能力锚点、分层架构、命名一致性与公开技能分类检查，确保新技能创建时的基础治理规则都能被命中。",
-  "trigger": {
-    "events": [
-      "skill.created"
+    "id": "rule.pipeline-benchmark-skill-created-alignment-001",
+    "event_type": "skill.created",
+    "name": "pipeline_benchmark_skill_created_alignment",
+    "description": "对 skill.created 做通用对齐，覆盖能力锚点、分层架构、命名一致性与公开技能分类检查，确保新技能创建时的基础治理规则都能被命中。",
+    "priority": "P1",
+    "domain": "skill",
+    "type": "rule",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "skill.created"
+        ],
+        "event": "skill.created"
+    },
+    "enforcement_tier": "P1_process",
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.pipeline-benchmark-skill-created-alignment-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/pipeline-benchmark-skill-created-alignment.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "event": "skill.created"
-  },
-  "priority": "P1",
-  "enforcement_tier": "P1_process",
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-skill-created-alignment-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/pipeline-benchmark-skill-created-alignment.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 0.7,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "gate_relevance": 0.7,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
+    ],
+    "layer": "L2_project"
 }

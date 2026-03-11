@@ -1,45 +1,46 @@
 {
-  "id": "rule.pipeline-benchmark-evomap-security-scan-001",
-  "name": "pipeline_benchmark_evomap_security_scan",
-  "domain": "security",
-  "type": "rule",
-  "version": "1.0.0",
-  "description": "兼容 evomap.sync.request 事件命名，确保 EvoMap 同步请求进入强制安全扫描流程。",
-  "trigger": {
-    "events": [
-      "evomap.sync.request"
+    "id": "rule.pipeline-benchmark-evomap-security-scan-001",
+    "event_type": "evomap.sync.request",
+    "name": "pipeline_benchmark_evomap_security_scan",
+    "description": "兼容 evomap.sync.request 事件命名，确保 EvoMap 同步请求进入强制安全扫描流程。",
+    "priority": "P1",
+    "domain": "security",
+    "type": "rule",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "evomap.sync.request"
+        ],
+        "event": "evomap.sync.request"
+    },
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.pipeline-benchmark-evomap-security-scan-001.sh",
+        "handler": "evomap-security-scan",
+        "handler_file": "handlers/evomap-security-scan.js"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/pipeline-benchmark-evomap-security-scan.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "event": "evomap.sync.request"
-  },
-  "priority": "P1",
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-evomap-security-scan-001.sh",
-    "handler": "evomap-security-scan",
-    "handler_file": "handlers/evomap-security-scan.js"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/pipeline-benchmark-evomap-security-scan.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 0.7,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L0_infra"
+    "gate_relevance": 0.7,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
+    ],
+    "layer": "L0_infra"
 }

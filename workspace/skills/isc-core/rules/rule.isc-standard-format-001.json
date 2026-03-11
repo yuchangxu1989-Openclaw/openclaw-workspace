@@ -1,123 +1,124 @@
 {
-  "id": "rule.isc-standard-format-001",
-  "name": "isc_standard_file_format",
-  "domain": "standardization",
-  "type": "rule",
-  "scope": "isc",
-  "description": "ISC规则文件格式统一标准 - 确保ISC-DTO无缝对接",
-  "rationale": "规则格式不统一导致DTO扫描失败，需要建立统一标准",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "standard": {
-    "file_naming": {
-      "primary": "rule.{domain}-{name}-{version}.json",
-      "examples": [
-        "rule.quality-skill-001.json",
-        "rule.naming-constant-002.json",
-        "rule.process-pdca-001.json"
-      ],
-      "legacy_support": [
-        "ISC-{NAME}-{VERSION}.json",
-        "{name}.json"
-      ]
+    "id": "rule.isc-standard-format-001",
+    "event_type": "isc.rule.matched",
+    "name": "isc_standard_file_format",
+    "description": "ISC规则文件格式统一标准 - 确保ISC-DTO无缝对接",
+    "domain": "standardization",
+    "type": "rule",
+    "scope": "isc",
+    "rationale": "规则格式不统一导致DTO扫描失败，需要建立统一标准",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
     },
-    "required_fields": {
-      "id": {
-        "format": "rule.{domain}-{name}-{version}",
-        "example": "rule.quality-skill-001",
-        "description": "规则唯一标识，必须匹配文件名"
-      },
-      "name": {
-        "format": "snake_case",
-        "example": "skill_no_placeholder",
-        "description": "规则名称，用于显示"
-      },
-      "domain": {
-        "enum": [
-          "quality",
-          "naming",
-          "process",
-          "interaction",
-          "security"
-        ],
-        "description": "规则所属领域"
-      },
-      "type": {
-        "enum": [
-          "rule",
-          "standard",
-          "guideline"
-        ],
-        "description": "规则类型"
-      },
-      "scope": {
-        "enum": [
-          "skill",
-          "system",
-          "interaction",
-          "global"
-        ],
-        "description": "规则适用范围"
-      },
-      "description": {
-        "min_length": 20,
-        "description": "规则描述，至少20字"
-      },
-      "governance": {
-        "required": true,
-        "fields": {
-          "auto_execute": "boolean - 是否自动执行",
-          "councilRequired": "boolean - 是否需要议会审议"
+    "standard": {
+        "file_naming": {
+            "primary": "rule.{domain}-{name}-{version}.json",
+            "examples": [
+                "rule.quality-skill-001.json",
+                "rule.naming-constant-002.json",
+                "rule.process-pdca-001.json"
+            ],
+            "legacy_support": [
+                "ISC-{NAME}-{VERSION}.json",
+                "{name}.json"
+            ]
+        },
+        "required_fields": {
+            "id": {
+                "format": "rule.{domain}-{name}-{version}",
+                "example": "rule.quality-skill-001",
+                "description": "规则唯一标识，必须匹配文件名"
+            },
+            "name": {
+                "format": "snake_case",
+                "example": "skill_no_placeholder",
+                "description": "规则名称，用于显示"
+            },
+            "domain": {
+                "enum": [
+                    "quality",
+                    "naming",
+                    "process",
+                    "interaction",
+                    "security"
+                ],
+                "description": "规则所属领域"
+            },
+            "type": {
+                "enum": [
+                    "rule",
+                    "standard",
+                    "guideline"
+                ],
+                "description": "规则类型"
+            },
+            "scope": {
+                "enum": [
+                    "skill",
+                    "system",
+                    "interaction",
+                    "global"
+                ],
+                "description": "规则适用范围"
+            },
+            "description": {
+                "min_length": 20,
+                "description": "规则描述，至少20字"
+            },
+            "governance": {
+                "required": true,
+                "fields": {
+                    "auto_execute": "boolean - 是否自动执行",
+                    "councilRequired": "boolean - 是否需要议会审议"
+                }
+            }
+        },
+        "compatibility": {
+            "dto_scanner": {
+                "must_match": "rule.*.json",
+                "fallback": "自动重命名非规则文件"
+            },
+            "isc_validator": {
+                "must_validate": [
+                    "id",
+                    "name",
+                    "domain",
+                    "governance"
+                ]
+            }
         }
-      }
     },
-    "compatibility": {
-      "dto_scanner": {
-        "must_match": "rule.*.json",
-        "fallback": "自动重命名非规则文件"
-      },
-      "isc_validator": {
-        "must_validate": [
-          "id",
-          "name",
-          "domain",
-          "governance"
-        ]
-      }
-    }
-  },
-  "migration_guide": {
-    "from_legacy": {
-      "ISC-XXX.json": "重命名为 rule.{domain}-{name}-{version}.json",
-      "*.json": "检查并添加governance配置"
+    "migration_guide": {
+        "from_legacy": {
+            "ISC-XXX.json": "重命名为 rule.{domain}-{name}-{version}.json",
+            "*.json": "检查并添加governance配置"
+        },
+        "validation": "使用isc-validator.js验证格式"
     },
-    "validation": "使用isc-validator.js验证格式"
-  },
-  "created_at": "2026-02-25T06:11:00+08:00",
-  "version": "1.0.0",
-  "trigger": {
-    "events": [
-      "isc.rule.matched",
-      "isc.category.matched"
-    ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "info"
-      }
-    ],
-    "event": "isc.rule.matched"
-  },
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "handler",
-    "handler": "isc-standard-format-check",
-    "description": "",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-standard-format-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/isc-standard-format.js"
+    "created_at": "2026-02-25T06:11:00+08:00",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "isc.rule.matched",
+            "isc.category.matched"
+        ],
+        "actions": [
+            {
+                "type": "log",
+                "level": "info"
+            }
+        ],
+        "event": "isc.rule.matched"
+    },
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "type": "handler",
+        "handler": "isc-standard-format-check",
+        "description": "",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-standard-format-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/isc-standard-format.js"
 }

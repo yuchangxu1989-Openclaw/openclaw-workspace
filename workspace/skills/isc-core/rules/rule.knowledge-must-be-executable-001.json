@@ -1,37 +1,38 @@
 {
-  "id": "rule.knowledge-must-be-executable-001",
-  "name": "知识必须可执行化",
-  "description": "任何从对话、教学、错误中学到的知识，必须自主固化为可执行的规则/技能/代码（不是告警等人处理）。全链路自主闭环：感知（扫描MEMORY.md发现可执行知识）→ 认知（判断应该成为技能还是规则还是代码）→ 执行（自动创建技能/规则/handler）→ 验证（确认可执行性）。Memory是索引不是终点。",
-  "version": "1.0.0",
-  "priority": "P0",
-  "category": "meta-governance",
-  "trigger": {
-    "events": [
-      "knowledge.general.created",
-      "user.teaching.received",
-      "system.error",
-      "system.error.lesson_extracted"
-    ],
-    "actions": [
-      "knowledge.executable.create_rule",
-      "knowledge.executable.create_skill",
-      "knowledge.executable.update_code"
-    ],
-    "event": "knowledge.general.created"
-  },
-  "conditions": {
-    "must": "新知识不能仅写入MEMORY.md，必须至少产出以下之一：ISC规则、技能代码、基础设施代码、pre-commit hook",
-    "check": "如果只产出了memory条目而没有可执行产物，视为未完成"
-  },
-  "rationale": "用户原话：'记忆不值钱，很容易抹去。MEMORY是声明式的文字描述，真正执行起来会出现漂移。'",
-  "anti_pattern": "看完电影写观后感——只增加记忆不改变行为",
-  "created_at": "2026-03-06T00:22:00+08:00",
-  "action": {
-    "handler": "knowledge-executable",
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.knowledge-must-be-executable-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/knowledge-must-be-executable.js"
+    "id": "rule.knowledge-must-be-executable-001",
+    "event_type": "knowledge.general.created",
+    "name": "知识必须可执行化",
+    "description": "任何从对话、教学、错误中学到的知识，必须自主固化为可执行的规则/技能/代码（不是告警等人处理）。全链路自主闭环：感知（扫描MEMORY.md发现可执行知识）→ 认知（判断应该成为技能还是规则还是代码）→ 执行（自动创建技能/规则/handler）→ 验证（确认可执行性）。Memory是索引不是终点。",
+    "priority": "P0",
+    "version": "1.0.0",
+    "category": "meta-governance",
+    "trigger": {
+        "events": [
+            "knowledge.general.created",
+            "user.teaching.received",
+            "system.error",
+            "system.error.lesson_extracted"
+        ],
+        "actions": [
+            "knowledge.executable.create_rule",
+            "knowledge.executable.create_skill",
+            "knowledge.executable.update_code"
+        ],
+        "event": "knowledge.general.created"
+    },
+    "conditions": {
+        "must": "新知识不能仅写入MEMORY.md，必须至少产出以下之一：ISC规则、技能代码、基础设施代码、pre-commit hook",
+        "check": "如果只产出了memory条目而没有可执行产物，视为未完成"
+    },
+    "rationale": "用户原话：'记忆不值钱，很容易抹去。MEMORY是声明式的文字描述，真正执行起来会出现漂移。'",
+    "anti_pattern": "看完电影写观后感——只增加记忆不改变行为",
+    "created_at": "2026-03-06T00:22:00+08:00",
+    "action": {
+        "handler": "knowledge-executable",
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.knowledge-must-be-executable-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/knowledge-must-be-executable.js"
 }

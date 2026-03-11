@@ -1,67 +1,68 @@
 {
-  "id": "rule.project-artifact-settlement-001",
-  "rule_name": "Project Artifact Settlement — 子Agent产物落盘门禁",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "子Agent任务标记完成前，必须校验其关键输出已写入项目文件（规则、报告、文档或代码）并可追溯；仅口头完成或未落盘视为未完成。",
-  "source": "Day2遗留项#5 项目管理产物沉淀机制补强",
-  "trigger": {
-    "events": [
-      "subagent.task.completed",
-      "orchestration.subagent.completed",
-      "pipeline.stage.completed",
-      "system.day.closure_requested"
-    ]
-  },
-  "action": {
-    "type": "gate",
-    "handler": "enforcement-engine",
-    "on_failure": "reject"
-  },
-  "checks": {
-    "required_artifacts": [
-      {
-        "name": "file_write_evidence",
-        "rule": "must_have_at_least_one_file_created_or_updated"
-      },
-      {
-        "name": "deliverable_trace",
-        "rule": "must_map_subagent_output_to_target_file_path"
-      },
-      {
-        "name": "tracker_sync",
-        "path": "/root/.openclaw/workspace/PROJECT-TRACKER.md",
-        "rule": "must_record_completion_with_evidence_path"
-      }
+    "id": "rule.project-artifact-settlement-001",
+    "event_type": "subagent.task.completed",
+    "description": "子Agent任务标记完成前，必须校验其关键输出已写入项目文件（规则、报告、文档或代码）并可追溯；仅口头完成或未落盘视为未完成。",
+    "rule_name": "Project Artifact Settlement — 子Agent产物落盘门禁",
+    "version": "1.0.0",
+    "severity": "critical",
+    "source": "Day2遗留项#5 项目管理产物沉淀机制补强",
+    "trigger": {
+        "events": [
+            "subagent.task.completed",
+            "orchestration.subagent.completed",
+            "pipeline.stage.completed",
+            "system.day.closure_requested"
+        ]
+    },
+    "action": {
+        "type": "gate",
+        "handler": "enforcement-engine",
+        "on_failure": "reject"
+    },
+    "checks": {
+        "required_artifacts": [
+            {
+                "name": "file_write_evidence",
+                "rule": "must_have_at_least_one_file_created_or_updated"
+            },
+            {
+                "name": "deliverable_trace",
+                "rule": "must_map_subagent_output_to_target_file_path"
+            },
+            {
+                "name": "tracker_sync",
+                "path": "/root/.openclaw/workspace/PROJECT-TRACKER.md",
+                "rule": "must_record_completion_with_evidence_path"
+            }
+        ],
+        "failure_reasons": [
+            "subagent_output_not_persisted",
+            "missing_output_to_file_mapping",
+            "tracker_missing_settlement_record"
+        ]
+    },
+    "enforcement": "runtime_binding",
+    "enforcement_tier": "P0_gate",
+    "schema_version": "2.0",
+    "handler": "skills/isc-core/handlers/project-artifact-settlement.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "failure_reasons": [
-      "subagent_output_not_persisted",
-      "missing_output_to_file_mapping",
-      "tracker_missing_settlement_record"
-    ]
-  },
-  "enforcement": "runtime_binding",
-  "enforcement_tier": "P0_gate",
-  "schema_version": "2.0",
-  "handler": "skills/isc-core/handlers/project-artifact-settlement.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 1,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "gate_relevance": 1,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
+    ],
+    "layer": "L2_project"
 }

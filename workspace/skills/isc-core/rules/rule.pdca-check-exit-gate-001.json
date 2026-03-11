@@ -1,31 +1,32 @@
 {
-  "id": "ISC-PDCA-CHECK-EXIT-GATE-001",
-  "name": "PDCA Check准出门禁",
-  "description": "离开Check阶段前确认评测报告已生成",
-  "trigger": {
-    "events": [
-      "pdca.phase.check.exit"
-    ]
-  },
-  "condition": "task.check_report存在且非空",
-  "action": "无评测报告则block",
-  "severity": "high",
-  "related_rules": [
-    "ISC-EVAL-ROLE-SEPARATION-001"
-  ],
-  "created": "2026-03-09",
-  "handler": "skills/isc-core/handlers/pdca-check-exit-gate.js",
-  "rule_id": "PDCA_CHECK_EXIT_GATE",
-  "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
-  "north_star_indicator": {
-    "primary": "自主闭环率",
-    "secondary": "言出法随达成率"
-  },
-  "gate_relevance": 0.9,
-  "process_indicators": [
-    "handler_exists:True",
-    "event_subscribed:True",
-    "test_exists:False"
-  ],
-  "layer": "L3-programmatic"
+    "id": "ISC-PDCA-CHECK-EXIT-GATE-001",
+    "rule_id": "PDCA_CHECK_EXIT_GATE",
+    "event_type": "pdca.phase.check.exit",
+    "name": "PDCA Check准出门禁",
+    "description": "离开Check阶段前确认评测报告已生成",
+    "trigger": {
+        "events": [
+            "pdca.phase.check.exit"
+        ]
+    },
+    "condition": "task.check_report存在且非空",
+    "action": "无评测报告则block",
+    "severity": "high",
+    "related_rules": [
+        "ISC-EVAL-ROLE-SEPARATION-001"
+    ],
+    "created": "2026-03-09",
+    "handler": "skills/isc-core/handlers/pdca-check-exit-gate.js",
+    "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+    "north_star_indicator": {
+        "primary": "自主闭环率",
+        "secondary": "言出法随达成率"
+    },
+    "gate_relevance": 0.9,
+    "process_indicators": [
+        "handler_exists:True",
+        "event_subscribed:True",
+        "test_exists:False"
+    ],
+    "layer": "L3-programmatic"
 }

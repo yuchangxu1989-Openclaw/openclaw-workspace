@@ -1,91 +1,92 @@
 {
-  "id": "rule.planning-time-granularity-037",
-  "version": "1.0.0",
-  "scope": "planning",
-  "name": "AI计划时间粒度标准",
-  "description": "AI进化速度极快，计划粒度必须以分钟/小时为单位，禁止按日/周/月列计划",
-  "rules": [
-    {
-      "id": "granularity-short-term",
-      "name": "短期计划粒度",
-      "granularity": "分钟/小时",
-      "horizon": "0-24小时",
-      "examples": [
-        "10分钟后执行同步",
-        "1小时内完成代码审查",
-        "30分钟后验证结果"
-      ]
-    },
-    {
-      "id": "granularity-medium-term",
-      "name": "中期计划粒度",
-      "granularity": "小时/半天",
-      "horizon": "1-7天",
-      "examples": [
-        "4小时内完成架构设计",
-        "12小时后交付初版",
-        "2天内完成测试"
-      ]
-    },
-    {
-      "id": "granularity-long-term",
-      "name": "长期计划粒度",
-      "granularity": "天",
-      "horizon": "1-4周",
-      "max_granularity": "禁止周/月单位",
-      "examples": [
-        "3天后启动新功能",
-        "5天内完成集成测试"
-      ]
-    }
-  ],
-  "prohibited": [
-    "按周计划",
-    "按月计划",
-    "下周开始",
-    "下个月完成"
-  ],
-  "enforcement": "strict",
-  "created_at": "2026-02-28",
-  "author": "长煦",
-  "trigger": {
-    "events": [
-      "isc.rule.matched",
-      "isc.category.matched"
+    "id": "rule.planning-time-granularity-037",
+    "event_type": "isc.rule.matched",
+    "name": "AI计划时间粒度标准",
+    "description": "AI进化速度极快，计划粒度必须以分钟/小时为单位，禁止按日/周/月列计划",
+    "version": "1.0.0",
+    "scope": "planning",
+    "rules": [
+        {
+            "id": "granularity-short-term",
+            "name": "短期计划粒度",
+            "granularity": "分钟/小时",
+            "horizon": "0-24小时",
+            "examples": [
+                "10分钟后执行同步",
+                "1小时内完成代码审查",
+                "30分钟后验证结果"
+            ]
+        },
+        {
+            "id": "granularity-medium-term",
+            "name": "中期计划粒度",
+            "granularity": "小时/半天",
+            "horizon": "1-7天",
+            "examples": [
+                "4小时内完成架构设计",
+                "12小时后交付初版",
+                "2天内完成测试"
+            ]
+        },
+        {
+            "id": "granularity-long-term",
+            "name": "长期计划粒度",
+            "granularity": "天",
+            "horizon": "1-4周",
+            "max_granularity": "禁止周/月单位",
+            "examples": [
+                "3天后启动新功能",
+                "5天内完成集成测试"
+            ]
+        }
     ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "info"
-      }
+    "prohibited": [
+        "按周计划",
+        "按月计划",
+        "下周开始",
+        "下个月完成"
     ],
-    "event": "isc.rule.matched"
-  },
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "handler",
-    "handler": "planning-time-granularity",
-    "description": ""
-  },
-  "handler": "skills/isc-core/handlers/planning-time-granularity.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": true,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 1,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L3_planning"
+    "enforcement": "strict",
+    "created_at": "2026-02-28",
+    "author": "长煦",
+    "trigger": {
+        "events": [
+            "isc.rule.matched",
+            "isc.category.matched"
+        ],
+        "actions": [
+            {
+                "type": "log",
+                "level": "info"
+            }
+        ],
+        "event": "isc.rule.matched"
+    },
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "type": "handler",
+        "handler": "planning-time-granularity",
+        "description": ""
+    },
+    "handler": "skills/isc-core/handlers/planning-time-granularity.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": true,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
+    ],
+    "gate_relevance": 1,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
+    ],
+    "layer": "L3_planning"
 }

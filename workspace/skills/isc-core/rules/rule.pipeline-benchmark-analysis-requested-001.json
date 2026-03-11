@@ -1,38 +1,39 @@
 {
-  "id": "rule.pipeline-benchmark-analysis-requested-001",
-  "name": "pipeline_benchmark_analysis_requested",
-  "domain": "analysis",
-  "type": "workflow",
-  "version": "1.0.0",
-  "description": "兼容 analysis.requested 事件命名，触发并行分析治理流程。",
-  "trigger": {
-    "events": [
-      "analysis.requested"
+    "id": "rule.pipeline-benchmark-analysis-requested-001",
+    "rule_id": "PIPELINE_BENCHMARK_A",
+    "event_type": "analysis.requested",
+    "name": "pipeline_benchmark_analysis_requested",
+    "description": "兼容 analysis.requested 事件命名，触发并行分析治理流程。",
+    "priority": "P1",
+    "domain": "analysis",
+    "type": "workflow",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "analysis.requested"
+        ],
+        "event": "analysis.requested"
+    },
+    "enforcement_tier": "P1_process",
+    "action": {
+        "type": "script",
+        "handler": "parallel-analysis",
+        "script": "scripts/isc-hooks/rule.pipeline-benchmark-analysis-requested-001.sh",
+        "handler_file": "handlers/parallel-analysis.js"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/pipeline-benchmark-analysis-requested.js",
+    "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+    "north_star_indicator": {
+        "primary": "认知层真实代码覆盖率",
+        "secondary": "根因分析覆盖率"
+    },
+    "gate_relevance": 0.7,
+    "process_indicators": [
+        "handler_exists:True",
+        "event_subscribed:True",
+        "test_exists:False"
     ],
-    "event": "analysis.requested"
-  },
-  "priority": "P1",
-  "enforcement_tier": "P1_process",
-  "action": {
-    "type": "script",
-    "handler": "parallel-analysis",
-    "script": "scripts/isc-hooks/rule.pipeline-benchmark-analysis-requested-001.sh",
-    "handler_file": "handlers/parallel-analysis.js"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/pipeline-benchmark-analysis-requested.js",
-  "rule_id": "PIPELINE_BENCHMARK_A",
-  "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
-  "north_star_indicator": {
-    "primary": "认知层真实代码覆盖率",
-    "secondary": "根因分析覆盖率"
-  },
-  "gate_relevance": 0.7,
-  "process_indicators": [
-    "handler_exists:True",
-    "event_subscribed:True",
-    "test_exists:False"
-  ],
-  "layer": "L3-programmatic"
+    "layer": "L3-programmatic"
 }
