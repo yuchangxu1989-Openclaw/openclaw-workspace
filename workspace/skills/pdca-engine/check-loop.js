@@ -233,38 +233,73 @@ function countFilePathRefs(text) {
 }
 
 function measureRuleExpansion() {
-  // Primary: scan actual rule JSON files for fullchain_status
+  // 5-layer expansion check (v2): intent / event / plan / handler / verification
+  // A rule is "expanded" ONLY when ALL 5 layers are present and non-empty.
   const rulesDir = path.join(WORKSPACE, 'skills/isc-core/rules');
   let totalRules = 0;
   let expandedRules = 0;
+  const layerStats = { intent: 0, event: 0, plan: 0, handler: 0, verification: 0 };
+  const incomplete = []; // rules missing ≥1 layer
+
   try {
     const files = fs.readdirSync(rulesDir).filter(f => f.endsWith('.json'));
     for (const f of files) {
       try {
         const rule = JSON.parse(fs.readFileSync(path.join(rulesDir, f), 'utf8'));
         totalRules++;
-        if (rule.fullchain_status === 'expanded') expandedRules++;
+
+        const trigger = (typeof rule.trigger === 'object' && rule.trigger !== null) ? rule.trigger : {};
+        const action  = (typeof rule.action  === 'object' && rule.action  !== null) ? rule.action  : {};
+        const gov     = (typeof rule.governance === 'object' && rule.governance !== null) ? rule.governance : {};
+
+        // Layer 1: 意图 (intent) — trigger/intent definition exists
+        const hasIntent = !!(Object.keys(trigger).length > 0 || rule.intent);
+
+        // Layer 2: 事件 (event) — event type binding
+        const evts = trigger.events || trigger.event || rule.events || rule.event_type;
+        const hasEvent = !!(Array.isArray(evts) ? evts.length > 0 : evts);
+
+        // Layer 3: 规划 (plan) — execution plan/strategy
+        const hasPlan = !!(rule.plan || rule.strategy || action.plan || rule.execution);
+
+        // Layer 4: 执行 (handler) — executable handler code/script
+        const hasHandler = !!(rule.handler || action.handler || action.script);
+
+        // Layer 5: 验真 (verification) — verification/test mechanism
+        const hasVerification = !!(rule.verification || rule.test || rule.verify || gov.verification);
+
+        if (hasIntent)       layerStats.intent++;
+        if (hasEvent)        layerStats.event++;
+        if (hasPlan)         layerStats.plan++;
+        if (hasHandler)      layerStats.handler++;
+        if (hasVerification) layerStats.verification++;
+
+        const missing = [];
+        if (!hasIntent)       missing.push('intent');
+        if (!hasEvent)        missing.push('event');
+        if (!hasPlan)         missing.push('plan');
+        if (!hasHandler)      missing.push('handler');
+        if (!hasVerification) missing.push('verification');
+
+        if (missing.length === 0) {
+          expandedRules++;
+        } else {
+          incomplete.push({ rule: rule.id || rule.rule_id || f, missing });
+        }
       } catch {}
     }
   } catch {}
 
-  // Fallback if no rules found
-  if (totalRules === 0) {
-    totalRules = 182;
-    for (const f of ['isc-full-scan.txt', 'isc-programmatic-gap-report.md', 'isc-enforcement-audit.md'].map(n => path.join(REPORTS_DIR, n))) {
-      try {
-        const content = fs.readFileSync(f, 'utf8');
-        const expandedMatch = content.match(/(\d+)\s*(rules?\s*(expanded|enforced|implemented|active)|(展开|实施|激活))/i);
-        if (expandedMatch) { const n = parseInt(expandedMatch[1]); if (n > expandedRules && n <= totalRules) expandedRules = n; }
-        const pctMatch = content.match(/([\d.]+)%\s*(coverage|覆盖|展开)/i);
-        if (pctMatch) { const implied = Math.round(parseFloat(pctMatch[1]) / 100 * totalRules); if (implied > expandedRules) expandedRules = implied; }
-      } catch {}
-    }
-    const hardGate = readJsonSafe(path.join(REPORTS_DIR, 'isc-hard-gate-fullsystem-test.json'));
-    if (hardGate) { const passed = hardGate.passed || hardGate.enforced || 0; if (passed > expandedRules) expandedRules = passed; }
-  }
+  if (totalRules === 0) totalRules = 1;
 
-  return { actual: +(expandedRules / totalRules).toFixed(4), expandedRules, totalRules };
+  return {
+    actual: +(expandedRules / totalRules).toFixed(4),
+    expandedRules,
+    totalRules,
+    layerStats,
+    incomplete: incomplete.slice(0, 30), // cap output size
+    incompleteCount: incomplete.length,
+  };
 }
 
 function measureBadcaseAutoRate() {
@@ -315,9 +350,9 @@ function analyzeGap(metricKey, label, actual, target, direction, st) {
       '使用complexity-gate评估任务复杂度后再分配',
     ],
     ruleExpansionRate: [
-      '优先展开高权重治理规则',
-      '建立规则展开的自动化pipeline',
-      '每次Check后自动识别下一批应展开的规则',
+      '5层展开标准：intent/event/plan/handler/verification 全部非空才算展开',
+      '当前主要缺失层：plan(规划)和verification(验真)，优先补齐',
+      '建立规则展开的自动化pipeline，每次Check后识别下一批应展开的规则',
     ],
   };
 
