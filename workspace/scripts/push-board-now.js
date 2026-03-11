@@ -249,7 +249,9 @@ for (const [label, { val, sessDir, agent }] of Object.entries(allSessions)) {
     : ageMin + 'm';
   const rawModel = val.model || val.config?.model || '';
   const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || AGENT_MODEL_FALLBACK[agent] || DEFAULT_MODEL_FALLBACK);
-  rows.push({ task: label, agent, model, status: '🟢运行中', duration, _age: age });
+  // agent="main"时用label推断角色，避免看板全显示main
+  const displayAgent = agent === 'main' ? (label.match(/^(fix|batch|auto|refactor)/) ? 'coder' : label.match(/^(backlog|review|audit|check)/) ? 'analyst' : label.match(/^(doc|write)/) ? 'writer' : 'worker') : agent;
+  rows.push({ task: label, agent: displayAgent, model, status: '🟢运行中', duration, _age: age });
 }
 // Sort: newest activity first
 rows.sort((a, b) => a._age - b._age);
