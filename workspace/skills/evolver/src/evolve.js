@@ -28,6 +28,7 @@ const {
   memoryGraphPath,
 } = memoryAdapter;
 const { readStateForSolidify, writeStateForSolidify } = require('./gep/solidify');
+const memosReader = require('/root/.openclaw/workspace/scripts/memos-reader');
 const { fetchTasks, selectBestTask, claimTask, taskToSignals } = require('./gep/taskReceiver');
 const { buildMutation, isHighRiskMutationAllowed } = require('./gep/mutation');
 const { selectPersonalityForRun } = require('./gep/personality');
@@ -339,62 +340,7 @@ const DIR_MEMORY = path.join(MEMORY_DIR, 'MEMORY.md');
 const MEMORY_FILE = fs.existsSync(ROOT_MEMORY) ? ROOT_MEMORY : (fs.existsSync(DIR_MEMORY) ? DIR_MEMORY : ROOT_MEMORY);
 const USER_FILE = path.join(WORKSPACE_ROOT, 'USER.md');
 
-// MemOS SQLite integration: read conversation memories from memos.db
-const MEMOS_DB = path.join(os.homedir(), '.openclaw', 'memos-local', 'memos.db');
-
-function readMemosMemory() {
-  try {
-    if (!fs.existsSync(MEMOS_DB)) return null;
-
-    const sanitize = (col) => `replace(replace(${col}, char(10), ' '), char(13), '')`;
-    // 1. Recent conversation chunks (last 30 by time)
-    const recentQuery = `SELECT role, ${sanitize('summary')}, ${sanitize(`substr(content,1,300)`)}, datetime(created_at/1000,'unixepoch','+8 hours') FROM chunks WHERE dedup_status='active' ORDER BY created_at DESC LIMIT 30;`;
-    // 2. Correction/directive chunks via FTS5 (纠偏、铁令、修正、规则) — prefix with c. to disambiguate
-    const ftsQuery = `SELECT c.role, ${sanitize('c.summary')}, ${sanitize(`substr(c.content,1,300)`)}, datetime(c.created_at/1000,'unixepoch','+8 hours') FROM chunks_fts f JOIN chunks c ON c.rowid=f.rowid WHERE chunks_fts MATCH '纠偏 OR 铁令 OR 修正 OR 规则 OR correction OR directive' AND c.dedup_status='active' ORDER BY rank LIMIT 15;`;
-
-    const SEP = '<<|>>';
-    const runQuery = (q) => {
-      try {
-        return execSync(`sqlite3 -separator '${SEP}' "${MEMOS_DB}" "${q}"`, {
-          timeout: 5000, encoding: 'utf8', maxBuffer: 1024 * 512
-        }).trim();
-      } catch { return ''; }
-    };
-
-    const recentRaw = runQuery(recentQuery);
-    const ftsRaw = runQuery(ftsQuery);
-
-    const formatRows = (raw, label) => {
-      if (!raw) return '';
-      const lines = raw.split('\n').filter(l => l.includes(SEP));
-      if (!lines.length) return '';
-      const formatted = lines.map(line => {
-        const parts = line.split(SEP);
-        const role = parts[0] || '?';
-        const summary = (parts[1] || '').trim();
-        const content_preview = (parts[2] || '').trim();
-        const ts = parts[3] || '';
-        const display = summary || content_preview.slice(0, 120);
-        return `  [${ts}] ${role}: ${display}`;
-      }).join('\n');
-      return `\n--- ${label} (${lines.length}条) ---\n${formatted}`;
-    };
-
-    const recentSection = formatRows(recentRaw, 'MemOS最近对话记忆');
-    const ftsSection = formatRows(ftsRaw, 'MemOS纠偏/铁令记忆');
-
-    if (!recentSection && !ftsSection) return null;
-
-    const totalChunks = execSync(`sqlite3 "${MEMOS_DB}" "SELECT COUNT(*) FROM chunks WHERE dedup_status='active'"`, {
-      timeout: 3000, encoding: 'utf8'
-    }).trim();
-
-    return `[MemOS对话记忆 - 共${totalChunks}条活跃记忆]${recentSection}${ftsSection}`;
-  } catch (e) {
-    console.error(`[MemOS] Failed to read memos.db: ${e.message}`);
-    return null;
-  }
-}
+// MemOS记忆读取：使用共用模块 memos-reader.js（消除双轨残留）
 
 function readMemorySnippet() {
   try {
@@ -414,7 +360,37 @@ function readMemorySnippet() {
       }
     }
 
-    // Read MEMORY.md (static knowledge)
+    // MemOS优先：先从共用模块读取MemOS记忆
+    let memosContent = '';
+    try {
+      if (memosReader.isAvailable()) {
+        // 读取最近对话记忆
+        const recentText = memosReader.readAsText(30) || '';
+        // 读取纠偏/铁令记忆（FTS搜索）
+        const directiveRows = memosReader.searchFTS('纠偏 OR 铁令 OR 修正 OR 规则 OR correction OR directive', 15);
+        let directiveText = '';
+        if (directiveRows.length) {
+          const lines = directiveRows.map(r => {
+            const display = r.summary || (r.content || '').slice(0, 120);
+            return `  [${r.time}] ${r.role}: ${display}`;
+          });
+          directiveText = `\n--- MemOS纠偏/铁令记忆 (${directiveRows.length}条) ---\n${lines.join('\n')}`;
+        }
+        if (recentText || directiveText) {
+          memosContent = (recentText || '') + directiveText;
+          console.log('[MemOS] Successfully loaded conversation memories for Evolver via memos-reader.');
+        }
+      }
+    } catch (e) {
+      console.error(`[MemOS] memos-reader failed: ${e.message}`);
+    }
+
+    // MemOS有数据则作为主要来源；无数据则fallback到MEMORY.md
+    if (memosContent) {
+      return memosContent;
+    }
+
+    // Fallback: MEMORY.md（仅当MemOS无数据时）
     let mdContent = '';
     if (fs.existsSync(memFile)) {
       mdContent = fs.readFileSync(memFile, 'utf8');
@@ -424,14 +400,7 @@ function readMemorySnippet() {
     } else {
       mdContent = '[MEMORY.md MISSING]';
     }
-
-    // Read MemOS conversation memories (dynamic knowledge)
-    const memosContent = readMemosMemory();
-    if (memosContent) {
-      console.log('[MemOS] Successfully loaded conversation memories for Evolver.');
-      return mdContent + '\n\n' + memosContent;
-    }
-
+    console.log('[MemOS] MemOS unavailable, falling back to MEMORY.md.');
     return mdContent;
   } catch (e) {
     return '[ERROR READING MEMORY]';
@@ -1336,7 +1305,7 @@ ${(() => {
 External candidates (A2A receive zone; staged only, never execute directly):
 ${externalCandidatesPreview}
 
-Global memory (MEMORY.md + MemOS对话记忆):
+Global memory (MemOS优先, MEMORY.md fallback):
 \`\`\`
 ${memorySnippet}
 \`\`\`
