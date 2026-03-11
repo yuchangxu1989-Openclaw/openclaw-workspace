@@ -8,7 +8,10 @@
   "scoring_rubric": "子Agent是否开启thinking: 开=10, 未开=0",
   "north_star_indicator": "认知层真实代码覆盖率",
   "gate_relevance": 0.9,
-  "process_indicators": ["thinking_enabled_rate", "subagent_quality_score"],
+  "process_indicators": [
+    "thinking_enabled_rate",
+    "subagent_quality_score"
+  ],
   "layer": "execute",
   "created": "2026-03-11T08:38:00+08:00",
   "source": "user_directive"

@@ -538,5 +538,15 @@
     "created_at": "2026-03-10T17:00:02.101Z",
     "data_source": "real_conversation",
     "signal": "2026-03-11 00:00-00:16 深夜冲刺\n\n### 用户铁令（永久生效）\n1. **单任务不超10个文件** — 必须拆开，不允许一次处理超10个文件\n2. **bug一个个修** — 不合并，一个bug一个任务一个commit\n3. **质量审计自动触发** — 任何coder/writer/researcher完成后自动spawn reviewer审计，不经过主Agent决策\n4. **审计任务本身进看板** — spawn reviewer时必须register-task\n5. **reviewer优先，忙了用其他worker** — 不是只能reviewer审计\n\n###"
+  },
+  {
+    "id": "auto-eval-1773190801738-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "08:14 Compaction Flush\n\n### 看板显示0问题诊断\n- **根因**: sessions_spawn创建的任务不走register-task.sh，看板只读subagent-t",
+    "source": "memory/2026-03-11.md",
+    "created_at": "2026-03-11T01:00:01.737Z",
+    "data_source": "real_conversation",
+    "signal": "08:14 Compaction Flush\n\n### 看板显示0问题诊断\n- **根因**: sessions_spawn创建的任务不走register-task.sh，看板只读subagent-task-board.json，新任务不在里面\n- **修复**: 已派 fix-taskboard-sync 子Agent，方向是让看板合并实际运行中的子Agent列表\n- **子Agent状态** (08:14):\n  - `isc-full-pce-expand` — 仍在跑（ISC 189条规则5层展开+V4审计）\n  - `create-qa-audit-skill` — 仍在跑\n  - "
   }
 ]

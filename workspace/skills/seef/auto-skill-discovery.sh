@@ -185,3 +185,9 @@ if [ -d "$(dirname "$EVENT_BUS_FILE" 2>/dev/null)" ] 2>/dev/null; then
   EVENT_TS=$(date -Iseconds)
   echo "{\"type\":\"seef.skill_discovery.completed\",\"timestamp\":\"$EVENT_TS\",\"source\":\"auto-skill-discovery\",\"data\":{\"wild_scripts\":$WILD_COUNT,\"misplaced\":$MISPLACED_COUNT,\"duplicates\":$DUPES_COUNT,\"report\":\"$REPORT_FILE\"}}" >> "$EVENT_BUS_FILE"
 fi
+
+# ═══════════════════════════════════════════════════
+# 阶段四：闭环执行 — 自动技能化
+# ═══════════════════════════════════════════════════
+echo "── 阶段四：闭环技能化 ──"
+bash "$WORKSPACE/scripts/skillify-candidates.sh"

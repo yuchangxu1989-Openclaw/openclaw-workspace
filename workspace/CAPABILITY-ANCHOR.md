@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/11 08:05:07
-> **技能总数**: 78
+> **生成时间**: 2026/3/11 09:00:01
+> **技能总数**: 79
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -56,18 +56,6 @@
 - **zhipu-image-gen**: skills/zhipu-image-gen/
 - **zhipu-keys**: skills/zhipu-keys/
 - **zhipu-vision**: skills/zhipu-vision/
-
-## 🧠 记忆系统
-
-### memos-memory-guide
-- **类型**: MemOS Local 插件（OpenClaw原生集成）
-- **能力**: FTS5全文搜索 + 向量语义搜索（智谱 embedding-3）
-- **DB路径**: `/root/.openclaw/memos-local/memos.db`
-- **Viewer**: `http://127.0.0.1:18799`
-- **技能路径**: skills/memos-memory-guide/
-- **触发词**: 记忆, 之前聊过, 上次说的, 历史对话, memory
-- **API**: memory_search / memory_timeline / task_summary / memory_viewer
-- **状态**: ✅ 已运行，自动向量化，127+ chunk
 
 ## 🔵 搜索与信息获取
 
@@ -145,6 +133,7 @@
 - 📄 **public/pdf-generator**: skills/public/pdf-generator/
 - 📄 **public/skill-creator-addon**: skills/public/skill-creator-addon/
 - ✅ **public/system-monitor**: skills/public/system-monitor/ — 技能健康度评估仪表盘 - 自动化扫描所有技能，评估完整性、活跃度、依赖健康度，生成可视化报告
+- ✅ **quality-audit**: skills/quality-audit/ — 统一质量审计技能，整合auto-QA、ISC规则审计、completion review三大组件
 - ✅ **rule-hygiene**: skills/rule-hygiene/ — ISC规则治理——去重、命名统一、三维分析（意图/事件/执行），输出规则-事件-DTO对齐矩阵
 - ✅ **ruleify**: skills/ruleify/ — |
 - ✅ **seef**: skills/seef/ — SEEF技能生态进化工厂 - 高度自治、可被云端大模型动态发现与自由编排的独立子技能集合，具备自主执行完整PDCA闭环能力
@@ -161,9 +150,3 @@
 3. **搜索首选**: tavily-search（AI优化），web_search为备选
 4. **能力来源**: 本文档由 isc-capability-anchor-sync 全量扫描自动生成
 5. **同步频率**: 每小时自动 + 技能变更时触发
-
-## quality-audit — 统一质量审计
-- **技能路径**：`skills/quality-audit/`
-- **组件**：auto-QA完成触发、ISC规则合规审计、架构评审流水线
-- **触发方式**：自动(completion事件/cron) + 手动
-- **状态**：active

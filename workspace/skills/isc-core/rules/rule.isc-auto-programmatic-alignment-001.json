@@ -4,9 +4,19 @@
   "description": "任何ISC规则的创建、修改、删除，都必须自动触发全链路程序化对齐：感知探针→认知判断→执行动作→质量验真",
   "priority": "P0",
   "category": "meta",
-  "trigger": {"event": "isc.rule.created,isc.rule.modified,isc.rule.deleted", "events": ["isc.rule.created", "isc.rule.modified", "isc.rule.deleted"]},
+  "trigger": {
+    "event": "isc.rule.created,isc.rule.modified,isc.rule.deleted",
+    "events": [
+      "isc.rule.created",
+      "isc.rule.modified",
+      "isc.rule.deleted"
+    ]
+  },
   "enforcement": "programmatic",
-  "action": {"type": "script", "script": "scripts/isc-auto-align.sh"},
-  "handler": "infrastructure/event-bus/handlers/handle-isc-auto-programmatic-alignment-001.sh",
+  "action": {
+    "type": "script",
+    "script": "scripts/isc-auto-align.sh"
+  },
+  "handler": "skills/isc-core/infrastructure/event-bus/handlers/handle-isc-auto-programmatic-alignment-001.sh",
   "fullchain_status": "expanded"
 }

@@ -13,8 +13,22 @@
     "rule": "MUST_DELEGATE_ANALYSIS_TASKS",
     "description": "主Agent只做调度+沟通+简单问答，所有分析查询排查操作必须委派",
     "criteria": {
-      "allowed_self": ["简单问答（上下文/记忆直接可答）", "调度决策", "用户沟通", "汇报总结"],
-      "must_delegate": ["读文件", "搜日志", "查配置", "分析数据", "排查问题", "核查状态", "扫描目录", "执行命令获取信息"],
+      "allowed_self": [
+        "简单问答（上下文/记忆直接可答）",
+        "调度决策",
+        "用户沟通",
+        "汇报总结"
+      ],
+      "must_delegate": [
+        "读文件",
+        "搜日志",
+        "查配置",
+        "分析数据",
+        "排查问题",
+        "核查状态",
+        "扫描目录",
+        "执行命令获取信息"
+      ],
       "violation": "主Agent自己做分析类任务 = 调度角色越位 = Badcase"
     },
     "examples": {
@@ -31,7 +45,7 @@
   },
   "enforcement_tier": "P0_iron_rule",
   "enforcement": "programmatic",
-  "handler": "handlers/delegate-analysis-tasks-guard.js",
+  "handler": "skills/isc-core/handlers/delegate-analysis-tasks-guard.js",
   "governance": {
     "auto_execute": true,
     "councilRequired": false
