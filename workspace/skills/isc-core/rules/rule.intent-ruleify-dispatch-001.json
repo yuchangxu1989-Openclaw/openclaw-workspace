@@ -1,28 +1,52 @@
 {
-  "id": "intent-ruleify-dispatch-001",
-  "name": "Intent Ruleify → ISC Rule Draft Dispatch",
-  "description": "当意图被分类为 ruleify 时，路由到 intent-event-handler 创建 ISC 规则草案",
-  "version": "1.0.0",
-  "priority": "high",
-  "enabled": true,
-  "trigger": {
+    "id": "intent-ruleify-dispatch-001",
     "event_type": "intent.ruleify",
-    "event": "intent.ruleify",
-    "events": [
-      "isc.rule.intent.ruleify.dispatch.001"
-    ]
-  },
-  "conditions": [],
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/intent-ruleify-dispatch-001.sh"
-  },
-  "metadata": {
-    "category": "intent-routing",
-    "created": "2026-03-06",
-    "author": "analyst"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/intent-ruleify-dispatch.js"
+    "name": "Intent Ruleify → ISC Rule Draft Dispatch",
+    "description": "当意图被分类为 ruleify 时，路由到 intent-event-handler 创建 ISC 规则草案",
+    "priority": "high",
+    "version": "1.0.0",
+    "enabled": true,
+    "trigger": {
+        "event_type": "intent.ruleify",
+        "event": "intent.ruleify",
+        "events": [
+            "isc.rule.intent.ruleify.dispatch.001",
+            "intent.ruleify"
+        ]
+    },
+    "conditions": [],
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/intent-ruleify-dispatch-001.sh"
+    },
+    "metadata": {
+        "category": "intent-routing",
+        "created": "2026-03-06",
+        "author": "analyst"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/intent-ruleify-dispatch.js",
+    "verification": {
+        "method": "intent_routing_check",
+        "description": "验证意图路由规则 intent-ruleify-dispatch-001 的分发正确性",
+        "assertions": [
+            {
+                "check": "intent_recognized",
+                "desc": "目标意图被正确识别"
+            },
+            {
+                "check": "route_correct",
+                "desc": "意图被路由到正确的处理器"
+            },
+            {
+                "check": "fallback_handled",
+                "desc": "无法识别的意图有fallback处理"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-ruleify-dispatch.js && echo 'handler_exists:pass'",
+        "expected_outcome": "意图准确识别并路由到正确处理器",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

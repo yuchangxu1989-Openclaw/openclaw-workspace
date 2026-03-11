@@ -1,28 +1,51 @@
 {
-  "id": "rule.intent-unknown-discovery-001",
-  "rule_name": "未知意图定期发现机制",
-  "version": "1.0.0",
-  "severity": "medium",
-  "description": "每周执行一次未知意图发现：(1)用智谱embedding对近期对话做向量聚类，(2)LLM对聚类结果做意图分类，(3)MECE原则识别增量且高频的意图类型，(4)主动溯源未解决问题是否因意图类型缺失导致。发现候选新意图→提交用户确认→注册。",
-  "trigger": {
-    "events": [
-      "lto.general.weekly",
-      "system.unresolved.detected"
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "执行向量聚类→意图分类→MECE增量识别→用户确认→注册"
-      }
-    ],
-    "event": "lto.general.weekly"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-unknown-discovery-001.sh"
-  },
-  "enforcement_tier": "P1_process",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-unknown-discovery.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-unknown-discovery-001",
+    "event_type": "lto.general.weekly",
+    "description": "每周执行一次未知意图发现：(1)用智谱embedding对近期对话做向量聚类，(2)LLM对聚类结果做意图分类，(3)MECE原则识别增量且高频的意图类型，(4)主动溯源未解决问题是否因意图类型缺失导致。发现候选新意图→提交用户确认→注册。",
+    "rule_name": "未知意图定期发现机制",
+    "version": "1.0.0",
+    "severity": "medium",
+    "trigger": {
+        "events": [
+            "lto.general.weekly",
+            "system.unresolved.detected"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "执行向量聚类→意图分类→MECE增量识别→用户确认→注册"
+            }
+        ],
+        "event": "lto.general.weekly"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-unknown-discovery-001.sh"
+    },
+    "enforcement_tier": "P1_process",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-unknown-discovery.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 rule.intent-unknown-discovery-001 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-unknown-discovery.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

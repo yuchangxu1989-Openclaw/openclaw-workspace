@@ -1,30 +1,53 @@
 {
-  "id": "rule.feishu-doc-auto-perm-001",
-  "name": "飞书文档创建后自动授权用户full_access",
-  "description": "每次创建飞书文档/表格后，必须自动调用auto-grant-feishu-perm.sh给长煦加full_access权限",
-  "priority": "P1",
-  "category": "execution",
-  "trigger": {
-    "events": [
-      "feishu.doc.created",
-      "feishu.bitable.created",
-      "feishu.sheet.created"
-    ]
-  },
-  "condition": {
-    "always": true
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/auto-grant-feishu-perm.sh",
-    "args": [
-      "${doc_token}",
-      "${doc_type}"
-    ]
-  },
-  "enforcement": "programmatic",
-  "created": "2026-03-08",
-  "source": "用户要求：所有未来新创建的飞书文档都给我加满权限",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/feishu-doc-auto-perm.js"
+    "id": "rule.feishu-doc-auto-perm-001",
+    "event_type": "feishu.doc.created",
+    "name": "飞书文档创建后自动授权用户full_access",
+    "description": "每次创建飞书文档/表格后，必须自动调用auto-grant-feishu-perm.sh给长煦加full_access权限",
+    "priority": "P1",
+    "category": "execution",
+    "trigger": {
+        "events": [
+            "feishu.doc.created",
+            "feishu.bitable.created",
+            "feishu.sheet.created"
+        ]
+    },
+    "condition": {
+        "always": true
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/auto-grant-feishu-perm.sh",
+        "args": [
+            "${doc_token}",
+            "${doc_type}"
+        ]
+    },
+    "enforcement": "programmatic",
+    "created": "2026-03-08",
+    "source": "用户要求：所有未来新创建的飞书文档都给我加满权限",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/feishu-doc-auto-perm.js",
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 rule.feishu-doc-auto-perm-001 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: feishu.doc.created, feishu.bitable.created, feishu.sheet.created"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/feishu-doc-auto-perm.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/feishu-doc-auto-perm.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

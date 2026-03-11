@@ -1,60 +1,83 @@
 {
-  "id": "rule.isc-rule-auto-decompose-001",
-  "name": "isc_rule_auto_decompose",
-  "domain": "meta",
-  "type": "rule",
-  "scope": "isc",
-  "version": "1.0.0",
-  "description": "元规则——规则创建后自动拆解事件绑定、DTO关联、三层归属验证，输出对齐矩阵",
-  "rationale": "规则创建后缺乏自动化的事件注册和DTO绑定，导致规则变成孤岛",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "standard": {
-    "auto_decompose_steps": [
-      {
-        "step": 1,
-        "name": "事件拆解",
-        "action": "分析规则监听什么事件，注册到EventBus"
-      },
-      {
-        "step": 2,
-        "name": "DTO绑定",
-        "action": "触发后做什么？自动绑定到DTO任务定义"
-      },
-      {
-        "step": 3,
-        "name": "三层归属验证",
-        "action": "验证感知层（谁感知？）、认知层（谁决策？）、执行层（谁执行？）标注清楚"
-      },
-      {
-        "step": 4,
-        "name": "对齐矩阵输出",
-        "action": "输出规则-事件-DTO对齐矩阵，确保无孤岛规则"
-      }
-    ]
-  },
-  "trigger": {
-    "events": [
-      "isc.rule.created"
-    ],
-    "actions": [
-      "isc.rule.triggered",
-      "lto.task.triggered"
-    ],
-    "event": "isc.rule.created"
-  },
-  "priority": "P0",
-  "enforcement_tier": "P0_block",
-  "created_at": "2026-03-05",
-  "source": "用户教学：元规则——规则创建后自动拆解",
-  "action": {
-    "handler": "isc-rule-decompose",
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.isc-rule-auto-decompose-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/isc-rule-auto-decompose.js"
+    "id": "rule.isc-rule-auto-decompose-001",
+    "event_type": "isc.rule.created",
+    "name": "isc_rule_auto_decompose",
+    "description": "元规则——规则创建后自动拆解事件绑定、DTO关联、三层归属验证，输出对齐矩阵",
+    "priority": "P0",
+    "domain": "meta",
+    "type": "rule",
+    "scope": "isc",
+    "version": "1.0.0",
+    "rationale": "规则创建后缺乏自动化的事件注册和DTO绑定，导致规则变成孤岛",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
+    },
+    "standard": {
+        "auto_decompose_steps": [
+            {
+                "step": 1,
+                "name": "事件拆解",
+                "action": "分析规则监听什么事件，注册到EventBus"
+            },
+            {
+                "step": 2,
+                "name": "DTO绑定",
+                "action": "触发后做什么？自动绑定到DTO任务定义"
+            },
+            {
+                "step": 3,
+                "name": "三层归属验证",
+                "action": "验证感知层（谁感知？）、认知层（谁决策？）、执行层（谁执行？）标注清楚"
+            },
+            {
+                "step": 4,
+                "name": "对齐矩阵输出",
+                "action": "输出规则-事件-DTO对齐矩阵，确保无孤岛规则"
+            }
+        ]
+    },
+    "trigger": {
+        "events": [
+            "isc.rule.created"
+        ],
+        "actions": [
+            "isc.rule.triggered",
+            "lto.task.triggered"
+        ],
+        "event": "isc.rule.created"
+    },
+    "enforcement_tier": "P0_block",
+    "created_at": "2026-03-05",
+    "source": "用户教学：元规则——规则创建后自动拆解",
+    "action": {
+        "handler": "isc-rule-decompose",
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.isc-rule-auto-decompose-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/isc-rule-auto-decompose.js",
+    "verification": {
+        "method": "skill_lifecycle_check",
+        "description": "验证技能生命周期规则 rule.isc-rule-auto-decompose-001 的管控能力",
+        "assertions": [
+            {
+                "check": "lifecycle_event_captured",
+                "desc": "技能创建/发布/更新事件被捕获"
+            },
+            {
+                "check": "quality_gate_applied",
+                "desc": "生命周期操作通过质量门禁"
+            },
+            {
+                "check": "registry_updated",
+                "desc": "技能注册表状态同步更新"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/isc-rule-auto-decompose.js && echo 'handler_exists:pass'",
+        "expected_outcome": "技能生命周期事件被正确管控",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

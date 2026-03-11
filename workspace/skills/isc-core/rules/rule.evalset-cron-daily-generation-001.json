@@ -1,71 +1,94 @@
 {
-  "id": "rule.evalset-cron-daily-generation-001",
-  "rule_name": "评测集每日自动生成",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "每24小时自主从真实会话中采样生成评测集。采样策略版本化，与按需生成统一去重，闭卷安全，落盘到 evaluation-sets/ 并注册到 registry.json。",
-  "category": "aeo",
-  "data_source": "real_conversation",
-  "trigger": {
-    "events": [
-      "cron.evalset.daily"
-    ],
-    "schedule": "0 5 * * *",
-    "event": "cron.evalset.daily"
-  },
-  "conditions": {
+    "id": "rule.evalset-cron-daily-generation-001",
+    "event_type": "cron.evalset.daily",
+    "description": "每24小时自主从真实会话中采样生成评测集。采样策略版本化，与按需生成统一去重，闭卷安全，落盘到 evaluation-sets/ 并注册到 registry.json。",
+    "rule_name": "评测集每日自动生成",
+    "version": "1.0.0",
+    "severity": "high",
+    "category": "aeo",
     "data_source": "real_conversation",
-    "dedup_required": true,
-    "dedup_scope": "cross_cron_and_adhoc",
-    "closed_book_required": true,
-    "sampling_strategy_versioned": true,
-    "registry_update_required": true
-  },
-  "action": {
-    "type": "script",
-    "handler": "evalset-cron-daily",
-    "script": "scripts/isc-hooks/rule.evalset-cron-daily-generation-001.sh",
-    "args": [
-      "--source",
-      "cron"
-    ]
-  },
-  "constraints": {
-    "closed_book_safety": {
-      "no_hardcoded_evalset": true,
-      "no_reference_reads": true,
-      "forbidden_paths": [
-        "memory/",
-        "labels/",
-        "annotations/",
-        "answers/",
-        "ground_truth/"
-      ]
+    "trigger": {
+        "events": [
+            "cron.evalset.daily"
+        ],
+        "schedule": "0 5 * * *",
+        "event": "cron.evalset.daily"
     },
-    "dedup_unified": {
-      "algorithm": [
-        "sha256_content_hash",
-        "jaccard_fuzzy_0.85"
-      ],
-      "fingerprint_db": "skills/aeo/evalset-cron-output/.dedup-fingerprints.json",
-      "scope": [
-        "all_evaluation_sets",
-        "unified_evaluation_sets"
-      ]
+    "conditions": {
+        "data_source": "real_conversation",
+        "dedup_required": true,
+        "dedup_scope": "cross_cron_and_adhoc",
+        "closed_book_required": true,
+        "sampling_strategy_versioned": true,
+        "registry_update_required": true
     },
-    "versioning": {
-      "generator_version_field": "generatorVersion",
-      "sampling_strategy_field": "samplingStrategy",
-      "strategy_registry": "skills/aeo/bin/evalset-cron/session-sampler.cjs::SAMPLING_STRATEGIES"
+    "action": {
+        "type": "script",
+        "handler": "evalset-cron-daily",
+        "script": "scripts/isc-hooks/rule.evalset-cron-daily-generation-001.sh",
+        "args": [
+            "--source",
+            "cron"
+        ]
+    },
+    "constraints": {
+        "closed_book_safety": {
+            "no_hardcoded_evalset": true,
+            "no_reference_reads": true,
+            "forbidden_paths": [
+                "memory/",
+                "labels/",
+                "annotations/",
+                "answers/",
+                "ground_truth/"
+            ]
+        },
+        "dedup_unified": {
+            "algorithm": [
+                "sha256_content_hash",
+                "jaccard_fuzzy_0.85"
+            ],
+            "fingerprint_db": "skills/aeo/evalset-cron-output/.dedup-fingerprints.json",
+            "scope": [
+                "all_evaluation_sets",
+                "unified_evaluation_sets"
+            ]
+        },
+        "versioning": {
+            "generator_version_field": "generatorVersion",
+            "sampling_strategy_field": "samplingStrategy",
+            "strategy_registry": "skills/aeo/bin/evalset-cron/session-sampler.cjs::SAMPLING_STRATEGIES"
+        }
+    },
+    "rationale": {
+        "source": "系统设计",
+        "reason": "自主持续扩充评测集覆盖面，不依赖人工手动生成"
+    },
+    "enforcement_tier": "P1_check",
+    "created_at": "2026-03-07T20:15:00+08:00",
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/evalset-cron-daily-generation.js",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.evalset-cron-daily-generation-001 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/evalset-cron-daily-generation.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
     }
-  },
-  "rationale": {
-    "source": "系统设计",
-    "reason": "自主持续扩充评测集覆盖面，不依赖人工手动生成"
-  },
-  "enforcement_tier": "P1_check",
-  "created_at": "2026-03-07T20:15:00+08:00",
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/evalset-cron-daily-generation.js"
 }

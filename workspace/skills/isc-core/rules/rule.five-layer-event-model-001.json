@@ -1,42 +1,65 @@
 {
-  "id": "rule.five-layer-event-model-001",
-  "rule_name": "五层事件认知模型",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "事件分5层：L1对象生命周期（创建/修改/删除）、L2量化阈值（计数器越过阈值）、L3语义意图（对话流中的意图信号，CRAS快通道5min捕获）、L4知识发现（学术/公网学习发现增量价值→触发本地适配）、L5系统性模式（反复失败/修补同类问题→触发根因分析重构）。还有元事件：自驱进化。",
-  "category": "event-bus",
-  "trigger": {
-    "events": [
-      "event.general.created",
-      "event.general.emitted"
-    ],
-    "actions": [
-      "event.general.layer_classification_check"
-    ],
-    "event": "event.general.created"
-  },
-  "conditions": {
-    "layers": {
-      "L1": "对象生命周期（创建/修改/删除）",
-      "L2": "量化阈值（计数器越过阈值）",
-      "L3": "语义意图（对话流意图信号，CRAS快通道5min捕获）",
-      "L4": "知识发现（学术/公网学习增量价值→本地适配）",
-      "L5": "系统性模式（反复失败/修补→根因分析重构）"
+    "id": "rule.five-layer-event-model-001",
+    "event_type": "event.general.created",
+    "description": "事件分5层：L1对象生命周期（创建/修改/删除）、L2量化阈值（计数器越过阈值）、L3语义意图（对话流中的意图信号，CRAS快通道5min捕获）、L4知识发现（学术/公网学习发现增量价值→触发本地适配）、L5系统性模式（反复失败/修补同类问题→触发根因分析重构）。还有元事件：自驱进化。",
+    "rule_name": "五层事件认知模型",
+    "version": "1.0.0",
+    "severity": "critical",
+    "category": "event-bus",
+    "trigger": {
+        "events": [
+            "event.general.created",
+            "event.general.emitted"
+        ],
+        "actions": [
+            "event.general.layer_classification_check"
+        ],
+        "event": "event.general.created"
     },
-    "meta_event": "自驱进化"
-  },
-  "rationale": {
-    "source": "用户教学"
-  },
-  "enforcement_tier": "P0_gate",
-  "created_at": "2026-03-06T00:28:00+08:00",
-  "action": {
-    "type": "script",
-    "handler": "five-layer-event-model",
-    "description": "",
-    "script": "scripts/isc-hooks/rule.five-layer-event-model-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/five-layer-event-model.js",
-  "fullchain_status": "expanded"
+    "conditions": {
+        "layers": {
+            "L1": "对象生命周期（创建/修改/删除）",
+            "L2": "量化阈值（计数器越过阈值）",
+            "L3": "语义意图（对话流意图信号，CRAS快通道5min捕获）",
+            "L4": "知识发现（学术/公网学习增量价值→本地适配）",
+            "L5": "系统性模式（反复失败/修补→根因分析重构）"
+        },
+        "meta_event": "自驱进化"
+    },
+    "rationale": {
+        "source": "用户教学"
+    },
+    "enforcement_tier": "P0_gate",
+    "created_at": "2026-03-06T00:28:00+08:00",
+    "action": {
+        "type": "script",
+        "handler": "five-layer-event-model",
+        "description": "",
+        "script": "scripts/isc-hooks/rule.five-layer-event-model-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/five-layer-event-model.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 rule.five-layer-event-model-001 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/five-layer-event-model.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

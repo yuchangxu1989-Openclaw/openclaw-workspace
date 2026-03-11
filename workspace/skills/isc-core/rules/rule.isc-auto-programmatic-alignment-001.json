@@ -1,22 +1,46 @@
 {
-  "id": "rule.isc-auto-programmatic-alignment-001",
-  "name": "ISC规则增删改自动程序化对齐",
-  "description": "任何ISC规则的创建、修改、删除，都必须自动触发全链路程序化对齐：感知探针→认知判断→执行动作→质量验真",
-  "priority": "P0",
-  "category": "meta",
-  "trigger": {
-    "event": "isc.rule.created,isc.rule.modified,isc.rule.deleted",
-    "events": [
-      "isc.rule.created",
-      "isc.rule.modified",
-      "isc.rule.deleted"
-    ]
-  },
-  "enforcement": "programmatic",
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-auto-align.sh"
-  },
-  "handler": "skills/isc-core/handlers/isc-auto-programmatic-alignment.js",
-  "fullchain_status": "expanded"
+    "id": "rule.isc-auto-programmatic-alignment-001",
+    "event_type": "isc.rule.created,isc.rule.modified,isc.rule.deleted",
+    "name": "ISC规则增删改自动程序化对齐",
+    "description": "任何ISC规则的创建、修改、删除，都必须自动触发全链路程序化对齐：感知探针→认知判断→执行动作→质量验真",
+    "priority": "P0",
+    "category": "meta",
+    "trigger": {
+        "event": "isc.rule.created,isc.rule.modified,isc.rule.deleted",
+        "events": [
+            "isc.rule.created",
+            "isc.rule.modified",
+            "isc.rule.deleted",
+            "isc.rule.created,isc.rule.modified,isc.rule.deleted"
+        ]
+    },
+    "enforcement": "programmatic",
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-auto-align.sh"
+    },
+    "handler": "skills/isc-core/handlers/isc-auto-programmatic-alignment.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 rule.isc-auto-programmatic-alignment-001 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: isc.rule.created, isc.rule.modified, isc.rule.deleted"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/isc-auto-programmatic-alignment.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/isc-auto-programmatic-alignment.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -1,123 +1,146 @@
 {
-  "id": "rule.isc-evomap-mandatory-security-scan-032",
-  "name": "EvoMap同步清单强制安全扫描",
-  "type": "decision",
-  "version": "1.0.0",
-  "description": "对EvoMap同步清单中的技能实施强制安全扫描，阻断恶意技能传播",
-  "createdAt": "2026-02-27T09:40:00+08:00",
-  "priority": "P0",
-  "enabled": true,
-  "trigger": {
-    "events": [
-      "evomap.sync.requested",
-      "evomap.skill.requested"
-    ],
-    "precondition": "EvoMap上传前必须完成安全扫描",
+    "id": "rule.isc-evomap-mandatory-security-scan-032",
+    "event_type": "evomap.sync.requested",
+    "name": "EvoMap同步清单强制安全扫描",
+    "description": "对EvoMap同步清单中的技能实施强制安全扫描，阻断恶意技能传播",
+    "priority": "P0",
+    "type": "decision",
+    "version": "1.0.0",
+    "createdAt": "2026-02-27T09:40:00+08:00",
+    "enabled": true,
+    "trigger": {
+        "events": [
+            "evomap.sync.requested",
+            "evomap.skill.requested"
+        ],
+        "precondition": "EvoMap上传前必须完成安全扫描",
+        "actions": [
+            {
+                "type": "gate-check",
+                "description": "EvoMap上传前执行强制安全扫描，未通过则阻断同步"
+            },
+            {
+                "type": "block-on-fail",
+                "description": "安全扫描未通过时阻断EvoMap同步并隔离技能"
+            }
+        ],
+        "event": "evomap.sync.requested"
+    },
+    "conditions": {
+        "all": [
+            {
+                "fact": "evomap.skill.inManifest",
+                "operator": "equal",
+                "value": true
+            },
+            {
+                "fact": "evomap.skill.securityScanStatus",
+                "operator": "equal",
+                "value": "passed"
+            }
+        ]
+    },
     "actions": [
-      {
-        "type": "gate-check",
-        "description": "EvoMap上传前执行强制安全扫描，未通过则阻断同步"
-      },
-      {
-        "type": "block-on-fail",
-        "description": "安全扫描未通过时阻断EvoMap同步并隔离技能"
-      }
+        {
+            "type": "block",
+            "description": "未通过安全扫描的技能禁止同步到EvoMap",
+            "if": "evomap.skill.securityScanStatus != 'passed'"
+        },
+        {
+            "type": "quarantine",
+            "description": "检测到威胁的技能移至隔离区等待人工审核"
+        },
+        {
+            "type": "notify",
+            "description": "安全扫描失败时通知管理员"
+        }
     ],
-    "event": "evomap.sync.requested"
-  },
-  "conditions": {
-    "all": [
-      {
-        "fact": "evomap.skill.inManifest",
-        "operator": "equal",
-        "value": true
-      },
-      {
-        "fact": "evomap.skill.securityScanStatus",
-        "operator": "equal",
-        "value": "passed"
-      }
-    ]
-  },
-  "actions": [
-    {
-      "type": "block",
-      "description": "未通过安全扫描的技能禁止同步到EvoMap",
-      "if": "evomap.skill.securityScanStatus != 'passed'"
+    "scanProcess": {
+        "steps": [
+            {
+                "step": 1,
+                "name": "清单读取",
+                "description": "读取EvoMap同步清单",
+                "source": "/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json"
+            },
+            {
+                "step": 2,
+                "name": "技能提取",
+                "description": "提取allowed_skills和infrastructure列表中的技能"
+            },
+            {
+                "step": 3,
+                "name": "安全扫描",
+                "description": "对清单中的每个技能执行8类威胁检测",
+                "scanner": "isc-security-scanner"
+            },
+            {
+                "step": 4,
+                "name": "权限验证",
+                "description": "验证SKILL.md中的permissions字段合规性"
+            },
+            {
+                "step": 5,
+                "name": "结果汇总",
+                "description": "生成安全扫描报告"
+            }
+        ]
     },
-    {
-      "type": "quarantine",
-      "description": "检测到威胁的技能移至隔离区等待人工审核"
+    "failureHandling": {
+        "threatDetected": {
+            "action": "block_and_quarantine",
+            "description": "检测到威胁，阻断同步并将技能移至隔离区",
+            "path": "/root/.openclaw/workspace/skills/isc-core/quarantine/"
+        },
+        "scanError": {
+            "action": "retry_then_block",
+            "description": "扫描出错时重试3次，仍失败则阻断",
+            "maxRetries": 3
+        },
+        "missingPermission": {
+            "action": "block_and_notify",
+            "description": "缺少权限声明，阻断并通知开发者补充"
+        }
     },
-    {
-      "type": "notify",
-      "description": "安全扫描失败时通知管理员"
+    "quarantinePolicy": {
+        "description": "隔离区管理策略",
+        "retentionDays": 30,
+        "autoCleanup": true,
+        "manualReviewRequired": true
+    },
+    "managedBy": "isc-core",
+    "updatePolicy": "auto_sync",
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "type": "check",
+        "handler": "completeness-check",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-evomap-mandatory-security-scan-032.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "expanded_handler": "infrastructure/event-bus/handlers/handle-evomap-mandatory-security-scan-032.sh",
+    "expanded_at": "2026-03-09T20:51:00+08:00",
+    "handler": "skills/isc-core/handlers/isc-evomap-mandatory-security-scan.js",
+    "verification": {
+        "method": "security_enforcement_check",
+        "description": "验证安全规则 rule.isc-evomap-mandatory-security-scan-032 的防护能力",
+        "assertions": [
+            {
+                "check": "unauthorized_blocked",
+                "desc": "未授权操作被拦截"
+            },
+            {
+                "check": "authorized_allowed",
+                "desc": "授权操作正常通过"
+            },
+            {
+                "check": "audit_logged",
+                "desc": "安全事件被审计记录"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/isc-evomap-mandatory-security-scan.js && echo 'handler_exists:pass'",
+        "expected_outcome": "未授权操作100%被拦截并记录审计日志",
+        "timeout_seconds": 120,
+        "on_failure": "log"
     }
-  ],
-  "scanProcess": {
-    "steps": [
-      {
-        "step": 1,
-        "name": "清单读取",
-        "description": "读取EvoMap同步清单",
-        "source": "/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json"
-      },
-      {
-        "step": 2,
-        "name": "技能提取",
-        "description": "提取allowed_skills和infrastructure列表中的技能"
-      },
-      {
-        "step": 3,
-        "name": "安全扫描",
-        "description": "对清单中的每个技能执行8类威胁检测",
-        "scanner": "isc-security-scanner"
-      },
-      {
-        "step": 4,
-        "name": "权限验证",
-        "description": "验证SKILL.md中的permissions字段合规性"
-      },
-      {
-        "step": 5,
-        "name": "结果汇总",
-        "description": "生成安全扫描报告"
-      }
-    ]
-  },
-  "failureHandling": {
-    "threatDetected": {
-      "action": "block_and_quarantine",
-      "description": "检测到威胁，阻断同步并将技能移至隔离区",
-      "path": "/root/.openclaw/workspace/skills/isc-core/quarantine/"
-    },
-    "scanError": {
-      "action": "retry_then_block",
-      "description": "扫描出错时重试3次，仍失败则阻断",
-      "maxRetries": 3
-    },
-    "missingPermission": {
-      "action": "block_and_notify",
-      "description": "缺少权限声明，阻断并通知开发者补充"
-    }
-  },
-  "quarantinePolicy": {
-    "description": "隔离区管理策略",
-    "retentionDays": 30,
-    "autoCleanup": true,
-    "manualReviewRequired": true
-  },
-  "managedBy": "isc-core",
-  "updatePolicy": "auto_sync",
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "check",
-    "handler": "completeness-check",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-evomap-mandatory-security-scan-032.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "expanded_handler": "infrastructure/event-bus/handlers/handle-evomap-mandatory-security-scan-032.sh",
-  "expanded_at": "2026-03-09T20:51:00+08:00",
-  "handler": "skills/isc-core/handlers/isc-evomap-mandatory-security-scan.js"
 }

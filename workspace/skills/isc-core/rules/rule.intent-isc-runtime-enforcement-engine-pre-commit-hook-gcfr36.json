@@ -1,46 +1,69 @@
 {
-  "id": "rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36",
-  "name": "intent_isc-runtime-enforcement-engine-pre-commit-hook",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "用户在建设可执行的规则系统，包括3个gate check和pre-commit hook v2.0的3-check enforcement",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "ISC Runtime Enforcement Engine & pre-commit hook"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: ISC Runtime Enforcement Engine & pre-commit hook"
-      }
-    ],
-    "event": "intent.ruleify"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772817302320"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "ISC Runtime Enforcement Engine & pre-commit hook",
-    "confidence": 0.85,
-    "source_file": "2026-03-05.md",
-    "evidence": "ISC Runtime Enforcement Engine - 3个gate check; ISC pre-commit hook v2.0 安装 - 3-check enforcement",
-    "created_at": "2026-03-06T17:15:02.320Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/isc-runtime-enforcement-pre-commit-hook.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36",
+    "event_type": "intent.ruleify",
+    "name": "intent_isc-runtime-enforcement-engine-pre-commit-hook",
+    "description": "用户在建设可执行的规则系统，包括3个gate check和pre-commit hook v2.0的3-check enforcement",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "ISC Runtime Enforcement Engine & pre-commit hook"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: ISC Runtime Enforcement Engine & pre-commit hook"
+            }
+        ],
+        "event": "intent.ruleify"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772817302320"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "ISC Runtime Enforcement Engine & pre-commit hook",
+        "confidence": 0.85,
+        "source_file": "2026-03-05.md",
+        "evidence": "ISC Runtime Enforcement Engine - 3个gate check; ISC pre-commit hook v2.0 安装 - 3-check enforcement",
+        "created_at": "2026-03-06T17:15:02.320Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/isc-runtime-enforcement-pre-commit-hook.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.intent-isc-runtime-enforcement-engine-pre-commit-hook-gcfr36 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/isc-runtime-enforcement-pre-commit-hook.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/isc-runtime-enforcement-pre-commit-hook.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

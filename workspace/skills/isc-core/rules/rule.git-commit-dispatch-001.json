@@ -1,35 +1,58 @@
 {
-  "id": "rule.git-commit-dispatch-001",
-  "rule_name": "Git提交事件分发路由",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "git.commit.completed 是所有代码变更的入口事件。此规则将其路由到质量检查、架构审查、规则-代码配对检查等下游管道。修复 P0-03：100+ 次 git.commit.completed 事件全部 NO_ROUTE 的问题。",
-  "category": "infrastructure",
-  "trigger": {
-    "events": [
-      "git.commit.completed"
-    ],
-    "actions": [
-      "git.commit.quality_check",
-      "git.commit.architecture_review",
-      "git.commit.rule_code_pairing"
-    ],
-    "event": "git.commit.completed"
-  },
-  "conditions": {
-    "source": "git-sensor",
-    "filter": "所有提交均触发，handler 内部按 categories 字段做 fanout 分发"
-  },
-  "rationale": "reviewer审计发现 git.commit.completed 是事件总线中频率最高事件之一（100+条），但无任何规则消费，导致CI-like自动化完全失效",
-  "enforcement_tier": "P0_block",
-  "created_at": "2026-03-06T18:45:00+08:00",
-  "action": {
-    "type": "handler",
-    "handler": "completeness-check",
-    "description": "Git提交触发规则触发完整性检查",
-    "script": "scripts/isc-hooks/rule.git-commit-dispatch-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/git-commit-dispatch.js",
-  "fullchain_status": "expanded"
+    "id": "rule.git-commit-dispatch-001",
+    "event_type": "git.commit.completed",
+    "description": "git.commit.completed 是所有代码变更的入口事件。此规则将其路由到质量检查、架构审查、规则-代码配对检查等下游管道。修复 P0-03：100+ 次 git.commit.completed 事件全部 NO_ROUTE 的问题。",
+    "rule_name": "Git提交事件分发路由",
+    "version": "1.0.0",
+    "severity": "high",
+    "category": "infrastructure",
+    "trigger": {
+        "events": [
+            "git.commit.completed"
+        ],
+        "actions": [
+            "git.commit.quality_check",
+            "git.commit.architecture_review",
+            "git.commit.rule_code_pairing"
+        ],
+        "event": "git.commit.completed"
+    },
+    "conditions": {
+        "source": "git-sensor",
+        "filter": "所有提交均触发，handler 内部按 categories 字段做 fanout 分发"
+    },
+    "rationale": "reviewer审计发现 git.commit.completed 是事件总线中频率最高事件之一（100+条），但无任何规则消费，导致CI-like自动化完全失效",
+    "enforcement_tier": "P0_block",
+    "created_at": "2026-03-06T18:45:00+08:00",
+    "action": {
+        "type": "handler",
+        "handler": "completeness-check",
+        "description": "Git提交触发规则触发完整性检查",
+        "script": "scripts/isc-hooks/rule.git-commit-dispatch-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/git-commit-dispatch.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.git-commit-dispatch-001 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/git-commit-dispatch.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

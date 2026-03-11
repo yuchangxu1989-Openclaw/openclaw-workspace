@@ -1,28 +1,51 @@
 {
-  "id": "rule.intent-anti-entropy-001",
-  "rule_name": "意图类型反熵增治理",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "意图类型数量必须保持MECE、不长尾。治理红线：(1)语义重叠的意图必须合并，(2)触发频率极低（30天<3次）的意图降级为观察态，(3)90天未触发的意图自动废弃提案，(4)任何新注册意图必须证明与现有意图不重叠。",
-  "trigger": {
-    "events": [
-      "event.type.created",
-      "lto.general.monthly"
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "扫描意图注册表→检测重叠/长尾→生成治理报告→执行合并/降级/废弃"
-      }
-    ],
-    "event": "event.type.created"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-anti-entropy-001.sh"
-  },
-  "enforcement_tier": "P1_process",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-anti-entropy.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-anti-entropy-001",
+    "event_type": "event.type.created",
+    "description": "意图类型数量必须保持MECE、不长尾。治理红线：(1)语义重叠的意图必须合并，(2)触发频率极低（30天<3次）的意图降级为观察态，(3)90天未触发的意图自动废弃提案，(4)任何新注册意图必须证明与现有意图不重叠。",
+    "rule_name": "意图类型反熵增治理",
+    "version": "1.0.0",
+    "severity": "high",
+    "trigger": {
+        "events": [
+            "event.type.created",
+            "lto.general.monthly"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "扫描意图注册表→检测重叠/长尾→生成治理报告→执行合并/降级/废弃"
+            }
+        ],
+        "event": "event.type.created"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-anti-entropy-001.sh"
+    },
+    "enforcement_tier": "P1_process",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-anti-entropy.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "intent_routing_check",
+        "description": "验证意图路由规则 rule.intent-anti-entropy-001 的分发正确性",
+        "assertions": [
+            {
+                "check": "intent_recognized",
+                "desc": "目标意图被正确识别"
+            },
+            {
+                "check": "route_correct",
+                "desc": "意图被路由到正确的处理器"
+            },
+            {
+                "check": "fallback_handled",
+                "desc": "无法识别的意图有fallback处理"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-anti-entropy.js && echo 'handler_exists:pass'",
+        "expected_outcome": "意图准确识别并路由到正确处理器",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

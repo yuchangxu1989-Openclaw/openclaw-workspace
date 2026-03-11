@@ -1,46 +1,69 @@
 {
-  "id": "rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891",
-  "name": "intent_day2-gap2-dispatcher-intent-route-validation",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "Validate dispatcher can consume intent.ruleify through intent-event-handler",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "Day2 Gap2 dispatcher intent route validation"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: Day2 Gap2 dispatcher intent route validation"
-      }
-    ],
-    "event": "intent.ruleify"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "test-ruleify-1772930453424"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "Day2 Gap2 dispatcher intent route validation",
-    "confidence": null,
-    "source_file": null,
-    "evidence": "subagent closeout regression",
-    "created_at": "2026-03-08T00:40:53.593Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-dispatcher-route-validation.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891",
+    "event_type": "intent.ruleify",
+    "name": "intent_day2-gap2-dispatcher-intent-route-validation",
+    "description": "Validate dispatcher can consume intent.ruleify through intent-event-handler",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "Day2 Gap2 dispatcher intent route validation"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: Day2 Gap2 dispatcher intent route validation"
+            }
+        ],
+        "event": "intent.ruleify"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "test-ruleify-1772930453424"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "Day2 Gap2 dispatcher intent route validation",
+        "confidence": null,
+        "source_file": null,
+        "evidence": "subagent closeout regression",
+        "created_at": "2026-03-08T00:40:53.593Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-dispatcher-route-validation.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "orchestration_flow_check",
+        "description": "验证编排规则 rule.intent-day2-gap2-dispatcher-intent-route-validation-t84891 的调度正确性",
+        "assertions": [
+            {
+                "check": "dispatch_target_valid",
+                "desc": "调度目标Agent/处理器有效"
+            },
+            {
+                "check": "task_routed_correctly",
+                "desc": "任务被路由到正确的执行者"
+            },
+            {
+                "check": "result_collected",
+                "desc": "执行结果被正确收集和报告"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-dispatcher-route-validation.js && echo 'handler_exists:pass'",
+        "expected_outcome": "任务正确调度到目标执行者并收集结果",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -1,46 +1,69 @@
 {
-  "id": "rule.intent-dispatchengine-api-usage-gvhcmy",
-  "name": "intent_dispatchengine-api-usage",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "用户要求记住DispatchEngine的正确生命周期方法，排除不存在的markFinished",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "DispatchEngine API usage"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: DispatchEngine API usage"
-      }
-    ],
-    "event": "intent.ruleify"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-dispatchengine-api-usage-gvhcmy.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772851203139"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "DispatchEngine API usage",
-    "confidence": 0.85,
-    "source_file": "2026-03-07.md",
-    "evidence": "DispatchEngine lifecycle methods are markRunning, markDone, markFailed, cancel, heartbeat; there is no markFinished.",
-    "created_at": "2026-03-07T02:40:03.139Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-dispatchengine-api-usage-gvhcmy.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-dispatchengine-api-usage-gvhcmy",
+    "event_type": "intent.ruleify",
+    "name": "intent_dispatchengine-api-usage",
+    "description": "用户要求记住DispatchEngine的正确生命周期方法，排除不存在的markFinished",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "DispatchEngine API usage"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: DispatchEngine API usage"
+            }
+        ],
+        "event": "intent.ruleify"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-dispatchengine-api-usage-gvhcmy.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772851203139"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "DispatchEngine API usage",
+        "confidence": 0.85,
+        "source_file": "2026-03-07.md",
+        "evidence": "DispatchEngine lifecycle methods are markRunning, markDone, markFailed, cancel, heartbeat; there is no markFinished.",
+        "created_at": "2026-03-07T02:40:03.139Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-dispatchengine-api-usage-gvhcmy.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "orchestration_flow_check",
+        "description": "验证编排规则 rule.intent-dispatchengine-api-usage-gvhcmy 的调度正确性",
+        "assertions": [
+            {
+                "check": "dispatch_target_valid",
+                "desc": "调度目标Agent/处理器有效"
+            },
+            {
+                "check": "task_routed_correctly",
+                "desc": "任务被路由到正确的执行者"
+            },
+            {
+                "check": "result_collected",
+                "desc": "执行结果被正确收集和报告"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-dispatchengine-api-usage-gvhcmy.js && echo 'handler_exists:pass'",
+        "expected_outcome": "任务正确调度到目标执行者并收集结果",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

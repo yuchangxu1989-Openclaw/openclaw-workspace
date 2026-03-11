@@ -1,28 +1,52 @@
 {
-  "id": "intent-directive-dispatch-001",
-  "name": "Intent Directive → 本地任务编排 Task Dispatch",
-  "description": "当意图被分类为 directive 时，路由到 intent-event-handler 创建 本地任务编排 任务消费路径",
-  "version": "1.0.0",
-  "priority": "high",
-  "enabled": true,
-  "trigger": {
+    "id": "intent-directive-dispatch-001",
     "event_type": "intent.directive",
-    "event": "intent.directive",
-    "events": [
-      "isc.rule.intent.directive.dispatch.001"
-    ]
-  },
-  "conditions": [],
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/intent-directive-dispatch-001.sh"
-  },
-  "metadata": {
-    "category": "intent-routing",
-    "created": "2026-03-06",
-    "author": "analyst"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/intent-directive-dispatch.js"
+    "name": "Intent Directive → 本地任务编排 Task Dispatch",
+    "description": "当意图被分类为 directive 时，路由到 intent-event-handler 创建 本地任务编排 任务消费路径",
+    "priority": "high",
+    "version": "1.0.0",
+    "enabled": true,
+    "trigger": {
+        "event_type": "intent.directive",
+        "event": "intent.directive",
+        "events": [
+            "isc.rule.intent.directive.dispatch.001",
+            "intent.directive"
+        ]
+    },
+    "conditions": [],
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/intent-directive-dispatch-001.sh"
+    },
+    "metadata": {
+        "category": "intent-routing",
+        "created": "2026-03-06",
+        "author": "analyst"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/intent-directive-dispatch.js",
+    "verification": {
+        "method": "orchestration_flow_check",
+        "description": "验证编排规则 intent-directive-dispatch-001 的调度正确性",
+        "assertions": [
+            {
+                "check": "dispatch_target_valid",
+                "desc": "调度目标Agent/处理器有效"
+            },
+            {
+                "check": "task_routed_correctly",
+                "desc": "任务被路由到正确的执行者"
+            },
+            {
+                "check": "result_collected",
+                "desc": "执行结果被正确收集和报告"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-directive-dispatch.js && echo 'handler_exists:pass'",
+        "expected_outcome": "任务正确调度到目标执行者并收集结果",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

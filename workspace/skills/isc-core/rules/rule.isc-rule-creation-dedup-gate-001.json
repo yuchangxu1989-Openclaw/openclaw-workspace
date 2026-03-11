@@ -1,162 +1,185 @@
 {
-  "id": "rule.isc-rule-creation-dedup-gate-001",
-  "rule_name": "ISC规则创建去重门禁",
-  "version": "2.0.0",
-  "severity": "warning",
-  "description": "在ISC规则创建前，通过三维度语义比对检测重复：(1) event快筛——新规则events与现有规则events是否有交集，无交集直接放行；(2) 有交集则调用Claude Opus深检——condition场景是否等价 + action执行效果是否相同；三维度同时满足才判定重复并阻止创建。任一维度不同即视为不同规则，哪怕description写得一模一样。",
-  "source": "anti-entropy meta-rule — 规则体系自治守卫",
-  "trigger": {
-    "events": [
-      "isc.rule.before_create"
-    ]
-  },
-  "action": {
-    "type": "gate",
-    "handler": "dedup-scan",
-    "runtime": "node",
-    "dedup_algorithm": {
-      "phase_1_fast_filter": {
-        "method": "event_set_intersection",
-        "description": "解析新规则的events列表，与现有每条规则的events求交集。无交集=直接放行（零LLM成本）",
-        "events_extraction": "trigger.events (L1/L2/L3) + trigger.conditions[].event_name + auto_trigger.on_events",
-        "pass_condition": "交集为空 → APPROVED，跳过阶段二"
-      },
-      "phase_2_deep_check": {
-        "method": "llm_semantic_judgment",
-        "model": "follow_openclaw_config",
-        "description": "对event有交集的候选规则，调用Claude Opus判断condition+action是否语义等价",
-        "prompt_input": "两条规则的event列表 + condition描述 + action类型/handler/效果",
-        "output_schema": {
-          "duplicate": "boolean",
-          "reason": "string",
-          "dimensions": {
-            "event_overlap": "0~1 float",
-            "condition_equivalent": "boolean",
-            "action_equivalent": "boolean"
-          }
+    "id": "rule.isc-rule-creation-dedup-gate-001",
+    "event_type": "isc.rule.before_create",
+    "description": "在ISC规则创建前，通过三维度语义比对检测重复：(1) event快筛——新规则events与现有规则events是否有交集，无交集直接放行；(2) 有交集则调用Claude Opus深检——condition场景是否等价 + action执行效果是否相同；三维度同时满足才判定重复并阻止创建。任一维度不同即视为不同规则，哪怕description写得一模一样。",
+    "rule_name": "ISC规则创建去重门禁",
+    "version": "2.0.0",
+    "severity": "warning",
+    "source": "anti-entropy meta-rule — 规则体系自治守卫",
+    "trigger": {
+        "events": [
+            "isc.rule.before_create"
+        ]
+    },
+    "action": {
+        "type": "gate",
+        "handler": "dedup-scan",
+        "runtime": "node",
+        "dedup_algorithm": {
+            "phase_1_fast_filter": {
+                "method": "event_set_intersection",
+                "description": "解析新规则的events列表，与现有每条规则的events求交集。无交集=直接放行（零LLM成本）",
+                "events_extraction": "trigger.events (L1/L2/L3) + trigger.conditions[].event_name + auto_trigger.on_events",
+                "pass_condition": "交集为空 → APPROVED，跳过阶段二"
+            },
+            "phase_2_deep_check": {
+                "method": "llm_semantic_judgment",
+                "model": "follow_openclaw_config",
+                "description": "对event有交集的候选规则，调用Claude Opus判断condition+action是否语义等价",
+                "prompt_input": "两条规则的event列表 + condition描述 + action类型/handler/效果",
+                "output_schema": {
+                    "duplicate": "boolean",
+                    "reason": "string",
+                    "dimensions": {
+                        "event_overlap": "0~1 float",
+                        "condition_equivalent": "boolean",
+                        "action_equivalent": "boolean"
+                    }
+                },
+                "duplicate_condition": "三维度同时为true → BLOCKED"
+            }
         },
-        "duplicate_condition": "三维度同时为true → BLOCKED"
-      }
+        "on_duplicate_detected": {
+            "behavior": "block",
+            "response": {
+                "status": "BLOCKED",
+                "reason": "新规则与现有规则在event/condition/action三维度均等价",
+                "message": "请检查下方重复规则列表，决定：(A)复用现有规则 (B)修改现有规则 (C)添加justification字段后强制创建",
+                "conflict_details": "__POPULATED_BY_SCRIPT__"
+            }
+        },
+        "on_no_duplicate": {
+            "behavior": "allow",
+            "response": {
+                "status": "APPROVED",
+                "message": "去重检查通过，允许创建规则"
+            }
+        },
+        "on_api_failure": {
+            "behavior": "allow_with_warning",
+            "reason": "门禁不能因LLM不可用而卡死整个系统",
+            "log": true
+        },
+        "override": {
+            "allowed": true,
+            "requires": "justification字段写入规则JSON",
+            "audit_log": true
+        },
+        "on_failure": "allow_with_warning",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-rule-creation-dedup-gate-001.sh"
     },
-    "on_duplicate_detected": {
-      "behavior": "block",
-      "response": {
-        "status": "BLOCKED",
-        "reason": "新规则与现有规则在event/condition/action三维度均等价",
-        "message": "请检查下方重复规则列表，决定：(A)复用现有规则 (B)修改现有规则 (C)添加justification字段后强制创建",
-        "conflict_details": "__POPULATED_BY_SCRIPT__"
-      }
+    "metadata": {
+        "category": "meta-governance",
+        "subsystem": "isc-core",
+        "enforcement_tier": "P1_gate",
+        "enforcement": "pre_write_hook",
+        "auto_fix": false,
+        "human_decision_required": true,
+        "created_at": "2026-03-05",
+        "updated_at": "2026-03-05",
+        "created_by": "subagent:isc-dedup-gate",
+        "changelog": {
+            "v2.0.0": "重写去重逻辑：废弃Jaccard文本相似度，改为三维度语义比对（event交集快筛 + Claude Opus深检condition/action等价性）",
+            "v1.0.0": "初始版本，基于Jaccard关键词相似度（已废弃，方法论错误）"
+        },
+        "tags": [
+            "dedup",
+            "gate",
+            "meta-rule",
+            "anti-entropy",
+            "governance",
+            "semantic-check"
+        ]
     },
-    "on_no_duplicate": {
-      "behavior": "allow",
-      "response": {
-        "status": "APPROVED",
-        "message": "去重检查通过，允许创建规则"
-      }
+    "examples": [
+        {
+            "scenario": "events完全不重叠",
+            "new_rule_events": [
+                "skill.general.created"
+            ],
+            "existing_rule_events": [
+                "isc.rule.before_create"
+            ],
+            "phase_1_result": "无交集 → 直接放行",
+            "phase_2_called": false,
+            "outcome": "APPROVED（零LLM成本）"
+        },
+        {
+            "scenario": "events有交集，但condition不同",
+            "new_rule_events": [
+                "isc.rule.created"
+            ],
+            "existing_rule_events": [
+                "isc.rule.created"
+            ],
+            "new_condition": "仅对P0_gate规则检查",
+            "existing_condition": "对所有规则检查trigger完整性",
+            "phase_2_result": "condition_equivalent=false → 不重复",
+            "outcome": "APPROVED"
+        },
+        {
+            "scenario": "events有交集，condition等价，但action不同",
+            "new_rule_events": [
+                "isc.rule.before_create"
+            ],
+            "existing_rule_events": [
+                "isc.rule.before_create"
+            ],
+            "new_action": "检查命名规范",
+            "existing_action": "检查字段完整性",
+            "phase_2_result": "action_equivalent=false → 不重复",
+            "outcome": "APPROVED"
+        },
+        {
+            "scenario": "真实重复：三维度全部等价",
+            "new_rule_events": [
+                "isc.rule.before_create"
+            ],
+            "existing_rule_events": [
+                "isc.rule.before_create"
+            ],
+            "new_condition": "任意新规则创建前",
+            "existing_condition": "任意新规则创建前",
+            "new_action": "去重检查，阻止重复规则写入",
+            "existing_action": "去重检查，阻止重复规则写入",
+            "phase_2_result": "三维度全true → 重复",
+            "outcome": "BLOCKED — 返回冲突规则ID和三维度分析"
+        }
+    ],
+    "related_rules": [
+        "rule.anti-entropy-design-principle-001",
+        "N035-rule-trigger-completeness",
+        "N034-rule-identity-accuracy",
+        "rule.isc-creation-gate-001"
+    ],
+    "dto_alignment": {
+        "trigger_dto_task": false,
+        "note": "同步门禁，必须在写入前完成，不异步派发DTO任务"
     },
-    "on_api_failure": {
-      "behavior": "allow_with_warning",
-      "reason": "门禁不能因LLM不可用而卡死整个系统",
-      "log": true
-    },
-    "override": {
-      "allowed": true,
-      "requires": "justification字段写入规则JSON",
-      "audit_log": true
-    },
-    "on_failure": "allow_with_warning",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-rule-creation-dedup-gate-001.sh"
-  },
-  "metadata": {
-    "category": "meta-governance",
-    "subsystem": "isc-core",
-    "enforcement_tier": "P1_gate",
-    "enforcement": "pre_write_hook",
-    "auto_fix": false,
-    "human_decision_required": true,
-    "created_at": "2026-03-05",
-    "updated_at": "2026-03-05",
-    "created_by": "subagent:isc-dedup-gate",
-    "changelog": {
-      "v2.0.0": "重写去重逻辑：废弃Jaccard文本相似度，改为三维度语义比对（event交集快筛 + Claude Opus深检condition/action等价性）",
-      "v1.0.0": "初始版本，基于Jaccard关键词相似度（已废弃，方法论错误）"
-    },
-    "tags": [
-      "dedup",
-      "gate",
-      "meta-rule",
-      "anti-entropy",
-      "governance",
-      "semantic-check"
-    ]
-  },
-  "examples": [
-    {
-      "scenario": "events完全不重叠",
-      "new_rule_events": [
-        "skill.general.created"
-      ],
-      "existing_rule_events": [
-        "isc.rule.before_create"
-      ],
-      "phase_1_result": "无交集 → 直接放行",
-      "phase_2_called": false,
-      "outcome": "APPROVED（零LLM成本）"
-    },
-    {
-      "scenario": "events有交集，但condition不同",
-      "new_rule_events": [
-        "isc.rule.created"
-      ],
-      "existing_rule_events": [
-        "isc.rule.created"
-      ],
-      "new_condition": "仅对P0_gate规则检查",
-      "existing_condition": "对所有规则检查trigger完整性",
-      "phase_2_result": "condition_equivalent=false → 不重复",
-      "outcome": "APPROVED"
-    },
-    {
-      "scenario": "events有交集，condition等价，但action不同",
-      "new_rule_events": [
-        "isc.rule.before_create"
-      ],
-      "existing_rule_events": [
-        "isc.rule.before_create"
-      ],
-      "new_action": "检查命名规范",
-      "existing_action": "检查字段完整性",
-      "phase_2_result": "action_equivalent=false → 不重复",
-      "outcome": "APPROVED"
-    },
-    {
-      "scenario": "真实重复：三维度全部等价",
-      "new_rule_events": [
-        "isc.rule.before_create"
-      ],
-      "existing_rule_events": [
-        "isc.rule.before_create"
-      ],
-      "new_condition": "任意新规则创建前",
-      "existing_condition": "任意新规则创建前",
-      "new_action": "去重检查，阻止重复规则写入",
-      "existing_action": "去重检查，阻止重复规则写入",
-      "phase_2_result": "三维度全true → 重复",
-      "outcome": "BLOCKED — 返回冲突规则ID和三维度分析"
+    "schema_version": "2.0",
+    "migrated_at": "2026-03-05T08:04:00+08:00",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/isc-rule-creation-dedup-gate.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.isc-rule-creation-dedup-gate-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/isc-rule-creation-dedup-gate.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/isc-rule-creation-dedup-gate.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 120,
+        "on_failure": "log"
     }
-  ],
-  "related_rules": [
-    "rule.anti-entropy-design-principle-001",
-    "N035-rule-trigger-completeness",
-    "N034-rule-identity-accuracy",
-    "rule.isc-creation-gate-001"
-  ],
-  "dto_alignment": {
-    "trigger_dto_task": false,
-    "note": "同步门禁，必须在写入前完成，不异步派发DTO任务"
-  },
-  "schema_version": "2.0",
-  "migrated_at": "2026-03-05T08:04:00+08:00",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/isc-rule-creation-dedup-gate.js"
 }

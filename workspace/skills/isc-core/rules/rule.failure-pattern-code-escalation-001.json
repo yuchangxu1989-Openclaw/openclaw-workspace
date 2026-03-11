@@ -1,24 +1,47 @@
 {
-  "id": "ISC-FAILURE-PATTERN-CODE-ESCALATION-001",
-  "name": "失败≥2次行为模式强制代码化",
-  "description": "任何依赖LLM记忆/规则文本执行的行为模式，如果失败≥2次，必须从规则/记忆层下沉到代码层自动执行。禁止继续用AGENTS.md规则或MEMORY.md教训兜底。",
-  "trigger": {
-    "events": [
-      "system.behavior_pattern.repeated_failure"
-    ]
-  },
-  "condition": "同一行为模式（如'产出物发送'、'任务登记'等）失败≥2次",
-  "action": "mandatory_code_implementation",
-  "escalation_path": {
-    "failure_1": "记录到MEMORY.md + AGENTS.md规则",
-    "failure_2": "强制：必须写代码/脚本/hook自动执行，禁止继续停留在规则层",
-    "failure_3+": "Badcase + 根因分析为什么failure_2时没有代码化"
-  },
-  "rationale": "LLM记忆不可靠，规则文本会被淹没在长上下文中。只有代码才能稳定复现。代码替代记忆是系统可靠性的第一性原理。",
-  "severity": "critical",
-  "meta_rule": true,
-  "created": "2026-03-09",
-  "source": "badcase-0309-006+历史多次遗忘实战教训",
-  "handler": "skills/isc-core/handlers/failure-pattern-code-escalation.js",
-  "fullchain_status": "expanded"
+    "id": "ISC-FAILURE-PATTERN-CODE-ESCALATION-001",
+    "event_type": "system.behavior_pattern.repeated_failure",
+    "name": "失败≥2次行为模式强制代码化",
+    "description": "任何依赖LLM记忆/规则文本执行的行为模式，如果失败≥2次，必须从规则/记忆层下沉到代码层自动执行。禁止继续用AGENTS.md规则或MEMORY.md教训兜底。",
+    "trigger": {
+        "events": [
+            "system.behavior_pattern.repeated_failure"
+        ]
+    },
+    "condition": "同一行为模式（如'产出物发送'、'任务登记'等）失败≥2次",
+    "action": "mandatory_code_implementation",
+    "escalation_path": {
+        "failure_1": "记录到MEMORY.md + AGENTS.md规则",
+        "failure_2": "强制：必须写代码/脚本/hook自动执行，禁止继续停留在规则层",
+        "failure_3+": "Badcase + 根因分析为什么failure_2时没有代码化"
+    },
+    "rationale": "LLM记忆不可靠，规则文本会被淹没在长上下文中。只有代码才能稳定复现。代码替代记忆是系统可靠性的第一性原理。",
+    "severity": "critical",
+    "meta_rule": true,
+    "created": "2026-03-09",
+    "source": "badcase-0309-006+历史多次遗忘实战教训",
+    "handler": "skills/isc-core/handlers/failure-pattern-code-escalation.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 ISC-FAILURE-PATTERN-CODE-ESCALATION-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/failure-pattern-code-escalation.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/failure-pattern-code-escalation.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

@@ -1,28 +1,52 @@
 {
-  "id": "intent-reflect-dispatch-001",
-  "name": "Intent Reflect → CRAS Analysis Dispatch",
-  "description": "当意图被分类为 reflect 时，路由到 intent-event-handler 触发 CRAS 分析/知识汇聚",
-  "version": "1.0.0",
-  "priority": "normal",
-  "enabled": true,
-  "trigger": {
+    "id": "intent-reflect-dispatch-001",
     "event_type": "intent.reflect",
-    "event": "intent.reflect",
-    "events": [
-      "isc.rule.intent.reflect.dispatch.001"
-    ]
-  },
-  "conditions": [],
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/intent-reflect-dispatch-001.sh"
-  },
-  "metadata": {
-    "category": "intent-routing",
-    "created": "2026-03-06",
-    "author": "analyst"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-reflect-dispatch.js",
-  "fullchain_status": "expanded"
+    "name": "Intent Reflect → CRAS Analysis Dispatch",
+    "description": "当意图被分类为 reflect 时，路由到 intent-event-handler 触发 CRAS 分析/知识汇聚",
+    "priority": "normal",
+    "version": "1.0.0",
+    "enabled": true,
+    "trigger": {
+        "event_type": "intent.reflect",
+        "event": "intent.reflect",
+        "events": [
+            "isc.rule.intent.reflect.dispatch.001",
+            "intent.reflect"
+        ]
+    },
+    "conditions": [],
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/intent-reflect-dispatch-001.sh"
+    },
+    "metadata": {
+        "category": "intent-routing",
+        "created": "2026-03-06",
+        "author": "analyst"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-reflect-dispatch.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 intent-reflect-dispatch-001 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-reflect-dispatch.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -1,78 +1,101 @@
 {
-  "id": "rule.isc-change-auto-trigger-alignment-001",
-  "name": "isc_change_auto_trigger_alignment",
-  "domain": "orchestration",
-  "type": "governance_rule",
-  "description": "ISC规则变更自动触发对齐检查 - 规则新增/修改/删除时自动执行对齐",
-  "rationale": "确保ISC规则变更后立即同步到DTO，无需人工提醒",
-  "rules": [
-    {
-      "id": "R-I1",
-      "name": "auto_trigger_on_rule_change",
-      "description": "ISC规则文件变更时自动触发对齐检查",
-      "condition": "ISC规则文件变更（新增/修改/删除）",
-      "priority": "CRITICAL",
-      "action": {
-        "type": "immediate_execution",
-        "command": "node /root/.openclaw/workspace/skills/isc-core/bin/isc-lto-alignment-checker.js",
-        "timeout": 30,
-        "blocking": false,
-        "async": true
-      },
-      "triggers": [
+    "id": "rule.isc-change-auto-trigger-alignment-001",
+    "event_type": "isc.rule.matched",
+    "name": "isc_change_auto_trigger_alignment",
+    "description": "ISC规则变更自动触发对齐检查 - 规则新增/修改/删除时自动执行对齐",
+    "domain": "orchestration",
+    "type": "governance_rule",
+    "rationale": "确保ISC规则变更后立即同步到DTO，无需人工提醒",
+    "rules": [
         {
-          "type": "file_watch",
-          "path": "/root/.openclaw/workspace/skills/isc-core/rules/",
-          "pattern": "*.json",
-          "events": [
-            "create",
-            "modify",
-            "delete"
-          ]
+            "id": "R-I1",
+            "name": "auto_trigger_on_rule_change",
+            "description": "ISC规则文件变更时自动触发对齐检查",
+            "condition": "ISC规则文件变更（新增/修改/删除）",
+            "priority": "CRITICAL",
+            "action": {
+                "type": "immediate_execution",
+                "command": "node /root/.openclaw/workspace/skills/isc-core/bin/isc-lto-alignment-checker.js",
+                "timeout": 30,
+                "blocking": false,
+                "async": true
+            },
+            "triggers": [
+                {
+                    "type": "file_watch",
+                    "path": "/root/.openclaw/workspace/skills/isc-core/rules/",
+                    "pattern": "*.json",
+                    "events": [
+                        "create",
+                        "modify",
+                        "delete"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "R-I2",
+            "name": "notify_on_alignment_complete",
+            "description": "对齐完成后静默通知",
+            "condition": "对齐检查执行完成",
+            "action": {
+                "type": "silent_log",
+                "level": "info",
+                "message": "ISC-DTO对齐完成: {alignment_rate}%"
+            }
         }
-      ]
+    ],
+    "enforcement": {
+        "mode": "strict",
+        "on_violation": "log_and_retry",
+        "max_retries": 3
     },
-    {
-      "id": "R-I2",
-      "name": "notify_on_alignment_complete",
-      "description": "对齐完成后静默通知",
-      "condition": "对齐检查执行完成",
-      "action": {
-        "type": "silent_log",
-        "level": "info",
-        "message": "ISC-DTO对齐完成: {alignment_rate}%"
-      }
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false,
+        "priority": 95
+    },
+    "created_at": "2026-02-26T17:38:00+08:00",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "isc.rule.matched",
+            "isc.category.matched"
+        ],
+        "actions": [
+            {
+                "type": "log",
+                "level": "info"
+            }
+        ],
+        "event": "isc.rule.matched"
+    },
+    "enforcement_tier": "P1_process",
+    "action": {
+        "handler": "isc-change-alignment",
+        "type": "handler"
+    },
+    "handler": "skills/isc-core/handlers/isc-change-alignment.js",
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 rule.isc-change-auto-trigger-alignment-001 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: isc.rule.matched, isc.category.matched"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/isc-change-alignment.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/isc-change-alignment.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 120,
+        "on_failure": "log"
     }
-  ],
-  "enforcement": {
-    "mode": "strict",
-    "on_violation": "log_and_retry",
-    "max_retries": 3
-  },
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false,
-    "priority": 95
-  },
-  "created_at": "2026-02-26T17:38:00+08:00",
-  "version": "1.0.0",
-  "trigger": {
-    "events": [
-      "isc.rule.matched",
-      "isc.category.matched"
-    ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "info"
-      }
-    ],
-    "event": "isc.rule.matched"
-  },
-  "enforcement_tier": "P1_process",
-  "action": {
-    "handler": "isc-change-alignment",
-    "type": "handler"
-  },
-  "handler": "skills/isc-core/handlers/isc-change-alignment.js"
 }

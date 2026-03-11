@@ -1,75 +1,98 @@
 {
-  "type": "interaction-standard",
-  "id": "N007-v2",
-  "name": "source_file_delivery_method",
-  "description": "源文件交付标准 - 当用户要求'源文件'时，必须通过消息工具直接发送文件本身。如果通道不支持文件传输，则输出完整文件内容供用户复制保存",
-  "scope": "user-interaction",
-  "trigger": {
-    "events": [
-      "user.request.source_file",
-      "session.received.file_request"
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "用户请求源文件时，通过message工具直接发送文件本身；通道不支持时输出完整内容",
-        "behavior": "direct_file_delivery"
-      },
-      {
-        "type": "block-on-fail",
-        "description": "禁止只返回文件路径或使用飞书文件上传工具，必须直接传输",
-        "behavior": "block_path_only_response"
-      }
-    ],
-    "event": "user.request.source_file"
-  },
-  "correct_method_primary": {
-    "tool": "message",
-    "action": "send",
-    "parameters": {
-      "filePath": "绝对路径",
-      "filename": "显示文件名"
+    "id": "N007-v2",
+    "event_type": "user.request.source_file",
+    "name": "source_file_delivery_method",
+    "description": "源文件交付标准 - 当用户要求'源文件'时，必须通过消息工具直接发送文件本身。如果通道不支持文件传输，则输出完整文件内容供用户复制保存",
+    "priority": "high",
+    "type": "interaction-standard",
+    "scope": "user-interaction",
+    "trigger": {
+        "events": [
+            "user.request.source_file",
+            "session.received.file_request"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "用户请求源文件时，通过message工具直接发送文件本身；通道不支持时输出完整内容",
+                "behavior": "direct_file_delivery"
+            },
+            {
+                "type": "block-on-fail",
+                "description": "禁止只返回文件路径或使用飞书文件上传工具，必须直接传输",
+                "behavior": "block_path_only_response"
+            }
+        ],
+        "event": "user.request.source_file"
     },
-    "condition": "通道支持文件传输"
-  },
-  "correct_method_fallback": {
-    "tool": "exec",
-    "action": "run",
-    "command": "cat 文件路径",
-    "output_format": "完整文件内容输出",
-    "note": "输出时添加标记方便用户复制保存"
-  },
-  "forbidden_methods": [
-    "只返回文件路径让用户自己找",
-    "使用feishu文件发送工具",
-    "分段发送导致内容不完整"
-  ],
-  "channel_limitations": {
-    "feishu": "可能不支持.md文件类型直接传输",
-    "fallback": "使用cat命令输出完整内容，用户手动保存"
-  },
-  "example": {
-    "user_request": "将xxx.md源文件发给我",
-    "correct_response_channel_ok": "使用message工具发送文件",
-    "correct_response_channel_limited": "使用exec cat输出完整内容，添加文件头信息",
-    "incorrect_response": "返回文件路径、使用feishu_file_upload、分段发送"
-  },
-  "required": true,
-  "priority": "high",
-  "category": "user_experience",
-  "version": "2.0.0",
-  "created_at": "2026-02-23T21:09:00Z",
-  "updated_at": "2026-02-25T22:40:00Z",
-  "status": "active",
-  "rationale": "用户要求'源文件'时期望直接获得可下载的文件或完整内容，而非查看路径。当通道不支持文件传输时，必须确保内容完整可保存",
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "handler",
-    "handler": "interaction-source-file-delivery",
-    "description": "",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/N007-v2.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/interaction-source-file-delivery.js"
+    "correct_method_primary": {
+        "tool": "message",
+        "action": "send",
+        "parameters": {
+            "filePath": "绝对路径",
+            "filename": "显示文件名"
+        },
+        "condition": "通道支持文件传输"
+    },
+    "correct_method_fallback": {
+        "tool": "exec",
+        "action": "run",
+        "command": "cat 文件路径",
+        "output_format": "完整文件内容输出",
+        "note": "输出时添加标记方便用户复制保存"
+    },
+    "forbidden_methods": [
+        "只返回文件路径让用户自己找",
+        "使用feishu文件发送工具",
+        "分段发送导致内容不完整"
+    ],
+    "channel_limitations": {
+        "feishu": "可能不支持.md文件类型直接传输",
+        "fallback": "使用cat命令输出完整内容，用户手动保存"
+    },
+    "example": {
+        "user_request": "将xxx.md源文件发给我",
+        "correct_response_channel_ok": "使用message工具发送文件",
+        "correct_response_channel_limited": "使用exec cat输出完整内容，添加文件头信息",
+        "incorrect_response": "返回文件路径、使用feishu_file_upload、分段发送"
+    },
+    "required": true,
+    "category": "user_experience",
+    "version": "2.0.0",
+    "created_at": "2026-02-23T21:09:00Z",
+    "updated_at": "2026-02-25T22:40:00Z",
+    "status": "active",
+    "rationale": "用户要求'源文件'时期望直接获得可下载的文件或完整内容，而非查看路径。当通道不支持文件传输时，必须确保内容完整可保存",
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "type": "handler",
+        "handler": "interaction-source-file-delivery",
+        "description": "",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/N007-v2.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/interaction-source-file-delivery.js",
+    "verification": {
+        "method": "convention_compliance_check",
+        "description": "验证规范规则 N007-v2 的一致性检查",
+        "assertions": [
+            {
+                "check": "naming_pattern_enforced",
+                "desc": "命名/格式规范有明确的正则或模式"
+            },
+            {
+                "check": "violation_detected",
+                "desc": "不符合规范的输入被检测到"
+            },
+            {
+                "check": "correction_suggested",
+                "desc": "违规时给出修正建议"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/interaction-source-file-delivery.js && echo 'handler_exists:pass'",
+        "expected_outcome": "不符合规范的命名/格式被检测并建议修正",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

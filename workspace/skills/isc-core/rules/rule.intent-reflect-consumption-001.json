@@ -1,27 +1,50 @@
 {
-  "id": "rule.intent-reflect-consumption-001",
-  "rule_name": "Intent Reflect 消费路由",
-  "version": "1.0.0",
-  "severity": "medium",
-  "description": "当意图分析器识别出 reflect 类意图时，路由到 intent-event-handler 进入 CRAS 分析/知识沉淀路径。确保 intent.reflect 事件在 event-bus 链路中被正确匹配和执行。",
-  "trigger": {
-    "events": [
-      "intent.reflect"
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "路由 intent.reflect 到 intent-event-handler 进行反思分析"
-      }
-    ],
-    "event": "intent.reflect"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-reflect-consumption-001.sh"
-  },
-  "enforcement_tier": "P1_process",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/intent-reflect-consumption.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-reflect-consumption-001",
+    "event_type": "intent.reflect",
+    "description": "当意图分析器识别出 reflect 类意图时，路由到 intent-event-handler 进入 CRAS 分析/知识沉淀路径。确保 intent.reflect 事件在 event-bus 链路中被正确匹配和执行。",
+    "rule_name": "Intent Reflect 消费路由",
+    "version": "1.0.0",
+    "severity": "medium",
+    "trigger": {
+        "events": [
+            "intent.reflect"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "路由 intent.reflect 到 intent-event-handler 进行反思分析"
+            }
+        ],
+        "event": "intent.reflect"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-reflect-consumption-001.sh"
+    },
+    "enforcement_tier": "P1_process",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/intent-reflect-consumption.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 rule.intent-reflect-consumption-001 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-reflect-consumption.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

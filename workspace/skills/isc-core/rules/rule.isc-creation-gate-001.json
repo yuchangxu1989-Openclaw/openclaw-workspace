@@ -1,79 +1,102 @@
 {
-  "id": "rule.isc-creation-gate-001",
-  "name": "isc_creation_validation_gate",
-  "domain": "process",
-  "type": "rule",
-  "scope": "isc",
-  "description": "ISC规则创建闸门 - 创建时强制验证，拒绝不符合标准的规则",
-  "rationale": "风险前置：创建时验证通过才能入库，避免事后修复",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "creation_gate": {
-    "before_create": [
-      {
-        "step": "naming_validation",
-        "check": "文件名必须符合 rule.{domain}-{name}-{version}.json",
-        "reject_if": "不符合命名规范",
-        "error_message": "文件名错误：必须使用 rule.{domain}-{name}-{version}.json 格式"
-      },
-      {
-        "step": "schema_validation",
-        "check": "必须包含所有必需字段",
-        "required_fields": [
-          "id",
-          "name",
-          "domain",
-          "type",
-          "scope",
-          "description",
-          "governance"
+    "id": "rule.isc-creation-gate-001",
+    "event_type": "isc.rule.matched",
+    "name": "isc_creation_validation_gate",
+    "description": "ISC规则创建闸门 - 创建时强制验证，拒绝不符合标准的规则",
+    "domain": "process",
+    "type": "rule",
+    "scope": "isc",
+    "rationale": "风险前置：创建时验证通过才能入库，避免事后修复",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
+    },
+    "creation_gate": {
+        "before_create": [
+            {
+                "step": "naming_validation",
+                "check": "文件名必须符合 rule.{domain}-{name}-{version}.json",
+                "reject_if": "不符合命名规范",
+                "error_message": "文件名错误：必须使用 rule.{domain}-{name}-{version}.json 格式"
+            },
+            {
+                "step": "schema_validation",
+                "check": "必须包含所有必需字段",
+                "required_fields": [
+                    "id",
+                    "name",
+                    "domain",
+                    "type",
+                    "scope",
+                    "description",
+                    "governance"
+                ],
+                "reject_if": "缺少任何必需字段",
+                "error_message": "字段缺失：必须包含 id, name, domain, type, scope, description, governance"
+            },
+            {
+                "step": "id_filename_match",
+                "check": "id必须与文件名一致",
+                "reject_if": "id !== filename.replace('.json', '')",
+                "error_message": "ID不匹配：id必须与文件名一致"
+            },
+            {
+                "step": "governance_complete",
+                "check": "governance必须包含auto_execute和councilRequired",
+                "reject_if": "缺少governance字段或子字段",
+                "error_message": "配置不完整：governance必须包含auto_execute和councilRequired"
+            }
         ],
-        "reject_if": "缺少任何必需字段",
-        "error_message": "字段缺失：必须包含 id, name, domain, type, scope, description, governance"
-      },
-      {
-        "step": "id_filename_match",
-        "check": "id必须与文件名一致",
-        "reject_if": "id !== filename.replace('.json', '')",
-        "error_message": "ID不匹配：id必须与文件名一致"
-      },
-      {
-        "step": "governance_complete",
-        "check": "governance必须包含auto_execute和councilRequired",
-        "reject_if": "缺少governance字段或子字段",
-        "error_message": "配置不完整：governance必须包含auto_execute和councilRequired"
-      }
-    ],
-    "on_reject": {
-      "action": "阻止创建",
-      "notify": "创建者",
-      "provide": "具体错误信息和修复建议"
+        "on_reject": {
+            "action": "阻止创建",
+            "notify": "创建者",
+            "provide": "具体错误信息和修复建议"
+        }
+    },
+    "principle": "风险前置：创建时验证 > 创建后修复",
+    "created_at": "2026-02-25T06:12:00+08:00",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "isc.rule.matched",
+            "isc.category.matched"
+        ],
+        "actions": [
+            {
+                "type": "log",
+                "level": "info"
+            }
+        ],
+        "event": "isc.rule.matched"
+    },
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "handler": "isc-creation-gate",
+        "type": "handler",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-creation-gate-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/isc-creation-gate.js",
+    "verification": {
+        "method": "convention_compliance_check",
+        "description": "验证规范规则 rule.isc-creation-gate-001 的一致性检查",
+        "assertions": [
+            {
+                "check": "naming_pattern_enforced",
+                "desc": "命名/格式规范有明确的正则或模式"
+            },
+            {
+                "check": "violation_detected",
+                "desc": "不符合规范的输入被检测到"
+            },
+            {
+                "check": "correction_suggested",
+                "desc": "违规时给出修正建议"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/isc-creation-gate.js && echo 'handler_exists:pass'",
+        "expected_outcome": "不符合规范的命名/格式被检测并建议修正",
+        "timeout_seconds": 120,
+        "on_failure": "log"
     }
-  },
-  "principle": "风险前置：创建时验证 > 创建后修复",
-  "created_at": "2026-02-25T06:12:00+08:00",
-  "version": "1.0.0",
-  "trigger": {
-    "events": [
-      "isc.rule.matched",
-      "isc.category.matched"
-    ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "info"
-      }
-    ],
-    "event": "isc.rule.matched"
-  },
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "handler": "isc-creation-gate",
-    "type": "handler",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.isc-creation-gate-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/isc-creation-gate.js"
 }

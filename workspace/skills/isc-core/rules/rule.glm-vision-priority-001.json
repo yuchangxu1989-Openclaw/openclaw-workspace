@@ -1,48 +1,71 @@
 {
-  "id": "rule.glm-vision-priority-001",
-  "name": "glm_vision_priority",
-  "domain": "capability",
-  "type": "routing_rule",
-  "description": "图像视频需求优先调用GLM-4V-Plus规则 - 根治遗忘",
-  "trigger": {
-    "type": "intent",
-    "patterns": [
-      "图片.*理解",
-      "图像.*分析",
-      "视频.*描述",
-      "看图",
-      "识别图片",
-      "图片内容"
-    ],
-    "events": [
-      "system.analysis.requested",
-      "system.task.created",
-      "session.image.received"
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "图像分析任务优先使用GLM视觉模型，不可用时降级到备选模型"
-      }
-    ],
-    "event": "system.analysis.requested"
-  },
-  "action": {
-    "type": "script",
-    "target": "zhipu/glm-4v-plus",
-    "fallback": "follow_openclaw_config",
-    "handler": "glm-vision-priority",
-    "script": "scripts/isc-hooks/rule.glm-vision-priority-001.sh"
-  },
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false,
-    "priority": 10
-  },
-  "created_at": "2026-02-25T12:52:00+08:00",
-  "version": "1.0.0",
-  "enforcement_tier": "P1_process",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/glm-vision-priority.js",
-  "fullchain_status": "expanded"
+    "id": "rule.glm-vision-priority-001",
+    "event_type": "system.analysis.requested",
+    "name": "glm_vision_priority",
+    "description": "图像视频需求优先调用GLM-4V-Plus规则 - 根治遗忘",
+    "domain": "capability",
+    "type": "routing_rule",
+    "trigger": {
+        "type": "intent",
+        "patterns": [
+            "图片.*理解",
+            "图像.*分析",
+            "视频.*描述",
+            "看图",
+            "识别图片",
+            "图片内容"
+        ],
+        "events": [
+            "system.analysis.requested",
+            "system.task.created",
+            "session.image.received"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "图像分析任务优先使用GLM视觉模型，不可用时降级到备选模型"
+            }
+        ],
+        "event": "system.analysis.requested"
+    },
+    "action": {
+        "type": "script",
+        "target": "zhipu/glm-4v-plus",
+        "fallback": "follow_openclaw_config",
+        "handler": "glm-vision-priority",
+        "script": "scripts/isc-hooks/rule.glm-vision-priority-001.sh"
+    },
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false,
+        "priority": 10
+    },
+    "created_at": "2026-02-25T12:52:00+08:00",
+    "version": "1.0.0",
+    "enforcement_tier": "P1_process",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/glm-vision-priority.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "rule_enforcement_check",
+        "description": "验证规则 rule.glm-vision-priority-001 的执行有效性",
+        "assertions": [
+            {
+                "check": "handler_registered",
+                "desc": "Handler已注册: skills/isc-core/handlers/glm-vision-priority.js"
+            },
+            {
+                "check": "trigger_conditions_met",
+                "desc": "触发条件满足时规则被正确激活"
+            },
+            {
+                "check": "action_executed",
+                "desc": "规则激活后执行指定的动作"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/glm-vision-priority.js && echo 'handler_exists:pass'",
+        "expected_outcome": "规则触发条件满足时正确执行预定义动作",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

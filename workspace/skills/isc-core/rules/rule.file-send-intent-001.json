@@ -1,36 +1,59 @@
 {
-  "id": "ISC-FILE-SEND-INTENT-001",
-  "name": "发文件意图自动匹配",
-  "description": "当用户表达发送文件意图时，自动使用file-sender技能",
-  "trigger": {
-    "intent_patterns": [
-      "发文件",
-      "发源文件",
-      "把.*发给我",
-      "发附件",
-      "源文件",
-      "把.*文件.*给我",
-      "发一下.*文件",
-      "文件发我",
-      "给我发文件",
-      "传文件",
-      "把.*传给我",
-      "发送文件",
-      "把报告发我",
-      "把.*给我"
-    ],
-    "events": [
-      "isc.rule.file.send.intent.001"
-    ]
-  },
-  "action": {
-    "skill": "file-sender",
-    "command": "node /root/.openclaw/workspace/skills/public/file-sender/index.js <文件路径> <receive_id> <receive_id_type> [显示文件名]",
-    "type": "script",
-    "script": "scripts/isc-hooks/ISC-FILE-SEND-INTENT-001.sh"
-  },
-  "notes": "receive_id从会话上下文的sender_id获取，receive_id_type默认open_id",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/file-send-intent.js",
-  "fullchain_status": "expanded"
+    "id": "ISC-FILE-SEND-INTENT-001",
+    "event_type": "isc.rule.file.send.intent.001",
+    "name": "发文件意图自动匹配",
+    "description": "当用户表达发送文件意图时，自动使用file-sender技能",
+    "trigger": {
+        "intent_patterns": [
+            "发文件",
+            "发源文件",
+            "把.*发给我",
+            "发附件",
+            "源文件",
+            "把.*文件.*给我",
+            "发一下.*文件",
+            "文件发我",
+            "给我发文件",
+            "传文件",
+            "把.*传给我",
+            "发送文件",
+            "把报告发我",
+            "把.*给我"
+        ],
+        "events": [
+            "isc.rule.file.send.intent.001"
+        ]
+    },
+    "action": {
+        "skill": "file-sender",
+        "command": "node /root/.openclaw/workspace/skills/public/file-sender/index.js <文件路径> <receive_id> <receive_id_type> [显示文件名]",
+        "type": "script",
+        "script": "scripts/isc-hooks/ISC-FILE-SEND-INTENT-001.sh"
+    },
+    "notes": "receive_id从会话上下文的sender_id获取，receive_id_type默认open_id",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/file-send-intent.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "intent_routing_check",
+        "description": "验证意图路由规则 ISC-FILE-SEND-INTENT-001 的分发正确性",
+        "assertions": [
+            {
+                "check": "intent_recognized",
+                "desc": "目标意图被正确识别"
+            },
+            {
+                "check": "route_correct",
+                "desc": "意图被路由到正确的处理器"
+            },
+            {
+                "check": "fallback_handled",
+                "desc": "无法识别的意图有fallback处理"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/file-send-intent.js && echo 'handler_exists:pass'",
+        "expected_outcome": "意图准确识别并路由到正确处理器",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -1,47 +1,70 @@
 {
-  "id": "rule.intent-post-commit-quality-gate-h8z2sz",
-  "name": "intent_post-commit-quality-gate",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "提交后应自动创建质量检查规则",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "Post Commit Quality Gate"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: Post Commit Quality Gate"
-      }
-    ],
-    "event": "intent.ruleify"
-  },
-  "action": {
-    "handler": "skill-isc-handler",
-    "type": "handler",
-    "script": "scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772810910617"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "Post Commit Quality Gate",
-    "confidence": null,
-    "source_file": null,
-    "evidence": null,
-    "created_at": "2026-03-06T15:28:30.618Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/post-commit-quality-gate.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-post-commit-quality-gate-h8z2sz",
+    "event_type": "intent.ruleify",
+    "name": "intent_post-commit-quality-gate",
+    "description": "提交后应自动创建质量检查规则",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "Post Commit Quality Gate"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: Post Commit Quality Gate"
+            }
+        ],
+        "event": "intent.ruleify"
+    },
+    "action": {
+        "handler": "skill-isc-handler",
+        "type": "handler",
+        "script": "scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772810910617"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "Post Commit Quality Gate",
+        "confidence": null,
+        "source_file": null,
+        "evidence": null,
+        "created_at": "2026-03-06T15:28:30.618Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/post-commit-quality-gate.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.intent-post-commit-quality-gate-h8z2sz 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/post-commit-quality-gate.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

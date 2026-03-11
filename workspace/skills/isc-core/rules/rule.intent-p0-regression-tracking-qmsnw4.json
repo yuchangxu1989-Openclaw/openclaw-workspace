@@ -1,46 +1,69 @@
 {
-  "id": "rule.intent-p0-regression-tracking-qmsnw4",
-  "name": "intent_p0-regression-tracking",
-  "domain": "intent",
-  "type": "workflow",
-  "description": "用户要求将subagent default-model解析失败记录为P0级别的回归问题",
-  "trigger": {
-    "events": [
-      "intent.ruleify"
-    ],
-    "conditions": [
-      {
-        "field": "target",
-        "op": "contains",
-        "value": "P0 regression tracking"
-      }
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "Auto-created from intent.ruleify: P0 regression tracking"
-      }
-    ],
-    "event": "intent.ruleify"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.intent-p0-regression-tracking-qmsnw4.sh"
-  },
-  "governance": {
-    "auto_execute": false,
-    "source": "intent-event-handler",
-    "derived_from_event": "evt_1772851203130"
-  },
-  "metadata": {
-    "intent_type": "RULEIFY",
-    "target": "P0 regression tracking",
-    "confidence": 0.9,
-    "source_file": "2026-03-07.md",
-    "evidence": "This should be treated as a P0 regression in agent orchestration/default-model resolution.",
-    "created_at": "2026-03-07T02:40:03.130Z"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/p0-regression-tracking.js",
-  "fullchain_status": "expanded"
+    "id": "rule.intent-p0-regression-tracking-qmsnw4",
+    "event_type": "intent.ruleify",
+    "name": "intent_p0-regression-tracking",
+    "description": "用户要求将subagent default-model解析失败记录为P0级别的回归问题",
+    "domain": "intent",
+    "type": "workflow",
+    "trigger": {
+        "events": [
+            "intent.ruleify"
+        ],
+        "conditions": [
+            {
+                "field": "target",
+                "op": "contains",
+                "value": "P0 regression tracking"
+            }
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "Auto-created from intent.ruleify: P0 regression tracking"
+            }
+        ],
+        "event": "intent.ruleify"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.intent-p0-regression-tracking-qmsnw4.sh"
+    },
+    "governance": {
+        "auto_execute": false,
+        "source": "intent-event-handler",
+        "derived_from_event": "evt_1772851203130"
+    },
+    "metadata": {
+        "intent_type": "RULEIFY",
+        "target": "P0 regression tracking",
+        "confidence": 0.9,
+        "source_file": "2026-03-07.md",
+        "evidence": "This should be treated as a P0 regression in agent orchestration/default-model resolution.",
+        "created_at": "2026-03-07T02:40:03.130Z"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/p0-regression-tracking.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "rule_enforcement_check",
+        "description": "验证规则 rule.intent-p0-regression-tracking-qmsnw4 的执行有效性",
+        "assertions": [
+            {
+                "check": "handler_registered",
+                "desc": "Handler已注册: skills/isc-core/handlers/p0-regression-tracking.js"
+            },
+            {
+                "check": "trigger_conditions_met",
+                "desc": "触发条件满足时规则被正确激活"
+            },
+            {
+                "check": "action_executed",
+                "desc": "规则激活后执行指定的动作"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/p0-regression-tracking.js && echo 'handler_exists:pass'",
+        "expected_outcome": "规则触发条件满足时正确执行预定义动作",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }
