@@ -128,9 +128,10 @@ DUPES_COUNT=0
 
 # Find all code files, compute md5, find duplicates
 TMPFILE=$(mktemp)
-find "$WORKSPACE" -type f \( -name '*.js' -o -name '*.sh' -o -name '*.py' -o -name '*.json' -o -name '*.md' \) \
+timeout 15 find "$WORKSPACE" -type f \( -name '*.js' -o -name '*.sh' -o -name '*.py' \) \
   -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/reports/*' -not -path '*/logs/*' \
-  -exec md5sum {} + 2>/dev/null | sort > "$TMPFILE"
+  -maxdepth 4 \
+  -exec md5sum {} + 2>/dev/null | sort > "$TMPFILE" || true
 
 # Group by md5
 prev_md5="" prev_files=""
