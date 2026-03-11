@@ -1,0 +1,181 @@
+{
+  "batch": "aj",
+  "generated": "2026-03-11T08:22:00+08:00",
+  "total_rules": 9,
+  "summary": {
+    "all_handlers_exist": false,
+    "missing_handlers_fixed": 1,
+    "v4_fields_added": 9
+  },
+  "rules": [
+    {
+      "rule_id": "ISC-USER-EMPHASIS-AUTO-ESCALATION-001",
+      "name": "用户重复强调自动升级",
+      "layers": {
+        "L1_intent": { "desc": "用户对同一概念反复强调≥2次时自动升级到结构化hook", "priority": "critical" },
+        "L2_event": { "subscribed_events": ["user.emphasis.repeated"], "subscription_file": "skills/isc-core/rules/rule.user-emphasis-auto-escalation-001.json" },
+        "L3_plan": { "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/user-emphasis-auto-escalation-001.sh", "handler_exists": true },
+        "L4_exec": { "logic": "扫描MEMORY.md中重复概念(≥MIN_REPEAT次)，匹配则升级到AGENTS.md/code hook", "type": "bash" },
+        "L5_verify": { "test_exists": false, "test_path": null }
+      },
+      "v4": {
+        "scoring_rubric": "重复强调识别准确率≥90%；升级动作正确执行率100%",
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.85,
+        "process_indicators": ["repeated_emphasis_detected_count", "escalation_success_count", "false_positive_rate"],
+        "layer": "感知层→执行层"
+      }
+    },
+    {
+      "rule_id": "user-message-intent-probe-001",
+      "name": "用户消息意图探针",
+      "layers": {
+        "L1_intent": { "desc": "每条用户消息执行LLM意图分类，识别纠偏/否定/教学等信号", "priority": "P0" },
+        "L2_event": { "subscribed_events": ["isc.rule.user.message.intent.probe.001", "user_message_received"], "subscription_file": "skills/isc-core/rules/rule.user-message-intent-probe-001.json" },
+        "L3_plan": { "handler_path": "skills/cras/scripts/intent-probe.sh", "handler_exists": true, "note": "规则JSON指向handlers/user-message-intent-probe-001.js(不存在)，实际handler在skills/cras/scripts/intent-probe.sh，已修正规则指向" },
+        "L4_exec": { "logic": "v2 LLM意图分类器(glm-4-plus主引擎，v1-keyword fallback)→结构化JSON(intent_type,confidence,should_harvest)", "type": "bash+llm" },
+        "L5_verify": { "test_exists": true, "test_path": "tests/benchmarks/intent/intent-probe-regression-100.json" }
+      },
+      "v4": {
+        "scoring_rubric": "意图分类准确率≥85%(regression-100基准)；纠偏信号召回率≥95%",
+        "north_star_indicator": "认知层真实代码覆盖率",
+        "gate_relevance": 0.95,
+        "process_indicators": ["intent_classification_accuracy", "correction_recall", "llm_fallback_rate"],
+        "layer": "感知层"
+      }
+    },
+    {
+      "rule_id": "rule.vectorization-auto-trigger-001",
+      "name": "资源生命周期自动向量化",
+      "layers": {
+        "L1_intent": { "desc": "资源(skill/memory/knowledge/aeo)生命周期事件统一触发智谱embedding向量化", "priority": 10 },
+        "L2_event": { "subscribed_events": ["{resource_type}.{event_type}通配"], "subscription_file": "skills/isc-core/rules/rule.vectorization-auto-trigger-001.json" },
+        "L3_plan": { "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.vectorization-auto-trigger-001.sh", "handler_exists": true },
+        "L4_exec": { "logic": "参数化通配匹配resource_type×lifecycle_event，调用zhipu-embedding-3(1024维)批量向量化", "type": "bash" },
+        "L5_verify": { "test_exists": false, "test_path": null }
+      },
+      "v4": {
+        "scoring_rubric": "向量化触发覆盖率≥95%；向量维度一致性100%(1024维)",
+        "north_star_indicator": "自主闭环率",
+        "gate_relevance": 0.7,
+        "process_indicators": ["vectorization_trigger_count", "embedding_latency_p99", "orphan_vector_count"],
+        "layer": "执行层"
+      }
+    },
+    {
+      "rule_id": "rule.vectorization-standard-enforcement-001",
+      "name": "向量化统一标准强制执行",
+      "layers": {
+        "L1_intent": { "desc": "禁止TF-IDF/本地模型，强制智谱Embedding API(1024维)；定期清理孤儿向量", "priority": 10 },
+        "L2_event": { "subscribed_events": ["vectorization.request", "cron.daily"], "subscription_file": "skills/isc-core/rules/rule.vectorization-standard-enforcement-001.json" },
+        "L3_plan": { "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.vectorization-standard-enforcement-001.sh", "handler_exists": true },
+        "L4_exec": { "logic": "扫描代码中禁止引擎(tfidf/bge-m3/local)使用，违规则block_and_alert；定期扫描孤儿向量清理", "type": "bash" },
+        "L5_verify": { "test_exists": false, "test_path": null }
+      },
+      "v4": {
+        "scoring_rubric": "违规引擎使用次数=0；孤儿向量占比<1%",
+        "north_star_indicator": "自主闭环率",
+        "gate_relevance": 0.65,
+        "process_indicators": ["violation_blocked_count", "orphan_vectors_cleaned", "compliance_rate"],
+        "layer": "执行层"
+      }
+    },
+    {
+      "rule_id": "rule.version-integrity-gate-001",
+      "name": "版本诚实性门禁",
+      "layers": {
+        "L1_intent": { "desc": "技能版本号必须与代码成熟度匹配，禁止虚假版本号和跳级升版", "priority": "P1" },
+        "L2_event": { "subscribed_events": ["skill.lifecycle.created", "skill.lifecycle.modified"], "subscription_file": "skills/isc-core/rules/rule.version-integrity-gate-001.json" },
+        "L3_plan": { "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/version-integrity-gate-001.sh", "handler_exists": true },
+        "L4_exec": { "logic": "检查SKILL.md版本号vs代码成熟度(v0=概念,v1=可运行,v2=生产级)，跳级则block", "type": "bash" },
+        "L5_verify": { "test_exists": false, "test_path": null }
+      },
+      "v4": {
+        "scoring_rubric": "版本跳级拦截率100%；误拦率<5%",
+        "north_star_indicator": "独立QA覆盖率",
+        "gate_relevance": 0.8,
+        "process_indicators": ["version_jump_blocked", "false_block_rate", "skills_audited_count"],
+        "layer": "验真层"
+      }
+    },
+    {
+      "rule_id": "rule.visual-output-style-001",
+      "name": "工程图视觉规范",
+      "layers": {
+        "L1_intent": { "desc": "所有工程图必须浅色背景+中文标注+柔和颜色", "priority": "medium" },
+        "L2_event": { "subscribed_events": ["document.diagram.created"], "subscription_file": "skills/isc-core/rules/rule.visual-output-style-001.json" },
+        "L3_plan": { "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.visual-output-style-001.sh", "handler_exists": true },
+        "L4_exec": { "logic": "Mermaid渲染时强制bgColor=ffffff,theme=default,节点文本中文优先", "type": "bash" },
+        "L5_verify": { "test_exists": false, "test_path": null }
+      },
+      "v4": {
+        "scoring_rubric": "图表中文标注率100%；浅色背景合规率100%",
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.5,
+        "process_indicators": ["diagrams_checked", "chinese_label_rate", "style_violation_count"],
+        "layer": "执行层"
+      }
+    },
+    {
+      "rule_id": "rule.voice-reply-on-short-response-001",
+      "name": "短回复语音建议",
+      "layers": {
+        "L1_intent": { "desc": "回复<20字时建议语音回复增强表达", "priority": 50 },
+        "L2_event": { "subscribed_events": ["isc.rule.voice.reply.on.short.response.001", "before_reply"], "subscription_file": "skills/isc-core/rules/rule.voice-reply-on-short-response-001.json" },
+        "L3_plan": { "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/voice-reply-on-short-response-001.sh", "handler_exists": true },
+        "L4_exec": { "logic": "检查回复文本长度<阈值(20)则输出suggest_voice标记", "type": "bash" },
+        "L5_verify": { "test_exists": false, "test_path": null }
+      },
+      "v4": {
+        "scoring_rubric": "短回复语音触发准确率≥90%",
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.35,
+        "process_indicators": ["short_reply_count", "voice_suggestion_count", "voice_adoption_rate"],
+        "layer": "执行层"
+      }
+    },
+    {
+      "rule_id": "ISC-WILD-SCRIPT-AUTO-DISCOVERY-001",
+      "name": "野生脚本自动发现与收编",
+      "layers": {
+        "L1_intent": { "desc": "每日扫描scripts/目录发现不属于任何技能的脚本，告警并推动收编", "priority": "medium" },
+        "L2_event": { "subscribed_events": ["cron.daily.0900"], "subscription_file": "skills/isc-core/rules/rule.wild-script-auto-discovery-001.json" },
+        "L3_plan": { "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/wild-script-auto-discovery-001.sh", "handler_exists": true },
+        "L4_exec": { "logic": "遍历scripts/目录，对比skills/中已注册脚本，输出未收编清单", "type": "bash" },
+        "L5_verify": { "test_exists": false, "test_path": null }
+      },
+      "v4": {
+        "scoring_rubric": "野生脚本发现率≥95%；收编完成率月度≥80%",
+        "north_star_indicator": "自主闭环率",
+        "gate_relevance": 0.6,
+        "process_indicators": ["wild_scripts_found", "scripts_adopted", "adoption_rate"],
+        "layer": "验真层"
+      }
+    },
+    {
+      "rule_id": "rule.zhipu-capability-router-001",
+      "name": "智谱能力自动路由",
+      "layers": {
+        "L1_intent": { "desc": "根据输入模态(视频/PDF/图片/文本/代码/搜索)自动选择最优智谱模型", "priority": "P1" },
+        "L2_event": { "subscribed_events": ["capability.route.request"], "subscription_file": "skills/isc-core/rules/rule.zhipu-capability-router-001.json" },
+        "L3_plan": { "handler_path": "scripts/isc-hooks/rule.zhipu-capability-router-001.sh", "handler_exists": true },
+        "L4_exec": { "logic": "正则匹配输入模态→路由到对应模型(glm-4v/glm-4-flash/codegeex-4/web-search-pro等)", "type": "bash" },
+        "L5_verify": { "test_exists": false, "test_path": null }
+      },
+      "v4": {
+        "scoring_rubric": "路由准确率≥90%；模态识别覆盖率100%",
+        "north_star_indicator": "认知层真实代码覆盖率",
+        "gate_relevance": 0.75,
+        "process_indicators": ["route_accuracy", "modality_coverage", "fallback_rate"],
+        "layer": "规划层"
+      }
+    }
+  ],
+  "fixes_applied": [
+    {
+      "rule_id": "user-message-intent-probe-001",
+      "issue": "handler指向handlers/user-message-intent-probe-001.js(不存在)",
+      "fix": "实际handler在skills/cras/scripts/intent-probe.sh，已修正规则JSON中handler字段"
+    }
+  ]
+}

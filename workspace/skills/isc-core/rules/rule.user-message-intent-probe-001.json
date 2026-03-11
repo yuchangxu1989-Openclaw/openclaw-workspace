@@ -22,7 +22,7 @@
     "primary_engine": "glm-4-plus",
     "fallback_engine": "v1-keyword",
     "gate_script": null,
-    "hook": "/root/.openclaw/workspace/scripts/intent-probe.sh",
+    "hook": "skills/cras/scripts/intent-probe.sh",
     "description": "v2架构: 用户消息→LLM意图分类→结构化JSON。LLM不可用时自动降级到v1关键词版。"
   },
   "intent_types": [
@@ -103,6 +103,6 @@
       }
     }
   },
-  "handler": "handlers/user-message-intent-probe-001.js",
+  "handler": "skills/cras/scripts/intent-probe.sh",
   "id": "USER-MESSAGE-INTENT-PROBE-001"
 }
