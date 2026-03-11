@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Agent任务看板 - 飞书推送脚本 (v7 - 活跃session可见性修复版)
+ * Agent任务看板 - 飞书推送脚本 (v8 - 最近完成可见性 + 去hash去重)
  *
  * 核心设计：
  * 1. done-sessions.json 真相源，带时间戳
@@ -16,16 +16,21 @@
  * - 删除 Signal D（10分钟超时自动标记done）— 该逻辑过于激进，导致活跃session被永久隐藏
  * - 新增 transcript mtime 活跃度检测 — 比 session.updatedAt 更准确
  * - 新增复活机制 — doneRegistry不再单调递增，活跃session可被恢复
+ *
+ * v8 变更：
+ * - 新增"最近完成"区块 — 30分钟内完成的任务在看板可见，解决快速完成任务"从未出现"的问题
+ * - 去除content hash去重 — 改为时间去重（60秒内不重复推送），确保每次cron都能推送
+ * - summary行增加累计完成数
  */
 const fs = require('fs');
 const crypto = require('crypto');
 const { execSync } = require('child_process');
 
 const AGENTS_DIR = '/root/.openclaw/agents';
-const DEDUP_DIR  = '/tmp/feishu-board-push-dedup';
+const DEDUP_DIR      = '/tmp/feishu-board-push-dedup';
+const DONE_JSON      = `${DEDUP_DIR}/done-sessions.json`;
+const DONE_TXT       = `${DEDUP_DIR}/done-sessions.txt`;
 const LAST_HASH_FILE = `${DEDUP_DIR}/last-push-hash`;
-const DONE_JSON  = `${DEDUP_DIR}/done-sessions.json`;
-const DONE_TXT   = `${DEDUP_DIR}/done-sessions.txt`;
 const BOARD_FILE = '/root/.openclaw/workspace/logs/subagent-task-board.json';
 const TZ_OFFSET  = 8 * 3600 * 1000; // Asia/Shanghai
 
@@ -258,9 +263,30 @@ for (const [label, ts] of Object.entries(doneRegistry)) {
 }
 
 const totalDone = Object.keys(doneRegistry).length;
-const summary = `今日：✅${todayDone} ⏰${todayTimeout} ❌${todayFailed} 🟢${rows.length}`;
+const summary = `今日：✅${todayDone} ⏰${todayTimeout} ❌${todayFailed} 🟢${rows.length} | 累计：${totalDone}`;
 
-console.log(`[stats] running=${rows.length} todayDone=${todayDone} todayTimeout=${todayTimeout} todayFailed=${todayFailed} totalDone=${totalDone}`);
+// ── 6b. Recently completed (last 30 min, for board visibility) ──
+const RECENT_DONE_MS = 30 * 60 * 1000;
+const recentDone = [];
+for (const [label, completedAt] of Object.entries(doneRegistry)) {
+  if (!completedAt || completedAt < (now - RECENT_DONE_MS)) continue;
+  const sess = allSessions[label];
+  if (!sess) continue;
+  const { val, agent } = sess;
+  const rawModel = val.model || val.config?.model || '';
+  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || '-');
+  const boardStatus = boardStatusMap[label];
+  let status;
+  if (val.abortedLastRun || boardStatus === 'timeout') status = '⏰超时';
+  else if (boardStatus === 'failed') status = '❌失败';
+  else status = '✅完成';
+  const agoMin = Math.floor((now - completedAt) / 60000);
+  recentDone.push({ task: label, agent, model, status, duration: agoMin + 'm前', _completedAt: completedAt });
+}
+recentDone.sort((a, b) => b._completedAt - a._completedAt);
+const recentDoneDisplay = recentDone.slice(0, 10).map(({ task, agent, model, status, duration }) => ({ task, agent, model, status, duration }));
+
+console.log(`[stats] running=${rows.length} todayDone=${todayDone} todayTimeout=${todayTimeout} todayFailed=${todayFailed} totalDone=${totalDone} recentDone=${recentDoneDisplay.length}`);
 console.log(`[stats] running: ${rows.map(r => r.task).join(', ') || '(none)'}`);
 
 // ── 7. Get Feishu token ──
