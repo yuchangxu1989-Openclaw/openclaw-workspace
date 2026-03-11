@@ -12,10 +12,12 @@
  * 7. Agent列：从agent目录名提取
  */
 const fs = require('fs');
+const crypto = require('crypto');
 const { execSync } = require('child_process');
 
 const AGENTS_DIR = '/root/.openclaw/agents';
 const DEDUP_DIR  = '/tmp/feishu-board-push-dedup';
+const LAST_HASH_FILE = `${DEDUP_DIR}/last-push-hash`;
 const DONE_JSON  = `${DEDUP_DIR}/done-sessions.json`;
 const DONE_TXT   = `${DEDUP_DIR}/done-sessions.txt`;
 const BOARD_FILE = '/root/.openclaw/workspace/logs/subagent-task-board.json';
@@ -266,6 +268,16 @@ const payload = JSON.stringify({
 });
 
 // ── 9. Send ──
+// Content dedup: skip if unchanged
+const cardHash = crypto.createHash('md5').update(payload).digest('hex');
+let lastHash = '';
+try { lastHash = fs.readFileSync(LAST_HASH_FILE, 'utf8').trim(); } catch {}
+if (cardHash === lastHash) {
+  console.log('[skip] 看板内容无变化，跳过推送');
+  process.exit(0);
+}
+fs.writeFileSync(LAST_HASH_FILE, cardHash);
+
 const sendResp = JSON.parse(execSync(
   `curl -s -X POST "https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=open_id" ` +
   `-H "Authorization: Bearer ${token}" ` +
