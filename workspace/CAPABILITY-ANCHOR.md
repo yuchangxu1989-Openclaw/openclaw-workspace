@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/11 07:00:01
-> **技能总数**: 77
+> **生成时间**: 2026/3/11 08:00:02
+> **技能总数**: 78
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -107,6 +107,7 @@
 - ✅ **layered-architecture-checker**: skills/layered-architecture-checker/
 - ✅ **lep-executor**: skills/lep-executor/ — LEP稳定执行 - 统一韧性任务执行引擎
 - ✅ **lto-core**: skills/lto-core/ — LTO本地可控编排器 v3.0.11 - 可扩展调度平台，多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
+- ✅ **memos-memory-guide**: skills/memos-memory-guide/ — Use the MemOS Local memory system to search and use the user's past conversations. Use this skill whenever the user refers to past chats, their own preferences or history, or when you need to answer from prior context. When auto-recall returns nothing (long or unclear user query), generate your own short search query and call memory_search. Use task_summary when you need full task context, skill_get for experience guides, and memory_timeline to expand around a memory hit.
 - ✅ **parallel-subagent**: skills/parallel-subagent/
 - ✅ **paths-center**: skills/paths-center/ — 路径方案管理
 - ✅ **pdca-engine**: skills/pdca-engine/ — PDCA持续改进

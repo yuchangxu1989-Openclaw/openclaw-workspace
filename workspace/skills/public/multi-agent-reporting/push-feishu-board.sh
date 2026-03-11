@@ -2,7 +2,7 @@
 # push-feishu-board.sh - 生成看板并直接推送到飞书（使用table组件）
 # 不依赖主Agent，脚本自己调飞书API发消息
 
-# === 去重机制：相同内容10秒内不重复推送 ===
+# === 去重机制：内容级去重，内容不变则不推送 ===
 DEDUP_DIR="/tmp/feishu-board-push-dedup"
 mkdir -p "$DEDUP_DIR"
 BOARD_FILE="/root/.openclaw/workspace/logs/subagent-task-board.json"
@@ -11,11 +11,8 @@ if [ -f "$BOARD_FILE" ]; then
   DEDUP_FILE="$DEDUP_DIR/last-push"
   if [ -f "$DEDUP_FILE" ]; then
     LAST_HASH=$(head -1 "$DEDUP_FILE")
-    LAST_TS=$(tail -1 "$DEDUP_FILE")
-    NOW_TS=$(date +%s)
-    DIFF=$((NOW_TS - LAST_TS))
-    if [ "$CONTENT_HASH" = "$LAST_HASH" ] && [ "$DIFF" -lt 10 ]; then
-      echo "⏭️ 看板内容未变化且距上次推送${DIFF}秒，跳过重复推送"
+    if [ "$CONTENT_HASH" = "$LAST_HASH" ]; then
+      echo "⏭️ 看板内容md5未变化($CONTENT_HASH)，跳过推送"
       exit 0
     fi
   fi
@@ -51,7 +48,6 @@ SUMMARY=$(echo "$BOARD_JSON" | jq -r '.summary')
 ROWS=$(echo "$BOARD_JSON" | jq -c '.rows')
 ROW_COUNT=$(echo "$BOARD_JSON" | jq '.rows | length')
 
-# 构造elements数组：只显示running任务 + 汇总数字
 if [ "$ROW_COUNT" -gt 0 ]; then
   ELEMENTS=$(jq -n \
     --arg rc "$RUNNING_COUNT" \
@@ -111,10 +107,9 @@ SEND_RESP=$(curl -s -X POST "https://open.feishu.cn/open-apis/im/v1/messages?rec
 SEND_CODE=$(echo "$SEND_RESP" | jq -r '.code // 0' 2>/dev/null)
 
 if [ "$SEND_CODE" = "0" ]; then
-  # 记录本次推送hash和时间
+  # 记录本次推送的内容hash
   echo "$CONTENT_HASH" > "$DEDUP_FILE"
-  date +%s >> "$DEDUP_FILE"
-  echo "✅ 看板已直接推送到飞书（table组件）"
+  echo "✅ 看板已推送到飞书（内容有变化，md5=$CONTENT_HASH）"
 else
   echo "❌ 飞书推送失败: $SEND_RESP"
 fi

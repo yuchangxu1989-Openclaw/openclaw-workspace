@@ -8532,8 +8532,12 @@
     "label": "memos-fix-sqlite",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
-    "spawnTime": "2026-03-10T23:24:10.630Z"
+    "status": "timeout",
+    "spawnTime": "2026-03-10T23:24:10.630Z",
+    "result_summary": "(超时任务自动回收 — session疑似卡住)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-10T23:57:01.872Z",
+    "fixed_reason": "session 32分钟未更新，严重超时(stopReason=toolUse)"
   },
   {
     "taskId": "851ec987-c379-4189-b781-be32a51a372c",
