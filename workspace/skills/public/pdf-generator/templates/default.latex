@@ -1,0 +1,74 @@
+% PDF Generator LaTeX Template — 中文文档优化
+% 基于 pandoc 默认模板，增加 CJK 支持和专业排版
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(papersize)$$papersize$paper,$endif$]{$documentclass$}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else
+  \usepackage{fontspec}
+  \usepackage{xeCJK}
+  \setCJKmainfont{Noto Serif CJK SC}
+  \setCJKsansfont{Noto Sans CJK SC}
+  \setCJKmonofont{Noto Sans Mono CJK SC}
+  $if(mainfont)$\setmainfont{$mainfont$}$endif$
+  $if(sansfont)$\setsansfont{$sansfont$}$endif$
+  $if(monofont)$\setmonofont{$monofont$}$endif$
+\fi
+
+\usepackage{geometry}
+$if(geometry)$\geometry{$for(geometry)$$geometry$$sep$,$endfor$}$else$\geometry{margin=2.5cm}$endif$
+
+\usepackage{graphicx}
+\usepackage{longtable,booktabs,array}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+$if(colorlinks)$
+\hypersetup{colorlinks=true,linkcolor=$if(linkcolor)$$linkcolor$$else$blue$endif$,urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$}
+$endif$
+
+$if(linestretch)$\usepackage{setspace}\setstretch{$linestretch$}$endif$
+
+% 页眉页脚
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small $if(title)$$title$$endif$}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% 代码高亮
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% 标题
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+\date{$if(date)$$date$$else$\today$endif$}
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+\begin{document}
+
+$if(title)$
+\maketitle
+$endif$
+
+$if(toc)$
+\tableofcontents
+\newpage
+$endif$
+
+$body$
+
+\end{document}

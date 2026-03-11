@@ -277,7 +277,7 @@ function generatePDF(inputFile, outputFile, options = {}) {
       '-V', 'header-includes=\\usepackage{fancyhdr}\\pagestyle{fancy}\\fancyhead[L]{\\small ' + title.replace(/[\\{}]/g, '') + '}\\fancyhead[R]{\\small\\thepage}\\fancyfoot[C]{}',
       '-V', 'colorlinks=true',
       '-V', 'linkcolor=blue',
-      '-V', 'toccolor=black',
+      '-V', 'urlcolor=blue',
       '--highlight-style=tango',
       '-f', 'markdown+smart+pipe_tables+fenced_code_blocks+backtick_code_blocks+definition_lists',
     ];
