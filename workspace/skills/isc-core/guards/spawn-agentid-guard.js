@@ -1,62 +1,49 @@
 'use strict';
 /**
  * spawn-agentid-guard.js
- * 程序化守卫：检测sessions_spawn是否携带agentId
+ * 调度层守卫：强制sessions_spawn必须指定agentId且不能是main
  * 
- * 用法：在主Agent spawn前调用
+ * 铁令：
+ *   1. 每次spawn必须指定agentId
+ *   2. main不可被指定为agentId（main是调度者，不是执行者）
+ * 
+ * 用法：spawn前调用
  *   node spawn-agentid-guard.js <label> <agentId>
- *   - 如果agentId为空或"main"，输出告警并exit 1
- *   - 否则exit 0
- * 
- * 也可作为模块引用：
- *   const { validateSpawn } = require('./spawn-agentid-guard');
- *   validateSpawn(label, agentId); // throws if invalid
+ *   exit 0 = 放行, exit 1 = 拒绝
  */
 
-const ROLE_MAP = {
-  // label前缀 → 推荐agentId
-  'fix': 'coder',
-  'batch': 'coder',
-  'refactor': 'coder',
-  'impl': 'coder',
-  'auto': 'coder',
-  'backlog': 'analyst',
-  'review': 'reviewer',
-  'audit': 'analyst',
-  'check': 'analyst',
-  'scan': 'analyst',
-  'doc': 'writer',
-  'write': 'writer',
-  'report': 'writer',
-  'research': 'researcher',
-  'scout': 'scout',
-};
+const VALID_AGENTS = [
+  'coder', 'coder-02',
+  'analyst', 'analyst-02',
+  'reviewer', 'reviewer-02',
+  'writer', 'writer-02',
+  'researcher', 'researcher-02',
+  'scout', 'scout-02',
+  'worker-03', 'worker-04', 'worker-05', 'worker-06', 'worker-07', 'worker-08',
+  'cron-worker', 'cron-worker-02',
+  'architect', 'architect-02',
+];
 
-function suggestAgent(label) {
-  if (!label) return 'worker';
-  const prefix = label.split('-')[0].toLowerCase();
-  return ROLE_MAP[prefix] || 'worker';
-}
+const BLOCKED = ['main']; // main是调度者，不可作为执行agentId
 
-function validateSpawn(label, agentId) {
-  if (!agentId || agentId === 'main') {
-    const suggested = suggestAgent(label);
-    const msg = `⚠️ [spawn-agentid-guard] label="${label}" 未指定agentId（或为main）。建议使用 agentId="${suggested}"`;
-    console.error(msg);
-    return { valid: false, suggested, message: msg };
+function validate(label, agentId) {
+  if (!agentId) {
+    return { valid: false, reason: `❌ 拒绝：label="${label}" 未指定agentId。spawn必须指定agentId。` };
   }
-  return { valid: true, agentId };
+  if (BLOCKED.includes(agentId)) {
+    return { valid: false, reason: `❌ 拒绝：agentId="${agentId}" 不可用。main是调度者不是执行者。` };
+  }
+  if (!VALID_AGENTS.includes(agentId)) {
+    return { valid: false, reason: `⚠️ 警告：agentId="${agentId}" 不在已知agent列表中。` };
+  }
+  return { valid: true };
 }
 
-// CLI模式
 if (require.main === module) {
   const [,, label, agentId] = process.argv;
-  const result = validateSpawn(label, agentId);
-  if (!result.valid) {
-    process.exit(1);
-  } else {
-    console.log(`✅ agentId="${agentId}" OK`);
-  }
+  const result = validate(label, agentId);
+  console.log(result.reason || `✅ agentId="${agentId}" 放行`);
+  process.exit(result.valid ? 0 : 1);
 }
 
-module.exports = { validateSpawn, suggestAgent };
+module.exports = { validate, VALID_AGENTS, BLOCKED };
