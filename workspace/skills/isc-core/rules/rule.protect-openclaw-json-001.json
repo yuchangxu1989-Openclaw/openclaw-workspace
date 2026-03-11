@@ -1,0 +1,16 @@
+{
+  "id": "protect-openclaw-json-001",
+  "name": "子Agent禁止修改openclaw.json",
+  "description": "openclaw.json是系统核心配置，只有主Agent或用户可以修改。子Agent的sed/replace操作必须排除此文件。",
+  "priority": "iron",
+  "event_type": "subagent.file.write",
+  "intent": "防止子Agent误改系统核心配置导致崩溃",
+  "plan": "在所有批量文件操作中排除openclaw.json",
+  "handler": "skills/isc-core/handlers/protect-openclaw-json.sh",
+  "verification": "grep -c 'openclaw.json' 排除列表",
+  "scoring_rubric": "pass: openclaw.json未被子Agent修改; fail: 被修改",
+  "north_star_indicator": "自主闭环率",
+  "gate_relevance": 1.0,
+  "process_indicators": ["config_integrity"],
+  "layer": "execution"
+}
