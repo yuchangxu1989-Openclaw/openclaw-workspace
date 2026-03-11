@@ -1,5 +1,5 @@
 #!/bin/bash
-# 薄封装 — 实际逻辑在技能目录 + 僵尸任务兜底扫描
+# 薄封装 — 实际逻辑在技能目录 + 僵尸任务兜底扫描 + 看板刷新
 SCRIPT_DIR="$(dirname "$0")"
 
 # 执行原始completion handler
@@ -8,5 +8,8 @@ HANDLER_EXIT=$?
 
 # 每次completion时顺便扫描僵尸任务（后台静默修复，不阻塞主流程）
 node "$SCRIPT_DIR/check-stale-tasks.js" --fix --quiet >> /root/.openclaw/workspace/logs/check-stale-tasks.log 2>&1 &
+
+# 看板刷新+飞书推送（后台执行，不阻塞主流程）
+bash /root/.openclaw/workspace/skills/public/multi-agent-dispatch/scripts/auto-refresh.sh >> /root/.openclaw/workspace/logs/auto-refresh.log 2>&1 &
 
 exit $HANDLER_EXIT

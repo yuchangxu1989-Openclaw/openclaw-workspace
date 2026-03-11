@@ -50,6 +50,16 @@ fi
 exec: bash /root/.openclaw/workspace/scripts/register-task.sh <runId> <label> <agentId> <model>
 不登记 = Badcase。
 
+### spawn后必须刷新看板（ISC-BOARD-REFRESH-ON-SPAWN-001，永久生效）
+每次sessions_spawn + register-task.sh之后，**立即执行**：
+```
+exec: bash /root/.openclaw/workspace/skills/public/multi-agent-dispatch/scripts/auto-refresh.sh
+```
+该脚本会自动：1) 生成最新看板快照 2) 推送飞书卡片给用户
+不刷新 = 用户看不到任务状态 = Badcase。
+
+completion-handler.sh执行后也必须执行同样的auto-refresh.sh。
+
 ### completion event必须调completion-handler.sh（程序化强制）
 
 收到子Agent completion event后，执行且只需执行一行：
