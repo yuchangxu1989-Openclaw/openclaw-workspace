@@ -1,15 +1,21 @@
 #!/usr/bin/env node
 /**
- * Agent任务看板 - 飞书推送脚本 (v6 - 模型+Agent列修复版)
+ * Agent任务看板 - 飞书推送脚本 (v7 - 活跃session可见性修复版)
  *
  * 核心设计：
- * 1. done-sessions.json 单一真相源，带时间戳，单调递增（只增不减）
+ * 1. done-sessions.json 真相源，带时间戳
  * 2. 扫描 ALL agent目录的 sessions.json
  * 3. 三重完成检测：aborted标记 + board.json状态 + transcript stopReason
  * 4. today统计基于 done registry 时间戳，不依赖 session updatedAt
- * 5. running判定：未完成 + updatedAt在2小时内
+ * 5. running判定：未完成 + 活跃度在2小时内（取 updatedAt 和 transcript mtime 的较大值）
  * 6. 模型名：session.model → openclaw.json agent配置 → 全局默认，去provider前缀
  * 7. Agent列：从agent目录名提取
+ * 8. 复活机制：transcript仍在写入的session从doneRegistry中移除（防止误标done）
+ *
+ * v7 变更：
+ * - 删除 Signal D（10分钟超时自动标记done）— 该逻辑过于激进，导致活跃session被永久隐藏
+ * - 新增 transcript mtime 活跃度检测 — 比 session.updatedAt 更准确
+ * - 新增复活机制 — doneRegistry不再单调递增，活跃session可被恢复
  */
 const fs = require('fs');
 const crypto = require('crypto');
@@ -164,18 +170,39 @@ for (const [label, { val, sessDir }] of Object.entries(allSessions)) {
   }
 }
 
-// Signal D: Timeout-based completion
-// If a session hasn't been updated in >10 minutes, it's almost certainly done
-// (subagent tasks typically complete in <10 min; the 2h RUNNING_MAX_AGE_MS just hides them)
-const TIMEOUT_DONE_MS = 10 * 60 * 1000; // 10 minutes
-for (const [label, { val }] of Object.entries(allSessions)) {
-  if (doneRegistry[label]) continue;
-  const age = now - (val.updatedAt || 0);
-  if (age > TIMEOUT_DONE_MS) {
-    doneRegistry[label] = val.updatedAt || now;
-    console.log(`[done:timeout] ${label} (idle ${Math.floor(age / 60000)}m, assumed done)`);
+// Signal D: REMOVED in v7
+// 10-minute timeout was too aggressive — subagent tasks routinely run 30-60+ minutes.
+// Sessions are now only marked done by explicit signals (aborted, board status, transcript stopReason).
+
+// ── 3b. Resurrection: revive sessions wrongly marked done ──
+// If a session's transcript file was modified recently, it's still active — remove from doneRegistry
+function getTranscriptMtime(sessionVal, sessDir) {
+  try {
+    const sid = sessionVal.sessionId;
+    if (!sid) return 0;
+    const tp = `${sessDir}/${sid}.jsonl`;
+    if (!fs.existsSync(tp)) return 0;
+    return fs.statSync(tp).mtimeMs;
+  } catch { return 0; }
+}
+
+const RESURRECT_THRESHOLD_MS = 2 * 60 * 60 * 1000; // 2 hours
+let resurrected = 0;
+for (const [label, { val, sessDir }] of Object.entries(allSessions)) {
+  if (!doneRegistry[label]) continue;
+  const tmtime = getTranscriptMtime(val, sessDir);
+  const lastActivity = Math.max(val.updatedAt || 0, tmtime);
+  const age = now - lastActivity;
+  if (age < RESURRECT_THRESHOLD_MS && !val.abortedLastRun) {
+    // Double-check: only resurrect if transcript does NOT have a final stopReason
+    if (!isCompletedByTranscript(val, sessDir)) {
+      delete doneRegistry[label];
+      resurrected++;
+      console.log(`[resurrect] ${label} (active ${Math.floor(age / 60000)}m ago, transcript still open)`);
+    }
   }
 }
+if (resurrected > 0) console.log(`[resurrect] Revived ${resurrected} sessions from doneRegistry`);
 
 // ── 4. Persist done registry ──
 const newCount = Object.keys(doneRegistry).length;
@@ -187,11 +214,14 @@ if (newCount > prevCount) {
 }
 
 // ── 5. Compute running sessions ──
+// Use max(updatedAt, transcript mtime) as activity indicator — transcript mtime is more accurate
 const RUNNING_MAX_AGE_MS = 2 * 60 * 60 * 1000; // 2 hours
 const rows = [];
-for (const [label, { val, agent }] of Object.entries(allSessions)) {
+for (const [label, { val, sessDir, agent }] of Object.entries(allSessions)) {
   if (doneRegistry[label]) continue;
-  const age = now - (val.updatedAt || 0);
+  const tmtime = getTranscriptMtime(val, sessDir);
+  const lastActivity = Math.max(val.updatedAt || 0, tmtime);
+  const age = now - lastActivity;
   if (age > RUNNING_MAX_AGE_MS) continue;
   const ageMin = Math.floor(age / 60000);
   const duration = ageMin >= 60
