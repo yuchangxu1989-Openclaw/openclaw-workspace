@@ -94,10 +94,11 @@ def validate_skill(skill_path):
     return True, "Skill is valid!"
 
 if __name__ == "__main__":
+    import json as _json
     if len(sys.argv) != 2:
-        print("Usage: python quick_validate.py <skill_directory>")
+        print(_json.dumps({"success": False, "error": "Usage: python quick_validate.py <skill_directory>"}))
         sys.exit(1)
     
     valid, message = validate_skill(sys.argv[1])
-    print(message)
+    print(_json.dumps({"success": valid, "message": message, "skill_path": sys.argv[1]}))
     sys.exit(0 if valid else 1)

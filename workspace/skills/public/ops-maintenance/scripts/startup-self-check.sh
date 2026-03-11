@@ -40,7 +40,8 @@ if [ $ERRORS -gt 0 ]; then
   echo ""
   echo "🔄 尝试从Git恢复缺失文件..."
   cd /root/.openclaw/workspace
-  git checkout HEAD -- CAPABILITY-ANCHOR.md SOUL.md USER.md AGENTS.md MEMORY.md CRITICAL-MEMORY.md 2>/dev/null
+  # MEMORY.md/CRITICAL-MEMORY.md已废弃，MemOS为唯一记忆源
+  git checkout HEAD -- CAPABILITY-ANCHOR.md SOUL.md USER.md AGENTS.md 2>/dev/null
   if [ $? -eq 0 ]; then
     echo "  ✅ Git恢复成功"
     ERRORS=0

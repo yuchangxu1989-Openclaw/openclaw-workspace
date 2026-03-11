@@ -1,7 +1,7 @@
 ---
 name: pdca-engine
 description: PDCA持续改进
-version: "0.5.6"
+version: "0.5.7"
 status: active
 ---
 

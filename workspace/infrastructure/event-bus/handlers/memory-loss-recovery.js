@@ -4,7 +4,8 @@
  * 自主执行器：记忆丢失自动恢复
  * 流水线：感知→判断→自主执行→验证→闭环
  *
- * 检测到MEMORY.md丢失/损坏 → 从git history恢复 → 验证完整性 → 重建注册表 → 闭环
+ * 检测到MemOS(memos.db)丢失/损坏 → 尝试恢复 → 验证完整性 → 重建注册表 → 闭环
+ * （MEMORY.md已废弃，MemOS为唯一记忆源）
  */
 
 const fs = require('fs');
@@ -12,7 +13,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const WORKSPACE = '/root/.openclaw/workspace';
-const MEMORY_FILE = path.join(WORKSPACE, 'MEMORY.md');
+const MEMOS_DB_PATH = '/root/.openclaw/memos-local/memos.db';
 const REGISTRY_FILE = path.join(WORKSPACE, '.rule-registry.json');
 const RULES_DIR = path.join(WORKSPACE, 'skills/isc-core/rules');
 const STANDARDS_DIR = path.join(WORKSPACE, 'skills/isc-core/standards');
@@ -20,13 +21,13 @@ const REPORT_DIR = path.join(WORKSPACE, 'reports');
 
 function detectMemoryLoss() {
   const issues = [];
-  // Check MEMORY.md
-  if (!fs.existsSync(MEMORY_FILE)) {
-    issues.push({ type: 'file_missing', file: 'MEMORY.md' });
+  // Check MemOS (memos.db) — 唯一记忆源
+  if (!fs.existsSync(MEMOS_DB_PATH)) {
+    issues.push({ type: 'file_missing', file: 'memos.db' });
   } else {
-    const content = fs.readFileSync(MEMORY_FILE, 'utf8');
-    if (content.length < 100) {
-      issues.push({ type: 'file_corrupted', file: 'MEMORY.md', reason: `size=${content.length} < 100` });
+    const stat = fs.statSync(MEMOS_DB_PATH);
+    if (stat.size < 4096) {
+      issues.push({ type: 'file_corrupted', file: 'memos.db', reason: `size=${stat.size} < 4096` });
     }
   }
   // Check registry
@@ -122,7 +123,10 @@ module.exports = async function(event, rule, context) {
 
   // Phase 2: 自主执行 - 恢复文件
   for (const issue of issues) {
-    if (issue.type === 'file_missing' || issue.type === 'file_corrupted') {
+    if (issue.file === 'memos.db') {
+      // memos.db不能从git恢复（二进制文件），只能记录问题
+      results.errors.push({ file: issue.file, error: 'MemOS数据库异常，需要手动检查或从备份恢复' });
+    } else if (issue.type === 'file_missing' || issue.type === 'file_corrupted') {
       const filePath = path.join(WORKSPACE, issue.file);
       const recovered = recoverFromGit(filePath);
       if (recovered) {
@@ -153,7 +157,7 @@ module.exports = async function(event, rule, context) {
 
   // Phase 4: 验证
   const verification = {
-    memory_exists: fs.existsSync(MEMORY_FILE),
+    memos_db_exists: fs.existsSync(MEMOS_DB_PATH),
     registry_valid: false,
     rule_count: 0,
   };

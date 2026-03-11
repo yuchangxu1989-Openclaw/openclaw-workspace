@@ -59,7 +59,7 @@
  * /root/.openclaw/workspace/                    # 工作空间根目录
  * ├── SOUL.md                                   # 身份与行为准则
  * ├── USER.md                                   # 用户画像（长煦/于长煦）
- * ├── MEMORY.md                                 # 长期记忆索引（可丢失，从代码重建）
+ * ├── (MEMORY.md已废弃)                          # MemOS(memos.db)为唯一记忆源
  * ├── CAPABILITY-ANCHOR.md                      # 能力锚点（自动生成）
  * ├── infrastructure/
  * │   ├── event-bus/                            # 事件总线（感知层核心）
@@ -111,7 +111,7 @@ const WORKSPACE = '/root/.openclaw/workspace';
 const CRITICAL_PATHS = {
   soul: path.join(WORKSPACE, 'SOUL.md'),
   user: path.join(WORKSPACE, 'USER.md'),
-  memory: path.join(WORKSPACE, 'MEMORY.md'),
+  memosDb: '/root/.openclaw/memos-local/memos.db', // MemOS为唯一记忆源（MEMORY.md已废弃）
   anchor: path.join(WORKSPACE, 'CAPABILITY-ANCHOR.md'),
   agents: path.join(WORKSPACE, 'AGENTS.md'),
   rules: path.join(WORKSPACE, 'skills/isc-core/rules'),
@@ -204,7 +204,7 @@ function bootstrap() {
     status.recoveryAttempted = true;
     try {
       require('child_process').execSync(
-        'cd /root/.openclaw/workspace && git checkout HEAD -- SOUL.md USER.md MEMORY.md CAPABILITY-ANCHOR.md AGENTS.md 2>/dev/null',
+        'cd /root/.openclaw/workspace && git checkout HEAD -- SOUL.md USER.md CAPABILITY-ANCHOR.md AGENTS.md 2>/dev/null',
         { stdio: 'pipe' }
       );
       console.log('✅ Git恢复完成');

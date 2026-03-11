@@ -25,8 +25,8 @@ module.exports = async function(event, rule, context) {
     'infrastructure/evomap',
     'AGENTS.md',
     'CAPABILITY-ANCHOR.md',
-    'SOUL.md',
-    'MEMORY.md'
+    'SOUL.md'
+    // MEMORY.md已废弃，MemOS为唯一记忆源
   ];
 
   // 排除的路径模式

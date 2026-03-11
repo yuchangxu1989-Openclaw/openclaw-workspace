@@ -110,7 +110,7 @@
       "name": "CRAS-E-自主进化",
       "enabled": true,
       "createdAtMs": 1771822636502,
-      "updatedAtMs": 1773180709201,
+      "updatedAtMs": 1773252016386,
       "schedule": {
         "expr": "0 2 * * *",
         "kind": "cron",
@@ -129,10 +129,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773252000000,
-        "lastRunAtMs": 1773180699783,
+        "nextRunAtMs": 1773338400000,
+        "lastRunAtMs": 1773252000007,
         "lastStatus": "ok",
-        "lastDurationMs": 9418,
+        "lastDurationMs": 16379,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "not-delivered",
@@ -276,7 +276,7 @@
       "name": "系统维护-每日清理",
       "enabled": true,
       "createdAtMs": 1772046461060,
-      "updatedAtMs": 1773180829233,
+      "updatedAtMs": 1773252029577,
       "schedule": {
         "expr": "0 2 * * *",
         "kind": "cron",
@@ -290,14 +290,14 @@
         "timeoutSeconds": 120
       },
       "state": {
-        "nextRunAtMs": 1773252000000,
-        "lastRunAtMs": 1773180709201,
-        "lastStatus": "error",
-        "lastDurationMs": 120032,
-        "consecutiveErrors": 1,
-        "lastRunStatus": "error",
-        "lastDeliveryStatus": "unknown",
-        "lastError": "Error: cron: job execution timed out"
+        "nextRunAtMs": 1773338400000,
+        "lastRunAtMs": 1773252016386,
+        "lastStatus": "ok",
+        "lastDurationMs": 13191,
+        "consecutiveErrors": 0,
+        "lastRunStatus": "ok",
+        "lastDeliveryStatus": "not-delivered",
+        "lastDelivered": false
       },
       "delivery": {
         "mode": "announce",
@@ -380,7 +380,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773241293012,
+      "updatedAtMs": 1773252055189,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -399,11 +399,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773252007906,
-        "lastRunAtMs": 1773241262919,
+        "nextRunAtMs": 1773255607906,
+        "lastRunAtMs": 1773252043878,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 30093,
+        "lastDurationMs": 11311,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773241305969,
+      "updatedAtMs": 1773252086916,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -503,11 +503,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773252078795,
-        "lastRunAtMs": 1773241295048,
+        "nextRunAtMs": 1773255678795,
+        "lastRunAtMs": 1773252078803,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 10921,
+        "lastDurationMs": 8113,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -596,7 +596,7 @@
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "执行ISC技能质量管理：\n1. 技能使用审计：bash /root/.openclaw/workspace/skills/isc-core/bin/skill-usage-audit.sh\n2. N023-为缺少评测集的技能自动生成评测标准：node /root/.openclaw/workspace/skills/isc-core/bin/n023-executor.js\n生成审计报告。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
+        "message": "执行ISC技能质量管理：\n1. 技能使用审计：bash /root/.openclaw/workspace/skills/isc-core/bin/skill-usage-audit.sh\n2. N023-为缺少评测集的技能自动生成评测标准：node /root/.openclaw/workspace/skills/isc-core/bin/n023-executor.js\n3. 自动技能发现与技能化：bash /root/.openclaw/workspace/scripts/auto-skill-discovery.sh\n生成审计报告（含技能发现结果）。\n\n【重要】如果没有需要汇报的内容，回复 HEARTBEAT_OK（仅这几个字，不要加任何其他内容）。只有在有实质性结果需要通知用户时才输出具体内容。",
         "timeoutSeconds": 180
       },
       "delivery": {
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773242100009,
+      "updatedAtMs": 1773253800007,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,14 +670,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773251100000,
-        "lastRunAtMs": 1773242100008,
+        "nextRunAtMs": 1773254100000,
+        "lastRunAtMs": 1773253800007,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 1,
+        "lastDurationMs": 0,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
-        "runningAtMs": 1773251100005
+        "runningAtMs": 1773254100007
       }
     },
     {
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773242110964,
+      "updatedAtMs": 1773253839848,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,15 +703,16 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773251100000,
-        "lastRunAtMs": 1773242100009,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 10955,
+        "nextRunAtMs": 1773254700000,
+        "lastRunAtMs": 1773253800007,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 39841,
         "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0,
+        "consecutiveErrors": 2,
         "lastDelivered": false,
-        "runningAtMs": 1773251100005
+        "lastDeliveryError": "Unhandled stop reason: network_error",
+        "lastError": "Unhandled stop reason: network_error"
       }
     },
     {

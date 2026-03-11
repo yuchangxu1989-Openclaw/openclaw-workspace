@@ -1,0 +1,118 @@
+{
+  "subskill": "aligner",
+  "version": "1.0.0",
+  "timestamp": "2026-03-11T18:14:02.690Z",
+  "input": {
+    "trigger": "event-bridge:isc.rule.updated",
+    "rule_id": "rule.eval-standard-auto-sync-001",
+    "rule_action": "updated"
+  },
+  "result": {
+    "total_skills_checked": 20,
+    "compliant": 0,
+    "non_compliant": 20,
+    "non_compliant_skills": [
+      {
+        "skill": "aeo",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "agent-mode-enforcer",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "anti-entropy-checker",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "api-aggregator",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "architecture-review-pipeline",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "capability-anchor",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cogvideo",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cogview",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "convert-helper",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cras",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cras-generated-1771827136412",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cras-generated-1771827197478",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cras-generated-1772042431830",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "cras-generated-1772128853925",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "daily-ops-report",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "dispatch-protocol",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "dto-core",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "evolver",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "evomap-a2a",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      },
+      {
+        "skill": "evomap-publisher",
+        "score": 0,
+        "verdict": "NON-COMPLIANT"
+      }
+    ],
+    "action_needed": true
+  }
+}

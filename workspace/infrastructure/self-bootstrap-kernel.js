@@ -27,7 +27,7 @@ const EVAL_REPORT_FILE = path.join(REPORTS_DIR, 'self-bootstrap-eval.json');
 
 const DEFAULT_ANCHOR_FILES = [
   'CAPABILITY-ANCHOR.md',
-  'MEMORY.md',
+  // 'MEMORY.md', // 已废弃，MemOS(memos.db)为唯一记忆源
   'SOUL.md',
   'AGENTS.md',
   'TOOLS.md',
@@ -103,7 +103,7 @@ function buildBootstrapMemoryDigest() {
     files,
     survivalKernel: {
       anchorReady: existing.some(item => item.path === 'CAPABILITY-ANCHOR.md'),
-      memoryReady: existing.some(item => item.path === 'MEMORY.md'),
+      memoryReady: fs.existsSync('/root/.openclaw/memos-local/memos.db'), // MemOS为唯一记忆源
       dispatcherReady: existing.some(item => item.path === 'infrastructure/dispatcher/dispatch-layer.js'),
       rcaReady: existing.some(item => item.path === 'infrastructure/event-bus/handlers/self-correction-root-cause.js'),
       evalReady: existing.some(item => item.path === 'infrastructure/event-bus/handlers/eval-quality-check.js'),

@@ -18,22 +18,10 @@ class KnowledgeDiscoveryProbe extends BaseScanner {
     this._recordScan();
     const discoveries = [];
 
-    // Scan MEMORY.md
-    const memoryFile = path.join(this.workspaceRoot, 'MEMORY.md');
-    if (fs.existsSync(memoryFile)) {
-      const content = fs.readFileSync(memoryFile, 'utf-8');
-      discoveries.push(...this._extractDiscoveries(content, 'MEMORY.md'));
-    }
+    // MEMORY.md已废弃，MemOS为唯一记忆源
+    // 知识发现现在从ISC规则和技能目录中提取，不再扫描MEMORY.md
 
-    // Scan memory/*.md
-    const memoryDir = path.join(this.workspaceRoot, 'memory');
-    if (fs.existsSync(memoryDir)) {
-      const files = fs.readdirSync(memoryDir).filter(f => f.endsWith('.md'));
-      for (const file of files) {
-        const content = fs.readFileSync(path.join(memoryDir, file), 'utf-8');
-        discoveries.push(...this._extractDiscoveries(content, `memory/${file}`));
-      }
-    }
+    // Scan memory/*.md — 已废弃，MemOS为唯一记忆源
 
     // Check coverage
     const existingKnowledge = this._loadExistingKnowledge();

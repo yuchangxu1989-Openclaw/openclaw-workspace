@@ -5,7 +5,7 @@ const { exists, readText, walk } = require('./p0-utils');
 /**
  * 可执行知识发现与规则生成
  * 感知：knowledge.general.created / user.teaching.received / system.error.lesson_extracted
- * 执行：扫描MEMORY.md→发现可执行知识→自动创建规则→验证→闭环
+ * 执行：从事件payload发现可执行知识→自动创建规则→验证→闭环（MEMORY.md已废弃，MemOS为唯一记忆源）
  */
 module.exports = async function(event, rule, context) {
   const workspace = (context && context.workspace) || '/root/.openclaw/workspace';
@@ -17,20 +17,9 @@ module.exports = async function(event, rule, context) {
   try {
     // 1. 收集知识源文件
     const sources = [];
-    const memoryMd = path.join(workspace, 'MEMORY.md');
-    const memoryDir = path.join(workspace, 'memory');
+    // MEMORY.md已废弃，MemOS为唯一记忆源。不再扫描MEMORY.md和memory/目录。
 
-    if (exists(memoryMd)) {
-      sources.push({ file: memoryMd, content: readText(memoryMd) });
-    }
-    if (exists(memoryDir)) {
-      const mdFiles = walk(memoryDir, ['.md']);
-      for (const f of mdFiles) {
-        sources.push({ file: f, content: readText(f) });
-      }
-    }
-
-    // 也接受事件携带的内容
+    // 接受事件携带的内容（主要知识来源）
     if (event.content || event.payload?.content) {
       sources.push({ file: 'event-payload', content: event.content || event.payload.content });
     }

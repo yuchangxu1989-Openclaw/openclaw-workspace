@@ -23,15 +23,16 @@ from scripts.utils import parse_skill_md
 
 WORKSPACE = Path(os.environ.get("OPENCLAW_WORKSPACE", "/root/.openclaw/workspace"))
 ANCHOR_PATH = WORKSPACE / "CAPABILITY-ANCHOR.md"
-ISC_RULES_DIR = WORKSPACE / "isc-core" / "rules"
+ISC_RULES_DIR = WORKSPACE / "skills" / "isc-core" / "rules"
 
 
 def extract_triggers(skill_content: str) -> list[str]:
     """Extract trigger keywords/patterns from SKILL.md content."""
     triggers = []
-    # Look for trigger section in content
+    # Match section headers like "## 触发场景", "## Trigger", "## When to use"
+    # Also match plain lines like "触发场景" without ## prefix
     trigger_section = re.search(
-        r'(?:触发|trigger|when to use|使用场景)[^\n]*\n((?:[-*].*\n)*)',
+        r'#{0,3}\s*(?:触发场景|触发条件|trigger|when to use|使用场景)[^\n]*\n((?:\s*[-*].*\n)*)',
         skill_content, re.IGNORECASE
     )
     if trigger_section:

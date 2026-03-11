@@ -1,7 +1,7 @@
 ---
 name: isc-core
 description: ISC标准管理 - 标准生成与演进机制的唯一管理源
-version: "2.0.18"
+version: "2.0.19"
 status: active
 layer: infrastructure
 abbreviation: ISC
