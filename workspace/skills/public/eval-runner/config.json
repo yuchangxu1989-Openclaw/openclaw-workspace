@@ -2,6 +2,9 @@
   "name": "eval-runner",
   "version": "1.0.0",
   "description": "V4标准意图理解质量评测技能",
+  "eval_standard_schema": "infrastructure/aeo/eval-standard-schema.json",
+  "eval_standard_version": "V4",
+  "_note": "eval_dimensions synced from eval-standard-schema.json scoring_dimensions — schema is the single source of truth",
   "default_batch_size": 10,
   "eval_dimensions": [
     "intent_accuracy",

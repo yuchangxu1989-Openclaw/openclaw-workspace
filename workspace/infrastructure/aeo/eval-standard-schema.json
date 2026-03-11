@@ -1,0 +1,282 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "aeo://eval-standard-schema/V4",
+  "title": "AEO V4 评测标准 Schema — 唯一真相源",
+  "description": "所有评测case生成、清洗、评分的统一标准定义。升级V5只改此文件，所有下游自动生效。",
+  "version": "V4",
+  "version_date": "2026-03-12",
+  "upstream_doc": "JxhNdoc7ko7ZLwxJUJHcWyeDnYd",
+
+  "levels": {
+    "L1": {
+      "name": "基础意图理解",
+      "description": "单轮、单意图、无上下文依赖的基础识别",
+      "difficulty": "C1",
+      "min_execution_steps": 2,
+      "min_input_length": 10
+    },
+    "L2": {
+      "name": "复杂多轮+上下文",
+      "description": "多轮对话、隐含意图、跨模块协同、上下文依赖的复杂场景",
+      "difficulty": "C2",
+      "min_execution_steps": 4,
+      "min_input_length": 20,
+      "requires_multi_turn": true
+    }
+  },
+
+  "required_fields": [
+    "id",
+    "input",
+    "expected_output",
+    "category",
+    "difficulty",
+    "source"
+  ],
+
+  "optional_fields": [
+    "multi_turn",
+    "context",
+    "execution_chain_steps",
+    "data_source",
+    "north_star_indicator",
+    "scoring_rubric",
+    "source_date",
+    "tags"
+  ],
+
+  "field_definitions": {
+    "id": {
+      "type": "string",
+      "description": "唯一标识符",
+      "pattern": "^[A-Z0-9][A-Z0-9-]+$",
+      "examples": ["C2-MINED-R2-02-001", "SA-001"]
+    },
+    "input": {
+      "type": "string",
+      "description": "用户输入/场景描述，L2要求≥20字符",
+      "min_length_by_level": { "L1": 10, "L2": 20 }
+    },
+    "expected_output": {
+      "type": "string",
+      "description": "期望的正确行为/输出描述"
+    },
+    "category": {
+      "type": "string",
+      "description": "意图分类",
+      "enum": [
+        "纠偏类",
+        "认知错误类",
+        "全局未对齐类",
+        "头痛医头类",
+        "反复未果类",
+        "连锁跷跷板类",
+        "自主性缺失类",
+        "交付质量类"
+      ]
+    },
+    "difficulty": {
+      "type": "string",
+      "description": "难度等级",
+      "enum": ["C1", "C2"]
+    },
+    "source": {
+      "type": "string",
+      "description": "数据来源",
+      "enum": ["real_conversation", "synthetic", "user_correction", "badcase_flip"]
+    },
+    "multi_turn": {
+      "type": "boolean",
+      "description": "是否多轮对话场景，C2必须为true"
+    },
+    "context": {
+      "type": "string",
+      "description": "上下文信息（session来源、前序对话等）"
+    },
+    "execution_chain_steps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "期望执行链步骤，C2要求≥4步",
+      "min_items_by_level": { "L1": 1, "L2": 4 }
+    },
+    "data_source": {
+      "type": "string",
+      "description": "原始数据来源标记（兼容旧字段）"
+    },
+    "north_star_indicator": {
+      "type": "string",
+      "description": "北极星指标名称",
+      "examples": ["根因分析覆盖率", "意图识别准确率", "执行链完整度"]
+    },
+    "scoring_rubric": {
+      "type": "object",
+      "description": "case级评分标准（可选，覆盖全局默认维度）",
+      "properties": {
+        "version": { "type": "string", "const": "V4" },
+        "primary_metrics": { "type": "array", "items": { "type": "string" } },
+        "pass_criteria": { "type": "string" },
+        "partial_criteria": { "type": "string" },
+        "fail_criteria": { "type": "string" },
+        "scoring_dimensions": {
+          "type": "array",
+          "items": { "$ref": "#/scoring_dimension_schema" }
+        }
+      }
+    },
+    "source_date": {
+      "type": "string",
+      "format": "date",
+      "description": "原始数据日期"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "自由标签"
+    }
+  },
+
+  "scoring_dimensions": [
+    {
+      "id": "intent_accuracy",
+      "name": "意图分类准确性",
+      "name_en": "Intent Classification Accuracy",
+      "description": "input的意图是否被正确识别",
+      "weight": 0.25,
+      "pass": "executor分类与case.category完全匹配",
+      "partial": "分类相近但不精确（如子类vs父类）",
+      "fail": "分类方向性错误"
+    },
+    {
+      "id": "chain_completeness",
+      "name": "执行链完整性",
+      "name_en": "Execution Chain Completeness",
+      "description": "实际执行链是否覆盖expected的所有步骤",
+      "weight": 0.25,
+      "pass": "覆盖率≥80%",
+      "partial": "覆盖率50%-80%",
+      "fail": "覆盖率<50%",
+      "threshold": 0.8
+    },
+    {
+      "id": "cross_module",
+      "name": "跨模块协同",
+      "name_en": "Cross-Module Coordination",
+      "description": "多模块场景是否正确调度",
+      "weight": 0.2,
+      "pass": "涉及≥2模块时调度合理且无遗漏",
+      "partial": "调度基本正确但有冗余或遗漏",
+      "fail": "关键模块未被调度",
+      "applicable_when": "涉及≥2个模块"
+    },
+    {
+      "id": "implicit_intent",
+      "name": "隐含意图捕获",
+      "name_en": "Implicit Intent Capture",
+      "description": "是否识别surface intent之下的deep intent",
+      "weight": 0.15,
+      "pass": "expected_output中的深层目标全部被覆盖",
+      "partial": "识别到部分深层意图",
+      "fail": "只处理表面意图"
+    },
+    {
+      "id": "context_utilization",
+      "name": "上下文利用",
+      "name_en": "Context Utilization",
+      "description": "是否正确利用context中的前序对话",
+      "weight": 0.15,
+      "pass": "context非空时被正确引用和利用",
+      "partial": "引用了context但利用不充分",
+      "fail": "忽略context信息",
+      "applicable_when": "context字段非空"
+    }
+  ],
+
+  "scoring_dimension_schema": {
+    "type": "object",
+    "required": ["dimension", "weight", "pass", "fail"],
+    "properties": {
+      "dimension": { "type": "string" },
+      "weight": { "type": "number", "minimum": 0, "maximum": 1 },
+      "pass": { "type": "string" },
+      "partial": { "type": "string" },
+      "fail": { "type": "string" }
+    }
+  },
+
+  "verdict_rules": {
+    "Pass": "5维全过",
+    "Partial": "1-2维未过",
+    "Badcase": "≥3维未过 或 任一维度方向性错误"
+  },
+
+  "quality_rules": {
+    "c1_requirements": {
+      "min_input_length": 10,
+      "min_execution_steps": 2,
+      "source_must_be": ["real_conversation", "synthetic", "user_correction", "badcase_flip"]
+    },
+    "c2_requirements": {
+      "multi_turn": true,
+      "min_input_length": 20,
+      "source": "real_conversation",
+      "min_execution_steps": 4
+    },
+    "valid_categories": [
+      "纠偏类",
+      "认知错误类",
+      "全局未对齐类",
+      "头痛医头类",
+      "反复未果类",
+      "连锁跷跷板类",
+      "自主性缺失类",
+      "交付质量类"
+    ],
+    "valid_difficulties": ["C1", "C2"]
+  },
+
+  "case_template": {
+    "L1_minimal": {
+      "id": "",
+      "input": "",
+      "expected_output": "",
+      "category": "",
+      "difficulty": "C1",
+      "source": ""
+    },
+    "L2_full": {
+      "id": "",
+      "input": "",
+      "expected_output": "",
+      "category": "",
+      "difficulty": "C2",
+      "source": "real_conversation",
+      "multi_turn": true,
+      "context": "",
+      "execution_chain_steps": [],
+      "north_star_indicator": "",
+      "scoring_rubric": {
+        "version": "V4",
+        "primary_metrics": [],
+        "pass_criteria": "",
+        "partial_criteria": "",
+        "fail_criteria": "",
+        "scoring_dimensions": []
+      }
+    }
+  },
+
+  "migration_notes": {
+    "V3_to_V4": [
+      "新增 scoring_dimensions 五维评分体系",
+      "新增 north_star_indicator 北极星指标",
+      "新增 execution_chain_steps 替代纯文本执行描述",
+      "category 从自由文本改为8分类枚举",
+      "新增 L1/L2 分级体系"
+    ],
+    "V4_to_V5_reserved": [
+      "预留 agent_persona 字段（多角色评测）",
+      "预留 tool_call_sequence 字段（工具调用链评测）",
+      "预留 safety_dimension 评分维度"
+    ]
+  }
+}
