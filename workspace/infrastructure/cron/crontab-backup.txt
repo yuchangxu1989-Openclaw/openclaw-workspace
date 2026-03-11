@@ -1,0 +1,77 @@
+
+# ============================================================
+0 10,22 * * * bash /root/.openclaw/workspace/scripts/send-config-backup.sh >> /root/.openclaw/workspace/logs/config-backup.log 2>&1
+0 10 * * 2 flock -xn /tmp/lh-theory-rule.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/theory-to-rule-pipeline.js >> /root/.openclaw/workspace/infrastructure/logs/theory-to-rule.log 2>&1
+0 10 * * 3 flock -xn /tmp/lh-stale-bl.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/stale-backlog-pruner.sh >> /root/.openclaw/workspace/infrastructure/logs/stale-backlog.log 2>&1
+0 10 * * 6 flock -xn /tmp/lh-dead-skill.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/dead-skill-detector.sh >> /root/.openclaw/workspace/infrastructure/logs/dead-skill-detector.log 2>&1
+0 17 * * 5 flock -xn /tmp/lh-evo-audit.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/evolution-checkpoint-audit.js >> /root/.openclaw/workspace/infrastructure/logs/evolution-checkpoint.log 2>&1
+0 22 * * * /usr/bin/flock -n /tmp/evolution-daily.lock /usr/bin/node /root/.openclaw/workspace/scripts/evolution-daily-report.js >> /root/.openclaw/workspace/infrastructure/logs/evolution-daily.log 2>&1
+0 5 * * * cd /root/.openclaw/workspace && flock -xn /tmp/evalset-cron-daily.lock /usr/bin/node infrastructure/event-bus/cron-event-bridge-runner.js --job evalset-cron-daily --run-fallback >> infrastructure/logs/evalset-cron-daily.log 2>&1
+0 6 * * * flock -xn /tmp/lh-orphan.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/orphaned-task-scanner.sh >> /root/.openclaw/workspace/infrastructure/logs/orphaned-task-scanner.log 2>&1
+0 6 * * * /root/.openclaw/workspace/scripts/cron-regression-smoke.sh >> /root/.openclaw/workspace/infrastructure/logs/cron-smoke.log 2>&1
+0 7 * * * flock -xn /tmp/lh-research.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/research-signal-harvester.js >> /root/.openclaw/workspace/infrastructure/logs/research-signal-harvester.log 2>&1
+0 8 * * * flock -xn /tmp/unknown-unknowns.lock /usr/bin/node /root/.openclaw/workspace/infrastructure/self-check/unknown-unknowns-scanner.js >> /root/.openclaw/workspace/infrastructure/logs/unknown-unknowns.log 2>&1
+0 9 1 * * flock -xn /tmp/lh-cap-growth.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/capability-growth-tracker.js >> /root/.openclaw/workspace/infrastructure/logs/capability-growth.log 2>&1
+0 9 * * 1 flock -xn /tmp/lh-weekly-evo.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/weekly-evolution-report.sh >> /root/.openclaw/workspace/infrastructure/logs/weekly-evolution-report.log 2>&1
+0 9 * * * flock -xn /tmp/wild-script-discovery.lock bash /root/.openclaw/workspace/scripts/auto-skill-discovery.sh >> /root/.openclaw/workspace/logs/wild-scripts-discovery.log 2>&1
+0 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/capability-anchor-sync.lock /usr/bin/node skills/isc-capability-anchor-sync/index.js >> infrastructure/logs/capability-anchor-sync.log 2>&1
+0 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/cras-insight.lock /usr/bin/node skills/cras/cras-intent-insight.js >> infrastructure/logs/cras-intent-insight.log 2>&1
+0 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/day-completion-scanner.js --auto >> infrastructure/logs/day-scanner.log 2>&1
+10 3 * * * flock -xn /tmp/lh-logrota.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/log-archive-rotator.sh >> /root/.openclaw/workspace/infrastructure/logs/log-archive-rotator.log 2>&1
+*/10 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/alert-rootcause.lock /usr/bin/node infrastructure/self-check/alert-auto-rootcause.js >> infrastructure/logs/alert-auto-rootcause.log 2>&1
+*/10 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/threshold-scanner.lock /usr/bin/node infrastructure/event-bus/sensors/threshold-scanner.js >> infrastructure/logs/threshold-scanner.log 2>&1
+*/10 * * * * flock -xn /tmp/session-cleanup.lock /root/.openclaw/workspace/scripts/session-cleanup-governor.sh >> /root/.openclaw/workspace/logs/session-cleanup.log 2>&1
+*/1 * * * * flock -xn /tmp/git-sensor.lock -c "cd /root/.openclaw/workspace && /usr/bin/node infrastructure/event-bus/sensors/git-sensor.js" >> /tmp/git-sensor.log 2>&1
+30 6 * * * cd /root/.openclaw/workspace && flock -xn /tmp/cras-daily.lock /usr/bin/node skills/cras/cras-daily-aggregator.js >> infrastructure/logs/cras-daily-upgrade.log 2>&1
+30 7 * * * flock -xn /tmp/directed-research.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/directed-research-harvester.js >> /root/.openclaw/workspace/infrastructure/logs/directed-research.log 2>&1
+*/30 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/pipeline-auto-recovery.lock /usr/bin/node skills/lto-core/core/pipeline-auto-recovery.js >> infrastructure/logs/pipeline-auto-recovery.log 2>&1
+*/30 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/seef-event-bridge.lock /usr/bin/node skills/seef/event-bridge.js run >> infrastructure/logs/seef-event-bridge.log 2>&1
+30 * * * * flock -xn /tmp/cron-idle-slo.lock /bin/bash /root/.openclaw/workspace/scripts/cron-idle-slo-checker.sh >> /root/.openclaw/workspace/infrastructure/logs/cron-idle-slo.log 2>&1
+*/3 * * * * flock -xn /tmp/check-stale-tasks.lock bash -c "node /root/.openclaw/workspace/scripts/check-stale-tasks.js --fix --quiet >> /root/.openclaw/workspace/logs/stale-task-check.log 2>&1"
+5 0 * * * flock -xn /tmp/lh-entropy.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/entropy-index-calculator.sh >> /root/.openclaw/workspace/infrastructure/logs/entropy-index.log 2>&1
+*/5 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/cron-dispatch.lock /usr/bin/node infrastructure/event-bus/cron-dispatch-runner.js >> infrastructure/logs/cron-dispatch.log 2>&1
+*/5 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/dispatch-cron-runner.lock /usr/bin/node skills/public/multi-agent-dispatch/dispatch-cron-runner.js >> infrastructure/logs/dispatch-cron-runner.log 2>&1
+*/5 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/intent-extractor.lock /usr/bin/node skills/cras/intent-extractor.js >> infrastructure/logs/intent-extractor.log 2>&1
+*/5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/correction-harvester.js --auto >> infrastructure/logs/correction-harvester.log 2>&1
+*/5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/rework-analyzer.js --auto >> infrastructure/logs/rework-analyzer.log 2>&1
+*/5 * * * * flock -xn /tmp/api-probe.lock -c "cd /root/.openclaw/workspace && node scripts/api-probe.js" >> /tmp/api-probe.log 2>&1
+*/5 * * * * flock -xn /tmp/gateway-mem-gov.lock /root/.openclaw/workspace/scripts/gateway-memory-governor.sh >> /root/.openclaw/workspace/logs/gateway-memory-governor.log 2>&1
+*/5 * * * * /root/.openclaw/workspace/scripts/git-auto-push.sh >> /tmp/git-auto-push.log 2>&1
+# Alert auto root-cause analysis: every 10 min
+* * * * * bash /root/.openclaw/workspace/scripts/voice-chat-guard.sh
+# correction-harvester: 每5分钟
+# CRAS daily aggregator: 洞察聚合+系统自动升级 every day 06:30
+# cras-intent-extractor: 每5分钟增量扫描意图 (Day2 Module E)
+# CRAS intent insight: 意图洞察沉淀+评测集自动扩充 every hour
+# day-completion-scanner: 每小时整点
+# Directed academic research (with "unknown unknowns" topic): daily 7:30
+# dispatch-engine reap + drain: every 5 min
+# DTO pipeline health monitor + auto recovery: every 30 min
+# evalset-cron-daily: 每天 05:00
+# event-bus cron dispatcher: 每5分钟
+# --- Existing jobs ---
+# Gateway内存监控 (added flock + log redirect)
+# git-sensor: 每分钟 (added flock)
+# [LH-01] 孤儿任务扫描 - 每天 06:00
+# [LH-02] 研究信号采集 - 每天 07:00
+# [LH-03] 熵值指数计算 - 每天 00:05
+# [LH-04] 日志归档轮转 - 每天 03:10
+# [LH-05] 进化周报 - 每周一 09:00
+# [LH-06] 理论→规则流水线 - 每周二 10:00
+# [LH-07] 陈旧Backlog扫描 - 每周三 10:00
+# [LH-08] 进化检查点审计 - 每周五 17:00
+# [LH-09] 死亡技能检测 - 每周六 10:00
+# [LH-10] 能力增长追踪 - 每月1号 09:00
+# Long-Horizon Autonomy Cron Jobs (added 2026-03-07)
+# --- OpenClaw cron/session-governance.cron ---
+# --- OpenClaw infrastructure/cron/jobs.json ---
+# [REMOVED] stargate duplicate - already in /etc/cron.d/sgagenttask (every 1min with flock)
+# rework-analyzer: 每5分钟
+# SLO空转检测: 每小时整点+30分检查cron脚本空转状态
+# threshold-scanner: 每10分钟
+# Unknown-unknowns system blind spot scan: daily 8:00
+# wild-script-discovery: 每天09:00扫描野生脚本
+# 会话文件治理 (added flock + log redirect)
+*/5 * * * * flock -xn /tmp/push-board-now.lock /usr/bin/node /root/.openclaw/workspace/scripts/push-board-now.js >> /tmp/feishu-board-cron.log 2>&1
+0 4,16 * * * flock -xn /tmp/memos-dump.lock bash /root/.openclaw/workspace/scripts/memos-dump-to-git.sh >> /tmp/memos-dump.log 2>&1
+0 3 * * * flock -xn /tmp/save-cron.lock bash /root/.openclaw/workspace/scripts/save-cron.sh >> /root/.openclaw/workspace/infrastructure/logs/save-cron.log 2>&1

@@ -46,3 +46,16 @@ node -e "const db=require('better-sqlite3')('/root/.openclaw/memos-local/memos.d
 - Cron每天2次：04:00 和 16:00（GMT+8）
 - 脚本路径：`scripts/memos-dump-to-git.sh`
 - 日志路径：`/tmp/memos-dump.log`
+
+---
+
+## 🕐 Crontab恢复
+
+容器重启后crontab会丢失，需要从git备份恢复：
+
+```bash
+bash /root/.openclaw/workspace/scripts/restore-cron.sh
+```
+
+备份文件位置：`infrastructure/cron/crontab-backup.txt`
+自动备份脚本：`scripts/save-cron.sh`（每天03:00自动执行，变更自动commit+push）
