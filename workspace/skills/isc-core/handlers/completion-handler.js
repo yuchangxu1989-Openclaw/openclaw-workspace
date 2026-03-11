@@ -58,6 +58,22 @@ module.exports = {
     writeReport(path.join(LOG_DIR, 'completion-handler-last.json'), result);
     await emitEvent(bus, 'isc.completion-handler.executed', result);
 
+    // 🚨 断裂点#1修复：子Agent失败时自动采集badcase
+    if (status === 'failed') {
+      try {
+        const bcResult = collectBadcase(label, summary || 'subagent execution failed', {
+          taskId: label,
+          agent: label,
+          phase: 'execution',
+        });
+        result.badcase = bcResult;
+        actions.push && actions.push(`badcase_collected:${bcResult.badcaseId}`);
+        console.log(`[completion-handler] 🚨 badcase已采集: ${bcResult.badcaseId}`);
+      } catch (bcErr) {
+        console.error(`[completion-handler] ⚠️ badcase采集失败: ${bcErr.message}`);
+      }
+    }
+
     console.log(`[completion-handler] ${result.ok ? '✅' : '❌'} label=${label} status=${status}`);
     return result;
   },
