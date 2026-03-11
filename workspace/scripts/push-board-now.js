@@ -20,7 +20,7 @@
  * v8 变更：
  * - 新增"最近完成"区块 — 30分钟内完成的任务在看板可见，解决快速完成任务"从未出现"的问题
  * - 去除content hash去重 — 改为时间去重（60秒内不重复推送），确保每次cron都能推送
- * - summary行增加累计完成数
+
  */
 const fs = require('fs');
 const crypto = require('crypto');
@@ -50,18 +50,26 @@ const APP_SECRET = process.env.FEISHU_APP_SECRET  || _fenv.FEISHU_APP_SECRET;
 const RECEIVE_ID = process.env.FEISHU_RECEIVE_ID  || _fenv.FEISHU_RECEIVE_ID;
 
 // ── 0b. Load model defaults from openclaw.json ──
+// Note: openclaw.json may have trailing commas (valid JS, invalid JSON).
+// We strip them before parsing. chattr +i prevents us from fixing the file directly.
 let defaultModel = '';
 const agentModels = {};
 try {
-  const oc = JSON.parse(fs.readFileSync('/root/.openclaw/openclaw.json', 'utf8'));
+  const raw = fs.readFileSync('/root/.openclaw/openclaw.json', 'utf8');
+  const cleaned = raw.replace(/,(\s*[}\]])/g, '$1');
+  const oc = JSON.parse(cleaned);
   const agents = oc.agents || {};
   defaultModel = (agents.defaults?.model?.primary || '').replace(/^[\w-]+\//, '');
-  for (const [name, cfg] of Object.entries(agents)) {
-    if (name === 'defaults') continue;
+  // agents.list is an array of { id, model: { primary }, ... }
+  const agentList = agents.list || [];
+  for (const cfg of agentList) {
     const m = cfg.model?.primary;
-    if (m) agentModels[name] = m.replace(/^[\w-]+\//, '');
+    if (m && cfg.id) agentModels[cfg.id] = m.replace(/^[\w-]+\//, '');
   }
-} catch {}
+  console.log(`[config] openclaw.json loaded: defaultModel=${defaultModel}, agents=${Object.keys(agentModels).length}`);
+} catch (e) {
+  console.error(`[config] Failed to parse openclaw.json: ${e.message}`);
+}
 
 // ── 0c. Hardcoded agent→model fallback (when openclaw.json is unreadable/corrupt) ──
 const AGENT_MODEL_FALLBACK = {
@@ -270,7 +278,7 @@ for (const [label, ts] of Object.entries(doneRegistry)) {
 }
 
 const totalDone = Object.keys(doneRegistry).length;
-const summary = `今日：✅${todayDone} ⏰${todayTimeout} ❌${todayFailed} 🟢${rows.length} | 累计：${totalDone}`;
+const summary = `今日：✅${todayDone} ⏰${todayTimeout} ❌${todayFailed} 🟢${rows.length}`;
 
 // ── 6b. Recently completed (last 30 min, for board visibility) ──
 const RECENT_DONE_MS = 30 * 60 * 1000;

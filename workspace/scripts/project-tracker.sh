@@ -160,9 +160,6 @@ lines.push("|------|-----|");
 lines.push("| 最大并发槽位 | " + board.summary.maxSlots + " |");
 lines.push("| 当前占用 | " + board.summary.occupied + " |");
 lines.push("| 排队中 | " + board.summary.queued + " |");
-lines.push("| 累计注册 | " + board.summary.totalRegistered + " |");
-lines.push("| 累计完成 | " + board.summary.totalCompleted + " |");
-lines.push("| 累计失败 | " + board.summary.totalFailed + " |");
 lines.push("| 更新时间 | " + now + " |");
 console.log(lines.join("\n"));
 ' "$BOARD_FILE")
