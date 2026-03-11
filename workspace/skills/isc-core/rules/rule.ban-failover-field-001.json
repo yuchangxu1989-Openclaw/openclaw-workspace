@@ -1,0 +1,18 @@
+{
+  "id": "ban-failover-field-001",
+  "name": "禁止写入 failover 字段",
+  "description": "failover 字段在 OpenClaw 中不合法，写入必崩。任何Agent在任何配置文件中都不得写入 failover 字段。",
+  "priority": "iron",
+  "event_type": "subagent.file.write",
+  "intent": "防止写入不合法的failover字段导致系统崩溃",
+  "plan": "拦截所有向配置文件写入 failover 字段的操作",
+  "handler": "skills/isc-core/handlers/ban-failover-field.sh",
+  "verification": "grep -r 'failover' openclaw.json = 0",
+  "scoring_rubric": "pass: 无failover字段; fail: 存在failover字段",
+  "north_star_indicator": "系统稳定性",
+  "gate_relevance": 1,
+  "process_indicators": ["config_integrity"],
+  "layer": "execution",
+  "created": "2026-03-12T02:24:00+08:00",
+  "source": "user_directive"
+}
