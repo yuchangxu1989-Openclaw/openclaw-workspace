@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-11T02:00:57.818Z",
+  "timestamp": "2026-03-11T04:11:01.264Z",
   "version": "2.0.0",
   "metrics": {
     "concurrencyUtil": {
@@ -40,14 +40,234 @@
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
-      "actual": 0.6737,
+      "actual": 0.0105,
       "target": 1,
-      "gap": -0.3263,
-      "status": "warn",
+      "gap": -0.9895,
+      "status": "critical",
       "detail": {
-        "actual": 0.6737,
-        "expandedRules": 128,
-        "totalRules": 190
+        "actual": 0.0105,
+        "expandedRules": 2,
+        "totalRules": 190,
+        "layerStats": {
+          "intent": 189,
+          "event": 188,
+          "plan": 12,
+          "handler": 190,
+          "verification": 3
+        },
+        "incomplete": [
+          {
+            "rule": "rule.aeo-e2e-decision-pipeline-test-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.anti-entropy-design-principle-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.arch-feedback-must-close-003",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.arch-gate-before-action-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.arch-machine-over-human-004",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.arch-real-data-gate-005",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.arch-rule-equals-code-002",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.architecture-diagram-visual-output-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.architecture-review-pipeline-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.auto-asr-on-voice-message-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "AUTO-BADCASE-HARVEST-ENGINE-001",
+            "missing": [
+              "plan"
+            ]
+          },
+          {
+            "rule": "rule.auto-collect-eval-from-conversation-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.auto-correction-规则存在但handler缺失-mmgbaua1",
+            "missing": [
+              "event",
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.auto-evomap-sync-trigger-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.auto-fix-high-severity-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.auto-github-sync-trigger-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "ISC-AUTO-QA-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.auto-skillization-trigger-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "BADCASE-AUTO-FLIP-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.batch-completion-auto-push-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.caijuedian-tribunal-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.capability-anchor-auto-register-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.capability-anchor-lifecycle-sync-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.capability-gap-auto-learn-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.coding-quality-thinking-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "ISC-COMPLETION-HANDLER-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.cras-daily-report-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.cras-dual-channel-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.cron-task-model-requirement-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
+            "rule": "rule.day2-gap1-cron-event-bridge",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          }
+        ],
+        "incompleteCount": 188
       }
     },
     "badcaseAutoRate": {
@@ -58,8 +278,8 @@
       "status": "info",
       "detail": {
         "actual": 0.6667,
-        "autoCaptured": 2,
-        "userCorrections": 3
+        "autoCaptured": 4,
+        "userCorrections": 6
       }
     }
   },
@@ -81,24 +301,24 @@
     {
       "metric": "ruleExpansionRate",
       "label": "ISC规则展开率",
-      "severity": "warn",
-      "actual": 0.6737,
+      "severity": "critical",
+      "actual": 0.0105,
       "target": 1,
-      "gap": -0.3263,
-      "gapDescription": "ISC规则展开率当前0.6737，距目标1还差0.3263，需提升32.6%",
+      "gap": -0.9895,
+      "gapDescription": "ISC规则展开率当前0.0105，距目标1还差0.9895，需提升99.0%",
       "suggestions": [
-        "优先展开高权重治理规则",
-        "建立规则展开的自动化pipeline",
-        "每次Check后自动识别下一批应展开的规则"
+        "5层展开标准：intent/event/plan/handler/verification 全部非空才算展开",
+        "当前主要缺失层：plan(规划)和verification(验真)，优先补齐",
+        "建立规则展开的自动化pipeline，每次Check后识别下一批应展开的规则"
       ]
     }
   ],
   "summary": {
     "total": 5,
     "ok": 2,
-    "warn": 2,
-    "critical": 0,
+    "warn": 1,
+    "critical": 1,
     "info": 1,
-    "overallHealth": "warn"
+    "overallHealth": "critical"
   }
 }
