@@ -2,9 +2,9 @@
   "badcase_file": "/root/.openclaw/workspace/tests/benchmarks/intent/c2-golden/00-real-badcases.json",
   "goodcase_script": "/root/.openclaw/workspace/scripts/badcase-to-goodcase.sh",
   "feishu": {
-    "app_id": "cli_a92f2a545838dcc8",
-    "app_secret": "r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC",
-    "receive_id": "ou_a113e465324cc55f9ab3348c9a1a7b9b",
+    "app_id": "${FEISHU_APP_ID}",
+    "app_secret": "${FEISHU_APP_SECRET}",
+    "receive_id": "${FEISHU_RECEIVE_ID}",
     "receive_id_type": "open_id"
   },
   "max_retries": 3,

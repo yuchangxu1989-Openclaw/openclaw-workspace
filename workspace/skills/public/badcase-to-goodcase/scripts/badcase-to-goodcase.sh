@@ -9,9 +9,14 @@ DIR="/root/.openclaw/workspace/tests/benchmarks/intent/c2-golden"
 OUT="$DIR/goodcases-from-badcases.json"
 
 # 飞书通知配置
-FEISHU_APP_ID="cli_a92f2a545838dcc8"
-FEISHU_APP_SECRET="r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC"
-FEISHU_RECEIVE_ID="ou_a113e465324cc55f9ab3348c9a1a7b9b"
+# 从.env.feishu读取密钥
+ENV_FILE="/root/.openclaw/workspace/.env.feishu"
+if [ -f "$ENV_FILE" ]; then
+  set -a; source "$ENV_FILE"; set +a
+fi
+FEISHU_APP_ID="${FEISHU_APP_ID:?缺少FEISHU_APP_ID}"
+FEISHU_APP_SECRET="${FEISHU_APP_SECRET:?缺少FEISHU_APP_SECRET}"
+FEISHU_RECEIVE_ID="${FEISHU_RECEIVE_ID:?缺少FEISHU_RECEIVE_ID}"
 MAX_RETRIES=3
 
 # 增量翻转逻辑：只翻转新badcase，追加到现有文件

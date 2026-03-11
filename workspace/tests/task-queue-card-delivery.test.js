@@ -22,9 +22,22 @@ const https = require('https');
 const { execSync } = require('child_process');
 
 const WORKSPACE = path.resolve(__dirname, '..');
-const APP_ID = 'cli_a92f2a545838dcc8';
-const APP_SECRET = 'r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC';
-const TARGET_OPEN_ID = 'ou_a113e465324cc55f9ab3348c9a1a7b9b';
+// 从.env.feishu读取密钥
+function _loadFeishuEnv() {
+  const p = path.resolve(__dirname, '..', '.env.feishu');
+  const env = {};
+  try {
+    for (const line of fs.readFileSync(p, 'utf8').split('\n')) {
+      const m = line.match(/^(\w+)=(.+)$/);
+      if (m) env[m[1]] = m[2];
+    }
+  } catch(e) {}
+  return env;
+}
+const _fe = _loadFeishuEnv();
+const APP_ID = process.env.FEISHU_APP_ID || _fe.FEISHU_APP_ID;
+const APP_SECRET = process.env.FEISHU_APP_SECRET || _fe.FEISHU_APP_SECRET;
+const TARGET_OPEN_ID = process.env.FEISHU_RECEIVE_ID || _fe.FEISHU_RECEIVE_ID;
 const REPORT_FILE = path.join(WORKSPACE, 'reports', 'task-queue', 'live-task-queue-report.json');
 const LOG_FILE = path.join(WORKSPACE, 'infrastructure', 'logs', 'card-send.jsonl');
 

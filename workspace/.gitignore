@@ -30,6 +30,10 @@ scripts/logs/
 # Temp files
 tmp-*.json
 
+# Environment secrets
+.env*
+!.env.example
+
 # Feishu sent artifacts
 feishu_sent_cards/
 feishu_sent_reports/

@@ -6,10 +6,18 @@ set -euo pipefail
 
 DOC_TOKEN="${1:?用法: $0 <doc_token>}"
 
+# 从.env.feishu读取密钥
+ENV_FILE="/root/.openclaw/workspace/.env.feishu"
+if [ -f "$ENV_FILE" ]; then
+  set -a; source "$ENV_FILE"; set +a
+fi
+FEISHU_APP_ID="${FEISHU_APP_ID:?缺少FEISHU_APP_ID}"
+FEISHU_APP_SECRET="${FEISHU_APP_SECRET:?缺少FEISHU_APP_SECRET}"
+
 # 获取tenant_access_token
 TOKEN=$(curl -s -X POST 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal' \
   -H 'Content-Type: application/json' \
-  -d '{"app_id":"cli_a92f2a545838dcc8","app_secret":"r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC"}' | jq -r '.tenant_access_token')
+  -d "{\"app_id\":\"$FEISHU_APP_ID\",\"app_secret\":\"$FEISHU_APP_SECRET\"}" | jq -r '.tenant_access_token')
 
 if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
   echo '{"doc_token":"'"$DOC_TOKEN"'","block_count":0,"verified":false,"message":"获取token失败"}'

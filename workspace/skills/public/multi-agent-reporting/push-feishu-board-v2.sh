@@ -16,9 +16,14 @@ if [ -f "$DEDUP_FILE" ]; then
 fi
 
 DATE_STR=$(TZ=Asia/Shanghai date +%Y-%m-%d)
-FEISHU_APP_ID="cli_a92f2a545838dcc8"
-FEISHU_APP_SECRET="r5ERTp7T0JdxwzuEJ4HkzeCdAr7GLpeC"
-FEISHU_RECEIVE_ID="ou_a113e465324cc55f9ab3348c9a1a7b9b"
+# 从.env.feishu读取密钥
+ENV_FILE="/root/.openclaw/workspace/.env.feishu"
+if [ -f "$ENV_FILE" ]; then
+  set -a; source "$ENV_FILE"; set +a
+fi
+FEISHU_APP_ID="${FEISHU_APP_ID:?缺少FEISHU_APP_ID}"
+FEISHU_APP_SECRET="${FEISHU_APP_SECRET:?缺少FEISHU_APP_SECRET}"
+FEISHU_RECEIVE_ID="${FEISHU_RECEIVE_ID:?缺少FEISHU_RECEIVE_ID}"
 
 # 直接从openclaw获取活跃子Agent
 LIVE_JSON=$(openclaw sessions --active 60 --json 2>/dev/null)
