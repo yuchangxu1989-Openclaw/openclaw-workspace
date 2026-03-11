@@ -24,8 +24,7 @@ function getShanghaiDateStr(date = new Date()) {
 function log(msg) {
   const line = `[${new Date().toISOString()}] ${msg}`;
   console.log(line);
-  fs.mkdirSync(path.dirname(LOG_PATH), { recursive: true });
-  fs.appendFileSync(LOG_PATH, line + '\n');
+  // Note: cron handles file writing via >> redirect; no appendFileSync needed
 }
 
 /**
