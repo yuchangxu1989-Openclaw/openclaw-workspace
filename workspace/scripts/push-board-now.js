@@ -27,28 +27,23 @@ for (const [key, val] of Object.entries(sessions)) {
   const ageMin = Math.floor(age / 60000);
   const duration = ageMin >= 60 ? Math.floor(ageMin/60)+'h'+ageMin%60+'m' : ageMin+'m';
   const rawModel = (val.model || val.config?.model || '-');
-  const model = rawModel
-    .replace(/^[\w-]+\//, '')          // strip provider prefix
-    .replace(/claude-opus-4-6-thinking/i, 'opus🧠')
-    .replace(/claude-opus-4-[\d-]+/i, 'opus')
-    .replace(/claude-sonnet-4-[\d-]+/i, 'sonnet')
-    .replace(/claude-haiku-[\d-]+/i, 'haiku')
-    .replace(/gpt-5\.3-codex/i, 'gpt5.3')
-    .replace(/gpt-4o[\w-]*/i, 'gpt4o')
-    .replace(/^anthropic:/, '')
-    .substring(0, 12);
+  const model = rawModel.replace(/^[\w-]+\//, '');
   rows.push({task: label, model, status: '🟢运行中', duration});
 }
 
-const boardDone = board.filter(t => t.status === 'done').length;
-const boardTimeout = board.filter(t => t.status === 'timeout').length;
-const boardFailed = board.filter(t => t.status === 'failed').length;
-// done-sessions.txt has labels of ALL completed tasks (not in board.json)
-const doneFromTxt = [...doneSet].filter(l => !board.some(t => t.label === l)).length;
-const doneCount = boardDone + doneFromTxt;
+// Only count today's tasks (Asia/Shanghai)
+const todayStr = new Date(now + 8*3600*1000).toISOString().slice(0, 10);
+const isToday = (t) => {
+  const ts = t.completedAt || t.updatedAt || t.startedAt || 0;
+  return new Date(ts + 8*3600*1000).toISOString().slice(0, 10) === todayStr;
+};
+const boardDone = board.filter(t => t.status === 'done' && isToday(t)).length;
+const boardTimeout = board.filter(t => t.status === 'timeout' && isToday(t)).length;
+const boardFailed = board.filter(t => t.status === 'failed' && isToday(t)).length;
+const doneCount = boardDone;
 const timeoutCount = boardTimeout;
 const failedCount = boardFailed;
-const summary = `✅${doneCount} | ⏰${timeoutCount} | ❌${failedCount} | 🟢${rows.length}`;
+const summary = `今日：✅${doneCount} | ⏰${timeoutCount} | ❌${failedCount} | 🟢${rows.length}`;
 
 // 2. Get token
 const tokenResp = JSON.parse(execSync(`curl -s -X POST "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal" -H "Content-Type: application/json" -d '{"app_id":"${APP_ID}","app_secret":"${APP_SECRET}"}'`).toString());
