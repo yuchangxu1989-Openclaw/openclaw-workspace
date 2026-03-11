@@ -1,0 +1,807 @@
+[
+  {
+    "id": "L2-ER-001",
+    "input": "在发布任务#1001执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-002",
+    "input": "为任务#2002访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-003",
+    "input": "任务#3003申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  },
+  {
+    "id": "L2-ER-004",
+    "input": "任务#4004在外部API阶段超时，需降级以保证主流程完成",
+    "context": "关键依赖响应超时，需在SLO内提供可接受降级结果",
+    "expected_output": "触发超时保护并熔断慢依赖；启用降级路径（缓存/默认值/异步补偿）；返回部分可用结果并标注降级；后续恢复后执行补偿同步",
+    "category": "timeout-degradation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "监测到超时并中断阻塞调用",
+      "触发熔断与限流保护",
+      "选择降级策略（缓存、默认、跳过非关键）",
+      "返回降级结果并附带状态标记",
+      "异步提交补偿任务",
+      "依赖恢复后回填/对账",
+      "输出SLO影响与改进建议"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "timeout",
+      "degrade"
+    ]
+  },
+  {
+    "id": "L2-ER-005",
+    "input": "在发布任务#1005执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-006",
+    "input": "为任务#2006访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-007",
+    "input": "任务#3007申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  },
+  {
+    "id": "L2-ER-008",
+    "input": "任务#4008在外部API阶段超时，需降级以保证主流程完成",
+    "context": "关键依赖响应超时，需在SLO内提供可接受降级结果",
+    "expected_output": "触发超时保护并熔断慢依赖；启用降级路径（缓存/默认值/异步补偿）；返回部分可用结果并标注降级；后续恢复后执行补偿同步",
+    "category": "timeout-degradation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "监测到超时并中断阻塞调用",
+      "触发熔断与限流保护",
+      "选择降级策略（缓存、默认、跳过非关键）",
+      "返回降级结果并附带状态标记",
+      "异步提交补偿任务",
+      "依赖恢复后回填/对账",
+      "输出SLO影响与改进建议"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "timeout",
+      "degrade"
+    ]
+  },
+  {
+    "id": "L2-ER-009",
+    "input": "在发布任务#1009执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-010",
+    "input": "为任务#2010访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-011",
+    "input": "任务#3011申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  },
+  {
+    "id": "L2-ER-012",
+    "input": "任务#4012在外部API阶段超时，需降级以保证主流程完成",
+    "context": "关键依赖响应超时，需在SLO内提供可接受降级结果",
+    "expected_output": "触发超时保护并熔断慢依赖；启用降级路径（缓存/默认值/异步补偿）；返回部分可用结果并标注降级；后续恢复后执行补偿同步",
+    "category": "timeout-degradation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "监测到超时并中断阻塞调用",
+      "触发熔断与限流保护",
+      "选择降级策略（缓存、默认、跳过非关键）",
+      "返回降级结果并附带状态标记",
+      "异步提交补偿任务",
+      "依赖恢复后回填/对账",
+      "输出SLO影响与改进建议"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "timeout",
+      "degrade"
+    ]
+  },
+  {
+    "id": "L2-ER-013",
+    "input": "在发布任务#1013执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-014",
+    "input": "为任务#2014访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-015",
+    "input": "任务#3015申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  },
+  {
+    "id": "L2-ER-016",
+    "input": "任务#4016在外部API阶段超时，需降级以保证主流程完成",
+    "context": "关键依赖响应超时，需在SLO内提供可接受降级结果",
+    "expected_output": "触发超时保护并熔断慢依赖；启用降级路径（缓存/默认值/异步补偿）；返回部分可用结果并标注降级；后续恢复后执行补偿同步",
+    "category": "timeout-degradation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "监测到超时并中断阻塞调用",
+      "触发熔断与限流保护",
+      "选择降级策略（缓存、默认、跳过非关键）",
+      "返回降级结果并附带状态标记",
+      "异步提交补偿任务",
+      "依赖恢复后回填/对账",
+      "输出SLO影响与改进建议"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "timeout",
+      "degrade"
+    ]
+  },
+  {
+    "id": "L2-ER-017",
+    "input": "在发布任务#1017执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-018",
+    "input": "为任务#2018访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-019",
+    "input": "任务#3019申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  },
+  {
+    "id": "L2-ER-020",
+    "input": "任务#4020在外部API阶段超时，需降级以保证主流程完成",
+    "context": "关键依赖响应超时，需在SLO内提供可接受降级结果",
+    "expected_output": "触发超时保护并熔断慢依赖；启用降级路径（缓存/默认值/异步补偿）；返回部分可用结果并标注降级；后续恢复后执行补偿同步",
+    "category": "timeout-degradation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "监测到超时并中断阻塞调用",
+      "触发熔断与限流保护",
+      "选择降级策略（缓存、默认、跳过非关键）",
+      "返回降级结果并附带状态标记",
+      "异步提交补偿任务",
+      "依赖恢复后回填/对账",
+      "输出SLO影响与改进建议"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "timeout",
+      "degrade"
+    ]
+  },
+  {
+    "id": "L2-ER-021",
+    "input": "在发布任务#1021执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-022",
+    "input": "为任务#2022访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-023",
+    "input": "任务#3023申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  },
+  {
+    "id": "L2-ER-024",
+    "input": "任务#4024在外部API阶段超时，需降级以保证主流程完成",
+    "context": "关键依赖响应超时，需在SLO内提供可接受降级结果",
+    "expected_output": "触发超时保护并熔断慢依赖；启用降级路径（缓存/默认值/异步补偿）；返回部分可用结果并标注降级；后续恢复后执行补偿同步",
+    "category": "timeout-degradation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "监测到超时并中断阻塞调用",
+      "触发熔断与限流保护",
+      "选择降级策略（缓存、默认、跳过非关键）",
+      "返回降级结果并附带状态标记",
+      "异步提交补偿任务",
+      "依赖恢复后回填/对账",
+      "输出SLO影响与改进建议"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "timeout",
+      "degrade"
+    ]
+  },
+  {
+    "id": "L2-ER-025",
+    "input": "在发布任务#1025执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-026",
+    "input": "为任务#2026访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-027",
+    "input": "任务#3027申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  },
+  {
+    "id": "L2-ER-028",
+    "input": "任务#4028在外部API阶段超时，需降级以保证主流程完成",
+    "context": "关键依赖响应超时，需在SLO内提供可接受降级结果",
+    "expected_output": "触发超时保护并熔断慢依赖；启用降级路径（缓存/默认值/异步补偿）；返回部分可用结果并标注降级；后续恢复后执行补偿同步",
+    "category": "timeout-degradation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "监测到超时并中断阻塞调用",
+      "触发熔断与限流保护",
+      "选择降级策略（缓存、默认、跳过非关键）",
+      "返回降级结果并附带状态标记",
+      "异步提交补偿任务",
+      "依赖恢复后回填/对账",
+      "输出SLO影响与改进建议"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "timeout",
+      "degrade"
+    ]
+  },
+  {
+    "id": "L2-ER-029",
+    "input": "在发布任务#1029执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-030",
+    "input": "为任务#2030访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-031",
+    "input": "任务#3031申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  },
+  {
+    "id": "L2-ER-032",
+    "input": "任务#4032在外部API阶段超时，需降级以保证主流程完成",
+    "context": "关键依赖响应超时，需在SLO内提供可接受降级结果",
+    "expected_output": "触发超时保护并熔断慢依赖；启用降级路径（缓存/默认值/异步补偿）；返回部分可用结果并标注降级；后续恢复后执行补偿同步",
+    "category": "timeout-degradation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "监测到超时并中断阻塞调用",
+      "触发熔断与限流保护",
+      "选择降级策略（缓存、默认、跳过非关键）",
+      "返回降级结果并附带状态标记",
+      "异步提交补偿任务",
+      "依赖恢复后回填/对账",
+      "输出SLO影响与改进建议"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "timeout",
+      "degrade"
+    ]
+  },
+  {
+    "id": "L2-ER-033",
+    "input": "在发布任务#1033执行到迁移阶段报错后，回退并重试，确保服务可用",
+    "context": "执行中遇到可恢复错误，需要事务回滚、校验状态并按重试策略继续",
+    "expected_output": "先停止后续步骤并记录失败点；执行回滚到上一个稳定快照；完成一致性检查；按指数退避重试最多3次；成功则继续链路，仍失败则升级人工并附带日志与回滚结果",
+    "category": "rollback-retry",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测执行错误并冻结后续动作",
+      "保存现场并标记失败阶段",
+      "执行回滚到最近稳定版本/快照",
+      "运行健康检查与数据一致性校验",
+      "按重试策略（指数退避）重试关键步骤",
+      "成功后恢复主流程并补记审计",
+      "多次失败则转人工处置"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "rollback",
+      "retry"
+    ]
+  },
+  {
+    "id": "L2-ER-034",
+    "input": "为任务#2034访问受限资源时返回403，需申请权限后继续",
+    "context": "当前凭据权限不足，流程需最小权限申请、审批、再执行",
+    "expected_output": "识别权限缺口并停止危险操作；生成最小权限申请单（资源、动作、时效、理由）；审批通过后刷新凭据并重放失败步骤；若被拒绝则提供替代路径与影响评估",
+    "category": "permission-escalation",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "捕获403/权限拒绝错误",
+      "分析缺失权限范围与风险",
+      "生成并提交最小权限申请",
+      "等待审批并同步状态",
+      "审批通过后刷新令牌/角色绑定",
+      "从失败点幂等重放步骤",
+      "审批拒绝则走降权替代方案并告警"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "permission",
+      "approval"
+    ]
+  },
+  {
+    "id": "L2-ER-035",
+    "input": "任务#3035申请计算集群配额时与并发作业冲突，需协调资源",
+    "context": "资源锁/配额冲突导致执行失败，需要协调调度、重排优先级或切换资源池",
+    "expected_output": "检测冲突对象并进入协调流程；尝试排队等待或抢占策略（按优先级与SLA）；必要时切换备用资源池；冲突解除后重试并记录协调决策",
+    "category": "resource-conflict-coordination",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "识别资源冲突类型（锁/配额/端口）",
+      "查询冲突持有者与预计释放时间",
+      "按策略选择等待、重排或抢占",
+      "通知相关负责人进行协调确认",
+      "可用时切换/分配资源并重试任务",
+      "验证结果并释放临时占用",
+      "记录冲突与协调审计"
+    ],
+    "complexity_tags": [
+      "error-recovery",
+      "conflict",
+      "coordination"
+    ]
+  }
+]
