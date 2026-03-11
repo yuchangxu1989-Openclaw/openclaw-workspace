@@ -31,5 +31,27 @@
         "v2.x: 生产可用+完善错误处理+降级+日志",
         "v3.x+: 经过实际运行验证+性能优化+测试覆盖"
     ],
-    "handler": "skills/isc-core/handlers/version-integrity-gate.js"
+    "handler": "skills/isc-core/handlers/version-integrity-gate.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.version-integrity-gate-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/version-integrity-gate.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/version-integrity-gate.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

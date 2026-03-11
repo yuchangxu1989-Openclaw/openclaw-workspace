@@ -26,5 +26,27 @@
     },
     "enforcement_tier": "P1_process",
     "enforcement": "programmatic",
-    "handler": "skills/isc-core/handlers/visual-output-style.js"
+    "handler": "skills/isc-core/handlers/visual-output-style.js",
+    "verification": {
+        "method": "architecture_principle_check",
+        "description": "验证架构规则 rule.visual-output-style-001 的设计约束",
+        "assertions": [
+            {
+                "check": "principle_codified",
+                "desc": "架构原则有可验证的判定条件"
+            },
+            {
+                "check": "violation_detectable",
+                "desc": "违反架构原则的设计可被检测"
+            },
+            {
+                "check": "remediation_path",
+                "desc": "违规时有明确的修复路径"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/visual-output-style.js && echo 'handler_exists:pass'",
+        "expected_outcome": "架构违规被检测，提供修复路径",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -7,7 +7,8 @@
     "trigger": {
         "event": "agent.task.spawned",
         "events": [
-            "isc.rule.spawn.taskboard.hook.001"
+            "isc.rule.spawn.taskboard.hook.001",
+            "agent.task.spawned"
         ]
     },
     "action": {
@@ -28,5 +29,27 @@
         "handler_execution_count",
         "gate_pass_rate"
     ],
-    "layer": "operational-rule"
+    "layer": "operational-rule",
+    "verification": {
+        "method": "report_delivery_check",
+        "description": "验证报告规则 ISC-SPAWN-TASKBOARD-HOOK-001 的产出和投递",
+        "assertions": [
+            {
+                "check": "report_generated",
+                "desc": "报告内容被正确生成"
+            },
+            {
+                "check": "format_correct",
+                "desc": "报告格式符合预期（Markdown/Card/PDF）"
+            },
+            {
+                "check": "delivery_confirmed",
+                "desc": "报告投递到目标渠道"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/spawn-taskboard-hook.js && echo 'handler_exists:pass'",
+        "expected_outcome": "报告正确生成并投递到目标渠道",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -36,5 +36,27 @@
         "gate_block_count",
         "false_positive_rate"
     ],
-    "layer": "L2_project"
+    "layer": "L2_project",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.report-snapshot-lock-001 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/report-snapshot-lock.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

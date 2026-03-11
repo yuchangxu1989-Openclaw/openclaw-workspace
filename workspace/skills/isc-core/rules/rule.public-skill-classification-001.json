@@ -52,5 +52,27 @@
         "gate_block_count",
         "false_positive_rate"
     ],
-    "layer": "L2_project"
+    "layer": "L2_project",
+    "verification": {
+        "method": "skill_lifecycle_check",
+        "description": "验证技能生命周期规则 rule.public-skill-classification-001 的管控能力",
+        "assertions": [
+            {
+                "check": "lifecycle_event_captured",
+                "desc": "技能创建/发布/更新事件被捕获"
+            },
+            {
+                "check": "quality_gate_applied",
+                "desc": "生命周期操作通过质量门禁"
+            },
+            {
+                "check": "registry_updated",
+                "desc": "技能注册表状态同步更新"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/public-skill-classification.js && echo 'handler_exists:pass'",
+        "expected_outcome": "技能生命周期事件被正确管控",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

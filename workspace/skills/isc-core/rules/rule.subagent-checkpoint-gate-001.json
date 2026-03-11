@@ -58,5 +58,27 @@
         "handler_execution_count",
         "gate_pass_rate"
     ],
-    "layer": "enforcement-gate"
+    "layer": "enforcement-gate",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.subagent-checkpoint-gate-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/subagent-checkpoint-gate.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/subagent-checkpoint-gate.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

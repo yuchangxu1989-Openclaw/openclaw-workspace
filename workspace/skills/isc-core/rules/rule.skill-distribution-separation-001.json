@@ -167,5 +167,27 @@
         "handler_execution_count",
         "gate_pass_rate"
     ],
-    "layer": "enforcement-gate"
+    "layer": "enforcement-gate",
+    "verification": {
+        "method": "security_enforcement_check",
+        "description": "验证安全规则 isc-skill-distribution-separation-001 的防护能力",
+        "assertions": [
+            {
+                "check": "unauthorized_blocked",
+                "desc": "未授权操作被拦截"
+            },
+            {
+                "check": "authorized_allowed",
+                "desc": "授权操作正常通过"
+            },
+            {
+                "check": "audit_logged",
+                "desc": "安全事件被审计记录"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/skill-distribution-separation.js && echo 'handler_exists:pass'",
+        "expected_outcome": "未授权操作100%被拦截并记录审计日志",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

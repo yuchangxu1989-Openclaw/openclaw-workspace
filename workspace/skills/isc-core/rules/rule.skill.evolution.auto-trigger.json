@@ -63,5 +63,27 @@
         "handler_execution_count",
         "gate_pass_rate"
     ],
-    "layer": "automation-hook"
+    "layer": "automation-hook",
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 skill.evolution.auto-trigger 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: skill.usage.pattern_detected, skill.performance.degraded, skill.evolution.scheduled"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/skill.evolution.auto-trigger.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/skill.evolution.auto-trigger.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

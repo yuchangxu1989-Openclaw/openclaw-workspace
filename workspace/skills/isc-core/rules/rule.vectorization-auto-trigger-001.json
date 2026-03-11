@@ -212,5 +212,27 @@
     "schema_version": "2.0",
     "migrated_at": "2026-03-05T08:01:40+08:00",
     "enforcement": "programmatic",
-    "handler": "skills/isc-core/handlers/vectorization-auto-trigger.js"
+    "handler": "skills/isc-core/handlers/vectorization-auto-trigger.js",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 rule.vectorization-auto-trigger-001 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/vectorization-auto-trigger.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

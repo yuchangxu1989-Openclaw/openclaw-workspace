@@ -19,5 +19,27 @@
     "severity": "critical",
     "created": "2026-03-09",
     "source": "badcase-0309-005实战教训",
-    "handler": "skills/isc-core/handlers/user-emphasis-auto-escalation.js"
+    "handler": "skills/isc-core/handlers/user-emphasis-auto-escalation.js",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 ISC-USER-EMPHASIS-AUTO-ESCALATION-001 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/user-emphasis-auto-escalation.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

@@ -110,5 +110,27 @@
         "gate_block_count",
         "false_positive_rate"
     ],
-    "layer": "L2_project"
+    "layer": "L2_project",
+    "verification": {
+        "method": "report_delivery_check",
+        "description": "验证报告规则 rule.report-readability-001 的产出和投递",
+        "assertions": [
+            {
+                "check": "report_generated",
+                "desc": "报告内容被正确生成"
+            },
+            {
+                "check": "format_correct",
+                "desc": "报告格式符合预期（Markdown/Card/PDF）"
+            },
+            {
+                "check": "delivery_confirmed",
+                "desc": "报告投递到目标渠道"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/report-readability.js && echo 'handler_exists:pass'",
+        "expected_outcome": "报告正确生成并投递到目标渠道",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

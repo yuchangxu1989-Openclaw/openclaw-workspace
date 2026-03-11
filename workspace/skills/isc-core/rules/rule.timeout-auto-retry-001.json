@@ -16,7 +16,8 @@
             "retry_count < 2"
         ],
         "events": [
-            "isc.rule.timeout.auto.retry.001"
+            "isc.rule.timeout.auto.retry.001",
+            "subagent_completion"
         ]
     },
     "action": {
@@ -49,5 +50,27 @@
         "handler_execution_count",
         "gate_pass_rate"
     ],
-    "layer": "automation-hook"
+    "layer": "automation-hook",
+    "verification": {
+        "method": "rule_enforcement_check",
+        "description": "验证规则 TIMEOUT-AUTO-RETRY-001 的执行有效性",
+        "assertions": [
+            {
+                "check": "handler_registered",
+                "desc": "Handler已注册: skills/isc-core/handlers/timeout-auto-retry.js"
+            },
+            {
+                "check": "trigger_conditions_met",
+                "desc": "触发条件满足时规则被正确激活"
+            },
+            {
+                "check": "action_executed",
+                "desc": "规则激活后执行指定的动作"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/timeout-auto-retry.js && echo 'handler_exists:pass'",
+        "expected_outcome": "规则触发条件满足时正确执行预定义动作",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

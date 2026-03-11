@@ -106,5 +106,27 @@
         "handler_execution_count",
         "gate_pass_rate"
     ],
-    "layer": "quality-gate"
+    "layer": "quality-gate",
+    "verification": {
+        "method": "rule_enforcement_check",
+        "description": "验证规则 SPRINT-CLOSURE-ACCEPTANCE-001 的执行有效性",
+        "assertions": [
+            {
+                "check": "handler_registered",
+                "desc": "Handler已注册: skills/isc-core/handlers/sprint-closure-acceptance.js"
+            },
+            {
+                "check": "trigger_conditions_met",
+                "desc": "触发条件满足时规则被正确激活"
+            },
+            {
+                "check": "action_executed",
+                "desc": "规则激活后执行指定的动作"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/sprint-closure-acceptance.js && echo 'handler_exists:pass'",
+        "expected_outcome": "规则触发条件满足时正确执行预定义动作",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

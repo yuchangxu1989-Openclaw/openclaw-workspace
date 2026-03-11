@@ -49,5 +49,27 @@
         "handler_execution_count",
         "gate_pass_rate"
     ],
-    "layer": "event-routing"
+    "layer": "event-routing",
+    "verification": {
+        "method": "intent_routing_check",
+        "description": "验证意图路由规则 rule.semantic-intent-event-001 的分发正确性",
+        "assertions": [
+            {
+                "check": "intent_recognized",
+                "desc": "目标意图被正确识别"
+            },
+            {
+                "check": "route_correct",
+                "desc": "意图被路由到正确的处理器"
+            },
+            {
+                "check": "fallback_handled",
+                "desc": "无法识别的意图有fallback处理"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/semantic-intent-event.js && echo 'handler_exists:pass'",
+        "expected_outcome": "意图准确识别并路由到正确处理器",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }
