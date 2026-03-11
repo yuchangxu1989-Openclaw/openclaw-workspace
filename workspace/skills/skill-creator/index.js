@@ -9,10 +9,13 @@
  *   improve   → scripts/run_loop.py
  *   package   → scripts/package_skill.py
  *   post-create → post_create.py
+ *
+ * 流水线完成后自动写入 .skill-creator-stamp（第1层防护的信任凭据）
  */
 
 const { execFile } = require('child_process');
 const path = require('path');
+const { writeStamp } = require('./stamp');
 
 const SKILL_DIR = __dirname;
 const SCRIPTS = {
@@ -24,6 +27,9 @@ const SCRIPTS = {
 };
 
 const VALID_ACTIONS = new Set(Object.keys(SCRIPTS));
+
+// 会触发stamp写入的action（流水线终态）
+const STAMP_ACTIONS = new Set(['post-create', 'package', 'improve']);
 
 function runPython(scriptPath, args, timeoutMs) {
   return new Promise((resolve, reject) => {
@@ -63,39 +69,30 @@ async function run(input, context) {
 
   const scriptPath = SCRIPTS[action];
   const args = [];
-  const timeoutMs = (action === 'improve') ? 600000 : 120000; // improve给10分钟
+  const timeoutMs = (action === 'improve') ? 600000 : 120000;
 
-  // 构建各action的参数
   switch (action) {
     case 'validate':
       args.push(skillPath);
       break;
-
-    case 'eval': {
+    case 'eval':
       args.push(skillPath);
       if (input.model) args.push('--model', input.model);
       break;
-    }
-
-    case 'improve': {
+    case 'improve':
       args.push(skillPath);
       if (input.maxIterations) args.push('--max-iterations', String(input.maxIterations));
       if (input.holdout != null) args.push('--holdout', String(input.holdout));
       if (input.model) args.push('--model', input.model);
       args.push('--verbose');
       break;
-    }
-
-    case 'package': {
+    case 'package':
       args.push(skillPath);
       if (input.outputDir) args.push(input.outputDir);
       break;
-    }
-
-    case 'post-create': {
+    case 'post-create':
       args.push(skillPath);
       break;
-    }
   }
 
   try {
@@ -104,9 +101,23 @@ async function run(input, context) {
 
     const parsed = tryParseJSON(stdout);
     const result = parsed || { raw: stdout };
+    const ok = parsed ? (parsed.success !== false) : true;
+
+    // ── 流水线终态成功 → 写入stamp凭据 ──
+    if (ok && STAMP_ACTIONS.has(action)) {
+      try {
+        const steps = action === 'post-create'
+          ? ['validate', 'create', 'post-create']
+          : [action];
+        const stampPath = writeStamp(skillPath, steps);
+        logger.info?.(`[skill-creator] ✅ stamp已写入: ${stampPath}`);
+      } catch (stampErr) {
+        logger.error?.(`[skill-creator] ⚠️ stamp写入失败（不阻断）: ${stampErr.message}`);
+      }
+    }
 
     return {
-      ok: parsed ? (parsed.success !== false) : true,
+      ok,
       action,
       skillPath,
       result,
