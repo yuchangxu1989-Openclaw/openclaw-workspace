@@ -76,3 +76,5 @@
 0 4,16 * * * flock -xn /tmp/memos-dump.lock bash /root/.openclaw/workspace/scripts/memos-dump-to-git.sh >> /tmp/memos-dump.log 2>&1
 50 * * * * flock -xn /tmp/save-cron.lock bash /root/.openclaw/workspace/scripts/save-cron.sh >> /root/.openclaw/workspace/infrastructure/logs/save-cron.log 2>&1
 # cron-persistence: save-cron每小时:50自动备份crontab到git，在git-auto-push(:55)之前
+# quality-audit daily: 每天07:45全量质量审计日报
+45 7 * * * cd /root/.openclaw/workspace && flock -xn /tmp/quality-audit-daily.lock /usr/bin/node skills/quality-audit/index.js --mode full --json > reports/quality-audit-daily-latest.json 2>> infrastructure/logs/quality-audit-daily.log
