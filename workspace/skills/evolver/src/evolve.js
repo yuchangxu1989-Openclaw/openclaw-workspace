@@ -824,7 +824,7 @@ async function run() {
   } catch (e) {}
 
   const scanTime = Date.now() - startTime;
-  const memorySize = fs.existsSync(MEMORY_FILE) ? fs.statSync(MEMORY_FILE).size : 0;
+  const memorySize = 0; // MEMORY.md已废弃，MemOS为唯一记忆源
 
   let syncDirective = 'Workspace sync: optional/disabled in this environment.';
 

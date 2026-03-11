@@ -174,20 +174,8 @@ if [ "$CHECK_MISSING" = true ]; then
     fi
   done < <(find "$SKILLS_DIR" -name "SKILL.md" -type f 2>/dev/null)
   
-  # 2. 检查记忆文件
-  if [ -d "$MEMORY_DIR" ]; then
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] 扫描缺失向量的记忆文件..." >> "$LOG_FILE"
-    while IFS= read -r file; do
-      mem_name=$(basename "$file" .md)
-      vector_file="$VECTOR_DIR/memory-${mem_name}.json"
-      
-      if [ ! -f "$vector_file" ]; then
-        MISSING_FILES+=("MEMORY|$file")
-        missing_count=$((missing_count + 1))
-        echo "[$(date '+%Y-%m-%d %H:%M:%S')] 发现缺失向量的记忆: $mem_name" >> "$LOG_FILE"
-      fi
-    done < <(find "$MEMORY_DIR" -name "*.md" -type f 2>/dev/null)
-  fi
+  # 2. 检查记忆文件 — MEMORY_DIR已废弃，MemOS为唯一记忆源
+  # 跳过memory/*.md扫描
   
   # 3. 检查知识文件
   if [ -d "$KNOWLEDGE_DIR" ]; then
@@ -349,25 +337,9 @@ while IFS= read -r file; do
   fi
 done < <(find "$SKILLS_DIR" -name "SKILL.md" -type f 2>/dev/null)
 
-# 2. 收集记忆文件
-if [ -d "$MEMORY_DIR" ]; then
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] 扫描记忆文件..." >> "$LOG_FILE"
-  while IFS= read -r file; do
-    mem_name=$(basename "$file" .md)
-    vector_file="$VECTOR_DIR/memory-${mem_name}.json"
-    
-    if [ "$CONTINUOUS_MODE" = false ]; then
-      if [ -f "$vector_file" ]; then
-        md_time=$(stat -c %Y "$file" 2>/dev/null || stat -f %m "$file" 2>/dev/null)
-        vec_time=$(stat -c %Y "$vector_file" 2>/dev/null || stat -f %m "$vector_file" 2>/dev/null)
-        if [ "$vec_time" -ge "$md_time" ]; then
-          continue
-        fi
-      fi
-    fi
-    MEMORY_FILES+=("$file")
-  done < <(find "$MEMORY_DIR" -name "*.md" -type f 2>/dev/null)
-fi
+# 2. 收集记忆文件 — MEMORY_DIR已废弃，MemOS为唯一记忆源
+# if [ -d "$MEMORY_DIR" ]; then ... fi
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 记忆文件扫描已跳过（MEMORY.md已废弃，MemOS为唯一记忆源）" >> "$LOG_FILE"
 
 # 3. 收集知识文件 (knowledge/*.json)
 if [ -d "$KNOWLEDGE_DIR" ]; then

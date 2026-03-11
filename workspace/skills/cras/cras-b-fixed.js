@@ -60,30 +60,11 @@ function quickAnalyzeInteractions() {
     minute: '2-digit'
   });
   
-  // 读取最近的会话文件进行分析
-  const memoryPath = MEMORY_DIR;
+  // MEMORY_DIR已废弃，MemOS为唯一记忆源。不再扫描memory/*.md文件。
   let recentInteractions = [];
   
-  try {
-    const files = fs.readdirSync(memoryPath)
-      .filter(f => f.endsWith('.md') && f.match(/^\d{4}-\d{2}-\d{2}/))
-      .sort()
-      .slice(-3); // 只取最近3天的文件
-    
-    for (const file of files.slice(-1)) { // 只分析最新的1个文件
-      const content = fs.readFileSync(path.join(memoryPath, file), 'utf-8');
-      // 简单统计交互次数（找时间戳模式）
-      const matches = content.match(/\[\d{4}-\d{2}-\d{2}/g);
-      if (matches) {
-        recentInteractions.push({
-          date: file.replace('.md', ''),
-          count: matches.length
-        });
-      }
-    }
-  } catch (e) {
-    console.log('[CRAS-B] 会话文件读取失败，无可用数据');
-  }
+  // 无文件记忆源可用，交互数据需从MemOS获取
+  console.log('[CRAS-B] MEMORY.md/memory/已废弃，MemOS为唯一记忆源');
   
   // [FIX] 无数据时返回 null，不使用伪造默认值
   const rawTotal = recentInteractions.reduce((sum, i) => sum + i.count, 0);

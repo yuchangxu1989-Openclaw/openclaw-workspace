@@ -47,8 +47,8 @@ try {
   checks.push({ name: 'MemOS(memos.db)', status: '⚠️ ERROR', detail: e.message });
 }
 
-// Legacy文件检查
-['SOUL.md', 'CRITICAL-MEMORY.md', 'HEARTBEAT.md'].forEach(f => {
+// Legacy文件检查（MEMORY.md/CRITICAL-MEMORY.md已废弃，MemOS为唯一记忆源）
+['SOUL.md', 'HEARTBEAT.md'].forEach(f => {
   const c = checkFile(path.join(WORKSPACE, f));
   checks.push({
     name: f,

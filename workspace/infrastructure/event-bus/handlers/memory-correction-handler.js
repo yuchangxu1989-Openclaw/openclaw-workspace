@@ -1,19 +1,17 @@
 /**
  * memory-correction-handler.js
- * 用户纠偏 → 反查 MEMORY.md + MemOS → 标记废弃旧记忆 → 写入新认知
+ * 用户纠偏 → 反查 MemOS → 标记废弃旧记忆 → 写入新认知
+ * （MEMORY.md已废弃，MemOS为唯一记忆源）
  *
  * 事件: user.feedback.correction
  * 输入 payload: { newConcept: string, oldConcept: string, keywords: string[] }
  * 输出: { correctedCount: number, memosDeprecated: number, report: string }
- *
- * [P0修复] 2026-03-11: 纠偏同时写入MemOS，旧chunk标记deprecated
  */
 
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const MEMORY_PATH = path.resolve(__dirname, '../../../MEMORY.md');
 const MEMOS_DB_PATH = process.env.MEMOS_DB || '/root/.openclaw/memos-local/memos.db';
 
 // better-sqlite3 从 MemOS 插件的 node_modules 加载
@@ -32,66 +30,7 @@ function getMemosDb() {
   }
 }
 
-// ─── MEMORY.md 操作（保留兼容） ───
-
-function findRelatedParagraphs(content, keywords) {
-  if (!keywords || keywords.length === 0) return [];
-  const paragraphs = content.split(/\n{2,}/);
-  const results = [];
-  for (let i = 0; i < paragraphs.length; i++) {
-    const para = paragraphs[i];
-    if (para.includes('**[已废弃')) continue;
-    const lowerPara = para.toLowerCase();
-    const matched = keywords.some(kw => lowerPara.includes(kw.toLowerCase()));
-    if (matched) {
-      results.push({ index: i, text: para });
-    }
-  }
-  return results;
-}
-
-function isContradictory(paragraph, oldConcept, keywords) {
-  if (!oldConcept) return false;
-  const lowerPara = paragraph.toLowerCase();
-  if (lowerPara.includes(oldConcept.toLowerCase())) return true;
-  let matchCount = 0;
-  for (const kw of keywords) {
-    if (lowerPara.includes(kw.toLowerCase())) matchCount++;
-  }
-  return matchCount >= 2;
-}
-
-function correctMemoryMd(newConcept, oldConcept, keywords) {
-  let content = '';
-  try {
-    content = fs.readFileSync(MEMORY_PATH, 'utf-8');
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      const newEntry = `\n## 纠偏记录 ${todayStr()}\n\n${newConcept}\n`;
-      fs.writeFileSync(MEMORY_PATH, newEntry, 'utf-8');
-      return { correctedCount: 0 };
-    }
-    throw err;
-  }
-
-  const related = findRelatedParagraphs(content, keywords || []);
-  const contradictions = related.filter(p => isContradictory(p.text, oldConcept, keywords || []));
-
-  let correctedCount = 0;
-  if (contradictions.length > 0) {
-    const paragraphs = content.split(/\n{2,}/);
-    const today = todayStr();
-    for (const c of contradictions) {
-      paragraphs[c.index] = paragraphs[c.index] + `\n**[已废弃 ${today}]** 被以下纠偏替代：${newConcept}`;
-      correctedCount++;
-    }
-    content = paragraphs.join('\n\n');
-  }
-
-  content = content.trimEnd() + `\n\n## 纠偏更新 ${todayStr()}\n\n${newConcept}\n`;
-  fs.writeFileSync(MEMORY_PATH, content, 'utf-8');
-  return { correctedCount };
-}
+// ─── MEMORY.md操作已废弃，MemOS为唯一记忆源 ───
 
 // ─── MemOS 操作（新增） ───
 
@@ -215,10 +154,7 @@ async function handle(event, _context) {
     return { correctedCount: 0, memosDeprecated: 0, report: '纠偏内容为空，跳过处理' };
   }
 
-  // 1. MEMORY.md 修正（保留兼容）
-  const mdResult = correctMemoryMd(newConcept, oldConcept, keywords);
-
-  // 2. MemOS 修正（新增）
+  // MemOS 修正（唯一记忆源）
   let memosResult = { deprecatedCount: 0, deprecatedIds: [], correctionChunkId: null };
   const db = getMemosDb();
   if (db) {
@@ -235,11 +171,11 @@ async function handle(event, _context) {
     }
   }
 
-  const report = `纠偏处理完成：MEMORY.md ${mdResult.correctedCount} 条矛盾已标记废弃；MemOS ${memosResult.deprecatedCount} 条旧chunk已deprecated，新认知chunk已写入(${memosResult.correctionChunkId || 'N/A'})。`;
+  const report = `纠偏处理完成：MemOS ${memosResult.deprecatedCount} 条旧chunk已deprecated，新认知chunk已写入(${memosResult.correctionChunkId || 'N/A'})。`;
 
   console.log(`[memory-correction-handler] ${report}`);
   return {
-    correctedCount: mdResult.correctedCount,
+    correctedCount: memosResult.deprecatedCount,
     memosDeprecated: memosResult.deprecatedCount,
     memosNewChunkId: memosResult.correctionChunkId,
     report,
@@ -251,4 +187,4 @@ function todayStr() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-module.exports = { handle, findRelatedParagraphs, isContradictory, correctMemosDb, searchMemosChunks };
+module.exports = { handle, correctMemosDb, searchMemosChunks };
