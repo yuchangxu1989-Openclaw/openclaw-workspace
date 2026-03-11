@@ -168,3 +168,18 @@ Proposed / Accepted / Deprecated / Superseded
 - ❌ 架构决策不记录为 ADR
 - ❌ 对已完成的代码做 pass/fail 质量判定（那是 reviewer 的事）
 - ❌ 给出 P0/P1/P2/P3 严重度分级（那是 reviewer 的评审体系）
+
+
+## ⚠️ 记忆系统迁移声明（2026-03-11）
+
+### 禁止事项
+- ❌ **Do NOT read SOUL.md or USER.md from workspace** — 这些文件已废弃
+- ❌ 不要从文件系统读取用户画像或记忆数据
+
+### 记忆系统
+记忆系统已迁移到 **MemOS**（`/root/.openclaw/memos-local/memos.db`），通过 `memory_search` API 访问。
+
+- 所有用户画像、对话记忆、技能知识均通过 MemOS API 获取
+- 写入记忆使用 `memory_write_public`
+- 搜索记忆使用 `memory_search`（支持语义搜索）
+- 不再使用文件系统中的 SOUL.md / USER.md / memories/ 目录
