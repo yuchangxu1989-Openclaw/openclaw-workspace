@@ -38,8 +38,8 @@ node -e "const db=require('better-sqlite3')('/root/.openclaw/memos-local/memos.d
 
 ## 📊 备份统计
 
-最后备份时间：2026-03-12 00:29:34
-记忆chunks数量：895
+最后备份时间：2026-03-12 04:00:02
+记忆chunks数量：1157
 
 ## ⏰ 自动备份频率
 
