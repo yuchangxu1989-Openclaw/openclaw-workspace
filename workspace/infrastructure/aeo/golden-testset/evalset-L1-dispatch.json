@@ -1,0 +1,424 @@
+{
+  "dataset": "evalset-L1-dispatch",
+  "schema_version": "V4",
+  "schema_ref": "aeo://eval-standard-schema/V4",
+  "description": "20条L1级别多Agent调度评测case，覆盖：子Agent派发/状态查询/kill进程/并行调度/完成率统计/超时监控/重派失败任务/steer指令/session历史",
+  "generated_at": "2026-03-11T19:36:35.944Z",
+  "generator": "eval-case-engineer-subagent",
+  "total_cases": 20,
+  "domain_distribution": {
+    "子Agent派发": 4,
+    "状态查询": 4,
+    "kill终止": 3,
+    "并行调度": 2,
+    "完成率统计": 1,
+    "超时监控": 1,
+    "重派失败": 2,
+    "steer指令": 1,
+    "历史查询": 1,
+    "结果获取": 1
+  },
+  "cases": [
+    {
+      "id": "L1-DSP-001",
+      "input": "派一个子Agent去检查gateway内存占用",
+      "expected_output": "调用sessions_spawn派出子Agent执行gateway内存检查任务，等待结果返回并汇报内存使用情况",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为派发子Agent任务",
+        "构造task描述",
+        "调用sessions_spawn",
+        "等待子Agent完成并汇报结果"
+      ],
+      "tags": [
+        "调度",
+        "子Agent派发",
+        "gateway监控"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-002",
+      "input": "看看现在有几个子Agent在跑",
+      "expected_output": "调用subagents list查看当前活跃的子Agent列表，报告数量和各自状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为查询子Agent状态",
+        "调用subagents list",
+        "解析返回结果",
+        "汇报活跃数量和状态"
+      ],
+      "tags": [
+        "调度",
+        "状态查询",
+        "子Agent列表"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-003",
+      "input": "把那个超时的子Agent杀掉",
+      "expected_output": "调用subagents list定位超时的子Agent，然后调用subagents kill终止该Agent，确认已终止",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为终止子Agent",
+        "调用subagents list找到超时Agent",
+        "调用subagents kill",
+        "确认终止成功"
+      ],
+      "tags": [
+        "调度",
+        "进程管理",
+        "kill"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-004",
+      "input": "查一下上次派出去的任务完成了没",
+      "expected_output": "调用subagents list或sessions_list查看最近派出的子Agent任务状态，报告是否已完成及结果摘要",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为查询任务完成状态",
+        "调用subagents list",
+        "检查最近任务状态",
+        "汇报完成情况"
+      ],
+      "tags": [
+        "调度",
+        "状态查询",
+        "任务跟踪"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-005",
+      "input": "同时派两个Agent，一个跑测试一个查日志",
+      "expected_output": "并行调用两次sessions_spawn，分别派发跑测试和查日志任务，等待两个子Agent完成后汇总结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为并行派发两个任务",
+        "构造两个task描述",
+        "并行调用sessions_spawn",
+        "汇总两个子Agent结果"
+      ],
+      "tags": [
+        "调度",
+        "并行调度",
+        "多Agent"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-006",
+      "input": "刚才那个coder任务失败了，重新派一次",
+      "expected_output": "识别上次失败的coder任务，重新调用sessions_spawn派发相同任务，监控执行结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为重派失败任务",
+        "回溯上次失败任务内容",
+        "重新调用sessions_spawn",
+        "监控并汇报新任务结果"
+      ],
+      "tags": [
+        "调度",
+        "重派",
+        "失败恢复"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-007",
+      "input": "看看最近1小时有哪些session在活跃",
+      "expected_output": "调用sessions_list设置activeMinutes=60，列出最近1小时内活跃的session及其状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为查询活跃session",
+        "调用sessions_list(activeMinutes=60)",
+        "解析返回列表",
+        "汇报活跃session信息"
+      ],
+      "tags": [
+        "调度",
+        "session查询",
+        "活跃监控"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-008",
+      "input": "给正在跑的那个researcher发个消息让它优先处理安全检查",
+      "expected_output": "调用subagents list找到活跃的researcher，然后调用subagents steer发送优先级调整指令",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为steer子Agent",
+        "调用subagents list定位researcher",
+        "调用subagents steer发送指令",
+        "确认指令已送达"
+      ],
+      "tags": [
+        "调度",
+        "steer",
+        "优先级调整"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-009",
+      "input": "派个Agent去把evalset-L1-v4.json的case数量统计一下",
+      "expected_output": "调用sessions_spawn派子Agent读取evalset-L1-v4.json并统计case数量，返回统计结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为派发统计任务",
+        "构造task描述",
+        "调用sessions_spawn",
+        "等待并汇报统计结果"
+      ],
+      "tags": [
+        "调度",
+        "子Agent派发",
+        "文件统计"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-010",
+      "input": "所有子Agent都停掉，我要做维护",
+      "expected_output": "调用subagents list获取所有活跃子Agent，逐个调用subagents kill全部终止，确认清理完成",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为批量终止所有子Agent",
+        "调用subagents list",
+        "逐个调用subagents kill",
+        "确认全部终止"
+      ],
+      "tags": [
+        "调度",
+        "批量kill",
+        "维护模式"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-011",
+      "input": "查看coder-02这个Agent的历史对话记录",
+      "expected_output": "调用sessions_list找到coder-02的session key，再调用sessions_history获取其对话历史并展示",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为查询Agent历史",
+        "调用sessions_list定位coder-02",
+        "调用sessions_history",
+        "展示对话记录"
+      ],
+      "tags": [
+        "调度",
+        "历史查询",
+        "session"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-012",
+      "input": "派个子Agent去跑dispatch-guard的测试",
+      "expected_output": "调用sessions_spawn派子Agent执行dispatch-guard.js的测试脚本，等待测试结果并汇报通过/失败情况",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为派发测试任务",
+        "构造测试执行task",
+        "调用sessions_spawn",
+        "汇报测试结果"
+      ],
+      "tags": [
+        "调度",
+        "子Agent派发",
+        "测试执行"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-013",
+      "input": "现在有任务超时的吗？超过5分钟的都列出来",
+      "expected_output": "调用subagents list检查所有活跃子Agent，筛选运行超过5分钟的任务并列出详情",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为超时任务查询",
+        "调用subagents list",
+        "按运行时长筛选>5min",
+        "汇报超时任务列表"
+      ],
+      "tags": [
+        "调度",
+        "超时监控",
+        "状态查询"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-014",
+      "input": "派3个Agent并行去生成3批评测case",
+      "expected_output": "并行调用3次sessions_spawn分别派发3批评测case生成任务，监控各自进度并汇总结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为并行派发3个任务",
+        "构造3个task描述",
+        "并行调用sessions_spawn",
+        "汇总3个子Agent结果"
+      ],
+      "tags": [
+        "调度",
+        "并行调度",
+        "批量生成"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-015",
+      "input": "上一轮派出去的5个任务，完成率多少？",
+      "expected_output": "调用subagents list或sessions_list查看最近5个子Agent任务状态，计算完成率并汇报（如3/5=60%）",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为完成率查询",
+        "调用subagents list",
+        "统计已完成/总数",
+        "计算并汇报完成率"
+      ],
+      "tags": [
+        "调度",
+        "完成率",
+        "统计"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-016",
+      "input": "那个写报告的Agent跑完了吗？把结果给我看看",
+      "expected_output": "调用subagents list找到写报告的子Agent，检查状态，若已完成则获取其输出结果并展示",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为查询特定任务结果",
+        "调用subagents list定位目标Agent",
+        "检查完成状态",
+        "获取并展示结果"
+      ],
+      "tags": [
+        "调度",
+        "结果查询",
+        "任务跟踪"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-017",
+      "input": "派个Agent用coder角色去修复那个JSON语法错误",
+      "expected_output": "调用sessions_spawn指定coder角色派发JSON修复任务，等待子Agent完成修复并确认结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为指定角色派发任务",
+        "构造task并指定agentId=coder",
+        "调用sessions_spawn",
+        "汇报修复结果"
+      ],
+      "tags": [
+        "调度",
+        "角色指定",
+        "代码修复"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-018",
+      "input": "看看最近完成的任务里有没有失败的",
+      "expected_output": "调用sessions_list查看最近的session记录，筛选出状态为失败的任务并列出失败原因",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为失败任务查询",
+        "调用sessions_list",
+        "筛选失败状态",
+        "汇报失败任务及原因"
+      ],
+      "tags": [
+        "调度",
+        "失败查询",
+        "状态监控"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-019",
+      "input": "把scout派出去扫描一下workspace目录结构",
+      "expected_output": "调用sessions_spawn指定scout角色派发workspace目录扫描任务，等待返回目录结构报告",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为指定scout角色派发",
+        "构造目录扫描task",
+        "调用sessions_spawn",
+        "汇报目录结构"
+      ],
+      "tags": [
+        "调度",
+        "角色指定",
+        "目录扫描"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-DSP-020",
+      "input": "刚才派的那个任务卡住了，先kill掉再重派",
+      "expected_output": "调用subagents list定位卡住的任务，调用subagents kill终止，然后重新sessions_spawn派发相同任务",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别为kill+重派",
+        "调用subagents list定位卡住任务",
+        "调用subagents kill终止",
+        "重新sessions_spawn派发",
+        "监控新任务状态"
+      ],
+      "tags": [
+        "调度",
+        "kill重派",
+        "故障恢复"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    }
+  ]
+}
