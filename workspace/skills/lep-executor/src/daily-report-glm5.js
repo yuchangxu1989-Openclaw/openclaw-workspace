@@ -79,10 +79,24 @@ function collectHealthData() {
   // 检查关键系统文件
   const criticalFiles = [
     { path: 'CAPABILITY-ANCHOR.md', name: '能力锚点' },
-    { path: 'MEMORY.md', name: '长期记忆' },
+    { path: 'MEMORY.md', name: '长期记忆(Legacy)' },
     { path: 'SOUL.md', name: '身份设定' },
     { path: 'skills/isc-core/config/evomap-upload-manifest.json', name: 'EvoMap清单' }
   ];
+
+  // MemOS健康检查（主记忆源）
+  try {
+    const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
+    if (memos.isAvailable()) {
+      const stats = memos.getStats();
+      data.systemFiles.healthy++;
+      data.systemFiles.memosStatus = { ok: true, chunks: stats.activeChunks, latest: stats.latestTime };
+    } else {
+      data.systemFiles.issues.push({ file: 'MemOS(memos.db)', message: '不可用或无数据' });
+    }
+  } catch (e) {
+    data.systemFiles.issues.push({ file: 'MemOS(memos.db)', message: e.message });
+  }
 
   for (const file of criticalFiles) {
     const fullPath = path.join(WORKSPACE_ROOT, file.path);

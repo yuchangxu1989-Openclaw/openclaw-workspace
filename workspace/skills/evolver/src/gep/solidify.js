@@ -813,7 +813,15 @@ function readRecentSessionInputs() {
   const userFile = path.join(repoRoot, 'USER.md');
   const todayLog = path.join(memoryDir, new Date().toISOString().split('T')[0] + '.md');
   const todayLogContent = fs.existsSync(todayLog) ? fs.readFileSync(todayLog, 'utf8') : '';
-  const memorySnippet = fs.existsSync(memoryFile) ? fs.readFileSync(memoryFile, 'utf8').slice(0, 50000) : '';
+  // Primary: MemOS记忆; Fallback: MEMORY.md
+  let memorySnippet = '';
+  try {
+    const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
+    if (memos.isAvailable()) memorySnippet = memos.readAsText(30) || '';
+  } catch {}
+  if (!memorySnippet) {
+    memorySnippet = fs.existsSync(memoryFile) ? fs.readFileSync(memoryFile, 'utf8').slice(0, 50000) : '';
+  }
   const userSnippet = fs.existsSync(userFile) ? fs.readFileSync(userFile, 'utf8') : '';
   const recentSessionTranscript = '';
   return { recentSessionTranscript, todayLog: todayLogContent, memorySnippet, userSnippet };

@@ -28,6 +28,18 @@ module.exports = {
     const { force = false, bus } = context;
 
     // Phase 0: 检测是否需要恢复
+    // Primary: 检查MemOS是否可用（有数据即视为记忆健康）
+    let memosHealthy = false;
+    try {
+      const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
+      memosHealthy = memos.isAvailable();
+      if (memosHealthy) {
+        const stats = memos.getStats();
+        console.log(`[memory-recovery] MemOS可用: ${stats.activeChunks}条活跃记忆, 最新: ${stats.latestTime}`);
+      }
+    } catch {}
+
+    // Fallback: 检查MEMORY.md
     const memoryExists = checkFileExists(MEMORY_PATH);
     const registryExists = checkFileExists(REGISTRY_PATH);
     let memoryCorrupted = false;
@@ -39,7 +51,8 @@ module.exports = {
       } catch { memoryCorrupted = true; }
     }
 
-    const needsRecovery = force || !memoryExists || memoryCorrupted || !registryExists;
+    // MemOS健康时，即使MEMORY.md缺失也不需要恢复（仅注册表缺失时恢复）
+    const needsRecovery = force || (!memosHealthy && (!memoryExists || memoryCorrupted)) || !registryExists;
     if (!needsRecovery) {
       console.log('[memory-recovery] 系统正常，无需恢复');
       return { ok: true, action: 'skipped', reason: 'no recovery needed' };

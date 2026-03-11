@@ -36,9 +36,9 @@ const metrics = {
   ts,
   dimensions: {
     knowledge: {
-      // 知识沉淀维度：规则数、记忆文件大小、MEMORY.md行数
+      // 知识沉淀维度：规则数、MemOS记忆条数（主）、MEMORY.md行数（备）
       rule_files: countFiles('skills', 'md') + countFiles('skills', 'json'),
-      memory_lines: count(`wc -l < ${WORKSPACE}/MEMORY.md 2>/dev/null || echo 0`),
+      memory_lines: (() => { try { const m = require('/root/.openclaw/workspace/scripts/memos-reader'); const s = m.getStats(); if (s.activeChunks > 0) return s.activeChunks; } catch {} return count(`wc -l < ${WORKSPACE}/MEMORY.md 2>/dev/null || echo 0`); })(),
       design_docs: countFiles('designs', 'md'),
     },
     automation: {
@@ -87,7 +87,7 @@ const report = `# 能力增长追踪报告 ${dateStr}
 
 ## 知识沉淀
 - 规则/技能文件：${k.rule_files}
-- MEMORY.md 行数：${k.memory_lines}
+- 记忆条数(MemOS/MEMORY.md)：${k.memory_lines}
 - 设计文档：${k.design_docs}
 
 ## 自动化水平

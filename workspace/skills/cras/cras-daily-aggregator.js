@@ -149,12 +149,25 @@ function extractHighFreqTopics(insights) {
 function assessKnowledgeHealth() {
   const health = { memory_updated: false, skills_count: 0, rules_count: 0, last_memory_update: null };
   
-  // 检查MEMORY.md最后更新
-  const memFile = path.join(WORKSPACE, 'MEMORY.md');
-  if (fs.existsSync(memFile)) {
-    const stat = fs.statSync(memFile);
-    health.last_memory_update = stat.mtime.toISOString();
-    health.memory_updated = (Date.now() - stat.mtimeMs) < 48 * 60 * 60 * 1000; // 48h内有更新
+  // Primary: 检查MemOS记忆健康度
+  try {
+    const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
+    if (memos.isAvailable()) {
+      const stats = memos.getStats();
+      health.last_memory_update = stats.latestTime;
+      health.memory_updated = true; // MemOS有活跃数据即视为健康
+      health.memos_chunks = stats.activeChunks;
+    }
+  } catch {}
+
+  // Fallback: 检查MEMORY.md最后更新
+  if (!health.last_memory_update) {
+    const memFile = path.join(WORKSPACE, 'MEMORY.md');
+    if (fs.existsSync(memFile)) {
+      const stat = fs.statSync(memFile);
+      health.last_memory_update = stat.mtime.toISOString();
+      health.memory_updated = (Date.now() - stat.mtimeMs) < 48 * 60 * 60 * 1000;
+    }
   }
   
   // 统计技能数
@@ -176,7 +189,7 @@ function assessKnowledgeHealth() {
   const todayMem = path.join(WORKSPACE, `memory/${getShanghaiDateStr()}.md`);
   health.today_memory_exists = fs.existsSync(todayMem);
   
-  health.summary = `技能${health.skills_count}个, 规则${health.rules_count}条, MEMORY.md ${health.memory_updated ? '活跃' : '陈旧'}, 今日记忆${health.today_memory_exists ? '有' : '无'}`;
+  health.summary = `技能${health.skills_count}个, 规则${health.rules_count}条, 记忆${health.memory_updated ? '活跃' : '陈旧'}${health.memos_chunks ? '(MemOS:'+health.memos_chunks+'条)' : '(Legacy)'}, 今日记忆${health.today_memory_exists ? '有' : '无'}`;
   
   return health;
 }
@@ -253,7 +266,7 @@ function generateEvolutionSuggestions(dimensions, insights) {
     suggestions.push('纠偏信号过多，建议将高频纠偏固化为ISC规则');
   }
   if (!dimensions.knowledge_governance.memory_updated) {
-    suggestions.push('MEMORY.md超过48h未更新，建议在heartbeat中触发记忆整理');
+    suggestions.push('记忆源超过48h未更新（MemOS或MEMORY.md），建议在heartbeat中触发记忆整理');
   }
   if (!dimensions.knowledge_governance.today_memory_exists) {
     suggestions.push('今日无记忆文件，重要决策可能丢失');

@@ -227,19 +227,37 @@ function getCycleInfo() {
         }
     } catch (e) {}
 
-    // 2. Fallback: MEMORY.md (Legacy/Seed)
+    // 2. MemOS搜索Cycle ID（主路径）
     let maxId = 0;
     try {
-        const memPath = path.resolve(__dirname, '../../MEMORY.md');
-        if (fs.existsSync(memPath)) {
-            const memContent = fs.readFileSync(memPath, 'utf8');
-            const matches = [...memContent.matchAll(/Cycle #(\d+)/g)];
-            for (const match of matches) {
-                const id = parseInt(match[1]);
-                if (id > maxId) maxId = id;
+        const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
+        if (memos.isAvailable()) {
+            const rows = memos.searchFTS('Cycle', 20);
+            for (const r of rows) {
+                const text = (r.summary || '') + ' ' + (r.content || '');
+                const matches = [...text.matchAll(/Cycle #(\d+)/g)];
+                for (const match of matches) {
+                    const id = parseInt(match[1]);
+                    if (id > maxId) maxId = id;
+                }
             }
         }
-    } catch (e) {}
+    } catch {}
+
+    // 3. Fallback: MEMORY.md (Legacy/Seed)
+    if (maxId === 0) {
+        try {
+            const memPath = path.resolve(__dirname, '../../MEMORY.md');
+            if (fs.existsSync(memPath)) {
+                const memContent = fs.readFileSync(memPath, 'utf8');
+                const matches = [...memContent.matchAll(/Cycle #(\d+)/g)];
+                for (const match of matches) {
+                    const id = parseInt(match[1]);
+                    if (id > maxId) maxId = id;
+                }
+            }
+        } catch (e) {}
+    }
 
     // Initialize State File if missing
     nextId = (maxId > 0 ? maxId : Math.floor(Date.now() / 1000)) + 1;
