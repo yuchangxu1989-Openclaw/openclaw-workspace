@@ -188,12 +188,17 @@ async function autoQA(input, logger) {
   else if (failed.length > 0) verdict = 'partial';
   else verdict = 'pass';
 
+  const score = verdict === 'pass' ? 10 : verdict === 'partial' ? Math.max(3, Math.round(passed / checks.length * 10)) : Math.round(passed / checks.length * 10);
+
   const result = {
     mode: 'auto-qa',
     agentId,
     taskLabel,
     verdict,
-    passed,
+    score,
+    passed: checks.filter(c => c.ok).map(c => c.name),
+    issues: checks.filter(c => !c.ok).map(c => ({ name: c.name, severity: c.severity, message: c.message, details: c.details })),
+    passedCount: passed,
     failed: checks.length - passed,
     total: checks.length,
     checks,
@@ -362,13 +367,19 @@ async function iscAudit(input, logger) {
 
   const criticalIssues = issues.filter(i => i.severity === 'high');
   const verdict = criticalIssues.length === 0 ? (issues.length < 10 ? 'pass' : 'partial') : 'fail';
+  const score = verdict === 'pass' ? 10 : verdict === 'partial' ? Math.max(3, Math.round(coverage.fullChain / 10)) : Math.min(3, Math.round(coverage.fullChain / 10));
+
+  const layerNames = ['intent', 'event', 'planning', 'execution', 'verification'];
+  const passedLayers = layerNames.filter(l => coverage[l] >= 80);
 
   const result = {
     mode: 'isc-audit',
     verdict,
+    score,
+    passed: passedLayers.map(l => `layer_${l}_coverage_ok`),
+    issues: issues.slice(0, 50), // 最多50条
     stats,
     coverage,
-    issues: issues.slice(0, 50), // 最多50条
     issueCount: issues.length,
     topIncompleteRules: ruleDetails.filter(r => !r.fullChain).slice(0, 20),
     timestamp: new Date().toISOString(),
@@ -523,11 +534,16 @@ async function completionReview(input, logger) {
   else if (failed.length > 0) verdict = 'partial';
   else verdict = 'pass';
 
+  const score = verdict === 'pass' ? 10 : verdict === 'partial' ? Math.max(3, Math.round(passed / checks.length * 10)) : Math.round(passed / checks.length * 10);
+
   const result = {
     mode: 'completion-review',
     verdict,
+    score,
     period: `最近${hours}小时`,
-    passed,
+    passed: checks.filter(c => c.ok).map(c => c.name),
+    issues: checks.filter(c => !c.ok).map(c => ({ name: c.name, severity: c.severity, message: c.message, details: c.details })),
+    passedCount: passed,
     failed: checks.length - passed,
     total: checks.length,
     checks,
