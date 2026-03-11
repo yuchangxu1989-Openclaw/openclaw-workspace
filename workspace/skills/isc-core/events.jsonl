@@ -224,3 +224,5 @@
 {"event": "subtask.created", "source_rules": ["rule.tracker-sync-gate-001"], "description": ""}
 {"event": "user.general.message", "source_rules": ["rule.umr-domain-routing-001", "rule.umr-intent-routing-001"], "description": ""}
 {"event": "document.diagram.created", "source_rules": ["rule.visual-output-style-001"], "description": ""}
+{"event": "memos.chunk.created", "source_rules": ["sub-memos-chunk-created-vectorization"], "description": "MemOS写入新chunk时触发，消费者：向量化、纠偏、统计"}
+{"event": "memos.chunk.deleted", "source_rules": [], "description": "MemOS删除chunk时触发（预留）"}

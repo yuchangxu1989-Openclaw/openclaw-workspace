@@ -1,0 +1,25 @@
+{
+  "subscription_id": "sub-memos-chunk-created-vectorization",
+  "subscriber": "vectorization-service",
+  "event_type": "memos.chunk.created",
+  "description": "MemOS新chunk写入时自动触发向量化，使记忆可被语义检索",
+  "condition": {
+    "scope": ["public", "private"]
+  },
+  "handler": {
+    "type": "exec",
+    "command": "/root/.openclaw/workspace/infrastructure/vector-service/vectorize.sh",
+    "args": ["--source", "memos", "--chunk-id", "{{payload.chunkId}}"],
+    "async": true,
+    "timeout_seconds": 300
+  },
+  "priority": 8,
+  "auto_execute": true,
+  "created_at": "2026-03-11T21:30:00+08:00",
+  "metadata": {
+    "trigger_source": "memos-chunk-emitter",
+    "target_types": ["memory_chunk"],
+    "vector_engine": "zhipu-embedding-3",
+    "consumers": ["vectorization", "correction-harvester", "cras-stats"]
+  }
+}
