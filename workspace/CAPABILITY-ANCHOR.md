@@ -149,3 +149,9 @@
 3. **搜索首选**: tavily-search（AI优化），web_search为备选
 4. **能力来源**: 本文档由 isc-capability-anchor-sync 全量扫描自动生成
 5. **同步频率**: 每小时自动 + 技能变更时触发
+
+## quality-audit — 统一质量审计
+- **技能路径**：`skills/quality-audit/`
+- **组件**：auto-QA完成触发、ISC规则合规审计、架构评审流水线
+- **触发方式**：自动(completion事件/cron) + 手动
+- **状态**：active
