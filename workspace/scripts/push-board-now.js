@@ -215,7 +215,7 @@ for (const [label, ts] of Object.entries(doneRegistry)) {
 }
 
 const totalDone = Object.keys(doneRegistry).length;
-const summary = `今日：✅${todayDone} ⏰${todayTimeout} ❌${todayFailed} 🟢${rows.length}｜累计完成：${totalDone}`;
+const summary = `今日：✅${todayDone} ⏰${todayTimeout} ❌${todayFailed} 🟢${rows.length}`;
 
 console.log(`[stats] running=${rows.length} todayDone=${todayDone} todayTimeout=${todayTimeout} todayFailed=${todayFailed} totalDone=${totalDone}`);
 console.log(`[stats] running: ${rows.map(r => r.task).join(', ') || '(none)'}`);
