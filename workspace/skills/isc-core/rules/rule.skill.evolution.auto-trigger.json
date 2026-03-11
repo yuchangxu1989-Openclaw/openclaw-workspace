@@ -48,13 +48,13 @@
   "updatedAt": "2026-03-01T00:00:00Z",
   "enforcement_tier": "P1_process",
   "enforcement": "programmatic",
-  "handler": "scripts/isc-hooks/rule.skill.evolution.auto-trigger.sh",
+  "handler": "skills/isc-core/handlers/skill.evolution.auto-trigger.js",
   "rule_id": "rule.skill.evolution.auto-trigger",
   "scoring_rubric": {
-    "completeness": 1.0,
-    "handler_real": 1.0,
+    "completeness": 1,
+    "handler_real": 1,
     "event_bound": 0.5,
-    "test_covered": 0.0
+    "test_covered": 0
   },
   "north_star_indicator": "自主闭环率",
   "gate_relevance": 0.6,

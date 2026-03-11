@@ -22,6 +22,6 @@
   },
   "enforcement_tier": "P0_blocking",
   "enforcement": "programmatic",
-  "handler": "scripts/isc-hooks/rule.intent-directive-consumption-001.sh",
+  "handler": "skills/isc-core/handlers/intent-directive-consumption.js",
   "fullchain_status": "expanded"
 }

@@ -15,7 +15,7 @@
   },
   "created_at": "2026-03-06",
   "enforcement": "programmatic",
-  "handler": "scripts/isc-hooks/rule.report-snapshot-lock-001.sh",
+  "handler": "skills/isc-core/handlers/report-snapshot-lock.js",
   "scoring_rubric": {
     "handler_exists": true,
     "handler_has_logic": false,

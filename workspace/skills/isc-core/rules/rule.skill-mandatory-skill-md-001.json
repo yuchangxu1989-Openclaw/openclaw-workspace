@@ -72,13 +72,13 @@
     "type": "check",
     "handler": "completeness-check"
   },
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/skill-mandatory-skill-md-001.sh",
+  "handler": "skills/isc-core/handlers/skill-mandatory-skill-md.js",
   "rule_id": "rule.skill-mandatory-skill-md-001",
   "scoring_rubric": {
-    "completeness": 1.0,
-    "handler_real": 1.0,
+    "completeness": 1,
+    "handler_real": 1,
     "event_bound": 0.5,
-    "test_covered": 0.0
+    "test_covered": 0
   },
   "north_star_indicator": "言出法随达成率",
   "gate_relevance": 0.6,

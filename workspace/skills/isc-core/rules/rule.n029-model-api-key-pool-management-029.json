@@ -115,7 +115,7 @@
     "script": "scripts/isc-hooks/rule.n029-model-api-key-pool-management-029.sh"
   },
   "enforcement": "programmatic",
-  "handler": "scripts/isc-hooks/rule.n029-model-api-key-pool-management-029.sh",
+  "handler": "skills/isc-core/handlers/n029-model-api-key-pool-management.js",
   "rule_id": "N029_MODEL_API_KEY_P",
   "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
   "north_star_indicator": {

@@ -46,7 +46,7 @@
     "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-SKILL-QUALITY-001.sh"
   },
   "enforcement": "programmatic",
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-SKILL-QUALITY-001.sh",
+  "handler": "skills/isc-core/handlers/quality-skill-no-placeholder.js",
   "scoring_rubric": {
     "handler_exists": true,
     "handler_has_logic": false,

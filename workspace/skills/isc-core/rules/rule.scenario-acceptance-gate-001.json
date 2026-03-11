@@ -38,7 +38,7 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "scripts/isc-hooks/rule.scenario-acceptance-gate-001.sh",
+  "handler": "skills/isc-core/handlers/scenario-acceptance-gate.js",
   "scoring_rubric": {
     "handler_exists": true,
     "handler_has_logic": false,

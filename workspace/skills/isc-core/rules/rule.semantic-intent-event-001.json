@@ -34,13 +34,13 @@
     "script": "scripts/isc-hooks/rule.semantic-intent-event-001.sh"
   },
   "enforcement": "programmatic",
-  "handler": "scripts/isc-hooks/rule.semantic-intent-event-001.sh",
+  "handler": "skills/isc-core/handlers/semantic-intent-event.js",
   "rule_id": "rule.semantic-intent-event-001",
   "scoring_rubric": {
-    "completeness": 1.0,
-    "handler_real": 1.0,
+    "completeness": 1,
+    "handler_real": 1,
     "event_bound": 0.5,
-    "test_covered": 0.0
+    "test_covered": 0
   },
   "north_star_indicator": "根因分析覆盖率",
   "gate_relevance": 0.6,

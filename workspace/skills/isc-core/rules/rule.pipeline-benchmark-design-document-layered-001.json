@@ -22,7 +22,7 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-layered-001.sh",
+  "handler": "skills/isc-core/handlers/pipeline-benchmark-design-document-layered.js",
   "rule_id": "PIPELINE_BENCHMARK_D",
   "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
   "north_star_indicator": {

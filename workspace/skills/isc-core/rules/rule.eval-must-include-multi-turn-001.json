@@ -28,6 +28,6 @@
     "script": "scripts/isc-hooks/rule.eval-must-include-multi-turn-001.sh"
   },
   "enforcement": "programmatic",
-  "handler": "infrastructure/event-bus/handlers/eval-must-include-multi-turn.sh",
+  "handler": "skills/isc-core/handlers/eval-must-include-multi-turn.js",
   "fullchain_status": "expanded"
 }

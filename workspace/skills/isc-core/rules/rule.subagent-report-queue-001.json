@@ -49,13 +49,13 @@
   "action": {
     "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.subagent-report-queue-001.sh"
   },
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.subagent-report-queue-001.sh",
+  "handler": "skills/isc-core/handlers/subagent-report-queue.js",
   "id": "SUBAGENT-REPORT-QUEUE-001",
   "scoring_rubric": {
-    "completeness": 1.0,
-    "handler_real": 1.0,
+    "completeness": 1,
+    "handler_real": 1,
     "event_bound": 0.5,
-    "test_covered": 0.0
+    "test_covered": 0
   },
   "north_star_indicator": "言出法随达成率",
   "gate_relevance": 0.6,

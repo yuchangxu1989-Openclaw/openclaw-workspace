@@ -14,7 +14,7 @@
     "ISC-EVAL-ROLE-SEPARATION-001"
   ],
   "created": "2026-03-09",
-  "handler": "scripts/isc-hooks/pdca-check-exit-gate-001.sh",
+  "handler": "skills/isc-core/handlers/pdca-check-exit-gate.js",
   "rule_id": "PDCA_CHECK_EXIT_GATE",
   "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
   "north_star_indicator": {

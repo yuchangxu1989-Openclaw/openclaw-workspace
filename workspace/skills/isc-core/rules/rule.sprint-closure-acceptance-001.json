@@ -91,16 +91,16 @@
   "fullchain_status": "expanded",
   "fullchain_expanded_at": "2026-03-09T12:51:00Z",
   "fullchain_handler": "infrastructure/event-bus/handlers/sprint-closure-gate.sh",
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.sprint-closure-acceptance-001.sh",
+  "handler": "skills/isc-core/handlers/sprint-closure-acceptance.js",
   "id": "SPRINT-CLOSURE-ACCEPTANCE-001",
   "scoring_rubric": {
-    "completeness": 1.0,
-    "handler_real": 1.0,
+    "completeness": 1,
+    "handler_real": 1,
     "event_bound": 0.5,
-    "test_covered": 0.0
+    "test_covered": 0
   },
   "north_star_indicator": "独立QA覆盖率",
-  "gate_relevance": 1.0,
+  "gate_relevance": 1,
   "process_indicators": [
     "handler_execution_count",
     "gate_pass_rate"

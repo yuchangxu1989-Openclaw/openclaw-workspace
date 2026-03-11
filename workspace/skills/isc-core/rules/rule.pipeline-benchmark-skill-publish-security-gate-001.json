@@ -19,7 +19,7 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "infrastructure/event-bus/handlers/handle-pipeline-benchmark-skill-publish-security-gate-001.sh",
+  "handler": "skills/isc-core/handlers/pipeline-benchmark-skill-publish-security-gate.js",
   "scoring_rubric": {
     "handler_exists": true,
     "handler_has_logic": false,

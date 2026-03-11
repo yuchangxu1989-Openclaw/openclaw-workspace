@@ -50,7 +50,7 @@
     "perception",
     "P0"
   ],
-  "handler": "scripts/isc-hooks/rule.auto-asr-on-voice-message-001.sh",
+  "handler": "skills/isc-core/handlers/auto-asr-on-voice-message.js",
   "enforcement": "programmatic",
   "_auto_deployed": {
     "by": "isc-rule-deployer",

@@ -14,7 +14,7 @@
     "ISC-PDCA-PLAN-EXIT-GATE-001"
   ],
   "created": "2026-03-09",
-  "handler": "scripts/isc-hooks/pdca-do-entry-gate-001.sh",
+  "handler": "skills/isc-core/handlers/pdca-do-entry-gate.js",
   "rule_id": "PDCA_DO_ENTRY_GATE_0",
   "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
   "north_star_indicator": {

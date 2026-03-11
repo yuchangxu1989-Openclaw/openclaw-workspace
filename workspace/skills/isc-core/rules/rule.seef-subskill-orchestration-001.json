@@ -83,7 +83,7 @@
     "script": "scripts/isc-hooks/rule.seef-subskill-orchestration-001.sh"
   },
   "enforcement": "programmatic",
-  "handler": "scripts/isc-hooks/rule.seef-subskill-orchestration-001.sh",
+  "handler": "skills/isc-core/handlers/seef-subskill-orchestration.js",
   "scoring_rubric": {
     "handler_exists": true,
     "handler_has_logic": false,

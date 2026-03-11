@@ -37,13 +37,13 @@
     "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.threshold-alert-routing-001.sh"
   },
   "enforcement": "programmatic",
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.threshold-alert-routing-001.sh",
+  "handler": "skills/isc-core/handlers/threshold-alert-routing.js",
   "rule_id": "rule.threshold-alert-routing-001",
   "scoring_rubric": {
-    "completeness": 1.0,
-    "handler_real": 1.0,
+    "completeness": 1,
+    "handler_real": 1,
     "event_bound": 0.5,
-    "test_covered": 0.0
+    "test_covered": 0
   },
   "north_star_indicator": "认知层真实代码覆盖率",
   "gate_relevance": 0.6,

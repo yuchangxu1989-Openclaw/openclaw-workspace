@@ -19,7 +19,7 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "scripts/isc-hooks/rule.pipeline-benchmark-workflow-requested-001.sh",
+  "handler": "skills/isc-core/handlers/pipeline-benchmark-workflow-requested.js",
   "scoring_rubric": {
     "handler_exists": true,
     "handler_has_logic": false,

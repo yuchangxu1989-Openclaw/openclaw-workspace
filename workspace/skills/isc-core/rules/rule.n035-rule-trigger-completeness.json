@@ -206,7 +206,7 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n035-rule-trigger-completeness.sh",
+  "handler": "skills/isc-core/handlers/n035-rule-trigger-completeness.js",
   "rule_id": "N035_RULE_TRIGGER_CO",
   "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
   "north_star_indicator": {

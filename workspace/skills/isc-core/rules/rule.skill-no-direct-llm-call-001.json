@@ -33,16 +33,16 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "scripts/isc-hooks/rule.skill-no-direct-llm-call-001.sh",
+  "handler": "skills/isc-core/handlers/skill-no-direct-llm-call.js",
   "rule_id": "rule.skill-no-direct-llm-call-001",
   "scoring_rubric": {
-    "completeness": 1.0,
-    "handler_real": 1.0,
+    "completeness": 1,
+    "handler_real": 1,
     "event_bound": 0.5,
-    "test_covered": 0.0
+    "test_covered": 0
   },
   "north_star_indicator": "认知层真实代码覆盖率",
-  "gate_relevance": 1.0,
+  "gate_relevance": 1,
   "process_indicators": [
     "handler_execution_count",
     "gate_pass_rate"

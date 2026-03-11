@@ -30,5 +30,5 @@
     "v2.x: 生产可用+完善错误处理+降级+日志",
     "v3.x+: 经过实际运行验证+性能优化+测试覆盖"
   ],
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/version-integrity-gate-001.sh"
+  "handler": "skills/isc-core/handlers/version-integrity-gate.js"
 }

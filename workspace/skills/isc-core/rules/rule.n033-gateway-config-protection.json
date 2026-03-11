@@ -100,7 +100,7 @@
   "enforcement_tier": "P0_gate",
   "id": "rule.n033-gateway-config-protection",
   "enforcement": "programmatic",
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n033-gateway-config-protection.sh",
+  "handler": "skills/isc-core/handlers/n033-gateway-config-protection.js",
   "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
   "north_star_indicator": {
     "primary": "自主闭环率",

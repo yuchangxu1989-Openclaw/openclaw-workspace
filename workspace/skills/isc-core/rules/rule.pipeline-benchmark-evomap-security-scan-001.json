@@ -21,7 +21,7 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "scripts/isc-hooks/rule.pipeline-benchmark-evomap-security-scan-001.sh",
+  "handler": "skills/isc-core/handlers/pipeline-benchmark-evomap-security-scan.js",
   "scoring_rubric": {
     "handler_exists": true,
     "handler_has_logic": false,
