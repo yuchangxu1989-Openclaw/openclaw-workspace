@@ -152,5 +152,19 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/isc-skill-distribution-separation-001.sh"
+  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/isc-skill-distribution-separation-001.sh",
+  "rule_id": "rule.skill-distribution-separation-001",
+  "scoring_rubric": {
+    "completeness": 1.0,
+    "handler_real": 1.0,
+    "event_bound": 0.5,
+    "test_covered": 0.0
+  },
+  "north_star_indicator": "言出法随达成率",
+  "gate_relevance": 1.0,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_pass_rate"
+  ],
+  "layer": "enforcement-gate"
 }

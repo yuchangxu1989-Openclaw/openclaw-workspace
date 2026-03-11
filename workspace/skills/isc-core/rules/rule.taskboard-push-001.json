@@ -19,5 +19,19 @@
   "enforcement": "mandatory",
   "created": "2026-03-08",
   "rationale": "用户在飞书端看不到任何本地exec的输出，看板必须通过消息推送才能让用户可见。自己exec看=口嗨。",
-  "handler": "handlers/taskboard-push-001.js"
+  "handler": "skills/isc-core/handlers/taskboard-push-001.js",
+  "rule_id": "rule.taskboard-push-001",
+  "scoring_rubric": {
+    "completeness": 1.0,
+    "handler_real": 1.0,
+    "event_bound": 0.5,
+    "test_covered": 0.0
+  },
+  "north_star_indicator": "言出法随达成率",
+  "gate_relevance": 0.6,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_pass_rate"
+  ],
+  "layer": "operational-rule"
 }

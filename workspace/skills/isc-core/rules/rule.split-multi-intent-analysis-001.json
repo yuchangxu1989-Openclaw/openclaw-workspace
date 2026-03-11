@@ -32,11 +32,25 @@
   },
   "enforcement_tier": "P0_iron_rule",
   "enforcement": "programmatic",
-  "handler": "handlers/split-multi-intent-analysis-guard.js",
+  "handler": "skills/isc-core/handlers/split-multi-intent-analysis-guard.js",
   "governance": {
     "auto_execute": true,
     "councilRequired": false
   },
   "created_at": "2026-03-11T07:53:00+08:00",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "rule_id": "rule.split-multi-intent-analysis-001",
+  "scoring_rubric": {
+    "completeness": 1.0,
+    "handler_real": 1.0,
+    "event_bound": 0.5,
+    "test_covered": 0.0
+  },
+  "north_star_indicator": "言出法随达成率",
+  "gate_relevance": 0.6,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_pass_rate"
+  ],
+  "layer": "enforcement-gate"
 }

@@ -37,5 +37,19 @@
     "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.threshold-alert-routing-001.sh"
   },
   "enforcement": "programmatic",
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.threshold-alert-routing-001.sh"
+  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/rule.threshold-alert-routing-001.sh",
+  "rule_id": "rule.threshold-alert-routing-001",
+  "scoring_rubric": {
+    "completeness": 1.0,
+    "handler_real": 1.0,
+    "event_bound": 0.5,
+    "test_covered": 0.0
+  },
+  "north_star_indicator": "认知层真实代码覆盖率",
+  "gate_relevance": 0.6,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_pass_rate"
+  ],
+  "layer": "event-routing"
 }

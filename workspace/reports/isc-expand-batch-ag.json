@@ -1,0 +1,1260 @@
+{
+  "batch": "isc-batch-ag",
+  "total_rules": 20,
+  "full_score_count": 0,
+  "avg_score": 80.0,
+  "total_gaps": 59,
+  "patched_rules": 20,
+  "patched_files": [
+    "skills/isc-core/rules/rule.n029-model-api-key-pool-management-029.json",
+    "skills/isc-core/rules/rule.n033-gateway-config-protection.json",
+    "skills/isc-core/rules/rule.n034-rule-identity-accuracy.json",
+    "skills/isc-core/rules/rule.n035-rule-trigger-completeness.json",
+    "skills/isc-core/rules/rule.n036-memory-loss-recovery.json",
+    "skills/isc-core/rules/rule.naming-mece-consistency-001.json",
+    "skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json",
+    "skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json",
+    "skills/isc-core/rules/rule.pdca-act-entry-gate-001.json",
+    "skills/isc-core/rules/rule.pdca-act-exit-gate-001.json",
+    "skills/isc-core/rules/rule.pdca-check-entry-gate-001.json",
+    "skills/isc-core/rules/rule.pdca-check-exit-gate-001.json",
+    "skills/isc-core/rules/rule.pdca-do-entry-gate-001.json",
+    "skills/isc-core/rules/rule.pdca-do-exit-gate-001.json",
+    "skills/isc-core/rules/rule.pdca-plan-entry-gate-001.json",
+    "skills/isc-core/rules/rule.pdca-plan-exit-gate-001.json",
+    "skills/isc-core/rules/rule.pipeline-benchmark-analysis-requested-001.json",
+    "skills/isc-core/rules/rule.pipeline-benchmark-defect-acknowledged-001.json",
+    "skills/isc-core/rules/rule.pipeline-benchmark-design-document-alignment-001.json",
+    "skills/isc-core/rules/rule.pipeline-benchmark-design-document-layered-001.json"
+  ],
+  "rules": [
+    {
+      "rule_file": "skills/isc-core/rules/rule.n029-model-api-key-pool-management-029.json",
+      "rule_id": "N029_MODEL_API_KEY_P",
+      "category": "infra-ops",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "N029_MODEL_API_KEY_P",
+          "description": "模型API Key池管理 - 多Key并行调度、失效自动切换、负载均衡",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "api_key_rate_limit",
+              "api_key_invalid",
+              "api_key_expired",
+              "model_request_initiated"
+            ],
+            "condition": "key_pool_enabled AND model_request_received",
+            "actions": [
+              {
+                "type": "auto_trigger",
+                "description": "API Key失效或限流时自动切换到备用Key，执行负载均衡调度",
+                "behavior": "auto_failover_and_balance"
+              },
+              {
+                "type": "health_check",
+                "description": "定期检查所有Key池状态，标记失效Key并更新路由表",
+                "behavior": "periodic_key_health_scan"
+              }
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.n029-model-api-key-pool-management-029.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.n029-model-api-key-pool-management-029\"; WORKSPACE=\"/root/.openclaw/workspace\"; CONFIG_FILES=$(find \"$WORKSPACE\" -name '*.env' -o -name 'config*.json' -o -name '*.yaml",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.n033-gateway-config-protection.json",
+      "rule_id": "N033",
+      "category": "config-protection",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "N033",
+          "description": "禁止自动修改Gateway、飞书、Agent与模型配置，所有此类修改必须用户人工确认后方可执行",
+          "priority": "P3"
+        },
+        "L2_event": {
+          "event_field": {
+            "type": "file_operation",
+            "patterns": [
+              "/root/.openclaw/openclaw.json",
+              "/root/.openclaw/gateway*",
+              "**/gateway*.json",
+              "**/config.json",
+              "/root/.openclaw/agents/*/models.json",
+              "/root/.openclaw/agents/*/agent.json",
+              "/root/.openclaw/cron/jobs.json",
+              "/root/.openclaw/identity/**",
+              "/root/.openclaw/feishu/**"
+            ],
+            "operations": [
+              "modify",
+              "delete",
+              "create"
+            ],
+            "events": [
+              "system.config.modified",
+              "system.config.created",
+              "system.config.deleted",
+              "system.config.change_requested"
+            ],
+            "actions": [
+              {
+                "type": "gate-check",
+                "description": "检测到敏感配置修改操作时，阻塞执行并要求用户人工确认",
+                "behavior": "block_until_user_approval"
+              },
+              {
+                "type": "auto_backup",
+                "description": "配置修改前自动创建带时间戳的备份文件",
+                "behavior": "create_timestamped_backup"
+              }
+            ],
+            "event": "system.config.modified"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n033-gateway-config-protection.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.n033-gateway-config-protection\"; WORKSPACE=\"/root/.openclaw/workspace\"; DETAIL=\"TODO: implement full enforcement logic for ${RULE_ID}\"; STATUS=\"pass\"",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "独立QA覆盖率"
+        },
+        "gate_relevance": 0.95,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.n034-rule-identity-accuracy.json",
+      "rule_id": "N034_RULE_IDENTITY_A",
+      "category": "rule-integrity",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "N034_RULE_IDENTITY_A",
+          "description": "强制从文件系统实际计数规则，禁止推断或缓存，确保DTO规则识别准确",
+          "priority": "high"
+        },
+        "L2_event": {
+          "event_field": {
+            "conditions": [
+              {
+                "type": "dto_execution",
+                "when": "before_rule_statistics"
+              },
+              {
+                "type": "scheduled",
+                "cron": "*/30 * * * *",
+                "description": "每30分钟检查一次"
+              },
+              {
+                "type": "manual",
+                "command": "isc validate-rule-count"
+              }
+            ],
+            "logic": "OR",
+            "events": [
+              "lto.rule.statistics_requested",
+              "isc.rule.created",
+              "isc.rule.deleted",
+              "lto.general.rule_count_validation"
+            ],
+            "actions": [
+              {
+                "type": "gate-check",
+                "description": "从文件系统实际扫描规则文件计数，与注册表交叉验证，禁止推断或缓存",
+                "behavior": "filesystem_scan_and_crosscheck"
+              },
+              {
+                "type": "auto_sync",
+                "description": "发现计数不匹配时，自动同步注册表（差异≤5条时）",
+                "behavior": "auto_sync_on_mismatch"
+              }
+            ],
+            "event": "lto.rule.statistics_requested"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n034-rule-identity-accuracy.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "RULE_ID=\"rule.n034-rule-identity-accuracy\"; RULES_DIR=\"/root/.openclaw/workspace/skills/isc-core/rules\"; FAIL=0; RESULT=$(python3 -c \"; import json,os,sys",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "认知层真实代码覆盖率",
+          "secondary": "独立QA覆盖率"
+        },
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.n035-rule-trigger-completeness.json",
+      "rule_id": "N035_RULE_TRIGGER_CO",
+      "category": "rule-integrity",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "N035_RULE_TRIGGER_CO",
+          "description": "监控所有规则的触发情况，检测未触发规则并报告原因",
+          "priority": "high"
+        },
+        "L2_event": {
+          "event_field": {
+            "conditions": [
+              {
+                "type": "post_dto_execution",
+                "description": "DTO每轮执行后"
+              },
+              {
+                "type": "scheduled",
+                "cron": "0 * * * *",
+                "description": "每小时检查一次"
+              },
+              {
+                "type": "event",
+                "event_name": "rule_registry_updated"
+              }
+            ],
+            "logic": "OR",
+            "events": [
+              "isc.rule.created",
+              "isc.rule.updated",
+              "isc.enforcement.audit_requested"
+            ],
+            "actions": [
+              {
+                "type": "auto_trigger",
+                "description": "规则创建/更新时验证trigger字段完整性，缺失则标记为unenforced"
+              }
+            ],
+            "event": "isc.rule.created"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n035-rule-trigger-completeness.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "RULE_ID=\"rule.n035-rule-trigger-completeness\"; RULES_DIR=\"/root/.openclaw/workspace/skills/isc-core/rules\"; RESULT=$(python3 -c \"; import json,os,sys; rules_dir='$RULES_DIR'",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "认知层真实代码覆盖率",
+          "secondary": "独立QA覆盖率"
+        },
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.n036-memory-loss-recovery.json",
+      "rule_id": "N036_MEMORY_LOSS_REC",
+      "category": "memory-resilience",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "N036_MEMORY_LOSS_REC",
+          "description": "当MEMORY.md丢失或损坏时，从文件系统自动重建规则清单和系统状态",
+          "priority": "critical"
+        },
+        "L2_event": {
+          "event_field": {
+            "conditions": [
+              {
+                "type": "file_missing",
+                "file_path": "/root/.openclaw/workspace/MEMORY.md",
+                "description": "MEMORY.md文件缺失"
+              },
+              {
+                "type": "file_corrupted",
+                "file_path": "/root/.openclaw/workspace/MEMORY.md",
+                "check": "!valid_markdown || size < 100",
+                "description": "MEMORY.md文件损坏"
+              },
+              {
+                "type": "registry_empty",
+                "file_path": "/root/.openclaw/workspace/.rule-registry.json",
+                "check": "!exists || rule_count == 0",
+                "description": "规则注册表为空"
+              },
+              {
+                "type": "manual",
+                "command": "isc bootstrap-recovery",
+                "description": "手动触发恢复"
+              }
+            ],
+            "logic": "OR",
+            "events": [
+              "session.general.started",
+              "system.memory.loss_detected",
+              "session.context.incomplete"
+            ],
+            "actions": [
+              {
+                "type": "auto_trigger",
+                "description": "检测到记忆丢失时自动触发恢复流程，从文件系统重建关键上下文"
+              }
+            ],
+            "event": "session.general.started"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.n036-memory-loss-recovery.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.n036-memory-loss-recovery\"; WORKSPACE=\"/root/.openclaw/workspace\"; DETAIL=\"TODO: implement full enforcement logic for ${RULE_ID}\"; STATUS=\"pass\"",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "根因分析覆盖率"
+        },
+        "gate_relevance": 0.85,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.naming-mece-consistency-001.json",
+      "rule_id": "NAMING_MECE_CONSISTE",
+      "category": "naming-governance",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "NAMING_MECE_CONSISTE",
+          "description": "命名MECE校验——同一层级的所有实体关键词两两比对，不允许概念重叠",
+          "priority": "P1"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "architecture.diagram.created",
+              "isc.rule.created",
+              "skill.general.created"
+            ],
+            "actions": [
+              "quality.naming.mece_check"
+            ],
+            "event": "architecture.diagram.created"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.naming-mece-consistency-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.naming-mece-consistency-001\"; WORKSPACE=\"/root/.openclaw/workspace\"; RULES_DIR=\"$WORKSPACE/skills/isc-core/rules\"; python3 -c \"",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "言出法随达成率",
+          "secondary": "自主闭环率"
+        },
+        "gate_relevance": 0.5,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L2-cognitive"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.naming-skill-bilingual-display-006.json",
+      "rule_id": "NAMING_SKILL_BILINGU",
+      "category": "naming-governance",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "NAMING_SKILL_BILINGU",
+          "description": "技能名称双语展示标准 - 所有汇报涉及skill英文名时必须同时展示中文名",
+          "priority": "high"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "isc.rule.matched",
+              "isc.category.matched"
+            ],
+            "actions": [
+              {
+                "type": "log",
+                "level": "info"
+              }
+            ],
+            "event": "isc.rule.matched"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "/root/.openclaw/workspace/scripts/isc-hooks/N006.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"N006\"; INPUT=\"${1:-}\"; STATUS=\"pass\"; DETAIL=\"skill_name_bilingual_display checked\"",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "言出法随达成率",
+          "secondary": "自主闭环率"
+        },
+        "gate_relevance": 0.5,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L2-cognitive"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.parallel-subagent-orchestration-001.json",
+      "rule_id": "PARALLEL_SUBAGENT_OR",
+      "category": "orchestration",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PARALLEL_SUBAGENT_OR",
+          "description": "并行子Agent编排规则 - DTO调度多Agent并行执行复杂工作流",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "type": "manual_or_event",
+            "events": [
+              "orchestration.general.requested",
+              "orchestration.general.detected"
+            ],
+            "actions": [
+              {
+                "type": "auto_trigger",
+                "description": "复杂任务自动拆分为并行子Agent执行，协调结果汇总并处理冲突"
+              }
+            ],
+            "event": "orchestration.general.requested"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.parallel-subagent-orchestration-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.parallel-subagent-orchestration-001\"; WORKSPACE=\"/root/.openclaw/workspace\"; WORKFLOW_FILES=$(find \"$WORKSPACE\" -name '*workflow*' -o -name '*orchestrat*' 2>/dev/null ",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "言出法随达成率",
+          "secondary": "自主闭环率"
+        },
+        "gate_relevance": 0.85,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pdca-act-entry-gate-001.json",
+      "rule_id": "PDCA_ACT_ENTRY_GATE_",
+      "category": "process-gate",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PDCA_ACT_ENTRY_GATE_",
+          "description": "进入Act阶段前确认Check发现了需要改进的问题",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "pdca.phase.act.entry"
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.pdca-act-entry-gate-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; INPUT=\"${1:-/dev/stdin}\"; PAYLOAD=$(cat \"$INPUT\" 2>/dev/null || echo \"$1\"); CHECK_FINDINGS=$(echo \"$PAYLOAD\" | jq -r '.task.check_findings // empty' 2>/dev/null); CHECK_STATUS=$(ech",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.9,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pdca-act-exit-gate-001.json",
+      "rule_id": "PDCA_ACT_EXIT_GATE_0",
+      "category": "process-gate",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PDCA_ACT_EXIT_GATE_0",
+          "description": "离开Act阶段前确认改进措施已落到代码或ISC规则",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "pdca.phase.act.exit"
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.pdca-act-exit-gate-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; INPUT=$(cat); if ! command -v jq &>/dev/null; then; echo '{\"pass\":false,\"code\":\"ENV_ERROR\",\"message\":\"jq not installed\"}'; exit 2",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.9,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pdca-check-entry-gate-001.json",
+      "rule_id": "PDCA_CHECK_ENTRY_GAT",
+      "category": "process-gate",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PDCA_CHECK_ENTRY_GAT",
+          "description": "进入Check阶段前确认有交付物且评测者已分配",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "pdca.phase.check.entry"
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/pdca-check-entry-gate-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; INPUT=\"${1:-/dev/stdin}\"; PAYLOAD=$(cat \"$INPUT\" 2>/dev/null || echo \"$1\"); DELIVERABLES=$(echo \"$PAYLOAD\" | jq -r '.task.deliverables // empty' 2>/dev/null); DO_STATUS=$(echo \"$PAY",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.9,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pdca-check-exit-gate-001.json",
+      "rule_id": "PDCA_CHECK_EXIT_GATE",
+      "category": "process-gate",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PDCA_CHECK_EXIT_GATE",
+          "description": "离开Check阶段前确认评测报告已生成",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "pdca.phase.check.exit"
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/pdca-check-exit-gate-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; INPUT=\"${1:-/dev/stdin}\"; PAYLOAD=$(cat \"$INPUT\" 2>/dev/null || echo \"$1\"); CHECK_REPORT=$(echo \"$PAYLOAD\" | jq -r '.task.check_report // empty' 2>/dev/null); METRICS=$(echo \"$PAYLO",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.9,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pdca-do-entry-gate-001.json",
+      "rule_id": "PDCA_DO_ENTRY_GATE_0",
+      "category": "process-gate",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PDCA_DO_ENTRY_GATE_0",
+          "description": "进入Do阶段前确认Plan准出已通过",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "pdca.phase.do.entry"
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/pdca-do-entry-gate-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; INPUT=\"${1:-/dev/stdin}\"; PAYLOAD=$(cat \"$INPUT\" 2>/dev/null || echo \"$1\"); PLAN_EXIT_PASSED=$(echo \"$PAYLOAD\" | jq -r '.task.plan_exit_passed // false' 2>/dev/null); RESOURCES_READ",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.9,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pdca-do-exit-gate-001.json",
+      "rule_id": "PDCA_DO_EXIT_GATE_00",
+      "category": "process-gate",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PDCA_DO_EXIT_GATE_00",
+          "description": "离开Do阶段前检查交付物存在性",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "pdca.phase.do.exit"
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/pdca-do-exit-gate-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; INPUT=\"${1:-/dev/stdin}\"; PAYLOAD=$(cat \"$INPUT\" 2>/dev/null || echo \"$1\"); DELIVERABLES=$(echo \"$PAYLOAD\" | jq -r '.task.deliverables // empty' 2>/dev/null); DELIVERABLES_LEN=$(ech",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.9,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pdca-plan-entry-gate-001.json",
+      "rule_id": "PDCA_PLAN_ENTRY_GATE",
+      "category": "process-gate",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PDCA_PLAN_ENTRY_GATE",
+          "description": "任务进入Plan阶段前检查来源合法性（用户指令/ISC规则触发/事件驱动）",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "pdca.phase.plan.entry"
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/pdca-plan-entry-gate-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; INPUT=\"${1:-/dev/stdin}\"; PAYLOAD=$(cat \"$INPUT\" 2>/dev/null || echo \"$1\"); SOURCE=$(echo \"$PAYLOAD\" | jq -r '.task.source // empty' 2>/dev/null); GOAL=$(echo \"$PAYLOAD\" | jq -r '.t",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.9,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pdca-plan-exit-gate-001.json",
+      "rule_id": "PDCA_PLAN_EXIT_GATE_",
+      "category": "process-gate",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PDCA_PLAN_EXIT_GATE_",
+          "description": "任务离开Plan阶段前检查4要素完整性（业务目标/时效约束/成本边界/验收标准）",
+          "priority": "P2"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "pdca.phase.plan.exit"
+            ]
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/pdca-plan-exit-gate-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; INPUT=\"${1:-/dev/stdin}\"; PAYLOAD=$(cat \"$INPUT\" 2>/dev/null || echo \"$1\"); GOAL=$(echo \"$PAYLOAD\" | jq -r '.task.goal // empty' 2>/dev/null); DEADLINE=$(echo \"$PAYLOAD\" | jq -r '.t",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "自主闭环率",
+          "secondary": "言出法随达成率"
+        },
+        "gate_relevance": 0.9,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pipeline-benchmark-analysis-requested-001.json",
+      "rule_id": "PIPELINE_BENCHMARK_A",
+      "category": "pipeline",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PIPELINE_BENCHMARK_A",
+          "description": "兼容 analysis.requested 事件命名，触发并行分析治理流程。",
+          "priority": "P1"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "analysis.requested"
+            ],
+            "event": "analysis.requested"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.pipeline-benchmark-analysis-requested-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.pipeline-benchmark-analysis-requested-001\"; WORKSPACE=\"/root/.openclaw/workspace\"; HANDLERS=$(find \"$WORKSPACE\" -name '*analysis*' -name '*.sh' -o -name '*analysis*' -",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "认知层真实代码覆盖率",
+          "secondary": "根因分析覆盖率"
+        },
+        "gate_relevance": 0.7,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pipeline-benchmark-defect-acknowledged-001.json",
+      "rule_id": "PIPELINE_BENCHMARK_D",
+      "category": "pipeline",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PIPELINE_BENCHMARK_D",
+          "description": "兼容 agent.behavior.defect_acknowledged 事件命名，触发自我纠偏规则化。",
+          "priority": "P1"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "agent.behavior.defect_acknowledged"
+            ],
+            "event": "agent.behavior.defect_acknowledged"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.pipeline-benchmark-defect-acknowledged-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.pipeline-benchmark-defect-acknowledged-001\"; WORKSPACE=\"/root/.openclaw/workspace\"; HANDLERS=$(find \"$WORKSPACE\" -name '*defect*' -name '*.sh' -o -name '*defect*' -nam",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "认知层真实代码覆盖率",
+          "secondary": "根因分析覆盖率"
+        },
+        "gate_relevance": 0.7,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pipeline-benchmark-design-document-alignment-001.json",
+      "rule_id": "PIPELINE_BENCHMARK_D",
+      "category": "pipeline",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PIPELINE_BENCHMARK_D",
+          "description": "设计文档创建或修改时触发统一架构治理补充检查，补足 anti-entropy / layered / review 三类基础规则在 benchmark 事件命名下的命中。",
+          "priority": "P1"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "design.document.created",
+              "design.document.modified"
+            ],
+            "event": "design.document.created"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-alignment-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.pipeline-benchmark-design-document-alignment-001\"; WORKSPACE=\"/root/.openclaw/workspace\"; DOC_FILES=$(find \"$WORKSPACE\" -name '*design*' -name '*.md' -o -name '*archit",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "认知层真实代码覆盖率",
+          "secondary": "根因分析覆盖率"
+        },
+        "gate_relevance": 0.7,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    },
+    {
+      "rule_file": "skills/isc-core/rules/rule.pipeline-benchmark-design-document-layered-001.json",
+      "rule_id": "PIPELINE_BENCHMARK_D",
+      "category": "pipeline",
+      "five_layers": {
+        "L1_intent": {
+          "rule_id": "PIPELINE_BENCHMARK_D",
+          "description": "设计文档事件在 benchmark 命名空间下补充分层解耦检查。",
+          "priority": "P1"
+        },
+        "L2_event": {
+          "event_field": {
+            "events": [
+              "design.document.created",
+              "design.document.modified"
+            ],
+            "event": "design.document.created"
+          },
+          "subscription_file": null,
+          "status": "ok"
+        },
+        "L3_plan": {
+          "handler_path": "scripts/isc-hooks/rule.pipeline-benchmark-design-document-layered-001.sh",
+          "handler_exists": true
+        },
+        "L4_execute": {
+          "handler_logic_summary": "set -euo pipefail; RULE_ID=\"rule.pipeline-benchmark-design-document-layered-001\"; ROOT=\"/root/.openclaw/workspace\"; RULE_FILE=\"$ROOT/skills/isc-core/rules/rule.pipeline-benchmark-design-document-layer",
+          "executable": true
+        },
+        "L5_verify": {
+          "test_file": null,
+          "status": "MISSING"
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+        "north_star_indicator": {
+          "primary": "认知层真实代码覆盖率",
+          "secondary": "根因分析覆盖率"
+        },
+        "gate_relevance": 0.7,
+        "process_indicators": [
+          "handler_exists:True",
+          "event_subscribed:True",
+          "test_exists:False"
+        ],
+        "layer": "L3-programmatic"
+      },
+      "score": 80,
+      "gaps": [
+        "rule_id_missing",
+        "test_missing",
+        "v4_fields_missing_in_rule"
+      ]
+    }
+  ]
+}

@@ -62,5 +62,25 @@
   },
   "enforcement": "programmatic",
   "handler": "scripts/isc-hooks/rule.quality-over-efficiency-over-cost-001.sh",
-  "id": "QUALITY-OVER-EFFICIENCY-OVER-COST-001"
+  "id": "QUALITY-OVER-EFFICIENCY-OVER-COST-001",
+  "scoring_rubric": {
+    "handler_exists": true,
+    "handler_has_logic": false,
+    "test_exists": true,
+    "event_subscribed": true
+  },
+  "north_star_indicator": [
+    "言出法随达成率",
+    "自主闭环率",
+    "认知层真实代码覆盖率",
+    "独立QA覆盖率",
+    "根因分析覆盖率"
+  ],
+  "gate_relevance": 0.4,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_block_count",
+    "false_positive_rate"
+  ],
+  "layer": "L2_project"
 }

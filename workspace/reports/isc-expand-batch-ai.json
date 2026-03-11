@@ -1,0 +1,881 @@
+{
+  "summary": {
+    "total": 20,
+    "handler_exists": 20,
+    "handler_missing": 0,
+    "handler_path_wrong": 0,
+    "no_rule_id": 0,
+    "no_event_subscriptions": 20,
+    "no_v4_fields": 0,
+    "avg_score": 0.62
+  },
+  "patches_applied": [],
+  "rules": [
+    {
+      "rule_path": "skills/isc-core/rules/rule.self-correction-to-rule-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.self-correction-to-rule-001",
+          "description": "检测到行为缺陷/纠偏信号时，必须：1)追究根因（规则缺失？handler缺失？逻辑错误？认知偏差？架构缺陷？）2)基于根因找解决方案（不是基于表象找补丁）3)根据根因类型选择修复路径并执行。根因决定方案，方案决定行动。",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "scripts/isc-hooks/rule.self-correction-to-rule-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "23 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "根因分析覆盖率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=23 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "operational-rule"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.semantic-intent-event-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.semantic-intent-event-001",
+          "description": "不可量化但可监听的意图信号也是事件。反复强调→user.intent.repeated_emphasis，不耐烦→user.intent.frustration，根因分析请求→user.intent.root_cause_request。事件源=对话流，提取靠语义分析，CRAS是探针。",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "scripts/isc-hooks/rule.semantic-intent-event-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "19 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "根因分析覆盖率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=19 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "event-routing"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.skill-distribution-auto-classify-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.skill-distribution-auto-classify-001",
+          "description": "当技能创建或修改时，自动扫描技能内容判断是local还是publishable。检查维度：(1)是否有hardcode绝对路径 (2)是否引用workspace特定文件 (3)是否依赖本地配置/密钥 (4)是否有通用的输入输出接口。全部通过→publishable，任一不通过→local。结果写入SKILL.md的distribution字段。",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "skill.created",
+          "skill.modified"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.skill-distribution-auto-classify-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "31 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "自主闭环率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=31 lines, bash",
+          "events_bound=2"
+        ],
+        "layer": "automation-hook"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.skill-distribution-separation-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.skill-distribution-separation-001",
+          "description": "技能发布到EvoMap前强制检查distribution标记、权限声明、密钥泄露和沙箱兼容性，阻断不合规发布",
+          "priority": "P0"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/isc-skill-distribution-separation-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "33 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 1.0,
+        "process_indicators": [
+          "handler_lines=33 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "enforcement-gate"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.skill.evolution.auto-trigger.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.skill.evolution.auto-trigger",
+          "description": "技能变更时自动触发SEEF进化流水线",
+          "priority": 5
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "scripts/isc-hooks/rule.skill.evolution.auto-trigger.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "31 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "自主闭环率",
+        "gate_relevance": 0.6,
+        "process_indicators": [
+          "handler_lines=31 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "automation-hook"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.skill-mandatory-skill-md-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.skill-mandatory-skill-md-001",
+          "description": "技能强制SKILL.md规则 - 所有技能目录必须包含SKILL.md文件，否则禁止进入流水线",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "skill.created",
+          "skill.modified"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/skill-mandatory-skill-md-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "25 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=25 lines, bash",
+          "events_bound=2"
+        ],
+        "layer": "enforcement-gate"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.skill-no-direct-llm-call-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.skill-no-direct-llm-call-001",
+          "description": "技能代码中禁止直接发HTTP请求调用LLM API（OpenAI/Anthropic/智谱等）。技能使用LLM能力的正确方式：(1)默认用当前Agent的模型直接执行 (2)需要多次独立LLM调用时通过sessions_spawn派子Agent。模型选择是运行时配置层的职责，不是技能的职责。除非用户显式指定某技能绑定某模型。",
+          "priority": "P0"
+        },
+        "L2_events": [
+          "subagent.spawned",
+          "subagent.completed"
+        ],
+        "L3_handler": {
+          "path": "scripts/isc-hooks/rule.skill-no-direct-llm-call-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "19 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "认知层真实代码覆盖率",
+        "gate_relevance": 1.0,
+        "process_indicators": [
+          "handler_lines=19 lines, bash",
+          "events_bound=2"
+        ],
+        "layer": "enforcement-gate"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.skill-post-creation-guard-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.skill-post-creation-guard-001",
+          "description": "任何新技能创建后，必须完成4项后置步骤：注册能力锚点、创建意图路由规则、声明触发条件、验证注册成功。缺任何一项=技能未完成。",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/skill-post-creation-guard-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "31 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=31 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "event-routing"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.spawn-taskboard-hook-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.spawn-taskboard-hook-001",
+          "description": "主Agent每次sessions_spawn后必须调用register-task登记到task-board",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "subagent.spawned",
+          "subagent.completed"
+        ],
+        "L3_handler": {
+          "path": "scripts/isc-hooks/ISC-SPAWN-TASKBOARD-HOOK-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "19 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=19 lines, bash",
+          "events_bound=2"
+        ],
+        "layer": "operational-rule"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.split-multi-intent-analysis-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.split-multi-intent-analysis-001",
+          "description": "多意图查询/分析任务强制拆分并行 — 用户一次提出多个查询/分析问题时，每个问题独立派一个子Agent",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "skills/isc-core/handlers/split-multi-intent-analysis-guard.js",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "142 lines, js",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=142 lines, js",
+          "events_bound=1"
+        ],
+        "layer": "enforcement-gate"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.sprint-closure-acceptance-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.sprint-closure-acceptance-001",
+          "description": "Sprint/Day标记完成前，必须通过四重验收：产物核查、指标采集、经验沉淀、裁决殿裁决。缺任何一项不允许close。",
+          "priority": "P0"
+        },
+        "L2_events": [
+          "sprint.close_requested"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.sprint-closure-acceptance-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "31 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "独立QA覆盖率",
+        "gate_relevance": 1.0,
+        "process_indicators": [
+          "handler_lines=31 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "quality-gate"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.subagent-checkpoint-gate-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.subagent-checkpoint-gate-001",
+          "description": "子Agent任务必须分段执行+分段验证。禁止单次长程任务（>5min或>20k tokens）不产出中间结果。",
+          "priority": "critical"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.subagent-checkpoint-gate-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "17 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "认知层真实代码覆盖率",
+        "gate_relevance": 1.0,
+        "process_indicators": [
+          "handler_lines=17 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "enforcement-gate"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.subagent-report-queue-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.subagent-report-queue-001",
+          "description": "子Agent完成时更新任务看板，并在累计完成>=3时触发统一汇总汇报",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.subagent-report-queue-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "39 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=39 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "operational-rule"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.taskboard-push-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.taskboard-push-001",
+          "description": "show-task-board.sh只是自己看，用户看不到=没做。必须用show-task-board-feishu.sh生成格式化文本并发送给用户。",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "subagent.spawned",
+          "subagent.completed"
+        ],
+        "L3_handler": {
+          "path": "skills/isc-core/handlers/taskboard-push-001.js",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "25 lines, js",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=25 lines, js",
+          "events_bound=2"
+        ],
+        "layer": "operational-rule"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.task-orchestration-quality-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.task-orchestration-quality-001",
+          "description": "Agent任务拆解与协同模式是影响效率的关键。每次任务编排决策必须检查：并行度是否最大化、依赖关系是否真实、任务描述是否精确到一次完成。",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.task-orchestration-quality-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "31 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=31 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "operational-rule"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.threshold-alert-routing-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.threshold-alert-routing-001",
+          "description": "threshold-scanner 发射的4类阈值越界事件统一路由到 notify-alert handler。修复 P0-04：isc.yellow_light / eventbus.size / handler.failure / eventbus.backlog 四种 threshold_crossed 事件无消费路径。",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "threshold.crossed"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.threshold-alert-routing-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "31 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "认知层真实代码覆盖率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=31 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "event-routing"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.timeout-auto-retry-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "ISC-TIMEOUT-AUTO-RETRY-001",
+          "description": "子Agent超时(timed_out/timeout)或失败(failed)时，自动入重试队列，最多重试2次。user_cancelled除外。",
+          "priority": "high"
+        },
+        "L2_events": [
+          "subagent.timed_out",
+          "subagent.failed"
+        ],
+        "L3_handler": {
+          "path": "skills/isc-core/handlers/timeout-auto-retry.js",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "147 lines, js",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "自主闭环率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=147 lines, js",
+          "events_bound=2"
+        ],
+        "layer": "automation-hook"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.tracker-sync-gate-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.tracker-sync-gate-001",
+          "description": "任何任务状态变更必须同步到PROJECT-TRACKER.md。TRACKER是唯一真相源，不同步=状态丢失。",
+          "priority": "P0"
+        },
+        "L2_events": [
+          "system.generic"
+        ],
+        "L3_handler": {
+          "path": "/root/.openclaw/workspace/scripts/isc-hooks/rule.tracker-sync-gate-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "31 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 1.0,
+        "process_indicators": [
+          "handler_lines=31 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "operational-rule"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.umr-domain-routing-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.umr-domain-routing-001",
+          "description": "基于消息payload的domain字段路由user.message，作为意图路由的降级兜底",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "user.message.received"
+        ],
+        "L3_handler": {
+          "path": "scripts/isc-hooks/rule.umr-domain-routing-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "19 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=19 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "event-routing"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    },
+    {
+      "rule_path": "skills/isc-core/rules/rule.umr-intent-routing-001.json",
+      "layers": {
+        "L1_intent": {
+          "rule_id": "rule.umr-intent-routing-001",
+          "description": "基于IntentScanner意图分类(IC1-IC5)将user.message路由到对应处理器",
+          "priority": "P1"
+        },
+        "L2_events": [
+          "user.message.received"
+        ],
+        "L3_handler": {
+          "path": "scripts/isc-hooks/rule.umr-intent-routing-001.sh",
+          "exists": true,
+          "action": null
+        },
+        "L4_execution": "19 lines, bash",
+        "L5_verification": {
+          "test_exists": false,
+          "test_path": null
+        }
+      },
+      "v4_audit": {
+        "scoring_rubric": {
+          "completeness": 1.0,
+          "handler_real": 1.0,
+          "event_bound": 0.5,
+          "test_covered": 0.0
+        },
+        "score_avg": 0.62,
+        "north_star_indicator": "言出法随达成率",
+        "gate_relevance": 0.8,
+        "process_indicators": [
+          "handler_lines=19 lines, bash",
+          "events_bound=1"
+        ],
+        "layer": "event-routing"
+      },
+      "issues": [
+        "no_event_subscriptions",
+        "no_test"
+      ]
+    }
+  ]
+}

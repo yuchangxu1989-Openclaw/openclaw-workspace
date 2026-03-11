@@ -8556,39 +8556,89 @@
     "label": "live-a03e9c66",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "sessionId": "cd14f924-39db-4d4b-8217-21877dfde50a",
     "spawnTime": "2026-03-11T00:12:55.641Z",
-    "source": "live-sync"
+    "source": "live-sync",
+    "completeTime": "2026-03-11T00:16:35.979Z",
+    "result_summary": "(已完成，看板清理)"
   },
   {
     "taskId": "4179b2b2-464a-4813-9a3f-275b838d36ae",
     "label": "live-4179b2b2",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "sessionId": "6371601c-2e68-4619-b600-5e246f34ad8f",
     "spawnTime": "2026-03-11T00:07:28.659Z",
-    "source": "live-sync"
+    "source": "live-sync",
+    "completeTime": "2026-03-11T00:16:35.979Z",
+    "result_summary": "(已完成，看板清理)"
   },
   {
     "taskId": "2a1cbf5b-d5e8-4007-a287-afbd03744e67",
     "label": "live-2a1cbf5b",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "sessionId": "ae6203e9-8817-45bc-8f2a-34ce476bdc67",
     "spawnTime": "2026-03-11T00:03:40.814Z",
-    "source": "live-sync"
+    "source": "live-sync",
+    "completeTime": "2026-03-11T00:16:35.979Z",
+    "result_summary": "(已完成，看板清理)"
   },
   {
     "taskId": "d2fff3c8-36af-4a57-a163-7445fd9c4092",
     "label": "live-d2fff3c8",
     "agentId": "main",
     "model": "claude-opus-4-6-thinking",
-    "status": "running",
+    "status": "done",
     "sessionId": "abf58273-e69e-4e1a-8656-b3805ad63b04",
     "spawnTime": "2026-03-11T00:01:13.344Z",
-    "source": "live-sync"
+    "source": "live-sync",
+    "completeTime": "2026-03-11T00:16:35.979Z",
+    "result_summary": "(已完成，看板清理)"
+  },
+  {
+    "taskId": "isc-full-pce-expand",
+    "label": "isc-full-pce-expand",
+    "description": "ISC 189条规则5层展开+V4审计",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-11T00:04:53Z",
+    "source": "manual-sync",
+    "result_summary": "(超时任务自动回收 — session疑似卡住)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-11T00:18:01.779Z",
+    "fixed_reason": "session 32分钟未更新(stopReason=N/A)"
+  },
+  {
+    "taskId": "create-qa-audit-skill",
+    "label": "create-qa-audit-skill",
+    "description": "创建统一质量审计技能",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-11T00:05:37Z",
+    "source": "manual-sync",
+    "result_summary": "(超时任务自动回收 — session疑似卡住)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-11T00:18:01.779Z",
+    "fixed_reason": "session 32分钟未更新(stopReason=N/A)"
+  },
+  {
+    "taskId": "check-skill-discovery",
+    "label": "check-skill-discovery",
+    "description": "核查技能发现器为何无效",
+    "agentId": "main",
+    "model": "claude-opus-4-6-thinking",
+    "status": "timeout",
+    "spawnTime": "2026-03-11T00:06:09Z",
+    "source": "manual-sync",
+    "result_summary": "(超时任务自动回收 — session疑似卡住)",
+    "auto_fixed": true,
+    "fixed_at": "2026-03-11T00:18:01.779Z",
+    "fixed_reason": "session 32分钟未更新(stopReason=N/A)"
   }
 ]

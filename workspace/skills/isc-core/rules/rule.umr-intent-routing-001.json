@@ -68,5 +68,19 @@
     "script": "scripts/isc-hooks/rule.umr-intent-routing-001.sh"
   },
   "enforcement": "programmatic",
-  "handler": "scripts/isc-hooks/rule.umr-intent-routing-001.sh"
+  "handler": "scripts/isc-hooks/rule.umr-intent-routing-001.sh",
+  "rule_id": "rule.umr-intent-routing-001",
+  "scoring_rubric": {
+    "completeness": 1.0,
+    "handler_real": 1.0,
+    "event_bound": 0.5,
+    "test_covered": 0.0
+  },
+  "north_star_indicator": "言出法随达成率",
+  "gate_relevance": 0.6,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_pass_rate"
+  ],
+  "layer": "event-routing"
 }

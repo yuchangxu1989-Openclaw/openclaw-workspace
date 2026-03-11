@@ -21,5 +21,18 @@
   },
   "enforcement": "programmatic",
   "fullchain_status": "expanded",
-  "handler": "scripts/isc-hooks/rule.pipeline-benchmark-defect-acknowledged-001.sh"
+  "handler": "scripts/isc-hooks/rule.pipeline-benchmark-defect-acknowledged-001.sh",
+  "rule_id": "PIPELINE_BENCHMARK_D",
+  "scoring_rubric": "handler可执行+逻辑匹配描述=60%; 事件订阅完整=20%; 测试覆盖=20%",
+  "north_star_indicator": {
+    "primary": "认知层真实代码覆盖率",
+    "secondary": "根因分析覆盖率"
+  },
+  "gate_relevance": 0.7,
+  "process_indicators": [
+    "handler_exists:True",
+    "event_subscribed:True",
+    "test_exists:False"
+  ],
+  "layer": "L3-programmatic"
 }

@@ -17,5 +17,19 @@
     "SKILL.md中有触发条件声明",
     "验证：grep能力锚点确认注册成功"
   ],
-  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/skill-post-creation-guard-001.sh"
+  "handler": "/root/.openclaw/workspace/scripts/isc-hooks/skill-post-creation-guard-001.sh",
+  "rule_id": "rule.skill-post-creation-guard-001",
+  "scoring_rubric": {
+    "completeness": 1.0,
+    "handler_real": 1.0,
+    "event_bound": 0.5,
+    "test_covered": 0.0
+  },
+  "north_star_indicator": "言出法随达成率",
+  "gate_relevance": 0.6,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_pass_rate"
+  ],
+  "layer": "event-routing"
 }

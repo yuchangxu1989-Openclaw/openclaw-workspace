@@ -43,5 +43,25 @@
   "enforcement": "runtime_binding",
   "enforcement_tier": "P0_gate",
   "schema_version": "2.0",
-  "handler": "handlers/project-artifact-settlement-001.js"
+  "handler": "handlers/project-artifact-settlement-001.js",
+  "scoring_rubric": {
+    "handler_exists": true,
+    "handler_has_logic": false,
+    "test_exists": true,
+    "event_subscribed": true
+  },
+  "north_star_indicator": [
+    "言出法随达成率",
+    "自主闭环率",
+    "认知层真实代码覆盖率",
+    "独立QA覆盖率",
+    "根因分析覆盖率"
+  ],
+  "gate_relevance": 1,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_block_count",
+    "false_positive_rate"
+  ],
+  "layer": "L2_project"
 }

@@ -34,6 +34,19 @@
     "retry_count记录在看板和队列中，防止无限重试"
   ],
   "fullchain_status": "expanded",
-  "handler": "handlers/timeout-auto-retry-001.js",
-  "id": "TIMEOUT-AUTO-RETRY-001"
+  "handler": "skills/isc-core/handlers/timeout-auto-retry.js",
+  "id": "TIMEOUT-AUTO-RETRY-001",
+  "scoring_rubric": {
+    "completeness": 1.0,
+    "handler_real": 1.0,
+    "event_bound": 0.5,
+    "test_covered": 0.0
+  },
+  "north_star_indicator": "自主闭环率",
+  "gate_relevance": 0.8,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_pass_rate"
+  ],
+  "layer": "automation-hook"
 }

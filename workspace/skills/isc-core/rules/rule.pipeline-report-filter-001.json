@@ -71,5 +71,25 @@
     "handler": "pipeline-report-filter",
     "type": "handler"
   },
-  "handler": "handlers/pipeline-report-filter-001.js"
+  "handler": "handlers/pipeline-report-filter-001.js",
+  "scoring_rubric": {
+    "handler_exists": true,
+    "handler_has_logic": false,
+    "test_exists": true,
+    "event_subscribed": true
+  },
+  "north_star_indicator": [
+    "言出法随达成率",
+    "自主闭环率",
+    "认知层真实代码覆盖率",
+    "独立QA覆盖率",
+    "根因分析覆盖率"
+  ],
+  "gate_relevance": 0.7,
+  "process_indicators": [
+    "handler_execution_count",
+    "gate_block_count",
+    "false_positive_rate"
+  ],
+  "layer": "L1_orchestration"
 }
