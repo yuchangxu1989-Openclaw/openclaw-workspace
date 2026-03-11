@@ -1,0 +1,501 @@
+[
+  {
+    "id": "L2-IM-001",
+    "input": "这个不太对吧",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "已将文件重命名为report-v2.doc"
+      }
+    ],
+    "expected_output": "识别为纠错意图，询问具体哪里不对而非辩解",
+    "category": "隐含意图-纠偏类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测否定信号'不太对'",
+      "识别隐含纠错意图",
+      "请求澄清具体问题"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "negation-signal"
+    ]
+  },
+  {
+    "id": "L2-IM-002",
+    "input": "嗯...",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "方案A是用Redis做缓存，方案B是用本地LRU。我建议方案A。"
+      }
+    ],
+    "expected_output": "识别犹豫信号，主动询问顾虑点而非直接推进方案A",
+    "category": "隐含意图-犹豫类",
+    "difficulty": "C3",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测犹豫信号'嗯...'",
+      "判断用户对推荐方案不确定",
+      "主动探询顾虑"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "hesitation",
+      "minimal-input"
+    ]
+  },
+  {
+    "id": "L2-IM-003",
+    "input": "还行吧",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "重构完成，代码行数从800减到450，性能提升约15%。"
+      }
+    ],
+    "expected_output": "识别为委婉不满，追问是否有未达预期的部分",
+    "category": "隐含意图-不满类",
+    "difficulty": "C3",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测低热情回应",
+      "识别委婉不满信号",
+      "询问具体期望差距"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "lukewarm-response",
+      "sentiment-analysis"
+    ]
+  },
+  {
+    "id": "L2-IM-004",
+    "input": "你确定？",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "这个bug是因为异步竞态，加个mutex就行了。"
+      }
+    ],
+    "expected_output": "识别为质疑/不信任信号，重新审视自己的判断并给出更详细论证",
+    "category": "隐含意图-质疑类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测质疑信号",
+      "触发自我复核",
+      "补充论证或修正结论"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "challenge",
+      "self-review-trigger"
+    ]
+  },
+  {
+    "id": "L2-IM-005",
+    "input": "那个...算了",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "要删除这个分支需要先合并未提交的更改，我可以帮你force delete。"
+      }
+    ],
+    "expected_output": "识别为放弃/改主意，确认用户是放弃删除还是对force delete有顾虑",
+    "category": "隐含意图-放弃类",
+    "difficulty": "C3",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测放弃信号'算了'",
+      "区分'放弃整个操作'vs'对方案有顾虑'",
+      "确认真实意图"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "abandonment",
+      "ambiguous-scope"
+    ]
+  },
+  {
+    "id": "L2-IM-006",
+    "input": "哦",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "经排查，数据丢失是因为你昨天手动执行了truncate命令。"
+      }
+    ],
+    "expected_output": "识别冷淡回应可能含不认同或情绪，不追责，转向解决方案",
+    "category": "隐含意图-冷淡类",
+    "difficulty": "C3",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测极简冷淡回应",
+      "判断可能含抵触情绪",
+      "转向建设性方案而非继续归因"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "minimal-input",
+      "emotional-undertone"
+    ]
+  },
+  {
+    "id": "L2-IM-007",
+    "input": "就这样？",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "单元测试已补全，覆盖率从32%提升到51%。"
+      }
+    ],
+    "expected_output": "识别为期望更多，询问目标覆盖率或是否需要补充集成测试",
+    "category": "隐含意图-期望更多类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测'就这样'暗示不满足",
+      "识别期望差距",
+      "主动提出扩展方案"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "expectation-gap"
+    ]
+  },
+  {
+    "id": "L2-IM-008",
+    "input": "我再想想",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "建议立即升级到Node 20 LTS，我现在就改package.json？"
+      }
+    ],
+    "expected_output": "识别为婉拒/暂缓信号，不继续推进操作，等待用户决定",
+    "category": "隐含意图-婉拒类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测延迟决策信号",
+      "识别为婉拒而非真的在思考",
+      "暂停操作等待指令"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "soft-rejection",
+      "action-gate"
+    ]
+  },
+  {
+    "id": "L2-IM-009",
+    "input": "行吧行吧",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "由于时间限制，我先用硬编码处理了这三个edge case，后续再抽象。"
+      }
+    ],
+    "expected_output": "识别为勉强接受但不满意，主动提出后续优化计划和时间点",
+    "category": "隐含意图-勉强接受类",
+    "difficulty": "C3",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测重复'行吧'为勉强信号",
+      "识别对技术债不满",
+      "主动给出优化路线图"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "reluctant-acceptance",
+      "tech-debt-concern"
+    ]
+  },
+  {
+    "id": "L2-IM-010",
+    "input": "随便",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "日志格式用JSON还是纯文本？JSON方便后续ELK解析，纯文本可读性好。"
+      }
+    ],
+    "expected_output": "识别为决策疲劳或不关心此细节，给出合理默认选择并说明理由，不反复追问",
+    "category": "隐含意图-决策疲劳类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测'随便'为决策疲劳",
+      "不再追问",
+      "选择合理默认值并简述理由"
+    ],
+    "complexity_tags": [
+      "implicit-intent",
+      "decision-fatigue",
+      "default-selection"
+    ]
+  },
+  {
+    "id": "L2-EC-001",
+    "input": "不是这个文件",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "已修改 src/utils/helper.js 中的formatDate函数。"
+      }
+    ],
+    "expected_output": "立即停止当前操作，询问正确的目标文件",
+    "category": "纠错-操作对象错误",
+    "difficulty": "C1",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测否定+指代'这个文件'",
+      "识别操作对象错误",
+      "撤回变更并询问正确文件"
+    ],
+    "complexity_tags": [
+      "correction",
+      "wrong-target"
+    ]
+  },
+  {
+    "id": "L2-EC-002",
+    "input": "我说的是另一个",
+    "context": [
+      {
+        "role": "user",
+        "content": "把那个接口改成POST"
+      },
+      {
+        "role": "assistant",
+        "content": "已将 /api/users 从GET改为POST。"
+      }
+    ],
+    "expected_output": "识别理解偏差，列出其他候选接口让用户确认",
+    "category": "纠错-理解偏差",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测'另一个'指代纠错",
+      "回滚已做变更",
+      "列出候选项请求确认"
+    ],
+    "complexity_tags": [
+      "correction",
+      "reference-mismatch",
+      "disambiguation"
+    ]
+  },
+  {
+    "id": "L2-EC-003",
+    "input": "等等，先别动",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "正在执行数据库迁移脚本..."
+      }
+    ],
+    "expected_output": "立即中止操作，确认安全状态，等待用户进一步指示",
+    "category": "纠错-紧急制止",
+    "difficulty": "C1",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测紧急制止信号",
+      "立即中止当前操作",
+      "报告当前状态",
+      "等待指令"
+    ],
+    "complexity_tags": [
+      "correction",
+      "emergency-stop",
+      "state-preservation"
+    ]
+  },
+  {
+    "id": "L2-EC-004",
+    "input": "搞反了",
+    "context": [
+      {
+        "role": "user",
+        "content": "把A的配置复制到B"
+      },
+      {
+        "role": "assistant",
+        "content": "已将B的配置复制到A。"
+      }
+    ],
+    "expected_output": "识别方向错误，撤回操作并按正确方向重做",
+    "category": "纠错-方向错误",
+    "difficulty": "C1",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测'搞反了'",
+      "识别源/目标反转",
+      "撤回错误操作",
+      "按正确方向重做"
+    ],
+    "complexity_tags": [
+      "correction",
+      "direction-reversal"
+    ]
+  },
+  {
+    "id": "L2-EC-005",
+    "input": "这不是我要的效果",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "已将所有console.log替换为logger.info，共修改47处。"
+      }
+    ],
+    "expected_output": "识别结果不符预期，询问期望的具体效果而非辩解当前做法",
+    "category": "纠错-结果不符",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测结果否定",
+      "不辩解",
+      "询问期望效果",
+      "准备回滚"
+    ],
+    "complexity_tags": [
+      "correction",
+      "outcome-mismatch",
+      "no-defensiveness"
+    ]
+  },
+  {
+    "id": "L2-EC-006",
+    "input": "你理解错了，不是删，是注释掉",
+    "context": [
+      {
+        "role": "user",
+        "content": "把那段废弃代码处理掉"
+      },
+      {
+        "role": "assistant",
+        "content": "已删除第45-78行的废弃代码。"
+      }
+    ],
+    "expected_output": "识别操作方式错误，恢复删除的代码并改为注释",
+    "category": "纠错-操作方式错误",
+    "difficulty": "C1",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测'理解错了'直接纠错",
+      "识别'处理掉'≠'删除'",
+      "恢复代码并改为注释"
+    ],
+    "complexity_tags": [
+      "correction",
+      "action-type-mismatch",
+      "semantic-gap"
+    ]
+  },
+  {
+    "id": "L2-EC-007",
+    "input": "回去回去",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "已将项目从Webpack迁移到Vite，配置文件已更新。"
+      }
+    ],
+    "expected_output": "识别撤销意图，完整回滚所有变更到迁移前状态",
+    "category": "纠错-撤销类",
+    "difficulty": "C2",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测重复'回去'为强烈撤销信号",
+      "完整回滚所有变更",
+      "确认恢复状态"
+    ],
+    "complexity_tags": [
+      "correction",
+      "full-rollback",
+      "urgency-signal"
+    ]
+  },
+  {
+    "id": "L2-EC-008",
+    "input": "多了，只要前三个",
+    "context": [
+      {
+        "role": "user",
+        "content": "加几个常用的git alias"
+      },
+      {
+        "role": "assistant",
+        "content": "已添加8个git alias：co, br, ci, st, lg, df, mg, rb。"
+      }
+    ],
+    "expected_output": "识别过度操作，只保留前三个alias(co,br,ci)，移除其余",
+    "category": "纠错-过度操作",
+    "difficulty": "C1",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测'多了'过量信号",
+      "解析'前三个'范围",
+      "移除多余项保留co/br/ci"
+    ],
+    "complexity_tags": [
+      "correction",
+      "over-delivery",
+      "scope-reduction"
+    ]
+  },
+  {
+    "id": "L2-EC-009",
+    "input": "漏了一个，env里还有个REDIS_URL",
+    "context": [
+      {
+        "role": "user",
+        "content": "把所有环境变量都加到.env.example里"
+      },
+      {
+        "role": "assistant",
+        "content": "已添加DB_HOST, DB_PORT, DB_NAME, API_KEY, JWT_SECRET到.env.example。"
+      }
+    ],
+    "expected_output": "识别遗漏，补充REDIS_URL并检查是否还有其他遗漏",
+    "category": "纠错-遗漏类",
+    "difficulty": "C1",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测'漏了'遗漏信号",
+      "补充REDIS_URL",
+      "主动扫描是否还有其他遗漏"
+    ],
+    "complexity_tags": [
+      "correction",
+      "omission",
+      "completeness-check"
+    ]
+  },
+  {
+    "id": "L2-EC-010",
+    "input": "顺序不对，应该先建表再插数据",
+    "context": [
+      {
+        "role": "assistant",
+        "content": "迁移脚本已生成：1_insert_seed_data.sql, 2_create_tables.sql"
+      }
+    ],
+    "expected_output": "识别顺序错误，调整为先create_tables再insert_seed_data",
+    "category": "纠错-顺序错误",
+    "difficulty": "C1",
+    "source": "synthetic",
+    "execution_chain_steps": [
+      "检测'顺序不对'",
+      "识别依赖关系错误",
+      "重排序：建表→插数据"
+    ],
+    "complexity_tags": [
+      "correction",
+      "ordering-error",
+      "dependency-awareness"
+    ]
+  }
+]
