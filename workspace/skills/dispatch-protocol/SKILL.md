@@ -194,3 +194,23 @@ sessions_spawn({
 | dispatch-guard.js | `/root/.openclaw/workspace/scripts/dispatch-guard.js` | 负载感知+agent分配 |
 | main-tool-whitelist.js | `/root/.openclaw/workspace/scripts/main-tool-whitelist.js` | 工具权限验证 |
 | elevate-main.sh | `/root/.openclaw/workspace/scripts/elevate-main.sh` | 临时授权（10分钟） |
+| model-router.sh | `skills/dispatch-protocol/model-router.sh` | 模型路由决策（Tier1/Tier3/默认） |
+
+## 收编脚本
+
+| 脚本 | 原路径 | 用途 |
+|:-----|:------|:-----|
+| `model-router.sh` | `scripts/model-router.sh`（已symlink） | 模型路由决策：根据任务描述关键词输出建议的model参数和agentId |
+
+### model-router.sh
+
+基于GLM-5路由方案（2026-03-10），三层路由：
+- Tier 1 (GLM-5)：格式修复、字段补全、批量、翻译等低复杂度任务
+- Tier 3 (Opus)：架构、裁决、深度推理等高复杂度任务
+- 默认 (Claude)：安全兜底
+
+```bash
+bash skills/dispatch-protocol/model-router.sh "修复这个JSON格式错误"
+bash skills/dispatch-protocol/model-router.sh "设计微服务架构方案"
+JSON_OUTPUT=1 bash skills/dispatch-protocol/model-router.sh "批量翻译文档"
+```

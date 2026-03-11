@@ -123,10 +123,25 @@ result = seef.run_flexible_chain(
 )
 ```
 
+## 收编脚本
+
+| 脚本 | 原路径 | 用途 |
+|:-----|:------|:-----|
+| `skillify-candidates.sh` | `scripts/skillify-candidates.sh`（已symlink） | 技能发现→技能化闭环执行器：扫描缺少SKILL.md的候选目录，自动创建技能骨架 |
+
+### skillify-candidates.sh
+
+技能发现闭环的最后一环。读取发现器报告，为 `skills/` 和 `scripts/` 下缺少 SKILL.md 的候选目录自动生成技能骨架。
+
+```bash
+bash skills/seef/skillify-candidates.sh
+```
+
 ## 版本历史
 
 | 版本 | 时间 | 变更 |
 |:-----|:-----|:-----|
+| 3.0.4 | 2026-03-12 | 收编 skillify-candidates.sh |
 | 3.0.3 | 2026-02-23 | 初始版本，七大子技能完整定义 |
 
 ---

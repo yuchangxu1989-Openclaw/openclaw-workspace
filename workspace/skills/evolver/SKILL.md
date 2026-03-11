@@ -109,5 +109,20 @@ npm install -g evolver@latest
 
 Latest releases and changelog: `https://github.com/autogame-17/evolver/releases`
 
+## 收编脚本
+
+| 脚本 | 原路径 | 用途 |
+|:-----|:------|:-----|
+| `evolution-daily-report.js` | `scripts/evolution-daily-report.js`（已symlink） | 自主进化日报系统：每天自动总结复盘当天进化，关键沉淀自动闭环，推送飞书文档 |
+
+### evolution-daily-report.js
+
+每日22:00由cron触发，收集任务看板、PDCA、badcase、memory、git log、CRAS数据，生成进化日报并推送飞书。
+
+```bash
+node skills/evolver/evolution-daily-report.js
+node skills/evolver/evolution-daily-report.js --test  # 仅测试飞书连通性
+```
+
 ## License
 MIT

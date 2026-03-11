@@ -1,23 +1,30 @@
 'use strict';
 
+const { execSync } = require('child_process');
+const path = require('path');
+
 /**
- * seef - 技能入口
- * 自动生成的骨架，请实现具体逻辑。
+ * seef - 技能生态进化工厂入口
+ * 子技能：skillify-candidates.sh（技能发现→技能化闭环）
  */
 
 async function run(input, context) {
   const logger = context?.logger || console;
-  logger.info?.(`[seef] 执行开始`);
+  const action = input?.action || 'skillify';
 
-  // TODO: 实现 seef 的核心逻辑
-  const result = {
-    ok: true,
-    skill: 'seef',
-    message: 'seef 执行完成（骨架）',
-  };
+  if (action === 'skillify') {
+    logger.info?.('[seef] 执行 skillify-candidates.sh');
+    const script = path.join(__dirname, 'skillify-candidates.sh');
+    const output = execSync(`bash "${script}"`, {
+      cwd: path.join(__dirname, '../..'),
+      encoding: 'utf8',
+      timeout: 60000,
+    });
+    logger.info?.(`[seef] skillify 完成`);
+    return { ok: true, skill: 'seef', action, output: output.trim() };
+  }
 
-  logger.info?.(`[seef] 执行完成`);
-  return result;
+  return { ok: true, skill: 'seef', message: `未知 action: ${action}，支持: skillify` };
 }
 
 module.exports = run;

@@ -263,3 +263,24 @@ bash /root/.openclaw/workspace/scripts/update-task.sh <taskId或label> <done|fai
 不回写 = 看板数据不准 = Badcase。
 
 完整流程：spawn → register-task.sh → 等completion → update-task.sh
+
+## 收编脚本
+
+| 脚本 | 原路径 | 用途 |
+|:-----|:------|:-----|
+| `check-stale-tasks.js` | `scripts/check-stale-tasks.js`（已symlink） | 检测看板中的僵尸running任务，对比session实际状态，可自动修正 |
+| `cleanup-stale-tasks.sh` | `scripts/cleanup-stale-tasks.sh`（已symlink） | 清理任务看板中的陈旧timeout任务，按模式匹配归档 |
+
+### check-stale-tasks.js
+
+```bash
+node skills/public/multi-agent-dispatch/check-stale-tasks.js           # 只报告
+node skills/public/multi-agent-dispatch/check-stale-tasks.js --fix     # 自动修正
+node skills/public/multi-agent-dispatch/check-stale-tasks.js --fix --timeout 15  # 自定义超时阈值
+```
+
+### cleanup-stale-tasks.sh
+
+```bash
+node skills/public/multi-agent-dispatch/cleanup-stale-tasks.sh
+```
