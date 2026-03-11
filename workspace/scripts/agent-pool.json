@@ -1,0 +1,10 @@
+{
+  "pool": [
+    "researcher", "coder", "reviewer", "writer", "analyst", "scout", "cron-worker",
+    "researcher-02", "coder-02", "reviewer-02", "writer-02", "analyst-02", "scout-02", "cron-worker-02",
+    "worker-03", "worker-04", "worker-05", "worker-06"
+  ],
+  "strategy": "round-robin-free-first",
+  "stale_minutes": 15,
+  "description": "Agent调度池配置。strategy=round-robin-free-first表示优先分配空闲agent，空闲列表内按顺序轮转。"
+}

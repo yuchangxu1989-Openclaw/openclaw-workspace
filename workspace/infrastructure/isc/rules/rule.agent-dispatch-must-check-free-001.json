@@ -1,0 +1,74 @@
+{
+  "id": "rule.agent-dispatch-must-check-free-001",
+  "rule_name": "子Agent派发前必须检查空闲",
+  "version": "1.0.0",
+  "severity": "critical",
+  "description": "每次调用sessions_spawn派发子Agent任务前，必须先通过get-free-agent.sh检查目标agentId是否空闲。禁止盲派、禁止派给main。",
+  "source": "用户铁令：子Agent必须分配到不同agentId，不能全挤一个key",
+  "trigger": {
+    "events": [
+      "subagent.task.dispatch",
+      "sessions.spawn.before"
+    ],
+    "description": "任何子Agent派发动作触发前拦截",
+    "actions": [
+      {
+        "type": "gate-check",
+        "description": "验证agentId不为空、不为main、且该agent当前空闲",
+        "behavior": "block_if_busy_or_invalid"
+      }
+    ],
+    "event": "subagent.task.dispatch"
+  },
+  "conditions": {
+    "all": [
+      {
+        "field": "agentId",
+        "operator": "not_empty",
+        "description": "agentId不能为空"
+      },
+      {
+        "field": "agentId",
+        "operator": "not_equals",
+        "value": "main",
+        "description": "禁止派给main（main只做调度和汇报）"
+      },
+      {
+        "field": "agentId",
+        "operator": "in_pool",
+        "value": "scripts/agent-pool.json:pool",
+        "description": "agentId必须在调度池内"
+      },
+      {
+        "field": "agentId",
+        "operator": "is_free",
+        "check_command": "bash scripts/get-free-agent.sh | grep -qx ${agentId}",
+        "description": "目标agent必须当前空闲（15分钟内无活跃session）"
+      }
+    ]
+  },
+  "handler": {
+    "type": "pre-dispatch-validator",
+    "script": "scripts/get-free-agent.sh",
+    "on_violation": {
+      "action": "block_and_reassign",
+      "description": "如果目标agent忙碌，自动从空闲池中选取替代agent",
+      "fallback_command": "bash scripts/get-free-agent.sh"
+    }
+  },
+  "enforcement": {
+    "level": "mandatory",
+    "bypass_allowed": false,
+    "audit_log": true,
+    "description": "强制执行，不可绕过。每次派发都记录审计日志。"
+  },
+  "five_layer_expansion": {
+    "intent": "确保每个子Agent任务分配到独立的、空闲的agentId，避免key争抢和资源浪费",
+    "event": "主Agent准备调用sessions_spawn时，触发pre-dispatch校验",
+    "plan": "1.读取agent-pool.json获取池 2.执行get-free-agent.sh获取空闲列表 3.验证目标agentId在空闲列表中 4.不在则自动替换",
+    "execute": "get-free-agent.sh扫描各agent的session目录+task-board双重确认，输出空闲agentId",
+    "verify": "派发后检查sessions_spawn返回的sessionId确实绑定到了正确的agentId"
+  },
+  "created_at": "2026-03-11T01:21:00.000Z",
+  "tags": ["agent-dispatch", "resource-management", "iron-rule"]
+}
