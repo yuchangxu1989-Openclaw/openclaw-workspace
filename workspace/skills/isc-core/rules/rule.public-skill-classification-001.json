@@ -1,55 +1,56 @@
 {
-  "id": "rule.public-skill-classification-001",
-  "version": "1.0.0",
-  "name": "可销售技能分类门禁",
-  "description": "新建或修改技能时，自动判断是否为通用可销售技能，符合条件的必须放入skills/public/",
-  "priority": "P1_process",
-  "domain": "skill",
-  "category": "governance",
-  "trigger": {
-    "events": [
-      "skill.created",
-      "skill.modified",
-      "skill.skill_md.updated"
+    "id": "rule.public-skill-classification-001",
+    "event_type": "skill.created",
+    "name": "可销售技能分类门禁",
+    "description": "新建或修改技能时，自动判断是否为通用可销售技能，符合条件的必须放入skills/public/",
+    "priority": "P1_process",
+    "version": "1.0.0",
+    "domain": "skill",
+    "category": "governance",
+    "trigger": {
+        "events": [
+            "skill.created",
+            "skill.modified",
+            "skill.skill_md.updated"
+        ],
+        "event": "skill.created"
+    },
+    "conditions": {
+        "is_public_skill": {
+            "all_of": [
+                "无硬编码路径（绝对路径/用户ID/机器特定配置）",
+                "零外部业务依赖（不依赖ISC/本地任务编排/CRAS等内部系统）",
+                "有标准SKILL.md（含name+description frontmatter）",
+                "凭据从openclaw.json或环境变量读取，不写死"
+            ]
+        }
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.public-skill-classification-001.sh"
+    },
+    "created_at": "2026-03-06T02:38:00Z",
+    "created_by": "ruleify",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/public-skill-classification.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "event": "skill.created"
-  },
-  "conditions": {
-    "is_public_skill": {
-      "all_of": [
-        "无硬编码路径（绝对路径/用户ID/机器特定配置）",
-        "零外部业务依赖（不依赖ISC/本地任务编排/CRAS等内部系统）",
-        "有标准SKILL.md（含name+description frontmatter）",
-        "凭据从openclaw.json或环境变量读取，不写死"
-      ]
-    }
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.public-skill-classification-001.sh"
-  },
-  "created_at": "2026-03-06T02:38:00Z",
-  "created_by": "ruleify",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/public-skill-classification.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 0.7,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "gate_relevance": 0.7,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
+    ],
+    "layer": "L2_project"
 }

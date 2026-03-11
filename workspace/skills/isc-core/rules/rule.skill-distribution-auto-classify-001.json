@@ -1,44 +1,45 @@
 {
-  "id": "rule.skill-distribution-auto-classify-001",
-  "name": "技能本地/可销售自动分类",
-  "description": "当技能创建或修改时，自动扫描技能内容判断是local还是publishable。检查维度：(1)是否有hardcode绝对路径 (2)是否引用workspace特定文件 (3)是否依赖本地配置/密钥 (4)是否有通用的输入输出接口。全部通过→publishable，任一不通过→local。结果写入SKILL.md的distribution字段。",
-  "version": "1.0.0",
-  "priority": "P1",
-  "category": "skill-governance",
-  "trigger": {
-    "events": [
-      "skill.lifecycle.created",
-      "skill.lifecycle.modified"
+    "id": "rule.skill-distribution-auto-classify-001",
+    "rule_id": "rule.skill-distribution-auto-classify-001",
+    "event_type": "skill.lifecycle.created",
+    "name": "技能本地/可销售自动分类",
+    "description": "当技能创建或修改时，自动扫描技能内容判断是local还是publishable。检查维度：(1)是否有hardcode绝对路径 (2)是否引用workspace特定文件 (3)是否依赖本地配置/密钥 (4)是否有通用的输入输出接口。全部通过→publishable，任一不通过→local。结果写入SKILL.md的distribution字段。",
+    "priority": "P1",
+    "version": "1.0.0",
+    "category": "skill-governance",
+    "trigger": {
+        "events": [
+            "skill.lifecycle.created",
+            "skill.lifecycle.modified"
+        ],
+        "actions": [
+            "skill.classification.auto_detect",
+            "skill.metadata.update_distribution"
+        ],
+        "event": "skill.lifecycle.created"
+    },
+    "conditions": {},
+    "action": {
+        "type": "check",
+        "handler": "classify-skill-distribution",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.skill-distribution-auto-classify-001.sh"
+    },
+    "rationale": "用户原话：'需要区分，但只有记忆不够，需要通过事件来识别和区分'",
+    "created_at": "2026-03-06T01:46:00+08:00",
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/skill-distribution-auto-classify.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "自主闭环率",
+    "gate_relevance": 0.8,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
     ],
-    "actions": [
-      "skill.classification.auto_detect",
-      "skill.metadata.update_distribution"
-    ],
-    "event": "skill.lifecycle.created"
-  },
-  "conditions": {},
-  "action": {
-    "type": "check",
-    "handler": "classify-skill-distribution",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.skill-distribution-auto-classify-001.sh"
-  },
-  "rationale": "用户原话：'需要区分，但只有记忆不够，需要通过事件来识别和区分'",
-  "created_at": "2026-03-06T01:46:00+08:00",
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/skill-distribution-auto-classify.js",
-  "rule_id": "rule.skill-distribution-auto-classify-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "自主闭环率",
-  "gate_relevance": 0.8,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "automation-hook"
+    "layer": "automation-hook"
 }

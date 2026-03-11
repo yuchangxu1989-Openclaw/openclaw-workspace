@@ -1,90 +1,91 @@
 {
-  "rule_id": "rule.tracker-sync-gate-001",
-  "name": "PROJECT-TRACKER 同步门禁",
-  "version": "1.0.0",
-  "priority": "P0",
-  "type": "gate",
-  "enforcement_tier": "P0_block",
-  "domain": "project-mgmt",
-  "scope": "tracker",
-  "description": "任何任务状态变更必须同步到PROJECT-TRACKER.md。TRACKER是唯一真相源，不同步=状态丢失。",
-  "rationale": "PROJECT-TRACKER已声明自己是唯一真相源，但之前没有机器级强制同步机制，导致tracker与实际状态脱节。",
-  "trigger": {
-    "events": [
-      "task.status.changed",
-      "task.created",
-      "task.expanded",
-      "subtask.created",
-      "sprint.started",
-      "sprint.completed"
+    "id": "TRACKER-SYNC-GATE-001",
+    "rule_id": "rule.tracker-sync-gate-001",
+    "event_type": "task.status.changed",
+    "name": "PROJECT-TRACKER 同步门禁",
+    "description": "任何任务状态变更必须同步到PROJECT-TRACKER.md。TRACKER是唯一真相源，不同步=状态丢失。",
+    "priority": "P0",
+    "version": "1.0.0",
+    "type": "gate",
+    "enforcement_tier": "P0_block",
+    "domain": "project-mgmt",
+    "scope": "tracker",
+    "rationale": "PROJECT-TRACKER已声明自己是唯一真相源，但之前没有机器级强制同步机制，导致tracker与实际状态脱节。",
+    "trigger": {
+        "events": [
+            "task.status.changed",
+            "task.created",
+            "task.expanded",
+            "subtask.created",
+            "sprint.started",
+            "sprint.completed"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "自动同步状态到PROJECT-TRACKER.md"
+            }
+        ],
+        "event": "task.status.changed"
+    },
+    "conditions": {
+        "sync_rules": [
+            {
+                "event": "task.created",
+                "action": "在TRACKER中新增条目，状态为📋待启动"
+            },
+            {
+                "event": "task.status.changed",
+                "action": "更新TRACKER中对应条目的状态图标"
+            },
+            {
+                "event": "task.expanded",
+                "action": "在TRACKER的自主扩列区域追加子任务"
+            },
+            {
+                "event": "sprint.completed",
+                "action": "在TRACKER中标记Sprint完成，写入归档引用"
+            }
+        ],
+        "status_mapping": {
+            "open": "📋",
+            "doing": "⏳",
+            "done": "✅",
+            "blocked": "🔴",
+            "rejected": "❌"
+        }
+    },
+    "actions": {
+        "on_desync_detected": [
+            "emit tracker.desync.detected 事件",
+            "自动修复：从task JSON反向更新TRACKER",
+            "输出desync diff"
+        ]
+    },
+    "action": {
+        "type": "handler",
+        "handler": "tracker-sync-handler",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.tracker-sync-gate-001.sh"
+    },
+    "metadata": {
+        "created": "2026-03-07",
+        "source": "Day2 Gap5 closure",
+        "anti_entropy": true
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/tracker-sync-gate.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate_relevance": 1,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
     ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "自动同步状态到PROJECT-TRACKER.md"
-      }
-    ],
-    "event": "task.status.changed"
-  },
-  "conditions": {
-    "sync_rules": [
-      {
-        "event": "task.created",
-        "action": "在TRACKER中新增条目，状态为📋待启动"
-      },
-      {
-        "event": "task.status.changed",
-        "action": "更新TRACKER中对应条目的状态图标"
-      },
-      {
-        "event": "task.expanded",
-        "action": "在TRACKER的自主扩列区域追加子任务"
-      },
-      {
-        "event": "sprint.completed",
-        "action": "在TRACKER中标记Sprint完成，写入归档引用"
-      }
-    ],
-    "status_mapping": {
-      "open": "📋",
-      "doing": "⏳",
-      "done": "✅",
-      "blocked": "🔴",
-      "rejected": "❌"
-    }
-  },
-  "actions": {
-    "on_desync_detected": [
-      "emit tracker.desync.detected 事件",
-      "自动修复：从task JSON反向更新TRACKER",
-      "输出desync diff"
-    ]
-  },
-  "action": {
-    "type": "handler",
-    "handler": "tracker-sync-handler",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.tracker-sync-gate-001.sh"
-  },
-  "metadata": {
-    "created": "2026-03-07",
-    "source": "Day2 Gap5 closure",
-    "anti_entropy": true
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/tracker-sync-gate.js",
-  "id": "TRACKER-SYNC-GATE-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "言出法随达成率",
-  "gate_relevance": 1,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "operational-rule"
+    "layer": "operational-rule"
 }

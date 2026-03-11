@@ -1,113 +1,114 @@
 {
-  "id": "rule.report-readability-001",
-  "name": "ISC-REPORT-READABILITY-001",
-  "domain": "quality",
-  "type": "rule",
-  "scope": "report",
-  "version": "1.0.0",
-  "description": "重要报告可读性钢印——默认按更适合中文阅读的方式写作，强调思路、结构、主次与简洁表达",
-  "rationale": "重要报告首先服务阅读与决策，不是展示代码或堆砌材料。统一可读性钢印可以降低理解成本，提高汇报效率，减少返工。",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "standard": {
-    "checks": [
-      {
-        "id": "R1",
-        "name": "中文阅读优先",
-        "rule": "默认按中文读者的阅读习惯组织表达：先结论后展开，句子不过长，术语尽量中文化，必要英文只作补充。",
-        "severity": "error"
-      },
-      {
-        "id": "R2",
-        "name": "多讲思路",
-        "rule": "报告必须说明判断路径、分析框架、取舍依据与关键假设，不能只给结论或结果堆砌。",
-        "severity": "error"
-      },
-      {
-        "id": "R3",
-        "name": "少提代码",
-        "rule": "非代码报告正文禁止以代码、命令、接口细节为主体；实现细节最多一句带过，长代码与命令移至附录或省略。",
-        "severity": "error"
-      },
-      {
-        "id": "R4",
-        "name": "结构清晰",
-        "rule": "必须具备稳定结构：摘要/结论、背景与目标、分析思路、核心发现、建议与下一步；标题层级清楚，不并列混乱。",
-        "severity": "error"
-      },
-      {
-        "id": "R5",
-        "name": "主次分明",
-        "rule": "每章先写最重要信息，再写支撑信息；重要结论不埋在段落中，优先使用短句、要点与分层呈现。",
-        "severity": "error"
-      },
-      {
-        "id": "R6",
-        "name": "不啰嗦",
-        "rule": "删除重复表述、空泛套话与低信息密度段落；单段只讲一件事，能用三句说清就不用十句。",
-        "severity": "error"
-      }
+    "id": "rule.report-readability-001",
+    "event_type": "report.created",
+    "name": "ISC-REPORT-READABILITY-001",
+    "description": "重要报告可读性钢印——默认按更适合中文阅读的方式写作，强调思路、结构、主次与简洁表达",
+    "priority": "P1",
+    "domain": "quality",
+    "type": "rule",
+    "scope": "report",
+    "version": "1.0.0",
+    "rationale": "重要报告首先服务阅读与决策，不是展示代码或堆砌材料。统一可读性钢印可以降低理解成本，提高汇报效率，减少返工。",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
+    },
+    "standard": {
+        "checks": [
+            {
+                "id": "R1",
+                "name": "中文阅读优先",
+                "rule": "默认按中文读者的阅读习惯组织表达：先结论后展开，句子不过长，术语尽量中文化，必要英文只作补充。",
+                "severity": "error"
+            },
+            {
+                "id": "R2",
+                "name": "多讲思路",
+                "rule": "报告必须说明判断路径、分析框架、取舍依据与关键假设，不能只给结论或结果堆砌。",
+                "severity": "error"
+            },
+            {
+                "id": "R3",
+                "name": "少提代码",
+                "rule": "非代码报告正文禁止以代码、命令、接口细节为主体；实现细节最多一句带过，长代码与命令移至附录或省略。",
+                "severity": "error"
+            },
+            {
+                "id": "R4",
+                "name": "结构清晰",
+                "rule": "必须具备稳定结构：摘要/结论、背景与目标、分析思路、核心发现、建议与下一步；标题层级清楚，不并列混乱。",
+                "severity": "error"
+            },
+            {
+                "id": "R5",
+                "name": "主次分明",
+                "rule": "每章先写最重要信息，再写支撑信息；重要结论不埋在段落中，优先使用短句、要点与分层呈现。",
+                "severity": "error"
+            },
+            {
+                "id": "R6",
+                "name": "不啰嗦",
+                "rule": "删除重复表述、空泛套话与低信息密度段落；单段只讲一件事，能用三句说清就不用十句。",
+                "severity": "error"
+            }
+        ],
+        "required_outline": [
+            "一句话结论/执行摘要",
+            "背景与目标",
+            "分析思路",
+            "核心发现（按优先级排序）",
+            "建议/决策项",
+            "风险与待确认",
+            "下一步"
+        ],
+        "style_hints": [
+            "优先中文表达，少用生硬翻译腔",
+            "优先短段落与项目符号，不堆大段长文",
+            "优先解释为什么，再解释怎么做",
+            "实现细节从正文降级到附录"
+        ]
+    },
+    "trigger": {
+        "events": [
+            "report.created",
+            "report.modified",
+            "document.report.created",
+            "document.report.modified"
+        ],
+        "actions": [
+            "quality.report.readability_check"
+        ],
+        "event": "report.created"
+    },
+    "enforcement_tier": "P1_process",
+    "created_at": "2026-03-07",
+    "source": "用户教学：固化重要报告的通用写作钢印",
+    "action": {
+        "type": "check",
+        "handler": "document-structure-check",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.report-readability-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/report-readability.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": true,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "required_outline": [
-      "一句话结论/执行摘要",
-      "背景与目标",
-      "分析思路",
-      "核心发现（按优先级排序）",
-      "建议/决策项",
-      "风险与待确认",
-      "下一步"
+    "gate_relevance": 0.7,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
     ],
-    "style_hints": [
-      "优先中文表达，少用生硬翻译腔",
-      "优先短段落与项目符号，不堆大段长文",
-      "优先解释为什么，再解释怎么做",
-      "实现细节从正文降级到附录"
-    ]
-  },
-  "trigger": {
-    "events": [
-      "report.created",
-      "report.modified",
-      "document.report.created",
-      "document.report.modified"
-    ],
-    "actions": [
-      "quality.report.readability_check"
-    ],
-    "event": "report.created"
-  },
-  "priority": "P1",
-  "enforcement_tier": "P1_process",
-  "created_at": "2026-03-07",
-  "source": "用户教学：固化重要报告的通用写作钢印",
-  "action": {
-    "type": "check",
-    "handler": "document-structure-check",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.report-readability-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/report-readability.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": true,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 0.7,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "layer": "L2_project"
 }

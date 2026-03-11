@@ -1,57 +1,58 @@
 {
-  "id": "rule.public-skill-quality-gate-001",
-  "version": "1.0.0",
-  "name": "可销售技能质量门禁",
-  "description": "skills/public/下的技能必须满足销售质量标准才能发布",
-  "priority": "P0_gate",
-  "domain": "skill",
-  "category": "quality",
-  "trigger": {
-    "events": [
-      "skill.public.pre_publish",
-      "skill.public.modified",
-      "git.commit.skills_public"
+    "id": "rule.public-skill-quality-gate-001",
+    "event_type": "skill.public.pre_publish",
+    "name": "可销售技能质量门禁",
+    "description": "skills/public/下的技能必须满足销售质量标准才能发布",
+    "priority": "P0_gate",
+    "version": "1.0.0",
+    "domain": "skill",
+    "category": "quality",
+    "trigger": {
+        "events": [
+            "skill.public.pre_publish",
+            "skill.public.modified",
+            "git.commit.skills_public"
+        ],
+        "event": "skill.public.pre_publish"
+    },
+    "conditions": {
+        "quality_checklist": [
+            "SKILL.md有完整frontmatter（name+description）",
+            "description包含触发词和NOT for排除项",
+            "零外部npm依赖或明确声明依赖",
+            "无敏感信息（API key/密码/内部路径）",
+            "有使用示例（CLI或代码调用）",
+            "有前置条件说明",
+            "文件结构符合skill-creator标准"
+        ]
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.public-skill-quality-gate-001.sh"
+    },
+    "created_at": "2026-03-06T02:38:00Z",
+    "created_by": "ruleify",
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/public-skill-quality-gate.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "event": "skill.public.pre_publish"
-  },
-  "conditions": {
-    "quality_checklist": [
-      "SKILL.md有完整frontmatter（name+description）",
-      "description包含触发词和NOT for排除项",
-      "零外部npm依赖或明确声明依赖",
-      "无敏感信息（API key/密码/内部路径）",
-      "有使用示例（CLI或代码调用）",
-      "有前置条件说明",
-      "文件结构符合skill-creator标准"
-    ]
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.public-skill-quality-gate-001.sh"
-  },
-  "created_at": "2026-03-06T02:38:00Z",
-  "created_by": "ruleify",
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/public-skill-quality-gate.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 1,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "gate_relevance": 1,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
+    ],
+    "layer": "L2_project"
 }

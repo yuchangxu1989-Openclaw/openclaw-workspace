@@ -1,52 +1,53 @@
 {
-  "id": "rule.semantic-intent-event-001",
-  "rule_name": "语义意图事件（第四类事件）",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "不可量化但可监听的意图信号也是事件。反复强调→user.intent.repeated_emphasis，不耐烦→user.intent.frustration，根因分析请求→user.intent.root_cause_request。事件源=对话流，提取靠语义分析，CRAS是探针。",
-  "category": "cras",
-  "trigger": {
-    "events": [
-      "intent.detected"
-    ],
-    "actions": [
-      "event.semantic_intent.triggered"
-    ],
-    "event": "intent.detected"
-  },
-  "conditions": {
-    "intent_mappings": {
-      "repeated_emphasis": "user.intent.repeated_emphasis",
-      "frustration": "user.intent.frustration",
-      "root_cause_request": "user.intent.root_cause_request"
+    "id": "rule.semantic-intent-event-001",
+    "rule_id": "rule.semantic-intent-event-001",
+    "event_type": "intent.detected",
+    "description": "不可量化但可监听的意图信号也是事件。反复强调→user.intent.repeated_emphasis，不耐烦→user.intent.frustration，根因分析请求→user.intent.root_cause_request。事件源=对话流，提取靠语义分析，CRAS是探针。",
+    "rule_name": "语义意图事件（第四类事件）",
+    "version": "1.0.0",
+    "severity": "high",
+    "category": "cras",
+    "trigger": {
+        "events": [
+            "intent.detected"
+        ],
+        "actions": [
+            "event.semantic_intent.triggered"
+        ],
+        "event": "intent.detected"
     },
-    "source": "conversation_flow",
-    "extraction": "semantic_analysis",
-    "probe": "CRAS"
-  },
-  "rationale": {
-    "source": "用户教学"
-  },
-  "enforcement_tier": "P1_check",
-  "created_at": "2026-03-06T00:28:00+08:00",
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.semantic-intent-event-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/semantic-intent-event.js",
-  "rule_id": "rule.semantic-intent-event-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "根因分析覆盖率",
-  "gate_relevance": 0.6,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "event-routing"
+    "conditions": {
+        "intent_mappings": {
+            "repeated_emphasis": "user.intent.repeated_emphasis",
+            "frustration": "user.intent.frustration",
+            "root_cause_request": "user.intent.root_cause_request"
+        },
+        "source": "conversation_flow",
+        "extraction": "semantic_analysis",
+        "probe": "CRAS"
+    },
+    "rationale": {
+        "source": "用户教学"
+    },
+    "enforcement_tier": "P1_check",
+    "created_at": "2026-03-06T00:28:00+08:00",
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.semantic-intent-event-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/semantic-intent-event.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate_relevance": 0.6,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
+    ],
+    "layer": "event-routing"
 }

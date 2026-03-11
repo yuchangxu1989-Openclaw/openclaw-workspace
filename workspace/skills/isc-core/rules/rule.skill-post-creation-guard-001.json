@@ -1,35 +1,36 @@
 {
-  "id": "rule.skill-post-creation-guard-001",
-  "name": "技能创建后置守卫",
-  "description": "任何新技能创建后，必须完成4项后置步骤：注册能力锚点、创建意图路由规则、声明触发条件、验证注册成功。缺任何一项=技能未完成。",
-  "trigger": {
-    "events": [
-      "skill.created"
-    ]
-  },
-  "event": "skill.lifecycle.post_creation",
-  "action": "verify_post_creation_checklist",
-  "enforcement": "programmatic",
-  "hook": "scripts/isc-hooks/rule.skill-post-creation-guard-001.sh",
-  "checklist": [
-    "CAPABILITY-ANCHOR.md中有该技能条目",
-    "isc-core/rules/中有该技能的意图路由规则",
-    "SKILL.md中有触发条件声明",
-    "验证：grep能力锚点确认注册成功"
-  ],
-  "handler": "skills/isc-core/handlers/skill-post-creation-guard.js",
-  "rule_id": "rule.skill-post-creation-guard-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "言出法随达成率",
-  "gate_relevance": 0.6,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "event-routing"
+    "id": "rule.skill-post-creation-guard-001",
+    "rule_id": "rule.skill-post-creation-guard-001",
+    "event_type": "skill.created",
+    "name": "技能创建后置守卫",
+    "description": "任何新技能创建后，必须完成4项后置步骤：注册能力锚点、创建意图路由规则、声明触发条件、验证注册成功。缺任何一项=技能未完成。",
+    "trigger": {
+        "events": [
+            "skill.created"
+        ]
+    },
+    "event": "skill.lifecycle.post_creation",
+    "action": "verify_post_creation_checklist",
+    "enforcement": "programmatic",
+    "hook": "scripts/isc-hooks/rule.skill-post-creation-guard-001.sh",
+    "checklist": [
+        "CAPABILITY-ANCHOR.md中有该技能条目",
+        "isc-core/rules/中有该技能的意图路由规则",
+        "SKILL.md中有触发条件声明",
+        "验证：grep能力锚点确认注册成功"
+    ],
+    "handler": "skills/isc-core/handlers/skill-post-creation-guard.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate_relevance": 0.6,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
+    ],
+    "layer": "event-routing"
 }

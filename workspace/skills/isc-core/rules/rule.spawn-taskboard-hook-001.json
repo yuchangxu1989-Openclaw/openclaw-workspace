@@ -1,31 +1,32 @@
 {
-  "id": "ISC-SPAWN-TASKBOARD-HOOK-001",
-  "name": "Spawn必须登记TaskBoard",
-  "description": "主Agent每次sessions_spawn后必须调用register-task登记到task-board",
-  "trigger": {
-    "event": "agent.task.spawned",
-    "events": [
-      "isc.rule.spawn.taskboard.hook.001"
-    ]
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/ISC-SPAWN-TASKBOARD-HOOK-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/spawn-taskboard-hook.js",
-  "rule_id": "rule.spawn-taskboard-hook-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "言出法随达成率",
-  "gate_relevance": 0.6,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "operational-rule"
+    "id": "ISC-SPAWN-TASKBOARD-HOOK-001",
+    "rule_id": "rule.spawn-taskboard-hook-001",
+    "event_type": "agent.task.spawned",
+    "name": "Spawn必须登记TaskBoard",
+    "description": "主Agent每次sessions_spawn后必须调用register-task登记到task-board",
+    "trigger": {
+        "event": "agent.task.spawned",
+        "events": [
+            "isc.rule.spawn.taskboard.hook.001"
+        ]
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/ISC-SPAWN-TASKBOARD-HOOK-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/spawn-taskboard-hook.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate_relevance": 0.6,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
+    ],
+    "layer": "operational-rule"
 }

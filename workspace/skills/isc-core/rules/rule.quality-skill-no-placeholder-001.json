@@ -1,70 +1,71 @@
 {
-  "id": "ISC-SKILL-QUALITY-001",
-  "name": "skill_no_placeholder",
-  "domain": "quality",
-  "type": "rule",
-  "scope": "skill",
-  "description": "禁止占位符技能 - 技能必须有实质性实现",
-  "rationale": "占位符技能占用命名空间，误导用户，浪费审计资源",
-  "check_criteria": {
-    "must_have": [
-      "SKILL.md 文件存在且内容>100字",
-      "至少一个可执行代码文件(.js/.py/.sh)",
-      "代码文件必须包含实际逻辑，不是空函数"
+    "id": "ISC-SKILL-QUALITY-001",
+    "event_type": "isc.rule.matched",
+    "name": "skill_no_placeholder",
+    "description": "禁止占位符技能 - 技能必须有实质性实现",
+    "domain": "quality",
+    "type": "rule",
+    "scope": "skill",
+    "rationale": "占位符技能占用命名空间，误导用户，浪费审计资源",
+    "check_criteria": {
+        "must_have": [
+            "SKILL.md 文件存在且内容>100字",
+            "至少一个可执行代码文件(.js/.py/.sh)",
+            "代码文件必须包含实际逻辑，不是空函数"
+        ],
+        "must_not_have": [
+            "空目录结构",
+            "只有框架没有实现",
+            "SKILL.md 只有标题没有内容"
+        ]
+    },
+    "severity": "high",
+    "auto_fix": false,
+    "created_at": "2026-02-25T05:53:00+08:00",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "isc.rule.matched",
+            "isc.category.matched"
+        ],
+        "actions": [
+            {
+                "type": "log",
+                "level": "warn"
+            },
+            {
+                "type": "block",
+                "message": "Rule ISC-SKILL-QUALITY-001 violation"
+            }
+        ],
+        "event": "isc.rule.matched"
+    },
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "type": "check",
+        "handler": "eval-quality-check",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-SKILL-QUALITY-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/quality-skill-no-placeholder.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "must_not_have": [
-      "空目录结构",
-      "只有框架没有实现",
-      "SKILL.md 只有标题没有内容"
-    ]
-  },
-  "severity": "high",
-  "auto_fix": false,
-  "created_at": "2026-02-25T05:53:00+08:00",
-  "version": "1.0.0",
-  "trigger": {
-    "events": [
-      "isc.rule.matched",
-      "isc.category.matched"
+    "gate_relevance": 1,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
     ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "warn"
-      },
-      {
-        "type": "block",
-        "message": "Rule ISC-SKILL-QUALITY-001 violation"
-      }
-    ],
-    "event": "isc.rule.matched"
-  },
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "check",
-    "handler": "eval-quality-check",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/ISC-SKILL-QUALITY-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/quality-skill-no-placeholder.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 1,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "layer": "L2_project"
 }

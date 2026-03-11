@@ -1,67 +1,68 @@
 {
-  "rule_id": "rule.subagent-report-queue-001",
-  "version": "1.0.0",
-  "description": "子Agent完成时更新任务看板，并在累计完成>=3时触发统一汇总汇报",
-  "trigger": {
-    "event": "subagent.task.completed",
-    "source": "main-agent",
-    "events": [
-      "isc.rule.subagent.report.queue.001"
-    ]
-  },
-  "conditions": [
-    {
-      "type": "file_exists",
-      "path": "/root/.openclaw/workspace/logs/subagent-task-board.json"
-    }
-  ],
-  "actions": [
-    {
-      "type": "update_task_board",
-      "path": "/root/.openclaw/workspace/logs/subagent-task-board.json",
-      "match_key": "taskId",
-      "update_fields": [
-        "status",
-        "completeTime",
-        "result_summary"
-      ]
+    "id": "SUBAGENT-REPORT-QUEUE-001",
+    "rule_id": "rule.subagent-report-queue-001",
+    "event_type": "subagent.task.completed",
+    "description": "子Agent完成时更新任务看板，并在累计完成>=3时触发统一汇总汇报",
+    "version": "1.0.0",
+    "trigger": {
+        "event": "subagent.task.completed",
+        "source": "main-agent",
+        "events": [
+            "isc.rule.subagent.report.queue.001"
+        ]
     },
-    {
-      "type": "aggregate_check",
-      "expression": "count(status == 'done') + count(status == 'failed') >= 3"
+    "conditions": [
+        {
+            "type": "file_exists",
+            "path": "/root/.openclaw/workspace/logs/subagent-task-board.json"
+        }
+    ],
+    "actions": [
+        {
+            "type": "update_task_board",
+            "path": "/root/.openclaw/workspace/logs/subagent-task-board.json",
+            "match_key": "taskId",
+            "update_fields": [
+                "status",
+                "completeTime",
+                "result_summary"
+            ]
+        },
+        {
+            "type": "aggregate_check",
+            "expression": "count(status == 'done') + count(status == 'failed') >= 3"
+        },
+        {
+            "type": "exec",
+            "when": "aggregate_check == true",
+            "command": "bash /root/.openclaw/workspace/scripts/subagent-report.sh"
+        },
+        {
+            "type": "emit",
+            "when": "aggregate_check == true",
+            "event": "subagent.report.queue.ready",
+            "payload": {
+                "board_file": "/root/.openclaw/workspace/logs/subagent-task-board.json",
+                "report_script": "/root/.openclaw/workspace/scripts/subagent-report.sh"
+            }
+        }
+    ],
+    "enforcement": "programmatic",
+    "action": {
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.subagent-report-queue-001.sh"
     },
-    {
-      "type": "exec",
-      "when": "aggregate_check == true",
-      "command": "bash /root/.openclaw/workspace/scripts/subagent-report.sh"
+    "handler": "skills/isc-core/handlers/subagent-report-queue.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
     },
-    {
-      "type": "emit",
-      "when": "aggregate_check == true",
-      "event": "subagent.report.queue.ready",
-      "payload": {
-        "board_file": "/root/.openclaw/workspace/logs/subagent-task-board.json",
-        "report_script": "/root/.openclaw/workspace/scripts/subagent-report.sh"
-      }
-    }
-  ],
-  "enforcement": "programmatic",
-  "action": {
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.subagent-report-queue-001.sh"
-  },
-  "handler": "skills/isc-core/handlers/subagent-report-queue.js",
-  "id": "SUBAGENT-REPORT-QUEUE-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "言出法随达成率",
-  "gate_relevance": 0.6,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "operational-rule"
+    "north_star_indicator": "言出法随达成率",
+    "gate_relevance": 0.6,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
+    ],
+    "layer": "operational-rule"
 }

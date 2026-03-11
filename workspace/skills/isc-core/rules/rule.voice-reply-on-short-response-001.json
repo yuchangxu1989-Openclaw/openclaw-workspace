@@ -1,25 +1,26 @@
 {
-  "id": "rule.voice-reply-on-short-response-001",
-  "name": "短回复语音建议",
-  "description": "当回复文本长度少于20字时，建议使用语音回复以增强表达效果。",
-  "version": "1.0.0",
-  "enabled": true,
-  "trigger": {
-    "event": "before_reply",
-    "condition": "text.length < 20",
-    "events": [
-      "isc.rule.voice.reply.on.short.response.001"
+    "id": "rule.voice-reply-on-short-response-001",
+    "event_type": "before_reply",
+    "name": "短回复语音建议",
+    "description": "当回复文本长度少于20字时，建议使用语音回复以增强表达效果。",
+    "priority": 50,
+    "version": "1.0.0",
+    "enabled": true,
+    "trigger": {
+        "event": "before_reply",
+        "condition": "text.length < 20",
+        "events": [
+            "isc.rule.voice.reply.on.short.response.001"
+        ]
+    },
+    "action": {
+        "type": "suggest",
+        "suggestion": "reply_as_voice"
+    },
+    "handler": "skills/isc-core/handlers/voice-reply-on-short-response.js",
+    "tags": [
+        "voice",
+        "ux",
+        "reply-format"
     ]
-  },
-  "action": {
-    "type": "suggest",
-    "suggestion": "reply_as_voice"
-  },
-  "handler": "skills/isc-core/handlers/voice-reply-on-short-response.js",
-  "tags": [
-    "voice",
-    "ux",
-    "reply-format"
-  ],
-  "priority": 50
 }

@@ -1,77 +1,78 @@
 {
-  "type": "routing",
-  "id": "rule.umr-domain-routing-001",
-  "name": "user_message_domain_routing",
-  "description": "基于消息payload的domain字段路由user.message，作为意图路由的降级兜底",
-  "domain": "message_routing",
-  "scope": "system-wide",
-  "enforcement_tier": "P1_process",
-  "trigger": {
-    "events": [
-      "user.general.message"
+    "id": "rule.umr-domain-routing-001",
+    "rule_id": "rule.umr-domain-routing-001",
+    "event_type": "user.general.message",
+    "name": "user_message_domain_routing",
+    "description": "基于消息payload的domain字段路由user.message，作为意图路由的降级兜底",
+    "type": "routing",
+    "domain": "message_routing",
+    "scope": "system-wide",
+    "enforcement_tier": "P1_process",
+    "trigger": {
+        "events": [
+            "user.general.message"
+        ],
+        "condition": "intent_classification_unavailable OR intent_confidence_low",
+        "actions": [
+            {
+                "type": "route",
+                "description": "基于domain字段兜底路由到对应模块"
+            }
+        ]
+    },
+    "routing_rules": {
+        "strategy": "domain_fallback",
+        "prerequisite": "intent_routing_degraded",
+        "routes": [
+            {
+                "domain": "knowledge",
+                "handler": "cras-knowledge-handler",
+                "description": "知识领域消息路由到CRAS模块"
+            },
+            {
+                "domain": "development",
+                "handler": "dev-task-handler",
+                "description": "开发领域消息路由到dev-task模块"
+            },
+            {
+                "domain": "content",
+                "handler": "content-creation-handler",
+                "description": "内容领域消息路由到content-creation模块"
+            },
+            {
+                "domain": "analysis",
+                "handler": "analysis-handler",
+                "description": "分析领域消息路由到analysis模块"
+            }
+        ],
+        "fallback": {
+            "handler": "default-message-handler",
+            "description": "domain未指定时的兜底处理"
+        }
+    },
+    "metadata": {
+        "version": "1.0.0",
+        "created": "2026-03-05",
+        "author": "system",
+        "priority": 90
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.umr-domain-routing-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/umr-domain-routing.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate_relevance": 0.6,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
     ],
-    "condition": "intent_classification_unavailable OR intent_confidence_low",
-    "actions": [
-      {
-        "type": "route",
-        "description": "基于domain字段兜底路由到对应模块"
-      }
-    ]
-  },
-  "routing_rules": {
-    "strategy": "domain_fallback",
-    "prerequisite": "intent_routing_degraded",
-    "routes": [
-      {
-        "domain": "knowledge",
-        "handler": "cras-knowledge-handler",
-        "description": "知识领域消息路由到CRAS模块"
-      },
-      {
-        "domain": "development",
-        "handler": "dev-task-handler",
-        "description": "开发领域消息路由到dev-task模块"
-      },
-      {
-        "domain": "content",
-        "handler": "content-creation-handler",
-        "description": "内容领域消息路由到content-creation模块"
-      },
-      {
-        "domain": "analysis",
-        "handler": "analysis-handler",
-        "description": "分析领域消息路由到analysis模块"
-      }
-    ],
-    "fallback": {
-      "handler": "default-message-handler",
-      "description": "domain未指定时的兜底处理"
-    }
-  },
-  "metadata": {
-    "version": "1.0.0",
-    "created": "2026-03-05",
-    "author": "system",
-    "priority": 90
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.umr-domain-routing-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/umr-domain-routing.js",
-  "rule_id": "rule.umr-domain-routing-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "言出法随达成率",
-  "gate_relevance": 0.6,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "event-routing"
+    "layer": "event-routing"
 }

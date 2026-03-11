@@ -1,65 +1,66 @@
 {
-  "id": "rule.project-tracker-hygiene-001",
-  "rule_name": "Project Tracker Hygiene — 任务状态变更强制同步",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "当任务状态发生变更（新建/进行中/阻塞/完成）时，必须同步更新 PROJECT-TRACKER.md 对应条目，并在当日日报写入该变更记录；若任一环节缺失则拒绝状态提交。",
-  "source": "Day2遗留项#5 项目管理产物沉淀机制补强",
-  "trigger": {
-    "events": [
-      "task.status.changed",
-      "task.lifecycle.updated",
-      "orchestration.task.completed",
-      "orchestration.task.blocked",
-      "system.day.closure_requested"
-    ]
-  },
-  "action": {
-    "type": "gate",
-    "handler": "enforcement-engine",
-    "on_failure": "reject"
-  },
-  "checks": {
-    "required_artifacts": [
-      {
-        "name": "project_tracker_entry",
-        "path": "/root/.openclaw/workspace/PROJECT-TRACKER.md",
-        "rule": "must_contain_latest_status_and_reason"
-      },
-      {
-        "name": "daily_report_entry",
-        "path": "reports/daily/",
-        "rule": "must_append_today_status_change_summary"
-      }
+    "id": "rule.project-tracker-hygiene-001",
+    "event_type": "task.status.changed",
+    "description": "当任务状态发生变更（新建/进行中/阻塞/完成）时，必须同步更新 PROJECT-TRACKER.md 对应条目，并在当日日报写入该变更记录；若任一环节缺失则拒绝状态提交。",
+    "rule_name": "Project Tracker Hygiene — 任务状态变更强制同步",
+    "version": "1.0.0",
+    "severity": "critical",
+    "source": "Day2遗留项#5 项目管理产物沉淀机制补强",
+    "trigger": {
+        "events": [
+            "task.status.changed",
+            "task.lifecycle.updated",
+            "orchestration.task.completed",
+            "orchestration.task.blocked",
+            "system.day.closure_requested"
+        ]
+    },
+    "action": {
+        "type": "gate",
+        "handler": "enforcement-engine",
+        "on_failure": "reject"
+    },
+    "checks": {
+        "required_artifacts": [
+            {
+                "name": "project_tracker_entry",
+                "path": "/root/.openclaw/workspace/PROJECT-TRACKER.md",
+                "rule": "must_contain_latest_status_and_reason"
+            },
+            {
+                "name": "daily_report_entry",
+                "path": "reports/daily/",
+                "rule": "must_append_today_status_change_summary"
+            }
+        ],
+        "failure_reasons": [
+            "missing_tracker_update",
+            "missing_daily_report_update",
+            "status_changed_without_traceable_evidence"
+        ]
+    },
+    "enforcement": "runtime_binding",
+    "enforcement_tier": "P0_gate",
+    "schema_version": "2.0",
+    "handler": "skills/isc-core/handlers/project-tracker-hygiene.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": true,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "failure_reasons": [
-      "missing_tracker_update",
-      "missing_daily_report_update",
-      "status_changed_without_traceable_evidence"
-    ]
-  },
-  "enforcement": "runtime_binding",
-  "enforcement_tier": "P0_gate",
-  "schema_version": "2.0",
-  "handler": "skills/isc-core/handlers/project-tracker-hygiene.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": true,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 1,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "gate_relevance": 1,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
+    ],
+    "layer": "L2_project"
 }

@@ -1,62 +1,63 @@
 {
-  "id": "rule.scenario-acceptance-gate-001",
-  "domain": "quality",
-  "type": "rule",
-  "scope": "isc",
-  "priority": "critical",
-  "enforcement_tier": "P0_gate",
-  "description": "所有评测体系必须包含场景化验收层。单模块功能测试通过不代表系统合格，必须有完整用户故事线的端到端场景测试。",
-  "rationale": "Day 1评测全是工程内部视角（模块健康、接口准确率、E2E串联），缺少用户场景视角。用户拿系统做具体事情时能不能跑通，才是真正的质量标准。",
-  "rule": {
-    "requirements": [
-      "每个系统级评测必须包含至少5个场景化测试（完整用户故事线：意图→识别→匹配→分发→执行→交付）",
-      "场景必须来自真实应用（不是工程内部造的），至少覆盖3个不同领域",
-      "场景覆盖率必须作为指标追踪",
-      "新增模块必须同时提交该模块参与的场景测试"
+    "id": "rule.scenario-acceptance-gate-001",
+    "event_type": "quality.general.created",
+    "description": "所有评测体系必须包含场景化验收层。单模块功能测试通过不代表系统合格，必须有完整用户故事线的端到端场景测试。",
+    "priority": "critical",
+    "domain": "quality",
+    "type": "rule",
+    "scope": "isc",
+    "enforcement_tier": "P0_gate",
+    "rationale": "Day 1评测全是工程内部视角（模块健康、接口准确率、E2E串联），缺少用户场景视角。用户拿系统做具体事情时能不能跑通，才是真正的质量标准。",
+    "rule": {
+        "requirements": [
+            "每个系统级评测必须包含至少5个场景化测试（完整用户故事线：意图→识别→匹配→分发→执行→交付）",
+            "场景必须来自真实应用（不是工程内部造的），至少覆盖3个不同领域",
+            "场景覆盖率必须作为指标追踪",
+            "新增模块必须同时提交该模块参与的场景测试"
+        ],
+        "enforcer": "E2E验证 + 场景benchmark runner"
+    },
+    "trigger": {
+        "events": [
+            "quality.general.created",
+            "aeo.general.completed",
+            "skill.general.completed"
+        ],
+        "actions": [
+            {
+                "type": "gate",
+                "description": "检查是否包含场景化测试，无则阻止发布"
+            }
+        ],
+        "event": "quality.general.created"
+    },
+    "created_at": "2026-03-05T01:52:00+08:00",
+    "version": "1.0.0",
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.scenario-acceptance-gate-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/scenario-acceptance-gate.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "enforcer": "E2E验证 + 场景benchmark runner"
-  },
-  "trigger": {
-    "events": [
-      "quality.general.created",
-      "aeo.general.completed",
-      "skill.general.completed"
+    "gate_relevance": 0.5,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
     ],
-    "actions": [
-      {
-        "type": "gate",
-        "description": "检查是否包含场景化测试，无则阻止发布"
-      }
-    ],
-    "event": "quality.general.created"
-  },
-  "created_at": "2026-03-05T01:52:00+08:00",
-  "version": "1.0.0",
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.scenario-acceptance-gate-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/scenario-acceptance-gate.js",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 0.5,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "layer": "L2_project"
 }

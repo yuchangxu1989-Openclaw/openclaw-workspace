@@ -1,66 +1,67 @@
 {
-  "id": "skill.evolution.auto-trigger",
-  "name": "技能进化自动触发",
-  "description": "技能变更时自动触发SEEF进化流水线",
-  "version": "1.0.0",
-  "status": "active",
-  "trigger": {
-    "type": "event",
-    "sources": [
-      "skill.general.modified",
-      "skill.general.created",
-      "skill.general.published"
-    ],
-    "events": [
-      "skill.usage.pattern_detected",
-      "skill.performance.degraded",
-      "skill.evolution.scheduled"
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "技能使用模式变化或性能下降时自动触发技能进化流程"
-      }
-    ],
-    "event": "skill.usage.pattern_detected"
-  },
-  "condition": {
-    "autoTrigger": true,
-    "minISCScore": 50,
-    "excludePatterns": [
-      "**/node_modules/**",
-      "**/.git/**",
-      "**/*.log"
-    ]
-  },
-  "action": {
-    "type": "orchestration.general.trigger",
-    "target": "seef.evolution-pipeline",
-    "parameters": {
-      "immediate": false,
-      "queueIfRunning": true
+    "id": "skill.evolution.auto-trigger",
+    "rule_id": "rule.skill.evolution.auto-trigger",
+    "event_type": "skill.usage.pattern_detected",
+    "name": "技能进化自动触发",
+    "description": "技能变更时自动触发SEEF进化流水线",
+    "priority": 5,
+    "version": "1.0.0",
+    "status": "active",
+    "trigger": {
+        "type": "event",
+        "sources": [
+            "skill.general.modified",
+            "skill.general.created",
+            "skill.general.published"
+        ],
+        "events": [
+            "skill.usage.pattern_detected",
+            "skill.performance.degraded",
+            "skill.evolution.scheduled"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "技能使用模式变化或性能下降时自动触发技能进化流程"
+            }
+        ],
+        "event": "skill.usage.pattern_detected"
     },
-    "handler": "skill-evolution-trigger",
-    "script": "scripts/isc-hooks/skill.evolution.auto-trigger.sh"
-  },
-  "priority": 5,
-  "createdAt": "2026-03-01T00:00:00Z",
-  "updatedAt": "2026-03-01T00:00:00Z",
-  "enforcement_tier": "P1_process",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/skill.evolution.auto-trigger.js",
-  "rule_id": "rule.skill.evolution.auto-trigger",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "自主闭环率",
-  "gate_relevance": 0.6,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "automation-hook"
+    "condition": {
+        "autoTrigger": true,
+        "minISCScore": 50,
+        "excludePatterns": [
+            "**/node_modules/**",
+            "**/.git/**",
+            "**/*.log"
+        ]
+    },
+    "action": {
+        "type": "orchestration.general.trigger",
+        "target": "seef.evolution-pipeline",
+        "parameters": {
+            "immediate": false,
+            "queueIfRunning": true
+        },
+        "handler": "skill-evolution-trigger",
+        "script": "scripts/isc-hooks/skill.evolution.auto-trigger.sh"
+    },
+    "createdAt": "2026-03-01T00:00:00Z",
+    "updatedAt": "2026-03-01T00:00:00Z",
+    "enforcement_tier": "P1_process",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/skill.evolution.auto-trigger.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "自主闭环率",
+    "gate_relevance": 0.6,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
+    ],
+    "layer": "automation-hook"
 }

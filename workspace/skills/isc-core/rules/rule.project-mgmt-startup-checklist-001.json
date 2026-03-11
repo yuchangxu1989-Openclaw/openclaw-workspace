@@ -1,67 +1,68 @@
 {
-  "rule_id": "rule.project-mgmt-startup-checklist-001",
-  "name": "项目管理启动自检门禁",
-  "version": "1.0.0",
-  "priority": "P1",
-  "type": "gate",
-  "description": "启动项目管理流程时，必须完成自检清单，包括读取历史经验和反模式",
-  "trigger": {
-    "events": [
-      "project.started",
-      "sprint.started",
-      "task.orchestration.initiated"
+    "id": "PROJECT-MGMT-STARTUP-CHECKLIST-001",
+    "rule_id": "rule.project-mgmt-startup-checklist-001",
+    "event_type": "project.started",
+    "name": "项目管理启动自检门禁",
+    "description": "启动项目管理流程时，必须完成自检清单，包括读取历史经验和反模式",
+    "priority": "P1",
+    "version": "1.0.0",
+    "type": "gate",
+    "trigger": {
+        "events": [
+            "project.started",
+            "sprint.started",
+            "task.orchestration.initiated"
+        ],
+        "event": "project.started"
+    },
+    "conditions": {
+        "checklist": [
+            "四项意图是否明确（目标/时效/成本/验收）",
+            "MEU拆分是否到位",
+            "并行机会是否识别",
+            "验收标准是否可验证",
+            "裁决殿是否在流程中",
+            "上次Sprint的lessons是否已读",
+            "anti-patterns.md是否已检查"
+        ],
+        "must_read": [
+            "skills/project-mgmt/SKILL.md",
+            "skills/project-mgmt/lessons/anti-patterns.md"
+        ]
+    },
+    "actions": {
+        "on_checklist_incomplete": "阻止进入执行阶段，要求补齐",
+        "on_anti_pattern_match": "高亮告警，提醒避免已知反模式"
+    },
+    "rationale": {
+        "source": "用户教学",
+        "principle": "不读历史经验就开工 = 注定重复犯错"
+    },
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.project-mgmt-startup-checklist-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/project-mgmt-startup-checklist.js",
+    "scoring_rubric": {
+        "handler_exists": true,
+        "handler_has_logic": false,
+        "test_exists": true,
+        "event_subscribed": true
+    },
+    "north_star_indicator": [
+        "言出法随达成率",
+        "自主闭环率",
+        "认知层真实代码覆盖率",
+        "独立QA覆盖率",
+        "根因分析覆盖率"
     ],
-    "event": "project.started"
-  },
-  "conditions": {
-    "checklist": [
-      "四项意图是否明确（目标/时效/成本/验收）",
-      "MEU拆分是否到位",
-      "并行机会是否识别",
-      "验收标准是否可验证",
-      "裁决殿是否在流程中",
-      "上次Sprint的lessons是否已读",
-      "anti-patterns.md是否已检查"
+    "gate_relevance": 0.7,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_block_count",
+        "false_positive_rate"
     ],
-    "must_read": [
-      "skills/project-mgmt/SKILL.md",
-      "skills/project-mgmt/lessons/anti-patterns.md"
-    ]
-  },
-  "actions": {
-    "on_checklist_incomplete": "阻止进入执行阶段，要求补齐",
-    "on_anti_pattern_match": "高亮告警，提醒避免已知反模式"
-  },
-  "rationale": {
-    "source": "用户教学",
-    "principle": "不读历史经验就开工 = 注定重复犯错"
-  },
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.project-mgmt-startup-checklist-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/project-mgmt-startup-checklist.js",
-  "id": "PROJECT-MGMT-STARTUP-CHECKLIST-001",
-  "scoring_rubric": {
-    "handler_exists": true,
-    "handler_has_logic": false,
-    "test_exists": true,
-    "event_subscribed": true
-  },
-  "north_star_indicator": [
-    "言出法随达成率",
-    "自主闭环率",
-    "认知层真实代码覆盖率",
-    "独立QA覆盖率",
-    "根因分析覆盖率"
-  ],
-  "gate_relevance": 0.7,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_block_count",
-    "false_positive_rate"
-  ],
-  "layer": "L2_project"
+    "layer": "L2_project"
 }

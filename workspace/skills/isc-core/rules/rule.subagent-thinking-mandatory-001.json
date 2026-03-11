@@ -1,20 +1,21 @@
 {
-  "rule_id": "subagent-thinking-mandatory-001",
-  "description": "子Agent必须开启thinking模式，禁止关闭",
-  "priority": "iron",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/subagent-thinking-guard.js",
-  "event": "subagent.spawn.requested",
-  "scoring_rubric": "子Agent是否开启thinking: 开=10, 未开=0",
-  "north_star_indicator": "认知层真实代码覆盖率",
-  "gate_relevance": 0.9,
-  "process_indicators": [
-    "thinking_enabled_rate",
-    "subagent_quality_score"
-  ],
-  "layer": "execute",
-  "created": "2026-03-11T08:38:00+08:00",
-  "source": "user_directive",
-  "intent": "确保所有子Agent开启thinking模式，防止认知质量下降",
-  "plan": "在子Agent spawn时检查thinking参数，未开启则拦截并报告"
+    "rule_id": "subagent-thinking-mandatory-001",
+    "event_type": "subagent.spawn.requested",
+    "description": "子Agent必须开启thinking模式，禁止关闭",
+    "priority": "iron",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/subagent-thinking-guard.js",
+    "event": "subagent.spawn.requested",
+    "scoring_rubric": "子Agent是否开启thinking: 开=10, 未开=0",
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate_relevance": 0.9,
+    "process_indicators": [
+        "thinking_enabled_rate",
+        "subagent_quality_score"
+    ],
+    "layer": "execute",
+    "created": "2026-03-11T08:38:00+08:00",
+    "source": "user_directive",
+    "intent": "确保所有子Agent开启thinking模式，防止认知质量下降",
+    "plan": "在子Agent spawn时检查thinking参数，未开启则拦截并报告"
 }

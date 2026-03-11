@@ -1,34 +1,35 @@
 {
-  "id": "rule.version-integrity-gate-001",
-  "name": "版本诚实性门禁",
-  "description": "技能版本号必须与代码成熟度匹配，禁止虚假版本号和跳级升版",
-  "version": "1.0.0",
-  "trigger": {
-    "events": [
-      "skill.lifecycle.created",
-      "skill.lifecycle.modified"
-    ],
-    "event": "skill.lifecycle.created"
-  },
-  "conditions": {},
-  "action": {
-    "type": "script",
-    "params": {
-      "skillName": "{{skill.name}}"
+    "id": "rule.version-integrity-gate-001",
+    "event_type": "skill.lifecycle.created",
+    "name": "版本诚实性门禁",
+    "description": "技能版本号必须与代码成熟度匹配，禁止虚假版本号和跳级升版",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "skill.lifecycle.created",
+            "skill.lifecycle.modified"
+        ],
+        "event": "skill.lifecycle.created"
     },
-    "handler": "check-version-integrity"
-  },
-  "enforcement": {
-    "level": "block",
-    "message": "版本号与代码成熟度不匹配，请修正版本号后重试"
-  },
-  "rules": [
-    "版本号不得超过代码成熟度评估的major版本",
-    "不允许major版本跳级(v0→v2, v1→v3)",
-    "v0.x: 概念/设计/无可运行代码",
-    "v1.x: 有可运行代码+入口+基本错误处理",
-    "v2.x: 生产可用+完善错误处理+降级+日志",
-    "v3.x+: 经过实际运行验证+性能优化+测试覆盖"
-  ],
-  "handler": "skills/isc-core/handlers/version-integrity-gate.js"
+    "conditions": {},
+    "action": {
+        "type": "script",
+        "params": {
+            "skillName": "{{skill.name}}"
+        },
+        "handler": "check-version-integrity"
+    },
+    "enforcement": {
+        "level": "block",
+        "message": "版本号与代码成熟度不匹配，请修正版本号后重试"
+    },
+    "rules": [
+        "版本号不得超过代码成熟度评估的major版本",
+        "不允许major版本跳级(v0→v2, v1→v3)",
+        "v0.x: 概念/设计/无可运行代码",
+        "v1.x: 有可运行代码+入口+基本错误处理",
+        "v2.x: 生产可用+完善错误处理+降级+日志",
+        "v3.x+: 经过实际运行验证+性能优化+测试覆盖"
+    ],
+    "handler": "skills/isc-core/handlers/version-integrity-gate.js"
 }

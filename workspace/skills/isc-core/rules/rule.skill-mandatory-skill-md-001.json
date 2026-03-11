@@ -1,90 +1,91 @@
 {
-  "id": "rule.skill-mandatory-skill-md-001",
-  "name": "skill_mandatory_skill_md",
-  "domain": "quality",
-  "type": "governance_rule",
-  "description": "技能强制SKILL.md规则 - 所有技能目录必须包含SKILL.md文件，否则禁止进入流水线",
-  "rationale": "防止无文档的幽灵技能进入系统，确保技能可追溯、可评测、可维护",
-  "rules": [
-    {
-      "id": "R-M1",
-      "name": "mandatory_skill_md_check",
-      "description": "强制检查SKILL.md存在性",
-      "condition": "技能目录被扫描",
-      "priority": "CRITICAL",
-      "action": {
-        "type": "file_existence_check",
-        "required_file": "SKILL.md",
-        "location": "{skill_path}/SKILL.md",
-        "on_missing": {
-          "action": "block_and_alert",
-          "message": "技能 {skill_name} 缺少 SKILL.md，禁止进入流水线",
-          "create_placeholder": false
+    "id": "rule.skill-mandatory-skill-md-001",
+    "rule_id": "rule.skill-mandatory-skill-md-001",
+    "event_type": "isc.rule.matched",
+    "name": "skill_mandatory_skill_md",
+    "description": "技能强制SKILL.md规则 - 所有技能目录必须包含SKILL.md文件，否则禁止进入流水线",
+    "domain": "quality",
+    "type": "governance_rule",
+    "rationale": "防止无文档的幽灵技能进入系统，确保技能可追溯、可评测、可维护",
+    "rules": [
+        {
+            "id": "R-M1",
+            "name": "mandatory_skill_md_check",
+            "description": "强制检查SKILL.md存在性",
+            "condition": "技能目录被扫描",
+            "priority": "CRITICAL",
+            "action": {
+                "type": "file_existence_check",
+                "required_file": "SKILL.md",
+                "location": "{skill_path}/SKILL.md",
+                "on_missing": {
+                    "action": "block_and_alert",
+                    "message": "技能 {skill_name} 缺少 SKILL.md，禁止进入流水线",
+                    "create_placeholder": false
+                }
+            }
+        },
+        {
+            "id": "R-M2",
+            "name": "skill_md_content_validation",
+            "description": "SKILL.md内容基础校验",
+            "condition": "SKILL.md存在",
+            "action": {
+                "type": "content_validation",
+                "required_fields": [
+                    "name",
+                    "description",
+                    "version"
+                ],
+                "on_invalid": {
+                    "action": "warn_and_queue",
+                    "message": "SKILL.md格式不完整"
+                }
+            }
         }
-      }
+    ],
+    "enforcement": {
+        "mode": "strict",
+        "on_violation": "block_and_log",
+        "auto_fix": false
     },
-    {
-      "id": "R-M2",
-      "name": "skill_md_content_validation",
-      "description": "SKILL.md内容基础校验",
-      "condition": "SKILL.md存在",
-      "action": {
-        "type": "content_validation",
-        "required_fields": [
-          "name",
-          "description",
-          "version"
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false,
+        "priority": 95
+    },
+    "created_at": "2026-02-26T17:50:00+08:00",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "isc.rule.matched",
+            "isc.category.matched"
         ],
-        "on_invalid": {
-          "action": "warn_and_queue",
-          "message": "SKILL.md格式不完整"
-        }
-      }
-    }
-  ],
-  "enforcement": {
-    "mode": "strict",
-    "on_violation": "block_and_log",
-    "auto_fix": false
-  },
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false,
-    "priority": 95
-  },
-  "created_at": "2026-02-26T17:50:00+08:00",
-  "version": "1.0.0",
-  "trigger": {
-    "events": [
-      "isc.rule.matched",
-      "isc.category.matched"
+        "actions": [
+            {
+                "type": "log",
+                "level": "info"
+            }
+        ],
+        "event": "isc.rule.matched"
+    },
+    "enforcement_tier": "P0_gate",
+    "action": {
+        "type": "check",
+        "handler": "completeness-check"
+    },
+    "handler": "skills/isc-core/handlers/skill-mandatory-skill-md.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate_relevance": 0.6,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
     ],
-    "actions": [
-      {
-        "type": "log",
-        "level": "info"
-      }
-    ],
-    "event": "isc.rule.matched"
-  },
-  "enforcement_tier": "P0_gate",
-  "action": {
-    "type": "check",
-    "handler": "completeness-check"
-  },
-  "handler": "skills/isc-core/handlers/skill-mandatory-skill-md.js",
-  "rule_id": "rule.skill-mandatory-skill-md-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "言出法随达成率",
-  "gate_relevance": 0.6,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "enforcement-gate"
+    "layer": "enforcement-gate"
 }

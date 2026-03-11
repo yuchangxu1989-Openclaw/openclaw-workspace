@@ -1,71 +1,72 @@
 {
-  "id": "rule.self-correction-to-rule-001",
-  "rule_name": "自我纠偏自动规则化",
-  "version": "1.1.0",
-  "severity": "high",
-  "description": "检测到行为缺陷/纠偏信号时，必须：1)追究根因（规则缺失？handler缺失？逻辑错误？认知偏差？架构缺陷？）2)基于根因找解决方案（不是基于表象找补丁）3)根据根因类型选择修复路径并执行。根因决定方案，方案决定行动。",
-  "source": "2026-03-04 用户指出：不要用关键词正则，要理解意图并泛化",
-  "trigger": {
-    "events": [
-      "system.behavior.defect_acknowledged"
-    ],
-    "detection": {
-      "type": "semantic_intent",
-      "intent_pattern": "Agent承认了一个行为缺陷、认知盲区、或流程遗漏，并表达了纠偏/改进意图",
-      "examples": [
-        "以后我会XXX",
-        "这是我的问题，不该XXX",
-        "抱歉，我漏了XXX",
-        "这不该等你说",
-        "我应该自动XXX的，但我没做",
-        "对，不需要你提醒"
-      ],
-      "note": "以上仅为示例，不是穷举。由LLM语义理解判断是否属于此意图模式。"
+    "id": "rule.self-correction-to-rule-001",
+    "rule_id": "rule.self-correction-to-rule-001",
+    "event_type": "system.behavior.defect_acknowledged",
+    "name": "缺陷根因分析与修复",
+    "description": "检测到行为缺陷/纠偏信号时，必须：1)追究根因（规则缺失？handler缺失？逻辑错误？认知偏差？架构缺陷？）2)基于根因找解决方案（不是基于表象找补丁）3)根据根因类型选择修复路径并执行。根因决定方案，方案决定行动。",
+    "rule_name": "自我纠偏自动规则化",
+    "version": "1.1.0",
+    "severity": "high",
+    "source": "2026-03-04 用户指出：不要用关键词正则，要理解意图并泛化",
+    "trigger": {
+        "events": [
+            "system.behavior.defect_acknowledged"
+        ],
+        "detection": {
+            "type": "semantic_intent",
+            "intent_pattern": "Agent承认了一个行为缺陷、认知盲区、或流程遗漏，并表达了纠偏/改进意图",
+            "examples": [
+                "以后我会XXX",
+                "这是我的问题，不该XXX",
+                "抱歉，我漏了XXX",
+                "这不该等你说",
+                "我应该自动XXX的，但我没做",
+                "对，不需要你提醒"
+            ],
+            "note": "以上仅为示例，不是穷举。由LLM语义理解判断是否属于此意图模式。"
+        },
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "检测到Agent承认行为缺陷并表达纠偏意图时，自动将纠偏固化为ISC规则或技能更新",
+                "behavior": "auto_codify_correction"
+            },
+            {
+                "type": "gate-check",
+                "description": "纠偏规则必须泛化——解决一类问题而非单个case，不通过则要求重写",
+                "behavior": "require_generalized_rule"
+            }
+        ],
+        "event": "system.behavior.defect_acknowledged"
     },
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "检测到Agent承认行为缺陷并表达纠偏意图时，自动将纠偏固化为ISC规则或技能更新",
-        "behavior": "auto_codify_correction"
-      },
-      {
-        "type": "gate-check",
-        "description": "纠偏规则必须泛化——解决一类问题而非单个case，不通过则要求重写",
-        "behavior": "require_generalized_rule"
-      }
+    "action": {
+        "steps": [
+            "识别缺陷的本质（是流程缺失？认知盲区？能力不足？）",
+            "将纠偏泛化为通用规则（解决一类问题，不只是这一个case）",
+            "创建或更新ISC规则",
+            "检查是否有新事件类型需要定义",
+            "检查是否需要更新CAPABILITY-ANCHOR.md",
+            "Git commit固化"
+        ],
+        "handler": "self-correction-root-cause",
+        "type": "handler",
+        "script": "scripts/isc-hooks/rule.self-correction-to-rule-001.sh"
+    },
+    "anti_entropy": "将对话中的每一次认知升级自动固化为系统规则，确保同类错误不再重复。规则本身也要泛化——解决一类问题，不只是当前这个case。",
+    "enforcement_tier": "P0_gate",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/self-correction-to-rule.js",
+    "scoring_rubric": {
+        "completeness": 1,
+        "handler_real": 1,
+        "event_bound": 0.5,
+        "test_covered": 0
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate_relevance": 0.6,
+    "process_indicators": [
+        "handler_execution_count",
+        "gate_pass_rate"
     ],
-    "event": "system.behavior.defect_acknowledged"
-  },
-  "action": {
-    "steps": [
-      "识别缺陷的本质（是流程缺失？认知盲区？能力不足？）",
-      "将纠偏泛化为通用规则（解决一类问题，不只是这一个case）",
-      "创建或更新ISC规则",
-      "检查是否有新事件类型需要定义",
-      "检查是否需要更新CAPABILITY-ANCHOR.md",
-      "Git commit固化"
-    ],
-    "handler": "self-correction-root-cause",
-    "type": "handler",
-    "script": "scripts/isc-hooks/rule.self-correction-to-rule-001.sh"
-  },
-  "anti_entropy": "将对话中的每一次认知升级自动固化为系统规则，确保同类错误不再重复。规则本身也要泛化——解决一类问题，不只是当前这个case。",
-  "enforcement_tier": "P0_gate",
-  "name": "缺陷根因分析与修复",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/self-correction-to-rule.js",
-  "rule_id": "rule.self-correction-to-rule-001",
-  "scoring_rubric": {
-    "completeness": 1,
-    "handler_real": 1,
-    "event_bound": 0.5,
-    "test_covered": 0
-  },
-  "north_star_indicator": "根因分析覆盖率",
-  "gate_relevance": 0.6,
-  "process_indicators": [
-    "handler_execution_count",
-    "gate_pass_rate"
-  ],
-  "layer": "operational-rule"
+    "layer": "operational-rule"
 }

@@ -1,41 +1,42 @@
 {
-  "rule_id": "rule.skill-creator-route-001",
-  "name": "技能创建/管理意图路由",
-  "description": "将技能创建、评估、优化、打包相关意图路由到skill-creator技能",
-  "version": "1.0.0",
-  "enabled": true,
-  "priority": "P1",
-  "trigger": {
-    "events": [
-      "isc.rule.skill.creator.route.001"
+    "rule_id": "rule.skill-creator-route-001",
+    "event_type": "isc.rule.skill.creator.route.001",
+    "name": "技能创建/管理意图路由",
+    "description": "将技能创建、评估、优化、打包相关意图路由到skill-creator技能",
+    "priority": "P1",
+    "version": "1.0.0",
+    "enabled": true,
+    "trigger": {
+        "events": [
+            "isc.rule.skill.creator.route.001"
+        ],
+        "intent_patterns": [
+            "创建.*技能",
+            "新建.*skill",
+            "技能化",
+            "评估技能",
+            "测试.*触发率",
+            "跑.*eval",
+            "优化.*技能描述",
+            "提升.*技能质量",
+            "improve.*skill",
+            "打包技能",
+            "导出.*skill",
+            "package.*skill"
+        ]
+    },
+    "action": {
+        "type": "skill",
+        "skill": "skill-creator",
+        "path": "skills/skill-creator",
+        "entry": "index.js"
+    },
+    "related_rules": [
+        "rule.auto-skill-discovery-001"
     ],
-    "intent_patterns": [
-      "创建.*技能",
-      "新建.*skill",
-      "技能化",
-      "评估技能",
-      "测试.*触发率",
-      "跑.*eval",
-      "优化.*技能描述",
-      "提升.*技能质量",
-      "improve.*skill",
-      "打包技能",
-      "导出.*skill",
-      "package.*skill"
-    ]
-  },
-  "action": {
-    "type": "skill",
-    "skill": "skill-creator",
-    "path": "skills/skill-creator",
-    "entry": "index.js"
-  },
-  "related_rules": [
-    "rule.auto-skill-discovery-001"
-  ],
-  "created_at": "2026-03-11",
-  "created_by": "subagent-p1-skill-creator-integration",
-  "status": "active",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/skill-creator-route.js"
+    "created_at": "2026-03-11",
+    "created_by": "subagent-p1-skill-creator-integration",
+    "status": "active",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/skill-creator-route.js"
 }
