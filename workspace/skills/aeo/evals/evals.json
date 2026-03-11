@@ -1,0 +1,60 @@
+{
+  "skill": "aeo",
+  "version": "1.0.0",
+  "evaluations": [
+    {
+      "id": "eval-001",
+      "type": "positive",
+      "input": "对一个LLM类型技能执行轨道选择",
+      "expected": "返回ai-effect轨道",
+      "scoring_rubric": "轨道选择正确且包含evaluator路径",
+      "north_star_indicator": "技能质量达标率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-002",
+      "type": "positive",
+      "input": "对一个工具类技能执行功能质量评测",
+      "expected": "返回包含accuracy和performance的评分结果",
+      "scoring_rubric": "评分结构完整，分数在0-100范围内",
+      "north_star_indicator": "技能质量达标率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-003",
+      "type": "positive",
+      "input": "批量评测5个技能并生成报告",
+      "expected": "生成包含所有技能评分的汇总报告文件",
+      "scoring_rubric": "报告包含每个技能的分轨道评分和总结",
+      "north_star_indicator": "运营效率",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "eval-004",
+      "type": "positive",
+      "input": "对同一技能连续两次评测",
+      "expected": "两次评分结果一致或差异在5%以内",
+      "scoring_rubric": "评测结果具有稳定性和可复现性",
+      "north_star_indicator": "技能质量达标率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-005",
+      "type": "negative",
+      "input": "传入不存在的技能名称进行评测",
+      "expected": "返回明确错误信息而非崩溃",
+      "scoring_rubric": "错误处理优雅，包含具体原因说明",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-006",
+      "type": "negative",
+      "input": "传入空字符串作为技能名",
+      "expected": "参数校验失败并返回提示",
+      "scoring_rubric": "不抛未捕获异常，返回结构化错误",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    }
+  ]
+}

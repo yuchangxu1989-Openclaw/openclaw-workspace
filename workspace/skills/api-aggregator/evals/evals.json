@@ -1,0 +1,60 @@
+{
+  "skill": "api-aggregator",
+  "version": "1.0.0",
+  "evaluations": [
+    {
+      "id": "eval-001",
+      "type": "positive",
+      "input": "parallel调用3个正常API",
+      "expected": "返回3个fulfilled结果，summary.success=3",
+      "scoring_rubric": "所有请求成功完成，结果结构正确",
+      "north_star_indicator": "API调用成功率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-002",
+      "type": "positive",
+      "input": "sequential调用2个有依赖的API",
+      "expected": "按顺序执行，后一个能拿到前一个结果",
+      "scoring_rubric": "执行顺序正确，数据传递无误",
+      "north_star_indicator": "API调用成功率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-003",
+      "type": "positive",
+      "input": "mergeResults去重合并，uniqueKey=id",
+      "expected": "重复id只保留一条",
+      "scoring_rubric": "去重逻辑正确，数据完整性保持",
+      "north_star_indicator": "数据准确性",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-004",
+      "type": "positive",
+      "input": "parallel调用6个API，maxConcurrency=3",
+      "expected": "分两批执行，总结果6条",
+      "scoring_rubric": "并发控制生效，不超过maxConcurrency",
+      "north_star_indicator": "系统稳定性",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "eval-005",
+      "type": "negative",
+      "input": "parallel调用1个超时API（timeout=100ms）",
+      "expected": "该请求status=rejected，error包含超时信息",
+      "scoring_rubric": "超时控制生效，不阻塞其他请求",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-006",
+      "type": "negative",
+      "input": "传入空请求数组[]",
+      "expected": "返回空结果而非崩溃",
+      "scoring_rubric": "边界case优雅处理",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    }
+  ]
+}

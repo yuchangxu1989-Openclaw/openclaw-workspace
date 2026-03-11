@@ -1,0 +1,60 @@
+{
+  "skill": "architecture-review-pipeline",
+  "version": "1.0.0",
+  "evaluations": [
+    {
+      "id": "eval-001",
+      "type": "positive",
+      "input": "提交一份完整架构设计文档进行评审",
+      "expected": "状态从draft→engineering_review→qa_review→tribunal→approved",
+      "scoring_rubric": "状态机流转完整，timeline记录齐全",
+      "north_star_indicator": "架构评审通过率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-002",
+      "type": "positive",
+      "input": "工程复审发现严重问题",
+      "expected": "状态变为rejected，issues列出具体问题",
+      "scoring_rubric": "自动打回机制生效，问题清单结构化",
+      "north_star_indicator": "架构评审通过率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-003",
+      "type": "positive",
+      "input": "工程通过但质量复审不通过",
+      "expected": "不进入tribunal，直接rejected",
+      "scoring_rubric": "半成品不进裁决殿规则生效",
+      "north_star_indicator": "架构评审通过率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-004",
+      "type": "positive",
+      "input": "使用自定义reviewer配置提交评审",
+      "expected": "使用自定义agentId发起复审",
+      "scoring_rubric": "配置覆盖机制正确，不硬编码",
+      "north_star_indicator": "系统可配置性",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "eval-005",
+      "type": "negative",
+      "input": "designDocPath指向不存在的文件",
+      "expected": "返回错误而非进入评审流程",
+      "scoring_rubric": "前置校验生效，错误信息明确",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-006",
+      "type": "negative",
+      "input": "designDocPath为空字符串",
+      "expected": "参数校验失败",
+      "scoring_rubric": "必填参数缺失时给出明确提示",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    }
+  ]
+}

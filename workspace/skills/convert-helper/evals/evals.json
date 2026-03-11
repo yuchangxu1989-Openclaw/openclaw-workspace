@@ -1,0 +1,60 @@
+{
+  "skill": "convert-helper",
+  "version": "1.0.0",
+  "evaluations": [
+    {
+      "id": "eval-001",
+      "type": "positive",
+      "input": "将JSON字符串转为YAML格式",
+      "expected": "返回正确的YAML格式字符串",
+      "scoring_rubric": "转换结果语法正确且数据无损",
+      "north_star_indicator": "格式转换准确率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-002",
+      "type": "positive",
+      "input": "将CSV数据转为JSON数组",
+      "expected": "返回结构化JSON数组",
+      "scoring_rubric": "字段名和值正确映射",
+      "north_star_indicator": "格式转换准确率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-003",
+      "type": "positive",
+      "input": "将Markdown表格转为CSV",
+      "expected": "返回正确CSV格式",
+      "scoring_rubric": "表格数据完整提取",
+      "north_star_indicator": "格式转换准确率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-004",
+      "type": "positive",
+      "input": "run()基本执行",
+      "expected": "返回success=true",
+      "scoring_rubric": "技能基本执行流程正常",
+      "north_star_indicator": "技能可用率",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "eval-005",
+      "type": "negative",
+      "input": "传入非法JSON字符串进行转换",
+      "expected": "返回解析错误而非崩溃",
+      "scoring_rubric": "错误信息指明解析失败位置",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-006",
+      "type": "negative",
+      "input": "传入空内容进行转换",
+      "expected": "返回空输入错误提示",
+      "scoring_rubric": "边界case有明确提示",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    }
+  ]
+}
