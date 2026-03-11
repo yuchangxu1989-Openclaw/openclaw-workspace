@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-11T04:11:01.264Z",
+  "timestamp": "2026-03-11T08:01:25.426Z",
   "version": "2.0.0",
   "metrics": {
     "concurrencyUtil": {
@@ -40,20 +40,20 @@
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
-      "actual": 0.0105,
+      "actual": 0.0157,
       "target": 1,
-      "gap": -0.9895,
+      "gap": -0.9843,
       "status": "critical",
       "detail": {
-        "actual": 0.0105,
-        "expandedRules": 2,
-        "totalRules": 190,
+        "actual": 0.0157,
+        "expandedRules": 3,
+        "totalRules": 191,
         "layerStats": {
-          "intent": 189,
-          "event": 188,
-          "plan": 12,
-          "handler": 190,
-          "verification": 3
+          "intent": 190,
+          "event": 189,
+          "plan": 13,
+          "handler": 191,
+          "verification": 4
         },
         "incomplete": [
           {
@@ -302,10 +302,10 @@
       "metric": "ruleExpansionRate",
       "label": "ISC规则展开率",
       "severity": "critical",
-      "actual": 0.0105,
+      "actual": 0.0157,
       "target": 1,
-      "gap": -0.9895,
-      "gapDescription": "ISC规则展开率当前0.0105，距目标1还差0.9895，需提升99.0%",
+      "gap": -0.9843,
+      "gapDescription": "ISC规则展开率当前0.0157，距目标1还差0.9843，需提升98.4%",
       "suggestions": [
         "5层展开标准：intent/event/plan/handler/verification 全部非空才算展开",
         "当前主要缺失层：plan(规划)和verification(验真)，优先补齐",
