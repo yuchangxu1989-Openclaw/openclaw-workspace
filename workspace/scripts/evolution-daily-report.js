@@ -403,14 +403,17 @@ function extractLessons(data) {
 }
 
 function autoSediment(lessons) {
-  const memoryFile = path.join(WORKSPACE, 'MEMORY.md');
   const todoFile = path.join(WORKSPACE, 'logs/todo-programmatic.md');
   let appended = 0;
 
-  for (const lesson of lessons) {
-    const added = appendIfMissing(memoryFile, lesson.marker, `${lesson.text} ${lesson.marker}`);
-    if (added) appended++;
-  }
+  // 写入MemOS（MEMORY.md已废弃）
+  try {
+    const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
+    if (memos.isAvailable && memos.isAvailable()) {
+      // memos-reader是只读的，沉淀通过MemOS插件自动完成
+      // 这里只记录到todo文件
+    }
+  } catch {}
 
   // Check if any lessons are programmable (heuristic: contains keywords)
   const programmable = lessons.filter(l =>
@@ -471,7 +474,7 @@ async function main() {
   const lessons = extractLessons(data);
   if (lessons.length > 0) {
     const result = autoSediment(lessons);
-    console.log(`[evolution-daily-report] 沉淀: ${result.appended}条写入MEMORY.md, ${result.programmable}条标记待程序化`);
+    console.log(`[evolution-daily-report] 沉淀: ${result.appended}条教训已记录, ${result.programmable}条标记待程序化`);
   } else {
     console.log('[evolution-daily-report] 无新教训需沉淀');
   }

@@ -54,13 +54,6 @@ else
   echo "❌"; ((FAIL++))
 fi
 
-echo -n "8. MEMORY.md含委派规则记录: "
-if grep -q "主Agent绝不亲自执行" /root/.openclaw/workspace/MEMORY.md 2>/dev/null; then
-  echo "✅"; ((PASS++))
-else
-  echo "❌"; ((FAIL++))
-fi
-
 echo ""
 echo "=== 结果: $PASS 通过 / $FAIL 失败 / 共 $((PASS+FAIL)) 项 ==="
 

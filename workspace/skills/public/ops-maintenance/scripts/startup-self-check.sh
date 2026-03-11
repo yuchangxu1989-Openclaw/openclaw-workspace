@@ -22,8 +22,6 @@ CRITICAL_FILES=(
   "/root/.openclaw/workspace/SOUL.md:身份设定"
   "/root/.openclaw/workspace/USER.md:用户画像"
   "/root/.openclaw/workspace/AGENTS.md:工作指南"
-  "/root/.openclaw/workspace/MEMORY.md:长期记忆"
-  "/root/.openclaw/workspace/CRITICAL-MEMORY.md:关键记忆"
   "/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json:EvoMap清单"
 )
 

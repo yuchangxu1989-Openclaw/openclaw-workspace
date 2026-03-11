@@ -106,7 +106,6 @@ function checkSkillsHealth() {
 function checkSystemFiles() {
   const criticalFiles = [
     { path: 'CAPABILITY-ANCHOR.md', name: '能力锚点' },
-    { path: 'MEMORY.md', name: '长期记忆(Legacy)' },
     { path: 'SOUL.md', name: '身份设定' },
     { path: 'skills/isc-core/config/evomap-upload-manifest.json', name: 'EvoMap清单' }
   ];

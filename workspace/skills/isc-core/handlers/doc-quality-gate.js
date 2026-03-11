@@ -37,7 +37,7 @@ module.exports = async function(event, rule, context) {
 
   // Check 2: Task must be a critical document type
   const criticalKeywords = ['重大决策文档', '重要报告', '方案设计', '架构方案', '评测基线', '飞书文档写入'];
-  const excludeKeywords = ['简单文件修改', '配置更新', '日志记录', 'memory更新', 'MEMORY.md'];
+  const excludeKeywords = ['简单文件修改', '配置更新', '日志记录', 'memory更新'];
 
   const isCritical = criticalKeywords.some(kw => taskType.includes(kw) || (docPath || '').includes(kw));
   const isExcluded = excludeKeywords.some(kw => taskType.includes(kw) || (docPath || '').includes(kw));

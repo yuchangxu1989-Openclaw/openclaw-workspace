@@ -70,7 +70,7 @@ class StateManager {
 
   /**
    * 从文件系统重建技能状态
-   * 遵循ISC规则N036：不依赖MEMORY.md，从文件系统重建
+   * 遵循ISC规则N036：不依赖MEMORY.md（已废弃），从文件系统重建
    * @param {string} skillPath - 技能路径
    * @returns {Object} 技能状态
    */

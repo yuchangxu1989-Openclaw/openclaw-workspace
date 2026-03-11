@@ -332,41 +332,18 @@ function getMutationDirective(logContent) {
 }
 
 const STATE_FILE = path.join(getEvolutionDir(), 'evolution_state.json');
-// Read MEMORY.md and USER.md from the WORKSPACE root (not the evolver plugin dir).
-// This avoids symlink breakage if the target file is temporarily deleted.
+// Read USER.md from the WORKSPACE root (not the evolver plugin dir).
 const WORKSPACE_ROOT = process.env.OPENCLAW_WORKSPACE || path.resolve(REPO_ROOT, '../..');
-const ROOT_MEMORY = path.join(WORKSPACE_ROOT, 'MEMORY.md');
-const DIR_MEMORY = path.join(MEMORY_DIR, 'MEMORY.md');
-const MEMORY_FILE = fs.existsSync(ROOT_MEMORY) ? ROOT_MEMORY : (fs.existsSync(DIR_MEMORY) ? DIR_MEMORY : ROOT_MEMORY);
 const USER_FILE = path.join(WORKSPACE_ROOT, 'USER.md');
 
 // MemOS记忆读取：使用共用模块 memos-reader.js（消除双轨残留）
 
 function readMemorySnippet() {
   try {
-    // Session scope isolation: when a scope is active, prefer scoped MEMORY.md
-    // at memory/scopes/<scope>/MEMORY.md. Falls back to global MEMORY.md if
-    // scoped file doesn't exist (common: scoped MEMORY.md created on first evolution).
-    const scope = getSessionScope();
-    let memFile = MEMORY_FILE;
-    if (scope) {
-      const scopedMemory = path.join(MEMORY_DIR, 'scopes', scope, 'MEMORY.md');
-      if (fs.existsSync(scopedMemory)) {
-        memFile = scopedMemory;
-        console.log(`[SessionScope] Reading scoped MEMORY.md for "${scope}".`);
-      } else {
-        // First run with scope: global MEMORY.md will be used, but note it.
-        console.log(`[SessionScope] No scoped MEMORY.md for "${scope}". Using global MEMORY.md.`);
-      }
-    }
-
-    // MemOS优先：先从共用模块读取MemOS记忆
-    let memosContent = '';
+    // MemOS是唯一记忆源（MEMORY.md已废弃）
     try {
       if (memosReader.isAvailable()) {
-        // 读取最近对话记忆
         const recentText = memosReader.readAsText(30) || '';
-        // 读取纠偏/铁令记忆（FTS搜索）
         const directiveRows = memosReader.searchFTS('纠偏 OR 铁令 OR 修正 OR 规则 OR correction OR directive', 15);
         let directiveText = '';
         if (directiveRows.length) {
@@ -377,31 +354,14 @@ function readMemorySnippet() {
           directiveText = `\n--- MemOS纠偏/铁令记忆 (${directiveRows.length}条) ---\n${lines.join('\n')}`;
         }
         if (recentText || directiveText) {
-          memosContent = (recentText || '') + directiveText;
           console.log('[MemOS] Successfully loaded conversation memories for Evolver via memos-reader.');
+          return (recentText || '') + directiveText;
         }
       }
     } catch (e) {
       console.error(`[MemOS] memos-reader failed: ${e.message}`);
     }
-
-    // MemOS有数据则作为主要来源；无数据则fallback到MEMORY.md
-    if (memosContent) {
-      return memosContent;
-    }
-
-    // Fallback: MEMORY.md（仅当MemOS无数据时）
-    let mdContent = '';
-    if (fs.existsSync(memFile)) {
-      mdContent = fs.readFileSync(memFile, 'utf8');
-      if (mdContent.length > 40000) {
-        mdContent = mdContent.slice(0, 40000) + `\n... [TRUNCATED: ${mdContent.length - 40000} chars remaining]`;
-      }
-    } else {
-      mdContent = '[MEMORY.md MISSING]';
-    }
-    console.log('[MemOS] MemOS unavailable, falling back to MEMORY.md.');
-    return mdContent;
+    return '[MemOS: no data available]';
   } catch (e) {
     return '[ERROR READING MEMORY]';
   }
@@ -1305,7 +1265,7 @@ ${(() => {
 External candidates (A2A receive zone; staged only, never execute directly):
 ${externalCandidatesPreview}
 
-Global memory (MemOS优先, MEMORY.md fallback):
+Global memory (MemOS):
 \`\`\`
 ${memorySnippet}
 \`\`\`

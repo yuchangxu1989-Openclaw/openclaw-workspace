@@ -29,7 +29,7 @@ function checkFile(filePath) {
 
 const checks = [];
 
-// 1. SOUL.md / MEMORY.md 存在性 + MemOS健康检查
+// 1. SOUL.md 存在性 + MemOS健康检查
 // MemOS检查（主记忆源）
 try {
   const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
@@ -48,7 +48,7 @@ try {
 }
 
 // Legacy文件检查
-['SOUL.md', 'MEMORY.md', 'CRITICAL-MEMORY.md', 'HEARTBEAT.md'].forEach(f => {
+['SOUL.md', 'CRITICAL-MEMORY.md', 'HEARTBEAT.md'].forEach(f => {
   const c = checkFile(path.join(WORKSPACE, f));
   checks.push({
     name: f,

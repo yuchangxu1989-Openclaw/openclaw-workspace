@@ -17,7 +17,7 @@ LOG_LINES=$(find "$WORKSPACE" -name "*.log" -newer "$WORKSPACE/reports/trends/en
   -exec wc -l {} + 2>/dev/null | tail -1 | awk '{print $1}' || echo 0)
 SCRIPT_COUNT=$(find "$WORKSPACE/scripts" -name "*.sh" -o -name "*.js" 2>/dev/null | wc -l)
 REPORT_COUNT=$(find "$WORKSPACE/reports" -name "*.md" 2>/dev/null | wc -l)
-MEMORY_SIZE=$(wc -c < "$WORKSPACE/MEMORY.md" 2>/dev/null || echo 0)
+MEMORY_SIZE=0  # Legacy MEMORY.md已废弃，MemOS为唯一记忆源
 CRON_COUNT=$(crontab -l 2>/dev/null | grep -v '^#' | grep -v '^$' | wc -l)
 
 # 近24h git提交数

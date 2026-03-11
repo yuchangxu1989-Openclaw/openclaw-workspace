@@ -1,7 +1,7 @@
 ---
 name: quality-audit
 description: 统一质量审计技能，整合auto-QA、ISC规则审计、completion review三大组件
-version: "1.0.0"
+version: "1.0.1"
 status: active
 allowed-tools: sessions_spawn, exec, read
 ---

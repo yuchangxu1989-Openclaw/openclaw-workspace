@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-11T10:00:49.446Z",
+  "timestamp": "2026-03-11T14:47:10.416Z",
   "version": "2.0.0",
   "metrics": {
     "concurrencyUtil": {
@@ -40,19 +40,19 @@
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
-      "actual": 0.0157,
+      "actual": 0.0156,
       "target": 1,
-      "gap": -0.9843,
+      "gap": -0.9844,
       "status": "critical",
       "detail": {
-        "actual": 0.0157,
+        "actual": 0.0156,
         "expandedRules": 3,
-        "totalRules": 191,
+        "totalRules": 192,
         "layerStats": {
-          "intent": 190,
-          "event": 189,
+          "intent": 191,
+          "event": 190,
           "plan": 13,
-          "handler": 191,
+          "handler": 192,
           "verification": 4
         },
         "incomplete": [
@@ -197,6 +197,13 @@
             ]
           },
           {
+            "rule": "rule.board-push-on-task-complete-001",
+            "missing": [
+              "plan",
+              "verification"
+            ]
+          },
+          {
             "rule": "rule.caijuedian-tribunal-001",
             "missing": [
               "plan",
@@ -258,16 +265,9 @@
               "plan",
               "verification"
             ]
-          },
-          {
-            "rule": "rule.day2-gap1-cron-event-bridge",
-            "missing": [
-              "plan",
-              "verification"
-            ]
           }
         ],
-        "incompleteCount": 188
+        "incompleteCount": 189
       }
     },
     "badcaseAutoRate": {
@@ -302,10 +302,10 @@
       "metric": "ruleExpansionRate",
       "label": "ISC规则展开率",
       "severity": "critical",
-      "actual": 0.0157,
+      "actual": 0.0156,
       "target": 1,
-      "gap": -0.9843,
-      "gapDescription": "ISC规则展开率当前0.0157，距目标1还差0.9843，需提升98.4%",
+      "gap": -0.9844,
+      "gapDescription": "ISC规则展开率当前0.0156，距目标1还差0.9844，需提升98.4%",
       "suggestions": [
         "5层展开标准：intent/event/plan/handler/verification 全部非空才算展开",
         "当前主要缺失层：plan(规划)和verification(验真)，优先补齐",

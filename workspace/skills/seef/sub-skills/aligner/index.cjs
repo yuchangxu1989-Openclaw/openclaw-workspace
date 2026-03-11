@@ -1,4 +1,7 @@
-const { SKILLS_DIR, REPORTS_DIR } = require('../../../_shared/paths');
+// 内联路径定义（替代 ../../../_shared/paths）
+const SKILLS_DIR = '/root/.openclaw/workspace/skills';
+const REPORTS_DIR = '/root/.openclaw/workspace/infrastructure/reports';
+
 /**
  * SEEF Aligner - 标准对齐器
  * 监听 ISC 标准变更，自动检查并触发全链路技能对齐

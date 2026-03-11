@@ -477,7 +477,6 @@ const CRITICAL_PROTECTED_PREFIXES = [
 
 // Files at workspace root that must never be deleted by evolver.
 const CRITICAL_PROTECTED_FILES = [
-  'MEMORY.md',
   'SOUL.md',
   'IDENTITY.md',
   'AGENTS.md',
@@ -807,21 +806,15 @@ function ensureGene({ genes, selectedGene, signals, intent, dryRun }) {
 function readRecentSessionInputs() {
   const repoRoot = getRepoRoot();
   const memoryDir = getMemoryDir();
-  const rootMemory = path.join(repoRoot, 'MEMORY.md');
-  const dirMemory = path.join(memoryDir, 'MEMORY.md');
-  const memoryFile = fs.existsSync(rootMemory) ? rootMemory : dirMemory;
   const userFile = path.join(repoRoot, 'USER.md');
   const todayLog = path.join(memoryDir, new Date().toISOString().split('T')[0] + '.md');
   const todayLogContent = fs.existsSync(todayLog) ? fs.readFileSync(todayLog, 'utf8') : '';
-  // Primary: MemOS记忆; Fallback: MEMORY.md
+  // MemOS是唯一记忆源（MEMORY.md已废弃）
   let memorySnippet = '';
   try {
     const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
     if (memos.isAvailable()) memorySnippet = memos.readAsText(30) || '';
   } catch {}
-  if (!memorySnippet) {
-    memorySnippet = fs.existsSync(memoryFile) ? fs.readFileSync(memoryFile, 'utf8').slice(0, 50000) : '';
-  }
   const userSnippet = fs.existsSync(userFile) ? fs.readFileSync(userFile, 'utf8') : '';
   const recentSessionTranscript = '';
   return { recentSessionTranscript, todayLog: todayLogContent, memorySnippet, userSnippet };

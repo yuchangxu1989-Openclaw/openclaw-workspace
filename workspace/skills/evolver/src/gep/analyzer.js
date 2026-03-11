@@ -20,18 +20,6 @@ function analyzeFailures() {
     }
   } catch {}
 
-  // Fallback: MEMORY.md（仅当MemOS无结果时）
-  if (failures.length === 0) {
-    const memoryPath = path.join(process.cwd(), 'MEMORY.md');
-    if (!fs.existsSync(memoryPath)) return { status: 'skipped', reason: 'no_memory' };
-    const content = fs.readFileSync(memoryPath, 'utf8');
-    const failureRegex = /\|\s*\*\*F\d+\*\*\s*\|\s*Fix\s*\|\s*(.*?)\s*\|\s*\*\*(.*?)\*\*\s*\((.*?)\)\s*\|/g;
-    let match;
-    while ((match = failureRegex.exec(content)) !== null) {
-      failures.push({ summary: match[1].trim(), detail: match[2].trim() });
-    }
-  }
-
   return {
     status: 'success',
     count: failures.length,

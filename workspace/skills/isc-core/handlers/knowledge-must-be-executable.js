@@ -1,7 +1,7 @@
 'use strict';
 /**
  * ISC Handler: rule.knowledge-must-be-executable-001
- * 任何从对话、教学、错误中学到的知识，必须自主固化为可执行的规则/技能/代码（不是告警等人处理）。全链路自主闭环：感知（扫描MEMORY.md发现可执行知识）→ 认知（判断应该成为技能还是规则还是代码）→ 执行（自动创建技能/规则/handler）→ 验证（确认可执行性）。Memory是索引不是终点。
+ * 任何从对话、教学、错误中学到的知识，必须自主固化为可执行的规则/技能/代码（不是告警等人处理）。全链路自主闭环：感知（扫描MemOS发现可执行知识）→ 认知（判断应该成为技能还是规则还是代码）→ 执行（自动创建技能/规则/handler）→ 验证（确认可执行性）。Memory是索引不是终点。
  * Severity: medium | Trigger: {"events":["knowledge.general.created","user.teaching.received","system.error","system.error.lesson_extracted"],"actions":["knowledge.executable.create_rule","knowledge.executable.create_skill","knowledge.executable.update_code"],"event":"knowledge.general.created"}
  */
 

@@ -30,7 +30,6 @@ tar czf "${BACKUP_FILE}" \
   --exclude='workspace/node_modules' \
   --exclude='workspace/skills/*/node_modules' \
   workspace/SOUL.md \
-  workspace/MEMORY.md \
   workspace/USER.md \
   workspace/AGENTS.md \
   workspace/TOOLS.md \

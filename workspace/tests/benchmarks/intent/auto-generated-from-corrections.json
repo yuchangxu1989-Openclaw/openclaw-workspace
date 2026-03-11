@@ -568,5 +568,15 @@
     "created_at": "2026-03-11T09:00:02.281Z",
     "data_source": "real_conversation",
     "signal": "16:55 Memory Flush - 下午会话关键发现\n\n### 根因：主Agent通信阻塞\n- **86%的sessions_spawn调用没传agentId** → 全部回落到默认key → 主Agent的key被占满\n- 265次spawn中228次没传agentId，仅37次（14%）指定了agentId\n- 19个sk-xxx key在代理后台都归属同一个令牌04/分组cc7\n- 报告：reports/rootcause-single-key.md\n\n### 铁令违反记录\n- 主Agent多次亲自执行exec/grep/sed/git操作，阻塞用户通信\n- 用户三次指出同一问题，"
+  },
+  {
+    "id": "auto-eval-1773241201686-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "晚间session (19:44-21:28)\n\n### 完成的P0任务\n- P0 quality-audit重写：3模式19项检查，结构化输出{score,issues[],passed[]}（co",
+    "source": "memory/2026-03-11.md",
+    "created_at": "2026-03-11T15:00:01.678Z",
+    "data_source": "real_conversation",
+    "signal": "晚间session (19:44-21:28)\n\n### 完成的P0任务\n- P0 quality-audit重写：3模式19项检查，结构化输出{score,issues[],passed[]}（commit 10c2a1ca0）\n- P0 ISC handler覆盖率：0%→100%，193规则全覆盖，240个handler可require（commit 1ec1ae917）\n- P0 V4 golden test：0%→100%，423/423条case补齐5个V4字段（commit fe27f90e3）\n- P0 纠偏handler接入MemOS：FTS5搜索→事务标记deprecate"
   }
 ]

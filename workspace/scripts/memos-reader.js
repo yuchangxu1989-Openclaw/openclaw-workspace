@@ -1,7 +1,7 @@
 /**
  * memos-reader.js - MemOS共用读取模块
  *
- * 所有组件通过此模块读取MemOS记忆，MEMORY.md仅作fallback。
+ * 所有组件通过此模块读取MemOS记忆（唯一记忆源）。
  * 使用sqlite3 CLI（与evolve.js一致），无需额外npm依赖。
  */
 const { execSync } = require('child_process');
@@ -74,7 +74,7 @@ function isAvailable() {
   } catch { return false; }
 }
 
-/** 格式化为可读文本（兼容原MEMORY.md使用场景） */
+/** 格式化为可读文本 */
 function readAsText(n = 30) {
   const rows = readLatest(n);
   if (!rows.length) return null;

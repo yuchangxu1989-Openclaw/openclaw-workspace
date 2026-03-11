@@ -3,7 +3,6 @@
 # 此脚本在OpenClaw启动时运行，确保关键文件不被遗忘
 
 EVOMAP_MANIFEST="/root/.openclaw/workspace/skills/isc-core/config/evomap-upload-manifest.json"
-MEMORY_FILE="/root/.openclaw/workspace/MEMORY.md"
 SOUL_FILE="/root/.openclaw/workspace/SOUL.md"
 
 ERRORS=0
@@ -19,14 +18,6 @@ if [ ! -f "$EVOMAP_MANIFEST" ]; then
 else
     echo "✅ EvoMap manifest exists"
     echo "   Allowed skills: $(grep -o '"allowed_skills"' "$EVOMAP_MANIFEST" | wc -l) entry"
-fi
-
-# 检查MEMORY.md
-if [ ! -f "$MEMORY_FILE" ]; then
-    echo "⚠️  WARNING: MEMORY.md missing"
-    ERRORS=$((ERRORS + 1))
-else
-    echo "✅ MEMORY.md exists"
 fi
 
 # 检查SOUL.md

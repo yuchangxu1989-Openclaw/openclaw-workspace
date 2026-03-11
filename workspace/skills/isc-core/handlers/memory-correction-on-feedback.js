@@ -1,7 +1,7 @@
 'use strict';
 /**
  * ISC Handler: memory-correction-on-feedback-001
- * 用户纠偏时自动反查MEMORY.md中的矛盾记忆并修正
+ * 用户纠偏时自动反查MemOS中的矛盾记忆并修正
  * Severity: medium | Trigger: {"event":"user.feedback.correction","events":["isc.rule.memory.correction.on.feedback.001"]}
  */
 

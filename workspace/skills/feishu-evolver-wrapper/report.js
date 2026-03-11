@@ -244,20 +244,7 @@ function getCycleInfo() {
         }
     } catch {}
 
-    // 3. Fallback: MEMORY.md (Legacy/Seed)
-    if (maxId === 0) {
-        try {
-            const memPath = path.resolve(__dirname, '../../MEMORY.md');
-            if (fs.existsSync(memPath)) {
-                const memContent = fs.readFileSync(memPath, 'utf8');
-                const matches = [...memContent.matchAll(/Cycle #(\d+)/g)];
-                for (const match of matches) {
-                    const id = parseInt(match[1]);
-                    if (id > maxId) maxId = id;
-                }
-            }
-        } catch (e) {}
-    }
+    // MEMORY.md fallback已废弃，MemOS为唯一记忆源
 
     // Initialize State File if missing
     nextId = (maxId > 0 ? maxId : Math.floor(Date.now() / 1000)) + 1;

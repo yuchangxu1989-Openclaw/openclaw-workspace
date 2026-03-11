@@ -1,7 +1,7 @@
 'use strict';
 /**
  * ISC Handler: ISC-USER-EMPHASIS-AUTO-ESCALATION-001
- * 用户对同一概念反复强调≥2次时，自动将该概念从MEMORY.md升级到AGENTS.md启动清单或代码hook层
+ * 用户对同一概念反复强调≥2次时，自动将该概念从MemOS升级到AGENTS.md启动清单或代码hook层
  * Severity: critical | Trigger: {"events":["user.emphasis.repeated"]}
  */
 

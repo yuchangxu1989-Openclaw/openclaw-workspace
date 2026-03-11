@@ -2,14 +2,13 @@
  * memory-loss-recovery - 记忆丢失自主恢复处理器
  *
  * 规则: rule.n036-memory-loss-recovery
- * 职责: 当MEMORY.md丢失或损坏时，从文件系统自动重建规则清单和系统状态
+ * 职责: 当MemOS不可用或注册表丢失时，从文件系统自动重建规则清单和系统状态
  */
 const fs = require('fs');
 const path = require('path');
 const { writeReport, emitEvent, scanFiles, readRuleJson, checkFileExists } = require('../lib/handler-utils');
 
 const WORKSPACE = '/root/.openclaw/workspace';
-const MEMORY_PATH = path.join(WORKSPACE, 'MEMORY.md');
 const REGISTRY_PATH = path.join(WORKSPACE, '.rule-registry.json');
 const RULES_DIR = path.join(WORKSPACE, 'skills/isc-core/rules');
 const STANDARDS_DIR = path.join(WORKSPACE, 'skills/isc-core/standards');
@@ -39,20 +38,11 @@ module.exports = {
       }
     } catch {}
 
-    // Fallback: 检查MEMORY.md
-    const memoryExists = checkFileExists(MEMORY_PATH);
+    // MemOS是唯一记忆源（MEMORY.md已废弃）
     const registryExists = checkFileExists(REGISTRY_PATH);
-    let memoryCorrupted = false;
 
-    if (memoryExists) {
-      try {
-        const content = fs.readFileSync(MEMORY_PATH, 'utf8');
-        memoryCorrupted = content.length < 100;
-      } catch { memoryCorrupted = true; }
-    }
-
-    // MemOS健康时，即使MEMORY.md缺失也不需要恢复（仅注册表缺失时恢复）
-    const needsRecovery = force || (!memosHealthy && (!memoryExists || memoryCorrupted)) || !registryExists;
+    // MemOS健康且注册表存在时，无需恢复
+    const needsRecovery = force || !memosHealthy || !registryExists;
     if (!needsRecovery) {
       console.log('[memory-recovery] 系统正常，无需恢复');
       return { ok: true, action: 'skipped', reason: 'no recovery needed' };

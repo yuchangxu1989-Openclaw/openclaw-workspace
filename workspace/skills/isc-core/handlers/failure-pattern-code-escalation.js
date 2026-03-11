@@ -6,7 +6,7 @@
  *
  * 任何依赖LLM记忆/规则文本执行的行为模式，如果失败≥2次，
  * 必须从规则/记忆层下沉到代码层自动执行。
- * 禁止继续用AGENTS.md规则或MEMORY.md教训兜底。
+ * 禁止继续用AGENTS.md规则兜底。
  */
 
 const path = require('path');

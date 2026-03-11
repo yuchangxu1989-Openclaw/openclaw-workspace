@@ -9,7 +9,7 @@
  *   1. FTS5搜索MemOS中与纠偏相关的旧认知
  *   2. 标记旧认知为deprecated（事务原子性）
  *   3. 插入correction chunk到MemOS
- *   4. 双写MEMORY.md保持兼容
+ *   4. (MEMORY.md双写已废弃，MemOS为唯一记忆源)
  */
 
 const fs = require('fs');
@@ -26,7 +26,6 @@ const {
 // better-sqlite3 从 memos 插件的 node_modules 加载
 const BETTER_SQLITE3_PATH = '/root/.openclaw/extensions/memos-local-openclaw-plugin/node_modules/better-sqlite3';
 const MEMOS_DB_PATH = '/root/.openclaw/memos-local/memos.db';
-const MEMORY_MD_PATH = '/root/.openclaw/workspace/MEMORY.md';
 
 /**
  * 打开MemOS数据库（非readonly）
@@ -136,21 +135,10 @@ function applyCorrection(db, oldChunks, correction) {
 }
 
 /**
- * 双写MEMORY.md（兼容旧流程）
+ * (已废弃) MEMORY.md双写 — MemOS为唯一记忆源
  */
 function appendToMemoryMd(correction) {
-  try {
-    const entry = `\n## 🔧 纠偏 [${new Date().toISOString()}]\n` +
-      `- 旧认知: ${correction.oldKnowledge || '(未指定)'}\n` +
-      `- 新认知: ${correction.content}\n` +
-      `- 原因: ${correction.reason || '用户纠偏'}\n`;
-
-    if (checkFileExists(MEMORY_MD_PATH)) {
-      fs.appendFileSync(MEMORY_MD_PATH, entry, 'utf8');
-    }
-  } catch (err) {
-    console.warn(`[correction-harvester] MEMORY.md双写失败(非致命): ${err.message}`);
-  }
+  // no-op: MEMORY.md双写已废弃
 }
 
 /**
@@ -242,10 +230,8 @@ module.exports = async function (event, rule, context) {
     actions.push(`memos_deprecated:${memosResult.deprecated}`);
     actions.push(`memos_inserted:${memosResult.correctionId}`);
 
-    // === Check 5: 双写MEMORY.md ===
-    appendToMemoryMd(correction);
-    checks.push({ name: 'memory_md_compat', ok: true, message: 'MEMORY.md双写完成' });
-    actions.push('memory_md_appended');
+    // === Check 5: (MEMORY.md双写已废弃) ===
+    checks.push({ name: 'memory_md_compat', ok: true, message: 'MEMORY.md双写已废弃，MemOS为唯一记忆源' });
 
     // === 写报告 ===
     const result = gateResult(rule?.id || 'correction-harvester', checks, { failClosed: false });

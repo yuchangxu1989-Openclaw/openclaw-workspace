@@ -160,15 +160,7 @@ function assessKnowledgeHealth() {
     }
   } catch {}
 
-  // Fallback: 检查MEMORY.md最后更新
-  if (!health.last_memory_update) {
-    const memFile = path.join(WORKSPACE, 'MEMORY.md');
-    if (fs.existsSync(memFile)) {
-      const stat = fs.statSync(memFile);
-      health.last_memory_update = stat.mtime.toISOString();
-      health.memory_updated = (Date.now() - stat.mtimeMs) < 48 * 60 * 60 * 1000;
-    }
-  }
+  // MEMORY.md fallback已废弃，MemOS为唯一记忆源
   
   // 统计技能数
   const skillsDir = path.join(WORKSPACE, 'skills');
@@ -266,7 +258,7 @@ function generateEvolutionSuggestions(dimensions, insights) {
     suggestions.push('纠偏信号过多，建议将高频纠偏固化为ISC规则');
   }
   if (!dimensions.knowledge_governance.memory_updated) {
-    suggestions.push('记忆源超过48h未更新（MemOS或MEMORY.md），建议在heartbeat中触发记忆整理');
+    suggestions.push('记忆源超过48h未更新（MemOS），建议在heartbeat中触发记忆整理');
   }
   if (!dimensions.knowledge_governance.today_memory_exists) {
     suggestions.push('今日无记忆文件，重要决策可能丢失');

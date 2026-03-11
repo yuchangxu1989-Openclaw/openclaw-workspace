@@ -27,7 +27,7 @@ NEW_REPORTS=$(find "$WORKSPACE/reports" -name "*.md" -mtime -7 2>/dev/null | wc 
 TOTAL_CRON=$(crontab -l 2>/dev/null | grep -v '^#' | grep -v '^$' | wc -l | tr -d ' ')
 TOTAL_SKILLS=$(find "$WORKSPACE/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
 TOTAL_SCRIPTS=$(find "$WORKSPACE/scripts" -name "*.sh" -o -name "*.js" 2>/dev/null | wc -l | tr -d ' ')
-MEMORY_LINES=$(wc -l < "$WORKSPACE/MEMORY.md" 2>/dev/null || echo 0)
+MEMORY_LINES=0  # Legacy MEMORY.md已废弃，MemOS为唯一记忆源
 
 cat > "$REPORT" << EOF
 # 进化周报 $(date '+%Y-W%V') (截至 $(date '+%Y-%m-%d'))
@@ -49,7 +49,7 @@ cat > "$REPORT" << EOF
 | Cron 任务 | ${TOTAL_CRON} |
 | 技能数量 | ${TOTAL_SKILLS} |
 | 脚本数量 | ${TOTAL_SCRIPTS} |
-| MEMORY.md 行数 | ${MEMORY_LINES} |
+| MemOS 记忆条数 | (见MemOS) |
 
 ## 🔄 Git 活动摘要
 

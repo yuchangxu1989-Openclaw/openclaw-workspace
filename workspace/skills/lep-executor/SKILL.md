@@ -1,7 +1,7 @@
 ---
 name: lep-executor
 description: LEP稳定执行 - 统一韧性任务执行引擎
-version: "1.0.17"
+version: "1.0.18"
 status: active
 priority: critical
 ---
