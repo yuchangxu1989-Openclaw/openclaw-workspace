@@ -146,7 +146,7 @@ function isCompletedByTranscript(sessionVal, sessDir) {
         const msg = entry.message || entry;
         if (msg.role === 'assistant') {
           const sr = msg.stopReason;
-          return sr === 'stop' || sr === 'length' || sr === 'end_turn';
+          return sr === 'stop' || sr === 'length' || sr === 'end_turn' || sr === 'error';
         }
       } catch {}
     }
@@ -154,13 +154,26 @@ function isCompletedByTranscript(sessionVal, sessDir) {
   return false;
 }
 
-const STALE_CHECK_MS = 30 * 60 * 1000; // check transcript for sessions idle >30min
+// Check transcript for ALL non-done sessions (no staleness gate)
 for (const [label, { val, sessDir }] of Object.entries(allSessions)) {
   if (doneRegistry[label]) continue;
   const age = now - (val.updatedAt || 0);
-  if (age > STALE_CHECK_MS && isCompletedByTranscript(val, sessDir)) {
+  if (isCompletedByTranscript(val, sessDir)) {
     doneRegistry[label] = val.updatedAt || now;
-    console.log(`[done:transcript] ${label} (idle ${Math.floor(age / 60000)}m)`);
+    console.log(`[done:transcript] ${label} (age ${Math.floor(age / 60000)}m)`);
+  }
+}
+
+// Signal D: Timeout-based completion
+// If a session hasn't been updated in >10 minutes, it's almost certainly done
+// (subagent tasks typically complete in <10 min; the 2h RUNNING_MAX_AGE_MS just hides them)
+const TIMEOUT_DONE_MS = 10 * 60 * 1000; // 10 minutes
+for (const [label, { val }] of Object.entries(allSessions)) {
+  if (doneRegistry[label]) continue;
+  const age = now - (val.updatedAt || 0);
+  if (age > TIMEOUT_DONE_MS) {
+    doneRegistry[label] = val.updatedAt || now;
+    console.log(`[done:timeout] ${label} (idle ${Math.floor(age / 60000)}m, assumed done)`);
   }
 }
 
