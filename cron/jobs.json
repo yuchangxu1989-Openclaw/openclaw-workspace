@@ -380,7 +380,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773194530088,
+      "updatedAtMs": 1773198028285,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -399,11 +399,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773198007906,
-        "lastRunAtMs": 1773194508729,
+        "nextRunAtMs": 1773201607906,
+        "lastRunAtMs": 1773198013785,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 21359,
+        "lastDurationMs": 14500,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773194540935,
+      "updatedAtMs": 1773198092280,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -503,11 +503,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773198078795,
-        "lastRunAtMs": 1773194530088,
+        "nextRunAtMs": 1773201678795,
+        "lastRunAtMs": 1773198078802,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 10847,
+        "lastDurationMs": 13478,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773195000011,
+      "updatedAtMs": 1773200700007,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,11 +670,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773195300000,
-        "lastRunAtMs": 1773195000010,
+        "nextRunAtMs": 1773201000000,
+        "lastRunAtMs": 1773200700007,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 1,
+        "lastDurationMs": 0,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "lastError": "isolated job requires payload.kind=agentTurn"
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773194448839,
+      "updatedAtMs": 1773200710457,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,11 +703,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773195300000,
-        "lastRunAtMs": 1773194438099,
+        "nextRunAtMs": 1773201600000,
+        "lastRunAtMs": 1773200700007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 10740,
+        "lastDurationMs": 10450,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false

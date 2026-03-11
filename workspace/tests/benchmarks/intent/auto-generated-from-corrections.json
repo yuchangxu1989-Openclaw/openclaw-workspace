@@ -548,5 +548,15 @@
     "created_at": "2026-03-11T01:00:01.737Z",
     "data_source": "real_conversation",
     "signal": "08:14 Compaction Flush\n\n### 看板显示0问题诊断\n- **根因**: sessions_spawn创建的任务不走register-task.sh，看板只读subagent-task-board.json，新任务不在里面\n- **修复**: 已派 fix-taskboard-sync 子Agent，方向是让看板合并实际运行中的子Agent列表\n- **子Agent状态** (08:14):\n  - `isc-full-pce-expand` — 仍在跑（ISC 189条规则5层展开+V4审计）\n  - `create-qa-audit-skill` — 仍在跑\n  - "
+  },
+  {
+    "id": "auto-eval-1773198002116-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "10:22 Memory Flush\n\n### 子Agent调度根因修复\n- **根因**：sessions_spawn不指定agentId → 全部回落到main agent → 19个独立key只",
+    "source": "memory/2026-03-11.md",
+    "created_at": "2026-03-11T03:00:02.112Z",
+    "data_source": "real_conversation",
+    "signal": "10:22 Memory Flush\n\n### 子Agent调度根因修复\n- **根因**：sessions_spawn不指定agentId → 全部回落到main agent → 19个独立key只用1个（claude-main）\n- **修复**：每次spawn必须指定agentId（researcher/coder/reviewer/writer/analyst/scout等）\n- **验证**：session key从`agent:main:subagent:...`变为`agent:researcher:subagent:...`等\n- **铁令**：派前检查agent是否空闲，不给"
   }
 ]

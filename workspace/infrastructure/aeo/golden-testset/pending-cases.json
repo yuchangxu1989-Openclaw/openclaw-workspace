@@ -338,7 +338,31 @@
       "reviewed_by": null,
       "review_date": null,
       "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLEVMRC-1I4",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-11",
+      "source": "memos:default/6eb99294",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "1. **🟢running数量不对",
+      "context": "t busy-poll for status.\n\n[Subagent Task]: 根治看板所有问题。开thinking仔细分析。\n\n## 当前看板bug清单\n1. **🟢running数量不对**：子Agent现在跑在不同agentId下（agent:researcher, agent:coder-02等），但看板脚本只扫 agent:main 的sessions目录\n2. **✅done数量在倒退**（34→29→28）：每次推送done数量不同，说明统计来源不稳定\n3. **模型名显",
+      "extracted_correction": "正确读取每个agent的model配置",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"1. **🟢running数量不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
     }
   ],
-  "last_updated": "2026-03-11T02:17:34.925Z"
+  "last_updated": "2026-03-11T02:20:01.656Z"
 }
