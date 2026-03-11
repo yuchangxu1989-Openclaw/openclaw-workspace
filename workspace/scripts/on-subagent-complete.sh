@@ -21,5 +21,5 @@ if [ -n "$SESSION_ID" ]; then
 fi
 
 # 触发看板推送
-bash /root/.openclaw/workspace/scripts/push-feishu-board.sh --force &
+node /root/.openclaw/workspace/scripts/push-board-now.js >> /tmp/feishu-board-cron.log 2>&1 &
 echo "📋 看板推送已触发"

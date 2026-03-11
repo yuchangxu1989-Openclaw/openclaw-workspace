@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Agent任务看板 - 飞书推送脚本 (v5 - 根治版)
+ * Agent任务看板 - 飞书推送脚本 (v6 - 模型+Agent列修复版)
  *
  * 核心设计：
  * 1. done-sessions.json 单一真相源，带时间戳，单调递增（只增不减）
@@ -8,6 +8,8 @@
  * 3. 三重完成检测：aborted标记 + board.json状态 + transcript stopReason
  * 4. today统计基于 done registry 时间戳，不依赖 session updatedAt
  * 5. running判定：未完成 + updatedAt在2小时内
+ * 6. 模型名：session.model → openclaw.json agent配置 → 全局默认，去provider前缀
+ * 7. Agent列：从agent目录名提取
  */
 const fs = require('fs');
 const { execSync } = require('child_process');
@@ -33,6 +35,20 @@ const _fenv = loadEnvFeishu();
 const APP_ID     = process.env.FEISHU_APP_ID     || _fenv.FEISHU_APP_ID;
 const APP_SECRET = process.env.FEISHU_APP_SECRET  || _fenv.FEISHU_APP_SECRET;
 const RECEIVE_ID = process.env.FEISHU_RECEIVE_ID  || _fenv.FEISHU_RECEIVE_ID;
+
+// ── 0b. Load model defaults from openclaw.json ──
+let defaultModel = '';
+const agentModels = {};
+try {
+  const oc = JSON.parse(fs.readFileSync('/root/.openclaw/openclaw.json', 'utf8'));
+  const agents = oc.agents || {};
+  defaultModel = (agents.defaults?.model?.primary || '').replace(/^[\w-]+\//, '');
+  for (const [name, cfg] of Object.entries(agents)) {
+    if (name === 'defaults') continue;
+    const m = cfg.model?.primary;
+    if (m) agentModels[name] = m.replace(/^[\w-]+\//, '');
+  }
+} catch {}
 
 const now = Date.now();
 const todayStr     = new Date(now + TZ_OFFSET).toISOString().slice(0, 10);
@@ -167,8 +183,8 @@ for (const [label, { val, agent }] of Object.entries(allSessions)) {
     ? Math.floor(ageMin / 60) + 'h' + (ageMin % 60) + 'm'
     : ageMin + 'm';
   const rawModel = val.model || val.config?.model || '';
-  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : '-';
-  rows.push({ task: label, model, status: '🟢运行中', duration, _age: age });
+  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || '-');
+  rows.push({ task: label, agent, model, status: '🟢运行中', duration, _age: age });
 }
 // Sort: newest activity first
 rows.sort((a, b) => a._age - b._age);
@@ -213,7 +229,7 @@ if (!token) { console.error('❌ Token获取失败'); process.exit(1); }
 
 // ── 8. Build card ──
 const dateStr = new Date(now + TZ_OFFSET).toISOString().slice(0, 16).replace('T', ' ');
-const displayRows = rows.map(({ task, model, status, duration }) => ({ task, model, status, duration }));
+const displayRows = rows.map(({ task, agent, model, status, duration }) => ({ task, agent, model, status, duration }));
 
 let elements;
 if (displayRows.length > 0) {
@@ -223,6 +239,7 @@ if (displayRows.length > 0) {
       header_style: { text_align: 'left', bold: true, background_style: 'blue' },
       columns: [
         { name: 'task', display_name: '任务', width: 'auto', data_type: 'text' },
+        { name: 'agent', display_name: 'Agent', width: 'auto', data_type: 'text' },
         { name: 'model', display_name: '模型', width: 'auto', data_type: 'text' },
         { name: 'status', display_name: '状态', width: 'auto', data_type: 'text' },
         { name: 'duration', display_name: '耗时', width: 'auto', data_type: 'text' }
