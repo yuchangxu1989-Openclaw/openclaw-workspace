@@ -10,7 +10,65 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-09T07:30:26Z"
+    "harvested_at": "2026-03-09T07:30:26Z",
+    "north_star_indicator": "自主闭环率",
+    "layer": "执行",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行结果的完整性和正确性，确保自动化流程闭环",
+      "checkpoints": [
+        "执行链完整闭环",
+        "结果持久化落库",
+        "质量验证通过",
+        "异常补偿机制生效"
+      ]
+    },
+    "process_indicators": [
+      "自主闭环率",
+      "自动触发覆盖率",
+      "人工催促依赖率",
+      "程序化入库率"
+    ],
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主触发",
+          "weight": 0.3,
+          "pass": "无需用户催促即自动触发",
+          "partial": "需提示后触发",
+          "fail": "完全依赖用户指令"
+        },
+        {
+          "dimension": "闭环完整",
+          "weight": 0.3,
+          "pass": "检测→执行→落库→反馈全链路闭环",
+          "partial": "部分环节完成",
+          "fail": "链路断裂"
+        },
+        {
+          "dimension": "持久化",
+          "weight": 0.2,
+          "pass": "结果程序化持久存储",
+          "partial": "有记录但非结构化",
+          "fail": "仅口头标记"
+        },
+        {
+          "dimension": "防护机制",
+          "weight": 0.2,
+          "pass": "建立防回退规则",
+          "partial": "有意识但未落地",
+          "fail": "无防护"
+        }
+      ]
+    }
   },
   {
     "id": "auto-badcase-harvest-0309-1953-20260309195555",
@@ -23,7 +81,65 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-09T11:55:56Z"
+    "harvested_at": "2026-03-09T11:55:56Z",
+    "north_star_indicator": "自主闭环率",
+    "layer": "执行",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行结果的完整性和正确性，确保自动化流程闭环",
+      "checkpoints": [
+        "执行链完整闭环",
+        "结果持久化落库",
+        "质量验证通过",
+        "异常补偿机制生效"
+      ]
+    },
+    "process_indicators": [
+      "自主闭环率",
+      "自动触发覆盖率",
+      "人工催促依赖率",
+      "程序化入库率"
+    ],
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主触发",
+          "weight": 0.3,
+          "pass": "无需用户催促即自动触发",
+          "partial": "需提示后触发",
+          "fail": "完全依赖用户指令"
+        },
+        {
+          "dimension": "闭环完整",
+          "weight": 0.3,
+          "pass": "检测→执行→落库→反馈全链路闭环",
+          "partial": "部分环节完成",
+          "fail": "链路断裂"
+        },
+        {
+          "dimension": "持久化",
+          "weight": 0.2,
+          "pass": "结果程序化持久存储",
+          "partial": "有记录但非结构化",
+          "fail": "仅口头标记"
+        },
+        {
+          "dimension": "防护机制",
+          "weight": 0.2,
+          "pass": "建立防回退规则",
+          "partial": "有意识但未落地",
+          "fail": "无防护"
+        }
+      ]
+    }
   },
   {
     "id": "auto-e2e-rule-memory-correction-20260310091622",
@@ -36,6 +152,64 @@
     "data_source": "auto-harvest",
     "difficulty": "C2",
     "source": "auto-harvest-engine",
-    "harvested_at": "2026-03-10T01:16:22Z"
+    "harvested_at": "2026-03-10T01:16:22Z",
+    "north_star_indicator": "自主闭环率",
+    "layer": "执行",
+    "gate_relevance": {
+      "gate_id": "Gate-B",
+      "gate_name": "执行-验真门禁",
+      "description": "验证执行结果的完整性和正确性，确保自动化流程闭环",
+      "checkpoints": [
+        "执行链完整闭环",
+        "结果持久化落库",
+        "质量验证通过",
+        "异常补偿机制生效"
+      ]
+    },
+    "process_indicators": [
+      "自主闭环率",
+      "自动触发覆盖率",
+      "人工催促依赖率",
+      "程序化入库率"
+    ],
+    "scoring_rubric": {
+      "version": "V4",
+      "primary_metrics": [
+        "自主闭环率"
+      ],
+      "pass_criteria": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+      "partial_criteria": "执行链部分完成，核心行为正确但有遗漏",
+      "fail_criteria": "任务总结含badcase语义 then仅口头标记 then未程序化入库",
+      "scoring_dimensions": [
+        {
+          "dimension": "自主触发",
+          "weight": 0.3,
+          "pass": "无需用户催促即自动触发",
+          "partial": "需提示后触发",
+          "fail": "完全依赖用户指令"
+        },
+        {
+          "dimension": "闭环完整",
+          "weight": 0.3,
+          "pass": "检测→执行→落库→反馈全链路闭环",
+          "partial": "部分环节完成",
+          "fail": "链路断裂"
+        },
+        {
+          "dimension": "持久化",
+          "weight": 0.2,
+          "pass": "结果程序化持久存储",
+          "partial": "有记录但非结构化",
+          "fail": "仅口头标记"
+        },
+        {
+          "dimension": "防护机制",
+          "weight": 0.2,
+          "pass": "建立防回退规则",
+          "partial": "有意识但未落地",
+          "fail": "无防护"
+        }
+      ]
+    }
   }
 ]
