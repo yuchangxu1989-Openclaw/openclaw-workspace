@@ -107,3 +107,11 @@ honesty-daily/output/
 workspace-analyst-02/
 apps/voice-chat/key.pem
 apps/voice-chat/cert.pem
+
+# === 隐私文件排除 2026-03-11 ===
+MEMORY.md
+CRITICAL-MEMORY.md
+memory/
+*.db
+memos-local/
+tools/memos-env/
