@@ -1,0 +1,802 @@
+{
+  "dataset": "evalset-L1-batch2a",
+  "schema_version": "V4",
+  "schema_ref": "aeo://eval-standard-schema/V4",
+  "description": "40条L1级别V4评测case，覆盖运维操作七大场景：部署/重启/备份/监控/日志查看/cron管理/gateway操作",
+  "generated_at": "2026-03-11T19:26:26.519Z",
+  "generator": "eval-case-engineer-subagent",
+  "total_cases": 40,
+  "domain_distribution": {
+    "部署": 6,
+    "重启": 5,
+    "gateway": 6,
+    "备份": 6,
+    "监控": 5,
+    "日志": 6,
+    "cron": 6
+  },
+  "cases": [
+    {
+      "id": "L1-OPS-001",
+      "input": "帮我把最新代码部署到生产环境",
+      "expected_output": "执行git pull拉取最新代码，确认分支和commit hash，运行部署脚本或重启服务，验证部署结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "确认当前分支和目标环境",
+        "git pull拉取最新代码",
+        "执行部署/重启",
+        "验证服务状态"
+      ],
+      "tags": [
+        "运维",
+        "部署",
+        "代码更新"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-002",
+      "input": "代码拉到最新了吗？同步一下github",
+      "expected_output": "在工作目录执行git pull同步远程仓库，报告拉取结果（是否有更新、最新commit信息）",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别意图为git同步",
+        "执行git pull",
+        "报告同步结果"
+      ],
+      "tags": [
+        "运维",
+        "部署",
+        "git同步"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-003",
+      "input": "看看现在线上跑的是哪个commit",
+      "expected_output": "执行git log --oneline -1或git rev-parse HEAD获取当前commit hash和消息，报告给用户",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别意图为查看当前版本",
+        "执行git log/rev-parse",
+        "返回commit信息"
+      ],
+      "tags": [
+        "运维",
+        "部署",
+        "版本查看"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-004",
+      "input": "把本地改动推到远程仓库",
+      "expected_output": "执行git add、git commit（如有未提交改动）、git push推送到远程，报告推送结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "检查是否有未提交改动",
+        "git add + commit",
+        "git push",
+        "报告推送结果"
+      ],
+      "tags": [
+        "运维",
+        "部署",
+        "git推送"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-005",
+      "input": "查一下最近5条git提交记录",
+      "expected_output": "执行git log --oneline -5，返回最近5条commit的hash和消息摘要",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别意图为查看git历史",
+        "执行git log --oneline -5",
+        "格式化返回结果"
+      ],
+      "tags": [
+        "运维",
+        "部署",
+        "git历史"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-006",
+      "input": "回滚到上一个版本，刚才的部署有问题",
+      "expected_output": "执行git log确认上一个commit，执行git checkout或git revert回滚，重启服务验证恢复正常",
+      "category": "纠偏类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "确认上一个稳定commit",
+        "执行git回滚操作",
+        "重启相关服务",
+        "验证回滚成功"
+      ],
+      "tags": [
+        "运维",
+        "部署",
+        "回滚"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-007",
+      "input": "重启一下gateway",
+      "expected_output": "执行openclaw gateway restart重启网关服务，等待启动完成，确认服务状态正常",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "识别意图为重启gateway",
+        "执行重启命令",
+        "确认服务恢复"
+      ],
+      "tags": [
+        "运维",
+        "重启",
+        "gateway"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-008",
+      "input": "gateway挂了，帮我看看怎么回事",
+      "expected_output": "检查gateway进程状态和日志，定位故障原因，尝试重启并验证恢复",
+      "category": "头痛医头类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "检查gateway进程状态",
+        "查看gateway错误日志",
+        "定位故障原因",
+        "尝试重启"
+      ],
+      "tags": [
+        "运维",
+        "重启",
+        "gateway",
+        "故障排查"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-009",
+      "input": "把所有服务都重启一遍",
+      "expected_output": "依次重启gateway和相关服务，每个重启后确认状态正常，最后汇总报告所有服务状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "列出所有需要重启的服务",
+        "依次重启各服务",
+        "逐个确认状态",
+        "汇总报告"
+      ],
+      "tags": [
+        "运维",
+        "重启",
+        "全量重启"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-010",
+      "input": "检查一下gateway现在是不是正常运行的",
+      "expected_output": "检查gateway进程是否存在、端口是否监听、响应是否正常，报告健康状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "检查进程状态",
+        "检查端口监听",
+        "报告健康状态"
+      ],
+      "tags": [
+        "运维",
+        "重启",
+        "gateway",
+        "健康检查"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-011",
+      "input": "重启后确认一下服务有没有起来",
+      "expected_output": "检查各核心服务的进程状态和端口监听情况，逐一确认并报告",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "列出核心服务清单",
+        "逐一检查进程和端口",
+        "汇总报告"
+      ],
+      "tags": [
+        "运维",
+        "重启",
+        "状态确认"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-012",
+      "input": "gateway的端口是多少？帮我检查一下有没有在监听",
+      "expected_output": "查看gateway配置获取端口号，使用netstat/ss/lsof检查端口监听状态，报告结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "查看gateway配置获取端口",
+        "检查端口监听状态",
+        "报告结果"
+      ],
+      "tags": [
+        "运维",
+        "gateway",
+        "端口检查"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-013",
+      "input": "帮我备份一下openclaw.json",
+      "expected_output": "将openclaw.json复制到备份路径（如加.bak后缀和时间戳），确认备份文件存在且MD5一致",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行cp备份操作",
+        "验证MD5一致性",
+        "报告备份路径"
+      ],
+      "tags": [
+        "运维",
+        "备份",
+        "配置文件"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-014",
+      "input": "把当前的crontab备份一份",
+      "expected_output": "执行crontab -l导出当前crontab内容到备份文件，确认备份成功",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行crontab -l导出",
+        "写入备份文件",
+        "确认备份内容完整"
+      ],
+      "tags": [
+        "运维",
+        "备份",
+        "crontab"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-015",
+      "input": "数据库有定期备份吗？帮我查一下",
+      "expected_output": "检查crontab和备份脚本中是否有数据库备份任务，查看最近备份文件的时间和大小，报告备份状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "检查crontab中的备份任务",
+        "查看备份目录和文件",
+        "报告备份状态"
+      ],
+      "tags": [
+        "运维",
+        "备份",
+        "数据库",
+        "定期任务"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-016",
+      "input": "在改配置之前先帮我做个快照",
+      "expected_output": "备份当前配置文件（加时间戳），记录当前git commit hash作为恢复点，确认备份完成",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "备份配置文件",
+        "记录git commit hash",
+        "确认快照完成"
+      ],
+      "tags": [
+        "运维",
+        "备份",
+        "快照",
+        "配置变更前"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-017",
+      "input": "看看备份目录里有什么，最近一次备份是什么时候",
+      "expected_output": "列出备份目录内容（文件名、大小、时间），找出最近一次备份并报告时间",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "列出备份目录",
+        "按时间排序找最近备份",
+        "报告详情"
+      ],
+      "tags": [
+        "运维",
+        "备份",
+        "备份检查"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-018",
+      "input": "把昨天的备份恢复回来",
+      "expected_output": "查找昨天日期的备份文件，确认恢复目标，执行恢复操作前先备份当前文件，然后恢复并验证",
+      "category": "纠偏类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "查找昨天日期的备份",
+        "备份当前文件",
+        "执行恢复操作",
+        "验证恢复结果"
+      ],
+      "tags": [
+        "运维",
+        "备份",
+        "恢复"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-019",
+      "input": "看看服务器的CPU和内存使用情况",
+      "expected_output": "执行top/htop或free -h等命令查看CPU和内存使用率，格式化报告当前资源状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行资源监控命令",
+        "解析CPU和内存数据",
+        "格式化报告"
+      ],
+      "tags": [
+        "运维",
+        "监控",
+        "资源监控"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-020",
+      "input": "磁盘快满了吗？帮我查一下",
+      "expected_output": "执行df -h查看各分区磁盘使用情况，标注使用率超过80%的分区并告警",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行df -h",
+        "解析磁盘使用数据",
+        "标注高使用率分区",
+        "报告结果"
+      ],
+      "tags": [
+        "运维",
+        "监控",
+        "磁盘"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-021",
+      "input": "现在有多少个子Agent在跑",
+      "expected_output": "调用subagents list查看当前活跃的子Agent列表，统计数量并报告各自状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "调用subagents list",
+        "统计活跃数量",
+        "报告各Agent状态"
+      ],
+      "tags": [
+        "运维",
+        "监控",
+        "子Agent"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-022",
+      "input": "查一下哪个进程占用内存最多",
+      "expected_output": "执行ps aux --sort=-%mem | head或top命令，找出内存占用最高的进程并报告",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行进程排序命令",
+        "找出内存占用TOP进程",
+        "报告进程信息"
+      ],
+      "tags": [
+        "运维",
+        "监控",
+        "进程",
+        "内存"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-023",
+      "input": "服务器运行多久了？uptime看一下",
+      "expected_output": "执行uptime命令，报告系统运行时间、当前负载等信息",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行uptime命令",
+        "解析运行时间和负载",
+        "报告结果"
+      ],
+      "tags": [
+        "运维",
+        "监控",
+        "系统状态"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-024",
+      "input": "看看gateway最近的错误日志",
+      "expected_output": "查找gateway日志文件，grep过滤error/ERROR相关行，返回最近的错误日志条目",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "定位gateway日志文件",
+        "grep过滤错误日志",
+        "返回最近错误条目"
+      ],
+      "tags": [
+        "运维",
+        "日志",
+        "gateway",
+        "错误日志"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-025",
+      "input": "帮我翻一下系统日志，看看有没有OOM",
+      "expected_output": "检查/var/log/syslog或dmesg，grep搜索OOM/Out of memory相关记录，报告是否有OOM事件",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "查看系统日志文件",
+        "grep搜索OOM关键词",
+        "报告搜索结果"
+      ],
+      "tags": [
+        "运维",
+        "日志",
+        "系统日志",
+        "OOM"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-026",
+      "input": "看看今天的定时任务日志有没有报错",
+      "expected_output": "查看cron日志文件（/var/log/cron或相关输出日志），过滤今天日期的条目，检查是否有error",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "定位cron日志路径",
+        "过滤今天日期",
+        "检查错误条目",
+        "报告结果"
+      ],
+      "tags": [
+        "运维",
+        "日志",
+        "cron",
+        "定时任务"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-027",
+      "input": "tail一下最新的日志，看最后50行",
+      "expected_output": "识别最相关的日志文件，执行tail -50查看最后50行日志内容并返回",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "确认目标日志文件",
+        "执行tail -50",
+        "返回日志内容"
+      ],
+      "tags": [
+        "运维",
+        "日志",
+        "tail"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-028",
+      "input": "搜一下日志里有没有sqlite相关的报错",
+      "expected_output": "在相关日志文件中grep搜索sqlite/better-sqlite3相关错误，返回匹配结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "确认搜索范围",
+        "grep搜索sqlite关键词",
+        "返回匹配结果"
+      ],
+      "tags": [
+        "运维",
+        "日志",
+        "sqlite",
+        "错误搜索"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-029",
+      "input": "把gateway的日志实时输出给我看",
+      "expected_output": "执行tail -f跟踪gateway日志文件，实时流式输出日志内容",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "定位gateway日志文件",
+        "执行tail -f实时跟踪",
+        "流式输出日志"
+      ],
+      "tags": [
+        "运维",
+        "日志",
+        "gateway",
+        "实时日志"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-030",
+      "input": "看看现在有哪些定时任务",
+      "expected_output": "执行crontab -l列出所有定时任务，格式化展示任务名称、执行时间和命令",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行crontab -l",
+        "解析cron条目",
+        "格式化展示"
+      ],
+      "tags": [
+        "运维",
+        "cron",
+        "任务列表"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-031",
+      "input": "加一个每天早上8点执行的定时任务，跑quality-audit",
+      "expected_output": "先备份当前crontab，然后添加'0 8 * * *'的cron条目执行quality-audit脚本，确认添加成功",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "备份当前crontab",
+        "编写cron表达式",
+        "添加cron条目",
+        "确认添加成功"
+      ],
+      "tags": [
+        "运维",
+        "cron",
+        "添加任务"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-032",
+      "input": "把07:45那个定时任务删掉",
+      "expected_output": "备份当前crontab，找到07:45对应的cron条目，删除该条目，确认删除成功",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "备份crontab",
+        "找到07:45对应条目",
+        "删除该条目",
+        "确认删除"
+      ],
+      "tags": [
+        "运维",
+        "cron",
+        "删除任务"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-033",
+      "input": "帮我把save-cron.sh跑一下备份当前crontab",
+      "expected_output": "执行save-cron.sh脚本备份crontab，确认备份文件生成并报告结果",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "定位save-cron.sh脚本",
+        "执行备份脚本",
+        "确认备份结果"
+      ],
+      "tags": [
+        "运维",
+        "cron",
+        "备份"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-034",
+      "input": "07:30的定时任务是什么？帮我查一下",
+      "expected_output": "执行crontab -l，找到07:30（'30 7'开头）对应的定时任务并报告其执行内容",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行crontab -l",
+        "过滤07:30时间段的条目",
+        "报告任务详情"
+      ],
+      "tags": [
+        "运维",
+        "cron",
+        "查询任务"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-035",
+      "input": "定时任务的时间冲突了，帮我检查一下有没有同一时间跑多个任务的情况",
+      "expected_output": "解析crontab所有条目的执行时间，检查是否有时间冲突（相同时间点的多个任务），报告冲突详情",
+      "category": "头痛医头类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "解析所有cron条目",
+        "提取执行时间",
+        "检测时间冲突",
+        "报告结果"
+      ],
+      "tags": [
+        "运维",
+        "cron",
+        "冲突检测"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-036",
+      "input": "openclaw doctor跑一下看看系统有没有问题",
+      "expected_output": "执行openclaw doctor（只读模式，绝对不加--fix），查看诊断结果并报告系统健康状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行openclaw doctor（只读）",
+        "解析诊断输出",
+        "报告健康状态"
+      ],
+      "tags": [
+        "运维",
+        "gateway",
+        "系统诊断"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-037",
+      "input": "openclaw.json现在是锁着的吗？帮我确认一下",
+      "expected_output": "执行lsattr检查openclaw.json的文件属性，确认是否有immutable(i)标记，报告锁定状态",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "执行lsattr检查文件属性",
+        "解析immutable标记",
+        "报告锁定状态"
+      ],
+      "tags": [
+        "运维",
+        "gateway",
+        "配置保护"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-038",
+      "input": "查一下gateway现在用的是什么模型",
+      "expected_output": "查看openclaw配置或gateway状态获取当前使用的模型名称，报告给用户",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "查看gateway配置/状态",
+        "提取模型名称",
+        "报告结果"
+      ],
+      "tags": [
+        "运维",
+        "gateway",
+        "模型配置"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-OPS-039",
+      "input": "openclaw.json的MD5帮我算一下，和备份对比一下",
+      "expected_output": "计算openclaw.json当前MD5值，找到最近备份文件计算其MD5，对比两者是否一致并报告",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "计算当前文件MD5",
+        "找到备份文件",
+        "计算备份MD5",
+        "对比报告"
+      ],
+      "tags": [
+        "运维",
+        "gateway",
+        "完整性校验"
+      ],
+      "north_star_indicator": "执行链完整度"
+    },
+    {
+      "id": "L1-OPS-040",
+      "input": "帮我看看openclaw的工作区目录结构",
+      "expected_output": "列出openclaw workspace目录树结构（ls -la或tree），展示主要目录和文件布局",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "synthetic",
+      "execution_chain_steps": [
+        "定位workspace目录",
+        "执行目录列表命令",
+        "格式化展示目录结构"
+      ],
+      "tags": [
+        "运维",
+        "gateway",
+        "目录结构"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    }
+  ]
+}
