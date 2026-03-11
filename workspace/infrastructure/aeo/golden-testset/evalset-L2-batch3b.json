@@ -1,0 +1,743 @@
+[
+  {
+    "id": "L2-CS-001",
+    "input": "把最近一次git commit的changelog自动写入飞书文档《版本发布记录》",
+    "context": "用户希望将git仓库最新提交信息同步到飞书文档，需要跨Git和飞书两个系统协作",
+    "expected_output": "读取git log最近一条commit信息，格式化后追加写入飞书文档《版本发布记录》，返回文档链接和写入内容摘要",
+    "category": "飞书+Git联动",
+    "execution_chain_steps": [
+      "解析用户意图为跨系统写入任务",
+      "执行git log获取最新commit",
+      "格式化commit信息为文档段落",
+      "定位飞书文档《版本发布记录》",
+      "追加写入格式化内容",
+      "返回文档链接和写入确认"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-002",
+    "input": "检查git仓库里有没有未提交的改动，如果有就列出来写到飞书文档《待处理事项》里",
+    "context": "条件判断+跨系统：先检查git status，根据结果决定是否写入飞书",
+    "expected_output": "执行git status检查未提交改动，若有则格式化文件列表写入飞书文档《待处理事项》，若无则告知用户仓库干净",
+    "category": "飞书+Git联动",
+    "execution_chain_steps": [
+      "识别条件分支任务",
+      "执行git status获取工作区状态",
+      "判断是否存在未提交改动",
+      "若有：格式化变更文件列表",
+      "写入飞书文档《待处理事项》",
+      "返回处理结果和文档链接"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-003",
+    "input": "从飞书文档《代码审查意见》里提取所有TODO项，在git仓库对应文件里加上TODO注释",
+    "context": "飞书→Git反向联动：从文档提取结构化信息后写入代码仓库",
+    "expected_output": "读取飞书文档提取TODO项及对应文件路径，在git仓库对应文件中插入TODO注释，git add并返回修改摘要",
+    "category": "飞书+Git联动",
+    "execution_chain_steps": [
+      "读取飞书文档《代码审查意见》",
+      "解析文档内容提取TODO项和对应文件",
+      "遍历每个TODO项定位目标文件",
+      "在对应代码文件插入TODO注释",
+      "执行git add暂存修改",
+      "返回所有修改文件和TODO内容摘要"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-004",
+    "input": "把git仓库这周的所有commit按作者分组，生成飞书多维表格",
+    "context": "Git数据聚合+飞书Bitable写入，需要数据处理和跨系统写入",
+    "expected_output": "执行git log --since获取本周commit，按author分组统计，创建飞书Bitable并写入分组数据，返回表格链接",
+    "category": "飞书+Git联动",
+    "execution_chain_steps": [
+      "计算本周起止日期",
+      "执行git log按日期范围筛选",
+      "按author字段分组聚合commit",
+      "创建飞书Bitable表格",
+      "定义字段：作者、提交数、提交列表",
+      "批量写入分组数据",
+      "返回Bitable链接"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-005",
+    "input": "对比git上main和dev分支的差异，把差异文件清单写到飞书文档《分支对比报告》",
+    "context": "Git diff分析+飞书文档生成",
+    "expected_output": "执行git diff main..dev获取差异文件，格式化为报告写入飞书文档，包含新增/修改/删除文件分类统计",
+    "category": "飞书+Git联动",
+    "execution_chain_steps": [
+      "执行git diff --name-status main..dev",
+      "按变更类型分类文件列表",
+      "生成差异统计摘要",
+      "创建或定位飞书文档《分支对比报告》",
+      "写入格式化的分支对比内容",
+      "返回文档链接和差异统计"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-006",
+    "input": "读飞书文档《发布计划》里的版本号，给git仓库打对应的tag",
+    "context": "飞书文档驱动Git操作：从文档提取版本号后执行git tag",
+    "expected_output": "读取飞书文档提取版本号（如v2.3.1），验证tag不存在后执行git tag并push，返回创建的tag信息",
+    "category": "飞书+Git联动",
+    "execution_chain_steps": [
+      "读取飞书文档《发布计划》",
+      "解析文档内容提取版本号",
+      "检查git tag列表确认不重复",
+      "执行git tag创建新标签",
+      "执行git push --tags推送标签",
+      "返回tag创建确认和版本号"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-007",
+    "input": "统计git仓库最近30天每天的commit数量，生成飞书文档里的趋势表格",
+    "context": "时间序列数据从Git提取后在飞书文档中可视化呈现",
+    "expected_output": "按天统计30天commit数量，在飞书文档中创建日期-数量表格，包含总计和日均统计",
+    "category": "飞书+Git联动",
+    "execution_chain_steps": [
+      "执行git log --since=30.days获取提交记录",
+      "按日期分组统计每天commit数",
+      "生成日期-数量数据序列",
+      "创建飞书文档并插入表格",
+      "写入30天趋势数据",
+      "添加总计和日均统计行",
+      "返回文档链接"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-008",
+    "input": "把飞书多维表格《Bug列表》里状态为'已修复'的记录批量关联到git对应的commit hash",
+    "context": "飞书Bitable↔Git双向关联：读取Bitable筛选记录后匹配git commit",
+    "expected_output": "读取Bitable筛选已修复Bug，通过Bug ID在git log中匹配commit hash，回写commit链接到Bitable",
+    "category": "飞书+Git联动",
+    "execution_chain_steps": [
+      "读取飞书Bitable《Bug列表》",
+      "筛选状态为已修复的记录",
+      "提取每条记录的Bug ID",
+      "在git log中搜索包含Bug ID的commit",
+      "将匹配的commit hash回写到Bitable对应行",
+      "返回关联成功数和未匹配列表"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-009",
+    "input": "检查ISC规则库中所有severity=iron的规则，为每条生成一个评测case验证其执行效果",
+    "context": "ISC规则→评测集自动生成：从规则库提取铁令后自动构造对应的评测用例",
+    "expected_output": "读取ISC规则库筛选iron级别规则，为每条规则生成包含违规场景和合规场景的评测case，输出为JSON",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "读取ISC规则库文件",
+      "筛选severity=iron的规则",
+      "为每条规则构造违规输入场景",
+      "为每条规则构造合规输入场景",
+      "生成评测case JSON结构",
+      "写入评测集文件",
+      "返回生成统计"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-010",
+    "input": "运行评测集检查哪些case失败了，把失败case对应的ISC规则标记为需要review",
+    "context": "评测结果反馈到ISC规则管理：评测失败触发规则审查流程",
+    "expected_output": "执行评测运行器获取结果，提取失败case的规则ID，在ISC规则库中标记对应规则review状态",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "执行评测运行器运行全部case",
+      "收集失败case列表",
+      "提取每个失败case关联的ISC规则ID",
+      "读取ISC规则库",
+      "标记对应规则为needs-review",
+      "保存更新后的规则库",
+      "返回标记结果摘要"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-011",
+    "input": "新增一条ISC规则禁止在凌晨2-5点执行部署操作，同时自动生成对应的评测case",
+    "context": "ISC规则创建+评测case同步生成：一次操作完成规则和验证的双向绑定",
+    "expected_output": "创建ISC规则（含时间窗口判断逻辑），生成至少3个评测case（凌晨部署被拒、白天部署通过、边界时间测试）",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "构造ISC规则：禁止2-5点部署",
+      "写入ISC规则库",
+      "生成违规场景case：凌晨3点部署请求",
+      "生成合规场景case：下午2点部署请求",
+      "生成边界case：凌晨2点整和5点整",
+      "写入评测集文件",
+      "返回规则ID和case IDs"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-012",
+    "input": "分析评测集中通过率最低的category，检查ISC规则库中该类别是否有覆盖盲区",
+    "context": "评测数据分析驱动ISC规则完善：从评测短板发现规则缺失",
+    "expected_output": "统计各category通过率，找出最低的类别，交叉检查ISC规则覆盖情况，输出缺失规则建议",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "读取评测结果数据",
+      "按category分组统计通过率",
+      "排序找出通过率最低的类别",
+      "读取ISC规则库",
+      "检查该类别的规则覆盖范围",
+      "对比识别覆盖盲区",
+      "生成补充规则建议",
+      "返回分析报告"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-013",
+    "input": "把ISC规则的变更历史和对应评测case的通过率变化做关联分析",
+    "context": "时序关联分析：规则变更事件与评测效果的因果关系",
+    "expected_output": "提取ISC规则变更时间线，匹配评测通过率变化曲线，标注关键变更对评测影响的正负相关性",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "从git log提取ISC规则文件变更历史",
+      "从评测结果目录提取历次运行数据",
+      "按时间线对齐规则变更和评测结果",
+      "计算每次规则变更后通过率变化",
+      "标注正相关和负相关变更",
+      "生成关联分析报告",
+      "返回报告摘要和关键发现"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-014",
+    "input": "为ISC中所有新增的warn级别规则批量生成边界测试case，添加到现有评测集",
+    "context": "增量同步：仅处理新增规则，追加到已有评测集而非覆盖",
+    "expected_output": "识别ISC规则库中新增的warn级规则，为每条生成边界case，追加到评测集文件末尾并更新索引",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "读取ISC规则库当前状态",
+      "对比上次快照识别新增warn规则",
+      "为每条新规则生成边界输入case",
+      "读取现有评测集",
+      "追加新case到评测集",
+      "更新评测集索引和统计",
+      "git commit变更",
+      "返回新增case列表"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-015",
+    "input": "评测发现agent违反了ISC铁令但评测标记为pass，找出评测case的判定逻辑缺陷",
+    "context": "评测质量自检：用ISC规则反向验证评测判定器的准确性",
+    "expected_output": "交叉对比ISC铁令执行日志和评测结果，找出判定不一致的case，分析评测判定逻辑缺陷并输出修复建议",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "读取ISC铁令违规日志",
+      "读取评测结果中pass的case",
+      "交叉匹配时间窗口和操作类型",
+      "找出违规但评测pass的矛盾case",
+      "分析评测判定条件遗漏",
+      "生成判定逻辑修复建议",
+      "返回矛盾case列表和修复方案"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-016",
+    "input": "根据ISC规则的优先级权重，重新排列评测集的执行顺序，高权重规则的case优先跑",
+    "context": "ISC优先级驱动评测调度：规则重要性决定评测执行序",
+    "expected_output": "读取ISC规则优先级，为评测case关联权重，重排评测集执行顺序并保存",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "读取ISC规则库提取优先级权重",
+      "读取评测集所有case",
+      "为每个case匹配关联ISC规则的权重",
+      "按权重降序重排case顺序",
+      "保存重排后的评测集",
+      "验证重排后数据完整性",
+      "返回重排结果和权重分布"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-017",
+    "input": "ISC规则更新后自动触发受影响的评测case重新运行，并对比更新前后结果",
+    "context": "规则变更触发评测回归：变更影响范围自动识别和验证",
+    "expected_output": "检测ISC规则变更内容，识别受影响的评测case范围，重新执行这些case，对比前后结果差异",
+    "category": "ISC+评测联动",
+    "execution_chain_steps": [
+      "检测ISC规则库最近变更",
+      "解析变更涉及的规则ID和内容",
+      "在评测集中筛选关联这些规则的case",
+      "保存当前评测结果作为baseline",
+      "重新执行受影响的case",
+      "对比新旧结果差异",
+      "生成回归测试报告",
+      "返回变更影响分析"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-018",
+    "input": "检查最近一次部署后监控是否有异常，如果有就自动回滚到上一个git tag版本",
+    "context": "部署后监控+自动回滚：监控数据驱动的自动化故障恢复",
+    "expected_output": "检查部署后监控指标（错误率、响应时间），若超阈值则执行git checkout到上一个tag并重新部署",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "读取最近一次部署时间戳",
+      "查询部署后监控数据",
+      "判断错误率和响应时间是否超阈值",
+      "若异常：获取上一个git tag",
+      "执行git checkout回滚代码",
+      "触发重新部署",
+      "验证回滚后监控恢复",
+      "返回回滚结果或正常确认"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-019",
+    "input": "代码提交后自动运行lint检查，把结果推送到监控看板，失败则阻止部署",
+    "context": "CI流水线模拟：代码质量→监控→部署门禁的三系统联动",
+    "expected_output": "对最新提交运行eslint检查，将结果写入监控看板JSON，若有error则标记部署为blocked状态",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "获取最新git commit的变更文件",
+      "对变更文件执行lint检查",
+      "收集lint结果（error/warning数量）",
+      "将结果写入监控看板数据",
+      "判断是否有error级别问题",
+      "若有error：设置部署状态为blocked",
+      "若无error：设置部署状态为ready",
+      "返回lint结果和部署状态"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-020",
+    "input": "从监控告警中提取错误堆栈，定位到git仓库中的具体代码行，生成修复建议",
+    "context": "监控→代码定位→修复建议：从告警到代码的全链路追踪",
+    "expected_output": "解析监控告警中的堆栈信息，通过文件路径和行号定位git仓库代码，分析上下文生成修复建议",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "读取监控告警日志",
+      "提取错误堆栈中的文件路径和行号",
+      "在git仓库中定位对应代码文件",
+      "读取错误行及上下文代码",
+      "分析错误模式和可能原因",
+      "生成修复建议和代码片段",
+      "返回定位结果和修复方案"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-021",
+    "input": "统计本周部署次数和每次部署后的错误率变化，找出引入问题最多的那次部署对应的commit",
+    "context": "部署+监控+Git三系统数据关联分析",
+    "expected_output": "汇总本周部署记录和监控数据，关联git commit，找出错误率上升最多的部署及其commit详情",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "获取本周所有部署记录和时间戳",
+      "查询每次部署后的错误率监控数据",
+      "计算每次部署前后错误率变化",
+      "排序找出错误率上升最大的部署",
+      "获取该部署对应的git commit",
+      "展示commit详情和变更文件",
+      "返回分析报告和问题commit"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-022",
+    "input": "在代码中发现安全漏洞后，立即暂停当前部署流程，更新监控告警级别为critical",
+    "context": "安全事件触发的多系统应急联动",
+    "expected_output": "扫描代码发现漏洞后，暂停部署pipeline状态，提升监控告警到critical级别，记录安全事件",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "执行代码安全扫描",
+      "发现漏洞并记录详情",
+      "立即更新部署状态为paused",
+      "提升监控告警级别为critical",
+      "创建安全事件记录",
+      "通知相关告警渠道",
+      "返回漏洞详情和应急处理状态"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-023",
+    "input": "监控发现内存泄漏趋势，自动从git blame找出最近修改内存相关代码的commit，生成排查报告",
+    "context": "监控异常→Git溯源→报告生成的自动化排查链",
+    "expected_output": "从监控数据确认内存泄漏趋势，用git blame定位内存相关代码的最近修改者和commit，生成排查报告",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "读取内存监控时序数据",
+      "确认泄漏趋势（持续增长模式）",
+      "识别内存相关代码文件",
+      "对这些文件执行git blame",
+      "提取最近修改的commit和作者",
+      "关联修改时间和泄漏开始时间",
+      "生成排查报告含嫌疑commit",
+      "返回报告和建议排查步骤"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-024",
+    "input": "把代码仓库的test coverage数据推到监控看板，coverage低于80%时自动阻止部署",
+    "context": "测试覆盖率→监控→部署门禁联动",
+    "expected_output": "运行测试获取coverage数据，推送到监控看板，判断是否达标，未达标则阻止部署并返回未覆盖模块",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "执行测试套件获取coverage数据",
+      "解析coverage百分比和模块明细",
+      "将coverage数据推送到监控看板",
+      "判断总coverage是否>=80%",
+      "若不达标：设置部署状态为blocked",
+      "列出coverage低于阈值的模块",
+      "返回coverage报告和部署状态"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-025",
+    "input": "部署新版本后对比前后版本的API响应时间，如果P99延迟增加超过20%就告警并准备回滚",
+    "context": "部署后性能回归检测：监控数据对比触发回滚准备",
+    "expected_output": "获取新旧版本P99延迟数据，计算增幅，若超20%触发告警并准备回滚命令但等待人工确认",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "获取当前部署版本和前一版本标识",
+      "查询前一版本P99延迟baseline",
+      "查询当前版本P99延迟数据",
+      "计算延迟增幅百分比",
+      "若增幅>20%：触发告警",
+      "准备回滚命令但不自动执行",
+      "返回性能对比报告和回滚建议"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-026",
+    "input": "根据监控数据中的热点接口，自动在代码仓库对应handler文件添加性能日志埋点",
+    "context": "监控数据驱动代码优化：热点分析→代码自动插桩",
+    "expected_output": "从监控提取Top5热点接口，定位代码中的handler文件，自动插入性能计时日志代码，git commit",
+    "category": "代码+部署+监控联动",
+    "execution_chain_steps": [
+      "查询监控数据获取接口调用量排名",
+      "提取Top5热点接口路径",
+      "在代码仓库中定位对应handler文件",
+      "在每个handler入口和出口插入计时代码",
+      "验证插入后代码语法正确",
+      "执行git add和commit",
+      "返回修改的文件列表和埋点详情"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-027",
+    "input": "搜索记忆库找到上次处理类似任务的经验，如果有匹配的技能就直接调用，没有就创建新技能",
+    "context": "记忆检索→技能匹配→条件分支（调用已有技能或创建新技能）",
+    "expected_output": "在记忆库中搜索相关经验，匹配现有技能库，若匹配则调度执行该技能，否则基于记忆经验创建新技能",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "在记忆库中搜索相关任务经验",
+      "提取经验中的关键步骤和工具",
+      "在技能库中搜索匹配的技能",
+      "若匹配：调度子Agent执行该技能",
+      "若不匹配：基于经验提炼技能模板",
+      "创建新技能并注册到技能库",
+      "返回执行结果或新技能创建确认"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-028",
+    "input": "分析所有技能的调用频率，把低频技能标记为待清理，高频技能的执行经验写入记忆库",
+    "context": "技能使用分析→技能生命周期管理→记忆沉淀的联动",
+    "expected_output": "统计技能调用频率，标记30天未调用的为待清理，将高频技能的成功经验写入记忆库公共区",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "遍历技能库获取所有技能列表",
+      "统计每个技能最近30天调用次数",
+      "按调用频率排序",
+      "标记0次调用的技能为待清理",
+      "提取高频技能的执行成功案例",
+      "将成功经验写入记忆库公共区",
+      "返回技能频率报告和清理建议"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-029",
+    "input": "调度3个子Agent并行执行不同技能，汇总结果后写入记忆库作为经验",
+    "context": "并行调度+技能执行+记忆沉淀的全链路联动",
+    "expected_output": "并行派发3个子Agent各执行一个技能，等待结果汇总，将综合结果作为协作经验写入记忆库",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "确定3个需要并行执行的技能",
+      "派发子Agent-1执行技能A",
+      "派发子Agent-2执行技能B",
+      "派发子Agent-3执行技能C",
+      "等待3个子Agent全部完成",
+      "汇总3个结果为综合报告",
+      "将协作经验写入记忆库",
+      "返回汇总结果"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-030",
+    "input": "从记忆库中检索历史失败任务，分析失败原因是否因为缺少某个技能，如果是就自动创建",
+    "context": "失败经验挖掘→技能缺口分析→自动补全的闭环",
+    "expected_output": "搜索记忆库中失败任务记录，分析失败原因分类，识别因技能缺失导致的失败并自动创建对应技能",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "在记忆库搜索失败任务记录",
+      "提取失败原因和错误信息",
+      "分类失败原因（技能缺失/参数错误/系统故障等）",
+      "筛选技能缺失类失败",
+      "为每个缺失技能设计技能规格",
+      "创建新技能并注册",
+      "将修复动作写入记忆库",
+      "返回新建技能列表"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-031",
+    "input": "根据当前任务复杂度从记忆库找最合适的调度策略，动态决定用单Agent还是多Agent模式",
+    "context": "记忆驱动的自适应调度：历史经验决定执行策略",
+    "expected_output": "评估任务复杂度，在记忆库中搜索相似复杂度任务的调度策略，选择最优策略并执行",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "分析当前任务的复杂度指标",
+      "在记忆库搜索相似复杂度的历史任务",
+      "提取历史任务使用的调度策略",
+      "统计各策略的成功率",
+      "选择成功率最高的策略",
+      "按策略调度Agent执行",
+      "记录本次调度结果到记忆库",
+      "返回策略选择和执行结果"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-032",
+    "input": "技能执行超时后自动从记忆库查找替代方案，切换到备用技能继续执行",
+    "context": "技能故障恢复：超时→记忆检索→技能切换的容错链",
+    "expected_output": "检测技能执行超时，从记忆库查找该场景的替代技能，自动切换执行并记录故障恢复过程",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "检测当前技能执行超时",
+      "记录超时技能ID和上下文",
+      "在记忆库搜索该场景的替代方案",
+      "找到备用技能ID",
+      "切换调度到备用技能执行",
+      "记录故障恢复过程到记忆库",
+      "返回最终执行结果和切换日志"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-033",
+    "input": "每天凌晨自动整理当天所有子Agent的执行日志，提炼经验写入记忆库，优化技能参数",
+    "context": "定时调度→日志分析→记忆沉淀→技能优化的自动化闭环",
+    "expected_output": "收集当天所有子Agent执行日志，提炼成功模式和失败教训，写入记忆库，据此调整技能默认参数",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "触发定时任务（凌晨cron）",
+      "收集当天所有子Agent执行日志",
+      "分析成功任务提炼最佳实践",
+      "分析失败任务提炼教训",
+      "将经验写入记忆库",
+      "根据经验调整技能默认参数",
+      "保存优化后的技能配置",
+      "返回当日执行摘要和优化项"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-034",
+    "input": "用户问了一个问题，先查记忆库看有没有回答过，再查技能库看有没有专门处理技能，最后决定直接回答还是派Agent执行",
+    "context": "三级决策树：记忆→技能→调度的优先级决策",
+    "expected_output": "按记忆>技能>通用调度的优先级处理：记忆命中直接引用回答，技能命中调度执行，都没有才通用处理",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "解析用户问题提取关键词",
+      "在记忆库搜索匹配的历史回答",
+      "若命中：直接引用记忆回答",
+      "若未命中：在技能库搜索匹配技能",
+      "若技能命中：调度Agent执行技能",
+      "若都未命中：用通用能力处理",
+      "将本次处理结果写入记忆库",
+      "返回最终回答和决策路径"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  },
+  {
+    "id": "L2-CS-035",
+    "input": "分析记忆库中频繁出现的任务模式，自动创建对应技能并注册到定时调度中",
+    "context": "模式发现→技能自动生成→调度注册的自进化链路",
+    "expected_output": "挖掘记忆库高频任务模式，为Top3模式自动创建技能，将重复性任务注册到cron定时执行",
+    "category": "记忆+技能+调度联动",
+    "execution_chain_steps": [
+      "遍历记忆库提取任务描述",
+      "聚类分析找出高频重复模式",
+      "选择Top3最高频模式",
+      "为每个模式设计技能规格",
+      "创建技能并写入技能库",
+      "将适合定时执行的注册到cron",
+      "将自进化过程记录到记忆库",
+      "返回新建技能和cron注册结果"
+    ],
+    "difficulty": "C2",
+    "source": "synthetic",
+    "complexity_tags": [
+      "cross-system"
+    ]
+  }
+]
