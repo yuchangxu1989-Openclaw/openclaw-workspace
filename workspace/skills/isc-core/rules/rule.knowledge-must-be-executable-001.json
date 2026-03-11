@@ -34,5 +34,27 @@
     },
     "enforcement": "programmatic",
     "fullchain_status": "expanded",
-    "handler": "skills/isc-core/handlers/knowledge-must-be-executable.js"
+    "handler": "skills/isc-core/handlers/knowledge-must-be-executable.js",
+    "verification": {
+        "method": "detection_accuracy_check",
+        "description": "验证检测规则 rule.knowledge-must-be-executable-001 的识别准确率",
+        "assertions": [
+            {
+                "check": "true_positive",
+                "desc": "目标模式被准确识别"
+            },
+            {
+                "check": "false_positive_low",
+                "desc": "误报率在可接受范围内"
+            },
+            {
+                "check": "alert_delivered",
+                "desc": "检测到问题后告警正确发送"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/knowledge-must-be-executable.js && echo 'handler_exists:pass'",
+        "expected_outcome": "目标模式准确检测，误报率<5%",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

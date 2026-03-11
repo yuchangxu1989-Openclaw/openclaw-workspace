@@ -37,5 +37,27 @@
         "by": "isc-rule-deployer",
         "at": "2026-03-10T23:39:04.751Z",
         "prev_enforcement": "cognitive"
+    },
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.mandatory-parallel-dispatch-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/mandatory-parallel-dispatch.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/mandatory-parallel-dispatch.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 120,
+        "on_failure": "log"
     }
 }

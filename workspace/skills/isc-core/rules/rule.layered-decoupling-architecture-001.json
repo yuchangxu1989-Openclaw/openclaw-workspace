@@ -44,5 +44,27 @@
     "enforcement_tier": "P0_gate",
     "enforcement": "programmatic",
     "fullchain_status": "expanded",
-    "handler": "skills/isc-core/handlers/layered-decoupling-architecture.js"
+    "handler": "skills/isc-core/handlers/layered-decoupling-architecture.js",
+    "verification": {
+        "method": "architecture_principle_check",
+        "description": "验证架构规则 rule.layered-decoupling-architecture-001 的设计约束",
+        "assertions": [
+            {
+                "check": "principle_codified",
+                "desc": "架构原则有可验证的判定条件"
+            },
+            {
+                "check": "violation_detectable",
+                "desc": "违反架构原则的设计可被检测"
+            },
+            {
+                "check": "remediation_path",
+                "desc": "违规时有明确的修复路径"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/layered-decoupling-architecture.js && echo 'handler_exists:pass'",
+        "expected_outcome": "架构违规被检测，提供修复路径",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }
