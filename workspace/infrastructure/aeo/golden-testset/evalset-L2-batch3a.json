@@ -1,0 +1,892 @@
+{
+  "dataset": "evalset-L2-batch3a",
+  "schema_version": "V4",
+  "schema_ref": "aeo://eval-standard-schema/V4",
+  "description": "35条L2级别长链任务评测case，覆盖分析→设计→实现→测试→部署、多步审计修复、端到端流水线三大场景",
+  "generated_at": "2026-03-12T03:25:00+08:00",
+  "generator": "eval-case-engineer-subagent",
+  "total_cases": 35,
+  "scenario_distribution": {
+    "分析设计实现测试部署": 12,
+    "多步审计修复": 12,
+    "端到端流水线": 11
+  },
+  "cases": [
+    {
+      "id": "L2-LC-001",
+      "input": "帮我做一个自动化的评测报告生成系统，从数据采集到最终PDF输出",
+      "context": "用户需要端到端评测报告流水线，涉及数据采集、清洗、分析、可视化、PDF生成",
+      "expected_output": "1)分析需求确定数据源和报告格式 2)设计流水线架构(采集→清洗→分析→可视化→PDF) 3)实现各模块代码 4)用样本数据测试全链路 5)部署为定时任务并验证输出",
+      "category": "交付质量类",
+      "tags": [
+        "端到端流水线",
+        "报告生成",
+        "自动化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析需求确定数据源和报告格式",
+        "设计流水线架构(采集→清洗→分析→可视化→PDF)",
+        "实现各模块代码",
+        "用样本数据测试全链路",
+        "部署为定时任务并验证输出"
+      ]
+    },
+    {
+      "id": "L2-LC-002",
+      "input": "我想给所有Agent加一个统一的错误处理和重试机制，从分析现有问题到全量部署",
+      "context": "19个Agent各自处理错误方式不一致，需要统一化",
+      "expected_output": "1)分析19个Agent现有错误处理模式 2)设计统一错误处理框架(重试策略、降级、告警) 3)实现公共错误处理模块 4)逐个Agent集成测试 5)全量部署并监控错误率变化",
+      "category": "交付质量类",
+      "tags": [
+        "错误处理",
+        "Agent架构",
+        "统一框架"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析19个Agent现有错误处理模式",
+        "设计统一错误处理框架(重试策略、降级、告警)",
+        "实现公共错误处理模块",
+        "逐个Agent集成测试",
+        "全量部署并监控错误率变化"
+      ]
+    },
+    {
+      "id": "L2-LC-003",
+      "input": "设计并实现一个技能版本管理系统，支持技能的发布、回滚和灰度发布",
+      "context": "当前技能没有版本控制，更新后无法回滚",
+      "expected_output": "1)分析现有技能目录结构和发布流程 2)设计版本管理schema(版本号、changelog、兼容性标记) 3)实现版本管理CLI工具 4)用3个技能做灰度发布测试 5)部署到生产并迁移现有技能",
+      "category": "交付质量类",
+      "tags": [
+        "版本管理",
+        "技能系统",
+        "灰度发布"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析现有技能目录结构和发布流程",
+        "设计版本管理schema(版本号、changelog、兼容性标记)",
+        "实现版本管理CLI工具",
+        "用3个技能做灰度发布测试",
+        "部署到生产并迁移现有技能"
+      ]
+    },
+    {
+      "id": "L2-LC-004",
+      "input": "帮我建一套Agent性能基准测试体系，从指标定义到自动化跑分",
+      "context": "需要量化各Agent的响应速度、准确率、资源消耗",
+      "expected_output": "1)分析关键性能指标(延迟、准确率、token消耗、内存) 2)设计基准测试框架和评分标准 3)实现自动化跑分脚本 4)对所有Agent执行基准测试 5)生成对比报告并部署为周期性任务",
+      "category": "交付质量类",
+      "tags": [
+        "性能测试",
+        "基准测试",
+        "自动化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析关键性能指标(延迟、准确率、token消耗、内存)",
+        "设计基准测试框架和评分标准",
+        "实现自动化跑分脚本",
+        "对所有Agent执行基准测试",
+        "生成对比报告并部署为周期性任务"
+      ]
+    },
+    {
+      "id": "L2-LC-005",
+      "input": "我要把现有的cron定时任务迁移到一个可视化调度平台，从需求分析到上线",
+      "context": "当前cron任务分散在crontab里，缺乏可视化和依赖管理",
+      "expected_output": "1)分析现有crontab中所有任务及依赖关系 2)设计调度平台架构(任务DAG、UI、告警) 3)实现调度引擎和Web界面 4)迁移测试(逐个任务迁移并验证) 5)全量切换并废弃旧crontab",
+      "category": "交付质量类",
+      "tags": [
+        "任务调度",
+        "可视化",
+        "迁移"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析现有crontab中所有任务及依赖关系",
+        "设计调度平台架构(任务DAG、UI、告警)",
+        "实现调度引擎和Web界面",
+        "迁移测试(逐个任务迁移并验证)",
+        "全量切换并废弃旧crontab"
+      ]
+    },
+    {
+      "id": "L2-LC-006",
+      "input": "构建一个记忆质量评估系统，能自动检测低质量记忆并清理",
+      "context": "记忆库中积累了大量冗余、过时、矛盾的记忆条目",
+      "expected_output": "1)分析记忆库现状(总量、分类、时间分布) 2)设计质量评估维度(相关性、时效性、一致性、重复度) 3)实现自动评估和打分引擎 4)在样本集上测试准确率 5)部署为定期清理任务并设置人工审核兜底",
+      "category": "交付质量类",
+      "tags": [
+        "记忆管理",
+        "质量评估",
+        "自动清理"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析记忆库现状(总量、分类、时间分布)",
+        "设计质量评估维度(相关性、时效性、一致性、重复度)",
+        "实现自动评估和打分引擎",
+        "在样本集上测试准确率",
+        "部署为定期清理任务并设置人工审核兜底"
+      ]
+    },
+    {
+      "id": "L2-LC-007",
+      "input": "帮我做一个从代码提交到自动评测的CI/CD流水线",
+      "context": "每次改技能代码后需要手动跑评测，效率低",
+      "expected_output": "1)分析现有代码提交和评测流程 2)设计CI/CD流水线(git hook→构建→评测→报告→通知) 3)实现各阶段脚本和配置 4)用一个技能的修改做端到端测试 5)部署到所有技能仓库并验证触发机制",
+      "category": "交付质量类",
+      "tags": [
+        "CI/CD",
+        "自动化评测",
+        "流水线"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析现有代码提交和评测流程",
+        "设计CI/CD流水线(git hook→构建→评测→报告→通知)",
+        "实现各阶段脚本和配置",
+        "用一个技能的修改做端到端测试",
+        "部署到所有技能仓库并验证触发机制"
+      ]
+    },
+    {
+      "id": "L2-LC-008",
+      "input": "设计一个多Agent协作的代码审查系统，从架构设计到投产",
+      "context": "当前代码审查依赖单个reviewer Agent，需要多角色协作",
+      "expected_output": "1)分析代码审查需求(安全、性能、风格、逻辑) 2)设计多Agent审查架构(分工、投票、仲裁) 3)实现审查协议和通信机制 4)用10个PR做对比测试 5)部署并配置自动触发规则",
+      "category": "交付质量类",
+      "tags": [
+        "代码审查",
+        "多Agent协作",
+        "架构设计"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析代码审查需求(安全、性能、风格、逻辑)",
+        "设计多Agent审查架构(分工、投票、仲裁)",
+        "实现审查协议和通信机制",
+        "用10个PR做对比测试",
+        "部署并配置自动触发规则"
+      ]
+    },
+    {
+      "id": "L2-LC-009",
+      "input": "我需要一个端到端的日志分析平台，从采集到告警",
+      "context": "各Agent日志分散，出问题时排查困难",
+      "expected_output": "1)分析各Agent日志格式和存储位置 2)设计统一日志架构(采集→聚合→索引→查询→告警) 3)实现日志采集agent和聚合服务 4)导入历史日志测试查询和告警规则 5)部署并配置实时告警通知",
+      "category": "交付质量类",
+      "tags": [
+        "日志分析",
+        "监控告警",
+        "端到端"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析各Agent日志格式和存储位置",
+        "设计统一日志架构(采集→聚合→索引→查询→告警)",
+        "实现日志采集agent和聚合服务",
+        "导入历史日志测试查询和告警规则",
+        "部署并配置实时告警通知"
+      ]
+    },
+    {
+      "id": "L2-LC-010",
+      "input": "构建一套评测case自动进化系统，能根据模型表现自动生成新case",
+      "context": "评测集需要持续更新，手动生成效率低",
+      "expected_output": "1)分析现有评测结果找出模型薄弱环节 2)设计自动进化策略(难度递增、边界探测、对抗生成) 3)实现case生成引擎(引用eval-standard-schema) 4)生成100条候选case并人工抽检 5)部署为周期性任务并接入评测流水线",
+      "category": "交付质量类",
+      "tags": [
+        "评测进化",
+        "自动生成",
+        "持续优化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析现有评测结果找出模型薄弱环节",
+        "设计自动进化策略(难度递增、边界探测、对抗生成)",
+        "实现case生成引擎(引用eval-standard-schema)",
+        "生成100条候选case并人工抽检",
+        "部署为周期性任务并接入评测流水线"
+      ]
+    },
+    {
+      "id": "L2-LC-011",
+      "input": "帮我把现有的技能系统从单机迁移到支持多节点分布式执行",
+      "context": "当前所有技能在单机运行，需要支持水平扩展",
+      "expected_output": "1)分析现有技能的资源消耗和依赖关系 2)设计分布式执行架构(任务分发、状态同步、结果汇总) 3)实现分布式调度器和节点通信协议 4)在2个节点上测试技能执行一致性 5)全量迁移并验证负载均衡效果",
+      "category": "交付质量类",
+      "tags": [
+        "分布式",
+        "技能系统",
+        "架构迁移"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析现有技能的资源消耗和依赖关系",
+        "设计分布式执行架构(任务分发、状态同步、结果汇总)",
+        "实现分布式调度器和节点通信协议",
+        "在2个节点上测试技能执行一致性",
+        "全量迁移并验证负载均衡效果"
+      ]
+    },
+    {
+      "id": "L2-LC-012",
+      "input": "设计并实现一个用户反馈闭环系统，从收集到改进落地",
+      "context": "用户反馈散落在聊天记录中，没有系统化处理",
+      "expected_output": "1)分析历史聊天记录提取反馈模式 2)设计反馈闭环流程(收集→分类→优先级→改进→验证) 3)实现自动反馈提取和分类模块 4)用近30天聊天记录测试提取准确率 5)部署为实时监听服务并接入改进工作流",
+      "category": "交付质量类",
+      "tags": [
+        "用户反馈",
+        "闭环系统",
+        "持续改进"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析历史聊天记录提取反馈模式",
+        "设计反馈闭环流程(收集→分类→优先级→改进→验证)",
+        "实现自动反馈提取和分类模块",
+        "用近30天聊天记录测试提取准确率",
+        "部署为实时监听服务并接入改进工作流"
+      ]
+    },
+    {
+      "id": "L2-LC-013",
+      "input": "全面审计所有Agent的AGENTS.md，检查铁令完整性并修复缺失项",
+      "context": "之前发现部分Agent的AGENTS.md丢失了铁令条目",
+      "expected_output": "1)遍历19个Agent目录读取AGENTS.md 2)提取所有铁令条目建立清单 3)与ISC铁令库交叉比对找出缺失 4)逐个Agent补回缺失铁令 5)验证所有Agent铁令一致性并git commit",
+      "category": "交付质量类",
+      "tags": [
+        "铁令审计",
+        "AGENTS.md",
+        "完整性检查"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "遍历19个Agent目录读取AGENTS.md",
+        "提取所有铁令条目建立清单",
+        "与ISC铁令库交叉比对找出缺失",
+        "逐个Agent补回缺失铁令",
+        "验证所有Agent铁令一致性并git commit"
+      ]
+    },
+    {
+      "id": "L2-LC-014",
+      "input": "检查所有cron定时任务的健康状态，修复失败的任务并优化调度时间",
+      "context": "部分cron任务可能静默失败，需要全面排查",
+      "expected_output": "1)导出完整crontab并解析所有任务 2)检查每个任务的最近执行日志和退出码 3)识别失败/超时/冲突的任务 4)修复失败任务(修脚本/调参数/解依赖) 5)优化调度时间避免资源争抢并更新crontab",
+      "category": "交付质量类",
+      "tags": [
+        "cron审计",
+        "任务修复",
+        "调度优化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "导出完整crontab并解析所有任务",
+        "检查每个任务的最近执行日志和退出码",
+        "识别失败/超时/冲突的任务",
+        "修复失败任务(修脚本/调参数/解依赖)",
+        "优化调度时间避免资源争抢并更新crontab"
+      ]
+    },
+    {
+      "id": "L2-LC-015",
+      "input": "审计所有技能的SKILL.md，检查与实际实现的一致性并修复偏差",
+      "context": "技能文档可能与代码实现不同步",
+      "expected_output": "1)遍历所有技能目录收集SKILL.md 2)解析每个技能的实际入口和功能 3)对比文档描述与代码实现找出偏差 4)修复不一致的SKILL.md 5)生成审计报告并git commit",
+      "category": "交付质量类",
+      "tags": [
+        "技能审计",
+        "文档一致性",
+        "SKILL.md"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "遍历所有技能目录收集SKILL.md",
+        "解析每个技能的实际入口和功能",
+        "对比文档描述与代码实现找出偏差",
+        "修复不一致的SKILL.md",
+        "生成审计报告并git commit"
+      ]
+    },
+    {
+      "id": "L2-LC-016",
+      "input": "全面检查git仓库的.gitignore配置，确保敏感文件不被提交",
+      "context": "之前openclaw.json被意外推送到远程的教训",
+      "expected_output": "1)扫描.gitignore规则列表 2)用git ls-files检查已跟踪文件中是否有敏感文件 3)识别需要排除的文件(配置、密钥、本地状态) 4)更新.gitignore并git rm --cached误提交的文件 5)验证清理结果并推送",
+      "category": "交付质量类",
+      "tags": [
+        "安全审计",
+        "gitignore",
+        "敏感文件"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "扫描.gitignore规则列表",
+        "用git ls-files检查已跟踪文件中是否有敏感文件",
+        "识别需要排除的文件(配置、密钥、本地状态)",
+        "更新.gitignore并git rm --cached误提交的文件",
+        "验证清理结果并推送"
+      ]
+    },
+    {
+      "id": "L2-LC-017",
+      "input": "审计所有脚本的错误处理，找出没有set -e或缺少错误检查的脚本并修复",
+      "context": "部分bash脚本缺少错误处理，失败时静默继续",
+      "expected_output": "1)扫描所有.sh脚本文件 2)检查每个脚本是否有set -e/set -o pipefail 3)分析关键命令是否有错误检查 4)逐个修复缺失错误处理的脚本 5)运行修复后的脚本验证不影响正常功能",
+      "category": "交付质量类",
+      "tags": [
+        "脚本审计",
+        "错误处理",
+        "健壮性"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "扫描所有.sh脚本文件",
+        "检查每个脚本是否有set -e/set -o pipefail",
+        "分析关键命令是否有错误检查",
+        "逐个修复缺失错误处理的脚本",
+        "运行修复后的脚本验证不影响正常功能"
+      ]
+    },
+    {
+      "id": "L2-LC-018",
+      "input": "检查所有Node.js依赖的安全漏洞，升级有问题的包并验证兼容性",
+      "context": "依赖包可能存在已知CVE漏洞",
+      "expected_output": "1)运行npm audit扫描所有依赖 2)分析漏洞严重级别和影响范围 3)制定升级计划(优先修高危) 4)逐个升级并运行测试确保兼容 5)生成安全审计报告并提交修复",
+      "category": "交付质量类",
+      "tags": [
+        "安全审计",
+        "依赖管理",
+        "漏洞修复"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "运行npm audit扫描所有依赖",
+        "分析漏洞严重级别和影响范围",
+        "制定升级计划(优先修高危)",
+        "逐个升级并运行测试确保兼容",
+        "生成安全审计报告并提交修复"
+      ]
+    },
+    {
+      "id": "L2-LC-019",
+      "input": "审计gateway的内存使用模式，找出泄漏点并修复",
+      "context": "gateway-monitor-v2.sh报告内存持续增长",
+      "expected_output": "1)收集gateway进程的内存使用历史数据 2)分析内存增长模式(是否线性增长=泄漏) 3)用heapdump定位泄漏对象 4)修复泄漏代码(释放引用/优化缓存策略) 5)部署修复版本并持续监控确认修复效果",
+      "category": "交付质量类",
+      "tags": [
+        "内存审计",
+        "泄漏修复",
+        "gateway"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "收集gateway进程的内存使用历史数据",
+        "分析内存增长模式(是否线性增长=泄漏)",
+        "用heapdump定位泄漏对象",
+        "修复泄漏代码(释放引用/优化缓存策略)",
+        "部署修复版本并持续监控确认修复效果"
+      ]
+    },
+    {
+      "id": "L2-LC-020",
+      "input": "全面审计ISC规则库，清理过时规则、修复冲突规则、补充缺失规则",
+      "context": "ISC规则库随时间积累了冗余和矛盾的规则",
+      "expected_output": "1)导出所有ISC规则并按severity分类 2)检查规则间是否存在逻辑冲突 3)标记过时/冗余规则并归档 4)根据近期事故补充缺失规则 5)更新规则库并验证规则引擎加载正常",
+      "category": "交付质量类",
+      "tags": [
+        "ISC审计",
+        "规则清理",
+        "一致性"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "导出所有ISC规则并按severity分类",
+        "检查规则间是否存在逻辑冲突",
+        "标记过时/冗余规则并归档",
+        "根据近期事故补充缺失规则",
+        "更新规则库并验证规则引擎加载正常"
+      ]
+    },
+    {
+      "id": "L2-LC-021",
+      "input": "检查所有评测case的质量，清理无效case并补充覆盖盲区",
+      "context": "评测集可能存在重复、格式错误或覆盖不全的问题",
+      "expected_output": "1)加载所有评测JSON文件并校验schema合规性 2)检测重复case(相似度>0.9) 3)分析覆盖率(按category/difficulty/tags) 4)清理无效case并修复格式问题 5)针对覆盖盲区生成补充case并合并入库",
+      "category": "交付质量类",
+      "tags": [
+        "评测审计",
+        "质量清理",
+        "覆盖率"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "加载所有评测JSON文件并校验schema合规性",
+        "检测重复case(相似度>0.",
+        "",
+        "分析覆盖率(按category/difficulty/tags)",
+        "清理无效case并修复格式问题",
+        "针对覆盖盲区生成补充case并合并入库"
+      ]
+    },
+    {
+      "id": "L2-LC-022",
+      "input": "审计所有子Agent的session目录，清理过期数据并优化存储",
+      "context": "session目录可能积累大量历史数据占用磁盘",
+      "expected_output": "1)扫描所有Agent的session目录统计大小和文件数 2)分析文件时间分布找出过期数据 3)制定清理策略(保留近7天，归档近30天，删除更早) 4)执行清理并验证不影响运行中的session 5)设置自动清理cron任务",
+      "category": "交付质量类",
+      "tags": [
+        "存储审计",
+        "session清理",
+        "磁盘优化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "扫描所有Agent的session目录统计大小和文件数",
+        "分析文件时间分布找出过期数据",
+        "制定清理策略(保留近7天，归档近30天，删除更早)",
+        "执行清理并验证不影响运行中的session",
+        "设置自动清理cron任务"
+      ]
+    },
+    {
+      "id": "L2-LC-023",
+      "input": "全面检查文件权限配置，确保关键文件的immutable标记正确",
+      "context": "openclaw.json需要chattr +i保护，其他关键文件也需要检查",
+      "expected_output": "1)列出所有需要保护的关键文件清单 2)用lsattr检查每个文件的当前属性 3)对比期望属性找出偏差 4)修复权限(chattr +i/-i) 5)生成权限审计报告并写入监控检查项",
+      "category": "交付质量类",
+      "tags": [
+        "权限审计",
+        "文件保护",
+        "chattr"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "列出所有需要保护的关键文件清单",
+        "用lsattr检查每个文件的当前属性",
+        "对比期望属性找出偏差",
+        "修复权限(chattr +i/-i)",
+        "生成权限审计报告并写入监控检查项"
+      ]
+    },
+    {
+      "id": "L2-LC-024",
+      "input": "审计看板推送系统的数据准确性，修复数据源脱节问题",
+      "context": "看板多次显示0，board.json与实际运行状态脱节",
+      "expected_output": "1)分析看板数据流(数据源→board.json→推送脚本→飞书) 2)对比board.json与subagents list的实时数据 3)定位脱节环节 4)重写数据采集逻辑直接从实时源获取 5)测试推送并验证数据一致性",
+      "category": "交付质量类",
+      "tags": [
+        "看板审计",
+        "数据一致性",
+        "修复"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析看板数据流(数据源→board.json→推送脚本→飞书)",
+        "对比board.json与subagents list的实时数据",
+        "定位脱节环节",
+        "重写数据采集逻辑直接从实时源获取",
+        "测试推送并验证数据一致性"
+      ]
+    },
+    {
+      "id": "L2-LC-025",
+      "input": "搭建一个从badcase发现到goodcase生成的全自动转化流水线",
+      "context": "当前badcase到goodcase的转化需要人工介入多个环节",
+      "expected_output": "1)分析现有badcase-to-goodcase技能的输入输出 2)设计全自动流水线(发现→分类→根因分析→修正→验证) 3)实现自动触发和串联机制 4)用20个历史badcase测试转化质量 5)部署为事件驱动流水线",
+      "category": "交付质量类",
+      "tags": [
+        "badcase转化",
+        "自动化流水线",
+        "评测"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析现有badcase-to-goodcase技能的输入输出",
+        "设计全自动流水线(发现→分类→根因分析→修正→验证)",
+        "实现自动触发和串联机制",
+        "用20个历史badcase测试转化质量",
+        "部署为事件驱动流水线"
+      ]
+    },
+    {
+      "id": "L2-LC-026",
+      "input": "实现一个从用户提问到知识库更新的全链路知识沉淀流水线",
+      "context": "用户交互中产生的知识没有系统化沉淀",
+      "expected_output": "1)分析用户交互中的知识产出模式 2)设计知识提取和分类规则 3)实现自动知识提取模块(NER+意图+关系) 4)测试提取准确率并人工校准 5)部署为实时流水线接入记忆系统",
+      "category": "交付质量类",
+      "tags": [
+        "知识沉淀",
+        "自动提取",
+        "流水线"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析用户交互中的知识产出模式",
+        "设计知识提取和分类规则",
+        "实现自动知识提取模块(NER+意图+关系)",
+        "测试提取准确率并人工校准",
+        "部署为实时流水线接入记忆系统"
+      ]
+    },
+    {
+      "id": "L2-LC-027",
+      "input": "构建从代码变更到文档自动更新的同步流水线",
+      "context": "代码改了但文档经常忘记更新",
+      "expected_output": "1)分析代码与文档的映射关系(函数→API文档，配置→运维文档) 2)设计变更检测和文档生成规则 3)实现git diff解析和文档patch生成器 4)用近10次commit测试文档更新准确性 5)部署为git hook自动触发",
+      "category": "交付质量类",
+      "tags": [
+        "文档同步",
+        "代码变更",
+        "自动化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析代码与文档的映射关系(函数→API文档，配置→运维文档)",
+        "设计变更检测和文档生成规则",
+        "实现git diff解析和文档patch生成器",
+        "用近10次commit测试文档更新准确性",
+        "部署为git hook自动触发"
+      ]
+    },
+    {
+      "id": "L2-LC-028",
+      "input": "搭建一个从告警触发到自动修复的自愈流水线",
+      "context": "当前告警只通知人，需要自动化修复常见问题",
+      "expected_output": "1)分析历史告警类型和对应的人工修复操作 2)设计自愈策略库(告警类型→修复动作映射) 3)实现自愈引擎(告警接收→策略匹配→执行修复→验证) 4)用模拟告警测试自愈成功率 5)部署并设置人工兜底升级机制",
+      "category": "交付质量类",
+      "tags": [
+        "自愈系统",
+        "告警修复",
+        "自动化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析历史告警类型和对应的人工修复操作",
+        "设计自愈策略库(告警类型→修复动作映射)",
+        "实现自愈引擎(告警接收→策略匹配→执行修复→验证)",
+        "用模拟告警测试自愈成功率",
+        "部署并设置人工兜底升级机制"
+      ]
+    },
+    {
+      "id": "L2-LC-029",
+      "input": "实现一个从需求描述到技能自动生成的端到端流水线",
+      "context": "新技能开发周期长，希望自动化",
+      "expected_output": "1)分析现有技能的结构模式(SKILL.md+index.js+package.json) 2)设计需求解析和代码生成模板 3)实现需求→设计→代码→测试→注册的全链路生成器 4)用5个需求描述测试生成质量 5)部署为交互式技能工厂",
+      "category": "交付质量类",
+      "tags": [
+        "技能生成",
+        "自动化",
+        "端到端"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析现有技能的结构模式(SKILL.md+index.js+package.json)",
+        "设计需求解析和代码生成模板",
+        "实现需求→设计→代码→测试→注册的全链路生成器",
+        "用5个需求描述测试生成质量",
+        "部署为交互式技能工厂"
+      ]
+    },
+    {
+      "id": "L2-LC-030",
+      "input": "构建一个多模型评测对比的全自动流水线，从case分发到报告生成",
+      "context": "需要对比claude/gpt/glm在同一评测集上的表现",
+      "expected_output": "1)分析评测集和各模型API接口 2)设计并行评测架构(case分发→多模型执行→结果收集→对比) 3)实现评测调度器和结果对比引擎 4)用L1评测集做全量对比测试 5)生成可视化对比报告并部署为周期性任务",
+      "category": "交付质量类",
+      "tags": [
+        "多模型对比",
+        "评测流水线",
+        "自动化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析评测集和各模型API接口",
+        "设计并行评测架构(case分发→多模型执行→结果收集→对比)",
+        "实现评测调度器和结果对比引擎",
+        "用L1评测集做全量对比测试",
+        "生成可视化对比报告并部署为周期性任务"
+      ]
+    },
+    {
+      "id": "L2-LC-031",
+      "input": "搭建一个从git commit到变更影响分析的全自动流水线",
+      "context": "代码变更后不清楚影响范围，容易引入回归",
+      "expected_output": "1)分析代码依赖图(模块间引用关系) 2)设计变更影响传播算法 3)实现git diff→依赖分析→影响范围→风险评估的流水线 4)用近20次commit验证影响分析准确性 5)部署为PR自动检查并输出影响报告",
+      "category": "交付质量类",
+      "tags": [
+        "影响分析",
+        "变更管理",
+        "自动化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析代码依赖图(模块间引用关系)",
+        "设计变更影响传播算法",
+        "实现git diff→依赖分析→影响范围→风险评估的流水线",
+        "用近20次commit验证影响分析准确性",
+        "部署为PR自动检查并输出影响报告"
+      ]
+    },
+    {
+      "id": "L2-LC-032",
+      "input": "实现一个从原始对话到结构化训练数据的全链路数据工厂",
+      "context": "需要把历史对话转化为可用于微调的训练数据",
+      "expected_output": "1)分析历史对话数据格式和质量分布 2)设计数据清洗和结构化规则(去噪→分段→标注→格式化) 3)实现数据处理pipeline各阶段 4)处理1000条对话并人工抽检质量 5)部署为批处理任务并输出标准训练格式",
+      "category": "交付质量类",
+      "tags": [
+        "数据工厂",
+        "训练数据",
+        "对话处理"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析历史对话数据格式和质量分布",
+        "设计数据清洗和结构化规则(去噪→分段→标注→格式化)",
+        "实现数据处理pipeline各阶段",
+        "处理1000条对话并人工抽检质量",
+        "部署为批处理任务并输出标准训练格式"
+      ]
+    },
+    {
+      "id": "L2-LC-033",
+      "input": "构建一个从异常检测到根因定位的全自动诊断流水线",
+      "context": "系统异常时排查耗时长，需要自动化诊断",
+      "expected_output": "1)分析常见异常类型和诊断路径 2)设计诊断决策树(症状→检查项→根因→建议) 3)实现自动诊断引擎(指标采集→异常检测→根因分析→报告) 4)用历史故障case验证诊断准确率 5)部署为实时监控插件",
+      "category": "交付质量类",
+      "tags": [
+        "异常诊断",
+        "根因分析",
+        "自动化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析常见异常类型和诊断路径",
+        "设计诊断决策树(症状→检查项→根因→建议)",
+        "实现自动诊断引擎(指标采集→异常检测→根因分析→报告)",
+        "用历史故障case验证诊断准确率",
+        "部署为实时监控插件"
+      ]
+    },
+    {
+      "id": "L2-LC-034",
+      "input": "搭建一个从技能发布到效果追踪的全生命周期管理流水线",
+      "context": "技能发布后缺乏效果追踪和反馈闭环",
+      "expected_output": "1)分析技能发布后需要追踪的指标(调用量、成功率、用户满意度) 2)设计追踪数据采集和聚合方案 3)实现效果追踪dashboard和告警规则 4)对3个技能做全生命周期追踪测试 5)部署并接入技能管理平台",
+      "category": "交付质量类",
+      "tags": [
+        "技能生命周期",
+        "效果追踪",
+        "管理"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析技能发布后需要追踪的指标(调用量、成功率、用户满意度)",
+        "设计追踪数据采集和聚合方案",
+        "实现效果追踪dashboard和告警规则",
+        "对3个技能做全生命周期追踪测试",
+        "部署并接入技能管理平台"
+      ]
+    },
+    {
+      "id": "L2-LC-035",
+      "input": "实现一个从安全扫描到漏洞修复验证的全自动安全流水线",
+      "context": "安全检查和修复目前是手动流程",
+      "expected_output": "1)分析需要扫描的安全维度(依赖漏洞、代码注入、权限泄露、密钥暴露) 2)设计扫描→分级→修复→验证的流水线 3)实现各维度扫描器和自动修复模块 4)在全仓库执行扫描并修复高危项 5)部署为CI集成并设置周期性全量扫描",
+      "category": "交付质量类",
+      "tags": [
+        "安全流水线",
+        "漏洞修复",
+        "自动化"
+      ],
+      "difficulty": "C2",
+      "source": "synthetic",
+      "complexity_tags": [
+        "long-chain"
+      ],
+      "north_star_indicator": "长链任务完成率",
+      "execution_chain_steps": [
+        "分析需要扫描的安全维度(依赖漏洞、代码注入、权限泄露、密钥暴露)",
+        "设计扫描→分级→修复→验证的流水线",
+        "实现各维度扫描器和自动修复模块",
+        "在全仓库执行扫描并修复高危项",
+        "部署为CI集成并设置周期性全量扫描"
+      ]
+    }
+  ]
+}
