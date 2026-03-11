@@ -15,6 +15,7 @@ const {
   gateResult,
   gitExec,
 } = require('../lib/handler-utils');
+const { collectBadcase, classifyError } = require('/root/.openclaw/workspace/scripts/badcase-collector');
 
 module.exports = async function (event, rule, context) {
   const logger = context?.logger || console;
@@ -43,12 +44,20 @@ module.exports = async function (event, rule, context) {
     message: description ? `Description: ${description.slice(0, 80)}...` : 'No description provided',
   });
 
-  // Check 2: category is valid
-  const validCategories = ['correction', 'repeated_failure', 'symptom_fix', 'rule_violation', 'uncategorized'];
+  // Check 2: category — 断裂点#2修复：扩展分类，支持自动分类
+  const validCategories = [
+    'correction', 'repeated_failure', 'symptom_fix', 'rule_violation', 'uncategorized',
+    'timeout', 'dependency', 'permission', 'config_error', 'logic_error',
+    'network', 'resource', 'role_violation',
+  ];
+  // 如果category无效或为uncategorized，尝试自动分类
+  const autoCategory = validCategories.includes(category) && category !== 'uncategorized'
+    ? category
+    : classifyError(description) || category;
   checks.push({
     name: 'category_valid',
-    ok: validCategories.includes(category),
-    message: `Category: ${category}`,
+    ok: validCategories.includes(autoCategory),
+    message: `Category: ${autoCategory}${autoCategory !== category ? ` (auto-classified from: ${category})` : ''}`,
   });
 
   // Write badcase to collection file
@@ -84,6 +93,23 @@ module.exports = async function (event, rule, context) {
     badcases.push(newEntry);
     writeReport(badcasesFile, badcases);
     actions.push(`badcase_added:${badcaseId}`);
+
+    // 断裂点#3修复：同时写入 logs/badcases/ + memory/badcases/ + ISC改进建议
+    try {
+      const bcResult = collectBadcase(badcaseId, description, {
+        taskId: payload.task_id || badcaseId,
+        agent: payload.agent || 'unknown',
+        category: autoCategory,
+        correctBehavior: correctChain,
+        rootCause: rootCause,
+      });
+      if (bcResult.ok) {
+        actions.push(`collector_ok:${bcResult.badcaseId}`);
+        actions.push(`isc_suggestion:${bcResult.paths?.suggestion || 'none'}`);
+      }
+    } catch (collectorErr) {
+      logger.warn?.(`[badcase-harvest-engine] collector fallback error: ${collectorErr.message}`);
+    }
   }
 
   const result = gateResult(rule?.id || 'badcase-harvest-engine', checks, { failClosed: false });

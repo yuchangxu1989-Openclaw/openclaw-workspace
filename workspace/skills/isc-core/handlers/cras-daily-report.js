@@ -80,6 +80,97 @@ module.exports = async function(event, rule, context) {
     lines.push('');
   }
   lines.push(`> 有数据模块: ${modulesWithData.length}/${MODULES.length}`);
+
+  // ─── 断裂点#4修复：Badcase统计 ───
+  const badcaseStats = { total: 0, byCategory: {}, bySeverity: {}, items: [] };
+  const today = new Date().toISOString().slice(0, 10);
+  const badcaseDirs = [
+    path.join(root, 'logs', 'badcases'),
+    path.join(root, 'memory', 'badcases'),
+  ];
+  const seenIds = new Set();
+  for (const dir of badcaseDirs) {
+    if (!checkFileExists(dir)) continue;
+    try {
+      const files = fs.readdirSync(dir).filter(f => f.endsWith('.json') && f.includes(today));
+      for (const file of files) {
+        try {
+          const data = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+          if (seenIds.has(data.id)) continue;
+          seenIds.add(data.id);
+          badcaseStats.total++;
+          const cat = data.category || 'uncategorized';
+          const sev = data.severity || 'P2';
+          badcaseStats.byCategory[cat] = (badcaseStats.byCategory[cat] || 0) + 1;
+          badcaseStats.bySeverity[sev] = (badcaseStats.bySeverity[sev] || 0) + 1;
+          badcaseStats.items.push({ id: data.id, category: cat, severity: sev, label: data.label || '' });
+        } catch {}
+      }
+    } catch {}
+  }
+  // 也扫描 tests/badcases/ 日索引
+  const testIndexPath = path.join(root, 'tests', 'badcases', `${today}-collected.json`);
+  if (checkFileExists(testIndexPath)) {
+    try {
+      const entries = JSON.parse(fs.readFileSync(testIndexPath, 'utf8'));
+      if (Array.isArray(entries)) {
+        for (const data of entries) {
+          if (seenIds.has(data.id)) continue;
+          seenIds.add(data.id);
+          badcaseStats.total++;
+          const cat = data.category || 'uncategorized';
+          const sev = data.severity || 'P2';
+          badcaseStats.byCategory[cat] = (badcaseStats.byCategory[cat] || 0) + 1;
+          badcaseStats.bySeverity[sev] = (badcaseStats.bySeverity[sev] || 0) + 1;
+          badcaseStats.items.push({ id: data.id, category: cat, severity: sev, label: data.label || '' });
+        }
+      }
+    } catch {}
+  }
+
+  lines.push('');
+  lines.push('## Badcase统计');
+  if (badcaseStats.total === 0) {
+    lines.push('- 今日无新badcase');
+  } else {
+    lines.push(`- 今日新增: ${badcaseStats.total}例`);
+    lines.push('- 按分类:');
+    for (const [cat, count] of Object.entries(badcaseStats.byCategory).sort((a, b) => b[1] - a[1])) {
+      lines.push(`  - ${cat}: ${count}`);
+    }
+    lines.push('- 按严重度:');
+    for (const [sev, count] of Object.entries(badcaseStats.bySeverity).sort()) {
+      lines.push(`  - ${sev}: ${count}`);
+    }
+  }
+
+  // ISC改进建议汇总
+  const suggestDir = path.join(root, 'logs', 'isc-suggestions');
+  const suggestions = [];
+  if (checkFileExists(suggestDir)) {
+    try {
+      const files = fs.readdirSync(suggestDir).filter(f => f.endsWith('.json') && f.includes(today));
+      for (const file of files) {
+        try {
+          const s = JSON.parse(fs.readFileSync(path.join(suggestDir, file), 'utf8'));
+          if (s.rule && s.suggestion) suggestions.push(s);
+        } catch {}
+      }
+    } catch {}
+  }
+  if (suggestions.length > 0) {
+    lines.push('');
+    lines.push('## ISC规则改进建议');
+    const ruleMap = {};
+    for (const s of suggestions) {
+      if (!ruleMap[s.rule]) ruleMap[s.rule] = { suggestion: s.suggestion, count: 0 };
+      ruleMap[s.rule].count++;
+    }
+    for (const [rule, info] of Object.entries(ruleMap).sort((a, b) => b[1].count - a[1].count)) {
+      lines.push(`- **${rule}** (${info.count}次): ${info.suggestion}`);
+    }
+  }
+
   const markdownReport = lines.join('\n');
 
   // Write structured report
@@ -95,6 +186,8 @@ module.exports = async function(event, rule, context) {
     modulesWithData: modulesWithData.length,
     totalModules: MODULES.length,
     moduleInsights,
+    badcaseStats,
+    iscSuggestions: suggestions.length,
     markdown: markdownReport,
     ...result,
   });
