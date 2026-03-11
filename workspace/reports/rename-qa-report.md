@@ -31,10 +31,10 @@ grep -r '"dto"' --include="*.json" . \
 - [PASS] ISC 规则/组件对 `lto-core` 的引用路径可达（抽样 grep 覆盖 `skills/isc-core`, `scripts`, `skills/lto-core` 等）
 - [PASS] `scripts/` 中对 `lto-core` 的引用路径存在且指向新目录
 
-## 4) 凌霄阁 → 裁决殿 替换核查
+## 4) 裁决殿 → 裁决殿 替换核查
 命令：
 ```bash
-grep -r "凌霄阁\|lingxiaoge" --include="*.md" --include="*.json" --include="*.js" --include="*.sh" . \
+grep -r "裁决殿\|lingxiaoge" --include="*.md" --include="*.json" --include="*.js" --include="*.sh" . \
   | grep -v ".git/" | grep -v "node_modules/" | grep -v ".entropy-archive/"
 ```
 结果：
@@ -42,7 +42,7 @@ grep -r "凌霄阁\|lingxiaoge" --include="*.md" --include="*.json" --include="*
 
 残留清单：
 1. `reports/caijuedian-rename-report.md`
-   - 含“凌霄阁/lingxiaoge”作为更名说明与映射历史
+   - 含“裁决殿/lingxiaoge”作为更名说明与映射历史
 
 ## 5) DTO → 本地任务编排 替换核查
 命令：

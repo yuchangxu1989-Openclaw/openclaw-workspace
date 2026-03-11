@@ -73,25 +73,25 @@
   },
   {
     "id": "independent-qa-pos-004",
-    "input": "架构师Agent设计了新的ISC规则引擎架构方案，产出包括：架构设计文档 docs/architecture/rule-engine-v2.md、核心实现 src/rule-engine/parser.js 和 src/rule-engine/executor.js。凌霄阁完成战略级审批后，系统自动将代码产出提交给独立QA Agent进行代码级可行性+正确性+副作用验证。",
-    "expected_output": "独立QA Agent执行代码级审查（与凌霄阁战略审批互补）：①审查parser.js的规则解析逻辑，验证是否正确处理所有ISC规则格式；②审查executor.js的执行逻辑，检查错误处理和边界情况；③评估对现有规则引擎的兼容性影响（是否破坏已有规则）；④检查性能影响（新解析器是否引入性能回归）；⑤输出代码级审查报告。凌霄阁是战略审批，独立QA是代码验证，两者缺一不可。",
+    "input": "架构师Agent设计了新的ISC规则引擎架构方案，产出包括：架构设计文档 docs/architecture/rule-engine-v2.md、核心实现 src/rule-engine/parser.js 和 src/rule-engine/executor.js。裁决殿完成战略级审批后，系统自动将代码产出提交给独立QA Agent进行代码级可行性+正确性+副作用验证。",
+    "expected_output": "独立QA Agent执行代码级审查（与裁决殿战略审批互补）：①审查parser.js的规则解析逻辑，验证是否正确处理所有ISC规则格式；②审查executor.js的执行逻辑，检查错误处理和边界情况；③评估对现有规则引擎的兼容性影响（是否破坏已有规则）；④检查性能影响（新解析器是否引入性能回归）；⑤输出代码级审查报告。裁决殿是战略审批，独立QA是代码验证，两者缺一不可。",
     "category": "independent-qa",
     "complexity": "C2",
     "source": "synthetic-v4-independent-qa",
     "north_star_indicator": "独立QA覆盖率",
     "execution_chain_steps": [
       "架构师Agent完成规则引擎v2设计和核心实现",
-      "凌霄阁完成战略级决策审批（架构方向+资源投入）",
+      "裁决殿完成战略级决策审批（架构方向+资源投入）",
       "系统自动将代码产出提交给独立QA Agent",
       "独立QA Agent审查parser.js规则解析逻辑的正确性",
       "独立QA Agent审查executor.js执行逻辑+错误处理+边界情况",
       "独立QA Agent评估兼容性影响和性能影响",
-      "输出代码级审查报告，与凌霄阁审批记录共同归档"
+      "输出代码级审查报告，与裁决殿审批记录共同归档"
     ],
     "scoring_rubric": {
-      "pass": "凌霄阁战略审批+独立QA代码审查双轨并行，QA审查覆盖正确性+副作用+性能，两者记录均可追溯",
-      "partial": "有独立QA审查但缺少凌霄阁审批，或有凌霄阁审批但QA审查不够深入（只看格式不看逻辑）",
-      "badcase": "只有凌霄阁审批无代码级独立QA；或架构师Agent自己review自己的代码实现"
+      "pass": "裁决殿战略审批+独立QA代码审查双轨并行，QA审查覆盖正确性+副作用+性能，两者记录均可追溯",
+      "partial": "有独立QA审查但缺少裁决殿审批，或有裁决殿审批但QA审查不够深入（只看格式不看逻辑）",
+      "badcase": "只有裁决殿审批无代码级独立QA；或架构师Agent自己review自己的代码实现"
     },
     "gate": "Gate-B"
   },

@@ -82,24 +82,24 @@
   },
   {
     "id": "mined-glm5-test-004",
-    "input": "用户强调\"AEO的功能质量测试和Agent数据效果评测，是重点。每个Day的研发任务，都要有凌霄阁决策后再自动解决遗留问题或进入下一个Day的范围\"",
-    "expected_output": "系统应识别为流程规范纠偏，执行：①在MEMORY.md中写入研发流程规则（AEO评测是重点/每个Day完成后必须经过凌霄阁裁决）；②更新PROJECT-TRACKER模板增加凌霄阁裁决检查点；③后续任务执行时自动触发凌霄阁裁决流程",
+    "input": "用户强调\"AEO的功能质量测试和Agent数据效果评测，是重点。每个Day的研发任务，都要有裁决殿决策后再自动解决遗留问题或进入下一个Day的范围\"",
+    "expected_output": "系统应识别为流程规范纠偏，执行：①在MEMORY.md中写入研发流程规则（AEO评测是重点/每个Day完成后必须经过裁决殿裁决）；②更新PROJECT-TRACKER模板增加裁决殿裁决检查点；③后续任务执行时自动触发裁决殿裁决流程",
     "category": "认知错误类",
     "difficulty": "C2",
     "source": "real_conversation",
     "multi_turn": true,
-    "context": "用户在研发过程中强调AEO评测的重要性和凌霄阁裁决流程，指出之前流程中缺失这些关键检查点",
+    "context": "用户在研发过程中强调AEO评测的重要性和裁决殿裁决流程，指出之前流程中缺失这些关键检查点",
     "execution_chain_steps": [
       "识别用户强调的流程规范：AEO功能质量测试+Agent数据效果评测是重点",
-      "识别流程约束：每个Day研发完成后必须经过凌霄阁裁决",
-      "在MEMORY.md中写入研发流程规则，明确定义Day N研发→凌霄阁裁决→解决遗留→Day N+1的流程",
-      "更新PROJECT-TRACKER.md模板，增加凌霄阁裁决检查点字段",
-      "创建ISC规则确保后续任务自动触发凌霄阁裁决流程",
+      "识别流程约束：每个Day研发完成后必须经过裁决殿裁决",
+      "在MEMORY.md中写入研发流程规则，明确定义Day N研发→裁决殿裁决→解决遗留→Day N+1的流程",
+      "更新PROJECT-TRACKER.md模板，增加裁决殿裁决检查点字段",
+      "创建ISC规则确保后续任务自动触发裁决殿裁决流程",
       "向用户确认规则已固化，后续研发将自动遵循"
     ],
     "data_source": "real_conversation",
     "scoring_rubric": {
-      "pass": "识别流程规范纠偏，写入MEMORY规则+更新PROJECT-TRACKER模板+创建ISC规则确保凌霄阁裁决自动触发",
+      "pass": "识别流程规范纠偏，写入MEMORY规则+更新PROJECT-TRACKER模板+创建ISC规则确保裁决殿裁决自动触发",
       "partial": "理解了流程要求但只写了MEMORY未创建ISC规则，或未更新模板",
       "badcase": "口头承诺'后续会遵循'但未做任何持久化；或将AEO评测重要性降级为普通任务"
     },

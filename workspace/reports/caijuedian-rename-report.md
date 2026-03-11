@@ -1,4 +1,4 @@
-# 凌霄阁→裁决殿 全局更名报告
+# 裁决殿→裁决殿 全局更名报告
 
 **执行时间**: 2026-03-08 18:37 GMT+8
 **执行者**: 开发工程师 (subagent)
@@ -6,8 +6,8 @@
 ## 执行内容
 
 ### 1. 文本替换
-- `凌霄阁-7人裁决神殿` → `裁决殿`
-- `凌霄阁` → `裁决殿`
+- `裁决殿-7人裁决神殿` → `裁决殿`
+- `裁决殿` → `裁决殿`
 - `lingxiaoge` → `caijuedian`
 
 ### 2. 文件重命名 (git mv)
@@ -21,7 +21,7 @@
 | `reports/day1-lingxiaoge-verdict.md` | `reports/day1-caijuedian-verdict.md` |
 
 ### 3. 零残留验证
-- `grep -r "凌霄阁\|lingxiaoge"` → **0 matches** ✅
+- `grep -r "裁决殿\|lingxiaoge"` → **0 matches** ✅
 
 ### 4. 未修改项
 - 7位裁决神官名字（道/战/工/盾/眼/远/衡）保持不变 ✅

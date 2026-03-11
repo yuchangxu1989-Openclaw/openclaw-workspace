@@ -79,7 +79,7 @@
     "difficulty": "C2",
     "source": "real_conversation",
     "multi_turn": true,
-    "context": "用户在Day1凌霄阁裁决后、Day2规划期间提出的战略性问题。系统之前的定时任务只覆盖代码变更检测/技能发布/Git统计，L3架构引入了EventBus+IntentScanner+Dispatcher后，监控维度完全不够。session_id=15dab64c（转发对话上下文）。",
+    "context": "用户在Day1裁决殿裁决后、Day2规划期间提出的战略性问题。系统之前的定时任务只覆盖代码变更检测/技能发布/Git统计，L3架构引入了EventBus+IntentScanner+Dispatcher后，监控维度完全不够。session_id=15dab64c（转发对话上下文）。",
     "execution_chain_steps": 6,
     "execution_chain": [
       "识别战略级架构问题意图(自动)",
@@ -130,7 +130,7 @@
     "execution_chain_steps": 7,
     "execution_chain": [
       "识别意图：全系统L3影响面盘点(自动)",
-      "遍历全部子系统：ISC/DTO/CRAS/SEEF/AEO/可观测性/凌霄阁(自动)",
+      "遍历全部子系统：ISC/DTO/CRAS/SEEF/AEO/可观测性/裁决殿(自动)",
       "逐个分析L3变更对每个子系统的影响(自动)",
       "分类：必须重塑/适配/保留(自动)",
       "评估工作量和依赖关系(自动)",
@@ -146,7 +146,7 @@
   {
     "id": "C2-MINED-R205-007",
     "input": "像这些过程中的思考，一定要融入到接下来的研发项目中",
-    "expected_output": "系统应将用户的战略思考（定时任务重塑、监控范围升级、全系统L3对齐）立即写入研发计划，确保Day2 scope包含这些项目，而非当作'以后再说'。应更新PROJECT-TRACKER.md/DTO任务队列，确保凌霄阁裁决时一并确认。",
+    "expected_output": "系统应将用户的战略思考（定时任务重塑、监控范围升级、全系统L3对齐）立即写入研发计划，确保Day2 scope包含这些项目，而非当作'以后再说'。应更新PROJECT-TRACKER.md/DTO任务队列，确保裁决殿裁决时一并确认。",
     "category": "纠偏类",
     "difficulty": "C2",
     "source": "real_conversation",
@@ -158,34 +158,34 @@
       "提取本轮对话中的所有可执行洞察(自动)",
       "写入Day2 scope/DTO任务队列(自动)",
       "更新PROJECT-TRACKER.md(自动)",
-      "确认凌霄阁裁决时包含这些项目(自动)"
+      "确认裁决殿裁决时包含这些项目(自动)"
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 系统应将用户的战略思考（定时任务重塑、监控范围升级、全系统L3对齐）立即写入研发计划，确保Day2 scope包含这些项目，而非当作'以后再说'。应更新PROJECT-TRACKER.md/DTO任务队列，确保凌霄阁裁决时一并确认。",
+    "scoring_rubric": "系统应执行: 系统应将用户的战略思考（定时任务重塑、监控范围升级、全系统L3对齐）立即写入研发计划，确保Day2 scope包含这些项目，而非当作'以后再说'。应更新PROJECT-TRACKER.md/DTO任务队列，确保裁决殿裁决时一并确认。",
     "gate": "Gate-B",
     "complexity": "C2"
   },
   {
     "id": "C2-MINED-R205-008",
-    "input": "我提醒个点，就是AEO的功能质量测试和Agent数据效果评测，是重点。每个Day的研发任务，都要有凌霄阁决策后再自动解决遗留问题或进入下一个Day的范围",
-    "expected_output": "系统应将此作为流程级规则写入MEMORY.md和ISC：(1)AEO质量测试是重点不是走过场；(2)每个Day研发完成后必须经凌霄阁裁决；(3)裁决通过后才能自动解决遗留或进入下一Day。应立即更新研发流程规则，建立程序化gate而非仅记忆。",
+    "input": "我提醒个点，就是AEO的功能质量测试和Agent数据效果评测，是重点。每个Day的研发任务，都要有裁决殿决策后再自动解决遗留问题或进入下一个Day的范围",
+    "expected_output": "系统应将此作为流程级规则写入MEMORY.md和ISC：(1)AEO质量测试是重点不是走过场；(2)每个Day研发完成后必须经裁决殿裁决；(3)裁决通过后才能自动解决遗留或进入下一Day。应立即更新研发流程规则，建立程序化gate而非仅记忆。",
     "category": "纠偏类",
     "difficulty": "C2",
     "source": "real_conversation",
     "multi_turn": true,
-    "context": "用户在Day1/Day2过渡期设定了核心流程规则：AEO评测是重点+每Day必须过凌霄阁。这不是一次性指令，是需要持久化为ISC规则的流程约束。session_id=15dab64c（转发对话上下文）。",
+    "context": "用户在Day1/Day2过渡期设定了核心流程规则：AEO评测是重点+每Day必须过裁决殿。这不是一次性指令，是需要持久化为ISC规则的流程约束。session_id=15dab64c（转发对话上下文）。",
     "execution_chain_steps": 5,
     "execution_chain": [
       "识别意图：设定流程级规则（非一次性指令）(自动)",
       "写入MEMORY.md研发流程规则(自动)",
-      "创建ISC规则：Day交付必须过凌霄阁(自动)",
-      "更新DTO流程：Day N研发→凌霄阁裁决→解决遗留→Day N+1(自动)",
+      "创建ISC规则：Day交付必须过裁决殿(自动)",
+      "更新DTO流程：Day N研发→裁决殿裁决→解决遗留→Day N+1(自动)",
       "全链路展开：意图注册+事件绑定+验真(自动)"
     ],
     "data_source": "real_conversation",
     "north_star_indicator": "言出法随达成率",
-    "scoring_rubric": "系统应执行: 系统应将此作为流程级规则写入MEMORY.md和ISC：(1)AEO质量测试是重点不是走过场；(2)每个Day研发完成后必须经凌霄阁裁决；(3)裁决通过后才能自动解决遗留或进入下一Day。应立即更新研发流程规则，建立程序化gate而非仅记忆。",
+    "scoring_rubric": "系统应执行: 系统应将此作为流程级规则写入MEMORY.md和ISC：(1)AEO质量测试是重点不是走过场；(2)每个Day研发完成后必须经裁决殿裁决；(3)裁决通过后才能自动解决遗留或进入下一Day。应立即更新研发流程规则，建立程序化gate而非仅记忆。",
     "gate": "Gate-B",
     "complexity": "C2"
   },
