@@ -5,7 +5,7 @@
  *
  * 四大模式：
  *   auto-qa          子Agent完成时自动审计
- *   isc-audit        ISC规则五层覆盖率 + handler存在性 + V4字段覆盖率
+ *   isc-audit        ISC规则展开率(4必选+plan可选) + handler存在性 + V4字段覆盖率
  *   completion-review 已完成任务回顾性审计
  *   full             全量审计（isc-audit + completion-review）
  *
@@ -228,10 +228,13 @@ function iscAudit(input, logger) {
       issues.push({ file: fileName, issue: '验真层缺失: 无验证/闭环机制', severity: 'low' });
     }
 
-    // 五层全通
-    const allLayers = Object.values(detail.layers).every(Boolean);
-    if (allLayers) fullChainCount++;
-    detail.fullChain = allLayers;
+    // 四层必选展开判定（plan可选，大模型runtime可动态规划，不必硬编码）
+    // 必选：intent + event + execution + verification；可选：planning（有则加分但不影响判定）
+    const REQUIRED_LAYERS = ['intent', 'event', 'execution', 'verification'];
+    const requiredAllMet = REQUIRED_LAYERS.every(l => detail.layers[l]);
+    if (requiredAllMet) fullChainCount++;
+    detail.fullChain = requiredAllMet;
+    detail.hasPlan = detail.layers.planning; // 标记plan层状态（可选加分项）
 
     // ════ V4字段覆盖率检查 ════
     for (const f of V4_REQUIRED_FIELDS) {
@@ -338,7 +341,7 @@ function iscAudit(input, logger) {
   const reportPath = writeReport('isc-audit', result);
   result.reportPath = reportPath;
 
-  logger.info?.(`[isc-audit] 完成: ${total}条规则, 五层全通${fullChainCount}条(${layerCoverage.fullChain}%), V4必填覆盖${v4Coverage.requiredAvg}%, ${issues.length}个问题`);
+  logger.info?.(`[isc-audit] 完成: ${total}条规则, 展开完成(4必选+plan可选)${fullChainCount}条(${layerCoverage.fullChain}%), V4必填覆盖${v4Coverage.requiredAvg}%, ${issues.length}个问题`);
   return result;
 }
 
@@ -624,7 +627,7 @@ if (require.main === module) {
         console.log(`判定: ${result.verdict}  评分: ${result.score}/10`);
         if (result.layerCoverage) {
           const lc = result.layerCoverage;
-          console.log(`五层覆盖: 意图${lc.intent}% 事件${lc.event}% 规划${lc.planning}% 执行${lc.execution}% 验真${lc.verification}% | 全通${lc.fullChain}%`);
+          console.log(`层覆盖: 意图${lc.intent}% 事件${lc.event}% 规划${lc.planning}%(可选) 执行${lc.execution}% 验真${lc.verification}% | 展开${lc.fullChain}%`);
         }
         if (result.v4Coverage) {
           console.log(`V4覆盖: 必填${result.v4Coverage.requiredAvg}% 推荐${result.v4Coverage.recommendedAvg}% 扩展${result.v4Coverage.expansionAvg}% | 总体${result.v4Coverage.overallAvg}%`);

@@ -4,17 +4,17 @@
   "metrics": {
     "concurrencyUtil": {
       "label": "并发利用率",
-      "target": 0.90,
+      "target": 0.9,
       "direction": "gte",
-      "warnThreshold": 0.40,
+      "warnThreshold": 0.4,
       "weight": 0.25,
       "description": "峰值并发任务数 / 并发上限(19)，反映资源利用效率"
     },
     "timeoutRate": {
       "label": "任务超时率",
-      "target": 0.10,
+      "target": 0.1,
       "direction": "lte",
-      "warnThreshold": 0.20,
+      "warnThreshold": 0.2,
       "weight": 0.25,
       "description": "超时任务数 / 总任务数，越低越好"
     },
@@ -23,23 +23,23 @@
       "target": 10,
       "direction": "lte",
       "warnThreshold": 15,
-      "weight": 0.20,
+      "weight": 0.2,
       "description": "最近完成任务平均涉及文件数，越少越好，目标<10文件/Agent"
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
-      "target": 1.00,
+      "target": 1.0,
       "direction": "gte",
       "warnThreshold": 0.25,
-      "weight": 0.20,
-      "description": "已展开规则数 / 总规则数(182)，反映治理覆盖度"
+      "weight": 0.2,
+      "description": "已展开规则数 / 总规则数(182)，展开定义：intent+event+handler+verification四层必选齐备（plan可选，大模型可runtime动态规划）"
     },
     "badcaseAutoRate": {
       "label": "Badcase自动采集率",
       "target": null,
       "direction": "gte",
       "warnThreshold": null,
-      "weight": 0.10,
+      "weight": 0.1,
       "description": "自动采集的badcase数 / 用户纠偏数，信息性指标"
     }
   }
