@@ -3,7 +3,7 @@
   "title": "自动Badcase采集引擎",
   "description": "纠偏类、反复未果类、头痛医头类等场景自动采集为badcase，不依赖主Agent手动记忆",
   "events": [
-    "user.correction",
+    "user.feedback.correction",
     "task.failed",
     "rule.violated"
   ],

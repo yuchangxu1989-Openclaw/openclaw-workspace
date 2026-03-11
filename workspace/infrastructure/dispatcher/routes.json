@@ -1,423 +1,428 @@
 {
-  "user.message.received": {
-    "handler": "user-message-router",
-    "priority": "high",
-    "description": "Alias of user.message for ingress paths that emit user.message.received"
-  },
-  "user.message": {
-    "handler": "user-message-router",
-    "priority": "high",
-    "description": "Route user messages to appropriate handler based on intent classification"
-  },
-  "isc.rule.changed": {
-    "handler": "skill-isc-handler",
-    "priority": "high",
-    "description": "ISC rule changed (summary) — trigger ISC rule check via skill handler"
-  },
-  "isc.rule.*": {
-    "handler": "skill-isc-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "ISC rule changes — check rules and trigger downstream sync"
-  },
-  "isc.enforcement_rate.threshold_crossed": {
-    "handler": "skill-isc-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "ISC enforcement rate threshold crossed — alert and log"
-  },
-  "lto.task.completed": {
-    "handler": "skill-lto-handler",
-    "priority": "normal",
-    "description": "本地任务编排 task completed — process downstream via 本地任务编排 skill handler"
-  },
-  "lto.task.created": {
-    "handler": "skill-lto-handler",
-    "priority": "normal",
-    "description": "本地任务编排 task created — acknowledged by 本地任务编排 skill handler"
-  },
-  "lto.sync.*": {
-    "handler": "skill-lto-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "本地任务编排 sync lifecycle events — handled by 本地任务编排 skill handler"
-  },
-  "cras.knowledge.learned": {
-    "handler": "skill-cras-handler",
-    "priority": "normal",
-    "description": "CRAS knowledge learned — trigger CRAS analysis pipeline"
-  },
-  "cras.insight.generated": {
-    "handler": "skill-cras-handler",
-    "agent": "researcher",
-    "priority": "normal",
-    "description": "CRAS insights — feed to CRAS for processing and ISC feedback"
-  },
-  "aeo.evaluation.completed": {
-    "handler": "skill-cras-handler",
-    "priority": "normal",
-    "description": "AEO evaluation completed — feed results to CRAS for learning"
-  },
-  "aeo.assessment.completed": {
-    "handler": "skill-cras-handler",
-    "agent": "analyst",
-    "priority": "normal",
-    "description": "AEO assessment results ingested by CRAS"
-  },
-  "aeo.assessment.failed": {
-    "handler": "skill-cras-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "Failed assessments get CRAS analysis for root cause"
-  },
-  "seef.skill.published": {
-    "handler": "skill-cras-handler",
-    "priority": "normal",
-    "description": "SEEF skill published — CRAS records the publish event for knowledge tracking"
-  },
-  "seef.skill.evaluated": {
-    "handler": "skill-cras-handler",
-    "agent": "researcher",
-    "priority": "normal",
-    "description": "SEEF evaluation results — CRAS analysis"
-  },
-  "seef.skill.optimized": {
-    "handler": "skill-cras-handler",
-    "agent": "analyst",
-    "priority": "normal",
-    "description": "SEEF optimization results fed to CRAS for learning"
-  },
-  "system.error": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "System errors trigger alerting (fixed: system-alert handler不存在, 改用notify-alert)"
-  },
-  "system.health": {
-    "handler": "system-monitor",
-    "agent": "coder",
-    "priority": "low",
-    "description": "Health check events for monitoring"
-  },
-  "system.architecture.changed": {
-    "handler": "memory-archiver",
-    "agent": "coder",
-    "priority": "high",
-    "description": "Architecture changes archived to memory/architecture-changelog.md"
-  },
-  "system.config.changed": {
-    "handler": "memory-archiver",
-    "agent": "coder",
-    "priority": "high",
-    "description": "Config changes archived to memory/architecture-changelog.md"
-  },
-  "system.critical.fix": {
-    "handler": "memory-archiver",
-    "agent": "coder",
-    "priority": "high",
-    "description": "Critical fixes archived to memory/architecture-changelog.md"
-  },
-  "skill.lifecycle.*": {
-    "handler": "gate-check",
-    "priority": "critical",
-    "description": "P0 gate check for skill lifecycle events (arch.gate-before-action-001)"
-  },
-  "design.document.*": {
-    "handler": "gate-check",
-    "priority": "critical",
-    "description": "P0 gate check for design document events"
-  },
-  "system.day.closure_requested": {
-    "handler": "gate-check",
-    "priority": "critical",
-    "description": "P0 gate check for day closure"
-  },
-  "user.intent.*": {
-    "handler": "intent-dispatch",
-    "agent": "coder",
-    "priority": "normal",
-    "description": "L3 detected user intents dispatched for execution"
-  },
-  "intent.ruleify": {
-    "handler": "intent-event-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "Intent ruleify → create real ISC rule draft consumption path"
-  },
-  "intent.reflect": {
-    "handler": "intent-event-handler",
-    "agent": "researcher",
-    "priority": "normal",
-    "description": "Intent reflect → route into CRAS analysis / knowledge sink"
-  },
-  "intent.directive": {
-    "handler": "intent-event-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "Intent directive → create real 本地任务编排 task consumption path"
-  },
-  "evolver.insight.detected": {
-    "handler": "auto-response-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[Day3-Gap2] Evolver洞察 → 自动响应管道 (事件驱动主路径，取代独立Cron触发)"
-  },
-  "cras.insight.critical": {
-    "handler": "auto-response-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[Day3-Gap2] CRAS关键洞察 → 自动响应管道 (事件驱动主路径)"
-  },
-  "system.metric.threshold_exceeded": {
-    "handler": "auto-response-handler",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[Day3-Gap2] 系统指标越界 → 自动响应管道 (事件驱动主路径)"
-  },
-  "cras.insight.request": {
-    "handler": "skill-cras-handler",
-    "agent": "researcher",
-    "priority": "normal",
-    "description": "[Day3-Gap2] CRAS洞察请求 → 事件驱动触发用户洞察分析 (取代30分钟Cron直接调用)"
-  },
-  "system.health.request": {
-    "handler": "system-monitor",
-    "agent": "coder",
-    "priority": "low",
-    "description": "[Day3-Gap2] 系统健康检查请求 → 事件驱动触发 (Cron仅做兜底)"
-  },
-  "git.commit.completed": {
-    "handler": "completeness-check",
-    "agent": "coder",
-    "priority": "normal",
-    "description": "[P0-03] Git提交完成 → 触发规则完整性检查和代码质量门"
-  },
-  "isc.yellow_light.threshold_crossed": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[P0-04] ISC黄灯规则比率越界 → 告警通知"
-  },
-  "system.eventbus.size_threshold_crossed": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[P0-04] 事件总线体积越界 → 告警通知"
-  },
-  "system.handler.failure_threshold_crossed": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[P0-04] Handler失败率越界 → 告警通知"
-  },
-  "system.eventbus.backlog_threshold_crossed": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[P0-04] 事件积压越界 → 告警通知"
-  },
-  "git.pre_commit.detected": {
-    "handler": "log-action",
-    "agent": "coder",
-    "priority": "low",
-    "description": "[Day2-closeout] Git pre-commit signals are consumed by log-action to avoid manual-queue buildup"
-  },
-  "git.commit.quality_check": {
-    "handler": "log-action",
-    "agent": "coder",
-    "priority": "low",
-    "description": "[Day2-closeout] Derived git quality-check action is logged instead of queueing as missing handler"
-  },
-  "git.commit.architecture_review": {
-    "handler": "log-action",
-    "agent": "coder",
-    "priority": "low",
-    "description": "[Day2-closeout] Derived architecture-review action is logged instead of queueing as missing handler"
-  },
-  "git.commit.rule_code_pairing": {
-    "handler": "log-action",
-    "agent": "coder",
-    "priority": "low",
-    "description": "[Day2-closeout] Derived rule/code pairing action is logged instead of queueing as missing handler"
-  },
-  "lto.signal.created": {
-    "handler": "skill-lto-handler",
-    "priority": "high",
-    "description": "本地任务编排 signal created — event-driven trigger for 本地任务编排-AEO pipeline (Day2-Gap1)"
-  },
-  "file.changed": {
-    "handler": "skill-system-monitor-handler",
-    "priority": "normal",
-    "description": "File changed (summary) — event-driven trigger from git-change-watcher (Day2-Gap1)"
-  },
-  "file.changed.*": {
-    "handler": "skill-system-monitor-handler",
-    "priority": "normal",
-    "description": "File changed (categorized: code/config/log/data/doc) — event-driven dispatch (Day2-Gap1)"
-  },
-  "cron.job.requested": {
-    "handler": "cron-job-requested",
-    "priority": "normal",
-    "description": "[Day2-Gap1] 定时任务统一桥接到 EventBus；默认事件接入，按需 fallback 执行底层脚本"
-  },
-  "seef.skill.aligned": {
-    "handler": "skill-cras-handler",
-    "agent": "analyst",
-    "priority": "normal",
-    "description": "[Gap4] SEEF alignment completed → CRAS knowledge update"
-  },
-  "seef.skill.created": {
-    "handler": "skill-cras-handler",
-    "agent": "researcher",
-    "priority": "normal",
-    "description": "[Gap4] SEEF skill created → CRAS records new skill"
-  },
-  "seef.skill.deprecated": {
-    "handler": "skill-cras-handler",
-    "agent": "coder",
-    "priority": "normal",
-    "description": "[Gap4] SEEF skill deprecated → CRAS records deprecation"
-  },
-  "seef.skill.discovered": {
-    "handler": "skill-cras-handler",
-    "agent": "researcher",
-    "priority": "normal",
-    "description": "[Gap4] SEEF skill discovered → CRAS analysis of new opportunity"
-  },
-  "seef.skill.recorded": {
-    "handler": "log-action",
-    "priority": "low",
-    "description": "[Gap4] SEEF recording completed → terminal state, log only"
-  },
-  "seef.skill.validated": {
-    "handler": "skill-cras-handler",
-    "agent": "analyst",
-    "priority": "normal",
-    "description": "[Gap4] SEEF validation completed → CRAS records validation result"
-  },
-  "intent.detected": {
-    "handler": "intent-event-handler",
-    "agent": "coder",
-    "priority": "normal",
-    "description": "[Gap4] Intent detected → route to intent handler for classification"
-  },
-  "intent.feedback": {
-    "handler": "skill-cras-handler",
-    "agent": "researcher",
-    "priority": "normal",
-    "description": "[Gap4] Intent feedback → CRAS learns from user feedback"
-  },
-  "skill.created": {
-    "handler": "gate-check",
-    "priority": "high",
-    "description": "[Gap4] Skill created → gate check before lifecycle continues"
-  },
-  "skill.publish": {
-    "handler": "gate-check",
-    "priority": "high",
-    "description": "[Gap4] Skill publish request → gate check for publishability"
-  },
-  "system.evolution.opportunity_detected": {
-    "handler": "skill-cras-handler",
-    "agent": "researcher",
-    "priority": "normal",
-    "description": "[Gap4] CRAS-E evolution opportunity → CRAS analysis and task generation"
-  },
-  "evomap.sync.request": {
-    "handler": "log-action",
-    "priority": "low",
-    "description": "[Gap4] Evomap sync request → log for now, full evomap integration P2"
-  },
-  "workflow.requested": {
-    "handler": "skill-lto-handler",
-    "agent": "coder",
-    "priority": "normal",
-    "description": "[Gap4] Workflow requested → 本地任务编排 task creation"
-  },
-  "api_key_rate_limit": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[Gap4] API key rate limit hit → alert notification"
-  },
-  "test.featureflag.check": {
-    "handler": "log-action",
-    "priority": "low",
-    "description": "[Gap4] Test feature flag check → log only (test events)"
-  },
-  "lep.task.completed": {
-    "handler": "skill-cras-handler",
-    "agent": "analyst",
-    "priority": "normal",
-    "description": "[Gap4] LEP task completed → CRAS learns from execution results"
-  },
-  "lep.task.failed": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[Gap4] LEP task failed → alert and CRAS root cause analysis"
-  },
-  "lep.circuit.opened": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[Gap4] LEP circuit breaker opened → alert system health issue"
-  },
-  "anti.entropy.issue.detected": {
-    "handler": "notify-alert",
-    "agent": "coder",
-    "priority": "high",
-    "description": "[Gap4] Anti-entropy issue detected → alert + CRAS improvement tracking"
-  },
-  "manual-queue.item.stale": {
-    "handler": "log-action",
-    "priority": "low",
-    "description": "Stale manual-queue item signal is terminalized to log-only to avoid dispatcher.route.failed feedback loops during backlog cleanup"
-  },
-  "routes": [
-    {
-      "id": "route.global-p1-system-signals-001",
-      "rule_name": "global-p1-system-signals",
-      "severity": "critical",
-      "trigger": {
-        "events": [
-          "dispatcher.manual_queue.enqueued",
-          "dispatcher.handler.failed",
-          "dispatcher.route.failed",
-          "system.warning",
-          "system.error",
-          "system.risk",
-          "system.check.failed",
-          "warning.*",
-          "error.*",
-          "risk.*",
-          "*.warning",
-          "*.error",
-          "*.risk",
-          "*.check.failed",
-          "*.system.check.failed"
-        ],
-        "actions": [
-          {
-            "handler": "global-event-escalation"
-          },
-          {
-            "handler": "notify-alert"
-          },
-          {
-            "handler": "report-snapshot"
-          }
-        ]
-      },
-      "conditions": {
-        "all": [
-          {
-            "field": "source",
-            "op": "neq",
-            "value": "global-event-escalation"
-          }
-        ]
-      }
+    "user.message.received": {
+        "handler": "user-message-router",
+        "priority": "high",
+        "description": "Alias of user.message for ingress paths that emit user.message.received"
+    },
+    "user.message": {
+        "handler": "user-message-router",
+        "priority": "high",
+        "description": "Route user messages to appropriate handler based on intent classification"
+    },
+    "isc.rule.changed": {
+        "handler": "skill-isc-handler",
+        "priority": "high",
+        "description": "ISC rule changed (summary) — trigger ISC rule check via skill handler"
+    },
+    "isc.rule.*": {
+        "handler": "skill-isc-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "ISC rule changes — check rules and trigger downstream sync"
+    },
+    "isc.enforcement_rate.threshold_crossed": {
+        "handler": "skill-isc-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "ISC enforcement rate threshold crossed — alert and log"
+    },
+    "lto.task.completed": {
+        "handler": "skill-lto-handler",
+        "priority": "normal",
+        "description": "本地任务编排 task completed — process downstream via 本地任务编排 skill handler"
+    },
+    "lto.task.created": {
+        "handler": "skill-lto-handler",
+        "priority": "normal",
+        "description": "本地任务编排 task created — acknowledged by 本地任务编排 skill handler"
+    },
+    "lto.sync.*": {
+        "handler": "skill-lto-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "本地任务编排 sync lifecycle events — handled by 本地任务编排 skill handler"
+    },
+    "cras.knowledge.learned": {
+        "handler": "skill-cras-handler",
+        "priority": "normal",
+        "description": "CRAS knowledge learned — trigger CRAS analysis pipeline"
+    },
+    "cras.insight.generated": {
+        "handler": "skill-cras-handler",
+        "agent": "researcher",
+        "priority": "normal",
+        "description": "CRAS insights — feed to CRAS for processing and ISC feedback"
+    },
+    "aeo.evaluation.completed": {
+        "handler": "skill-cras-handler",
+        "priority": "normal",
+        "description": "AEO evaluation completed — feed results to CRAS for learning"
+    },
+    "aeo.assessment.completed": {
+        "handler": "skill-cras-handler",
+        "agent": "analyst",
+        "priority": "normal",
+        "description": "AEO assessment results ingested by CRAS"
+    },
+    "aeo.assessment.failed": {
+        "handler": "skill-cras-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "Failed assessments get CRAS analysis for root cause"
+    },
+    "seef.skill.published": {
+        "handler": "skill-cras-handler",
+        "priority": "normal",
+        "description": "SEEF skill published — CRAS records the publish event for knowledge tracking"
+    },
+    "seef.skill.evaluated": {
+        "handler": "skill-cras-handler",
+        "agent": "researcher",
+        "priority": "normal",
+        "description": "SEEF evaluation results — CRAS analysis"
+    },
+    "seef.skill.optimized": {
+        "handler": "skill-cras-handler",
+        "agent": "analyst",
+        "priority": "normal",
+        "description": "SEEF optimization results fed to CRAS for learning"
+    },
+    "system.error": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "System errors trigger alerting (fixed: system-alert handler不存在, 改用notify-alert)"
+    },
+    "system.health": {
+        "handler": "system-monitor",
+        "agent": "coder",
+        "priority": "low",
+        "description": "Health check events for monitoring"
+    },
+    "system.architecture.changed": {
+        "handler": "memory-archiver",
+        "agent": "coder",
+        "priority": "high",
+        "description": "Architecture changes archived to memory/architecture-changelog.md"
+    },
+    "system.config.changed": {
+        "handler": "memory-archiver",
+        "agent": "coder",
+        "priority": "high",
+        "description": "Config changes archived to memory/architecture-changelog.md"
+    },
+    "system.critical.fix": {
+        "handler": "memory-archiver",
+        "agent": "coder",
+        "priority": "high",
+        "description": "Critical fixes archived to memory/architecture-changelog.md"
+    },
+    "skill.lifecycle.*": {
+        "handler": "gate-check",
+        "priority": "critical",
+        "description": "P0 gate check for skill lifecycle events (arch.gate-before-action-001)"
+    },
+    "design.document.*": {
+        "handler": "gate-check",
+        "priority": "critical",
+        "description": "P0 gate check for design document events"
+    },
+    "system.day.closure_requested": {
+        "handler": "gate-check",
+        "priority": "critical",
+        "description": "P0 gate check for day closure"
+    },
+    "user.intent.*": {
+        "handler": "intent-dispatch",
+        "agent": "coder",
+        "priority": "normal",
+        "description": "L3 detected user intents dispatched for execution"
+    },
+    "intent.ruleify": {
+        "handler": "intent-event-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "Intent ruleify → create real ISC rule draft consumption path"
+    },
+    "intent.reflect": {
+        "handler": "intent-event-handler",
+        "agent": "researcher",
+        "priority": "normal",
+        "description": "Intent reflect → route into CRAS analysis / knowledge sink"
+    },
+    "intent.directive": {
+        "handler": "intent-event-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "Intent directive → create real 本地任务编排 task consumption path"
+    },
+    "evolver.insight.detected": {
+        "handler": "auto-response-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[Day3-Gap2] Evolver洞察 → 自动响应管道 (事件驱动主路径，取代独立Cron触发)"
+    },
+    "cras.insight.critical": {
+        "handler": "auto-response-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[Day3-Gap2] CRAS关键洞察 → 自动响应管道 (事件驱动主路径)"
+    },
+    "system.metric.threshold_exceeded": {
+        "handler": "auto-response-handler",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[Day3-Gap2] 系统指标越界 → 自动响应管道 (事件驱动主路径)"
+    },
+    "cras.insight.request": {
+        "handler": "skill-cras-handler",
+        "agent": "researcher",
+        "priority": "normal",
+        "description": "[Day3-Gap2] CRAS洞察请求 → 事件驱动触发用户洞察分析 (取代30分钟Cron直接调用)"
+    },
+    "system.health.request": {
+        "handler": "system-monitor",
+        "agent": "coder",
+        "priority": "low",
+        "description": "[Day3-Gap2] 系统健康检查请求 → 事件驱动触发 (Cron仅做兜底)"
+    },
+    "git.commit.completed": {
+        "handler": "completeness-check",
+        "agent": "coder",
+        "priority": "normal",
+        "description": "[P0-03] Git提交完成 → 触发规则完整性检查和代码质量门"
+    },
+    "isc.yellow_light.threshold_crossed": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[P0-04] ISC黄灯规则比率越界 → 告警通知"
+    },
+    "system.eventbus.size_threshold_crossed": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[P0-04] 事件总线体积越界 → 告警通知"
+    },
+    "system.handler.failure_threshold_crossed": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[P0-04] Handler失败率越界 → 告警通知"
+    },
+    "system.eventbus.backlog_threshold_crossed": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[P0-04] 事件积压越界 → 告警通知"
+    },
+    "git.pre_commit.detected": {
+        "handler": "log-action",
+        "agent": "coder",
+        "priority": "low",
+        "description": "[Day2-closeout] Git pre-commit signals are consumed by log-action to avoid manual-queue buildup"
+    },
+    "git.commit.quality_check": {
+        "handler": "log-action",
+        "agent": "coder",
+        "priority": "low",
+        "description": "[Day2-closeout] Derived git quality-check action is logged instead of queueing as missing handler"
+    },
+    "git.commit.architecture_review": {
+        "handler": "log-action",
+        "agent": "coder",
+        "priority": "low",
+        "description": "[Day2-closeout] Derived architecture-review action is logged instead of queueing as missing handler"
+    },
+    "git.commit.rule_code_pairing": {
+        "handler": "log-action",
+        "agent": "coder",
+        "priority": "low",
+        "description": "[Day2-closeout] Derived rule/code pairing action is logged instead of queueing as missing handler"
+    },
+    "lto.signal.created": {
+        "handler": "skill-lto-handler",
+        "priority": "high",
+        "description": "本地任务编排 signal created — event-driven trigger for 本地任务编排-AEO pipeline (Day2-Gap1)"
+    },
+    "file.changed": {
+        "handler": "skill-system-monitor-handler",
+        "priority": "normal",
+        "description": "File changed (summary) — event-driven trigger from git-change-watcher (Day2-Gap1)"
+    },
+    "file.changed.*": {
+        "handler": "skill-system-monitor-handler",
+        "priority": "normal",
+        "description": "File changed (categorized: code/config/log/data/doc) — event-driven dispatch (Day2-Gap1)"
+    },
+    "cron.job.requested": {
+        "handler": "cron-job-requested",
+        "priority": "normal",
+        "description": "[Day2-Gap1] 定时任务统一桥接到 EventBus；默认事件接入，按需 fallback 执行底层脚本"
+    },
+    "seef.skill.aligned": {
+        "handler": "skill-cras-handler",
+        "agent": "analyst",
+        "priority": "normal",
+        "description": "[Gap4] SEEF alignment completed → CRAS knowledge update"
+    },
+    "seef.skill.created": {
+        "handler": "skill-cras-handler",
+        "agent": "researcher",
+        "priority": "normal",
+        "description": "[Gap4] SEEF skill created → CRAS records new skill"
+    },
+    "seef.skill.deprecated": {
+        "handler": "skill-cras-handler",
+        "agent": "coder",
+        "priority": "normal",
+        "description": "[Gap4] SEEF skill deprecated → CRAS records deprecation"
+    },
+    "seef.skill.discovered": {
+        "handler": "skill-cras-handler",
+        "agent": "researcher",
+        "priority": "normal",
+        "description": "[Gap4] SEEF skill discovered → CRAS analysis of new opportunity"
+    },
+    "seef.skill.recorded": {
+        "handler": "log-action",
+        "priority": "low",
+        "description": "[Gap4] SEEF recording completed → terminal state, log only"
+    },
+    "seef.skill.validated": {
+        "handler": "skill-cras-handler",
+        "agent": "analyst",
+        "priority": "normal",
+        "description": "[Gap4] SEEF validation completed → CRAS records validation result"
+    },
+    "intent.detected": {
+        "handler": "intent-event-handler",
+        "agent": "coder",
+        "priority": "normal",
+        "description": "[Gap4] Intent detected → route to intent handler for classification"
+    },
+    "intent.feedback": {
+        "handler": "skill-cras-handler",
+        "agent": "researcher",
+        "priority": "normal",
+        "description": "[Gap4] Intent feedback → CRAS learns from user feedback"
+    },
+    "skill.created": {
+        "handler": "gate-check",
+        "priority": "high",
+        "description": "[Gap4] Skill created → gate check before lifecycle continues"
+    },
+    "skill.publish": {
+        "handler": "gate-check",
+        "priority": "high",
+        "description": "[Gap4] Skill publish request → gate check for publishability"
+    },
+    "system.evolution.opportunity_detected": {
+        "handler": "skill-cras-handler",
+        "agent": "researcher",
+        "priority": "normal",
+        "description": "[Gap4] CRAS-E evolution opportunity → CRAS analysis and task generation"
+    },
+    "evomap.sync.request": {
+        "handler": "log-action",
+        "priority": "low",
+        "description": "[Gap4] Evomap sync request → log for now, full evomap integration P2"
+    },
+    "workflow.requested": {
+        "handler": "skill-lto-handler",
+        "agent": "coder",
+        "priority": "normal",
+        "description": "[Gap4] Workflow requested → 本地任务编排 task creation"
+    },
+    "api_key_rate_limit": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[Gap4] API key rate limit hit → alert notification"
+    },
+    "test.featureflag.check": {
+        "handler": "log-action",
+        "priority": "low",
+        "description": "[Gap4] Test feature flag check → log only (test events)"
+    },
+    "lep.task.completed": {
+        "handler": "skill-cras-handler",
+        "agent": "analyst",
+        "priority": "normal",
+        "description": "[Gap4] LEP task completed → CRAS learns from execution results"
+    },
+    "lep.task.failed": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[Gap4] LEP task failed → alert and CRAS root cause analysis"
+    },
+    "lep.circuit.opened": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[Gap4] LEP circuit breaker opened → alert system health issue"
+    },
+    "anti.entropy.issue.detected": {
+        "handler": "notify-alert",
+        "agent": "coder",
+        "priority": "high",
+        "description": "[Gap4] Anti-entropy issue detected → alert + CRAS improvement tracking"
+    },
+    "manual-queue.item.stale": {
+        "handler": "log-action",
+        "priority": "low",
+        "description": "Stale manual-queue item signal is terminalized to log-only to avoid dispatcher.route.failed feedback loops during backlog cleanup"
+    },
+    "routes": [
+        {
+            "id": "route.global-p1-system-signals-001",
+            "rule_name": "global-p1-system-signals",
+            "severity": "critical",
+            "trigger": {
+                "events": [
+                    "dispatcher.manual_queue.enqueued",
+                    "dispatcher.handler.failed",
+                    "dispatcher.route.failed",
+                    "system.warning",
+                    "system.error",
+                    "system.risk",
+                    "system.check.failed",
+                    "warning.*",
+                    "error.*",
+                    "risk.*",
+                    "*.warning",
+                    "*.error",
+                    "*.risk",
+                    "*.check.failed",
+                    "*.system.check.failed"
+                ],
+                "actions": [
+                    {
+                        "handler": "global-event-escalation"
+                    },
+                    {
+                        "handler": "notify-alert"
+                    },
+                    {
+                        "handler": "report-snapshot"
+                    }
+                ]
+            },
+            "conditions": {
+                "all": [
+                    {
+                        "field": "source",
+                        "op": "neq",
+                        "value": "global-event-escalation"
+                    }
+                ]
+            }
+        }
+    ],
+    "user.feedback.correction": {
+        "handler": "badcase-harvest-engine",
+        "priority": "high",
+        "description": "用户纠偏事件 → 自动Badcase采集引擎"
     }
-  ]
 }

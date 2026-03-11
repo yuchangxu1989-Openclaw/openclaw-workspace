@@ -67,7 +67,7 @@
 | 维度 | 内容 |
 |------|------|
 | **触发输入** | 用户发送："以后不要在 cron 任务结果里给我发消息，除非有错误" |
-| **预期意图/事件** | 意图分类为 `rule.trigger.self_correction` (IC2)；事件 `user.correction` → 触发 ruleify 流程 |
+| **预期意图/事件** | 意图分类为 `rule.trigger.self_correction` (IC2)；事件 `user.feedback.correction` → 触发 ruleify 流程 |
 | **预期执行动作** | 1. 意图引擎识别为"纠偏+规则沉淀"意图 → 2. 触发 `ruleify` 技能 → 3. 自动生成/更新 ISC 规则（如 `rule.cron-silent-on-success`）→ 4. 规则写入 `skills/isc-core/rules/` → 5. 向用户确认规则已沉淀 |
 | **预期验证结果** | ✅ 新规则文件已创建且命名符合 `rule.xxx-xxx-NNN.json` 规范 ✅ 用户收到"已记住"确认 ✅ 后续 cron 成功执行时不再发消息（回归验证） |
 | **失败判定** | ❌ 仅口头说"好的"但未生成规则文件 ❌ 规则生成但格式不合规 ❌ 下次 cron 执行后仍然发消息 |
