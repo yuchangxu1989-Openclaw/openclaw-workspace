@@ -83,7 +83,10 @@ function isCompletedByTranscript(sessionVal, sessDir) {
         const entry = JSON.parse(lines[i]);
         const msg = entry.message || entry;
         if (msg.role === 'assistant') {
-          return msg.stopReason === 'stop' || msg.api != null;
+          // Terminal stopReasons: stop=completed, length/end_turn=hit limit
+          // Non-terminal: toolUse=still running (waiting for tool result)
+          const sr = msg.stopReason;
+          return sr === 'stop' || sr === 'length' || sr === 'end_turn';
         }
       } catch(e) {}
     }
