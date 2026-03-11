@@ -1,81 +1,82 @@
 {
-  "rule_id": "rule.auto-skill-discovery-001",
-  "name": "自动技能发现",
-  "description": "当新脚本产出时，自动检测是否应该技能化",
-  "version": "1.0.0",
-  "enabled": true,
-  "priority": "P1",
-  "event": {
-    "triggers": [
-      "script.created",
-      "script.modified"
-    ],
-    "source": "git-pre-commit-hook + cron-scan"
-  },
-  "perception": {
-    "probe_type": "git-hook + filesystem-scan",
-    "detection_method": "pre-commit hook检测scripts/*.sh新增; cron定期运行auto-skill-discovery.sh",
-    "signal_path": "/root/.openclaw/workspace/.skill-discovery-signals/"
-  },
-  "cognition": {
-    "判断标准": [
-      "脚本>10行",
-      "有独立功能（非辅助脚本）",
-      "尚未在skills/public/下有对应技能"
-    ]
-  },
-  "execution": {
-    "action": "运行auto-skill-discovery.sh扫描候选",
-    "script": "/root/.openclaw/workspace/scripts/auto-skill-discovery.sh",
-    "output": "/root/.openclaw/workspace/reports/skill-discovery-candidates.md"
-  },
-  "verification": {
-    "method": "检查候选列表是否生成且非空",
-    "check_file": "/root/.openclaw/workspace/reports/skill-discovery-candidates.md",
-    "check_signals": "/root/.openclaw/workspace/.skill-discovery-signals/last-scan-result.txt"
-  },
-  "created_at": "2026-03-08",
-  "created_by": "rca-skill-discovery-rootfix",
-  "fullchain_status": "complete",
-  "handler": "skills/isc-core/handlers/auto-skill-discovery.js",
-  "id": "AUTO-SKILL-DISCOVERY-001",
-  "trigger": {
-    "events": [
-      "isc.rule.auto.skill.discovery.001"
-    ]
-  },
-  "plan": {
-    "description": "新脚本技能化发现的执行计划",
-    "steps": [
-      {
-        "step": 1,
-        "action": "detect_new_script",
-        "desc": "监听新脚本文件创建事件"
-      },
-      {
-        "step": 2,
-        "action": "analyze_reusability",
-        "desc": "分析脚本的复用潜力(调用频次、通用性)"
-      },
-      {
-        "step": 3,
-        "action": "check_skill_exists",
-        "desc": "检查是否已有同功能技能避免重复"
-      },
-      {
-        "step": 4,
-        "action": "score_skillization",
-        "desc": "计算技能化评分(复用度、稳定性、文档完整度)"
-      },
-      {
-        "step": 5,
-        "action": "emit_recommendation",
-        "desc": "评分达标时发送技能化建议事件"
-      }
-    ],
-    "rollback": {
-      "strategy": "skip_on_failure",
-      "desc": "分析失败时跳过该脚本，不阻塞其他流程"
+    "id": "AUTO-SKILL-DISCOVERY-001",
+    "rule_id": "rule.auto-skill-discovery-001",
+    "event_type": "isc.rule.auto.skill.discovery.001",
+    "name": "自动技能发现",
+    "description": "当新脚本产出时，自动检测是否应该技能化",
+    "priority": "P1",
+    "version": "1.0.0",
+    "enabled": true,
+    "event": {
+        "triggers": [
+            "script.created",
+            "script.modified"
+        ],
+        "source": "git-pre-commit-hook + cron-scan"
+    },
+    "perception": {
+        "probe_type": "git-hook + filesystem-scan",
+        "detection_method": "pre-commit hook检测scripts/*.sh新增; cron定期运行auto-skill-discovery.sh",
+        "signal_path": "/root/.openclaw/workspace/.skill-discovery-signals/"
+    },
+    "cognition": {
+        "判断标准": [
+            "脚本>10行",
+            "有独立功能（非辅助脚本）",
+            "尚未在skills/public/下有对应技能"
+        ]
+    },
+    "execution": {
+        "action": "运行auto-skill-discovery.sh扫描候选",
+        "script": "/root/.openclaw/workspace/scripts/auto-skill-discovery.sh",
+        "output": "/root/.openclaw/workspace/reports/skill-discovery-candidates.md"
+    },
+    "verification": {
+        "method": "检查候选列表是否生成且非空",
+        "check_file": "/root/.openclaw/workspace/reports/skill-discovery-candidates.md",
+        "check_signals": "/root/.openclaw/workspace/.skill-discovery-signals/last-scan-result.txt"
+    },
+    "created_at": "2026-03-08",
+    "created_by": "rca-skill-discovery-rootfix",
+    "fullchain_status": "complete",
+    "handler": "skills/isc-core/handlers/auto-skill-discovery.js",
+    "trigger": {
+        "events": [
+            "isc.rule.auto.skill.discovery.001"
+        ]
+    },
+    "plan": {
+        "description": "新脚本技能化发现的执行计划",
+        "steps": [
+            {
+                "step": 1,
+                "action": "detect_new_script",
+                "desc": "监听新脚本文件创建事件"
+            },
+            {
+                "step": 2,
+                "action": "analyze_reusability",
+                "desc": "分析脚本的复用潜力(调用频次、通用性)"
+            },
+            {
+                "step": 3,
+                "action": "check_skill_exists",
+                "desc": "检查是否已有同功能技能避免重复"
+            },
+            {
+                "step": 4,
+                "action": "score_skillization",
+                "desc": "计算技能化评分(复用度、稳定性、文档完整度)"
+            },
+            {
+                "step": 5,
+                "action": "emit_recommendation",
+                "desc": "评分达标时发送技能化建议事件"
+            }
+        ],
+        "rollback": {
+            "strategy": "skip_on_failure",
+            "desc": "分析失败时跳过该脚本，不阻塞其他流程"
+        }
     }
-  }
 }

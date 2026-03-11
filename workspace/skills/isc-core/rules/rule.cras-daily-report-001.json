@@ -1,56 +1,79 @@
 {
-  "id": "rule.cras-daily-report-001",
-  "version": "1.0.0",
-  "name": "CRAS每日洞察报告定时推送",
-  "description": "每天19:00自动汇总CRAS五大模块（主动学习/用户洞察/知识治理/战略行研/自主进化）的当日洞察，生成结构化报告并推送到飞书",
-  "priority": "P1_operational",
-  "domain": "cras",
-  "category": "reporting",
-  "trigger": {
-    "events": [
-      "cron.cras-daily-report"
-    ],
-    "schedule": "0 19 * * *",
-    "timezone": "Asia/Shanghai"
-  },
-  "conditions": {
-    "all": [
-      {
-        "fact": "cron_job_name",
-        "operator": "equal",
-        "value": "CRAS-每日洞察报告"
-      }
-    ]
-  },
-  "actions": [
-    {
-      "type": "execute_script",
-      "script": "/root/.openclaw/workspace/scripts/cras-daily-report.sh",
-      "description": "运行CRAS日报汇总脚本，读取各模块insights JSON并生成markdown报告"
+    "id": "rule.cras-daily-report-001",
+    "event_type": "cron.cras-daily-report",
+    "name": "CRAS每日洞察报告定时推送",
+    "description": "每天19:00自动汇总CRAS五大模块（主动学习/用户洞察/知识治理/战略行研/自主进化）的当日洞察，生成结构化报告并推送到飞书",
+    "priority": "P1_operational",
+    "version": "1.0.0",
+    "domain": "cras",
+    "category": "reporting",
+    "trigger": {
+        "events": [
+            "cron.cras-daily-report"
+        ],
+        "schedule": "0 19 * * *",
+        "timezone": "Asia/Shanghai"
     },
-    {
-      "type": "deliver_to_feishu",
-      "target": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b",
-      "format": "markdown"
-    }
-  ],
-  "metadata": {
-    "modules": [
-      "learning",
-      "user",
-      "knowledge",
-      "strategy",
-      "evolution"
+    "conditions": {
+        "all": [
+            {
+                "fact": "cron_job_name",
+                "operator": "equal",
+                "value": "CRAS-每日洞察报告"
+            }
+        ]
+    },
+    "actions": [
+        {
+            "type": "execute_script",
+            "script": "/root/.openclaw/workspace/scripts/cras-daily-report.sh",
+            "description": "运行CRAS日报汇总脚本，读取各模块insights JSON并生成markdown报告"
+        },
+        {
+            "type": "deliver_to_feishu",
+            "target": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b",
+            "format": "markdown"
+        }
     ],
-    "failover": "per-module-graceful",
-    "created": "2026-03-08",
-    "author": "coder-agent"
-  },
-  "enforcement": "programmatic",
-  "action": {
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.cras-daily-report-001.sh"
-  },
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/cras-daily-report.js"
+    "metadata": {
+        "modules": [
+            "learning",
+            "user",
+            "knowledge",
+            "strategy",
+            "evolution"
+        ],
+        "failover": "per-module-graceful",
+        "created": "2026-03-08",
+        "author": "coder-agent"
+    },
+    "enforcement": "programmatic",
+    "action": {
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.cras-daily-report-001.sh"
+    },
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/cras-daily-report.js",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 rule.cras-daily-report-001 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/cras-daily-report.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

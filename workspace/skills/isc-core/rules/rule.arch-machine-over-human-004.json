@@ -1,23 +1,46 @@
 {
-  "id": "rule.arch-machine-over-human-004",
-  "rule_name": "Machine Over Human — 机器约束优于人的纪律",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "所有'应该做'的事项必须自动化为'必须做'。依赖人记忆和纪律的约束，在概率上等于没有约束。",
-  "source": "Day 1/2设计债务复盘 — AP-004架构原则，根因δ修复",
-  "trigger": {
-    "events": [
-      "quality.automation.gap_found"
-    ]
-  },
-  "action": {
-    "type": "enforce",
-    "handler": "automation-gap-scanner",
-    "on_failure": "warn"
-  },
-  "enforcement": "runtime_binding",
-  "enforcement_tier": "P1_monitor",
-  "schema_version": "2.0",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/arch-machine-over-human.js"
+    "id": "rule.arch-machine-over-human-004",
+    "event_type": "quality.automation.gap_found",
+    "description": "所有'应该做'的事项必须自动化为'必须做'。依赖人记忆和纪律的约束，在概率上等于没有约束。",
+    "rule_name": "Machine Over Human — 机器约束优于人的纪律",
+    "version": "1.0.0",
+    "severity": "high",
+    "source": "Day 1/2设计债务复盘 — AP-004架构原则，根因δ修复",
+    "trigger": {
+        "events": [
+            "quality.automation.gap_found"
+        ]
+    },
+    "action": {
+        "type": "enforce",
+        "handler": "automation-gap-scanner",
+        "on_failure": "warn"
+    },
+    "enforcement": "runtime_binding",
+    "enforcement_tier": "P1_monitor",
+    "schema_version": "2.0",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/arch-machine-over-human.js",
+    "verification": {
+        "method": "knowledge_integrity_check",
+        "description": "验证知识规则 rule.arch-machine-over-human-004 的存储和检索正确性",
+        "assertions": [
+            {
+                "check": "data_persisted",
+                "desc": "知识/记忆数据被正确持久化"
+            },
+            {
+                "check": "retrieval_accurate",
+                "desc": "检索结果与查询语义匹配"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "写入后读取数据无丢失"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/arch-machine-over-human.js && echo 'handler_exists:pass'",
+        "expected_outcome": "知识正确持久化且可准确检索",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

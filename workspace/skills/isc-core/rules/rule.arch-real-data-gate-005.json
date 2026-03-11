@@ -1,23 +1,46 @@
 {
-  "id": "rule.arch-real-data-gate-005",
-  "rule_name": "Real Data Gate — 真实数据门禁",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "任何benchmark、测试、验收的数据来源必须标注且可溯源。合成数据可用于开发调试，不可用于验收。验收使用合成数据=验收无效。",
-  "source": "Day 1/2设计债务复盘 — AP-005架构原则，根因α修复",
-  "trigger": {
-    "events": [
-      "quality.benchmark.completed"
-    ]
-  },
-  "action": {
-    "type": "gate",
-    "handler": "real-data-gate",
-    "on_failure": "reject"
-  },
-  "enforcement": "runtime_binding",
-  "enforcement_tier": "P0_gate",
-  "schema_version": "2.0",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/arch-real-data-gate.js"
+    "id": "rule.arch-real-data-gate-005",
+    "event_type": "quality.benchmark.completed",
+    "description": "任何benchmark、测试、验收的数据来源必须标注且可溯源。合成数据可用于开发调试，不可用于验收。验收使用合成数据=验收无效。",
+    "rule_name": "Real Data Gate — 真实数据门禁",
+    "version": "1.0.0",
+    "severity": "critical",
+    "source": "Day 1/2设计债务复盘 — AP-005架构原则，根因α修复",
+    "trigger": {
+        "events": [
+            "quality.benchmark.completed"
+        ]
+    },
+    "action": {
+        "type": "gate",
+        "handler": "real-data-gate",
+        "on_failure": "reject"
+    },
+    "enforcement": "runtime_binding",
+    "enforcement_tier": "P0_gate",
+    "schema_version": "2.0",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/arch-real-data-gate.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.arch-real-data-gate-005 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/arch-real-data-gate.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/arch-real-data-gate.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

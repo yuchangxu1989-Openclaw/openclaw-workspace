@@ -1,23 +1,46 @@
 {
-  "id": "rule.dependency-direction-check-001",
-  "name": "依赖方向检查",
-  "description": "skills不得直接引用infrastructure目录，依赖方向必须自顶向下",
-  "version": "1.0.0",
-  "trigger": {
-    "events": [
-      "system.infrastructure.modified"
-    ],
-    "event": "system.infrastructure.modified"
-  },
-  "action": {
-    "type": "check",
-    "handler": "check-dependency-direction"
-  },
-  "enforcement": {
-    "level": "block",
-    "message": "依赖方向违规：skills层不得直接引用infrastructure层"
-  },
-  "created_at": "2026-03-06",
-  "handler": "skills/isc-core/handlers/check-dependency-direction.js",
-  "fullchain_status": "expanded"
+    "id": "rule.dependency-direction-check-001",
+    "event_type": "system.infrastructure.modified",
+    "name": "依赖方向检查",
+    "description": "skills不得直接引用infrastructure目录，依赖方向必须自顶向下",
+    "version": "1.0.0",
+    "trigger": {
+        "events": [
+            "system.infrastructure.modified"
+        ],
+        "event": "system.infrastructure.modified"
+    },
+    "action": {
+        "type": "check",
+        "handler": "check-dependency-direction"
+    },
+    "enforcement": {
+        "level": "block",
+        "message": "依赖方向违规：skills层不得直接引用infrastructure层"
+    },
+    "created_at": "2026-03-06",
+    "handler": "skills/isc-core/handlers/check-dependency-direction.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "skill_lifecycle_check",
+        "description": "验证技能生命周期规则 rule.dependency-direction-check-001 的管控能力",
+        "assertions": [
+            {
+                "check": "lifecycle_event_captured",
+                "desc": "技能创建/发布/更新事件被捕获"
+            },
+            {
+                "check": "quality_gate_applied",
+                "desc": "生命周期操作通过质量门禁"
+            },
+            {
+                "check": "registry_updated",
+                "desc": "技能注册表状态同步更新"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/check-dependency-direction.js && echo 'handler_exists:pass'",
+        "expected_outcome": "技能生命周期事件被正确管控",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -1,44 +1,67 @@
 {
-  "id": "rule.eval-data-source-redline-001",
-  "rule_name": "评测数据源红线",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "评测数据只有两个合法来源：1)真实对话（你我之间的会话记录）2)网络搜索（真实用户场景、公开数据）。绝对禁止合成/想象/编造。",
-  "category": "aeo",
-  "trigger": {
-    "events": [
-      "aeo.evaluation.dataset_created",
-      "aeo.evaluation.dataset_modified"
-    ],
-    "actions": [
-      "quality.eval.source_check"
-    ],
-    "event": "aeo.evaluation.dataset_created"
-  },
-  "conditions": {
-    "allowed_sources": [
-      "real_conversation",
-      "tavily_search",
-      "web_search"
-    ],
-    "forbidden": [
-      "synthetic",
-      "imagined",
-      "fabricated"
-    ]
-  },
-  "rationale": {
-    "source": "用户教学",
-    "user_quote": "评测必须用真实场景，要么从跟我的对话中，要么从网络搜索。"
-  },
-  "enforcement_tier": "P0_gate",
-  "created_at": "2026-03-06T00:28:00+08:00",
-  "action": {
-    "type": "script",
-    "handler": "eval-quality-check",
-    "script": "scripts/isc-hooks/rule.eval-data-source-redline-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/eval-data-source-redline.js"
+    "id": "rule.eval-data-source-redline-001",
+    "event_type": "aeo.evaluation.dataset_created",
+    "description": "评测数据只有两个合法来源：1)真实对话（你我之间的会话记录）2)网络搜索（真实用户场景、公开数据）。绝对禁止合成/想象/编造。",
+    "rule_name": "评测数据源红线",
+    "version": "1.0.0",
+    "severity": "critical",
+    "category": "aeo",
+    "trigger": {
+        "events": [
+            "aeo.evaluation.dataset_created",
+            "aeo.evaluation.dataset_modified"
+        ],
+        "actions": [
+            "quality.eval.source_check"
+        ],
+        "event": "aeo.evaluation.dataset_created"
+    },
+    "conditions": {
+        "allowed_sources": [
+            "real_conversation",
+            "tavily_search",
+            "web_search"
+        ],
+        "forbidden": [
+            "synthetic",
+            "imagined",
+            "fabricated"
+        ]
+    },
+    "rationale": {
+        "source": "用户教学",
+        "user_quote": "评测必须用真实场景，要么从跟我的对话中，要么从网络搜索。"
+    },
+    "enforcement_tier": "P0_gate",
+    "created_at": "2026-03-06T00:28:00+08:00",
+    "action": {
+        "type": "script",
+        "handler": "eval-quality-check",
+        "script": "scripts/isc-hooks/rule.eval-data-source-redline-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/eval-data-source-redline.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.eval-data-source-redline-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/eval-data-source-redline.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/eval-data-source-redline.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

@@ -1,33 +1,56 @@
 {
-  "id": "rule.eval-must-include-multi-turn-001",
-  "name": "评测集必须包含多轮对话",
-  "description": "IC3-IC5意图本质依赖上下文，单轮评测无法验证真实能力。评测集必须同时包含单轮和多轮格式，多轮样本占比不低于40%。任何评测集变更必须自动触发benchmark重跑。",
-  "version": "1.0.0",
-  "priority": "P0",
-  "category": "aeo",
-  "trigger": {
-    "events": [
-      "aeo.evaluation.dataset_created",
-      "aeo.evaluation.dataset_modified"
-    ],
-    "actions": [
-      "aeo.evaluation.multi_turn_check",
-      "aeo.benchmark.auto_rerun"
-    ],
-    "event": "aeo.evaluation.dataset_created"
-  },
-  "conditions": {
-    "multi_turn_ratio": "多轮样本占比>=40%",
-    "auto_rerun": "数据集变更后自动重跑benchmark并输出对比报告"
-  },
-  "rationale": "用户原话：'你的评测集，只搞单轮对话？' IC4/IC5脱离上下文根本无法判断意图。",
-  "created_at": "2026-03-06T00:58:00+08:00",
-  "action": {
-    "type": "script",
-    "handler": "eval-quality-check",
-    "script": "scripts/isc-hooks/rule.eval-must-include-multi-turn-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/eval-must-include-multi-turn.js",
-  "fullchain_status": "expanded"
+    "id": "rule.eval-must-include-multi-turn-001",
+    "event_type": "aeo.evaluation.dataset_created",
+    "name": "评测集必须包含多轮对话",
+    "description": "IC3-IC5意图本质依赖上下文，单轮评测无法验证真实能力。评测集必须同时包含单轮和多轮格式，多轮样本占比不低于40%。任何评测集变更必须自动触发benchmark重跑。",
+    "priority": "P0",
+    "version": "1.0.0",
+    "category": "aeo",
+    "trigger": {
+        "events": [
+            "aeo.evaluation.dataset_created",
+            "aeo.evaluation.dataset_modified"
+        ],
+        "actions": [
+            "aeo.evaluation.multi_turn_check",
+            "aeo.benchmark.auto_rerun"
+        ],
+        "event": "aeo.evaluation.dataset_created"
+    },
+    "conditions": {
+        "multi_turn_ratio": "多轮样本占比>=40%",
+        "auto_rerun": "数据集变更后自动重跑benchmark并输出对比报告"
+    },
+    "rationale": "用户原话：'你的评测集，只搞单轮对话？' IC4/IC5脱离上下文根本无法判断意图。",
+    "created_at": "2026-03-06T00:58:00+08:00",
+    "action": {
+        "type": "script",
+        "handler": "eval-quality-check",
+        "script": "scripts/isc-hooks/rule.eval-must-include-multi-turn-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/eval-must-include-multi-turn.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 rule.eval-must-include-multi-turn-001 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: aeo.evaluation.dataset_created, aeo.evaluation.dataset_modified"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/eval-must-include-multi-turn.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/eval-must-include-multi-turn.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

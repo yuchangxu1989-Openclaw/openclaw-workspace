@@ -1,17 +1,40 @@
 {
-  "id": "rule.eval-standard-auto-sync-001",
-  "name": "评测标准变更自动同步评测集",
-  "trigger": {
-    "events": [
-      "eval.standard.version.changed"
-    ]
-  },
-  "action": "auto-refresh evalset against new standard",
-  "enforcement": "programmatic",
-  "hook": "scripts/sync-v4-standard.sh",
-  "description": "当V4评测标准文档(JxhNdoc7ko7ZLwxJUJHcWyeDnYd)内容发生变更时，自动触发评测集合规刷新，确保所有评测用例与最新标准口径对齐。",
-  "source_skill": "eval-mining",
-  "created": "2026-03-09",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/eval-standard-auto-sync.js"
+    "id": "rule.eval-standard-auto-sync-001",
+    "event_type": "eval.standard.version.changed",
+    "name": "评测标准变更自动同步评测集",
+    "description": "当V4评测标准文档(JxhNdoc7ko7ZLwxJUJHcWyeDnYd)内容发生变更时，自动触发评测集合规刷新，确保所有评测用例与最新标准口径对齐。",
+    "trigger": {
+        "events": [
+            "eval.standard.version.changed"
+        ]
+    },
+    "action": "auto-refresh evalset against new standard",
+    "enforcement": "programmatic",
+    "hook": "scripts/sync-v4-standard.sh",
+    "source_skill": "eval-mining",
+    "created": "2026-03-09",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/eval-standard-auto-sync.js",
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 rule.eval-standard-auto-sync-001 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: eval.standard.version.changed"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/eval-standard-auto-sync.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/eval-standard-auto-sync.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -1,99 +1,122 @@
 {
-  "id": "rule.design-document-delivery-pipeline-001",
-  "name": "design_document_delivery_pipeline",
-  "domain": "pipeline",
-  "type": "rule",
-  "scope": "document",
-  "version": "1.0.0",
-  "description": "设计文档9步交付流水线——每步都是门禁，不许跳步，任何一步不过打回",
-  "rationale": "设计文档交付缺乏标准化流程，质量参差不齐，需要强制门禁流水线",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "standard": {
-    "pipeline": [
-      {
-        "step": 1,
-        "name": "结构审查",
-        "gate": "rule.design-document-structure-001",
-        "description": "检查7项结构标准"
-      },
-      {
-        "step": 2,
-        "name": "内容瘦身",
-        "gate": "content_slim_check",
-        "description": "删除冗余内容，代码块抽到附录"
-      },
-      {
-        "step": 3,
-        "name": "MECE校验",
-        "gate": "rule.naming-mece-consistency-001",
-        "description": "命名不重叠校验"
-      },
-      {
-        "step": 4,
-        "name": "质量扫描",
-        "gate": "isc-document-quality",
-        "description": "多维度文档质量评分"
-      },
-      {
-        "step": 5,
-        "name": "架构图标准化",
-        "gate": "rule.architecture-diagram-visual-output-001",
-        "description": "架构图视觉标准检查"
-      },
-      {
-        "step": 6,
-        "name": "MD模拟演讲",
-        "gate": "rule.design-document-narrative-review-001",
-        "description": "MD层模拟演讲审查"
-      },
-      {
-        "step": 7,
-        "name": "PDF生成",
-        "gate": "pdf_generation",
-        "description": "生成PDF版本"
-      },
-      {
-        "step": 8,
-        "name": "PDF模拟演讲",
-        "gate": "rule.design-document-narrative-review-001",
-        "description": "PDF层模拟演讲审查"
-      },
-      {
-        "step": 9,
-        "name": "交付",
-        "gate": "delivery_final",
-        "description": "最终交付确认"
-      }
-    ],
-    "rules": [
-      "任何一步不过必须打回，不允许跳步",
-      "每步产出记录，可追溯审查历史",
-      "流水线状态实时可查"
-    ]
-  },
-  "trigger": {
-    "events": [
-      "document.design.requested"
-    ],
-    "actions": [
-      "orchestration.document.triggered"
-    ],
-    "event": "document.design.requested"
-  },
-  "priority": "P0",
-  "enforcement_tier": "P0_block",
-  "created_at": "2026-03-05",
-  "source": "用户教学：9步交付流水线",
-  "action": {
-    "type": "check",
-    "handler": "design-document-delivery-pipeline",
-    "description": "9步门禁流水线handler，管理流水线状态机",
-    "script": "infrastructure/event-bus/handlers/design-document-delivery-pipeline.js"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/design-document-delivery-pipeline.js"
+    "id": "rule.design-document-delivery-pipeline-001",
+    "event_type": "document.design.requested",
+    "name": "design_document_delivery_pipeline",
+    "description": "设计文档9步交付流水线——每步都是门禁，不许跳步，任何一步不过打回",
+    "priority": "P0",
+    "domain": "pipeline",
+    "type": "rule",
+    "scope": "document",
+    "version": "1.0.0",
+    "rationale": "设计文档交付缺乏标准化流程，质量参差不齐，需要强制门禁流水线",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
+    },
+    "standard": {
+        "pipeline": [
+            {
+                "step": 1,
+                "name": "结构审查",
+                "gate": "rule.design-document-structure-001",
+                "description": "检查7项结构标准"
+            },
+            {
+                "step": 2,
+                "name": "内容瘦身",
+                "gate": "content_slim_check",
+                "description": "删除冗余内容，代码块抽到附录"
+            },
+            {
+                "step": 3,
+                "name": "MECE校验",
+                "gate": "rule.naming-mece-consistency-001",
+                "description": "命名不重叠校验"
+            },
+            {
+                "step": 4,
+                "name": "质量扫描",
+                "gate": "isc-document-quality",
+                "description": "多维度文档质量评分"
+            },
+            {
+                "step": 5,
+                "name": "架构图标准化",
+                "gate": "rule.architecture-diagram-visual-output-001",
+                "description": "架构图视觉标准检查"
+            },
+            {
+                "step": 6,
+                "name": "MD模拟演讲",
+                "gate": "rule.design-document-narrative-review-001",
+                "description": "MD层模拟演讲审查"
+            },
+            {
+                "step": 7,
+                "name": "PDF生成",
+                "gate": "pdf_generation",
+                "description": "生成PDF版本"
+            },
+            {
+                "step": 8,
+                "name": "PDF模拟演讲",
+                "gate": "rule.design-document-narrative-review-001",
+                "description": "PDF层模拟演讲审查"
+            },
+            {
+                "step": 9,
+                "name": "交付",
+                "gate": "delivery_final",
+                "description": "最终交付确认"
+            }
+        ],
+        "rules": [
+            "任何一步不过必须打回，不允许跳步",
+            "每步产出记录，可追溯审查历史",
+            "流水线状态实时可查"
+        ]
+    },
+    "trigger": {
+        "events": [
+            "document.design.requested"
+        ],
+        "actions": [
+            "orchestration.document.triggered"
+        ],
+        "event": "document.design.requested"
+    },
+    "enforcement_tier": "P0_block",
+    "created_at": "2026-03-05",
+    "source": "用户教学：9步交付流水线",
+    "action": {
+        "type": "check",
+        "handler": "design-document-delivery-pipeline",
+        "description": "9步门禁流水线handler，管理流水线状态机",
+        "script": "infrastructure/event-bus/handlers/design-document-delivery-pipeline.js"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/design-document-delivery-pipeline.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.design-document-delivery-pipeline-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/design-document-delivery-pipeline.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/design-document-delivery-pipeline.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

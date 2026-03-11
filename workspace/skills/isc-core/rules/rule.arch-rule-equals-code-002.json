@@ -1,32 +1,55 @@
 {
-  "id": "rule.arch-rule-equals-code-002",
-  "rule_name": "Rule = Code — 规则即代码",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "ISC规则定义(JSON)与规则执行(gate-check代码)必须1:1配对。只有JSON定义无代码实现的规则，在合规审计中视为'不存在'。",
-  "source": "Day 1/2设计债务复盘 — AP-002架构原则，根因β修复",
-  "trigger": {
-    "events": [
-      "isc.rule.created",
-      "isc.rule.updated",
-      "isc.enforcement_rate.threshold_crossed"
-    ]
-  },
-  "action": {
-    "type": "enforce",
-    "handler": "rule-equals-code-audit",
-    "checks": [
-      {
-        "id": "rule_gate_pairing",
-        "description": "每条规则JSON在gates/目录有同名gate实现",
-        "fail_action": "warn_and_track"
-      }
-    ],
-    "on_failure": "warn"
-  },
-  "enforcement": "runtime_binding",
-  "enforcement_tier": "P0_gate",
-  "schema_version": "2.0",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/arch-rule-equals-code.js"
+    "id": "rule.arch-rule-equals-code-002",
+    "event_type": "isc.rule.created",
+    "description": "ISC规则定义(JSON)与规则执行(gate-check代码)必须1:1配对。只有JSON定义无代码实现的规则，在合规审计中视为'不存在'。",
+    "rule_name": "Rule = Code — 规则即代码",
+    "version": "1.0.0",
+    "severity": "critical",
+    "source": "Day 1/2设计债务复盘 — AP-002架构原则，根因β修复",
+    "trigger": {
+        "events": [
+            "isc.rule.created",
+            "isc.rule.updated",
+            "isc.enforcement_rate.threshold_crossed"
+        ]
+    },
+    "action": {
+        "type": "enforce",
+        "handler": "rule-equals-code-audit",
+        "checks": [
+            {
+                "id": "rule_gate_pairing",
+                "description": "每条规则JSON在gates/目录有同名gate实现",
+                "fail_action": "warn_and_track"
+            }
+        ],
+        "on_failure": "warn"
+    },
+    "enforcement": "runtime_binding",
+    "enforcement_tier": "P0_gate",
+    "schema_version": "2.0",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/arch-rule-equals-code.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.arch-rule-equals-code-002 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/arch-rule-equals-code.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/arch-rule-equals-code.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

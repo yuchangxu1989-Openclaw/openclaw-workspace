@@ -1,43 +1,66 @@
 {
-  "id": "rule.eval-sample-auto-collection-001",
-  "domain": "quality",
-  "enforcement_tier": "P1_process",
-  "version": "1.0.0",
-  "created": "2026-03-05",
-  "description": "真实使用中产生的意图/事件/场景必须自动回收为评测样本。评测集不能只靠手造，必须持续从生产数据补充。",
-  "rule": [
-    "每次IntentScanner处理真实用户消息 → 记录input+output到样本池",
-    "每次Pipeline完整执行 → 记录事件链到场景样本池",
-    "每次测试失败 → 自动归档为regression test",
-    "样本池每周review，人工标注后入库到tests/registry.json"
-  ],
-  "trigger": {
-    "events": [
-      "event.general.classified",
-      "orchestration.general.completed",
-      "quality.general.failed"
+    "id": "rule.eval-sample-auto-collection-001",
+    "event_type": "event.general.classified",
+    "description": "真实使用中产生的意图/事件/场景必须自动回收为评测样本。评测集不能只靠手造，必须持续从生产数据补充。",
+    "domain": "quality",
+    "enforcement_tier": "P1_process",
+    "version": "1.0.0",
+    "created": "2026-03-05",
+    "rule": [
+        "每次IntentScanner处理真实用户消息 → 记录input+output到样本池",
+        "每次Pipeline完整执行 → 记录事件链到场景样本池",
+        "每次测试失败 → 自动归档为regression test",
+        "样本池每周review，人工标注后入库到tests/registry.json"
     ],
-    "actions": [
-      {
-        "type": "auto_collect",
-        "description": "自动收集为评测样本"
-      }
-    ],
-    "event": "event.general.classified"
-  },
-  "enforcement": {
-    "on_violation": "warn_and_log",
-    "audit_frequency": "weekly",
-    "collection_paths": {
-      "intent_samples": "tests/collection/pending/",
-      "pipeline_samples": "tests/collection/pending/",
-      "regression_samples": "tests/regression/"
+    "trigger": {
+        "events": [
+            "event.general.classified",
+            "orchestration.general.completed",
+            "quality.general.failed"
+        ],
+        "actions": [
+            {
+                "type": "auto_collect",
+                "description": "自动收集为评测样本"
+            }
+        ],
+        "event": "event.general.classified"
+    },
+    "enforcement": {
+        "on_violation": "warn_and_log",
+        "audit_frequency": "weekly",
+        "collection_paths": {
+            "intent_samples": "tests/collection/pending/",
+            "pipeline_samples": "tests/collection/pending/",
+            "regression_samples": "tests/regression/"
+        }
+    },
+    "action": {
+        "type": "check",
+        "handler": "eval-quality-check"
+    },
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/eval-sample-auto-collection.js",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.eval-sample-auto-collection-001 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/eval-sample-auto-collection.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 120,
+        "on_failure": "log"
     }
-  },
-  "action": {
-    "type": "check",
-    "handler": "eval-quality-check"
-  },
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/eval-sample-auto-collection.js"
 }

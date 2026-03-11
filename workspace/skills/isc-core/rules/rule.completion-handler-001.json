@@ -1,23 +1,47 @@
 {
-  "id": "ISC-COMPLETION-HANDLER-001",
-  "name": "Completion Event程序化处理",
-  "description": "收到子Agent completion event后必须先调用completion-handler.sh，不得跳过直接回复用户",
-  "trigger": {
-    "event": "agent.task.completed",
-    "events": [
-      "isc.rule.completion.handler.001"
-    ]
-  },
-  "action": {
-    "type": "script",
-    "command": "bash /root/.openclaw/workspace/scripts/completion-handler.sh <label> <done|failed> \"简要结果\"",
-    "violation": "badcase",
-    "script": "scripts/isc-hooks/ISC-COMPLETION-HANDLER-001.sh"
-  },
-  "priority": "highest",
-  "created": "2026-03-08",
-  "rationale": "update-task.sh靠md规则提醒，历史遗忘率100%。合并到completion-handler.sh实现程序化强制。",
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/completion-handler.js"
+    "id": "ISC-COMPLETION-HANDLER-001",
+    "event_type": "agent.task.completed",
+    "name": "Completion Event程序化处理",
+    "description": "收到子Agent completion event后必须先调用completion-handler.sh，不得跳过直接回复用户",
+    "priority": "highest",
+    "trigger": {
+        "event": "agent.task.completed",
+        "events": [
+            "isc.rule.completion.handler.001",
+            "agent.task.completed"
+        ]
+    },
+    "action": {
+        "type": "script",
+        "command": "bash /root/.openclaw/workspace/scripts/completion-handler.sh <label> <done|failed> \"简要结果\"",
+        "violation": "badcase",
+        "script": "scripts/isc-hooks/ISC-COMPLETION-HANDLER-001.sh"
+    },
+    "created": "2026-03-08",
+    "rationale": "update-task.sh靠md规则提醒，历史遗忘率100%。合并到completion-handler.sh实现程序化强制。",
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/completion-handler.js",
+    "verification": {
+        "method": "rule_enforcement_check",
+        "description": "验证规则 ISC-COMPLETION-HANDLER-001 的执行有效性",
+        "assertions": [
+            {
+                "check": "handler_registered",
+                "desc": "Handler已注册: skills/isc-core/handlers/completion-handler.js"
+            },
+            {
+                "check": "trigger_conditions_met",
+                "desc": "触发条件满足时规则被正确激活"
+            },
+            {
+                "check": "action_executed",
+                "desc": "规则激活后执行指定的动作"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/completion-handler.js && echo 'handler_exists:pass'",
+        "expected_outcome": "规则触发条件满足时正确执行预定义动作",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

@@ -1,34 +1,57 @@
 {
-  "id": "rule.coding-quality-thinking-001",
-  "rule_name": "编码质量标准",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "核心模块的编码，开发工程师必须开thinking（高质量推理模式）。",
-  "category": "engineering",
-  "trigger": {
-    "events": [
-      "skill.module_core.modified"
-    ],
-    "actions": [
-      "quality.code.thinking_required"
-    ],
-    "event": "skill.module_core.modified"
-  },
-  "conditions": {
-    "scope": "core_modules",
-    "requirement": "thinking_mode_enabled"
-  },
-  "rationale": {
-    "source": "用户教学"
-  },
-  "enforcement_tier": "P1_check",
-  "created_at": "2026-03-06T00:28:00+08:00",
-  "action": {
-    "type": "script",
-    "handler": "eval-quality-check",
-    "script": "scripts/isc-hooks/rule.coding-quality-thinking-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/coding-quality-thinking.js"
+    "id": "rule.coding-quality-thinking-001",
+    "event_type": "skill.module_core.modified",
+    "description": "核心模块的编码，开发工程师必须开thinking（高质量推理模式）。",
+    "rule_name": "编码质量标准",
+    "version": "1.0.0",
+    "severity": "high",
+    "category": "engineering",
+    "trigger": {
+        "events": [
+            "skill.module_core.modified"
+        ],
+        "actions": [
+            "quality.code.thinking_required"
+        ],
+        "event": "skill.module_core.modified"
+    },
+    "conditions": {
+        "scope": "core_modules",
+        "requirement": "thinking_mode_enabled"
+    },
+    "rationale": {
+        "source": "用户教学"
+    },
+    "enforcement_tier": "P1_check",
+    "created_at": "2026-03-06T00:28:00+08:00",
+    "action": {
+        "type": "script",
+        "handler": "eval-quality-check",
+        "script": "scripts/isc-hooks/rule.coding-quality-thinking-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/coding-quality-thinking.js",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.coding-quality-thinking-001 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/coding-quality-thinking.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

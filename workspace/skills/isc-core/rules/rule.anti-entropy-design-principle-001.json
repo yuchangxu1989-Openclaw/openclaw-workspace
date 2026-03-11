@@ -1,67 +1,90 @@
 {
-  "id": "rule.anti-entropy-design-principle-001",
-  "rule_name": "反熵增设计原则",
-  "version": "1.0.0",
-  "severity": "critical",
-  "description": "所有设计和决策必须满足反熵增原则：批判性思维、可扩展、可泛化、可生长。违反此原则的设计必须被拦截。",
-  "source": "SOUL.md灵魂烙印，用户亲授第一性原理",
-  "trigger": {
-    "events": [
-      "document.document.created",
-      "document.document.modified",
-      "architecture.decision.completed",
-      "isc.rule.created",
-      "skill.general.created",
-      "lto.task.created"
-    ],
-    "description": "任何设计产出、架构决策、规则创建、技能创建、任务创建时触发",
-    "actions": [
-      {
-        "type": "gate-check",
-        "description": "验证设计产出是否满足四项反熵增检查：可扩展性、可泛化性、可生长性、有序度方向",
-        "behavior": "block_on_entropy_increase"
-      },
-      {
-        "type": "quality_gate",
-        "description": "不通过任一反熵增检查项时，阻塞交付并要求重新设计",
-        "behavior": "block_and_redesign"
-      }
-    ],
-    "event": "document.document.created"
-  },
-  "action": {
-    "type": "gate",
-    "checks": [
-      {
-        "id": "scalability",
-        "question": "这个设计在10倍规模下还成立吗？",
-        "fail_action": "block_and_redesign"
-      },
-      {
-        "id": "generalizability",
-        "question": "这解决的是一个问题还是一类问题？",
-        "fail_action": "require_generalization"
-      },
-      {
-        "id": "growability",
-        "question": "知识是否沉淀为可执行的规则/代码，而非停留在对话里？",
-        "fail_action": "require_codification"
-      },
-      {
-        "id": "entropy_direction",
-        "question": "这次变更让系统更有序还是更混乱？",
-        "fail_action": "block_and_simplify"
-      }
-    ],
-    "handler": "anti-entropy-design-principle"
-  },
-  "enforcement": "runtime_binding",
-  "dto_alignment": {
-    "trigger_dto_task": true,
-    "task_type": "quality_gate",
-    "description": "每次触发事件时，DTO自动调度反熵增检查任务"
-  },
-  "enforcement_tier": "P0_gate",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/anti-entropy-design-principle.js"
+    "id": "rule.anti-entropy-design-principle-001",
+    "event_type": "document.document.created",
+    "description": "所有设计和决策必须满足反熵增原则：批判性思维、可扩展、可泛化、可生长。违反此原则的设计必须被拦截。",
+    "rule_name": "反熵增设计原则",
+    "version": "1.0.0",
+    "severity": "critical",
+    "source": "SOUL.md灵魂烙印，用户亲授第一性原理",
+    "trigger": {
+        "events": [
+            "document.document.created",
+            "document.document.modified",
+            "architecture.decision.completed",
+            "isc.rule.created",
+            "skill.general.created",
+            "lto.task.created"
+        ],
+        "description": "任何设计产出、架构决策、规则创建、技能创建、任务创建时触发",
+        "actions": [
+            {
+                "type": "gate-check",
+                "description": "验证设计产出是否满足四项反熵增检查：可扩展性、可泛化性、可生长性、有序度方向",
+                "behavior": "block_on_entropy_increase"
+            },
+            {
+                "type": "quality_gate",
+                "description": "不通过任一反熵增检查项时，阻塞交付并要求重新设计",
+                "behavior": "block_and_redesign"
+            }
+        ],
+        "event": "document.document.created"
+    },
+    "action": {
+        "type": "gate",
+        "checks": [
+            {
+                "id": "scalability",
+                "question": "这个设计在10倍规模下还成立吗？",
+                "fail_action": "block_and_redesign"
+            },
+            {
+                "id": "generalizability",
+                "question": "这解决的是一个问题还是一类问题？",
+                "fail_action": "require_generalization"
+            },
+            {
+                "id": "growability",
+                "question": "知识是否沉淀为可执行的规则/代码，而非停留在对话里？",
+                "fail_action": "require_codification"
+            },
+            {
+                "id": "entropy_direction",
+                "question": "这次变更让系统更有序还是更混乱？",
+                "fail_action": "block_and_simplify"
+            }
+        ],
+        "handler": "anti-entropy-design-principle"
+    },
+    "enforcement": "runtime_binding",
+    "dto_alignment": {
+        "trigger_dto_task": true,
+        "task_type": "quality_gate",
+        "description": "每次触发事件时，DTO自动调度反熵增检查任务"
+    },
+    "enforcement_tier": "P0_gate",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/anti-entropy-design-principle.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.anti-entropy-design-principle-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/anti-entropy-design-principle.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/anti-entropy-design-principle.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

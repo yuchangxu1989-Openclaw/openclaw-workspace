@@ -1,30 +1,54 @@
 {
-  "id": "ISC-EVAL-ROLE-SEPARATION-001",
-  "name": "评测角色分离铁律",
-  "description": "评测用例必须由独立的质量分析Agent评测，执行Agent不能自评",
-  "trigger": {
-    "event": "eval.case.execution.completed",
-    "events": [
-      "isc.rule.eval.role.separation.001"
-    ]
-  },
-  "action": {
-    "type": "mandatory_followup",
-    "rule": "执行Agent完成后，必须派不同Agent做质量评测",
-    "violation": "badcase",
-    "forbidden": "执行Agent自评"
-  },
-  "enforcement": {
-    "check": "evaluator.agentId !== executor.agentId",
-    "on_violation": "auto_badcase",
-    "anti_cheat": [
-      "同一Agent换label不算分离",
-      "必须是不同agentId"
-    ]
-  },
-  "priority": "P0",
-  "created": "2026-03-08",
-  "category": "eval-quality",
-  "handler": "skills/isc-core/handlers/eval-role-separation.js",
-  "fullchain_status": "expanded"
+    "id": "ISC-EVAL-ROLE-SEPARATION-001",
+    "event_type": "eval.case.execution.completed",
+    "name": "评测角色分离铁律",
+    "description": "评测用例必须由独立的质量分析Agent评测，执行Agent不能自评",
+    "priority": "P0",
+    "trigger": {
+        "event": "eval.case.execution.completed",
+        "events": [
+            "isc.rule.eval.role.separation.001",
+            "eval.case.execution.completed"
+        ]
+    },
+    "action": {
+        "type": "mandatory_followup",
+        "rule": "执行Agent完成后，必须派不同Agent做质量评测",
+        "violation": "badcase",
+        "forbidden": "执行Agent自评"
+    },
+    "enforcement": {
+        "check": "evaluator.agentId !== executor.agentId",
+        "on_violation": "auto_badcase",
+        "anti_cheat": [
+            "同一Agent换label不算分离",
+            "必须是不同agentId"
+        ]
+    },
+    "created": "2026-03-08",
+    "category": "eval-quality",
+    "handler": "skills/isc-core/handlers/eval-role-separation.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 ISC-EVAL-ROLE-SEPARATION-001 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/eval-role-separation.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

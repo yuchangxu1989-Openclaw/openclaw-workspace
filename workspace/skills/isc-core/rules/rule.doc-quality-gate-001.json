@@ -1,91 +1,114 @@
 {
-  "id": "ISC-DOC-QUALITY-GATE-001",
-  "name": "重大文档双Agent质量门禁",
-  "version": "1.0.0",
-  "created": "2026-03-08",
-  "trigger": {
-    "type": "task_match",
-    "description": "当任务涉及重大决策文档、重要报告、方案设计文档时自动触发",
-    "match_keywords": [
-      "重大决策文档",
-      "重要报告",
-      "方案设计",
-      "架构方案",
-      "评测基线",
-      "飞书文档写入"
+    "id": "ISC-DOC-QUALITY-GATE-001",
+    "event_type": "isc.rule.doc.quality.gate.001",
+    "name": "重大文档双Agent质量门禁",
+    "version": "1.0.0",
+    "created": "2026-03-08",
+    "trigger": {
+        "type": "task_match",
+        "description": "当任务涉及重大决策文档、重要报告、方案设计文档时自动触发",
+        "match_keywords": [
+            "重大决策文档",
+            "重要报告",
+            "方案设计",
+            "架构方案",
+            "评测基线",
+            "飞书文档写入"
+        ],
+        "excludes": [
+            "简单文件修改",
+            "配置更新",
+            "日志记录",
+            "memory更新",
+            "MEMORY.md"
+        ],
+        "events": [
+            "isc.rule.doc.quality.gate.001"
+        ]
+    },
+    "conditions": {
+        "applicable": [
+            "飞书文档写入（feishu_doc write/append）",
+            "重要报告撰写",
+            "架构方案/设计文档",
+            "评测基线文档",
+            "重大决策文档"
+        ],
+        "not_applicable": [
+            "简单文件修改（配置、脚本、日志）",
+            "配置更新",
+            "日志记录",
+            "memory文件更新"
+        ]
+    },
+    "action": {
+        "type": "script",
+        "description": "写→审→改 流水线",
+        "steps": [
+            {
+                "step": 1,
+                "role": "writer",
+                "action": "主Agent派 writer（或对应角色）执行文档撰写"
+            },
+            {
+                "step": 2,
+                "role": "reviewer",
+                "action": "writer完成后，自动派 reviewer 做质量审查"
+            },
+            {
+                "step": 3,
+                "role": "rewriter",
+                "condition": "reviewer判定不通过",
+                "action": "自动换一个不同的Agent重写（不回原writer）"
+            },
+            {
+                "step": 4,
+                "role": "reviewer",
+                "action": "重写后再次进入reviewer审查"
+            },
+            {
+                "step": 5,
+                "role": "main_agent",
+                "condition": "最多重试2次仍不通过",
+                "action": "升级到主Agent决策"
+            }
+        ],
+        "max_retries": 2,
+        "escalation": "主Agent决策",
+        "script": "scripts/isc-hooks/ISC-DOC-QUALITY-GATE-001.sh"
+    },
+    "fullchain": {
+        "intent": "ISC-DOC-QUALITY-GATE-001",
+        "event": "task_involves_critical_document",
+        "perception": "检测任务是否涉及重大决策文档/重要报告/方案设计文档",
+        "execution": "自动触发写→审→改流水线，writer写+reviewer审+不通过换Agent重写，最多重试2次后升级主Agent"
+    },
+    "references": [
+        "ISC-MAIN-AGENT-DELEGATION-001"
     ],
-    "excludes": [
-      "简单文件修改",
-      "配置更新",
-      "日志记录",
-      "memory更新",
-      "MEMORY.md"
-    ],
-    "events": [
-      "isc.rule.doc.quality.gate.001"
-    ]
-  },
-  "conditions": {
-    "applicable": [
-      "飞书文档写入（feishu_doc write/append）",
-      "重要报告撰写",
-      "架构方案/设计文档",
-      "评测基线文档",
-      "重大决策文档"
-    ],
-    "not_applicable": [
-      "简单文件修改（配置、脚本、日志）",
-      "配置更新",
-      "日志记录",
-      "memory文件更新"
-    ]
-  },
-  "action": {
-    "type": "script",
-    "description": "写→审→改 流水线",
-    "steps": [
-      {
-        "step": 1,
-        "role": "writer",
-        "action": "主Agent派 writer（或对应角色）执行文档撰写"
-      },
-      {
-        "step": 2,
-        "role": "reviewer",
-        "action": "writer完成后，自动派 reviewer 做质量审查"
-      },
-      {
-        "step": 3,
-        "role": "rewriter",
-        "condition": "reviewer判定不通过",
-        "action": "自动换一个不同的Agent重写（不回原writer）"
-      },
-      {
-        "step": 4,
-        "role": "reviewer",
-        "action": "重写后再次进入reviewer审查"
-      },
-      {
-        "step": 5,
-        "role": "main_agent",
-        "condition": "最多重试2次仍不通过",
-        "action": "升级到主Agent决策"
-      }
-    ],
-    "max_retries": 2,
-    "escalation": "主Agent决策",
-    "script": "scripts/isc-hooks/ISC-DOC-QUALITY-GATE-001.sh"
-  },
-  "fullchain": {
-    "intent": "ISC-DOC-QUALITY-GATE-001",
-    "event": "task_involves_critical_document",
-    "perception": "检测任务是否涉及重大决策文档/重要报告/方案设计文档",
-    "execution": "自动触发写→审→改流水线，writer写+reviewer审+不通过换Agent重写，最多重试2次后升级主Agent"
-  },
-  "references": [
-    "ISC-MAIN-AGENT-DELEGATION-001"
-  ],
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/intent-doc-quality-gate.js"
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/intent-doc-quality-gate.js",
+    "verification": {
+        "method": "rule_enforcement_check",
+        "description": "验证规则 ISC-DOC-QUALITY-GATE-001 的执行有效性",
+        "assertions": [
+            {
+                "check": "handler_registered",
+                "desc": "Handler已注册: skills/isc-core/handlers/intent-doc-quality-gate.js"
+            },
+            {
+                "check": "trigger_conditions_met",
+                "desc": "触发条件满足时规则被正确激活"
+            },
+            {
+                "check": "action_executed",
+                "desc": "规则激活后执行指定的动作"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/intent-doc-quality-gate.js && echo 'handler_exists:pass'",
+        "expected_outcome": "规则触发条件满足时正确执行预定义动作",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

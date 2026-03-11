@@ -1,88 +1,89 @@
 {
-  "rule_id": "ISC-BADCASE-AUTO-FLIP-001",
-  "version": "1.0.0",
-  "description": "badcase文件变更时自动运行翻转脚本，生成对应goodcase",
-  "trigger": {
-    "type": "file_change",
-    "watch_path": "/root/.openclaw/workspace/tests/benchmarks/intent/c2-golden/00-real-badcases.json",
-    "events": [
-      "modify",
-      "create"
-    ]
-  },
-  "action": {
-    "type": "exec",
-    "command": "bash /root/.openclaw/workspace/scripts/badcase-to-goodcase.sh",
-    "timeout_seconds": 30
-  },
-  "metadata": {
-    "created": "2026-03-08",
-    "author": "automation-engineer",
-    "purpose": "程序化保证badcase→goodcase翻转，不依赖记忆"
-  },
-  "handler": "skills/isc-core/handlers/badcase-auto-flip.js",
-  "fullchain_status": "complete",
-  "id": "BADCASE-AUTO-FLIP-001",
-  "plan": {
-    "description": "badcase自动翻转为goodcase的执行计划",
-    "steps": [
-      {
-        "step": 1,
-        "action": "detect_file_change",
-        "desc": "监听badcase文件的modify/create事件"
-      },
-      {
-        "step": 2,
-        "action": "parse_badcase",
-        "desc": "解析badcase JSON，提取错误模式"
-      },
-      {
-        "step": 3,
-        "action": "generate_goodcase",
-        "desc": "根据错误模式生成对应的正确案例"
-      },
-      {
-        "step": 4,
-        "action": "validate_goodcase",
-        "desc": "验证生成的goodcase格式和语义正确"
-      },
-      {
-        "step": 5,
-        "action": "write_goodcase",
-        "desc": "写入goodcase文件"
-      }
-    ],
-    "rollback": {
-      "strategy": "skip_invalid",
-      "desc": "翻转失败的badcase跳过，记录到失败日志待人工处理"
+    "id": "BADCASE-AUTO-FLIP-001",
+    "rule_id": "ISC-BADCASE-AUTO-FLIP-001",
+    "event_type": "modify",
+    "description": "badcase文件变更时自动运行翻转脚本，生成对应goodcase",
+    "version": "1.0.0",
+    "trigger": {
+        "type": "file_change",
+        "watch_path": "/root/.openclaw/workspace/tests/benchmarks/intent/c2-golden/00-real-badcases.json",
+        "events": [
+            "modify",
+            "create"
+        ]
+    },
+    "action": {
+        "type": "exec",
+        "command": "bash /root/.openclaw/workspace/scripts/badcase-to-goodcase.sh",
+        "timeout_seconds": 30
+    },
+    "metadata": {
+        "created": "2026-03-08",
+        "author": "automation-engineer",
+        "purpose": "程序化保证badcase→goodcase翻转，不依赖记忆"
+    },
+    "handler": "skills/isc-core/handlers/badcase-auto-flip.js",
+    "fullchain_status": "complete",
+    "plan": {
+        "description": "badcase自动翻转为goodcase的执行计划",
+        "steps": [
+            {
+                "step": 1,
+                "action": "detect_file_change",
+                "desc": "监听badcase文件的modify/create事件"
+            },
+            {
+                "step": 2,
+                "action": "parse_badcase",
+                "desc": "解析badcase JSON，提取错误模式"
+            },
+            {
+                "step": 3,
+                "action": "generate_goodcase",
+                "desc": "根据错误模式生成对应的正确案例"
+            },
+            {
+                "step": 4,
+                "action": "validate_goodcase",
+                "desc": "验证生成的goodcase格式和语义正确"
+            },
+            {
+                "step": 5,
+                "action": "write_goodcase",
+                "desc": "写入goodcase文件"
+            }
+        ],
+        "rollback": {
+            "strategy": "skip_invalid",
+            "desc": "翻转失败的badcase跳过，记录到失败日志待人工处理"
+        }
+    },
+    "verification": {
+        "description": "验证badcase翻转质量",
+        "assertions": [
+            {
+                "check": "goodcase_valid_json",
+                "desc": "生成的goodcase是合法JSON"
+            },
+            {
+                "check": "goodcase_semantically_correct",
+                "desc": "goodcase语义与badcase相反(正确行为)"
+            },
+            {
+                "check": "no_data_loss",
+                "desc": "所有badcase都有对应处理(翻转或跳过)"
+            }
+        ],
+        "metrics": [
+            {
+                "name": "flip_success_rate",
+                "desc": "翻转成功率"
+            },
+            {
+                "name": "flip_count_per_run",
+                "desc": "每次运行翻转数量"
+            }
+        ],
+        "timeout": 30
     }
-  },
-  "verification": {
-    "description": "验证badcase翻转质量",
-    "assertions": [
-      {
-        "check": "goodcase_valid_json",
-        "desc": "生成的goodcase是合法JSON"
-      },
-      {
-        "check": "goodcase_semantically_correct",
-        "desc": "goodcase语义与badcase相反(正确行为)"
-      },
-      {
-        "check": "no_data_loss",
-        "desc": "所有badcase都有对应处理(翻转或跳过)"
-      }
-    ],
-    "metrics": [
-      {
-        "name": "flip_success_rate",
-        "desc": "翻转成功率"
-      },
-      {
-        "name": "flip_count_per_run",
-        "desc": "每次运行翻转数量"
-      }
-    ],
-    "timeout": 30
-  }
 }

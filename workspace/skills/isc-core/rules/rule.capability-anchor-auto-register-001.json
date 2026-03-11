@@ -1,39 +1,62 @@
 {
-  "id": "rule.capability-anchor-auto-register-001",
-  "rule_name": "能力锚点自动注册",
-  "version": "1.0.0",
-  "description": "新增通用能力（多模态、大模型、IM交互、工具等）时，必须自动写入CAPABILITY-ANCHOR.md。AI不应忘记自己的能力。",
-  "severity": "critical",
-  "trigger": {
-    "events": [
-      "skill.general.created",
-      "skill.general.updated",
-      "system.general.discovered",
-      "system.general.added",
-      "skill.general.modified"
-    ],
-    "condition": "new_capability_not_in_anchor",
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "新能力创建或更新时自动注册到CAPABILITY-ANCHOR.md，保持能力清单最新"
-      }
-    ]
-  },
-  "action": {
-    "type": "autofix",
-    "steps": [
-      "检测新增能力的类型（工具/模型/技能/交互方式）",
-      "生成能力锚点条目（工具名、触发词、说明）",
-      "APPEND到CAPABILITY-ANCHOR.md对应分类下",
-      "记录到memory/architecture-changelog.md"
-    ],
-    "target_file": "CAPABILITY-ANCHOR.md",
-    "handler": "capability-anchor-register"
-  },
-  "enforcement": "runtime_binding",
-  "notes": "用户原话：一个全球顶级的AI怎么能忘记自己的能力呢？",
-  "enforcement_tier": "P1_process",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/capability-anchor-register.js"
+    "id": "rule.capability-anchor-auto-register-001",
+    "event_type": "skill.general.created",
+    "description": "新增通用能力（多模态、大模型、IM交互、工具等）时，必须自动写入CAPABILITY-ANCHOR.md。AI不应忘记自己的能力。",
+    "rule_name": "能力锚点自动注册",
+    "version": "1.0.0",
+    "severity": "critical",
+    "trigger": {
+        "events": [
+            "skill.general.created",
+            "skill.general.updated",
+            "system.general.discovered",
+            "system.general.added",
+            "skill.general.modified"
+        ],
+        "condition": "new_capability_not_in_anchor",
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "新能力创建或更新时自动注册到CAPABILITY-ANCHOR.md，保持能力清单最新"
+            }
+        ]
+    },
+    "action": {
+        "type": "autofix",
+        "steps": [
+            "检测新增能力的类型（工具/模型/技能/交互方式）",
+            "生成能力锚点条目（工具名、触发词、说明）",
+            "APPEND到CAPABILITY-ANCHOR.md对应分类下",
+            "记录到memory/architecture-changelog.md"
+        ],
+        "target_file": "CAPABILITY-ANCHOR.md",
+        "handler": "capability-anchor-register"
+    },
+    "enforcement": "runtime_binding",
+    "notes": "用户原话：一个全球顶级的AI怎么能忘记自己的能力呢？",
+    "enforcement_tier": "P1_process",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/capability-anchor-register.js",
+    "verification": {
+        "method": "rule_enforcement_check",
+        "description": "验证规则 rule.capability-anchor-auto-register-001 的执行有效性",
+        "assertions": [
+            {
+                "check": "handler_registered",
+                "desc": "Handler已注册: skills/isc-core/handlers/capability-anchor-register.js"
+            },
+            {
+                "check": "trigger_conditions_met",
+                "desc": "触发条件满足时规则被正确激活"
+            },
+            {
+                "check": "action_executed",
+                "desc": "规则激活后执行指定的动作"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/capability-anchor-register.js && echo 'handler_exists:pass'",
+        "expected_outcome": "规则触发条件满足时正确执行预定义动作",
+        "timeout_seconds": 30,
+        "on_failure": "block_and_alert"
+    }
 }

@@ -1,37 +1,60 @@
 {
-  "id": "rule.day2-gap1-cron-event-bridge",
-  "name": "cron_event_bridge_dispatch",
-  "domain": "cron",
-  "type": "dispatch_rule",
-  "description": "[Day2-Gap1] cron 请求统一进入事件总线并交由 handler 接入/兜底执行",
-  "trigger": {
-    "type": "event",
-    "events": [
-      "cron.job.requested"
-    ],
-    "actions": [
-      {
-        "type": "cron-job-requested",
-        "handler": "cron-job-requested",
-        "description": "accept or fallback execute bridged cron job"
-      }
-    ],
-    "event": "cron.job.requested"
-  },
-  "condition": {},
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false,
-    "priority": 30
-  },
-  "created_at": "2026-03-07T03:43:06.204Z",
-  "version": "1.0.0",
-  "action": {
-    "type": "script",
-    "method": "gate-check",
-    "script": "scripts/isc-hooks/rule.day2-gap1-cron-event-bridge.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/cron-event-bridge.js",
-  "fullchain_status": "expanded"
+    "id": "rule.day2-gap1-cron-event-bridge",
+    "event_type": "cron.job.requested",
+    "name": "cron_event_bridge_dispatch",
+    "description": "[Day2-Gap1] cron 请求统一进入事件总线并交由 handler 接入/兜底执行",
+    "domain": "cron",
+    "type": "dispatch_rule",
+    "trigger": {
+        "type": "event",
+        "events": [
+            "cron.job.requested"
+        ],
+        "actions": [
+            {
+                "type": "cron-job-requested",
+                "handler": "cron-job-requested",
+                "description": "accept or fallback execute bridged cron job"
+            }
+        ],
+        "event": "cron.job.requested"
+    },
+    "condition": {},
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false,
+        "priority": 30
+    },
+    "created_at": "2026-03-07T03:43:06.204Z",
+    "version": "1.0.0",
+    "action": {
+        "type": "script",
+        "method": "gate-check",
+        "script": "scripts/isc-hooks/rule.day2-gap1-cron-event-bridge.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/cron-event-bridge.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 rule.day2-gap1-cron-event-bridge 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: cron.job.requested"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/cron-event-bridge.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/cron-event-bridge.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

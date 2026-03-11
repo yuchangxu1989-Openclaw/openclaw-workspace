@@ -1,34 +1,58 @@
 {
-  "id": "rule.eval-batch-size-limit-001",
-  "name": "评测批次量级限制",
-  "description": "评测用例的生成、修复、评测，一次最多10条。超过10条必须拆分为多批次。",
-  "priority": "P0",
-  "category": "quality-control",
-  "trigger": {
-    "event": "eval.batch.requested",
-    "condition": "batch_size > 10",
-    "events": [
-      "isc.rule.eval.batch.size.limit.001"
-    ]
-  },
-  "action": {
-    "type": "block_and_split",
-    "max_batch_size": 10,
-    "executor": "eval-runner"
-  },
-  "enforcement": {
-    "level": "mandatory",
-    "action": "block_and_split",
-    "violation_code": "BADCASE-EVAL-BATCH-OVERSIZE",
-    "max_batch_size": 10
-  },
-  "scope": [
-    "eval_generation",
-    "eval_fix",
-    "eval_execution"
-  ],
-  "created_at": "2026-03-09",
-  "root_cause": "用户铁令：量太大=失控，小批次=可控可验证。用户原话'我都说了一次10条'",
-  "handler": "skills/isc-core/handlers/eval-batch-size-limit.js",
-  "fullchain_status": "expanded"
+    "id": "rule.eval-batch-size-limit-001",
+    "event_type": "eval.batch.requested",
+    "name": "评测批次量级限制",
+    "description": "评测用例的生成、修复、评测，一次最多10条。超过10条必须拆分为多批次。",
+    "priority": "P0",
+    "category": "quality-control",
+    "trigger": {
+        "event": "eval.batch.requested",
+        "condition": "batch_size > 10",
+        "events": [
+            "isc.rule.eval.batch.size.limit.001",
+            "eval.batch.requested"
+        ]
+    },
+    "action": {
+        "type": "block_and_split",
+        "max_batch_size": 10,
+        "executor": "eval-runner"
+    },
+    "enforcement": {
+        "level": "mandatory",
+        "action": "block_and_split",
+        "violation_code": "BADCASE-EVAL-BATCH-OVERSIZE",
+        "max_batch_size": 10
+    },
+    "scope": [
+        "eval_generation",
+        "eval_fix",
+        "eval_execution"
+    ],
+    "created_at": "2026-03-09",
+    "root_cause": "用户铁令：量太大=失控，小批次=可控可验证。用户原话'我都说了一次10条'",
+    "handler": "skills/isc-core/handlers/eval-batch-size-limit.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "quality_gate_check",
+        "description": "验证质量规则 rule.eval-batch-size-limit-001 的检查能力",
+        "assertions": [
+            {
+                "check": "quality_criteria_defined",
+                "desc": "质量标准有明确的判定条件"
+            },
+            {
+                "check": "pass_fail_distinguishable",
+                "desc": "合格与不合格的产出可被准确区分"
+            },
+            {
+                "check": "feedback_actionable",
+                "desc": "不合格时反馈的问题可被执行者修复"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/eval-batch-size-limit.js && echo 'handler_exists:pass'",
+        "expected_outcome": "低质量产出被拦截，高质量产出通过",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

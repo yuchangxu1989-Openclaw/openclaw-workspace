@@ -1,106 +1,107 @@
 {
-  "id": "rule.auto-collect-eval-from-conversation-001",
-  "rule_name": "自动采集评测样本",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "每次会话中用户的复杂发言（IC3-IC5、>=40字、含教学/纠偏/多意图）自动收录为评测样本。必须用原话原样不缩写不改写，必须带完整上下文。",
-  "category": "aeo",
-  "trigger": {
-    "events": [
-      "session.message.received"
-    ],
-    "actions": [
-      "aeo.eval.triggered"
-    ],
-    "event": "session.message.received"
-  },
-  "conditions": {
-    "complexity": [
-      "IC3",
-      "IC4",
-      "IC5"
-    ],
-    "min_length": 40,
-    "content_types": [
-      "teaching",
-      "correction",
-      "multi_intent"
-    ],
-    "preservation": "verbatim_with_full_context"
-  },
-  "rationale": {
-    "source": "用户教学"
-  },
-  "enforcement_tier": "P1_check",
-  "created_at": "2026-03-06T00:28:00+08:00",
-  "action": {
-    "type": "check",
-    "handler": "eval-sample-auto-collect",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.auto-collect-eval-from-conversation-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "complete",
-  "handler": "skills/isc-core/handlers/auto-collect-eval-from-conversation.js",
-  "plan": {
-    "description": "自动收录评测样本的执行计划",
-    "steps": [
-      {
-        "step": 1,
-        "action": "classify_message",
-        "desc": "判断用户发言复杂度(IC3-IC5)和字数(>=40字)"
-      },
-      {
-        "step": 2,
-        "action": "check_dedup",
-        "desc": "去重检查，避免重复收录相同语义的样本"
-      },
-      {
-        "step": 3,
-        "action": "extract_context",
-        "desc": "提取完整上下文(前后各2轮对话)"
-      },
-      {
-        "step": 4,
-        "action": "preserve_original",
-        "desc": "原话原样保存，禁止缩写/改写"
-      },
-      {
-        "step": 5,
-        "action": "write_eval_sample",
-        "desc": "写入评测样本库，标注来源会话ID"
-      }
-    ],
-    "rollback": {
-      "strategy": "skip_on_failure",
-      "desc": "收录失败时跳过该样本，记录日志，不影响会话流程"
+    "id": "rule.auto-collect-eval-from-conversation-001",
+    "event_type": "session.message.received",
+    "description": "每次会话中用户的复杂发言（IC3-IC5、>=40字、含教学/纠偏/多意图）自动收录为评测样本。必须用原话原样不缩写不改写，必须带完整上下文。",
+    "rule_name": "自动采集评测样本",
+    "version": "1.0.0",
+    "severity": "high",
+    "category": "aeo",
+    "trigger": {
+        "events": [
+            "session.message.received"
+        ],
+        "actions": [
+            "aeo.eval.triggered"
+        ],
+        "event": "session.message.received"
+    },
+    "conditions": {
+        "complexity": [
+            "IC3",
+            "IC4",
+            "IC5"
+        ],
+        "min_length": 40,
+        "content_types": [
+            "teaching",
+            "correction",
+            "multi_intent"
+        ],
+        "preservation": "verbatim_with_full_context"
+    },
+    "rationale": {
+        "source": "用户教学"
+    },
+    "enforcement_tier": "P1_check",
+    "created_at": "2026-03-06T00:28:00+08:00",
+    "action": {
+        "type": "check",
+        "handler": "eval-sample-auto-collect",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.auto-collect-eval-from-conversation-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "complete",
+    "handler": "skills/isc-core/handlers/auto-collect-eval-from-conversation.js",
+    "plan": {
+        "description": "自动收录评测样本的执行计划",
+        "steps": [
+            {
+                "step": 1,
+                "action": "classify_message",
+                "desc": "判断用户发言复杂度(IC3-IC5)和字数(>=40字)"
+            },
+            {
+                "step": 2,
+                "action": "check_dedup",
+                "desc": "去重检查，避免重复收录相同语义的样本"
+            },
+            {
+                "step": 3,
+                "action": "extract_context",
+                "desc": "提取完整上下文(前后各2轮对话)"
+            },
+            {
+                "step": 4,
+                "action": "preserve_original",
+                "desc": "原话原样保存，禁止缩写/改写"
+            },
+            {
+                "step": 5,
+                "action": "write_eval_sample",
+                "desc": "写入评测样本库，标注来源会话ID"
+            }
+        ],
+        "rollback": {
+            "strategy": "skip_on_failure",
+            "desc": "收录失败时跳过该样本，记录日志，不影响会话流程"
+        }
+    },
+    "verification": {
+        "description": "验证评测样本收录质量",
+        "assertions": [
+            {
+                "check": "original_preserved",
+                "desc": "样本内容与原始发言完全一致，无缩写改写"
+            },
+            {
+                "check": "context_complete",
+                "desc": "上下文包含前后各2轮对话"
+            },
+            {
+                "check": "complexity_threshold",
+                "desc": "样本复杂度>=IC3且字数>=40"
+            }
+        ],
+        "metrics": [
+            {
+                "name": "daily_collection_count",
+                "desc": "每日收录样本数"
+            },
+            {
+                "name": "dedup_hit_rate",
+                "desc": "去重命中率"
+            }
+        ],
+        "timeout": 10
     }
-  },
-  "verification": {
-    "description": "验证评测样本收录质量",
-    "assertions": [
-      {
-        "check": "original_preserved",
-        "desc": "样本内容与原始发言完全一致，无缩写改写"
-      },
-      {
-        "check": "context_complete",
-        "desc": "上下文包含前后各2轮对话"
-      },
-      {
-        "check": "complexity_threshold",
-        "desc": "样本复杂度>=IC3且字数>=40"
-      }
-    ],
-    "metrics": [
-      {
-        "name": "daily_collection_count",
-        "desc": "每日收录样本数"
-      },
-      {
-        "name": "dedup_hit_rate",
-        "desc": "去重命中率"
-      }
-    ],
-    "timeout": 10
-  }
 }

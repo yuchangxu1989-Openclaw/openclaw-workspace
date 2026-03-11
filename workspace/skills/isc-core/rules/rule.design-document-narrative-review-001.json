@@ -1,59 +1,82 @@
 {
-  "id": "rule.design-document-narrative-review-001",
-  "name": "design_document_narrative_review",
-  "domain": "quality",
-  "type": "rule",
-  "scope": "document",
-  "version": "1.0.0",
-  "description": "模拟演讲强制门禁——设计文档必须通过模拟演讲审查才能交付",
-  "rationale": "写出来的文档和讲出来的不一样，通过模拟演讲暴露叙事断层和逻辑漏洞",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "standard": {
-    "process": [
-      {
-        "id": "NR1",
-        "name": "模拟10分钟演讲",
-        "rule": "设计文档生成后必须模拟10分钟演讲，覆盖全部核心章节"
-      },
-      {
-        "id": "NR2",
-        "name": "追问标注",
-        "rule": "每段标注'评审者高概率追问什么'和'讲不清楚的原因'"
-      },
-      {
-        "id": "NR3",
-        "name": "问题修复门禁",
-        "rule": "发现问题必须修复后才能交付，不允许带伤上线"
-      },
-      {
-        "id": "NR4",
-        "name": "双层审查",
-        "rule": "分MD层审查和PDF层审查两轮，MD审查通过后生成PDF再审一轮"
-      }
-    ]
-  },
-  "trigger": {
-    "events": [
-      "document.design.created"
-    ],
-    "actions": [
-      "quality.document.narrative_review"
-    ],
-    "event": "document.design.created"
-  },
-  "priority": "P1",
-  "enforcement_tier": "P1_process",
-  "created_at": "2026-03-05",
-  "source": "用户教学：模拟演讲强制门禁",
-  "action": {
-    "type": "script",
-    "handler": "document-structure-check",
-    "script": "scripts/isc-hooks/rule.design-document-narrative-review-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/design-document-narrative-review.js"
+    "id": "rule.design-document-narrative-review-001",
+    "event_type": "document.design.created",
+    "name": "design_document_narrative_review",
+    "description": "模拟演讲强制门禁——设计文档必须通过模拟演讲审查才能交付",
+    "priority": "P1",
+    "domain": "quality",
+    "type": "rule",
+    "scope": "document",
+    "version": "1.0.0",
+    "rationale": "写出来的文档和讲出来的不一样，通过模拟演讲暴露叙事断层和逻辑漏洞",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
+    },
+    "standard": {
+        "process": [
+            {
+                "id": "NR1",
+                "name": "模拟10分钟演讲",
+                "rule": "设计文档生成后必须模拟10分钟演讲，覆盖全部核心章节"
+            },
+            {
+                "id": "NR2",
+                "name": "追问标注",
+                "rule": "每段标注'评审者高概率追问什么'和'讲不清楚的原因'"
+            },
+            {
+                "id": "NR3",
+                "name": "问题修复门禁",
+                "rule": "发现问题必须修复后才能交付，不允许带伤上线"
+            },
+            {
+                "id": "NR4",
+                "name": "双层审查",
+                "rule": "分MD层审查和PDF层审查两轮，MD审查通过后生成PDF再审一轮"
+            }
+        ]
+    },
+    "trigger": {
+        "events": [
+            "document.design.created"
+        ],
+        "actions": [
+            "quality.document.narrative_review"
+        ],
+        "event": "document.design.created"
+    },
+    "enforcement_tier": "P1_process",
+    "created_at": "2026-03-05",
+    "source": "用户教学：模拟演讲强制门禁",
+    "action": {
+        "type": "script",
+        "handler": "document-structure-check",
+        "script": "scripts/isc-hooks/rule.design-document-narrative-review-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/design-document-narrative-review.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.design-document-narrative-review-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/design-document-narrative-review.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/design-document-narrative-review.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

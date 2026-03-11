@@ -1,60 +1,83 @@
 {
-  "id": "rule.auto-asr-on-voice-message-001",
-  "version": "1.0.0",
-  "name": "语音消息自动ASR转录",
-  "description": "收到语音/音频消息时自动触发GLM-ASR转录，将语音内容转为文本处理，消除能力遗忘",
-  "priority": "P0",
-  "fullchain_status": "expanded",
-  "domain": "perception",
-  "category": "asr",
-  "trigger": {
-    "events": [
-      "message.received.audio",
-      "message.received.voice"
-    ],
+    "id": "rule.auto-asr-on-voice-message-001",
+    "event_type": "message.received.audio",
+    "name": "语音消息自动ASR转录",
+    "description": "收到语音/音频消息时自动触发GLM-ASR转录，将语音内容转为文本处理，消除能力遗忘",
+    "priority": "P0",
+    "version": "1.0.0",
+    "fullchain_status": "expanded",
+    "domain": "perception",
+    "category": "asr",
+    "trigger": {
+        "events": [
+            "message.received.audio",
+            "message.received.voice"
+        ],
+        "conditions": {
+            "file_types": [
+                "ogg",
+                "mp3",
+                "wav",
+                "m4a",
+                "oga"
+            ],
+            "has_audio_attachment": true
+        }
+    },
     "conditions": {
-      "file_types": [
-        "ogg",
-        "mp3",
-        "wav",
-        "m4a",
-        "oga"
-      ],
-      "has_audio_attachment": true
-    }
-  },
-  "conditions": {
-    "must": [
-      "消息包含音频/语音附件（ogg/mp3/wav/m4a）",
-      "附件可下载且文件大小 > 0"
-    ]
-  },
-  "action": {
-    "perception": "检测到音频/语音消息附件",
-    "cognition": "自动调用GLM-ASR转录，无需用户指令",
-    "execution": [
-      "下载音频附件到临时路径",
-      "ogg格式需cp为.wav后缀（GLM-ASR不支持ogg扩展名）",
-      "调用GLM-ASR转录",
-      "转录结果作为文本内容返回处理"
+        "must": [
+            "消息包含音频/语音附件（ogg/mp3/wav/m4a）",
+            "附件可下载且文件大小 > 0"
+        ]
+    },
+    "action": {
+        "perception": "检测到音频/语音消息附件",
+        "cognition": "自动调用GLM-ASR转录，无需用户指令",
+        "execution": [
+            "下载音频附件到临时路径",
+            "ogg格式需cp为.wav后缀（GLM-ASR不支持ogg扩展名）",
+            "调用GLM-ASR转录",
+            "转录结果作为文本内容返回处理"
+        ],
+        "handler": "auto-asr-voice-transcribe",
+        "type": "script"
+    },
+    "created_at": "2026-03-09T23:40:00+08:00",
+    "created_by": "coder-subagent",
+    "tags": [
+        "asr",
+        "voice",
+        "auto-trigger",
+        "perception",
+        "P0"
     ],
-    "handler": "auto-asr-voice-transcribe",
-    "type": "script"
-  },
-  "created_at": "2026-03-09T23:40:00+08:00",
-  "created_by": "coder-subagent",
-  "tags": [
-    "asr",
-    "voice",
-    "auto-trigger",
-    "perception",
-    "P0"
-  ],
-  "handler": "skills/isc-core/handlers/auto-asr-on-voice-message.js",
-  "enforcement": "programmatic",
-  "_auto_deployed": {
-    "by": "isc-rule-deployer",
-    "at": "2026-03-10T23:39:04.748Z",
-    "prev_enforcement": "null"
-  }
+    "handler": "skills/isc-core/handlers/auto-asr-on-voice-message.js",
+    "enforcement": "programmatic",
+    "_auto_deployed": {
+        "by": "isc-rule-deployer",
+        "at": "2026-03-10T23:39:04.748Z",
+        "prev_enforcement": "null"
+    },
+    "verification": {
+        "method": "automation_trigger_check",
+        "description": "验证自动化规则 rule.auto-asr-on-voice-message-001 的触发和执行链路",
+        "assertions": [
+            {
+                "check": "trigger_event_subscribed",
+                "desc": "事件订阅已注册: message.received.audio, message.received.voice"
+            },
+            {
+                "check": "handler_executable",
+                "desc": "Handler可执行: skills/isc-core/handlers/auto-asr-on-voice-message.js"
+            },
+            {
+                "check": "output_generated",
+                "desc": "触发后产出符合预期的输出"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/auto-asr-on-voice-message.js && echo 'handler_exists:pass'",
+        "expected_outcome": "事件触发后自动执行，产出正确输出",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

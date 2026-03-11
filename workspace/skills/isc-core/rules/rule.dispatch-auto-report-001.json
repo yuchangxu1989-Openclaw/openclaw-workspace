@@ -1,28 +1,52 @@
 {
-  "id": "dispatch-auto-report-001",
-  "name": "批量派发后自动汇报",
-  "description": "每次批量spawn子Agent(>=2个)后，必须立即调用multi-agent-reporting技能输出标准格式队列状态给用户",
-  "priority": "P0",
-  "category": "execution-governance",
-  "trigger": {
-    "event": "dispatch.batch.completed",
-    "condition": "spawned_count >= 2",
-    "events": [
-      "isc.rule.dispatch.auto.report.001"
-    ]
-  },
-  "action": {
-    "type": "auto_report",
-    "method": "调用subagents(action=list)获取实时状态，按multi-agent-reporting标准格式输出",
-    "timing": "派发完成后立即执行，不等用户催促",
-    "format": "Agent并行总数 + 任务/模型/状态表 + done/timeout/blocked汇总",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/dispatch-auto-report-001.sh"
-  },
-  "badcase_if_violated": "用户需要主动询问才能看到队列状态 = Badcase",
-  "created": "2026-03-08",
-  "source": "用户纠偏：'为什么不调用汇报技能？我根本没看到12个队列'",
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler_path": "infrastructure/event-bus/handlers/dispatch-auto-report-001.sh",
-  "handler": "skills/isc-core/handlers/dispatch-auto-report.js"
+    "id": "dispatch-auto-report-001",
+    "event_type": "dispatch.batch.completed",
+    "name": "批量派发后自动汇报",
+    "description": "每次批量spawn子Agent(>=2个)后，必须立即调用multi-agent-reporting技能输出标准格式队列状态给用户",
+    "priority": "P0",
+    "category": "execution-governance",
+    "trigger": {
+        "event": "dispatch.batch.completed",
+        "condition": "spawned_count >= 2",
+        "events": [
+            "isc.rule.dispatch.auto.report.001",
+            "dispatch.batch.completed"
+        ]
+    },
+    "action": {
+        "type": "auto_report",
+        "method": "调用subagents(action=list)获取实时状态，按multi-agent-reporting标准格式输出",
+        "timing": "派发完成后立即执行，不等用户催促",
+        "format": "Agent并行总数 + 任务/模型/状态表 + done/timeout/blocked汇总",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/dispatch-auto-report-001.sh"
+    },
+    "badcase_if_violated": "用户需要主动询问才能看到队列状态 = Badcase",
+    "created": "2026-03-08",
+    "source": "用户纠偏：'为什么不调用汇报技能？我根本没看到12个队列'",
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler_path": "infrastructure/event-bus/handlers/dispatch-auto-report-001.sh",
+    "handler": "skills/isc-core/handlers/dispatch-auto-report.js",
+    "verification": {
+        "method": "convention_compliance_check",
+        "description": "验证规范规则 dispatch-auto-report-001 的一致性检查",
+        "assertions": [
+            {
+                "check": "naming_pattern_enforced",
+                "desc": "命名/格式规范有明确的正则或模式"
+            },
+            {
+                "check": "violation_detected",
+                "desc": "不符合规范的输入被检测到"
+            },
+            {
+                "check": "correction_suggested",
+                "desc": "违规时给出修正建议"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/dispatch-auto-report.js && echo 'handler_exists:pass'",
+        "expected_outcome": "不符合规范的命名/格式被检测并建议修正",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

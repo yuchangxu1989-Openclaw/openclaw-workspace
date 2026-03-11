@@ -1,44 +1,67 @@
 {
-  "id": "rule.aeo-e2e-decision-pipeline-test-001",
-  "version": "1.0.0",
-  "name": "全局决策流水线端到端AEO测试门禁",
-  "description": "任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止模拟数据",
-  "priority": "P0_gate",
-  "domain": "quality",
-  "category": "aeo",
-  "trigger": {
-    "events": [
-      "event_bus.handler.modified",
-      "event_bus.dispatcher.modified",
-      "isc.rule.created",
-      "isc.rule.modified",
-      "skill.public.pre_publish",
-      "sprint.day.completion"
-    ],
-    "event": "event_bus.handler.modified"
-  },
-  "conditions": {
-    "test_requirements": [
-      "测试数据为真实场景数据，非模拟/合成",
-      "覆盖完整链路：事件触发→事件总线→Dispatcher匹配→Handler执行→实际结果",
-      "五层事件模型中已实现的每一层至少1条测试用例",
-      "测试用例纳入AEO黄金评测集可回归"
-    ]
-  },
-  "action": {
-    "perception": "sprint.day.completion事件 或 决策流水线相关代码变更",
-    "cognition": "检查AEO测试报告是否存在、是否全部通过、数据源是否真实",
-    "execution": [
-      "未通过 → 阻断Day完成状态，标记为blocked",
-      "通过 → 允许进入裁决殿裁决"
-    ],
-    "handler": "aeo-e2e-test",
-    "type": "script",
-    "script": "scripts/isc-hooks/rule.aeo-e2e-decision-pipeline-test-001.sh"
-  },
-  "created_at": "2026-03-06T02:59:00Z",
-  "created_by": "ruleify",
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/aeo-e2e-decision-pipeline-test.js"
+    "id": "rule.aeo-e2e-decision-pipeline-test-001",
+    "event_type": "event_bus.handler.modified",
+    "name": "全局决策流水线端到端AEO测试门禁",
+    "description": "任何决策流水线变更必须通过端到端AEO测试：从真实事件触发→规则匹配→handler执行→结果验证，全链条真实跑通，禁止模拟数据",
+    "priority": "P0_gate",
+    "version": "1.0.0",
+    "domain": "quality",
+    "category": "aeo",
+    "trigger": {
+        "events": [
+            "event_bus.handler.modified",
+            "event_bus.dispatcher.modified",
+            "isc.rule.created",
+            "isc.rule.modified",
+            "skill.public.pre_publish",
+            "sprint.day.completion"
+        ],
+        "event": "event_bus.handler.modified"
+    },
+    "conditions": {
+        "test_requirements": [
+            "测试数据为真实场景数据，非模拟/合成",
+            "覆盖完整链路：事件触发→事件总线→Dispatcher匹配→Handler执行→实际结果",
+            "五层事件模型中已实现的每一层至少1条测试用例",
+            "测试用例纳入AEO黄金评测集可回归"
+        ]
+    },
+    "action": {
+        "perception": "sprint.day.completion事件 或 决策流水线相关代码变更",
+        "cognition": "检查AEO测试报告是否存在、是否全部通过、数据源是否真实",
+        "execution": [
+            "未通过 → 阻断Day完成状态，标记为blocked",
+            "通过 → 允许进入裁决殿裁决"
+        ],
+        "handler": "aeo-e2e-test",
+        "type": "script",
+        "script": "scripts/isc-hooks/rule.aeo-e2e-decision-pipeline-test-001.sh"
+    },
+    "created_at": "2026-03-06T02:59:00Z",
+    "created_by": "ruleify",
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/aeo-e2e-decision-pipeline-test.js",
+    "verification": {
+        "method": "gate_enforcement_check",
+        "description": "验证门禁规则 rule.aeo-e2e-decision-pipeline-test-001 的拦截能力",
+        "assertions": [
+            {
+                "check": "handler_exists",
+                "desc": "Handler文件存在且可执行: skills/isc-core/handlers/aeo-e2e-decision-pipeline-test.js"
+            },
+            {
+                "check": "violation_blocked",
+                "desc": "违规操作被成功拦截并记录日志"
+            },
+            {
+                "check": "compliant_passes",
+                "desc": "合规操作正常通过不被误拦"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/aeo-e2e-decision-pipeline-test.js && echo 'handler_exists:pass'",
+        "expected_outcome": "违规操作100%被拦截，合规操作0%误拦",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

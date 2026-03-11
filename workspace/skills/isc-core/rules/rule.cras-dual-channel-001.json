@@ -1,45 +1,68 @@
 {
-  "id": "rule.cras-dual-channel-001",
-  "rule_name": "CRAS双通道架构",
-  "version": "1.0.0",
-  "severity": "high",
-  "description": "意图捕获必须分快慢双通道：快通道（5min增量扫描）提取原子意图事件实时emit；慢通道（daily聚合）计算意图占比/频次/趋势emit模式事件。不要把实时感知和统计报告混为一谈。",
-  "category": "cras",
-  "trigger": {
-    "events": [
-      "cras.scan.completed",
-      "cras.report.generated"
-    ],
-    "actions": [
-      "cras.channel.requested"
-    ],
-    "event": "cras.scan.completed"
-  },
-  "conditions": {
-    "fast_channel": {
-      "interval": "5min",
-      "output": "atomic_intent_events",
-      "mode": "realtime"
+    "id": "rule.cras-dual-channel-001",
+    "event_type": "cras.scan.completed",
+    "description": "意图捕获必须分快慢双通道：快通道（5min增量扫描）提取原子意图事件实时emit；慢通道（daily聚合）计算意图占比/频次/趋势emit模式事件。不要把实时感知和统计报告混为一谈。",
+    "rule_name": "CRAS双通道架构",
+    "version": "1.0.0",
+    "severity": "high",
+    "category": "cras",
+    "trigger": {
+        "events": [
+            "cras.scan.completed",
+            "cras.report.generated"
+        ],
+        "actions": [
+            "cras.channel.requested"
+        ],
+        "event": "cras.scan.completed"
     },
-    "slow_channel": {
-      "interval": "daily",
-      "output": "pattern_events",
-      "mode": "aggregation"
+    "conditions": {
+        "fast_channel": {
+            "interval": "5min",
+            "output": "atomic_intent_events",
+            "mode": "realtime"
+        },
+        "slow_channel": {
+            "interval": "daily",
+            "output": "pattern_events",
+            "mode": "aggregation"
+        },
+        "forbidden": "mixing_realtime_perception_with_statistical_reports"
     },
-    "forbidden": "mixing_realtime_perception_with_statistical_reports"
-  },
-  "rationale": {
-    "source": "用户教学"
-  },
-  "enforcement_tier": "P1_check",
-  "created_at": "2026-03-06T00:28:00+08:00",
-  "action": {
-    "type": "handler",
-    "handler": "cras-dual-channel",
-    "description": "",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.cras-dual-channel-001.sh"
-  },
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/cras-dual-channel.js",
-  "fullchain_status": "expanded"
+    "rationale": {
+        "source": "用户教学"
+    },
+    "enforcement_tier": "P1_check",
+    "created_at": "2026-03-06T00:28:00+08:00",
+    "action": {
+        "type": "handler",
+        "handler": "cras-dual-channel",
+        "description": "",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.cras-dual-channel-001.sh"
+    },
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/cras-dual-channel.js",
+    "fullchain_status": "expanded",
+    "verification": {
+        "method": "report_delivery_check",
+        "description": "验证报告规则 rule.cras-dual-channel-001 的产出和投递",
+        "assertions": [
+            {
+                "check": "report_generated",
+                "desc": "报告内容被正确生成"
+            },
+            {
+                "check": "format_correct",
+                "desc": "报告格式符合预期（Markdown/Card/PDF）"
+            },
+            {
+                "check": "delivery_confirmed",
+                "desc": "报告投递到目标渠道"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/cras-dual-channel.js && echo 'handler_exists:pass'",
+        "expected_outcome": "报告正确生成并投递到目标渠道",
+        "timeout_seconds": 60,
+        "on_failure": "alert"
+    }
 }

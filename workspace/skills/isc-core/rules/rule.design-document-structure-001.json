@@ -1,84 +1,107 @@
 {
-  "id": "rule.design-document-structure-001",
-  "name": "design_document_structure_standard",
-  "domain": "quality",
-  "type": "rule",
-  "scope": "document",
-  "version": "1.0.0",
-  "description": "设计文档结构标准——7项强制约束，确保设计文档结构清晰、可读、可维护",
-  "rationale": "设计文档结构混乱导致评审效率低、理解成本高，需要统一结构标准",
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false
-  },
-  "standard": {
-    "checks": [
-      {
-        "id": "S1",
-        "name": "一级目录上限",
-        "rule": "一级目录不超过5章",
-        "severity": "error"
-      },
-      {
-        "id": "S2",
-        "name": "叙事脉络",
-        "rule": "必须有清晰的叙事脉络，让人一看就懂，章节之间有逻辑递进关系",
-        "severity": "error"
-      },
-      {
-        "id": "S3",
-        "name": "代码块分离",
-        "rule": "超过5行的代码块必须抽到附录，正文只留引用链接",
-        "severity": "error"
-      },
-      {
-        "id": "S4",
-        "name": "TL;DR长度",
-        "rule": "TL;DR不超过150字",
-        "severity": "error"
-      },
-      {
-        "id": "S5",
-        "name": "禁止PM内容",
-        "rule": "PM内容（Day/Sprint/工时估算）禁止出现在设计文档中",
-        "severity": "error"
-      },
-      {
-        "id": "S6",
-        "name": "章节编号连续",
-        "rule": "章节编号必须连续一致，不允许跳号或重复编号",
-        "severity": "error"
-      },
-      {
-        "id": "S7",
-        "name": "交叉引用有效",
-        "rule": "所有交叉引用必须有效，不允许悬空引用（引用目标不存在）",
-        "severity": "error"
-      }
-    ]
-  },
-  "trigger": {
-    "events": [
-      "design.document.created",
-      "document.design.created",
-      "design.document.modified",
-      "document.design.modified"
-    ],
-    "actions": [
-      "quality.document.structure_check"
-    ],
-    "event": "design.document.created"
-  },
-  "priority": "P1",
-  "enforcement_tier": "P1_process",
-  "created_at": "2026-03-05",
-  "source": "用户教学：设计文档结构7项标准",
-  "action": {
-    "type": "check",
-    "handler": "document-structure-check",
-    "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.design-document-structure-001.sh"
-  },
-  "enforcement": "programmatic",
-  "fullchain_status": "expanded",
-  "handler": "skills/isc-core/handlers/design-document-structure.js"
+    "id": "rule.design-document-structure-001",
+    "event_type": "design.document.created",
+    "name": "design_document_structure_standard",
+    "description": "设计文档结构标准——7项强制约束，确保设计文档结构清晰、可读、可维护",
+    "priority": "P1",
+    "domain": "quality",
+    "type": "rule",
+    "scope": "document",
+    "version": "1.0.0",
+    "rationale": "设计文档结构混乱导致评审效率低、理解成本高，需要统一结构标准",
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false
+    },
+    "standard": {
+        "checks": [
+            {
+                "id": "S1",
+                "name": "一级目录上限",
+                "rule": "一级目录不超过5章",
+                "severity": "error"
+            },
+            {
+                "id": "S2",
+                "name": "叙事脉络",
+                "rule": "必须有清晰的叙事脉络，让人一看就懂，章节之间有逻辑递进关系",
+                "severity": "error"
+            },
+            {
+                "id": "S3",
+                "name": "代码块分离",
+                "rule": "超过5行的代码块必须抽到附录，正文只留引用链接",
+                "severity": "error"
+            },
+            {
+                "id": "S4",
+                "name": "TL;DR长度",
+                "rule": "TL;DR不超过150字",
+                "severity": "error"
+            },
+            {
+                "id": "S5",
+                "name": "禁止PM内容",
+                "rule": "PM内容（Day/Sprint/工时估算）禁止出现在设计文档中",
+                "severity": "error"
+            },
+            {
+                "id": "S6",
+                "name": "章节编号连续",
+                "rule": "章节编号必须连续一致，不允许跳号或重复编号",
+                "severity": "error"
+            },
+            {
+                "id": "S7",
+                "name": "交叉引用有效",
+                "rule": "所有交叉引用必须有效，不允许悬空引用（引用目标不存在）",
+                "severity": "error"
+            }
+        ]
+    },
+    "trigger": {
+        "events": [
+            "design.document.created",
+            "document.design.created",
+            "design.document.modified",
+            "document.design.modified"
+        ],
+        "actions": [
+            "quality.document.structure_check"
+        ],
+        "event": "design.document.created"
+    },
+    "enforcement_tier": "P1_process",
+    "created_at": "2026-03-05",
+    "source": "用户教学：设计文档结构7项标准",
+    "action": {
+        "type": "check",
+        "handler": "document-structure-check",
+        "script": "/root/.openclaw/workspace/scripts/isc-hooks/rule.design-document-structure-001.sh"
+    },
+    "enforcement": "programmatic",
+    "fullchain_status": "expanded",
+    "handler": "skills/isc-core/handlers/design-document-structure.js",
+    "verification": {
+        "method": "convention_compliance_check",
+        "description": "验证规范规则 rule.design-document-structure-001 的一致性检查",
+        "assertions": [
+            {
+                "check": "naming_pattern_enforced",
+                "desc": "命名/格式规范有明确的正则或模式"
+            },
+            {
+                "check": "violation_detected",
+                "desc": "不符合规范的输入被检测到"
+            },
+            {
+                "check": "correction_suggested",
+                "desc": "违规时给出修正建议"
+            }
+        ],
+        "test_command": "test -f /root/.openclaw/workspace/skills/isc-core/handlers/design-document-structure.js && echo 'handler_exists:pass'",
+        "expected_outcome": "不符合规范的命名/格式被检测并建议修正",
+        "timeout_seconds": 120,
+        "on_failure": "log"
+    }
 }

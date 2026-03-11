@@ -1,126 +1,127 @@
 {
-  "id": "rule.auto-github-sync-trigger-001",
-  "name": "auto_github_sync",
-  "domain": "sync",
-  "type": "rule",
-  "scope": "system",
-  "description": "自动GitHub同步触发规则 - 核心系统代码变更时自动提交到GitHub",
-  "condition": "core_system_changed",
-  "trigger": {
-    "events": [
-      "system.general.modified",
-      "system.commit.created",
-      "system.file.modified"
-    ],
-    "actions": [
-      {
-        "type": "auto_trigger",
-        "description": "工作区文件变更时自动触发GitHub同步，保持远程仓库与本地一致"
-      }
-    ],
-    "event": "system.general.modified"
-  },
-  "scope_definition": {
-    "include": [
-      "skills/isc-core/**",
-      "skills/lto-core/**",
-      "skills/cras/**",
-      "skills/seef/**",
-      "AGENTS.md",
-      "HEARTBEAT.md",
-      "CAPABILITY-ANCHOR.md"
-    ],
-    "exclude": [
-      "logs/**",
-      "*.log",
-      ".tmp/**",
-      "skills/*/logs/**"
-    ]
-  },
-  "action": {
-    "type": "sync_to_github",
-    "handler": "github-sync-trigger",
-    "script": "scripts/isc-hooks/rule.auto-github-sync-trigger-001.sh"
-  },
-  "governance": {
-    "auto_execute": true,
-    "councilRequired": false,
-    "commit_message_template": "[AUTO] {timestamp} - {change_summary}"
-  },
-  "diff_with_evomap": {
-    "github_scope": "核心系统代码 + 配置文档",
-    "evomap_scope": "技能Gene/Capsule资产",
-    "github_trigger": "代码文件变更",
-    "evomap_trigger": "技能创建/更新",
-    "github_frequency": "实时（文件变更即触发）",
-    "evomap_frequency": "技能生命周期事件"
-  },
-  "created_at": "2026-02-25T10:02:00+08:00",
-  "version": "1.0.0",
-  "enforcement_tier": "P1_process",
-  "enforcement": "programmatic",
-  "handler": "skills/isc-core/handlers/github-sync-trigger.js",
-  "fullchain_status": "complete",
-  "plan": {
-    "description": "GitHub自动同步的执行计划",
-    "steps": [
-      {
-        "step": 1,
-        "action": "detect_change",
-        "desc": "监听工作区文件变更/commit创建事件"
-      },
-      {
-        "step": 2,
-        "action": "filter_scope",
-        "desc": "过滤变更范围，排除.gitignore中的文件"
-      },
-      {
-        "step": 3,
-        "action": "stage_changes",
-        "desc": "git add变更文件"
-      },
-      {
-        "step": 4,
-        "action": "commit_if_needed",
-        "desc": "如有未commit变更则自动commit"
-      },
-      {
-        "step": 5,
-        "action": "push_to_remote",
-        "desc": "git push到GitHub远程仓库"
-      }
-    ],
-    "rollback": {
-      "strategy": "retry_then_alert",
-      "desc": "push失败时重试3次，仍失败则记录日志并发送告警"
+    "id": "rule.auto-github-sync-trigger-001",
+    "event_type": "system.general.modified",
+    "name": "auto_github_sync",
+    "description": "自动GitHub同步触发规则 - 核心系统代码变更时自动提交到GitHub",
+    "domain": "sync",
+    "type": "rule",
+    "scope": "system",
+    "condition": "core_system_changed",
+    "trigger": {
+        "events": [
+            "system.general.modified",
+            "system.commit.created",
+            "system.file.modified"
+        ],
+        "actions": [
+            {
+                "type": "auto_trigger",
+                "description": "工作区文件变更时自动触发GitHub同步，保持远程仓库与本地一致"
+            }
+        ],
+        "event": "system.general.modified"
+    },
+    "scope_definition": {
+        "include": [
+            "skills/isc-core/**",
+            "skills/lto-core/**",
+            "skills/cras/**",
+            "skills/seef/**",
+            "AGENTS.md",
+            "HEARTBEAT.md",
+            "CAPABILITY-ANCHOR.md"
+        ],
+        "exclude": [
+            "logs/**",
+            "*.log",
+            ".tmp/**",
+            "skills/*/logs/**"
+        ]
+    },
+    "action": {
+        "type": "sync_to_github",
+        "handler": "github-sync-trigger",
+        "script": "scripts/isc-hooks/rule.auto-github-sync-trigger-001.sh"
+    },
+    "governance": {
+        "auto_execute": true,
+        "councilRequired": false,
+        "commit_message_template": "[AUTO] {timestamp} - {change_summary}"
+    },
+    "diff_with_evomap": {
+        "github_scope": "核心系统代码 + 配置文档",
+        "evomap_scope": "技能Gene/Capsule资产",
+        "github_trigger": "代码文件变更",
+        "evomap_trigger": "技能创建/更新",
+        "github_frequency": "实时（文件变更即触发）",
+        "evomap_frequency": "技能生命周期事件"
+    },
+    "created_at": "2026-02-25T10:02:00+08:00",
+    "version": "1.0.0",
+    "enforcement_tier": "P1_process",
+    "enforcement": "programmatic",
+    "handler": "skills/isc-core/handlers/github-sync-trigger.js",
+    "fullchain_status": "complete",
+    "plan": {
+        "description": "GitHub自动同步的执行计划",
+        "steps": [
+            {
+                "step": 1,
+                "action": "detect_change",
+                "desc": "监听工作区文件变更/commit创建事件"
+            },
+            {
+                "step": 2,
+                "action": "filter_scope",
+                "desc": "过滤变更范围，排除.gitignore中的文件"
+            },
+            {
+                "step": 3,
+                "action": "stage_changes",
+                "desc": "git add变更文件"
+            },
+            {
+                "step": 4,
+                "action": "commit_if_needed",
+                "desc": "如有未commit变更则自动commit"
+            },
+            {
+                "step": 5,
+                "action": "push_to_remote",
+                "desc": "git push到GitHub远程仓库"
+            }
+        ],
+        "rollback": {
+            "strategy": "retry_then_alert",
+            "desc": "push失败时重试3次，仍失败则记录日志并发送告警"
+        }
+    },
+    "verification": {
+        "description": "验证GitHub同步完整性",
+        "assertions": [
+            {
+                "check": "remote_up_to_date",
+                "desc": "本地HEAD与远程HEAD一致"
+            },
+            {
+                "check": "no_uncommitted",
+                "desc": "工作区无未提交的核心文件变更"
+            },
+            {
+                "check": "push_success",
+                "desc": "git push返回码为0"
+            }
+        ],
+        "metrics": [
+            {
+                "name": "sync_delay_s",
+                "desc": "变更到push完成的延迟(秒)"
+            },
+            {
+                "name": "push_failure_count",
+                "desc": "push失败次数/天"
+            }
+        ],
+        "timeout": 30
     }
-  },
-  "verification": {
-    "description": "验证GitHub同步完整性",
-    "assertions": [
-      {
-        "check": "remote_up_to_date",
-        "desc": "本地HEAD与远程HEAD一致"
-      },
-      {
-        "check": "no_uncommitted",
-        "desc": "工作区无未提交的核心文件变更"
-      },
-      {
-        "check": "push_success",
-        "desc": "git push返回码为0"
-      }
-    ],
-    "metrics": [
-      {
-        "name": "sync_delay_s",
-        "desc": "变更到push完成的延迟(秒)"
-      },
-      {
-        "name": "push_failure_count",
-        "desc": "push失败次数/天"
-      }
-    ],
-    "timeout": 30
-  }
 }
