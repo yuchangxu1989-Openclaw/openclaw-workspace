@@ -8,7 +8,7 @@
  * 3. 三重完成检测：aborted标记 + board.json状态 + transcript stopReason
  * 4. today统计基于 done registry 时间戳，不依赖 session updatedAt
  * 5. running判定：未完成 + 活跃度在2小时内（取 updatedAt 和 transcript mtime 的较大值）
- * 6. 模型名：session.model → openclaw.json agent配置 → 全局默认，去provider前缀
+ * 6. 模型名：session.model → openclaw.json agent配置 → 全局默认 → 硬编码agent映射 → 硬编码默认值，去provider前缀
  * 7. Agent列：从agent目录名提取
  * 8. 复活机制：transcript仍在写入的session从doneRegistry中移除（防止误标done）
  *
@@ -62,6 +62,13 @@ try {
     if (m) agentModels[name] = m.replace(/^[\w-]+\//, '');
   }
 } catch {}
+
+// ── 0c. Hardcoded agent→model fallback (when openclaw.json is unreadable/corrupt) ──
+const AGENT_MODEL_FALLBACK = {
+  'scout': 'claude-opus-4-6',
+  'cron-worker': 'glm-5',
+};
+const DEFAULT_MODEL_FALLBACK = 'claude-opus-4-6-thinking';
 
 const now = Date.now();
 const todayStr     = new Date(now + TZ_OFFSET).toISOString().slice(0, 10);
@@ -233,7 +240,7 @@ for (const [label, { val, sessDir, agent }] of Object.entries(allSessions)) {
     ? Math.floor(ageMin / 60) + 'h' + (ageMin % 60) + 'm'
     : ageMin + 'm';
   const rawModel = val.model || val.config?.model || '';
-  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || '-');
+  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || AGENT_MODEL_FALLBACK[agent] || DEFAULT_MODEL_FALLBACK);
   rows.push({ task: label, agent, model, status: '🟢运行中', duration, _age: age });
 }
 // Sort: newest activity first
@@ -274,7 +281,7 @@ for (const [label, completedAt] of Object.entries(doneRegistry)) {
   if (!sess) continue;
   const { val, agent } = sess;
   const rawModel = val.model || val.config?.model || '';
-  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || '-');
+  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || AGENT_MODEL_FALLBACK[agent] || DEFAULT_MODEL_FALLBACK);
   const boardStatus = boardStatusMap[label];
   let status;
   if (val.abortedLastRun || boardStatus === 'timeout') status = '⏰超时';
