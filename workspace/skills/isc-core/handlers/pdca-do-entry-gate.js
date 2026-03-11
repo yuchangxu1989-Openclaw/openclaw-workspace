@@ -1,36 +1,56 @@
 'use strict';
 /**
- * ISC Handler: ISC-PDCA-DO-ENTRY-GATE-001
+ * ISC Handler: pdca-do-entry-gate
+ * Rule: ISC-PDCA-DO-ENTRY-GATE-001
  * 进入Do阶段前确认Plan准出已通过
- * Severity: high | Trigger: {"events":["pdca.phase.do.entry"]}
  */
+const path = require('path');
+const { writeReport, emitEvent, gateResult } = require('../lib/handler-utils');
 
-function check(context) {
-  const result = { ruleId: 'ISC-PDCA-DO-ENTRY-GATE-001', passed: true, findings: [] };
-  
-  try {
-    // Validate context exists
-    if (!context || typeof context !== 'object') {
-      result.passed = false;
-      result.findings.push({ level: 'error', message: 'Invalid context provided' });
-      return result;
-    }
+module.exports = async function (event, rule, context) {
+  const logger = context?.logger || console;
+  const root = context?.workspace || context?.workspaceRoot || process.cwd();
+  const bus = context?.bus;
+  const task = event?.payload?.task || event?.payload || {};
 
-    const event = context.event || {};
-    const payload = context.payload || event.payload || {};
-    
-    // Rule-specific check placeholder - returns pass by default
-    // Real enforcement logic should be added based on rule semantics
-    result.checked = true;
-    result.timestamp = new Date().toISOString();
-    result.severity = 'high';
-    
-  } catch (err) {
-    result.passed = false;
-    result.findings.push({ level: 'error', message: err.message });
+  logger.info?.(`[pdca-do-entry-gate] checking plan exit status for task=${task.id || 'unknown'}`);
+
+  const checks = [];
+
+  // Check 1: plan_exit_passed must be explicitly true
+  const planPassed = task.plan_exit_passed === true;
+  checks.push({
+    name: 'plan_exit_passed',
+    ok: planPassed,
+    message: planPassed
+      ? 'Plan exit gate was passed'
+      : `Plan exit gate not passed (value=${JSON.stringify(task.plan_exit_passed)})`,
+  });
+
+  // Check 2: plan phase timestamp exists (proves plan phase actually ran)
+  const hasPlanTimestamp = !!(task.plan_completed_at || task.plan_exit_at);
+  checks.push({
+    name: 'plan_phase_completed',
+    ok: hasPlanTimestamp,
+    message: hasPlanTimestamp
+      ? `Plan completed at ${task.plan_completed_at || task.plan_exit_at}`
+      : 'No plan completion timestamp — plan phase may have been skipped',
+  });
+
+  const result = gateResult('ISC-PDCA-DO-ENTRY-GATE-001', checks);
+
+  if (!result.ok) {
+    await emitEvent(bus, 'pdca.do.entry.blocked', {
+      ruleId: 'ISC-PDCA-DO-ENTRY-GATE-001',
+      taskId: task.id,
+      reason: 'Plan exit gate not passed',
+      timestamp: new Date().toISOString(),
+    });
   }
-  
-  return result;
-}
 
-module.exports = { check };
+  const reportPath = path.join(root, 'reports', 'isc', `pdca-do-entry-${task.id || Date.now()}.json`);
+  writeReport(reportPath, { rule: 'ISC-PDCA-DO-ENTRY-GATE-001', event: event?.type, result });
+
+  logger.info?.(`[pdca-do-entry-gate] result=${result.status} passed=${result.passed}/${result.total}`);
+  return result;
+};
