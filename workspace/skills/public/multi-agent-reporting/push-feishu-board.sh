@@ -17,6 +17,9 @@ if [ -f "$DEDUP_FILE" ]; then
   fi
 fi
 
+# === 同步活跃session到看板 ===
+bash "$(dirname "$0")/sync-live-sessions.sh" 15 2>/dev/null || true
+
 DATE_STR=$(TZ=Asia/Shanghai date +%Y-%m-%d)
 
 FEISHU_APP_ID="cli_a92f2a545838dcc8"

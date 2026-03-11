@@ -552,7 +552,7 @@
       "name": "能力同步与PDCA-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773181143986,
+      "updatedAtMs": 1773187680055,
       "schedule": {
         "expr": "5 */4 * * *",
         "kind": "cron",
@@ -570,14 +570,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773187500000,
-        "lastRunAtMs": 1773180963955,
+        "nextRunAtMs": 1773201900000,
+        "lastRunAtMs": 1773187500007,
         "lastRunStatus": "error",
         "lastStatus": "error",
-        "lastDurationMs": 180031,
+        "lastDurationMs": 180048,
         "lastDeliveryStatus": "unknown",
-        "consecutiveErrors": 1,
-        "lastError": "Error: cron: job execution timed out"
+        "consecutiveErrors": 2,
+        "lastError": "cron: job execution timed out"
       }
     },
     {
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773187200007,
+      "updatedAtMs": 1773187680056,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,11 +670,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773187500000,
-        "lastRunAtMs": 1773187200006,
+        "nextRunAtMs": 1773187800000,
+        "lastRunAtMs": 1773187680056,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 1,
+        "lastDurationMs": 0,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "lastError": "isolated job requires payload.kind=agentTurn"
