@@ -20,6 +20,13 @@
  *   node cli.js reap
  *   node cli.js clear-queue
  *   node cli.js reset
+ *   node cli.js history [--status=done|failed] [--since=2h] [--search=text] [--limit=N]
+ *   node cli.js summary
+ *   node cli.js summaries [limit]
+ *   node cli.js task-board
+ *   node cli.js batch-create <label> <taskId1,taskId2,...>
+ *   node cli.js batch-status
+ *   node cli.js add-to-batch <batchId> <taskId>
  */
 
 const { DispatchEngine } = require('./dispatch-engine');
@@ -125,9 +132,73 @@ function main() {
       break;
     }
 
+    case 'history': {
+      // Parse flags: --status=X --since=Xh --search=X --limit=N
+      const opts = {};
+      for (const a of process.argv.slice(3)) {
+        if (a.startsWith('--status=')) opts.status = a.split('=')[1];
+        else if (a.startsWith('--since=')) {
+          const raw = a.split('=')[1];
+          const m = raw.match(/^(\d+)(h|m|d)$/);
+          if (m) {
+            const ms = { h: 3600000, m: 60000, d: 86400000 }[m[2]] * Number(m[1]);
+            opts.since = new Date(Date.now() - ms).toISOString();
+          } else {
+            opts.since = raw; // assume ISO string
+          }
+        }
+        else if (a.startsWith('--search=')) opts.search = a.split('=')[1];
+        else if (a.startsWith('--limit=')) opts.limit = Number(a.split('=')[1]);
+      }
+      if (!opts.limit) opts.limit = 20;
+      const history = engine.queryHistory(opts);
+      out({ ok: true, cmd, count: history.length, records: history });
+      break;
+    }
+
+    case 'summary': {
+      const summary = engine.generateSummary('manual');
+      out({ ok: true, cmd, summary });
+      break;
+    }
+
+    case 'summaries': {
+      const limit = arg1 ? Number(arg1) : 10;
+      const summaries = engine.getSummaries(limit);
+      out({ ok: true, cmd, count: summaries.length, summaries });
+      break;
+    }
+
+    case 'task-board': {
+      const board = engine.getTaskBoard();
+      out(board);
+      break;
+    }
+
+    case 'batch-create': {
+      if (!arg1) { console.error('Usage: batch-create <label> <id1,id2,...>'); process.exit(1); }
+      const taskIds = (arg2 || '').split(',').filter(Boolean);
+      const batch = engine.createBatch(arg1, taskIds);
+      out({ ok: true, cmd, batch });
+      break;
+    }
+
+    case 'batch-status': {
+      const batches = engine.getBatches();
+      out({ ok: true, cmd, batches });
+      break;
+    }
+
+    case 'add-to-batch': {
+      if (!arg1 || !arg2) { console.error('Usage: add-to-batch <batchId> <taskId>'); process.exit(1); }
+      engine.addToBatch(arg1, arg2);
+      out({ ok: true, cmd, batchId: arg1, taskId: arg2 });
+      break;
+    }
+
     default:
       console.error(`Unknown command: ${cmd}`);
-      console.error('Commands: enqueue, enqueue-batch, running, done, failed, cancel, heartbeat, drain, board, status, reap, clear-queue, reset');
+      console.error('Commands: enqueue, enqueue-batch, running, done, failed, cancel, heartbeat, drain, board, status, reap, clear-queue, reset, history, summary, summaries, task-board, batch-create, batch-status, add-to-batch');
       process.exit(1);
   }
 }
