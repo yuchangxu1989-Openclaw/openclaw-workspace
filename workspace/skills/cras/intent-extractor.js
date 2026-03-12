@@ -183,7 +183,8 @@ function getRecentMemoryFiles(days) {
   for (let i = 0; i < days; i++) {
     const d = new Date(now);
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0]; // YYYY-MM-DD
+    const shanghaiD = new Date(d.toLocaleString('en-US', { timeZone: 'Asia/Shanghai' }));
+    const dateStr = shanghaiD.getFullYear() + '-' + String(shanghaiD.getMonth() + 1).padStart(2, '0') + '-' + String(shanghaiD.getDate()).padStart(2, '0');
     const filePath = path.join(MEMORY_DIR, `${dateStr}.md`);
     if (fs.existsSync(filePath)) {
       files.push(filePath);
