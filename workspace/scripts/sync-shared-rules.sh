@@ -29,15 +29,10 @@ done
 
 echo "[$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S %Z')] sync done" >> "$LOG_FILE"
 
-# --- 追加工作规范到SOUL.md ---
-RULES_MARKER="跨Agent共享工作规范"
-for ws in /root/.openclaw/workspace-*/; do
-  [ -d "$ws" ] || continue
-  SOUL="$ws/SOUL.md"
-  if [ -f "$SOUL" ] && ! grep -q "$RULES_MARKER" "$SOUL" 2>/dev/null; then
-    cat >> "$SOUL" << 'RULESEOF'
 
-## 🔒 跨Agent共享工作规范（铁令）
+# --- 注入工作规范到SOUL.md（放最前面） ---
+RULES_MARKER="跨Agent共享工作规范"
+RULES_BLOCK='## 🔒 跨Agent共享工作规范（铁令）
 
 ### 工作目录
 主项目根目录：`/root/.openclaw/workspace`
@@ -63,7 +58,20 @@ git add <具体文件>
 git commit -m "<type>(<scope>): <description>"
 git push
 ```
-RULESEOF
-    echo "$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') SOUL_INJECT $ws" >> infrastructure/logs/sync-shared-rules.log
+
+---
+
+'
+
+for ws in /root/.openclaw/workspace-*/; do
+  [ -d "$ws" ] || continue
+  SOUL="$ws/SOUL.md"
+  [ -f "$SOUL" ] || continue
+  if ! head -1 "$SOUL" | grep -q "$RULES_MARKER" 2>/dev/null; then
+    TEMP=$(mktemp)
+    echo "$RULES_BLOCK" > "$TEMP"
+    cat "$SOUL" >> "$TEMP"
+    mv "$TEMP" "$SOUL"
+    echo "$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') SOUL_PREPEND $ws" >> infrastructure/logs/sync-shared-rules.log
   fi
 done
