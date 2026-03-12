@@ -1,9 +1,9 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v3 全量扫描生成
 
-> **生成时间**: 2026/3/12 19:00:06
-> **技能总数**: 71 | **pip包**: 29 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 17
-> **ISC路由**: 6 | **能力总计**: 127
+> **生成时间**: 2026/3/12 21:00:06
+> **技能总数**: 72 | **pip包**: 29 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 17
+> **ISC路由**: 6 | **能力总计**: 128
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
 
@@ -75,6 +75,7 @@
 
 - ✅ **aeo**: skills/aeo/ — AEO效果运营（含质量子技能体系）
 - ✅ **aeo/pdca**: skills/aeo/pdca/ — PDCA持续改进引擎（AEO子模块）
+- ✅ **aeo/sub-skills/systematic-debugging**: skills/aeo/sub-skills/systematic-debugging/ — Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions.
 - ✅ **anti-entropy-checker**: skills/anti-entropy-checker/
 - ✅ **api-aggregator**: skills/api-aggregator/
 - ✅ **architecture-review-pipeline**: skills/architecture-review-pipeline/ — 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入裁决殿终审并给出最终裁决。
@@ -174,6 +175,7 @@
 - **@mermaid-js/mermaid-cli** v11.12.0
 - **@modelcontextprotocol/server-puppeteer** v2025.5.12
 - **@upstash/context7-mcp** v2.1.3
+- **mcp-knowledge-graph** v1.3.2 — 轻量知识图谱MCP服务，实体+关系存储查询，数据目录 `.aim/`
 - **openclaw** v2026.3.2
 - **playwright** v1.58.2
 - **puppeteer** v24.38.0
