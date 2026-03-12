@@ -854,8 +854,8 @@ function fullAudit(input, logger) {
     if (!dim) { console.warn(`[quality-audit] 维度 ${k} 返回undefined，跳过`); continue; }
     totalScore += dim.score * w;
   }
-  const score = Math.round(totalScore);
-  const verdict = dimVerdict(score);
+  let score = Math.round(totalScore);
+  let verdict = dimVerdict(score);
 
   // 汇总所有问题并按severity排序
   const allIssues = [];
@@ -926,12 +926,12 @@ function autoQA(input, logger) {
     delivery: auditDelivery(input, logger),
   };
 
-  const score = Math.round(
+  let score = Math.round(
     dimensions.requirement.score * 0.3 +
     dimensions.codeQuality.score * 0.4 +
     dimensions.delivery.score * 0.3
   );
-  const verdict = dimVerdict(score);
+  let verdict = dimVerdict(score);
 
   const allIssues = Object.values(dimensions).flatMap(dim => (dim.issues || []).map(iss => ({ ...iss, dimension: dim.dimension })));
   const debuggingChecklist = loadSystematicDebuggingChecklist();
@@ -977,11 +977,11 @@ function quickAudit(input, logger) {
     delivery: auditDelivery(input, logger),
   };
 
-  const score = Math.round(
+  let score = Math.round(
     dimensions.codeQuality.score * 0.6 +
     dimensions.delivery.score * 0.4
   );
-  const verdict = dimVerdict(score);
+  let verdict = dimVerdict(score);
 
   const result = {
     mode: 'quick', verdict, score, dimensions, changedFiles,
@@ -1083,7 +1083,7 @@ if (require.main === module) {
       }
     })
     .catch(err => {
-      console.error('[quality-audit] 执行失败:', err.message);
+      console.error("[quality-audit] 执行失败:", err.stack);
       process.exit(1);
     });
 }
