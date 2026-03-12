@@ -15,9 +15,10 @@
 - 检测器：`skills/dispatch-protocol/direct-command-detector.js`
 - ISC规则：`ISC-DIRECT-COMMAND-DISPATCH-001`
 
-## 任务管理
-- 不开新cron做巡检，评测集巡检归入已有PDCA
-- PDCA整合进AEO，作为AEO子技能
+## 任务管理：复用调度，禁止cron膨胀
+- **禁止为每个新需求单独开cron** — 巡检类需求（如评测集巡检、质量检查）必须归入已有的PDCA定期检查循环，不另开独立cron job
+- **PDCA是AEO的子模块**，代码位于 `skills/aeo/pdca/`，由AEO统一调度，不是独立技能或独立pipeline
+- **核心原则**：复用已有调度机制，不重复造轮子。新的检查项加入PDCA的Check维度，不单独建cron/pipeline
 
 ---
 
