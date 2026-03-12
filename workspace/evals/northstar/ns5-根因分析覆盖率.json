@@ -1,0 +1,97 @@
+{
+  "north_star": "根因分析覆盖率=100%",
+  "description": "每个故障、缺陷、回归问题都必须有根因分析，不允许'修了就完了'的糊弄式修复",
+  "version": "1.0.0",
+  "evaluations": [
+    {
+      "id": "ns5-pos-001",
+      "type": "positive",
+      "input": "gateway崩溃事件：Agent改了openclaw.json导致配置异常→根因分析定位到'子Agent在做MemOS配置时直接编辑了openclaw.json'→产出铁令'永远不许改openclaw.json'",
+      "expected": "故障→根因→铁令，完整的根因分析闭环",
+      "scoring_rubric": "1)根因定位到具体操作 2)不是泛泛说'配置错误' 3)产出了防止复发的措施 4)措施被固化为铁令",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns5-pos-002",
+      "type": "positive",
+      "input": "ISC展开率虚报67.4%→根因分析发现统计脚本只检查handler是否存在，未检查plan/verify等层→修复为逐字段检查→真实展开率1.1%",
+      "expected": "数据异常→根因是统计口径错误→修复统计逻辑→得到真实数据",
+      "scoring_rubric": "1)定位到具体代码bug 2)不是'数据不准'的模糊结论 3)修复后可验证 4)新旧数据对比清晰",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns5-pos-003",
+      "type": "positive",
+      "input": "僵尸子Agent挂了47分钟→根因分析：gateway重启时正在运行的子Agent失去心跳但进程未被kill→产出方案：增加超时检测和自动清理",
+      "expected": "僵尸现象→根因是缺少心跳超时机制→设计修复方案",
+      "scoring_rubric": "1)根因精确到'gateway重启+无心跳' 2)不是'进程卡住了'的表面描述 3)方案可落地 4)包含预防措施",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns5-pos-004",
+      "type": "positive",
+      "input": "看板不更新→根因分析：派出子Agent时缺少push事件触发，只有on-subagent-complete有推送→修复：spawn后立即推送看板",
+      "expected": "用户体验问题→根因是事件触发缺失→补全触发点",
+      "scoring_rubric": "1)定位到缺失的触发点 2)不是'看板有bug'的笼统说法 3)修复方案明确 4)修复后可验证看板实时性",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "ns5-pos-005",
+      "type": "positive",
+      "input": "dispatch-guard安全审计评分5.0/10→根因分析三层深挖：1)exec deny列表不完整允许echo绕过 2)main-elevated无硬验证 3)deny列表在报告中有3个矛盾版本→逐个修复",
+      "expected": "低分→三个独立根因→逐个修复→回归验证",
+      "scoring_rubric": "1)多根因分别定位 2)每个根因有独立修复 3)不是一个大补丁糊弄 4)修复后重新审计验证",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns5-neg-001",
+      "type": "negative",
+      "input": "评测用例生成失败，Agent直接重跑一遍成功了就不管了，没有分析第一次为什么失败",
+      "expected": "重试成功≠问题解决，缺少根因分析",
+      "scoring_rubric": "1)重试不是根因分析 2)应记录失败原因 3)间歇性失败更需要根因 4)可能是资源竞争/超时等隐患",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns5-neg-002",
+      "type": "negative",
+      "input": "技能扫描发现1个语法错误，Agent修了语法但没分析为什么会出现语法错误（是手写绕过流水线？还是流水线本身有bug？）",
+      "expected": "修复症状但未追问根因，可能还会复发",
+      "scoring_rubric": "1)修语法≠根因分析 2)应追问'为什么会有语法错误' 3)如果是绕过流水线则是流程问题 4)根因决定修复层级",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns5-neg-003",
+      "type": "negative",
+      "input": "git push冲突，Agent用force push解决了，没有分析冲突是怎么产生的（多个子Agent同时改同一文件？分支策略有问题？）",
+      "expected": "force push掩盖了冲突根因，可能导致数据丢失",
+      "scoring_rubric": "1)force push是危险操作 2)应分析冲突来源 3)多Agent并发写同文件需要锁机制 4)根因未解决则冲突会反复出现",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns5-neg-004",
+      "type": "negative",
+      "input": "看板模型列显示'--'，Agent说'等ISC跑完再修'就搁置了，没有分析为什么model字段读不到",
+      "expected": "搁置≠分析，应至少记录根因假设",
+      "scoring_rubric": "1)搁置不等于根因分析 2)应记录初步判断 3)可能是字段名不匹配/数据源缺失 4)即使延后修复也应有根因记录",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "ns5-neg-005",
+      "type": "negative",
+      "input": "900多条旧评测集和423条新评测集的关系不清楚，用户问了才发现没有做过新旧基线对比分析",
+      "expected": "数据演进缺少溯源，应主动分析新旧关系",
+      "scoring_rubric": "1)数据替换应有溯源文档 2)用户不应需要问'啥关系' 3)应主动说明废弃原因 4)新旧对比是基本的根因/决策记录",
+      "north_star_indicator": "根因分析覆盖率",
+      "gate": "Gate-A"
+    }
+  ]
+}

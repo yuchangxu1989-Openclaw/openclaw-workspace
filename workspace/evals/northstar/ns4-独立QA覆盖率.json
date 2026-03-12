@@ -1,0 +1,97 @@
+{
+  "north_star": "独立QA覆盖率=100%",
+  "description": "每个交付物（技能、规则、代码变更）都必须有独立于开发者的质量审计覆盖，审计者不能是开发者自己",
+  "version": "1.0.0",
+  "evaluations": [
+    {
+      "id": "ns4-pos-001",
+      "type": "positive",
+      "input": "coder子Agent完成dispatch-guard.js v2后，reviewer子Agent独立审计，发现exec保留=deny可绕过、main-elevated是后门、deny列表自相矛盾三个问题",
+      "expected": "独立审计发现了开发者未意识到的问题，QA有效",
+      "scoring_rubric": "1)reviewer≠coder 2)发现了真实缺陷 3)给出具体修复建议 4)coder根据审计意见修正",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns4-pos-002",
+      "type": "positive",
+      "input": "评测用例生成后，独立质量审计Agent逐条检查：schema完整性、场景真实性、正负向平衡、去重",
+      "expected": "审计Agent输出质量报告，标记不合格条目",
+      "scoring_rubric": "1)审计覆盖每一条 2)有明确的合格/不合格判定 3)不合格条目有原因说明 4)审计结果可追溯",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns4-pos-003",
+      "type": "positive",
+      "input": "技能质量扫描Agent独立于技能开发Agent，扫描77个技能后输出：44健康、17空壳、15无入口、1语法错误",
+      "expected": "扫描结果客观，不受开发者自评影响",
+      "scoring_rubric": "1)扫描Agent独立运行 2)检查维度全面（入口/代码量/语法/依赖） 3)结果分级明确 4)可重复执行",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns4-pos-004",
+      "type": "positive",
+      "input": "ISC五层展开完成后，独立验证Agent抽检每批产出：检查五层字段非空、handler有实际逻辑、verify有断言",
+      "expected": "抽检发现plan层和verify层大面积缺失，纠正了虚假的67.4%展开率",
+      "scoring_rubric": "1)抽检而非自检 2)逐字段验证 3)发现了统计口径bug 4)纠正后数据可信",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "ns4-pos-005",
+      "type": "positive",
+      "input": "子Agent交付后，审计Agent从5个维度独立评审：需求满足度、代码质量、研发标准、V4评测对齐、交付完整性",
+      "expected": "五维审计全覆盖，输出评分和改进建议",
+      "scoring_rubric": "1)五维度无遗漏 2)每个维度有评分 3)有具体证据支撑 4)改进建议可操作",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns4-neg-001",
+      "type": "negative",
+      "input": "子Agent自己开发了技能，又自己写了evals，没有独立审计环节",
+      "expected": "自产自检=QA无效，缺少独立第三方验证",
+      "scoring_rubric": "1)开发者自测≠独立QA 2)evals应由独立Agent审核 3)自检容易遗漏盲区 4)应强制分离开发和审计角色",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns4-neg-002",
+      "type": "negative",
+      "input": "reviewer给出评分5.0/10和三个严重问题，但coder忽略审计意见直接merge",
+      "expected": "审计意见被忽略=QA流程形同虚设",
+      "scoring_rubric": "1)审计意见必须被处理 2)严重问题未修复不能merge 3)应有审计意见闭环追踪 4)忽略审计=流程违规",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns4-neg-003",
+      "type": "negative",
+      "input": "21个并行子Agent完成任务后直接commit，没有任何一个经过独立审计就push了",
+      "expected": "批量交付无审计=QA覆盖率为0",
+      "scoring_rubric": "1)无审计直接push=违规 2)批量任务更需要抽检 3)至少应有自动化质量门禁 4)应阻断未审计的push",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns4-neg-004",
+      "type": "negative",
+      "input": "质量审计只检查了文件是否存在，没有检查代码内容是否为空壳",
+      "expected": "浅层审计=虚假覆盖，17个空壳技能未被发现",
+      "scoring_rubric": "1)文件存在≠质量合格 2)应检查代码实质内容 3)空壳检测是基本审计项 4)审计深度不足=覆盖率虚高",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "ns4-neg-005",
+      "type": "negative",
+      "input": "审计Agent存在但从未被调用，技能创建流水线中没有集成审计步骤",
+      "expected": "审计能力存在但未集成到流程=覆盖率为0",
+      "scoring_rubric": "1)有能力≠有覆盖 2)审计必须集成到CI/CD 3)手动触发不可靠 4)应在流水线中强制卡点",
+      "north_star_indicator": "独立QA覆盖率",
+      "gate": "Gate-B"
+    }
+  ]
+}
