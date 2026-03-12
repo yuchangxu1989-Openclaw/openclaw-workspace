@@ -18,6 +18,7 @@ SEEF - Skill Ecosystem Evolution Foundry v4.0.0 (DTO集成版)
 5. aligner - 全局标准化对齐器
 6. validator - 技能验证器
 7. recorder - 技能记录器
+8. installer - 技能安装器
 """
 
 import os
@@ -46,6 +47,7 @@ from subskills.creator import SkillCreator
 from subskills.aligner import SkillAligner
 from subskills.validator import SkillValidator
 from subskills.recorder import SkillRecorder, EvolutionKnowledgeBase
+from subskills.skill_installer import SkillInstaller
 
 
 class PDCAState(Enum):
@@ -316,7 +318,8 @@ class SEEF:
         'creator',        # 技能创造器
         'aligner',        # 全局标准化对齐器
         'validator',      # 技能验证器
-        'recorder'        # 技能记录器
+        'recorder',       # 技能记录器
+        'installer'       # 技能安装器
     ]
     
     def __init__(self):
