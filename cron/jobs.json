@@ -655,7 +655,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773313500008,
+      "updatedAtMs": 1773314400008,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -672,8 +672,8 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773313800000,
-        "lastRunAtMs": 1773313500007,
+        "nextRunAtMs": 1773314700000,
+        "lastRunAtMs": 1773314400007,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
         "lastDurationMs": 1,
@@ -688,7 +688,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773313218210,
+      "updatedAtMs": 1773314132447,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -705,14 +705,16 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773314100000,
-        "lastRunAtMs": 1773313200013,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 18197,
+        "nextRunAtMs": 1773315000000,
+        "lastRunAtMs": 1773314100008,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 32439,
         "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 0,
-        "lastDelivered": false
+        "consecutiveErrors": 1,
+        "lastDelivered": false,
+        "lastError": "Unhandled stop reason: network_error",
+        "lastDeliveryError": "Unhandled stop reason: network_error"
       }
     },
     {

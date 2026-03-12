@@ -53,7 +53,7 @@ const HARDCODE_PATTERNS = [
 ];
 
 
-const SYSTEMATIC_DEBUGGING_SKILL_PATH = path.join(WORKSPACE, 'skills/runesleo-systematic-debugging/SKILL.md');
+const SYSTEMATIC_DEBUGGING_SKILL_PATH = path.join(WORKSPACE, 'skills/aeo/sub-skills/systematic-debugging/SKILL.md');
 const DEBUGGING_PHASE_KEYS = [
   'phase0ContextRecall',
   'phase1RootCauseInvestigation',

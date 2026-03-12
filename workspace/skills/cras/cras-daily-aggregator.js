@@ -261,14 +261,14 @@ function main() {
     dimensions,
     action_items_added: actionCount,
     brief_file: briefFile,
-    generated_at: new Date().toISOString()
+    generated_at: new Date().toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai' }).replace(' ', 'T')
   }, null, 2));
 
   if (fs.existsSync(path.dirname(EVENT_BUS))) {
     fs.appendFileSync(EVENT_BUS, JSON.stringify({
       type: 'cras.daily.aggregation_complete',
       source: 'cras-daily-aggregator',
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai' }).replace(' ', 'T'),
       data: { date: today, report: reportFile, brief: briefFile, action_items_added: actionCount }
     }) + '\n');
   }
