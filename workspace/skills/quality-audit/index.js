@@ -7,7 +7,7 @@
  *   1. 需求满足度 — task描述 vs 实际交付
  *   2. 代码质量 — 空壳/TODO/语法/hardcode检测
  *   3. 研发标准符合性 — ISC五层展开 + 命名规范 + skill-creator流水线
- *   4. V4评测标准对齐 — 必要字段 + 评测集质量
+ *   4. 评测标准对齐 — 必要字段 + 评测集质量（版本从isc-core/config动态读取）
  *   5. 交付完整性 — TODO残留 + commit/push状态 + 禁止文件
  *
  * 模式：
@@ -34,10 +34,10 @@ const HANDLERS_DIR = path.join(WORKSPACE, 'skills/isc-core/handlers');
 const REPORTS_DIR = path.join(WORKSPACE, 'reports/quality-audit');
 const EVENT_BUS_DIR = path.join(WORKSPACE, 'event-bus');
 
-// V4规则字段定义
-const V4_REQUIRED = ['id', 'description', 'trigger', 'action', 'handler', 'enforcement'];
-const V4_RECOMMENDED = ['name', 'version', 'fullchain_status', 'enforcement_tier', 'priority'];
-const V4_EXPANSION = ['plan', 'verification'];
+// 评测标准规则字段定义（版本无关）
+const EVAL_STD_REQUIRED = ['id', 'description', 'trigger', 'action', 'handler', 'enforcement'];
+const EVAL_STD_RECOMMENDED = ['name', 'version', 'fullchain_status', 'enforcement_tier', 'priority'];
+const EVAL_STD_EXPANSION = ['plan', 'verification'];
 
 // 禁止修改的文件
 const FORBIDDEN_FILES = ['openclaw.json', '.env', 'package-lock.json'];
@@ -308,17 +308,17 @@ function auditDevStandards(input, logger) {
     fullChain: pct(fullChain, validRules),
   };
 
-  // ── V4字段覆盖率 ──
+  // ── 评测标准字段覆盖率 ──
   const v4Stats = { required: 0, recommended: 0, expansion: 0 };
   for (const { data } of rules) {
-    for (const f of V4_REQUIRED) if (data[f] != null) v4Stats.required++;
-    for (const f of V4_RECOMMENDED) if (data[f] != null) v4Stats.recommended++;
-    for (const f of V4_EXPANSION) if (data[f] != null) v4Stats.expansion++;
+    for (const f of EVAL_STD_REQUIRED) if (data[f] != null) v4Stats.required++;
+    for (const f of EVAL_STD_RECOMMENDED) if (data[f] != null) v4Stats.recommended++;
+    for (const f of EVAL_STD_EXPANSION) if (data[f] != null) v4Stats.expansion++;
   }
   const v4Coverage = {
-    required: pct(v4Stats.required, validRules * V4_REQUIRED.length),
-    recommended: pct(v4Stats.recommended, validRules * V4_RECOMMENDED.length),
-    expansion: pct(v4Stats.expansion, validRules * V4_EXPANSION.length),
+    required: pct(v4Stats.required, validRules * EVAL_STD_REQUIRED.length),
+    recommended: pct(v4Stats.recommended, validRules * EVAL_STD_RECOMMENDED.length),
+    expansion: pct(v4Stats.expansion, validRules * EVAL_STD_EXPANSION.length),
   };
 
   // ── 技能目录命名规范检查 ──
@@ -355,7 +355,7 @@ function auditDevStandards(input, logger) {
     issues.push({ check: '孤儿Handler', severity: 'low', message: `${orphans.length}个handler无规则引用`, details: orphans.slice(0, 10) });
   }
 
-  // 评分: 全链覆盖率50% + V4必填覆盖率30% + 命名/流水线合规20%
+  // 评分: 全链覆盖率50% + 标准必填覆盖率30% + 命名/流水线合规20%
   const chainScore = layerCoverage.fullChain / 10; // 0-10
   const v4Score = v4Coverage.required / 10;
   const complianceScore = 10 - badNames.length * 0.5 - noFrontmatter * 0.5;
@@ -370,10 +370,10 @@ function auditDevStandards(input, logger) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 维度4: V4评测标准对齐 — 评测集质量
+// 维度4: 评测标准对齐 — 评测集质量
 // ═══════════════════════════════════════════════════════════
 
-function auditV4Alignment(input, logger) {
+function auditEvalStandardAlignment(input, logger) {
   const issues = [];
   const skillsDir = path.join(WORKSPACE, 'skills');
 
@@ -543,15 +543,17 @@ function fullAudit(input, logger) {
     requirement: auditRequirement(input, logger),
     codeQuality: auditCodeQuality(input, logger),
     devStandards: auditDevStandards(input, logger),
-    v4Alignment: auditV4Alignment(input, logger),
+    evalStandardAlignment: auditEvalStandardAlignment(input, logger),
     delivery: auditDelivery(input, logger),
   };
 
   // 综合评分（加权平均）
-  const weights = { requirement: 0.2, codeQuality: 0.25, devStandards: 0.2, v4Alignment: 0.15, delivery: 0.2 };
+  const weights = { requirement: 0.2, codeQuality: 0.25, devStandards: 0.2, evalStandardAlignment: 0.15, delivery: 0.2 };
   let totalScore = 0;
   for (const [k, w] of Object.entries(weights)) {
-    totalScore += dimensions[k].score * w;
+    const dim = dimensions[k];
+    if (!dim) { console.warn(`[quality-audit] 维度 ${k} 返回undefined，跳过`); continue; }
+    totalScore += dim.score * w;
   }
   const score = Math.round(totalScore);
   const verdict = dimVerdict(score);
@@ -571,7 +573,7 @@ function fullAudit(input, logger) {
   if (dimensions.codeQuality.stats?.syntaxErrors > 0) fixSuggestions.push('修复语法错误（最高优先）');
   if (dimensions.delivery.stats?.uncommitted > 5) fixSuggestions.push('commit未提交的变更');
   if (dimensions.delivery.stats?.unpushed > 0) fixSuggestions.push('push未推送的commit');
-  if (dimensions.v4Alignment.stats?.evalCoverage < 30) fixSuggestions.push('为更多技能添加evals/evals.json评测集');
+  if (dimensions.evalStandardAlignment?.stats?.evalCoverage < 30) fixSuggestions.push('为更多技能添加evals/evals.json评测集');
   if (dimensions.devStandards.layerCoverage?.fullChain < 60) fixSuggestions.push('补全ISC规则五层展开（尤其验真层）');
 
   const result = {

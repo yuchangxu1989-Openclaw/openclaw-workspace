@@ -160,7 +160,7 @@ function isCompletedByTranscript(sessionVal, sessDir) {
     if (!fs.existsSync(tp)) return false;
     const stat = fs.statSync(tp);
     if (stat.size === 0) return false;
-    const readSize = Math.min(stat.size, 16384);
+    const readSize = Math.min(stat.size, 65536);
     const buf = Buffer.alloc(readSize);
     const fd = fs.openSync(tp, 'r');
     fs.readSync(fd, buf, 0, readSize, Math.max(0, stat.size - readSize));
@@ -178,6 +178,21 @@ function isCompletedByTranscript(sessionVal, sessDir) {
     }
   } catch {}
   return false;
+}
+
+// Signal C2: session status field (completedAt / status=done/completed/finished)
+for (const [label, { val }] of Object.entries(allSessions)) {
+  if (doneRegistry[label]) continue;
+  const st = (val.status || '').toLowerCase();
+  if (st === 'done' || st === 'completed' || st === 'finished' || st === 'failed' || st === 'timeout') {
+    doneRegistry[label] = val.completedAt || val.updatedAt || now;
+    console.log(`[done:status] ${label} (status=${st})`);
+    continue;
+  }
+  if (val.completedAt) {
+    doneRegistry[label] = val.completedAt;
+    console.log(`[done:completedAt] ${label}`);
+  }
 }
 
 // Check transcript for ALL non-done sessions (no staleness gate)
@@ -206,14 +221,19 @@ function getTranscriptMtime(sessionVal, sessDir) {
   } catch { return 0; }
 }
 
-const RESURRECT_THRESHOLD_MS = 2 * 60 * 60 * 1000; // 2 hours
+const RESURRECT_THRESHOLD_MS = 30 * 60 * 1000; // 30 minutes (was 2 hours — too aggressive)
 let resurrected = 0;
 for (const [label, { val, sessDir }] of Object.entries(allSessions)) {
   if (!doneRegistry[label]) continue;
   const tmtime = getTranscriptMtime(val, sessDir);
   const lastActivity = Math.max(val.updatedAt || 0, tmtime);
   const age = now - lastActivity;
+  // Only resurrect if very recently active AND transcript clearly not finished
   if (age < RESURRECT_THRESHOLD_MS && !val.abortedLastRun) {
+    // Must NOT have a status field indicating completion
+    const st = (val.status || '').toLowerCase();
+    if (st === 'done' || st === 'completed' || st === 'finished' || st === 'failed' || st === 'timeout') continue;
+    if (val.completedAt) continue;
     // Double-check: only resurrect if transcript does NOT have a final stopReason
     if (!isCompletedByTranscript(val, sessDir)) {
       delete doneRegistry[label];
