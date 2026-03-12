@@ -33,6 +33,9 @@ const ISC_RULES_DIR = path.join(WORKSPACE, 'skills/isc-core/rules');
 const HANDLERS_DIR = path.join(WORKSPACE, 'skills/isc-core/handlers');
 const REPORTS_DIR = path.join(WORKSPACE, 'reports/quality-audit');
 const EVENT_BUS_DIR = path.join(WORKSPACE, 'event-bus');
+const REPORTS_ROOT_DIR = path.join(WORKSPACE, 'reports');
+const DAILY_SUMMARY_PATH = path.join(REPORTS_ROOT_DIR, 'quality-audit-daily-summary.md');
+const BACKLOG_PATH = path.join(REPORTS_ROOT_DIR, 'quality-issues-backlog.jsonl');
 
 // 评测标准规则字段定义（版本无关）
 const EVAL_STD_REQUIRED = ['id', 'description', 'trigger', 'action', 'handler', 'enforcement'];
@@ -73,6 +76,189 @@ function writeReport(name, data) {
 }
 
 function pct(n, total) { return total > 0 ? Math.round(n / total * 100) : 0; }
+
+
+function toShanghaiDate(d = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d);
+  const y = parts.find(p => p.type === 'year')?.value;
+  const m = parts.find(p => p.type === 'month')?.value;
+  const day = parts.find(p => p.type === 'day')?.value;
+  return `${y}-${m}-${day}`;
+}
+
+function toShanghaiTimestamp(d = new Date()) {
+  return new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hour12: false,
+  }).format(d).replace(' ', 'T') + '+08:00';
+}
+
+function severityWeight(sev) {
+  return ({ low: 1, medium: 2, high: 3, critical: 4 }[sev] || 1);
+}
+
+function nextSeverity(sev) {
+  if (sev === 'low') return 'medium';
+  if (sev === 'medium') return 'high';
+  if (sev === 'high') return 'critical';
+  return 'critical';
+}
+
+function normalizeIssueKey(issue) {
+  const dim = issue.dimension || issue.check || '';
+  const msg = issue.message || issue.issue || '';
+  return `${dim}::${msg}`.replace(/\s+/g, ' ').trim();
+}
+
+function parseJsonl(filePath, logger) {
+  if (!fs.existsSync(filePath)) return [];
+  try {
+    const lines = fs.readFileSync(filePath, 'utf8').split('\n').map(l => l.trim()).filter(Boolean);
+    const out = [];
+    for (const l of lines) {
+      try { out.push(JSON.parse(l)); } catch (err) { logger.error?.(`[quality-audit] backlog JSONL解析失败: ${err.message}`); }
+    }
+    return out;
+  } catch (err) {
+    logger.error?.(`[quality-audit] 读取backlog失败: ${err.message}`);
+    return [];
+  }
+}
+
+function buildIssueNarrative(issue) {
+  const impactMap = {
+    critical: '可能导致安全、稳定性或交付阻断风险。',
+    high: '会显著影响质量或导致发布风险。',
+    medium: '会影响可维护性与执行效率，需尽快处理。',
+    low: '轻度质量偏差，建议纳入排期修复。',
+  };
+  return {
+    issue: issue.message || issue.issue || issue.check || '未知问题',
+    impact: impactMap[issue.severity] || '存在质量风险。',
+    suggestedAction: issue.suggestedAction || `处理${issue.check || issue.dimension || '该问题'}并补充验证`,
+  };
+}
+
+function persistBacklogAndSummary(result, logger) {
+  fs.mkdirSync(REPORTS_ROOT_DIR, { recursive: true });
+  const existing = parseJsonl(BACKLOG_PATH, logger);
+  const today = toShanghaiDate();
+  const nowTs = toShanghaiTimestamp();
+
+  const issueList = (result.topIssues || []).map(i => ({ ...i, issueKey: normalizeIssueKey(i) }));
+
+  const byDayKey = new Set(existing.map(e => `${e.date || ''}|${e.issueKey || normalizeIssueKey(e)}`));
+  const todayEntries = [];
+
+  for (const it of issueList) {
+    const key = `${today}|${it.issueKey}`;
+    if (byDayKey.has(key)) continue;
+    const record = {
+      timestamp: nowTs,
+      date: today,
+      severity: it.severity || 'low',
+      issue: it.message || it.issue || it.check || '未知问题',
+      issueKey: it.issueKey,
+      suggestedAction: it.suggestedAction || `处理${it.check || it.dimension || '该问题'}并补充验证`,
+    };
+    todayEntries.push(record);
+    existing.push(record);
+    byDayKey.add(key);
+  }
+
+  const grouped = new Map();
+  for (const rec of existing) {
+    const key = rec.issueKey || normalizeIssueKey(rec);
+    const arr = grouped.get(key) || [];
+    arr.push(rec);
+    grouped.set(key, arr);
+  }
+
+  const escalatedTodayKeys = new Set();
+  for (const [key, recs] of grouped.entries()) {
+    const days = [...new Set(recs.map(r => r.date).filter(Boolean))].sort();
+    if (days.length < 3) continue;
+    const last3 = days.slice(-3);
+    let consecutive = true;
+    for (let i = 1; i < last3.length; i++) {
+      const prev = new Date(last3[i - 1] + 'T00:00:00+08:00');
+      const cur = new Date(last3[i] + 'T00:00:00+08:00');
+      if ((cur - prev) !== 24 * 3600 * 1000) { consecutive = false; break; }
+    }
+    if (!consecutive || last3[last3.length - 1] !== today) continue;
+
+    for (const rec of todayEntries) {
+      if ((rec.issueKey || '') === key && !rec.unclosedEscalated) {
+        rec.unclosedEscalated = true;
+        rec.status = '未闭环';
+        rec.originalSeverity = rec.severity;
+        rec.severity = nextSeverity(rec.severity);
+        rec.issue = `[未闭环] ${rec.issue}`;
+        escalatedTodayKeys.add(key);
+      }
+    }
+  }
+
+  try {
+    fs.appendFileSync(BACKLOG_PATH, todayEntries.map(e => JSON.stringify(e)).join('\n') + (todayEntries.length ? '\n' : ''), 'utf8');
+  } catch (err) {
+    logger.error?.(`[quality-audit] 写入backlog失败: ${err.message}`);
+  }
+
+  const prevSummary = fs.existsSync(DAILY_SUMMARY_PATH) ? fs.readFileSync(DAILY_SUMMARY_PATH, 'utf8') : '';
+  const prevMatch = prevSummary.match(/红:(\d+)\s+黄:(\d+)\s+绿:(\d+)/);
+  const prev = prevMatch ? { red: Number(prevMatch[1]), yellow: Number(prevMatch[2]), green: Number(prevMatch[3]) } : null;
+
+  const redList = issueList.filter(i => ['critical', 'high'].includes(i.severity));
+  const yellowList = issueList.filter(i => i.severity === 'medium');
+  const greenCount = Math.max(0, 20 - redList.length - yellowList.length);
+
+  const changeLine = (() => {
+    if (!prev) return '- 与上次对比：首次生成，无历史数据。';
+    const cur = redList.length + yellowList.length;
+    const last = prev.red + prev.yellow;
+    if (cur < last) return `- 与上次对比：改善（红黄总数 ${last} → ${cur}）。`;
+    if (cur > last) return `- 与上次对比：恶化（红黄总数 ${last} → ${cur}）。`;
+    return `- 与上次对比：持平（红黄总数 ${cur}）。`;
+  })();
+
+  const lines = [];
+  lines.push(`# Quality Audit Daily Summary (${today}, Asia/Shanghai)`);
+  lines.push('');
+  lines.push(`- 红:${redList.length} 黄:${yellowList.length} 绿:${greenCount}`);
+  lines.push(changeLine);
+  lines.push('');
+  lines.push('## 红色告警（High/Critical）');
+  if (redList.length === 0) lines.push('- 无');
+  for (const i of redList) {
+    const n = buildIssueNarrative(i);
+    lines.push(`- 问题：${n.issue}`);
+    lines.push(`  - 影响：${n.impact}`);
+    lines.push(`  - 建议动作：${n.suggestedAction}`);
+  }
+  lines.push('');
+  lines.push('## 黄色告警（Medium）');
+  if (yellowList.length === 0) lines.push('- 无');
+  for (const i of yellowList) {
+    const n = buildIssueNarrative(i);
+    lines.push(`- 问题：${n.issue}`);
+    lines.push(`  - 影响：${n.impact}`);
+    lines.push(`  - 建议动作：${n.suggestedAction}`);
+  }
+  if (escalatedTodayKeys.size > 0) {
+    lines.push('');
+    lines.push('## 未闭环升级');
+    for (const k of escalatedTodayKeys) lines.push(`- ${k}`);
+  }
+
+  try {
+    fs.writeFileSync(DAILY_SUMMARY_PATH, lines.join('\n') + '\n', 'utf8');
+  } catch (err) {
+    logger.error?.(`[quality-audit] 写入日报摘要失败: ${err.message}`);
+  }
+}
 
 function dimVerdict(score) {
   if (score >= 8) return 'pass';
@@ -580,12 +766,18 @@ function fullAudit(input, logger) {
     mode: 'full', verdict, score, dimensions, fixSuggestions,
     issueCount: allIssues.length,
     topIssues: allIssues.slice(0, 20),
-    timestamp: new Date().toISOString(),
+    timestamp: toShanghaiTimestamp(),
   };
   result.reportPath = writeReport('full', result);
 
   // 发布事件
   publishEvent('quality.audit.completed', { mode: 'full', verdict, score, reportPath: result.reportPath });
+
+  try {
+    persistBacklogAndSummary(result, logger);
+  } catch (err) {
+    logger.error?.(`[quality-audit] 生成摘要/backlog失败: ${err.message}`);
+  }
 
   logger.info?.(`[quality-audit] 全量审计完成: ${verdict} ${score}/10`);
   return result;
