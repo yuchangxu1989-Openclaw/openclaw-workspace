@@ -14,6 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { SKILLS_DIR, WORKSPACE } = require('../shared/paths');
+const { runChecklist, printReport } = require('./post-creation-checklist');
 
 // CRAS 配置
 const CRAS_CONFIG = {
@@ -1244,7 +1245,23 @@ class AutonomousEvolution {
         fs.writeFileSync(path.join(skillPath, 'index.js'), indexJs, 'utf-8');
         fs.writeFileSync(path.join(skillPath, 'package.json'), packageJson, 'utf-8');
         
-        console.log(`      ✅ 已创建: ${skillPath} (模板: ${template})`);
+        // ── Post-creation checklist ──
+        const report = runChecklist(skillPath);
+        printReport(report);
+        if (!report.pass) {
+          // 标记为 draft，阻断交付
+          const pkgFile = path.join(skillPath, 'package.json');
+          if (fs.existsSync(pkgFile)) {
+            try {
+              const pkg = JSON.parse(fs.readFileSync(pkgFile, 'utf-8'));
+              pkg.status = 'draft';
+              fs.writeFileSync(pkgFile, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
+            } catch (_) {}
+          }
+          console.log(`      ❌ 技能 ${skillName} 未通过交付检查，标记为 draft`);
+        } else {
+          console.log(`      ✅ 已创建: ${skillPath} (模板: ${template})`);
+        }
       } else {
         console.log(`      ⚠️ 技能已存在`);
       }

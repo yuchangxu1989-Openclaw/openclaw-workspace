@@ -302,6 +302,188 @@ function measureRuleExpansion() {
   };
 }
 
+function measureSkillHealth() {
+  // 技能健康度扫描：逐个技能评估用途、状态、引用、ISC关联、价值
+  const skillsDir = path.join(WORKSPACE, 'skills');
+  const rulesDir = path.join(WORKSPACE, 'skills/isc-core/rules');
+  const skills = [];
+  let healthyCount = 0;
+
+  // 预加载ISC规则中引用的技能名
+  const iscSkillRefs = {};
+  try {
+    for (const f of fs.readdirSync(rulesDir).filter(f => f.endsWith('.json'))) {
+      try {
+        const content = fs.readFileSync(path.join(rulesDir, f), 'utf8');
+        // 扫描规则内容中引用的技能目录名
+        const skillDirs = fs.readdirSync(skillsDir).filter(d => {
+          try { return fs.statSync(path.join(skillsDir, d)).isDirectory(); } catch { return false; }
+        });
+        for (const sd of skillDirs) {
+          if (content.includes(sd)) {
+            iscSkillRefs[sd] = (iscSkillRefs[sd] || 0) + 1;
+          }
+        }
+      } catch {}
+    }
+  } catch {}
+
+  // 扫描所有技能目录
+  let skillDirs;
+  try {
+    skillDirs = fs.readdirSync(skillsDir).filter(d => {
+      try { return fs.statSync(path.join(skillsDir, d)).isDirectory(); } catch { return false; }
+    });
+  } catch { skillDirs = []; }
+
+  for (const dir of skillDirs) {
+    const skillPath = path.join(skillsDir, dir);
+    const skillMdPath = path.join(skillPath, 'SKILL.md');
+
+    // 1. 读SKILL.md提取设计意图
+    let designIntent = '无SKILL.md';
+    try {
+      const md = fs.readFileSync(skillMdPath, 'utf8');
+      // 取description字段或第一个非空非标题行
+      const descMatch = md.match(/description:\s*(.+)/);
+      if (descMatch) {
+        designIntent = descMatch[1].trim();
+      } else {
+        const lines = md.split('\n').filter(l => l.trim() && !l.startsWith('#') && !l.startsWith('---') && !l.startsWith('name:') && !l.startsWith('version:'));
+        designIntent = (lines[0] || '无描述').trim().slice(0, 120);
+      }
+    } catch {}
+
+    // 2. 检查是否空壳
+    let currentStatus = '正常运行';
+    const jsFiles = [];
+    try {
+      const allFiles = fs.readdirSync(skillPath);
+      for (const f of allFiles) {
+        if (f.endsWith('.js') || f.endsWith('.cjs') || f.endsWith('.mjs')) jsFiles.push(f);
+      }
+    } catch {}
+
+    if (jsFiles.length === 0) {
+      currentStatus = '仅SKILL.md无代码';
+    } else {
+      // 检查主入口是否空壳
+      const mainFile = jsFiles.find(f => f === 'index.js' || f === 'index.cjs') || jsFiles[0];
+      try {
+        const code = fs.readFileSync(path.join(skillPath, mainFile), 'utf8');
+        const hasTodo = /TODO|FIXME|NOT IMPLEMENTED|placeholder/i.test(code);
+        const hasFunctions = /function\s+\w+|=>\s*{|module\.exports|exports\.\w+/i.test(code);
+        const lineCount = code.split('\n').filter(l => l.trim() && !l.startsWith('//')).length;
+        if (hasTodo && lineCount < 20) {
+          currentStatus = '空壳TODO';
+        } else if (hasTodo && hasFunctions) {
+          currentStatus = '部分实现';
+        }
+      } catch {}
+    }
+
+    // 3. grep引用次数（在整个workspace中搜索该技能名）
+    let refCount = 0;
+    try {
+      const result = execSync(
+        `grep -rl --include="*.js" --include="*.json" --include="*.md" --include="*.sh" -w "${dir}" ${WORKSPACE} 2>/dev/null | grep -v "node_modules" | grep -v "skills/${dir}/" | wc -l`,
+        { timeout: 5000, encoding: 'utf8' }
+      ).trim();
+      refCount = parseInt(result) || 0;
+    } catch {}
+
+    // 4. ISC关联
+    const iscCount = iscSkillRefs[dir] || 0;
+
+    // 5. 价值评估
+    let value, valueReason;
+    if (refCount >= 50) {
+      value = '高'; valueReason = `被${refCount}个文件引用，是核心依赖`;
+    } else if (refCount >= 10 || iscCount > 0) {
+      value = '中'; valueReason = iscCount > 0 ? `有${iscCount}条ISC规则关联` : `被${refCount}个文件引用`;
+    } else if (refCount > 0 && currentStatus !== '空壳TODO' && currentStatus !== '仅SKILL.md无代码') {
+      value = '低'; valueReason = `仅被${refCount}个文件引用`;
+    } else {
+      value = '无'; valueReason = currentStatus === '仅SKILL.md无代码' ? '无代码实现' : (refCount === 0 ? '零引用' : '空壳且低引用');
+    }
+
+    // 6. 建议
+    let suggestion;
+    if (value === '高') {
+      suggestion = '保留，核心技能';
+    } else if (value === '中') {
+      suggestion = currentStatus === '部分实现' ? '实现：补齐TODO部分' : '保留';
+    } else if (currentStatus === '仅SKILL.md无代码') {
+      suggestion = '实现：当前仅有设计文档，需要编码落地';
+    } else if (currentStatus === '空壳TODO') {
+      suggestion = refCount === 0 ? '删除：空壳且零引用' : '实现：有引用但代码未落地';
+    } else {
+      suggestion = '评估是否可合并到相近技能';
+    }
+
+    const isHealthy = value === '高' || value === '中';
+    if (isHealthy) healthyCount++;
+
+    skills.push({
+      name: dir,
+      designIntent,
+      currentStatus,
+      refCount,
+      iscCount,
+      value,
+      valueReason,
+      suggestion,
+    });
+  }
+
+  // 生成markdown格式的详细报告
+  const reportLines = ['# 技能健康度扫描报告\n'];
+  reportLines.push(`> 扫描时间：${new Date().toISOString()}`);
+  reportLines.push(`> 技能总数：${skillDirs.length}，健康（高/中价值）：${healthyCount}\n`);
+
+  // 按价值分组排序
+  const order = { '高': 0, '中': 1, '低': 2, '无': 3 };
+  skills.sort((a, b) => (order[a.value] ?? 9) - (order[b.value] ?? 9));
+
+  for (const s of skills) {
+    reportLines.push(`### ${s.name}\n`);
+    reportLines.push('| 维度 | 结果 |');
+    reportLines.push('|------|------|');
+    reportLines.push(`| 设计意图 | ${s.designIntent} |`);
+    reportLines.push(`| 当前状态 | ${s.currentStatus} |`);
+    reportLines.push(`| 被引用情况 | 被${s.refCount}个文件引用 |`);
+    reportLines.push(`| ISC关联 | ${s.iscCount > 0 ? `有${s.iscCount}条规则关联` : '无'} |`);
+    reportLines.push(`| 价值评估 | ${s.value} — ${s.valueReason} |`);
+    reportLines.push(`| 建议 | ${s.suggestion} |`);
+    reportLines.push('');
+  }
+
+  // 写详细报告到文件
+  const reportPath = path.join(REPORTS_DIR, 'pdca-skill-health-report.md');
+  try {
+    fs.mkdirSync(REPORTS_DIR, { recursive: true });
+    fs.writeFileSync(reportPath, reportLines.join('\n'), 'utf8');
+    log(`📝 技能健康报告已写入 ${reportPath}`);
+  } catch (e) {
+    log(`⚠️ 技能健康报告写入失败: ${e.message}`);
+  }
+
+  const totalSkills = skillDirs.length || 1;
+  return {
+    actual: +(healthyCount / totalSkills).toFixed(4),
+    totalSkills: skillDirs.length,
+    healthyCount,
+    byValue: {
+      high: skills.filter(s => s.value === '高').length,
+      medium: skills.filter(s => s.value === '中').length,
+      low: skills.filter(s => s.value === '低').length,
+      none: skills.filter(s => s.value === '无').length,
+    },
+    reportPath,
+    skills, // full detail in JSON report
+  };
+}
+
 function measureEvalsetIntegrity() {
   // 评测集完整性检查维度：
   // 1. 扫描散落数据，统计未入库数
@@ -467,6 +649,11 @@ function analyzeGap(metricKey, label, actual, target, direction, st) {
       '运行 bash scripts/aeo-daily-evalset-sync.sh 归拢散落数据',
       '补齐north_star_indicator/scoring_rubric/gate等V4必需字段',
     ],
+    skillHealth: [
+      '查看 reports/pdca-skill-health-report.md 了解每个技能的详细评估',
+      '优先实现"仅SKILL.md无代码"的技能或将其删除',
+      '合并功能重叠的低价值技能，减少维护负担',
+    ],
   };
 
   return {
@@ -554,6 +741,7 @@ function run() {
     ruleExpansionRate: measureRuleExpansion,
     badcaseAutoRate: measureBadcaseAutoRate,
     evalsetIntegrity: measureEvalsetIntegrity,
+    skillHealth: measureSkillHealth,
   };
 
   const metrics = {};

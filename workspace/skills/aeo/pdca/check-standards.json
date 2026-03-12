@@ -49,6 +49,14 @@
       "warnThreshold": 0.60,
       "weight": 0.15,
       "description": "north_star_indicator字段覆盖率，反映评测集V4标准达标程度。有未入库散落数据时自动标critical"
+    },
+    "skillHealth": {
+      "label": "技能健康度",
+      "target": 0.60,
+      "direction": "gte",
+      "warnThreshold": 0.40,
+      "weight": 0.10,
+      "description": "高/中价值技能占比，反映技能库的整体可用性。详细报告见 reports/pdca-skill-health-report.md"
     }
   }
 }
