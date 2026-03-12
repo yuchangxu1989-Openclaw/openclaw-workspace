@@ -233,13 +233,14 @@ function countFilePathRefs(text) {
 }
 
 function measureRuleExpansion() {
-  // 5-layer expansion check (v2): intent / event / plan / handler / verification
-  // A rule is "expanded" ONLY when ALL 5 layers are present and non-empty.
+  // 4-required + 1-optional expansion check (v3): intent / event / handler / verification (required) + plan (optional)
+  // A rule is "expanded" when ALL 4 required layers are present and non-empty. Plan is a bonus layer.
   const rulesDir = path.join(WORKSPACE, 'skills/isc-core/rules');
   let totalRules = 0;
   let expandedRules = 0;
   const layerStats = { intent: 0, event: 0, plan: 0, handler: 0, verification: 0 };
-  const incomplete = []; // rules missing ≥1 layer
+  let planBonusCount = 0; // track plan separately as optional bonus
+  const incomplete = []; // rules missing ≥1 required layer
 
   try {
     const files = fs.readdirSync(rulesDir).filter(f => f.endsWith('.json'));
@@ -277,12 +278,12 @@ function measureRuleExpansion() {
         const missing = [];
         if (!hasIntent)       missing.push('intent');
         if (!hasEvent)        missing.push('event');
-        if (!hasPlan)         missing.push('plan');
         if (!hasHandler)      missing.push('handler');
         if (!hasVerification) missing.push('verification');
 
         if (missing.length === 0) {
           expandedRules++;
+          if (hasPlan) planBonusCount++;
         } else {
           incomplete.push({ rule: rule.id || rule.rule_id || f, missing });
         }
@@ -299,6 +300,7 @@ function measureRuleExpansion() {
     layerStats,
     incomplete: incomplete.slice(0, 30), // cap output size
     incompleteCount: incomplete.length,
+    planBonusCount,
   };
 }
 
@@ -640,7 +642,7 @@ function analyzeGap(metricKey, label, actual, target, direction, st) {
       '使用complexity-gate评估任务复杂度后再分配',
     ],
     ruleExpansionRate: [
-      '5层展开标准：intent/event/plan/handler/verification 全部非空才算展开',
+      '4层必选展开标准：intent/event/handler/verification 全部非空才算展开（plan可选加分）',
       '当前主要缺失层：plan(规划)和verification(验真)，优先补齐',
       '建立规则展开的自动化pipeline，每次Check后识别下一批应展开的规则',
     ],

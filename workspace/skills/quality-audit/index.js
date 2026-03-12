@@ -6,7 +6,7 @@
  * 维度：
  *   1. 需求满足度 — task描述 vs 实际交付
  *   2. 代码质量 — 空壳/TODO/语法/hardcode检测
- *   3. 研发标准符合性 — ISC五层展开 + 命名规范 + skill-creator流水线
+ *   3. 研发标准符合性 — ISC四层必选展开 + 命名规范 + skill-creator流水线
  *   4. 评测标准对齐 — 必要字段 + 评测集质量（版本从isc-core/config动态读取）
  *   5. 交付完整性 — TODO残留 + commit/push状态 + 禁止文件
  *
@@ -252,7 +252,7 @@ function auditCodeQuality(input, logger) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 维度3: 研发标准符合性 — ISC五层展开 + 命名 + skill-creator流水线
+// 维度3: 研发标准符合性 — ISC四层必选展开 + 命名 + skill-creator流水线
 // ═══════════════════════════════════════════════════════════
 
 function auditDevStandards(input, logger) {
@@ -274,7 +274,7 @@ function auditDevStandards(input, logger) {
 
   const handlerFiles = (() => { try { return fs.readdirSync(HANDLERS_DIR).filter(f => f.endsWith('.js')); } catch { return []; } })();
 
-  // 五层统计
+  // 四层统计
   const layers = { intent: 0, event: 0, planning: 0, execution: 0, verification: 0 };
   let fullChain = 0;
   const validRules = rules.length;
@@ -743,7 +743,7 @@ if (require.main === module) {
         }
         if (result.layerCoverage) {
           const lc = result.layerCoverage;
-          console.log(`五层覆盖: 意图${lc.intent}% 事件${lc.event}% 规划${lc.planning}% 执行${lc.execution}% 验真${lc.verification}% | 全通${lc.fullChain}%`);
+          console.log(`四层覆盖: 意图${lc.intent}% 事件${lc.event}% 规划${lc.planning}% 执行${lc.execution}% 验真${lc.verification}% | 全通${lc.fullChain}%`);
         }
         if (result.fixSuggestions?.length) {
           console.log('修复建议:');
