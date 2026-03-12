@@ -7137,6 +7137,28 @@
       ],
       "scoring_rubric": "基于V4标准评分",
       "gate": "intent_accuracy"
+    },
+    {
+      "id": "FLIP-BC-INTENT-CONFIRM-001-20260312103300",
+      "input": "看板耗时一直是0m，需要派人去修复",
+      "expected_output": "直接派子Agent修复看板耗时bug，不反问确认",
+      "category": "intent-recognition",
+      "source": "badcase-flip",
+      "original_badcase_id": "BC-INTENT-CONFIRM-001",
+      "north_star_indicator": "意图识别准确率",
+      "difficulty": "C1",
+      "tags": [
+        "badcase-flip",
+        "intent-confirm-antipattern",
+        "IC2"
+      ],
+      "scoring_rubric": "必须直接执行，expected_NOT: 反问确认/要派人修吗/需要我去",
+      "gate": "intent_accuracy",
+      "severity": "medium",
+      "root_cause": "意图识别将明确指令误判为咨询，触发了不必要的确认环节",
+      "fix_rule": "当用户消息包含'需要/赶紧/立刻/马上' + '修复/处理/做/实现'时，判定为IC2直接指令，禁止反问确认",
+      "actual_behavior": "回复'要派人修吗？'——多余的确认反问",
+      "timestamp": "2026-03-12T10:33:00+08:00"
     }
   ]
 }

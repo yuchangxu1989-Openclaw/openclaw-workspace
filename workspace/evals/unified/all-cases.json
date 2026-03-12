@@ -5214,5 +5214,121 @@
     "expected_output": "{\"responseTime\": {\"max\": 2000}}",
     "category": "Pre-Gate基础完整性",
     "difficulty": "C1"
+  },
+  {
+    "id": "EVAL-INTENT-DIRECT-CMD-001",
+    "input": "看板耗时一直是0m，需要派人去修复",
+    "expected_output": "直接派子Agent修复，不反问确认",
+    "expected_ic": "IC2",
+    "expected_action": "dispatch_subagent",
+    "expected_NOT": [
+      "反问确认",
+      "要派人修吗",
+      "需要我去"
+    ],
+    "category": "intent-recognition",
+    "source": "badcase-flip-manual",
+    "difficulty": "C1",
+    "tags": [
+      "IC2",
+      "direct-command",
+      "no-confirm"
+    ],
+    "scoring_rubric": "判定IC2直接指令并执行dispatch，禁止反问",
+    "gate": "intent_accuracy",
+    "north_star_indicator": "意图识别准确率",
+    "description": "明确指令应直接执行，不反问"
+  },
+  {
+    "id": "EVAL-INTENT-DIRECT-CMD-002",
+    "input": "赶紧派人把这个bug修了",
+    "expected_output": "直接派子Agent修复bug",
+    "expected_ic": "IC2",
+    "expected_action": "dispatch_subagent",
+    "expected_NOT": [
+      "要派人吗",
+      "需要我"
+    ],
+    "category": "intent-recognition",
+    "source": "badcase-flip-manual",
+    "difficulty": "C1",
+    "tags": [
+      "IC2",
+      "direct-command",
+      "no-confirm"
+    ],
+    "scoring_rubric": "判定IC2直接指令并执行dispatch，禁止反问",
+    "gate": "intent_accuracy",
+    "north_star_indicator": "意图识别准确率",
+    "description": "赶紧+动作=直接指令"
+  },
+  {
+    "id": "EVAL-INTENT-DIRECT-CMD-003",
+    "input": "这个问题需要立刻处理",
+    "expected_output": "直接派子Agent处理问题",
+    "expected_ic": "IC2",
+    "expected_action": "dispatch_subagent",
+    "expected_NOT": [
+      "要处理吗",
+      "需要我去"
+    ],
+    "category": "intent-recognition",
+    "source": "badcase-flip-manual",
+    "difficulty": "C1",
+    "tags": [
+      "IC2",
+      "direct-command",
+      "no-confirm"
+    ],
+    "scoring_rubric": "判定IC2直接指令并执行dispatch，禁止反问",
+    "gate": "intent_accuracy",
+    "north_star_indicator": "意图识别准确率",
+    "description": "立刻+处理=直接指令"
+  },
+  {
+    "id": "EVAL-INTENT-DIRECT-CMD-004",
+    "input": "post-creation checklist 赶紧派人实现",
+    "expected_output": "直接派子Agent实现checklist功能",
+    "expected_ic": "IC2",
+    "expected_action": "dispatch_subagent",
+    "expected_NOT": [
+      "要派人吗",
+      "需要我"
+    ],
+    "category": "intent-recognition",
+    "source": "badcase-flip-manual",
+    "difficulty": "C1",
+    "tags": [
+      "IC2",
+      "direct-command",
+      "no-confirm"
+    ],
+    "scoring_rubric": "判定IC2直接指令并执行dispatch，禁止反问",
+    "gate": "intent_accuracy",
+    "north_star_indicator": "意图识别准确率",
+    "description": "赶紧派人+实现=直接指令"
+  },
+  {
+    "id": "EVAL-INTENT-DIRECT-CMD-005",
+    "input": "派人去确认下这些遗留项",
+    "expected_output": "直接派子Agent确认遗留项",
+    "expected_ic": "IC2",
+    "expected_action": "dispatch_subagent",
+    "expected_NOT": [
+      "要派人吗",
+      "需要我"
+    ],
+    "category": "intent-recognition",
+    "source": "badcase-flip-manual",
+    "difficulty": "C1",
+    "tags": [
+      "IC2",
+      "direct-command",
+      "no-confirm"
+    ],
+    "scoring_rubric": "判定IC2直接指令并执行dispatch，禁止反问",
+    "gate": "intent_accuracy",
+    "north_star_indicator": "意图识别准确率",
+    "description": "派人去+动作=直接指令"
   }
 ]
