@@ -345,7 +345,7 @@
       "name": "CRAS-D-战略调研",
       "enabled": true,
       "createdAtMs": 1771822636491,
-      "updatedAtMs": 1773194438099,
+      "updatedAtMs": 1773280838790,
       "schedule": {
         "expr": "0 10 * * *",
         "kind": "cron",
@@ -364,10 +364,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773280800000,
+        "nextRunAtMs": 1773367200000,
         "lastStatus": "ok",
-        "lastRunAtMs": 1773194400012,
-        "lastDurationMs": 38087,
+        "lastRunAtMs": 1773280800011,
+        "lastDurationMs": 38779,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "not-delivered",
@@ -380,7 +380,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773277291709,
+      "updatedAtMs": 1773280887911,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -399,11 +399,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773280807906,
-        "lastRunAtMs": 1773277273271,
+        "nextRunAtMs": 1773284407906,
+        "lastRunAtMs": 1773280864617,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 18438,
+        "lastDurationMs": 23294,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773277304832,
+      "updatedAtMs": 1773280902393,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -503,11 +503,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773280878795,
-        "lastRunAtMs": 1773277293759,
+        "nextRunAtMs": 1773284478795,
+        "lastRunAtMs": 1773280889934,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 11073,
+        "lastDurationMs": 12459,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773277261547,
+      "updatedAtMs": 1773281100009,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,11 +670,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773277500000,
-        "lastRunAtMs": 1773277261546,
+        "nextRunAtMs": 1773281400000,
+        "lastRunAtMs": 1773281100009,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
-        "lastDurationMs": 1,
+        "lastDurationMs": 0,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "lastError": "isolated job requires payload.kind=agentTurn"
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773277271229,
+      "updatedAtMs": 1773280848160,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,11 +703,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773278100000,
-        "lastRunAtMs": 1773277261547,
+        "nextRunAtMs": 1773281700000,
+        "lastRunAtMs": 1773280838790,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 9682,
+        "lastDurationMs": 9370,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -886,7 +886,7 @@
       "description": "PDCA自动审视循环 - 每天10次，度量采集→差距分析→告警推送→趋势记录",
       "enabled": true,
       "createdAtMs": 1773058413411,
-      "updatedAtMs": 1773273650996,
+      "updatedAtMs": 1773280862590,
       "schedule": {
         "kind": "cron",
         "expr": "0 1,3,5,8,10,12,14,16,18,21 * * *"
@@ -904,13 +904,13 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773280800000,
-        "lastRunAtMs": 1773273611604,
+        "nextRunAtMs": 1773288000000,
+        "lastRunAtMs": 1773280848160,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 39392,
-        "lastDelivered": true,
-        "lastDeliveryStatus": "delivered",
+        "lastDurationMs": 14430,
+        "lastDelivered": false,
+        "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0
       }
     }
