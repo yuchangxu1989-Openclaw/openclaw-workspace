@@ -32,6 +32,9 @@ const aeoConfig = readJsonSafe(path.join(AEO_DIR, 'config', 'aeo-config.json'), 
 
 // ── 内部模块引入（从外部技能搬入AEO的模块） ──
 const iscDocQuality = require('./modules/isc-doc-quality');
+const layeredArchCheck = require('./modules/layered-arch-check');
+const assessmentStore = require('./assessment-store');
+const sandboxRuntime = require('./src/sandbox/sandbox-runtime');
 const layeredArchCheck = path.join(__dirname, 'modules', 'layered-arch-check.js');
 
 function detectSkillType(skillName, skillDoc = '') {
@@ -321,6 +324,9 @@ module.exports.pdcaCheckLoopPath = path.join(__dirname, 'pdca', 'check-loop.js')
 // 子技能调度
 module.exports.invokeSubSkill = invokeSubSkill;
 module.exports.listQualityCapabilities = listQualityCapabilities;
+module.exports.assessmentStore = assessmentStore;
+module.exports.sandboxRuntime = sandboxRuntime;
+module.exports.layeredArchCheck = layeredArchCheck;
 // 内部模块直接API
 module.exports.assessDocQuality = assessDocQuality;
 module.exports.getLayeredArchCheckCmd = getLayeredArchCheckCmd;
