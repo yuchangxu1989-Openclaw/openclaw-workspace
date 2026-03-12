@@ -1,0 +1,149 @@
+{
+  "version": "1.1.0",
+  "description": "任务类型到模型的路由配置 - 已修复模型标识",
+  "default_model": "claude/claude-sonnet-4-6",
+  
+  "routing_rules": {
+    "code_generation": {
+      "model": "zhipu/glm-5",
+      "description": "代码生成、算法实现、函数编写",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "timeout_ms": 180000,
+      "max_tokens": 4096,
+      "temperature": 0.3,
+      "reasoning": {
+        "enable": true,
+        "detail": "medium"
+      },
+      "system_prompt": "你是一位资深软件工程师，擅长编写高质量、可维护的代码。请提供清晰、简洁的实现，并附上必要的注释。"
+    },
+    
+    "code_analysis": {
+      "model": "zhipu/glm-5",
+      "description": "代码解释、逻辑分析、潜在问题识别",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "timeout_ms": 120000,
+      "max_tokens": 4096,
+      "temperature": 0.2,
+      "reasoning": {
+        "enable": true,
+        "detail": "high"
+      },
+      "system_prompt": "你是一位代码审查专家，擅长分析代码逻辑、识别潜在问题和优化点。请详细解释代码的工作原理。"
+    },
+    
+    "code_review": {
+      "model": "zhipu/glm-5",
+      "description": "代码审查、质量评估、改进建议",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "timeout_ms": 120000,
+      "max_tokens": 4096,
+      "temperature": 0.2,
+      "reasoning": {
+        "enable": true,
+        "detail": "high"
+      },
+      "system_prompt": "你是一位严格的代码审查员，专注于代码质量、安全性、性能和可维护性。请指出所有问题并提供改进建议。"
+    },
+    
+    "deep_reasoning": {
+      "model": "zhipu/glm-5",
+      "description": "深度思考、复杂推理、学术研究",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "timeout_ms": 180000,
+      "max_tokens": 8192,
+      "temperature": 0.5,
+      "reasoning": {
+        "enable": true,
+        "detail": "high"
+      },
+      "system_prompt": "你是一位深度思考者，擅长复杂问题分析和系统性推理。请全面考虑各种因素，提供深入的见解。"
+    },
+    
+    "cron_task": {
+      "model": "zhipu/glm-5",
+      "description": "Cron定时任务后台执行",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "timeout_ms": 300000,
+      "max_tokens": 8192,
+      "temperature": 0.3,
+      "system_prompt": "你正在执行后台定时任务。请高效完成分析、代码生成或数据处理任务，确保结果准确可靠。"
+    },
+    
+    "user_insight": {
+      "model": "claude/claude-sonnet-4-6",
+      "description": "用户洞察分析 - 轻量级任务",
+      "timeout_ms": 60000,
+      "max_tokens": 4096,
+      "temperature": 0.2
+    },
+    
+    "audio_asr": {
+      "model": "glm-asr",
+      "description": "语音识别、音频转文字",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/audio/transcriptions",
+      "timeout_ms": 60000,
+      "supported_formats": ["mp3", "wav", "m4a", "ogg", "webm"],
+      "max_file_size_mb": 200
+    },
+    
+    "audio_tts": {
+      "model": "glm-tts",
+      "description": "语音合成、文字转语音",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/audio/synthesis",
+      "timeout_ms": 60000,
+      "voice_options": ["xiaoxiao", "xiaoming", "xiaohong"]
+    },
+    
+    "image_gen": {
+      "model": "glm-image",
+      "description": "图片生成、图像创建",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/images/generations",
+      "timeout_ms": 60000,
+      "size": "1024x1024",
+      "quality": "standard"
+    },
+    
+    "image_analysis": {
+      "model": "glm-4v",
+      "description": "图片理解、图像分析",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "timeout_ms": 60000,
+      "max_tokens": 4096
+    },
+    
+    "math": {
+      "model": "zhipu/glm-5",
+      "description": "数学计算、方程求解、统计分析",
+      "endpoint": "https://open.bigmodel.cn/api/coding/paas/v4/chat/completions",
+      "timeout_ms": 120000,
+      "max_tokens": 4096,
+      "temperature": 0.1,
+      "reasoning": {
+        "enable": true,
+        "detail": "high"
+      }
+    },
+    
+    "daily_chat": {
+      "model": "claude/claude-sonnet-4-6",
+      "description": "日常对话、简单问答",
+      "action": "skip_tool_call",
+      "note": "使用当前主会话直接回答"
+    }
+  },
+  
+  "fallback": {
+    "on_timeout": "claude/claude-sonnet-4-6",
+    "on_error": "claude/claude-sonnet-4-6",
+    "error_message": " specialized model 调用失败，使用主模型继续回答。"
+  },
+  
+  "api_keys": {
+    "zhipu/glm-5": "${GLM5_API_KEY}",
+    "glm-asr": "${GLM_ASR_API_KEY}",
+    "glm-tts": "${GLM_TTS_API_KEY}",
+    "glm-image": "${GLM_IMAGE_API_KEY}",
+    "glm-4v": "${GLM4V_API_KEY}"
+  }
+}
