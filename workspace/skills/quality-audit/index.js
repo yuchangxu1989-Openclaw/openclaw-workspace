@@ -52,6 +52,119 @@ const HARDCODE_PATTERNS = [
   { re: /\/root\/[^\s'"]{20,}/, name: '绝对路径hardcode（可疑）' },
 ];
 
+
+const SYSTEMATIC_DEBUGGING_SKILL_PATH = path.join(WORKSPACE, 'skills/runesleo-systematic-debugging/SKILL.md');
+const DEBUGGING_PHASE_KEYS = [
+  'phase0ContextRecall',
+  'phase1RootCauseInvestigation',
+  'phase2SolutionDesign',
+  'phase3Implementation',
+  'phase4Verification',
+];
+
+function loadSystematicDebuggingChecklist() {
+  const fallback = [
+    { key: 'phase0ContextRecall', label: 'Phase 0: Context Recall', description: '先搜索已有经验' },
+    { key: 'phase1RootCauseInvestigation', label: 'Phase 1: Root Cause Investigation', description: '根因调查，禁止跳到修复' },
+    { key: 'phase2SolutionDesign', label: 'Phase 2: Solution Design', description: '制定方案' },
+    { key: 'phase3Implementation', label: 'Phase 3: Implementation', description: '实施' },
+    { key: 'phase4Verification', label: 'Phase 4: Verification', description: '验证+记录' },
+  ];
+
+  if (!fs.existsSync(SYSTEMATIC_DEBUGGING_SKILL_PATH)) return fallback;
+
+  try {
+    const text = fs.readFileSync(SYSTEMATIC_DEBUGGING_SKILL_PATH, 'utf8');
+    const phaseMatches = [...text.matchAll(/###\s+Phase\s+(\d+)\s*:\s*([^\n]+)/g)];
+    if (phaseMatches.length < 5) return fallback;
+
+    const map = {
+      0: 'phase0ContextRecall',
+      1: 'phase1RootCauseInvestigation',
+      2: 'phase2SolutionDesign',
+      3: 'phase3Implementation',
+      4: 'phase4Verification',
+    };
+
+    return phaseMatches
+      .map((m) => {
+        const num = Number(m[1]);
+        if (!(num in map)) return null;
+        return {
+          key: map[num],
+          label: `Phase ${num}: ${m[2].trim()}`,
+          description: m[2].trim(),
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => DEBUGGING_PHASE_KEYS.indexOf(a.key) - DEBUGGING_PHASE_KEYS.indexOf(b.key));
+  } catch {
+    return fallback;
+  }
+}
+
+function normalizeDebuggingEvidence(input) {
+  const evidence = input?.systematicDebugging || input?.debugging || {};
+  const donePhases = new Set(Array.isArray(evidence.donePhases) ? evidence.donePhases.map(v => String(v)) : []);
+  const phaseByName = {};
+
+  for (const key of DEBUGGING_PHASE_KEYS) {
+    phaseByName[key] = Boolean(evidence[key]);
+  }
+
+  const aliases = {
+    phase0: 'phase0ContextRecall',
+    phase1: 'phase1RootCauseInvestigation',
+    phase2: 'phase2SolutionDesign',
+    phase3: 'phase3Implementation',
+    phase4: 'phase4Verification',
+  };
+  for (const [from, to] of Object.entries(aliases)) {
+    if (evidence[from]) phaseByName[to] = true;
+  }
+
+  for (const item of donePhases) {
+    const n = item.toLowerCase();
+    if (n in aliases) phaseByName[aliases[n]] = true;
+    if (n.includes('phase 0') || n.includes('phase0')) phaseByName.phase0ContextRecall = true;
+    if (n.includes('phase 1') || n.includes('phase1')) phaseByName.phase1RootCauseInvestigation = true;
+    if (n.includes('phase 2') || n.includes('phase2')) phaseByName.phase2SolutionDesign = true;
+    if (n.includes('phase 3') || n.includes('phase3')) phaseByName.phase3Implementation = true;
+    if (n.includes('phase 4') || n.includes('phase4')) phaseByName.phase4Verification = true;
+  }
+
+  return phaseByName;
+}
+
+function evaluateSystematicDebugging(input, allIssues, checklist) {
+  const hasIssues = allIssues.length > 0;
+  const phaseStatus = normalizeDebuggingEvidence(input);
+
+  let reachedPhase = -1;
+  for (let i = 0; i < checklist.length; i++) {
+    const key = checklist[i].key;
+    if (phaseStatus[key]) reachedPhase = i;
+    else break;
+  }
+
+  const debuggingPhase = reachedPhase >= 0 ? checklist[reachedPhase].label : 'none';
+  const missingPhases = checklist.filter((_, idx) => idx > reachedPhase).map(p => p.label);
+  const complete = !hasIssues || reachedPhase >= checklist.length - 1;
+  const incomplete = hasIssues && !complete;
+
+  return {
+    required: hasIssues,
+    hasIssues,
+    complete,
+    incomplete,
+    debuggingPhase,
+    reachedIndex: reachedPhase,
+    checklist,
+    missingPhases,
+    phaseStatus,
+  };
+}
+
 // ─── 工具函数 ───
 
 function sh(cmd, opts = {}) {
@@ -762,10 +875,27 @@ function fullAudit(input, logger) {
   if (dimensions.evalStandardAlignment?.stats?.evalCoverage < 30) fixSuggestions.push('为更多技能添加evals/evals.json评测集');
   if (dimensions.devStandards.layerCoverage?.fullChain < 60) fixSuggestions.push('补全ISC规则五层展开（尤其验真层）');
 
+  const debuggingChecklist = loadSystematicDebuggingChecklist();
+  const debugging = evaluateSystematicDebugging(input, allIssues, debuggingChecklist);
+  if (debugging.incomplete) {
+    if (verdict === 'pass') verdict = 'warn';
+    fixSuggestions.unshift('发现问题后必须完整执行systematic-debugging五阶段流程');
+    allIssues.unshift({
+      severity: 'high',
+      check: 'systematic-debugging',
+      message: `审计发现问题但未完成调试流程：当前${debugging.debuggingPhase}` ,
+      suggestedAction: '补齐Phase 0~4并更新审计输入中的systematicDebugging证据',
+      missingPhases: debugging.missingPhases,
+    });
+  }
+
   const result = {
     mode: 'full', verdict, score, dimensions, fixSuggestions,
     issueCount: allIssues.length,
     topIssues: allIssues.slice(0, 20),
+    debuggingPhase: debugging.debuggingPhase,
+    systematicDebugging: debugging,
+    incomplete: debugging.incomplete,
     timestamp: toShanghaiTimestamp(),
   };
   result.reportPath = writeReport('full', result);
@@ -803,8 +933,16 @@ function autoQA(input, logger) {
   );
   const verdict = dimVerdict(score);
 
+  const allIssues = Object.values(dimensions).flatMap(dim => (dim.issues || []).map(iss => ({ ...iss, dimension: dim.dimension })));
+  const debuggingChecklist = loadSystematicDebuggingChecklist();
+  const debugging = evaluateSystematicDebugging(input, allIssues, debuggingChecklist);
+  if (debugging.incomplete && verdict === 'pass') verdict = 'warn';
+
   const result = {
     mode: 'auto-qa', agentId, taskLabel, verdict, score, dimensions,
+    debuggingPhase: debugging.debuggingPhase,
+    systematicDebugging: debugging,
+    incomplete: debugging.incomplete,
     timestamp: new Date().toISOString(),
   };
   result.reportPath = writeReport(`auto-qa-${agentId}`, result);
