@@ -221,6 +221,19 @@ function getTranscriptMtime(sessionVal, sessDir) {
   } catch { return 0; }
 }
 
+// Get session start time: transcript file birth time (most reliable proxy)
+function getSessionStartTime(sessionVal, sessDir) {
+  try {
+    const sid = sessionVal.sessionId;
+    if (!sid) return 0;
+    const tp = `${sessDir}/${sid}.jsonl`;
+    if (!fs.existsSync(tp)) return 0;
+    const stat = fs.statSync(tp);
+    // birthtimeMs is available on Linux with ext4/xfs; fallback to ctimeMs
+    return stat.birthtimeMs || stat.ctimeMs || stat.mtimeMs;
+  } catch { return 0; }
+}
+
 const RESURRECT_THRESHOLD_MS = 30 * 60 * 1000; // 30 minutes (was 2 hours — too aggressive)
 let resurrected = 0;
 for (const [label, { val, sessDir }] of Object.entries(allSessions)) {
@@ -263,10 +276,13 @@ for (const [label, { val, sessDir, agent }] of Object.entries(allSessions)) {
   const lastActivity = Math.max(val.updatedAt || 0, tmtime);
   const age = now - lastActivity;
   if (age > RUNNING_MAX_AGE_MS) continue;
-  const ageMin = Math.floor(age / 60000);
-  const duration = ageMin >= 60
-    ? Math.floor(ageMin / 60) + 'h' + (ageMin % 60) + 'm'
-    : ageMin + 'm';
+  // Elapsed = time since session started (not since last activity)
+  const startTime = getSessionStartTime(val, sessDir);
+  const elapsedMs = startTime > 0 ? now - startTime : age;
+  const elapsedMin = Math.floor(elapsedMs / 60000);
+  const duration = elapsedMin >= 60
+    ? Math.floor(elapsedMin / 60) + 'h' + (elapsedMin % 60) + 'm'
+    : (elapsedMin < 1 ? '<1m' : elapsedMin + 'm');
   const rawModel = val.model || val.config?.model || '';
   const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || AGENT_MODEL_FALLBACK[agent] || DEFAULT_MODEL_FALLBACK);
   rows.push({ task: label, agent, model, status: '🟢运行中', duration, _age: age });
