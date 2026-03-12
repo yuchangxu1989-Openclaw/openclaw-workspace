@@ -129,7 +129,7 @@ DTO订阅ISC标准规则，确保代码变更时自动执行标准检查：
 
 ## 架构原则
 
-### 1. 声明式优于命令式
+### 1. 本地编排优于命令式
 
 ```javascript
 // ❌ 命令式：指定如何执行
@@ -137,7 +137,7 @@ await createSkill();
 await runTests();
 await fixIssues();
 
-// ✅ 声明式：描述期望状态
+// ✅ 本地编排：描述期望状态
 ctc.registerTask({
   intent: "技能从候选到发布",
   workflow: { nodes: [...], edges: [...] }

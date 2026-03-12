@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * DTO声明式并行编排器 v3.0
- * 云端LLM生成声明式工作流 → DTO解析调度 → 子Agent并行执行
+ * DTO本地并行编排器 v3.0
+ * 云端LLM生成本地工作流 → DTO解析调度 → 子Agent并行执行
  */
 
 const ParallelSubagentSpawner = require('../parallel-subagent/index.js');
@@ -16,7 +16,7 @@ class DeclarativeParallelOrchestrator {
   }
 
   /**
-   * 云端LLM调用入口：解析声明式工作流并执行
+   * 云端LLM调用入口：解析本地工作流并执行
    * @param {string} declarativeWorkflow - 自然语言描述的工作流
    * @example
    * orchestrator.execute(`
@@ -28,7 +28,7 @@ class DeclarativeParallelOrchestrator {
    * `);
    */
   async execute(declarativeWorkflow) {
-    console.log('[DTO并行编排] 解析声明式工作流...');
+    console.log('[DTO并行编排] 解析本地工作流...');
     
     // 解析自然语言为结构化工作流
     const workflow = this.parseWorkflow(declarativeWorkflow);
@@ -40,7 +40,7 @@ class DeclarativeParallelOrchestrator {
   }
 
   /**
-   * 解析声明式工作流
+   * 解析本地工作流
    * 支持格式：
    * 阶段1(并行): AgentA:任务, AgentB:任务
    * 阶段2(顺序,依赖阶段1): AgentC:任务
@@ -100,7 +100,7 @@ class DeclarativeParallelOrchestrator {
         properties: {
           workflow: {
             type: 'string',
-            description: '声明式工作流描述，例如："阶段1(并行): - analyzer:分析需求 - researcher:调研背景 阶段2(顺序): - writer:撰写报告"'
+            description: '本地工作流描述，例如："阶段1(并行): - analyzer:分析需求 - researcher:调研背景 阶段2(顺序): - writer:撰写报告"'
           }
         },
         required: ['workflow']
