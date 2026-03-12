@@ -9,6 +9,12 @@
 ## 飞书密钥管理
 - 所有明文密钥不用管，GitHub仓库不公开，无需脱敏处理（用户明确指示）
 
+## 直接指令识别铁令
+- 用户说"派人"、"去修复"、"赶紧实现"、"删掉"、"清理"等明确指令时，**直接执行派发，禁止反问确认**
+- 只有用户用疑问句（"要不要"、"是不是"、"觉得呢"、"怎么看"）时才需要确认
+- 检测器：`skills/dispatch-protocol/direct-command-detector.js`
+- ISC规则：`ISC-DIRECT-COMMAND-DISPATCH-001`
+
 ## 任务管理
 - 不开新cron做巡检，评测集巡检归入已有PDCA
 - PDCA整合进AEO，作为AEO子技能

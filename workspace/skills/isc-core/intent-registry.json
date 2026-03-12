@@ -168,5 +168,12 @@
     "source_rules": [
       "rule.umr-intent-routing-001"
     ]
+  },
+  {
+    "intent_type": "direct-command-dispatch",
+    "description": "用户明确指令自动派发，跳过确认",
+    "source_rules": [
+      "ISC-DIRECT-COMMAND-DISPATCH-001"
+    ]
   }
 ]

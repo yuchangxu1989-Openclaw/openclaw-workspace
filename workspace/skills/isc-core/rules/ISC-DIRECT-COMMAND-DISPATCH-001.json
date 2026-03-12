@@ -1,0 +1,21 @@
+{
+  "rule_id": "ISC-DIRECT-COMMAND-DISPATCH-001",
+  "version": "1.0.0",
+  "name": "直接指令自动派发",
+  "description": "用户发出明确任务指令时（派人、赶紧修、删掉等），直接执行派发，禁止反问确认",
+  "trigger": {
+    "event": "user.message.received",
+    "condition": "detectDirectCommand(message).isCommand === true && confidence >= 0.8"
+  },
+  "action": {
+    "type": "dispatch",
+    "skipConfirmation": true,
+    "handler": "skills/dispatch-protocol/direct-command-detector.js"
+  },
+  "constraints": {
+    "antiPatterns": "疑问句、征求意见、概念提问不触发",
+    "minConfidence": 0.8
+  },
+  "created": "2026-03-12",
+  "status": "active"
+}
