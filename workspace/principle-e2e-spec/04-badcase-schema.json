@@ -188,6 +188,41 @@
       "type": "string",
       "enum": ["OPEN", "IN_PROGRESS", "RESOLVED", "WONT_FIX"],
       "default": "OPEN"
+    },
+    "scoring_rubric": {
+      "type": "object",
+      "description": "V4评分标准（动态引用eval-standard-schema.json）",
+      "properties": {
+        "version": { "type": "string", "const": "V4" },
+        "primary_metrics": { "type": "array", "items": { "type": "string" } },
+        "pass_criteria": { "type": "string" },
+        "partial_criteria": { "type": "string" },
+        "fail_criteria": { "type": "string" },
+        "scoring_dimensions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["dimension", "weight", "pass", "fail"],
+            "properties": {
+              "dimension": { "type": "string" },
+              "weight": { "type": "number", "minimum": 0, "maximum": 1 },
+              "pass": { "type": "string" },
+              "partial": { "type": "string" },
+              "fail": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "north_star_indicator": {
+      "type": "string",
+      "description": "V4北极星指标",
+      "examples": ["根因分析覆盖率", "意图识别准确率", "执行链完整度", "跨模块协同率", "上下文利用率"]
+    },
+    "gate": {
+      "type": "string",
+      "description": "V4评测门禁阶段",
+      "enum": ["Gate-A", "Gate-B"]
     }
   },
   "examples": [

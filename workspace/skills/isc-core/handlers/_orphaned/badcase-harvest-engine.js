@@ -36,6 +36,10 @@ module.exports = async function (event, rule, context) {
   const wrongChain = payload.wrong_chain || '';
   const correctChain = payload.correct_chain || '';
   const rootCause = payload.root_cause || '';
+  // V4评测字段
+  const scoringRubric = payload.scoring_rubric || undefined;
+  const northStarIndicator = payload.north_star_indicator || undefined;
+  const gate = payload.gate || undefined;
 
   // Check 1: description is non-empty
   checks.push({
@@ -78,6 +82,10 @@ module.exports = async function (event, rule, context) {
     correct_chain: correctChain,
     root_cause: rootCause,
     source_event: eventType,
+    // V4评测字段
+    scoring_rubric: scoringRubric,
+    north_star_indicator: northStarIndicator,
+    gate: gate,
     harvested_at: new Date().toISOString(),
   };
 
@@ -102,6 +110,9 @@ module.exports = async function (event, rule, context) {
         category: autoCategory,
         correctBehavior: correctChain,
         rootCause: rootCause,
+        scoring_rubric: scoringRubric,
+        north_star_indicator: northStarIndicator,
+        gate: gate,
       });
       if (bcResult.ok) {
         actions.push(`collector_ok:${bcResult.badcaseId}`);

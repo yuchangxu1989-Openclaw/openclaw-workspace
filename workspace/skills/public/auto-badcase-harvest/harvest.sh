@@ -10,6 +10,10 @@ DESCRIPTION="${3:-}"
 WRONG_CHAIN="${4:-}"
 CORRECT_CHAIN="${5:-}"
 ROOT_CAUSE="${6:-}"
+# V4评测字段（可选）
+SCORING_RUBRIC="${7:-}"
+NORTH_STAR_INDICATOR="${8:-}"
+GATE="${9:-}"
 
 if [ -z "$BADCASE_ID" ] || [ -z "$CATEGORY" ] || [ -z "$DESCRIPTION" ]; then
   echo "用法: harvest.sh <badcase_id> <category> <description> [wrong_chain] [correct_chain] [root_cause]"
@@ -55,6 +59,9 @@ cases.push({
   actual_behavior: $(node -e "process.stdout.write(JSON.stringify('$WRONG_CHAIN'))"),
   badcase_category: $(node -e "process.stdout.write(JSON.stringify('$CATEGORY'))"),
   root_cause: $(node -e "process.stdout.write(JSON.stringify('$ROOT_CAUSE'))"),
+  scoring_rubric: $(node -e "var v='$SCORING_RUBRIC'; process.stdout.write(v ? JSON.stringify(v) : 'undefined')"),
+  north_star_indicator: $(node -e "var v='$NORTH_STAR_INDICATOR'; process.stdout.write(v ? JSON.stringify(v) : 'undefined')"),
+  gate: $(node -e "var v='$GATE'; process.stdout.write(v ? JSON.stringify(v) : 'undefined')"),
   data_source: '$DATA_SOURCE',
   difficulty: '$DIFFICULTY',
   source: 'auto-harvest-engine',

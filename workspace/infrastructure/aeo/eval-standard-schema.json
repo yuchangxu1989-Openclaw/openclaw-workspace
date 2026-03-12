@@ -41,6 +41,7 @@
     "data_source",
     "north_star_indicator",
     "scoring_rubric",
+    "gate",
     "source_date",
     "tags"
   ],
@@ -132,6 +133,11 @@
       "type": "array",
       "items": { "type": "string" },
       "description": "自由标签"
+    },
+    "gate": {
+      "type": "string",
+      "description": "评测门禁阶段：Gate-A为自动化门禁，Gate-B为人工审核门禁",
+      "enum": ["Gate-A", "Gate-B"]
     }
   },
 
@@ -254,6 +260,7 @@
       "context": "",
       "execution_chain_steps": [],
       "north_star_indicator": "",
+      "gate": "",
       "scoring_rubric": {
         "version": "V4",
         "primary_metrics": [],

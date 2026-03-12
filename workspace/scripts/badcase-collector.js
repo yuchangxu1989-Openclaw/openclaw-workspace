@@ -123,6 +123,10 @@ function collectBadcase(label, error, context = {}) {
     phase: context.phase || undefined,
     correct_behavior: context.correctBehavior || undefined,
     root_cause: context.rootCause || undefined,
+    // V4评测字段
+    scoring_rubric: context.scoring_rubric || undefined,
+    north_star_indicator: context.north_star_indicator || undefined,
+    gate: context.gate || undefined,
     timestamp: ts,
     harvested_at: ts,
   };
