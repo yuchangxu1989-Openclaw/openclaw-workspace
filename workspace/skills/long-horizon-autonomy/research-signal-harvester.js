@@ -9,10 +9,14 @@ const path = require('path');
 
 const WORKSPACE = '/root/.openclaw/workspace';
 const SIGNAL_DIR = path.join(WORKSPACE, 'reports/research-signals');
+const KNOWLEDGE_BASE = path.join(WORKSPACE, 'reports/research-knowledge-base.jsonl');
+const QUALITY_BACKLOG = path.join(WORKSPACE, 'reports/quality-issues-backlog.jsonl');
 fs.mkdirSync(SIGNAL_DIR, { recursive: true });
 
-const dateStr = new Date().toISOString().split('T')[0];
+const shanghaiDate = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Shanghai' }));
+const dateStr = shanghaiDate.getFullYear() + '-' + String(shanghaiDate.getMonth() + 1).padStart(2, '0') + '-' + String(shanghaiDate.getDate()).padStart(2, '0');
 const outFile = path.join(SIGNAL_DIR, `signals-${dateStr}.md`);
+const briefFile = path.join(SIGNAL_DIR, `daily-brief-${dateStr}.md`);
 
 // 如果今天已抓取，跳过
 if (fs.existsSync(outFile)) {
@@ -31,20 +35,85 @@ function fetchJson(url, timeout = 10000) {
   });
 }
 
-function fetchText(url, timeout = 10000) {
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error('timeout')), timeout);
-    https.get(url, { headers: { 'User-Agent': 'openclaw-harvester/1.0' } }, (res) => {
-      let data = '';
-      res.on('data', d => data += d);
-      res.on('end', () => { clearTimeout(timer); resolve(data); });
-    }).on('error', e => { clearTimeout(timer); reject(e); });
-  });
+function readJsonl(file) {
+  if (!fs.existsSync(file)) return [];
+  return fs.readFileSync(file, 'utf8')
+    .split('\n')
+    .map(l => l.trim())
+    .filter(Boolean)
+    .map(l => {
+      try { return JSON.parse(l); } catch { return null; }
+    })
+    .filter(Boolean);
+}
+
+function writeDailyBrief(signals, errors, qualityIssues) {
+  const lines = [
+    `# 研究信号简报 ${dateStr}`,
+    `_生成时间: ${new Date().toISOString()}_`,
+    '',
+    '## 今日要点',
+    `- 研究信号总数：${signals.length}`,
+    `- 数据源健康：${errors.length === 0 ? '正常' : `部分异常（${errors.length}项）`}`,
+    `- 质量痛点对齐：${qualityIssues.length} 条（来自 quality-issues-backlog）`,
+    ''
+  ];
+
+  const topSignals = signals.slice(0, 5);
+  lines.push('## Top Signals', '');
+  if (topSignals.length === 0) {
+    lines.push('- 今日暂无可用信号', '');
+  } else {
+    topSignals.forEach((s, i) => {
+      lines.push(`${i + 1}. **${s.title}** (${s.source})`);
+      lines.push(`   - ${s.url}`);
+      if (s.summary) lines.push(`   - ${s.summary}`);
+    });
+    lines.push('');
+  }
+
+  lines.push('## 系统痛点对齐建议', '');
+  if (qualityIssues.length === 0) {
+    lines.push('- 未发现可读取的质量问题积压，建议补充 reports/quality-issues-backlog.jsonl', '');
+  } else {
+    qualityIssues.slice(0, 10).forEach((q, i) => {
+      const title = q.title || q.issue || q.problem || q.type || `issue-${i + 1}`;
+      lines.push(`- ${title}`);
+    });
+    lines.push('');
+  }
+
+  if (errors.length > 0) {
+    lines.push('## 采集异常', '');
+    errors.forEach(e => lines.push(`- ${e}`));
+    lines.push('');
+  }
+
+  lines.push('---', '_由 research-signal-harvester.js 自动生成_');
+  fs.writeFileSync(briefFile, lines.join('\n'));
+}
+
+function appendKnowledge(signals, qualityIssues) {
+  const payload = {
+    timestamp: new Date().toISOString(),
+    date: dateStr,
+    source: 'research-signal-harvester',
+    signals_count: signals.length,
+    key_signals: signals.slice(0, 5).map(s => ({
+      source: s.source,
+      title: s.title,
+      url: s.url,
+      summary: s.summary
+    })),
+    quality_alignment: qualityIssues.slice(0, 10).map(q => q.title || q.issue || q.problem || q.type).filter(Boolean)
+  };
+  fs.appendFileSync(KNOWLEDGE_BASE, JSON.stringify(payload) + '\n');
 }
 
 async function main() {
   const signals = [];
   const errors = [];
+  const qualityIssues = readJsonl(QUALITY_BACKLOG);
 
   // 1. HuggingFace Daily Papers API
   try {
@@ -81,7 +150,7 @@ async function main() {
     }
   } catch (e) { errors.push(`GitHub: ${e.message}`); }
 
-  // 写入报告
+  // 写入主报告
   const lines = [
     `# 研究信号日报 ${dateStr}`,
     `_采集时间: ${new Date().toISOString()}_`,
@@ -117,7 +186,14 @@ async function main() {
 
   lines.push('---', '_由 research-signal-harvester.js 自动生成_');
   fs.writeFileSync(outFile, lines.join('\n'));
+
+  // 生成简报 + 知识沉淀
+  writeDailyBrief(signals, errors, qualityIssues);
+  appendKnowledge(signals, qualityIssues);
+
   console.log(`[${dateStr}] research-signal-harvester: ${signals.length} signals → ${outFile}`);
+  console.log(`[${dateStr}] daily-brief generated → ${briefFile}`);
+  console.log(`[${dateStr}] knowledge appended → ${KNOWLEDGE_BASE}`);
 }
 
 main().catch(e => {

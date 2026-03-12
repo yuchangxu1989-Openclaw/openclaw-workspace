@@ -149,7 +149,8 @@ async function researchTopic(topic) {
 }
 
 async function main() {
-  const dateStr = new Date().toISOString().split('T')[0];
+  const shanghaiDate = new Date(new Date().toLocaleString('en-US', {timeZone: 'Asia/Shanghai'}));
+  const dateStr = shanghaiDate.getFullYear() + '-' + String(shanghaiDate.getMonth()+1).padStart(2,'0') + '-' + String(shanghaiDate.getDate()).padStart(2,'0');
   const reportFile = path.join(REPORT_DIR, `directed-research-${dateStr}.md`);
   
   // 如果今天已抓取，跳过
