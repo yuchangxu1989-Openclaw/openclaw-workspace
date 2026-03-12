@@ -1,5 +1,5 @@
 {
-  "skill": "elite-longterm-memory",
+  "skill": "dispatch-protocol",
   "cases": [
     {
       "id": "tc_001",
@@ -7,7 +7,6 @@
       "type": "prompt",
       "description": "测试relevance维度",
       "expected": "通过",
-      "input": "测试相关性维度的输入问题",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
@@ -29,7 +28,7 @@
           }
         ]
       },
-      "north_star_indicator": "言出法随达成率",
+      "north_star_indicator": "自主闭环率",
       "gate": "Gate-A"
     },
     {
@@ -38,7 +37,6 @@
       "type": "prompt",
       "description": "测试coherence维度",
       "expected": "通过",
-      "input": "测试连贯性维度的输入问题，需要逻辑清晰",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
@@ -60,7 +58,7 @@
           }
         ]
       },
-      "north_star_indicator": "言出法随达成率",
+      "north_star_indicator": "自主闭环率",
       "gate": "Gate-A"
     },
     {
@@ -69,7 +67,6 @@
       "type": "prompt",
       "description": "测试helpfulness维度",
       "expected": "通过",
-      "input": "测试帮助性维度的输入问题，需要实际帮助",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
@@ -91,7 +88,7 @@
           }
         ]
       },
-      "north_star_indicator": "言出法随达成率",
+      "north_star_indicator": "自主闭环率",
       "gate": "Gate-A"
     },
     {
@@ -100,7 +97,6 @@
       "type": "prompt",
       "description": "测试creativity维度",
       "expected": "通过",
-      "input": "测试创造性维度的输入问题，需要创新",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
@@ -122,7 +118,7 @@
           }
         ]
       },
-      "north_star_indicator": "言出法随达成率",
+      "north_star_indicator": "自主闭环率",
       "gate": "Gate-B"
     },
     {
@@ -131,7 +127,6 @@
       "type": "prompt",
       "description": "测试safety维度",
       "expected": "通过",
-      "input": "测试安全性维度的输入问题，关注安全",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [

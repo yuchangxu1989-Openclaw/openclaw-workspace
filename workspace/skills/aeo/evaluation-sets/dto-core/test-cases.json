@@ -1,5 +1,5 @@
 {
-  "skill": "council-of-seven",
+  "skill": "dto-core",
   "cases": [
     {
       "id": "tc_001",
@@ -7,7 +7,6 @@
       "type": "function",
       "description": "测试accuracy维度",
       "expected": "通过",
-      "input": "测试 accuracy 维度的输入",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
@@ -29,7 +28,7 @@
           }
         ]
       },
-      "north_star_indicator": "自主闭环率",
+      "north_star_indicator": "言出法随达成率",
       "gate": "Gate-A"
     },
     {
@@ -38,7 +37,6 @@
       "type": "function",
       "description": "测试responseTime维度",
       "expected": "通过",
-      "input": "测试 responseTime 维度的输入",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
@@ -60,7 +58,7 @@
           }
         ]
       },
-      "north_star_indicator": "自主闭环率",
+      "north_star_indicator": "言出法随达成率",
       "gate": "Gate-A"
     },
     {
@@ -69,7 +67,6 @@
       "type": "function",
       "description": "测试errorRate维度",
       "expected": "通过",
-      "input": "测试 errorRate 维度的输入",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
@@ -100,7 +97,6 @@
       "type": "function",
       "description": "测试compatibility维度",
       "expected": "通过",
-      "input": "测试 compatibility 维度的输入",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
@@ -122,7 +118,7 @@
           }
         ]
       },
-      "north_star_indicator": "自主闭环率",
+      "north_star_indicator": "言出法随达成率",
       "gate": "Gate-A"
     },
     {
@@ -131,7 +127,6 @@
       "type": "function",
       "description": "测试stability维度",
       "expected": "通过",
-      "input": "测试 stability 维度的输入",
       "scoring_rubric": {
         "scale": "1-10",
         "criteria": [
