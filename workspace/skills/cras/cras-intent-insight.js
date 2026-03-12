@@ -15,6 +15,7 @@ const EVALSET_DIR = path.join(WORKSPACE, 'tests/benchmarks/intent');
 const LOG_PATH = path.join(WORKSPACE, 'infrastructure/logs/cras-intent-insight.log');
 const PDCA_SUGGESTIONS = path.join(WORKSPACE, 'skills/aeo/pdca/improvement-suggestions.jsonl');
 const RESEARCH_DIR = path.join(WORKSPACE, 'skills/cras/insights');
+const PATTERNS_JSONL = path.join(WORKSPACE, 'reports/intent/patterns.jsonl');
 
 /** Asia/Shanghai日期 */
 function getShanghaiDateStr(date = new Date()) {
@@ -216,6 +217,17 @@ function inferSuggestedChange(keywords, finding) {
   return `基于洞察"${finding.slice(0, 80)}..."评估是否可改进PDCA度量标准`;
 }
 
+function writeIntentPatterns(metrics) {
+  fs.mkdirSync(path.dirname(PATTERNS_JSONL), { recursive: true });
+  const record = {
+    ts: new Date().toISOString(),
+    tz: 'Asia/Shanghai',
+    ...metrics,
+  };
+  fs.appendFileSync(PATTERNS_JSONL, JSON.stringify(record) + '\n');
+  return 1;
+}
+
 /**
  * 主流程
  */
@@ -237,8 +249,18 @@ function main() {
   // 4. 战略行研 → PDCA反馈闭环
   const pdcaSuggestions = researchToPdcaFeedback();
   log(`PDCA改进建议: ${pdcaSuggestions}条`);
+
+  // 5. 新模式写入 reports/intent/patterns.jsonl
+  const patternCount = writeIntentPatterns({
+    date: getShanghaiDateStr(),
+    unknown_candidates: candidates.length,
+    corrections_harvested: corrections.length,
+    eval_cases_generated: newCases,
+    pdca_suggestions_emitted: pdcaSuggestions
+  });
+  log(`模式写入: ${patternCount}条`);
   
-  // 5. emit事件
+  // 6. emit事件
   if (candidates.length > 0 || newCases > 0 || pdcaSuggestions > 0) {
     const event = {
       type: 'cras.insight.hourly_digest',

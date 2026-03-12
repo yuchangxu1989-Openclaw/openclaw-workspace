@@ -143,15 +143,17 @@ function loadConfig() {
     maxRunTimeMs: 240000,   // 4分钟总运行时间上限
   };
 
+  const openclawPath = path.join(process.env.OPENCLAW_HOME || '/root/.openclaw', 'openclaw.json');
+  let openclawConfig = {};
   try {
-    const openclawConfig = JSON.parse(
-      fs.readFileSync(path.join(process.env.OPENCLAW_HOME || '/root/.openclaw', 'openclaw.json'), 'utf8')
-    );
-    const intentConfig = openclawConfig?.cras?.intent || {};
-    return { ...defaults, ...intentConfig };
-  } catch (_) {
-    return defaults;
+    openclawConfig = JSON.parse(fs.readFileSync(openclawPath, 'utf8'));
+  } catch (e) {
+    console.warn('[intent-extractor] openclaw.json parse failed, using fallback:', e.message);
+    // 用空配置继续，避免崩溃
   }
+
+  const intentConfig = openclawConfig?.cras?.intent || {};
+  return { ...defaults, ...intentConfig };
 }
 
 /**
