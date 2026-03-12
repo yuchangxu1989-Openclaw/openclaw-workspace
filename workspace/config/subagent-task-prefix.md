@@ -1,3 +1,9 @@
+## 👤 用户画像（必读）
+先读 `/root/.openclaw/workspace/USER.md`，了解用户的核心原则和工作风格。
+
+## 🔧 能力锚点（必读）
+先读 `/root/.openclaw/workspace/CAPABILITY-ANCHOR.md`，了解你可用的所有能力和工具。使用工具前必须先查。
+
 ## 🔒 子Agent工作规范（必读）
 
 ### 工作目录

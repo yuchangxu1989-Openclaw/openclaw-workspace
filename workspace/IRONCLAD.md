@@ -41,3 +41,13 @@ coder-01, coder-03, coder-04, coder-05, analyst-01, architect, architect-02, wor
 ## 铁令七：记忆写入不扭曲原意
 - 引用原话不转述、记结论也记原因、写正面也写反面防歧义
 - compaction前的memory flush同样适用
+
+## 铁令九：子Agent完成 → 必须质量审计
+任何子Agent（coder/coder-02/writer/writer-02/researcher/researcher-02）完成开发/写作/研究任务后，主Agent必须：
+1. 派reviewer或reviewer-02执行质量审计
+2. 审计必须调用 `node skills/quality-audit/index.js --mode=auto-qa --agent={agentId} --task={taskLabel}`
+3. 审计必须走systematic-debugging五阶段框架
+4. 审计必须对标V4评测标准
+5. 不只查表面（文件存在、语法正确），必须查功能闭环（改了的东西是否真的生效）
+6. 审计不通过 → 派原Agent修复 → 再审 → 最多2轮 → 升级主Agent处理
+7. 免审Agent：reviewer、reviewer-02、analyst、analyst-02、scout、scout-02（审计者本身不审计）

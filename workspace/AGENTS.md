@@ -472,6 +472,13 @@ completion-handler.sh会自动检测是否需要核查。
 
 核查Agent必须和执行Agent不同（角色分离铁律）。
 
+### 质量审计闭环（铁令九）
+子Agent完成任务后，主Agent必须：
+1. 不直接向用户汇报"完成"
+2. 先派reviewer/reviewer-02执行质量审计（使用 config/quality-audit-task-template.md 模板）
+3. 审计通过后才向用户汇报
+4. 审计不通过则派原Agent修复，再审，最多2轮
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
