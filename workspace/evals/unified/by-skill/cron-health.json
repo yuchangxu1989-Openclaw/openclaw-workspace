@@ -1,0 +1,68 @@
+[
+  {
+    "id": "eval-0108",
+    "skill": "cron-health",
+    "type": "positive",
+    "input": "--action heal 修复缺失的cron配置",
+    "expected": "自动检测并修复cron条目，输出修复报告",
+    "scoring_rubric": "修复前后diff明确，修复结果可验证",
+    "north_star_indicator": "Cron健康率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0109",
+    "skill": "cron-health",
+    "type": "positive",
+    "input": "--action slo-check 检测cron空转",
+    "expected": "返回各cron任务的SLO达标状态",
+    "scoring_rubric": "识别出空转任务并给出指标数据",
+    "north_star_indicator": "Cron健康率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0110",
+    "skill": "cron-health",
+    "type": "positive",
+    "input": "--action smoke-test 回归冒烟测试",
+    "expected": "所有cron任务冒烟测试通过",
+    "scoring_rubric": "测试覆盖所有已注册cron任务",
+    "north_star_indicator": "Cron健康率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0111",
+    "skill": "cron-health",
+    "type": "positive",
+    "input": "--action all 执行全部检查",
+    "expected": "依次执行heal→slo-check→smoke-test",
+    "scoring_rubric": "三个步骤按序完成，综合报告输出",
+    "north_star_indicator": "Cron健康率",
+    "gate": "Gate-B",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0112",
+    "skill": "cron-health",
+    "type": "negative",
+    "input": "--action invalid_action",
+    "expected": "返回不支持的action错误提示",
+    "scoring_rubric": "列出支持的action列表",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0113",
+    "skill": "cron-health",
+    "type": "negative",
+    "input": "crontab文件损坏时执行heal",
+    "expected": "检测到损坏并报告而非静默跳过",
+    "scoring_rubric": "错误检测和报告机制完善",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  }
+]

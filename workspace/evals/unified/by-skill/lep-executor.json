@@ -1,0 +1,68 @@
+[
+  {
+    "id": "eval-0226",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 lep-executor 在 accuracy 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0227",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 lep-executor 在 relevance 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0228",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 lep-executor 在 reasoning 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0229",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "验证 lep-executor 在 availability 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0230",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "验证 lep-executor 在 performance 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0231",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "验证 lep-executor 在 correctness 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  }
+]

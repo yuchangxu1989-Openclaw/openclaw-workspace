@@ -1,0 +1,90 @@
+[
+  {
+    "id": "eval-0207",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "read",
+    "expected": "{\"success\": true, \"contentType\": \"text\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0208",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "write",
+    "expected": "{\"success\": true, \"bytesWritten\": 4}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0209",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "delete",
+    "expected": "{\"success\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0210",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "list",
+    "expected": "{\"success\": true, \"isArray\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0211",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "read",
+    "expected": "{\"success\": false, \"error\": \"ENOENT\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0212",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "read",
+    "expected": "{\"success\": true, \"streaming\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0213",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "write",
+    "expected": "{\"success\": false, \"error\": \"EACCES\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0214",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "concurrent",
+    "expected": "{\"success\": true, \"allCompleted\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  }
+]

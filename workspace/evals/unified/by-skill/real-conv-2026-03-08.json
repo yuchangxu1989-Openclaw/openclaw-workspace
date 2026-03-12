@@ -1,0 +1,35 @@
+[
+  {
+    "id": "eval-0285",
+    "skill": "real-conv-2026-03-08",
+    "type": "positive",
+    "input": "{\"user_message\": \"继续补 **free-key-driven auto expansion** 机制，不仅识别 backlog，还要在发现空 key 时自动从 backlog/remediation/audit/follow-up 中扩列，持续补位直到合理高水位；相关并行任务已开启（执行引擎 / guardrails / reporting 三路）。\"}",
+    "expected": "{\"behavior\": \"should handle appropriately based on context\", \"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-08"
+  },
+  {
+    "id": "eval-0286",
+    "skill": "real-conv-2026-03-08",
+    "type": "positive",
+    "input": "{\"user_message\": \"真正问题不是“汇报视角的数据对齐”，而是**子Agent key 资源利用不足**；要求严格坚持 `1 Agent = 1 task = 1 key`，并强调主Agent不应承担复杂任务，只负责调度/裁决/汇总。\"}",
+    "expected": "{\"behavior\": \"should handle appropriately based on context\", \"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-08"
+  },
+  {
+    "id": "eval-0287",
+    "skill": "real-conv-2026-03-08",
+    "type": "positive",
+    "input": "{\"user_message\": \"\\\"不应该每次发那么多细节，只展示最新1条\\\" - 已修改badcase-to-goodcase.sh：摘要+最新1条，不列全量\"}",
+    "expected": "{\"behavior\": \"should handle appropriately based on context\", \"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-08"
+  }
+]

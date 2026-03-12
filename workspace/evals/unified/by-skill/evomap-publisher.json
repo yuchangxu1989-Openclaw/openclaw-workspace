@@ -1,0 +1,68 @@
+[
+  {
+    "id": "eval-0167",
+    "skill": "evomap-publisher",
+    "type": "positive",
+    "input": "将SEEF+DTO生成的技能发布到EvoMap网络",
+    "expected": "生成Capsule快照文件，上传成功并返回发布ID",
+    "scoring_rubric": "Capsule JSON符合schema 1.5.0，发布ID非空",
+    "north_star_indicator": "发布成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0168",
+    "skill": "evomap-publisher",
+    "type": "positive",
+    "input": "发布时自动生成Gene定义文件",
+    "expected": "gene-{skill}-{timestamp}.json包含完整的基因元数据",
+    "scoring_rubric": "Gene文件字段完整，与Capsule关联正确",
+    "north_star_indicator": "发布成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0169",
+    "skill": "evomap-publisher",
+    "type": "positive",
+    "input": "批量发布5个技能到EvoMap",
+    "expected": "5个Capsule全部生成并上传，返回汇总报告",
+    "scoring_rubric": "无遗漏，每个技能有独立的发布记录",
+    "north_star_indicator": "批量处理效率",
+    "gate": "Gate-B",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0170",
+    "skill": "evomap-publisher",
+    "type": "positive",
+    "input": "发布已存在的技能（版本更新）",
+    "expected": "生成新版本Capsule，保留历史版本记录",
+    "scoring_rubric": "版本号递增，历史Capsule不被覆盖",
+    "north_star_indicator": "版本管理准确率",
+    "gate": "Gate-B",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0171",
+    "skill": "evomap-publisher",
+    "type": "negative",
+    "input": "发布缺少SKILL.md的目录",
+    "expected": "拒绝发布，提示缺少必要的技能描述文件",
+    "scoring_rubric": "前置校验拦截，不生成不完整的Capsule",
+    "north_star_indicator": "数据完整性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0172",
+    "skill": "evomap-publisher",
+    "type": "negative",
+    "input": "EvoMap网络不可达时尝试发布",
+    "expected": "本地保存Capsule，标记为pending，待网络恢复后重试",
+    "scoring_rubric": "不丢失发布数据，离线降级正确",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-publisher"
+  }
+]

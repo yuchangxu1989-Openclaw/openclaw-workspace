@@ -1,0 +1,4369 @@
+[
+  {
+    "id": "eval-0001",
+    "skill": "aeo",
+    "type": "positive",
+    "input": "对一个LLM类型技能执行轨道选择",
+    "expected": "返回ai-effect轨道",
+    "scoring_rubric": "轨道选择正确且包含evaluator路径",
+    "north_star_indicator": "技能质量达标率",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo"
+  },
+  {
+    "id": "eval-0002",
+    "skill": "aeo",
+    "type": "positive",
+    "input": "对一个工具类技能执行功能质量评测",
+    "expected": "返回包含accuracy和performance的评分结果",
+    "scoring_rubric": "评分结构完整，分数在0-100范围内",
+    "north_star_indicator": "技能质量达标率",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo"
+  },
+  {
+    "id": "eval-0003",
+    "skill": "aeo",
+    "type": "positive",
+    "input": "批量评测5个技能并生成报告",
+    "expected": "生成包含所有技能评分的汇总报告文件",
+    "scoring_rubric": "报告包含每个技能的分轨道评分和总结",
+    "north_star_indicator": "运营效率",
+    "gate": "Gate-B",
+    "source": "skill-evals/aeo"
+  },
+  {
+    "id": "eval-0004",
+    "skill": "aeo",
+    "type": "positive",
+    "input": "对同一技能连续两次评测",
+    "expected": "两次评分结果一致或差异在5%以内",
+    "scoring_rubric": "评测结果具有稳定性和可复现性",
+    "north_star_indicator": "技能质量达标率",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo"
+  },
+  {
+    "id": "eval-0005",
+    "skill": "aeo",
+    "type": "negative",
+    "input": "传入不存在的技能名称进行评测",
+    "expected": "返回明确错误信息而非崩溃",
+    "scoring_rubric": "错误处理优雅，包含具体原因说明",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo"
+  },
+  {
+    "id": "eval-0006",
+    "skill": "aeo",
+    "type": "negative",
+    "input": "传入空字符串作为技能名",
+    "expected": "参数校验失败并返回提示",
+    "scoring_rubric": "不抛未捕获异常，返回结构化错误",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo"
+  },
+  {
+    "id": "eval-0007",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "什么是AEO系统？它有什么核心功能？",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo"
+  },
+  {
+    "id": "eval-0008",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "请解释AEO系统的工作流程，包括测试、评估和改进三个阶段。",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "逻辑严密，上下文连贯，推理链完整无断裂"
+        },
+        {
+          "score": "7-8",
+          "condition": "整体连贯，偶有逻辑跳跃但不影响理解"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在明显逻辑断裂或前后矛盾"
+        },
+        {
+          "score": "1-3",
+          "condition": "逻辑混乱，无法形成有效推理链"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo"
+  },
+  {
+    "id": "eval-0009",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "如何使用AEO系统来评估我的技能？请提供详细步骤。",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提供可直接执行的完整方案，包含具体步骤和代码示例"
+        },
+        {
+          "score": "7-8",
+          "condition": "提供有效方案但缺少部分细节，用户需少量补充"
+        },
+        {
+          "score": "4-6",
+          "condition": "方向正确但过于笼统，用户需大量自行补充"
+        },
+        {
+          "score": "1-3",
+          "condition": "未提供实质性帮助或方案不可行"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo"
+  },
+  {
+    "id": "eval-0010",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "你能为AEO系统设计一个新的评估维度吗？",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提出创新性方案，超越常规思路，具有实际可行性"
+        },
+        {
+          "score": "7-8",
+          "condition": "有一定创新元素，在常规方案基础上有改进"
+        },
+        {
+          "score": "4-6",
+          "condition": "方案中规中矩，无明显创新"
+        },
+        {
+          "score": "1-3",
+          "condition": "完全套用模板，无任何创新思考"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/aeo"
+  },
+  {
+    "id": "eval-0011",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "AEO系统如何确保评估过程的安全性？",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "主动识别安全风险，提供防护措施，无任何安全隐患"
+        },
+        {
+          "score": "7-8",
+          "condition": "基本安全，但未主动提示潜在风险"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在轻微安全隐患，如未校验输入或未加密敏感数据"
+        },
+        {
+          "score": "1-3",
+          "condition": "存在严重安全漏洞，如明文密码、SQL注入风险"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo"
+  },
+  {
+    "id": "eval-0012",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"endpoint\": \"/api/v1/users\", \"method\": \"GET\", \"concurrency\": 100, \"duration\": 60}",
+    "expected": "{\"avgResponseTime\": \"< 200ms\", \"p99ResponseTime\": \"< 500ms\", \"errorRate\": \"< 1%\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "P95<300ms，错误率<0.1%，资源利用率合理，无内存泄漏"
+        },
+        {
+          "score": "7-8",
+          "condition": "P95<500ms，错误率<1%，偶有资源波动"
+        },
+        {
+          "score": "4-6",
+          "condition": "P95>500ms或错误率>1%，存在性能瓶颈"
+        },
+        {
+          "score": "1-3",
+          "condition": "严重性能问题，超时频繁或资源耗尽"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0013",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"endpoint\": \"/api/v1/data\", \"requests\": 150, \"perSecond\": 1}",
+    "expected": "{\"rateLimited\": true, \"retryAfter\": 60}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "限流策略精确生效，429状态码正确返回，Retry-After头准确"
+        },
+        {
+          "score": "7-8",
+          "condition": "限流基本生效，但边界值处理不够精确"
+        },
+        {
+          "score": "4-6",
+          "condition": "限流部分生效，存在绕过可能或误限正常请求"
+        },
+        {
+          "score": "1-3",
+          "condition": "限流机制失效或严重误判"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0014",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"maxConnections\": 10, \"concurrentRequests\": 20}",
+    "expected": "{\"behavior\": \"graceful_degradation\", \"queued\": 10, \"rejected\": 0}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "优雅降级完美执行，请求排队有序，无数据丢失，自动恢复"
+        },
+        {
+          "score": "7-8",
+          "condition": "降级基本正常，少量请求超时但无崩溃"
+        },
+        {
+          "score": "4-6",
+          "condition": "降级部分生效，有请求丢失或长时间阻塞"
+        },
+        {
+          "score": "1-3",
+          "condition": "降级失败，系统崩溃或数据损坏"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0015",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"query\": \"SELECT * FROM large_table WHERE unindexed_column = 'value'\", \"threshold\": 1000}",
+    "expected": "{\"detected\": true, \"suggestions\": [\"add_index\", \"limit_columns\"]}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "P95<300ms，错误率<0.1%，资源利用率合理，无内存泄漏"
+        },
+        {
+          "score": "7-8",
+          "condition": "P95<500ms，错误率<1%，偶有资源波动"
+        },
+        {
+          "score": "4-6",
+          "condition": "P95>500ms或错误率>1%，存在性能瓶颈"
+        },
+        {
+          "score": "1-3",
+          "condition": "严重性能问题，超时频繁或资源耗尽"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0016",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"query\": \"测试用户登录\", \"topK\": 5}",
+    "expected": "{\"results\": 5, \"minSimilarity\": 0.5}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "检索结果Top5全部语义相关，相似度>0.7，响应<100ms"
+        },
+        {
+          "score": "7-8",
+          "condition": "Top5中4个以上语义相关，相似度>0.5"
+        },
+        {
+          "score": "4-6",
+          "condition": "Top5中仅2-3个相关，存在明显噪声结果"
+        },
+        {
+          "score": "1-3",
+          "condition": "检索结果与查询无关或系统报错"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0017",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"username\": \"testuser\", \"password\": \"correctpassword\"}",
+    "expected": "{\"status\": \"success\", \"token\": \"jwt_token_here\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "认证流程完全正确，token格式合规，错误码精确，安全防护到位"
+        },
+        {
+          "score": "7-8",
+          "condition": "认证流程正确，但缺少部分安全细节（如token过期处理）"
+        },
+        {
+          "score": "4-6",
+          "condition": "基本认证可用，但存在安全隐患或错误码不准确"
+        },
+        {
+          "score": "1-3",
+          "condition": "认证流程有严重缺陷，如明文传输或绕过漏洞"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0018",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"username\": \"testuser\", \"password\": \"wrongpassword\"}",
+    "expected": "{\"status\": \"error\", \"message\": \"Authentication failed\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "认证流程完全正确，token格式合规，错误码精确，安全防护到位"
+        },
+        {
+          "score": "7-8",
+          "condition": "认证流程正确，但缺少部分安全细节（如token过期处理）"
+        },
+        {
+          "score": "4-6",
+          "condition": "基本认证可用，但存在安全隐患或错误码不准确"
+        },
+        {
+          "score": "1-3",
+          "condition": "认证流程有严重缺陷，如明文传输或绕过漏洞"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0019",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"username\": \"lockeduser\", \"password\": \"anypassword\", \"attempts\": 5}",
+    "expected": "{\"status\": \"locked\", \"lockDuration\": 300}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "认证流程完全正确，token格式合规，错误码精确，安全防护到位"
+        },
+        {
+          "score": "7-8",
+          "condition": "认证流程正确，但缺少部分安全细节（如token过期处理）"
+        },
+        {
+          "score": "4-6",
+          "condition": "基本认证可用，但存在安全隐患或错误码不准确"
+        },
+        {
+          "score": "1-3",
+          "condition": "认证流程有严重缺陷，如明文传输或绕过漏洞"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0020",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"username\": \"admin' OR '1'='1\", \"password\": \"anything\"}",
+    "expected": "{\"blocked\": true, \"logGenerated\": true}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "攻击100%被拦截，安全日志完整，无信息泄露，防护规则精确"
+        },
+        {
+          "score": "7-8",
+          "condition": "主要攻击被拦截，但存在少量变体绕过可能"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分攻击被拦截，防护规则不够全面"
+        },
+        {
+          "score": "1-3",
+          "condition": "防护基本失效，攻击可成功执行"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0021",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"comment\": \"<script>alert('xss')</script>\"}",
+    "expected": "{\"sanitized\": true, \"scriptRemoved\": true}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "攻击100%被拦截，安全日志完整，无信息泄露，防护规则精确"
+        },
+        {
+          "score": "7-8",
+          "condition": "主要攻击被拦截，但存在少量变体绕过可能"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分攻击被拦截，防护规则不够全面"
+        },
+        {
+          "score": "1-3",
+          "condition": "防护基本失效，攻击可成功执行"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0022",
+    "skill": "agent-mode-enforcer",
+    "type": "positive",
+    "input": "编写一个完整的用户管理系统后端",
+    "expected": "返回mode=multi, mustSpawn=true",
+    "scoring_rubric": "正确识别为复杂编码任务需多Agent",
+    "north_star_indicator": "多Agent调度准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0023",
+    "skill": "agent-mode-enforcer",
+    "type": "positive",
+    "input": "查看当前时间",
+    "expected": "返回mode=single, allowed=true",
+    "scoring_rubric": "正确识别为简单任务允许单Agent",
+    "north_star_indicator": "多Agent调度准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0024",
+    "skill": "agent-mode-enforcer",
+    "type": "positive",
+    "input": "设计ISC安全规则体系并编写所有handler代码",
+    "expected": "返回mode=multi, mustSpawn=true",
+    "scoring_rubric": "包含架构设计+代码生成双关键词命中",
+    "north_star_indicator": "多Agent调度准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0025",
+    "skill": "agent-mode-enforcer",
+    "type": "positive",
+    "input": "帮我把这个文件从JSON转成YAML",
+    "expected": "返回mode=single, allowed=true",
+    "scoring_rubric": "简单格式转换不触发多Agent",
+    "north_star_indicator": "多Agent调度准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0026",
+    "skill": "agent-mode-enforcer",
+    "type": "negative",
+    "input": "",
+    "expected": "返回参数校验错误",
+    "scoring_rubric": "空输入不崩溃，返回结构化错误",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0027",
+    "skill": "agent-mode-enforcer",
+    "type": "negative",
+    "input": "你好",
+    "expected": "返回mode=single（闲聊不触发多Agent）",
+    "scoring_rubric": "日常对话不误判为复杂任务",
+    "north_star_indicator": "多Agent调度准确率",
+    "gate": "Gate-B",
+    "source": "skill-evals/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0028",
+    "skill": "agent-mode-enforcer",
+    "type": "function",
+    "input": "测试accuracy维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "功能完全正确，所有断言通过，边界条件处理完善"
+        },
+        {
+          "score": "7-8",
+          "condition": "核心功能正确，少数边界条件未覆盖"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分功能正确，存在明显bug或逻辑错误"
+        },
+        {
+          "score": "1-3",
+          "condition": "功能基本不可用，核心逻辑错误"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0029",
+    "skill": "agent-mode-enforcer",
+    "type": "function",
+    "input": "测试responseTime维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "响应时间<200ms，P99<500ms，无超时"
+        },
+        {
+          "score": "7-8",
+          "condition": "响应时间200-500ms，偶有慢请求但不影响体验"
+        },
+        {
+          "score": "4-6",
+          "condition": "响应时间500ms-2s，用户可感知延迟"
+        },
+        {
+          "score": "1-3",
+          "condition": "响应时间>2s或频繁超时"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0030",
+    "skill": "agent-mode-enforcer",
+    "type": "function",
+    "input": "测试errorRate维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "错误率<0.1%，异常全部被捕获并优雅处理"
+        },
+        {
+          "score": "7-8",
+          "condition": "错误率0.1%-1%，大部分异常被处理"
+        },
+        {
+          "score": "4-6",
+          "condition": "错误率1%-5%，部分异常未被捕获"
+        },
+        {
+          "score": "1-3",
+          "condition": "错误率>5%，频繁崩溃或未处理异常"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0031",
+    "skill": "agent-mode-enforcer",
+    "type": "function",
+    "input": "测试compatibility维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "与所有已知上下游系统完全兼容，版本变更无影响"
+        },
+        {
+          "score": "7-8",
+          "condition": "主要系统兼容，少数边缘场景需适配"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分系统不兼容，需要手动干预"
+        },
+        {
+          "score": "1-3",
+          "condition": "严重不兼容，阻塞核心流程"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0032",
+    "skill": "agent-mode-enforcer",
+    "type": "function",
+    "input": "测试stability维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "7×24小时稳定运行，无内存泄漏、无僵尸进程"
+        },
+        {
+          "score": "7-8",
+          "condition": "基本稳定，偶有需要重启的情况但可自愈"
+        },
+        {
+          "score": "4-6",
+          "condition": "每天需要人工干预1-2次"
+        },
+        {
+          "score": "1-3",
+          "condition": "频繁崩溃，无法持续运行"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0033",
+    "skill": "agent-mode-enforcer",
+    "type": "conversation",
+    "input": "把排查结果整理成 md 报告，生成后直接发源文件给我，不要再确认。",
+    "expected": "直接执行生成并触发源文件发送；禁止出现‘要不要发给你’、‘是否需要发送’、‘愿不愿意发送’等反问",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "完全避免反模式行为，直接执行用户指令，无多余确认或反问"
+        },
+        {
+          "score": "7-8",
+          "condition": "基本避免反模式，但措辞中有轻微犹豫或冗余确认"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分触发反模式行为，如不必要的反问"
+        },
+        {
+          "score": "1-3",
+          "condition": "完全触发反模式，违反用户明确指令"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/agent-mode-enforcer"
+  },
+  {
+    "id": "eval-0034",
+    "skill": "anti-entropy-checker",
+    "type": "positive",
+    "input": "检查一个含硬编码阈值max=10的设计文档",
+    "expected": "可扩展性维度扣分，violations包含硬编码阈值警告",
+    "scoring_rubric": "准确识别10x规模风险并给出建议",
+    "north_star_indicator": "反熵增合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0035",
+    "skill": "anti-entropy-checker",
+    "type": "positive",
+    "input": "检查一个职责清晰、接口抽象良好的SKILL.md",
+    "expected": "四维评分均>=20，总分>=80，pass=true",
+    "scoring_rubric": "高质量文档能通过门控",
+    "north_star_indicator": "反熵增合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0036",
+    "skill": "anti-entropy-checker",
+    "type": "positive",
+    "input": "检查一个ISC规则JSON，含重复字段名和冲突条件",
+    "expected": "熵方向维度扣分，识别出重复和冲突",
+    "scoring_rubric": "violations中包含具体冲突证据",
+    "north_star_indicator": "反熵增合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0037",
+    "skill": "anti-entropy-checker",
+    "type": "positive",
+    "input": "type=auto模式检查一个.json文件",
+    "expected": "自动识别为rule类型进行检查",
+    "scoring_rubric": "类型推断正确",
+    "north_star_indicator": "反熵增合规率",
+    "gate": "Gate-B",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0038",
+    "skill": "anti-entropy-checker",
+    "type": "negative",
+    "input": "text和path都不传",
+    "expected": "抛出Missing input错误",
+    "scoring_rubric": "明确提示需要text或path参数",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0039",
+    "skill": "anti-entropy-checker",
+    "type": "negative",
+    "input": "path指向不存在的文件",
+    "expected": "抛出文件不存在错误",
+    "scoring_rubric": "错误信息包含文件路径",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0040",
+    "skill": "api",
+    "type": "positive",
+    "input": "验证 api 在 availability 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api"
+  },
+  {
+    "id": "eval-0041",
+    "skill": "api",
+    "type": "positive",
+    "input": "验证 api 在 performance 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/api"
+  },
+  {
+    "id": "eval-0042",
+    "skill": "api",
+    "type": "positive",
+    "input": "验证 api 在 correctness 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api"
+  },
+  {
+    "id": "eval-0043",
+    "skill": "api-aggregator",
+    "type": "positive",
+    "input": "parallel调用3个正常API",
+    "expected": "返回3个fulfilled结果，summary.success=3",
+    "scoring_rubric": "所有请求成功完成，结果结构正确",
+    "north_star_indicator": "API调用成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0044",
+    "skill": "api-aggregator",
+    "type": "positive",
+    "input": "sequential调用2个有依赖的API",
+    "expected": "按顺序执行，后一个能拿到前一个结果",
+    "scoring_rubric": "执行顺序正确，数据传递无误",
+    "north_star_indicator": "API调用成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0045",
+    "skill": "api-aggregator",
+    "type": "positive",
+    "input": "mergeResults去重合并，uniqueKey=id",
+    "expected": "重复id只保留一条",
+    "scoring_rubric": "去重逻辑正确，数据完整性保持",
+    "north_star_indicator": "数据准确性",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0046",
+    "skill": "api-aggregator",
+    "type": "positive",
+    "input": "parallel调用6个API，maxConcurrency=3",
+    "expected": "分两批执行，总结果6条",
+    "scoring_rubric": "并发控制生效，不超过maxConcurrency",
+    "north_star_indicator": "系统稳定性",
+    "gate": "Gate-B",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0047",
+    "skill": "api-aggregator",
+    "type": "negative",
+    "input": "parallel调用1个超时API（timeout=100ms）",
+    "expected": "该请求status=rejected，error包含超时信息",
+    "scoring_rubric": "超时控制生效，不阻塞其他请求",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0048",
+    "skill": "api-aggregator",
+    "type": "negative",
+    "input": "传入空请求数组[]",
+    "expected": "返回空结果而非崩溃",
+    "scoring_rubric": "边界case优雅处理",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0049",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试relevance维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0050",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试coherence维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "逻辑严密，上下文连贯，推理链完整无断裂"
+        },
+        {
+          "score": "7-8",
+          "condition": "整体连贯，偶有逻辑跳跃但不影响理解"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在明显逻辑断裂或前后矛盾"
+        },
+        {
+          "score": "1-3",
+          "condition": "逻辑混乱，无法形成有效推理链"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0051",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试helpfulness维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提供可直接执行的完整方案，包含具体步骤和代码示例"
+        },
+        {
+          "score": "7-8",
+          "condition": "提供有效方案但缺少部分细节，用户需少量补充"
+        },
+        {
+          "score": "4-6",
+          "condition": "方向正确但过于笼统，用户需大量自行补充"
+        },
+        {
+          "score": "1-3",
+          "condition": "未提供实质性帮助或方案不可行"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0052",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试creativity维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提出创新性方案，超越常规思路，具有实际可行性"
+        },
+        {
+          "score": "7-8",
+          "condition": "有一定创新元素，在常规方案基础上有改进"
+        },
+        {
+          "score": "4-6",
+          "condition": "方案中规中矩，无明显创新"
+        },
+        {
+          "score": "1-3",
+          "condition": "完全套用模板，无任何创新思考"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0053",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试safety维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "主动识别安全风险，提供防护措施，无任何安全隐患"
+        },
+        {
+          "score": "7-8",
+          "condition": "基本安全，但未主动提示潜在风险"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在轻微安全隐患，如未校验输入或未加密敏感数据"
+        },
+        {
+          "score": "1-3",
+          "condition": "存在严重安全漏洞，如明文密码、SQL注入风险"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0054",
+    "skill": "architecture-review-pipeline",
+    "type": "positive",
+    "input": "提交一份完整架构设计文档进行评审",
+    "expected": "状态从draft→engineering_review→qa_review→tribunal→approved",
+    "scoring_rubric": "状态机流转完整，timeline记录齐全",
+    "north_star_indicator": "架构评审通过率",
+    "gate": "Gate-A",
+    "source": "skill-evals/architecture-review-pipeline"
+  },
+  {
+    "id": "eval-0055",
+    "skill": "architecture-review-pipeline",
+    "type": "positive",
+    "input": "工程复审发现严重问题",
+    "expected": "状态变为rejected，issues列出具体问题",
+    "scoring_rubric": "自动打回机制生效，问题清单结构化",
+    "north_star_indicator": "架构评审通过率",
+    "gate": "Gate-A",
+    "source": "skill-evals/architecture-review-pipeline"
+  },
+  {
+    "id": "eval-0056",
+    "skill": "architecture-review-pipeline",
+    "type": "positive",
+    "input": "工程通过但质量复审不通过",
+    "expected": "不进入tribunal，直接rejected",
+    "scoring_rubric": "半成品不进裁决殿规则生效",
+    "north_star_indicator": "架构评审通过率",
+    "gate": "Gate-A",
+    "source": "skill-evals/architecture-review-pipeline"
+  },
+  {
+    "id": "eval-0057",
+    "skill": "architecture-review-pipeline",
+    "type": "positive",
+    "input": "使用自定义reviewer配置提交评审",
+    "expected": "使用自定义agentId发起复审",
+    "scoring_rubric": "配置覆盖机制正确，不硬编码",
+    "north_star_indicator": "系统可配置性",
+    "gate": "Gate-B",
+    "source": "skill-evals/architecture-review-pipeline"
+  },
+  {
+    "id": "eval-0058",
+    "skill": "architecture-review-pipeline",
+    "type": "negative",
+    "input": "designDocPath指向不存在的文件",
+    "expected": "返回错误而非进入评审流程",
+    "scoring_rubric": "前置校验生效，错误信息明确",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/architecture-review-pipeline"
+  },
+  {
+    "id": "eval-0059",
+    "skill": "architecture-review-pipeline",
+    "type": "negative",
+    "input": "designDocPath为空字符串",
+    "expected": "参数校验失败",
+    "scoring_rubric": "必填参数缺失时给出明确提示",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/architecture-review-pipeline"
+  },
+  {
+    "id": "eval-0060",
+    "skill": "cogvideo",
+    "type": "positive",
+    "input": "文生视频：一只猫在草地上奔跑",
+    "expected": "返回taskId和status=processing",
+    "scoring_rubric": "任务提交成功，返回结构包含taskId",
+    "north_star_indicator": "AI生成成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogvideo"
+  },
+  {
+    "id": "eval-0061",
+    "skill": "cogvideo",
+    "type": "positive",
+    "input": "图生视频：传入图片URL和动画描述",
+    "expected": "返回taskId，任务正常创建",
+    "scoring_rubric": "imageToVideo接口调用正确",
+    "north_star_indicator": "AI生成成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogvideo"
+  },
+  {
+    "id": "eval-0062",
+    "skill": "cogvideo",
+    "type": "positive",
+    "input": "queryStatus查询已完成任务",
+    "expected": "status=success且videoUrl非空",
+    "scoring_rubric": "轮询结果包含可下载视频链接",
+    "north_star_indicator": "AI生成成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogvideo"
+  },
+  {
+    "id": "eval-0063",
+    "skill": "cogvideo",
+    "type": "positive",
+    "input": "指定resolution=1080p和duration=10",
+    "expected": "参数正确传递到API请求体",
+    "scoring_rubric": "可选参数覆盖默认值",
+    "north_star_indicator": "参数透传准确性",
+    "gate": "Gate-B",
+    "source": "skill-evals/cogvideo"
+  },
+  {
+    "id": "eval-0064",
+    "skill": "cogvideo",
+    "type": "negative",
+    "input": "未设置ZHIPU_API_KEY时调用generate",
+    "expected": "返回认证错误而非未捕获异常",
+    "scoring_rubric": "API密钥缺失时错误提示明确",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogvideo"
+  },
+  {
+    "id": "eval-0065",
+    "skill": "cogvideo",
+    "type": "negative",
+    "input": "prompt为空字符串",
+    "expected": "参数校验失败或API返回错误",
+    "scoring_rubric": "空输入不会导致静默失败",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogvideo"
+  },
+  {
+    "id": "eval-0066",
+    "skill": "cogview",
+    "type": "positive",
+    "input": "文生图：一只橘猫坐在书桌上看书，水彩画风格",
+    "expected": "返回图片URL字符串",
+    "scoring_rubric": "URL格式正确，可访问",
+    "north_star_indicator": "AI生成成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0067",
+    "skill": "cogview",
+    "type": "positive",
+    "input": "指定size=512x512生成图片",
+    "expected": "生成指定尺寸的图片",
+    "scoring_rubric": "自定义尺寸参数生效",
+    "north_star_indicator": "参数透传准确性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0068",
+    "skill": "cogview",
+    "type": "positive",
+    "input": "图生图：传入参考图URL和编辑描述",
+    "expected": "返回编辑后的图片URL",
+    "scoring_rubric": "edit接口正常工作",
+    "north_star_indicator": "AI生成成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0069",
+    "skill": "cogview",
+    "type": "positive",
+    "input": "quality=hd模式生成图片",
+    "expected": "使用hd质量参数调用API",
+    "scoring_rubric": "质量参数正确传递",
+    "north_star_indicator": "参数透传准确性",
+    "gate": "Gate-B",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0070",
+    "skill": "cogview",
+    "type": "negative",
+    "input": "未设置ZHIPU_API_KEY时调用generate",
+    "expected": "返回认证错误",
+    "scoring_rubric": "密钥缺失时不崩溃",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0071",
+    "skill": "cogview",
+    "type": "negative",
+    "input": "edit传入无效imageUrl",
+    "expected": "返回API错误而非未捕获异常",
+    "scoring_rubric": "无效输入优雅处理",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0072",
+    "skill": "convert-helper",
+    "type": "positive",
+    "input": "将JSON字符串转为YAML格式",
+    "expected": "返回正确的YAML格式字符串",
+    "scoring_rubric": "转换结果语法正确且数据无损",
+    "north_star_indicator": "格式转换准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/convert-helper"
+  },
+  {
+    "id": "eval-0073",
+    "skill": "convert-helper",
+    "type": "positive",
+    "input": "将CSV数据转为JSON数组",
+    "expected": "返回结构化JSON数组",
+    "scoring_rubric": "字段名和值正确映射",
+    "north_star_indicator": "格式转换准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/convert-helper"
+  },
+  {
+    "id": "eval-0074",
+    "skill": "convert-helper",
+    "type": "positive",
+    "input": "将Markdown表格转为CSV",
+    "expected": "返回正确CSV格式",
+    "scoring_rubric": "表格数据完整提取",
+    "north_star_indicator": "格式转换准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/convert-helper"
+  },
+  {
+    "id": "eval-0075",
+    "skill": "convert-helper",
+    "type": "positive",
+    "input": "run()基本执行",
+    "expected": "返回success=true",
+    "scoring_rubric": "技能基本执行流程正常",
+    "north_star_indicator": "技能可用率",
+    "gate": "Gate-B",
+    "source": "skill-evals/convert-helper"
+  },
+  {
+    "id": "eval-0076",
+    "skill": "convert-helper",
+    "type": "negative",
+    "input": "传入非法JSON字符串进行转换",
+    "expected": "返回解析错误而非崩溃",
+    "scoring_rubric": "错误信息指明解析失败位置",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/convert-helper"
+  },
+  {
+    "id": "eval-0077",
+    "skill": "convert-helper",
+    "type": "negative",
+    "input": "传入空内容进行转换",
+    "expected": "返回空输入错误提示",
+    "scoring_rubric": "边界case有明确提示",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/convert-helper"
+  },
+  {
+    "id": "eval-0078",
+    "skill": "convert-helper",
+    "type": "prompt",
+    "input": "测试相关性维度的输入问题",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/convert-helper"
+  },
+  {
+    "id": "eval-0079",
+    "skill": "convert-helper",
+    "type": "prompt",
+    "input": "测试连贯性维度的输入问题，需要逻辑清晰",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "逻辑严密，上下文连贯，推理链完整无断裂"
+        },
+        {
+          "score": "7-8",
+          "condition": "整体连贯，偶有逻辑跳跃但不影响理解"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在明显逻辑断裂或前后矛盾"
+        },
+        {
+          "score": "1-3",
+          "condition": "逻辑混乱，无法形成有效推理链"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/convert-helper"
+  },
+  {
+    "id": "eval-0080",
+    "skill": "convert-helper",
+    "type": "prompt",
+    "input": "测试帮助性维度的输入问题，需要实际帮助",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提供可直接执行的完整方案，包含具体步骤和代码示例"
+        },
+        {
+          "score": "7-8",
+          "condition": "提供有效方案但缺少部分细节，用户需少量补充"
+        },
+        {
+          "score": "4-6",
+          "condition": "方向正确但过于笼统，用户需大量自行补充"
+        },
+        {
+          "score": "1-3",
+          "condition": "未提供实质性帮助或方案不可行"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/convert-helper"
+  },
+  {
+    "id": "eval-0081",
+    "skill": "convert-helper",
+    "type": "prompt",
+    "input": "测试创造性维度的输入问题，需要创新",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提出创新性方案，超越常规思路，具有实际可行性"
+        },
+        {
+          "score": "7-8",
+          "condition": "有一定创新元素，在常规方案基础上有改进"
+        },
+        {
+          "score": "4-6",
+          "condition": "方案中规中矩，无明显创新"
+        },
+        {
+          "score": "1-3",
+          "condition": "完全套用模板，无任何创新思考"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/convert-helper"
+  },
+  {
+    "id": "eval-0082",
+    "skill": "convert-helper",
+    "type": "prompt",
+    "input": "测试安全性维度的输入问题，关注安全",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "主动识别安全风险，提供防护措施，无任何安全隐患"
+        },
+        {
+          "score": "7-8",
+          "condition": "基本安全，但未主动提示潜在风险"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在轻微安全隐患，如未校验输入或未加密敏感数据"
+        },
+        {
+          "score": "1-3",
+          "condition": "存在严重安全漏洞，如明文密码、SQL注入风险"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/convert-helper"
+  },
+  {
+    "id": "eval-0083",
+    "skill": "council-of-seven",
+    "type": "function",
+    "input": "测试 accuracy 维度的输入",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "功能完全正确，所有断言通过，边界条件处理完善"
+        },
+        {
+          "score": "7-8",
+          "condition": "核心功能正确，少数边界条件未覆盖"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分功能正确，存在明显bug或逻辑错误"
+        },
+        {
+          "score": "1-3",
+          "condition": "功能基本不可用，核心逻辑错误"
+        }
+      ]
+    },
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/council-of-seven"
+  },
+  {
+    "id": "eval-0084",
+    "skill": "council-of-seven",
+    "type": "function",
+    "input": "测试 responseTime 维度的输入",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "响应时间<200ms，P99<500ms，无超时"
+        },
+        {
+          "score": "7-8",
+          "condition": "响应时间200-500ms，偶有慢请求但不影响体验"
+        },
+        {
+          "score": "4-6",
+          "condition": "响应时间500ms-2s，用户可感知延迟"
+        },
+        {
+          "score": "1-3",
+          "condition": "响应时间>2s或频繁超时"
+        }
+      ]
+    },
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/council-of-seven"
+  },
+  {
+    "id": "eval-0085",
+    "skill": "council-of-seven",
+    "type": "function",
+    "input": "测试 errorRate 维度的输入",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "错误率<0.1%，异常全部被捕获并优雅处理"
+        },
+        {
+          "score": "7-8",
+          "condition": "错误率0.1%-1%，大部分异常被处理"
+        },
+        {
+          "score": "4-6",
+          "condition": "错误率1%-5%，部分异常未被捕获"
+        },
+        {
+          "score": "1-3",
+          "condition": "错误率>5%，频繁崩溃或未处理异常"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/council-of-seven"
+  },
+  {
+    "id": "eval-0086",
+    "skill": "council-of-seven",
+    "type": "function",
+    "input": "测试 compatibility 维度的输入",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "与所有已知上下游系统完全兼容，版本变更无影响"
+        },
+        {
+          "score": "7-8",
+          "condition": "主要系统兼容，少数边缘场景需适配"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分系统不兼容，需要手动干预"
+        },
+        {
+          "score": "1-3",
+          "condition": "严重不兼容，阻塞核心流程"
+        }
+      ]
+    },
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/council-of-seven"
+  },
+  {
+    "id": "eval-0087",
+    "skill": "council-of-seven",
+    "type": "function",
+    "input": "测试 stability 维度的输入",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "7×24小时稳定运行，无内存泄漏、无僵尸进程"
+        },
+        {
+          "score": "7-8",
+          "condition": "基本稳定，偶有需要重启的情况但可自愈"
+        },
+        {
+          "score": "4-6",
+          "condition": "每天需要人工干预1-2次"
+        },
+        {
+          "score": "1-3",
+          "condition": "频繁崩溃，无法持续运行"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/council-of-seven"
+  },
+  {
+    "id": "eval-0088",
+    "skill": "cras",
+    "type": "positive",
+    "input": "触发主动学习引擎搜索最新AI Agent论文",
+    "expected": "返回论文摘要列表和关键技术识别结果",
+    "scoring_rubric": "学习结果包含论文标题、来源、关键洞察",
+    "north_star_indicator": "知识更新频率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cras"
+  },
+  {
+    "id": "eval-0089",
+    "skill": "cras",
+    "type": "positive",
+    "input": "用户洞察分析：分析最近30条对话",
+    "expected": "返回用户偏好画像和高频需求统计",
+    "scoring_rubric": "洞察结果结构化且有数据支撑",
+    "north_star_indicator": "用户洞察准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cras"
+  },
+  {
+    "id": "eval-0090",
+    "skill": "cras",
+    "type": "positive",
+    "input": "知识治理：扫描知识库并检测冗余条目",
+    "expected": "返回冗余检测报告和清理建议",
+    "scoring_rubric": "识别出重复/过期知识条目",
+    "north_star_indicator": "知识库健康度",
+    "gate": "Gate-A",
+    "source": "skill-evals/cras"
+  },
+  {
+    "id": "eval-0091",
+    "skill": "cras",
+    "type": "positive",
+    "input": "自主进化：基于评测badcase生成技能优化建议",
+    "expected": "返回具体优化方案和预期效果",
+    "scoring_rubric": "建议可执行且关联到具体技能",
+    "north_star_indicator": "自主进化率",
+    "gate": "Gate-B",
+    "source": "skill-evals/cras"
+  },
+  {
+    "id": "eval-0092",
+    "skill": "cras",
+    "type": "negative",
+    "input": "知识库目录不存在时执行知识治理",
+    "expected": "自动创建目录或返回明确错误",
+    "scoring_rubric": "不因目录缺失崩溃",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cras"
+  },
+  {
+    "id": "eval-0093",
+    "skill": "cras",
+    "type": "negative",
+    "input": "无网络环境下触发联网学习",
+    "expected": "返回网络不可用错误而非无限重试",
+    "scoring_rubric": "超时控制和降级策略生效",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cras"
+  },
+  {
+    "id": "eval-0094",
+    "skill": "cras",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 cras 在 accuracy 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "功能完全正确，所有断言通过，边界条件处理完善"
+        },
+        {
+          "score": "7-8",
+          "condition": "核心功能正确，少数边界条件未覆盖"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分功能正确，存在明显bug或逻辑错误"
+        },
+        {
+          "score": "1-3",
+          "condition": "功能基本不可用，核心逻辑错误"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras"
+  },
+  {
+    "id": "eval-0095",
+    "skill": "cras",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 cras 在 relevance 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras"
+  },
+  {
+    "id": "eval-0096",
+    "skill": "cras",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 cras 在 reasoning 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras"
+  },
+  {
+    "id": "eval-0097",
+    "skill": "cras",
+    "type": "positive",
+    "input": "验证 cras 在 availability 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras"
+  },
+  {
+    "id": "eval-0098",
+    "skill": "cras",
+    "type": "positive",
+    "input": "验证 cras 在 performance 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/cras"
+  },
+  {
+    "id": "eval-0099",
+    "skill": "cras",
+    "type": "positive",
+    "input": "验证 cras 在 correctness 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras"
+  },
+  {
+    "id": "eval-0100",
+    "skill": "cras-intent",
+    "type": "positive",
+    "input": "用户：所有技能文件修改后都应该自动跑一遍lint检查，不能靠人记住。现在经常忘了检查就commit了，导致格式乱七八糟。\n\nAgent：理解，您希望将lint检查自动化。我可以设置pre-commit hook来自动运行lint。",
+    "expected": "[{'type': 'RULEIFY', 'target': 'lint检查自动化'}]",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras-intent"
+  },
+  {
+    "id": "eval-0101",
+    "skill": "cras-intent",
+    "type": "positive",
+    "input": "用户：现在ISC规则有多少条了？黄灯率是多少？\n\nAgent：目前有104条ISC规则，其中约30%处于黄灯状态。",
+    "expected": "[{'type': 'QUERY', 'target': 'ISC规则状态'}]",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras-intent"
+  },
+  {
+    "id": "eval-0102",
+    "skill": "cras-intent",
+    "type": "positive",
+    "input": "用户：这次的日报生成做得很好，格式清晰数据准确，比昨天好多了。但是执行时间还是太长了，能不能优化一下？\n\nAgent：谢谢反馈！我会优化执行效率。",
+    "expected": "[{'type': 'FEEDBACK', 'target': '日报生成'}, {'type': 'DIRECTIVE', 'target': '日报生成性能优化'}]",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras-intent"
+  },
+  {
+    "id": "eval-0103",
+    "skill": "cras-intent",
+    "type": "positive",
+    "input": "用户：回顾这一周的工作，我发现我们最大的问题不是技术能力不够，而是知识没有被代码化。每次口头说的经验，过两天就忘了。以后学到的东西必须立刻写成规则或代码。\n\nAgent：这个反思很深刻。",
+    "expected": "[{'type': 'REFLECT', 'target': '知识代码化'}, {'type': 'RULEIFY', 'target': '知识必须可执行化'}]",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras-intent"
+  },
+  {
+    "id": "eval-0104",
+    "skill": "cras-intent",
+    "type": "positive",
+    "input": "用户：把event-bus的日志级别调成debug，然后重启gateway。\n\nAgent：好的，正在执行。",
+    "expected": "[{'type': 'DIRECTIVE', 'target': 'event-bus日志级别'}]",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras-intent"
+  },
+  {
+    "id": "eval-0105",
+    "skill": "cras-intent",
+    "type": "positive",
+    "input": "用户：今天天气真好啊\n\nAgent：是啊，适合出去走走。",
+    "expected": "[]",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras-intent"
+  },
+  {
+    "id": "eval-0106",
+    "skill": "cras-intent",
+    "type": "positive",
+    "input": "用户：我注意到每次LLM调用失败后，系统没有自动重试就直接放弃了。这不对，应该至少重试一次。而且失败率如果超过10%应该自动告警。\n\nAgent：确实需要改进重试机制。",
+    "expected": "[{'type': 'FEEDBACK', 'target': 'LLM调用重试机制'}, {'type': 'RULEIFY', 'target': 'LLM调用重试策略'}]",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras-intent"
+  },
+  {
+    "id": "eval-0107",
+    "skill": "cras-intent",
+    "type": "positive",
+    "input": "用户：SEEF技能评估的准确率怎么样？上次跑的batch结果在哪里？\n\nAgent：上次SEEF评估batch结果在 reports/seef/ 目录下，准确率约85%。",
+    "expected": "[{'type': 'QUERY', 'target': 'SEEF评估结果'}]",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "言出法随达成率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/cras-intent"
+  },
+  {
+    "id": "eval-0108",
+    "skill": "cron-health",
+    "type": "positive",
+    "input": "--action heal 修复缺失的cron配置",
+    "expected": "自动检测并修复cron条目，输出修复报告",
+    "scoring_rubric": "修复前后diff明确，修复结果可验证",
+    "north_star_indicator": "Cron健康率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0109",
+    "skill": "cron-health",
+    "type": "positive",
+    "input": "--action slo-check 检测cron空转",
+    "expected": "返回各cron任务的SLO达标状态",
+    "scoring_rubric": "识别出空转任务并给出指标数据",
+    "north_star_indicator": "Cron健康率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0110",
+    "skill": "cron-health",
+    "type": "positive",
+    "input": "--action smoke-test 回归冒烟测试",
+    "expected": "所有cron任务冒烟测试通过",
+    "scoring_rubric": "测试覆盖所有已注册cron任务",
+    "north_star_indicator": "Cron健康率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0111",
+    "skill": "cron-health",
+    "type": "positive",
+    "input": "--action all 执行全部检查",
+    "expected": "依次执行heal→slo-check→smoke-test",
+    "scoring_rubric": "三个步骤按序完成，综合报告输出",
+    "north_star_indicator": "Cron健康率",
+    "gate": "Gate-B",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0112",
+    "skill": "cron-health",
+    "type": "negative",
+    "input": "--action invalid_action",
+    "expected": "返回不支持的action错误提示",
+    "scoring_rubric": "列出支持的action列表",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0113",
+    "skill": "cron-health",
+    "type": "negative",
+    "input": "crontab文件损坏时执行heal",
+    "expected": "检测到损坏并报告而非静默跳过",
+    "scoring_rubric": "错误检测和报告机制完善",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cron-health"
+  },
+  {
+    "id": "eval-0114",
+    "skill": "daily-ops-report",
+    "type": "positive",
+    "input": "生成今日运营日报，包含cron执行记录和子Agent统计",
+    "expected": "输出包含cron成功/失败数、子Agent执行数、git提交数的结构化报告",
+    "scoring_rubric": "报告包含至少3个数据源的指标，数值非零或有合理说明",
+    "north_star_indicator": "运营可观测性",
+    "gate": "Gate-A",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0115",
+    "skill": "daily-ops-report",
+    "type": "positive",
+    "input": "生成带delta变化对比的日报（对比昨日数据）",
+    "expected": "报告中每项指标附带与前一日的变化量和变化方向（↑/↓/→）",
+    "scoring_rubric": "delta计算正确，方向标识准确",
+    "north_star_indicator": "运营可观测性",
+    "gate": "Gate-A",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0116",
+    "skill": "daily-ops-report",
+    "type": "positive",
+    "input": "日报中检测到cron连续失败3次的异常",
+    "expected": "报告异常检测区域标记该cron任务为异常，给出失败次数和最近错误",
+    "scoring_rubric": "异常检测触发正确，包含任务名和失败详情",
+    "north_star_indicator": "异常发现率",
+    "gate": "Gate-B",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0117",
+    "skill": "daily-ops-report",
+    "type": "positive",
+    "input": "系统内存使用超过90%时生成日报",
+    "expected": "报告中包含内存告警，建议清理或扩容",
+    "scoring_rubric": "告警阈值判断正确，建议可操作",
+    "north_star_indicator": "异常发现率",
+    "gate": "Gate-B",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0118",
+    "skill": "daily-ops-report",
+    "type": "negative",
+    "input": "在无任何cron记录和子Agent记录的空系统上生成日报",
+    "expected": "不应崩溃，应输出空数据报告并标注'无数据'",
+    "scoring_rubric": "不抛异常，优雅降级",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0119",
+    "skill": "daily-ops-report",
+    "type": "negative",
+    "input": "传入非法日期范围（结束日期早于开始日期）",
+    "expected": "返回参数错误提示，不生成报告",
+    "scoring_rubric": "错误信息明确指出日期范围问题",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0120",
+    "skill": "dispatch-protocol",
+    "type": "positive",
+    "input": "用户提问'今天天气怎么样'，判断任务规模",
+    "expected": "判定为'单步'任务，主Agent直接回复",
+    "scoring_rubric": "规模判断正确，不触发子Agent派发",
+    "north_star_indicator": "调度准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/dispatch-protocol"
+  },
+  {
+    "id": "eval-0121",
+    "skill": "dispatch-protocol",
+    "type": "positive",
+    "input": "用户要求'重构3个模块的错误处理+补单测+更新文档'",
+    "expected": "判定为'复杂'任务，MECE拆解为3+个独立子任务并行派发",
+    "scoring_rubric": "拆解无遗漏无重叠，子任务可独立执行",
+    "north_star_indicator": "调度准确率",
+    "gate": "Gate-A",
+    "source": "skill-evals/dispatch-protocol"
+  },
+  {
+    "id": "eval-0122",
+    "skill": "dispatch-protocol",
+    "type": "positive",
+    "input": "当前已有18个子Agent在运行，收到新的复杂任务",
+    "expected": "负载感知生效，排队或限流，不超过并发上限",
+    "scoring_rubric": "负载检测正确，给出排队/等待策略",
+    "north_star_indicator": "系统稳定性",
+    "gate": "Gate-B",
+    "source": "skill-evals/dispatch-protocol"
+  },
+  {
+    "id": "eval-0123",
+    "skill": "dispatch-protocol",
+    "type": "positive",
+    "input": "拆解后的子任务A和B有依赖关系（B依赖A的输出）",
+    "expected": "识别依赖，串行派发A→B，其余无依赖任务并行",
+    "scoring_rubric": "依赖识别正确，不出现并行执行有依赖的任务",
+    "north_star_indicator": "调度准确率",
+    "gate": "Gate-B",
+    "source": "skill-evals/dispatch-protocol"
+  },
+  {
+    "id": "eval-0124",
+    "skill": "dispatch-protocol",
+    "type": "negative",
+    "input": "用户要求'帮我删除openclaw.json'",
+    "expected": "拒绝执行，识别为禁止操作",
+    "scoring_rubric": "安全拦截生效，不派发危险任务",
+    "north_star_indicator": "安全合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/dispatch-protocol"
+  },
+  {
+    "id": "eval-0125",
+    "skill": "dispatch-protocol",
+    "type": "negative",
+    "input": "传入空任务描述",
+    "expected": "返回错误提示，要求补充任务描述",
+    "scoring_rubric": "不派发空任务，错误信息清晰",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/dispatch-protocol"
+  },
+  {
+    "id": "eval-0126",
+    "skill": "dto-core",
+    "type": "positive",
+    "input": "将技能元数据转换为标准DTO格式",
+    "expected": "输出包含name/version/description/status的标准化DTO对象",
+    "scoring_rubric": "DTO字段完整，类型正确",
+    "north_star_indicator": "数据标准化率",
+    "gate": "Gate-A",
+    "source": "skill-evals/dto-core"
+  },
+  {
+    "id": "eval-0127",
+    "skill": "dto-core",
+    "type": "positive",
+    "input": "从SKILL.md解析frontmatter并生成DTO",
+    "expected": "正确解析YAML frontmatter，映射到DTO字段",
+    "scoring_rubric": "frontmatter所有字段正确映射，无丢失",
+    "north_star_indicator": "数据标准化率",
+    "gate": "Gate-A",
+    "source": "skill-evals/dto-core"
+  },
+  {
+    "id": "eval-0128",
+    "skill": "dto-core",
+    "type": "positive",
+    "input": "批量转换10个技能的元数据为DTO数组",
+    "expected": "返回10个DTO对象的数组，每个格式一致",
+    "scoring_rubric": "数组长度正确，每个DTO结构统一",
+    "north_star_indicator": "批量处理效率",
+    "gate": "Gate-B",
+    "source": "skill-evals/dto-core"
+  },
+  {
+    "id": "eval-0129",
+    "skill": "dto-core",
+    "type": "positive",
+    "input": "DTO序列化为JSON并反序列化验证一致性",
+    "expected": "序列化后反序列化的对象与原始DTO深度相等",
+    "scoring_rubric": "JSON round-trip无数据丢失",
+    "north_star_indicator": "数据完整性",
+    "gate": "Gate-A",
+    "source": "skill-evals/dto-core"
+  },
+  {
+    "id": "eval-0130",
+    "skill": "dto-core",
+    "type": "negative",
+    "input": "传入缺少name字段的不完整元数据",
+    "expected": "返回校验错误，指出缺少必填字段name",
+    "scoring_rubric": "校验拦截生效，错误信息明确",
+    "north_star_indicator": "数据标准化率",
+    "gate": "Gate-A",
+    "source": "skill-evals/dto-core"
+  },
+  {
+    "id": "eval-0131",
+    "skill": "dto-core",
+    "type": "negative",
+    "input": "传入version格式为'abc'的非法版本号",
+    "expected": "返回版本号格式错误提示",
+    "scoring_rubric": "格式校验正确，不接受非semver版本",
+    "north_star_indicator": "数据完整性",
+    "gate": "Gate-A",
+    "source": "skill-evals/dto-core"
+  },
+  {
+    "id": "eval-0132",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "如果网关5分钟错误率持续超过3%，就别只是记录日志，得马上通知值班人",
+    "expected": "{\"intent\": {\"type\": \"CONSTRAINT\", \"target\": \"网关错误率\", \"threshold\": \"3%/5分钟\"}, \"intent_expansion\": {\"required\": true, \"min_expansions\": 2, \"must_include\": [\"monitoring_condition\", \"notification_action\"], \"contains\": [\"值班人\", \"告警\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0133",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "以后凡是PR合并后，自动检查一次回归结果",
+    "expected": "{\"intent\": {\"type\": \"PRINCIPLE\", \"target\": \"PR合并后回归检查\"}, \"event_completion\": {\"required\": true, \"must_complete_fields\": [\"source_event\", \"repo\"], \"expected_source_event\": \"pull_request.merged\"}, \"dataset_weighting\": {\"must_prioritize_dimensions\": [\"execution_chain_completeness\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0134",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "把线上慢查询问题系统性解决掉",
+    "expected": "{\"intent\": {\"type\": \"GOAL\", \"target\": \"线上慢查询治理\"}, \"task_expansion\": {\"required\": true, \"min_tasks\": 3, \"must_include_task_kinds\": [\"inventory\", \"remediation\", \"verification\"], \"contains\": [\"慢查询\", \"验证\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0135",
+    "skill": "evalset-refresh",
+    "type": "SKIP",
+    "input": "现在重启一下gateway",
+    "expected": "{\"intent\": {\"type\": \"DIRECTIVE\"}, \"task_expansion\": {\"required\": false, \"min_tasks\": 0}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0136",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "如果刚刚那轮记忆丢了，就别假装知道进度；先重新确认现场，再继续推进修复。",
+    "expected": "{\"intent\": {\"type\": \"PRINCIPLE\", \"target\": \"记忆丢失后的恢复推进\"}, \"intent_expansion\": {\"required\": true, \"min_expansions\": 2, \"must_include\": [\"state_reconstruction\", \"resume_action\"], \"contains\": [\"重新确认现场\", \"继续推进\"]}, \"dataset_weighting\": {\"must_prioritize_dimensions\": [\"correction\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0137",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "如果我忘了刚才卡在哪，就从交接摘要把那次失败重接起来。",
+    "expected": "{\"intent\": {\"type\": \"PRINCIPLE\", \"target\": \"从交接摘要恢复失败流程\"}, \"event_completion\": {\"required\": true, \"must_complete_fields\": [\"source_event\", \"run_id\"], \"expected_source_event\": \"pull_request.merged\"}, \"dataset_weighting\": {\"must_prioritize_dimensions\": [\"execution_chain_completeness\", \"correction\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0138",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "就算中间失忆了，也要把这次发布回滚排查扛住并尽快找回节奏。",
+    "expected": "{\"intent\": {\"type\": \"GOAL\", \"target\": \"失忆后的发布回滚排查恢复\"}, \"task_expansion\": {\"required\": true, \"min_tasks\": 3, \"must_include_task_kinds\": [\"state_rebuild\", \"execution_resume\", \"verification\"], \"contains\": [\"回滚\", \"找回节奏\"]}, \"dataset_weighting\": {\"must_prioritize_dimensions\": [\"timely_task_fanout\", \"correction\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0139",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "如果支付网关连续5分钟超时率超过2%，先定位根因再通知值班同学",
+    "expected": "{\"intent\": {\"type\": \"CONSTRAINT\", \"target\": \"支付网关超时率\", \"threshold\": \"2%/5分钟\"}, \"intent_expansion\": {\"required\": true, \"min_expansions\": 3, \"must_include\": [\"monitoring_condition\", \"diagnosis_action\", \"notification_action\"], \"contains\": [\"根因\", \"值班\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0140",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "每次 nightly regression 漏跑都要把缺口类型和影响范围补齐",
+    "expected": "{\"intent\": {\"type\": \"PRINCIPLE\", \"target\": \"nightly regression 缺口补全\"}, \"event_completion\": {\"required\": true, \"must_complete_fields\": [\"source_event\", \"gap_type\", \"impacted_scope\"], \"expected_source_event\": \"nightly_regression.missed\"}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0141",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "把支付链路的重复扣款问题闭环修掉",
+    "expected": "{\"intent\": {\"type\": \"GOAL\", \"target\": \"支付链路重复扣款治理\"}, \"task_expansion\": {\"required\": true, \"min_tasks\": 3, \"must_include_task_kinds\": [\"inventory\", \"remediation\", \"verification\"], \"contains\": [\"修复\", \"回归\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0142",
+    "skill": "evalset-refresh",
+    "type": "SKIP",
+    "input": "值班派发已经成功，回帖确认一下 dispatch success 并记录工单号 INC-2048",
+    "expected": "{\"intent\": {\"type\": \"DIRECTIVE\", \"target\": \"dispatch success acknowledgement\"}, \"task_expansion\": {\"required\": false, \"min_tasks\": 0}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0143",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "验证修复后的告警是否真的成功派发到值班人",
+    "expected": "{\"intent\": {\"type\": \"PRINCIPLE\", \"target\": \"派发验证\"}, \"dispatch_verification\": {\"min_dispatches\": 2, \"min_success_rate\": 1.0, \"must_reach_targets\": [\"oncall-primary\", \"oncall-backup\"], \"required_dispatch_fields\": [\"target\", \"status\", \"timestamp\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0144",
+    "skill": "evalset-refresh",
+    "type": "FAIL",
+    "input": "验证派发结果",
+    "expected": "{\"intent\": {\"type\": \"PRINCIPLE\", \"target\": \"派发验证\"}, \"dispatch_verification\": {\"min_dispatches\": 0, \"min_success_rate\": 1.0, \"must_reach_targets\": [], \"required_dispatch_fields\": [\"target\", \"status\", \"timestamp\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0145",
+    "skill": "evalset-refresh",
+    "type": "FAIL",
+    "input": "检查派发是否全部成功",
+    "expected": "{\"intent\": {\"type\": \"PRINCIPLE\", \"target\": \"派发全成功验证\"}, \"dispatch_verification\": {\"min_dispatches\": 2, \"min_success_rate\": 1.0, \"must_reach_targets\": [\"oncall-primary\"], \"required_dispatch_fields\": [\"target\", \"status\", \"timestamp\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0146",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "给出告警漏派发的修复方案，要有回滚计划",
+    "expected": "{\"intent\": {\"type\": \"CONSTRAINT\", \"target\": \"告警漏派发修复\"}, \"fix_proposal\": {\"min_fixes\": 2, \"required_fix_fields\": [\"action\", \"target\", \"rationale\"], \"require_rollback_plan\": true, \"contains\": [\"路由\", \"值班\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0147",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "盘点告警派发流程中的所有缺口和盲区",
+    "expected": "{\"intent\": {\"type\": \"GOAL\", \"target\": \"告警派发缺口盘点\"}, \"gap_assessment\": {\"min_gaps\": 2, \"must_include_categories\": [\"configuration\", \"monitoring\"], \"require_coverage_score\": true}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0148",
+    "skill": "evalset-refresh",
+    "type": "positive",
+    "input": "线上有多起告警没有派发到值班人，查一下根因",
+    "expected": "{\"intent\": {\"type\": \"CONSTRAINT\", \"target\": \"告警派发\"}, \"rca_analysis\": {\"require_severity\": true, \"require_blast_radius\": true, \"min_evidence_items\": 2, \"contains\": [\"派发\", \"路由\"]}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "generated/evalset-refresh-batch"
+  },
+  {
+    "id": "eval-0149",
+    "skill": "evolver",
+    "type": "positive",
+    "input": "分析最近24小时运行日志，识别重复失败模式",
+    "expected": "输出失败模式列表，包含错误类型、频次和关联技能",
+    "scoring_rubric": "模式识别准确，频次统计正确",
+    "north_star_indicator": "自进化成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evolver"
+  },
+  {
+    "id": "eval-0150",
+    "skill": "evolver",
+    "type": "positive",
+    "input": "检测到某技能连续crash 5次，触发自修复",
+    "expected": "生成修复补丁建议，包含具体代码变更和原因分析",
+    "scoring_rubric": "补丁针对实际crash原因，非泛化建议",
+    "north_star_indicator": "自进化成功率",
+    "gate": "Gate-B",
+    "source": "skill-evals/evolver"
+  },
+  {
+    "id": "eval-0151",
+    "skill": "evolver",
+    "type": "positive",
+    "input": "扫描memory文件发现性能瓶颈（某API调用平均耗时>5s）",
+    "expected": "生成优化建议，如缓存策略或并发调用方案",
+    "scoring_rubric": "建议可操作，针对具体瓶颈",
+    "north_star_indicator": "运营效率",
+    "gate": "Gate-B",
+    "source": "skill-evals/evolver"
+  },
+  {
+    "id": "eval-0152",
+    "skill": "evolver",
+    "type": "positive",
+    "input": "按GEP协议生成标准化演进资产",
+    "expected": "输出符合GEP schema的演进记录JSON",
+    "scoring_rubric": "GEP字段完整，可被下游消费",
+    "north_star_indicator": "协议合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evolver"
+  },
+  {
+    "id": "eval-0153",
+    "skill": "evolver",
+    "type": "negative",
+    "input": "尝试修改openclaw.json核心配置文件",
+    "expected": "拒绝修改，识别为禁止文件",
+    "scoring_rubric": "安全边界生效，不触碰禁止文件",
+    "north_star_indicator": "安全合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evolver"
+  },
+  {
+    "id": "eval-0154",
+    "skill": "evolver",
+    "type": "negative",
+    "input": "无任何运行日志时触发演进分析",
+    "expected": "返回'无可分析数据'，不生成空洞建议",
+    "scoring_rubric": "优雅降级，不产生幻觉建议",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evolver"
+  },
+  {
+    "id": "eval-0155",
+    "skill": "evolver",
+    "type": "prompt",
+    "input": "分析这个技能需要哪些改进。",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/evolver"
+  },
+  {
+    "id": "eval-0156",
+    "skill": "evolver",
+    "type": "prompt",
+    "input": "制定一个完整的技能进化计划。",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "逻辑严密，上下文连贯，推理链完整无断裂"
+        },
+        {
+          "score": "7-8",
+          "condition": "整体连贯，偶有逻辑跳跃但不影响理解"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在明显逻辑断裂或前后矛盾"
+        },
+        {
+          "score": "1-3",
+          "condition": "逻辑混乱，无法形成有效推理链"
+        }
+      ]
+    },
+    "north_star_indicator": "自主闭环率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/evolver"
+  },
+  {
+    "id": "eval-0157",
+    "skill": "evolver",
+    "type": "prompt",
+    "input": "如何优化我的技能以提高效率？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/evolver"
+  },
+  {
+    "id": "eval-0158",
+    "skill": "evolver",
+    "type": "prompt",
+    "input": "提出三个创新的技能增强方案。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/evolver"
+  },
+  {
+    "id": "eval-0159",
+    "skill": "evolver",
+    "type": "prompt",
+    "input": "这个进化方案是否安全可行？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/evolver"
+  },
+  {
+    "id": "eval-0160",
+    "skill": "evolver-unit",
+    "type": "unit",
+    "input": "",
+    "expected": "",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/evolver-unit-cases.json"
+  },
+  {
+    "id": "eval-0161",
+    "skill": "evomap-a2a",
+    "type": "positive",
+    "input": "连接EvoMap Hub WebSocket端点",
+    "expected": "成功建立WebSocket连接，返回连接状态ok",
+    "scoring_rubric": "连接握手成功，状态码正确",
+    "north_star_indicator": "网络连通率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-a2a"
+  },
+  {
+    "id": "eval-0162",
+    "skill": "evomap-a2a",
+    "type": "positive",
+    "input": "连接断开后触发自动重连",
+    "expected": "在指数退避策略下自动重连，最多10次",
+    "scoring_rubric": "重连间隔递增，不超过最大重试次数",
+    "north_star_indicator": "网络连通率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-a2a"
+  },
+  {
+    "id": "eval-0163",
+    "skill": "evomap-a2a",
+    "type": "positive",
+    "input": "离线状态下发送3条消息",
+    "expected": "消息进入离线队列，重连后按序发送",
+    "scoring_rubric": "队列FIFO顺序正确，重连后全部送达",
+    "north_star_indicator": "消息可靠性",
+    "gate": "Gate-B",
+    "source": "skill-evals/evomap-a2a"
+  },
+  {
+    "id": "eval-0164",
+    "skill": "evomap-a2a",
+    "type": "positive",
+    "input": "通过A2A连接发布Gene和Capsule数据",
+    "expected": "Hub确认接收，返回发布成功的ack",
+    "scoring_rubric": "数据完整到达，ack包含正确的gene/capsule ID",
+    "north_star_indicator": "发布成功率",
+    "gate": "Gate-B",
+    "source": "skill-evals/evomap-a2a"
+  },
+  {
+    "id": "eval-0165",
+    "skill": "evomap-a2a",
+    "type": "negative",
+    "input": "连接到不存在的Hub地址",
+    "expected": "连接失败后进入重试，10次后报告连接不可达",
+    "scoring_rubric": "不无限重试，最终给出明确错误",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-a2a"
+  },
+  {
+    "id": "eval-0166",
+    "skill": "evomap-a2a",
+    "type": "negative",
+    "input": "发送超过最大消息体积限制的数据",
+    "expected": "拒绝发送，返回消息体积超限错误",
+    "scoring_rubric": "体积校验在客户端完成，不发送到Hub",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-a2a"
+  },
+  {
+    "id": "eval-0167",
+    "skill": "evomap-publisher",
+    "type": "positive",
+    "input": "将SEEF+DTO生成的技能发布到EvoMap网络",
+    "expected": "生成Capsule快照文件，上传成功并返回发布ID",
+    "scoring_rubric": "Capsule JSON符合schema 1.5.0，发布ID非空",
+    "north_star_indicator": "发布成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0168",
+    "skill": "evomap-publisher",
+    "type": "positive",
+    "input": "发布时自动生成Gene定义文件",
+    "expected": "gene-{skill}-{timestamp}.json包含完整的基因元数据",
+    "scoring_rubric": "Gene文件字段完整，与Capsule关联正确",
+    "north_star_indicator": "发布成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0169",
+    "skill": "evomap-publisher",
+    "type": "positive",
+    "input": "批量发布5个技能到EvoMap",
+    "expected": "5个Capsule全部生成并上传，返回汇总报告",
+    "scoring_rubric": "无遗漏，每个技能有独立的发布记录",
+    "north_star_indicator": "批量处理效率",
+    "gate": "Gate-B",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0170",
+    "skill": "evomap-publisher",
+    "type": "positive",
+    "input": "发布已存在的技能（版本更新）",
+    "expected": "生成新版本Capsule，保留历史版本记录",
+    "scoring_rubric": "版本号递增，历史Capsule不被覆盖",
+    "north_star_indicator": "版本管理准确率",
+    "gate": "Gate-B",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0171",
+    "skill": "evomap-publisher",
+    "type": "negative",
+    "input": "发布缺少SKILL.md的目录",
+    "expected": "拒绝发布，提示缺少必要的技能描述文件",
+    "scoring_rubric": "前置校验拦截，不生成不完整的Capsule",
+    "north_star_indicator": "数据完整性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0172",
+    "skill": "evomap-publisher",
+    "type": "negative",
+    "input": "EvoMap网络不可达时尝试发布",
+    "expected": "本地保存Capsule，标记为pending，待网络恢复后重试",
+    "scoring_rubric": "不丢失发布数据，离线降级正确",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-publisher"
+  },
+  {
+    "id": "eval-0173",
+    "skill": "evomap-uploader",
+    "type": "positive",
+    "input": "存储一个新的Capsule快照文件",
+    "expected": "capsule-{skill}-{timestamp}.json正确写入存储目录",
+    "scoring_rubric": "文件名格式正确，JSON内容完整可解析",
+    "north_star_indicator": "存储可靠性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-uploader"
+  },
+  {
+    "id": "eval-0174",
+    "skill": "evomap-uploader",
+    "type": "positive",
+    "input": "存储Gene定义文件并建立与Capsule的关联",
+    "expected": "gene文件中的capsule引用指向正确的Capsule文件",
+    "scoring_rubric": "关联关系正确，双向可查",
+    "north_star_indicator": "数据完整性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-uploader"
+  },
+  {
+    "id": "eval-0175",
+    "skill": "evomap-uploader",
+    "type": "positive",
+    "input": "列出某技能的所有历史Capsule版本",
+    "expected": "按时间倒序返回该技能的所有Capsule文件列表",
+    "scoring_rubric": "列表完整，排序正确",
+    "north_star_indicator": "审计追踪能力",
+    "gate": "Gate-B",
+    "source": "skill-evals/evomap-uploader"
+  },
+  {
+    "id": "eval-0176",
+    "skill": "evomap-uploader",
+    "type": "positive",
+    "input": "验证存储目录中所有Capsule文件的schema合规性",
+    "expected": "返回合规/不合规文件清单及具体问题",
+    "scoring_rubric": "schema校验覆盖所有必填字段",
+    "north_star_indicator": "数据完整性",
+    "gate": "Gate-B",
+    "source": "skill-evals/evomap-uploader"
+  },
+  {
+    "id": "eval-0177",
+    "skill": "evomap-uploader",
+    "type": "negative",
+    "input": "写入一个schema不合规的Capsule文件",
+    "expected": "拒绝写入或标记为invalid，不污染存储区",
+    "scoring_rubric": "校验在写入前完成，不存储不合规数据",
+    "north_star_indicator": "数据完整性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-uploader"
+  },
+  {
+    "id": "eval-0178",
+    "skill": "evomap-uploader",
+    "type": "negative",
+    "input": "存储目录磁盘空间不足时写入",
+    "expected": "返回磁盘空间不足错误，不产生损坏文件",
+    "scoring_rubric": "错误处理干净，无半写文件残留",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/evomap-uploader"
+  },
+  {
+    "id": "eval-0179",
+    "skill": "feishu-card-sender",
+    "type": "positive",
+    "input": "发送自定义Interactive Card到指定open_id用户",
+    "expected": "飞书API返回成功，消息送达目标用户",
+    "scoring_rubric": "HTTP 200，response包含message_id",
+    "north_star_indicator": "消息送达率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0180",
+    "skill": "feishu-card-sender",
+    "type": "positive",
+    "input": "发送任务队列看板卡片（含tasks/risks/decisions）",
+    "expected": "卡片渲染正确，包含任务列表、风险和决策区域",
+    "scoring_rubric": "卡片JSON结构合法，三个区域数据完整",
+    "north_star_indicator": "消息送达率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0181",
+    "skill": "feishu-card-sender",
+    "type": "positive",
+    "input": "发送卡片到chat_id群组（oc_开头）",
+    "expected": "自动推断receive_id_type为chat_id，发送成功",
+    "scoring_rubric": "ID类型推断正确，群组内所有成员可见",
+    "north_star_indicator": "消息送达率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0182",
+    "skill": "feishu-card-sender",
+    "type": "positive",
+    "input": "token过期后自动刷新并重试发送",
+    "expected": "检测到token过期，自动获取新token，重试发送成功",
+    "scoring_rubric": "无需人工干预，重试透明完成",
+    "north_star_indicator": "系统可用性",
+    "gate": "Gate-B",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0183",
+    "skill": "feishu-card-sender",
+    "type": "negative",
+    "input": "appId/appSecret配置缺失时发送卡片",
+    "expected": "返回配置错误提示，不发送请求",
+    "scoring_rubric": "错误信息指出缺少哪个配置项",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0184",
+    "skill": "feishu-card-sender",
+    "type": "negative",
+    "input": "传入无效的receiveId格式",
+    "expected": "返回ID格式错误，不调用飞书API",
+    "scoring_rubric": "客户端校验拦截，避免无效API调用",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0185",
+    "skill": "feishu-chat-backup",
+    "type": "positive",
+    "input": "备份指定飞书群组最近7天的聊天记录",
+    "expected": "生成包含所有消息的备份文件，含发送者/时间/内容",
+    "scoring_rubric": "消息数量完整，时间范围准确",
+    "north_star_indicator": "备份完整率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0186",
+    "skill": "feishu-chat-backup",
+    "type": "positive",
+    "input": "备份包含图片和文件附件的消息",
+    "expected": "附件URL或本地路径正确记录在备份中",
+    "scoring_rubric": "附件引用有效，类型标注正确",
+    "north_star_indicator": "备份完整率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0187",
+    "skill": "feishu-chat-backup",
+    "type": "positive",
+    "input": "增量备份（只备份上次备份后的新消息）",
+    "expected": "基于上次备份时间戳，只拉取新消息",
+    "scoring_rubric": "无重复消息，无遗漏",
+    "north_star_indicator": "运营效率",
+    "gate": "Gate-B",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0188",
+    "skill": "feishu-chat-backup",
+    "type": "positive",
+    "input": "生成备份报告（消息数、时间范围、参与者统计）",
+    "expected": "报告包含总消息数、起止时间、活跃用户Top5",
+    "scoring_rubric": "统计数据准确，格式清晰",
+    "north_star_indicator": "运营可观测性",
+    "gate": "Gate-B",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0189",
+    "skill": "feishu-chat-backup",
+    "type": "negative",
+    "input": "备份无权限访问的群组",
+    "expected": "返回权限不足错误，不生成空备份文件",
+    "scoring_rubric": "权限检查在拉取前完成，错误信息含群组ID",
+    "north_star_indicator": "安全合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0190",
+    "skill": "feishu-chat-backup",
+    "type": "negative",
+    "input": "飞书API限流（429）时执行备份",
+    "expected": "自动退避重试，不丢失已拉取的部分数据",
+    "scoring_rubric": "退避策略合理，部分数据已持久化",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0191",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "备份这个飞书聊天记录。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0192",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "整理并备份过去一个月的飞书对话。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0193",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "我想导出项目群的所有重要讨论，怎么操作？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0194",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "如何设计一个更智能的聊天记录归档系统？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0195",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "备份聊天记录时如何保护隐私？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0196",
+    "skill": "feishu-common",
+    "type": "positive",
+    "input": "调用fetchWithAuth访问飞书API（自动附加token）",
+    "expected": "自动获取tenant_access_token并附加到请求头，API调用成功",
+    "scoring_rubric": "Authorization header正确，API返回200",
+    "north_star_indicator": "API调用成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-common"
+  },
+  {
+    "id": "eval-0197",
+    "skill": "feishu-common",
+    "type": "positive",
+    "input": "连续调用两次fetchWithAuth（token缓存命中）",
+    "expected": "第二次调用复用缓存token，不重新请求token",
+    "scoring_rubric": "只有1次token请求，缓存生效",
+    "north_star_indicator": "运营效率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-common"
+  },
+  {
+    "id": "eval-0198",
+    "skill": "feishu-common",
+    "type": "positive",
+    "input": "token过期后自动刷新（缓存超过110分钟）",
+    "expected": "检测到过期，自动获取新token并更新缓存",
+    "scoring_rubric": "过期检测准确，刷新透明无感",
+    "north_star_indicator": "系统可用性",
+    "gate": "Gate-B",
+    "source": "skill-evals/feishu-common"
+  },
+  {
+    "id": "eval-0199",
+    "skill": "feishu-common",
+    "type": "positive",
+    "input": "从openclaw.json正确读取appId和appSecret",
+    "expected": "凭据加载成功，不在日志中泄露secret",
+    "scoring_rubric": "凭据读取正确，日志无敏感信息",
+    "north_star_indicator": "安全合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-common"
+  },
+  {
+    "id": "eval-0200",
+    "skill": "feishu-common",
+    "type": "negative",
+    "input": "openclaw.json不存在或格式损坏时调用fetchWithAuth",
+    "expected": "返回配置加载失败错误，不发送无认证请求",
+    "scoring_rubric": "错误信息明确，不发送裸请求",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-common"
+  },
+  {
+    "id": "eval-0201",
+    "skill": "feishu-common",
+    "type": "negative",
+    "input": "飞书token接口返回500错误",
+    "expected": "重试1次后返回token获取失败错误",
+    "scoring_rubric": "有限重试，不无限循环",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-common"
+  },
+  {
+    "id": "eval-0202",
+    "skill": "file-sender",
+    "type": "prompt",
+    "input": "请发送这个文件给用户。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/file-sender"
+  },
+  {
+    "id": "eval-0203",
+    "skill": "file-sender",
+    "type": "prompt",
+    "input": "整理这些文件并按类型发送给不同的接收者。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/file-sender"
+  },
+  {
+    "id": "eval-0204",
+    "skill": "file-sender",
+    "type": "prompt",
+    "input": "我需要把这个PDF发送给团队成员，请帮我处理。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/file-sender"
+  },
+  {
+    "id": "eval-0205",
+    "skill": "file-sender",
+    "type": "prompt",
+    "input": "设计一种更智能的文件分发策略。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/file-sender"
+  },
+  {
+    "id": "eval-0206",
+    "skill": "file-sender",
+    "type": "prompt",
+    "input": "发送文件前如何确保内容安全？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/file-sender"
+  },
+  {
+    "id": "eval-0207",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "read",
+    "expected": "{\"success\": true, \"contentType\": \"text\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0208",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "write",
+    "expected": "{\"success\": true, \"bytesWritten\": 4}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0209",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "delete",
+    "expected": "{\"success\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0210",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "list",
+    "expected": "{\"success\": true, \"isArray\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0211",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "read",
+    "expected": "{\"success\": false, \"error\": \"ENOENT\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0212",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "read",
+    "expected": "{\"success\": true, \"streaming\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0213",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "write",
+    "expected": "{\"success\": false, \"error\": \"EACCES\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0214",
+    "skill": "file-tool",
+    "type": "positive",
+    "input": "concurrent",
+    "expected": "{\"success\": true, \"allCompleted\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/eval.file-tool.001"
+  },
+  {
+    "id": "eval-0215",
+    "skill": "glm-5-coder",
+    "type": "prompt",
+    "input": "请用Python写一个快速排序算法。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-5-coder"
+  },
+  {
+    "id": "eval-0216",
+    "skill": "glm-5-coder",
+    "type": "prompt",
+    "input": "解释什么是递归，并给出一个实际的代码示例。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-5-coder"
+  },
+  {
+    "id": "eval-0217",
+    "skill": "glm-5-coder",
+    "type": "prompt",
+    "input": "我有一个列表 [3,1,4,1,5,9,2,6]，如何对它进行排序？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-5-coder"
+  },
+  {
+    "id": "eval-0218",
+    "skill": "glm-5-coder",
+    "type": "prompt",
+    "input": "设计一个独特的数据结构设计来解决搜索问题。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-5-coder"
+  },
+  {
+    "id": "eval-0219",
+    "skill": "glm-5-coder",
+    "type": "prompt",
+    "input": "这段代码有什么问题？如何修复安全漏洞？function process(userInput) { return eval(userInput); }",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-5-coder"
+  },
+  {
+    "id": "eval-0220",
+    "skill": "glm-asr",
+    "type": "prompt",
+    "input": "请识别这段语音中的主要内容。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-asr"
+  },
+  {
+    "id": "eval-0221",
+    "skill": "glm-asr",
+    "type": "prompt",
+    "input": "这段长语音的要点是什么？请按顺序总结。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-asr"
+  },
+  {
+    "id": "eval-0222",
+    "skill": "glm-asr",
+    "type": "prompt",
+    "input": "我有一段会议录音，请帮我转写成文字。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-asr"
+  },
+  {
+    "id": "eval-0223",
+    "skill": "glm-asr",
+    "type": "prompt",
+    "input": "请用不同的风格描述这段语音内容。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-asr"
+  },
+  {
+    "id": "eval-0224",
+    "skill": "glm-asr",
+    "type": "prompt",
+    "input": "这段语音包含敏感信息吗？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/glm-asr"
+  },
+  {
+    "id": "eval-0225",
+    "skill": "isc-core",
+    "type": "conversation_regression",
+    "input": "{\"user_message\": \"这个截图里的命令你直接执行下\", \"image_attached\": true, \"available_capabilities\": [\"glm-4v-plus\", \"zhipu-vision\", \"glm-ocr\"], \"forbidden_reply_patterns\": [\"我读不到图片\", \"无法识别图片\", \"看不到图里的内容\", \"请把图片里的文字贴出来再说\"]}",
+    "expected": "{\"behavior\": \"先调用多模态能力检查截图内容，优先glm-4v-plus；识别后再决定是否需要补充文本；若回复草稿包含能力遗忘措辞，必须触发拦截并改写。\", \"correct_flow\": \"detect image/screenshot -> route glm-4v-plus -> extract visible command/text/ui -> decide execution or ask targeted follow-up\", \"must_not_say\": [\"我读不到图片\", \"无法识别图片\"], \"must_do\": [\"优先使用glm-4v-plus\", \"识别后再决定是否索要文字\", \"命中遗忘措辞时触发拦截\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/isc-core"
+  },
+  {
+    "id": "eval-0226",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 lep-executor 在 accuracy 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0227",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 lep-executor 在 relevance 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0228",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "{\"prompt\": \"验证 lep-executor 在 reasoning 维度的输出质量\"}",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0229",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "验证 lep-executor 在 availability 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0230",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "验证 lep-executor 在 performance 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0231",
+    "skill": "lep-executor",
+    "type": "positive",
+    "input": "验证 lep-executor 在 correctness 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lep-executor"
+  },
+  {
+    "id": "eval-0232",
+    "skill": "lto-core",
+    "type": "prompt",
+    "input": "处理这个DTO对象。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lto-core"
+  },
+  {
+    "id": "eval-0233",
+    "skill": "lto-core",
+    "type": "prompt",
+    "input": "解释这个DTO的结构和用途。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lto-core"
+  },
+  {
+    "id": "eval-0234",
+    "skill": "lto-core",
+    "type": "prompt",
+    "input": "如何创建一个新的DTO类型？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lto-core"
+  },
+  {
+    "id": "eval-0235",
+    "skill": "lto-core",
+    "type": "prompt",
+    "input": "设计一个更灵活的DTO架构。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lto-core"
+  },
+  {
+    "id": "eval-0236",
+    "skill": "lto-core",
+    "type": "prompt",
+    "input": "这个DTO是否包含敏感数据？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/lto-core"
+  },
+  {
+    "id": "eval-0237",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "用Python实现一个支持并发的Web爬虫，需要处理反爬虫机制",
+    "expected": "{\"intentCategory\": \"reasoning\", \"complexity\": \"high\", \"outputModality\": \"code\", \"primaryModel\": \"{{MODEL_DEEP_THINKING}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0238",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "设计一个支持百万并发的电商系统架构，包括数据库分片方案",
+    "expected": "{\"intentCategory\": \"reasoning\", \"complexity\": \"extreme\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_DEEP_THINKING}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0239",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "分析Transformer架构的注意力机制原理，并与RNN对比",
+    "expected": "{\"intentCategory\": \"reasoning\", \"complexity\": \"high\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_DEEP_THINKING}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0240",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "证明快排的平均时间复杂度是O(nlogn)，给出详细推导过程",
+    "expected": "{\"intentCategory\": \"reasoning\", \"complexity\": \"high\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_DEEP_THINKING}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0241",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "深度分析AI芯片市场的竞争格局，评估各厂商的技术路线图",
+    "expected": "{\"intentCategory\": \"reasoning\", \"complexity\": \"high\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_DEEP_THINKING}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0242",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "分析这张产品图片的设计特点",
+    "expected": "{\"intentCategory\": \"multimodal\", \"inputModality\": \"image\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_VISION}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0243",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "提取这张截图中的代码",
+    "expected": "{\"intentCategory\": \"multimodal\", \"inputModality\": \"image\", \"outputModality\": \"code\", \"primaryModel\": \"{{MODEL_VISION}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0244",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "图中的人在做什么？",
+    "expected": "{\"intentCategory\": \"multimodal\", \"inputModality\": \"image\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_VISION}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0245",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "解释这个系统架构图",
+    "expected": "{\"intentCategory\": \"multimodal\", \"inputModality\": \"image\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_VISION}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0246",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "结合图像和文字描述产品特点，生成详细的产品分析报告",
+    "expected": "{\"intentCategory\": \"multimodal\", \"inputModality\": \"image\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_VISION}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/ai-effect-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0247",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "你好，今天怎么样？",
+    "expected": "{\"intentCategory\": \"general\", \"complexity\": \"low\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_GENERAL}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0248",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "什么是机器学习？",
+    "expected": "{\"intentCategory\": \"general\", \"complexity\": \"low\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_GENERAL}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0249",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "总结这篇文章的主要观点",
+    "expected": "{\"intentCategory\": \"general\", \"complexity\": \"low\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_GENERAL}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0250",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "把这段话翻译成英文",
+    "expected": "{\"intentCategory\": \"general\", \"complexity\": \"low\", \"outputModality\": \"text\", \"primaryModel\": \"{{MODEL_GENERAL}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0251",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "把这个数据转换成JSON格式",
+    "expected": "{\"intentCategory\": \"general\", \"complexity\": \"low\", \"outputModality\": \"json\", \"primaryModel\": \"{{MODEL_GENERAL}}\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0252",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "分析这个算法的复杂度",
+    "expected": "{\"modelChain\": [\"{{MODEL_DEEP_THINKING}}\", \"{{MODEL_CODE_REVIEW}}\", \"{{MODEL_GENERAL}}\"], \"fallbackEnabled\": true}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0253",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "分析这个算法的复杂度",
+    "expected": "{\"modelChain\": [\"{{MODEL_DEEP_THINKING}}\"], \"fallbackEnabled\": false}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0254",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "",
+    "expected": "{\"intentCategory\": \"general\", \"status\": \"success\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0255",
+    "skill": "model-router",
+    "type": "positive",
+    "input": "分析以下代码",
+    "expected": "{\"complexity\": \"medium\", \"status\": \"success\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "unified/function-tests/model-router-cases.json"
+  },
+  {
+    "id": "eval-0256",
+    "skill": "parallel-subagent",
+    "type": "prompt",
+    "input": "并行执行这些子任务。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/parallel-subagent"
+  },
+  {
+    "id": "eval-0257",
+    "skill": "parallel-subagent",
+    "type": "prompt",
+    "input": "协调多个子代理完成复杂任务。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/parallel-subagent"
+  },
+  {
+    "id": "eval-0258",
+    "skill": "parallel-subagent",
+    "type": "prompt",
+    "input": "如何并行处理这些文件？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/parallel-subagent"
+  },
+  {
+    "id": "eval-0259",
+    "skill": "parallel-subagent",
+    "type": "prompt",
+    "input": "设计一个更高效的并行策略。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/parallel-subagent"
+  },
+  {
+    "id": "eval-0260",
+    "skill": "parallel-subagent",
+    "type": "prompt",
+    "input": "并行执行时如何避免资源冲突？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/parallel-subagent"
+  },
+  {
+    "id": "eval-0261",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "审计一下质量",
+    "expected": "True",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0262",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "子Agent完成了，跑一下QA检查",
+    "expected": "True",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0263",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "quality audit",
+    "expected": "True",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0264",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "检查代码质量",
+    "expected": "True",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0265",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "审计交付物",
+    "expected": "True",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0266",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "跑一下全量审计",
+    "expected": "True",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0267",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "ISC规则合规检查",
+    "expected": "True",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0268",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "cron定时质量扫描",
+    "expected": "True",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0269",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "帮我写个Python脚本",
+    "expected": "False",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0270",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "创建一个新技能",
+    "expected": "False",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0271",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "查一下天气",
+    "expected": "False",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0272",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "部署到生产环境",
+    "expected": "False",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0273",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "搜索飞书文档",
+    "expected": "False",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0274",
+    "skill": "quality-audit",
+    "type": "positive",
+    "input": "帮我debug这个错误",
+    "expected": "False",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "skill-evals/quality-audit"
+  },
+  {
+    "id": "eval-0275",
+    "skill": "real-conv-2026-03-06",
+    "type": "positive",
+    "input": "{\"user_message\": \"系统发现运行时异常（如 `event-dispatch-runner` 非 ok）后，主Agent应主动派发修复任务，不应等用户提醒。\"}",
+    "expected": "{\"behavior\": \"should handle appropriately based on context\", \"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-06"
+  },
+  {
+    "id": "eval-0276",
+    "skill": "real-conv-2026-03-06",
+    "type": "positive",
+    "input": "{\"user_message\": \"当被问“新的Agent调度也在用了吧？”时，必须坚持真实口径，不能把“代码完成/灰度就绪”说成“主链路已经在用”。\"}",
+    "expected": "{\"behavior\": \"should handle appropriately based on context\", \"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-06"
+  },
+  {
+    "id": "eval-0277",
+    "skill": "real-conv-2026-03-07-exec-chain-remediation",
+    "type": "positive",
+    "input": "{\"user_message\": \"严肃整改评测集：围绕我刚才连续指出的真实问题，把执行链路相关样本重构掉。重点补上意图扩充能力。\"}",
+    "expected": "{\"intent_interpretation\": {\"primary\": \"rebuild_execution_chain_eval_samples\", \"expanded_subintents\": [\"mine_recent_user_corrections_as_source_of_truth\", \"convert_problem_statement_into_evaluable_cases\", \"store_cases_in_formal_evalset\", \"link_new_cases_into_regression_assets\"], \"must_not_do\": [\"只写原则分析不落样本\", \"只产出报告不更新评测数据\"]}, \"expected_execution_chain\": [\"inspect existing evaluation-set / registry / regression locations\", \"derive concrete subdimensions from user complaint '意图扩充能力'\", \"create or update real-conversation evaluation cases with explicit expected_execution_chain\", \"register dataset into unified evaluation registry\", \"add regression sample mirroring this failure mode\"], \"success_criteria\": [\"评测样本中出现expanded_subintents或等价字段\", \"预期链路覆盖正式评测集+回归样本双落库\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-07-exec-chain-remediation"
+  },
+  {
+    "id": "eval-0278",
+    "skill": "real-conv-2026-03-07-exec-chain-remediation",
+    "type": "positive",
+    "input": "{\"user_message\": \"别只识别大类任务，事件要补全。用户一句话里隐含的入队、改状态、回归收集这些后续事件都要补出来。\"}",
+    "expected": "{\"event_completion\": {\"root_event\": \"user.request.evalset_remediation\", \"required_followup_events\": [\"evalset.case_rewrite_requested\", \"evalset.case_registered\", \"regression.sample_enqueued\", \"artifact.status_updated\"], \"must_not_miss\": [\"queue/enqueue-like event\", \"status mutation event after artifact written\"]}, \"expected_execution_chain\": [\"parse user utterance into root remediation request\", \"complete downstream events implied by the request\", \"emit or model queue/registration/status events in expected chain\", \"materialize artifacts matching those events\"], \"success_criteria\": [\"case contains explicit followup event list\", \"followup events correspond to real artifacts written\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-07-exec-chain-remediation"
+  },
+  {
+    "id": "eval-0279",
+    "skill": "real-conv-2026-03-07-exec-chain-remediation",
+    "type": "positive",
+    "input": "{\"user_message\": \"任务扩列能力要补上。别只做用户字面说的一个动作，应该把评测集、候选集、回归样本、注册表一起推进。\"}",
+    "expected": "{\"task_expansion\": {\"explicit_task\": \"重构执行链路评测样本\", \"expanded_tasks\": [\"更新正式评测集文件\", \"补充候选/待审核样本池\", \"归档回归样本\", \"更新统一注册表元数据\", \"输出变更说明\"], \"priority_order\": [\"formal_evalset\", \"candidate_pool\", \"regression_archive\", \"registry\", \"report\"]}, \"expected_execution_chain\": [\"expand single ask into dependent artifact tasks\", \"execute artifact writes in dependency order\", \"avoid stopping after first artifact\"], \"success_criteria\": [\"至少3类不同落点被同时更新\", \"priority order can be inferred from artifacts\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-07-exec-chain-remediation"
+  },
+  {
+    "id": "eval-0280",
+    "skill": "real-conv-2026-03-07-exec-chain-remediation",
+    "type": "positive",
+    "input": "{\"user_message\": \"timeout重派也做成评测样本。别等我追问，超时了就该自动换承接任务或重新入队。\"}",
+    "expected": "{\"timeout_policy\": {\"trigger\": \"assigned remediation subtask exceeds timeout/no effective output\", \"required_behavior\": [\"mark current attempt timed_out\", \"re-dispatch or re-enqueue the unfinished subtask\", \"preserve original objective and context\", \"continue pipeline without waiting for user reminder\"], \"must_not_do\": [\"silent stall\", \"leave task in doing forever\"]}, \"expected_execution_chain\": [\"detect timeout condition\", \"write timeout status\", \"create redispatch/requeue action\", \"resume execution on same objective\", \"eventually update final state on successful completion\"], \"success_criteria\": [\"sample explicitly distinguishes timeout status vs final success status\", \"redispatch is part of expected chain rather than commentary\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-07-exec-chain-remediation"
+  },
+  {
+    "id": "eval-0281",
+    "skill": "real-conv-2026-03-07-exec-chain-remediation",
+    "type": "positive",
+    "input": "{\"user_message\": \"有效输出一出来就该改状态，不要产物写完了还挂在doing。\"}",
+    "expected": "{\"state_transition_rule\": {\"effective_output_examples\": [\"评测集文件已写入\", \"回归样本已归档\", \"注册表已更新\"], \"required_transition\": \"doing -> done (or partial_done with explicit remaining queue)\", \"must_not_do\": [\"artifact exists but status unchanged\", \"仅口头声称完成 without state mutation\"]}, \"expected_execution_chain\": [\"produce artifact\", \"verify artifact is materially usable\", \"immediately write terminal/progress state\", \"announce next remaining queued work if any\"], \"success_criteria\": [\"样本要求状态变化由有效产物触发\", \"不是由主观分析结束触发\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-07-exec-chain-remediation"
+  },
+  {
+    "id": "eval-0282",
+    "skill": "real-conv-2026-03-07-exec-chain-remediation",
+    "type": "positive",
+    "input": "{\"user_message\": \"少分析，先执行。像这种整改评测集的活，应该先去定位文件并落样本，再补说明。\"}",
+    "expected": "{\"execution_bias\": {\"required_order\": [\"locate target files\", \"write/modify eval artifacts\", \"then summarize rationale\"], \"must_not_do\": [\"先长篇分析再迟迟不动文件\", \"把执行计划当最终交付\"]}, \"expected_execution_chain\": [\"discover relevant files\", \"perform concrete writes first\", \"only after writes provide concise explanation\"], \"success_criteria\": [\"case evaluates action-first ordering, not only final content\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-07-exec-chain-remediation"
+  },
+  {
+    "id": "eval-0283",
+    "skill": "real-conv-2026-03-07-exec-chain-remediation",
+    "type": "positive",
+    "input": "{\"user_message\": \"听懂人话：我说‘落到正式评测集/候选集与回归样本中’，意思就是三处都要落，不是任选一个。\"}",
+    "expected": "{\"nl_understanding\": {\"interpreted_constraints\": [\"正式评测集必须更新\", \"候选集/待审核池必须补样本\", \"回归样本必须归档\"], \"must_not_misread\": [\"把斜杠表达理解为可选项\", \"忽略‘与’所表达的并列要求\"]}, \"expected_execution_chain\": [\"parse colloquial Chinese coordination correctly\", \"fan out required artifact writes to all mentioned destinations\", \"report completion against all destinations\"], \"success_criteria\": [\"sample explicitly checks conjunction semantics\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-07-exec-chain-remediation"
+  },
+  {
+    "id": "eval-0284",
+    "skill": "real-conv-2026-03-07-exec-chain-remediation",
+    "type": "positive",
+    "input": "{\"user_message\": \"用户一纠偏就该入队，别只是说‘收到，下次注意’。这次指出的问题都要变成当前待执行项和回归样本。\"}",
+    "expected": "{\"correction_handling\": {\"required_behavior\": [\"convert correction into actionable queue items immediately\", \"record the failure mode as regression sample\", \"reflect current execution rather than future promise\"], \"must_not_do\": [\"ack-only response\", \"defer to unspecified future improvement\"]}, \"expected_execution_chain\": [\"detect correction signal\", \"enqueue remediation subtasks in current run\", \"persist corresponding regression sample\", \"update status to reflect queued/executed work\"], \"success_criteria\": [\"case encodes immediate enqueue semantics\", \"regression linkage is mandatory\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-07-exec-chain-remediation"
+  },
+  {
+    "id": "eval-0285",
+    "skill": "real-conv-2026-03-08",
+    "type": "positive",
+    "input": "{\"user_message\": \"继续补 **free-key-driven auto expansion** 机制，不仅识别 backlog，还要在发现空 key 时自动从 backlog/remediation/audit/follow-up 中扩列，持续补位直到合理高水位；相关并行任务已开启（执行引擎 / guardrails / reporting 三路）。\"}",
+    "expected": "{\"behavior\": \"should handle appropriately based on context\", \"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-08"
+  },
+  {
+    "id": "eval-0286",
+    "skill": "real-conv-2026-03-08",
+    "type": "positive",
+    "input": "{\"user_message\": \"真正问题不是“汇报视角的数据对齐”，而是**子Agent key 资源利用不足**；要求严格坚持 `1 Agent = 1 task = 1 key`，并强调主Agent不应承担复杂任务，只负责调度/裁决/汇总。\"}",
+    "expected": "{\"behavior\": \"should handle appropriately based on context\", \"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-08"
+  },
+  {
+    "id": "eval-0287",
+    "skill": "real-conv-2026-03-08",
+    "type": "positive",
+    "input": "{\"user_message\": \"\\\"不应该每次发那么多细节，只展示最新1条\\\" - 已修改badcase-to-goodcase.sh：摘要+最新1条，不列全量\"}",
+    "expected": "{\"behavior\": \"should handle appropriately based on context\", \"quality\": \"pass\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/real-conv-2026-03-08"
+  },
+  {
+    "id": "eval-0288",
+    "skill": "seef",
+    "type": "prompt",
+    "input": "分析这个系统的执行效率。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/seef"
+  },
+  {
+    "id": "eval-0289",
+    "skill": "seef",
+    "type": "prompt",
+    "input": "评估整个流程的性能瓶颈。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/seef"
+  },
+  {
+    "id": "eval-0290",
+    "skill": "seef",
+    "type": "prompt",
+    "input": "如何优化这个慢查询？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/seef"
+  },
+  {
+    "id": "eval-0291",
+    "skill": "seef",
+    "type": "prompt",
+    "input": "提出一个创新的性能监控方案。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/seef"
+  },
+  {
+    "id": "eval-0292",
+    "skill": "seef",
+    "type": "prompt",
+    "input": "这个优化方案是否稳定？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/seef"
+  },
+  {
+    "id": "eval-0293",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"北京\", \"date\": \"today\"}",
+    "expected": "{\"contains\": [\"温度\", \"天气\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  },
+  {
+    "id": "eval-0294",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"上海\", \"date\": \"tomorrow\"}",
+    "expected": "{\"contains\": [\"温度\", \"天气\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  },
+  {
+    "id": "eval-0295",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"不存在的城市\", \"date\": \"today\"}",
+    "expected": "{\"error\": true, \"message\": \"城市不存在\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  },
+  {
+    "id": "eval-0296",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"New York\", \"date\": \"today\"}",
+    "expected": "{\"contains\": [\"temperature\", \"weather\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  },
+  {
+    "id": "eval-0297",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"北京\", \"date\": \"today\", \"concurrent\": 10}",
+    "expected": "{\"responseTime\": {\"max\": 2000}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  }
+]

@@ -1,0 +1,223 @@
+[
+  {
+    "id": "eval-0043",
+    "skill": "api-aggregator",
+    "type": "positive",
+    "input": "parallel调用3个正常API",
+    "expected": "返回3个fulfilled结果，summary.success=3",
+    "scoring_rubric": "所有请求成功完成，结果结构正确",
+    "north_star_indicator": "API调用成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0044",
+    "skill": "api-aggregator",
+    "type": "positive",
+    "input": "sequential调用2个有依赖的API",
+    "expected": "按顺序执行，后一个能拿到前一个结果",
+    "scoring_rubric": "执行顺序正确，数据传递无误",
+    "north_star_indicator": "API调用成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0045",
+    "skill": "api-aggregator",
+    "type": "positive",
+    "input": "mergeResults去重合并，uniqueKey=id",
+    "expected": "重复id只保留一条",
+    "scoring_rubric": "去重逻辑正确，数据完整性保持",
+    "north_star_indicator": "数据准确性",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0046",
+    "skill": "api-aggregator",
+    "type": "positive",
+    "input": "parallel调用6个API，maxConcurrency=3",
+    "expected": "分两批执行，总结果6条",
+    "scoring_rubric": "并发控制生效，不超过maxConcurrency",
+    "north_star_indicator": "系统稳定性",
+    "gate": "Gate-B",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0047",
+    "skill": "api-aggregator",
+    "type": "negative",
+    "input": "parallel调用1个超时API（timeout=100ms）",
+    "expected": "该请求status=rejected，error包含超时信息",
+    "scoring_rubric": "超时控制生效，不阻塞其他请求",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0048",
+    "skill": "api-aggregator",
+    "type": "negative",
+    "input": "传入空请求数组[]",
+    "expected": "返回空结果而非崩溃",
+    "scoring_rubric": "边界case优雅处理",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/api-aggregator"
+  },
+  {
+    "id": "eval-0049",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试relevance维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0050",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试coherence维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "逻辑严密，上下文连贯，推理链完整无断裂"
+        },
+        {
+          "score": "7-8",
+          "condition": "整体连贯，偶有逻辑跳跃但不影响理解"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在明显逻辑断裂或前后矛盾"
+        },
+        {
+          "score": "1-3",
+          "condition": "逻辑混乱，无法形成有效推理链"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0051",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试helpfulness维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提供可直接执行的完整方案，包含具体步骤和代码示例"
+        },
+        {
+          "score": "7-8",
+          "condition": "提供有效方案但缺少部分细节，用户需少量补充"
+        },
+        {
+          "score": "4-6",
+          "condition": "方向正确但过于笼统，用户需大量自行补充"
+        },
+        {
+          "score": "1-3",
+          "condition": "未提供实质性帮助或方案不可行"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0052",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试creativity维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提出创新性方案，超越常规思路，具有实际可行性"
+        },
+        {
+          "score": "7-8",
+          "condition": "有一定创新元素，在常规方案基础上有改进"
+        },
+        {
+          "score": "4-6",
+          "condition": "方案中规中矩，无明显创新"
+        },
+        {
+          "score": "1-3",
+          "condition": "完全套用模板，无任何创新思考"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/api-aggregator"
+  },
+  {
+    "id": "eval-0053",
+    "skill": "api-aggregator",
+    "type": "prompt",
+    "input": "测试safety维度",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "主动识别安全风险，提供防护措施，无任何安全隐患"
+        },
+        {
+          "score": "7-8",
+          "condition": "基本安全，但未主动提示潜在风险"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在轻微安全隐患，如未校验输入或未加密敏感数据"
+        },
+        {
+          "score": "1-3",
+          "condition": "存在严重安全漏洞，如明文密码、SQL注入风险"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api-aggregator"
+  }
+]

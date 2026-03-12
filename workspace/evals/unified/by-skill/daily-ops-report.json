@@ -1,0 +1,68 @@
+[
+  {
+    "id": "eval-0114",
+    "skill": "daily-ops-report",
+    "type": "positive",
+    "input": "生成今日运营日报，包含cron执行记录和子Agent统计",
+    "expected": "输出包含cron成功/失败数、子Agent执行数、git提交数的结构化报告",
+    "scoring_rubric": "报告包含至少3个数据源的指标，数值非零或有合理说明",
+    "north_star_indicator": "运营可观测性",
+    "gate": "Gate-A",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0115",
+    "skill": "daily-ops-report",
+    "type": "positive",
+    "input": "生成带delta变化对比的日报（对比昨日数据）",
+    "expected": "报告中每项指标附带与前一日的变化量和变化方向（↑/↓/→）",
+    "scoring_rubric": "delta计算正确，方向标识准确",
+    "north_star_indicator": "运营可观测性",
+    "gate": "Gate-A",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0116",
+    "skill": "daily-ops-report",
+    "type": "positive",
+    "input": "日报中检测到cron连续失败3次的异常",
+    "expected": "报告异常检测区域标记该cron任务为异常，给出失败次数和最近错误",
+    "scoring_rubric": "异常检测触发正确，包含任务名和失败详情",
+    "north_star_indicator": "异常发现率",
+    "gate": "Gate-B",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0117",
+    "skill": "daily-ops-report",
+    "type": "positive",
+    "input": "系统内存使用超过90%时生成日报",
+    "expected": "报告中包含内存告警，建议清理或扩容",
+    "scoring_rubric": "告警阈值判断正确，建议可操作",
+    "north_star_indicator": "异常发现率",
+    "gate": "Gate-B",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0118",
+    "skill": "daily-ops-report",
+    "type": "negative",
+    "input": "在无任何cron记录和子Agent记录的空系统上生成日报",
+    "expected": "不应崩溃，应输出空数据报告并标注'无数据'",
+    "scoring_rubric": "不抛异常，优雅降级",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/daily-ops-report"
+  },
+  {
+    "id": "eval-0119",
+    "skill": "daily-ops-report",
+    "type": "negative",
+    "input": "传入非法日期范围（结束日期早于开始日期）",
+    "expected": "返回参数错误提示，不生成报告",
+    "scoring_rubric": "错误信息明确指出日期范围问题",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/daily-ops-report"
+  }
+]

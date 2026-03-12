@@ -1,0 +1,57 @@
+[
+  {
+    "id": "eval-0293",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"北京\", \"date\": \"today\"}",
+    "expected": "{\"contains\": [\"温度\", \"天气\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  },
+  {
+    "id": "eval-0294",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"上海\", \"date\": \"tomorrow\"}",
+    "expected": "{\"contains\": [\"温度\", \"天气\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  },
+  {
+    "id": "eval-0295",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"不存在的城市\", \"date\": \"today\"}",
+    "expected": "{\"error\": true, \"message\": \"城市不存在\"}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  },
+  {
+    "id": "eval-0296",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"New York\", \"date\": \"today\"}",
+    "expected": "{\"contains\": [\"temperature\", \"weather\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  },
+  {
+    "id": "eval-0297",
+    "skill": "weather",
+    "type": "positive",
+    "input": "{\"city\": \"北京\", \"date\": \"today\", \"concurrent\": 10}",
+    "expected": "{\"responseTime\": {\"max\": 2000}}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "registry-inline/eval.weather.001"
+  }
+]

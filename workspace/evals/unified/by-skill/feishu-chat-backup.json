@@ -1,0 +1,123 @@
+[
+  {
+    "id": "eval-0185",
+    "skill": "feishu-chat-backup",
+    "type": "positive",
+    "input": "备份指定飞书群组最近7天的聊天记录",
+    "expected": "生成包含所有消息的备份文件，含发送者/时间/内容",
+    "scoring_rubric": "消息数量完整，时间范围准确",
+    "north_star_indicator": "备份完整率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0186",
+    "skill": "feishu-chat-backup",
+    "type": "positive",
+    "input": "备份包含图片和文件附件的消息",
+    "expected": "附件URL或本地路径正确记录在备份中",
+    "scoring_rubric": "附件引用有效，类型标注正确",
+    "north_star_indicator": "备份完整率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0187",
+    "skill": "feishu-chat-backup",
+    "type": "positive",
+    "input": "增量备份（只备份上次备份后的新消息）",
+    "expected": "基于上次备份时间戳，只拉取新消息",
+    "scoring_rubric": "无重复消息，无遗漏",
+    "north_star_indicator": "运营效率",
+    "gate": "Gate-B",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0188",
+    "skill": "feishu-chat-backup",
+    "type": "positive",
+    "input": "生成备份报告（消息数、时间范围、参与者统计）",
+    "expected": "报告包含总消息数、起止时间、活跃用户Top5",
+    "scoring_rubric": "统计数据准确，格式清晰",
+    "north_star_indicator": "运营可观测性",
+    "gate": "Gate-B",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0189",
+    "skill": "feishu-chat-backup",
+    "type": "negative",
+    "input": "备份无权限访问的群组",
+    "expected": "返回权限不足错误，不生成空备份文件",
+    "scoring_rubric": "权限检查在拉取前完成，错误信息含群组ID",
+    "north_star_indicator": "安全合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0190",
+    "skill": "feishu-chat-backup",
+    "type": "negative",
+    "input": "飞书API限流（429）时执行备份",
+    "expected": "自动退避重试，不丢失已拉取的部分数据",
+    "scoring_rubric": "退避策略合理，部分数据已持久化",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0191",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "备份这个飞书聊天记录。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0192",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "整理并备份过去一个月的飞书对话。",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0193",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "我想导出项目群的所有重要讨论，怎么操作？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0194",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "如何设计一个更智能的聊天记录归档系统？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  },
+  {
+    "id": "eval-0195",
+    "skill": "feishu-chat-backup",
+    "type": "prompt",
+    "input": "备份聊天记录时如何保护隐私？",
+    "expected": "通过",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/feishu-chat-backup"
+  }
+]

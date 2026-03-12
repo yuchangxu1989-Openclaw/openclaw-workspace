@@ -1,0 +1,68 @@
+[
+  {
+    "id": "eval-0034",
+    "skill": "anti-entropy-checker",
+    "type": "positive",
+    "input": "检查一个含硬编码阈值max=10的设计文档",
+    "expected": "可扩展性维度扣分，violations包含硬编码阈值警告",
+    "scoring_rubric": "准确识别10x规模风险并给出建议",
+    "north_star_indicator": "反熵增合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0035",
+    "skill": "anti-entropy-checker",
+    "type": "positive",
+    "input": "检查一个职责清晰、接口抽象良好的SKILL.md",
+    "expected": "四维评分均>=20，总分>=80，pass=true",
+    "scoring_rubric": "高质量文档能通过门控",
+    "north_star_indicator": "反熵增合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0036",
+    "skill": "anti-entropy-checker",
+    "type": "positive",
+    "input": "检查一个ISC规则JSON，含重复字段名和冲突条件",
+    "expected": "熵方向维度扣分，识别出重复和冲突",
+    "scoring_rubric": "violations中包含具体冲突证据",
+    "north_star_indicator": "反熵增合规率",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0037",
+    "skill": "anti-entropy-checker",
+    "type": "positive",
+    "input": "type=auto模式检查一个.json文件",
+    "expected": "自动识别为rule类型进行检查",
+    "scoring_rubric": "类型推断正确",
+    "north_star_indicator": "反熵增合规率",
+    "gate": "Gate-B",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0038",
+    "skill": "anti-entropy-checker",
+    "type": "negative",
+    "input": "text和path都不传",
+    "expected": "抛出Missing input错误",
+    "scoring_rubric": "明确提示需要text或path参数",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  },
+  {
+    "id": "eval-0039",
+    "skill": "anti-entropy-checker",
+    "type": "negative",
+    "input": "path指向不存在的文件",
+    "expected": "抛出文件不存在错误",
+    "scoring_rubric": "错误信息包含文件路径",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/anti-entropy-checker"
+  }
+]

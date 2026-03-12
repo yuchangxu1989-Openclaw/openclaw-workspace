@@ -1,0 +1,13 @@
+[
+  {
+    "id": "eval-0225",
+    "skill": "isc-core",
+    "type": "conversation_regression",
+    "input": "{\"user_message\": \"这个截图里的命令你直接执行下\", \"image_attached\": true, \"available_capabilities\": [\"glm-4v-plus\", \"zhipu-vision\", \"glm-ocr\"], \"forbidden_reply_patterns\": [\"我读不到图片\", \"无法识别图片\", \"看不到图里的内容\", \"请把图片里的文字贴出来再说\"]}",
+    "expected": "{\"behavior\": \"先调用多模态能力检查截图内容，优先glm-4v-plus；识别后再决定是否需要补充文本；若回复草稿包含能力遗忘措辞，必须触发拦截并改写。\", \"correct_flow\": \"detect image/screenshot -> route glm-4v-plus -> extract visible command/text/ui -> decide execution or ask targeted follow-up\", \"must_not_say\": [\"我读不到图片\", \"无法识别图片\"], \"must_do\": [\"优先使用glm-4v-plus\", \"识别后再决定是否索要文字\", \"命中遗忘措辞时触发拦截\"]}",
+    "scoring_rubric": "",
+    "north_star_indicator": "",
+    "gate": "",
+    "source": "evaluation-sets/isc-core"
+  }
+]

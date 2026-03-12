@@ -1,0 +1,95 @@
+[
+  {
+    "id": "eval-0040",
+    "skill": "api",
+    "type": "positive",
+    "input": "验证 api 在 availability 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api"
+  },
+  {
+    "id": "eval-0041",
+    "skill": "api",
+    "type": "positive",
+    "input": "验证 api 在 performance 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/api"
+  },
+  {
+    "id": "eval-0042",
+    "skill": "api",
+    "type": "positive",
+    "input": "验证 api 在 correctness 维度的功能表现",
+    "expected": "{\"quality\": \"pass\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "认知层真实代码覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/api"
+  }
+]

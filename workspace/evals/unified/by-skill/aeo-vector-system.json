@@ -1,0 +1,312 @@
+[
+  {
+    "id": "eval-0012",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"endpoint\": \"/api/v1/users\", \"method\": \"GET\", \"concurrency\": 100, \"duration\": 60}",
+    "expected": "{\"avgResponseTime\": \"< 200ms\", \"p99ResponseTime\": \"< 500ms\", \"errorRate\": \"< 1%\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "P95<300ms，错误率<0.1%，资源利用率合理，无内存泄漏"
+        },
+        {
+          "score": "7-8",
+          "condition": "P95<500ms，错误率<1%，偶有资源波动"
+        },
+        {
+          "score": "4-6",
+          "condition": "P95>500ms或错误率>1%，存在性能瓶颈"
+        },
+        {
+          "score": "1-3",
+          "condition": "严重性能问题，超时频繁或资源耗尽"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0013",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"endpoint\": \"/api/v1/data\", \"requests\": 150, \"perSecond\": 1}",
+    "expected": "{\"rateLimited\": true, \"retryAfter\": 60}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "限流策略精确生效，429状态码正确返回，Retry-After头准确"
+        },
+        {
+          "score": "7-8",
+          "condition": "限流基本生效，但边界值处理不够精确"
+        },
+        {
+          "score": "4-6",
+          "condition": "限流部分生效，存在绕过可能或误限正常请求"
+        },
+        {
+          "score": "1-3",
+          "condition": "限流机制失效或严重误判"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0014",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"maxConnections\": 10, \"concurrentRequests\": 20}",
+    "expected": "{\"behavior\": \"graceful_degradation\", \"queued\": 10, \"rejected\": 0}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "优雅降级完美执行，请求排队有序，无数据丢失，自动恢复"
+        },
+        {
+          "score": "7-8",
+          "condition": "降级基本正常，少量请求超时但无崩溃"
+        },
+        {
+          "score": "4-6",
+          "condition": "降级部分生效，有请求丢失或长时间阻塞"
+        },
+        {
+          "score": "1-3",
+          "condition": "降级失败，系统崩溃或数据损坏"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0015",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"query\": \"SELECT * FROM large_table WHERE unindexed_column = 'value'\", \"threshold\": 1000}",
+    "expected": "{\"detected\": true, \"suggestions\": [\"add_index\", \"limit_columns\"]}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "P95<300ms，错误率<0.1%，资源利用率合理，无内存泄漏"
+        },
+        {
+          "score": "7-8",
+          "condition": "P95<500ms，错误率<1%，偶有资源波动"
+        },
+        {
+          "score": "4-6",
+          "condition": "P95>500ms或错误率>1%，存在性能瓶颈"
+        },
+        {
+          "score": "1-3",
+          "condition": "严重性能问题，超时频繁或资源耗尽"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0016",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"query\": \"测试用户登录\", \"topK\": 5}",
+    "expected": "{\"results\": 5, \"minSimilarity\": 0.5}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "检索结果Top5全部语义相关，相似度>0.7，响应<100ms"
+        },
+        {
+          "score": "7-8",
+          "condition": "Top5中4个以上语义相关，相似度>0.5"
+        },
+        {
+          "score": "4-6",
+          "condition": "Top5中仅2-3个相关，存在明显噪声结果"
+        },
+        {
+          "score": "1-3",
+          "condition": "检索结果与查询无关或系统报错"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0017",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"username\": \"testuser\", \"password\": \"correctpassword\"}",
+    "expected": "{\"status\": \"success\", \"token\": \"jwt_token_here\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "认证流程完全正确，token格式合规，错误码精确，安全防护到位"
+        },
+        {
+          "score": "7-8",
+          "condition": "认证流程正确，但缺少部分安全细节（如token过期处理）"
+        },
+        {
+          "score": "4-6",
+          "condition": "基本认证可用，但存在安全隐患或错误码不准确"
+        },
+        {
+          "score": "1-3",
+          "condition": "认证流程有严重缺陷，如明文传输或绕过漏洞"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0018",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"username\": \"testuser\", \"password\": \"wrongpassword\"}",
+    "expected": "{\"status\": \"error\", \"message\": \"Authentication failed\"}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "认证流程完全正确，token格式合规，错误码精确，安全防护到位"
+        },
+        {
+          "score": "7-8",
+          "condition": "认证流程正确，但缺少部分安全细节（如token过期处理）"
+        },
+        {
+          "score": "4-6",
+          "condition": "基本认证可用，但存在安全隐患或错误码不准确"
+        },
+        {
+          "score": "1-3",
+          "condition": "认证流程有严重缺陷，如明文传输或绕过漏洞"
+        }
+      ]
+    },
+    "north_star_indicator": "根因分析覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0019",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"username\": \"lockeduser\", \"password\": \"anypassword\", \"attempts\": 5}",
+    "expected": "{\"status\": \"locked\", \"lockDuration\": 300}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "认证流程完全正确，token格式合规，错误码精确，安全防护到位"
+        },
+        {
+          "score": "7-8",
+          "condition": "认证流程正确，但缺少部分安全细节（如token过期处理）"
+        },
+        {
+          "score": "4-6",
+          "condition": "基本认证可用，但存在安全隐患或错误码不准确"
+        },
+        {
+          "score": "1-3",
+          "condition": "认证流程有严重缺陷，如明文传输或绕过漏洞"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0020",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"username\": \"admin' OR '1'='1\", \"password\": \"anything\"}",
+    "expected": "{\"blocked\": true, \"logGenerated\": true}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "攻击100%被拦截，安全日志完整，无信息泄露，防护规则精确"
+        },
+        {
+          "score": "7-8",
+          "condition": "主要攻击被拦截，但存在少量变体绕过可能"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分攻击被拦截，防护规则不够全面"
+        },
+        {
+          "score": "1-3",
+          "condition": "防护基本失效，攻击可成功执行"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  },
+  {
+    "id": "eval-0021",
+    "skill": "aeo-vector-system",
+    "type": "positive",
+    "input": "{\"comment\": \"<script>alert('xss')</script>\"}",
+    "expected": "{\"sanitized\": true, \"scriptRemoved\": true}",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "攻击100%被拦截，安全日志完整，无信息泄露，防护规则精确"
+        },
+        {
+          "score": "7-8",
+          "condition": "主要攻击被拦截，但存在少量变体绕过可能"
+        },
+        {
+          "score": "4-6",
+          "condition": "部分攻击被拦截，防护规则不够全面"
+        },
+        {
+          "score": "1-3",
+          "condition": "防护基本失效，攻击可成功执行"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo-vector-system"
+  }
+]

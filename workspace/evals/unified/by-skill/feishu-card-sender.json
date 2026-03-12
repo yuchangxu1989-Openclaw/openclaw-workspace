@@ -1,0 +1,68 @@
+[
+  {
+    "id": "eval-0179",
+    "skill": "feishu-card-sender",
+    "type": "positive",
+    "input": "发送自定义Interactive Card到指定open_id用户",
+    "expected": "飞书API返回成功，消息送达目标用户",
+    "scoring_rubric": "HTTP 200，response包含message_id",
+    "north_star_indicator": "消息送达率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0180",
+    "skill": "feishu-card-sender",
+    "type": "positive",
+    "input": "发送任务队列看板卡片（含tasks/risks/decisions）",
+    "expected": "卡片渲染正确，包含任务列表、风险和决策区域",
+    "scoring_rubric": "卡片JSON结构合法，三个区域数据完整",
+    "north_star_indicator": "消息送达率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0181",
+    "skill": "feishu-card-sender",
+    "type": "positive",
+    "input": "发送卡片到chat_id群组（oc_开头）",
+    "expected": "自动推断receive_id_type为chat_id，发送成功",
+    "scoring_rubric": "ID类型推断正确，群组内所有成员可见",
+    "north_star_indicator": "消息送达率",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0182",
+    "skill": "feishu-card-sender",
+    "type": "positive",
+    "input": "token过期后自动刷新并重试发送",
+    "expected": "检测到token过期，自动获取新token，重试发送成功",
+    "scoring_rubric": "无需人工干预，重试透明完成",
+    "north_star_indicator": "系统可用性",
+    "gate": "Gate-B",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0183",
+    "skill": "feishu-card-sender",
+    "type": "negative",
+    "input": "appId/appSecret配置缺失时发送卡片",
+    "expected": "返回配置错误提示，不发送请求",
+    "scoring_rubric": "错误信息指出缺少哪个配置项",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  },
+  {
+    "id": "eval-0184",
+    "skill": "feishu-card-sender",
+    "type": "negative",
+    "input": "传入无效的receiveId格式",
+    "expected": "返回ID格式错误，不调用飞书API",
+    "scoring_rubric": "客户端校验拦截，避免无效API调用",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/feishu-card-sender"
+  }
+]

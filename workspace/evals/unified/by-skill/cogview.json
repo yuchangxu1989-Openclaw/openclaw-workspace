@@ -1,0 +1,68 @@
+[
+  {
+    "id": "eval-0066",
+    "skill": "cogview",
+    "type": "positive",
+    "input": "文生图：一只橘猫坐在书桌上看书，水彩画风格",
+    "expected": "返回图片URL字符串",
+    "scoring_rubric": "URL格式正确，可访问",
+    "north_star_indicator": "AI生成成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0067",
+    "skill": "cogview",
+    "type": "positive",
+    "input": "指定size=512x512生成图片",
+    "expected": "生成指定尺寸的图片",
+    "scoring_rubric": "自定义尺寸参数生效",
+    "north_star_indicator": "参数透传准确性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0068",
+    "skill": "cogview",
+    "type": "positive",
+    "input": "图生图：传入参考图URL和编辑描述",
+    "expected": "返回编辑后的图片URL",
+    "scoring_rubric": "edit接口正常工作",
+    "north_star_indicator": "AI生成成功率",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0069",
+    "skill": "cogview",
+    "type": "positive",
+    "input": "quality=hd模式生成图片",
+    "expected": "使用hd质量参数调用API",
+    "scoring_rubric": "质量参数正确传递",
+    "north_star_indicator": "参数透传准确性",
+    "gate": "Gate-B",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0070",
+    "skill": "cogview",
+    "type": "negative",
+    "input": "未设置ZHIPU_API_KEY时调用generate",
+    "expected": "返回认证错误",
+    "scoring_rubric": "密钥缺失时不崩溃",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  },
+  {
+    "id": "eval-0071",
+    "skill": "cogview",
+    "type": "negative",
+    "input": "edit传入无效imageUrl",
+    "expected": "返回API错误而非未捕获异常",
+    "scoring_rubric": "无效输入优雅处理",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/cogview"
+  }
+]
