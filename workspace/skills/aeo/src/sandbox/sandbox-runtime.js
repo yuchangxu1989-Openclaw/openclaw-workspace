@@ -307,21 +307,27 @@ async function executeBenchmark(task) {
 // 主入口
 // ============================================================================
 
-const taskPath = process.argv[2];
+// 导出模块API（供index.js安全require）
+module.exports = { executeTask, RESOURCE_LIMITS };
 
-if (!taskPath) {
-  console.error('Usage: node sandbox-runtime.js <task-path>');
-  process.exit(1);
+// CLI入口
+if (require.main === module) {
+  const taskPath = process.argv[2];
+
+  if (!taskPath) {
+    console.error('Usage: node sandbox-runtime.js <task-path>');
+    process.exit(1);
+  }
+
+  if (!fs.existsSync(taskPath)) {
+    console.error(`Task file not found: ${taskPath}`);
+    process.exit(1);
+  }
+
+  executeTask(taskPath).then(result => {
+    process.exit(result.status === 'success' ? 0 : 1);
+  }).catch(error => {
+    console.error('Fatal error:', error);
+    process.exit(1);
+  });
 }
-
-if (!fs.existsSync(taskPath)) {
-  console.error(`Task file not found: ${taskPath}`);
-  process.exit(1);
-}
-
-executeTask(taskPath).then(result => {
-  process.exit(result.status === 'success' ? 0 : 1);
-}).catch(error => {
-  console.error('Fatal error:', error);
-  process.exit(1);
-});

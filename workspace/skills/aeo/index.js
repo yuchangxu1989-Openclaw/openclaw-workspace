@@ -33,9 +33,11 @@ const aeoConfig = readJsonSafe(path.join(AEO_DIR, 'config', 'aeo-config.json'), 
 // ── 内部模块引入（从外部技能搬入AEO的模块） ──
 const iscDocQuality = require('./modules/isc-doc-quality');
 const layeredArchCheck = require('./modules/layered-arch-check');
+const layeredArchCheckPath = path.join(__dirname, 'modules', 'layered-arch-check.js');
 const assessmentStore = require('./assessment-store');
 const sandboxRuntime = require('./src/sandbox/sandbox-runtime');
-const layeredArchCheck = path.join(__dirname, 'modules', 'layered-arch-check.js');
+const c2AdmissionGate = require('./scripts/c2-admission-gate');
+const evalCaseRunner = require('./scripts/eval-case-runner');
 
 function detectSkillType(skillName, skillDoc = '') {
   const lower = `${skillName}\n${skillDoc}`.toLowerCase();
@@ -314,7 +316,7 @@ function getLayeredArchCheckCmd(targetPath, opts = {}) {
   const flags = [];
   if (opts.strict) flags.push('--strict');
   if (opts.json) flags.push('--json');
-  return `node "${layeredArchCheck}" "${targetPath}" ${flags.join(' ')}`.trim();
+  return `node "${layeredArchCheckPath}" "${targetPath}" ${flags.join(' ')}`.trim();
 }
 
 module.exports = run;
@@ -327,6 +329,10 @@ module.exports.listQualityCapabilities = listQualityCapabilities;
 module.exports.assessmentStore = assessmentStore;
 module.exports.sandboxRuntime = sandboxRuntime;
 module.exports.layeredArchCheck = layeredArchCheck;
+module.exports.layeredArchCheckPath = layeredArchCheckPath;
+// 准入门控 & 用例Runner
+module.exports.c2AdmissionGate = c2AdmissionGate;
+module.exports.evalCaseRunner = evalCaseRunner;
 // 内部模块直接API
 module.exports.assessDocQuality = assessDocQuality;
 module.exports.getLayeredArchCheckCmd = getLayeredArchCheckCmd;

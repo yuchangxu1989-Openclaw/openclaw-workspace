@@ -107,7 +107,13 @@ async function run() {
   console.log(JSON.stringify(output, null, 2));
 }
 
-run().catch((err) => {
-  console.error(`[eval-case-runner] Error: ${err.message}`);
-  process.exit(1);
-});
+// 导出模块API（供index.js安全require）
+module.exports = { buildExecutorTask, buildEvaluatorTask, run };
+
+// CLI入口
+if (require.main === module) {
+  run().catch((err) => {
+    console.error(`[eval-case-runner] Error: ${err.message}`);
+    process.exit(1);
+  });
+}

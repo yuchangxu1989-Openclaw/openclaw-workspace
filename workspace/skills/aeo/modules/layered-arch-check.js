@@ -146,4 +146,10 @@ function main() {
   if (strict && !report.pass) process.exit(1);
 }
 
-main();
+// 导出模块API（供index.js安全require）
+module.exports = { check, detectKind, collectContent, walkFiles };
+
+// CLI入口
+if (require.main === module) {
+  main();
+}
