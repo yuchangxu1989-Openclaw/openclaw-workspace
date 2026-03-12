@@ -1,7 +1,7 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/12 07:00:01
+> **生成时间**: 2026/3/12 08:05:07
 > **技能总数**: 75
 > **ISC路由**: 6
 
@@ -73,7 +73,7 @@
 
 ## 🔴 全量技能清单
 
-- ✅ **aeo**: skills/aeo/ — AEO效果运营
+- ✅ **aeo**: skills/aeo/ — AEO效果运营（含PDCA子模块 skills/aeo/pdca/）
 - ✅ **agent-mode-enforcer**: skills/agent-mode-enforcer/
 - ✅ **anti-entropy-checker**: skills/anti-entropy-checker/
 - ✅ **api-aggregator**: skills/api-aggregator/
@@ -106,7 +106,7 @@
 - ✅ **lto-core**: skills/lto-core/ — LTO本地可控编排器 v3.0.11 - 可扩展调度平台，多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 - ✅ **memos-memory-guide**: skills/memos-memory-guide/ — Use the MemOS Local memory system to search and use the user's past conversations. Use this skill whenever the user refers to past chats, their own preferences or history, or when you need to answer from prior context. When auto-recall returns nothing (long or unclear user query), generate your own short search query and call memory_search. Use task_summary when you need full task context, skill_get for experience guides, and memory_timeline to expand around a memory hit.
 - ✅ **parallel-subagent**: skills/parallel-subagent/
-- ✅ **pdca-engine**: skills/pdca-engine/ — PDCA持续改进
+- ⛔ **pdca-engine**: 已合并至 skills/aeo/pdca/（不再独立存在）
 - ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理 - 任务编排、Sprint规划、架构评审、裁决
 - ✅ **public**: skills/public/
 - 📄 **public/auto-badcase-harvest**: skills/public/auto-badcase-harvest/
@@ -129,7 +129,7 @@
 - 📄 **public/pdf-generator**: skills/public/pdf-generator/
 - 📄 **public/skill-creator-addon**: skills/public/skill-creator-addon/
 - ✅ **public/system-monitor**: skills/public/system-monitor/ — 系统健康监控中心 — 健康检查、告警根因分析、未响应告警扫描、主Agent违规检测、Git push探针
-- ✅ **quality-audit**: skills/quality-audit/ — 统一质量审计技能，整合auto-QA、ISC规则审计、completion review三大组件
+- ✅ **quality-audit**: skills/quality-audit/ — >
 - ✅ **seef**: skills/seef/ — SEEF技能生态进化工厂 - 高度自治、可被云端大模型动态发现与自由编排的独立子技能集合，具备自主执行完整PDCA闭环能力
 - ✅ **seef/evolution-pipeline**: skills/seef/evolution-pipeline/ — EvoMap技能自动进化流水线 - 实现技能从开发到EvoMap发布的全自动化状态机驱动系统
 - ✅ **self-check-scanners**: skills/self-check-scanners/
@@ -146,10 +146,3 @@
 3. **搜索首选**: tavily-search（AI优化），web_search为备选
 4. **能力来源**: 本文档由 isc-capability-anchor-sync 全量扫描自动生成
 5. **同步频率**: 每小时自动 + 技能变更时触发
-
-### quality-audit
-- **描述**: 子Agent完成任务后的自动质量审计技能。覆盖五大维度：需求满足度、代码质量、 研发标准符合性、V4评测标准对齐、交付完整性。输出结构化JSON审计报告， 支持事件总线集成和cron全局扫描。
-- **路径**: skills/quality-audit
-- **触发词**: 子Agent完成任务后自动触发质量审计, 用户要求"审计质量"、"quality audit"、"QA检查", cron定时全局质量扫描, 事件总线收到 `subagent.completion` 事件, 用户要求"检查代码质量"、"审计交付物"
-- **注册时间**: 2026-03-12 07:22
-

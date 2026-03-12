@@ -24,7 +24,7 @@ const {
   ensureDir,
   readJson,
   writeJson
-} = require('../shared/paths');
+} = require('../../shared/paths');
 
 const gates = require('./gates');
 const { transition, getTaskState: smGetTaskState } = require('./state-machine');

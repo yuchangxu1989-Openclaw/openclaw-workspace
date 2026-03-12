@@ -217,5 +217,11 @@ async function run(input = {}, context = {}) {
   };
 }
 
+// ── PDCA子模块（从skills/pdca-engine整合而来） ──
+const pdcaEngine = require('./pdca/index');
+const pdcaCheckLoop = './pdca/check-loop.js'; // CLI入口，由cron直接调用
+
 module.exports = run;
 module.exports.run = run;
+module.exports.pdca = pdcaEngine;
+module.exports.pdcaCheckLoopPath = path.join(__dirname, 'pdca', 'check-loop.js');

@@ -13,7 +13,7 @@ const UNKNOWN_CANDIDATES = path.join(WORKSPACE, 'infrastructure/intent-engine/un
 const EVENT_BUS = path.join(WORKSPACE, 'infrastructure/event-bus/events.jsonl');
 const EVALSET_DIR = path.join(WORKSPACE, 'tests/benchmarks/intent');
 const LOG_PATH = path.join(WORKSPACE, 'infrastructure/logs/cras-intent-insight.log');
-const PDCA_SUGGESTIONS = path.join(WORKSPACE, 'skills/pdca-engine/improvement-suggestions.jsonl');
+const PDCA_SUGGESTIONS = path.join(WORKSPACE, 'skills/aeo/pdca/improvement-suggestions.jsonl');
 const RESEARCH_DIR = path.join(WORKSPACE, 'skills/cras/insights');
 
 /** Asia/Shanghai日期 */
@@ -123,9 +123,9 @@ function researchToPdcaFeedback() {
   
   // PDCA度量文件映射：建议可以改进哪些文件
   const PDCA_TARGET_FILES = [
-    'skills/pdca-engine/SKILL.md',
-    'skills/pdca-engine/pdca-metrics.json',
-    'skills/pdca-engine/pdca-cycle-runner.js',
+    'skills/aeo/pdca/SKILL.md',
+    'skills/aeo/pdca/pdca-metrics.json',
+    'skills/aeo/pdca/pdca-cycle-runner.js',
     'infrastructure/intent-engine/intent-registry.json'
   ];
   

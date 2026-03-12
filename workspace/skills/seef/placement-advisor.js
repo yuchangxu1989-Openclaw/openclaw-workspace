@@ -77,7 +77,7 @@ function findRelatedSkill(name, desc, content) {
     'dto': 'dto-core',
     'lto': 'lto-core',
     'lep': 'lep-executor',
-    'pdca': 'pdca-engine',
+    'pdca': 'aeo/pdca',
     'glm': null, // multiple glm-* skills, need more context
   };
 
