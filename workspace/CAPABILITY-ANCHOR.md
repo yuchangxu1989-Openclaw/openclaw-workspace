@@ -146,3 +146,26 @@
 3. **搜索首选**: tavily-search（AI优化），web_search为备选
 4. **能力来源**: 本文档由 isc-capability-anchor-sync 全量扫描自动生成
 5. **同步频率**: 每小时自动 + 技能变更时触发
+
+## 🔵 微信公众号MCP服务（外部MCP集成）
+
+### weixin-search (端口18901)
+- **类型**: MCP-Streamable-HTTP
+- **触发词**: 微信搜索, 公众号搜索, 搜狗微信, 搜索微信文章
+- **工具**: weixin_search, weixin_search_all, get_weixin_article_content
+- **能力**: 通过搜狗搜索微信公众号文章 + 获取文章正文
+- **测试**: ✅ PASS
+
+### weixin-reader-playwright (端口18902)
+- **类型**: MCP-Streamable-HTTP
+- **触发词**: 读取微信文章, 阅读公众号
+- **工具**: read_weixin_article
+- **能力**: Playwright浏览器模拟读取微信文章（仅支持/s/xxx短链）
+- **测试**: ⚠️ PARTIAL（需短链URL）
+
+### wechat-article-reader (端口18903)
+- **类型**: MCP-Streamable-HTTP
+- **触发词**: 读微信文章, 解析公众号文章, 微信文章内容
+- **工具**: read_wechat_article_tool
+- **能力**: HTTP+浏览器回退读取微信文章，返回结构化Markdown
+- **测试**: ✅ PASS

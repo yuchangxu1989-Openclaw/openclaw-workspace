@@ -1,0 +1,42 @@
+{
+  "mcpServices": {
+    "weixin-search": {
+      "endpoint": "http://localhost:18901/mcp",
+      "protocol": "MCP-Streamable-HTTP/2024-11-05",
+      "serverInfo": {"name": "微信公众号内容获取", "version": "3.1.0"},
+      "tools": [
+        {"name": "weixin_search", "description": "搜狗微信搜索单页结果", "params": ["query", "page"]},
+        {"name": "weixin_search_all", "description": "搜狗微信搜索全部页（自动翻页）", "params": ["query", "max_pages"]},
+        {"name": "get_weixin_article_content", "description": "获取微信文章正文内容", "params": ["real_url", "referer"]}
+      ],
+      "status": "active",
+      "testResult": "pass",
+      "testDetail": "搜索'AI Agent'返回10条结果，文章正文获取成功",
+      "registeredAt": "2026-03-12T09:35:00+08:00"
+    },
+    "weixin-reader-playwright": {
+      "endpoint": "http://localhost:18902/mcp",
+      "protocol": "MCP-Streamable-HTTP/2024-11-05",
+      "serverInfo": {"name": "weixin-read-mcp", "version": "3.1.0"},
+      "tools": [
+        {"name": "read_weixin_article", "description": "Playwright浏览器模拟读取微信文章", "params": ["url"]}
+      ],
+      "status": "active",
+      "testResult": "partial",
+      "testDetail": "仅接受/s/xxx短链格式，长链URL校验失败。需短链方可使用",
+      "registeredAt": "2026-03-12T09:35:00+08:00"
+    },
+    "wechat-article-reader": {
+      "endpoint": "http://localhost:18903/mcp",
+      "protocol": "MCP-Streamable-HTTP/2024-11-05",
+      "serverInfo": {"name": "wechat-article-reader", "version": "3.1.0"},
+      "tools": [
+        {"name": "read_wechat_article_tool", "description": "HTTP+浏览器回退读取微信文章，返回结构化Markdown", "params": ["url", "include_images", "force_browser"]}
+      ],
+      "status": "active",
+      "testResult": "pass",
+      "testDetail": "成功读取文章，返回title/author/pub_time/content_md",
+      "registeredAt": "2026-03-12T09:35:00+08:00"
+    }
+  }
+}
