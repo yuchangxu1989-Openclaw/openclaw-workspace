@@ -129,7 +129,7 @@ console.log('\n═══ Test 2: IntentScanner — decision log enrichment ═�
   const scanner = new IntentScanner({ zhipuKey: null });
   
   // Scan with keywords that trigger IC1
-  const result = scanner._scanWithRegex(
+  const result = // REMOVED: scanner._scanWithRegex(
     [{ role: 'user', content: '太差了，重做吧' }],
     {
       categories: { IC1: { name: '情绪', description: '情绪表达' }, IC2: { name: '规则', description: '规则' } },

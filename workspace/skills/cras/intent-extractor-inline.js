@@ -1,3 +1,4 @@
+// @deprecated v2.0 — 已被 intent-inline-hook.js 替代。本文件中的关键词匹配逻辑已废弃。
 #!/usr/bin/env node
 'use strict';
 

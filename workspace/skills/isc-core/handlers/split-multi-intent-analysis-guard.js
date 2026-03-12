@@ -7,53 +7,64 @@
  * 检测派发任务是否包含多个独立的查询/分析意图，
  * 若检测到多意图打包，记录Badcase并生成告警。
  *
- * 触发时机：审计spawn记录，检查任务描述中的意图数量
+ * v2.0: 纯LLM语义理解，移除正则/关键词匹配。
  */
 
 const fs = require('fs');
 const path = require('path');
 const { writeReport, emitEvent, gateResult } = require('../lib/handler-utils');
 
-// 多意图检测：中文序号、数字编号、换行分隔的独立问题
-const MULTI_INTENT_PATTERNS = [
-  /(?:^|\n)\s*[1-9][0-9]?\s*[、.．)\）]/gm,           // 1、 2、 3、 or 1. 2. 3.
-  /(?:^|\n)\s*(?:第[一二三四五六七八九十]+|[①②③④⑤⑥⑦⑧⑨⑩])/gm, // 第一、第二 or ①②③
-  /(?:^|\n)\s*[-\-•]\s+(?:查|核查|排查|分析|检查|确认|验证)/gm,  // - 查XX / - 分析XX
-];
-
-// 分析类关键词（区分分析任务和普通步骤）
-const ANALYSIS_KEYWORDS = /查|核查|排查|分析|检查|确认|验证|审计|扫描|搜索|统计|对比|评估/;
-
-/**
- * 检测任务描述中的独立意图数量
- */
-function countIntents(taskText) {
-  if (!taskText || typeof taskText !== 'string') return { count: 0, intents: [] };
-
-  const intents = [];
-  
-  // 方法1：检测编号列表
-  for (const pattern of MULTI_INTENT_PATTERNS) {
-    pattern.lastIndex = 0;
-    let match;
-    while ((match = pattern.exec(taskText)) !== null) {
-      const lineStart = match.index;
-      const lineEnd = taskText.indexOf('\n', lineStart + match[0].length);
-      const line = taskText.substring(lineStart, lineEnd > 0 ? lineEnd : lineStart + 100).trim();
-      if (ANALYSIS_KEYWORDS.test(line)) {
-        intents.push(line.substring(0, 120));
-      }
-    }
-  }
-
-  // 去重
-  const unique = [...new Set(intents)];
-  return { count: unique.length, intents: unique };
+let _callLLM = null;
+try {
+  _callLLM = require(path.join(__dirname, '../../../skills/cras/intent-extractor-llm')).callLLM;
+} catch (_) {
+  try {
+    _callLLM = require(path.join(__dirname, '../../../infrastructure/llm-context')).chat;
+  } catch (_2) {}
 }
 
-/**
- * 审计spawn记录，检查是否有多意图打包
- */
+const COUNT_INTENTS_PROMPT = `分析以下任务描述，判断其中包含多少个独立的查询/分析/排查意图。
+
+规则：
+- 独立意图 = 可以由不同人并行完成、互不依赖的分析/查询任务
+- 一个任务的多个步骤不算多意图（有依赖关系的步骤是一个意图）
+- 语义理解，不要只看编号格式
+
+只输出JSON：
+{"count":数字,"intents":["意图1简述","意图2简述"]}
+无独立意图返回 {"count":0,"intents":[]}`;
+
+async function countIntents(taskText) {
+  if (!taskText || typeof taskText !== 'string' || !taskText.trim()) {
+    return { count: 0, intents: [] };
+  }
+
+  if (!_callLLM) {
+    return { count: 0, intents: [], reason: 'llm_unavailable' };
+  }
+
+  try {
+    const response = await _callLLM(
+      COUNT_INTENTS_PROMPT,
+      `任务描述：\n${taskText.slice(0, 800)}`,
+      { timeout: 8000 }
+    );
+
+    let jsonStr = String(response || '').trim();
+    const start = jsonStr.indexOf('{');
+    const end = jsonStr.lastIndexOf('}');
+    if (start >= 0 && end > start) jsonStr = jsonStr.slice(start, end + 1);
+
+    const parsed = JSON.parse(jsonStr);
+    return {
+      count: typeof parsed.count === 'number' ? parsed.count : 0,
+      intents: Array.isArray(parsed.intents) ? parsed.intents.map(i => String(i).slice(0, 120)) : [],
+    };
+  } catch (_) {
+    return { count: 0, intents: [] };
+  }
+}
+
 module.exports = async function handler(event, rule, context) {
   const logger = context?.logger || console;
   const root = context?.workspace || context?.workspaceRoot || process.cwd();
@@ -67,7 +78,7 @@ module.exports = async function handler(event, rule, context) {
   // 从event中获取任务描述（实时模式）
   const taskText = event?.payload?.task || event?.payload?.description || '';
   if (taskText) {
-    const { count, intents } = countIntents(taskText);
+    const { count, intents } = await countIntents(taskText);
     if (count >= 2) {
       violations.push({
         source: 'realtime',
@@ -89,7 +100,7 @@ module.exports = async function handler(event, rule, context) {
         try {
           const entry = JSON.parse(line);
           if (entry.event === 'task.dispatch.requested' && entry.task) {
-            const { count, intents } = countIntents(entry.task);
+            const { count, intents } = await countIntents(entry.task);
             if (count >= 2) {
               violations.push({
                 source: 'audit',

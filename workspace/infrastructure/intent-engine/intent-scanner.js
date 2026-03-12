@@ -3,14 +3,11 @@
  * 
  * CRAS快通道核心组件：5分钟增量扫描对话，识别意图并emit事件。
  * 
- * 功能：
- * 1. scan(conversationSlice) - LLM意图识别主入口
- * 2. 正则降级路径 - LLM不可用时的兜底
- * 3. Decision Log - 每次识别的完整记录
- * 4. Feature Flag - 环境变量开关
+ * 纯LLM语义理解。不允许关键词/正则fallback。
+ * LLM不可用时返回空结果，不猜。
  * 
  * @module infrastructure/intent-engine
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 'use strict';
@@ -21,43 +18,12 @@ const { EventEmitter } = require('events');
 const EventBus = require('../event-bus/bus-adapter');
 const { log: decisionLog } = require('../decision-log/decision-logger');
 
-// ─── Observability: Metrics ───
 let _metrics = null;
 try { _metrics = require('../observability/metrics'); } catch (_) {}
 
-// ============================================================================
-// Constants
-// ============================================================================
-
-const SECRETS_FILE = '/root/.openclaw/.secrets/zhipu-keys.env';
 const REGISTRY_PATH = path.join(__dirname, 'intent-registry.json');
 const LOG_DIR = path.join(__dirname, 'logs');
 const FEATURE_FLAG = (process.env.INTENT_SCANNER_ENABLED || 'true').toLowerCase();
-
-// Key management handled by infrastructure/llm-context
-
-// ============================================================================
-// Regex patterns for IC1/IC2 fallback (hardcoded for resilience)
-// ============================================================================
-
-const FALLBACK_REGEX = {
-  IC1: [
-    /烦|烦死|崩溃|头大|搞不定|受不了|无语|气死|太差|垃圾|不行|重做|放弃|累了/gi,
-    /不错|很好|太棒|牛|厉害|赞|完美|优秀|搞定|好了/gi,
-    /担心|焦虑|紧张|害怕|慌|着急/gi,
-    /开心|兴奋|爽|舒服|满意|期待/gi
-  ],
-  IC2: [
-    /规则|规范|标准|流程|ISC|约束|准则/gi,
-    /新增规则|修改规则|删除规则|更新规则/gi,
-    /合规|不合规|违反|违规|纠偏/gi,
-    /架构评审|安全扫描|配置保护|发布/gi
-  ]
-};
-
-// ============================================================================
-// IntentScanner
-// ============================================================================
 
 class IntentScanner extends EventEmitter {
   constructor(options = {}) {
@@ -65,21 +31,13 @@ class IntentScanner extends EventEmitter {
     this._registry = null;
     this._registryPath = options.registryPath || REGISTRY_PATH;
     this._logDir = options.logDir || LOG_DIR;
-    this._llmAvailable = true; // llm-context handles key management
     this._timeout = options.timeout || 30000;
   }
 
-  // --------------------------------------------------------------------------
-  // Public API
-  // --------------------------------------------------------------------------
-
   /**
-   * 主入口：扫描对话切片，识别意图
-   * @param {Array<{role: string, content: string, timestamp?: string}>} conversationSlice
-   * @returns {Promise<{intents: Array, decision_logs: Array, skipped: boolean}>}
+   * 主入口：扫描对话切片，识别意图（纯LLM）
    */
   async scan(conversationSlice) {
-    // Feature flag check
     if (FEATURE_FLAG === 'false') {
       return { intents: [], decision_logs: [], skipped: true, reason: 'INTENT_SCANNER_ENABLED=false' };
     }
@@ -88,43 +46,11 @@ class IntentScanner extends EventEmitter {
       return { intents: [], decision_logs: [], skipped: true, reason: 'empty_input' };
     }
 
-    // ─── Metrics: track intent request ───
     if (_metrics) _metrics.inc('intent_requests_total');
     const timer = _metrics ? _metrics.startTimer('intent') : null;
 
     const registry = this._loadRegistry();
 
-    // No API key → skip LLM entirely, degrade to regex
-    if (!this._llmAvailable) {
-      // Log degradation decision
-      try {
-        decisionLog({
-          phase: 'sensing',
-          component: 'IntentScanner',
-          decision: '降级到regex路径',
-          what: 'LLM→regex降级',
-          why: '无ZHIPU_API_KEY配置(检查了env和secrets文件),LLM不可用,降级到regex关键词匹配',
-          confidence: 0.3,
-          alternatives_considered: [{ id: 'LLM路径', reason: 'API key缺失,无法调用' }],
-          decision_method: 'regex',
-        });
-      } catch (_) {}
-
-      this.emit('system.capability.degraded', {
-        component: 'IntentScanner',
-        method: 'llm',
-        error: 'No ZHIPU_API_KEY configured (env or secrets file)',
-        timestamp: new Date().toISOString(),
-        fallback: 'regex'
-      });
-      const fallbackResult = this._scanWithRegex(conversationSlice, registry);
-      this._persistLogs(fallbackResult.decision_logs);
-      this._emitIntentEvents(fallbackResult.intents);
-      this._trackIntentMetrics(fallbackResult.intents, timer);
-      return fallbackResult;
-    }
-
-    // Try LLM first
     try {
       const result = await this._scanWithLLM(conversationSlice, registry);
       this._persistLogs(result.decision_logs);
@@ -132,41 +58,44 @@ class IntentScanner extends EventEmitter {
       this._trackIntentMetrics(result.intents, timer);
       return result;
     } catch (err) {
-      // LLM failed → regex fallback
-      // Log degradation decision
+      // LLM失败 → 返回空结果，不降级到关键词
+      const failLog = {
+        what: 'llm_failure',
+        decision: 'LLM调用失败，返回空结果（无关键词降级）',
+        why: `LLM调用失败: ${err.message}`,
+        confidence: 0,
+        alternatives_considered: [],
+        method: 'llm',
+        timestamp: new Date().toISOString()
+      };
+
+      this._persistLogs([failLog]);
+
       try {
         decisionLog({
           phase: 'sensing',
           component: 'IntentScanner',
-          decision: '降级到regex路径(LLM调用失败)',
-          what: 'LLM→regex降级',
-          why: `LLM调用失败: ${err.message},降级到regex关键词匹配`,
-          confidence: 0.3,
-          alternatives_considered: [{ id: 'LLM路径', reason: `调用异常: ${err.message}` }],
-          decision_method: 'regex',
+          decision: 'LLM失败，返回空（禁止关键词降级）',
+          what: 'llm_failure_no_fallback',
+          why: `LLM调用失败: ${err.message}，按规定不降级到关键词/正则`,
+          confidence: 0,
+          decision_method: 'llm',
         });
       } catch (_) {}
 
-      this.emit('system.capability.degraded', {
+      this.emit('system.capability.unavailable', {
         component: 'IntentScanner',
         method: 'llm',
         error: err.message,
         timestamp: new Date().toISOString(),
-        fallback: 'regex'
+        fallback: 'none'
       });
 
-      const fallbackResult = this._scanWithRegex(conversationSlice, registry);
-      this._persistLogs(fallbackResult.decision_logs);
-      this._emitIntentEvents(fallbackResult.intents);
-      this._trackIntentMetrics(fallbackResult.intents, timer);
-      return fallbackResult;
+      this._trackIntentMetrics([], timer);
+      return { intents: [], decision_logs: [failLog], skipped: false, method: 'llm', error: err.message };
     }
   }
 
-  /**
-   * Track intent metrics after scan completion.
-   * @private
-   */
   _trackIntentMetrics(intents, timer) {
     if (!_metrics) return;
     if (timer) timer.stop();
@@ -181,7 +110,7 @@ class IntentScanner extends EventEmitter {
   }
 
   // --------------------------------------------------------------------------
-  // LLM Path
+  // LLM Path (唯一路径)
   // --------------------------------------------------------------------------
 
   async _scanWithLLM(conversationSlice, registry) {
@@ -192,8 +121,7 @@ class IntentScanner extends EventEmitter {
     const parsed = this._parseLLMResponse(response);
 
     const decision_logs = parsed.map(intent => {
-      // Build why with alternatives comparison
-      const altList = (intent.alternatives || []).map(a => typeof a === 'string' ? a : a).join(', ');
+      const altList = (intent.alternatives || []).join(', ');
       const whyParts = [`LLM confidence ${intent.confidence}`];
       if (altList) whyParts.push(`排除: ${altList}`);
       if (intent.evidence) whyParts.push(`证据: ${intent.evidence}`);
@@ -212,26 +140,13 @@ class IntentScanner extends EventEmitter {
       };
     });
 
-    return {
-      intents: parsed,
-      decision_logs,
-      skipped: false,
-      method: 'llm'
-    };
+    return { intents: parsed, decision_logs, skipped: false, method: 'llm' };
   }
 
-  /**
-   * Build system prompt from registry.
-   * Includes full intent definitions with examples and anti-examples for maximum accuracy.
-   * Supports both formats:
-   *   - v4 schema: { categories: {IC1: {...}, ...}, intents: [...] }
-   *   - legacy array: { categories: [{id, name, ...}, ...] }
-   */
   _buildSystemPrompt(registry) {
     let intentDefs = '';
 
     if (registry.intents && Array.isArray(registry.intents)) {
-      // v4 schema: categories is a map, intents is array with category refs
       const catMap = registry.categories || {};
       const grouped = {};
       for (const intent of registry.intents) {
@@ -260,7 +175,6 @@ class IntentScanner extends EventEmitter {
       }
       intentDefs = sections.join('\n\n');
     } else if (Array.isArray(registry.categories)) {
-      // Legacy array format
       intentDefs = registry.categories.map(c =>
         `## ${c.id} (${c.name}): ${c.description}\n  示例: ${(c.examples || []).slice(0, 3).join('; ')}`
       ).join('\n\n');
@@ -299,7 +213,6 @@ ${intentDefs}
   _parseLLMResponse(raw) {
     if (!raw || typeof raw !== 'string') return [];
 
-    // Strip markdown code fences if present
     let cleaned = raw.trim();
     cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
     cleaned = cleaned.trim();
@@ -322,93 +235,7 @@ ${intentDefs}
   }
 
   // --------------------------------------------------------------------------
-  // Regex Fallback Path
-  // --------------------------------------------------------------------------
-
-  _scanWithRegex(conversationSlice, registry) {
-    const fullText = conversationSlice.map(m => m.content || '').join('\n');
-    const intents = [];
-    const decision_logs = [];
-
-    // Get category IDs from registry (supports both formats)
-    const categoryIds = this._getCategoryIds(registry);
-
-    for (const catId of categoryIds) {
-      const regexPatterns = FALLBACK_REGEX[catId];
-      if (regexPatterns && regexPatterns.length > 0) {
-        // IC1, IC2: regex match
-        const matches = [];
-        for (const re of regexPatterns) {
-          // Reset lastIndex for global regex
-          re.lastIndex = 0;
-          let m;
-          while ((m = re.exec(fullText)) !== null) {
-            matches.push(m[0]);
-          }
-        }
-
-        if (matches.length > 0) {
-          const uniqueMatches = [...new Set(matches)];
-          const confidence = Math.min(0.6, 0.3 + uniqueMatches.length * 0.1);
-          intents.push({
-            intent_id: catId,
-            confidence,
-            evidence: `regex matched: [${uniqueMatches.slice(0, 5).join(', ')}]`,
-            alternatives: []
-          });
-          decision_logs.push({
-            what: catId,
-            decision: `选择意图 ${catId} (regex降级)`,
-            why: `LLM不可用,regex降级匹配 ${uniqueMatches.length} 个关键词: ${uniqueMatches.slice(0, 5).join(', ')}; confidence=${confidence} (基础0.3 + ${uniqueMatches.length}*0.1, 上限0.6)`,
-            confidence,
-            alternatives: [],
-            alternatives_considered: categoryIds.filter(c => c !== catId).map(c => ({
-              id: c, reason: FALLBACK_REGEX[c] ? '未匹配到关键词' : 'regex不适用此分类'
-            })),
-            method: 'regex_fallback',
-            timestamp: new Date().toISOString()
-          });
-        }
-      } else {
-        // IC3-IC5: unresolved in regex mode — don't guess
-        decision_logs.push({
-          what: catId,
-          decision: `跳过意图 ${catId} (无法评估)`,
-          why: `LLM不可用,regex不适用分类${catId},无法进行意图识别`,
-          confidence: 0,
-          alternatives: [],
-          alternatives_considered: [],
-          method: 'regex_fallback',
-          status: 'unresolved',
-          timestamp: new Date().toISOString()
-        });
-      }
-    }
-
-    return {
-      intents,
-      decision_logs,
-      skipped: false,
-      method: 'regex_fallback'
-    };
-  }
-
-  /**
-   * Extract category IDs from registry (supports both v4 map and legacy array)
-   */
-  _getCategoryIds(registry) {
-    if (!registry) return ['IC1', 'IC2', 'IC3', 'IC4', 'IC5'];
-    if (registry.categories && typeof registry.categories === 'object' && !Array.isArray(registry.categories)) {
-      return Object.keys(registry.categories);
-    }
-    if (Array.isArray(registry.categories)) {
-      return registry.categories.map(c => c.id);
-    }
-    return ['IC1', 'IC2', 'IC3', 'IC4', 'IC5'];
-  }
-
-  // --------------------------------------------------------------------------
-  // LLM via llm-context (no direct HTTP calls)
+  // LLM via llm-context
   // --------------------------------------------------------------------------
 
   async _callZhipuWithRetry(systemPrompt, userContent, maxRetries = 2) {
@@ -454,11 +281,9 @@ ${intentDefs}
         timestamp: new Date().toISOString()
       };
 
-      // Primary output: emit to EventBus (file-based, cross-module)
       try {
         EventBus.emit('intent.detected', eventPayload, 'IntentScanner');
       } catch (err) {
-        // EventBus failure is non-fatal; log and continue
         try {
           decisionLog({
             phase: 'sensing',
@@ -468,10 +293,9 @@ ${intentDefs}
             confidence: intent.confidence,
             decision_method: 'llm',
           });
-        } catch (_) { /* best effort */ }
+        } catch (_) {}
       }
 
-      // Local hook: EventEmitter for in-process listeners (backward compat)
       this.emit('intent.detected', eventPayload);
     }
   }
@@ -487,7 +311,6 @@ ${intentDefs}
       this._registry = JSON.parse(raw);
       return this._registry;
     } catch (e) {
-      // Inline minimal fallback registry (v4 format)
       this._registry = {
         version: '0.0.0-fallback',
         categories: {
@@ -501,7 +324,6 @@ ${intentDefs}
   }
 
   _persistLogs(logs) {
-    // 1. Write to local scan log (module-level detail)
     try {
       if (!fs.existsSync(this._logDir)) {
         fs.mkdirSync(this._logDir, { recursive: true });
@@ -510,11 +332,8 @@ ${intentDefs}
       const logFile = path.join(this._logDir, `scan-${date}.jsonl`);
       const lines = logs.map(l => JSON.stringify(l)).join('\n') + '\n';
       fs.appendFileSync(logFile, lines, 'utf8');
-    } catch (e) {
-      // Logging failure is non-fatal
-    }
+    } catch (e) {}
 
-    // 2. Write to unified DecisionLogger (cross-module audit trail)
     for (const log of logs) {
       try {
         decisionLog({
@@ -526,18 +345,12 @@ ${intentDefs}
           confidence: typeof log.confidence === 'number' ? log.confidence : null,
           alternatives: log.alternatives || [],
           alternatives_considered: log.alternatives_considered || [],
-          decision_method: log.method === 'llm' ? 'llm' : 'regex',
+          decision_method: 'llm',
           input_summary: `method=${log.method}`,
         });
-      } catch (_) {
-        // DecisionLogger failure is non-fatal
-      }
+      } catch (_) {}
     }
   }
 }
-
-// ============================================================================
-// Exports
-// ============================================================================
 
 module.exports = { IntentScanner };

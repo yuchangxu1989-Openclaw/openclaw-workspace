@@ -1,9 +1,9 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v3 全量扫描生成
 
-> **生成时间**: 2026/3/12 23:00:06
-> **技能总数**: 72 | **pip包**: 60 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 17
-> **ISC路由**: 6 | **能力总计**: 159
+> **生成时间**: 2026/3/13 07:00:05
+> **技能总数**: 73 | **pip包**: 60 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 17
+> **ISC路由**: 6 | **能力总计**: 160
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
 
@@ -79,6 +79,7 @@
 - ✅ **anti-entropy-checker**: skills/anti-entropy-checker/
 - ✅ **api-aggregator**: skills/api-aggregator/
 - ✅ **architecture-review-pipeline**: skills/architecture-review-pipeline/ — 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入裁决殿终审并给出最终裁决。
+- ✅ **convert-helper**: skills/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
 - ✅ **cras**: skills/cras/ — CRAS认知进化伙伴 - 知识管理与认知进化中枢。实现从数据汲取到技能进化的全闭环，包含主动学习引擎、用户洞察分析、知识治理、战略行研、自主进化五大模块。
 - ✅ **cron-health**: skills/cron-health/
 - ✅ **dispatch-protocol**: skills/dispatch-protocol/

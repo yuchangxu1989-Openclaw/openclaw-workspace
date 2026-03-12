@@ -4,60 +4,69 @@
  * 自主执行器：未知意图发现与自动分类
  * 流水线：感知→判断→自主执行→验证→闭环
  *
- * 扫描未分类意图 → 尝试自动分类 → 分类失败的才escalate
+ * v2.0: 纯LLM语义理解，移除所有关键词/正则分类。
+ * LLM不可用时直接escalate，不猜。
  */
 
 const fs = require('fs');
 const path = require('path');
 
-// 基于关键词的意图分类规则
-const CLASSIFICATION_RULES = [
-  { pattern: /天气|温度|气温|下雨|晴|forecast|weather/i, intent: 'query.weather' },
-  { pattern: /提醒|闹钟|定时|remind|alarm|timer/i, intent: 'command.reminder' },
-  { pattern: /搜索|查找|找一下|search|find|lookup/i, intent: 'query.search' },
-  { pattern: /打开|启动|运行|open|launch|start|run/i, intent: 'command.launch' },
-  { pattern: /关闭|停止|结束|close|stop|end|quit/i, intent: 'command.stop' },
-  { pattern: /发送|发给|转发|send|forward/i, intent: 'command.send' },
-  { pattern: /创建|新建|生成|create|new|generate/i, intent: 'command.create' },
-  { pattern: /删除|移除|清除|delete|remove|clear/i, intent: 'command.delete' },
-  { pattern: /修改|更新|编辑|update|edit|modify/i, intent: 'command.update' },
-  { pattern: /列出|显示|查看|list|show|display|view/i, intent: 'query.list' },
-  { pattern: /帮助|怎么|如何|help|how to/i, intent: 'query.help' },
-  { pattern: /是的|好的|确认|对|yes|ok|confirm|sure/i, intent: 'confirmation' },
-  { pattern: /不|取消|算了|no|cancel|never/i, intent: 'rejection' },
-  { pattern: /你好|嗨|早|hello|hi|hey|morning/i, intent: 'greeting' },
-  { pattern: /谢谢|感谢|thanks|thank/i, intent: 'gratitude' },
-];
+// ─── LLM调用层 ───
+let _callLLM = null;
+try {
+  _callLLM = require(path.join(__dirname, '../../../skills/cras/intent-extractor-llm')).callLLM;
+} catch (_) {
+  try {
+    _callLLM = require('../../llm-context').chat;
+  } catch (_2) {}
+}
 
-function classifyText(text) {
-  if (!text || typeof text !== 'string') return null;
-  const trimmed = text.trim();
-  if (!trimmed) return null;
+const CLASSIFY_SYSTEM_PROMPT = `你是一个意图分类系统。分析用户消息，识别其意图类型。
 
-  const matches = [];
-  for (const rule of CLASSIFICATION_RULES) {
-    if (rule.pattern.test(trimmed)) {
-      matches.push({ intent: rule.intent, confidence: 0.75 });
-    }
-  }
+常见意图类型：
+- query.* — 查询类（天气、搜索、帮助、列表查看等）
+- command.* — 操作指令类（创建、删除、修改、发送、启动、停止等）
+- confirmation — 确认
+- rejection — 拒绝
+- greeting — 问候
+- gratitude — 感谢
 
-  if (matches.length === 1) {
-    return { ...matches[0], confidence: 0.85, method: 'keyword_single' };
-  }
-  if (matches.length > 1) {
-    // 多匹配 → 取第一个但降低置信度
-    return { ...matches[0], confidence: 0.6, method: 'keyword_multi', alternatives: matches.slice(1) };
-  }
+规则：
+- 语义理解，不做关键词匹配
+- 只输出JSON
+- 无法分类返回 null
 
-  // 基于长度和标点的粗分类
-  if (trimmed.endsWith('?') || trimmed.endsWith('？')) {
-    return { intent: 'query.general', confidence: 0.5, method: 'punctuation' };
-  }
-  if (trimmed.endsWith('!') || trimmed.endsWith('！')) {
-    return { intent: 'command.general', confidence: 0.45, method: 'punctuation' };
-  }
+输出格式：
+{"intent":"类型","confidence":0.0-1.0}`;
 
-  return null;
+async function classifyText(text) {
+  if (!text || typeof text !== 'string' || !text.trim()) return null;
+  if (!_callLLM) return null;
+
+  try {
+    const response = await _callLLM(
+      CLASSIFY_SYSTEM_PROMPT,
+      `用户消息：${text.slice(0, 300)}`,
+      { timeout: 8000 }
+    );
+
+    let jsonStr = String(response || '').trim();
+    if (jsonStr === 'null') return null;
+    const start = jsonStr.indexOf('{');
+    const end = jsonStr.lastIndexOf('}');
+    if (start < 0 || end <= start) return null;
+    jsonStr = jsonStr.slice(start, end + 1);
+
+    const parsed = JSON.parse(jsonStr);
+    if (!parsed || !parsed.intent) return null;
+    return {
+      intent: parsed.intent,
+      confidence: typeof parsed.confidence === 'number' ? Math.max(0, Math.min(1, parsed.confidence)) : 0.6,
+      method: 'llm',
+    };
+  } catch (_) {
+    return null;
+  }
 }
 
 function loadUnknownLog(logPath) {
@@ -80,7 +89,6 @@ module.exports = async function(event, rule, context) {
   const registryPath = path.join(root, 'infrastructure', 'intent-registry.json');
   const actions = [];
 
-  // ─── 感知：提取意图信息 ───
   const payload = event?.payload || {};
   const text = (payload.text || payload.query || payload.message || '').trim();
   const existingIntent = payload.intent || payload.semanticIntent || '';
@@ -89,25 +97,21 @@ module.exports = async function(event, rule, context) {
 
   if (!isUnknown) {
     return {
-      ok: true,
-      autonomous: true,
-      actions: ['no_action_needed'],
+      ok: true, autonomous: true, actions: ['no_action_needed'],
       message: `意图已知: ${existingIntent} (置信度: ${confidence})`,
     };
   }
 
-  // ─── 判断 & 自主执行：尝试自动分类 ───
-  const classification = classifyText(text);
+  // ─── LLM分类 ───
+  const classification = await classifyText(text);
   let autoClassified = false;
   let escalated = false;
 
   if (classification && classification.confidence >= 0.6) {
-    // 高置信度 → 自动分类
     autoClassified = true;
     actions.push(`auto_classified:${classification.intent}(${classification.confidence})`);
-    logger.info?.(`[intent-unknown-discovery] 自动分类: "${text.slice(0, 50)}" → ${classification.intent}`);
+    logger.info?.(`[intent-unknown-discovery] LLM分类: "${text.slice(0, 50)}" → ${classification.intent}`);
 
-    // 更新意图注册表
     try {
       let registry = { types: [], entries: [] };
       if (fs.existsSync(registryPath)) {
@@ -118,11 +122,10 @@ module.exports = async function(event, rule, context) {
         text: text.slice(0, 200),
         intent: classification.intent,
         confidence: classification.confidence,
-        method: classification.method,
+        method: 'llm',
         autoClassified: true,
         timestamp: new Date().toISOString(),
       });
-      // 确保意图类型在注册表中
       const intentBase = classification.intent.split('.')[0];
       if (!registry.types?.includes(intentBase)) {
         registry.types = registry.types || [];
@@ -134,35 +137,30 @@ module.exports = async function(event, rule, context) {
       actions.push(`registry_update_failed:${e.message}`);
     }
 
-    // 发射分类完成事件
     if (context?.bus?.emit) {
       await context.bus.emit('intent.classified', {
         text: text.slice(0, 200),
         intent: classification.intent,
         confidence: classification.confidence,
-        source: 'auto_discovery',
+        source: 'auto_discovery_llm',
       });
     }
   } else {
-    // 无法自动分类 → 记录到未知日志并escalate
     escalated = true;
     const unknownLog = loadUnknownLog(logPath);
-    const entry = {
+    unknownLog.push({
       text: text.slice(0, 200),
       originalIntent: existingIntent || null,
       originalConfidence: confidence,
       attemptedClassification: classification || null,
       timestamp: new Date().toISOString(),
       status: 'pending_human_review',
-    };
-    unknownLog.push(entry);
+    });
 
-    // 只保留最近200条
     if (unknownLog.length > 200) unknownLog.splice(0, unknownLog.length - 200);
     saveUnknownLog(logPath, unknownLog);
     actions.push('logged_unknown');
 
-    // 仅在积累到阈值时才通知用户
     const pendingCount = unknownLog.filter(e => e.status === 'pending_human_review').length;
     if (pendingCount >= 5 && context?.notify) {
       await context.notify(
@@ -173,33 +171,24 @@ module.exports = async function(event, rule, context) {
     }
   }
 
-  // ─── 验证 ───
   let verifyOk = false;
   if (autoClassified) {
-    // 验证注册表中有分类记录
     try {
       const reg = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
       const lastEntry = reg.entries?.[reg.entries.length - 1];
       verifyOk = lastEntry?.intent === classification.intent;
-    } catch {
-      verifyOk = false;
-    }
+    } catch { verifyOk = false; }
   } else {
-    // 验证未知日志中有记录
     const log = loadUnknownLog(logPath);
     verifyOk = log.some(e => e.text === text.slice(0, 200) && e.status === 'pending_human_review');
   }
   actions.push(verifyOk ? 'verification_passed' : 'verification_failed');
 
   return {
-    ok: verifyOk,
-    autonomous: true,
-    autoClassified,
-    escalated,
-    classification: classification || undefined,
-    actions,
+    ok: verifyOk, autonomous: true, autoClassified, escalated,
+    classification: classification || undefined, actions,
     message: autoClassified
-      ? `自动分类成功: "${text.slice(0, 30)}…" → ${classification.intent}`
-      : `无法自动分类，已记录待人工确认: "${text.slice(0, 30)}…"`,
+      ? `LLM分类成功: "${text.slice(0, 30)}…" → ${classification.intent}`
+      : `无法分类，已记录待人工确认: "${text.slice(0, 30)}…"`,
   };
 };
