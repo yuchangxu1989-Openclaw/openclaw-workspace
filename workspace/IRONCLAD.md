@@ -18,3 +18,15 @@
 ## 任务管理
 - 不开新cron做巡检，评测集巡检归入已有PDCA
 - PDCA整合进AEO，作为AEO子技能
+
+---
+
+## 🚨 Agent白名单铁令（2026-03-12 用户铁令）
+
+**合法agentId白名单（共19个）：**
+main, researcher, researcher-02, coder, coder-02, reviewer, reviewer-02, writer, writer-02, analyst, analyst-02, scout, scout-02, cron-worker, cron-worker-02, worker-03, worker-04, worker-05, worker-06
+
+**❌ 绝对禁止使用的agentId：**
+coder-01, coder-03, coder-04, coder-05, analyst-01, architect, architect-02, worker, worker-02, worker-07, worker-08
+
+**违规后果：** 使用不存在的agentId会导致任务回落主Agent执行，并行完全失效，API key混用。

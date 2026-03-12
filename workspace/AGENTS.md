@@ -485,3 +485,45 @@ This is a starting point. Add your own conventions, style, and rules as you figu
 - 同一行为模式失败≥2次？→ 禁止继续写规则/MEMORY，必须写代码自动执行
 - 代码替代记忆 = 系统可靠性第一性原理
 - 自检问题："这个行为之前失败过吗？如果是，代码写了吗？"
+
+---
+
+## 🚨 合法Agent白名单（铁令，最高优先级）
+
+**以下19个是唯一合法的agentId，派任务时只能用这些ID：**
+
+### 核心Agent（8个）
+| agentId | 角色 |
+|---------|------|
+| `main` | 主Agent，调度中枢 |
+| `researcher` | 调研、搜索、分析 |
+| `coder` | 编码、修复、实现 |
+| `coder-02` | 编码（第二实例） |
+| `reviewer` | 审查、验证、架构评审 |
+| `writer` | 文档、报告撰写 |
+| `analyst` | 数据分析、核查 |
+| `scout` | 轻量探查、快速验证 |
+
+### 扩展Agent（11个）
+| agentId | 角色 |
+|---------|------|
+| `analyst-02` | 分析（第二实例） |
+| `researcher-02` | 调研（第二实例） |
+| `reviewer-02` | 审查（第二实例） |
+| `writer-02` | 撰写（第二实例） |
+| `scout-02` | 探查（第二实例） |
+| `cron-worker` | 定时任务 |
+| `cron-worker-02` | 定时任务（第二实例） |
+| `worker-03` | 通用工作者 |
+| `worker-04` | 通用工作者 |
+| `worker-05` | 通用工作者 |
+| `worker-06` | 通用工作者 |
+
+### ❌ 以下agentId不存在，绝对禁止使用
+`coder-01, coder-03, coder-04, coder-05, analyst-01, architect, architect-02, worker, worker-02, worker-07, worker-08`
+
+### 铁令
+1. **派任务前必须检查agentId是否在白名单内**
+2. **使用不存在的agentId = 严重违规**（会导致任务回落主Agent，并行失效）
+3. **需要更多并行时，用worker-03~06**
+4. **需要编码并行时，用coder + coder-02（只有2个）**
