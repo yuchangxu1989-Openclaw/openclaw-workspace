@@ -78,3 +78,4 @@
 # quality-audit daily: 每天07:45全量质量审计日报
 45 7 * * * cd /root/.openclaw/workspace && flock -xn /tmp/quality-audit-daily.lock /usr/bin/node skills/quality-audit/index.js --mode full --json > reports/quality-audit-daily-latest.json 2>> infrastructure/logs/quality-audit-daily.log
 */5 * * * * /root/.openclaw/workspace/scripts/board-cron-guard.sh
+*/10 * * * * cd /root/.openclaw/workspace && bash scripts/sync-shared-rules.sh >> infrastructure/logs/sync-shared-rules.log 2>&1 # sync-shared
