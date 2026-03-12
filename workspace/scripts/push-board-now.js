@@ -269,6 +269,54 @@ if (newCount > prevCount) {
 // ── 5. Compute running sessions ──
 // Use max(updatedAt, transcript mtime) as activity indicator — transcript mtime is more accurate
 const RUNNING_MAX_AGE_MS = 2 * 60 * 60 * 1000; // 2 hours
+function normalizeModel(raw) {
+  return (raw || '').replace(/^[\w-]+\//, '');
+}
+
+function getActualModel(sessionVal, sessDir) {
+  // Priority: subagents list/session.model -> transcript recorded model -> fallback config/defaults
+  const directModel = sessionVal.model || sessionVal.config?.model || '';
+  if (directModel) return normalizeModel(directModel);
+
+  try {
+    const sid = sessionVal.sessionId;
+    if (sid) {
+      const tp = `${sessDir}/${sid}.jsonl`;
+      if (fs.existsSync(tp)) {
+        const stat = fs.statSync(tp);
+        if (stat.size > 0) {
+          const readSize = Math.min(stat.size, 262144); // read last 256KB for model traces
+          const buf = Buffer.alloc(readSize);
+          const fd = fs.openSync(tp, 'r');
+          fs.readSync(fd, buf, 0, readSize, Math.max(0, stat.size - readSize));
+          fs.closeSync(fd);
+          const lines = buf.toString('utf8').split('\n').filter(Boolean);
+          for (let i = lines.length - 1; i >= 0; i--) {
+            try {
+              const entry = JSON.parse(lines[i]);
+              const msg = entry.message || entry;
+              const candidates = [
+                msg.model,
+                msg.modelName,
+                msg.metadata?.model,
+                msg.usage?.model,
+                entry.model,
+                entry.modelName,
+                entry.metadata?.model,
+              ];
+              for (const c of candidates) {
+                if (typeof c === 'string' && c.trim()) return normalizeModel(c.trim());
+              }
+            } catch {}
+          }
+        }
+      }
+    }
+  } catch {}
+
+  return agentModels[sessionVal.agentId] || defaultModel || AGENT_MODEL_FALLBACK[sessionVal.agentId] || DEFAULT_MODEL_FALLBACK;
+}
+
 const rows = [];
 for (const [label, { val, sessDir, agent }] of Object.entries(allSessions)) {
   if (doneRegistry[label]) continue;
@@ -283,8 +331,7 @@ for (const [label, { val, sessDir, agent }] of Object.entries(allSessions)) {
   const duration = elapsedMin >= 60
     ? Math.floor(elapsedMin / 60) + 'h' + (elapsedMin % 60) + 'm'
     : (elapsedMin < 1 ? '<1m' : elapsedMin + 'm');
-  const rawModel = val.model || val.config?.model || '';
-  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || AGENT_MODEL_FALLBACK[agent] || DEFAULT_MODEL_FALLBACK);
+  const model = getActualModel({ ...val, agentId: agent }, sessDir);
   rows.push({ task: label, agent, model, status: '🟢运行中', duration, _age: age });
 }
 // Sort: newest activity first
@@ -324,8 +371,7 @@ for (const [label, completedAt] of Object.entries(doneRegistry)) {
   const sess = allSessions[label];
   if (!sess) continue;
   const { val, agent } = sess;
-  const rawModel = val.model || val.config?.model || '';
-  const model = rawModel ? rawModel.replace(/^[\w-]+\//, '') : (agentModels[agent] || defaultModel || AGENT_MODEL_FALLBACK[agent] || DEFAULT_MODEL_FALLBACK);
+  const model = getActualModel({ ...val, agentId: agent }, sess.sessDir);
   const boardStatus = boardStatusMap[label];
   let status;
   if (val.abortedLastRun || boardStatus === 'timeout') status = '⏰超时';
