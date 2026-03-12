@@ -41,6 +41,14 @@
       "warnThreshold": null,
       "weight": 0.1,
       "description": "自动采集的badcase数 / 用户纠偏数，信息性指标"
+    },
+    "evalsetIntegrity": {
+      "label": "评测集完整性",
+      "target": 0.80,
+      "direction": "gte",
+      "warnThreshold": 0.60,
+      "weight": 0.15,
+      "description": "north_star_indicator字段覆盖率，反映评测集V4标准达标程度。有未入库散落数据时自动标critical"
     }
   }
 }

@@ -302,6 +302,114 @@ function measureRuleExpansion() {
   };
 }
 
+function measureEvalsetIntegrity() {
+  // 评测集完整性检查维度：
+  // 1. 扫描散落数据，统计未入库数
+  // 2. 统计V4字段覆盖率
+  // 3. 统计北极星覆盖分布
+  // 4. 有未入库数据时标critical
+  const unifiedDir = path.join(WORKSPACE, 'evals/unified');
+  const goldenDir = path.join(WORKSPACE, 'infrastructure/aeo/golden-testset');
+  const versionFile = path.join(WORKSPACE, 'skills/isc-core/config/eval-standard-version.json');
+
+  // 动态读取评测标准版本
+  let evalVersion = 'V4';
+  try {
+    const vf = JSON.parse(fs.readFileSync(versionFile, 'utf8'));
+    evalVersion = vf.version || 'V4';
+  } catch {}
+
+  // 收集统一目录已有case ID
+  const existingIds = new Set();
+  const allCases = [];
+  for (const dir of [unifiedDir, goldenDir]) {
+    try {
+      for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.json'))) {
+        try {
+          const data = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+          const cases = Array.isArray(data) ? data : (data.cases || data.dataset || []);
+          for (const c of cases) {
+            if (c && c.id) existingIds.add(c.id);
+            if (c && typeof c === 'object') allCases.push(c);
+          }
+        } catch {}
+      }
+    } catch {}
+  }
+
+  // 扫描散落数据源，统计未入库数
+  const scatterDirs = [
+    path.join(WORKSPACE, 'skills/aeo/evalset-cron-output'),
+    path.join(WORKSPACE, 'skills/aeo/generated'),
+  ];
+  // 也扫描 skills/*/evals/
+  try {
+    for (const d of fs.readdirSync(path.join(WORKSPACE, 'skills'))) {
+      const evalsDir = path.join(WORKSPACE, 'skills', d, 'evals');
+      try { if (fs.statSync(evalsDir).isDirectory()) scatterDirs.push(evalsDir); } catch {}
+    }
+  } catch {}
+
+  let unimportedCount = 0;
+  for (const dir of scatterDirs) {
+    try {
+      for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.json'))) {
+        try {
+          const data = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+          const cases = Array.isArray(data) ? data : (data.cases || data.dataset || []);
+          for (const c of cases) {
+            if (c && c.id && !existingIds.has(c.id)) unimportedCount++;
+          }
+        } catch {}
+      }
+    } catch {}
+  }
+
+  // V4字段覆盖率
+  const v4Fields = ['north_star_indicator', 'scoring_rubric', 'gate', 'execution_chain_steps'];
+  const v4Coverage = {};
+  const total = allCases.length || 1;
+  for (const field of v4Fields) {
+    const count = allCases.filter(c => c[field]).length;
+    v4Coverage[field] = { count, total: allCases.length, pct: +(count / total * 100).toFixed(1) };
+  }
+
+  // 北极星覆盖分布
+  const nsDist = {};
+  for (const c of allCases) {
+    const ns = c.north_star_indicator || '未标注';
+    nsDist[ns] = (nsDist[ns] || 0) + 1;
+  }
+
+  // 缺口检测
+  const expectedNs = ['任务完成率', '意图识别准确率', '代码正确性', '知识准确性', '响应质量'];
+  const gaps = expectedNs.filter(ns => !nsDist[ns] || nsDist[ns] < 10);
+
+  // 如有未入库数据，尝试自动归拢（调用badcase-to-evalset.sh）
+  if (unimportedCount > 0) {
+    try {
+      execSync('bash /root/.openclaw/workspace/scripts/badcase-to-evalset.sh', { timeout: 30000, stdio: 'pipe' });
+    } catch {}
+    // 也运行源数据归拢（复用aeo-daily-evalset-sync.sh的阶段1逻辑）
+    try {
+      execSync('bash /root/.openclaw/workspace/scripts/aeo-daily-evalset-sync.sh', { timeout: 60000, stdio: 'pipe' });
+    } catch {}
+  }
+
+  // 综合得分：north_star覆盖率为主指标
+  const nsCovPct = v4Coverage.north_star_indicator ? v4Coverage.north_star_indicator.pct / 100 : 0;
+
+  return {
+    actual: +nsCovPct.toFixed(4),
+    evalVersion,
+    totalCases: allCases.length,
+    unimportedCount,
+    v4Coverage,
+    northStarDistribution: nsDist,
+    northStarGaps: gaps,
+  };
+}
+
 function measureBadcaseAutoRate() {
   let autoCaptured = 0, userCorrections = 0;
   const today = new Date().toISOString().slice(0, 10);
@@ -353,6 +461,11 @@ function analyzeGap(metricKey, label, actual, target, direction, st) {
       '5层展开标准：intent/event/plan/handler/verification 全部非空才算展开',
       '当前主要缺失层：plan(规划)和verification(验真)，优先补齐',
       '建立规则展开的自动化pipeline，每次Check后识别下一批应展开的规则',
+    ],
+    evalsetIntegrity: [
+      '运行 bash scripts/badcase-to-evalset.sh 翻转积压badcase',
+      '运行 bash scripts/aeo-daily-evalset-sync.sh 归拢散落数据',
+      '补齐north_star_indicator/scoring_rubric/gate等V4必需字段',
     ],
   };
 
@@ -440,6 +553,7 @@ function run() {
     taskGranularity: measureTaskGranularity,
     ruleExpansionRate: measureRuleExpansion,
     badcaseAutoRate: measureBadcaseAutoRate,
+    evalsetIntegrity: measureEvalsetIntegrity,
   };
 
   const metrics = {};
