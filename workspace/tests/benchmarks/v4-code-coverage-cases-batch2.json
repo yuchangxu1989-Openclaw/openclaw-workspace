@@ -2,7 +2,6 @@
   {
     "id": "v4-codecov-001",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -21,12 +20,12 @@
       "pass": "使用find/grep遍历了全部真实代码文件，输出精确到文件路径+函数名+行号，认知映射结论基于真实代码",
       "partial": "遍历了部分代码文件但遗漏了某些子目录或文件类型（如只看.js未看.json），输出有文件路径但缺少行号",
       "badcase": "仅阅读SKILL.md或README.md的能力描述就得出结论，未遍历任何真实代码文件"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-002",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -45,12 +44,12 @@
       "pass": "grep搜索覆盖全部相关目录，找到所有引用点并精确到行号，逐一分析上下文逻辑后给出有据结论",
       "partial": "执行了grep搜索但未覆盖全部目录（如遗漏infrastructure/），或找到引用但未分析上下文逻辑",
       "badcase": "未执行代码搜索，仅凭文档描述或经验判断影响面"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-003",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -69,12 +68,12 @@
       "pass": "遍历全部skill代码，精确定位到冲突正则的文件路径+行号，分析重叠模式并给出修复建议",
       "partial": "找到了冲突的两个skill但未精确到行号，或只分析了部分skill未做全量遍历",
       "badcase": "仅查看skill的SKILL.md描述判断路由逻辑，未读取实际的intent匹配代码"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-004",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -93,12 +92,12 @@
       "pass": "grep覆盖全部代码目录，找到全部订阅点并精确到行号+事件名+回调函数名，交叉验证无遗漏",
       "partial": "搜索了主要目录但遗漏了某个子目录（如infrastructure/），或输出缺少回调函数名",
       "badcase": "仅查看事件总线的README或架构文档推断订阅关系，未搜索真实代码"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-005",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -117,12 +116,12 @@
       "pass": "全量搜索代码库找到全部探针定义，精确到文件路径+行号，逐一分析探针配置并输出完整全景图",
       "partial": "找到了部分探针定义但遗漏了某个目录下的探针，或未逐一读取代码分析配置细节",
       "badcase": "仅查看probe相关的文档或配置模板推断探针部署情况，未搜索真实代码"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-006",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -140,12 +139,12 @@
       "pass": "不适用——此为负面用例",
       "partial": "Agent意识到应该读代码但仅补充读取了部分文件，结论仍主要依赖SKILL.md",
       "badcase": "完全依赖SKILL.md文档摘要做认知映射，未遍历任何真实代码文件，该次认知映射无效"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-007",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -163,12 +162,12 @@
       "pass": "不适用——此为负面用例",
       "partial": "Agent执行了grep但仅搜索了部分目录，找到了部分引用但仍遗漏隐式引用",
       "badcase": "完全依赖文档中的依赖图做影响面评估，未搜索真实代码，遗漏隐式引用导致结论错误"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-008",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -187,12 +186,12 @@
       "pass": "不适用——此为负面用例",
       "partial": "Agent执行了grep但仅搜索了部分关键词（如只搜WebSocket未搜ws），未完整确认模块状态",
       "badcase": "完全依赖历史记录和架构文档做差距分析，未搜索真实代码，输出过时的错误结论"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-009",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -211,12 +210,12 @@
       "pass": "不适用——此为负面用例",
       "partial": "使用了grep搜索真实代码但未覆盖全部目录，结论基于不完整数据，认知映射部分有效",
       "badcase": "虽然用了grep但严重遗漏目录导致结论错误，与完全不搜索代码的危害程度相当"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-codecov-010",
     "category": "code-coverage",
-    "complexity": "C2",
     "source": "synthetic-v4-codecov",
     "gate": "north-star",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -235,6 +234,7 @@
       "pass": "不适用——此为负面用例",
       "partial": "Agent搜索了部分数据库代码但未覆盖全部文件，发现了配置不一致但遗漏了连接泄漏bug",
       "badcase": "完全依赖README文档描述做配置评估，未搜索真实代码，输出与代码现状矛盾的结论"
-    }
+    },
+    "difficulty": "C2"
   }
 ]

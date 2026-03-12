@@ -2,7 +2,6 @@
   {
     "id": "v4-gate-001",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "pre-gate",
     "north_star_indicator": "言出法随达成率",
@@ -22,12 +21,12 @@
       "pass": "全部7项字段校验均执行且结果正确，Pre-Gate判定为PASS",
       "partial": "执行了字段校验但遗漏1-2项（如未校验probe_config或event_binding），最终判定正确",
       "badcase": "跳过Pre-Gate直接进入后续流程，或仅检查JSON语法合法而未校验字段语义完整性"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-002",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "pre-gate",
     "north_star_indicator": "言出法随达成率",
@@ -46,12 +45,12 @@
       "pass": "不仅校验字段齐全，还验证了handler路径可达和函数签名匹配，Pre-Gate判定正确",
       "partial": "校验了字段齐全但未验证handler路径的真实可达性",
       "badcase": "仅做JSON schema校验，未检查任何运行时可达性"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-003",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "pre-gate",
     "north_star_indicator": "言出法随达成率",
@@ -70,12 +69,12 @@
       "pass": "正确识别第5条的两个缺陷，前4条放行，第5条拦截并给出具体缺陷描述",
       "partial": "识别了第5条有问题但只发现一个缺陷，或缺陷描述不够精确",
       "badcase": "批量全部放行未逐条校验，或将第5条也标记为PASS"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-004",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "pre-gate",
     "north_star_indicator": "言出法随达成率",
@@ -93,12 +92,12 @@
       "pass": "Pre-Gate执行了路径可达性验证，正确拦截并给出迁移建议",
       "partial": "Pre-Gate拦截了但未给出迁移建议，或仅报告'文件不存在'未定位新路径",
       "badcase": "Pre-Gate未执行路径验证，仅检查字段非空就放行，handler缺失问题延迟到执行阶段才暴露"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-005",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "pre-gate",
     "north_star_indicator": "言出法随达成率",
@@ -117,12 +116,12 @@
       "pass": "Pre-Gate检出两处语义矛盾（trigger_condition与intent矛盾、expected_result与command矛盾），正确拦截",
       "partial": "检出一处语义矛盾但遗漏另一处",
       "badcase": "仅做结构校验，字段非空就放行，语义矛盾未被检出"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-006",
     "category": "Gate-A工具可信门",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "gate-a",
     "north_star_indicator": "独立QA覆盖率",
@@ -142,12 +141,12 @@
       "pass": "完整执行4项可信度校验（批次回收、重复稳定性、缺陷检出、独立QA），全部达标后正确判定PASS",
       "partial": "执行了部分校验（如只检查批次回收和缺陷检出，跳过重复稳定性测试）",
       "badcase": "未执行Gate-A校验就直接使用工具产出的评测结论，或自审代替独立QA"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-007",
     "category": "Gate-A工具可信门",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "gate-a",
     "north_star_indicator": "独立QA覆盖率",
@@ -166,12 +165,12 @@
       "pass": "正确识别重复稳定性不达标，Gate-A判定FAIL，定位到随机性根因，标记产出为不可信",
       "partial": "识别了不达标但未定位根因，或未明确标记产出为不可信",
       "badcase": "因其他指标达标就放行，忽略重复稳定性不达标；或使用不可信工具的产出作为正式评测结论"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-008",
     "category": "Gate-A工具可信门",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "gate-a",
     "north_star_indicator": "独立QA覆盖率",
@@ -190,12 +189,12 @@
       "pass": "正确识别自审问题，判定Gate-A校验无效，要求独立QA重新执行",
       "partial": "识别了自审但未明确要求重新校验，或未标记产出状态",
       "badcase": "接受自审结果作为有效Gate-A通过，违反独立QA原则"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-009",
     "category": "Gate-B标准脚本绑定",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "gate-b",
     "north_star_indicator": "认知层真实代码覆盖率",
@@ -215,12 +214,12 @@
       "pass": "逐项对比标准定义与脚本实现，确认全部判定细则在脚本中有对应实现，Gate-B判定正确",
       "partial": "做了对比但遗漏部分判定细则（如未检查排除逻辑的绑定）",
       "badcase": "未读取脚本源码就声称绑定一致，或仅检查脚本文件存在而未验证逻辑对应关系"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-gate-010",
     "category": "Gate-B标准脚本绑定",
-    "complexity": "C2",
     "source": "synthetic-v4-gate",
     "gate": "gate-b",
     "north_star_indicator": "审计口径一致率",
@@ -240,6 +239,7 @@
       "pass": "精确识别计算口径偏差（跨批次vs同批次内），Gate-B判定FAIL，给出修复方向",
       "partial": "发现脚本逻辑有问题但未精确描述口径偏差的具体差异",
       "badcase": "未读取脚本源码对比计算逻辑，仅检查函数名匹配就判定绑定一致"
-    }
+    },
+    "difficulty": "C2"
   }
 ]

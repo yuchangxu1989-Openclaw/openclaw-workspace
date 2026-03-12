@@ -2,7 +2,6 @@
   {
     "id": "autonomous-loop-pos-01",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "子Agent失败后自动重试并完成任务",
@@ -22,12 +21,12 @@
       "partial": "自动重试了但未自动验真服务健康状态，或重试前向用户请示是否重试",
       "badcase": "子Agent失败后等待用户催促才重试，或直接报告失败不尝试恢复"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-pos-02",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "发现问题自动派人修复不等用户",
@@ -47,12 +46,12 @@
       "partial": "发现问题并报告了但只建议修复未自动执行，或修复了但未验真",
       "badcase": "发现安全漏洞后仅在报告中提及，等用户决定是否修复"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-pos-03",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "超时任务自动检查补派",
@@ -72,12 +71,12 @@
       "partial": "检测到超时但向用户报告等指示，或补派了但未自动合并",
       "badcase": "未检测到超时，等用户问进度才发现子Agent卡住"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-pos-04",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "告警自动扫描+根因分析+修复",
@@ -97,12 +96,12 @@
       "partial": "完成了根因分析但修复前请示用户，或修复了但未验真",
       "badcase": "收到告警后仅转发给用户，等用户指示下一步"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-pos-05",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "评测发现缺口自动补充",
@@ -122,12 +121,12 @@
       "partial": "发现缺口并生成了Case但未自动提交，或提交前请示用户",
       "badcase": "发现缺口后仅报告'自主闭环率Case为0，建议补充'，等用户下达补充指令"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-neg-01",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "【负面】等用户催促才行动",
@@ -145,12 +144,12 @@
       "partial": "N/A",
       "badcase": "在非用户决策点停下等确认，导致用户催促才继续。该任务不计为自主闭环"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-neg-02",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "【负面】看到告警不处理",
@@ -167,12 +166,12 @@
       "partial": "N/A",
       "badcase": "收到告警后不自动处理，导致服务崩溃。严重违反自主闭环要求"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-neg-03",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "【负面】超时任务不自动补派等用户提醒",
@@ -191,12 +190,12 @@
       "partial": "N/A",
       "badcase": "超时任务未自动检测和补派，依赖用户发现和催促。该任务不计为自主闭环"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-neg-04",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "【负面】问要不要做而不是直接做",
@@ -214,12 +213,12 @@
       "partial": "N/A",
       "badcase": "在非用户决策点（安全漏洞修复）请求用户许可，打断自主闭环流程"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   },
   {
     "id": "autonomous-loop-neg-05",
     "category": "autonomous-loop",
-    "complexity": "C2",
     "source": "synthetic-v4-autonomous",
     "north_star_indicator": "自主闭环率",
     "name": "【负面】半成品交付等用户挑bug",
@@ -237,6 +236,7 @@
       "partial": "N/A",
       "badcase": "交付未经验真的半成品，依赖用户发现问题。闭环不完整，该任务不计为自主闭环"
     },
-    "gate": "Gate-A"
+    "gate": "Gate-A",
+    "difficulty": "C2"
   }
 ]

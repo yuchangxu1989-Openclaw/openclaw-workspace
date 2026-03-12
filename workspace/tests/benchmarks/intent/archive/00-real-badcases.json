@@ -21,7 +21,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "sessions_spawn子Agent去修复",
+    "category": "主Agent亲力亲为"
   },
   {
     "id": "BADCASE-DELEGATION-002",
@@ -45,7 +47,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "sessions_spawn子Agent去写文档",
+    "category": "主Agent亲力亲为"
   },
   {
     "id": "BADCASE-DELEGATION-003",
@@ -69,7 +73,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "sessions_spawn子Agent做分析工作",
+    "category": "主Agent亲力亲为"
   },
   {
     "id": "BADCASE-DELEGATION-004",
@@ -93,7 +99,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "sessions_spawn子Agent去创建规则文件",
+    "category": "主Agent亲力亲为"
   },
   {
     "id": "BADCASE-DELEGATION-005",
@@ -118,7 +126,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "建立程序化守卫（ISC规则+代码gate），而不仅是认知规则",
+    "category": "主Agent亲力亲为"
   },
   {
     "id": "session-2026-03-08-001",
@@ -244,7 +254,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "收到completion event → 第一件事调用update-task.sh → 然后才处理结果和回复用户",
+    "category": "流程遗漏-completion回写"
   },
   {
     "id": "C2-SPAWN-REGISTER-ATOMIC-001",
@@ -332,7 +344,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "每次spawn后立即刷新任务看板并推送给用户"
   },
   {
     "id": "badcase-subagent-empty-run-writer",
@@ -349,7 +362,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "子Agent必须真正调用read/write工具完成任务"
   },
   {
     "id": "badcase-subagent-sandbox-isolation",
@@ -366,7 +380,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "派发需要访问主workspace文件的任务时，使用sandbox=inherit参数"
   },
   {
     "id": "badcase-feishu-doc-create-empty",
@@ -383,7 +398,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "创建文档后必须read验证block_count>1，确认内容写入后才推送"
   },
   {
     "id": "badcase-quality-audit-shell",
@@ -401,7 +417,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "深度审计应有大量read/exec工具调用，token消耗应在20k+"
   },
   {
     "id": "badcase-report-as-md-not-feishu",
@@ -418,7 +435,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "用户要求飞书文档时，必须调用feishu_doc工具创建文档"
   },
   {
     "id": "badcase-eval-set-excuse",
@@ -436,7 +454,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "每个badcase发生时立即采集入库，不需要专门'挖掘'"
   },
   {
     "id": "badcase-eval-task-no-standard-reference",
@@ -454,7 +473,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "任何评测集相关任务，prompt必须包含：1.先读评测标准文档 2.先读黄金case范例 3.质量对齐约束"
   },
   {
     "id": "badcase-badcase-to-goodcase-not-programmatic",
@@ -472,7 +492,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "badcase入库时自动触发goodcase生成（程序化hook），不依赖任何人记住要做这件事"
   },
   {
     "id": "badcase-main-agent-self-exec-dto-cron-fix",
@@ -501,7 +522,8 @@
       "expected_output",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "spawn coder子Agent去修复 → 主Agent立即回复用户'已派任务' → 子Agent完成后汇报"
   },
   {
     "id": "badcase-exec-escape-path-unguarded",
@@ -521,7 +543,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "主Agent收到任务→判断属于实现性工作→sessions_spawn委派子Agent→子Agent执行→主Agent验收整合",
+    "category": "自主性缺失"
   },
   {
     "id": "badcase-doc-delivery-without-qa",
@@ -541,7 +565,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "researcher写完→reviewer审核→通过后才交付用户",
+    "category": "交付质量类"
   },
   {
     "id": "badcase-timeout-triage-not-automated",
@@ -561,7 +587,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "timeout标记→自动检查产出文件是否存在→自动判断需否重试→自动重派",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-quality-gate-no-auto-rewrite",
@@ -581,7 +609,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "reviewer不通过then自动spawn writer重写",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-eval-gen-no-qa-again",
@@ -601,7 +631,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "spawn生成任务then completion自动触发QA审计then审计通过才算完成",
+    "category": "交付质量类"
   },
   {
     "id": "badcase-writer-empty-run-eval-fill",
@@ -621,7 +653,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "spawn writer填充4个文件then writer真正write写入then read验证",
+    "category": "连锁跷跷板类"
   },
   {
     "id": "badcase-completion-handler-not-called-for-all",
@@ -641,7 +675,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "completion event到达then全部立即跑handler",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-eval-gap-not-auto-filled",
@@ -661,7 +697,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "发现差50条then立即派coder补齐then汇报结果",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-pptx-not-auto-sent",
@@ -681,7 +719,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "PPT生成完成then自动file-sender发给用户then汇报",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-completion-handler-miss-repeated-3",
@@ -701,7 +741,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "completion event到达then全部立即跑handler then看板实时准确",
+    "category": "反复未果类"
   },
   {
     "id": "auto-test-badcase-auto-20260308222949",
@@ -721,7 +763,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-verbal-badcase-not-harvested",
@@ -741,7 +785,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "识别到badcase then立即调harvest入库 then确认入库成功",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-no-intent-understanding-on-user-msg",
@@ -761,7 +807,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "用户说有误then意图探针识别纠偏信号then自动触发harvest入库",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-cancel-vs-disable-intent-miss",
@@ -781,7 +829,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "用户说取消定时任务then取消已运行实例+禁用cron",
+    "category": "认知错误类"
   },
   {
     "id": "badcase-timeout-no-auto-retry",
@@ -873,7 +923,9 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "category": "自主性缺失类"
   },
   {
     "id": "badcase-found-380-non-v3-but-asked-instead-of-auto-clean",
@@ -900,7 +952,8 @@
     "_missing": [
       "expected_output",
       "multi_turn"
-    ]
+    ],
+    "expected_output": "发现380条不合格→立即自主派10路并行清洗→告知用户'已派清洗，结果出来后汇报'"
   },
   {
     "id": "auto-badcase-no-auto-clean-20260309022530",
@@ -920,6 +973,8 @@
       "category",
       "multi_turn",
       "execution_chain_steps"
-    ]
+    ],
+    "expected_output": "任务总结命中badcase关键词 thencompletion-handler自动触发harvest then记录落库",
+    "category": "自主性缺失类"
   }
 ]

@@ -1,19 +1,72 @@
 {
   "name": "eval-runner",
-  "version": "1.0.0",
-  "description": "V4标准意图理解质量评测技能",
+  "version": "2.0.0",
+  "description": "V4评测流水线：Gate门禁 + 北极星指标评测",
   "eval_standard_schema": "infrastructure/aeo/eval-standard-schema.json",
-  "eval_standard_version": "V4",
-  "_note": "eval_dimensions synced from eval-standard-schema.json scoring_dimensions — schema is the single source of truth",
+  "eval_standard_config": "skills/isc-core/config/eval-standard-version.json",
+
   "default_batch_size": 10,
-  "eval_dimensions": [
-    "intent_accuracy",
-    "chain_completeness",
-    "cross_module",
-    "implicit_intent",
-    "context_utilization"
-  ],
+  "default_track": "full",
+
+  "tracks": {
+    "legacy": {
+      "description": "旧5维度评测（已废弃，仅兼容）",
+      "dimensions": [
+        "intent_accuracy",
+        "chain_completeness",
+        "cross_module",
+        "implicit_intent",
+        "context_utilization"
+      ]
+    },
+    "gate": {
+      "description": "Gate门禁Track（串行短路）",
+      "gates": ["pre-gate", "gate-a", "gate-b"]
+    },
+    "northstar": {
+      "description": "北极星指标Track（并行独立）",
+      "indicators": [
+        "ns1_rule_effectiveness",
+        "ns2_autonomous_closure",
+        "ns3_cognitive_code_coverage",
+        "ns4_independent_qa",
+        "ns5_root_cause_analysis"
+      ]
+    },
+    "full": {
+      "description": "完整V4流水线：Gate → 北极星 → 评级",
+      "pipeline": ["gate", "northstar", "rating"]
+    }
+  },
+
+  "gate_config": {
+    "pre_gate": {
+      "checks": ["rule_id_valid", "trigger_events_valid", "handler_reachable", "intent_event_mapping"]
+    },
+    "gate_a": {
+      "checks": ["script_integrity", "role_separation", "script_version", "no_uncommitted_changes"]
+    },
+    "gate_b": {
+      "checks": ["standard_revision_match", "dimensions_sync", "thresholds_sync", "golden_cases_bound"]
+    }
+  },
+
+  "northstar_thresholds": {
+    "ns1_rule_effectiveness":      { "threshold": 0.90, "enabled": true },
+    "ns2_autonomous_closure":      { "threshold": 0.95, "enabled": true },
+    "ns3_cognitive_code_coverage": { "threshold": 1.00, "enabled": true },
+    "ns4_independent_qa":          { "threshold": 1.00, "enabled": true },
+    "ns5_root_cause_analysis":     { "threshold": 1.00, "enabled": true }
+  },
+
+  "rating": {
+    "S": { "gate": true, "northstar_min": 5 },
+    "A": { "gate": true, "northstar_min": 4 },
+    "B": { "gate": true, "northstar_min": 3 },
+    "C": { "gate": true, "northstar_min": 1 },
+    "F": { "gate": false }
+  },
+
   "executor_agent": "coder",
-  "evaluator_agent": "reviewer",
-  "v4_standard_doc": "JxhNdoc7ko7ZLwxJUJHcWyeDnYd"
+  "evaluator_agent": "reviewer"
 }

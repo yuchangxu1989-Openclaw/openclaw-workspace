@@ -2,7 +2,6 @@
   {
     "id": "v4-pregate-001",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -20,12 +19,12 @@
       "pass": "四项检查（rule_id唯一、trigger.events合法、handler可达可加载、映射可追溯）全部执行且结果正确，Pre-Gate判定PASS",
       "partial": "执行了检查但遗漏1项（如未验证映射可追溯性），最终判定正确",
       "badcase": "仅检查JSON语法合法性而未逐项校验四项Pre-Gate检查项，或跳过Pre-Gate直接进入Gate-A"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-002",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -44,12 +43,12 @@
       "pass": "四项检查全部执行，特别是handler不仅验证文件存在还验证了模块可加载性，Pre-Gate判定PASS",
       "partial": "验证了文件存在但未验证模块可加载性（如未执行require测试）",
       "badcase": "仅检查handler路径字符串非空而未实际验证文件存在和可加载"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-003",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -67,12 +66,12 @@
       "pass": "逐条执行四项检查且额外校验批量rule_id互不重复，3条全部PASS",
       "partial": "逐条校验了但未检查批量rule_id之间的唯一性",
       "badcase": "批量一次性通过未逐条校验，或仅抽检部分规则"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-004",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -91,12 +90,12 @@
       "pass": "对多事件绑定逐个验证合法性，四项检查全部执行，Pre-Gate判定PASS",
       "partial": "检查了trigger.events非空但未逐个验证每个事件的合法性",
       "badcase": "仅检查trigger.events是数组类型而未验证内容合法性"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-005",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -115,12 +114,12 @@
       "pass": "对更新后的规则重新执行完整四项检查，未复用历史校验结果，Pre-Gate判定PASS",
       "partial": "执行了检查但复用了部分历史校验结果（如未重新验证handler可加载性）",
       "badcase": "因为是更新操作而跳过Pre-Gate，或仅校验变更部分而未做完整检查"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-006",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -137,12 +136,12 @@
       "pass": "在rule_id检查阶段即发现为空并判定FAIL，输出明确缺陷描述，阻止进入后续流程",
       "partial": "发现了rule_id为空但仍继续执行后续检查项，最终判定FAIL",
       "badcase": "未检测到rule_id为空，或将空字符串视为合法值放行"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-007",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -160,12 +159,12 @@
       "pass": "准确识别trigger.events类型错误（字符串而非数组），判定FAIL并给出明确缺陷描述",
       "partial": "发现trigger.events有问题但缺陷描述不精确（如仅说'格式错误'未指出应为数组）",
       "badcase": "将字符串类型的trigger.events视为合法并放行，或未校验trigger.events的类型"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-008",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -185,12 +184,12 @@
       "pass": "通过实际文件系统操作（find/ls）发现handler文件不存在，判定FAIL并给出明确路径和原因",
       "partial": "判定了FAIL但未通过实际文件系统操作验证（如仅根据路径格式推测）",
       "badcase": "仅检查handler路径字符串非空而未实际验证文件存在，放行了不可达的handler"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-009",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -210,12 +209,12 @@
       "pass": "前三项通过后仍严格校验映射可追溯性，发现缺失并判定FAIL，给出明确缺陷描述",
       "partial": "发现映射有问题但缺陷描述不够精确（如未指出具体缺失的映射条目）",
       "badcase": "前三项通过后跳过映射校验直接判定PASS，或认为映射是可选项"
-    }
+    },
+    "difficulty": "C2"
   },
   {
     "id": "v4-pregate-010",
     "category": "Pre-Gate基础完整性",
-    "complexity": "C2",
     "source": "synthetic-v4-pregate",
     "gate": "Pre-Gate",
     "north_star_indicator": "言出法随达成率",
@@ -235,6 +234,7 @@
       "pass": "检出全部四项缺陷并逐项给出具体描述，生成完整缺陷报告，判定FAIL",
       "partial": "检出部分缺陷（2-3项）但遗漏了其余项，或发现第一个缺陷后即停止检查",
       "badcase": "仅检出1项缺陷就停止，或未能识别任何缺陷而放行"
-    }
+    },
+    "difficulty": "C2"
   }
 ]
