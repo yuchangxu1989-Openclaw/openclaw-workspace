@@ -27,6 +27,13 @@ function readJsonSafe(filePath, fallback = null) {
   }
 }
 
+// ── AEO配置 ──
+const aeoConfig = readJsonSafe(path.join(AEO_DIR, 'config', 'aeo-config.json'), {});
+
+// ── 内部模块引入（从外部技能搬入AEO的模块） ──
+const iscDocQuality = require('./modules/isc-doc-quality');
+const layeredArchCheck = path.join(__dirname, 'modules', 'layered-arch-check.js');
+
 function detectSkillType(skillName, skillDoc = '') {
   const lower = `${skillName}\n${skillDoc}`.toLowerCase();
   const aiHints = ['llm', 'ai', 'agent', 'chat', 'prompt', 'semantic', 'reasoning', 'vision', 'glm', 'claude'];
@@ -221,7 +228,100 @@ async function run(input = {}, context = {}) {
 const pdcaEngine = require('./pdca/index');
 const pdcaCheckLoop = './pdca/check-loop.js'; // CLI入口，由cron直接调用
 
+// ═══════════════════════════════════════════════════════════════════════
+// 子技能调度器 — 统一调度AEO管辖的外部质量子技能
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * 调度AEO子技能
+ * @param {string} name - 子技能名（qualityAudit | architectureReview | selfCheckScanners）
+ * @param {Object} args - 传递给子技能的参数
+ * @param {Object} context - 运行上下文
+ * @returns {Object} 子技能执行结果
+ */
+async function invokeSubSkill(name, args = {}, context = {}) {
+  const logger = context?.logger || console;
+  const subSkillConfig = (aeoConfig.subSkills || {})[name];
+
+  if (!subSkillConfig) {
+    const available = Object.keys(aeoConfig.subSkills || {}).join(', ');
+    throw new Error(`[aeo] 未知子技能: ${name}，可用: ${available}`);
+  }
+
+  if (subSkillConfig.enabled === false) {
+    return { ok: false, skill: name, reason: '子技能已禁用' };
+  }
+
+  const skillPath = path.join(SKILLS_DIR, subSkillConfig.path, 'index.js');
+  if (!fs.existsSync(skillPath)) {
+    throw new Error(`[aeo] 子技能入口不存在: ${skillPath}`);
+  }
+
+  logger.info?.(`[aeo] 调度子技能 ${name} (${subSkillConfig.path})`);
+
+  try {
+    const subSkill = require(skillPath);
+    // 兼容 module.exports = run 和 module.exports = { run }
+    const runFn = typeof subSkill === 'function' ? subSkill : subSkill.run;
+
+    if (typeof runFn !== 'function') {
+      throw new Error(`子技能 ${name} 没有导出可执行的 run 函数`);
+    }
+
+    const result = await runFn(args, context);
+    logger.info?.(`[aeo] 子技能 ${name} 完成`);
+    return { ok: true, skill: name, result };
+  } catch (err) {
+    logger.error?.(`[aeo] 子技能 ${name} 执行失败: ${err.message}`);
+    return { ok: false, skill: name, error: err.message };
+  }
+}
+
+/**
+ * 列出所有已注册的子技能和内部模块
+ */
+function listQualityCapabilities() {
+  return {
+    subSkills: aeoConfig.subSkills || {},
+    internalModules: aeoConfig.internalModules || {},
+    pdca: { path: 'aeo/pdca', description: 'PDCA持续改进引擎' }
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// 内部模块API — ISC文档质量评估 & 分层架构检查
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * 调用ISC文档质量评估（内部模块）
+ * @param {string} skillPath - 待评估的技能路径
+ * @returns {Object} 评估报告
+ */
+function assessDocQuality(skillPath) {
+  return iscDocQuality.generateAssessmentReport(skillPath);
+}
+
+/**
+ * 调用分层架构合规检查（内部模块，CLI方式）
+ * @param {string} targetPath - 检查目标路径
+ * @param {Object} opts - 选项 { strict, json }
+ * @returns {string} 执行命令路径
+ */
+function getLayeredArchCheckCmd(targetPath, opts = {}) {
+  const flags = [];
+  if (opts.strict) flags.push('--strict');
+  if (opts.json) flags.push('--json');
+  return `node "${layeredArchCheck}" "${targetPath}" ${flags.join(' ')}`.trim();
+}
+
 module.exports = run;
 module.exports.run = run;
 module.exports.pdca = pdcaEngine;
 module.exports.pdcaCheckLoopPath = path.join(__dirname, 'pdca', 'check-loop.js');
+// 子技能调度
+module.exports.invokeSubSkill = invokeSubSkill;
+module.exports.listQualityCapabilities = listQualityCapabilities;
+// 内部模块直接API
+module.exports.assessDocQuality = assessDocQuality;
+module.exports.getLayeredArchCheckCmd = getLayeredArchCheckCmd;
+module.exports.iscDocQuality = iscDocQuality;

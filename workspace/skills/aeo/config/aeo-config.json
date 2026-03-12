@@ -1,9 +1,44 @@
 {
   "name": "AEO",
-  "version": "1.0.0",
-  "description": "智能体效果运营系统 - Agent Effectiveness Operations",
+  "version": "2.1.0",
+  "description": "智能体效果运营系统 - Agent Effectiveness Operations（含质量子技能）",
   "status": "active",
-  
+
+  "subSkills": {
+    "qualityAudit": {
+      "path": "quality-audit",
+      "description": "五大维度质量审计（需求满足、代码质量、研发标准、评测标准、交付完整性）",
+      "modes": ["full", "auto-qa", "isc-audit", "scan", "quick"],
+      "trigger": "post-delivery",
+      "enabled": true
+    },
+    "architectureReview": {
+      "path": "architecture-review-pipeline",
+      "description": "多角色架构评审流水线（engineer→qa→tribunal）",
+      "trigger": "pre-release",
+      "enabled": true
+    },
+    "selfCheckScanners": {
+      "path": "self-check-scanners",
+      "description": "系统自省扫描器（认知盲区、返工分析、完成度、纠偏采集、语义检测）",
+      "trigger": "daily-patrol",
+      "enabled": true
+    }
+  },
+
+  "internalModules": {
+    "iscDocQuality": {
+      "file": "modules/isc-doc-quality.js",
+      "description": "ISC文档质量评估（基础完整性、规范符合度、内容准确性、扩展完整性）",
+      "originalPath": "skills/isc-document-quality"
+    },
+    "layeredArchCheck": {
+      "file": "modules/layered-arch-check.js",
+      "description": "分层架构合规检查（感知-认知-执行三层 + 事件总线解耦）",
+      "originalPath": "skills/layered-architecture-checker"
+    }
+  },
+
   "tracks": {
     "aiEffect": {
       "name": "AI效果轨道",

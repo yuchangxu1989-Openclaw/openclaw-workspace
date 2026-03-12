@@ -1,20 +1,58 @@
 ---
 name: aeo
-description: AEO效果运营
-version: "2.0.19"
+description: AEO效果运营（含质量子技能体系）
+version: "2.1.0"
 status: active
 layer: infrastructure
-tags: [aeo, quality, evaluation, dual-track]
+tags: [aeo, quality, evaluation, dual-track, quality-audit, architecture-review]
 ---
 
-# AEO Phase 2 - 智能体效果运营系统（双轨运营版）
+# AEO Phase 2.1 - 智能体效果运营系统（含质量子技能体系）
 
 distribution: both
 
 
 ## 简介
 
-AEO Phase 2 是双轨运营实战系统，实现AI效果轨道和功能质量轨道的自动选择与实际运行。
+AEO Phase 2.1 是双轨运营实战系统，实现AI效果轨道和功能质量轨道的自动选择与实际运行。  
+2.1版本整合了5个质量类技能，形成统一的质量运营体系。
+
+## 质量子技能体系（2.1新增）
+
+### A. 外部子技能（AEO通过配置引用调度，保持独立目录）
+
+| 子技能 | 路径 | 触发时机 | 说明 |
+|--------|------|----------|------|
+| qualityAudit | `skills/quality-audit/` | post-delivery | 五大维度质量审计（需求满足、代码质量、研发标准、评测标准、交付完整性） |
+| architectureReview | `skills/architecture-review-pipeline/` | pre-release | 多角色架构评审流水线（engineer→qa→tribunal） |
+| selfCheckScanners | `skills/self-check-scanners/` | daily-patrol | 系统自省扫描器（认知盲区、返工分析、完成度、纠偏采集、语义检测） |
+
+调度方式：
+```javascript
+const aeo = require('./skills/aeo');
+// 调度子技能
+const result = await aeo.invokeSubSkill('qualityAudit', { mode: 'full' });
+// 列出所有质量能力
+const caps = aeo.listQualityCapabilities();
+```
+
+### B. 内部模块（代码搬入AEO目录）
+
+| 模块 | 文件 | 原路径 | 说明 |
+|------|------|--------|------|
+| iscDocQuality | `modules/isc-doc-quality.js` | `skills/isc-document-quality/` | ISC文档质量评估（四维度评分） |
+| layeredArchCheck | `modules/layered-arch-check.js` | `skills/layered-architecture-checker/` | 分层架构合规检查（三层+解耦） |
+
+调用方式：
+```javascript
+const aeo = require('./skills/aeo');
+// 文档质量评估
+const report = aeo.assessDocQuality('/path/to/skill');
+// 架构检查CLI命令
+const cmd = aeo.getLayeredArchCheckCmd('/path/to/target', { json: true });
+```
+
+> 原目录保留redirect stub，确保向后兼容。
 
 ## 核心组件
 
@@ -105,24 +143,33 @@ skills/aeo/
 ├── aeo.cjs                          # Phase 1 MVP入口
 ├── check.cjs                        # 基础检查脚本
 ├── config/
-│   ├── aeo-config.json             # 系统配置
+│   ├── aeo-config.json             # 系统配置（含subSkills + internalModules）
 │   ├── checklist.json              # 准入检查清单
 │   └── lto-subscriptions.json      # DTO订阅
+├── modules/                         # 🆕 内部模块（从外部技能搬入）
+│   ├── isc-doc-quality.js          # ISC文档质量评估
+│   └── layered-arch-check.js       # 分层架构合规检查
+├── pdca/                            # PDCA持续改进引擎
 ├── src/evaluation/
 │   ├── selector.cjs                # ✅ 轨道选择器
 │   ├── ai-effect-evaluator.cjs     # ✅ AI效果评测器
 │   ├── function-quality-evaluator.cjs # ✅ 功能质量评测器
 │   ├── test-dual-track.cjs         # ✅ 测试套件
 │   └── README.md                   # 使用文档
+├── index.js                         # 主入口（含子技能调度器）
 └── SKILL.md                        # 本文件
 ```
 
-## Phase 2 交付清单
+## Phase 2.1 交付清单
 
 - [x] selector.cjs - 轨道自动选择
 - [x] ai-effect-evaluator.cjs - AI效果评测
 - [x] function-quality-evaluator.cjs - 功能质量评测
 - [x] 测试通过 (16/16)
+- [x] 子技能调度器 - invokeSubSkill() 统一调度3个外部质量子技能
+- [x] 内部模块整合 - isc-doc-quality + layered-arch-check 搬入modules/
+- [x] 原目录redirect保持向后兼容
+- [x] aeo-config.json 注册 subSkills + internalModules
 
 ---
 
