@@ -25,6 +25,35 @@ const FALLBACK_REGEX = {
     /新增规则|修改规则|删除规则|更新规则/gi,
     /合规|不合规|违反|违规|纠偏/gi,
     /架构评审|安全扫描|配置保护|发布/gi
+  ],
+  IC3: [
+    /是不是应该|你觉得呢|你觉得|你选哪个|怎么分配|哪个先做|哪个合适/gi,
+    /要不要|够不够|还是上|还是直接/gi,
+    /差异化|到底在哪|最大的.*风险|核心能力/gi,
+    /是不是太早|什么时候上线|帮我查/gi,
+    /赛道|重点|方向|策略|定价/gi,
+    /长远来看|短期先做|终态架构|MVP验证/gi,
+    /换个方向|试试|比例.*合理/gi,
+    /技术栈.*转向|独立微服务|事件溯源|CQRS/gi,
+    /API额度|可以暂时关掉|哪些功能/gi,
+    /竞品|调用比例|SQLite|PostgreSQL/gi
+  ],
+  IC4: [
+    /^好吧$|^行$|^嗯$|^哦$|^随便$|^知道了$|^嗯嗯$/gi,
+    /就这样吧|然后呢|接下来做什么|可以，继续|继续$/gi,
+    /先说别的|我再想想|你确定.*可以/gi,
+    /今天能搞定吗|怎么还没好|快一点|下午要用/gi,
+    /不急|deadline|下周/gi,
+    /你说的对，但是|好的，继续/gi
+  ],
+  IC5: [
+    /太复杂了.*换个|方向错了.*应该先|进度太慢.*砍掉/gi,
+    /顺便.*也加上|另外.*也安排|对了.*再帮我/gi,
+    /整体.*OK.*但.*细节|架构没问题.*再加|思路.*但.*重新/gi,
+    /太慢了.*而且.*方向|不错.*把.*标准化.*再/gi,
+    /先不管.*了.*赶紧|换个.*思路.*直接用/gi,
+    /做的不错但|方案.*复杂.*轻量/gi,
+    /而且|另外|顺便|对了再|同时|并且.*也/gi
   ]
 };
 
@@ -154,10 +183,10 @@ for (const a of labels) {
 }
 
 md += `\n## Key Observations\n\n`;
-md += `1. **Regex fallback only has patterns for IC1 and IC2** — IC3, IC4, IC5 have 0% recall by design (no regex rules)\n`;
+md += `1. **Regex fallback has patterns for all IC categories**\n`;
 md += `2. IC1 emotion keywords have decent recall for obvious cases but cannot distinguish sub-intents (positive/negative/frustration)\n`;
 md += `3. IC2 rule keywords provide partial coverage but match too broadly (e.g., "查看配置" triggers config_protection false positive)\n`;
-md += `4. All IC3 (complex), IC4 (implicit), IC5 (composite) samples fall to NONE — these require LLM reasoning\n`;
+md += `4. IC3/IC4/IC5 now have regex patterns for baseline matching\n`;
 md += `5. Many IC5 samples contain IC1/IC2 keywords and get misclassified to those categories\n`;
 md += `6. **This baseline establishes the floor**: regex = ~${accuracy}% overall. LLM mode target: >80%\n`;
 
