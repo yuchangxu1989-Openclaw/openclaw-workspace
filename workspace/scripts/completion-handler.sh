@@ -12,4 +12,8 @@ node "$SCRIPT_DIR/check-stale-tasks.js" --fix --quiet >> /root/.openclaw/workspa
 # 看板刷新+飞书推送（后台执行，不阻塞主流程）
 bash /root/.openclaw/workspace/skills/public/multi-agent-dispatch/scripts/auto-refresh.sh >> /root/.openclaw/workspace/logs/auto-refresh.log 2>&1 &
 
+# 任务完成后自动触发质量审计（quick模式，后台执行，不阻塞completion流程）
+echo "[completion] 触发质量审计(quick)..."
+node /root/.openclaw/workspace/skills/quality-audit/index.js quick --json >> /root/.openclaw/workspace/logs/quality-audit-auto.log 2>&1 &
+
 exit $HANDLER_EXIT

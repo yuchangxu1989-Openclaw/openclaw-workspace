@@ -15,6 +15,7 @@
  *   auto-qa        子Agent完成后快速审计（需agentId/taskLabel）
  *   isc-audit      仅ISC规则合规审计
  *   scan           扫描指定目录的代码质量
+ *   quick          只审计最近commit变更文件（completion-handler自动触发）
  *
  * CLI: node index.js [mode] [--json] [--agent=X] [--task=X] [--path=X]
  * 事件总线: 完成后发布 quality.audit.completed
@@ -394,12 +395,16 @@ function auditV4Alignment(input, logger) {
     // 评测集检查
     const evalsJson = path.join(skillsDir, d, 'evals', 'evals.json');
     if (fs.existsSync(evalsJson)) {
-      const evals = readJson(evalsJson);
-      if (evals && Array.isArray(evals) && evals.length > 0) {
+      const raw = readJson(evalsJson);
+      // 兼容两种格式: 顶层数组 [] 或 { evaluations: [] }
+      const evals = Array.isArray(raw) ? raw
+        : (raw && Array.isArray(raw.evaluations)) ? raw.evaluations
+        : null;
+      if (evals && evals.length > 0) {
         withEvals++;
-        // 检查正例/反例均衡
-        const positive = evals.filter(e => e.expected === true || e.should_trigger === true);
-        const negative = evals.filter(e => e.expected === false || e.should_trigger === false);
+        // 检查正例/反例均衡 — 兼容 expected/should_trigger 布尔 和 type 字符串
+        const positive = evals.filter(e => e.expected === true || e.should_trigger === true || e.type === 'positive');
+        const negative = evals.filter(e => e.expected === false || e.should_trigger === false || e.type === 'negative');
         if (positive.length === 0 || negative.length === 0) {
           issues.push({ check: '评测集均衡', severity: 'medium', file: d, message: `正例${positive.length}/反例${negative.length}，缺乏均衡` });
         }
@@ -616,6 +621,49 @@ function autoQA(input, logger) {
   return result;
 }
 
+/** quick: 只审计最近一次commit涉及的文件（completion-handler自动调用） */
+function quickAudit(input, logger) {
+  logger.info?.('[quick-audit] 快速审计（最近commit变更文件）');
+
+  // 获取最近一次commit涉及的文件
+  const diff = sh('git diff --name-only HEAD~1 HEAD 2>/dev/null || git diff --name-only HEAD 2>/dev/null');
+  const changedFiles = diff ? diff.split('\n').filter(Boolean) : [];
+
+  if (changedFiles.length === 0) {
+    logger.info?.('[quick-audit] 无变更文件，跳过');
+    const result = {
+      mode: 'quick', verdict: 'pass', score: 10, changedFiles: [],
+      message: '无变更文件', timestamp: new Date().toISOString(),
+    };
+    result.reportPath = writeReport('quick', result);
+    return result;
+  }
+
+  // 只跑两个维度: 代码质量 + 交付完整性
+  const dimensions = {
+    codeQuality: auditCodeQuality({ ...input, scanPath: null }, logger),
+    delivery: auditDelivery(input, logger),
+  };
+
+  const score = Math.round(
+    dimensions.codeQuality.score * 0.6 +
+    dimensions.delivery.score * 0.4
+  );
+  const verdict = dimVerdict(score);
+
+  const result = {
+    mode: 'quick', verdict, score, dimensions, changedFiles,
+    fileCount: changedFiles.length,
+    timestamp: new Date().toISOString(),
+  };
+  result.reportPath = writeReport('quick', result);
+
+  publishEvent('quality.audit.completed', { mode: 'quick', verdict, score, fileCount: changedFiles.length, reportPath: result.reportPath });
+
+  logger.info?.(`[quick-audit] ${verdict} ${score}/10 (${changedFiles.length}个文件)`);
+  return result;
+}
+
 /** isc-audit: 仅ISC规则合规 */
 function iscAudit(input, logger) {
   logger.info?.('[isc-audit] ISC规则合规审计');
@@ -649,8 +697,9 @@ async function run(input, context) {
     case 'auto-qa':           return autoQA(input, logger);
     case 'isc-audit':         return iscAudit(input, logger);
     case 'scan':              return auditCodeQuality(input, logger);
+    case 'quick':             return quickAudit(input, logger);
     default:
-      return { ok: false, error: `未知模式: ${mode}，支持: full | auto-qa | isc-audit | scan` };
+      return { ok: false, error: `未知模式: ${mode}，支持: full | auto-qa | isc-audit | scan | quick` };
   }
 }
 

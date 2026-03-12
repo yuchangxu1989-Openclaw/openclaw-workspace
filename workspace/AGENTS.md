@@ -81,6 +81,14 @@ exec: bash /root/.openclaw/workspace/scripts/completion-handler.sh <label> <done
 
 完整生命周期：spawn → register-task.sh → 等completion → **completion-handler.sh** → 验收 → 回复用户
 
+### completion后自动质量审计（ISC-AUTO-QA-ON-COMPLETION-001，永久生效）
+
+任务完成后completion-handler.sh自动触发quality-audit（quick模式），无需手动。
+- quick模式只审计最近一次commit涉及的文件（代码质量+交付完整性）
+- 后台执行，不阻塞completion流程
+- 审计结果写入 `reports/quality-audit/quick-*.json`
+- 审计失败只报告，不拦截任务完成
+
 ## 重要报告写作钢印（长期生效）
 
 ### ISC-REPORT-READABILITY-001
