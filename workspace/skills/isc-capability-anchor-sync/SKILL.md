@@ -37,3 +37,17 @@ cat /root/.openclaw/workspace/CAPABILITY-ANCHOR.md
 - ISC规则：`skills/isc-core/rules/*.json`
 - 技能目录：`skills/`
 - 输出文档：`CAPABILITY-ANCHOR.md`
+
+## 强制读取机制（合并自 capability-anchor 技能）
+
+**核心问题**：CAPABILITY-ANCHOR.md 存在 ≠ 被读取。没有强制读取机制 = 必定遗忘。
+
+**设计意图**：
+- AGENTS.md 第3条强制要求每次会话读取 CAPABILITY-ANCHOR.md
+- 同步器不仅要生成文档，还要确保文档被消费
+- 每次会话前应自动检查锚点文档是否过期
+
+**验收标准**：
+- [ ] CAPABILITY-ANCHOR.md 自动生成 ✅（已实现）
+- [ ] AGENTS.md 强制读取条款存在
+- [ ] 会话启动时自动检查锚点文档时效性

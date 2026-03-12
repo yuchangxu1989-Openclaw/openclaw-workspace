@@ -10,7 +10,7 @@ DESCRIPTION="${3:-}"
 WRONG_CHAIN="${4:-}"
 CORRECT_CHAIN="${5:-}"
 ROOT_CAUSE="${6:-}"
-# V4评测字段（可选）
+# 评测字段（可选，版本从isc-core/config动态读取）
 SCORING_RUBRIC="${7:-}"
 NORTH_STAR_INDICATOR="${8:-}"
 GATE="${9:-}"

@@ -36,7 +36,7 @@ module.exports = async function (event, rule, context) {
   const wrongChain = payload.wrong_chain || '';
   const correctChain = payload.correct_chain || '';
   const rootCause = payload.root_cause || '';
-  // V4评测字段
+  // 评测字段（版本从isc-core/config动态读取）
   const scoringRubric = payload.scoring_rubric || undefined;
   const northStarIndicator = payload.north_star_indicator || undefined;
   const gate = payload.gate || undefined;
@@ -82,7 +82,7 @@ module.exports = async function (event, rule, context) {
     correct_chain: correctChain,
     root_cause: rootCause,
     source_event: eventType,
-    // V4评测字段
+    // 评测字段（版本从isc-core/config动态读取）
     scoring_rubric: scoringRubric,
     north_star_indicator: northStarIndicator,
     gate: gate,

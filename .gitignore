@@ -10,8 +10,8 @@ infrastructure/mr/dist/
 infrastructure/mr/node_modules/
 
 # ===== 向量缓存（可重建）=====
-infrastructure/vector-service/vectors/
-infrastructure/vector-service/backup/
+workspace/infrastructure/vector-service/vectors/
+workspace/infrastructure/vector-service/backup/
 
 # ===== 信号/队列文件 =====
 **/.signals/
@@ -34,6 +34,8 @@ workspace/logs/
 workspace/memory/pdca-execution-log.jsonl
 workspace/cras_insight_dashboard.json
 workspace/infrastructure/event-bus/cursor.json
+workspace/infrastructure/event-bus/events.jsonl
+workspace/scripts/.probe-state.json
 
 # ===== 运行时数据目录（根治空转bump）=====
 workspace/memory/
@@ -41,8 +43,6 @@ workspace/reports/
 workspace/cras/reports/
 workspace/cras/knowledge/
 workspace/cras/config/user-profile.json
-workspace/reports/**/*.json
-workspace/reports/**/*.txt
 
 # ===== SEEF运行时产物 =====
 workspace/reports/seef*/
@@ -52,6 +52,50 @@ workspace/reports/seef-evolution-history/
 workspace/reports/seef-optimization-plans/
 workspace/reports/seef-validations/
 workspace/reports/seef/
+workspace/infrastructure/reports/seef/
+
+# ===== 用户上传媒体文件 =====
+media/inbound/
+
+# ===== Agent工作区目录 =====
+agents/
+
+# ===== Session归档 =====
+archives/
+
+# ===== 其他workspace克隆（子Agent工作区）=====
+workspace-architect*/
+workspace-worker*/
+workspace-coder*/
+workspace-cron-worker*/
+workspace-researcher*/
+workspace-reviewer*/
+workspace-analyst*/
+workspace-scout*/
+workspace-writer*/
+
+# ===== 本地数据库 =====
+memos-local/
+
+# ===== 运行时日志 =====
+workspace/infrastructure/logs/
+
+# ===== 事件总线（重复目录）=====
+workspace/event-bus/
+
+# ===== 设备认证 =====
+identity/
+
+# ===== 备份文件 =====
+*.bak
+*.bak.*
+
+# ===== 事件总线信号错误 =====
+workspace/infrastructure/event-bus/signals/
+
+# ===== 工作区临时目录 =====
+workspace/tmp/
+workspace/skills/public/eval-runner/results/
 
 # ===== 临时文件 =====
 .DS_Store
@@ -69,6 +113,5 @@ workspace/reports/seef/
 workspace/skills/evomap-uploader/capsule-*.json
 workspace/skills/evomap-uploader/gene-*.json
 workspace/infrastructure/dispatcher/dispatched/
-workspace/infrastructure/event-bus/events.jsonl
 workspace/skills/isc-core/.rules-snapshot.json
 openclaw.json

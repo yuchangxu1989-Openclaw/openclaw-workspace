@@ -1,17 +1,17 @@
 {
   "eval_standard_schema": "infrastructure/aeo/eval-standard-schema.json",
-  "eval_standard_version": "V4",
+  "eval_standard_config": "skills/isc-core/config/eval-standard-version.json",
   "_note": "quality_rules synced from eval-standard-schema.json — schema is the single source of truth",
   "batch_size": 10,
   "max_cases_per_task": 10,
   "hard_limit": true,
   "lines_per_batch": 500,
-  "v4_standard_doc": "JxhNdoc7ko7ZLwxJUJHcWyeDnYd",
+  "standard_doc_note": "doc_token已迁移至 skills/isc-core/config/eval-standard-version.json",
   "output_dir": "tests/benchmarks/intent/c2-golden/",
   "max_concurrent": 16,
   "golden_case_reference": "tests/benchmarks/intent/c2-golden/00-real-badcases.json",
   "auto_sync_on_standard_change": true,
-  "standard_version_cache": "skills/public/eval-mining/.v4-version-hash",
+  "standard_version_cache": "skills/public/eval-mining/.eval-standard-version-hash",
   "quality_rules": {
     "required_fields": ["id", "input", "expected_output", "category", "difficulty", "source"],
     "c2_requirements": {

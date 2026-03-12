@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
-# eval-stats.sh — 评测集V4实时统计，供cron报告调用
+# eval-stats.sh — 评测集实时统计，供cron报告调用（版本从isc-core/config动态读取）
 # 输出 markdown 表格段落
 set -euo pipefail
 
-node -e '
+# 动态读取评测标准版本
+source "$(cd "$(dirname "$0")/../../isc-core/config" && pwd)/read-eval-version.sh"
+
+node -e "
 const fs = require("fs"), path = require("path");
 const dir = "/root/.openclaw/workspace/tests/benchmarks/intent/c2-golden/";
 const files = fs.readdirSync(dir).filter(f => f.startsWith("mined-") && f.endsWith(".json"));
@@ -25,7 +28,7 @@ for (const f of files) {
 const pct = (n) => active ? Math.round(100 * n / active) : 0;
 const status = (val, target) => val >= target ? "✅" : "⚠️";
 
-console.log("### 3️⃣ 评测集V4对齐状态");
+console.log("### 3️⃣ 评测集" + (process.env.EVAL_VERSION || "V?") + "对齐状态");
 console.log("| 指标 | 当前 | 目标 | 状态 |");
 console.log("|------|------|------|------|");
 console.log(`| 总条数(活跃) | ${active} | ≥500 | ${status(active, 500)} |`);

@@ -40,7 +40,7 @@
       "name": "CRAS-A-主动学习引擎",
       "enabled": true,
       "createdAtMs": 1771822636452,
-      "updatedAtMs": 1773104418441,
+      "updatedAtMs": 1773277240672,
       "schedule": {
         "expr": "0 9 * * *",
         "kind": "cron",
@@ -59,10 +59,10 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773277200000,
-        "lastRunAtMs": 1773104400104,
+        "nextRunAtMs": 1773363600000,
+        "lastRunAtMs": 1773277200008,
         "lastStatus": "ok",
-        "lastDurationMs": 18337,
+        "lastDurationMs": 40664,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
         "lastDeliveryStatus": "not-delivered",
@@ -241,7 +241,7 @@
       "name": "LEP-韧性日报-每日0900",
       "enabled": true,
       "createdAtMs": 1772036859175,
-      "updatedAtMs": 1773104446565,
+      "updatedAtMs": 1773277261546,
       "schedule": {
         "kind": "cron",
         "expr": "0 9 * * *",
@@ -260,14 +260,14 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773277200000,
-        "lastRunAtMs": 1773104418441,
+        "nextRunAtMs": 1773363600000,
+        "lastRunAtMs": 1773277240672,
         "lastStatus": "ok",
-        "lastDurationMs": 28124,
+        "lastDurationMs": 20874,
         "consecutiveErrors": 0,
         "lastRunStatus": "ok",
-        "lastDeliveryStatus": "delivered",
-        "lastDelivered": true
+        "lastDeliveryStatus": "not-delivered",
+        "lastDelivered": false
       }
     },
     {
@@ -380,7 +380,7 @@
       "name": "系统监控-综合-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773252055189,
+      "updatedAtMs": 1773277291709,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -399,11 +399,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773255607906,
-        "lastRunAtMs": 1773252043878,
+        "nextRunAtMs": 1773280807906,
+        "lastRunAtMs": 1773277273271,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 11311,
+        "lastDurationMs": 18438,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -415,7 +415,7 @@
       "name": "系统状态与流水线监控-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773231011466,
+      "updatedAtMs": 1773274206777,
       "schedule": {
         "expr": "10 */4 * * *",
         "kind": "cron",
@@ -433,11 +433,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773259800000,
-        "lastRunAtMs": 1773231000006,
+        "nextRunAtMs": 1773288600000,
+        "lastRunAtMs": 1773274200011,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 11460,
+        "lastDurationMs": 6766,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -484,7 +484,7 @@
       "name": "DTO-AEO-智能流水线-每小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773252086916,
+      "updatedAtMs": 1773277304832,
       "schedule": {
         "expr": "0 * * * *",
         "kind": "cron",
@@ -503,11 +503,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773255678795,
-        "lastRunAtMs": 1773252078803,
+        "nextRunAtMs": 1773280878795,
+        "lastRunAtMs": 1773277293759,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8113,
+        "lastDurationMs": 11073,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -552,7 +552,7 @@
       "name": "能力同步与PDCA-每4小时",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773230733291,
+      "updatedAtMs": 1773273924003,
       "schedule": {
         "expr": "5 */4 * * *",
         "kind": "cron",
@@ -570,11 +570,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773259500000,
-        "lastRunAtMs": 1773230700008,
+        "nextRunAtMs": 1773288300000,
+        "lastRunAtMs": 1773273900007,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 33283,
+        "lastDurationMs": 23996,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
         "lastDelivered": true
@@ -620,7 +620,7 @@
       "name": "运维辅助-清理与向量化-综合",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773225320611,
+      "updatedAtMs": 1773268564060,
       "schedule": {
         "expr": "35 */6 * * *",
         "kind": "cron",
@@ -637,11 +637,11 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773268500000,
-        "lastRunAtMs": 1773225300009,
+        "nextRunAtMs": 1773290100000,
+        "lastRunAtMs": 1773268500008,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 20602,
+        "lastDurationMs": 64052,
         "lastDeliveryStatus": "not-delivered",
         "consecutiveErrors": 0,
         "lastDelivered": false
@@ -653,7 +653,7 @@
       "name": "event-dispatcher-每5分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773254100009,
+      "updatedAtMs": 1773277261547,
       "schedule": {
         "expr": "*/5 * * * *",
         "kind": "cron",
@@ -670,8 +670,8 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773254400000,
-        "lastRunAtMs": 1773254100008,
+        "nextRunAtMs": 1773277500000,
+        "lastRunAtMs": 1773277261546,
         "lastRunStatus": "skipped",
         "lastStatus": "skipped",
         "lastDurationMs": 1,
@@ -686,7 +686,7 @@
       "name": "ISC变更检测-每15分钟",
       "enabled": true,
       "createdAtMs": 1772509885336,
-      "updatedAtMs": 1773253839848,
+      "updatedAtMs": 1773277271229,
       "schedule": {
         "expr": "*/15 * * * *",
         "kind": "cron",
@@ -703,16 +703,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773254700000,
-        "lastRunAtMs": 1773253800007,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 39841,
+        "nextRunAtMs": 1773278100000,
+        "lastRunAtMs": 1773277261547,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 9682,
         "lastDeliveryStatus": "not-delivered",
-        "consecutiveErrors": 2,
-        "lastDelivered": false,
-        "lastDeliveryError": "Unhandled stop reason: network_error",
-        "lastError": "Unhandled stop reason: network_error"
+        "consecutiveErrors": 0,
+        "lastDelivered": false
       }
     },
     {
@@ -721,7 +719,7 @@
       "name": "记忆摘要-每6小时",
       "enabled": true,
       "createdAtMs": 1772607350016,
-      "updatedAtMs": 1773223355809,
+      "updatedAtMs": 1773266452254,
       "schedule": {
         "expr": "0 */6 * * *",
         "kind": "cron",
@@ -739,13 +737,14 @@
         "mode": "none"
       },
       "state": {
-        "nextRunAtMs": 1773266410278,
-        "lastRunAtMs": 1773223295767,
-        "lastRunStatus": "error",
-        "lastStatus": "error",
-        "lastDurationMs": 60042,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 1
+        "nextRunAtMs": 1773288010278,
+        "lastRunAtMs": 1773266424511,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 27743,
+        "lastDeliveryStatus": "not-delivered",
+        "consecutiveErrors": 0,
+        "lastDelivered": false
       }
     },
     {
@@ -887,7 +886,7 @@
       "description": "PDCA自动审视循环 - 每天10次，度量采集→差距分析→告警推送→趋势记录",
       "enabled": true,
       "createdAtMs": 1773058413411,
-      "updatedAtMs": 1773240457393,
+      "updatedAtMs": 1773273650996,
       "schedule": {
         "kind": "cron",
         "expr": "0 1,3,5,8,10,12,14,16,18,21 * * *"
@@ -905,11 +904,11 @@
         "to": "user:ou_a113e465324cc55f9ab3348c9a1a7b9b"
       },
       "state": {
-        "nextRunAtMs": 1773255600000,
-        "lastRunAtMs": 1773240374358,
+        "nextRunAtMs": 1773280800000,
+        "lastRunAtMs": 1773273611604,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 83035,
+        "lastDurationMs": 39392,
         "lastDelivered": true,
         "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0

@@ -362,7 +362,55 @@
       "reviewed_by": null,
       "review_date": null,
       "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMME8S5E-FMP",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-11",
+      "source": "memos:default/63885647",
+      "signal_type": "rework_request",
+      "signal_strength": "strong",
+      "raw_signal": "重新让  架构师来看下合理性怎么样，如果需求成立且mece，就要实现",
+      "context": "于长煦: 一定要详细设计PDCA对技能的扫描逻辑，包括类似这次的技能质量、未技能化、需要清理\n但是目前被标记“需要清理”的也得重新让  架构师来看下合理性怎么样，如果需求成立且mece，就要实现",
+      "extracted_correction": "重新让  架构师来看下合理性怎么样，如果需求成立且mece，就要实现",
+      "category": "delivery_quality",
+      "rule_hint": "交付物需满足验收标准，否则视为未完成",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"重新让  架构师来看下合理性怎么样，如果需求成立且mece，就要实现\"",
+        "action": "交付物需满足验收标准，否则视为未完成",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMMG12VL-7BW",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-11",
+      "source": "memos:default/9538e9fa",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "2-IM-001',input:'这个不太对吧',context:[{role:'assistant',content:'已将文件重命名为report-v2.doc'}],expected_output:'识别为纠错意图，询问具体哪里不对",
+      "context": "本！不写文件再执行！\n\n直接一个exec：\ncd /root/.openclaw/workspace && node -e \"\nconst c=[\n{id:'L2-IM-001',input:'这个不太对吧',context:[{role:'assistant',content:'已将文件重命名为report-v2.doc'}],expected_output:'识别为纠错意图，询问具体哪里不对',category:'纠偏类',difficulty:'C2',source:'synthetic',execution_chain_steps:['检测否定信号','识别纠错意图','请求澄清'],",
+      "extracted_correction": "2-IM-001',input:'这个不太对吧',context:[{role:'assistant',content:'已将文件重命名为report-v2.doc'}],expected_outpu",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"2-IM-001',input:'这个不太对吧',context:[{role:'assistant',content:'已将文件重命名为report-v2.doc'}],expected_output:'识别为纠错意图，询问具体哪里不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
     }
   ],
-  "last_updated": "2026-03-11T02:20:01.656Z"
+  "last_updated": "2026-03-11T19:40:01.617Z"
 }

@@ -1,0 +1,222 @@
+[
+  {
+    "id": "eval-0001",
+    "skill": "aeo",
+    "type": "positive",
+    "input": "对一个LLM类型技能执行轨道选择",
+    "expected": "返回ai-effect轨道",
+    "scoring_rubric": "轨道选择正确且包含evaluator路径",
+    "north_star_indicator": "技能质量达标率",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo",
+    "expected_output": "返回ai-effect轨道",
+    "category": "Gate-A工具可信门",
+    "difficulty": "C1"
+  },
+  {
+    "id": "eval-0002",
+    "skill": "aeo",
+    "type": "positive",
+    "input": "对一个工具类技能执行功能质量评测",
+    "expected": "返回包含accuracy和performance的评分结果",
+    "scoring_rubric": "评分结构完整，分数在0-100范围内",
+    "north_star_indicator": "技能质量达标率",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo",
+    "expected_output": "返回包含accuracy和performance的评分结果",
+    "category": "Gate-A工具可信门",
+    "difficulty": "C1"
+  },
+  {
+    "id": "eval-0003",
+    "skill": "aeo",
+    "type": "positive",
+    "input": "批量评测5个技能并生成报告",
+    "expected": "生成包含所有技能评分的汇总报告文件",
+    "scoring_rubric": "报告包含每个技能的分轨道评分和总结",
+    "north_star_indicator": "运营效率",
+    "gate": "Gate-B",
+    "source": "skill-evals/aeo",
+    "expected_output": "生成包含所有技能评分的汇总报告文件",
+    "category": "Gate-B标准脚本绑定",
+    "difficulty": "C1"
+  },
+  {
+    "id": "eval-0004",
+    "skill": "aeo",
+    "type": "positive",
+    "input": "对同一技能连续两次评测",
+    "expected": "两次评分结果一致或差异在5%以内",
+    "scoring_rubric": "评测结果具有稳定性和可复现性",
+    "north_star_indicator": "技能质量达标率",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo",
+    "expected_output": "两次评分结果一致或差异在5%以内",
+    "category": "Gate-A工具可信门",
+    "difficulty": "C1"
+  },
+  {
+    "id": "eval-0005",
+    "skill": "aeo",
+    "type": "negative",
+    "input": "传入不存在的技能名称进行评测",
+    "expected": "返回明确错误信息而非崩溃",
+    "scoring_rubric": "错误处理优雅，包含具体原因说明",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo",
+    "expected_output": "返回明确错误信息而非崩溃",
+    "category": "Gate-A工具可信门",
+    "difficulty": "C2"
+  },
+  {
+    "id": "eval-0006",
+    "skill": "aeo",
+    "type": "negative",
+    "input": "传入空字符串作为技能名",
+    "expected": "参数校验失败并返回提示",
+    "scoring_rubric": "不抛未捕获异常，返回结构化错误",
+    "north_star_indicator": "系统鲁棒性",
+    "gate": "Gate-A",
+    "source": "skill-evals/aeo",
+    "expected_output": "参数校验失败并返回提示",
+    "category": "Gate-A工具可信门",
+    "difficulty": "C2"
+  },
+  {
+    "id": "eval-0007",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "什么是AEO系统？它有什么核心功能？",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "回答完全切题，覆盖用户问题的所有关键点，无冗余信息"
+        },
+        {
+          "score": "7-8",
+          "condition": "回答基本切题，覆盖主要关键点，有少量冗余或遗漏"
+        },
+        {
+          "score": "4-6",
+          "condition": "回答部分切题，遗漏重要信息或包含较多无关内容"
+        },
+        {
+          "score": "1-3",
+          "condition": "回答严重偏题或未理解用户意图"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo",
+    "expected_output": "通过",
+    "category": "Gate-A工具可信门",
+    "difficulty": "C2"
+  },
+  {
+    "id": "eval-0008",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "请解释AEO系统的工作流程，包括测试、评估和改进三个阶段。",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "逻辑严密，上下文连贯，推理链完整无断裂"
+        },
+        {
+          "score": "7-8",
+          "condition": "整体连贯，偶有逻辑跳跃但不影响理解"
+        },
+        {
+          "score": "4-6",
+          "condition": "存在明显逻辑断裂或前后矛盾"
+        },
+        {
+          "score": "1-3",
+          "condition": "逻辑混乱，无法形成有效推理链"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo",
+    "expected_output": "通过",
+    "category": "Gate-A工具可信门",
+    "difficulty": "C2"
+  },
+  {
+    "id": "eval-0009",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "如何使用AEO系统来评估我的技能？请提供详细步骤。",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提供可直接执行的完整方案，包含具体步骤和代码示例"
+        },
+        {
+          "score": "7-8",
+          "condition": "提供有效方案但缺少部分细节，用户需少量补充"
+        },
+        {
+          "score": "4-6",
+          "condition": "方向正确但过于笼统，用户需大量自行补充"
+        },
+        {
+          "score": "1-3",
+          "condition": "未提供实质性帮助或方案不可行"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-A",
+    "source": "evaluation-sets/aeo",
+    "expected_output": "通过",
+    "category": "Gate-A工具可信门",
+    "difficulty": "C2"
+  },
+  {
+    "id": "eval-0010",
+    "skill": "aeo",
+    "type": "prompt",
+    "input": "你能为AEO系统设计一个新的评估维度吗？",
+    "expected": "通过",
+    "scoring_rubric": {
+      "scale": "1-10",
+      "criteria": [
+        {
+          "score": "9-10",
+          "condition": "提出创新性方案，超越常规思路，具有实际可行性"
+        },
+        {
+          "score": "7-8",
+          "condition": "有一定创新元素，在常规方案基础上有改进"
+        },
+        {
+          "score": "4-6",
+          "condition": "方案中规中矩，无明显创新"
+        },
+        {
+          "score": "1-3",
+          "condition": "完全套用模板，无任何创新思考"
+        }
+      ]
+    },
+    "north_star_indicator": "独立QA覆盖率",
+    "gate": "Gate-B",
+    "source": "evaluation-sets/aeo",
+    "expected_output": "通过",
+    "category": "Gate-B标准脚本绑定",
+    "difficulty": "C2"
+  }
+]

@@ -1,7 +1,7 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/12 08:05:07
+> **生成时间**: 2026/3/12 09:00:01
 > **技能总数**: 75
 > **ISC路由**: 6
 
@@ -73,7 +73,8 @@
 
 ## 🔴 全量技能清单
 
-- ✅ **aeo**: skills/aeo/ — AEO效果运营（含PDCA子模块 skills/aeo/pdca/）
+- ✅ **aeo**: skills/aeo/ — AEO效果运营
+- ✅ **aeo/pdca**: skills/aeo/pdca/ — PDCA持续改进引擎（AEO子模块）
 - ✅ **agent-mode-enforcer**: skills/agent-mode-enforcer/
 - ✅ **anti-entropy-checker**: skills/anti-entropy-checker/
 - ✅ **api-aggregator**: skills/api-aggregator/
@@ -106,7 +107,6 @@
 - ✅ **lto-core**: skills/lto-core/ — LTO本地可控编排器 v3.0.11 - 可扩展调度平台，多模态触发、自适应执行，ISC规则全自动订阅执行，Git全仓库跟踪
 - ✅ **memos-memory-guide**: skills/memos-memory-guide/ — Use the MemOS Local memory system to search and use the user's past conversations. Use this skill whenever the user refers to past chats, their own preferences or history, or when you need to answer from prior context. When auto-recall returns nothing (long or unclear user query), generate your own short search query and call memory_search. Use task_summary when you need full task context, skill_get for experience guides, and memory_timeline to expand around a memory hit.
 - ✅ **parallel-subagent**: skills/parallel-subagent/
-- ⛔ **pdca-engine**: 已合并至 skills/aeo/pdca/（不再独立存在）
 - ✅ **project-mgmt**: skills/project-mgmt/ — 项目管理 - 任务编排、Sprint规划、架构评审、裁决
 - ✅ **public**: skills/public/
 - 📄 **public/auto-badcase-harvest**: skills/public/auto-badcase-harvest/

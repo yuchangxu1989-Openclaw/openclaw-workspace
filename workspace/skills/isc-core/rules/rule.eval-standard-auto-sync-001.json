@@ -2,7 +2,7 @@
     "id": "rule.eval-standard-auto-sync-001",
     "event_type": "eval.standard.version.changed",
     "name": "评测标准变更自动同步评测集",
-    "description": "当V4评测标准文档(JxhNdoc7ko7ZLwxJUJHcWyeDnYd)内容发生变更时，自动触发评测集合规刷新，确保所有评测用例与最新标准口径对齐。",
+    "description": "当评测标准文档内容发生变更时，自动触发评测集合规刷新，确保所有评测用例与最新标准口径对齐。版本和doc_token从 skills/isc-core/config/eval-standard-version.json 动态读取。",
     "trigger": {
         "events": [
             "eval.standard.version.changed"
@@ -10,7 +10,7 @@
     },
     "action": "auto-refresh evalset against new standard",
     "enforcement": "programmatic",
-    "hook": "scripts/sync-v4-standard.sh",
+    "hook": "scripts/sync-eval-standard.sh",
     "source_skill": "eval-mining",
     "created": "2026-03-09",
     "fullchain_status": "expanded",

@@ -1,0 +1,32 @@
+{
+    "id": "ISC-BOARD-REFRESH-AFTER-SPAWN-001",
+    "rule_id": "rule.board-refresh-after-spawn-001",
+    "event_type": "subagent.spawned",
+    "name": "Spawn后必须刷新看板",
+    "description": "主Agent每次sessions_spawn + register-task.sh之后，必须立即执行看板刷新脚本push-board-now.js，确保用户实时看到任务状态变化。不刷新=Badcase。",
+    "trigger": {
+        "event": "subagent.spawned",
+        "events": [
+            "subagent.spawned",
+            "agent.task.registered"
+        ]
+    },
+    "action": {
+        "type": "script",
+        "command": "node /root/.openclaw/workspace/scripts/push-board-now.js",
+        "fallback": "bash /root/.openclaw/workspace/skills/public/multi-agent-dispatch/scripts/auto-refresh.sh"
+    },
+    "priority": "P0",
+    "severity": "high",
+    "enforcement": "mandatory",
+    "created": "2026-03-12",
+    "rationale": "主Agent spawn子agent后如果不主动刷新看板，用户在飞书端看不到任务调度状态，导致信息不对称。必须程序化强制。",
+    "layer": "operational-rule",
+    "verification": {
+        "method": "script_execution_check",
+        "test_command": "test -f /root/.openclaw/workspace/scripts/push-board-now.js && echo 'script_exists:pass'",
+        "expected_outcome": "spawn后看板自动刷新，用户在飞书收到最新看板卡片",
+        "timeout_seconds": 30,
+        "on_failure": "alert"
+    }
+}

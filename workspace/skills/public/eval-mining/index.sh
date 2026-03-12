@@ -20,7 +20,10 @@ case "$MODE" in
     BATCH_SIZE="$(jq -r '.batch_size' "$CONFIG")"
     LINES_PER_BATCH="$(jq -r '.lines_per_batch' "$CONFIG")"
     OUTPUT_DIR="$(jq -r '.output_dir' "$CONFIG")"
-    V4_DOC="$(jq -r '.v4_standard_doc' "$CONFIG")"
+    # 动态读取评测标准版本
+    EVAL_CFG="$SCRIPT_DIR/../../isc-core/config/eval-standard-version.json"
+    EVAL_VER="$(jq -r '.version' "$EVAL_CFG" 2>/dev/null || echo 'V?')"
+    EVAL_DOC="$(jq -r '.doc_token' "$EVAL_CFG" 2>/dev/null || echo '')"
 
     mkdir -p "$OUTPUT_DIR"
 
@@ -49,7 +52,7 @@ case "$MODE" in
 
         output_file="${OUTPUT_DIR}/mined-${batch_id}.json"
 
-        task="读取文件 ${session_file} 的第 ${start_line} 到 ${end_line} 行。从中挖掘恰好10条C2意图识别评测用例，格式遵循V4标准（参考 feishu_doc token ${V4_DOC}）。用 write 工具将结果写入 ${output_file}，JSON数组格式，每条包含 id/input/expected_output/category/difficulty/source 字段。一次性完成不要等确认。"
+        task="读取文件 ${session_file} 的第 ${start_line} 到 ${end_line} 行。从中挖掘恰好10条C2意图识别评测用例，格式遵循${EVAL_VER}标准（参考 feishu_doc token ${EVAL_DOC}）。用 write 工具将结果写入 ${output_file}，JSON数组格式，每条包含 id/input/expected_output/category/difficulty/source 字段。一次性完成不要等确认。"
 
         spawn_commands+=("$task|$output_file")
         batch_id=$((batch_id + 1))

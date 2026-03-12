@@ -2,7 +2,7 @@
   "id": "ISC-ROUTE-QUALITY-AUDIT",
   "type": "intent-route",
   "skill": "quality-audit",
-  "description": "子Agent完成任务后的自动质量审计技能。覆盖五大维度：需求满足度、代码质量、 研发标准符合性、V4评测标准对齐、交付完整性。输出结构化JSON审计报告， 支持事件总线集成和cron全局扫描。",
+  "description": "子Agent完成任务后的自动质量审计技能。覆盖五大维度：需求满足度、代码质量、 研发标准符合性、评测标准对齐（版本从isc-core/config动态读取）、交付完整性。输出结构化JSON审计报告， 支持事件总线集成和cron全局扫描。",
   "trigger_patterns": [
     "子Agent完成任务后自动触发质量审计",
     "用户要求\"审计质量\"、\"quality.*audit\"、\"QA检查\"",

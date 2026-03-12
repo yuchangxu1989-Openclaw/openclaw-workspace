@@ -1,0 +1,73 @@
+{
+    "id": "rule.skill-creation-must-use-pipeline-001",
+    "event_type": "isc.skill.before_write",
+    "description": "P0铁令：所有技能的创建、修改、删除操作，必须经过 skill-creator 流水线。子Agent不得直接手写技能文件绕过流水线。违反此规则的操作必须被拦截并标记为违规。",
+    "rule_name": "技能操作必须走流水线（P0铁令）",
+    "version": "1.0.0",
+    "severity": "critical",
+    "enforcement": "mandatory",
+    "priority": "P0",
+    "bypass_allowed": false,
+    "source": "于长煦 — 铁令，不可绕过",
+    "trigger": {
+        "events": [
+            "isc.skill.before_create",
+            "isc.skill.before_modify",
+            "isc.skill.before_delete",
+            "isc.skill.before_write",
+            "isc.skill.file_change"
+        ],
+        "conditions": [
+            {
+                "field": "caller.pipeline",
+                "operator": "not_equals",
+                "value": "skill-creator",
+                "description": "当调用者不是 skill-creator 流水线时触发拦截"
+            }
+        ]
+    },
+    "action": {
+        "type": "gate",
+        "handler": "block-and-report",
+        "on_violation": {
+            "block": true,
+            "revert_file_changes": true,
+            "report_to": "主Agent",
+            "log_level": "error",
+            "message": "❌ 违规：技能操作未经 skill-creator 流水线。操作已被拦截。所有技能创建/修改/删除必须通过 skill-creator 流水线执行，不得直接写文件绕过。"
+        }
+    },
+    "scope": {
+        "applies_to": ["all_agents", "all_subagents"],
+        "paths": [
+            "/root/.openclaw/workspace/skills/**/*.json",
+            "/root/.openclaw/workspace/skills/**/*.md",
+            "/root/.openclaw/workspace/skills/**/*.js",
+            "/root/.openclaw/workspace/skills/**/*.sh"
+        ],
+        "exceptions": [
+            {
+                "caller": "skill-creator-pipeline",
+                "description": "skill-creator 流水线本身允许写技能文件"
+            },
+            {
+                "caller": "human-operator",
+                "description": "人工操作（于长煦本人）不受限制"
+            }
+        ]
+    },
+    "examples": {
+        "violation": [
+            "子Agent直接 cat > skills/xxx/skill.json 手写技能文件",
+            "子Agent直接 rm 删除技能文件",
+            "子Agent直接 sed/echo 修改技能JSON"
+        ],
+        "compliant": [
+            "通过 skill-creator 流水线创建技能",
+            "通过 skill-creator 流水线修改技能",
+            "通过 skill-creator 流水线删除技能"
+        ]
+    },
+    "created_at": "2026-03-12T04:40:00+08:00",
+    "created_by": "isc-enforcer subagent on behalf of 于长煦"
+}
