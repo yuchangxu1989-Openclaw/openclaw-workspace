@@ -11,7 +11,7 @@
 0 6 * * * /root/.openclaw/workspace/scripts/cron-regression-smoke.sh >> /root/.openclaw/workspace/infrastructure/logs/cron-smoke.log 2>&1
 0 7 * * * flock -xn /tmp/lh-research.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/research-signal-harvester.js >> /root/.openclaw/workspace/infrastructure/logs/research-signal-harvester.log 2>&1
 0 8 * * * flock -xn /tmp/unknown-unknowns.lock /usr/bin/node /root/.openclaw/workspace/infrastructure/self-check/unknown-unknowns-scanner.js >> /root/.openclaw/workspace/infrastructure/logs/unknown-unknowns.log 2>&1
-0 9 1 * * flock -xn /tmp/lh-cap-growth.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/capability-growth-tracker.js >> /root/.openclaw/workspace/infrastructure/logs/capability-growth.log 2>&1
+0 9 * * 0 flock -xn /tmp/lh-cap-growth.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/capability-growth-tracker.js >> /root/.openclaw/workspace/infrastructure/logs/capability-growth.log 2>&1
 0 9 * * 1 flock -xn /tmp/lh-weekly-evo.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/weekly-evolution-report.sh >> /root/.openclaw/workspace/infrastructure/logs/weekly-evolution-report.log 2>&1
 0 9 * * * flock -xn /tmp/wild-script-discovery.lock bash /root/.openclaw/workspace/scripts/auto-skill-discovery.sh >> /root/.openclaw/workspace/logs/wild-scripts-discovery.log 2>&1
 0 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/capability-anchor-sync.lock /usr/bin/node skills/isc-capability-anchor-sync/index.js >> infrastructure/logs/capability-anchor-sync.log 2>&1
