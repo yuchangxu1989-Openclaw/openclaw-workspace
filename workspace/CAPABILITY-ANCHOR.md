@@ -1,8 +1,8 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
 
-> **生成时间**: 2026/3/12 10:00:02
-> **技能总数**: 75
+> **生成时间**: 2026/3/12 11:00:02
+> **技能总数**: 71
 > **ISC路由**: 6
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
@@ -75,16 +75,12 @@
 
 - ✅ **aeo**: skills/aeo/ — AEO效果运营（含质量子技能体系）
 - ✅ **aeo/pdca**: skills/aeo/pdca/ — PDCA持续改进引擎（AEO子模块）
-- ✅ **agent-mode-enforcer**: skills/agent-mode-enforcer/
 - ✅ **anti-entropy-checker**: skills/anti-entropy-checker/
 - ✅ **api-aggregator**: skills/api-aggregator/
 - ✅ **architecture-review-pipeline**: skills/architecture-review-pipeline/ — 将架构评审流程固化为可执行技能：架构师提交后自动并行工程与质量复审，未通过自动打回，通过后进入裁决殿终审并给出最终裁决。
-- ✅ **convert-helper**: skills/convert-helper/ — 基于知识库分析，高频需求: 格式转换 (出现2次)
 - ✅ **cras**: skills/cras/ — CRAS认知进化伙伴 - 知识管理与认知进化中枢。实现从数据汲取到技能进化的全闭环，包含主动学习引擎、用户洞察分析、知识治理、战略行研、自主进化五大模块。
 - ✅ **cron-health**: skills/cron-health/
-- ✅ **daily-ops-report**: skills/daily-ops-report/
 - ✅ **dispatch-protocol**: skills/dispatch-protocol/
-- ✅ **dto-core**: skills/dto-core/
 - ✅ **evolver**: skills/evolver/ — 自进化引擎 - AI Agent自我演进. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
 - ✅ **evomap-a2a**: skills/evomap-a2a/ — EvoMap A2A连接 - WebSocket连接、自动重连、消息队列
 - ✅ **evomap-publisher**: skills/evomap-publisher/ — EvoMap极简发布器 - 只负责一件事：将SEEF+DTO生成的技能发布到EvoMap网络

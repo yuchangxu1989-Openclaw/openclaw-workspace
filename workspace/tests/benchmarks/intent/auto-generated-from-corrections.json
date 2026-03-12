@@ -588,5 +588,15 @@
     "created_at": "2026-03-11T23:00:01.610Z",
     "data_source": "real_conversation",
     "signal": "# 2026-03-12 记忆日志\n\n---\n\n### [06:00] 自动记忆摘要（过去6小时）\n- 重要变更: 57个 ([OTHER]x57)\n- 空转提交: 0个（已忽略）\n- 事件总线: 6807个事件\n- 关键变更列表:\n  1. [OTHER] backup: MemOS memory dump (1157 chunks, 2026-03-12) - 影响3个文件\n  2. [OTHER] chore(eval): merge all evalset files - 945 valid cases (C1:781 C2:159 C3:5), 60 dupes removed, 7"
+  },
+  {
+    "id": "auto-eval-1773284402325-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "2026-03-12 09:29-10:02 工作记录\n\n### 完成任务\n1. **IC3-IC5意图正则补齐** — benchmark从25%→73.8%，IC3 100%recall，IC4 ",
+    "source": "memory/2026-03-12.md",
+    "created_at": "2026-03-12T03:00:02.324Z",
+    "data_source": "real_conversation",
+    "signal": "2026-03-12 09:29-10:02 工作记录\n\n### 完成任务\n1. **IC3-IC5意图正则补齐** — benchmark从25%→73.8%，IC3 100%recall，IC4 94.1%，IC5 72.7%。commit `4e318c9c9`\n2. **3个微信MCP激活** — 搜狗搜索(18901)、Playwright阅读器(18902)、HTTP阅读器(18903)，全部通过功能测试+注册能力锚点。commit `2bcba98`\n3. **5个质量技能整合入AEO** — quality-audit/architecture-review-pipeline/"
   }
 ]

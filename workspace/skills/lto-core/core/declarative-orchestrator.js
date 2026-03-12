@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 本地任务编排 声明式任务编排中心 - 工作流调度器
+ * 本地任务编排 本地调度编排器 - 工作流调度器
  * 基于ISC标准，编排声明式工作流，调度各模块执行
  */
 
@@ -18,7 +18,7 @@ const PATHS = {
 };
 
 /**
- * 本地任务编排 声明式任务编排平台 - 工作流调度器
+ * 本地任务编排 本地任务编排平台 - 工作流调度器
  */
 class DTODeclarativeOrchestrator {
   constructor() {
@@ -34,7 +34,7 @@ class DTODeclarativeOrchestrator {
    */
   async start() {
     console.log('='.repeat(70));
-    console.log('🎯 本地任务编排 声明式任务编排中心 v3.0.2 - 自动对齐ISC规则');
+    console.log('🎯 本地任务编排 本地调度编排器 v3.0.2 - 自动对齐ISC规则');
     console.log('='.repeat(70));
     
     // 初始化ISC规则订阅
@@ -1304,7 +1304,7 @@ module.exports = {
     queue.push(task);
     fs.writeFileSync(this.taskQueuePath, JSON.stringify(queue, null, 2));
     
-    console.log(`      ✅ 本地任务编排(声明式任务编排中心)对齐任务已创建: ${task.standardName} (${task.priority})`);
+    console.log(`      ✅ 本地任务编排(本地调度编排器)对齐任务已创建: ${task.standardName} (${task.priority})`);
     
     return task;
   }

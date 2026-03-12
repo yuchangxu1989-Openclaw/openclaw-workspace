@@ -1,8 +1,8 @@
 # Auto Debt Scan - Day 0
 
-> 自动生成于: 2026-03-11T02:00:02.399Z
+> 自动生成于: 2026-03-12T03:00:02.613Z
 > 触发器: day0-closure-conditions.md 检测
-> 总计发现: **671 个设计债务项**
+> 总计发现: **696 个设计债务项**
 
 ---
 
@@ -10,16 +10,15 @@
 
 | 类别 | 数量 | 严重度 |
 |------|------|--------|
-| 代码级 TODO/FIXME | 291 | 🔴 高 |
+| 代码级 TODO/FIXME | 312 | 🔴 高 |
 | 配置一致性问题 | 56 | 🔴 高 |
-| 事件对齐缺口 | 324 | 🔴 高 |
+| 事件对齐缺口 | 328 | 🔴 高 |
 
-## 🔧 代码级债务 (291 项)
+## 🔧 代码级债务 (312 项)
 
-### TODO (224)
+### TODO (241)
 
 - `skills/evolver/src/ops/innovation.js:44` — ideas.push("- Dev: Implement a 'todo-manager' that syncs code TODOs to tasks.");
-- `skills/capability-anchor/index.js:12` — // TODO: 实现 capability-anchor 的核心逻辑
 - `skills/lto-core/core/declarative-orchestrator.js:544` — // TODO: 实现自动技能化
 - `skills/lto-core/core/declarative-orchestrator.js:549` — // TODO: 实现自动向量化
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:33` — # TODO: 感知探针 for rule: $RULE_ID ($RULE_NAME)
@@ -28,9 +27,24 @@
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:55` — # TODO: 实现 inotifywait / cron / git hook 等感知机制
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:74` — # TODO: 执行动作脚本 for rule: $RULE_ID ($RULE_NAME)
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:76` — # TODO: 实现规则要求的执行逻辑
-- ... 还有 214 项
+- `skills/public/isc-auto-align/scripts/isc-auto-align.sh:88` — # TODO: 执行动作脚本 for rule: $RULE_ID ($RULE_NAME)
+- ... 还有 231 项
 
-### TEMP (37)
+### BUG (12)
+
+- `skills/public/multi-agent-dispatch/check-stale-tasks.js:249` — // BUG-4: 用 flock 文件锁保护写操作，防止并发写入冲突
+- `skills/feishu-evolver-wrapper/commentary.js:17` — failure: ["BUG DETECTED. DESTROY.", "FAILURE IS UNACCEPTABLE.", "RETRY OR DIE."],
+- `skills/feishu-evolver-wrapper/utils/logger.js:32` — debug: (msg, data) => log('DEBUG', msg, data)
+- `skills/seef/evolution-pipeline/src/__tests__/error-handler.test.js:110` — expect(ErrorSeverity.DEBUG).toBe('debug');
+- `skills/seef/evolution-pipeline/src/error-handler.js:20` — DEBUG: 'debug',
+- `infrastructure/lep-core/executors/base.js:224` — DEBUG: 0,
+- `infrastructure/lep-core/executors/base.js:246` — this._log('DEBUG', message, ...args);
+- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:26` — DEBUG_FOUND=""
+- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:29` — if grep -qn "console\.log\|debugger\|TODO.*HACK\|FIXME.*URGENT" "$f" 2>/dev/null; then
+- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:30` — DEBUG_FOUND="$DEBUG_FOUND $f"
+- ... 还有 2 项
+
+### TEMP (39)
 
 - `skills/public/multi-agent-reporting/examples/basic-usage.js:124` — console.log('  TEMPLATE (pre-filled from plan)');
 - `skills/public/ops-maintenance/scripts/spawn-glm5.sh:16` — TEMP_FILE=$(mktemp)
@@ -38,28 +52,16 @@
 - `skills/public/ops-maintenance/scripts/spawn-glm5.sh:25` — const task = fs.readFileSync('$TEMP_FILE', 'utf8');
 - `skills/public/ops-maintenance/scripts/spawn-glm5.sh:33` — fs.unlinkSync('$TEMP_FILE');
 - `skills/public/ops-maintenance/scripts/spawn-glm5.sh:36` — fs.unlinkSync('$TEMP_FILE');
+- `skills/public/glm-tts/index.sh:20` — TMPDIR=$(mktemp -d /tmp/glm-tts-XXXXXX)
 - `skills/public/pdf-generator/generate.js:19` — const TEMPLATE_DIR = path.join(__dirname, 'templates');
 - `skills/public/pdf-generator/generate.js:20` — const LATEX_TEMPLATE = path.join(TEMPLATE_DIR, 'default.latex');
 - `skills/public/pdf-generator/generate.js:285` — if (fs.existsSync(LATEX_TEMPLATE)) {
-- `skills/public/pdf-generator/generate.js:286` — pandocArgs.push('--template', LATEX_TEMPLATE);
-- ... 还有 27 项
+- ... 还有 29 项
 
-### BUG (12)
+### XXX (18)
 
-- `skills/feishu-evolver-wrapper/commentary.js:17` — failure: ["BUG DETECTED. DESTROY.", "FAILURE IS UNACCEPTABLE.", "RETRY OR DIE."],
-- `skills/feishu-evolver-wrapper/utils/logger.js:32` — debug: (msg, data) => log('DEBUG', msg, data)
-- `skills/seef/evolution-pipeline/src/__tests__/error-handler.test.js:110` — expect(ErrorSeverity.DEBUG).toBe('debug');
-- `skills/seef/evolution-pipeline/src/error-handler.js:20` — DEBUG: 'debug',
-- `infrastructure/lep-core/executors/base.js:224` — DEBUG: 0,
-- `infrastructure/lep-core/executors/base.js:246` — this._log('DEBUG', message, ...args);
-- `scripts/check-stale-tasks.sh:249` — // BUG-4: 用 flock 文件锁保护写操作，防止并发写入冲突
-- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:26` — DEBUG_FOUND=""
-- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:29` — if grep -qn "console\.log\|debugger\|TODO.*HACK\|FIXME.*URGENT" "$f" 2>/dev/null; then
-- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:30` — DEBUG_FOUND="$DEBUG_FOUND $f"
-- ... 还有 2 项
-
-### XXX (16)
-
+- `skills/isc-core/handlers/self-correction-to-rule.js:5` — * Severity: high | Trigger: {"events":["system.behavior.defect_acknowledged"],"detection":{"type":"semantic_intent","int
+- `skills/dispatch-protocol/direct-command-detector.js:27` — // 否定+修正（"不要XXX，要YYY"）
 - `infrastructure/mr/src/sandbox-validator.ts:8` — * - 零硬编码模型名称，使用{{MODEL_XXX}}占位符
 - `infrastructure/mr/src/mr-router.ts:8` — * - 零硬编码模型名称，使用{{MODEL_XXX}}占位符
 - `infrastructure/mr/src/preference-merger.ts:8` — * - 零硬编码模型名称，使用{{MODEL_XXX}}占位符
@@ -68,14 +70,12 @@
 - `infrastructure/mr/dist/preference-merger.d.ts:8` — * - 零硬编码模型名称，使用{{MODEL_XXX}}占位符
 - `infrastructure/mr/dist/intent-classifier.d.ts:7` — * - 零硬编码模型名称，使用{{MODEL_XXX}}占位符
 - `infrastructure/mr/dist/intent-classifier.js:8` — * - 零硬编码模型名称，使用{{MODEL_XXX}}占位符
-- `infrastructure/mr/dist/sandbox-validator.js:9` — * - 零硬编码模型名称，使用{{MODEL_XXX}}占位符
-- `infrastructure/mr/dist/sandbox-validator.d.ts:8` — * - 零硬编码模型名称，使用{{MODEL_XXX}}占位符
-- ... 还有 6 项
+- ... 还有 8 项
 
 ### FIXME (2)
 
-- `infrastructure/self-check/day-completion-scanner.js:416` — if (codeDebt.filter(i => i.tag === 'FIXME').length > 0) {
-- `infrastructure/self-check/day-completion-scanner.js:417` — report += `3. **优先级P1**: 清理 FIXME 标记（${codeDebt.filter(i => i.tag === 'FIXME').length} 项）\n`;
+- `skills/self-check-scanners/scripts/day-completion-scanner.js:416` — if (codeDebt.filter(i => i.tag === 'FIXME').length > 0) {
+- `skills/self-check-scanners/scripts/day-completion-scanner.js:417` — report += `3. **优先级P1**: 清理 FIXME 标记（${codeDebt.filter(i => i.tag === 'FIXME').length} 项）\n`;
 
 ## ⚙️ 配置一致性问题 (56 项)
 
@@ -192,7 +192,7 @@
 - **[orphan_dto_subscription]** DTO订阅 "isc-vectorization.json" 引用的ISC规则不存在: vectorization
   → 在: `skills/lto-core/subscriptions/isc-vectorization.json`
 
-## 📡 事件 Producer/Consumer 对齐 (324 项)
+## 📡 事件 Producer/Consumer 对齐 (328 项)
 
 ### 孤立生产者 (有emit无consume)
 
@@ -211,33 +211,33 @@
 - `task:paused` → skills/aeo/src/evaluation/scheduler.cjs
 - `task:resumed` → skills/aeo/src/evaluation/scheduler.cjs
 - `task:progress` → skills/aeo/src/evaluation/scheduler.cjs
-- ... 还有 229 项
+- ... 还有 231 项
 
 ### 孤立消费者 (有subscribe无emit)
 
 - `data` → skills/aeo/bin/run-eval.js
 - `timeout` → skills/aeo/bin/run-eval.js
-- `skill.registered` → skills/aeo/src/core/aeo-lto-bridge.cjs
-- `cras.insight.high-failure` → skills/aeo/src/core/aeo-lto-bridge.cjs
-- `user.feedback.negative` → skills/aeo/src/core/aeo-lto-bridge.cjs
-- `close` → skills/aeo/src/sandbox/container-pool.cjs
-- `input` → skills/aeo/src/sandbox/sandbox-runtime.js
-- `complete` → skills/aeo/src/sandbox/sandbox-runtime.js
-- `exit` → skills/cras/cras-b-fixed.js
-- `SIGINT` → skills/cras/insight-enhancer.js
-- `uncaughtException` → skills/cras/insight-enhancer.js
-- `SIGTERM` → skills/evolver/index.js
-- `open` → skills/evomap-a2a/index.js
-- ` + crons.length + ` → skills/feishu-card-sender/collect-and-report-progress.js
-- `circuit_breaker` → skills/feishu-evolver-wrapper/index.js
-- ... 还有 65 项
+- `rs-test-1` → skills/aeo/pdca/tests/test-role-separation.js
+- `rs-test-2` → skills/aeo/pdca/tests/test-role-separation.js
+- `rs-test-3` → skills/aeo/pdca/tests/test-role-separation.js
+- `rs-test-4` → skills/aeo/pdca/tests/test-role-separation.js
+- `rs-test-bad-${badEval}` → skills/aeo/pdca/tests/test-role-separation.js
+- `test-task-1` → skills/aeo/pdca/tests/test-state-machine.js
+- `test-task-2` → skills/aeo/pdca/tests/test-state-machine.js
+- `test-task-3` → skills/aeo/pdca/tests/test-state-machine.js
+- `test-task-4` → skills/aeo/pdca/tests/test-state-machine.js
+- `test-task-4b` → skills/aeo/pdca/tests/test-state-machine.js
+- `test-task-5` → skills/aeo/pdca/tests/test-state-machine.js
+- `test-task-6` → skills/aeo/pdca/tests/test-state-machine.js
+- `test-task-7` → skills/aeo/pdca/tests/test-state-machine.js
+- ... 还有 67 项
 
 ## 🎯 修复建议
 
 2. **优先级P0**: 修复 ISC 规则中的技能引用
 3. **优先级P1**: 清理 FIXME 标记（2 项）
 4. **优先级P2**: 补全孤立事件的 consumer 或移除无用 producer
-5. **优先级P3**: 逐步清理 TODO 标记（224 项）
+5. **优先级P3**: 逐步清理 TODO 标记（241 项）
 
 ---
 *由 infrastructure/self-check/day-completion-scanner.js 自动生成*

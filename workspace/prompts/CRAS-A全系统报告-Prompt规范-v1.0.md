@@ -30,7 +30,7 @@ kimi_search "AI agent memory architecture 2026 multi-graph" limit=3
 // 搜索2: 技能安全扫描
 kimi_search "agent skill security scanning Snyk 2026" limit=3
 
-// 搜索3: 声明式编排
+// 搜索3: 本地调度编排
 kimi_search "declarative orchestration workflow YAML 2026" limit=3
 
 // 搜索4: 多Agent协调
@@ -132,7 +132,7 @@ exec ls /root/.openclaw/workspace/cras/ 2>/dev/null || echo "检查cras目录"
 - 成熟度：初阶/中阶/高阶
 - 主要缺口：____
 
-#### 2.4 本地任务编排-Core（声明式任务编排）
+#### 2.4 本地任务编排-Core（本地任务编排）
 ```bash
 exec ls /root/.openclaw/workspace/skills/lto-core/core/
 read /root/.openclaw/workspace/skills/lto-core/core/global-auto-decision-pipeline.js limit=100
@@ -240,7 +240,7 @@ read /root/.openclaw/workspace/evolver/run.sh limit=50
 - 用户画像维度扩展
 
 #### 本地任务编排-Core
-- 声明式编排语言扩展
+- 本地调度编排语言扩展
 - 工作流可视化
 - 与LangGraph对比差距分析
 - 多租户支持
@@ -320,7 +320,7 @@ read /root/.openclaw/workspace/evolver/run.sh limit=50
 - CVE漏洞分析
 - Snyk合作动态
 
-### 2.3 声明式编排演进
+### 2.3 本地调度编排演进
 - Kestra/YAML生态
 - 多租户模型
 - 云编排趋势

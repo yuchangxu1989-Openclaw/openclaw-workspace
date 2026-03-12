@@ -63,7 +63,7 @@ class DTOPlatform {
   async initialize() {
     console.log(`\n${'='.repeat(60)}`);
     console.log(`🏗️  ${this.name} v${this.version}`);
-    console.log(`   声明式任务编排平台`);
+    console.log(`   本地任务编排平台`);
     console.log(`${'='.repeat(60)}\n`);
     
     // 加载任务定义

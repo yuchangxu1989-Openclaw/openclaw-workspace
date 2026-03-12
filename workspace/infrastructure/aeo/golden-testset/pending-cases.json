@@ -410,7 +410,31 @@
       "reviewed_by": null,
       "review_date": null,
       "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMMV7N1E-IY4",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-12",
+      "source": "memos:default/fa221f8d",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "1. session对象里没有startTime字段，或字段名不对",
+      "context": "0m\\|分钟\\|minute\" /root/.openclaw/workspace/scripts/push-board-now.js\n```\n\n可能的原因：\n1. session对象里没有startTime字段，或字段名不对\n2. 时间差计算逻",
+      "extracted_correction": "1. session对象里没有startTime字段，或字段名不对\n2. 时间差计算逻",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"1. session对象里没有startTime字段，或字段名不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
     }
   ],
-  "last_updated": "2026-03-11T19:40:01.617Z"
+  "last_updated": "2026-03-12T02:45:01.922Z"
 }
