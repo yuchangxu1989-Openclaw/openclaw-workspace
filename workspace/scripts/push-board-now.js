@@ -78,6 +78,7 @@ const AGENT_MODEL_FALLBACK = {
 };
 const DEFAULT_MODEL_FALLBACK = 'claude-opus-4-6-thinking';
 
+const CHECK_ONLY = process.argv.includes('--check-only');
 const now = Date.now();
 const todayStr     = new Date(now + TZ_OFFSET).toISOString().slice(0, 10);
 const todayStartMs = new Date(todayStr + 'T00:00:00+08:00').getTime();
@@ -385,6 +386,10 @@ const recentDoneDisplay = recentDone.slice(0, 10).map(({ task, agent, model, sta
 
 console.log(`[stats] running=${rows.length} todayDone=${todayDone} todayTimeout=${todayTimeout} todayFailed=${todayFailed} totalDone=${totalDone} recentDone=${recentDoneDisplay.length}`);
 console.log(`[stats] running: ${rows.map(r => r.task).join(', ') || '(none)'}`);
+
+if (CHECK_ONLY) {
+  process.exit(0);
+}
 
 // ── 7. Get Feishu token ──
 const tokenResp = JSON.parse(execSync(
