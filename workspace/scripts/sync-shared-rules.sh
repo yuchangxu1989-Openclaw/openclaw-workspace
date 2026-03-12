@@ -28,3 +28,42 @@ for ws in /root/.openclaw/workspace-*/; do
 done
 
 echo "[$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S %Z')] sync done" >> "$LOG_FILE"
+
+# --- 追加工作规范到SOUL.md ---
+RULES_MARKER="跨Agent共享工作规范"
+for ws in /root/.openclaw/workspace-*/; do
+  [ -d "$ws" ] || continue
+  SOUL="$ws/SOUL.md"
+  if [ -f "$SOUL" ] && ! grep -q "$RULES_MARKER" "$SOUL" 2>/dev/null; then
+    cat >> "$SOUL" << 'RULESEOF'
+
+## 🔒 跨Agent共享工作规范（铁令）
+
+### 工作目录
+主项目根目录：`/root/.openclaw/workspace`
+你的默认cwd可能不是这个目录，**执行任何命令前必须先**：
+```bash
+cd /root/.openclaw/workspace
+```
+
+### 时区
+所有日期/时间使用 Asia/Shanghai (GMT+8)。
+
+### 禁止事项
+1. 禁止执行 `openclaw doctor --fix`
+2. 禁止修改 openclaw.json
+3. 禁止删除 shared/paths.js、evomap数据文件、public/子目录
+4. 找不到文件先 `ls` 确认路径，不要猜
+
+### 提交规范
+改完代码必须：
+```bash
+cd /root/.openclaw/workspace
+git add <具体文件>
+git commit -m "<type>(<scope>): <description>"
+git push
+```
+RULESEOF
+    echo "$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M:%S') SOUL_INJECT $ws" >> infrastructure/logs/sync-shared-rules.log
+  fi
+done
