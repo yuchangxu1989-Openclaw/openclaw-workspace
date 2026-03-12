@@ -3,6 +3,8 @@
  * evolution-daily-report.js
  * 自主进化日报系统：每天自动总结复盘当天进化，关键沉淀自动闭环。
  * cron: 0 22 * * * (flock防重入)
+ * 
+ * v2: 结构化三段式 + 纯文本飞书推送 + 行动闭环追踪
  */
 
 const fs = require('fs');
@@ -10,8 +12,16 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const WORKSPACE = process.env.WORKSPACE || '/root/.openclaw/workspace';
-const TODAY = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-const YESTERDAY = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+// Use Asia/Shanghai timezone
+function getShanghaiDate(offsetDays = 0) {
+  const d = new Date(Date.now() + offsetDays * 86400000);
+  const shanghai = new Date(d.toLocaleString('en-US', { timeZone: 'Asia/Shanghai' }));
+  return shanghai.toISOString().slice(0, 10);
+}
+
+const TODAY = getShanghaiDate(0);
+const YESTERDAY = getShanghaiDate(-1);
 const IS_TEST = process.argv.includes('--test');
 
 // ─── Feishu Config ───
@@ -28,17 +38,18 @@ function readJsonOr(filePath, fallback) {
   try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch { return fallback; }
 }
 
-function execOr(cmd, fallback = '') {
-  try { return execSync(cmd, { cwd: WORKSPACE, encoding: 'utf8', timeout: 15000 }).trim(); } catch { return fallback; }
+function readJsonlOr(filePath) {
+  try {
+    return fs.readFileSync(filePath, 'utf8')
+      .split('\n')
+      .filter(Boolean)
+      .map(l => { try { return JSON.parse(l); } catch { return null; } })
+      .filter(Boolean);
+  } catch { return []; }
 }
 
-function appendIfMissing(filePath, marker, content) {
-  const existing = readFileOr(filePath);
-  if (!existing.includes(marker)) {
-    fs.appendFileSync(filePath, '\n' + content + '\n');
-    return true;
-  }
-  return false;
+function execOr(cmd, fallback = '') {
+  try { return execSync(cmd, { cwd: WORKSPACE, encoding: 'utf8', timeout: 15000 }).trim(); } catch { return fallback; }
 }
 
 // ─── Feishu API Helpers ───
@@ -73,7 +84,6 @@ async function getFeishuTenantToken() {
     'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
     { app_id: appId, app_secret: appSecret }
   );
-  // This endpoint returns code 0 but token is in tenant_access_token field
   if (!data.tenant_access_token) {
     throw new Error('获取 tenant_access_token 失败: ' + JSON.stringify(data));
   }
@@ -90,38 +100,18 @@ async function createFeishuDoc(token, title) {
   if (!doc?.document_id) {
     throw new Error('创建飞书文档失败: ' + JSON.stringify(data));
   }
-  return { documentId: doc.document_id, blockId: doc.document_id }; // root block_id = document_id
+  return { documentId: doc.document_id, blockId: doc.document_id };
 }
 
-function mdToFeishuBlocks(md) {
+/**
+ * Convert markdown to Feishu blocks - PLAIN TEXT ONLY to avoid error 1770001
+ * Only use: heading1/2/3 and paragraph (no code, no divider)
+ */
+function mdToFeishuBlocksPlain(md) {
   const blocks = [];
   const lines = md.split('\n');
-  let inCodeBlock = false;
-  let codeContent = '';
 
   for (const line of lines) {
-    if (line.startsWith('```')) {
-      if (inCodeBlock) {
-        blocks.push({
-          block_type: 14,
-          code: {
-            elements: [{ text_run: { content: codeContent.trimEnd() || ' ', text_element_style: {} } }],
-            style: { language: 1 }
-          }
-        });
-        codeContent = '';
-        inCodeBlock = false;
-      } else {
-        inCodeBlock = true;
-      }
-      continue;
-    }
-
-    if (inCodeBlock) {
-      codeContent += line + '\n';
-      continue;
-    }
-
     if (line.startsWith('# ')) {
       blocks.push({
         block_type: 3,
@@ -138,12 +128,17 @@ function mdToFeishuBlocks(md) {
         heading3: { elements: [{ text_run: { content: line.slice(4), text_element_style: {} } }] }
       });
     } else if (line.startsWith('---')) {
-      blocks.push({ block_type: 22, divider: {} });
+      // Skip dividers - they cause 1770001
+      continue;
     } else if (line.trim()) {
-      // Handle bold markers **text** → just plain text (feishu blocks don't do inline MD)
+      // Plain paragraph - strip markdown formatting
+      const plainText = line
+        .replace(/\*\*(.+?)\*\*/g, '$1')
+        .replace(/\*(.+?)\*/g, '$1')
+        .replace(/`(.+?)`/g, '$1');
       blocks.push({
         block_type: 2,
-        paragraph: { elements: [{ text_run: { content: line, text_element_style: {} } }] }
+        paragraph: { elements: [{ text_run: { content: plainText, text_element_style: {} } }] }
       });
     }
   }
@@ -152,8 +147,7 @@ function mdToFeishuBlocks(md) {
 }
 
 async function writeFeishuDocContent(token, documentId, blockId, mdContent) {
-  const blocks = mdToFeishuBlocks(mdContent);
-  // Feishu API allows max 50 blocks per request, batch if needed
+  const blocks = mdToFeishuBlocksPlain(mdContent);
   const BATCH_SIZE = 50;
   for (let i = 0; i < blocks.length; i += BATCH_SIZE) {
     const batch = blocks.slice(i, i + BATCH_SIZE);
@@ -192,7 +186,6 @@ async function publishToFeishu(report, date) {
   const blockCount = await writeFeishuDocContent(token, documentId, blockId, report);
   console.log(`[feishu] 内容已写入: ${blockCount} 个块`);
 
-  // Send message notification
   const msgText = `📊 进化日报已生成\n📄 ${title}\n🔗 ${docUrl}`;
   await sendFeishuMessage(token, FEISHU_RECEIVE_ID, msgText);
   console.log('[feishu] 消息已推送');
@@ -213,27 +206,8 @@ async function testFeishuConnectivity() {
   try {
     const token = await getFeishuTenantToken();
     console.log('[test] ✅ tenant_access_token 获取成功');
-
-    // Create a test doc and delete it
     const { documentId } = await createFeishuDoc(token, `[测试] 日报推送测试 ${new Date().toISOString()}`);
     console.log(`[test] ✅ 测试文档创建成功: ${documentId}`);
-
-    // Try to delete the test doc via drive API
-    try {
-      const delRes = await fetch(`https://open.feishu.cn/open-apis/drive/v1/files/${documentId}?type=docx`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const delData = await delRes.json();
-      if (delData.code === 0) {
-        console.log('[test] ✅ 测试文档已清理');
-      } else {
-        console.log(`[test] ⚠️ 测试文档清理失败(非致命): ${delData.msg}`);
-      }
-    } catch {
-      console.log('[test] ⚠️ 测试文档清理跳过');
-    }
-
     console.log('[test] ✅ 飞书API连通性验证通过');
   } catch (e) {
     console.error('[test] ❌ 飞书API连通性验证失败:', e.message);
@@ -242,6 +216,70 @@ async function testFeishuConnectivity() {
 }
 
 // ─── 1. Data Collection ───
+
+function collectGitLog() {
+  const log = execOr(`git log --since="${TODAY}T00:00:00+08:00" --oneline 2>/dev/null`, '');
+  if (!log) return { commits: [], count: 0 };
+  const commits = log.split('\n').filter(Boolean).map(line => {
+    const [hash, ...msgParts] = line.split(' ');
+    return { hash, message: msgParts.join(' ') };
+  });
+  return { commits, count: commits.length };
+}
+
+function analyzeCommits(commits) {
+  const stats = { features: 0, fixes: 0, refactors: 0, docs: 0, chores: 0, other: 0 };
+  const details = { features: [], fixes: [], other: [] };
+  
+  for (const c of commits) {
+    const msg = c.message.toLowerCase();
+    if (msg.startsWith('feat') || msg.includes('feature')) {
+      stats.features++;
+      details.features.push(c.message);
+    } else if (msg.startsWith('fix') || msg.includes('fix')) {
+      stats.fixes++;
+      details.fixes.push(c.message);
+    } else if (msg.startsWith('refactor')) {
+      stats.refactors++;
+    } else if (msg.startsWith('doc') || msg.includes('docs')) {
+      stats.docs++;
+    } else if (msg.startsWith('chore') || msg.startsWith('ci')) {
+      stats.chores++;
+    } else {
+      stats.other++;
+      details.other.push(c.message);
+    }
+  }
+  return { stats, details };
+}
+
+function collectSkillChanges() {
+  const skillsDir = path.join(WORKSPACE, 'skills');
+  const changes = { newSkills: [], modifiedSkills: [], deletedSkills: [] };
+  
+  try {
+    // Check git diff for skills directory
+    const diff = execOr(`git diff --name-status HEAD~10 -- skills/ 2>/dev/null`, '');
+    if (diff) {
+      for (const line of diff.split('\n').filter(Boolean)) {
+        const [status, file] = line.split('\t');
+        const skillMatch = file?.match(/skills\/([^\/]+)/);
+        if (skillMatch) {
+          const skillName = skillMatch[1];
+          if (status === 'A' && !changes.newSkills.includes(skillName)) {
+            changes.newSkills.push(skillName);
+          } else if (status === 'M' && !changes.modifiedSkills.includes(skillName)) {
+            changes.modifiedSkills.push(skillName);
+          } else if (status === 'D' && !changes.deletedSkills.includes(skillName)) {
+            changes.deletedSkills.push(skillName);
+          }
+        }
+      }
+    }
+  } catch {}
+  
+  return changes;
+}
 
 function collectTaskBoard() {
   const board = readJsonOr(path.join(WORKSPACE, 'logs/subagent-task-board.json'), { tasks: [] });
@@ -258,13 +296,23 @@ function collectTaskBoard() {
 
 function collectPDCA() {
   const filePath = path.join(WORKSPACE, 'reports/pdca-check-history.jsonl');
-  const content = readFileOr(filePath);
-  if (!content) return { today: [], yesterday: [] };
-  const lines = content.split('\n').filter(Boolean);
-  const all = lines.map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
-  const today = all.filter(r => (r.timestamp || r.date || '').startsWith(TODAY));
-  const yesterday = all.filter(r => (r.timestamp || r.date || '').startsWith(YESTERDAY));
+  const records = readJsonlOr(filePath);
+  const today = records.filter(r => (r.timestamp || r.date || '').startsWith(TODAY));
+  const yesterday = records.filter(r => (r.timestamp || r.date || '').startsWith(YESTERDAY));
   return { today, yesterday };
+}
+
+function collectQualityAudit() {
+  const auditFile = path.join(WORKSPACE, 'reports/quality-audit-latest.json');
+  const audit = readJsonOr(auditFile, null);
+  if (!audit) return null;
+  
+  return {
+    timestamp: audit.timestamp || audit.generatedAt,
+    score: audit.score || audit.overallScore,
+    issues: (audit.issues || []).slice(0, 5),
+    summary: audit.summary
+  };
 }
 
 function collectBadcases() {
@@ -279,208 +327,254 @@ function collectBadcases() {
   return { newFiles: files, count: files.length };
 }
 
-function collectMemory() {
-  const memFile = path.join(WORKSPACE, `memory/${TODAY}.md`);
-  return readFileOr(memFile, '(无今日记忆条目)');
+// ─── 2. Action Backlog Management ───
+
+function getActionBacklogPath() {
+  return path.join(WORKSPACE, 'reports/evolution/action-backlog.jsonl');
 }
 
-function collectGitLog() {
-  return execOr(`git log --since="${TODAY}T00:00:00" --oneline 2>/dev/null`, '(无今日提交)');
+function loadPreviousActions() {
+  const backlogFile = getActionBacklogPath();
+  const actions = readJsonlOr(backlogFile);
+  // Get actions from last 7 days
+  const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+  return actions.filter(a => (a.date || '') >= weekAgo);
 }
 
-function collectCRAS() {
-  const logFile = path.join(WORKSPACE, 'infrastructure/logs/cras-intent-insight.log');
-  const content = readFileOr(logFile);
-  if (!content) return '(无CRAS洞察)';
-  const todayLines = content.split('\n').filter(l => l.includes(TODAY));
-  return todayLines.length > 0 ? todayLines.join('\n') : '(今日无CRAS洞察)';
+function saveActionToBacklog(actions) {
+  const backlogFile = getActionBacklogPath();
+  fs.mkdirSync(path.dirname(backlogFile), { recursive: true });
+  
+  for (const action of actions) {
+    const entry = {
+      date: TODAY,
+      action: action.text,
+      priority: action.priority || 'medium',
+      source: 'daily-report',
+      status: 'pending'
+    };
+    fs.appendFileSync(backlogFile, JSON.stringify(entry) + '\n');
+  }
 }
 
-// ─── 2. Report Generation ───
+function checkPreviousActionsStatus() {
+  const previous = loadPreviousActions();
+  const results = [];
+  
+  for (const action of previous) {
+    // Simple heuristic: check if similar commit message exists
+    const gitLog = execOr(`git log --since="${action.date}T00:00:00+08:00" --oneline 2>/dev/null`, '');
+    const keywords = action.action.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+    const found = keywords.some(kw => gitLog.toLowerCase().includes(kw));
+    
+    results.push({
+      action: action.action,
+      date: action.date,
+      likelyCompleted: found
+    });
+  }
+  
+  return results;
+}
 
-function generateReport(data) {
-  const { tasks, pdca, badcases, memory, gitLog, cras } = data;
+// ─── 3. Structured Report Generation ───
 
-  // PDCA delta
-  let pdcaDelta = '';
+function generateStructuredReport(data) {
+  const { gitData, skillChanges, tasks, pdca, qualityAudit, badcases, previousActions } = data;
+  
+  // Section 1: 今日变更摘要
+  const commitAnalysis = analyzeCommits(gitData.commits);
+  const skillChangeCount = skillChanges.newSkills.length + skillChanges.modifiedSkills.length;
+  
+  let summarySection = `## 今日变更摘要
+
+- 代码提交: ${gitData.count} 个 (${commitAnalysis.stats.features} 新功能, ${commitAnalysis.stats.fixes} 修复, ${commitAnalysis.stats.refactors} 重构)
+- 技能变更: ${skillChangeCount} 个 (新增 ${skillChanges.newSkills.length}, 修改 ${skillChanges.modifiedSkills.length})
+- 任务完成: ${tasks.completed.length} / ${tasks.total} (失败 ${tasks.failed.length}, 超时 ${tasks.timeout.length})
+- 新增Badcase: ${badcases.count} 条`;
+
+  // Add notable commits
+  if (commitAnalysis.details.features.length > 0) {
+    summarySection += `\n\n新功能:\n${commitAnalysis.details.features.slice(0, 3).map(f => `- ${f}`).join('\n')}`;
+  }
+  if (commitAnalysis.details.fixes.length > 0) {
+    summarySection += `\n\n修复:\n${commitAnalysis.details.fixes.slice(0, 3).map(f => `- ${f}`).join('\n')}`;
+  }
+
+  // Section 2: 收益/损失分析
+  let benefitSection = `\n## 收益与损失分析`;
+
+  // PDCA scores
   if (pdca.today.length > 0) {
-    const latest = pdca.today[pdca.today.length - 1];
-    const prevLatest = pdca.yesterday.length > 0 ? pdca.yesterday[pdca.yesterday.length - 1] : null;
-    pdcaDelta = `今日最新: ${JSON.stringify(latest.scores || latest.metrics || latest, null, 2)}`;
-    if (prevLatest) {
-      pdcaDelta += `\n昨日最新: ${JSON.stringify(prevLatest.scores || prevLatest.metrics || prevLatest, null, 2)}`;
+    const latestPdca = pdca.today[pdca.today.length - 1];
+    const prevPdca = pdca.yesterday.length > 0 ? pdca.yesterday[pdca.yesterday.length - 1] : null;
+    
+    benefitSection += `\n\nPDCA指标:`;
+    if (latestPdca.scores) {
+      for (const [key, val] of Object.entries(latestPdca.scores)) {
+        const prevVal = prevPdca?.scores?.[key];
+        const delta = prevVal !== undefined ? ` (${val >= prevVal ? '+' : ''}${(val - prevVal).toFixed(1)})` : '';
+        benefitSection += `\n- ${key}: ${val}${delta}`;
+      }
     }
   } else {
-    pdcaDelta = '今日无PDCA检查数据';
+    benefitSection += `\n\nPDCA指标: 今日无检查数据`;
   }
 
-  // Badcase types
-  const badcaseDetail = badcases.count > 0
-    ? badcases.newFiles.map(f => `  - ${f}`).join('\n')
-    : '无新增badcase';
-
-  // Unfinished
-  const unfinished = [...tasks.failed, ...tasks.timeout];
-  const unfinishedList = unfinished.length > 0
-    ? unfinished.map(t => `  - [${t.status}] ${t.label || t.task || t.id || 'unknown'}`).join('\n')
-    : '无';
-
-  // Git summary
-  const commitCount = gitLog === '(无今日提交)' ? 0 : gitLog.split('\n').length;
-
-  // Tomorrow priorities
-  const priorities = [];
-  if (unfinished.length > 0) priorities.push('处理未完成/失败任务');
-  if (badcases.count > 0) priorities.push(`消化${badcases.count}条新增badcase`);
-  if (pdca.today.length === 0) priorities.push('运行PDCA检查');
-  if (priorities.length === 0) priorities.push('继续推进当前进化路线');
-
-  const report = `# 进化日报 ${TODAY}
-
-## 📊 今日进化摘要
-
-- 任务完成: ${tasks.completed.length} | 失败: ${tasks.failed.length} | 超时: ${tasks.timeout.length} | 总计: ${tasks.total}
-- 代码提交: ${commitCount} 次
-- 新增Badcase: ${badcases.count} 条
-- PDCA检查: ${pdca.today.length} 次
-
-### 今日代码提交
-\`\`\`
-${gitLog}
-\`\`\`
-
-### 今日记忆条目
-${memory.slice(0, 2000)}${memory.length > 2000 ? '\n...(已截断)' : ''}
-
-## 📈 关键指标变化
-${pdcaDelta}
-
-## 🐛 Badcase统计
-新增 ${badcases.count} 条:
-${badcaseDetail}
-
-## ⏳ 未完成项
-${unfinishedList}
-
-## 🔍 CRAS洞察
-${cras.slice(0, 1000)}${cras.length > 1000 ? '\n...(已截断)' : ''}
-
-## 🎯 明日优先级建议
-${priorities.map((p, i) => `${i + 1}. ${p}`).join('\n')}
-
----
-*自动生成于 ${new Date().toISOString()}*
-`;
-
-  return report;
-}
-
-// ─── 3. Auto-Sediment (自动沉淀闭环) ───
-
-function extractLessons(data) {
-  const lessons = [];
-  const { tasks, badcases } = data;
-
-  // Extract from failed tasks
-  for (const t of tasks.failed) {
-    if (t.rootCause || t.lesson) {
-      lessons.push({
-        marker: `[${TODAY}:fail:${t.id || t.label}]`,
-        text: `- **[${TODAY} 失败教训]** ${t.label || t.task}: ${t.rootCause || t.lesson}`
-      });
+  // Quality audit
+  if (qualityAudit) {
+    benefitSection += `\n\n质量审计 (最后更新: ${qualityAudit.timestamp || '未知'}):`;
+    if (qualityAudit.score !== undefined) {
+      benefitSection += `\n- 综合得分: ${qualityAudit.score}`;
+    }
+    if (qualityAudit.issues && qualityAudit.issues.length > 0) {
+      benefitSection += `\n- 待处理问题: ${qualityAudit.issues.length} 条`;
     }
   }
 
-  // Extract from badcases with root cause
+  // Task success rate
+  const taskSuccessRate = tasks.total > 0 ? ((tasks.completed.length / tasks.total) * 100).toFixed(1) : 'N/A';
+  benefitSection += `\n\n任务成功率: ${taskSuccessRate}%`;
+
+  // Losses
+  if (badcases.count > 0 || tasks.failed.length > 0 || tasks.timeout.length > 0) {
+    benefitSection += `\n\n损失项:`;
+    if (badcases.count > 0) benefitSection += `\n- 新增Badcase ${badcases.count} 条需消化`;
+    if (tasks.failed.length > 0) benefitSection += `\n- ${tasks.failed.length} 个任务失败`;
+    if (tasks.timeout.length > 0) benefitSection += `\n- ${tasks.timeout.length} 个任务超时`;
+  }
+
+  // Section 3: 明日行动建议
+  let actionSection = `\n## 明日行动建议`;
+
+  // Check previous actions status first
+  const pendingActions = previousActions.filter(a => !a.likelyCompleted).slice(0, 2);
+  if (pendingActions.length > 0) {
+    actionSection += `\n\n(上次未完成: ${pendingActions.map(a => a.action).join(', ')})`;
+  }
+
+  const suggestions = [];
+  
+  // Priority 1: Failed/timeout tasks
+  if (tasks.failed.length > 0 || tasks.timeout.length > 0) {
+    suggestions.push({
+      text: `重试失败/超时任务 (${tasks.failed.length + tasks.timeout.length}个)`,
+      priority: 'high'
+    });
+  }
+  
+  // Priority 2: Badcases
   if (badcases.count > 0) {
-    lessons.push({
-      marker: `[${TODAY}:badcase:${badcases.count}]`,
-      text: `- **[${TODAY} Badcase]** 新增${badcases.count}条: ${badcases.newFiles.slice(0, 5).join(', ')}`
+    suggestions.push({
+      text: `消化新增badcase (${badcases.count}条)`,
+      priority: 'high'
+    });
+  }
+  
+  // Priority 3: Quality issues
+  if (qualityAudit?.issues?.length > 3) {
+    suggestions.push({
+      text: `处理质量审计问题 (${qualityAudit.issues.length}条)`,
+      priority: 'medium'
+    });
+  }
+  
+  // Priority 4: PDCA improvement
+  if (pdca.today.length > 0) {
+    const latest = pdca.today[pdca.today.length - 1];
+    if (latest.scores) {
+      const lowest = Object.entries(latest.scores).sort((a, b) => a[1] - b[1])[0];
+      if (lowest && lowest[1] < 80) {
+        suggestions.push({
+          text: `提升${lowest[0]}指标 (当前${lowest[1]})`,
+          priority: 'medium'
+        });
+      }
+    }
+  }
+  
+  // Default suggestion
+  if (suggestions.length === 0) {
+    suggestions.push({
+      text: '继续推进当前进化路线',
+      priority: 'low'
     });
   }
 
-  return lessons;
-}
+  // Limit to 3 suggestions
+  const topSuggestions = suggestions.slice(0, 3);
+  actionSection += '\n\n' + topSuggestions.map((s, i) => `${i + 1}. [${s.priority.toUpperCase()}] ${s.text}`).join('\n');
 
-function autoSediment(lessons) {
-  const todoFile = path.join(WORKSPACE, 'logs/todo-programmatic.md');
-  let appended = 0;
+  // Assemble report
+  const report = `# 进化日报 ${TODAY}
 
-  // 写入MemOS（MEMORY.md已废弃）
-  try {
-    const memos = require('/root/.openclaw/workspace/scripts/memos-reader');
-    if (memos.isAvailable && memos.isAvailable()) {
-      // memos-reader是只读的，沉淀通过MemOS插件自动完成
-      // 这里只记录到todo文件
-    }
-  } catch {}
+${summarySection}
 
-  // Check if any lessons are programmable (heuristic: contains keywords)
-  const programmable = lessons.filter(l =>
-    /重复|每次|总是|always|pattern|规律|固化/.test(l.text)
-  );
+${benefitSection}
 
-  if (programmable.length > 0) {
-    const todoContent = programmable.map(l => `- [ ] 待程序化: ${l.text}`).join('\n');
-    const existing = readFileOr(todoFile);
-    if (!existing.includes(TODAY)) {
-      fs.appendFileSync(todoFile, `\n## ${TODAY}\n${todoContent}\n`);
-    }
-  }
+${actionSection}
 
-  return { appended, programmable: programmable.length };
+---
+生成时间: ${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}
+`;
+
+  return { report, suggestions: topSuggestions };
 }
 
 // ─── Main ───
 
 async function main() {
-  // --test mode: just verify feishu API connectivity
   if (IS_TEST) {
     await testFeishuConnectivity();
     return;
   }
 
-  console.log(`[evolution-daily-report] 开始生成 ${TODAY} 日报...`);
+  console.log(`[evolution-daily-report] 开始生成 ${TODAY} 日报 (Asia/Shanghai)...`);
 
-  const data = {
-    tasks: collectTaskBoard(),
-    pdca: collectPDCA(),
-    badcases: collectBadcases(),
-    memory: collectMemory(),
-    gitLog: collectGitLog(),
-    cras: collectCRAS(),
-  };
+  // Collect all data
+  const gitData = collectGitLog();
+  const skillChanges = collectSkillChanges();
+  const tasks = collectTaskBoard();
+  const pdca = collectPDCA();
+  const qualityAudit = collectQualityAudit();
+  const badcases = collectBadcases();
+  const previousActions = checkPreviousActionsStatus();
 
-  const report = generateReport(data);
+  // Generate structured report
+  const { report, suggestions } = generateStructuredReport({
+    gitData,
+    skillChanges,
+    tasks,
+    pdca,
+    qualityAudit,
+    badcases,
+    previousActions
+  });
 
-  // Write report
-  const outDir = path.join(WORKSPACE, 'reports/evolution-daily');
+  // Write report to new path
+  const outDir = path.join(WORKSPACE, 'reports/evolution');
   fs.mkdirSync(outDir, { recursive: true });
-  const outFile = path.join(outDir, `${TODAY}.md`);
+  const outFile = path.join(outDir, `daily-${TODAY}.md`);
   fs.writeFileSync(outFile, report);
   console.log(`[evolution-daily-report] 日报已写入: ${outFile}`);
 
-  // Publish to Feishu
+  // Save action suggestions to backlog
+  if (suggestions.length > 0) {
+    saveActionToBacklog(suggestions);
+    console.log(`[evolution-daily-report] ${suggestions.length} 条行动建议已写入 action-backlog.jsonl`);
+  }
+
+  // Publish to Feishu (plain text only to avoid error 1770001)
   try {
     const docUrl = await publishToFeishu(report, TODAY);
-    // Append feishu doc link to the MD file
-    fs.appendFileSync(outFile, `\n\n---\n📄 飞书文档: ${docUrl}\n`);
-    console.log(`[evolution-daily-report] 飞书文档链接已追加到: ${outFile}`);
+    fs.appendFileSync(outFile, `\n\n飞书文档: ${docUrl}\n`);
+    console.log(`[evolution-daily-report] 飞书推送成功: ${docUrl}`);
   } catch (e) {
     console.error(`[evolution-daily-report] 飞书推送失败(非致命): ${e.message}`);
   }
 
-  // Auto-sediment
-  const lessons = extractLessons(data);
-  if (lessons.length > 0) {
-    const result = autoSediment(lessons);
-    console.log(`[evolution-daily-report] 沉淀: ${result.appended}条教训已记录, ${result.programmable}条标记待程序化`);
-  } else {
-    console.log('[evolution-daily-report] 无新教训需沉淀');
-  }
-
-  // Summary to stdout
-  console.log(`[evolution-daily-report] 完成. 任务=${data.tasks.total} 提交=${data.gitLog === '(无今日提交)' ? 0 : data.gitLog.split('\\n').length} badcase=${data.badcases.count}`);
+  // Summary
+  console.log(`[evolution-daily-report] 完成. 提交=${gitData.count} 任务=${tasks.total} 建议=${suggestions.length}`);
 }
 
 main().catch(e => {
