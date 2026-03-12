@@ -36,9 +36,15 @@ function loadConfig() {
   const now = Date.now();
   if (_cache && (now - _cacheTime) < CACHE_TTL) return _cache;
   
-  const raw = fs.readFileSync(CONFIG_PATH, 'utf8');
-  _cache = JSON.parse(raw);
-  _cacheTime = now;
+  try {
+    const raw = fs.readFileSync(CONFIG_PATH, 'utf8');
+    _cache = JSON.parse(raw);
+    _cacheTime = now;
+  } catch (e) {
+    console.error('[zhipu-keys] Failed to parse openclaw.json, will use env fallback:', e.message);
+    _cache = {};  // 空配置，fallback 到环境变量
+    _cacheTime = now;
+  }
   return _cache;
 }
 
@@ -47,11 +53,18 @@ function getKey(purpose = 'default') {
   const providerName = PURPOSE_MAP[purpose] || PURPOSE_MAP['default'];
   const provider = cfg?.models?.providers?.[providerName];
   
-  if (!provider || !provider.apiKey) {
-    throw new Error(`[zhipu-keys] Provider "${providerName}" not found or missing apiKey in ${CONFIG_PATH}`);
+  // 优先从 openclaw.json 读取
+  if (provider?.apiKey) {
+    return provider.apiKey;
   }
   
-  return provider.apiKey;
+  // Fallback 到环境变量
+  const envKey = process.env.ZHIPU_API_KEY_1 || process.env.ZHIPU_API_KEY_8 || process.env.ZHIPU_API_KEY;
+  if (envKey) {
+    return envKey.replace(/^"|"$/g, '');  // 去掉可能的引号
+  }
+  
+  throw new Error(`[zhipu-keys] Provider "${providerName}" not found and no env fallback (ZHIPU_API_KEY_1/8/ZHIPU_API_KEY)`);
 }
 
 function getBaseUrl(purpose = 'default') {

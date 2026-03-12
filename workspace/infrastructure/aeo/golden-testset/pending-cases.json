@@ -434,7 +434,127 @@
       "reviewed_by": null,
       "review_date": null,
       "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMMZBIZA-WUX",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-12",
+      "source": "memos:default/9a269bb5",
+      "signal_type": "expectation_mismatch",
+      "signal_strength": "weak",
+      "raw_signal": "这种事不需要",
+      "context": "于长煦: 你不会是给他们开thinking了吧？这种事不需要开",
+      "extracted_correction": "这种事不需要开",
+      "category": "self_initiative",
+      "rule_hint": "对常见场景的标准处理应主动执行，无需用户提醒",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"这种事不需要\"",
+        "action": "对常见场景的标准处理应主动执行，无需用户提醒",
+        "domain": "orchestration",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMN07O4E-2T3",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-12",
+      "source": "memos:default/254d716a",
+      "signal_type": "autonomy_correction",
+      "signal_strength": "medium",
+      "raw_signal": "你应该自动",
+      "context": "于长煦: 我理解你应该自动做一层 “不扭曲原意”的提炼",
+      "extracted_correction": "自动做一层 “不扭曲原意”的提炼",
+      "category": "self_initiative",
+      "rule_hint": "对于可以自主判断的事情，不应等待用户指令",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"你应该自动\"",
+        "action": "对于可以自主判断的事情，不应等待用户指令",
+        "domain": "orchestration",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMN5R08E-F94",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-12",
+      "source": "memory/2026-03-12.md",
+      "signal_type": "autonomy_correction",
+      "signal_strength": "medium",
+      "raw_signal": "你应该自动做一层'不扭曲原意'的提炼\"——即自动",
+      "context": "— 引用原话不转述、记结论也记原因、写正面也写反面防歧义、compaction前flush同样适用（commit `09c9cab`）\n- 用户原话：\"我理解你应该自动做一层'不扭曲原意'的提炼\"——即自动提炼时自检不丢本意，高风险记忆才需人工确认\n- 铁令六暂时放宽：cc7不稳定期间允许spawn时指定boom渠道model，等cc7恢复后恢复\n\n### 升级决策\n- **绝不升级OpenClaw** — 用户原话：\"新版本=让你自杀\"\n- 原因：3.11 security收紧会让现有配置fail-",
+      "extracted_correction": "自动做一层'不扭曲原意'的提炼\"——即自动提炼时自检不丢本意，高风险记忆才需人工确认",
+      "category": "self_initiative",
+      "rule_hint": "对于可以自主判断的事情，不应等待用户指令",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"你应该自动做一层'不扭曲原意'的提炼\"——即自动\"",
+        "action": "对于可以自主判断的事情，不应等待用户指令",
+        "domain": "orchestration",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMN8SBAX-VYU",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-12",
+      "source": "memos:default/227feb03",
+      "signal_type": "autonomy_correction",
+      "signal_strength": "medium",
+      "raw_signal": "不应该让我给你出主意，应该自己想办法解决问",
+      "context": "于长煦: youtube-transcript-api\n安装这个，然后去研究那个youtobe视频。  其实你不应该让我给你出主意，应该自己想办法解决问题",
+      "extracted_correction": "让我给你出主意，应该自己想办法解决问题",
+      "category": "self_initiative",
+      "rule_hint": "对于可以自主判断的事情，不应等待用户指令",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"不应该让我给你出主意，应该自己想办法解决问\"",
+        "action": "对于可以自主判断的事情，不应等待用户指令",
+        "domain": "orchestration",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMNAKM27-NLO",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-12",
+      "source": "memos:default/c6793f4c",
+      "signal_type": "direct_negation",
+      "signal_strength": "strong",
+      "raw_signal": "你不对",
+      "context": "为什么子Agent会跑错路径，记忆跟你不对称？",
+      "extracted_correction": "你不对称？",
+      "category": "delivery_quality",
+      "rule_hint": "交付前需进行自检对比，确保实现符合需求",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"你不对\"",
+        "action": "交付前需进行自检对比，确保实现符合需求",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
     }
   ],
-  "last_updated": "2026-03-12T02:45:01.922Z"
+  "last_updated": "2026-03-12T09:55:01.423Z"
 }

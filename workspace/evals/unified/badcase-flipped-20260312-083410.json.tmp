@@ -1,0 +1,13 @@
+{
+  "id": "BC-RESOURCE-POOL-MISMATCH-001",
+  "category": "resource-management",
+  "severity": "critical",
+  "timestamp": "2026-03-12T11:08:00+08:00",
+  "scene": "主Agent长期使用不存在的agentId(coder-01/03/04/05, analyst-01)派任务",
+  "expected_behavior": "派任务前先验证agentId在注册白名单内，资源池一一对应",
+  "actual_behavior": "凭记忆/习惯编造agentId，从未调agents_list验证，导致所有任务回落主Agent，并行完全失效",
+  "root_cause": "从未做过资源池配置的一一对应核查。多次根因分析都在查表面问题，没查最基础的'资源是否存在'",
+  "fix_rule": "每次session启动时必须调agents_list获取真实白名单，派任务前校验agentId合法性",
+  "related_ic": "IC2",
+  "lesson": "根因分析必须从最底层的资源/配置核查开始，不要跳过基础假设验证"
+}

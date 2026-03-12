@@ -1,9 +1,9 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v3 全量扫描生成
 
-> **生成时间**: 2026/3/12 17:36:24
-> **技能总数**: 71 | **pip包**: 29 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 16
-> **ISC路由**: 6 | **能力总计**: 126
+> **生成时间**: 2026/3/12 19:00:06
+> **技能总数**: 71 | **pip包**: 29 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 17
+> **ISC路由**: 6 | **能力总计**: 127
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
 
@@ -199,6 +199,7 @@
 - **rsync**: 文件同步工具 (`/usr/bin/rsync`) — rsync  version 3.2.7  protocol version 31
 - **ssh**: SSH客户端 (`/usr/bin/ssh`) — unknown option -- -
 - **pandoc**: 文档格式转换 (`/usr/bin/pandoc`) — pandoc 3.1.3
+- **chromium**: Chromium浏览器 (`/snap/bin/chromium`) — ERROR: ld.so: object '/$LIB/libonion.so' from /etc/ld.so.preload cannot be prelo...
 - **chromium-browser**: Chromium浏览器 (`/usr/bin/chromium-browser`) — ERROR: ld.so: object '/$LIB/libonion.so' from /etc/ld.so.preload cannot be prelo...
 - **uv**: Python包管理器(快速) (`/usr/local/bin/uv`) — uv 0.10.9
 

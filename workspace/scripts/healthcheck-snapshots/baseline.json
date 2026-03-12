@@ -1,0 +1,39 @@
+{
+  "snapshotTime": "2026-03-12T13:22:01+08:00",
+  "openclawVersion": "2026.3.2",
+  "openclawJson": {
+    "hash": "a2e3279157c75463778399f3efe15a2c",
+    "size": 42531
+  },
+  "configSections": {"meta":{"lastTouchedVersion":"2026.3.1","lastTouchedAt":"2026-03-02T13:38:00.000Z"},"providers":["boom-analyst","boom-analyst-02","boom-coder","boom-coder-02","boom-cron-worker","boom-cron-worker-02","boom-main","boom-main-02","boom-main-03","boom-main-04","boom-main-05","boom-researcher","boom-researcher-02","boom-reviewer","boom-reviewer-02","boom-scout","boom-scout-02","boom-writer","boom-writer-02","claude-analyst","claude-analyst-02","claude-coder","claude-coder-02","claude-cron-worker","claude-cron-worker-02","claude-main","claude-researcher","claude-researcher-02","claude-reviewer","claude-reviewer-02","claude-scout","claude-scout-02","claude-worker-03","claude-worker-04","claude-worker-05","claude-worker-06","claude-writer","claude-writer-02","zhipu-analyst","zhipu-analyst-02","zhipu-coder","zhipu-coder-02","zhipu-core","zhipu-cron","zhipu-cron-worker","zhipu-cron-worker-02","zhipu-embedding","zhipu-main","zhipu-multimodal","zhipu-researcher","zhipu-researcher-02","zhipu-reviewer","zhipu-reviewer-02","zhipu-scout","zhipu-scout-02","zhipu-worker-03","zhipu-worker-04","zhipu-worker-05","zhipu-worker-06","zhipu-writer","zhipu-writer-02"],"providerCount":61,"agentIds":["analyst","analyst-02","coder","coder-02","cron-worker","cron-worker-02","main","researcher","researcher-02","reviewer","reviewer-02","scout","scout-02","worker-03","worker-04","worker-05","worker-06","writer","writer-02"],"agentCount":19,"agentDefaults":{"primaryModel":"claude-main/claude-opus-4-6-thinking","maxConcurrent":24,"maxSpawnDepth":2,"maxChildren":20,"memorySearch":false,"workspace":"/root/.openclaw/workspace"},"agentRouting":{"main":{"primary":"claude-main/claude-opus-4-6-thinking","fallbacks":["boom-main/gpt-5.3-codex","zhipu-main/glm-5"]},"researcher":{"primary":"claude-researcher/claude-opus-4-6-thinking","fallbacks":["boom-researcher/gpt-5.3-codex","zhipu-researcher/glm-5"]},"coder":{"primary":"claude-coder/claude-opus-4-6-thinking","fallbacks":["boom-coder/gpt-5.3-codex","zhipu-coder/glm-5"]},"reviewer":{"primary":"claude-reviewer/claude-opus-4-6-thinking","fallbacks":["boom-reviewer/gpt-5.3-codex","zhipu-reviewer/glm-5"]},"writer":{"primary":"claude-writer/claude-opus-4-6-thinking","fallbacks":["boom-writer/gpt-5.3-codex","zhipu-writer/glm-5"]},"analyst":{"primary":"claude-analyst/claude-opus-4-6-thinking","fallbacks":["boom-analyst/gpt-5.3-codex","zhipu-analyst/glm-5"]},"scout":{"primary":"claude-scout/claude-opus-4-6","fallbacks":["boom-scout/gpt-5.3-codex","zhipu-scout/glm-5"]},"cron-worker":{"primary":"zhipu-cron-worker/glm-5","fallbacks":["boom-cron-worker/gpt-5.3-codex","claude-cron-worker/claude-opus-4-6-thinking"]},"researcher-02":{"primary":"claude-researcher-02/claude-opus-4-6-thinking","fallbacks":["boom-researcher-02/gpt-5.3-codex","zhipu-researcher-02/glm-5"]},"coder-02":{"primary":"claude-coder-02/claude-opus-4-6-thinking","fallbacks":["boom-coder-02/gpt-5.3-codex","zhipu-coder-02/glm-5"]},"reviewer-02":{"primary":"claude-reviewer-02/claude-opus-4-6-thinking","fallbacks":["boom-reviewer-02/gpt-5.3-codex","zhipu-reviewer-02/glm-5"]},"writer-02":{"primary":"claude-writer-02/claude-opus-4-6-thinking","fallbacks":["boom-writer-02/gpt-5.3-codex","zhipu-writer-02/glm-5"]},"analyst-02":{"primary":"claude-analyst-02/claude-opus-4-6-thinking","fallbacks":["boom-analyst-02/gpt-5.3-codex","zhipu-analyst-02/glm-5"]},"scout-02":{"primary":"claude-scout-02/claude-opus-4-6-thinking","fallbacks":["boom-scout-02/gpt-5.3-codex","zhipu-scout-02/glm-5"]},"cron-worker-02":{"primary":"claude-cron-worker-02/claude-opus-4-6-thinking","fallbacks":["boom-cron-worker-02/gpt-5.3-codex","zhipu-cron-worker-02/glm-5"]},"worker-03":{"primary":"claude-worker-03/claude-opus-4-6-thinking","fallbacks":["boom-main-02/gpt-5.3-codex","zhipu-worker-03/glm-5"]},"worker-04":{"primary":"claude-worker-04/claude-opus-4-6-thinking","fallbacks":["boom-main-03/gpt-5.3-codex","zhipu-worker-04/glm-5"]},"worker-05":{"primary":"claude-worker-05/claude-opus-4-6-thinking","fallbacks":["boom-main-04/gpt-5.3-codex","zhipu-worker-05/glm-5"]},"worker-06":{"primary":"claude-worker-06/claude-opus-4-6-thinking","fallbacks":["boom-main-05/gpt-5.3-codex","zhipu-worker-06/glm-5"]}},"gateway":{"port":18789,"mode":"local","bind":"loopback","auth":{"mode":"token","token":"3b2536af0fa208383b2af461f7585f4c8176fe198361ade4"}},"exec":{"elevated":null,"execTimeout":null,"execBackground":null,"allow":null},"plugins":{"enabled":true,"entries":{"feishu":{"enabled":true}},"slots":{"memory":"memos-local-openclaw-plugin"}},"channels":["feishu"],"session":{"reset":{"mode":"daily","atHour":4,"idleMinutes":120}},"contextWindow":200000,"maxTokens":128000,"commands":{"native":"auto","nativeSkills":"auto","restart":true,"ownerDisplay":"raw"}},
+  "criticalFiles": {
+    "IRONCLAD.md": "6848d872723dedfbf44061665a635260",
+    "AGENTS.md": "0d510c256d2344c2776ee1a0de0fa460",
+    "MEMORY.md": "c886cbd175ab7cbe8b82cfa8b9550161"
+  },
+  "memosDb": {
+    "hash": "93eee9026ddbc4ffe65fb7a4599a83ed",
+    "sizeBytes": 22589440
+  },
+  "skills": {
+    "count": 49,
+    "list": "aeo,anti-entropy-checker,api-aggregator,architecture-review-pipeline,cogvideo,cogview,cras,cron-health,dispatch-protocol,evolver,evomap-a2a,evomap-publisher,evomap-uploader,feishu-card-sender,feishu-chat-backup,feishu-common,feishu-evolver-wrapper,feishu-report-sender,file-downloader,five-layer-event-model,github-api,glm-4v,glm-image,glm-ocr,glm-tts,glm-video,glm-vision,intent-design-principles,isc-capability-anchor-sync,isc-core,isc-document-quality,layered-architecture-checker,lep-executor,long-horizon-autonomy,lto-core,memos-memory-guide,parallel-subagent,pdca-engine,project-mgmt,public,quality-audit,seef,self-check-scanners,shared,skill-creator,system-mapping-visualizer,zhipu-image-gen,zhipu-keys,zhipu-vision"
+  },
+  "cron": {
+    "hash": "6dd73f66b01113f73f8295acbc76c666",
+    "jobCount": 41
+  },
+  "mcp": {
+    "registryHash": "5234042c8f2c7036751cadd4e111544c",
+    "services": ["wechat-article-reader","weixin-reader-playwright","weixin-search"],
+    "runningProcesses": 2
+  },
+  "packageJson": {
+    "hash": "e6411f48510d6bb48a4991d2c62b69c1"
+  },
+  "nodeModules": {
+    "memosPlugin": false,
+    "betterSqlite3": false
+  },
+  "scriptsCount": 104
+}
