@@ -1,9 +1,9 @@
 # 系统能力锚点 - 根治遗忘
-# 自动生成 — 由 isc-capability-anchor-sync v2 全量扫描生成
+# 自动生成 — 由 isc-capability-anchor-sync v3 全量扫描生成
 
-> **生成时间**: 2026/3/12 11:00:02
-> **技能总数**: 71
-> **ISC路由**: 6
+> **生成时间**: 2026/3/12 17:36:24
+> **技能总数**: 71 | **pip包**: 29 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 16
+> **ISC路由**: 6 | **能力总计**: 126
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
 
@@ -135,10 +135,78 @@
 
 > 图例: ✅=完整(SKILL.md+代码) 📄=仅文档 ⚙️=仅代码 ❓=空目录
 
+## 🟠 Python Packages (pip)
+
+- **annotated-doc** v0.0.4
+- **anthropic** v0.84.0
+- **docstring_parser** v0.17.0
+- **fastcore** v1.12.23
+- **git-filter-repo** v2.47.0
+- **httpx** v0.28.1
+- **lxml** v6.0.2
+- **matplotlib** v3.10.8
+- **numpy** v2.4.2
+- **pandas** v3.0.1
+- **pexpect** v4.9.0
+- **pillow** v12.1.1
+- **protobuf** v6.33.5
+- **pyarrow** v23.0.1
+- **PyPDF2** v3.0.1
+- **python-discovery** v1.1.1
+- **python-magic** v0.4.27
+- **python-pptx** v1.0.2
+- **requests** v2.32.5
+- **rich** v13.7.1
+- **tenacity** v9.1.4
+- **Twisted** v24.3.0
+- **typer** v0.24.1
+- **unidiff** v0.7.5
+- **uv** v0.10.9
+- **xlsxwriter** v3.2.9
+- **xxhash** v3.6.0
+- **youtube-transcript-api** v1.2.4
+- **yt-dlp** v2026.3.3
+
+## 🟤 Node.js Global Packages (npm)
+
+- **@aisuite/chub** v0.1.1
+- **@executeautomation/playwright-mcp-server** v1.0.12
+- **@mermaid-js/mermaid-cli** v11.12.0
+- **@modelcontextprotocol/server-puppeteer** v2025.5.12
+- **@upstash/context7-mcp** v2.1.3
+- **openclaw** v2026.3.2
+- **playwright** v1.58.2
+- **puppeteer** v24.38.0
+- **ws** v8.19.0
+
+## 🔧 Workspace Tools
+
+- **MediaCrawler**: `MediaCrawler/main.py` — <div align="center">
+
+## ⚡ System CLI Tools
+
+- **yt-dlp**: 视频/音频下载工具 (`/usr/local/bin/yt-dlp`) — 2026.03.03
+- **ffmpeg**: 音视频转码/处理 (`/usr/bin/ffmpeg`) — ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers
+- **ffprobe**: 音视频信息探测 (`/usr/bin/ffprobe`) — ffprobe version 6.1.1-3ubuntu5 Copyright (c) 2007-2023 the FFmpeg developers
+- **playwright**: 浏览器自动化 (`/usr/bin/playwright`) — Version 1.58.2
+- **curl**: HTTP请求工具 (`/usr/bin/curl`) — curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1....
+- **wget**: 文件下载工具 (`/usr/bin/wget`) — GNU Wget 1.21.4 built on linux-gnu.
+- **jq**: JSON处理工具 (`/usr/bin/jq`) — jq-1.7
+- **git**: 版本控制 (`/usr/bin/git`) — git version 2.43.0
+- **python3**: Python 3 解释器 (`/usr/bin/python3`) — Python 3.12.3
+- **node**: Node.js 运行时 (`/usr/bin/node`) — v22.22.0
+- **sqlite3**: SQLite数据库CLI (`/usr/bin/sqlite3`) — 3.45.1 2024-01-30 16:01:20 e876e51a0ed5c5b3126f52e532044363a014bc594cfefa87ffb5b...
+- **rsync**: 文件同步工具 (`/usr/bin/rsync`) — rsync  version 3.2.7  protocol version 31
+- **ssh**: SSH客户端 (`/usr/bin/ssh`) — unknown option -- -
+- **pandoc**: 文档格式转换 (`/usr/bin/pandoc`) — pandoc 3.1.3
+- **chromium-browser**: Chromium浏览器 (`/usr/bin/chromium-browser`) — ERROR: ld.so: object '/$LIB/libonion.so' from /etc/ld.so.preload cannot be prelo...
+- **uv**: Python包管理器(快速) (`/usr/local/bin/uv`) — uv 0.10.9
+
 ## 🟣 使用原则
 
 1. **主模型**: 跟随 openclaw.json 配置（不硬编码）
 2. **扩展模型**: 智谱（多模态、生成），通过ISC路由自动选择
 3. **搜索首选**: tavily-search（AI优化），web_search为备选
-4. **能力来源**: 本文档由 isc-capability-anchor-sync 全量扫描自动生成
+4. **能力来源**: 本文档由 isc-capability-anchor-sync v3 全量扫描自动生成
 5. **同步频率**: 每小时自动 + 技能变更时触发
+6. **扫描范围**: MCP规则 + skills/ + pip + npm全局 + workspace工具 + 系统CLI
