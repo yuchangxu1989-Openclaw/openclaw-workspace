@@ -106,7 +106,24 @@ function scoreByRatio(current, target) {
 
 function buildDimension(name, current, yesterday, formula, inputs, suggestionFn) {
   const delta = current - yesterday;
-  const score = formula(inputs);
+  let score = 1;
+  let suggestion = 'N/A';
+  let error = null;
+
+  try {
+    score = formula(inputs);
+  } catch (e) {
+    error = `formula_failed: ${e.message}`;
+    score = 1;
+  }
+
+  try {
+    suggestion = suggestionFn({ current, yesterday, delta, score, inputs });
+  } catch (e) {
+    error = error ? `${error}; suggestion_failed: ${e.message}` : `suggestion_failed: ${e.message}`;
+    suggestion = 'N/A';
+  }
+
   return {
     name,
     current,
@@ -115,9 +132,10 @@ function buildDimension(name, current, yesterday, formula, inputs, suggestionFn)
     score_detail: {
       formula_text: inputs.formula_text,
       inputs,
-      score
+      score,
+      error
     },
-    suggestion: suggestionFn({ current, yesterday, delta, score, inputs })
+    suggestion
   };
 }
 
