@@ -37,3 +37,12 @@ coder-01, coder-03, coder-04, coder-05, analyst-01, architect, architect-02, wor
 - 让每个agent走自己在 `openclaw.json` 中配置的 provider 链路由（primary → fallback）
 - 这样每个agent用自己的独立令牌，实现真并行
 - 手动指定model会导致所有任务走同一个令牌，无法并行
+
+## 铁令七：关键记忆写入必须用户确认
+- 写入IRONCLAD.md、AGENTS.md、memory/等关键记忆文件后，**必须把写入内容发给用户确认**
+- 用户说OK才算数，否则修改重写
+- 记忆内容必须：
+  1. 引用用户原话，不做转述
+  2. 记结论也记原因（"怎么做"+"为什么这么做"）
+  3. 写"是什么"也写"不是什么"，防止歧义
+- compaction前的memory flush同样适用此规则
