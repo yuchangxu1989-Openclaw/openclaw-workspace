@@ -15,7 +15,7 @@
 0 9 * * 1 flock -xn /tmp/lh-weekly-evo.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/weekly-evolution-report.sh >> /root/.openclaw/workspace/infrastructure/logs/weekly-evolution-report.log 2>&1
 0 9 * * * flock -xn /tmp/wild-script-discovery.lock bash /root/.openclaw/workspace/scripts/auto-skill-discovery.sh >> /root/.openclaw/workspace/logs/wild-scripts-discovery.log 2>&1
 0 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/capability-anchor-sync.lock /usr/bin/node skills/isc-capability-anchor-sync/index.js >> infrastructure/logs/capability-anchor-sync.log 2>&1
-0 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/cras-insight.lock /usr/bin/node skills/cras/cras-intent-insight.js >> infrastructure/logs/cras-intent-insight.log 2>&1
+0 */4 * * * cd /root/.openclaw/workspace && flock -xn /tmp/cras-insight.lock /usr/bin/node skills/cras/cras-intent-insight.js >> infrastructure/logs/cras-intent-insight.log 2>&1
 0 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/day-completion-scanner.js --auto >> infrastructure/logs/day-scanner.log 2>&1
 10 3 * * * flock -xn /tmp/lh-logrota.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/log-archive-rotator.sh >> /root/.openclaw/workspace/infrastructure/logs/log-archive-rotator.log 2>&1
 */10 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/alert-rootcause.lock /usr/bin/node infrastructure/self-check/alert-auto-rootcause.js >> infrastructure/logs/alert-auto-rootcause.log 2>&1
@@ -77,3 +77,4 @@
 # cron-persistence: save-cron每小时:50自动备份crontab到git，在git-auto-push(:55)之前
 # quality-audit daily: 每天07:45全量质量审计日报
 45 7 * * * cd /root/.openclaw/workspace && flock -xn /tmp/quality-audit-daily.lock /usr/bin/node skills/quality-audit/index.js --mode full --json > reports/quality-audit-daily-latest.json 2>> infrastructure/logs/quality-audit-daily.log
+*/5 * * * * /root/.openclaw/workspace/scripts/board-cron-guard.sh
