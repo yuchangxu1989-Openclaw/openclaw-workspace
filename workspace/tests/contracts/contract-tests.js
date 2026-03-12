@@ -438,11 +438,11 @@ async function runAllTests() {
       phase: 'sensing',
       component: 'IntentScanner',
       what: 'intent scan result',
-      why: 'Regex fallback matched 3 keywords',
+      why: 'Intent classification pending replacement',
       confidence: 0.6,
       alternatives: [],
-      decision_method: 'regex',
-      input_summary: 'method=regex_fallback',
+      decision_method: 'removed',
+      input_summary: 'method=removed',
     };
 
     // Should not throw

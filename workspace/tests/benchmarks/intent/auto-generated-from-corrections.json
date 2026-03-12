@@ -608,5 +608,15 @@
     "created_at": "2026-03-12T05:00:02.090Z",
     "data_source": "real_conversation",
     "signal": "12:13 Compaction Flush — API Key路由根因 & 成本优化\n\n### API Key路由根因（已确认）\n- cc8分组的claude-opus-4-6-thinking通道不可用（503 model_not_found）\n- 用户在penguinsaichat后台把子Agent的key从cc8改为cc7，立刻走通\n- 铁证：令牌08(analyst)cc7 11:50:48 ✅、令牌06(coder)cc7 11:52:45 ✅\n- 主Agent保持ccmax（令牌04），最贵但最稳定，保证不失联\n\n### 成本事实\n- ccmax价格是cc7的7倍以上\n- 主Ag"
+  },
+  {
+    "id": "auto-eval-1773316801722-0",
+    "level": "C2",
+    "category": "auto-harvested-correction",
+    "content_hash": "15:34 Memory Flush (Pre-compaction #3)\n\n### 铁令更新\n- **铁令七**：记忆写入不扭曲原意 — 引用原话不转述、记结论也记原因、写正面也写反面防歧义、co",
+    "source": "memory/2026-03-12.md",
+    "created_at": "2026-03-12T12:00:01.721Z",
+    "data_source": "real_conversation",
+    "signal": "15:34 Memory Flush (Pre-compaction #3)\n\n### 铁令更新\n- **铁令七**：记忆写入不扭曲原意 — 引用原话不转述、记结论也记原因、写正面也写反面防歧义、compaction前flush同样适用（commit `09c9cab`）\n- 用户原话：\"我理解你应该自动做一层'不扭曲原意'的提炼\"——即自动提炼时自检不丢本意，高风险记忆才需人工确认\n- 铁令六暂时放宽：cc7不稳定期间允许spawn时指定boom渠道model，等cc7恢复后恢复\n\n### 升级决策\n- **绝不升级OpenClaw** — 用户原话：\"新版本=让你自杀\"\n- 原因：3.11"
   }
 ]

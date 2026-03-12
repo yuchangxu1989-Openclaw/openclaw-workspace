@@ -88,7 +88,7 @@ async function main() {
 
   // Summary
   const llmCount = results.filter(r => r.method === 'llm').length;
-  const regexCount = results.filter(r => r.method === 'regex_fallback').length;
+  const regexCount = results.filter(r => r.method === 'pending_replacement').length;
   const errorCount = results.filter(r => r.error).length;
 
   console.log('═══ Summary ═══');

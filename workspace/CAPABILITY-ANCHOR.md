@@ -1,9 +1,9 @@
 # 系统能力锚点 - 根治遗忘
 # 自动生成 — 由 isc-capability-anchor-sync v3 全量扫描生成
 
-> **生成时间**: 2026/3/12 21:00:06
-> **技能总数**: 72 | **pip包**: 29 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 17
-> **ISC路由**: 6 | **能力总计**: 128
+> **生成时间**: 2026/3/12 23:00:06
+> **技能总数**: 72 | **pip包**: 60 | **npm全局**: 9 | **workspace工具**: 1 | **系统CLI**: 17
+> **ISC路由**: 6 | **能力总计**: 159
 
 ## 🟡 智谱多模态能力矩阵（ISC 规则自动生成）
 
@@ -140,13 +140,34 @@
 
 - **annotated-doc** v0.0.4
 - **anthropic** v0.84.0
+- **aurelio-sdk** v0.0.19
+- **cuda-bindings** v12.9.4
+- **cuda-pathfinder** v1.4.2
 - **docstring_parser** v0.17.0
 - **fastcore** v1.12.23
 - **git-filter-repo** v2.47.0
 - **httpx** v0.28.1
+- **huggingface_hub** v1.6.0
+- **importlib_metadata** v8.7.1
+- **jsonschema-specifications** v2025.9.1
 - **lxml** v6.0.2
 - **matplotlib** v3.10.8
 - **numpy** v2.4.2
+- **nvidia-cublas-cu12** v12.8.4.1
+- **nvidia-cuda-cupti-cu12** v12.8.90
+- **nvidia-cuda-nvrtc-cu12** v12.8.93
+- **nvidia-cuda-runtime-cu12** v12.8.90
+- **nvidia-cudnn-cu12** v9.10.2.21
+- **nvidia-cufft-cu12** v11.3.3.83
+- **nvidia-cufile-cu12** v1.13.1.3
+- **nvidia-curand-cu12** v10.3.9.90
+- **nvidia-cusolver-cu12** v11.7.3.90
+- **nvidia-cusparse-cu12** v12.5.8.93
+- **nvidia-cusparselt-cu12** v0.7.1
+- **nvidia-nccl-cu12** v2.27.5
+- **nvidia-nvjitlink-cu12** v12.8.93
+- **nvidia-nvshmem-cu12** v3.4.5
+- **nvidia-nvtx-cu12** v12.8.90
 - **pandas** v3.0.1
 - **pexpect** v4.9.0
 - **pillow** v12.1.1
@@ -156,9 +177,19 @@
 - **python-discovery** v1.1.1
 - **python-magic** v0.4.27
 - **python-pptx** v1.0.2
+- **referencing** v0.37.0
 - **requests** v2.32.5
-- **rich** v13.7.1
+- **requests-toolbelt** v1.0.0
+- **rich** v14.3.3
+- **rpds-py** v0.30.0
+- **safetensors** v0.7.0
+- **scikit-learn** v1.8.0
+- **semantic-router** v0.1.12
+- **sentence-transformers** v5.2.3
 - **tenacity** v9.1.4
+- **threadpoolctl** v3.6.0
+- **tokenizers** v0.22.2
+- **transformers** v5.3.0
 - **Twisted** v24.3.0
 - **typer** v0.24.1
 - **unidiff** v0.7.5
@@ -175,7 +206,6 @@
 - **@mermaid-js/mermaid-cli** v11.12.0
 - **@modelcontextprotocol/server-puppeteer** v2025.5.12
 - **@upstash/context7-mcp** v2.1.3
-- **mcp-knowledge-graph** v1.3.2 — 轻量知识图谱MCP服务，实体+关系存储查询，数据目录 `.aim/`
 - **openclaw** v2026.3.2
 - **playwright** v1.58.2
 - **puppeteer** v24.38.0
