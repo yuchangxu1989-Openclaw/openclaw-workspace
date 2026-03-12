@@ -30,3 +30,9 @@ main, researcher, researcher-02, coder, coder-02, reviewer, reviewer-02, writer,
 coder-01, coder-03, coder-04, coder-05, analyst-01, architect, architect-02, worker, worker-02, worker-07, worker-08
 
 **违规后果：** 使用不存在的agentId会导致任务回落主Agent执行，并行完全失效，API key混用。
+
+## 铁令六：禁止手动指定model参数
+- `sessions_spawn` 时**禁止**传 `model` 参数
+- 让每个agent走自己在 `openclaw.json` 中配置的 provider 链路由（primary → fallback）
+- 这样每个agent用自己的独立令牌，实现真并行
+- 手动指定model会导致所有任务走同一个令牌，无法并行
