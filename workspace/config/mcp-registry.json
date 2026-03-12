@@ -37,6 +37,33 @@
       "testResult": "pass",
       "testDetail": "成功读取文章，返回title/author/pub_time/content_md",
       "registeredAt": "2026-03-12T09:35:00+08:00"
+    },
+    "mcp-knowledge-graph": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-knowledge-graph",
+        "--memory-path",
+        "/root/.openclaw/workspace/.aim"
+      ],
+      "transport": "stdio",
+      "serverInfo": {"name": "MCP Knowledge Graph", "version": "1.3.2"},
+      "tools": [
+        {"name": "aim_memory_store", "description": "存储实体与观察", "params": ["entities", "relations", "context", "location"]},
+        {"name": "aim_memory_add_facts", "description": "给已有实体增加事实", "params": ["observations", "context", "location"]},
+        {"name": "aim_memory_link", "description": "创建实体关系", "params": ["from", "to", "relationType", "context", "location"]},
+        {"name": "aim_memory_search", "description": "关键词搜索实体", "params": ["query", "context", "location"]},
+        {"name": "aim_memory_get", "description": "按名称获取实体", "params": ["name", "context", "location"]},
+        {"name": "aim_memory_read_all", "description": "读取数据库全部记忆", "params": ["context", "location"]},
+        {"name": "aim_memory_list_stores", "description": "列出可用数据库", "params": ["location"]},
+        {"name": "aim_memory_forget", "description": "删除实体", "params": ["entityNames", "context", "location"]},
+        {"name": "aim_memory_remove_facts", "description": "删除实体事实", "params": ["name", "observations", "context", "location"]},
+        {"name": "aim_memory_unlink", "description": "删除实体关系", "params": ["from", "to", "relationType", "context", "location"]}
+      ],
+      "status": "installed",
+      "testResult": "pass",
+      "testDetail": "npx -y mcp-knowledge-graph 可启动（stdio），已配置memory-path到/workspace/.aim",
+      "registeredAt": "2026-03-12T19:02:00+08:00"
     }
   }
 }
