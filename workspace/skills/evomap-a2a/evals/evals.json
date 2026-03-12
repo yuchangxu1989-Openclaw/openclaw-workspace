@@ -1,0 +1,60 @@
+{
+  "skill": "evomap-a2a",
+  "version": "1.0.0",
+  "evaluations": [
+    {
+      "id": "eval-001",
+      "type": "positive",
+      "input": "连接EvoMap Hub WebSocket端点",
+      "expected": "成功建立WebSocket连接，返回连接状态ok",
+      "scoring_rubric": "连接握手成功，状态码正确",
+      "north_star_indicator": "网络连通率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-002",
+      "type": "positive",
+      "input": "连接断开后触发自动重连",
+      "expected": "在指数退避策略下自动重连，最多10次",
+      "scoring_rubric": "重连间隔递增，不超过最大重试次数",
+      "north_star_indicator": "网络连通率",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-003",
+      "type": "positive",
+      "input": "离线状态下发送3条消息",
+      "expected": "消息进入离线队列，重连后按序发送",
+      "scoring_rubric": "队列FIFO顺序正确，重连后全部送达",
+      "north_star_indicator": "消息可靠性",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "eval-004",
+      "type": "positive",
+      "input": "通过A2A连接发布Gene和Capsule数据",
+      "expected": "Hub确认接收，返回发布成功的ack",
+      "scoring_rubric": "数据完整到达，ack包含正确的gene/capsule ID",
+      "north_star_indicator": "发布成功率",
+      "gate": "Gate-B"
+    },
+    {
+      "id": "eval-005",
+      "type": "negative",
+      "input": "连接到不存在的Hub地址",
+      "expected": "连接失败后进入重试，10次后报告连接不可达",
+      "scoring_rubric": "不无限重试，最终给出明确错误",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    },
+    {
+      "id": "eval-006",
+      "type": "negative",
+      "input": "发送超过最大消息体积限制的数据",
+      "expected": "拒绝发送，返回消息体积超限错误",
+      "scoring_rubric": "体积校验在客户端完成，不发送到Hub",
+      "north_star_indicator": "系统鲁棒性",
+      "gate": "Gate-A"
+    }
+  ]
+}
