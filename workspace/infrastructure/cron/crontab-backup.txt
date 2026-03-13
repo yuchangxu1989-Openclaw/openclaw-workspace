@@ -14,14 +14,12 @@
 0 9 * * 0 flock -xn /tmp/lh-cap-growth.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/capability-growth-tracker.js >> /root/.openclaw/workspace/infrastructure/logs/capability-growth.log 2>&1
 0 9 * * 1 flock -xn /tmp/lh-weekly-evo.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/weekly-evolution-report.sh >> /root/.openclaw/workspace/infrastructure/logs/weekly-evolution-report.log 2>&1
 0 9 * * * flock -xn /tmp/wild-script-discovery.lock bash /root/.openclaw/workspace/scripts/auto-skill-discovery.sh >> /root/.openclaw/workspace/logs/wild-scripts-discovery.log 2>&1
-0 */4 * * * cd /root/.openclaw/workspace && flock -xn /tmp/cras-insight.lock /usr/bin/node skills/cras/cras-intent-insight.js >> infrastructure/logs/cras-intent-insight.log 2>&1
 0 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/day-completion-scanner.js --auto >> infrastructure/logs/day-scanner.log 2>&1
 10 3 * * * flock -xn /tmp/lh-logrota.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/log-archive-rotator.sh >> /root/.openclaw/workspace/infrastructure/logs/log-archive-rotator.log 2>&1
 */10 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/alert-rootcause.lock /usr/bin/node infrastructure/self-check/alert-auto-rootcause.js >> infrastructure/logs/alert-auto-rootcause.log 2>&1
 */10 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/threshold-scanner.lock /usr/bin/node infrastructure/event-bus/sensors/threshold-scanner.js >> infrastructure/logs/threshold-scanner.log 2>&1
 */10 * * * * flock -xn /tmp/session-cleanup.lock /root/.openclaw/workspace/scripts/session-cleanup-governor.sh >> /root/.openclaw/workspace/logs/session-cleanup.log 2>&1
 */1 * * * * flock -xn /tmp/git-sensor.lock -c "cd /root/.openclaw/workspace && /usr/bin/node infrastructure/event-bus/sensors/git-sensor.js" >> /tmp/git-sensor.log 2>&1
-30 6 * * * cd /root/.openclaw/workspace && flock -xn /tmp/cras-daily.lock /usr/bin/node skills/cras/cras-daily-aggregator.js >> infrastructure/logs/cras-daily-upgrade.log 2>&1
 30 7 * * * flock -xn /tmp/directed-research.lock /usr/bin/node /root/.openclaw/workspace/scripts/long-horizon/directed-research-harvester.js >> /root/.openclaw/workspace/infrastructure/logs/directed-research.log 2>&1
 */30 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/pipeline-auto-recovery.lock /usr/bin/node skills/lto-core/core/pipeline-auto-recovery.js >> infrastructure/logs/pipeline-auto-recovery.log 2>&1
 */30 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/seef-event-bridge.lock /usr/bin/node skills/seef/event-bridge.js run >> infrastructure/logs/seef-event-bridge.log 2>&1
@@ -30,7 +28,6 @@
 5 0 * * * flock -xn /tmp/lh-entropy.lock /bin/bash /root/.openclaw/workspace/scripts/long-horizon/entropy-index-calculator.sh >> /root/.openclaw/workspace/infrastructure/logs/entropy-index.log 2>&1
 */5 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/cron-dispatch.lock /usr/bin/node infrastructure/event-bus/cron-dispatch-runner.js >> infrastructure/logs/cron-dispatch.log 2>&1
 */5 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/dispatch-cron-runner.lock /usr/bin/node skills/public/multi-agent-dispatch/dispatch-cron-runner.js >> infrastructure/logs/dispatch-cron-runner.log 2>&1
-*/5 * * * * cd /root/.openclaw/workspace && flock -xn /tmp/intent-extractor.lock /usr/bin/node skills/cras/intent-extractor.js >> infrastructure/logs/intent-extractor.log 2>&1
 */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/correction-harvester.js --auto >> infrastructure/logs/correction-harvester.log 2>&1
 */5 * * * * cd /root/.openclaw/workspace && node infrastructure/self-check/rework-analyzer.js --auto >> infrastructure/logs/rework-analyzer.log 2>&1
 */5 * * * * flock -xn /tmp/api-probe.lock -c "cd /root/.openclaw/workspace && node scripts/api-probe.js" >> /tmp/api-probe.log 2>&1
@@ -39,9 +36,6 @@
 # Alert auto root-cause analysis: every 10 min
 * * * * * bash /root/.openclaw/workspace/scripts/voice-chat-guard.sh
 # correction-harvester: 每5分钟
-# CRAS daily aggregator: 洞察聚合+系统自动升级 every day 06:30
-# cras-intent-extractor: 每5分钟增量扫描意图 (Day2 Module E)
-# CRAS intent insight: 意图洞察沉淀+评测集自动扩充 every hour
 # day-completion-scanner: 每小时整点
 # Directed academic research (with "unknown unknowns" topic): daily 7:30
 # dispatch-engine reap + drain: every 5 min
