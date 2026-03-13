@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "description": "PDCA Check动态审视标准 - 修改此文件即可调整审视基准",
+  "version": "2.0.0",
+  "description": "PDCA Check动态审视标准 - 评测相关指标暂停，待重新设计意图与执行体系",
   "metrics": {
     "concurrencyUtil": {
       "label": "并发利用率",
@@ -28,35 +28,44 @@
     },
     "ruleExpansionRate": {
       "label": "ISC规则展开率",
-      "target": 1.0,
+      "target": null,
       "direction": "gte",
-      "warnThreshold": 0.25,
-      "weight": 0.2,
-      "description": "已展开规则数 / 总规则数(182)，展开定义：intent+event+handler+verification四层必选齐备（plan可选，大模型可runtime动态规划）"
+      "warnThreshold": null,
+      "weight": 0,
+      "description": "⏸ 暂停 — 待重新设计意图与执行体系",
+      "paused": true,
+      "pauseReason": "意图识别→事件→决策→执行链路正在重新设计，现有规则展开标准需要重新定义"
     },
     "badcaseAutoRate": {
       "label": "Badcase自动采集率",
       "target": null,
       "direction": "gte",
       "warnThreshold": null,
-      "weight": 0.1,
-      "description": "自动采集的badcase数 / 用户纠偏数，信息性指标"
+      "weight": 0,
+      "description": "⏸ 暂停 — 待重新设计意图与执行体系",
+      "paused": true,
+      "pauseReason": "评测体系依赖意图分类准确性，意图体系重设计前评测数据不可靠"
     },
     "evalsetIntegrity": {
       "label": "评测集完整性",
-      "target": 0.80,
+      "target": null,
       "direction": "gte",
-      "warnThreshold": 0.60,
-      "weight": 0.15,
-      "description": "north_star_indicator字段覆盖率，反映评测集V4标准达标程度。有未入库散落数据时自动标critical"
+      "warnThreshold": null,
+      "weight": 0,
+      "description": "⏸ 暂停 — 待重新设计意图与执行体系",
+      "paused": true,
+      "pauseReason": "V4评测标准建立在旧意图分类体系上，需要等新体系确定后重新定义评测集"
     },
     "skillHealth": {
       "label": "技能健康度",
-      "target": 0.60,
+      "target": null,
       "direction": "gte",
-      "warnThreshold": 0.40,
-      "weight": 0.10,
-      "description": "高/中价值技能占比，反映技能库的整体可用性。详细报告见 reports/pdca-skill-health-report.md"
+      "warnThreshold": null,
+      "weight": 0,
+      "description": "⏸ 暂停 — 待重新设计意图与执行体系",
+      "paused": true,
+      "pauseReason": "技能价值评估依赖执行链路定义，执行体系重设计前评估不准确"
     }
-  }
+  },
+  "pausedNote": "评测相关指标（ruleExpansionRate/badcaseAutoRate/evalsetIntegrity/skillHealth）已暂停。原因：意图识别→事件→决策→执行的完整链路正在重新设计，旧的V3/V4评测标准已过时。恢复条件：新意图与执行体系设计完成并落地后，重新定义评测标准和指标。"
 }
