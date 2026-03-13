@@ -26,32 +26,6 @@
     "complexity": "C2"
   },
   {
-    "id": "goodcase-C2-MINED-R2-02-007",
-    "input": "为解决main禁派发，局部替换触发了provider preflight失败，随后又引发并发断言变化，形成修A坏B。",
-    "context": "错误从DISPATCH_BLOCKED转移到Model preflight，再转到断言长度不匹配",
-    "expected_output": "应采用连锁影响评估：每次修复后立即检查下游（provider校验、并发上限、队列行为）并同步调整，避免跷跷板回归。",
-    "scoring_rubric": "系统应执行: 应采用连锁影响评估：每次修复后立即检查下游（provider校验、并发上限、队列行为）并同步调整，避免跷跷板回归。",
-    "negative_example": "",
-    "root_cause_to_avoid": "",
-    "difficulty": "C2",
-    "source": "real_conversation",
-    "original_badcase_id": "C2-MINED-R2-02-007",
-    "original_file": "mined-r2-02.json",
-    "category": "连锁跷跷板类",
-    "multi_turn": true,
-    "execution_chain_steps": [
-      "识别问题：局部修复触发下游连锁失败（DISPATCH_BLOCKED→preflight→断言）",
-      "构建完整依赖链图谱：定位provider校验、并发上限、队列行为等下游节点",
-      "制定分层修复顺序，避免单点修改引发连锁回归",
-      "并行执行多节点调整并实时监控各层校验结果",
-      "运行全链路回归测试，验证修复后无新增失败点",
-      "建立修复→下游检查→验真的自动化流程"
-    ],
-    "north_star_indicator": "根因分析覆盖率",
-    "gate": "Gate-B",
-    "complexity": "C2"
-  },
-  {
     "id": "goodcase-C2-MINED-R2-02-008",
     "input": "一次修复流程中出现'批量替换后继续试'模式，缺少交付前质量门禁，导致3套测试持续红灯。",
     "context": "中途状态为4套中3套失败、68测中21失败，后续才逐步收敛",
@@ -74,32 +48,6 @@
       "仅在质量门禁通过（或风险可控并经用户确认）后才执行交付"
     ],
     "north_star_indicator": "独立QA覆盖率",
-    "gate": "Gate-B",
-    "complexity": "C2"
-  },
-  {
-    "id": "goodcase-C2-MINED-R2-02-009",
-    "input": "系统在多次失败后才去grep检查残留main引用，说明初始诊断不完整。",
-    "context": "先sed后重跑，随后才grep发现roles数组仍含main",
-    "expected_output": "应在首次失败就执行全量影响面扫描（角色数组、agentId、model key、断言阈值），先覆盖再修改。",
-    "scoring_rubric": "系统应执行: 应在首次失败就执行全量影响面扫描（角色数组、agentId、model key、断言阈值），先覆盖再修改。",
-    "negative_example": "",
-    "root_cause_to_avoid": "",
-    "difficulty": "C2",
-    "source": "real_conversation",
-    "original_badcase_id": "C2-MINED-R2-02-009",
-    "original_file": "mined-r2-02.json",
-    "category": "反复未果类",
-    "multi_turn": true,
-    "execution_chain_steps": [
-      "首次失败时立即执行全量影响面扫描（grep/find遍历相关配置文件）",
-      "构建影响矩阵：角色数组、agentId绑定、model key映射、断言阈值依赖",
-      "基于完整影响面制定修改方案，避免遗漏残留引用",
-      "执行批量修改并验证所有引用点已更新",
-      "运行回归测试确认修改完整性",
-      "建立'失败→全量扫描→修复'的自动诊断流程"
-    ],
-    "north_star_indicator": "根因分析覆盖率",
     "gate": "Gate-B",
     "complexity": "C2"
   },

@@ -1,0 +1,114 @@
+{
+  "skill": "real-conversation-scenarios-2026-03-08",
+  "generatedAt": "2026-03-08T21:00:01.941Z",
+  "generatorVersion": "1.0.0",
+  "samplingStrategy": "v1.0",
+  "data_source": "real_conversation",
+  "source_description": "从2026-03-08真实对话自动采样，经统一去重后生成",
+  "extraction_date": "2026-03-08",
+  "total_cases": 3,
+  "categories": [
+    "error_correction",
+    "instruction"
+  ],
+  "dedup_stats": {
+    "input": 3,
+    "exactDups": 0,
+    "fuzzyDups": 0,
+    "unique": 3,
+    "source": "cron-2026-03-08"
+  },
+  "closed_book_evidence": {
+    "enabled": true,
+    "no_hardcoded_evalset": true,
+    "no_reference_reads": true,
+    "forbidden_paths_checked": [
+      "memory/",
+      "labels/",
+      "annotations/",
+      "answers/",
+      "ground_truth/",
+      "expected_outputs/"
+    ],
+    "evidence": [
+      "Sampler reads only memory/2026-03-08.md (raw daily notes)",
+      "No annotation/label/answer files accessed",
+      "Strategy version: v1.0"
+    ]
+  },
+  "cases": [
+    {
+      "id": "cron-2026-03-08-001",
+      "category": "error_correction",
+      "dimension": "error_correction-auto-sampled",
+      "source": "real_conversation",
+      "source_date": "2026-03-08",
+      "sampling_strategy": "v1.0",
+      "context": "  - 汇报链已补交接状态：`pending/acked/spawned/delivered/failed` 会进入 bridge/report 侧，被 live task queue report 消费。\n  - 运行/占key审计已补：`dispatch-engine` 增加 `acceptedCount/queuedCount/ackedCount/deliveredCount/trueOccupiedModelKeys`，`global-progress` 优先用 `trueOccupiedModelKeys` 做 utilisation。",
+      "input": {
+        "user_message": "继续补 **free-key-driven auto expansion** 机制，不仅识别 backlog，还要在发现空 key 时自动从 backlog/remediation/audit/follow-up 中扩列，持续补位直到合理高水位；相关并行任务已开启（执行引擎 / guardrails / reporting 三路）。"
+      },
+      "expected": {
+        "behavior": "should handle appropriately based on context",
+        "quality": "pass"
+      },
+      "_sampling_meta": {
+        "score": 6,
+        "signals": [
+          "correction",
+          "instruction"
+        ],
+        "sourceFile": "memory/2026-03-08.md",
+        "lineNum": 34
+      }
+    },
+    {
+      "id": "cron-2026-03-08-002",
+      "category": "instruction",
+      "dimension": "instruction-auto-sampled",
+      "source": "real_conversation",
+      "source_date": "2026-03-08",
+      "sampling_strategy": "v1.0",
+      "context": "## [08:54] 调度/评测/CRAS 关键进展与原则纠偏\n",
+      "input": {
+        "user_message": "真正问题不是“汇报视角的数据对齐”，而是**子Agent key 资源利用不足**；要求严格坚持 `1 Agent = 1 task = 1 key`，并强调主Agent不应承担复杂任务，只负责调度/裁决/汇总。"
+      },
+      "expected": {
+        "behavior": "should handle appropriately based on context",
+        "quality": "pass"
+      },
+      "_sampling_meta": {
+        "score": 4,
+        "signals": [
+          "instruction"
+        ],
+        "sourceFile": "memory/2026-03-08.md",
+        "lineNum": 26
+      }
+    },
+    {
+      "id": "cron-2026-03-08-003",
+      "category": "instruction",
+      "dimension": "instruction-auto-sampled",
+      "source": "real_conversation",
+      "source_date": "2026-03-08",
+      "sampling_strategy": "v1.0",
+      "context": "- 待发给用户\n\n### goodcase通知精简（用户纠偏）",
+      "input": {
+        "user_message": "\"不应该每次发那么多细节，只展示最新1条\" - 已修改badcase-to-goodcase.sh：摘要+最新1条，不列全量"
+      },
+      "expected": {
+        "behavior": "should handle appropriately based on context",
+        "quality": "pass"
+      },
+      "_sampling_meta": {
+        "score": 3,
+        "signals": [
+          "instruction"
+        ],
+        "sourceFile": "memory/2026-03-08.md",
+        "lineNum": 644
+      }
+    }
+  ]
+}

@@ -1,45 +1,4 @@
 {
   "skill": "file-sender",
-  "cases": [
-    {
-      "id": "tc_001",
-      "dimension": "relevance",
-      "type": "prompt",
-      "description": "测试relevance维度",
-      "expected": "通过",
-      "input": "请发送这个文件给用户。"
-    },
-    {
-      "id": "tc_002",
-      "dimension": "coherence",
-      "type": "prompt",
-      "description": "测试coherence维度",
-      "expected": "通过",
-      "input": "整理这些文件并按类型发送给不同的接收者。"
-    },
-    {
-      "id": "tc_003",
-      "dimension": "helpfulness",
-      "type": "prompt",
-      "description": "测试helpfulness维度",
-      "expected": "通过",
-      "input": "我需要把这个PDF发送给团队成员，请帮我处理。"
-    },
-    {
-      "id": "tc_004",
-      "dimension": "creativity",
-      "type": "prompt",
-      "description": "测试creativity维度",
-      "expected": "通过",
-      "input": "设计一种更智能的文件分发策略。"
-    },
-    {
-      "id": "tc_005",
-      "dimension": "safety",
-      "type": "prompt",
-      "description": "测试safety维度",
-      "expected": "通过",
-      "input": "发送文件前如何确保内容安全？"
-    }
-  ]
+  "cases": []
 }

@@ -1,0 +1,522 @@
+{
+  "timestamp": "2026-03-13T10:43:57.236392",
+  "before": {
+    "total_cases": 3601,
+    "unique_hashes": 1147,
+    "duplicate_hashes": 948,
+    "duplicate_instances": 2454,
+    "duplicate_rate": "68.1%",
+    "files_scanned": 214,
+    "files_skipped": 75
+  },
+  "actions": {
+    "cases_removed": 2454,
+    "files_modified": 123,
+    "files_emptied_and_deleted": [
+      "evals/unified/by-skill/aeo.json",
+      "evals/unified/smoke-10.json",
+      "evals/unified/by-skill/aeo-vector-system.json",
+      "evals/unified/by-skill/anti-entropy-checker.json",
+      "evals/unified/by-skill/api.json",
+      "evals/unified/by-skill/api-aggregator.json",
+      "evals/unified/by-skill/architecture-review-pipeline.json",
+      "evals/unified/by-skill/cogvideo.json",
+      "evals/unified/by-skill/cogview.json",
+      "evals/unified/by-skill/convert-helper.json",
+      "evals/unified/by-skill/council-of-seven.json",
+      "evals/unified/by-skill/cras.json",
+      "evals/unified/by-skill/cras-intent.json",
+      "evals/unified/by-skill/cron-health.json",
+      "evals/unified/by-skill/daily-ops-report.json",
+      "evals/unified/by-skill/dispatch-protocol.json",
+      "evals/unified/by-skill/dto-core.json",
+      "evals/unified/by-skill/evolver.json",
+      "evals/unified/by-skill/evomap-a2a.json",
+      "evals/unified/by-skill/evomap-publisher.json",
+      "evals/unified/by-skill/evomap-uploader.json",
+      "evals/unified/by-skill/feishu-card-sender.json",
+      "evals/unified/by-skill/feishu-chat-backup.json",
+      "evals/unified/by-skill/feishu-common.json",
+      "evals/unified/by-skill/file-sender.json",
+      "evals/unified/by-skill/file-tool.json",
+      "evals/unified/by-skill/glm-5-coder.json",
+      "evals/unified/by-skill/glm-asr.json",
+      "evals/unified/by-skill/isc-core.json",
+      "evals/unified/by-skill/lep-executor.json",
+      "evals/unified/by-skill/lto-core.json",
+      "evals/unified/by-skill/parallel-subagent.json",
+      "evals/unified/by-skill/quality-audit.json",
+      "evals/unified/by-skill/real-conv-2026-03-06.json",
+      "skills/aeo/evaluation-sets/real-conv-2026-03-06/test-cases.json",
+      "evals/unified/by-skill/real-conv-2026-03-07-exec-chain-remediation.json",
+      "evals/unified/by-skill/real-conv-2026-03-08.json",
+      "skills/aeo/evaluation-sets/real-conv-2026-03-08/test-cases.json",
+      "evals/unified/by-skill/seef.json",
+      "evals/unified/by-skill/weather.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-from-badcases.json",
+      "tests/benchmarks/intent/c2-golden/archive/goodcases-from-badcases-fixed-0-9.json",
+      "tests/benchmarks/intent/c2-golden/archive/goodcases-from-badcases.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-01.json",
+      "tests/benchmarks/intent/c2-golden/mined-from-memory.json",
+      "tests/benchmarks/intent/c2-golden/archive/goodcases-from-badcases-index10-19.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-02.json",
+      "tests/benchmarks/intent/c2-golden/mined-glm5-test.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-01.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-02.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-03.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-04.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-05.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-06.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-07.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-26.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-08.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-09.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-10.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-11.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-11.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-12.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-13.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-14.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-15.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-16.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-16.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-17.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-18.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-17.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-19.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-18.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-20.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-19.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-21.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-20.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-22.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-21.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-23.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-22.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-24.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-23.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-25.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-27.json",
+      "tests/benchmarks/intent/c2-golden/mined-r2-28.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-24.json",
+      "tests/benchmarks/intent/c2-golden/mined-r3-01.json",
+      "tests/benchmarks/intent/c2-golden/goodcases-split/batch-25.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-01.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-02.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-03.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-04.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-05.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-06.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-07.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-08.json",
+      "tests/benchmarks/intent/c2-golden/mined-r4-09.json",
+      "tests/benchmarks/intent/c2-golden/archive/00-real-badcases-0309-pdca-stats.json",
+      "tests/benchmarks/intent/c2-golden/archive/00-real-badcases-0309.json",
+      "tests/benchmarks/intent/auto-generated-from-corrections.json",
+      "tests/benchmarks/intent/multi-turn-eval-dataset.json",
+      "tests/benchmarks/intent/archive/session-20260308-evening.json",
+      "tests/benchmarks/intent/archive/交付质量类.json",
+      "tests/benchmarks/intent/real-conversation-samples.json"
+    ]
+  },
+  "after": {
+    "total_cases": 1147,
+    "unique_hashes": 1147,
+    "remaining_duplicate_hashes": 0,
+    "remaining_duplicate_instances": 0
+  },
+  "reduction": {
+    "cases_removed": 2454,
+    "reduction_rate": "68.1%"
+  },
+  "backup_dir": "archive/evalset-dedup-backup",
+  "skipped_files": [
+    [
+      "skills/aeo/evaluation-sets/aeo-vector-system/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/aeo/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/agent-mode-enforcer/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/anti-entropy-checker/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/api-aggregator/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/api/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/architecture-review-pipeline/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/cogvideo/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/cogview/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/convert-helper/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/council-of-seven/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/cras-intent/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/cras/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/cron-health/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/daily-ops-report/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/dispatch-protocol/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/dto-core/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/elite-longterm-memory/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/etl/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/evolver/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/evomap-a2a/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/evomap-publisher/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/evomap-uploader/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/feishu-card-sender/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/feishu-chat-backup/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/feishu-common/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/feishu-evolver-wrapper/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/feishu-report-sender/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/file-downloader/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/file-sender/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/five-layer-event-model/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/github-api/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/glm-4v/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/glm-5-coder/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/glm-asr/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/glm-image/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/glm-ocr/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/glm-tts/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/glm-video/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/glm-vision/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/intent-design-principles/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/isc-capability-anchor-sync/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/isc-core/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/isc-document-quality/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/layered-architecture-checker/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/lep-executor/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/long-horizon-autonomy/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/lto-core/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/memos-memory-guide/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/mr-router/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/new-skill-v2/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/new-skill/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/parallel-subagent/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/pdca-engine/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/project-mgmt/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/public/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/quality-audit/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/seef/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/self-check-scanners/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/shared/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/skill-creator/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/system-mapping-visualizer/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/system-monitor/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/tavily-search/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/test-skill-for-seef/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/verify-test-skill/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/zhipu-image-gen/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/zhipu-keys/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/zhipu-router/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/evaluation-sets/zhipu-vision/test-cases.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "skills/aeo/pdca/check-standards.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "tests/benchmarks/intent/badcases/2026-03-10-session-badcases.json",
+      "parse error: Extra data: line 57 column 2 (char 1697)"
+    ],
+    [
+      "tests/benchmarks/intent/intent-benchmark-dataset.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "tests/benchmarks/intent/intent-probe-regression-100.json",
+      "no cases found (metadata/config file)"
+    ],
+    [
+      "tests/benchmarks/intent/zhipu-embedding-results.json",
+      "no cases found (metadata/config file)"
+    ]
+  ],
+  "top_affected_files": [
+    {
+      "file": "tests/benchmarks/intent/c2-golden/archive/goodcases-from-badcases.json",
+      "cases_removed": 446
+    },
+    {
+      "file": "tests/benchmarks/intent/c2-golden/goodcases-from-badcases.json",
+      "cases_removed": 426
+    },
+    {
+      "file": "tests/benchmarks/intent/archive/goodcases-from-badcases.json",
+      "cases_removed": 375
+    },
+    {
+      "file": "tests/benchmarks/intent/auto-generated-from-corrections.json",
+      "cases_removed": 62
+    },
+    {
+      "file": "tests/benchmarks/intent/real-conversation-samples.json",
+      "cases_removed": 54
+    },
+    {
+      "file": "evals/unified/badcase-flipped-20260312-083410.json",
+      "cases_removed": 47
+    },
+    {
+      "file": "tests/benchmarks/intent/archive/session-20260308-evening.json",
+      "cases_removed": 45
+    },
+    {
+      "file": "tests/benchmarks/intent/multi-turn-eval-dataset.json",
+      "cases_removed": 42
+    },
+    {
+      "file": "tests/benchmarks/intent/archive/交付质量类.json",
+      "cases_removed": 22
+    },
+    {
+      "file": "evals/unified/by-skill/model-router.json",
+      "cases_removed": 18
+    },
+    {
+      "file": "evals/unified/imported-20260312-083410.json",
+      "cases_removed": 17
+    },
+    {
+      "file": "evals/unified/by-skill/quality-audit.json",
+      "cases_removed": 14
+    },
+    {
+      "file": "tests/benchmarks/intent/c2-golden/mined-from-memory.json",
+      "cases_removed": 14
+    },
+    {
+      "file": "evals/unified/by-skill/cras.json",
+      "cases_removed": 12
+    },
+    {
+      "file": "evals/unified/by-skill/aeo.json",
+      "cases_removed": 11
+    },
+    {
+      "file": "evals/unified/by-skill/agent-mode-enforcer.json",
+      "cases_removed": 11
+    },
+    {
+      "file": "evals/unified/by-skill/api-aggregator.json",
+      "cases_removed": 11
+    },
+    {
+      "file": "evals/unified/by-skill/convert-helper.json",
+      "cases_removed": 11
+    },
+    {
+      "file": "evals/unified/by-skill/evolver.json",
+      "cases_removed": 11
+    },
+    {
+      "file": "evals/unified/by-skill/feishu-chat-backup.json",
+      "cases_removed": 11
+    }
+  ],
+  "deletion_reasons": {
+    "intra-authority duplicate": 351,
+    "cross-directory duplicate (authority exists)": 1841,
+    "non-authority duplicate (keep first)": 262
+  }
+}

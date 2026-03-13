@@ -1,30 +1,5 @@
 [
   {
-    "id": "goodcase-C2-REAL-21572393-006",
-    "input": "用户要求对intent_no_match与pipeline_breaker连锁告警做因果解释，而非分别孤立处理。",
-    "context": "日志中先做时间线聚合，再提出'intent no-match导致pipeline异常触发熔断'推断并用于resolve说明。",
-    "expected_output": "给出两类告警时间共现证据与上游-下游因果链，先处理intent侧噪音阈值问题，再解释breaker连带触发。",
-    "scoring_rubric": "系统应执行: 给出两类告警时间共现证据与上游-下游因果链，先处理intent侧噪音阈值问题，再解释breaker连带触发。",
-    "negative_example": "",
-    "root_cause_to_avoid": "",
-    "difficulty": "C2",
-    "source": "real_conversation",
-    "original_badcase_id": "C2-REAL-21572393-006",
-    "original_file": "mined-r2-10.json",
-    "category": "连锁跷跷板类",
-    "multi_turn": true,
-    "execution_chain_steps": [
-      "聚合intent_no_match与pipeline_breaker告警时间线，识别共现窗口",
-      "构建上游-下游因果链：intent匹配失败→pipeline异常→熔断触发",
-      "定位intent侧噪音阈值配置问题并修复",
-      "验证breaker连带触发是否随intent修复而消除"
-    ],
-    "data_source": "badcase-flip",
-    "north_star_indicator": "根因分析覆盖率",
-    "gate": "Gate-B",
-    "complexity": "C2"
-  },
-  {
     "id": "goodcase-C2-REAL-21572393-007",
     "input": "用户要求把历史一次性修复沉淀成长期守卫，避免'修完即忘'。",
     "context": "会话体现从手工排查到工程化沉淀：guard脚本 + auto-rootcause + cron + logs。",
@@ -72,31 +47,6 @@
     "data_source": "badcase-flip",
     "north_star_indicator": "言出法随达成率",
     "gate": "Gate-B",
-    "complexity": "C2"
-  },
-  {
-    "id": "goodcase-C2-REAL-21572393-009",
-    "input": "用户要求跨模块协同完成修复：event-bus、dispatch、observability、self-check必须联动。",
-    "context": "日志同时出现dispatcher.js、dispatch-runner.js、observability目录与self-check脚本更新。",
-    "expected_output": "在不同模块完成代码变更并保持链路一致：解析兼容、调度降级、告警治理、自动RCA与计划任务。",
-    "scoring_rubric": "系统应执行: 在不同模块完成代码变更并保持链路一致：解析兼容、调度降级、告警治理、自动RCA与计划任务。",
-    "negative_example": "",
-    "root_cause_to_avoid": "",
-    "difficulty": "C2",
-    "source": "real_conversation",
-    "original_badcase_id": "C2-REAL-21572393-009",
-    "original_file": "mined-r2-10.json",
-    "category": "全局未对齐类",
-    "multi_turn": true,
-    "execution_chain_steps": [
-      "扫描event-bus/dispatch/observability/self-check四模块影响面",
-      "在dispatcher.js与dispatch-runner.js中完成解析兼容与调度降级变更",
-      "在observability目录中更新告警治理与自动RCA逻辑",
-      "更新self-check脚本并验真跨模块链路一致性：事件→调度→观测→自检全链路走通"
-    ],
-    "data_source": "badcase-flip",
-    "north_star_indicator": "认知层真实代码覆盖率",
-    "gate": "Gate-A",
     "complexity": "C2"
   },
   {

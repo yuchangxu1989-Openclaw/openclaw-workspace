@@ -554,7 +554,31 @@
       "reviewed_by": null,
       "review_date": null,
       "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMO4XQEK-JAK",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-13",
+      "source": "memos:default/7bf858ec",
+      "signal_type": "missing_feature",
+      "signal_strength": "weak",
+      "raw_signal": "没有放开一些口子来让我们做预处理",
+      "context": "于长煦: 我不懂代码，派2位开thinking的架构师来研究，Openclaw有没有放开一些口子来让我们做预处理，还是只能直接LLM调度无解了？前提是我不想改Openclaw原生核心代码",
+      "extracted_correction": "没有放开一些口子来让我们做预处理，还是只能直接LLM调度无解了？前提是我不想改Openclaw原生核心代码",
+      "category": "completeness",
+      "rule_hint": "交付前检查完整性清单，不遗漏关键功能",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"没有放开一些口子来让我们做预处理\"",
+        "action": "交付前检查完整性清单，不遗漏关键功能",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
     }
   ],
-  "last_updated": "2026-03-12T09:55:01.423Z"
+  "last_updated": "2026-03-13T00:05:02.060Z"
 }

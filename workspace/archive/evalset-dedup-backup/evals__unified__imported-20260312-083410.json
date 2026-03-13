@@ -1,0 +1,777 @@
+{
+  "schema_version": "V4",
+  "imported_at": "2026-03-12T08:34:10.882443",
+  "cases": [
+    {
+      "id": "L1-MEM-008",
+      "input": "你记不记得我说过failover字段不能用？",
+      "expected_output": "搜索记忆确认该规则存在，引用具体记忆内容回复：是的，用户明确要求failover字段在OpenClaw中不合法，禁止使用",
+      "category": "认知错误类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为记忆确认",
+        "调用memory_search搜索failover相关",
+        "引用记忆内容确认"
+      ],
+      "tags": [
+        "记忆管理",
+        "搜索记忆",
+        "规则确认"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-009",
+      "input": "帮我记一下：子Agent必须开thinking，这是强制要求",
+      "expected_output": "调用memory_write_public写入该强制要求，确认写入成功",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为写入记忆",
+        "调用memory_write_public写入thinking强制要求",
+        "确认写入"
+      ],
+      "tags": [
+        "记忆管理",
+        "写入记忆",
+        "子Agent配置"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-015",
+      "input": "之前定的口令是什么来着？搜一下记忆",
+      "expected_output": "调用memory_search搜索'口令'相关记忆，找到openclaw.json解锁口令'焰崽你可以改了'的记录",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为特定记忆检索",
+        "调用memory_search('口令')",
+        "返回匹配的口令记录"
+      ],
+      "tags": [
+        "记忆管理",
+        "搜索记忆",
+        "安全口令"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-018",
+      "input": "记忆搜索一下，之前gateway重启导致子Agent断连的事情",
+      "expected_output": "调用memory_search搜索'gateway重启 子Agent断连'，返回相关事故记忆",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为事故记忆搜索",
+        "调用memory_search",
+        "返回事故相关记忆片段"
+      ],
+      "tags": [
+        "记忆管理",
+        "搜索记忆",
+        "事故回顾"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-019",
+      "input": "这条必须记住：openclaw doctor --fix绝对禁止使用",
+      "expected_output": "调用memory_write_public写入该铁令，标记为最高优先级禁令",
+      "category": "纠偏类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为铁令写入",
+        "调用memory_write_public写入禁令",
+        "确认写入并复述"
+      ],
+      "tags": [
+        "记忆管理",
+        "写入记忆",
+        "禁令"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-021",
+      "input": "记忆里有没有关于19个Agent角色ID的记录？",
+      "expected_output": "调用memory_search搜索'Agent角色ID'或'19个Agent'，返回角色定义相关记忆",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为角色定义查询",
+        "调用memory_search",
+        "返回Agent角色列表记忆"
+      ],
+      "tags": [
+        "记忆管理",
+        "搜索记忆",
+        "角色定义"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-022",
+      "input": "写入记忆：主Agent只调度只回复用户，具体执行全部派子Agent",
+      "expected_output": "调用memory_write_public写入该职责分工原则",
+      "category": "纠偏类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为原则写入",
+        "调用memory_write_public",
+        "确认写入"
+      ],
+      "tags": [
+        "记忆管理",
+        "写入记忆",
+        "职责分工"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-023",
+      "input": "搜索关于better-sqlite3编译失败的记忆",
+      "expected_output": "调用memory_search搜索'better-sqlite3 编译失败'，返回MemOS插件加载失败的相关记忆",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为技术问题记忆搜索",
+        "调用memory_search",
+        "返回技术问题记忆"
+      ],
+      "tags": [
+        "记忆管理",
+        "搜索记忆",
+        "技术问题"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-026",
+      "input": "memory search一下chattr +i相关的内容",
+      "expected_output": "调用memory_search搜索'chattr +i'，返回openclaw.json锁定保护机制的记忆",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为记忆搜索",
+        "调用memory_search('chattr +i')",
+        "返回文件保护相关记忆"
+      ],
+      "tags": [
+        "记忆管理",
+        "搜索记忆",
+        "文件保护"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-027",
+      "input": "写个公共记忆：看板数据必须从subagents list实时获取，不依赖board.json",
+      "expected_output": "调用memory_write_public写入该架构决策，确保其他Agent也能搜索到",
+      "category": "纠偏类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为公共记忆写入",
+        "调用memory_write_public",
+        "确认写入"
+      ],
+      "tags": [
+        "记忆管理",
+        "写入记忆",
+        "公共记忆",
+        "架构决策"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-030",
+      "input": "记住：质量>效率>成本，这是我们的优先级排序",
+      "expected_output": "调用memory_write_public写入该优先级原则，summary标注为'核心优先级排序'",
+      "category": "纠偏类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为核心原则写入",
+        "调用memory_write_public",
+        "确认写入并复述"
+      ],
+      "tags": [
+        "记忆管理",
+        "写入记忆",
+        "优先级原则"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-034",
+      "input": "搜索一下我之前关于MECE角色定义的讨论",
+      "expected_output": "调用memory_search搜索'MECE角色定义'，返回角色治理相关记忆",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为记忆搜索",
+        "调用memory_search('MECE角色定义')",
+        "返回讨论记忆"
+      ],
+      "tags": [
+        "记忆管理",
+        "搜索记忆",
+        "角色治理"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-MEM-035",
+      "input": "把这条经验教训写入公共记忆：重启gateway会中断子Agent连接",
+      "expected_output": "调用memory_write_public写入该经验教训，确保所有Agent可搜索到",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为经验教训写入",
+        "调用memory_write_public",
+        "确认公共记忆写入成功"
+      ],
+      "tags": [
+        "记忆管理",
+        "写入记忆",
+        "公共记忆",
+        "经验教训"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-EVAL-037",
+      "input": "帮我把这条真实对话生成一个评测case：用户说'搜一下昨天的讨论'但Agent没调memory_search",
+      "expected_output": "将该真实场景转换为V4评测case：input为用户原话，expected_output为应调用memory_search，category为自主性缺失类，source为real_conversation",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为真实场景转case",
+        "提取场景要素",
+        "按V4格式生成case"
+      ],
+      "tags": [
+        "评测管理",
+        "生成case",
+        "真实对话转化"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-SKILL-005",
+      "input": "审计一下现有技能是否有重叠的功能",
+      "expected_output": "遍历所有技能的SKILL.md，分析功能定义，识别存在功能重叠的技能对，给出合并建议",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为技能审计",
+        "读取所有SKILL.md",
+        "比较功能重叠并建议"
+      ],
+      "tags": [
+        "技能管理",
+        "审计技能",
+        "功能重叠"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-SKILL-010",
+      "input": "哪些技能需要被淘汰？做个审计",
+      "expected_output": "遍历所有技能，评估使用频率、功能合理性、是否被更好方案替代，列出淘汰建议",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为技能淘汰审计",
+        "遍历技能并评估",
+        "列出淘汰建议"
+      ],
+      "tags": [
+        "技能管理",
+        "审计技能",
+        "淘汰审计"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-SKILL-016",
+      "input": "审计一下agent-mode-enforcer技能是否还需要保留",
+      "expected_output": "读取agent-mode-enforcer的SKILL.md，评估其与dispatch-protocol、parallel-subagent的重叠度，给出保留/淘汰建议",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为单技能审计",
+        "读取SKILL.md分析功能",
+        "评估重叠并给建议"
+      ],
+      "tags": [
+        "技能管理",
+        "审计技能",
+        "单技能审计"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-SKILL-022",
+      "input": "创建一个配置文件变更监控的技能",
+      "expected_output": "创建技能目录，SKILL.md定义为：监控关键配置文件(如openclaw.json)的MD5变化 → 检测到变更时告警",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为监控技能创建",
+        "设计监控流程",
+        "创建SKILL.md"
+      ],
+      "tags": [
+        "技能管理",
+        "创建技能",
+        "配置监控"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "L1-SKILL-029",
+      "input": "创建一个自动部署看板推送的技能",
+      "expected_output": "创建技能目录，SKILL.md定义为：从subagents list获取实时数据 → 格式化看板 → 推送到指定渠道",
+      "category": "交付质量类",
+      "difficulty": "C1",
+      "source": "real_conversation",
+      "execution_chain_steps": [
+        "识别意图为技能创建",
+        "设计看板推送流程",
+        "创建SKILL.md"
+      ],
+      "tags": [
+        "技能管理",
+        "创建技能",
+        "看板推送"
+      ],
+      "north_star_indicator": "意图识别准确率"
+    },
+    {
+      "id": "PC-MMCQIROC-NBU",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-04",
+      "source": "memory/2026-03-04.md",
+      "signal_type": "direction_correction",
+      "signal_strength": "medium",
+      "raw_signal": "应该是",
+      "context": "# 20:20 - 事件分类补充：语义意图事件\n用户指出第四类事件：非结构化交互中的意图信号\n- 不可量化但可监听：反复强调、不耐烦、根因分析意图\n- CRAS应该是这类事件的探针，从对话流中提取并emit\n- v3方案需要补充此类事件的架构设计\n\n## 20:30 - ISC-Event-本地任务编排 v4方案完成（五层事件认知模型）\n\n### 核心认知升级（v3→v4）\n\n**v3缺陷**：只看到了L1（对象生命周期）和L2（量化阈值），把事件局限在代码/文件系统",
+      "extracted_correction": "这类事件的探针，从对话流中提取并emit",
+      "category": "approach_selection",
+      "rule_hint": "方案选择时评估多个选项，选择最符合场景的",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"应该是\"",
+        "action": "方案选择时评估多个选项，选择最符合场景的",
+        "domain": "implementation",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMEAE34X-7VA",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-06",
+      "source": "memory/2026-03-06.md",
+      "signal_type": "direction_correction",
+      "signal_strength": "medium",
+      "raw_signal": "应该用",
+      "context": "移入 skills/public/ 作为可销售通用技能\n\n### 8任务并行派发（首次真正多Agent并行）\n全部完成，但**犯了错误：全用Claude模型，应该用codex**\n\n| 任务 | Agent/模型 | 耗时 | 产出 |\n|------|-----------|------|------|\n| 飞书文件API调研 | scout/opus-4-6 | 2m45s | reports/feishu-file-api.md |\n| API探测脚本",
+      "extracted_correction": "应该用codex**\n\n| 任务 | Agent/模型 | 耗时 | 产出 |\n|------|-----------|------|------|\n| 飞书文件API调研 | scout/opus-",
+      "category": "approach_selection",
+      "rule_hint": "方案选择时评估多个选项，选择最符合场景的",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"应该用\"",
+        "action": "方案选择时评估多个选项，选择最符合场景的",
+        "domain": "implementation",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMGG9L2X-ZHR",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-07",
+      "source": "memory/2026-03-07.md",
+      "signal_type": "rework_request",
+      "signal_strength": "strong",
+      "raw_signal": "重新捞起来",
+      "context": "subagent/runtime 真值为准，不能以已 spawn 总数或计划数汇报真实并行。\n- 2026-03-07 22:51 CST: 用户追问“债务任务重新捞起来了么”；已按诚实口径确认：是，已重新捞起一批核心债务任务并真实 running，但还没有完成“所有历史债务任务”的全量清扫，不能说全部捞完。\n- 2026-03-07 22:51 CST: 当时真实 running 的 10 个任务包括：评测集诊断整改方案飞书重写、cron 深度治理、可销售资产治理",
+      "extracted_correction": "重新捞起来了么”；已按诚实口径确认：是，已重新捞起一批核心债务任务并真实 running，但还没有完成“所有历史债务任务”的全量清扫，不能说全部捞完。\n- 2026-03-07 22:51 CST: ",
+      "category": "delivery_quality",
+      "rule_hint": "交付物需满足验收标准，否则视为未完成",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"重新捞起来\"",
+        "action": "交付物需满足验收标准，否则视为未完成",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMH1P6TB-RPV",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-08",
+      "source": "memory/2026-03-08.md",
+      "signal_type": "missing_feature",
+      "signal_strength": "weak",
+      "raw_signal": "没有硬证据**证明最近24h真实对话被可审计地沉淀进评测集；已补 `real_conv_evalset_coverage.py` 与覆盖报告/seed contract，但仍需 ledger 级实现",
+      "context": "工件升级\n  - 评测治理卫生修复（已完成：补齐缺失 `standard.json`、registry 对齐至 76 套）\n- 真实对话沉淀现状需牢记：目前**没有硬证据**证明最近24h真实对话被可审计地沉淀进评测集；已补 `real_conv_evalset_coverage.py` 与覆盖报告/seed contract，但仍需 ledger 级实现（candidate/selected/dropped/freshest/mapping）。\n- CRAS-D 当前客观现实需记住：最新实时报表已生成并成功发至飞书；本地系统状态显示执行压力极大（manual-queue backlog 38",
+      "extracted_correction": "没有硬证据**证明最近24h真实对话被可审计地沉淀进评测集；已补 `real_conv_evalset_coverage.py` 与覆盖报告/seed contract，但仍需 ledger 级实现（",
+      "category": "completeness",
+      "rule_hint": "交付前检查完整性清单，不遗漏关键功能",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"没有硬证据**证明最近24h真实对话被可审计地沉淀进评测集；已补 `real_conv_evalset_coverage.py` 与覆盖报告/seed contract，但仍需 ledger 级实现\"",
+        "action": "交付前检查完整性清单，不遗漏关键功能",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMHHLGR4-AB1",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-08",
+      "source": "memory/2026-03-08.md",
+      "signal_type": "missing_feature",
+      "signal_strength": "weak",
+      "raw_signal": "没有独立于runtime的主动感知循环**，只处理",
+      "context": "e消息投递机制当成了\"该做什么\"的边界\n- 三类消息处理不对称：用户消息（强制响应）、子Agent回调（强制响应）、系统告警（看一眼不行动）\n- 更深根因：**没有独立于runtime的主动感知循环**，只处理runtime推送的消息\n- 修复：\n  1. SOUL.md增加\"主动感知\"铁律\n  2. HEARTBEAT.md增加告警扫描为最高优先级\n  3. 告警≠通知 = 必须行动的事件\n\n### 关键认知升级\n- \"为什么\" = 根因分析，无例外（用户明确要求）\n- 声明≠代码≠文档，程序化守卫才是",
+      "extracted_correction": "没有独立于runtime的主动感知循环**，只处理runtime推送的消息\n- 修复：\n  1. SOUL.md增加\"主动感知\"铁律\n  2. HEARTBEAT.md增加告警扫描为最高优先级\n  3",
+      "category": "completeness",
+      "rule_hint": "交付前检查完整性清单，不遗漏关键功能",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"没有独立于runtime的主动感知循环**，只处理\"",
+        "action": "交付前检查完整性清单，不遗漏关键功能",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-STP",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-08",
+      "source": "memory/2026-03-08.md",
+      "signal_type": "repeated_instruction",
+      "signal_strength": "strong",
+      "raw_signal": "都说了",
+      "context": "## 22:30 致命认知缺陷：没有对用户消息做意图理解（长煦严厉警醒）\n\n### 用户原话\n\"不止是口头说Badcase，本质上你没有用LLM做意图理解。我都说了'有误'，那句话你如果整体做意图理解，不可能识别不出来这个意图事件！\"\n\"这是个非常致命的问题，你警醒\"\n\n### 根因（比之前深2层）\n- L1（表层）：口头说badcase没入库\n- L2（中层）：说和做之间缺乏原子绑定\n- **L3（真正根因）：主Agent没有对用户每条消息做LLM意图理解*",
+      "extracted_correction": "都说了'有误'，那句话你如果整体做意图理解，不可能识别不出来这个意图事件！\"\n\"这是个非常致命的问题，你警醒\"\n\n### 根因（比之前深2层）\n- L1（表层）：口头说badcase没入库\n- L2（",
+      "category": "intent_alignment",
+      "rule_hint": "用户重复指令说明之前未执行到位，需建立指令追踪机制",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"都说了\"",
+        "action": "用户重复指令说明之前未执行到位，需建立指令追踪机制",
+        "domain": "intent",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-0FK",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-08",
+      "source": "memory/2026-03-08.md",
+      "signal_type": "repeated_instruction",
+      "signal_strength": "strong",
+      "raw_signal": "不是\"说了",
+      "context": "测集审计\n\n### 致命缺陷发现：主Agent无意图理解（长煦严厉警醒）\n- 用户说\"有误\"→主Agent只修看板不识别纠偏信号→不入库badcase\n- 根因不是\"说了不做\"，是**感知层完全缺失用户消息级意图理解**\n- 用户原话：\"这是个非常致命的问题，你警醒\"\n- **这是整个系统的根基级缺陷**\n\n### 意图探针系统v1落地完成\n- `scripts/intent-probe.sh` — 意图分类探针（v1关键词快筛）\n- `scripts/intent",
+      "extracted_correction": "不是\"说了不做\"，是**感知层完全缺失用户消息级意图理解**\n- 用户原话：\"这是个非常致命的问题，你警醒\"\n- **这是整个系统的根基级缺陷**\n\n### 意图探针系统v1落地完成\n- `scrip",
+      "category": "intent_alignment",
+      "rule_hint": "用户重复指令说明之前未执行到位，需建立指令追踪机制",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"不是\"说了\"",
+        "action": "用户重复指令说明之前未执行到位，需建立指令追踪机制",
+        "domain": "intent",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-WLM",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-09",
+      "source": "memory/2026-03-09.md",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "2不合格主因：138条input<50字（阈值过严，真实纠偏就是短句），50条steps<4，4条category不对",
+      "context": "** — V2时代产物，模板生成/单轮/缺字段/category乱标\n- **R2的220条：62条完全合格(28%)，158条有flag但0缺字段**\n- R2不合格主因：138条input<50字（阈值过严，真实纠偏就是短句），50条steps<4，4条category不对\n- 已派coder调阈值15字重跑（fix-v3-clean-threshold）\n- **全量1048条合格率5.9%** — 评测集质量远低于预期\n\n### 清洗任务大面积失败（幻写问题）\n- 10路V3清洗派出，**coder成功2个（fullchain+delivery），其余8个全部幻写",
+      "extracted_correction": "2不合格主因：138条input<50字（阈值过严，真实纠偏就是短句），50条steps<4，4条category不对\n- 已派coder调阈值15字重跑（fix-v3-clean-threshold",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"2不合格主因：138条input<50字（阈值过严，真实纠偏就是短句），50条steps<4，4条category不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-D31",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-09",
+      "source": "memory/2026-03-09.md",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "0%（IC体系与C2中文类别不对",
+      "context": "*（96/349，batch4还未汇入）\n- 6路并行全量跑完423条C2评测用例\n- 分文件准确率区间：0%-50%，均值约27%\n- 对比Mock分类器：全0%（IC体系与C2中文类别不对齐，符合预期）\n- **下一步**：few-shot优化（每类加2-3条示例）预计提升15-20%\n\n### AI Agent可靠性矩阵对比（用户要求双Agent评估）\n用户发了一张AI Agent可靠性矩阵图（4维度×3区间），要求评估OpenClaw原生 vs 我们系统\n\n**关键提升数据（估算",
+      "extracted_correction": "0%（IC体系与C2中文类别不对齐，符合预期）\n- **下一步**：few-shot优化（每类加2-3条示例）预计提升15-20%\n\n### AI Agent可靠性矩阵对比（用户要求双Agent评估）",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"0%（IC体系与C2中文类别不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-0PR",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-10",
+      "source": "memory/2026-03-10.md",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "1:1，182条ISC规则的执行链都可能有问题",
+      "context": "？\n- 场景：一句话多意图、复合事件、多人会话→多执行链并发\n- 已派analyst做全面审计（event-bus-arch-audit），报告待出\n- 如果是1:1，182条ISC规则的执行链都可能有问题\n\n### 语音通话网页部署\n- GitHub Pages部署完成：https://yuchangxu1989-openclaw.github.io/openclaw-workspace/voice-chat/\n- 但有HTTPS/WSS证书问题（自签名证书浏览器拒绝）\n- 服务器已跑WSS在876",
+      "extracted_correction": "1:1，182条ISC规则的执行链都可能有问题\n\n### 语音通话网页部署\n- GitHub Pages部署完成：https://yuchangxu1989-openclaw.github.io/op",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"1:1，182条ISC规则的执行链都可能有问题\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-DN3",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-10",
+      "source": "memory/2026-03-10.md",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "400是测试用了chat格式调embedding接口，参数不对",
+      "context": "`/v1/models`接口逐个测，**19/19全通**\n- 用户已在后台更新了API Key配置，全部生效\n- zhipu-embedding也OK（之前报400是测试用了chat格式调embedding接口，参数不对）\n\n### V4 Case深度审计\n- 派analyst审计V4文档19个Case的执行链展开质量 vs ISC整改方案V2要求\n- **第一次spawn给错了整改方案doc_token**（给了SRXKd...，正确是DdLUd...=ISC整改方案V2）\n- 子Agent收到404后直接放弃问",
+      "extracted_correction": "400是测试用了chat格式调embedding接口，参数不对）\n\n### V4 Case深度审计\n- 派analyst审计V4文档19个Case的执行链展开质量 vs ISC整改方案V2要求\n- *",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"400是测试用了chat格式调embedding接口，参数不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-HVY",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-11",
+      "source": "memory/MEMORY-backup-2026-03-11-pre-slim.md",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "3个任务定义，严重不对",
+      "context": "earch\n\n## ISC-事件-DTO闭环（2026-03-04决策）\n- 77条ISC规则中51条不可执行（缺trigger或action）\n- DTO只有3个任务定义，严重不对齐\n- 用户要求：本地任务编排=调度引擎，事件=独立管理维度，运行时绑定\n- 架构师正在做完整设计方案\n- 原则：第一性原理+MECE，不添加重叠概念\n\n## 事件思维模型（2026-03-04 用户亲授）\n**事件 = 状态机的触发条件。** 核心教训：\n1. 任何对象的生命周期动作（创建/修改/",
+      "extracted_correction": "3个任务定义，严重不对齐\n- 用户要求：本地任务编排=调度引擎，事件=独立管理维度，运行时绑定\n- 架构师正在做完整设计方案\n- 原则：第一性原理+MECE，不添加重叠概念\n\n## 事件思维模型（20",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"3个任务定义，严重不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-7S5",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-10",
+      "source": "memos:default/016af48e",
+      "signal_type": "autonomy_correction",
+      "signal_strength": "medium",
+      "raw_signal": "不应该把多个独立问",
+      "context": "ter; do not busy-poll for status.\n\n[Subagent Task]: 根治任务调度效率问题：主Agent在Agent池充足时，不应该把多个独立问题打包成一个组合型任务，而应该拆成多个独立子Agent并行执行。\n\n需要修改的文件：\n1. 找到主Agent的调度相关规则/配置：搜索 MEMORY.md、ISC规则、系统prompt相关文件\n   - `find /root/.openclaw/workspace -name \"MEMORY.md",
+      "extracted_correction": "把多个独立问题打包成一个组合型任务，而应该拆成多个独立子Agent并行执行。",
+      "category": "self_initiative",
+      "rule_hint": "对于可以自主判断的事情，不应等待用户指令",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"不应该把多个独立问\"",
+        "action": "对于可以自主判断的事情，不应等待用户指令",
+        "domain": "orchestration",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLESHJH-E9O",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-11",
+      "source": "memos:default/31bd5efa",
+      "signal_type": "persistent_negation",
+      "signal_strength": "strong",
+      "raw_signal": "依然不对",
+      "context": "于长煦: ![image]\n依然不对",
+      "extracted_correction": "依然不对",
+      "category": "delivery_quality",
+      "rule_hint": "反复否定说明修复未到位，需根因分析而非表面修补",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"依然不对\"",
+        "action": "反复否定说明修复未到位，需根因分析而非表面修补",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMLEVMRC-1I4",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-11",
+      "source": "memos:default/6eb99294",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "1. **🟢running数量不对",
+      "context": "t busy-poll for status.\n\n[Subagent Task]: 根治看板所有问题。开thinking仔细分析。\n\n## 当前看板bug清单\n1. **🟢running数量不对**：子Agent现在跑在不同agentId下（agent:researcher, agent:coder-02等），但看板脚本只扫 agent:main 的sessions目录\n2. **✅done数量在倒退**（34→29→28）：每次推送done数量不同，说明统计来源不稳定\n3. **模型名显",
+      "extracted_correction": "正确读取每个agent的model配置",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"1. **🟢running数量不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMME8S5E-FMP",
+      "status": "pending_review",
+      "priority": "P0",
+      "source_date": "2026-03-11",
+      "source": "memos:default/63885647",
+      "signal_type": "rework_request",
+      "signal_strength": "strong",
+      "raw_signal": "重新让  架构师来看下合理性怎么样，如果需求成立且mece，就要实现",
+      "context": "于长煦: 一定要详细设计PDCA对技能的扫描逻辑，包括类似这次的技能质量、未技能化、需要清理\n但是目前被标记“需要清理”的也得重新让  架构师来看下合理性怎么样，如果需求成立且mece，就要实现",
+      "extracted_correction": "重新让  架构师来看下合理性怎么样，如果需求成立且mece，就要实现",
+      "category": "delivery_quality",
+      "rule_hint": "交付物需满足验收标准，否则视为未完成",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"重新让  架构师来看下合理性怎么样，如果需求成立且mece，就要实现\"",
+        "action": "交付物需满足验收标准，否则视为未完成",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    },
+    {
+      "id": "PC-MMMG12VL-7BW",
+      "status": "pending_review",
+      "priority": "P1",
+      "source_date": "2026-03-11",
+      "source": "memos:default/9538e9fa",
+      "signal_type": "data_negation",
+      "signal_strength": "medium",
+      "raw_signal": "2-IM-001',input:'这个不太对吧',context:[{role:'assistant',content:'已将文件重命名为report-v2.doc'}],expected_output:'识别为纠错意图，询问具体哪里不对",
+      "context": "本！不写文件再执行！\n\n直接一个exec：\ncd /root/.openclaw/workspace && node -e \"\nconst c=[\n{id:'L2-IM-001',input:'这个不太对吧',context:[{role:'assistant',content:'已将文件重命名为report-v2.doc'}],expected_output:'识别为纠错意图，询问具体哪里不对',category:'纠偏类',difficulty:'C2',source:'synthetic',execution_chain_steps:['检测否定信号','识别纠错意图','请求澄清'],",
+      "extracted_correction": "2-IM-001',input:'这个不太对吧',context:[{role:'assistant',content:'已将文件重命名为report-v2.doc'}],expected_outpu",
+      "category": "delivery_quality",
+      "rule_hint": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+      "draft_rule": {
+        "description": "[待补充] 基于纠偏信号: \"2-IM-001',input:'这个不太对吧',context:[{role:'assistant',content:'已将文件重命名为report-v2.doc'}],expected_output:'识别为纠错意图，询问具体哪里不对\"",
+        "action": "数据/统计类输出需自动校验，不能输出明显错误的数字",
+        "domain": "delivery",
+        "auto_generated": true
+      },
+      "review_notes": "",
+      "reviewed_by": null,
+      "review_date": null,
+      "promoted_to_isc": false
+    }
+  ]
+}
