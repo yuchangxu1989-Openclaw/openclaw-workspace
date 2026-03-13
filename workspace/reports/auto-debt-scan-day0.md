@@ -1,8 +1,8 @@
 # Auto Debt Scan - Day 0
 
-> 自动生成于: 2026-03-12T03:00:02.613Z
+> 自动生成于: 2026-03-13T04:00:02.190Z
 > 触发器: day0-closure-conditions.md 检测
-> 总计发现: **696 个设计债务项**
+> 总计发现: **710 个设计债务项**
 
 ---
 
@@ -10,13 +10,13 @@
 
 | 类别 | 数量 | 严重度 |
 |------|------|--------|
-| 代码级 TODO/FIXME | 312 | 🔴 高 |
+| 代码级 TODO/FIXME | 324 | 🔴 高 |
 | 配置一致性问题 | 56 | 🔴 高 |
-| 事件对齐缺口 | 328 | 🔴 高 |
+| 事件对齐缺口 | 330 | 🔴 高 |
 
-## 🔧 代码级债务 (312 项)
+## 🔧 代码级债务 (324 项)
 
-### TODO (241)
+### TODO (243)
 
 - `skills/evolver/src/ops/innovation.js:44` — ideas.push("- Dev: Implement a 'todo-manager' that syncs code TODOs to tasks.");
 - `skills/lto-core/core/declarative-orchestrator.js:544` — // TODO: 实现自动技能化
@@ -28,23 +28,23 @@
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:74` — # TODO: 执行动作脚本 for rule: $RULE_ID ($RULE_NAME)
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:76` — # TODO: 实现规则要求的执行逻辑
 - `skills/public/isc-auto-align/scripts/isc-auto-align.sh:88` — # TODO: 执行动作脚本 for rule: $RULE_ID ($RULE_NAME)
-- ... 还有 231 项
+- ... 还有 233 项
 
-### BUG (12)
+### BUG (18)
 
 - `skills/public/multi-agent-dispatch/check-stale-tasks.js:249` — // BUG-4: 用 flock 文件锁保护写操作，防止并发写入冲突
+- `skills/quality-audit/index.js:56` — const SYSTEMATIC_DEBUGGING_SKILL_PATH = path.join(WORKSPACE, 'skills/aeo/sub-skills/systematic-debugging/SKILL.md');
+- `skills/quality-audit/index.js:57` — const DEBUGGING_PHASE_KEYS = [
+- `skills/quality-audit/index.js:74` — if (!fs.existsSync(SYSTEMATIC_DEBUGGING_SKILL_PATH)) return fallback;
+- `skills/quality-audit/index.js:77` — const text = fs.readFileSync(SYSTEMATIC_DEBUGGING_SKILL_PATH, 'utf8');
+- `skills/quality-audit/index.js:100` — .sort((a, b) => DEBUGGING_PHASE_KEYS.indexOf(a.key) - DEBUGGING_PHASE_KEYS.indexOf(b.key));
+- `skills/quality-audit/index.js:111` — for (const key of DEBUGGING_PHASE_KEYS) {
 - `skills/feishu-evolver-wrapper/commentary.js:17` — failure: ["BUG DETECTED. DESTROY.", "FAILURE IS UNACCEPTABLE.", "RETRY OR DIE."],
 - `skills/feishu-evolver-wrapper/utils/logger.js:32` — debug: (msg, data) => log('DEBUG', msg, data)
 - `skills/seef/evolution-pipeline/src/__tests__/error-handler.test.js:110` — expect(ErrorSeverity.DEBUG).toBe('debug');
-- `skills/seef/evolution-pipeline/src/error-handler.js:20` — DEBUG: 'debug',
-- `infrastructure/lep-core/executors/base.js:224` — DEBUG: 0,
-- `infrastructure/lep-core/executors/base.js:246` — this._log('DEBUG', message, ...args);
-- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:26` — DEBUG_FOUND=""
-- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:29` — if grep -qn "console\.log\|debugger\|TODO.*HACK\|FIXME.*URGENT" "$f" 2>/dev/null; then
-- `scripts/isc-hooks/rule.intent-post-commit-quality-gate-h8z2sz.sh:30` — DEBUG_FOUND="$DEBUG_FOUND $f"
-- ... 还有 2 项
+- ... 还有 8 项
 
-### TEMP (39)
+### TEMP (43)
 
 - `skills/public/multi-agent-reporting/examples/basic-usage.js:124` — console.log('  TEMPLATE (pre-filled from plan)');
 - `skills/public/ops-maintenance/scripts/spawn-glm5.sh:16` — TEMP_FILE=$(mktemp)
@@ -56,7 +56,7 @@
 - `skills/public/pdf-generator/generate.js:19` — const TEMPLATE_DIR = path.join(__dirname, 'templates');
 - `skills/public/pdf-generator/generate.js:20` — const LATEX_TEMPLATE = path.join(TEMPLATE_DIR, 'default.latex');
 - `skills/public/pdf-generator/generate.js:285` — if (fs.existsSync(LATEX_TEMPLATE)) {
-- ... 还有 29 项
+- ... 还有 33 项
 
 ### XXX (18)
 
@@ -192,7 +192,7 @@
 - **[orphan_dto_subscription]** DTO订阅 "isc-vectorization.json" 引用的ISC规则不存在: vectorization
   → 在: `skills/lto-core/subscriptions/isc-vectorization.json`
 
-## 📡 事件 Producer/Consumer 对齐 (328 项)
+## 📡 事件 Producer/Consumer 对齐 (330 项)
 
 ### 孤立生产者 (有emit无consume)
 
@@ -230,14 +230,14 @@
 - `test-task-5` → skills/aeo/pdca/tests/test-state-machine.js
 - `test-task-6` → skills/aeo/pdca/tests/test-state-machine.js
 - `test-task-7` → skills/aeo/pdca/tests/test-state-machine.js
-- ... 还有 67 项
+- ... 还有 69 项
 
 ## 🎯 修复建议
 
 2. **优先级P0**: 修复 ISC 规则中的技能引用
 3. **优先级P1**: 清理 FIXME 标记（2 项）
 4. **优先级P2**: 补全孤立事件的 consumer 或移除无用 producer
-5. **优先级P3**: 逐步清理 TODO 标记（241 项）
+5. **优先级P3**: 逐步清理 TODO 标记（243 项）
 
 ---
 *由 infrastructure/self-check/day-completion-scanner.js 自动生成*
