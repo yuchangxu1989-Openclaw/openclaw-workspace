@@ -4,7 +4,7 @@ set -euo pipefail
 SOURCE="/root/.openclaw/workspace"
 LOG_FILE="/root/.openclaw/workspace/infrastructure/logs/sync-shared-rules.log"
 FILES_TO_SYNC=(
-  "IRONCLAD.md"
+  "TOOLS.md"
   "CAPABILITY-ANCHOR.md"
   "AGENTS.md"
   "config/mcp-registry.json"
