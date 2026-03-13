@@ -54,3 +54,42 @@
 ### 🚨 绝对禁令
 - **禁止** `openclaw doctor --fix` — 100%改崩openclaw.json导致变砖
 - 只允许 `openclaw doctor`（纯只读验证）
+
+## 已安装关键包
+
+### Python (pip)
+
+**AI/NLP**
+- sentence-transformers — 本地embedding模型
+- semantic-router — 语义路由/意图分类
+- transformers / tokenizers — HuggingFace模型推理
+- tiktoken — OpenAI tokenizer计数
+- openai / anthropic — LLM API客户端
+- scikit-learn — 传统ML（分类、聚类、TF-IDF）
+
+**数据采集**
+- yt-dlp — YouTube/B站等视频下载
+- youtube-transcript-api — YouTube字幕提取
+
+**文档生成**
+- python-pptx — 生成/读取PPT
+- PyPDF2 — PDF解析
+- xlsxwriter — 生成Excel
+- lxml — XML/HTML解析
+- pillow — 图片处理
+- matplotlib — 图表绘制
+- pandas / numpy — 数据分析
+
+### Node.js (npm global)
+- @mermaid-js/mermaid-cli — Mermaid图表渲染为PNG/SVG
+- @upstash/context7-mcp — Context7 MCP服务
+- playwright / puppeteer — 浏览器自动化
+- @executeautomation/playwright-mcp-server — Playwright MCP
+- @modelcontextprotocol/server-puppeteer — Puppeteer MCP
+
+### 系统CLI
+- ffmpeg — 音视频转码/处理
+- pandoc — 文档格式转换（md↔docx↔html↔pdf）
+- sqlite3 — SQLite数据库操作
+- jq — JSON处理
+- curl / wget — HTTP请求
