@@ -54,6 +54,7 @@
 ### 🚨 绝对禁令
 - **禁止** `openclaw doctor --fix` — 100%改崩openclaw.json导致变砖
 - 只允许 `openclaw doctor`（纯只读验证）
+- **禁止** `sessions_spawn` 时手动传 `model` 参数 — 让agent自己的provider链路由，不要手动指定渠道
 
 ## 已安装关键包
 
